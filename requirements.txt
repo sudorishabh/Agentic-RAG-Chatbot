@@ -9,3 +9,7 @@ langchain-community
 langchain-text-splitters
 qdrant-client
 pypdf
+qdrant_client
+python-dotenv
+
+openai
