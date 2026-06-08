@@ -9,3 +9,4 @@ data/
 qdrant_storage/
 .vscode/
 .idea/
+pdf_examples/
