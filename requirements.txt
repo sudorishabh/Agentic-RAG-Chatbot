@@ -9,3 +9,5 @@ langchain-community
 langchain-text-splitters
 qdrant-client
 pypdf
+pymupdf
+azure-ai-documentintelligence
