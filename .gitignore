@@ -10,3 +10,5 @@ qdrant_storage/
 .vscode/
 .idea/
 pdf_examples/
+# Added by code-review-graph
+.code-review-graph/
