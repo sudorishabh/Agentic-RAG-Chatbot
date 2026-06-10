@@ -38,6 +38,12 @@ class Settings(BaseSettings):
     mysql_password: str = ""
     mysql_database: str = ""
     mysql_connect_timeout: int = 10
+    # Drupal JSON:API source — the public website content API. Used by the
+    # ingestion job to pull published nodes (news, articles, projects, ...).
+    drupal_jsonapi_base: str = "https://teriin.org/jsonapi"
+    drupal_request_timeout: int = 60
+    drupal_page_size: int = 50
+    drupal_max_retries: int = 3
 
 
 @lru_cache
