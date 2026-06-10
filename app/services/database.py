@@ -20,7 +20,7 @@ from typing import Any, Iterator
 import pymysql
 from pymysql.cursors import DictCursor
 
-from app.core.config import get_settings
+from app.config import get_settings
 
 logger = logging.getLogger(__name__)
 

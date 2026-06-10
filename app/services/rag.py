@@ -1,11 +1,9 @@
-from functools import lru_cache
-
 from langchain_core.documents import Document
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import AzureChatOpenAI
 
-from app.core.config import get_settings
+from app.config import get_settings
+from app.generation.llm_client import get_llm
 from app.services.vector_store import get_vector_store
 
 SYSTEM_PROMPT = (
@@ -13,18 +11,6 @@ SYSTEM_PROMPT = (
     "If the context does not contain the answer, say you do not know. "
     "Cite the source filename when possible."
 )
-
-
-@lru_cache
-def get_llm() -> AzureChatOpenAI:
-    settings = get_settings()
-    return AzureChatOpenAI(
-        azure_endpoint=settings.azure_openai_endpoint,
-        api_key=settings.azure_openai_api_key,
-        api_version=settings.azure_openai_api_version,
-        azure_deployment=settings.azure_openai_chat_deployment,
-        temperature=0,
-    )
 
 
 def format_docs(documents: list[Document]) -> str:

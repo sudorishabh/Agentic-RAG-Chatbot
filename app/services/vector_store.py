@@ -4,7 +4,7 @@ from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams
 
-from app.core.config import get_settings
+from app.config import get_settings
 from app.services.embeddings import get_embeddings
 
 

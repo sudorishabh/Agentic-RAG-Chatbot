@@ -2,7 +2,7 @@ from functools import lru_cache
 
 from langchain_openai import AzureOpenAIEmbeddings
 
-from app.core.config import get_settings
+from app.config import get_settings
 
 
 @lru_cache
