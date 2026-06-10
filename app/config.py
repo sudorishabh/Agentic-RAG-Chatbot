@@ -18,8 +18,11 @@ class Settings(BaseSettings):
     azure_openai_reasoning_endpoint: str = ""
     azure_openai_reasoning_api_version: str = "2024-06-01"
     azure_openai_reasoning_model: str = ""
-    # Embeddings deployment (shares the standard credentials above).
-    azure_openai_embedding_deployment: str = ""
+    # Embeddings model (e.g. text-embedding-3-large) — AZURE_OPENAI_EMBEDDING_*
+    azure_openai_embedding_model: str = ""
+    azure_openai_embedding_key: str = ""
+    azure_openai_embedding_endpoint: str = ""
+    azure_openai_embedding_api_version: str = "2024-06-01"
     azure_document_intelligence_endpoint: str = ""
     azure_document_intelligence_key: str = ""
     qdrant_url: str = "http://localhost:6333"
