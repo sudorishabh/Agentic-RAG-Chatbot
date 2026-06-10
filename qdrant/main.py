@@ -102,3 +102,5 @@ results = client.query_points(
 ).points
 
 print(results)
+
+client.close()

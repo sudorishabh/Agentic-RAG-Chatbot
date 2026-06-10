@@ -21,6 +21,13 @@ class Settings(BaseSettings):
     chunk_size: int = 1000
     chunk_overlap: int = 200
     retrieval_top_k: int = 4
+    # MySQL/MariaDB source — the Drupal CMS database holding website content.
+    mysql_host: str = "localhost"
+    mysql_port: int = 3306
+    mysql_user: str = ""
+    mysql_password: str = ""
+    mysql_database: str = ""
+    mysql_connect_timeout: int = 10
 
 
 @lru_cache
