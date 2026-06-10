@@ -1,4 +1,21 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import fitz; print\\('pymupdf', fitz.__doc__\\)\")",
+      "Bash(python -c \"import pdfplumber; print\\('pdfplumber ok'\\)\")",
+      "Bash(python -c \"import pypdf; print\\('pypdf ok'\\)\")",
+      "Bash(pip list *)",
+      "Bash(pip install *)",
+      "Bash(python -)",
+      "Bash(python -m pip install pymupdf)",
+      "Bash(python -c \"import fitz; print\\(fitz.__version__\\)\")",
+      "Bash(python -m pip install pymupdf4llm -q)",
+      "Bash(python -m pip install azure-ai-vision-imageanalysis -q)",
+      "Bash(python -m pip install azure-ai-documentintelligence -q)",
+      "Bash(venv/Scripts/python.exe -c ' *)",
+      "Bash(venv/Scripts/python.exe -c \"import requests; print\\('requests', requests.__version__\\)\")"
+    ]
+  },
   "hooks": {
     "PostToolUse": [
       {
