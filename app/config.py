@@ -8,10 +8,17 @@ class Settings(BaseSettings):
         env_file=".env", env_file_encoding="utf-8", extra="ignore"
     )
 
+    # Standard chat model (e.g. gpt-5-mini) — AZURE_OPENAI_*
     azure_openai_api_key: str = ""
     azure_openai_endpoint: str = ""
     azure_openai_api_version: str = "2024-06-01"
-    azure_openai_chat_deployment: str = ""
+    azure_openai_model: str = ""
+    # Reasoning chat model (e.g. gpt-5) — AZURE_OPENAI_REASONING_*
+    azure_openai_reasoning_api_key: str = ""
+    azure_openai_reasoning_endpoint: str = ""
+    azure_openai_reasoning_api_version: str = "2024-06-01"
+    azure_openai_reasoning_model: str = ""
+    # Embeddings deployment (shares the standard credentials above).
     azure_openai_embedding_deployment: str = ""
     azure_document_intelligence_endpoint: str = ""
     azure_document_intelligence_key: str = ""
