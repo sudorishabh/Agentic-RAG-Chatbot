@@ -99,8 +99,14 @@ def answer_query(
     if pq.intent == "chitchat":
         return _empty("chitchat", _chitchat(question, history))
 
-    # 'structured' intent routes to the Drupal JSON:API router (§7); until that is
-    # wired it falls through to semantic QA so the question is still answered.
+    # 'structured' intent → exact lookup / aggregate over the Drupal JSON:API (§7).
+    # Falls through to semantic QA when the router can't answer it.
+    if pq.intent == "structured":
+        from app.retrieval.drupal_router import answer_structured
+
+        structured = answer_structured(question, history)
+        if structured is not None:
+            return structured
 
     candidates = search(
         pq.search_query,
