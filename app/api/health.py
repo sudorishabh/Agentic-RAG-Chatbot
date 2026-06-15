@@ -1,0 +1,87 @@
+"""Operational endpoints: ``/health`` (liveness), ``/ready`` (readiness), and
+``/metrics`` (a system snapshot — §10.4).
+
+``/health`` is a cheap liveness probe. ``/ready`` verifies the hard dependency
+(Qdrant) is reachable and reports Redis, returning 503 until the store answers.
+``/metrics`` returns a JSON snapshot (collection size, cache wiring) — enough to
+hang a dashboard / alert off without pulling in a metrics backend.
+"""
+
+from __future__ import annotations
+
+from fastapi import APIRouter
+from fastapi.concurrency import run_in_threadpool
+from fastapi.responses import JSONResponse
+
+from app.config import get_settings
+
+router = APIRouter(tags=["ops"])
+
+
+@router.get("/health")
+def health() -> dict[str, str]:
+    return {"status": "ok"}
+
+
+def _qdrant_status() -> dict:
+    from app.deps import get_qdrant_client
+
+    settings = get_settings()
+    client = get_qdrant_client()
+    exists = client.collection_exists(settings.qdrant_collection)
+    points = None
+    if exists:
+        points = client.count(settings.qdrant_collection, exact=False).count
+    return {"reachable": True, "collection": settings.qdrant_collection,
+            "collection_exists": exists, "points": points}
+
+
+def _redis_status() -> dict:
+    from app.deps import get_redis
+
+    client = get_redis()
+    if client is None:
+        return {"configured": False}
+    try:
+        client.ping()
+        return {"configured": True, "reachable": True}
+    except Exception:
+        return {"configured": True, "reachable": False}
+
+
+@router.get("/ready")
+async def ready() -> JSONResponse:
+    try:
+        qdrant = await run_in_threadpool(_qdrant_status)
+    except Exception as exc:
+        return JSONResponse(
+            status_code=503,
+            content={"status": "not_ready", "qdrant": {"reachable": False, "error": str(exc)}},
+        )
+    redis = await run_in_threadpool(_redis_status)
+    return JSONResponse(content={"status": "ready", "qdrant": qdrant, "redis": redis})
+
+
+@router.get("/metrics")
+async def metrics() -> dict:
+    settings = get_settings()
+    try:
+        qdrant = await run_in_threadpool(_qdrant_status)
+    except Exception as exc:
+        qdrant = {"reachable": False, "error": str(exc)}
+    return {
+        "service": settings.otel_service_name,
+        "qdrant": qdrant,
+        "redis": await run_in_threadpool(_redis_status),
+        "reranker_provider": settings.reranker_provider,
+        "retrieval": {
+            "candidate_k": settings.retrieval_candidate_k,
+            "top_k": settings.retrieval_top_k,
+            "score_threshold": settings.rerank_score_threshold,
+        },
+        "caches": {
+            "response": settings.response_cache_enabled,
+            "embedding": settings.embedding_cache_enabled,
+            "semantic": settings.semantic_cache_enabled,
+        },
+    }

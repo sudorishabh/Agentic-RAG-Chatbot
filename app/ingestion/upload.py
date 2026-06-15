@@ -59,10 +59,36 @@ def ingest_upload(filename: str, content: bytes) -> tuple[str, int]:
         doc = _pdf_document(filename, content)
     else:
         doc = _text_document(filename, content)
+    return _index(doc, label=filename)
+
+
+def ingest_article(
+    *,
+    title: str | None,
+    body: str | None,
+    url: str | None = None,
+    uuid: str | None = None,
+    bundle: str = "article",
+) -> tuple[str, int]:
+    """Index one inline website article (the same canonical path a crawl uses)."""
+    from app.ingestion.canonical import from_drupal_export
+
+    item = {
+        "text": body or "",
+        "title": title,
+        "url": url,
+        "uuid": uuid,
+        "bundle": bundle,
+    }
+    doc = from_drupal_export(item)
+    return _index(doc, label=url or title or doc.document_id)
+
+
+def _index(doc: CanonicalDocument, *, label: str) -> tuple[str, int]:
     points = index_canonical(doc)
     # New content invalidates cached answers (§10.3).
     from app.cache.redis_cache import bump_corpus_version
 
     bump_corpus_version()
-    logger.info("Ingested upload %s -> %s (%d points)", filename, doc.document_id, points)
+    logger.info("Ingested %s -> %s (%d points)", label, doc.document_id, points)
     return doc.document_id, points

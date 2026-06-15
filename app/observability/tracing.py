@@ -92,6 +92,25 @@ def record_query_metrics(*, latency_ms: float | None = None, **metrics: Any) -> 
             pass
 
 
+def record_feedback(feedback: dict[str, Any]) -> None:
+    """Persist a thumbs up/down + clicked-citation signal (§10.4 feedback loop).
+
+    Always logs; also appends to a capped Redis list when Redis is configured, so
+    the signals can be drained into a labeled eval set later (§10.5)."""
+    logger.info("rag_feedback %s", feedback)
+    try:
+        import json
+
+        from app.deps import get_redis
+
+        client = get_redis()
+        if client is not None:
+            client.lpush("rag:feedback", json.dumps(feedback))
+            client.ltrim("rag:feedback", 0, 9999)
+    except Exception:  # pragma: no cover
+        logger.warning("Could not persist feedback to redis.", exc_info=True)
+
+
 def get_langfuse() -> Any | None:
     """The Langfuse client if tracing LLM calls there, else ``None``."""
     return _langfuse

@@ -15,7 +15,7 @@ caching, observability). The API layer calls :func:`answer_query`.
 from __future__ import annotations
 
 import logging
-from typing import Any
+from typing import Any, Iterator
 
 from app.config import get_settings
 from app.generation.llm_client import get_llm
@@ -97,6 +97,43 @@ def _grounded_answer(question: str, blocks: list[ContextBlock]) -> str:
     return answer
 
 
+def retrieve(
+    search_query: str,
+    *,
+    tenant_id: str = "default",
+    user_groups: list[str] | None = None,
+    filters: list[Any] | None = None,
+    n: int | None = None,
+    query_vector: list[float] | None = None,
+) -> list[ContextBlock]:
+    """Steps 3–5: hybrid search → rerank (with refusal guard) → context selection.
+
+    Shared by the answer path, the streaming path, and the raw ``/search`` endpoint
+    so retrieval behaves identically everywhere.
+    """
+    settings = get_settings()
+    n = n or settings.retrieval_top_k
+    user_groups = user_groups or ["public"]
+
+    with span("rag.search") as s:
+        candidates = search(
+            search_query,
+            limit=settings.retrieval_candidate_k,
+            tenant_id=tenant_id,
+            user_groups=user_groups,
+            extra_filter=filters or None,
+            query_vector=query_vector,
+        )
+        s.set("candidates", len(candidates))
+
+    with span("rag.rerank") as s:
+        ranked = rerank(search_query, candidates)
+        s.set("survivors", len(ranked))
+    if not ranked:
+        return []
+    return build_context(ranked, limit=n)
+
+
 def _answer(
     question: str,
     *,
@@ -142,25 +179,14 @@ def _answer(
     if semantic is not None:
         return {**semantic, "cached": True}
 
-    with span("rag.search") as s:
-        candidates = search(
-            pq.search_query,
-            limit=settings.retrieval_candidate_k,
-            tenant_id=tenant_id,
-            user_groups=user_groups,
-            extra_filter=pq.filters or None,
-            query_vector=query_vector,
-        )
-        s.set("candidates", len(candidates))
-
-    # Step 4 — rerank wide pool and apply the score-threshold refusal guard (§6.3).
-    with span("rag.rerank") as s:
-        ranked = rerank(pq.search_query, candidates)
-        s.set("survivors", len(ranked))
-    if not ranked:
-        return _empty(pq.intent, REFUSAL)
-
-    blocks = build_context(ranked, limit=n)
+    blocks = retrieve(
+        pq.search_query,
+        tenant_id=tenant_id,
+        user_groups=user_groups,
+        filters=pq.filters,
+        n=n,
+        query_vector=query_vector,
+    )
     if not blocks:
         return _empty(pq.intent, REFUSAL)
 
@@ -214,3 +240,119 @@ def answer_query(
             cached=result.get("cached", False),
         )
     return result
+
+
+def _generate_stream(question: str, blocks: list[ContextBlock]) -> Iterator[str]:
+    """Stream grounded-answer tokens (§6.5). Marker scrubbing is left to the
+    final ``sources`` event; stray markers in token stream are rare and harmless."""
+    from langchain_core.output_parsers import StrOutputParser
+    from langchain_core.prompts import ChatPromptTemplate
+
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            ("system", GROUNDED_SYSTEM_PROMPT),
+            ("human", "Numbered context:\n{context}\n\nQuestion: {question}"),
+        ]
+    )
+    chain = prompt | get_llm(streaming=True) | StrOutputParser()
+    yield from chain.stream(
+        {"context": format_context_blocks(blocks), "question": question}
+    )
+
+
+def stream_answer(
+    question: str,
+    *,
+    history: list[dict[str, str]] | None = None,
+    tenant_id: str = "default",
+    user_groups: list[str] | None = None,
+    top_k: int | None = None,
+) -> Iterator[dict[str, Any]]:
+    """Yield SSE-ready events for ``/chat``: ``token`` chunks, then one ``sources``
+    event (citations + metadata), then ``done``.
+
+    Non-streamable branches (cache hit, chitchat, structured, refusal) emit the
+    whole answer as a single ``token`` event before ``sources``.
+    """
+    from app.ingestion.embedder import embed_query_cached
+
+    settings = get_settings()
+    n = top_k or settings.retrieval_top_k
+    user_groups = user_groups or ["public"]
+
+    pq = process(question, history)
+    if pq.intent == "chitchat":
+        yield {"type": "token", "text": _chitchat(question, history)}
+        yield {"type": "sources", "citations": [], "intent": "chitchat",
+               "used_chunks": 0, "conflict": False}
+        yield {"type": "done"}
+        return
+
+    if pq.intent == "structured":
+        from app.retrieval.drupal_router import answer_structured
+
+        structured = answer_structured(question, history)
+        if structured is not None:
+            yield {"type": "token", "text": structured["answer"]}
+            yield {"type": "sources", **{k: structured[k] for k in
+                   ("citations", "intent", "used_chunks", "conflict")}}
+            yield {"type": "done"}
+            return
+
+    query_vector = embed_query_cached(pq.search_query)
+    blocks = retrieve(
+        pq.search_query, tenant_id=tenant_id, user_groups=user_groups,
+        filters=pq.filters, n=n, query_vector=query_vector,
+    )
+    if not blocks:
+        yield {"type": "token", "text": REFUSAL}
+        yield {"type": "sources", "citations": [], "intent": pq.intent,
+               "used_chunks": 0, "conflict": False}
+        yield {"type": "done"}
+        return
+
+    for token in _generate_stream(pq.search_query, blocks):
+        yield {"type": "token", "text": token}
+    yield {
+        "type": "sources",
+        "citations": [c.model_dump() for c in build_citations(blocks)],
+        "intent": pq.intent,
+        "used_chunks": len(blocks),
+        "conflict": any(b.conflict for b in blocks),
+    }
+    yield {"type": "done"}
+
+
+def search_blocks(
+    question: str,
+    *,
+    history: list[dict[str, str]] | None = None,
+    tenant_id: str = "default",
+    user_groups: list[str] | None = None,
+    top_k: int | None = None,
+) -> dict[str, Any]:
+    """Raw retrieval for the ``/search`` debug/eval endpoint (§10.5): the processed
+    query plus the selected context blocks, with no generation."""
+    pq = process(question, history)
+    blocks = retrieve(
+        pq.search_query, tenant_id=tenant_id, user_groups=user_groups,
+        filters=pq.filters, n=top_k,
+    )
+    return {
+        "intent": pq.intent,
+        "search_query": pq.search_query,
+        "blocks": [
+            {
+                "n": b.n,
+                "score": round(b.score, 4),
+                "conflict": b.conflict,
+                "text": b.text,
+                "document_id": b.payload.get("document_id"),
+                "source_type": b.payload.get("source_type"),
+                "title": b.payload.get("title"),
+                "page_number": b.payload.get("page_number"),
+                "section_heading": b.payload.get("section_heading"),
+            }
+            for b in blocks
+        ],
+    }

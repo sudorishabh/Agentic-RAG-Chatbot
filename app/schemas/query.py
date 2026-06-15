@@ -7,6 +7,8 @@ a structured ``citations`` list built in code from the retrieved-chunk payloads
 
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import BaseModel, Field
 
 
@@ -64,3 +66,39 @@ class QueryResponse(BaseModel):
     conflict: bool = False
     # True when served from the response cache (§10.3).
     cached: bool = False
+
+
+class FeedbackRequest(BaseModel):
+    """Thumbs up/down + which citations were clicked — the §10.4 feedback loop."""
+
+    question: str
+    rating: Literal["up", "down"]
+    answer: str | None = None
+    clicked_citations: list[int] = Field(default_factory=list)
+    comment: str | None = None
+
+
+class SearchRequest(BaseModel):
+    question: str = Field(min_length=1)
+    history: list[ChatTurn] = Field(default_factory=list)
+    tenant_id: str = "default"
+    user_groups: list[str] = Field(default_factory=lambda: ["public"])
+    top_k: int | None = None
+
+
+class SearchBlock(BaseModel):
+    n: int
+    score: float
+    conflict: bool = False
+    text: str
+    document_id: str | None = None
+    source_type: str | None = None
+    title: str | None = None
+    page_number: int | None = None
+    section_heading: str | None = None
+
+
+class SearchResponse(BaseModel):
+    intent: str
+    search_query: str
+    blocks: list[SearchBlock] = Field(default_factory=list)
