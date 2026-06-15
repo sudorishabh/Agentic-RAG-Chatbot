@@ -33,6 +33,15 @@ GROUNDED_SYSTEM_PROMPT = (
 )
 
 
+CHITCHAT_SYSTEM_PROMPT = (
+    "You are an assistant for an enterprise knowledge base of PDFs and website "
+    "articles. The user's message is small talk or a meta question, not a content "
+    "question. Reply briefly and politely. If they ask what you can do, explain "
+    "that you answer questions grounded in the organization's documents and cite "
+    "sources. Do not invent facts about the corpus."
+)
+
+
 def _source_hint(payload: dict) -> str:
     """A compact provenance line so the model can reason about precedence (§9.3)."""
     bits: list[str] = []
