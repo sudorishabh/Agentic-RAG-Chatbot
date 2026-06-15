@@ -18,10 +18,6 @@ one chunk, and a figure's caption is searchable). The public entry point is
 Heavy/optional dependencies (``pypdfium2``, ``azure-ai-documentintelligence``,
 ``docling``) are imported lazily so importing this module stays cheap and the
 core degrades gracefully when one of them is missing.
-
-Build status: the data model, page classifier, Azure OCR path and the Docling
-digital path (layout, TableFormer tables, figure extraction) are implemented;
-AI figure captions are layered on next.
 """
 
 from __future__ import annotations
@@ -479,32 +475,100 @@ def _picture_class(item: Any) -> str | None:
     return None
 
 
-def _figure_placeholder(n: int, caption: str | None, classification: str | None) -> str:
-    label = f"Figure {n}"
+def _figure_placeholder(
+    n: int,
+    caption: str | None,
+    classification: str | None,
+    description: str | None = None,
+) -> str:
+    head = f"Figure {n}"
     if classification:
-        label += f" ({classification})"
-    return f"{label}: {caption}" if caption else label
+        head += f" ({classification})"
+    detail = " — ".join(part for part in (caption, description) if part)
+    return f"{head}: {detail}" if detail else head
+
+
+_CAPTION_PROMPT = (
+    "You are describing a figure extracted from a document for a search index. "
+    "In 1-2 plain sentences, state what the figure shows — the kind of visual "
+    "(chart, diagram, photo, logo, ...), its subject, key labels or axes, and the "
+    "main takeaway. Be factual and concise; do not add any preamble."
+)
+
+
+@lru_cache
+def _vision_llm():
+    """The Azure OpenAI multimodal chat model used to caption figures, or
+    ``None`` if it isn't configured. Reuses the standard chat deployment."""
+    settings = get_settings()
+    if not (
+        settings.azure_openai_endpoint
+        and settings.azure_openai_api_key
+        and settings.azure_openai_model
+    ):
+        return None
+    from app.generation.llm_client import get_llm
+
+    return get_llm()
+
+
+def _describe_image(image: Any) -> str | None:
+    """Caption a figure (a PIL image) with the vision model. Returns ``None`` if
+    captioning is unavailable or fails — it never raises into extraction."""
+    llm = _vision_llm()
+    if llm is None:
+        return None
+
+    import base64
+
+    try:
+        buffer = io.BytesIO()
+        image.save(buffer, format="PNG")
+        data_uri = "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode()
+
+        from langchain_core.messages import HumanMessage
+
+        message = HumanMessage(
+            content=[
+                {"type": "text", "text": _CAPTION_PROMPT},
+                {"type": "image_url", "image_url": {"url": data_uri}},
+            ]
+        )
+        content = llm.invoke([message]).content
+        text = (content if isinstance(content, str) else str(content)).strip()
+        return text or None
+    except Exception:
+        logger.warning(
+            "Figure captioning failed; continuing without a description.", exc_info=True
+        )
+        return None
 
 
 def _handle_picture(
     item: Any, doc: Any, n: int, page_no: int, image_dir: str, settings: Any
 ) -> tuple[ImageData | None, str]:
-    """Save a figure's image (if enabled/large enough) and return its
-    :class:`ImageData` plus the Markdown placeholder to embed in the page."""
+    """Save a figure's image (if enabled/large enough), optionally caption it with
+    the vision model, and return its :class:`ImageData` plus the Markdown
+    placeholder to embed in the page."""
     caption = _caption_text(item, doc)
     classification = _picture_class(item)
     path: str | None = None
+    description: str | None = None
     width = height = None
 
-    if settings.pdf_extract_images:
+    # Load the crop if we either save it or caption it.
+    image = None
+    if settings.pdf_extract_images or settings.pdf_describe_images:
         try:
             image = item.get_image(doc)
         except Exception:
             image = None
-        if image is not None:
-            width, height = image.size
-            if max(width, height) < settings.pdf_image_min_pixels:
-                return None, ""  # icon / rule / bullet — ignore entirely
+
+    if image is not None:
+        width, height = image.size
+        if max(width, height) < settings.pdf_image_min_pixels:
+            return None, ""  # icon / rule / bullet — ignore entirely
+        if settings.pdf_extract_images:
             try:
                 os.makedirs(image_dir, exist_ok=True)
                 path = os.path.join(image_dir, f"page{page_no}-fig{n}.png")
@@ -512,9 +576,11 @@ def _handle_picture(
             except Exception:
                 logger.debug("Saving figure %s failed", n, exc_info=True)
                 path = None
+        if settings.pdf_describe_images:
+            description = _describe_image(image)
 
-    # Nothing worth keeping if there's neither an image nor a caption/class.
-    if path is None and not caption and not classification:
+    # Nothing worth keeping if there's no image, caption, class or description.
+    if path is None and not caption and not classification and not description:
         return None, ""
 
     image_data = ImageData(
@@ -523,10 +589,11 @@ def _handle_picture(
         path=path,
         caption=caption,
         classification=classification,
+        description=description,
         width=width,
         height=height,
     )
-    return image_data, _figure_placeholder(n, caption, classification)
+    return image_data, _figure_placeholder(n, caption, classification, description)
 
 
 def _has_content(page: PageContent | None) -> bool:
