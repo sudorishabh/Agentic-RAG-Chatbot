@@ -68,6 +68,20 @@ class Settings(BaseSettings):
     drupal_request_timeout: int = 60
     drupal_page_size: int = 50
     drupal_max_retries: int = 3
+    # --- Change detection / incremental ingestion (app/ingestion/change_detection.py) ---
+    # Filesystem roots holding PDFs to ingest. Multiple roots are separated by the
+    # OS path separator (";" on Windows, ":" on POSIX). Walked recursively.
+    pdf_source_dirs: str = ""
+    # Glob patterns (matched against each PDF's path relative to its root, with
+    # "/" separators) to skip while walking — e.g. "archive/**, **/_drafts/**".
+    # Comma- or newline-separated.
+    pdf_ignore_globs: str = ""
+    # Manifest table (created in the MySQL database above) recording what has been
+    # ingested: per-document fingerprint, content hash, and version.
+    ingest_state_table: str = "ingest_state"
+    # Re-enumerate every live Drupal node id once per this many incremental runs to
+    # detect deletions/unpublishes (0 disables the reconcile pass).
+    drupal_reconcile_every: int = 10
 
 
 @lru_cache
