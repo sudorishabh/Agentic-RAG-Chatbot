@@ -19,14 +19,16 @@ Heavy/optional dependencies (``pypdfium2``, ``azure-ai-documentintelligence``,
 ``docling``) are imported lazily so importing this module stays cheap and the
 core degrades gracefully when one of them is missing.
 
-Build status: this step implements the data model, the page classifier and the
-Azure OCR path. The digital path currently uses a pypdfium2 plain-text fallback;
-Docling (tables, figures, layout) and AI figure captions are layered on next.
+Build status: the data model, page classifier, Azure OCR path and the Docling
+digital path (layout, TableFormer tables, figure extraction) are implemented;
+AI figure captions are layered on next.
 """
 
 from __future__ import annotations
 
+import io
 import logging
+import os
 import re
 from dataclasses import dataclass, field
 from enum import Enum
@@ -253,15 +255,13 @@ def _classify_pages(content: bytes, scanned_char_threshold: int) -> list[bool]:
 
 
 # --------------------------------------------------------------------------- #
-# Digital path — interim pypdfium2 plain text (Docling lands next step)
+# Digital path — pypdfium2 plain text (fallback for when Docling errors/is off)
 # --------------------------------------------------------------------------- #
 def _extract_digital_text(content: bytes, page_indices: list[int]) -> dict[int, PageContent]:
     """Extract the given 0-based pages' text layer with pypdfium2.
 
-    This is the fallback digital extractor — Docling becomes the primary digital
-    engine (adding tables, figures and layout) in the next step, with this kept
-    for when Docling is unavailable or errors on a document. Returns
-    ``{page_number(1-based): PageContent}``.
+    The fallback digital extractor, used when Docling is unavailable or errors on
+    a document. Returns ``{page_number(1-based): PageContent}``.
     """
     try:
         import pypdfium2 as pdfium
@@ -284,6 +284,271 @@ def _extract_digital_text(content: bytes, page_indices: list[int]) -> dict[int, 
             out[i + 1] = PageContent(page_number=i + 1, text=text, extracted_via=via)
     finally:
         pdf.close()
+    return out
+
+
+# --------------------------------------------------------------------------- #
+# Digital path — Docling (primary: layout, TableFormer tables, figures)
+# --------------------------------------------------------------------------- #
+# Docling labels that are page furniture, not content — dropped for clean chunks.
+_BOILERPLATE_LABELS = {"page_header", "page_footer", "page_number"}
+
+
+def _slugify(value: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
+    return slug or "document"
+
+
+@lru_cache
+def _docling_converter():
+    """Build (once) a Docling converter tuned for digital PDFs: TableFormer table
+    structure on, Docling's own OCR off (scanned pages go to Azure DI), and
+    figure images generated so we can crop them to disk. Caching matters — the
+    constructor loads the layout/TableFormer models."""
+    from docling.datamodel.base_models import InputFormat
+    from docling.datamodel.pipeline_options import PdfPipelineOptions, TableFormerMode
+    from docling.document_converter import DocumentConverter, PdfFormatOption
+
+    settings = get_settings()
+    opts = PdfPipelineOptions()
+    opts.do_ocr = False
+    opts.do_table_structure = True
+    opts.table_structure_options.mode = (
+        TableFormerMode.FAST
+        if settings.docling_table_mode.strip().lower() == "fast"
+        else TableFormerMode.ACCURATE
+    )
+    opts.generate_picture_images = settings.pdf_extract_images
+    opts.images_scale = max(1.0, settings.pdf_ocr_render_dpi / 72.0)
+    if settings.docling_artifacts_path:
+        opts.artifacts_path = settings.docling_artifacts_path
+
+    return DocumentConverter(
+        format_options={InputFormat.PDF: PdfFormatOption(pipeline_options=opts)}
+    )
+
+
+def _extract_with_docling(
+    content: bytes, filename: str, keep_pages: set[int]
+) -> dict[int, PageContent]:
+    """Convert a PDF with Docling and assemble per-page Markdown for the pages in
+    ``keep_pages`` (the digital ones). Raises on conversion failure so the caller
+    can fall back to the pypdfium2 text path."""
+    from docling.datamodel.base_models import DocumentStream
+
+    source = DocumentStream(name=filename, stream=io.BytesIO(content))
+    result = _docling_converter().convert(source)
+    return _pages_from_docling(result.document, filename, keep_pages)
+
+
+def _pages_from_docling(
+    doc: Any, filename: str, keep_pages: set[int]
+) -> dict[int, PageContent]:
+    """Walk the DoclingDocument in reading order, building per-page Markdown
+    (headings, lists, code, pipe tables, figure placeholders) and extracting
+    figure images to disk."""
+    from collections import defaultdict
+
+    from docling_core.types.doc import PictureItem, TableItem
+
+    settings = get_settings()
+    image_dir = os.path.join(settings.pdf_image_dir, _slugify(filename))
+
+    texts: dict[int, list[str]] = defaultdict(list)
+    tables: dict[int, list[TableData]] = defaultdict(list)
+    images: dict[int, list[ImageData]] = defaultdict(list)
+    figure_n = 0
+
+    for item, _level in doc.iterate_items():
+        page_no = _docling_item_page(item)
+        if page_no is None or page_no not in keep_pages:
+            continue
+
+        if isinstance(item, TableItem):
+            table = _docling_table(item, doc, page_no)
+            if table:
+                texts[page_no].append(table.markdown)
+                tables[page_no].append(table)
+        elif isinstance(item, PictureItem):
+            figure_n += 1
+            image, placeholder = _handle_picture(
+                item, doc, figure_n, page_no, image_dir, settings
+            )
+            if image is not None:
+                images[page_no].append(image)
+            if placeholder:
+                texts[page_no].append(placeholder)
+        else:
+            line = _docling_text_line(item)
+            if line:
+                texts[page_no].append(line)
+
+    out: dict[int, PageContent] = {}
+    for page_no in keep_pages:
+        body = "\n\n".join(texts.get(page_no, [])).strip()
+        page_tables = tables.get(page_no, [])
+        page_images = images.get(page_no, [])
+        via = (
+            ExtractedVia.DOCLING
+            if (body or page_tables or page_images)
+            else ExtractedVia.EMPTY
+        )
+        out[page_no] = PageContent(
+            page_number=page_no,
+            text=body,
+            extracted_via=via,
+            tables=page_tables,
+            images=page_images,
+        )
+    return out
+
+
+def _docling_item_page(item: Any) -> int | None:
+    prov = getattr(item, "prov", None) or []
+    return getattr(prov[0], "page_no", None) if prov else None
+
+
+def _label_value(item: Any) -> str:
+    label = getattr(item, "label", None)
+    return str(getattr(label, "value", label) or "").lower()
+
+
+def _docling_text_line(item: Any) -> str:
+    """Render one text item as a Markdown line, by its Docling label."""
+    text = (getattr(item, "text", None) or "").strip()
+    if not text:
+        return ""
+    label = _label_value(item)
+    if label in _BOILERPLATE_LABELS:
+        return ""
+    if label == "caption":
+        return ""  # captions are emitted next to their figure/table
+    if label == "title":
+        return f"# {text}"
+    if label == "section_header":
+        level = int(getattr(item, "level", 1) or 1)
+        return f"{'#' * min(level + 1, 6)} {text}"
+    if label == "list_item":
+        return f"- {text}"
+    if label == "code":
+        return f"```\n{text}\n```"
+    return text
+
+
+def _docling_table(item: Any, doc: Any, page_no: int) -> TableData | None:
+    try:
+        markdown = item.export_to_markdown(doc)
+    except TypeError:  # older signature without the doc argument
+        markdown = item.export_to_markdown()
+    except Exception:
+        logger.debug("Docling table export failed on page %s", page_no, exc_info=True)
+        return None
+    markdown = (markdown or "").strip()
+    if not markdown:
+        return None
+    data = getattr(item, "data", None)
+    return TableData(
+        markdown=markdown,
+        page_number=page_no,
+        rows=int(getattr(data, "num_rows", 0) or 0),
+        cols=int(getattr(data, "num_cols", 0) or 0),
+        caption=_caption_text(item, doc),
+    )
+
+
+def _caption_text(item: Any, doc: Any) -> str | None:
+    try:
+        text = (item.caption_text(doc) or "").strip()
+        return text or None
+    except Exception:
+        return None
+
+
+def _picture_class(item: Any) -> str | None:
+    """Best-effort top predicted class for a figure (chart, logo, ...)."""
+    try:
+        for annotation in getattr(item, "annotations", None) or []:
+            classes = getattr(annotation, "predicted_classes", None) or []
+            if classes:
+                top = max(classes, key=lambda c: getattr(c, "confidence", 0) or 0)
+                name = getattr(top, "class_name", None)
+                if name and name.lower() != "other":
+                    return str(name)
+    except Exception:
+        pass
+    return None
+
+
+def _figure_placeholder(n: int, caption: str | None, classification: str | None) -> str:
+    label = f"Figure {n}"
+    if classification:
+        label += f" ({classification})"
+    return f"{label}: {caption}" if caption else label
+
+
+def _handle_picture(
+    item: Any, doc: Any, n: int, page_no: int, image_dir: str, settings: Any
+) -> tuple[ImageData | None, str]:
+    """Save a figure's image (if enabled/large enough) and return its
+    :class:`ImageData` plus the Markdown placeholder to embed in the page."""
+    caption = _caption_text(item, doc)
+    classification = _picture_class(item)
+    path: str | None = None
+    width = height = None
+
+    if settings.pdf_extract_images:
+        try:
+            image = item.get_image(doc)
+        except Exception:
+            image = None
+        if image is not None:
+            width, height = image.size
+            if max(width, height) < settings.pdf_image_min_pixels:
+                return None, ""  # icon / rule / bullet — ignore entirely
+            try:
+                os.makedirs(image_dir, exist_ok=True)
+                path = os.path.join(image_dir, f"page{page_no}-fig{n}.png")
+                image.save(path)
+            except Exception:
+                logger.debug("Saving figure %s failed", n, exc_info=True)
+                path = None
+
+    # Nothing worth keeping if there's neither an image nor a caption/class.
+    if path is None and not caption and not classification:
+        return None, ""
+
+    image_data = ImageData(
+        page_number=page_no,
+        index=n,
+        path=path,
+        caption=caption,
+        classification=classification,
+        width=width,
+        height=height,
+    )
+    return image_data, _figure_placeholder(n, caption, classification)
+
+
+def _has_content(page: PageContent | None) -> bool:
+    return page is not None and bool(page.text or page.tables or page.images)
+
+
+def _extract_digital(
+    content: bytes, filename: str, digital_indices: list[int]
+) -> dict[int, PageContent]:
+    """Digital pages via Docling, falling back to pypdfium2 text for any page
+    Docling produced nothing for (or all pages if Docling failed)."""
+    keep_pages = {i + 1 for i in digital_indices}
+    try:
+        docling_pages = _extract_with_docling(content, filename, keep_pages)
+    except Exception:
+        logger.exception("Docling extraction failed; falling back to pypdfium2 text.")
+        docling_pages = {}
+
+    out = {pn: pc for pn, pc in docling_pages.items() if _has_content(pc)}
+    fallback_indices = [i for i in digital_indices if (i + 1) not in out]
+    if fallback_indices:
+        out.update(_extract_digital_text(content, fallback_indices))
     return out
 
 
@@ -454,7 +719,7 @@ def extract_pdf(content: bytes, filename: str) -> ExtractionResult:
     scanned_page_numbers = [i + 1 for i, scanned in enumerate(scanned_flags) if scanned]
 
     if digital_indices:
-        pages_map.update(_extract_digital_text(content, digital_indices))
+        pages_map.update(_extract_digital(content, filename, digital_indices))
     if scanned_page_numbers:
         pages_map.update(_ocr_pdf(content, scanned_page_numbers))
 

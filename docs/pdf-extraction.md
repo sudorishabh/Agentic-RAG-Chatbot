@@ -220,6 +220,9 @@ added in the final step.
 
 - **First conversion is slow / downloads a lot** — that's the one-time model
   download (§2). Pre-fetch to avoid it.
+- **Windows: "cache-system uses symlinks" warning** — harmless (the HF cache
+  just uses more disk). Silence it with `HF_HUB_DISABLE_SYMLINKS_WARNING=1`, or
+  enable Windows Developer Mode for symlink support.
 - **`OSError` / Hugging Face errors with no internet** — set
   `DOCLING_ARTIFACTS_PATH` and `HF_HUB_OFFLINE=1` (§2).
 - **Scanned tables come out as plain text** — set
