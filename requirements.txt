@@ -12,3 +12,8 @@ pypdf
 pymysql
 cryptography
 requests
+
+# PDF extraction (app/ingestion/extractors/pdf_extractor.py)
+docling                        # digital-PDF structure: layout, tables, reading order, figures
+azure-ai-documentintelligence  # OCR + layout for scanned PDFs
+pypdfium2                      # per-page text probe + page rasterisation for OCR
