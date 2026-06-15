@@ -213,6 +213,7 @@ def rerank(
 
     scored.sort(key=lambda t: t[0], reverse=True)
     ranked = [
-        Candidate(id=c.id, score=blended, payload=c.payload) for blended, _sem, c in scored
+        Candidate(id=c.id, score=blended, payload=c.payload, vector=c.vector)
+        for blended, _sem, c in scored
     ]
     return ranked[:top_n] if top_n else ranked

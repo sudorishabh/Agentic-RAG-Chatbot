@@ -30,6 +30,9 @@ class Candidate:
     id: str
     score: float
     payload: dict[str, Any] = field(default_factory=dict)
+    # Dense vector, when retrieved with ``with_vectors`` — used for query-time
+    # near-duplicate dedup (§9.2). May be empty when vectors weren't requested.
+    vector: list[float] = field(default_factory=list)
 
     @property
     def parent_id(self) -> str | None:
@@ -73,11 +76,13 @@ def search(
     user_groups: Sequence[str] | None = None,
     extra_filter: Sequence[Any] | None = None,
     query_vector: Sequence[float] | None = None,
+    with_vectors: bool = True,
 ) -> list[Candidate]:
     """Return up to ``limit`` filtered child candidates, ranked by dense score.
 
     ``query_vector`` may be supplied to reuse a cached embedding; otherwise the
-    query is embedded here.
+    query is embedded here. ``with_vectors`` returns each hit's dense vector so
+    downstream context selection can dedup near-duplicates (§9.2).
     """
     settings = get_settings()
     limit = limit or settings.retrieval_candidate_k
@@ -98,8 +103,21 @@ def search(
         query_filter=query_filter,
         limit=limit,
         with_payload=True,
+        with_vectors=with_vectors,
     )
-    return [
-        Candidate(id=str(p.id), score=float(p.score or 0.0), payload=p.payload or {})
-        for p in response.points
-    ]
+    return [_to_candidate(p) for p in response.points]
+
+
+def _to_candidate(point: Any) -> Candidate:
+    raw = getattr(point, "vector", None)
+    # Default (unnamed) vector comes back as a list; named-vector configs return a
+    # dict — take the dense leg if so.
+    if isinstance(raw, dict):
+        raw = raw.get("dense") or next(iter(raw.values()), None)
+    vector = [float(x) for x in raw] if isinstance(raw, (list, tuple)) else []
+    return Candidate(
+        id=str(point.id),
+        score=float(point.score or 0.0),
+        payload=point.payload or {},
+        vector=vector,
+    )

@@ -65,6 +65,42 @@ def _count_tokens(text: str) -> int:
     return max(1, math.ceil(len(text) / _CHARS_PER_TOKEN))
 
 
+def _cosine(a: Sequence[float], b: Sequence[float]) -> float:
+    if not a or not b or len(a) != len(b):
+        return 0.0
+    dot = sum(x * y for x, y in zip(a, b))
+    na = math.sqrt(sum(x * x for x in a))
+    nb = math.sqrt(sum(y * y for y in b))
+    return dot / (na * nb) if na and nb else 0.0
+
+
+def _ids(payload: dict[str, Any]) -> set[str]:
+    """The identifiers a payload *is* (for matching against others' links)."""
+    return {
+        str(payload[k])
+        for k in ("document_id", "pdf_id", "article_uuid")
+        if payload.get(k)
+    }
+
+
+def _links(payload: dict[str, Any]) -> set[str]:
+    """The identifiers a payload *points at* (its CMS cross-references, §7.5)."""
+    return {
+        str(payload[k])
+        for k in ("linked_pdf_id", "linked_article_uuid")
+        if payload.get(k)
+    }
+
+
+def _linked(a: dict[str, Any], b: dict[str, Any]) -> bool:
+    """True when two payloads describe the same material via a CMS cross-link
+    (the PDF↔article pairing, §9.1) or are the same document."""
+    ia, ib = _ids(a), _ids(b)
+    if ia & ib:
+        return True
+    return bool(ia & _links(b) or ib & _links(a))
+
+
 def _fetch_parents(parent_ids: Sequence[str]) -> dict[str, dict[str, Any]]:
     """Fetch parent chunks by id → ``{parent_id: payload}`` (one Qdrant round-trip)."""
     ids = [pid for pid in dict.fromkeys(parent_ids) if pid]
@@ -82,32 +118,67 @@ def _fetch_parents(parent_ids: Sequence[str]) -> dict[str, dict[str, Any]]:
     return {str(r.id): (r.payload or {}) for r in records}
 
 
+def _order_for_attention(blocks: list[ContextBlock]) -> list[ContextBlock]:
+    """Put the strongest blocks first *and* last to fight lost-in-the-middle
+    (§6.4.3). Blocks arrive in descending relevance; interleave so #1 leads and #2
+    trails, weaker ones sink to the middle."""
+    if len(blocks) <= 2:
+        ordered = list(blocks)
+    else:
+        head, tail = blocks[0::2], blocks[1::2]
+        ordered = head + tail[::-1]
+    for i, block in enumerate(ordered, start=1):
+        block.n = i
+    return ordered
+
+
 def build_context(
     candidates: Sequence[Candidate],
     *,
     limit: int | None = None,
     token_budget: int | None = None,
 ) -> list[ContextBlock]:
-    """Select, parent-expand, dedup, and budget the candidates into context blocks."""
+    """Select, parent-expand, dedup, conflict-flag, and budget candidates into
+    numbered context blocks (§6.4 / §9).
+
+    Candidates must already be in descending relevance (post-rerank). Children of
+    the same parent collapse to one block; a near-duplicate that is a linked
+    PDF/article counterpart is folded in as a secondary citation (§9.1) rather than
+    a separate block; linked-but-differing blocks are flagged as a conflict (§9.3).
+    """
     settings = get_settings()
     limit = limit or settings.retrieval_top_k
     token_budget = token_budget or settings.context_token_budget
+    sim_threshold = settings.dedup_cosine_threshold
     if not candidates:
         return []
 
     parents = _fetch_parents([c.parent_id for c in candidates if c.parent_id])
 
     blocks: list[ContextBlock] = []
+    block_vectors: list[list[float]] = []
     seen_parents: set[str] = set()
     spent = 0
     for cand in candidates:
         if len(blocks) >= limit:
             break
-        # Dedup: one block per parent (children of the same section collapse).
         key = cand.parent_id or cand.id
         if key in seen_parents:
             continue
-        seen_parents.add(key)
+
+        # Query-time near-duplicate dedup (§9.2): drop a chunk ≥ threshold cosine to
+        # an already-kept one, keeping the higher-ranked. If the duplicate is a
+        # linked counterpart, keep it as a secondary citation (§9.1).
+        duplicate_of = None
+        for kept, kvec in zip(blocks, block_vectors):
+            if cand.vector and kvec and _cosine(cand.vector, kvec) >= sim_threshold:
+                duplicate_of = kept
+                break
+        if duplicate_of is not None:
+            seen_parents.add(key)
+            if _linked(cand.payload, duplicate_of.payload):
+                duplicate_of.also_available.append(dict(cand.payload))
+            continue
 
         parent_payload = parents.get(cand.parent_id or "")
         text = (parent_payload or {}).get("chunk_text") or cand.text
@@ -116,6 +187,7 @@ def build_context(
         cost = _count_tokens(text)
         if blocks and spent + cost > token_budget:
             continue  # over budget — skip this one, a later block may still fit
+        seen_parents.add(key)
         spent += cost
 
         blocks.append(
@@ -126,4 +198,17 @@ def build_context(
                 score=cand.score,
             )
         )
-    return blocks
+        block_vectors.append(list(cand.vector))
+
+    _flag_conflicts(blocks)
+    return _order_for_attention(blocks)
+
+
+def _flag_conflicts(blocks: list[ContextBlock]) -> None:
+    """Flag blocks that are explicitly linked (same material, §7.5) yet survived
+    near-duplicate dedup — i.e. their content differs. That is the dangerous
+    PDF-vs-article disagreement (§9.3); mark both so generation surfaces it."""
+    for i, a in enumerate(blocks):
+        for b in blocks[i + 1 :]:
+            if _linked(a.payload, b.payload):
+                a.conflict = b.conflict = True
