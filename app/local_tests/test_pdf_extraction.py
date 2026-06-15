@@ -71,6 +71,18 @@ def main(argv: list[str] | None = None) -> None:
     rep.kv("ocr pages", result.ocr_page_numbers)
     rep.line()
 
+    # How routing worked, page by page: digital pages (a real text layer) go to
+    # Docling; image-only/scanned pages are rasterised and sent to Azure OCR.
+    # ``ocr pages`` above lists the scanned ones; ``via=`` on each page shows the
+    # route taken (docling / ocr / text / empty).
+    via_counts: dict[str, int] = {}
+    for page in result.pages:
+        via_counts[page.extracted_via.value] = via_counts.get(page.extracted_via.value, 0) + 1
+    rep.kv("pages by route", via_counts)
+    digital = via_counts.get("docling", 0) + via_counts.get("text", 0)
+    rep.kv("digital vs scanned", f"{digital} digital / {via_counts.get('ocr', 0)} scanned (OCR)")
+    rep.line()
+
     for page in result.pages:
         rep.rule("-", f"page {page.page_number} · via={page.extracted_via.value}")
         rep.preview(page.text, limit=500)
