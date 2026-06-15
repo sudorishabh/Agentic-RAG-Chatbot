@@ -99,6 +99,15 @@ class Settings(BaseSettings):
     # Post-generation faithfulness check (§10.6.4): verify each claim is entailed
     # by its cited context and regenerate once if not. Off by default (extra call).
     faithfulness_check: bool = False
+    # --- Observability (app/observability/tracing.py, §10.4). All optional. ---
+    # Per-stage latency + RAG quality metrics to the logger (always cheap).
+    metrics_log_enabled: bool = True
+    # OpenTelemetry tracing — lights up only if the SDK is installed.
+    otel_enabled: bool = False
+    otel_service_name: str = "agentic-rag"
+    otel_exporter_otlp_endpoint: str = ""
+    # Langfuse LLM tracing — uses its own env keys; lights up only if installed.
+    langfuse_enabled: bool = False
     # MySQL/MariaDB source — the Drupal CMS database holding website content.
     mysql_host: str = "localhost"
     mysql_port: int = 3306

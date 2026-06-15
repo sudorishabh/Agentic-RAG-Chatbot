@@ -1,0 +1,161 @@
+"""Observability — tracing, per-stage latency, and RAG quality metrics (§10.4).
+
+Three layers, each degrading to nothing when its backend is absent so the
+pipeline never depends on them:
+
+* **Timing spans** (always) — :func:`span` times a stage and logs its duration;
+  nest them to get the rewrite / search / rerank / generate breakdown (§10.4).
+* **RAG quality metrics** (always) — :func:`record_query_metrics` logs one
+  structured line per query: intent, chunks used, whether it was answered or a
+  refusal, whether a citation/conflict was present, latency, cache hit.
+* **OpenTelemetry + Langfuse** (optional) — when ``otel_enabled`` /
+  ``langfuse_enabled`` and the libraries are installed, spans/metrics are also
+  exported there. :func:`init_observability` wires them up at app startup.
+
+Everything is wrapped in ``try/except`` and guarded by settings, so a missing
+package or bad endpoint can never break a request.
+"""
+
+from __future__ import annotations
+
+import logging
+import time
+from contextlib import contextmanager
+from typing import Any, Iterator
+
+from app.config import get_settings
+
+logger = logging.getLogger("app.observability")
+
+_otel_tracer: Any | None = None
+_langfuse: Any | None = None
+_initialized = False
+
+
+class Span:
+    """A lightweight timing span; set attributes on it during the block."""
+
+    def __init__(self, name: str, attrs: dict[str, Any]):
+        self.name = name
+        self.attrs = attrs
+        self.start = time.perf_counter()
+
+    def set(self, key: str, value: Any) -> None:
+        self.attrs[key] = value
+
+    @property
+    def elapsed_ms(self) -> float:
+        return (time.perf_counter() - self.start) * 1000.0
+
+
+@contextmanager
+def span(name: str, **attrs: Any) -> Iterator[Span]:
+    """Time a pipeline stage; logs ``name`` + duration, and emits an OTel span when
+    tracing is enabled."""
+    s = Span(name, dict(attrs))
+    otel_cm = None
+    otel_span = None
+    if _otel_tracer is not None:
+        try:
+            otel_cm = _otel_tracer.start_as_current_span(name)
+            otel_span = otel_cm.__enter__()
+        except Exception:  # pragma: no cover
+            otel_cm = otel_span = None
+    try:
+        yield s
+    finally:
+        if otel_span is not None:
+            try:
+                for k, v in s.attrs.items():
+                    otel_span.set_attribute(k, v)
+                otel_cm.__exit__(None, None, None)
+            except Exception:  # pragma: no cover
+                pass
+        logger.debug("span %s %.1fms %s", s.name, s.elapsed_ms, s.attrs or "")
+
+
+def record_query_metrics(*, latency_ms: float | None = None, **metrics: Any) -> None:
+    """Emit the per-query RAG quality metrics (§10.4)."""
+    settings = get_settings()
+    if latency_ms is not None:
+        metrics["latency_ms"] = round(latency_ms, 1)
+    if settings.metrics_log_enabled:
+        logger.info("rag_metrics %s", metrics)
+    if _otel_tracer is not None:
+        try:
+            from opentelemetry import trace
+
+            current = trace.get_current_span()
+            for key, value in metrics.items():
+                current.set_attribute(f"rag.{key}", value)
+        except Exception:  # pragma: no cover
+            pass
+
+
+def get_langfuse() -> Any | None:
+    """The Langfuse client if tracing LLM calls there, else ``None``."""
+    return _langfuse
+
+
+# --------------------------------------------------------------------------- #
+# Initialization (called once at app startup)
+# --------------------------------------------------------------------------- #
+def _init_otel(settings: Any) -> None:
+    global _otel_tracer
+    try:
+        from opentelemetry import trace
+        from opentelemetry.sdk.resources import Resource
+        from opentelemetry.sdk.trace import TracerProvider
+        from opentelemetry.sdk.trace.export import BatchSpanProcessor
+
+        provider = TracerProvider(
+            resource=Resource.create({"service.name": settings.otel_service_name})
+        )
+        if settings.otel_exporter_otlp_endpoint:
+            from opentelemetry.exporter.otlp.proto.http.trace_exporter import (
+                OTLPSpanExporter,
+            )
+
+            provider.add_span_processor(
+                BatchSpanProcessor(
+                    OTLPSpanExporter(endpoint=settings.otel_exporter_otlp_endpoint)
+                )
+            )
+        trace.set_tracer_provider(provider)
+        _otel_tracer = trace.get_tracer("app.rag")
+        logger.info("OpenTelemetry tracing enabled (%s).", settings.otel_service_name)
+    except Exception:  # pragma: no cover - SDK missing / bad config
+        logger.warning("OpenTelemetry requested but unavailable; tracing off.", exc_info=True)
+
+
+def _init_langfuse() -> None:
+    global _langfuse
+    try:
+        from langfuse import Langfuse
+
+        _langfuse = Langfuse()
+        logger.info("Langfuse tracing enabled.")
+    except Exception:  # pragma: no cover
+        logger.warning("Langfuse requested but unavailable; LLM tracing off.", exc_info=True)
+
+
+def init_observability(app: Any | None = None) -> None:
+    """Set up optional tracing backends and instrument FastAPI. Idempotent."""
+    global _initialized
+    if _initialized:
+        return
+    _initialized = True
+    settings = get_settings()
+
+    if settings.otel_enabled:
+        _init_otel(settings)
+        if app is not None and _otel_tracer is not None:
+            try:
+                from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
+                FastAPIInstrumentor.instrument_app(app)
+            except Exception:  # pragma: no cover
+                logger.warning("FastAPI OTel instrumentation unavailable.", exc_info=True)
+
+    if settings.langfuse_enabled:
+        _init_langfuse()

@@ -26,6 +26,7 @@ from app.generation.prompts import (
 )
 from app.retrieval.citations import build_citations
 from app.generation.prompts import REFUSAL
+from app.observability.tracing import record_query_metrics, span
 from app.retrieval.context_builder import ContextBlock, build_context
 from app.retrieval.hybrid_search import search
 from app.retrieval.query_processor import ProcessedQuery, process
@@ -96,7 +97,7 @@ def _grounded_answer(question: str, blocks: list[ContextBlock]) -> str:
     return answer
 
 
-def answer_query(
+def _answer(
     question: str,
     *,
     history: list[dict[str, str]] | None = None,
@@ -104,10 +105,7 @@ def answer_query(
     user_groups: list[str] | None = None,
     top_k: int | None = None,
 ) -> dict[str, Any]:
-    """Answer a question from the corpus and return a grounded, cited result.
-
-    Returns a dict matching :class:`app.schemas.query.QueryResponse`.
-    """
+    """The pipeline body; :func:`answer_query` wraps it with tracing + metrics."""
     from app.cache import redis_cache
     from app.ingestion.embedder import embed_query_cached
 
@@ -124,7 +122,8 @@ def answer_query(
         return {**hit, "cached": True}
 
     # Step 1 — query understanding: rewrite, intent routing, facet filters (§6.1).
-    pq: ProcessedQuery = process(question, history)
+    with span("rag.query_understanding"):
+        pq: ProcessedQuery = process(question, history)
     if pq.intent == "chitchat":
         return _empty("chitchat", _chitchat(question, history))
 
@@ -143,16 +142,21 @@ def answer_query(
     if semantic is not None:
         return {**semantic, "cached": True}
 
-    candidates = search(
-        pq.search_query,
-        limit=settings.retrieval_candidate_k,
-        tenant_id=tenant_id,
-        user_groups=user_groups,
-        extra_filter=pq.filters or None,
-        query_vector=query_vector,
-    )
+    with span("rag.search") as s:
+        candidates = search(
+            pq.search_query,
+            limit=settings.retrieval_candidate_k,
+            tenant_id=tenant_id,
+            user_groups=user_groups,
+            extra_filter=pq.filters or None,
+            query_vector=query_vector,
+        )
+        s.set("candidates", len(candidates))
+
     # Step 4 — rerank wide pool and apply the score-threshold refusal guard (§6.3).
-    ranked = rerank(pq.search_query, candidates)
+    with span("rag.rerank") as s:
+        ranked = rerank(pq.search_query, candidates)
+        s.set("survivors", len(ranked))
     if not ranked:
         return _empty(pq.intent, REFUSAL)
 
@@ -160,7 +164,9 @@ def answer_query(
     if not blocks:
         return _empty(pq.intent, REFUSAL)
 
-    answer = _grounded_answer(pq.search_query, blocks)
+    with span("rag.generate") as s:
+        answer = _grounded_answer(pq.search_query, blocks)
+        s.set("answer_chars", len(answer))
     citations = build_citations(blocks)
 
     result = {
@@ -174,4 +180,37 @@ def answer_query(
     # Cache the sourced answer for exact and near-duplicate future queries (§10.3).
     redis_cache.set_response(signature, result)
     redis_cache.semantic_store(query_vector, result)
+    return result
+
+
+def answer_query(
+    question: str,
+    *,
+    history: list[dict[str, str]] | None = None,
+    tenant_id: str = "default",
+    user_groups: list[str] | None = None,
+    top_k: int | None = None,
+) -> dict[str, Any]:
+    """Answer a question from the corpus and return a grounded, cited result.
+
+    Traces the pipeline and logs per-query RAG quality metrics (§10.4). Returns a
+    dict matching :class:`app.schemas.query.QueryResponse`.
+    """
+    with span("rag.answer_query") as s:
+        result = _answer(
+            question,
+            history=history,
+            tenant_id=tenant_id,
+            user_groups=user_groups,
+            top_k=top_k,
+        )
+        record_query_metrics(
+            latency_ms=s.elapsed_ms,
+            intent=result.get("intent"),
+            used_chunks=result.get("used_chunks", 0),
+            has_citations=bool(result.get("citations")),
+            answered=result.get("answer") != REFUSAL,
+            conflict=result.get("conflict", False),
+            cached=result.get("cached", False),
+        )
     return result
