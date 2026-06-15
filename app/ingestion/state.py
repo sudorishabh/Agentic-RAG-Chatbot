@@ -3,8 +3,8 @@
 Change detection (:mod:`app.ingestion.change_detection`) needs to remember, across
 runs, what each source looked like last time so it can answer NEW / CHANGED /
 UNCHANGED / DELETED without re-extracting everything. That memory lives in a
-single MySQL table (reusing the local connection from
-:mod:`app.services.database`):
+single MySQL table (reusing the shared pooled connection from
+:mod:`app.deps`):
 
 ================  ============================================================
 ``document_id``   canonical id (PDF: path slug; Drupal: node uuid) — primary key
@@ -31,7 +31,7 @@ from datetime import datetime, timezone
 from typing import Iterable, Iterator
 
 from app.config import get_settings
-from app.services.database import mysql_connection
+from app.deps import mysql_connection
 
 logger = logging.getLogger(__name__)
 

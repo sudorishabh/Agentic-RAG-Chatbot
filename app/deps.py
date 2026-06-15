@@ -11,9 +11,10 @@ instead of reaching into each service:
 * **Models** — the Azure embeddings + chat/reasoning LLM wrappers.
 
 Each client is a cached singleton, so the whole process shares one of each. The
-Qdrant and model providers are re-exported from their existing service modules
-so this stays the canonical import surface without duplicating construction;
-heavy/optional packages (``redis``) are imported lazily.
+Qdrant store is built here; the model providers are re-exported from their
+existing modules so this stays the canonical import surface without duplicating
+construction. Heavy/optional packages (``redis``, the Qdrant client) are imported
+lazily so importing this module stays cheap.
 """
 
 from __future__ import annotations
@@ -23,21 +24,20 @@ import queue
 import threading
 from contextlib import contextmanager
 from functools import lru_cache
-from typing import Any, Iterator
+from typing import TYPE_CHECKING, Any, Iterator
 
 import pymysql
 from pymysql.cursors import DictCursor
 
 from app.config import get_settings
 
-# Re-exported infra providers (canonical construction lives in these modules).
+# Re-exported model providers (canonical construction lives in these modules).
 from app.generation.llm_client import get_llm, get_reasoning_llm
 from app.ingestion.embedder import get_embeddings
-from app.services.vector_store import (
-    ensure_collection,
-    get_qdrant_client,
-    get_vector_store,
-)
+
+if TYPE_CHECKING:  # import only for type checkers; runtime imports stay lazy
+    from langchain_qdrant import QdrantVectorStore
+    from qdrant_client import QdrantClient
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +46,7 @@ __all__ = [
     "get_qdrant_client",
     "ensure_collection",
     "get_vector_store",
+    "delete_document",
     # MySQL
     "MySQLPool",
     "get_mysql_pool",
@@ -58,6 +59,82 @@ __all__ = [
     "get_llm",
     "get_reasoning_llm",
 ]
+
+
+# --------------------------------------------------------------------------- #
+# Qdrant — vector DB client / collection / store
+# --------------------------------------------------------------------------- #
+@lru_cache
+def get_qdrant_client() -> "QdrantClient":
+    """The process-wide Qdrant client (one per process)."""
+    from qdrant_client import QdrantClient
+
+    settings = get_settings()
+    return QdrantClient(url=settings.qdrant_url, api_key=settings.qdrant_api_key)
+
+
+def ensure_collection() -> None:
+    """Create the configured collection if it does not yet exist (idempotent).
+
+    Sized from the embedding model's dimension with cosine distance — the default
+    vector the ingestion indexer upserts into and retrieval searches.
+    """
+    from qdrant_client.models import Distance, VectorParams
+
+    settings = get_settings()
+    client = get_qdrant_client()
+    if not client.collection_exists(settings.qdrant_collection):
+        dimension = len(get_embeddings().embed_query("dimension probe"))
+        client.create_collection(
+            collection_name=settings.qdrant_collection,
+            vectors_config=VectorParams(size=dimension, distance=Distance.COSINE),
+        )
+
+
+def delete_document(document_id: str) -> None:
+    """Delete every point (all chunks, all versions) of a document from Qdrant.
+
+    Used by change detection when a source document is removed or has changed —
+    re-indexed content gets new point ids (the version is baked into the chunk
+    UUID), so the old points must be purged by their ``document_id`` payload.
+    """
+    from qdrant_client.models import (
+        FieldCondition,
+        Filter,
+        FilterSelector,
+        MatchValue,
+    )
+
+    settings = get_settings()
+    client = get_qdrant_client()
+    if not client.collection_exists(settings.qdrant_collection):
+        return
+    client.delete(
+        collection_name=settings.qdrant_collection,
+        points_selector=FilterSelector(
+            filter=Filter(
+                must=[
+                    FieldCondition(
+                        key="document_id", match=MatchValue(value=document_id)
+                    )
+                ]
+            )
+        ),
+    )
+
+
+@lru_cache
+def get_vector_store() -> "QdrantVectorStore":
+    """A LangChain vector store bound to the configured collection + embeddings."""
+    from langchain_qdrant import QdrantVectorStore
+
+    settings = get_settings()
+    ensure_collection()
+    return QdrantVectorStore(
+        client=get_qdrant_client(),
+        collection_name=settings.qdrant_collection,
+        embedding=get_embeddings(),
+    )
 
 
 # --------------------------------------------------------------------------- #

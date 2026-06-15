@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
 
+from app.ingestion.upload import ingest_upload
 from app.schemas.ingest import IngestResponse
-from app.services.ingestion import ingest_file
 
 router = APIRouter(tags=["ingest"])
 
@@ -14,5 +14,7 @@ async def ingest(file: UploadFile) -> IngestResponse:
     content = await file.read()
     if not content:
         raise HTTPException(status_code=400, detail="File is empty")
-    chunks = await run_in_threadpool(ingest_file, file.filename, content)
-    return IngestResponse(filename=file.filename, chunks_ingested=chunks)
+    document_id, chunks = await run_in_threadpool(ingest_upload, file.filename, content)
+    return IngestResponse(
+        filename=file.filename, document_id=document_id, chunks_ingested=chunks
+    )

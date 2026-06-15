@@ -26,7 +26,7 @@ from app.ingestion import state
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus
 from app.ingestion.indexer import index_canonical
 from app.ingestion.state import StateRecord
-from app.services.vector_store import delete_document
+from app.deps import delete_document
 
 logger = logging.getLogger(__name__)
 

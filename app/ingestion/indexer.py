@@ -14,7 +14,7 @@ deterministic chunk UUIDs, so re-indexing identical content overwrites in place
 (idempotent).
 
 Heavy clients (Qdrant, Azure embeddings) are reached lazily through
-``app.services`` so importing this module stays cheap.
+``app.deps`` / ``app.ingestion.embedder`` so importing this module stays cheap.
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ def _now_iso() -> str:
 
 def _embed_children(texts: Sequence[str], batch_size: int) -> list[list[float]]:
     """Embed child texts in batches with the configured Azure embedding model."""
-    from app.services.embeddings import get_embeddings
+    from app.ingestion.embedder import get_embeddings
 
     embeddings = get_embeddings()
     vectors: list[list[float]] = []
@@ -77,7 +77,7 @@ def index_chunks(chunks: Sequence[Chunk], *, batch_size: int = 128, stamp: bool 
     if not chunks:
         return 0
 
-    from app.services.vector_store import ensure_collection, get_qdrant_client
+    from app.deps import ensure_collection, get_qdrant_client
     from app.config import get_settings
 
     ensure_collection()
@@ -106,7 +106,7 @@ def index_chunks(chunks: Sequence[Chunk], *, batch_size: int = 128, stamp: bool 
 def _probe_dim() -> int:
     """Embedding dimension, for sizing the parents' zero vector when a document
     has no child chunks to embed."""
-    from app.services.embeddings import get_embeddings
+    from app.ingestion.embedder import get_embeddings
 
     return len(get_embeddings().embed_query("dimension probe"))
 

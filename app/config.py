@@ -56,7 +56,29 @@ class Settings(BaseSettings):
     redis_url: str = ""
     chunk_size: int = 1000
     chunk_overlap: int = 200
-    retrieval_top_k: int = 4
+    # --- Retrieval pipeline (app/retrieval/*) ---
+    # Final number of reranked context blocks handed to the LLM (N, §6.6).
+    retrieval_top_k: int = 6
+    # Wide candidate pool pulled from hybrid search before reranking (K, §6.2).
+    retrieval_candidate_k: int = 40
+    # Collection is dense-only today; flip on once sparse vectors are indexed (§5.5).
+    hybrid_use_sparse: bool = False
+    # Reranker (§6.3 / §9.4). "embedding" blends the dense score with recency +
+    # authority + MMR diversity (no extra model); "llm" uses the chat model as a
+    # cross-encoder; "cross_encoder"/"cohere" use an external reranker if available;
+    # "none" passes candidates through on dense score alone.
+    reranker_provider: str = "embedding"
+    rerank_model: str = ""
+    # Drop any context block whose blended relevance is below this (hallucination
+    # guard, §6.3 / §10.6). 0 disables the guard.
+    rerank_score_threshold: float = 0.0
+    # §9.4 tie-breakers, applied on top of the dominant semantic score.
+    rerank_recency_weight: float = 0.05
+    rerank_authority_weight: float = 0.05
+    # Query-time fine dedup: drop a block ≥ this cosine-similar to a kept one (§9.2).
+    dedup_cosine_threshold: float = 0.92
+    # Cap on retrieved context handed to the LLM, in tokens (§6.4).
+    context_token_budget: int = 8000
     # MySQL/MariaDB source — the Drupal CMS database holding website content.
     mysql_host: str = "localhost"
     mysql_port: int = 3306
