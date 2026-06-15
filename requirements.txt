@@ -13,6 +13,7 @@ pymysql
 cryptography
 requests
 redis
+celery  # optional: background ingestion workers (app/workers/tasks.py)
 
 # PDF extraction (app/ingestion/extractors/pdf_extractor.py)
 docling                        # digital-PDF structure: layout, tables, reading order, figures

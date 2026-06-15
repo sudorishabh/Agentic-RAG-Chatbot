@@ -65,6 +65,14 @@ class Settings(BaseSettings):
     semantic_cache_max: int = 200
     chunk_size: int = 1000
     chunk_overlap: int = 200
+    # --- Workers (app/workers/tasks.py, §10.4). Celery is an optional import. ---
+    # Broker / result backend; empty falls back to redis_url.
+    celery_broker_url: str = ""
+    celery_result_backend: str = ""
+    # Periodic incremental sweep cadence for celery beat (0 disables the schedule).
+    worker_sweep_interval_seconds: int = 3600
+    # Reconcile Drupal deletes/unpublishes during the scheduled sweep.
+    worker_sweep_reconcile: bool = False
     # --- Retrieval pipeline (app/retrieval/*) ---
     # Final number of reranked context blocks handed to the LLM (N, §6.6).
     retrieval_top_k: int = 6
