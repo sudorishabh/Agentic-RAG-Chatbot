@@ -763,11 +763,11 @@ def _ocr_pdf(content: bytes, page_numbers: list[int] | None = None) -> dict[int,
 # Public API
 # --------------------------------------------------------------------------- #
 def extract_pdf(content: bytes, filename: str) -> ExtractionResult:
-    """Extract a PDF into per-page Markdown with tables (and, later, figures).
+    """Extract a PDF into per-page Markdown with tables and figures.
 
-    Digital pages go through the text path; image-only pages go through Azure
-    OCR. The two are merged back into page order so downstream chunking and
-    citations keep correct page numbers.
+    Digital pages go through Docling; image-only pages go through Azure OCR. The
+    two are merged back into page order so downstream chunking and citations keep
+    correct page numbers.
     """
     settings = get_settings()
     scanned_flags = _classify_pages(content, settings.pdf_scanned_char_threshold)
@@ -811,3 +811,64 @@ def _log_summary(result: ExtractionResult, filename: str) -> None:
         result.image_count,
         f"; OCR on page(s) {ocr_pages}" if ocr_pages else "",
     )
+
+
+# --------------------------------------------------------------------------- #
+# CLI — quick manual inspection:
+#   python -m app.ingestion.extractors.pdf_extractor file.pdf --chunk
+# --------------------------------------------------------------------------- #
+def _main(argv: list[str] | None = None) -> int:
+    import argparse
+    import sys
+    from pathlib import Path
+
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except (AttributeError, ValueError):
+        pass
+
+    parser = argparse.ArgumentParser(description="Extract a PDF to structured Markdown.")
+    parser.add_argument("path", help="Path to a .pdf file.")
+    parser.add_argument("-n", "--pages", type=int, default=2, help="Pages to print (default: 2).")
+    parser.add_argument("--full", action="store_true", help="Print full page text.")
+    parser.add_argument("--chunk", action="store_true", help="Also run chunk_pdf and report counts.")
+    args = parser.parse_args(argv)
+
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
+    path = Path(args.path)
+    result = extract_pdf(path.read_bytes(), path.name)
+
+    by_source: dict[str, int] = {}
+    for page in result.pages:
+        by_source[page.extracted_via.value] = by_source.get(page.extracted_via.value, 0) + 1
+    print(
+        f"{path.name}: {result.page_count} page(s), {result.table_count} table(s), "
+        f"{result.image_count} image(s) · pages by source: {by_source}"
+    )
+    if result.ocr_page_numbers:
+        print(f"  OCR pages: {result.ocr_page_numbers}")
+
+    for page in result.pages[: args.pages]:
+        print(
+            f"\n=== page {page.page_number} via {page.extracted_via.value} "
+            f"· {len(page.tables)} table(s), {len(page.images)} image(s) ==="
+        )
+        body = page.text if args.full else page.text[:1000] + ("…" if len(page.text) > 1000 else "")
+        print(body)
+        for image in page.images:
+            print(
+                f"  [figure {image.index}] {image.path or '(not saved)'} "
+                f"· class={image.classification} · desc={image.description!r}"
+            )
+
+    if args.chunk:
+        from app.ingestion.chunker import chunk_pdf
+
+        chunks = chunk_pdf(result)
+        parents = sum(c.is_parent for c in chunks)
+        print(f"\nchunks: {len(chunks)} ({parents} parents, {len(chunks) - parents} children)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(_main())
