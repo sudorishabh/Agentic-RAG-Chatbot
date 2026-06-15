@@ -25,9 +25,11 @@ from app.generation.prompts import (
     format_context_blocks,
 )
 from app.retrieval.citations import build_citations
+from app.generation.prompts import REFUSAL
 from app.retrieval.context_builder import ContextBlock, build_context
 from app.retrieval.hybrid_search import search
 from app.retrieval.query_processor import ProcessedQuery, process
+from app.retrieval.reranker import rerank
 
 logger = logging.getLogger(__name__)
 
@@ -107,9 +109,14 @@ def answer_query(
         user_groups=user_groups,
         extra_filter=pq.filters or None,
     )
-    blocks = build_context(candidates, limit=n)
+    # Step 4 — rerank wide pool and apply the score-threshold refusal guard (§6.3).
+    ranked = rerank(pq.search_query, candidates)
+    if not ranked:
+        return _empty(pq.intent, REFUSAL)
+
+    blocks = build_context(ranked, limit=n)
     if not blocks:
-        return _empty(pq.intent, _generate(pq.search_query, blocks))
+        return _empty(pq.intent, REFUSAL)
 
     answer = _generate(pq.search_query, blocks)
     citations = build_citations(blocks)
