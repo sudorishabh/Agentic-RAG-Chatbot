@@ -12,6 +12,7 @@ pypdf
 pymysql
 cryptography
 requests
+redis
 
 # PDF extraction (app/ingestion/extractors/pdf_extractor.py)
 docling                        # digital-PDF structure: layout, tables, reading order, figures

@@ -18,7 +18,6 @@ from contextlib import contextmanager
 from typing import Any, Iterator
 
 import pymysql
-from pymysql.cursors import DictCursor
 
 from app.config import get_settings
 
@@ -26,32 +25,23 @@ logger = logging.getLogger(__name__)
 
 
 def get_connection() -> pymysql.connections.Connection:
-    """Open a new MySQL connection using settings from the environment.
+    """Open a new, unpooled MySQL connection that the caller owns and must close.
 
-    The caller owns the connection and is responsible for closing it. Prefer
-    :func:`mysql_connection` (context manager) or :func:`fetch_all` for most
-    call sites so the connection is always closed.
+    Prefer :func:`mysql_connection` (pooled context manager) or :func:`fetch_all`
+    for most call sites. Connection construction now lives in :mod:`app.deps`.
     """
-    settings = get_settings()
-    return pymysql.connect(
-        host=settings.mysql_host,
-        port=settings.mysql_port,
-        user=settings.mysql_user,
-        password=settings.mysql_password,
-        database=settings.mysql_database or None,
-        connect_timeout=settings.mysql_connect_timeout,
-        cursorclass=DictCursor,
-    )
+    from app.deps import new_mysql_connection
+
+    return new_mysql_connection()
 
 
 @contextmanager
 def mysql_connection() -> Iterator[pymysql.connections.Connection]:
-    """Context manager that opens a connection and reliably closes it."""
-    conn = get_connection()
-    try:
+    """Pooled MySQL connection context manager (borrows from the shared pool)."""
+    from app.deps import mysql_connection as pooled_connection
+
+    with pooled_connection() as conn:
         yield conn
-    finally:
-        conn.close()
 
 
 def fetch_all(sql: str, params: tuple | dict | None = None) -> list[dict[str, Any]]:

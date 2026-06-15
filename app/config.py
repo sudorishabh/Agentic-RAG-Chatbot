@@ -52,6 +52,8 @@ class Settings(BaseSettings):
     qdrant_url: str = "http://localhost:6333"
     qdrant_api_key: str | None = None
     qdrant_collection: str = "documents"
+    # Redis — shared cache / coordination. Empty disables it (get_redis() -> None).
+    redis_url: str = ""
     chunk_size: int = 1000
     chunk_overlap: int = 200
     retrieval_top_k: int = 4
@@ -62,6 +64,8 @@ class Settings(BaseSettings):
     mysql_password: str = ""
     mysql_database: str = ""
     mysql_connect_timeout: int = 10
+    # Max pooled MySQL connections shared across the process (app.deps pool).
+    mysql_pool_size: int = 5
     # Drupal JSON:API source — the public website content API. Used by the
     # ingestion job to pull published nodes (news, articles, projects, ...).
     drupal_jsonapi_base: str = "https://teriin.org/jsonapi"
