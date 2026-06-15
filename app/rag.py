@@ -108,9 +108,20 @@ def answer_query(
 
     Returns a dict matching :class:`app.schemas.query.QueryResponse`.
     """
+    from app.cache import redis_cache
+    from app.ingestion.embedder import embed_query_cached
+
     settings = get_settings()
     n = top_k or settings.retrieval_top_k
     user_groups = user_groups or ["public"]
+
+    # Exact response cache: identical (query, scope) skips the whole pipeline (§10.3).
+    signature = redis_cache.response_signature(
+        question, tenant_id=tenant_id, user_groups=user_groups, top_k=n
+    )
+    hit = redis_cache.get_response(signature)
+    if hit is not None:
+        return {**hit, "cached": True}
 
     # Step 1 — query understanding: rewrite, intent routing, facet filters (§6.1).
     pq: ProcessedQuery = process(question, history)
@@ -126,12 +137,19 @@ def answer_query(
         if structured is not None:
             return structured
 
+    # Embed the (rewritten) query once — reused for retrieval and the semantic cache.
+    query_vector = embed_query_cached(pq.search_query)
+    semantic = redis_cache.semantic_lookup(query_vector)
+    if semantic is not None:
+        return {**semantic, "cached": True}
+
     candidates = search(
         pq.search_query,
         limit=settings.retrieval_candidate_k,
         tenant_id=tenant_id,
         user_groups=user_groups,
         extra_filter=pq.filters or None,
+        query_vector=query_vector,
     )
     # Step 4 — rerank wide pool and apply the score-threshold refusal guard (§6.3).
     ranked = rerank(pq.search_query, candidates)
@@ -145,11 +163,15 @@ def answer_query(
     answer = _grounded_answer(pq.search_query, blocks)
     citations = build_citations(blocks)
 
-    return {
+    result = {
         "answer": answer,
-        "citations": citations,
+        "citations": [c.model_dump() for c in citations],
         "intent": pq.intent,
         "used_chunks": len(blocks),
         "conflict": any(b.conflict for b in blocks),
         "cached": False,
     }
+    # Cache the sourced answer for exact and near-duplicate future queries (§10.3).
+    redis_cache.set_response(signature, result)
+    redis_cache.semantic_store(query_vector, result)
+    return result

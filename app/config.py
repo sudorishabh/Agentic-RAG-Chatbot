@@ -54,6 +54,15 @@ class Settings(BaseSettings):
     qdrant_collection: str = "documents"
     # Redis — shared cache / coordination. Empty disables it (get_redis() -> None).
     redis_url: str = ""
+    # --- Caching (app/cache/redis_cache.py, §10.3). All no-op without redis_url. ---
+    response_cache_enabled: bool = True
+    response_cache_ttl: int = 86400  # 1 day
+    embedding_cache_enabled: bool = True
+    embedding_cache_ttl: int = 604800  # 7 days
+    # Semantic query cache: a past query within this cosine returns its answer.
+    semantic_cache_enabled: bool = True
+    semantic_cache_threshold: float = 0.97
+    semantic_cache_max: int = 200
     chunk_size: int = 1000
     chunk_overlap: int = 200
     # --- Retrieval pipeline (app/retrieval/*) ---

@@ -13,3 +13,18 @@ def get_embeddings() -> AzureOpenAIEmbeddings:
         api_version=settings.azure_openai_embedding_api_version,
         azure_deployment=settings.azure_openai_embedding_model,
     )
+
+
+def embed_query_cached(text: str) -> list[float]:
+    """Embed a query, served from the Redis embedding cache when present (§10.3).
+
+    Falls straight through to the model when Redis isn't configured.
+    """
+    from app.cache import redis_cache
+
+    cached = redis_cache.get_embedding(text)
+    if cached is not None:
+        return cached
+    vector = get_embeddings().embed_query(text)
+    redis_cache.set_embedding(text, vector)
+    return vector

@@ -60,5 +60,9 @@ def ingest_upload(filename: str, content: bytes) -> tuple[str, int]:
     else:
         doc = _text_document(filename, content)
     points = index_canonical(doc)
+    # New content invalidates cached answers (§10.3).
+    from app.cache.redis_cache import bump_corpus_version
+
+    bump_corpus_version()
     logger.info("Ingested upload %s -> %s (%d points)", filename, doc.document_id, points)
     return doc.document_id, points
