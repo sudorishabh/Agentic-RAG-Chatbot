@@ -1,0 +1,203 @@
+"""Normalizers: turn each source into a :class:`CanonicalDocument`.
+
+This is the "normalize everything before chunking" layer (§2.1 of
+``docs/cononical_data.md``). Each function maps one source's quirks onto the
+shared canonical shape so the chunker only ever sees ``CanonicalDocument``:
+
+* :func:`from_pdf`            — an extractor ``ExtractionResult`` (one section
+                                per page, page numbers preserved for citations).
+* :func:`from_drupal_record`  — a live :class:`DrupalRecord` from the JSON:API
+                                extractor.
+* :func:`from_drupal_export`  — a record dict as emitted by the extractor's
+                                ``--json`` dump (e.g. ``rpapers.json``), so a
+                                pre-pulled crawl can be re-ingested offline.
+
+Inputs are duck-typed where practical to keep this module free of heavy imports
+(``fitz``/``docling``/``requests``).
+"""
+
+from __future__ import annotations
+
+import re
+from typing import Any, Protocol
+
+from app.core.models import CanonicalDocument, CanonicalSection
+
+
+# --------------------------------------------------------------------------- #
+# Helpers
+# --------------------------------------------------------------------------- #
+def _slugify(value: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "_", (value or "").lower()).strip("_")
+    return slug or "document"
+
+
+def _as_list(value: Any) -> list[str]:
+    """Coerce a metadata value to a clean string list, splitting comma-joined
+    strings (Drupal stores multi-values either as a list or as "a, b, c")."""
+    if value is None:
+        return []
+    if isinstance(value, (list, tuple)):
+        items = [str(v).strip() for v in value]
+    else:
+        items = [part.strip() for part in str(value).split(",")]
+    return [item for item in items if item]
+
+
+def _matching(meta: dict[str, Any], *substrings: str) -> list[tuple[str, Any]]:
+    """Metadata entries whose key contains any of ``substrings`` (case-insensitive)."""
+    return [
+        (key, value)
+        for key, value in meta.items()
+        if value not in (None, "", []) and any(s in key.lower() for s in substrings)
+    ]
+
+
+def _pick_list(meta: dict[str, Any], *substrings: str) -> list[str]:
+    """Best single source for a multi-value field: prefer a real list value,
+    else the first comma-string. Used where keys are near-duplicates (e.g.
+    ``field_rpaper_author`` *and* ``field_rpaper_authors``)."""
+    matches = _matching(meta, *substrings)
+    for _, value in matches:
+        if isinstance(value, (list, tuple)):
+            return _as_list(value)
+    return _as_list(matches[0][1]) if matches else []
+
+
+def _union_list(meta: dict[str, Any], *substrings: str) -> list[str]:
+    """Deduplicated union across every matching key — for fields that legitimately
+    aggregate several sources (tags from tags+keywords, categories from
+    theme/area/division)."""
+    seen: dict[str, None] = {}
+    for _, value in _matching(meta, *substrings):
+        for item in _as_list(value):
+            seen.setdefault(item, None)
+    return list(seen)
+
+
+# --------------------------------------------------------------------------- #
+# PDF → canonical
+# --------------------------------------------------------------------------- #
+class _PdfPage(Protocol):
+    page_number: int
+    text: str
+
+
+class _PdfResult(Protocol):
+    source: str
+    pages: list[_PdfPage]
+
+
+def from_pdf(
+    result: _PdfResult,
+    *,
+    document_id: str | None = None,
+    source_type: str = "pdf",
+    **overrides: Any,
+) -> CanonicalDocument:
+    """Normalize an extractor ``ExtractionResult`` into a canonical document.
+
+    Each page becomes one :class:`CanonicalSection` carrying its page number, so
+    the chunker keeps page-accurate citations while still detecting headings and
+    sections that span page boundaries. Tables/figures already live inline in the
+    page Markdown, so they ride along untouched.
+    """
+    doc_id = document_id or _slugify(getattr(result, "source", "") or "")
+    sections = [
+        CanonicalSection(
+            text=page.text,
+            page_start=page.page_number,
+            page_end=page.page_number,
+            order=i,
+        )
+        for i, page in enumerate(result.pages)
+        if getattr(page, "text", "")
+    ]
+    doc = CanonicalDocument(
+        document_id=overrides.pop("document_id_override", doc_id),
+        source_type=source_type,
+        title=overrides.pop("title", getattr(result, "source", None)),
+        sections=sections,
+        pdf_id=overrides.pop("pdf_id", doc_id),
+        pdf_path=overrides.pop("pdf_path", getattr(result, "source", None)),
+        **overrides,
+    )
+    doc.ensure_content_hash()
+    return doc
+
+
+# --------------------------------------------------------------------------- #
+# Drupal → canonical
+# --------------------------------------------------------------------------- #
+def _drupal_document(
+    *,
+    body: str,
+    title: str | None,
+    url: str | None,
+    uuid: str | None,
+    bundle: str | None,
+    nid: int | None,
+    created: str | None,
+    changed: str | None,
+    metadata: dict[str, Any],
+    **overrides: Any,
+) -> CanonicalDocument:
+    """Shared builder for the live-record and JSON-export Drupal paths."""
+    doc = CanonicalDocument(
+        document_id=uuid or _slugify(url or f"{bundle}/{title}"),
+        source_type=overrides.pop("source_type", "article"),
+        title=(title or "").strip() or None,
+        sections=[CanonicalSection(text=body, order=0)] if body else [],
+        source_url=url,
+        article_uuid=uuid or None,
+        tags=_union_list(metadata, "tag", "keyword"),
+        categories=_union_list(metadata, "category", "theme", "area", "division"),
+        authors=_pick_list(metadata, "author"),
+        published_at=created,
+        extra={"bundle": bundle, "nid": nid, "changed": changed},
+        **overrides,
+    )
+    doc.ensure_content_hash()
+    return doc
+
+
+def from_drupal_record(record: Any, **overrides: Any) -> CanonicalDocument:
+    """Normalize a live :class:`...drupal_extractor.DrupalRecord`.
+
+    ``source_url`` is the citation; tags/categories/authors are lifted from the
+    record's resolved relationship metadata.
+    """
+    return _drupal_document(
+        body=record.body,
+        title=record.title,
+        url=record.url,
+        uuid=record.uuid or None,
+        bundle=record.bundle,
+        nid=record.nid,
+        created=record.created,
+        changed=record.changed,
+        metadata=record.metadata or {},
+        **overrides,
+    )
+
+
+def from_drupal_export(item: dict[str, Any], **overrides: Any) -> CanonicalDocument:
+    """Normalize one record dict from the extractor's ``--json`` dump.
+
+    The dump merges ``to_text()`` (title + body) under ``text`` with the flat
+    ``to_metadata()`` fields, so the body section is the ``text`` value and the
+    remaining keys are metadata.
+    """
+    meta = {k: v for k, v in item.items() if k != "text"}
+    return _drupal_document(
+        body=item.get("text", "") or "",
+        title=meta.get("title"),
+        url=meta.get("url"),
+        uuid=meta.get("uuid") or None,
+        bundle=meta.get("bundle"),
+        nid=meta.get("nid"),
+        created=meta.get("created"),
+        changed=meta.get("changed"),
+        metadata=meta,
+        **overrides,
+    )
