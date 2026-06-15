@@ -25,6 +25,38 @@ def ensure_collection() -> None:
         )
 
 
+def delete_document(document_id: str) -> None:
+    """Delete every point (all chunks, all versions) of a document from Qdrant.
+
+    Used by change detection when a source document is removed or has changed —
+    re-indexed content gets new point ids (the version is baked into the chunk
+    UUID), so the old points must be purged by their ``document_id`` payload.
+    """
+    from qdrant_client.models import (
+        FieldCondition,
+        Filter,
+        FilterSelector,
+        MatchValue,
+    )
+
+    settings = get_settings()
+    client = get_qdrant_client()
+    if not client.collection_exists(settings.qdrant_collection):
+        return
+    client.delete(
+        collection_name=settings.qdrant_collection,
+        points_selector=FilterSelector(
+            filter=Filter(
+                must=[
+                    FieldCondition(
+                        key="document_id", match=MatchValue(value=document_id)
+                    )
+                ]
+            )
+        ),
+    )
+
+
 @lru_cache
 def get_vector_store() -> QdrantVectorStore:
     settings = get_settings()
