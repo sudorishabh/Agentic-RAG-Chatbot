@@ -133,6 +133,36 @@ def iter_bundle_records(
         for node in data:
             yield _build_record(node, included, bundle, site)
 
+def iter_node_uuids(
+    session: requests.Session,
+    bundle: str,
+    *,
+    published_only: bool = True,
+) -> Iterator[str]:
+    """Stream just the UUIDs of every node in a bundle, as cheaply as possible.
+
+    Uses a sparse fieldset so each page carries almost no attributes — only the
+    resource ``id`` (the UUID), which JSON:API always returns. Used by change
+    detection's reconcile pass to find nodes that have been deleted/unpublished
+    since the manifest was last written.
+    """
+    settings = get_settings()
+    base = settings.drupal_jsonapi_base.rstrip("/")
+    params: dict[str, Any] = {
+        "page[limit]": settings.drupal_page_size,
+        f"fields[node--{bundle}]": "drupal_internal__nid",
+    }
+    if published_only:
+        params["filter[status]"] = 1
+
+    url = f"{base}/node/{bundle}"
+    for data, _included in _iter_pages(session, url, params, settings.drupal_request_timeout):
+        for node in data:
+            uuid = node.get("id")
+            if uuid:
+                yield uuid
+
+
 def _build_session(max_retries: int) -> requests.Session:
     session = requests.Session()
     retry = Retry(

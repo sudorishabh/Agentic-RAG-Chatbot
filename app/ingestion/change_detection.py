@@ -32,9 +32,10 @@ import logging
 import os
 import re
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any, Iterable, Iterator
 
 from app.config import get_settings
 from app.ingestion import state
@@ -247,3 +248,107 @@ def detect_file_changes(
                 source_key=record.source_key,
                 prior=record,
             )
+
+
+# --------------------------------------------------------------------------- #
+# Drupal JSON:API source
+# --------------------------------------------------------------------------- #
+def _to_unix(changed: str | None) -> int | None:
+    """Parse a Drupal ``changed`` timestamp (ISO 8601) into a unix int.
+
+    Stored as ``changed_mark`` and used as the incremental high-water value the
+    next crawl filters on. Returns ``None`` if the timestamp is missing/unparseable.
+    """
+    if not changed:
+        return None
+    try:
+        return int(datetime.fromisoformat(changed.replace("Z", "+00:00")).timestamp())
+    except ValueError:
+        return None
+
+
+def detect_drupal_changes(
+    bundles: Iterable[str] | None = None,
+    *,
+    published_only: bool = True,
+    reconcile_deletes: bool = False,
+) -> Iterator[ChangeRecord]:
+    """Crawl the Drupal JSON:API incrementally and classify each node.
+
+    Each bundle is fetched from its stored high-water ``changed`` mark onward
+    (``filter[changed] > high_water``), so a normal run only pulls nodes modified
+    since last time — everything returned is therefore NEW or CHANGED. The node's
+    ``changed`` timestamp is both the fingerprint and the high-water value.
+
+    Incremental crawls can't reveal deletions, so when ``reconcile_deletes`` is
+    set the bundle's full set of live UUIDs is enumerated cheaply and any manifest
+    entry no longer present (deleted or unpublished) is emitted as DELETED.
+    """
+    from app.ingestion.extractors.drupal_extractor import (
+        DEFAULT_BUNDLES,
+        _build_session,
+        iter_bundle_records,
+        iter_node_uuids,
+    )
+
+    settings = get_settings()
+    bundles = tuple(bundles) if bundles is not None else DEFAULT_BUNDLES
+    prior_all = state.load("article")
+
+    session = _build_session(settings.drupal_max_retries)
+    try:
+        for bundle in bundles:
+            prior = {k: v for k, v in prior_all.items() if v.bundle == bundle}
+            high = max(
+                (v.changed_mark for v in prior.values() if v.changed_mark is not None),
+                default=None,
+            )
+
+            for record in iter_bundle_records(
+                session, bundle, published_only=published_only, changed_since=high
+            ):
+                uuid = record.uuid
+                if not uuid:
+                    continue
+                fingerprint = record.changed or ""
+                prev = prior.get(uuid)
+
+                if prev is None:
+                    status = ChangeStatus.NEW
+                elif prev.fingerprint != fingerprint:
+                    status = ChangeStatus.CHANGED
+                else:
+                    status = ChangeStatus.UNCHANGED
+
+                yield ChangeRecord(
+                    status=status,
+                    document_id=uuid,
+                    source_type="article",
+                    source_key=record.source,
+                    fingerprint=fingerprint,
+                    bundle=bundle,
+                    changed_mark=_to_unix(record.changed),
+                    prior=prev,
+                    payload=None if status is ChangeStatus.UNCHANGED else record,
+                )
+
+            if reconcile_deletes and prior:
+                try:
+                    live = set(iter_node_uuids(session, bundle, published_only=published_only))
+                except Exception:
+                    logger.exception(
+                        "Reconcile enumeration failed for node/%s; skipping deletes.", bundle
+                    )
+                    continue
+                for uuid, record in prior.items():
+                    if uuid not in live:
+                        yield ChangeRecord(
+                            status=ChangeStatus.DELETED,
+                            document_id=uuid,
+                            source_type="article",
+                            source_key=record.source_key,
+                            bundle=bundle,
+                            prior=record,
+                        )
+    finally:
+        session.close()
