@@ -79,6 +79,9 @@ class Settings(BaseSettings):
     dedup_cosine_threshold: float = 0.92
     # Cap on retrieved context handed to the LLM, in tokens (§6.4).
     context_token_budget: int = 8000
+    # Post-generation faithfulness check (§10.6.4): verify each claim is entailed
+    # by its cited context and regenerate once if not. Off by default (extra call).
+    faithfulness_check: bool = False
     # MySQL/MariaDB source — the Drupal CMS database holding website content.
     mysql_host: str = "localhost"
     mysql_port: int = 3306

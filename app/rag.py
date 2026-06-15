@@ -58,17 +58,21 @@ def _empty(intent: str, answer: str, *, cached: bool = False) -> dict[str, Any]:
     }
 
 
-def _generate(question: str, blocks: list[ContextBlock]) -> str:
-    """Grounded generation: answer only from the numbered context, citing ``[n]``."""
+def _generate(question: str, blocks: list[ContextBlock], *, correction: str | None = None) -> str:
+    """Grounded generation: answer only from the numbered context, citing ``[n]``.
+
+    ``correction`` carries a faithfulness corrective note for a one-shot retry.
+    """
     from langchain_core.output_parsers import StrOutputParser
     from langchain_core.prompts import ChatPromptTemplate
 
     if not blocks:
-        return "I don't have information on that in the available sources."
+        return REFUSAL
 
+    system = GROUNDED_SYSTEM_PROMPT + (f"\n\n{correction}" if correction else "")
     prompt = ChatPromptTemplate.from_messages(
         [
-            ("system", GROUNDED_SYSTEM_PROMPT),
+            ("system", system),
             ("human", "Numbered context:\n{context}\n\nQuestion: {question}"),
         ]
     )
@@ -76,6 +80,20 @@ def _generate(question: str, blocks: list[ContextBlock]) -> str:
     return chain.invoke(
         {"context": format_context_blocks(blocks), "question": question}
     ).strip()
+
+
+def _grounded_answer(question: str, blocks: list[ContextBlock]) -> str:
+    """Generate, scrub stray markers, and (optionally) verify + regenerate once."""
+    from app.generation import faithfulness
+
+    answer = faithfulness.validate_markers(_generate(question, blocks), len(blocks))
+    if get_settings().faithfulness_check and blocks:
+        report = faithfulness.verify(answer, blocks)
+        if not report.faithful:
+            logger.info("Faithfulness check flagged claims; regenerating once.")
+            retry = _generate(question, blocks, correction=report.correction_note())
+            answer = faithfulness.validate_markers(retry, len(blocks))
+    return answer
 
 
 def answer_query(
@@ -124,7 +142,7 @@ def answer_query(
     if not blocks:
         return _empty(pq.intent, REFUSAL)
 
-    answer = _generate(pq.search_query, blocks)
+    answer = _grounded_answer(pq.search_query, blocks)
     citations = build_citations(blocks)
 
     return {
