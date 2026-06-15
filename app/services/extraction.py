@@ -41,7 +41,6 @@ class PageContent:
     text: str
     extracted_via: ExtractedVia
 
-
 @dataclass
 class ExtractionResult:
     source: str  # original filename
