@@ -157,6 +157,35 @@ body {
 .msg__bubble--pending { color: var(--text-dim); }
 .msg__bubble--error { border-color: var(--bad); color: var(--bad); }
 
+/* Rendered markdown inside answer bubbles */
+.msg__bubble p { margin: 0 0 0.6rem; }
+.msg__bubble > :last-child { margin-bottom: 0; }
+.msg__bubble ul, .msg__bubble ol { margin: 0 0 0.6rem; padding-left: 1.3rem; }
+.msg__bubble li { margin: 0.15rem 0; }
+.msg__bubble h1, .msg__bubble h2, .msg__bubble h3,
+.msg__bubble h4, .msg__bubble h5, .msg__bubble h6 {
+  margin: 0.3rem 0 0.4rem;
+  font-size: 1.05em;
+}
+.msg__bubble a { color: var(--accent); }
+.msg__bubble code {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.05rem 0.3rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+}
+.msg__bubble pre {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem;
+  overflow-x: auto;
+  margin: 0 0 0.6rem;
+}
+.msg__bubble pre code { background: none; border: none; padding: 0; }
+
 /* Citations / sources */
 .meta {
   display: flex;

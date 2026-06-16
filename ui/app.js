@@ -5,12 +5,21 @@
  * ------------------------------------------------------------------ */
 const DEFAULT_API_BASE = "http://localhost:8000";
 const STORAGE_KEY = "ragui.apiBase";
+const TOPK_KEY = "ragui.topK";
 
 function getApiBase() {
   return (localStorage.getItem(STORAGE_KEY) || DEFAULT_API_BASE).replace(/\/+$/, "");
 }
 function setApiBase(value) {
   localStorage.setItem(STORAGE_KEY, value.replace(/\/+$/, ""));
+}
+function getTopK() {
+  const v = parseInt(localStorage.getItem(TOPK_KEY) || "", 10);
+  return Number.isInteger(v) && v > 0 ? v : null;
+}
+function setTopK(value) {
+  if (Number.isInteger(value) && value > 0) localStorage.setItem(TOPK_KEY, String(value));
+  else localStorage.removeItem(TOPK_KEY);
 }
 
 /* ------------------------------------------------------------------ *
@@ -26,7 +35,9 @@ const el = {
   settingsToggle: document.getElementById("settingsToggle"),
   settingsPanel: document.getElementById("settingsPanel"),
   apiBase: document.getElementById("apiBase"),
+  topK: document.getElementById("topK"),
   saveSettings: document.getElementById("saveSettings"),
+  clearChat: document.getElementById("clearChat"),
 };
 
 /* ------------------------------------------------------------------ *
@@ -61,7 +72,30 @@ async function checkHealth() {
  * Messages
  * ------------------------------------------------------------------ */
 function hideEmptyState() {
-  if (el.emptyState) el.emptyState.remove();
+  if (el.emptyState) {
+    el.emptyState.remove();
+    el.emptyState = null;
+  }
+}
+
+function renderEmptyState() {
+  const div = document.createElement("div");
+  div.id = "emptyState";
+  div.className = "empty";
+  div.innerHTML =
+    '<div class="empty__icon">💬</div>' +
+    '<p class="empty__title">Ask a question to get started</p>' +
+    '<p class="empty__hint">Answers are grounded in your indexed documents.</p>';
+  el.messages.appendChild(div);
+  el.emptyState = div;
+}
+
+function clearChat() {
+  if (streaming) return;
+  history.length = 0;
+  el.messages.innerHTML = "";
+  el.emptyState = null;
+  renderEmptyState();
 }
 
 function addMessage(role, text) {
@@ -114,7 +148,8 @@ async function handleSend() {
   try {
     const { answer, sources } = await streamChat(text, bubble);
     bubble.classList.remove("msg__bubble--pending");
-    bubble.textContent = answer || "(no response)";
+    if (answer) bubble.innerHTML = renderMarkdown(answer);
+    else bubble.textContent = "(no response)";
     const clicked = new Set();
     if (sources) renderSources(wrap, sources, clicked);
     if (answer) renderFeedback(wrap, text, answer, clicked);
@@ -135,10 +170,14 @@ async function handleSend() {
  * ------------------------------------------------------------------ */
 async function streamChat(question, bubble) {
   // history holds prior turns only; the current question goes in `question`.
+  const body = { question, history };
+  const topK = getTopK();
+  if (topK) body.top_k = topK;
+
   const res = await fetch(getApiBase() + "/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question, history }),
+    body: JSON.stringify(body),
   });
   if (!res.ok || !res.body) {
     throw new Error("HTTP " + res.status);
@@ -187,6 +226,93 @@ async function streamChat(question, bubble) {
     }
   }
   return { answer, sources };
+}
+
+/* ------------------------------------------------------------------ *
+ * Minimal Markdown rendering (HTML-escaped, no dependencies)
+ * ------------------------------------------------------------------ */
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function renderInline(text) {
+  // `text` is already HTML-escaped.
+  let out = text.replace(/`([^`]+)`/g, (_, c) => "<code>" + c + "</code>");
+  out = out.replace(
+    /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+    (_, label, url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`
+  );
+  out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  out = out.replace(/__([^_]+)__/g, "<strong>$1</strong>");
+  out = out.replace(/(^|[^*])\*([^*]+)\*/g, "$1<em>$2</em>");
+  return out;
+}
+
+function renderMarkdown(src) {
+  const lines = escapeHtml(src).split("\n");
+  const html = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    if (/^```/.test(line)) {
+      const code = [];
+      i++;
+      while (i < lines.length && !/^```\s*$/.test(lines[i])) code.push(lines[i++]);
+      i++; // skip closing fence
+      html.push("<pre><code>" + code.join("\n") + "</code></pre>");
+      continue;
+    }
+
+    if (/^\s*[-*]\s+/.test(line)) {
+      const items = [];
+      while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) {
+        items.push("<li>" + renderInline(lines[i].replace(/^\s*[-*]\s+/, "")) + "</li>");
+        i++;
+      }
+      html.push("<ul>" + items.join("") + "</ul>");
+      continue;
+    }
+
+    if (/^\s*\d+\.\s+/.test(line)) {
+      const items = [];
+      while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) {
+        items.push("<li>" + renderInline(lines[i].replace(/^\s*\d+\.\s+/, "")) + "</li>");
+        i++;
+      }
+      html.push("<ol>" + items.join("") + "</ol>");
+      continue;
+    }
+
+    const heading = line.match(/^(#{1,6})\s+(.*)$/);
+    if (heading) {
+      const lvl = heading[1].length;
+      html.push("<h" + lvl + ">" + renderInline(heading[2]) + "</h" + lvl + ">");
+      i++;
+      continue;
+    }
+
+    if (/^\s*$/.test(line)) {
+      i++;
+      continue;
+    }
+
+    const para = [];
+    while (
+      i < lines.length &&
+      !/^\s*$/.test(lines[i]) &&
+      !/^```/.test(lines[i]) &&
+      !/^\s*[-*]\s+/.test(lines[i]) &&
+      !/^\s*\d+\.\s+/.test(lines[i]) &&
+      !/^#{1,6}\s+/.test(lines[i])
+    ) {
+      para.push(lines[i++]);
+    }
+    html.push("<p>" + renderInline(para.join("<br>")) + "</p>");
+  }
+
+  return html.join("");
 }
 
 /* ------------------------------------------------------------------ *
@@ -338,13 +464,15 @@ function toggleSettings() {
   el.settingsPanel.hidden = !el.settingsPanel.hidden;
   if (!el.settingsPanel.hidden) {
     el.apiBase.value = getApiBase();
+    const tk = getTopK();
+    el.topK.value = tk ? String(tk) : "";
     el.apiBase.focus();
   }
 }
 
 function saveSettings() {
-  const value = el.apiBase.value.trim() || DEFAULT_API_BASE;
-  setApiBase(value);
+  setApiBase(el.apiBase.value.trim() || DEFAULT_API_BASE);
+  setTopK(parseInt(el.topK.value, 10));
   el.settingsPanel.hidden = true;
   checkHealth();
 }
@@ -362,6 +490,7 @@ el.input.addEventListener("keydown", (e) => {
 });
 el.settingsToggle.addEventListener("click", toggleSettings);
 el.saveSettings.addEventListener("click", saveSettings);
+el.clearChat.addEventListener("click", clearChat);
 
 el.apiBase.value = getApiBase();
 checkHealth();
