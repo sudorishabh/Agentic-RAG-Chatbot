@@ -154,6 +154,8 @@ body {
   border: 1px solid var(--border);
   border-bottom-left-radius: 4px;
 }
+.msg__bubble--pending { color: var(--text-dim); }
+.msg__bubble--error { border-color: var(--bad); color: var(--bad); }
 
 /* Composer */
 .composer {
