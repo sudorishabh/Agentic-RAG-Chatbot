@@ -107,14 +107,15 @@ async function handleSend() {
   autoGrow();
 
   setStreaming(true);
-  const { bubble } = addMessage("bot", "");
+  const { wrap, bubble } = addMessage("bot", "");
   bubble.classList.add("msg__bubble--pending");
   bubble.textContent = "…";
 
   try {
-    const answer = await streamChat(text, bubble);
+    const { answer, sources } = await streamChat(text, bubble);
     bubble.classList.remove("msg__bubble--pending");
     bubble.textContent = answer || "(no response)";
+    if (sources) renderSources(wrap, sources);
     history.push({ role: "user", content: text });
     history.push({ role: "assistant", content: answer });
   } catch (err) {
@@ -145,6 +146,7 @@ async function streamChat(question, bubble) {
   const decoder = new TextDecoder();
   let buffer = "";
   let answer = "";
+  let sources = null;
 
   while (true) {
     const { value, done } = await reader.read();
@@ -176,13 +178,97 @@ async function streamChat(question, bubble) {
         bubble.textContent = answer;
         scrollToBottom();
       } else if (event.type === "sources") {
-        // Citations rendered in the next step.
+        sources = event;
       } else if (event.type === "done") {
-        return answer;
+        return { answer, sources };
       }
     }
   }
-  return answer;
+  return { answer, sources };
+}
+
+/* ------------------------------------------------------------------ *
+ * Citations / sources rendering
+ * ------------------------------------------------------------------ */
+function badge(text, modifier) {
+  const b = document.createElement("span");
+  b.className = "meta__badge" + (modifier ? " " + modifier : "");
+  b.textContent = text;
+  return b;
+}
+
+function renderSources(wrap, sources) {
+  const citations = Array.isArray(sources.citations) ? sources.citations : [];
+
+  const meta = document.createElement("div");
+  meta.className = "meta";
+  if (sources.intent) meta.appendChild(badge(sources.intent));
+  const count = sources.used_chunks || citations.length;
+  if (count) meta.appendChild(badge(count + (count === 1 ? " source" : " sources")));
+  if (sources.conflict) meta.appendChild(badge("⚠ conflicting sources", "meta__badge--warn"));
+  if (meta.childNodes.length) wrap.appendChild(meta);
+
+  if (!citations.length) return;
+  const list = document.createElement("div");
+  list.className = "citations";
+  for (const c of citations) list.appendChild(renderCitation(c));
+  wrap.appendChild(list);
+}
+
+function linkOrText(label, url) {
+  let node;
+  if (url) {
+    node = document.createElement("a");
+    node.href = url;
+    node.target = "_blank";
+    node.rel = "noopener noreferrer";
+  } else {
+    node = document.createElement("span");
+  }
+  node.textContent = label;
+  return node;
+}
+
+function renderCitation(c) {
+  const item = document.createElement("div");
+  item.className = "citation";
+
+  const marker = document.createElement("span");
+  marker.className = "citation__marker";
+  marker.textContent = "[" + c.n + "]";
+  item.appendChild(marker);
+
+  const body = document.createElement("div");
+  body.className = "citation__body";
+
+  const title = linkOrText(c.title || c.document_id || c.type || "source", c.url);
+  title.classList.add("citation__title");
+  body.appendChild(title);
+
+  const detail = [];
+  if (c.type) detail.push(c.type);
+  if (c.page != null) detail.push("p. " + c.page);
+  if (c.section) detail.push(c.section);
+  if (detail.length) {
+    const d = document.createElement("span");
+    d.className = "citation__detail";
+    d.textContent = detail.join(" · ");
+    body.appendChild(d);
+  }
+
+  if (Array.isArray(c.also_available) && c.also_available.length) {
+    const also = document.createElement("span");
+    also.className = "citation__also";
+    also.appendChild(document.createTextNode("also in: "));
+    c.also_available.forEach((alt, i) => {
+      also.appendChild(linkOrText(alt.title || alt.type || "source", alt.url));
+      if (i < c.also_available.length - 1) also.appendChild(document.createTextNode(", "));
+    });
+    body.appendChild(also);
+  }
+
+  item.appendChild(body);
+  return item;
 }
 
 /* ------------------------------------------------------------------ *

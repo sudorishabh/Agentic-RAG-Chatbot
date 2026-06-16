@@ -157,6 +157,50 @@ body {
 .msg__bubble--pending { color: var(--text-dim); }
 .msg__bubble--error { border-color: var(--bad); color: var(--bad); }
 
+/* Citations / sources */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+.meta__badge {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-dim);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+}
+.meta__badge--warn { color: var(--warn); border-color: var(--warn); }
+
+.citations {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+}
+.citation {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.65rem;
+}
+.citation__marker { color: var(--accent); font-weight: 600; flex-shrink: 0; }
+.citation__body { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.citation__title { color: var(--text); word-break: break-word; }
+a.citation__title { color: var(--accent); text-decoration: none; }
+a.citation__title:hover { text-decoration: underline; }
+.citation__detail, .citation__also { color: var(--text-dim); font-size: 0.78rem; }
+.citation__also a { color: var(--accent); text-decoration: none; }
+.citation__also a:hover { text-decoration: underline; }
+
 /* Composer */
 .composer {
   display: flex;
