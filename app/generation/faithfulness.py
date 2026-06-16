@@ -64,13 +64,13 @@ class _Verdict(BaseModel):
 
 def verify(answer: str, blocks: "list[ContextBlock]") -> FaithfulnessReport:
     """LLM entailment check that the answer's claims are grounded in the blocks."""
-    from app.generation.llm_client import get_llm
+    from app.generation.llm_client import get_structured_llm
     from app.generation.prompts import format_context_blocks
 
     if not answer.strip() or not blocks:
         return FaithfulnessReport(faithful=True)
     try:
-        model = get_llm(temperature=0).with_structured_output(_Verdict)
+        model = get_structured_llm().with_structured_output(_Verdict)
         verdict: _Verdict = model.invoke(
             [
                 (

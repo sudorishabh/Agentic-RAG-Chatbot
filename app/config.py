@@ -18,6 +18,12 @@ class Settings(BaseSettings):
     azure_openai_reasoning_endpoint: str = ""
     azure_openai_reasoning_api_version: str = "2024-06-01"
     azure_openai_reasoning_model: str = ""
+    # Temperature for structured/deterministic LLM calls (query understanding,
+    # intent routing, LLM rerank, faithfulness). None omits the parameter, which
+    # is required for reasoning models (gpt-5 / o-series) that reject any value
+    # other than the default. Set to 0.0 for classic chat models to make these
+    # extraction calls deterministic.
+    llm_structured_temperature: float | None = None
     # Embeddings model (text-embedding-3-large) — AZURE_OPENAI_EMBEDDING_*
     azure_openai_embedding_model: str = ""
     azure_openai_embedding_key: str = ""

@@ -89,13 +89,13 @@ class _Relevance(BaseModel):
 
 def _llm_semantic(query: str, candidates: Sequence[Candidate]) -> list[float] | None:
     """Cross-encoder via the chat model: one call scoring all candidates 0..1."""
-    from app.generation.llm_client import get_llm
+    from app.generation.llm_client import get_structured_llm
 
     listing = "\n".join(
         f"[{i}] {c.text[:_LLM_SNIPPET_CHARS]}" for i, c in enumerate(candidates)
     )
     try:
-        model = get_llm(temperature=0).with_structured_output(_Relevance)
+        model = get_structured_llm().with_structured_output(_Relevance)
         result: _Relevance = model.invoke(
             [
                 (

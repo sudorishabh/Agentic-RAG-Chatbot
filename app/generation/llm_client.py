@@ -35,6 +35,19 @@ def get_reasoning_llm(
     )
 
 
+def get_structured_llm(streaming: bool = False) -> AzureChatOpenAI:
+    """Chat model for structured/deterministic extraction calls (query
+    understanding, routing, rerank, faithfulness).
+
+    Uses the configured ``llm_structured_temperature``; when that is ``None`` the
+    temperature parameter is omitted entirely, which reasoning models (gpt-5 /
+    o-series) require — they reject any value other than the default.
+    """
+    return get_llm(
+        temperature=get_settings().llm_structured_temperature, streaming=streaming
+    )
+
+
 def _build_llm(
     *,
     endpoint: str,

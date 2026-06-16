@@ -62,13 +62,13 @@ class StructuredQuery(BaseModel):
 
 
 def parse_structured(question: str, history: Sequence[dict[str, str]] | None = None) -> StructuredQuery | None:
-    from app.generation.llm_client import get_llm
+    from app.generation.llm_client import get_structured_llm
 
     convo = ""
     if history:
         convo = "\n".join(f"{t.get('role')}: {t.get('content')}" for t in list(history)[-4:])
     try:
-        model = get_llm(temperature=0).with_structured_output(StructuredQuery)
+        model = get_structured_llm().with_structured_output(StructuredQuery)
         return model.invoke(
             [
                 ("system", _PARSE_SYSTEM),

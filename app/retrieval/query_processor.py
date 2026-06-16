@@ -25,7 +25,7 @@ from typing import Any, Literal, Sequence
 
 from pydantic import BaseModel, Field
 
-from app.generation.llm_client import get_llm
+from app.generation.llm_client import get_structured_llm
 
 logger = logging.getLogger(__name__)
 
@@ -98,7 +98,7 @@ def process(question: str, history: Sequence[dict[str, str]] | None = None) -> P
     """Analyze one user turn into a :class:`ProcessedQuery`. Never raises."""
     passthrough = ProcessedQuery(original=question, search_query=question, intent="qa")
     try:
-        structured = get_llm(temperature=0).with_structured_output(QueryAnalysis)
+        structured = get_structured_llm().with_structured_output(QueryAnalysis)
         analysis: QueryAnalysis = structured.invoke(
             [
                 ("system", _ANALYSIS_SYSTEM),
