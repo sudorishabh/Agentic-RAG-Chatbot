@@ -1,0 +1,193 @@
+:root {
+  --bg: #0f1117;
+  --surface: #171a23;
+  --surface-2: #1f2330;
+  --border: #2a2f3d;
+  --text: #e6e8ee;
+  --text-dim: #9aa3b2;
+  --accent: #4f8cff;
+  --accent-hover: #6a9dff;
+  --user-bubble: #2a3550;
+  --bot-bubble: #1f2330;
+  --ok: #36c275;
+  --bad: #ef5a5a;
+  --warn: #e0a23a;
+  --radius: 12px;
+  --maxw: 820px;
+  font-size: 16px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+/* Topbar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand { display: flex; align-items: center; gap: 0.5rem; }
+.brand__mark { color: var(--accent); font-size: 1.1rem; }
+.brand__title { font-size: 1.05rem; font-weight: 600; margin: 0; }
+
+.topbar__right { display: flex; align-items: center; gap: 0.75rem; }
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+.status__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--text-dim);
+}
+.status--ok .status__dot { background: var(--ok); }
+.status--bad .status__dot { background: var(--bad); }
+.status--unknown .status__dot { background: var(--warn); }
+
+.icon-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.icon-btn:hover { background: var(--surface-2); }
+
+/* Settings */
+.settings {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.settings__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+.settings__row input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.95rem;
+}
+.settings__actions { display: flex; justify-content: flex-end; }
+
+/* Messages */
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.empty {
+  margin: auto;
+  text-align: center;
+  color: var(--text-dim);
+}
+.empty__icon { font-size: 2.5rem; }
+.empty__title { font-size: 1.1rem; color: var(--text); margin: 0.5rem 0 0.25rem; }
+.empty__hint { margin: 0; font-size: 0.9rem; }
+
+.msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+}
+.msg--user { align-self: flex-end; align-items: flex-end; }
+.msg--bot { align-self: flex-start; align-items: flex-start; }
+
+.msg__bubble {
+  padding: 0.7rem 0.95rem;
+  border-radius: var(--radius);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.msg--user .msg__bubble {
+  background: var(--user-bubble);
+  border-bottom-right-radius: 4px;
+}
+.msg--bot .msg__bubble {
+  background: var(--bot-bubble);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 4px;
+}
+
+/* Composer */
+.composer {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.composer__input {
+  flex: 1;
+  resize: none;
+  max-height: 160px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+  line-height: 1.4;
+}
+.composer__input:focus { outline: none; border-color: var(--accent); }
+
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 0 1.1rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  background: var(--surface-2);
+}
+.btn--primary { background: var(--accent); }
+.btn--primary:hover { background: var(--accent-hover); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.composer__send { align-self: stretch; }

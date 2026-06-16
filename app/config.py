@@ -62,6 +62,7 @@ class Settings(BaseSettings):
     context_token_budget: int = 8000
     faithfulness_check: bool = False
     metrics_log_enabled: bool = True
+    cors_allow_origins: str = "*"
     otel_enabled: bool = False
     otel_service_name: str = "agentic-rag"
     otel_exporter_otlp_endpoint: str = ""
