@@ -1,25 +1,3 @@
-"""PDF extraction → structured Markdown for the chunker.
-
-Each PDF is routed by content type, page by page:
-
-* **Digital** pages (a real, extractable text layer) → **Docling**: layout
-  analysis, reading order, TableFormer table structure and figure crops,
-  exported as Markdown.
-* **Scanned** pages (image-only) → **Azure Document Intelligence**
-  (``prebuilt-layout``): OCR plus table structure, returned as Markdown.
-
-Tables are emitted as GitHub-flavoured Markdown and figures as captioned
-placeholders — both of which the Markdown-aware
-:mod:`app.ingestion.chunker` keeps intact (so a scanned table still lands in
-one chunk, and a figure's caption is searchable). The public entry point is
-:func:`extract_pdf`, returning an :class:`ExtractionResult` that
-``chunk_pdf`` consumes directly.
-
-Heavy/optional dependencies (``pypdfium2``, ``azure-ai-documentintelligence``,
-``docling``) are imported lazily so importing this module stays cheap and the
-core degrades gracefully when one of them is missing.
-"""
-
 from __future__ import annotations
 
 import io
@@ -46,51 +24,42 @@ __all__ = [
 ]
 
 
-# --------------------------------------------------------------------------- #
-# Data model
-# --------------------------------------------------------------------------- #
 class ExtractedVia(str, Enum):
-    """How a page's text was recovered."""
 
-    DOCLING = "docling"  # digital text layer via Docling (layout + tables + figures)
-    OCR = "ocr"  # recovered via Azure Document Intelligence OCR
-    TEXT = "text"  # plain text layer via pypdfium2 (fallback when Docling is off)
-    EMPTY = "empty"  # no text could be recovered
+    DOCLING = "docling"
+    OCR = "ocr"
+    TEXT = "text"
+    EMPTY = "empty"
 
 
 @dataclass
 class TableData:
-    """One extracted table, kept both as Markdown (for chunking/retrieval) and,
-    when available, as a structured cell grid (for downstream/metadata use)."""
 
-    markdown: str  # GitHub-flavoured pipe table: "| a | b |\n| --- | --- |\n..."
+    markdown: str
     page_number: int | None = None
     rows: int = 0
     cols: int = 0
     caption: str | None = None
-    cells: list[list[str]] | None = None  # row-major, if the source exposed it
+    cells: list[list[str]] | None = None
 
 
 @dataclass
 class ImageData:
-    """One extracted figure/picture. Image bytes are written to disk by the
-    figure step; this record carries the reference plus any caption/description."""
 
     page_number: int | None = None
-    index: int = 0  # ordinal within the document
-    path: str | None = None  # saved image file, if extracted
-    caption: str | None = None  # caption text from the document, if any
-    classification: str | None = None  # Docling picture class (chart, logo, ...)
-    description: str | None = None  # AI/VLM-generated description (searchable)
+    index: int = 0
+    path: str | None = None
+    caption: str | None = None
+    classification: str | None = None
+    description: str | None = None
     width: int | None = None
     height: int | None = None
 
 
 @dataclass
 class PageContent:
-    """One page's content as Markdown, plus its structured tables/figures."""
 
-    page_number: int  # 1-based
+    page_number: int
     text: str
     extracted_via: ExtractedVia
     tables: list[TableData] = field(default_factory=list)
@@ -99,11 +68,8 @@ class PageContent:
 
 @dataclass
 class ExtractionResult:
-    """The full result of extracting one PDF. Duck-compatible with
-    ``chunk_pdf`` (which reads ``source``, ``pages[].page_number``,
-    ``pages[].text`` and ``page_count``)."""
 
-    source: str  # original filename
+    source: str
     pages: list[PageContent]
     metadata: dict[str, Any] = field(default_factory=dict)
 
@@ -113,7 +79,6 @@ class ExtractionResult:
 
     @property
     def text(self) -> str:
-        """All page text joined in reading order."""
         return "\n\n".join(page.text for page in self.pages if page.text)
 
     @property
@@ -137,12 +102,7 @@ class ExtractionResult:
         return [p.page_number for p in self.pages if p.extracted_via is ExtractedVia.OCR]
 
 
-# --------------------------------------------------------------------------- #
-# Markdown table helpers (shared by the OCR and, later, the Docling path)
-# --------------------------------------------------------------------------- #
 def _rows_to_markdown(rows: list[list[str]]) -> str:
-    """Render a row-major cell grid as a GitHub-flavoured pipe table. The first
-    row is treated as the header (what the chunker keys on to keep it atomic)."""
     rows = [r for r in rows if any(c.strip() for c in r)]
     if not rows:
         return ""
@@ -160,10 +120,6 @@ def _rows_to_markdown(rows: list[list[str]]) -> str:
 
 
 class _HTMLTableParser(HTMLParser):
-    """Collect ``<table>`` cell text into a row-major grid. Azure's Markdown
-    output renders tables as HTML to preserve merged cells; we flatten that to a
-    pipe table the chunker understands. ``colspan`` is honoured by repeating the
-    cell so column alignment is preserved; ``rowspan`` is not back-filled."""
 
     def __init__(self) -> None:
         super().__init__()
@@ -208,8 +164,6 @@ def _html_table_to_markdown(html: str) -> str:
 
 
 def _html_tables_to_pipe(text: str) -> str:
-    """Replace any HTML ``<table>`` blocks in ``text`` with pipe tables, leaving
-    the surrounding Markdown untouched."""
     if "<table" not in text.lower():
         return text
     return _TABLE_RE.sub(
@@ -217,14 +171,7 @@ def _html_tables_to_pipe(text: str) -> str:
     )
 
 
-# --------------------------------------------------------------------------- #
-# Page classification (pypdfium2)
-# --------------------------------------------------------------------------- #
 def _classify_pages(content: bytes, scanned_char_threshold: int) -> list[bool]:
-    """Return a per-page list where ``True`` means the page is *scanned*
-    (text layer shorter than ``scanned_char_threshold`` characters → route to
-    OCR). Returns ``[]`` if pypdfium2 is unavailable, so the caller can fall
-    back to whole-document OCR."""
     try:
         import pypdfium2 as pdfium
     except Exception:
@@ -250,15 +197,7 @@ def _classify_pages(content: bytes, scanned_char_threshold: int) -> list[bool]:
     return flags
 
 
-# --------------------------------------------------------------------------- #
-# Digital path — pypdfium2 plain text (fallback for when Docling errors/is off)
-# --------------------------------------------------------------------------- #
 def _extract_digital_text(content: bytes, page_indices: list[int]) -> dict[int, PageContent]:
-    """Extract the given 0-based pages' text layer with pypdfium2.
-
-    The fallback digital extractor, used when Docling is unavailable or errors on
-    a document. Returns ``{page_number(1-based): PageContent}``.
-    """
     try:
         import pypdfium2 as pdfium
     except Exception:
@@ -283,10 +222,6 @@ def _extract_digital_text(content: bytes, page_indices: list[int]) -> dict[int, 
     return out
 
 
-# --------------------------------------------------------------------------- #
-# Digital path — Docling (primary: layout, TableFormer tables, figures)
-# --------------------------------------------------------------------------- #
-# Docling labels that are page furniture, not content — dropped for clean chunks.
 _BOILERPLATE_LABELS = {"page_header", "page_footer", "page_number"}
 
 
@@ -297,10 +232,6 @@ def _slugify(value: str) -> str:
 
 @lru_cache
 def _docling_converter():
-    """Build (once) a Docling converter tuned for digital PDFs: TableFormer table
-    structure on, Docling's own OCR off (scanned pages go to Azure DI), and
-    figure images generated so we can crop them to disk. Caching matters — the
-    constructor loads the layout/TableFormer models."""
     from docling.datamodel.base_models import InputFormat
     from docling.datamodel.pipeline_options import PdfPipelineOptions, TableFormerMode
     from docling.document_converter import DocumentConverter, PdfFormatOption
@@ -327,9 +258,6 @@ def _docling_converter():
 def _extract_with_docling(
     content: bytes, filename: str, keep_pages: set[int]
 ) -> dict[int, PageContent]:
-    """Convert a PDF with Docling and assemble per-page Markdown for the pages in
-    ``keep_pages`` (the digital ones). Raises on conversion failure so the caller
-    can fall back to the pypdfium2 text path."""
     from docling.datamodel.base_models import DocumentStream
 
     source = DocumentStream(name=filename, stream=io.BytesIO(content))
@@ -340,9 +268,6 @@ def _extract_with_docling(
 def _pages_from_docling(
     doc: Any, filename: str, keep_pages: set[int]
 ) -> dict[int, PageContent]:
-    """Walk the DoclingDocument in reading order, building per-page Markdown
-    (headings, lists, code, pipe tables, figure placeholders) and extracting
-    figure images to disk."""
     from collections import defaultdict
 
     from docling_core.types.doc import PictureItem, TableItem
@@ -410,7 +335,6 @@ def _label_value(item: Any) -> str:
 
 
 def _docling_text_line(item: Any) -> str:
-    """Render one text item as a Markdown line, by its Docling label."""
     text = (getattr(item, "text", None) or "").strip()
     if not text:
         return ""
@@ -418,7 +342,7 @@ def _docling_text_line(item: Any) -> str:
     if label in _BOILERPLATE_LABELS:
         return ""
     if label == "caption":
-        return ""  # captions are emitted next to their figure/table
+        return ""
     if label == "title":
         return f"# {text}"
     if label == "section_header":
@@ -434,7 +358,7 @@ def _docling_text_line(item: Any) -> str:
 def _docling_table(item: Any, doc: Any, page_no: int) -> TableData | None:
     try:
         markdown = item.export_to_markdown(doc)
-    except TypeError:  # older signature without the doc argument
+    except TypeError:
         markdown = item.export_to_markdown()
     except Exception:
         logger.debug("Docling table export failed on page %s", page_no, exc_info=True)
@@ -461,7 +385,6 @@ def _caption_text(item: Any, doc: Any) -> str | None:
 
 
 def _picture_class(item: Any) -> str | None:
-    """Best-effort top predicted class for a figure (chart, logo, ...)."""
     try:
         for annotation in getattr(item, "annotations", None) or []:
             classes = getattr(annotation, "predicted_classes", None) or []
@@ -498,8 +421,6 @@ _CAPTION_PROMPT = (
 
 @lru_cache
 def _vision_llm():
-    """The Azure OpenAI multimodal chat model used to caption figures, or
-    ``None`` if it isn't configured. Reuses the standard chat deployment."""
     settings = get_settings()
     if not (
         settings.azure_openai_endpoint
@@ -513,8 +434,6 @@ def _vision_llm():
 
 
 def _describe_image(image: Any) -> str | None:
-    """Caption a figure (a PIL image) with the vision model. Returns ``None`` if
-    captioning is unavailable or fails — it never raises into extraction."""
     llm = _vision_llm()
     if llm is None:
         return None
@@ -547,16 +466,12 @@ def _describe_image(image: Any) -> str | None:
 def _handle_picture(
     item: Any, doc: Any, n: int, page_no: int, image_dir: str, settings: Any
 ) -> tuple[ImageData | None, str]:
-    """Save a figure's image (if enabled/large enough), optionally caption it with
-    the vision model, and return its :class:`ImageData` plus the Markdown
-    placeholder to embed in the page."""
     caption = _caption_text(item, doc)
     classification = _picture_class(item)
     path: str | None = None
     description: str | None = None
     width = height = None
 
-    # Load the crop if we either save it or caption it.
     image = None
     if settings.pdf_extract_images or settings.pdf_describe_images:
         try:
@@ -567,7 +482,7 @@ def _handle_picture(
     if image is not None:
         width, height = image.size
         if max(width, height) < settings.pdf_image_min_pixels:
-            return None, ""  # icon / rule / bullet — ignore entirely
+            return None, ""
         if settings.pdf_extract_images:
             try:
                 os.makedirs(image_dir, exist_ok=True)
@@ -579,7 +494,6 @@ def _handle_picture(
         if settings.pdf_describe_images:
             description = _describe_image(image)
 
-    # Nothing worth keeping if there's no image, caption, class or description.
     if path is None and not caption and not classification and not description:
         return None, ""
 
@@ -603,8 +517,6 @@ def _has_content(page: PageContent | None) -> bool:
 def _extract_digital(
     content: bytes, filename: str, digital_indices: list[int]
 ) -> dict[int, PageContent]:
-    """Digital pages via Docling, falling back to pypdfium2 text for any page
-    Docling produced nothing for (or all pages if Docling failed)."""
     keep_pages = {i + 1 for i in digital_indices}
     try:
         docling_pages = _extract_with_docling(content, filename, keep_pages)
@@ -619,12 +531,8 @@ def _extract_digital(
     return out
 
 
-# --------------------------------------------------------------------------- #
-# Scanned path — Azure Document Intelligence
-# --------------------------------------------------------------------------- #
 @lru_cache
 def _di_client():
-    """Build the Document Intelligence client, or ``None`` if it isn't configured."""
     settings = get_settings()
     if not (
         settings.azure_document_intelligence_endpoint
@@ -642,7 +550,6 @@ def _di_client():
 
 
 def _page_range_str(page_numbers: list[int]) -> str:
-    """Compact a sorted page list into Azure's ``pages`` syntax, e.g. ``"1-3,5"``."""
     nums = sorted(set(page_numbers))
     parts: list[str] = []
     start = prev = nums[0]
@@ -657,7 +564,6 @@ def _page_range_str(page_numbers: list[int]) -> str:
 
 
 def _di_table_to_data(table: Any) -> TableData:
-    """Convert an Azure ``DocumentTable`` into a :class:`TableData`."""
     n_rows = int(getattr(table, "row_count", 0) or 0)
     n_cols = int(getattr(table, "column_count", 0) or 0)
     grid = [["" for _ in range(n_cols)] for _ in range(n_rows)]
@@ -682,7 +588,6 @@ def _di_table_to_data(table: Any) -> TableData:
 
 
 def _slice_page_text(content: str, page: Any) -> str:
-    """Slice a page's portion out of the full ``result.content`` using its spans."""
     parts: list[str] = []
     for span in getattr(page, "spans", None) or []:
         offset = int(getattr(span, "offset", 0) or 0)
@@ -692,7 +597,6 @@ def _slice_page_text(content: str, page: Any) -> str:
 
 
 def _pages_from_di(result: Any, requested_pages: list[int] | None) -> dict[int, PageContent]:
-    """Turn an Azure ``AnalyzeResult`` into ``{page_number: PageContent}``."""
     content = getattr(result, "content", "") or ""
     di_pages = list(getattr(result, "pages", None) or [])
 
@@ -709,7 +613,6 @@ def _pages_from_di(result: Any, requested_pages: list[int] | None) -> dict[int, 
 
         text = _slice_page_text(content, page)
         if not text and len(di_pages) == 1:
-            # Single-page analysis without spans → the whole content is this page.
             text = content
         text = _html_tables_to_pipe(text).strip()
 
@@ -722,8 +625,6 @@ def _pages_from_di(result: Any, requested_pages: list[int] | None) -> dict[int, 
 
 
 def _ocr_pdf(content: bytes, page_numbers: list[int] | None = None) -> dict[int, PageContent]:
-    """OCR the given 1-based pages (all pages if ``None``) via Azure Document
-    Intelligence. Returns ``{}`` (and logs) when DI isn't configured."""
     client = _di_client()
     if client is None:
         logger.warning(
@@ -738,8 +639,6 @@ def _ocr_pdf(content: bytes, page_numbers: list[int] | None = None) -> dict[int,
     kwargs: dict[str, Any] = {"body": AnalyzeDocumentRequest(bytes_source=content)}
     if page_numbers:
         kwargs["pages"] = _page_range_str(page_numbers)
-    # Prefer Markdown output (preserves headings/tables); harmless to skip if the
-    # installed SDK predates the option.
     try:
         from azure.ai.documentintelligence.models import DocumentContentFormat
 
@@ -759,23 +658,13 @@ def _ocr_pdf(content: bytes, page_numbers: list[int] | None = None) -> dict[int,
     return _pages_from_di(result, page_numbers)
 
 
-# --------------------------------------------------------------------------- #
-# Public API
-# --------------------------------------------------------------------------- #
 def extract_pdf(content: bytes, filename: str) -> ExtractionResult:
-    """Extract a PDF into per-page Markdown with tables and figures.
-
-    Digital pages go through Docling; image-only pages go through Azure OCR. The
-    two are merged back into page order so downstream chunking and citations keep
-    correct page numbers.
-    """
     settings = get_settings()
     scanned_flags = _classify_pages(content, settings.pdf_scanned_char_threshold)
 
     pages_map: dict[int, PageContent] = {}
 
     if not scanned_flags:
-        # Classification unavailable (no pypdfium2 / unreadable) → whole-doc OCR.
         pages_map = _ocr_pdf(content, None)
         pages = [pages_map[n] for n in sorted(pages_map)]
         result = ExtractionResult(source=filename, pages=pages)
@@ -813,10 +702,6 @@ def _log_summary(result: ExtractionResult, filename: str) -> None:
     )
 
 
-# --------------------------------------------------------------------------- #
-# CLI — quick manual inspection:
-#   python -m app.ingestion.extractors.pdf_extractor file.pdf --chunk
-# --------------------------------------------------------------------------- #
 def _main(argv: list[str] | None = None) -> int:
     import argparse
     import sys

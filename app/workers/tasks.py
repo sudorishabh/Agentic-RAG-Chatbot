@@ -1,24 +1,3 @@
-"""Background ingestion workers (§10.4).
-
-The query path stays fast; the *expensive* work (extraction, embedding,
-re-indexing) runs out-of-band here. Each task is a thin wrapper over the existing
-ingest pipeline so the worker owns scheduling/retries, not business logic:
-
-* :func:`sweep`          — the periodic job: incremental scan of both sources
-                           (local PDFs + Drupal JSON:API), the change-detected
-                           backbone of the manifest.
-* :func:`ingest_pdfs` / :func:`ingest_drupal` — explicit per-source triggers.
-* :func:`ingest_upload` — embed one uploaded file off the request thread.
-* :func:`reindex_document` — purge a document's points + manifest row so the next
-                           sweep re-ingests it fresh.
-
-**Celery is optional.** With it installed, these are real tasks (``.delay()`` /
-beat schedule from settings); without it, the very same names are plain callables
-that run synchronously — so imports never fail and a single-process deployment
-still works. Run ``python -m app.workers.tasks sweep`` to fire the sweep without a
-broker.
-"""
-
 from __future__ import annotations
 
 import base64
@@ -30,7 +9,7 @@ from app.config import get_settings
 
 logger = logging.getLogger(__name__)
 
-try:  # Celery is an optional dependency (see requirements.txt).
+try:
     from celery import Celery
 
     _HAS_CELERY = True
@@ -65,8 +44,6 @@ celery_app = _build_celery()
 
 
 def _task(name: str) -> Callable[[Callable], Callable]:
-    """Register a Celery task when a broker is available, else leave the plain
-    callable untouched so it can be invoked synchronously."""
 
     def decorator(fn: Callable) -> Callable:
         if celery_app is not None:
@@ -77,19 +54,14 @@ def _task(name: str) -> Callable[[Callable], Callable]:
 
 
 def _bump_cache_if_changed(tally: Counter) -> None:
-    """Invalidate cached answers when a run actually wrote to the index (§10.3)."""
     if tally.get("indexed") or tally.get("deleted"):
         from app.cache.redis_cache import bump_corpus_version
 
         bump_corpus_version()
 
 
-# --------------------------------------------------------------------------- #
-# Tasks
-# --------------------------------------------------------------------------- #
 @_task("app.workers.tasks.ingest_pdfs")
 def ingest_pdfs(dirs: list[str] | None = None) -> dict[str, int]:
-    """Incrementally ingest changed PDFs from the configured (or given) dirs."""
     from pathlib import Path
 
     from app.ingestion.pipeline import ingest_pdfs as run
@@ -102,7 +74,6 @@ def ingest_pdfs(dirs: list[str] | None = None) -> dict[str, int]:
 
 @_task("app.workers.tasks.ingest_drupal")
 def ingest_drupal(bundles: list[str] | None = None, reconcile: bool = False) -> dict[str, int]:
-    """Incrementally ingest changed Drupal nodes (optionally reconciling deletes)."""
     from app.ingestion.pipeline import ingest_drupal as run
 
     tally = run(bundles or None, reconcile_deletes=reconcile)
@@ -112,7 +83,6 @@ def ingest_drupal(bundles: list[str] | None = None, reconcile: bool = False) -> 
 
 @_task("app.workers.tasks.sweep")
 def sweep() -> dict[str, dict[str, int]]:
-    """The periodic job: incremental ingest of both sources in one pass."""
     settings = get_settings()
     pdfs = ingest_pdfs()
     drupal = ingest_drupal(reconcile=settings.worker_sweep_reconcile)
@@ -123,7 +93,6 @@ def sweep() -> dict[str, dict[str, int]]:
 
 @_task("app.workers.tasks.ingest_upload")
 def ingest_upload(filename: str, content_b64: str) -> dict[str, Any]:
-    """Embed one uploaded file (content base64-encoded for broker serialization)."""
     from app.ingestion.upload import ingest_upload as run
 
     document_id, points = run(filename, base64.b64decode(content_b64))
@@ -132,7 +101,6 @@ def ingest_upload(filename: str, content_b64: str) -> dict[str, Any]:
 
 @_task("app.workers.tasks.reindex_document")
 def reindex_document(document_id: str, source_type: str = "article") -> dict[str, Any]:
-    """Forget a document (purge points + manifest) so the next sweep re-ingests it."""
     from app.deps import delete_document
     from app.ingestion import state
     from app.cache.redis_cache import bump_corpus_version
@@ -144,12 +112,6 @@ def reindex_document(document_id: str, source_type: str = "article") -> dict[str
     return {"document_id": document_id, "manifest_rows_removed": removed}
 
 
-# --------------------------------------------------------------------------- #
-# CLI — run a task synchronously without a broker:
-#   python -m app.workers.tasks sweep
-#   python -m app.workers.tasks pdfs
-#   python -m app.workers.tasks drupal --reconcile
-# --------------------------------------------------------------------------- #
 def _main(argv: list[str] | None = None) -> int:
     import argparse
 

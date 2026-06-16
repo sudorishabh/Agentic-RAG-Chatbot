@@ -1,22 +1,3 @@
-"""Local test: extract a PDF and (optionally) chunk it.
-
-Run it:
-
-    python -m app.local_tests.test_pdf_extraction path/to/file.pdf
-    # or drop PDFs in ./pdf_examples and just run:
-    python -m app.local_tests.test_pdf_extraction
-
-Runs the real extractor (Docling for digital pages, Azure OCR for scanned ones),
-then writes a report to ``outputs/pdf_extraction_result.txt`` covering: page
-count, how each page's text was recovered, a text preview, tables, and figures
-(caption / classification / AI description). It then runs ``chunk_pdf`` so you
-can see how extraction feeds chunking end-to-end.
-
-Note: extraction pulls heavy/optional deps (docling, pypdfium2, azure-*). If one
-is missing or Azure isn't configured, the report records the error instead of
-crashing.
-"""
-
 from __future__ import annotations
 
 import sys
@@ -58,7 +39,7 @@ def main(argv: list[str] | None = None) -> None:
         from app.ingestion.extractors.pdf_extractor import extract_pdf
 
         result = extract_pdf(pdf_path.read_bytes(), pdf_path.name)
-    except Exception as exc:  # missing dep / Azure not configured / parse error
+    except Exception as exc:
         rep.line()
         rep.line(f"Extraction failed: {type(exc).__name__}: {exc}")
         rep.line("(This usually means an optional dependency or Azure config is missing.)")
@@ -71,10 +52,6 @@ def main(argv: list[str] | None = None) -> None:
     rep.kv("ocr pages", result.ocr_page_numbers)
     rep.line()
 
-    # How routing worked, page by page: digital pages (a real text layer) go to
-    # Docling; image-only/scanned pages are rasterised and sent to Azure OCR.
-    # ``ocr pages`` above lists the scanned ones; ``via=`` on each page shows the
-    # route taken (docling / ocr / text / empty).
     via_counts: dict[str, int] = {}
     for page in result.pages:
         via_counts[page.extracted_via.value] = via_counts.get(page.extracted_via.value, 0) + 1
@@ -100,7 +77,6 @@ def main(argv: list[str] | None = None) -> None:
                 rep.line(f"     description: {img.description[:200]}")
         rep.line()
 
-    # End-to-end: extraction → chunking.
     from app.ingestion.chunker import chunk_pdf
 
     chunks = chunk_pdf(result)

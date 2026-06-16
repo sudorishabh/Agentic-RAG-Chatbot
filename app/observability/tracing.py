@@ -1,21 +1,3 @@
-"""Observability — tracing, per-stage latency, and RAG quality metrics (§10.4).
-
-Three layers, each degrading to nothing when its backend is absent so the
-pipeline never depends on them:
-
-* **Timing spans** (always) — :func:`span` times a stage and logs its duration;
-  nest them to get the rewrite / search / rerank / generate breakdown (§10.4).
-* **RAG quality metrics** (always) — :func:`record_query_metrics` logs one
-  structured line per query: intent, chunks used, whether it was answered or a
-  refusal, whether a citation/conflict was present, latency, cache hit.
-* **OpenTelemetry + Langfuse** (optional) — when ``otel_enabled`` /
-  ``langfuse_enabled`` and the libraries are installed, spans/metrics are also
-  exported there. :func:`init_observability` wires them up at app startup.
-
-Everything is wrapped in ``try/except`` and guarded by settings, so a missing
-package or bad endpoint can never break a request.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -33,7 +15,6 @@ _initialized = False
 
 
 class Span:
-    """A lightweight timing span; set attributes on it during the block."""
 
     def __init__(self, name: str, attrs: dict[str, Any]):
         self.name = name
@@ -50,8 +31,6 @@ class Span:
 
 @contextmanager
 def span(name: str, **attrs: Any) -> Iterator[Span]:
-    """Time a pipeline stage; logs ``name`` + duration, and emits an OTel span when
-    tracing is enabled."""
     s = Span(name, dict(attrs))
     otel_cm = None
     otel_span = None
@@ -75,7 +54,6 @@ def span(name: str, **attrs: Any) -> Iterator[Span]:
 
 
 def record_query_metrics(*, latency_ms: float | None = None, **metrics: Any) -> None:
-    """Emit the per-query RAG quality metrics (§10.4)."""
     settings = get_settings()
     if latency_ms is not None:
         metrics["latency_ms"] = round(latency_ms, 1)
@@ -93,10 +71,6 @@ def record_query_metrics(*, latency_ms: float | None = None, **metrics: Any) -> 
 
 
 def record_feedback(feedback: dict[str, Any]) -> None:
-    """Persist a thumbs up/down + clicked-citation signal (§10.4 feedback loop).
-
-    Always logs; also appends to a capped Redis list when Redis is configured, so
-    the signals can be drained into a labeled eval set later (§10.5)."""
     logger.info("rag_feedback %s", feedback)
     try:
         import json
@@ -112,13 +86,9 @@ def record_feedback(feedback: dict[str, Any]) -> None:
 
 
 def get_langfuse() -> Any | None:
-    """The Langfuse client if tracing LLM calls there, else ``None``."""
     return _langfuse
 
 
-# --------------------------------------------------------------------------- #
-# Initialization (called once at app startup)
-# --------------------------------------------------------------------------- #
 def _init_otel(settings: Any) -> None:
     global _otel_tracer
     try:
@@ -159,7 +129,6 @@ def _init_langfuse() -> None:
 
 
 def init_observability(app: Any | None = None) -> None:
-    """Set up optional tracing backends and instrument FastAPI. Idempotent."""
     global _initialized
     if _initialized:
         return

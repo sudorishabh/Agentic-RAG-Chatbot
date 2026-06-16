@@ -1,28 +1,3 @@
-"""Ingestion manifest — the persistent record of what has already been ingested.
-
-Change detection (:mod:`app.ingestion.change_detection`) needs to remember, across
-runs, what each source looked like last time so it can answer NEW / CHANGED /
-UNCHANGED / DELETED without re-extracting everything. That memory lives in a
-single MySQL table (reusing the shared pooled connection from
-:mod:`app.deps`):
-
-================  ============================================================
-``document_id``   canonical id (PDF: path slug; Drupal: node uuid) — primary key
-``source_type``   ``"pdf"`` | ``"article"`` (matches CanonicalDocument.source_type)
-``source_key``    where it came from (absolute PDF path / Drupal node url or uuid)
-``bundle``        Drupal node bundle (NULL for PDFs) — scopes the high-water mark
-``fingerprint``   cheap pre-extraction signal: PDF raw-bytes SHA-256, or the
-                  Drupal ``changed`` timestamp
-``content_hash``  CanonicalDocument.content_hash — the exact post-extraction signal
-``doc_version``   bumped each time content actually changes
-``changed_mark``  Drupal ``changed`` as a unix int, for the incremental high-water
-``indexed_at``    when this version was last written to Qdrant
-``updated_at``    when this row was last touched
-================  ============================================================
-
-Everything here is plain SQL over the shared connection; no ORM.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -38,7 +13,6 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class StateRecord:
-    """One manifest row — the last-known state of a single document."""
 
     document_id: str
     source_type: str
@@ -56,9 +30,6 @@ def _now() -> datetime:
 
 
 def _table() -> str:
-    # The table name comes from settings, not user input; still constrain it to a
-    # safe identifier so it can be interpolated into DDL/DML (params can't name a
-    # table). Falls back to the default on anything unexpected.
     name = get_settings().ingest_state_table
     return name if name.replace("_", "").isalnum() else "ingest_state"
 
@@ -83,7 +54,6 @@ CREATE TABLE IF NOT EXISTS `{table}` (
 
 
 def ensure_table() -> None:
-    """Create the manifest table if it does not yet exist (idempotent)."""
     table = _table()
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(_DDL.format(table=table))
@@ -106,12 +76,6 @@ def _row_to_record(row: dict) -> StateRecord:
 
 
 def load(source_type: str) -> dict[str, StateRecord]:
-    """All manifest rows for a source type, keyed by ``document_id``.
-
-    Change detection loads the whole manifest for a source once per run, then
-    classifies discovered items against it in memory — one query instead of one
-    per document.
-    """
     table = _table()
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(
@@ -131,8 +95,6 @@ def get(document_id: str) -> StateRecord | None:
 
 
 def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
-    """Insert or update one manifest row. ``mark_indexed`` stamps ``indexed_at``
-    (set it ``False`` when only refreshing a fingerprint on unchanged content)."""
     table = _table()
     now = _now()
     indexed_at = now if mark_indexed else None
@@ -171,8 +133,6 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
 
 
 def delete(document_ids: Iterable[str]) -> int:
-    """Remove manifest rows for the given documents (e.g. after a source delete).
-    Returns the number of rows removed."""
     ids = [d for d in document_ids if d]
     if not ids:
         return 0
@@ -187,11 +147,6 @@ def delete(document_ids: Iterable[str]) -> int:
 
 
 def high_water(source_type: str, bundle: str | None = None) -> int | None:
-    """Greatest ``changed_mark`` seen for a source (optionally one Drupal bundle).
-
-    This seeds the next incremental Drupal crawl's ``changed_since`` so we only
-    fetch nodes modified after the newest one we already have.
-    """
     table = _table()
     sql = f"SELECT MAX(changed_mark) AS hw FROM `{table}` WHERE source_type = %s"
     params: tuple = (source_type,)
@@ -205,8 +160,6 @@ def high_water(source_type: str, bundle: str | None = None) -> int | None:
 
 
 def keys(source_type: str, bundle: str | None = None) -> set[str]:
-    """All known ``document_id``s for a source — used by the reconcile pass to
-    diff what we have against what the source still exposes."""
     table = _table()
     sql = f"SELECT document_id FROM `{table}` WHERE source_type = %s"
     params: tuple = (source_type,)
@@ -219,6 +172,5 @@ def keys(source_type: str, bundle: str | None = None) -> set[str]:
 
 
 def iter_records(source_type: str) -> Iterator[StateRecord]:
-    """Stream every manifest row for a source type."""
     for record in load(source_type).values():
         yield record

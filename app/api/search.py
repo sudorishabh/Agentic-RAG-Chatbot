@@ -1,10 +1,3 @@
-"""Raw retrieval endpoint — ``POST /search`` (debugging / evaluation, §10.5).
-
-Runs query understanding + hybrid search + rerank + context selection and returns
-the selected blocks **without** generation, so you can inspect what the LLM would
-have seen and measure retrieval quality (Recall@K / nDCG) against a golden set.
-"""
-
 from __future__ import annotations
 
 from fastapi import APIRouter

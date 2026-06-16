@@ -1,20 +1,3 @@
-"""Redis-backed caches for the query hot path (§10.3).
-
-Four caches, each a big latency/cost win for repeat traffic and each a no-op when
-Redis isn't configured (``get_redis() -> None``) so the pipeline runs unchanged
-without it:
-
-* **Embedding cache** — embeddings keyed by ``sha256(model + text)``; repeated
-  queries (and re-embedding unchanged chunks) skip the model.
-* **Response cache** — exact (query, scope) → the full answer **with citations**,
-  so cached responses stay sourced.
-* **Semantic query cache** — embed the query, return a past answer whose query is
-  within ``semantic_cache_threshold`` cosine (FAQ-style traffic).
-
-All keys are namespaced by a **corpus version** so an ingest can invalidate every
-cached answer at once (``bump_corpus_version``) when documents change.
-"""
-
 from __future__ import annotations
 
 import hashlib
@@ -56,7 +39,6 @@ def corpus_version() -> str:
 
 
 def bump_corpus_version() -> None:
-    """Invalidate all response / semantic caches (call after an ingest writes)."""
     client = _client()
     if client is None:
         return
@@ -88,9 +70,6 @@ def _set_json(key: str, value: Any, ttl: int) -> None:
         logger.warning("Cache write failed for %s", key, exc_info=True)
 
 
-# --------------------------------------------------------------------------- #
-# Embedding cache
-# --------------------------------------------------------------------------- #
 def get_embedding(text: str) -> list[float] | None:
     settings = get_settings()
     if not settings.embedding_cache_enabled:
@@ -107,9 +86,6 @@ def set_embedding(text: str, vector: Sequence[float]) -> None:
     _set_json(key, list(vector), settings.embedding_cache_ttl)
 
 
-# --------------------------------------------------------------------------- #
-# Response cache (exact)
-# --------------------------------------------------------------------------- #
 def response_signature(
     question: str, *, tenant_id: str, user_groups: Sequence[str], top_k: int
 ) -> str:
@@ -130,9 +106,6 @@ def set_response(signature: str, payload: dict[str, Any]) -> None:
     _set_json(f"{_NS}:resp:{signature}", payload, settings.response_cache_ttl)
 
 
-# --------------------------------------------------------------------------- #
-# Semantic query cache
-# --------------------------------------------------------------------------- #
 def _cosine(a: Sequence[float], b: Sequence[float]) -> float:
     if not a or not b or len(a) != len(b):
         return 0.0

@@ -1,5 +1,3 @@
-"""Pydantic request/response models for the public API surface."""
-
 from app.schemas.ingest import (
     ArticleIngestRequest,
     ArticleIngestResponse,

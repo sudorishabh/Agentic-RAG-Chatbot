@@ -1,22 +1,3 @@
-"""Query understanding (step 1, §6.1).
-
-Cheap, on-the-hot-path preprocessing of the raw user turn before retrieval:
-
-* **Rewrite** — resolve pronouns / ellipsis against the chat history ("what about
-  *it*?" → a standalone search query).
-* **Intent routing** — classify the turn as:
-    - ``qa``        → semantic Q&A, run the full RAG pipeline;
-    - ``structured``→ exact lookup / aggregate, route to the Drupal JSON:API
-                      router (§7) instead of vector search;
-    - ``chitchat``  → greeting / meta, answer directly, skip retrieval.
-* **Filter extraction** — pull only *obvious, controlled-vocabulary* facets
-  (source type, language) into hard filters. The doc is explicit: be conservative,
-  over-filtering kills recall — so free-text categories/tags are left out.
-
-One structured LLM call does all of it; on any failure we fall back to a safe
-passthrough (treat as ``qa``, search the verbatim question, no filters).
-"""
-
 from __future__ import annotations
 
 import logging
@@ -63,7 +44,6 @@ class ProcessedQuery:
     intent: Intent = "qa"
     source_type: str | None = None
     language: str | None = None
-    # Qdrant FieldConditions derived from the extracted facets (§5.4).
     filters: list[Any] = field(default_factory=list)
 
     @property
@@ -79,7 +59,6 @@ def _format_history(history: Sequence[dict[str, str]] | None, max_turns: int = 6
 
 
 def _facet_filters(analysis: QueryAnalysis) -> list[Any]:
-    """Map the conservative extracted facets to Qdrant conditions (keyword fields)."""
     from qdrant_client.models import FieldCondition, MatchValue
 
     conditions: list[Any] = []
@@ -95,7 +74,6 @@ def _facet_filters(analysis: QueryAnalysis) -> list[Any]:
 
 
 def process(question: str, history: Sequence[dict[str, str]] | None = None) -> ProcessedQuery:
-    """Analyze one user turn into a :class:`ProcessedQuery`. Never raises."""
     passthrough = ProcessedQuery(original=question, search_query=question, intent="qa")
     try:
         structured = get_structured_llm().with_structured_output(QueryAnalysis)

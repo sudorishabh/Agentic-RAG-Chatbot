@@ -1,5 +1,3 @@
-"""Ingest API models."""
-
 from __future__ import annotations
 
 from pydantic import BaseModel, Field
@@ -12,8 +10,6 @@ class IngestResponse(BaseModel):
 
 
 class ArticleIngestRequest(BaseModel):
-    """Ingest website content. Either pass an inline article (title + body + url),
-    or set ``bundles`` to crawl those live Drupal bundles incrementally."""
 
     title: str | None = None
     body: str | None = None
@@ -24,15 +20,12 @@ class ArticleIngestRequest(BaseModel):
 
 
 class ArticleIngestResponse(BaseModel):
-    # Inline-article path.
     document_id: str | None = None
     chunks_ingested: int | None = None
-    # Crawl path.
     crawled: dict[str, int] | None = None
 
 
 class ReindexRequest(BaseModel):
-    """Reset one document (purge + re-ingest next sweep), or run a full sweep."""
 
     document_id: str | None = None
     source_type: str = "article"

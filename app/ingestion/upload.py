@@ -1,16 +1,3 @@
-"""Ad-hoc ingestion of an uploaded file (the ``POST /ingest`` path).
-
-The folder-scan / Drupal crawl paths (:mod:`app.ingestion.pipeline`) are the
-bulk, change-detected sources. This module handles the one-off case: a user
-uploads a single file through the API and wants it embedded *now*. It funnels
-through the same canonical → chunk → index pipeline (so the chunking, payload,
-and idempotent point ids are identical to a crawl), just without the manifest /
-change-detection bookkeeping.
-
-PDFs go through the real extractor (Docling + OCR + figure captioning); other
-files are treated as a single plain-text document.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -40,7 +27,7 @@ def _text_document(filename: str, content: bytes) -> CanonicalDocument:
     text = content.decode("utf-8", errors="ignore")
     doc = CanonicalDocument(
         document_id=_slugify(Path(filename).stem),
-        source_type="pdf",  # unpaginated text; reuse the doc-style chunking preset
+        source_type="pdf",
         title=filename,
         sections=[CanonicalSection(text=text, order=0)],
         pdf_path=filename,
@@ -50,11 +37,6 @@ def _text_document(filename: str, content: bytes) -> CanonicalDocument:
 
 
 def ingest_upload(filename: str, content: bytes) -> tuple[str, int]:
-    """Extract, chunk, and index one uploaded file.
-
-    Returns ``(document_id, points_indexed)`` where ``points_indexed`` counts the
-    parent + child points upserted into Qdrant.
-    """
     if Path(filename).suffix.lower() == ".pdf":
         doc = _pdf_document(filename, content)
     else:
@@ -70,7 +52,6 @@ def ingest_article(
     uuid: str | None = None,
     bundle: str = "article",
 ) -> tuple[str, int]:
-    """Index one inline website article (the same canonical path a crawl uses)."""
     from app.ingestion.canonical import from_drupal_export
 
     item = {
@@ -86,7 +67,6 @@ def ingest_article(
 
 def _index(doc: CanonicalDocument, *, label: str) -> tuple[str, int]:
     points = index_canonical(doc)
-    # New content invalidates cached answers (§10.3).
     from app.cache.redis_cache import bump_corpus_version
 
     bump_corpus_version()

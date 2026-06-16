@@ -7,7 +7,6 @@ from app.config import get_settings
 
 @lru_cache
 def get_llm(temperature: float | None = None, streaming: bool = False) -> AzureChatOpenAI:
-    """Standard chat model"""
     settings = get_settings()
     return _build_llm(
         endpoint=settings.azure_openai_endpoint,
@@ -23,7 +22,6 @@ def get_llm(temperature: float | None = None, streaming: bool = False) -> AzureC
 def get_reasoning_llm(
     temperature: float | None = None, streaming: bool = False
 ) -> AzureChatOpenAI:
-    """Reasoning chat model"""
     settings = get_settings()
     return _build_llm(
         endpoint=settings.azure_openai_reasoning_endpoint,
@@ -36,13 +34,6 @@ def get_reasoning_llm(
 
 
 def get_structured_llm(streaming: bool = False) -> AzureChatOpenAI:
-    """Chat model for structured/deterministic extraction calls (query
-    understanding, routing, rerank, faithfulness).
-
-    Uses the configured ``llm_structured_temperature``; when that is ``None`` the
-    temperature parameter is omitted entirely, which reasoning models (gpt-5 /
-    o-series) require — they reject any value other than the default.
-    """
     return get_llm(
         temperature=get_settings().llm_structured_temperature, streaming=streaming
     )

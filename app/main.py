@@ -11,7 +11,6 @@ settings = get_settings()
 
 app = FastAPI(title="Agentic RAG Chatbot", version="0.1.0")
 
-# Optional tracing + RAG-quality metrics (no-op unless configured, §10.4).
 init_observability(app)
 
 app.include_router(health_router)

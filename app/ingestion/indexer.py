@@ -1,22 +1,3 @@
-"""Index canonical chunks into Qdrant.
-
-The last hop of the ingestion pipeline (§3.2 / §3.7): take the parent + child
-:class:`~app.ingestion.chunker.Chunk`s produced from a
-:class:`~app.core.models.CanonicalDocument` and upsert them as Qdrant points.
-
-* **Child** chunks are embedded (dense vector) — these are what search matches.
-* **Parent** chunks are stored with a zero vector and ``is_parent=true`` — never
-  searched, only fetched by id to feed the LLM ("search small, read big").
-
-Both share the canonical payload from ``Chunk.to_payload()``; this module adds
-the ``created_at`` / ``updated_at`` write-time timestamps. Point ids are the
-deterministic chunk UUIDs, so re-indexing identical content overwrites in place
-(idempotent).
-
-Heavy clients (Qdrant, Azure embeddings) are reached lazily through
-``app.deps`` / ``app.ingestion.embedder`` so importing this module stays cheap.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -34,7 +15,6 @@ def _now_iso() -> str:
 
 
 def _embed_children(texts: Sequence[str], batch_size: int) -> list[list[float]]:
-    """Embed child texts in batches with the configured Azure embedding model."""
     from app.ingestion.embedder import get_embeddings
 
     embeddings = get_embeddings()
@@ -52,9 +32,6 @@ def _build_points(
     *,
     stamp: bool = True,
 ) -> list[Any]:
-    """Turn chunks into Qdrant points. Parents get a zero vector (never
-    searched); children carry their dense embedding. Kept import-light and pure
-    so it is unit-testable without a live Qdrant."""
     from qdrant_client.models import PointStruct
 
     timestamp = _now_iso()
@@ -71,8 +48,6 @@ def _build_points(
 
 
 def index_chunks(chunks: Sequence[Chunk], *, batch_size: int = 128, stamp: bool = True) -> int:
-    """Embed child chunks and upsert all chunks (parents + children) into the
-    configured Qdrant collection. Returns the number of points upserted."""
     chunks = list(chunks)
     if not chunks:
         return 0
@@ -104,23 +79,16 @@ def index_chunks(chunks: Sequence[Chunk], *, batch_size: int = 128, stamp: bool 
 
 
 def _probe_dim() -> int:
-    """Embedding dimension, for sizing the parents' zero vector when a document
-    has no child chunks to embed."""
     from app.ingestion.embedder import get_embeddings
 
     return len(get_embeddings().embed_query("dimension probe"))
 
 
-# --------------------------------------------------------------------------- #
-# Convenience: source → chunk → index in one call
-# --------------------------------------------------------------------------- #
 def index_canonical(doc: CanonicalDocument, **chunk_kwargs: Any) -> int:
-    """Chunk a canonical document and index the result."""
     return index_chunks(chunk_canonical(doc, **chunk_kwargs))
 
 
 def index_documents(docs: Iterable[CanonicalDocument], **chunk_kwargs: Any) -> int:
-    """Chunk and index a stream of canonical documents; returns total points."""
     total = 0
     for doc in docs:
         try:
@@ -130,12 +98,6 @@ def index_documents(docs: Iterable[CanonicalDocument], **chunk_kwargs: Any) -> i
     return total
 
 
-# --------------------------------------------------------------------------- #
-# CLI — ingest both sources into Qdrant:
-#   python -m app.ingestion.indexer --drupal-json rpapers.json
-#   python -m app.ingestion.indexer --pdf report.pdf
-#   python -m app.ingestion.indexer --bundle news --bundle research_papers
-# --------------------------------------------------------------------------- #
 def _main(argv: list[str] | None = None) -> int:
     import argparse
     import json

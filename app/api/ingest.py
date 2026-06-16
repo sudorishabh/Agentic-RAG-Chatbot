@@ -1,16 +1,3 @@
-"""Ingestion endpoints.
-
-* ``POST /ingest/pdf``     — upload a PDF; extracted, chunked, and indexed via the
-                            real pipeline (Docling + OCR + figure captioning).
-* ``POST /ingest/article``— index an inline website article, or crawl live Drupal
-                            bundles incrementally (``bundles``).
-* ``POST /reindex``       — reset one document so the next sweep re-ingests it, or
-                            trigger a full incremental sweep of both sources.
-
-PDF/article ingest runs on a threadpool (it embeds); a full sweep is delegated to
-the worker layer (which itself runs inline when no broker is configured).
-"""
-
 from __future__ import annotations
 
 from fastapi import APIRouter, HTTPException, UploadFile

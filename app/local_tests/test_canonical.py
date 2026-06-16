@@ -1,16 +1,3 @@
-"""Local test: normalize source data into CanonicalDocuments.
-
-Run it:
-
-    python -m app.local_tests.test_canonical
-    # or: python app/local_tests/test_canonical.py
-
-Reads ``samples/sample_article.json`` (a Drupal ``--json`` style dump), runs the
-canonical normalizer on each record, and writes a readable report to
-``outputs/canonical_result.txt`` so you can confirm titles, authors, tags,
-categories, and the citation URL are mapped correctly.
-"""
-
 from __future__ import annotations
 
 import json

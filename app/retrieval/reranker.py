@@ -1,28 +1,3 @@
-"""Reranking & relevance scoring (step 4, §6.3 + §9.4).
-
-First-stage hybrid search has imperfect precision, so we pull wide (K≈40) then
-re-score and narrow. The score that comes out drives both ordering and the
-**hallucination guard**: if nothing clears ``rerank_score_threshold`` the pipeline
-refuses rather than answering from weak context (§6.3 / §10.6).
-
-The final score blends, with semantic relevance dominant (§9.4):
-
-    score = semantic·(1 − wr − wa) + recency·wr + authority·wa
-
-Providers compute the *semantic* term differently:
-
-* ``embedding`` (default) — reuse the dense cosine from retrieval. That similarity
-  already comes from text-embedding-3-large, so no second model is needed; it is
-  a bi-encoder, so treat the threshold/recency/authority blend (not a fresh
-  re-score) as where this stage adds value.
-* ``llm`` — a true cross-encoder: the chat model reads (query, chunk) together and
-  rates relevance 0–1. Higher quality, more latency/cost.
-* ``cross_encoder`` / ``cohere`` — external rerankers, used only if the library is
-  installed / key configured.
-
-Any provider failure degrades to the dense score, so reranking never breaks a query.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -36,15 +11,12 @@ from app.retrieval.hybrid_search import Candidate
 
 logger = logging.getLogger(__name__)
 
-# Default authority by source type (§9.3.2): the official PDF outranks the web
-# article. Overridable per-chunk via a ``source_authority`` payload float.
 _AUTHORITY = {"pdf": 1.0, "report": 0.95, "policy": 0.95, "article": 0.65}
 _MAX_LLM_CANDIDATES = 40
 _LLM_SNIPPET_CHARS = 600
 
 
 def _normalize(values: Sequence[float]) -> list[float]:
-    """Min-max scale to [0, 1]; flat input → all 0.5 (no signal)."""
     if not values:
         return []
     lo, hi = min(values), max(values)
@@ -54,7 +26,6 @@ def _normalize(values: Sequence[float]) -> list[float]:
 
 
 def _recency_scores(candidates: Sequence[Candidate]) -> list[float]:
-    """Newer `published_at` → closer to 1; missing dates → neutral 0.5."""
     epochs: list[float | None] = []
     for c in candidates:
         raw = c.payload.get("published_at")
@@ -80,15 +51,11 @@ def _authority_score(payload: dict) -> float:
     return _AUTHORITY.get(payload.get("source_type", ""), 0.5)
 
 
-# --------------------------------------------------------------------------- #
-# Semantic-score providers
-# --------------------------------------------------------------------------- #
 class _Relevance(BaseModel):
     scores: list[float] = Field(description="Relevance 0..1 per candidate, in order.")
 
 
 def _llm_semantic(query: str, candidates: Sequence[Candidate]) -> list[float] | None:
-    """Cross-encoder via the chat model: one call scoring all candidates 0..1."""
     from app.generation.llm_client import get_structured_llm
 
     listing = "\n".join(
@@ -163,7 +130,6 @@ def _cohere_semantic(query: str, candidates: Sequence[Candidate]) -> list[float]
 
 
 def _semantic_scores(query: str, candidates: Sequence[Candidate], provider: str) -> list[float]:
-    """Per-provider semantic relevance, falling back to the dense score on failure."""
     dense = [c.score for c in candidates]
     if provider == "llm" and len(candidates) <= _MAX_LLM_CANDIDATES:
         return _llm_semantic(query, candidates) or dense
@@ -171,25 +137,15 @@ def _semantic_scores(query: str, candidates: Sequence[Candidate], provider: str)
         return _cross_encoder_semantic(query, candidates) or dense
     if provider == "cohere":
         return _cohere_semantic(query, candidates) or dense
-    # "embedding" / "none" / unknown → the retrieval cosine (text-embedding-3-large).
     return dense
 
 
-# --------------------------------------------------------------------------- #
-# Public API
-# --------------------------------------------------------------------------- #
 def rerank(
     query: str,
     candidates: Sequence[Candidate],
     *,
     top_n: int | None = None,
 ) -> list[Candidate]:
-    """Re-score, threshold, and reorder candidates (best first).
-
-    Returns the surviving candidates with their ``score`` replaced by the blended
-    relevance. Candidates below ``rerank_score_threshold`` (on the semantic term)
-    are dropped — the refusal guard. ``top_n`` optionally truncates the result.
-    """
     candidates = list(candidates)
     if not candidates:
         return []

@@ -1,17 +1,3 @@
-"""Post-generation faithfulness verification (§10.6.4) + marker hygiene (§8.5).
-
-Two guards applied after generation:
-
-1. **Marker validation** (always, free) — strip any ``[n]`` marker the LLM emitted
-   that does not map to a real context block, so a citation marker never dangles.
-2. **Faithfulness check** (optional, ``faithfulness_check``) — a cheap LLM/NLI pass
-   that confirms every claim is entailed by the cited context; surfaces the
-   unsupported claims so the orchestrator can regenerate once before answering.
-
-This module only *judges*; regeneration is driven by the orchestrator so this
-stays free of a dependency on the generation flow.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -34,7 +20,6 @@ def extract_markers(text: str) -> set[int]:
 
 
 def validate_markers(answer: str, n_blocks: int) -> str:
-    """Drop citation markers that point past the real blocks (§8.5)."""
 
     def _keep(match: re.Match) -> str:
         n = int(match.group(1))
@@ -63,7 +48,6 @@ class _Verdict(BaseModel):
 
 
 def verify(answer: str, blocks: "list[ContextBlock]") -> FaithfulnessReport:
-    """LLM entailment check that the answer's claims are grounded in the blocks."""
     from app.generation.llm_client import get_structured_llm
     from app.generation.prompts import format_context_blocks
 

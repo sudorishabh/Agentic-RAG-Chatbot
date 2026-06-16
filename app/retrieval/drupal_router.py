@@ -1,19 +1,3 @@
-"""Structured / aggregate query path (§7) — over the Drupal JSON:API.
-
-Most questions are semantic and go to Qdrant. A minority are *structured*: exact
-lookups by field ("show the article titled X") or aggregates ("how many reports
-were published in 2024"). Those are answered against the site's system of record.
-Here that system of record is the **Drupal JSON:API**, not a MySQL database, so
-this router builds **parameterized JSON:API filter requests** (the safe path of
-§7.4 — no text-to-SQL, values only ever travel as request params) reusing the
-ingestion extractor's session / pagination / record-building helpers.
-
-The flow: a small LLM call parses the turn into a :class:`StructuredQuery`, that is
-turned into JSON:API filter params, and the result is rendered as a grounded
-answer with article citations. Anything it can't handle returns ``None`` so the
-orchestrator falls back to semantic QA.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -84,12 +68,11 @@ def _bundles_for(sq: StructuredQuery) -> tuple[str, ...]:
     if sq.bundle and sq.bundle in DEFAULT_BUNDLES:
         return (sq.bundle,)
     if sq.bundle:
-        return (sq.bundle,)  # trust an explicit, non-default bundle name
+        return (sq.bundle,)
     return DEFAULT_BUNDLES
 
 
 def _filter_params(sq: StructuredQuery) -> dict[str, Any]:
-    """Parameterized JSON:API filters — values only ever ride as request params."""
     params: dict[str, Any] = {}
     if sq.title_contains:
         params["filter[t][condition][path]"] = "title"
@@ -117,7 +100,6 @@ def _author_match(record: DrupalRecord, author: str) -> bool:
 
 
 def _count(session: requests.Session, bundle: str, filters: dict[str, Any], published_only: bool) -> int:
-    """Count matches cheaply by paginating a sparse fieldset (no relationships)."""
     settings = get_settings()
     base = settings.drupal_jsonapi_base.rstrip("/")
     params: dict[str, Any] = {
@@ -158,8 +140,6 @@ def answer_structured(
     question: str,
     history: Sequence[dict[str, str]] | None = None,
 ) -> dict[str, Any] | None:
-    """Answer a structured query via the Drupal JSON:API, or ``None`` to fall back
-    to semantic QA. The return shape matches :class:`app.schemas.query.QueryResponse`."""
     sq = parse_structured(question, history)
     if sq is None:
         return None
@@ -198,7 +178,7 @@ def answer_structured(
         records = [r for r in records if _author_match(r, sq.author)]
     records = records[: sq.limit]
     if not records:
-        return None  # nothing structured to show — let semantic QA try
+        return None
 
     lines = [f"- {r.title} ({r.url})" if r.url else f"- {r.title}" for r in records]
     citations = [

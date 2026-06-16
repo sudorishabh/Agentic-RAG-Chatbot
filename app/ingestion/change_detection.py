@@ -1,29 +1,3 @@
-"""Change detection — decide *what* to (re)ingest before paying to extract it.
-
-Everything downstream of this module is expensive: PDF extraction runs Docling +
-Azure OCR + vision captioning, and every source is embedded with Azure. So before
-any of that, we classify each discovered document against the manifest
-(:mod:`app.ingestion.state`) into one of:
-
-* **NEW**       — not seen before → extract + index.
-* **CHANGED**   — seen, but its cheap fingerprint moved → re-extract + re-index.
-* **UNCHANGED** — fingerprint matches → skip entirely (no extraction).
-* **DELETED**   — in the manifest but gone from the source → purge from Qdrant.
-
-Two tiers of comparison keep us honest *and* cheap:
-
-1. **Pre-extraction (this module).** A fingerprint that needs no extraction:
-   PDFs use a raw-bytes SHA-256 (immune to OneDrive/copy mtime churn); Drupal
-   nodes use their ``changed`` timestamp. This is where the savings come from.
-2. **Post-extraction (the runner, via** :func:`content_changed` **).** Compare the
-   canonical ``content_hash``. Equal → the bytes moved but the *content* didn't
-   (re-saved file, metadata-only touch): refresh the fingerprint, skip re-embed.
-   Different → bump ``doc_version`` and re-index.
-
-This module only *discovers and classifies*; extraction, indexing, and Qdrant
-deletes live in the ingest runner.
-"""
-
 from __future__ import annotations
 
 import fnmatch
@@ -53,12 +27,6 @@ class ChangeStatus(str, Enum):
 
 @dataclass
 class ChangeRecord:
-    """The verdict for one document, plus what the runner needs to act on it.
-
-    ``payload`` carries the already-loaded source for actionable records so the
-    runner never re-reads it — PDF bytes for NEW/CHANGED files, a ``DrupalRecord``
-    for NEW/CHANGED nodes. It is ``None`` for UNCHANGED/DELETED.
-    """
 
     status: ChangeStatus
     document_id: str
@@ -73,31 +41,20 @@ class ChangeRecord:
 
     @property
     def is_actionable(self) -> bool:
-        """NEW/CHANGED need (re)extraction; DELETED needs a purge; UNCHANGED is a no-op."""
         return self.status in (ChangeStatus.NEW, ChangeStatus.CHANGED, ChangeStatus.DELETED)
 
 
 def content_changed(record: ChangeRecord, content_hash: str) -> bool:
-    """Tier-2 check: did the *content* actually change vs. what we last indexed?
-
-    Always ``True`` for a NEW document; otherwise compares the post-extraction
-    canonical hash against the stored one.
-    """
     if record.prior is None:
         return True
     return record.prior.content_hash != content_hash
 
 
 def next_version(record: ChangeRecord) -> int:
-    """Version to stamp on a (re)indexed document: 1 for new, prior + 1 for changed."""
     return record.prior.doc_version + 1 if record.prior else 1
 
 
-# --------------------------------------------------------------------------- #
-# Settings parsing
-# --------------------------------------------------------------------------- #
 def _parse_roots(raw: str | None) -> list[Path]:
-    """Split the OS-path-separated ``pdf_source_dirs`` into existing directories."""
     if not raw:
         return []
     roots: list[Path] = []
@@ -114,7 +71,6 @@ def _parse_roots(raw: str | None) -> list[Path]:
 
 
 def _parse_globs(raw: str | None) -> list[str]:
-    """Split comma-/newline-separated ignore globs into a clean list."""
     if not raw:
         return []
     return [g.strip() for g in re.split(r"[,\n]", raw) if g.strip()]
@@ -126,34 +82,16 @@ def _slugify(value: str) -> str:
 
 
 def _document_id_for(rel_path: str) -> str:
-    """Stable, tree-unique id for a PDF from its path relative to its root.
-
-    Uses the full relative path (sans extension) so ``a/report.pdf`` and
-    ``b/report.pdf`` don't collide — unlike a bare filename slug.
-    """
     return _slugify(os.path.splitext(rel_path)[0])
 
 
 def _is_ignored(rel_posix: str, ignore_globs: list[str]) -> bool:
-    """True if the relative (``/``-separated) path matches any ignore glob.
-
-    A pattern is matched both against the full path and against the bare path so
-    ``archive/**`` skips a top-level ``archive`` tree and ``**/_drafts/**`` skips
-    a ``_drafts`` folder at any depth.
-    """
     return any(fnmatch.fnmatch(rel_posix, pat) for pat in ignore_globs)
 
 
-# --------------------------------------------------------------------------- #
-# PDF folder source
-# --------------------------------------------------------------------------- #
 def _iter_pdfs(root: Path, ignore_globs: list[str]) -> Iterator[tuple[Path, str]]:
-    """Yield ``(absolute_path, relative_posix_path)`` for every non-ignored PDF
-    under ``root``, descending into nested folders. Ignored *directories* are
-    pruned so we never walk into them."""
     for dirpath, dirnames, filenames in os.walk(root):
         rel_dir = os.path.relpath(dirpath, root)
-        # Prune ignored subdirectories in place so os.walk skips them entirely.
         kept: list[str] = []
         for name in dirnames:
             rel = name if rel_dir == "." else f"{rel_dir}/{name}"
@@ -182,14 +120,6 @@ def detect_file_changes(
     roots: list[Path] | None = None,
     ignore_globs: list[str] | None = None,
 ) -> Iterator[ChangeRecord]:
-    """Walk the PDF source roots and classify every PDF against the manifest.
-
-    Each file is read **once**: the bytes feed the SHA-256 fingerprint and, for
-    NEW/CHANGED files, ride along on the :class:`ChangeRecord` as ``payload`` so
-    the runner extracts without a second read. UNCHANGED files yield a verdict but
-    no payload. After the walk, any manifest entry not seen on disk is emitted as
-    DELETED.
-    """
     settings = get_settings()
     roots = roots if roots is not None else _parse_roots(settings.pdf_source_dirs)
     ignore_globs = (
@@ -250,15 +180,7 @@ def detect_file_changes(
             )
 
 
-# --------------------------------------------------------------------------- #
-# Drupal JSON:API source
-# --------------------------------------------------------------------------- #
 def _to_unix(changed: str | None) -> int | None:
-    """Parse a Drupal ``changed`` timestamp (ISO 8601) into a unix int.
-
-    Stored as ``changed_mark`` and used as the incremental high-water value the
-    next crawl filters on. Returns ``None`` if the timestamp is missing/unparseable.
-    """
     if not changed:
         return None
     try:
@@ -273,17 +195,6 @@ def detect_drupal_changes(
     published_only: bool = True,
     reconcile_deletes: bool = False,
 ) -> Iterator[ChangeRecord]:
-    """Crawl the Drupal JSON:API incrementally and classify each node.
-
-    Each bundle is fetched from its stored high-water ``changed`` mark onward
-    (``filter[changed] > high_water``), so a normal run only pulls nodes modified
-    since last time — everything returned is therefore NEW or CHANGED. The node's
-    ``changed`` timestamp is both the fingerprint and the high-water value.
-
-    Incremental crawls can't reveal deletions, so when ``reconcile_deletes`` is
-    set the bundle's full set of live UUIDs is enumerated cheaply and any manifest
-    entry no longer present (deleted or unpublished) is emitted as DELETED.
-    """
     from app.ingestion.extractors.drupal_extractor import (
         DEFAULT_BUNDLES,
         _build_session,

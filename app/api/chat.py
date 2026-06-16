@@ -1,11 +1,3 @@
-"""Chat endpoints: streaming answer (SSE) + feedback capture.
-
-``POST /chat`` streams the grounded answer token-by-token (§6.5) as Server-Sent
-Events, then a final ``sources`` event carrying the citations built from payloads
-(§8) and a ``done`` sentinel. ``POST /chat/feedback`` records the thumbs up/down +
-clicked-citation signal that feeds evaluation (§10.4).
-"""
-
 from __future__ import annotations
 
 import json

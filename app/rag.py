@@ -1,17 +1,3 @@
-"""RAG orchestrator — the top-level query pipeline (§6).
-
-Ties the stages together end to end:
-
-    query → retrieve (filtered dense search) → context selection (parent-expand,
-    dedup, budget) → grounded generation with inline ``[n]`` markers →
-    citations built from payloads.
-
-This module owns the *flow*; the individual stages live in :mod:`app.retrieval`
-and :mod:`app.generation` and are enhanced in place as they are built out (query
-understanding, hybrid search, reranking, conflict surfacing, faithfulness,
-caching, observability). The API layer calls :func:`answer_query`.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -36,8 +22,6 @@ logger = logging.getLogger(__name__)
 
 
 def _chitchat(question: str, history: list[dict[str, str]] | None) -> str:
-    """Answer a greeting / meta turn directly, without retrieval, keeping the bot
-    scoped to the corpus (§10.6.6)."""
     from langchain_core.output_parsers import StrOutputParser
     from langchain_core.prompts import ChatPromptTemplate
 
@@ -60,10 +44,6 @@ def _empty(intent: str, answer: str, *, cached: bool = False) -> dict[str, Any]:
 
 
 def _generate(question: str, blocks: list[ContextBlock], *, correction: str | None = None) -> str:
-    """Grounded generation: answer only from the numbered context, citing ``[n]``.
-
-    ``correction`` carries a faithfulness corrective note for a one-shot retry.
-    """
     from langchain_core.output_parsers import StrOutputParser
     from langchain_core.prompts import ChatPromptTemplate
 
@@ -84,7 +64,6 @@ def _generate(question: str, blocks: list[ContextBlock], *, correction: str | No
 
 
 def _grounded_answer(question: str, blocks: list[ContextBlock]) -> str:
-    """Generate, scrub stray markers, and (optionally) verify + regenerate once."""
     from app.generation import faithfulness
 
     answer = faithfulness.validate_markers(_generate(question, blocks), len(blocks))
@@ -106,11 +85,6 @@ def retrieve(
     n: int | None = None,
     query_vector: list[float] | None = None,
 ) -> list[ContextBlock]:
-    """Steps 3–5: hybrid search → rerank (with refusal guard) → context selection.
-
-    Shared by the answer path, the streaming path, and the raw ``/search`` endpoint
-    so retrieval behaves identically everywhere.
-    """
     settings = get_settings()
     n = n or settings.retrieval_top_k
     user_groups = user_groups or ["public"]
@@ -142,7 +116,6 @@ def _answer(
     user_groups: list[str] | None = None,
     top_k: int | None = None,
 ) -> dict[str, Any]:
-    """The pipeline body; :func:`answer_query` wraps it with tracing + metrics."""
     from app.cache import redis_cache
     from app.ingestion.embedder import embed_query_cached
 
@@ -150,7 +123,6 @@ def _answer(
     n = top_k or settings.retrieval_top_k
     user_groups = user_groups or ["public"]
 
-    # Exact response cache: identical (query, scope) skips the whole pipeline (§10.3).
     signature = redis_cache.response_signature(
         question, tenant_id=tenant_id, user_groups=user_groups, top_k=n
     )
@@ -158,14 +130,11 @@ def _answer(
     if hit is not None:
         return {**hit, "cached": True}
 
-    # Step 1 — query understanding: rewrite, intent routing, facet filters (§6.1).
     with span("rag.query_understanding"):
         pq: ProcessedQuery = process(question, history)
     if pq.intent == "chitchat":
         return _empty("chitchat", _chitchat(question, history))
 
-    # 'structured' intent → exact lookup / aggregate over the Drupal JSON:API (§7).
-    # Falls through to semantic QA when the router can't answer it.
     if pq.intent == "structured":
         from app.retrieval.drupal_router import answer_structured
 
@@ -173,7 +142,6 @@ def _answer(
         if structured is not None:
             return structured
 
-    # Embed the (rewritten) query once — reused for retrieval and the semantic cache.
     query_vector = embed_query_cached(pq.search_query)
     semantic = redis_cache.semantic_lookup(query_vector)
     if semantic is not None:
@@ -203,7 +171,6 @@ def _answer(
         "conflict": any(b.conflict for b in blocks),
         "cached": False,
     }
-    # Cache the sourced answer for exact and near-duplicate future queries (§10.3).
     redis_cache.set_response(signature, result)
     redis_cache.semantic_store(query_vector, result)
     return result
@@ -217,11 +184,6 @@ def answer_query(
     user_groups: list[str] | None = None,
     top_k: int | None = None,
 ) -> dict[str, Any]:
-    """Answer a question from the corpus and return a grounded, cited result.
-
-    Traces the pipeline and logs per-query RAG quality metrics (§10.4). Returns a
-    dict matching :class:`app.schemas.query.QueryResponse`.
-    """
     with span("rag.answer_query") as s:
         result = _answer(
             question,
@@ -243,8 +205,6 @@ def answer_query(
 
 
 def _generate_stream(question: str, blocks: list[ContextBlock]) -> Iterator[str]:
-    """Stream grounded-answer tokens (§6.5). Marker scrubbing is left to the
-    final ``sources`` event; stray markers in token stream are rare and harmless."""
     from langchain_core.output_parsers import StrOutputParser
     from langchain_core.prompts import ChatPromptTemplate
 
@@ -268,12 +228,6 @@ def stream_answer(
     user_groups: list[str] | None = None,
     top_k: int | None = None,
 ) -> Iterator[dict[str, Any]]:
-    """Yield SSE-ready events for ``/chat``: ``token`` chunks, then one ``sources``
-    event (citations + metadata), then ``done``.
-
-    Non-streamable branches (cache hit, chitchat, structured, refusal) emit the
-    whole answer as a single ``token`` event before ``sources``.
-    """
     from app.ingestion.embedder import embed_query_cached
 
     settings = get_settings()
@@ -331,8 +285,6 @@ def search_blocks(
     user_groups: list[str] | None = None,
     top_k: int | None = None,
 ) -> dict[str, Any]:
-    """Raw retrieval for the ``/search`` debug/eval endpoint (§10.5): the processed
-    query plus the selected context blocks, with no generation."""
     pq = process(question, history)
     blocks = retrieve(
         pq.search_query, tenant_id=tenant_id, user_groups=user_groups,

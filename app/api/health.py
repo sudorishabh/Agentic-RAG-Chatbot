@@ -1,12 +1,3 @@
-"""Operational endpoints: ``/health`` (liveness), ``/ready`` (readiness), and
-``/metrics`` (a system snapshot — §10.4).
-
-``/health`` is a cheap liveness probe. ``/ready`` verifies the hard dependency
-(Qdrant) is reachable and reports Redis, returning 503 until the store answers.
-``/metrics`` returns a JSON snapshot (collection size, cache wiring) — enough to
-hang a dashboard / alert off without pulling in a metrics backend.
-"""
-
 from __future__ import annotations
 
 from fastapi import APIRouter

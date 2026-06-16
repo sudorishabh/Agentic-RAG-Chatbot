@@ -1,24 +1,12 @@
-"""Shared helpers for the local test runners.
-
-Each runner builds a human-readable report and writes it to
-``app/local_tests/outputs/<name>.txt`` so you can eyeball what the pipeline
-produced. Nothing here touches the network.
-"""
-
 from __future__ import annotations
 
 import sys
 from pathlib import Path
 
-# Make `import app...` work when a runner is executed directly
-# (``python app/local_tests/test_chunking.py``) as well as via ``-m``.
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
-# Reports contain text lifted straight from PDFs/HTML (em dashes, non-breaking
-# hyphens, …). The default Windows console is cp1252 and chokes on those when we
-# echo the report, so switch stdout to UTF-8 with a safe fallback.
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 except (AttributeError, ValueError):  # pragma: no cover - non-reconfigurable stream
@@ -30,7 +18,6 @@ OUTPUTS = HERE / "outputs"
 
 
 class Reporter:
-    """Accumulates report lines and prints them both to stdout and a .txt file."""
 
     def __init__(self, title: str, out_name: str) -> None:
         self.out_path = OUTPUTS / out_name

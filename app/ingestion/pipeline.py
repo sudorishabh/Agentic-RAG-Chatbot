@@ -1,19 +1,3 @@
-"""Incremental ingest runner — turn change verdicts into Qdrant + manifest writes.
-
-This is the glue that wires the pieces together (§3 of the pipeline): for each
-:class:`~app.ingestion.change_detection.ChangeRecord` it,
-
-* **DELETED**   → purge the document's points from Qdrant and drop its manifest row.
-* **UNCHANGED** → do nothing (the fingerprint already matched pre-extraction).
-* **NEW/CHANGED** → extract → normalize → tier-2 content-hash check. If the content
-  is genuinely new, purge any prior version's points, (re)index, and bump the
-  manifest version. If only the fingerprint moved (same content), just refresh the
-  fingerprint — no embedding spend.
-
-Both sources (local PDFs, Drupal JSON:API) share one handler; only the
-"normalize to a :class:`CanonicalDocument`" step differs.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -30,7 +14,6 @@ from app.deps import delete_document
 
 logger = logging.getLogger(__name__)
 
-# A builder normalizes a NEW/CHANGED record's payload into a CanonicalDocument.
 DocBuilder = Callable[[ChangeRecord], "CanonicalDocument | None"]
 
 
@@ -51,7 +34,6 @@ def _save_state(record: ChangeRecord, content_hash: str, version: int, *, indexe
 
 
 def _handle(record: ChangeRecord, build_doc: DocBuilder) -> str:
-    """Apply one change record. Returns a short outcome label for tallying."""
     if record.status is ChangeStatus.DELETED:
         delete_document(record.document_id)
         state.delete([record.document_id])
@@ -67,8 +49,6 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder) -> str:
 
     content_hash = doc.ensure_content_hash()
     if not cd.content_changed(record, content_hash):
-        # Fingerprint moved but the content is identical (re-saved file, metadata-
-        # only touch): refresh the fingerprint, keep the version, skip re-embedding.
         prior_version = record.prior.doc_version if record.prior else 1
         _save_state(record, content_hash, prior_version, indexed=False)
         logger.info("Unchanged content for %s; fingerprint refreshed.", record.document_id)
@@ -76,7 +56,7 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder) -> str:
 
     version = cd.next_version(record)
     doc.doc_version = version
-    delete_document(record.document_id)  # purge any prior version's points (no-op if new)
+    delete_document(record.document_id)
     index_canonical(doc)
     _save_state(record, content_hash, version, indexed=True)
     logger.info(
@@ -86,8 +66,6 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder) -> str:
 
 
 def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
-    """Drive a stream of change records through ``_handle``, isolating failures so
-    one bad document never sinks the whole run."""
     state.ensure_table()
     tally: Counter = Counter()
     for record in records:
@@ -99,9 +77,6 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
     return tally
 
 
-# --------------------------------------------------------------------------- #
-# Source-specific normalizers
-# --------------------------------------------------------------------------- #
 def _build_pdf_doc(record: ChangeRecord) -> CanonicalDocument | None:
     from app.ingestion.canonical import from_pdf
     from app.ingestion.extractors.pdf_extractor import extract_pdf
@@ -116,11 +91,7 @@ def _build_drupal_doc(record: ChangeRecord) -> CanonicalDocument | None:
     return from_drupal_record(record.payload)
 
 
-# --------------------------------------------------------------------------- #
-# Public entry points
-# --------------------------------------------------------------------------- #
 def ingest_pdfs(roots=None, ignore_globs=None) -> Counter:
-    """Detect and ingest changes across the configured PDF source dirs."""
     return _run(cd.detect_file_changes(roots, ignore_globs), _build_pdf_doc)
 
 
@@ -130,19 +101,12 @@ def ingest_drupal(
     published_only: bool = True,
     reconcile_deletes: bool = False,
 ) -> Counter:
-    """Detect and ingest changes from the Drupal JSON:API (incrementally)."""
     records = cd.detect_drupal_changes(
         bundles, published_only=published_only, reconcile_deletes=reconcile_deletes
     )
     return _run(records, _build_drupal_doc)
 
 
-# --------------------------------------------------------------------------- #
-# CLI:
-#   python -m app.ingestion.pipeline --pdf
-#   python -m app.ingestion.pipeline --pdf --dir "C:\docs" --dir "D:\more"
-#   python -m app.ingestion.pipeline --drupal --bundle news --reconcile
-# --------------------------------------------------------------------------- #
 def _main(argv: list[str] | None = None) -> int:
     import argparse
     import sys

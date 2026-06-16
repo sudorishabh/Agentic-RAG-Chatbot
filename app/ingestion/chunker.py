@@ -1,30 +1,3 @@
-"""Structure-aware, parent-child chunking.
-
-This implements the recipe from ``docs/chunking.md`` (§3):
-
-1. **Structure-aware splitting** on the document's own headings → one *section*
-   per heading (§3.1). PDFs and CMS articles have structure; we use it so chunks
-   align with how a human would cite the document.
-2. If a section exceeds the parent budget it is sub-split with a recursive,
-   token-aware splitter; min/max bounds stop us emitting a 30-token or
-   3000-token chunk (§3.1).
-3. **Parent-child** (§3.2): small *child* chunks (~400 tok) are what you embed
-   and search; large *parent* chunks (the full section) are what you feed the
-   LLM. Every child carries its ``parent_chunk_id`` so retrieval can "search
-   small, read big". Children never cross a parent boundary.
-4. Each chunk carries the canonical payload (§3.6/§3.7).
-
-Token lengths are measured with the embedding model's tokenizer (tiktoken
-``cl100k_base``, which text-embedding-3-large uses), *not* characters (§3.4).
-
-This module only produces ``Chunk`` objects from already-extracted text.
-Embedding and upserting to Qdrant happen in the embedder/indexer. Note that
-Qdrant point IDs must be unsigned ints or UUIDs, so chunk IDs here are
-deterministic UUIDs (``uuid5``) rather than the human-readable strings shown
-illustratively in the design doc — deterministic so re-ingesting identical
-content is idempotent.
-"""
-
 from __future__ import annotations
 
 import hashlib
@@ -40,47 +13,28 @@ from app.core.models import CanonicalDocument, CanonicalSection
 
 logger = logging.getLogger(__name__)
 
-# Stable namespace for deterministic chunk UUIDs. Do not change — it would
-# re-key every previously ingested chunk.
 _NAMESPACE = uuid.UUID("6f2a1d3e-8b4c-4a9f-9e7d-2c5b1a0f3e64")
 
-# Fallback when tiktoken is unavailable: a rough chars-per-token ratio for
-# English. Only used so ingestion degrades gracefully offline.
 _CHARS_PER_TOKEN = 4
 
-_MAX_HEADING_WORDS = 12  # lines longer than this are prose, not a heading
+_MAX_HEADING_WORDS = 12
 
 
-# --------------------------------------------------------------------------- #
-# Configuration
-# --------------------------------------------------------------------------- #
 @dataclass(frozen=True)
 class ChunkingConfig:
-    """Token budgets for one document type. Defaults are the doc's "general
-    defaults if unsure" (§3.4): child ≈ 400 tok, overlap ≈ 15%, parent ≈ 1800.
-
-    ``*_max_tokens`` are soft ceilings (a window may exceed the target by at
-    most one atom plus the overlap carry); they exist to prevent pathologically
-    large chunks, not to hard-cap embedding input.
-    """
 
     child_target_tokens: int = 400
     child_max_tokens: int = 512
     child_min_tokens: int = 120
-    child_overlap_tokens: int = 60  # ~15% of the target (§3.5)
+    child_overlap_tokens: int = 60
     parent_target_tokens: int = 1800
     parent_max_tokens: int = 2400
     encoding_name: str = "cl100k_base"
 
 
-# Per-document-type presets straight from the §3.4 table. Keys cover both
-# logical source types ("pdf", "article") and Drupal bundle names so the
-# adapters can look up by either.
 _BASE = ChunkingConfig()
 
 _PRESETS: dict[str, ChunkingConfig] = {
-    # Large technical PDFs / manuals: child 350–500, overlap 10–15%,
-    # parent = full section.
     "pdf": ChunkingConfig(
         child_target_tokens=450, child_max_tokens=560, child_overlap_tokens=60,
         parent_target_tokens=2000, parent_max_tokens=2600,
@@ -89,8 +43,6 @@ _PRESETS: dict[str, ChunkingConfig] = {
         child_target_tokens=450, child_max_tokens=560, child_overlap_tokens=60,
         parent_target_tokens=2000, parent_max_tokens=2600,
     ),
-    # Research papers: child 400–512, overlap 10%. Sections (Abstract/Methods/
-    # Results/References) are the natural boundaries.
     "research_paper": ChunkingConfig(
         child_target_tokens=480, child_max_tokens=560, child_overlap_tokens=48,
         parent_target_tokens=2000, parent_max_tokens=2600,
@@ -99,8 +51,6 @@ _PRESETS: dict[str, ChunkingConfig] = {
         child_target_tokens=480, child_max_tokens=560, child_overlap_tokens=48,
         parent_target_tokens=2000, parent_max_tokens=2600,
     ),
-    # Policy documents: child 300–450, overlap 15%. Split on clause/section
-    # numbers; preserve clause numbering in the heading.
     "policy": ChunkingConfig(
         child_target_tokens=400, child_max_tokens=512, child_overlap_tokens=60,
         parent_target_tokens=1800, parent_max_tokens=2400,
@@ -113,20 +63,16 @@ _PRESETS: dict[str, ChunkingConfig] = {
         child_target_tokens=420, child_max_tokens=540, child_overlap_tokens=60,
         parent_target_tokens=1900, parent_max_tokens=2500,
     ),
-    # Website articles (Drupal): child 300–450, overlap 10%.
     "article": ChunkingConfig(
         child_target_tokens=380, child_max_tokens=480, child_overlap_tokens=40,
         parent_target_tokens=1600, parent_max_tokens=2200,
     ),
-    # Small PDFs (1–10 pg): recursive; parent = whole doc. A very large
-    # parent_max ensures the document is never split into multiple parents.
     "small_pdf": ChunkingConfig(
         child_target_tokens=400, child_max_tokens=512, child_overlap_tokens=50,
         parent_target_tokens=100_000, parent_max_tokens=100_000,
     ),
 }
 
-# Drupal bundles that are really short web pages → article behaviour.
 for _bundle in (
     "news", "feature_articles", "events", "press_release", "videos",
     "infographics", "services", "people", "page", "completed_projects",
@@ -136,27 +82,16 @@ for _bundle in (
 
 
 def config_for(key: str | None) -> ChunkingConfig:
-    """Return the chunking preset for a source type or Drupal bundle name,
-    falling back to the general defaults."""
     if not key:
         return _BASE
     return _PRESETS.get(key.strip().lower(), _BASE)
 
 
-# --------------------------------------------------------------------------- #
-# Document- and chunk-level data
-# --------------------------------------------------------------------------- #
 @dataclass
 class DocumentMeta:
-    """Document-level fields that propagate to every chunk's payload (§3.6).
-
-    Source-specific fields (``pdf_path``/``page`` vs ``source_url``/
-    ``article_uuid``) are simply left ``None`` for the type that doesn't use
-    them and dropped from the payload.
-    """
 
     document_id: str
-    source_type: str  # "pdf" | "article" | ...
+    source_type: str
     title: str | None = None
     source_url: str | None = None
     pdf_id: str | None = None
@@ -173,13 +108,11 @@ class DocumentMeta:
     doc_version: int = 1
     is_current: bool = True
     published_at: str | None = None
-    # Anything else worth carrying onto the payload verbatim.
     extra: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class Chunk:
-    """One emitted chunk — either a searchable child or a context parent."""
 
     chunk_id: str
     text: str
@@ -187,19 +120,13 @@ class Chunk:
     meta: DocumentMeta
     section_heading: str | None = None
     parent_chunk_id: str | None = None
-    chunk_index: int | None = None  # global child ordinal; None for parents
+    chunk_index: int | None = None
     page_number: int | None = None
     page_range: tuple[int, int] | None = None
     token_count: int = 0
     content_hash: str = ""
 
     def to_payload(self) -> dict[str, Any]:
-        """Build the Qdrant payload (§3.7). Empty values are dropped.
-
-        Timestamps (``created_at``/``updated_at``) are intentionally not set
-        here — the indexer stamps those at write time. ``published_at`` comes
-        from the source and is carried through if present.
-        """
         m = self.meta
         payload: dict[str, Any] = {
             "chunk_id": self.chunk_id,
@@ -234,16 +161,10 @@ class Chunk:
         if self.page_range is not None:
             payload["page_range"] = list(self.page_range)
         payload.update(m.extra)
-        # Keep False and 0; drop only None / "" / [].
         return {k: v for k, v in payload.items() if v not in (None, "", [])}
 
 
-# --------------------------------------------------------------------------- #
-# Tokenizer
-# --------------------------------------------------------------------------- #
 class _Encoder:
-    """Thin wrapper over a tiktoken encoding with a heuristic fallback so
-    ingestion still works (less precisely) if tiktoken can't be loaded."""
 
     def __init__(self, name: str) -> None:
         self._enc = None
@@ -266,8 +187,6 @@ class _Encoder:
         return max(1, math.ceil(len(text) / _CHARS_PER_TOKEN))
 
     def split_to_token_limit(self, text: str, max_tokens: int) -> list[str]:
-        """Hard-cut text into ≤ ``max_tokens`` pieces. Last resort when no
-        natural separator survives (e.g. one enormous unbroken token run)."""
         if self._enc is not None:
             ids = self._enc.encode(text)
             return [
@@ -278,8 +197,6 @@ class _Encoder:
         return [text[i : i + size] for i in range(0, len(text), size)]
 
     def tail(self, text: str, n: int) -> str:
-        """Return the last ``n`` tokens of ``text`` as a string — the overlap
-        carried from one child into the next (§3.5)."""
         if n <= 0 or not text:
             return ""
         if self._enc is not None:
@@ -294,14 +211,11 @@ def _get_encoder(name: str) -> _Encoder:
     return _Encoder(name)
 
 
-# --------------------------------------------------------------------------- #
-# Block parsing — structure-aware splitting (§3.1)
-# --------------------------------------------------------------------------- #
 @dataclass
 class _Block:
-    kind: str  # "heading" | "text" | "code" | "table"
+    kind: str
     text: str
-    level: int  # heading depth (0 for non-headings)
+    level: int
     page: int | None
 
 
@@ -326,8 +240,6 @@ def _is_table_line(line: str) -> bool:
 
 
 def _clean_heading(line: str) -> str:
-    """Strip markdown ``#`` markers; keep numbering ("4.2 …") intact so the
-    section heading still reads as people cite it."""
     m = _ATX.match(line)
     if m:
         return m.group(2).strip()
@@ -335,13 +247,6 @@ def _clean_heading(line: str) -> str:
 
 
 def _line_heading_level(line: str, *, at_block_start: bool) -> int | None:
-    """Classify a single line as a heading and return its depth, or ``None``.
-
-    Strongly-marked headings (markdown ATX, numbered "4.2 …", labelled
-    "Section …") are accepted anywhere. Soft signals (ALL-CAPS / Title Case
-    short lines, common in PDFs) are only trusted at the start of a block so we
-    don't carve prose mid-paragraph.
-    """
     s = line.strip()
     if not s:
         return None
@@ -368,21 +273,19 @@ def _line_heading_level(line: str, *, at_block_start: bool) -> int | None:
 
     letters = [c for c in s if c.isalpha()]
     if letters and len(words) <= 8 and sum(c.isupper() for c in letters) / len(letters) > 0.85:
-        return 2  # ALL CAPS heading
+        return 2
 
     if (
         len(words) <= 8
         and not s.endswith(_TERMINAL)
         and sum(w[:1].isupper() for w in words if w[:1].isalpha()) >= max(1, len(words) - 1)
     ):
-        return 3  # Title Case heading
+        return 3
 
     return None
 
 
 def _blocks_from_text(text: str, page: int | None) -> list[_Block]:
-    """Parse raw text into semantic blocks. Fenced code and markdown tables are
-    kept atomic (§3.4: keep code blocks and tables atomic)."""
     if not text or not text.strip():
         return []
 
@@ -401,7 +304,7 @@ def _blocks_from_text(text: str, page: int | None) -> list[_Block]:
         line = lines[i]
         stripped = line.strip()
 
-        if _FENCE.match(stripped):  # fenced code block → atomic
+        if _FENCE.match(stripped):
             flush_text()
             fence = stripped[:3]
             code = [line]
@@ -415,13 +318,13 @@ def _blocks_from_text(text: str, page: int | None) -> list[_Block]:
             blocks.append(_Block("code", "\n".join(code).strip(), 0, page))
             continue
 
-        if not stripped:  # blank line ends a paragraph
+        if not stripped:
             flush_text()
             i += 1
             continue
 
         if _is_table_line(line) and i + 1 < n and _is_table_line(lines[i + 1]):
-            flush_text()  # table region → atomic
+            flush_text()
             tbl: list[str] = []
             while i < n and _is_table_line(lines[i]):
                 tbl.append(lines[i])
@@ -444,16 +347,12 @@ def _blocks_from_text(text: str, page: int | None) -> list[_Block]:
 
 
 def _assemble_sections(blocks: Iterable[_Block]) -> list[_Section]:
-    """Group blocks into sections, each opened by a heading. Content before the
-    first heading becomes an untitled intro section. Consecutive headings with
-    no body between them (multi-line titles, title→subtitle) are merged."""
     sections: list[_Section] = []
     current = _Section(heading=None, level=0)
 
     for block in blocks:
         if block.kind == "heading":
             if not current.blocks:
-                # No body yet: fold this heading into the pending one.
                 if current.heading:
                     current.heading = f"{current.heading} — {block.text}"
                 else:
@@ -469,9 +368,6 @@ def _assemble_sections(blocks: Iterable[_Block]) -> list[_Section]:
     return sections
 
 
-# --------------------------------------------------------------------------- #
-# Sizing helpers
-# --------------------------------------------------------------------------- #
 def _heading_block(text: str) -> _Block:
     return _Block("text", text, 0, None)
 
@@ -495,8 +391,6 @@ def _page_range(blocks: Sequence[_Block]) -> tuple[int, int] | None:
 def _split_text_recursive(
     text: str, max_tokens: int, enc: _Encoder, seps: tuple[str, ...] = ("\n\n", "\n", ". ", " ")
 ) -> list[str]:
-    """Recursively split an oversized run on the coarsest separator that keeps
-    pieces within budget, hard-cutting only as a last resort."""
     if enc.count(text) <= max_tokens:
         return [text]
     for i, sep in enumerate(seps):
@@ -524,13 +418,6 @@ def _split_text_recursive(
 def _expand_atoms(
     blocks: Sequence[_Block], *, soft_cap: int, hard_cap: int, enc: _Encoder
 ) -> list[_Block]:
-    """Split oversized blocks so packing has workable units.
-
-    Plain text is split down to ``soft_cap`` (the window target) so a long run
-    packs into well-sized windows with room for overlap. Code and tables are
-    kept atomic and only split if they exceed ``hard_cap`` (the window max),
-    honouring §3.4's "keep code blocks and tables atomic".
-    """
     out: list[_Block] = []
     for block in blocks:
         cap = hard_cap if block.kind in ("code", "table") else soft_cap
@@ -545,13 +432,6 @@ def _expand_atoms(
 def _pack(
     blocks: Sequence[_Block], *, target: int, max_tokens: int, min_fill: int, enc: _Encoder
 ) -> list[list[_Block]]:
-    """Greedily pack atoms into windows of roughly ``target`` tokens.
-
-    A window is only flushed once it holds at least ``min_fill`` tokens, which
-    keeps small leading atoms (a heading + a one-line intro) attached to the
-    body that follows instead of being emitted as a tiny chunk. The window is
-    flushed early only when the next atom would push it past ``max_tokens``.
-    """
     atoms = _expand_atoms(blocks, soft_cap=target, hard_cap=max_tokens, enc=enc)
     windows: list[list[_Block]] = []
     cur: list[_Block] = []
@@ -576,17 +456,12 @@ def _pack(
 def _coalesce_windows(
     windows: list[list[_Block]], min_tokens: int, max_tokens: int, enc: _Encoder
 ) -> list[list[_Block]]:
-    """Merge any sub-``min_tokens`` window into a neighbour so we never emit an
-    orphaned 30-token chunk (§3.1). Preference is given to a merge that stays
-    within ``max_tokens``; a too-small window with no roomy neighbour is merged
-    anyway (a slightly-over-target chunk beats a tiny one)."""
     sizes = [enc.count(_join_blocks(w)) for w in windows]
     i = 0
     while i < len(windows):
         if len(windows) == 1 or sizes[i] >= min_tokens:
             i += 1
             continue
-        # Rank candidate neighbours: prefer a merge that fits, then the smaller.
         candidates = sorted(
             (sizes[i] + sizes[j] > max_tokens, sizes[i] + sizes[j], j)
             for j in (i - 1, i + 1)
@@ -597,13 +472,11 @@ def _coalesce_windows(
         windows[lo] = windows[lo] + windows[hi]
         sizes[lo] = enc.count(_join_blocks(windows[lo]))
         del windows[hi], sizes[hi]
-        i = 0  # sizes shifted; rescan from the start
+        i = 0
     return windows
 
 
 def _apply_overlap(texts: list[str], overlap: int, enc: _Encoder) -> list[str]:
-    """Prepend the tail of each window to the next so an idea split across a
-    boundary still appears whole in at least one chunk (§3.5)."""
     if overlap <= 0 or len(texts) < 2:
         return texts
     out = [texts[0]]
@@ -616,8 +489,6 @@ def _apply_overlap(texts: list[str], overlap: int, enc: _Encoder) -> list[str]:
 def _merge_small_sections(
     sections: list[_Section], min_tokens: int, enc: _Encoder
 ) -> list[_Section]:
-    """Merge sub-threshold sections (e.g. a stray short heading) into a
-    neighbour so each parent carries enough context."""
     merged: list[_Section] = []
     for sec in sections:
         if merged and enc.count(_section_plain_text(sec)) < min_tokens:
@@ -628,7 +499,6 @@ def _merge_small_sections(
         else:
             merged.append(sec)
 
-    # Fold a small leading section forward into the next one.
     if len(merged) >= 2 and enc.count(_section_plain_text(merged[0])) < min_tokens:
         first = merged.pop(0)
         lead = ([_heading_block(first.heading)] if first.heading else []) + first.blocks
@@ -636,9 +506,6 @@ def _merge_small_sections(
     return merged
 
 
-# --------------------------------------------------------------------------- #
-# Assembly into parent + child chunks (§3.2)
-# --------------------------------------------------------------------------- #
 def _uuid(meta: DocumentMeta, suffix: str) -> str:
     return str(uuid.uuid5(_NAMESPACE, f"{meta.document_id}|v{meta.doc_version}|{suffix}"))
 
@@ -667,9 +534,6 @@ def _build_chunks(
         heading_tokens = enc.count(heading) if heading else 0
         body_tokens = sum(enc.count(b.text) for b in body)
 
-        # One parent per section unless the section blows the parent budget,
-        # in which case split into multiple same-section parents (parents are
-        # read whole and deduplicated by id, so they need no overlap).
         if body_tokens + heading_tokens <= config.parent_max_tokens:
             parent_windows = [list(body)]
         else:
@@ -695,9 +559,6 @@ def _build_chunks(
                 )
             )
 
-            # Children: pack → coalesce away tiny windows → add text-level
-            # overlap. Children stay nested in this parent so parent lookup is
-            # exact.
             child_windows = _pack(
                 parent_blocks, target=config.child_target_tokens,
                 max_tokens=config.child_max_tokens,
@@ -730,18 +591,12 @@ def _build_chunks(
     return chunks
 
 
-# --------------------------------------------------------------------------- #
-# Public API
-# --------------------------------------------------------------------------- #
 def chunk_pages(
     pages: Sequence[tuple[int | None, str]],
     meta: DocumentMeta,
     *,
     config: ChunkingConfig | None = None,
 ) -> list[Chunk]:
-    """Chunk a paginated document. ``pages`` is ``(page_number, text)`` in
-    reading order; page numbers flow onto each chunk's ``page_number`` /
-    ``page_range`` so citations can point at the page."""
     config = config or config_for(meta.source_type)
     enc = _get_encoder(config.encoding_name)
 
@@ -757,22 +612,15 @@ def chunk_pages(
 def chunk_document(
     text: str, meta: DocumentMeta, *, config: ChunkingConfig | None = None
 ) -> list[Chunk]:
-    """Chunk a single unpaginated text blob (CMS article, plain text)."""
     return chunk_pages([(None, text)], meta, config=config)
 
 
-# --------------------------------------------------------------------------- #
-# Source adapters (lazy imports keep the core free of fitz / requests)
-# --------------------------------------------------------------------------- #
 def _slugify(value: str) -> str:
     slug = re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
     return slug or "document"
 
 
 def _meta_from_canonical(doc: CanonicalDocument) -> DocumentMeta:
-    """Project a :class:`CanonicalDocument`'s metadata onto the per-chunk
-    ``DocumentMeta`` (the canonical payload, §3.6). Bundle/nid/etc. ride along
-    in ``extra``."""
     return DocumentMeta(
         document_id=doc.document_id,
         source_type=doc.source_type,
@@ -797,8 +645,6 @@ def _meta_from_canonical(doc: CanonicalDocument) -> DocumentMeta:
 
 
 def _canonical_page_text(section: CanonicalSection) -> str:
-    """Render a section as text the structure-aware splitter can parse, keeping
-    an explicit heading inline so it opens its own section."""
     if section.heading and section.text:
         return f"{section.heading}\n\n{section.text}"
     return section.heading or section.text
@@ -810,13 +656,6 @@ def chunk_canonical(
     config: ChunkingConfig | None = None,
     small_doc_pages: int = 10,
 ) -> list[Chunk]:
-    """Chunk a :class:`CanonicalDocument` into parent + child chunks.
-
-    This is the single entry point all sources funnel through (§2.1). Paginated
-    documents (PDFs) keep page-accurate citations by feeding ``chunk_pages``;
-    unpaginated ones (articles) go through ``chunk_document``. When ``config`` is
-    not given it is picked from the source type / Drupal bundle, with the
-    small-PDF preset for short paginated docs (≤ ``small_doc_pages`` pages)."""
     meta = _meta_from_canonical(doc)
     paginated = doc.is_paginated
 
@@ -845,9 +684,6 @@ def chunk_pdf(
     small_doc_pages: int = 10,
     **meta_overrides: Any,
 ) -> list[Chunk]:
-    """Chunk a PDF ``ExtractionResult`` via the canonical layer. Docs of
-    ``small_doc_pages`` or fewer use the small-PDF preset (parent = whole doc),
-    per §3.4."""
     from app.ingestion.canonical import from_pdf
 
     source_type = meta_overrides.pop("source_type", "pdf")
@@ -860,17 +696,11 @@ def chunk_drupal_record(
     *,
     config: ChunkingConfig | None = None,
 ) -> list[Chunk]:
-    """Chunk a :class:`...drupal_extractor.DrupalRecord` via the canonical layer.
-    ``source_url`` is the citation (§3.4); tags/categories are lifted from the
-    record metadata."""
     from app.ingestion.canonical import from_drupal_record
 
     return chunk_canonical(from_drupal_record(record), config=config)
 
 
-# --------------------------------------------------------------------------- #
-# CLI — quick manual inspection: python -m app.ingestion.chunker <file>
-# --------------------------------------------------------------------------- #
 def _main(argv: list[str] | None = None) -> int:
     import argparse
     import sys

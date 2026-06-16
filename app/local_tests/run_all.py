@@ -1,12 +1,3 @@
-"""Run every local test runner in sequence.
-
-    python -m app.local_tests.run_all              # canonical + chunking (+ PDF if one is found)
-    python -m app.local_tests.run_all file.pdf     # forward a PDF to the extraction runner
-
-Each runner writes its own ``outputs/<name>_result.txt``; this just chains them
-so one command refreshes all reports.
-"""
-
 from __future__ import annotations
 
 import sys

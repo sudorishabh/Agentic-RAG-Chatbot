@@ -1,11 +1,3 @@
-"""Prompts for the generation stage (§6.5 / §10.6).
-
-The grounding contract is the primary hallucination guard (§10.6): answer only
-from the numbered context, cite ``[n]`` after every claim, refuse when the
-context doesn't cover the question, and never invent sources. Retrieved text is
-data, not instructions (prompt-injection defense, §10.7).
-"""
-
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -43,7 +35,6 @@ CHITCHAT_SYSTEM_PROMPT = (
 
 
 def _source_hint(payload: dict) -> str:
-    """A compact provenance line so the model can reason about precedence (§9.3)."""
     bits: list[str] = []
     stype = payload.get("source_type") or "source"
     bits.append(stype)
@@ -61,7 +52,6 @@ def _source_hint(payload: dict) -> str:
 
 
 def format_context_blocks(blocks: "list[ContextBlock]") -> str:
-    """Render context blocks as ``[n] (source hint)\\n<text>`` for the prompt."""
     parts: list[str] = []
     for block in blocks:
         hint = _source_hint(block.payload)

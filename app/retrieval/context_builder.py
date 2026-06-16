@@ -1,22 +1,3 @@
-"""Context selection & window optimization (step 5, §6.4).
-
-Turns the ranked candidate children into the numbered context blocks the LLM
-sees:
-
-1. **Parent-expand** — replace each winning child with its parent section, so the
-   model reads the full section, not a 400-token sliver ("search small, read big").
-2. **Deduplicate** — children that resolve to the same parent collapse to one
-   block (and, later, near-duplicate parents across PDF/article are dropped, §9.2).
-3. **Budget** — cap the total retrieved context in tokens (§6.4) and at ``limit``
-   blocks; more context isn't automatically better.
-4. **Number** — label each block ``[1] … [n]`` so the LLM cites by marker and the
-   citation builder can map markers back to payloads.
-
-Each block keeps the originating **child** payload for citation (it carries the
-precise page number / source url / section) while showing the **parent** text to
-the model.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -36,15 +17,12 @@ _CHARS_PER_TOKEN = 4
 
 @dataclass
 class ContextBlock:
-    """One numbered unit of context handed to the LLM and mapped to a citation."""
 
     n: int
     text: str
     payload: dict[str, Any] = field(default_factory=dict)
     score: float = 0.0
-    # Set when this block disagrees with another top block (§9.3).
     conflict: bool = False
-    # Alternate sources for the same material (dedup, §9.1) — list of payloads.
     also_available: list[dict[str, Any]] = field(default_factory=list)
 
 
@@ -75,7 +53,6 @@ def _cosine(a: Sequence[float], b: Sequence[float]) -> float:
 
 
 def _ids(payload: dict[str, Any]) -> set[str]:
-    """The identifiers a payload *is* (for matching against others' links)."""
     return {
         str(payload[k])
         for k in ("document_id", "pdf_id", "article_uuid")
@@ -84,7 +61,6 @@ def _ids(payload: dict[str, Any]) -> set[str]:
 
 
 def _links(payload: dict[str, Any]) -> set[str]:
-    """The identifiers a payload *points at* (its CMS cross-references, §7.5)."""
     return {
         str(payload[k])
         for k in ("linked_pdf_id", "linked_article_uuid")
@@ -93,8 +69,6 @@ def _links(payload: dict[str, Any]) -> set[str]:
 
 
 def _linked(a: dict[str, Any], b: dict[str, Any]) -> bool:
-    """True when two payloads describe the same material via a CMS cross-link
-    (the PDF↔article pairing, §9.1) or are the same document."""
     ia, ib = _ids(a), _ids(b)
     if ia & ib:
         return True
@@ -102,7 +76,6 @@ def _linked(a: dict[str, Any], b: dict[str, Any]) -> bool:
 
 
 def _fetch_parents(parent_ids: Sequence[str]) -> dict[str, dict[str, Any]]:
-    """Fetch parent chunks by id → ``{parent_id: payload}`` (one Qdrant round-trip)."""
     ids = [pid for pid in dict.fromkeys(parent_ids) if pid]
     if not ids:
         return {}
@@ -119,9 +92,6 @@ def _fetch_parents(parent_ids: Sequence[str]) -> dict[str, dict[str, Any]]:
 
 
 def _order_for_attention(blocks: list[ContextBlock]) -> list[ContextBlock]:
-    """Put the strongest blocks first *and* last to fight lost-in-the-middle
-    (§6.4.3). Blocks arrive in descending relevance; interleave so #1 leads and #2
-    trails, weaker ones sink to the middle."""
     if len(blocks) <= 2:
         ordered = list(blocks)
     else:
@@ -138,14 +108,6 @@ def build_context(
     limit: int | None = None,
     token_budget: int | None = None,
 ) -> list[ContextBlock]:
-    """Select, parent-expand, dedup, conflict-flag, and budget candidates into
-    numbered context blocks (§6.4 / §9).
-
-    Candidates must already be in descending relevance (post-rerank). Children of
-    the same parent collapse to one block; a near-duplicate that is a linked
-    PDF/article counterpart is folded in as a secondary citation (§9.1) rather than
-    a separate block; linked-but-differing blocks are flagged as a conflict (§9.3).
-    """
     settings = get_settings()
     limit = limit or settings.retrieval_top_k
     token_budget = token_budget or settings.context_token_budget
@@ -166,9 +128,6 @@ def build_context(
         if key in seen_parents:
             continue
 
-        # Query-time near-duplicate dedup (§9.2): drop a chunk ≥ threshold cosine to
-        # an already-kept one, keeping the higher-ranked. If the duplicate is a
-        # linked counterpart, keep it as a secondary citation (§9.1).
         duplicate_of = None
         for kept, kvec in zip(blocks, block_vectors):
             if cand.vector and kvec and _cosine(cand.vector, kvec) >= sim_threshold:
@@ -186,7 +145,7 @@ def build_context(
             continue
         cost = _count_tokens(text)
         if blocks and spent + cost > token_budget:
-            continue  # over budget — skip this one, a later block may still fit
+            continue
         seen_parents.add(key)
         spent += cost
 
@@ -194,7 +153,7 @@ def build_context(
             ContextBlock(
                 n=len(blocks) + 1,
                 text=text,
-                payload=dict(cand.payload),  # child payload → precise citation
+                payload=dict(cand.payload),
                 score=cand.score,
             )
         )
@@ -205,9 +164,6 @@ def build_context(
 
 
 def _flag_conflicts(blocks: list[ContextBlock]) -> None:
-    """Flag blocks that are explicitly linked (same material, §7.5) yet survived
-    near-duplicate dedup — i.e. their content differs. That is the dangerous
-    PDF-vs-article disagreement (§9.3); mark both so generation surfaces it."""
     for i, a in enumerate(blocks):
         for b in blocks[i + 1 :]:
             if _linked(a.payload, b.payload):

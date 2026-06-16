@@ -76,7 +76,7 @@ def iter_records(
     changed_since: int | None = None,
     session: requests.Session | None = None,
 ) -> Iterator[DrupalRecord]:
- 
+
     settings = get_settings()
     bundles = tuple(bundles) if bundles is not None else DEFAULT_BUNDLES
 
@@ -139,13 +139,6 @@ def iter_node_uuids(
     *,
     published_only: bool = True,
 ) -> Iterator[str]:
-    """Stream just the UUIDs of every node in a bundle, as cheaply as possible.
-
-    Uses a sparse fieldset so each page carries almost no attributes — only the
-    resource ``id`` (the UUID), which JSON:API always returns. Used by change
-    detection's reconcile pass to find nodes that have been deleted/unpublished
-    since the manifest was last written.
-    """
     settings = get_settings()
     base = settings.drupal_jsonapi_base.rstrip("/")
     params: dict[str, Any] = {
@@ -195,7 +188,7 @@ def _iter_pages(
             (item["type"], item["id"]): item for item in doc.get("included", [])
         }
         data = doc.get("data") or []
-        if isinstance(data, dict):  # single-resource responses
+        if isinstance(data, dict):
             data = [data]
 
         yield data, included
@@ -285,7 +278,6 @@ def _partition_attributes(attributes: dict) -> tuple[list[str], dict[str, Any]]:
         ):
             meta[key] = value
 
-    # Stable sort keeps insertion order but floats the canonical body first.
     body.sort(key=lambda item: 0 if item[0] == "body" else 1)
     return [text for _, text in body], meta
 
@@ -360,7 +352,7 @@ class _TextExtractor(HTMLParser):
         for line in lines:
             if line:
                 out.append(line)
-            elif out and out[-1]: 
+            elif out and out[-1]:
                 out.append("")
         return "\n".join(out).strip()
 
