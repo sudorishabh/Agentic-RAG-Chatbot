@@ -115,7 +115,9 @@ async function handleSend() {
     const { answer, sources } = await streamChat(text, bubble);
     bubble.classList.remove("msg__bubble--pending");
     bubble.textContent = answer || "(no response)";
-    if (sources) renderSources(wrap, sources);
+    const clicked = new Set();
+    if (sources) renderSources(wrap, sources, clicked);
+    if (answer) renderFeedback(wrap, text, answer, clicked);
     history.push({ role: "user", content: text });
     history.push({ role: "assistant", content: answer });
   } catch (err) {
@@ -197,7 +199,7 @@ function badge(text, modifier) {
   return b;
 }
 
-function renderSources(wrap, sources) {
+function renderSources(wrap, sources, clicked) {
   const citations = Array.isArray(sources.citations) ? sources.citations : [];
 
   const meta = document.createElement("div");
@@ -211,7 +213,7 @@ function renderSources(wrap, sources) {
   if (!citations.length) return;
   const list = document.createElement("div");
   list.className = "citations";
-  for (const c of citations) list.appendChild(renderCitation(c));
+  for (const c of citations) list.appendChild(renderCitation(c, clicked));
   wrap.appendChild(list);
 }
 
@@ -229,9 +231,10 @@ function linkOrText(label, url) {
   return node;
 }
 
-function renderCitation(c) {
+function renderCitation(c, clicked) {
   const item = document.createElement("div");
   item.className = "citation";
+  if (clicked) item.addEventListener("click", () => clicked.add(c.n));
 
   const marker = document.createElement("span");
   marker.className = "citation__marker";
@@ -269,6 +272,63 @@ function renderCitation(c) {
 
   item.appendChild(body);
   return item;
+}
+
+/* ------------------------------------------------------------------ *
+ * Feedback
+ * ------------------------------------------------------------------ */
+function renderFeedback(wrap, question, answer, clicked) {
+  const row = document.createElement("div");
+  row.className = "feedback";
+
+  const up = document.createElement("button");
+  up.type = "button";
+  up.className = "feedback__btn";
+  up.textContent = "👍";
+  up.title = "Helpful";
+
+  const down = document.createElement("button");
+  down.type = "button";
+  down.className = "feedback__btn";
+  down.textContent = "👎";
+  down.title = "Not helpful";
+
+  const note = document.createElement("span");
+  note.className = "feedback__note";
+
+  async function send(rating) {
+    if (row.dataset.sent === rating) return;
+    up.classList.toggle("feedback__btn--active", rating === "up");
+    down.classList.toggle("feedback__btn--active", rating === "down");
+    note.textContent = "";
+    try {
+      const res = await fetch(getApiBase() + "/chat/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question,
+          rating,
+          answer,
+          clicked_citations: Array.from(clicked),
+        }),
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      row.dataset.sent = rating;
+      note.textContent = "thanks for the feedback";
+    } catch (err) {
+      up.classList.remove("feedback__btn--active");
+      down.classList.remove("feedback__btn--active");
+      note.textContent = "couldn't send feedback";
+    }
+  }
+
+  up.addEventListener("click", () => send("up"));
+  down.addEventListener("click", () => send("down"));
+
+  row.appendChild(up);
+  row.appendChild(down);
+  row.appendChild(note);
+  wrap.appendChild(row);
 }
 
 /* ------------------------------------------------------------------ *

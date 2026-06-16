@@ -201,6 +201,26 @@ a.citation__title:hover { text-decoration: underline; }
 .citation__also a { color: var(--accent); text-decoration: none; }
 .citation__also a:hover { text-decoration: underline; }
 
+/* Feedback */
+.feedback {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+.feedback__btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.feedback__btn:hover { background: var(--surface-2); }
+.feedback__btn--active { border-color: var(--accent); background: var(--surface-2); }
+.feedback__note { font-size: 0.78rem; color: var(--text-dim); }
+
 /* Composer */
 .composer {
   display: flex;
