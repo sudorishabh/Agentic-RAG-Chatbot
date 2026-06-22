@@ -7,7 +7,7 @@ directory under `results/`.
 Flow exercised:
 
 ```
-extract_pdf(bytes, name)  ->  ExtractionResult   (pypdfium2 classify -> text / Azure DI OCR)
+extract_pdf(bytes, name)  ->  ExtractionResult   (unstructured text -> classify -> Azure DI OCR)
 chunk_pdf(result)         ->  list[Chunk]         (canonical doc -> hierarchical chunks)
 ```
 

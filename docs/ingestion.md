@@ -36,9 +36,10 @@ Builders in [app/ingestion/canonical.py](../app/ingestion/canonical.py):
 
 `extract_pdf(content: bytes, filename: str) -> ExtractionResult`
 
-1. **Classify pages** with pypdfium2: a page yielding fewer than
-   `pdf_scanned_char_threshold` (default 100) characters is treated as *scanned*.
-2. **Digital pages** → pypdfium2 text extraction.
+1. **Extract digital text** with `unstructured` (`strategy="fast"`, pdfminer-based);
+   a page yielding fewer than `pdf_scanned_char_threshold` (default 100) characters
+   is treated as *scanned*. Total page count comes from `pypdf`.
+2. **Digital pages** → `unstructured` text.
 3. **Scanned pages** → Azure Document Intelligence OCR (`prebuilt-layout`), which
    also reconstructs tables (emitted as Markdown).
 

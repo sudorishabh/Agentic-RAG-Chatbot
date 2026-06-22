@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 Dependencies are listed in [requirements.txt](../requirements.txt). Celery is optional
 (background workers), as are the PDF-extraction extras
-(`azure-ai-documentintelligence`, `pypdfium2`).
+(`azure-ai-documentintelligence`, `unstructured`).
 
 ## 2. Configure environment
 

@@ -1,6 +1,8 @@
 from __future__ import annotations
+import io
 import logging
 import re
+from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
 from functools import lru_cache
@@ -140,55 +142,36 @@ def _html_tables_to_pipe(text: str) -> str:
     )
 
 
-def _classify_pages(content: bytes, scanned_char_threshold: int) -> list[bool]:
+def _page_count(content: bytes) -> int:
     try:
-        import pypdfium2 as pdfium
+        from pypdf import PdfReader
+
+        return len(PdfReader(io.BytesIO(content)).pages)
     except Exception:
-        logger.warning(
-            "pypdfium2 unavailable; cannot classify pages (will rely on OCR)."
-        )
-        return []
+        logger.warning("pypdf unavailable; page count derived from partition output.")
+        return 0
 
-    flags: list[bool] = []
-    pdf = pdfium.PdfDocument(content)
+
+def _partition_digital_text(content: bytes) -> dict[int, str]:
     try:
-        for i in range(len(pdf)):
-            page = pdf[i]
-            textpage = page.get_textpage()
-            try:
-                text = textpage.get_text_range() or ""
-            finally:
-                textpage.close()
-                page.close()
-            flags.append(len(text.strip()) < scanned_char_threshold)
-    finally:
-        pdf.close()
-    return flags
-
-
-def _extract_digital_text(content: bytes, page_indices: list[int]) -> dict[int, PageContent]:
-    try:
-        import pypdfium2 as pdfium
+        from unstructured.partition.pdf import partition_pdf
     except Exception:
-        logger.warning("pypdfium2 unavailable; digital pages skipped.")
+        logger.warning("unstructured unavailable; digital pages skipped.")
         return {}
 
-    out: dict[int, PageContent] = {}
-    pdf = pdfium.PdfDocument(content)
     try:
-        for i in page_indices:
-            page = pdf[i]
-            textpage = page.get_textpage()
-            try:
-                text = (textpage.get_text_range() or "").strip()
-            finally:
-                textpage.close()
-                page.close()
-            via = ExtractedVia.TEXT if text else ExtractedVia.EMPTY
-            out[i + 1] = PageContent(page_number=i + 1, text=text, extracted_via=via)
-    finally:
-        pdf.close()
-    return out
+        elements = partition_pdf(file=io.BytesIO(content), strategy="fast")
+    except Exception:
+        logger.exception("unstructured partition failed; digital pages skipped.")
+        return {}
+
+    by_page: dict[int, list[str]] = defaultdict(list)
+    for el in elements:
+        page_no = getattr(getattr(el, "metadata", None), "page_number", None)
+        text = (getattr(el, "text", None) or "").strip()
+        if page_no is not None and text:
+            by_page[page_no].append(text)
+    return {pn: "\n\n".join(parts).strip() for pn, parts in by_page.items()}
 
 
 @lru_cache
@@ -320,22 +303,27 @@ def _ocr_pdf(content: bytes, page_numbers: list[int] | None = None) -> dict[int,
 
 def extract_pdf(content: bytes, filename: str) -> ExtractionResult:
     settings = get_settings()
-    scanned_flags = _classify_pages(content, settings.pdf_scanned_char_threshold)
+    text_by_page = _partition_digital_text(content)
+    total_pages = _page_count(content) or (max(text_by_page) if text_by_page else 0)
 
-    pages_map: dict[int, PageContent] = {}
-
-    if not scanned_flags:
+    if total_pages == 0:
         pages_map = _ocr_pdf(content, None)
         pages = [pages_map[n] for n in sorted(pages_map)]
         result = ExtractionResult(source=filename, pages=pages)
         _log_summary(result, filename)
         return result
 
-    digital_indices = [i for i, scanned in enumerate(scanned_flags) if not scanned]
-    scanned_page_numbers = [i + 1 for i, scanned in enumerate(scanned_flags) if scanned]
+    pages_map: dict[int, PageContent] = {}
+    scanned_page_numbers: list[int] = []
+    for n in range(1, total_pages + 1):
+        text = text_by_page.get(n, "")
+        if len(text) < settings.pdf_scanned_char_threshold:
+            scanned_page_numbers.append(n)
+        else:
+            pages_map[n] = PageContent(
+                page_number=n, text=text, extracted_via=ExtractedVia.TEXT
+            )
 
-    if digital_indices:
-        pages_map.update(_extract_digital_text(content, digital_indices))
     if scanned_page_numbers:
         pages_map.update(_ocr_pdf(content, scanned_page_numbers))
 
@@ -343,7 +331,7 @@ def extract_pdf(content: bytes, filename: str) -> ExtractionResult:
         pages_map.get(
             n, PageContent(page_number=n, text="", extracted_via=ExtractedVia.EMPTY)
         )
-        for n in range(1, len(scanned_flags) + 1)
+        for n in range(1, total_pages + 1)
     ]
     result = ExtractionResult(source=filename, pages=pages)
     _log_summary(result, filename)
