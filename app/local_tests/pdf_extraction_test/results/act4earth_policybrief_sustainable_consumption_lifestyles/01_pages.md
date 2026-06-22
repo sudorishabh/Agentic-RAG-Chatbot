@@ -2,13 +2,13 @@
 
 ## Page 1 · via `docling` · 0 table(s), 2 image(s)
 
-Figure 1: Horizontal banner of three organization logos on a yellow background separated by white vertical lines: left a stylized red "teri" wordmark, center a globe overlaid with the letters "WSDs" and circular arrows, and right a white leaf emblem with the label "Act4Earth."
+Figure 1: A horizontal banner of three organization logos on a yellow background: left is the red "teri" logo, center is a globe with circular arrows and the stylized letters "WSDS" overlaid, and right is a white three-leaf icon with the label "Act4Earth," indicating partner or sponsor branding.
 
 ## INTERNATIONALIZING LIFESTYLES FOR
 
 ENVIRONMENT MESSAGES FOR G20
 
-Figure 2: Banner-style logo reading "ACT4EARTH" with the subheading "SDG CHARTER POLICY BRIEF" on a green gradient background; indicates a policy brief related to the SDG (Sustainable Development Goals).
+Figure 2: Banner-style logo image with large text "ACT4EARTH" on a green gradient background and a subtitle row reading "SDG CHARTER POLICY BRIEF"; it presents the title and theme of a policy brief focused on Sustainable Development Goals (SDG) and Earth action.
 
 ## Page 2 · via `docling` · 0 table(s), 0 image(s)
 
@@ -53,7 +53,7 @@ Sustainable consumption and lifestyles must be seen from the perspective of reso
 
 Keywords:  SDG  12,  lifestyles,  sustainable  consumption,  G20,  sustainable  development,  climate change
 
-Figure 3: Photograph of two weathered stone horse statues on square pedestals with yellow saddle-cloth accents and garlands, standing facing each other in a sandy clearing with dense green trees in the background.
+Figure 3: Photograph of two weathered stone horse statues on raised pedestals facing each other, with yellow painted saddles and hanging garlands, set in a sandy clearing against dense green foliage.
 
 5
 
@@ -69,7 +69,7 @@ According to AR6 WG-III report of the Intergovernmental Panel on Climate Change 
 
 In the climate change discussions, the idea of 'Lifestyle for the Environment - LiFE Movement' was introduced by India's Prime Minister, Shri Narendra Modi, during the 26th United Nations Climate Change Conference of the Parties (COP26) in Glasgow last year. The idea promotes an environment-conscious lifestyle that focuses on 'mindful and deliberate utilisation' instead of 'mindless and destructive consumption' through advocating sustainable choices by  'Pro-Planet People'. Key concepts around LiFE include reduce, reuse and recycle, along with circular economy. India's updated National Determined Contribution aims to 'put forward and further propagate a healthy and sustainable way of living based on traditions and values of conservation and moderation, including through a mass movement for 'LiFE'- 'Lifestyle for Environment' as a key to combating climate change' (GOI, 2022). Lifestyles will be a major area of focus for the upcoming G 20 Presidency that India will assume from December 2022 (MEA, 2022).
 
-Figure 4: FIGURE 1: SUSTAINABLE LIFESTYLES AND RESOURCE VALUE CHAINS — Flow diagram of a product life cycle with four connected circular stages labeled "Resource Extraction", "Manufacturing/Processing", "Use by Consumer", and "Disposal Phase" and arrows showing sequence. A top bar labeled "Transport, Design and Policy" spans the cycle and a "Sustainable Lifestyles" box with a dashed feedback arrow indicates influences that loop back into the cycle.
+Figure 4: FIGURE 1: SUSTAINABLE LIFESTYLES AND RESOURCE VALUE CHAINS — Diagrammatic flow chart of a product life cycle with four colored circular stages labeled "Resource Extraction" → "Manufacturing/Processing" → "Use by Consumer" → "Disposal Phase" connected by directional arrows. A top bar labeled "Transport, Design and Policy" spans the sequence and a bottom box "Sustainable Lifestyles" with a dashed feedback arrow points back to earlier stages, indicating policy/design and consumer behavior influence the lifecycle.
 
 ## Page 7 · via `docling` · 0 table(s), 1 image(s)
 
@@ -87,7 +87,7 @@ When it comes to individual choices, various perspectives are important. Governm
 
 Mainstream frameworks on sustainable consumption and production focus more on upstream and midstream components such as resource efficiency and circular economy. Lifecycle approaches need to consider the consumption of goods and services along with extraction of resources, production and disposal. Since demand, including lifestyle choices, drives supply, it is important to focus on downstream components and linkages across resource value chains. The objective of this brief is to contribute to framing of lifestyles and sustainable consumption and implications for internationalizing LiFE, along with examining instruments including policy instruments, market instruments, and social instruments. The scope of the analysis is limited to G20 countries - considering the global importance of their collective resource consumption.
 
-Figure 5: Panoramic photograph taken from a shopping-cart perspective in a supermarket, with the cart handle and basket in sharp focus center foreground and heavily blurred product aisles on both sides conveying motion.
+Figure 5: Photograph taken from the perspective of a shopping cart looking down a supermarket aisle, with the cart handlebar prominent in the foreground. The shelves on both sides are motion-blurred, conveying movement or a sense of speed while shopping.
 
 ## Page 8 · via `docling` · 1 table(s), 1 image(s)
 
@@ -95,7 +95,7 @@ Figure 5: Panoramic photograph taken from a shopping-cart perspective in a super
 
 To understand the state of lifestyles and consumption for G20 countries and the European Union, a composite index and indices on consumption sectors (such as food, transport, residential and waste management) have been developed. Table 1 summarises the indicators used in calculating the metrics for G20 countries and the European Union.
 
-Figure 6: Flat, stylized blue icon of a bus in side profile showing three rectangular passenger windows, a front windshield, and two circular wheels; there are no axes or labels. The image functions as a simple transportation/bus symbol.
+Figure 6: Stylized blue bus icon facing right, depicting three passenger windows, a driver’s window, and two wheels. It visually represents bus transportation or a shuttle/coach service.
 
 TABLE  1:  INDICATORS  AND  DATA  SOURCES  USED  FOR  DEVELOPING  METRICS  ON  SUSTAINABLE CONSUMPTION
 
@@ -120,7 +120,7 @@ For scoring, the standardized values are then multiplied by 100 to arrive at sco
 
 ## Page 9 · via `docling` · 1 table(s), 1 image(s)
 
-Figure 7: Bar chart of country "consumption" scores (y-axis 0–100, higher score = lower consumption) with countries on the x-axis. India has the highest score (100, lowest consumption) and the United States the lowest score (19, highest consumption), with other countries ranked between them.
+Figure 7: Vertical bar chart showing consumption scores by country (y-axis 0–100, higher score = lower consumption) with countries on the x-axis ordered from India (100) to United States (19). The chart highlights that India and Indonesia have the highest scores (lowest consumption) while the United States, Canada and Germany have the lowest scores (highest consumption).
 
 FIGURE 2: LIFESTYLES AND CONSUMPTION INDEX FOR G20 COUNTRIES AND EU
 
@@ -156,7 +156,7 @@ Source: Based on FAO (2022), IEA (2022); and Jambeck et al (2015)
 
 ## Page 10 · via `docling` · 0 table(s), 1 image(s)
 
-Figure 8: Photorealistic image of a sea turtle underwater with a plastic bag in its mouth, surrounded by numerous discarded plastic bottles and debris on the seabed and floating at the surface (no axes or labels). Main takeaway: visual depiction of marine plastic pollution harming wildlife.
+Figure 8: Photorealistic photograph/illustration of a sea turtle underwater clutching a plastic bag, with numerous plastic bottles floating at the surface and littering the seafloor (no axes or labels). The image highlights the impact of plastic pollution on marine life.
 
 Among G20 entities, India has the highest score in the Lifestyles and Consumption Index, while United States has the lowest score. Annexure 1 presents the sub-indices on lifestyles and consumption for G20 countries and the EU. India has the highest score-and thus the lowest consumption-for all the four consumption sectors (food consumption, transport, residential sector, and plastic waste generation). These score do not indicate  the  normative  direction  of  lifestyles  and  consumption,  but  merely  indicate  the  present  level  of consumption. As mentioned, these metrics are constrained by data availability, especially when it comes to indicators which strictly deal with downstream segments of resource value chains. The way the index has been developed is that differences in per capita incomes have not been accounted for. Since the point of the index is not to indicate a normative direction, in future, this index can be standardized using per capita incomes to determine how efficient or sustainable 1 passenger-km or 1 kilocalorie is across countries.
 
@@ -168,7 +168,7 @@ Moreover, to what extent can individual consumer choices be internationalized? W
 
 ## INSTRUMENTS TO NUDGE LIFESTYLES AND CONSUMPTION
 
-Figure 9: Photograph of the interior of a large dairy barn showing two long rows of Holstein cows feeding along a central concrete aisle with hay in troughs and wooden roof trusses and ventilation fans overhead. The image illustrates an organized, large-scale indoor cattle housing and feeding setup.
+Figure 9: Photograph of a large dairy barn interior showing two long rows of black-and-white dairy cows feeding from troughs along a central concrete aisle, with wooden truss roof structure and ventilation fans visible. The image illustrates high-density indoor cattle housing and feeding layout.
 
 Three categories of instruments become important when it comes to nudging lifestyles and sustainable consumption. These include policy instruments, market instruments and social instruments; these three categories are not mutually exclusive. For example, policy instruments may be vital to introduce market instruments, such as pricing and procurement. Similarly, consumers' movements and social movements fuelled by social instruments may be vital to bring about changes in policy and advertising norms. Therefore, these categories of instruments can interact with each other.
 
@@ -184,11 +184,11 @@ Social instruments :  Social Instruments aim at awareness generation and capacit
 
 Table  2  depicts  instruments  for  nudging  lifestyles  and  sustainable  consumption  for  the  four  sectors considered in the analysis. The instruments followed by * denotes the ones that are being deployed in G20 countries for the G20 sectors.
 
-Figure 10: A simple blue bus icon showing a side-view silhouette with three rectangular passenger windows, a front driver window, and two wheels; no labels or axes. The image is a stylized pictogram representing a bus/transportation.
+Figure 10: A simple blue flat-side icon/illustration of a bus showing three rectangular passenger windows, a front windshield, and two wheels; there are no labels or axes. The image serves as a transportation/bus symbol or pictogram.
 
-Figure 11: A flat two-tone blue icon depicting a hot dog or sandwich, composed of three rounded parallel bun shapes with a wavy center line representing the filling. It appears to be a simple logo or app-style emblem.
+Figure 11: Stylized blue icon depicting a food item: three parallel diagonal rounded bars with a wavy line through the middle bar suggesting a hot dog or sandwich. No axes or textual labels are present.
 
-Figure 12: A flat blue icon-style illustration of four stylized buildings forming a small city skyline, each showing rows of white square windows with the tallest building on the right. It serves as a generic urban/real-estate or office/residential buildings symbol.
+Figure 12: Icon-style illustration of four blue high-rise buildings with white square windows, arranged as a small city skyline. There are no axes or labels; the image serves as a generic urban/real-estate or office-building icon.
 
 TABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION
 
@@ -200,7 +200,7 @@ TABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION
 
 ## Page 13 · via `docling` · 1 table(s), 1 image(s)
 
-Figure 13: A simple blue logo showing three curved arrows arranged in a triangular loop, each arrow pointing to the next (the universal recycling symbol). The image conveys recycling/closed-loop reuse and contains no axes or textual labels.
+Figure 13: A simple blue logo/icon depicting the universal recycling symbol: three curved arrows forming a continuous triangular loop. The image conveys recycling/reuse or recyclable materials and has no axes or text labels.
 
 |                | Policy Instruments                                                                                                                                                                                                        | Market Instruments                                                                                                                                                                | Social instruments                                                                          |
 |----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
@@ -216,7 +216,7 @@ For G20 countries, the dominant focus of instruments has been in the categories 
 
 ## Page 14 · via `docling` · 0 table(s), 1 image(s)
 
-Figure 14: Photograph of a blue electric city bus shown from the side and rear, displaying prominent labels "Electric Bus," "WBTC," and a Marcopolo badge with a green license plate, stopped in urban traffic next to motorcycles. The image illustrates a branded electric public-transit vehicle in service.
+Figure 14: Photograph of the rear-side of a blue electric bus under an overpass, showing large "Electric Bus" lettering on the back and side, a "WBTC" logo, a Marcopolo badge, and a visible green license plate.
 
 focuses on promoting energy efficiency through research, information dissemination, policy options and designing and strengthening the development and implementation frameworks. While there has been a heavy focus on energy, considerable gaps exist in the residential building sector on water conservation when it comes to deploying large scale interventions. Moreover, many interventions are focussed on public buildings and need to further consider private residential spaces.
 
@@ -236,11 +236,11 @@ TABLE 3: HOOKS FOR INTERNATIONALIZING LIFESTYLE FOR ENVIRONMENT OR LIFE
 |----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|---------------------------------------------|-------------------------------------------------------------------------------------------------------------|
 | » LiFE as a major cross- cutting theme » G20 Coalition on LiFE » G20 Roadmap/ Coalition on Responsible Advertisement | » Include downstream indicators for SDG 12, including eco-labels and instruments such as spending on public awareness | » Include mandate on sustainable lifestyles | » Secretary General Report on lifestyles, along with UN agencies such as 10YFP/ One Planet Network and UNEP |
 
-Figure 15: 3D illustration of a round wooden table with large gold "G20" letters at its center, surrounded by small flagpoles bearing the G20 member countries' flags. The image symbolizes a G20 summit or meeting of major economies.
+Figure 15: 3D rendered overhead illustration of a round wooden conference table surrounded by national flags with large gold "G20" letters on the tabletop, representing a G20 summit or meeting of world leaders.
 
 ## Page 16 · via `docling` · 0 table(s), 1 image(s)
 
-Figure 16: Photograph of a densely built, colorful hillside town with dozens of multi‑story houses and rooftops (reds, greens, yellows, pastels) stacked on a steep mountain slope. No axes or labels; main takeaway is the tightly packed, terraced urban settlement climbing the hillside.
+Figure 16: Photograph of a densely built hillside town showing dozens of colorful, multi-story houses stacked on a steep slope with terraced streets and pathways; main takeaway is the compact, vertical arrangement of residential buildings across the mountain.
 
 - » Strengthening global indicator frameworks: SDG 12 indicators can include/have more downstream indicators - especially, when it comes to consumers and individuals - along with instruments such as eco-labels. This will be an important step forward when it comes to internationalizing lifestyles.
 
@@ -256,7 +256,7 @@ Figure 16: Photograph of a densely built, colorful hillside town with dozens of 
 
 ## Page 17 · via `docling` · 0 table(s), 1 image(s)
 
-Figure 17: Aerial photograph of a landfill showing a dense pile of mixed municipal waste on the left and cleared compacted earth/concrete pads on the right, with multiple dump trucks and yellow heavy machinery lined up along the central dividing line unloading and compacting refuse.
+Figure 17: Aerial photograph of a landfill showing a dense field of mixed refuse on the left and a cleared dirt/paved area with tire tracks on the right. Several yellow dump trucks and heavy machines (a front loader and tracked bulldozer) are lined up at a loading/unloading platform, indicating active waste-management operations.
 
 - » Consideration of pricing and retrofitting: It  is  important  to  look  at  the  aspect  of  pricing  as  masses may not be able to afford expensive goods and services. In the mobility section, we are talking about scrappage of the older vehicles, but unfortunately talking very little about retrofitting of technologies and increasing  the  life  of  vehicles.  Retrofitting  and  supporting  technologies  should  be  explored  to consider affordability as well as minimizing waste generation.
 
@@ -301,38 +301,39 @@ UNEP (United Nations Environment Programme). (2022). Global Strategy for Sustain
 <!-- PageFooter="Internationalizing Lifestyles for Environment: Messages for G20" -->
 <!-- PageNumber="19" -->
 
-## Page 20 · via `docling` · 0 table(s), 5 image(s)
+## Page 20 · via `text` · 0 table(s), 0 image(s)
 
-## Contact
-
-Centre for Sustainable Development Research and Leadership
-
-The Energy and Resources Institute
-
-6C, Darbari Seth Block, India Habitat Centre, Lodhi Road
-
-New Delhi - 110 003 India
-
-Email: wsds@teri.res.in
-
-20
-
-SDG Charter Policy Brief
-
-## WORLD SUSTAINABLE DEVELOPMENT SUMMIT
-
-The  World  Sustainable  Development  Summit  (WSDS)  is  the  annual flagship Track II initiative organized by The Energy and Resources Institute (TERI).  Instituted  in  2001,  the  Summit  series  has  a  legacy  of  over  two decades  for  making  'sustainable  development'  a  globally  shared  goal. The  only  independently  convened  international  Summit  on  sustainable development and environment, based in the Global South, WSDS strives to provide long-term solutions for the benefit of global communities by assembling the world's most enlightened leaders and thinkers on a single platform. Over the years, the Summit series has witnessed the participation of 54 Heads of State and Government, 103 Ministers, 13 Nobel Laureates, 1888 Business Leaders, 2745 Speakers, and 38,280 Delegates.
-
-## ACT4EARTH
-
-Act4Earth initiative was launched at the valedictory session of WSDS 2022. Building on the discussions of WSDS, this initiative seeks to continuously engage  with  stakeholders  through  research  and  dialogue.  Act4Earth initiative has two components: COP27 Compass and SDG Charter .  The COP Compass will seek to inspire and mobilize leadership at all levels, for  inclusive  transitions  through  ambitious  and  informed  policies  and measures  which  will  enable  paradigm  shifts  -  towards  meeting  the UNFCCC and Paris goals  through  mitigation,  adaptation  and  means  of implementation. The SDG Charter will seek to identify gaps and suggest ways  for  strengthening  and  mainstreaming  sustainable  development in  policy  agendas  for  enhanced  environmental,  social,  and  economic outcomes.
-
-Figure 18: Logo image of the EU Ecolabel: a stylized green plant with a lowercase green "e" encircled by 12 blue stars, with the text "EU Ecolabel" (green "EU" and blue "Ecolabel") beneath. It is the European Union environmental certification mark.
-
-Figure 19: A circular badge-style logo reading "NAPM RECYCLED APPROVED" around a partially closed circular arrow, with "100%" centered inside the ring; it indicates the item is 100% recycled and NAPM-approved.
-
-Figure 20: Black silhouette logo of the universal recycling symbol: three bold, curved arrows forming a triangular, clockwise chasing-arrows loop, indicating recycling or recyclable materials.
-
-Figure 21: Logo: a circular green Nordic Ecolabel (Nordic Swan) emblem showing diagonal white stripes that form a stylized swan inside the circle with the text "NORDIC ECOLABEL" arched above. It signifies an environmental/ecolabel certification mark.
-
-Figure 22: Graphic image of a rectangular barcode labeled "ISBN 978-93-94657-10-6" above the bars, with the numeric sequence "9789394657106" printed beneath; it encodes the ISBN for a book.
+20 SDG Charter Policy Brief
+WORLD SUSTAINABLE 
+DEVELOPMENT SUMMIT
+The World Sustainable Development Summit (WSDS) is the annual 
+flagship Track II initiative organized by The Energy and Resources Institute 
+(TERI). Instituted in 2001, the Summit series has a legacy of over two 
+decades for making ‘sustainable development’ a globally shared goal. 
+The only independently convened international Summit on sustainable 
+development and environment, based in the Global South, WSDS strives 
+to provide long-term solutions for the benefit of global communities by 
+assembling the world’s most enlightened leaders and thinkers on a single 
+platform. Over the years, the Summit series has witnessed the participation 
+of 54 Heads of State and Government, 103 Ministers, 13 Nobel Laureates, 
+1888 Business Leaders, 2745 Speakers, and 38,280 Delegates.
+ACT4EARTH
+Act4Earth initiative was launched at the valedictory session of WSDS 2022. 
+Building on the discussions of WSDS, this initiative seeks to continuously 
+engage with stakeholders through research and dialogue. Act4Earth 
+initiative has two components: COP27 Compass and SDG Charter. The 
+COP Compass will seek to inspire and mobilize leadership at all levels, 
+for inclusive transitions through ambitious and informed policies and 
+measures which will enable paradigm shifts – towards meeting the 
+UNFCCC and Paris goals through mitigation, adaptation and means of 
+implementation. The SDG Charter will seek to identify gaps and suggest 
+ways for strengthening and mainstreaming sustainable development 
+in policy agendas for enhanced environmental, social, and economic 
+outcomes.
+Contact
+Centre for Sustainable Development Research and Leadership
+The Energy and Resources Institute
+6C, Darbari Seth Block, India Habitat Centre, Lodhi Road
+New Delhi - 110 003 India
+Email: wsds@teri.res.in
+Printed on 100% recycled paper

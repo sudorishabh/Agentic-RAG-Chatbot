@@ -17,4 +17,4 @@ celery  # optional: background ingestion workers (app/workers/tasks.py)
 
 # PDF extraction (app/ingestion/extractors/pdf_extractor.py)
 azure-ai-documentintelligence  # OCR + layout + tables for scanned PDFs
-pypdfium2                      # per-page scanned/digital classification + digital text extraction
+unstructured[pdf]              # digital-page text extraction (fast/pdfminer strategy)

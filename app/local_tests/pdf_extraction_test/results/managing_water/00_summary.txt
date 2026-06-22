@@ -1,0 +1,16 @@
+PDF EXTRACTION SUMMARY — managing-water.pdf
+==============================================================================
+  elapsed            : 4.46s
+  pages              : 1
+  tables             : 0
+  images / figures   : 0
+  extracted chars    : 5,553
+
+  pages by route     : {'ocr': 1}
+  digital vs scanned : 0 digital / 1 scanned (OCR) / 0 empty
+  OCR page numbers   : [1]
+
+  chunks (total)     : 5
+  parent chunks      : 1
+  child chunks       : 4
+  child tokens       : min=310 max=397 avg=349
