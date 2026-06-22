@@ -16,6 +16,5 @@ redis
 celery  # optional: background ingestion workers (app/workers/tasks.py)
 
 # PDF extraction (app/ingestion/extractors/pdf_extractor.py)
-docling                        # digital-PDF structure: layout, tables, reading order, figures
-azure-ai-documentintelligence  # OCR + layout for scanned PDFs
-pypdfium2                      # per-page text probe + page rasterisation for OCR
+azure-ai-documentintelligence  # OCR + layout + tables for scanned PDFs
+pypdfium2                      # per-page scanned/digital classification + digital text extraction
