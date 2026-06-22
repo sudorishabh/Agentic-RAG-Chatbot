@@ -1,7 +1,5 @@
 from __future__ import annotations
-import io
 import logging
-import os
 import re
 from dataclasses import dataclass, field
 from enum import Enum
@@ -15,7 +13,6 @@ logger = logging.getLogger(__name__)
 __all__ = [
     "ExtractedVia",
     "TableData",
-    "ImageData",
     "PageContent",
     "ExtractionResult",
     "extract_pdf",
@@ -23,7 +20,6 @@ __all__ = [
 
 class ExtractedVia(str, Enum):
 
-    DOCLING = "docling"
     OCR = "ocr"
     TEXT = "text"
     EMPTY = "empty"
@@ -39,25 +35,12 @@ class TableData:
 
 
 @dataclass
-class ImageData:
-    page_number: int | None = None
-    index: int = 0
-    path: str | None = None
-    caption: str | None = None
-    classification: str | None = None
-    description: str | None = None
-    width: int | None = None
-    height: int | None = None
-
-
-@dataclass
 class PageContent:
 
     page_number: int
     text: str
     extracted_via: ExtractedVia
     tables: list[TableData] = field(default_factory=list)
-    images: list[ImageData] = field(default_factory=list)
 
 
 @dataclass
@@ -80,16 +63,8 @@ class ExtractionResult:
         return [t for page in self.pages for t in page.tables]
 
     @property
-    def images(self) -> list[ImageData]:
-        return [im for page in self.pages for im in page.images]
-
-    @property
     def table_count(self) -> int:
         return sum(len(page.tables) for page in self.pages)
-
-    @property
-    def image_count(self) -> int:
-        return sum(len(page.images) for page in self.pages)
 
     @property
     def ocr_page_numbers(self) -> list[int]:
@@ -213,320 +188,6 @@ def _extract_digital_text(content: bytes, page_indices: list[int]) -> dict[int, 
             out[i + 1] = PageContent(page_number=i + 1, text=text, extracted_via=via)
     finally:
         pdf.close()
-    return out
-
-
-_BOILERPLATE_LABELS = {"page_header", "page_footer", "page_number"}
-
-
-def _slugify(value: str) -> str:
-    slug = re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
-    return slug or "document"
-
-
-@lru_cache
-def _docling_converter():
-    from docling.datamodel.base_models import InputFormat
-    from docling.datamodel.pipeline_options import PdfPipelineOptions, TableFormerMode
-    from docling.document_converter import DocumentConverter, PdfFormatOption
-
-    settings = get_settings()
-    opts = PdfPipelineOptions()
-    opts.do_ocr = False
-    opts.do_table_structure = True
-    opts.table_structure_options.mode = (
-        TableFormerMode.FAST
-        if settings.docling_table_mode.strip().lower() == "fast"
-        else TableFormerMode.ACCURATE
-    )
-    opts.generate_picture_images = settings.pdf_extract_images
-    opts.images_scale = max(1.0, settings.pdf_ocr_render_dpi / 72.0)
-    if settings.docling_artifacts_path:
-        opts.artifacts_path = settings.docling_artifacts_path
-
-    opts.ocr_batch_size = settings.docling_batch_size
-    opts.layout_batch_size = settings.docling_batch_size
-    opts.table_batch_size = settings.docling_batch_size
-    opts.queue_max_size = settings.docling_queue_max_size
-
-    return DocumentConverter(
-        format_options={InputFormat.PDF: PdfFormatOption(pipeline_options=opts)}
-    )
-
-
-def _extract_with_docling(
-    content: bytes, filename: str, keep_pages: set[int]
-) -> dict[int, PageContent]:
-    from docling.datamodel.base_models import DocumentStream
-
-    source = DocumentStream(name=filename, stream=io.BytesIO(content))
-    result = _docling_converter().convert(source)
-    return _pages_from_docling(result.document, filename, keep_pages)
-
-
-def _pages_from_docling(
-    doc: Any, filename: str, keep_pages: set[int]
-) -> dict[int, PageContent]:
-    from collections import defaultdict
-
-    from docling_core.types.doc import PictureItem, TableItem
-
-    settings = get_settings()
-    image_dir = os.path.join(settings.pdf_image_dir, _slugify(filename))
-
-    texts: dict[int, list[str]] = defaultdict(list)
-    tables: dict[int, list[TableData]] = defaultdict(list)
-    images: dict[int, list[ImageData]] = defaultdict(list)
-    figure_n = 0
-
-    for item, _level in doc.iterate_items():
-        page_no = _docling_item_page(item)
-        if page_no is None or page_no not in keep_pages:
-            continue
-
-        if isinstance(item, TableItem):
-            table = _docling_table(item, doc, page_no)
-            if table:
-                texts[page_no].append(table.markdown)
-                tables[page_no].append(table)
-        elif isinstance(item, PictureItem):
-            figure_n += 1
-            image, placeholder = _handle_picture(
-                item, doc, figure_n, page_no, image_dir, settings
-            )
-            if image is not None:
-                images[page_no].append(image)
-            if placeholder:
-                texts[page_no].append(placeholder)
-        else:
-            line = _docling_text_line(item)
-            if line:
-                texts[page_no].append(line)
-
-    out: dict[int, PageContent] = {}
-    for page_no in keep_pages:
-        body = "\n\n".join(texts.get(page_no, [])).strip()
-        page_tables = tables.get(page_no, [])
-        page_images = images.get(page_no, [])
-        via = (
-            ExtractedVia.DOCLING
-            if (body or page_tables or page_images)
-            else ExtractedVia.EMPTY
-        )
-        out[page_no] = PageContent(
-            page_number=page_no,
-            text=body,
-            extracted_via=via,
-            tables=page_tables,
-            images=page_images,
-        )
-    return out
-
-
-def _docling_item_page(item: Any) -> int | None:
-    prov = getattr(item, "prov", None) or []
-    return getattr(prov[0], "page_no", None) if prov else None
-
-
-def _label_value(item: Any) -> str:
-    label = getattr(item, "label", None)
-    return str(getattr(label, "value", label) or "").lower()
-
-
-def _docling_text_line(item: Any) -> str:
-    text = (getattr(item, "text", None) or "").strip()
-    if not text:
-        return ""
-    label = _label_value(item)
-    if label in _BOILERPLATE_LABELS:
-        return ""
-    if label == "caption":
-        return ""
-    if label == "title":
-        return f"# {text}"
-    if label == "section_header":
-        level = int(getattr(item, "level", 1) or 1)
-        return f"{'#' * min(level + 1, 6)} {text}"
-    if label == "list_item":
-        return f"- {text}"
-    if label == "code":
-        return f"```\n{text}\n```"
-    return text
-
-
-def _docling_table(item: Any, doc: Any, page_no: int) -> TableData | None:
-    try:
-        markdown = item.export_to_markdown(doc)
-    except TypeError:
-        markdown = item.export_to_markdown()
-    except Exception:
-        logger.debug("Docling table export failed on page %s", page_no, exc_info=True)
-        return None
-    markdown = (markdown or "").strip()
-    if not markdown:
-        return None
-    data = getattr(item, "data", None)
-    return TableData(
-        markdown=markdown,
-        page_number=page_no,
-        rows=int(getattr(data, "num_rows", 0) or 0),
-        cols=int(getattr(data, "num_cols", 0) or 0),
-        caption=_caption_text(item, doc),
-    )
-
-
-def _caption_text(item: Any, doc: Any) -> str | None:
-    try:
-        text = (item.caption_text(doc) or "").strip()
-        return text or None
-    except Exception:
-        return None
-
-
-def _picture_class(item: Any) -> str | None:
-    try:
-        for annotation in getattr(item, "annotations", None) or []:
-            classes = getattr(annotation, "predicted_classes", None) or []
-            if classes:
-                top = max(classes, key=lambda c: getattr(c, "confidence", 0) or 0)
-                name = getattr(top, "class_name", None)
-                if name and name.lower() != "other":
-                    return str(name)
-    except Exception:
-        pass
-    return None
-
-
-def _figure_placeholder(
-    n: int,
-    caption: str | None,
-    classification: str | None,
-    description: str | None = None,
-) -> str:
-    head = f"Figure {n}"
-    if classification:
-        head += f" ({classification})"
-    detail = " — ".join(part for part in (caption, description) if part)
-    return f"{head}: {detail}" if detail else head
-
-
-_CAPTION_PROMPT = (
-    "You are describing a figure extracted from a document for a search index. "
-    "In 1-2 plain sentences, state what the figure shows — the kind of visual "
-    "(chart, diagram, photo, logo, ...), its subject, key labels or axes, and the "
-    "main takeaway. Be factual and concise; do not add any preamble."
-)
-
-
-@lru_cache
-def _vision_llm():
-    settings = get_settings()
-    if not (
-        settings.azure_openai_endpoint
-        and settings.azure_openai_api_key
-        and settings.azure_openai_model
-    ):
-        return None
-    from app.generation.llm_client import get_llm
-
-    return get_llm()
-
-
-def _describe_image(image: Any) -> str | None:
-    llm = _vision_llm()
-    if llm is None:
-        return None
-
-    import base64
-
-    try:
-        buffer = io.BytesIO()
-        image.save(buffer, format="PNG")
-        data_uri = "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode()
-
-        from langchain_core.messages import HumanMessage
-
-        message = HumanMessage(
-            content=[
-                {"type": "text", "text": _CAPTION_PROMPT},
-                {"type": "image_url", "image_url": {"url": data_uri}},
-            ]
-        )
-        content = llm.invoke([message]).content
-        text = (content if isinstance(content, str) else str(content)).strip()
-        return text or None
-    except Exception:
-        logger.warning(
-            "Figure captioning failed; continuing without a description.", exc_info=True
-        )
-        return None
-
-
-def _handle_picture(
-    item: Any, doc: Any, n: int, page_no: int, image_dir: str, settings: Any
-) -> tuple[ImageData | None, str]:
-    caption = _caption_text(item, doc)
-    classification = _picture_class(item)
-    path: str | None = None
-    description: str | None = None
-    width = height = None
-
-    image = None
-    if settings.pdf_extract_images or settings.pdf_describe_images:
-        try:
-            image = item.get_image(doc)
-        except Exception:
-            image = None
-
-    if image is not None:
-        width, height = image.size
-        if max(width, height) < settings.pdf_image_min_pixels:
-            return None, ""
-        if settings.pdf_extract_images:
-            try:
-                os.makedirs(image_dir, exist_ok=True)
-                path = os.path.join(image_dir, f"page{page_no}-fig{n}.png")
-                image.save(path)
-            except Exception:
-                logger.debug("Saving figure %s failed", n, exc_info=True)
-                path = None
-        if settings.pdf_describe_images:
-            description = _describe_image(image)
-
-    if path is None and not caption and not classification and not description:
-        return None, ""
-
-    image_data = ImageData(
-        page_number=page_no,
-        index=n,
-        path=path,
-        caption=caption,
-        classification=classification,
-        description=description,
-        width=width,
-        height=height,
-    )
-    return image_data, _figure_placeholder(n, caption, classification, description)
-
-
-def _has_content(page: PageContent | None) -> bool:
-    return page is not None and bool(page.text or page.tables or page.images)
-
-
-def _extract_digital(
-    content: bytes, filename: str, digital_indices: list[int]
-) -> dict[int, PageContent]:
-    keep_pages = {i + 1 for i in digital_indices}
-    try:
-        docling_pages = _extract_with_docling(content, filename, keep_pages)
-    except Exception:
-        logger.exception("Docling extraction failed; falling back to pypdfium2 text.")
-        docling_pages = {}
-
-    out = {pn: pc for pn, pc in docling_pages.items() if _has_content(pc)}
-    fallback_indices = [i for i in digital_indices if (i + 1) not in out]
-    if fallback_indices:
-        out.update(_extract_digital_text(content, fallback_indices))
     return out
 
 
@@ -674,7 +335,7 @@ def extract_pdf(content: bytes, filename: str) -> ExtractionResult:
     scanned_page_numbers = [i + 1 for i, scanned in enumerate(scanned_flags) if scanned]
 
     if digital_indices:
-        pages_map.update(_extract_digital(content, filename, digital_indices))
+        pages_map.update(_extract_digital_text(content, digital_indices))
     if scanned_page_numbers:
         pages_map.update(_ocr_pdf(content, scanned_page_numbers))
 
@@ -692,11 +353,10 @@ def extract_pdf(content: bytes, filename: str) -> ExtractionResult:
 def _log_summary(result: ExtractionResult, filename: str) -> None:
     ocr_pages = result.ocr_page_numbers
     logger.info(
-        "Extracted %s: %d page(s), %d table(s), %d image(s)%s",
+        "Extracted %s: %d page(s), %d table(s)%s",
         filename,
         result.page_count,
         result.table_count,
-        result.image_count,
         f"; OCR on page(s) {ocr_pages}" if ocr_pages else "",
     )
 
@@ -726,8 +386,8 @@ def _main(argv: list[str] | None = None) -> int:
     for page in result.pages:
         by_source[page.extracted_via.value] = by_source.get(page.extracted_via.value, 0) + 1
     print(
-        f"{path.name}: {result.page_count} page(s), {result.table_count} table(s), "
-        f"{result.image_count} image(s) · pages by source: {by_source}"
+        f"{path.name}: {result.page_count} page(s), {result.table_count} table(s) "
+        f"· pages by source: {by_source}"
     )
     if result.ocr_page_numbers:
         print(f"  OCR pages: {result.ocr_page_numbers}")
@@ -735,15 +395,10 @@ def _main(argv: list[str] | None = None) -> int:
     for page in result.pages[: args.pages]:
         print(
             f"\n=== page {page.page_number} via {page.extracted_via.value} "
-            f"· {len(page.tables)} table(s), {len(page.images)} image(s) ==="
+            f"· {len(page.tables)} table(s) ==="
         )
         body = page.text if args.full else page.text[:1000] + ("…" if len(page.text) > 1000 else "")
         print(body)
-        for image in page.images:
-            print(
-                f"  [figure {image.index}] {image.path or '(not saved)'} "
-                f"· class={image.classification} · desc={image.description!r}"
-            )
 
     if args.chunk:
         from app.ingestion.chunker import chunk_pdf

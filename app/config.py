@@ -25,16 +25,6 @@ class Settings(BaseSettings):
     azure_document_intelligence_key: str = ""
     azure_document_intelligence_model: str = "prebuilt-layout"
     pdf_scanned_char_threshold: int = 100
-    pdf_ocr_render_dpi: int = 300
-    docling_table_mode: str = "accurate"
-    docling_artifacts_path: str = ""
-    docling_batch_size: int = 1
-    docling_queue_max_size: int = 4
-    pdf_extract_images: bool = True
-    pdf_image_dir: str = "data/extracted_images"
-    pdf_image_min_pixels: int = 64
-    pdf_describe_images: bool = True
-    pdf_image_caption_max_tokens: int = 256
     qdrant_url: str = "http://localhost:6333"
     qdrant_api_key: str | None = None
     qdrant_collection: str = "documents"

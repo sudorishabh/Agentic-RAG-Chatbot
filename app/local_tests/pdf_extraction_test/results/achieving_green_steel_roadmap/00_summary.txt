@@ -1,16 +1,16 @@
 PDF EXTRACTION SUMMARY — Achieving_Green_Steel_Roadmap.pdf
 ==============================================================================
-  elapsed            : 1361.79s
+  elapsed            : 299.9s
   pages              : 60
-  tables             : 4
-  images / figures   : 6
-  extracted chars    : 114,724
+  tables             : 6
+  images / figures   : 29
+  extracted chars    : 121,964
 
-  pages by route     : {'ocr': 14, 'docling': 14, 'text': 32}
+  pages by route     : {'ocr': 14, 'docling': 46}
   digital vs scanned : 46 digital / 14 scanned (OCR) / 0 empty
   OCR page numbers   : [1, 4, 6, 7, 8, 14, 16, 18, 27, 31, 37, 47, 55, 60]
 
-  chunks (total)     : 111
-  parent chunks      : 43
+  chunks (total)     : 112
+  parent chunks      : 44
   child chunks       : 68
-  child tokens       : min=120 max=619 avg=364
+  child tokens       : min=113 max=602 avg=365
