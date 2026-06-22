@@ -64,9 +64,9 @@ Relative Environment Economics Of Natural Gas and Other Fossil Fuels for Power G
 
 -  Supply of gas up to January 2013 was 41.45 mmscmd as against a requirement of 86 mmscmd
 
-Figure 1: 3D exploded pie chart showing electricity generation shares by source with labeled slices: Coal 55%, Hydro 20%, RES (renewables) 12%, Natural Gas 9%, Nuclear 3%, Diesel 1%. The chart highlights that coal is the dominant source (55%) followed by hydro (20%).
+Figure 1: 3D exploded pie chart showing electricity/fuel source shares labeled: Coal 55%, Hydro 20%, RES 12%, Natural Gas 9%, Nuclear 3%, Diesel 1%. The main takeaway is that coal is the dominant source (55%), followed by hydro (20%).
 
-Figure 2: Clustered bar chart showing Target (blue) vs Achieved (orange) generation capacity in MW on the y-axis for the 7th–11th Plans on the x-axis. In every plan the Target exceeds Achieved values — notably the 11th Plan target 78,700 MW vs achieved 34,462 MW, indicating persistent shortfalls.
+Figure 2: Bar chart comparing Target (blue) and Achieved (orange) installed capacity (y‑axis in MW) across the 7th–11th Plans (x‑axis), with targets ≈22,245/30,538/40,245/41,110/78,700 MW and achieved ≈21,401/16,423/19,015/21,180/34,462 MW. The achieved capacity is below the target in every plan, with the largest shortfall in the 11th Plan.
 
 ## Page 5 · via `docling` · 0 table(s), 0 image(s)
 
@@ -102,7 +102,7 @@ Figure 2: Clustered bar chart showing Target (blue) vs Achieved (orange) generat
 
 -  All calculations based on CERC norms
 
-Figure 3: Map of India showing locations of power plants and fuel infrastructure with a legend marking power plants (red), domestic coal, imported coal, domestic natural gas and LNG terminals; major labeled locations include Delhi, Dhanbad, Korba, Talcher, Karanpura, Kolkata, Vishakhapatnam, KG Basin, Tuticorin, Kandla and Bharuch. The map shows clustering of coal-related sites in central and eastern India and LNG/natural gas terminals primarily along the coast.
+Figure 3: Map of India marking locations of power plants and fuel infrastructure with a legend for power plants, domestic coal, imported coal, domestic natural gas, and LNG. The map shows clusters of domestic coal and power plants in eastern central India (e.g., Dhanbad, Korba, Talcher) and LNG/port terminals along the western and southern coasts (e.g., Kandla, Dahej, Kochi, Ennore, Tuticorin).
 
 ## Page 7 · via `docling` · 2 table(s), 0 image(s)
 
@@ -153,7 +153,7 @@ Figure 3: Map of India showing locations of power plants and fuel infrastructure
 
 ## Financial Cost of Power Generation
 
-Figure 4: Grouped bar chart showing fuel-based electricity costs (Rs/kWh) for cities (Delhi, Bilaspur, Vadodara, Vishakapatnam, Kochi, Talcher, Dhanbad, Agartala, Nagpur) with blue=Domestic Coal, red=Imported Coal, green=Domestic Gas and purple=LNG; y-axis labeled Rs/kWh. Main takeaway: LNG is the most expensive fuel across all cities (~6–6.5 Rs/kWh), imported coal is next (~5–5.7), domestic gas is mid-range (~3.5–4) and domestic coal is the cheapest (~2.5–3.8).
+Figure 4: Bar chart showing fuel-level costs (Rs/kWh on the y-axis) for four fuel types — Domestic Coal, Imported Coal, Domestic Gas, and LNG — across cities on the x-axis (Delhi, Bilaspur, Vaddodara, Vishakapatnam, Kochi, Talcher, Dhanbad, Agartala, Nagpur). LNG is consistently the most expensive (~6–6.5 Rs/kWh) while Domestic Coal is the cheapest (~2.5–3.8 Rs/kWh), with Imported Coal and Domestic Gas falling between.
 
 |                 | Fuel Options   | Fuel Options   | Fuel Options   | Fuel Options   |
 |-----------------|----------------|----------------|----------------|----------------|
@@ -190,7 +190,7 @@ Figure 4: Grouped bar chart showing fuel-based electricity costs (Rs/kWh) for ci
 
 ## CO2  emissions distribution (million tonnes) across sectors in 2007
 
-Figure 5: 3D exploded pie chart of sector values and percentages, with labeled slices for Electricity (715.83, 51%), Other industries (158.98, 11%), Transport (138.86, 10%), Other Energy Industries (138.15, 10%), Cement (129.92, 9%) and Iron and Steel (116.96, 9%); the main takeaway is that Electricity is the largest share.
+Figure 5: 3D pie chart of sectoral values and percentages labeled: Electricity 715.83 (51%), Other industries 158.98 (11%), Transport 138.86 (10%), Other Energy Industries 138.15 (10%), Cement 129.92 (9%), Iron and Steel 116.96 (9%). Main takeaway: Electricity dominates the chart, contributing just over half of the total.
 
 ## Page 12 · via `docling` · 0 table(s), 0 image(s)
 
@@ -218,7 +218,7 @@ Figure 5: 3D exploded pie chart of sector values and percentages, with labeled s
 
 ## Total cost of power generation at a carbon price of US$ 30/tCO 2 (in Rs./kWh)
 
-Figure 6: Clustered bar chart of fuel-based electricity costs (Rs/kWh) by city (Delhi, Bilaspur, Vadodara, Vishakapatnam, Kochi, Talcher, Dhanbad, Agartala, Nagpur) for four fuels: Domestic Coal, Imported Coal, Domestic Gas, and LNG (y-axis ~1–7 Rs/kWh). Main takeaway: Imported Coal and LNG are the highest-cost fuels (~6.5–7.3 Rs/kWh), domestic gas is the lowest (~4–4.8 Rs/kWh), and domestic coal lies in between (~4–5.5 Rs/kWh).
+Figure 6: Clustered bar chart of Rs/kWh by fuel type (Domestic Coal, Imported Coal, Domestic Gas, LNG) for cities on the x-axis (Delhi, Bilaspur, Vadodara, Vishakapatnam, Kochi, Talcher, Dhanbad, Agartala, Nagpur) with the y-axis labeled Rs/kWh. The chart shows LNG and Imported Coal with the highest costs (~6.5–7.3 Rs/kWh), Domestic Gas the lowest (~4–4.8 Rs/kWh), and Domestic Coal intermediate (~4–5.5 Rs/kWh).
 
 |                 | Fuel Options   | Fuel Options   | Fuel Options   | Fuel Options   |
 |-----------------|----------------|----------------|----------------|----------------|
@@ -239,7 +239,7 @@ Figure 6: Clustered bar chart of fuel-based electricity costs (Rs/kWh) by city (
 
 ## Total cost of power generation at a carbon price of US$ 10/tCO 2 (in Rs./kWh)
 
-Figure 7: Grouped vertical bar chart showing fuel-specific costs (Rs/kWh on the y-axis) for different locations (x-axis: Delhi, Bilaspur, Vadodara, Vishakapatnam, Kochi, Talcher, Dhanbad, Agartala, Nagpur) with series for Domestic Coal (blue), Imported Coal (red), Domestic Gas (green), and LNG (purple). LNG has the highest cost across cities (~6–6.7 Rs/kWh), domestic coal the lowest (~3–4.5 Rs/kWh), while imported coal and domestic gas lie in between.
+Figure 7: Grouped bar chart showing Rs/kWh (y-axis) for four fuel types (Domestic Coal, Imported Coal, Domestic Gas, LNG) across locations (Delhi, Bilaspur, Vadodara, Vishakapatnam, Kochi, Talcher, Dhanbad, Agartala, Nagpur). LNG costs are consistently highest (~6–6.7 Rs/kWh), imported coal is next (~5–6.3), domestic gas around 3.8–4.5, and domestic coal is the lowest (~3–4.5).
 
 |                 | Fuel Options   | Fuel Options   | Fuel Options   | Fuel Options   |
 |-----------------|----------------|----------------|----------------|----------------|
@@ -254,44 +254,33 @@ Figure 7: Grouped vertical bar chart showing fuel-specific costs (Rs/kWh on the 
 | Agartala        | 4.26           | 6.27           | 4.22           | 6.62           |
 | Nagpur          | 3.41           | 5.87           | 3.88           | 6.53           |
 
-## Page 15 · via `text` · 0 table(s), 0 image(s)
+## Page 15 · via `docling` · 0 table(s), 0 image(s)
 
-Adding the Cost of Carbon to Power Generation Cost (3)
- When the costs of carbon are incorporated:
- Domestic natural gas becomes competitive with domestic coal in most 
-locations
- The difference between imported coal and LNG reduces substantially 
-and LNG even becomes competitive in distant locations (such as 
-Agartala)
+## Adding the Cost of Carbon to Power Generation Cost (3)
 
-## Page 16 · via `text` · 0 table(s), 0 image(s)
+-  When the costs of carbon are incorporated:
 
-A Comparison
-Plant 
-Locations
-Fuel Options
-Imported Coal LNG
-Without 
-carbon cost
-With carbon costs 
-(at US$ 10)
-With carbon costs 
-(at US$ 30)
-Without carbon 
-cost
-With carbon 
-costs (at US$ 10)
-With carbon costs 
-(at US$ 30)
-Delhi 5.47 5.98 7.02 6.38 6.62 7.11
-Bilaspur 5.35 5.87 6.91 6.36 6.60 7.09
-Vadodara 5.16 5.68 6.72 6.31 6.55 7.04
-Vishakapatnam 4.93 5.45 6.48 6.12 6.55 6.86
-Kochi 5.10 5.62 6.65 6.12 6.55 6.86
-Talcher 4.98 5.50 6.53 6.33 6.58 7.07
-Dhanbad 5.09 5.61 6.64 6.38 6.62 7.11
-Agartala 5.75 6.27 7.30 6.38 6.62 7.11
-Nagpur 5.35 5.87 6.90 6.28 6.53 7.02
+-  Domestic natural gas becomes competitive with domestic coal in most locations
+
+-  The difference between imported coal and LNG reduces substantially and LNG even becomes competitive in distant locations (such as Agartala)
+
+## Page 16 · via `docling` · 1 table(s), 0 image(s)
+
+## A Comparison
+
+|                 | Fuel Options        | Fuel Options                  | Fuel Options                  | Fuel Options        | Fuel Options                  | Fuel Options                  |
+|-----------------|---------------------|-------------------------------|-------------------------------|---------------------|-------------------------------|-------------------------------|
+| Plant Locations | Imported Coal       | Imported Coal                 | Imported Coal                 | LNG                 | LNG                           | LNG                           |
+|                 | Without carbon cost | With carbon costs (at US$ 10) | With carbon costs (at US$ 30) | Without carbon cost | With carbon costs (at US$ 10) | With carbon costs (at US$ 30) |
+| Delhi           | 5.47                | 5.98                          | 7.02                          | 6.38                | 6.62                          | 7.11                          |
+| Bilaspur        | 5.35                | 5.87                          | 6.91                          | 6.36                | 6.60                          | 7.09                          |
+| Vadodara        | 5.16                | 5.68                          | 6.72                          | 6.31                | 6.55                          | 7.04                          |
+| Vishakapatnam   | 4.93                | 5.45                          | 6.48                          | 6.12                | 6.55                          | 6.86                          |
+| Kochi           | 5.10                | 5.62                          | 6.65                          | 6.12                | 6.55                          | 6.86                          |
+| Talcher         | 4.98                | 5.50                          | 6.53                          | 6.33                | 6.58                          | 7.07                          |
+| Dhanbad         | 5.09                | 5.61                          | 6.64                          | 6.38                | 6.62                          | 7.11                          |
+| Agartala        | 5.75                | 6.27                          | 7.30                          | 6.38                | 6.62                          | 7.11                          |
+| Nagpur          | 5.35                | 5.87                          | 6.90                          | 6.28                | 6.53                          | 7.02                          |
 
 ## Page 17 · via `ocr` · 0 table(s), 0 image(s)
 
@@ -299,32 +288,32 @@ Nagpur 5.35 5.87 6.90 6.28 6.53 7.02
 
 <!-- PageBreak -->
 
-## Page 18 · via `text` · 0 table(s), 0 image(s)
+## Page 18 · via `docling` · 0 table(s), 0 image(s)
 
-Domestic Fuel Availability in India -
-Coal
- Coal and gas shortages in the country are constraining the development of 
-power sector in the country
- The reasons cited for shortages of coal are delay in obtaining clearances, 
-bottlenecks in transport and evacuation facilities
- The total requirement for non-coking coal is projected to increase to 913.3 
-Mt (Million tonnes) by 2016-17 and further to 1268 Mt by 2021-22*
- Even if domestic production targets are met, the gap between requirement 
-and domestic availability is projected to be 150 Mt in 2016-17 and 230 
-Mt in in 2021-22*
-*Planning Commission, Working Group Report for the 12th Five Year Plan
+## Domestic Fuel Availability in India Coal
 
-## Page 19 · via `text` · 0 table(s), 0 image(s)
+-  Coal and gas shortages in the country are constraining the development of power sector in the country
 
-Domestic Fuel Availability in India –
-Natural Gas
- Production of natural gas from domestic fields has declined – reduction in 
-KG-D6 output which has decreased to nearly 16 mmscmd* 
- Low prospects of addition to domestic gas production levels
- Actual production in 11th Five Year Plan was 83% of the targets, down from 
-89.5% achievement in the 10th Five Year Plan
- Advisory by Ministry of Power not to build gas based power plants till 
-2015-16
+-  The reasons cited for shortages of coal are delay in obtaining clearances, bottlenecks in transport and evacuation facilities
+
+-  The total requirement for non-coking coal is projected to increase to 913.3 Mt (Million tonnes) by 2016-17 and further to 1268 Mt by 2021-22*
+
+-  Even if domestic production targets are met, the gap between requirement and domestic availability is projected to be 150 Mt in 2016-17 and 230 Mt in in 2021-22*
+
+*Planning Commission, Working Group Report for the 12 th  Five Year Plan
+
+## Page 19 · via `docling` · 0 table(s), 0 image(s)
+
+## Domestic Fuel Availability in India Natural Gas
+
+-  Production of natural gas from domestic fields has declined - reduction in KG-D6 output which has decreased to nearly 16 mmscmd*
+
+-  Low prospects of addition to domestic gas production levels
+
+-  Actual production in 11 th  Five Year Plan was 83% of the targets, down from 89.5% achievement in the 10 th  Five Year Plan
+
+-  Advisory by Ministry of Power not to build gas based power plants till 2015-16
+
 * Lok Sabha Standing Committee Report, April 2013
 
 ## Page 20 · via `ocr` · 0 table(s), 0 image(s)
@@ -349,7 +338,7 @@ KG-D6 output which has decreased to nearly 16 mmscmd*
 
 ## Price of Indian basket of crude oil
 
-Figure 8: Line chart with diamond markers showing crude oil price (US$/bbl) on the y-axis versus months Mar-12 to Feb-13 on the x-axis, with the price scale from 90 to 130 US$/bbl. The price falls from about $124/bbl in Mar‑12 to a low near $95/bbl in Jun‑12, then rebounds to around $112/bbl in Sep‑12, dips modestly through Dec‑12 and rises to about $113/bbl by Feb‑13.
+Figure 8: Line chart with diamond markers showing monthly oil prices (y-axis: US$/bbl) from Mar-12 to Feb-13 (x-axis). Prices drop sharply from about $123/bbl in Mar-12 to ~$95/bbl in Jun-12, then rebound and stabilize around $110–113/bbl through late 2012 and early 2013.
 
 ## Page 22 · via `docling` · 0 table(s), 0 image(s)
 
@@ -433,22 +422,21 @@ Source: BP , 2012
 
 <!-- PageBreak -->
 
-## Page 26 · via `text` · 0 table(s), 0 image(s)
+## Page 26 · via `docling` · 0 table(s), 0 image(s)
 
-Conclusions 
- The difference between cost of power generated using LNG and imported coal 
-reduces if the carbon implications are taken into account
- If the impact of increased shale gas availability in North America spreads to 
-Europe and then to Asia, the rise in LNG prices may only be moderate
- The tax etc. on coal exports from Australia and Indonesia are only likely to 
-increase, making coal import costs higher
- The climate change concerns and the National Action Plan on Climate Change 
-also warrant lowering emissions from power generation
- The huge demand for fuel makes it imperative that we abandon an „either or 
-approach‟ and attempt to increase the availability of piped natural gas and 
-LNG in addition to clean coal and domestic gas
- However, tariff rationalisation will be a sine qua non for such a multi fuel 
-strategy
+## Conclusions
+
+-  The difference between cost of power generated using LNG and imported coal reduces if the carbon implications are taken into account
+
+-  If the impact of increased shale gas availability in North America spreads to Europe and then to Asia, the rise in LNG prices may only be moderate
+
+-  The tax etc. on coal exports from Australia and Indonesia are only likely to increase,  making coal import costs higher
+
+-  The climate change concerns and the National Action Plan on Climate Change also warrant lowering emissions from power generation
+
+-  The huge demand for fuel makes it imperative that we abandon an ' either or approach ' and attempt to increase the availability of piped natural gas and LNG in addition to clean coal and domestic gas
+
+-  However, tariff rationalisation will be a sine qua non for such a multi fuel strategy
 
 ## Page 27 · via `ocr` · 0 table(s), 0 image(s)
 
@@ -456,46 +444,33 @@ strategy
 
 <!-- PageBreak -->
 
-## Page 28 · via `text` · 0 table(s), 0 image(s)
+## Page 28 · via `docling` · 0 table(s), 0 image(s)
 
-Infrastructure Requirements
- Infrastructure capacity needs be increased in order to meet the 
-requirements
- Railways and port facilities need to be expanded for facilitating domestic 
-coal production as well as imports
- Substantial infrastructure capacity addition is required to facilitate imports
- Creation of LNG terminals
- Construction of Natural Gas Pipelines
- Associated lag times and completion periods (e.g. Kochi terminal) need to 
-be considered while planning for infrastructure
+## Infrastructure Requirements
 
-## Page 29 · via `text` · 0 table(s), 0 image(s)
+-  Infrastructure capacity needs be increased in order to meet the requirements
 
-Coal
-• Evacuation infrastructure in terms of rail networks to transport Transport infrastructure mined coal to demand centres
-Mining Technology • Increasing the share of underground coal mining
-• In-situ gasification is one of the most important ways to reach 
-coal at depths and to reduce the carbon impact
-Underground coal 
-gasification
-• Domestic coal is high in ash content
-• Current washery capacity for coal is only 33 Mt for coking Washery
-coal and 112 Mt for non-coking coal (2010-11, Coal Directory)
-capacity
-• Port facilities
-• Rail links for in-land hauling of coal Import infrastructure
+-  Railways and port facilities need to be expanded for facilitating domestic coal production as well as imports
 
-## Page 30 · via `text` · 0 table(s), 0 image(s)
+-  Substantial infrastructure capacity addition is required to facilitate imports
 
-Natural Gas
-• LNG terminals
-• Regasification facilities - FSRUs Import infrastructure
-Pipelines • Cross country/trunk pipelines
-• Report of the Rangarajan Committee under 
-consideration
-• Need to examine a mechanism where certainty is 
-provided
-Pricing
+-  Creation of LNG terminals
+
+-  Construction of Natural Gas Pipelines
+
+-  Associated lag times and completion periods (e.g. Kochi terminal) need to be considered while planning for infrastructure
+
+## Page 29 · via `docling` · 0 table(s), 1 image(s)
+
+## Coal
+
+Figure 9: A horizontal stacked-arrow diagram showing five coal-sector themes — "Transport infrastructure", "Mining Technology", "Underground coal gasification", "Washery capacity", and "Import infrastructure" — each paired with bullet points describing needs/issues (e.g., rail evacuation to demand centres, increasing underground mining, in‑situ gasification, high ash/limited washery capacity with 33 Mt coking and 112 Mt non‑coking in 2010–11, and port/rail links). The main takeaway is a summary of infrastructure and technology priorities required to improve coal extraction, processing and transport.
+
+## Page 30 · via `docling` · 0 table(s), 1 image(s)
+
+## Natural Gas
+
+Figure 10: A three-row horizontal arrow diagram labeling three priority areas: "Import infrastructure" (bullets: LNG terminals; regasification facilities - FSRUs), "Pipelines" (bullet: cross country/trunk pipelines), and "Pricing" (bullets: report of the Rangarajan Committee under consideration; need to examine a mechanism where certainty is provided). The figure highlights infrastructure and pricing items to address for the gas sector.
 
 ## Page 31 · via `ocr` · 0 table(s), 0 image(s)
 

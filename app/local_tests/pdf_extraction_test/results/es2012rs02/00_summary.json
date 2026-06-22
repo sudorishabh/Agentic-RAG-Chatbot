@@ -1,14 +1,13 @@
 {
   "pdf": "ES2012RS02.pdf",
-  "elapsed_seconds": 85.88,
+  "elapsed_seconds": 130.45,
   "page_count": 31,
-  "table_count": 6,
-  "image_count": 8,
-  "char_count": 21437,
+  "table_count": 7,
+  "image_count": 10,
+  "char_count": 23278,
   "routes": {
-    "docling": 17,
-    "ocr": 6,
-    "text": 8
+    "docling": 25,
+    "ocr": 6
   },
   "digital_pages": 25,
   "scanned_ocr_pages": 6,
@@ -22,9 +21,9 @@
     31
   ],
   "chunks_total": 40,
-  "parent_chunks": 19,
-  "child_chunks": 21,
-  "child_token_min": 127,
-  "child_token_max": 506,
-  "child_token_avg": 253
+  "parent_chunks": 20,
+  "child_chunks": 20,
+  "child_token_min": 124,
+  "child_token_max": 518,
+  "child_token_avg": 269
 }

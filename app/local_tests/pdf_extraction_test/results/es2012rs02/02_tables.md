@@ -1,6 +1,6 @@
 # Tables — ES2012RS02.pdf
 
-Total tables: **6**
+Total tables: **7**
 
 ## Table 1 · page 7 · 8×6 · caption: None
 
@@ -68,7 +68,23 @@ Total tables: **6**
 | Agartala        | 4.26           | 6.27           | 4.22           | 6.62           |
 | Nagpur          | 3.41           | 5.87           | 3.88           | 6.53           |
 
-## Table 6 · page 23 · 6×3 · caption: None
+## Table 6 · page 16 · 12×7 · caption: None
+
+|                 | Fuel Options        | Fuel Options                  | Fuel Options                  | Fuel Options        | Fuel Options                  | Fuel Options                  |
+|-----------------|---------------------|-------------------------------|-------------------------------|---------------------|-------------------------------|-------------------------------|
+| Plant Locations | Imported Coal       | Imported Coal                 | Imported Coal                 | LNG                 | LNG                           | LNG                           |
+|                 | Without carbon cost | With carbon costs (at US$ 10) | With carbon costs (at US$ 30) | Without carbon cost | With carbon costs (at US$ 10) | With carbon costs (at US$ 30) |
+| Delhi           | 5.47                | 5.98                          | 7.02                          | 6.38                | 6.62                          | 7.11                          |
+| Bilaspur        | 5.35                | 5.87                          | 6.91                          | 6.36                | 6.60                          | 7.09                          |
+| Vadodara        | 5.16                | 5.68                          | 6.72                          | 6.31                | 6.55                          | 7.04                          |
+| Vishakapatnam   | 4.93                | 5.45                          | 6.48                          | 6.12                | 6.55                          | 6.86                          |
+| Kochi           | 5.10                | 5.62                          | 6.65                          | 6.12                | 6.55                          | 6.86                          |
+| Talcher         | 4.98                | 5.50                          | 6.53                          | 6.33                | 6.58                          | 7.07                          |
+| Dhanbad         | 5.09                | 5.61                          | 6.64                          | 6.38                | 6.62                          | 7.11                          |
+| Agartala        | 5.75                | 6.27                          | 7.30                          | 6.38                | 6.62                          | 7.11                          |
+| Nagpur          | 5.35                | 5.87                          | 6.90                          | 6.28                | 6.53                          | 7.02                          |
+
+## Table 7 · page 23 · 6×3 · caption: None
 
 |              |   Share in global coal reserves |   R/P ratio |
 |--------------|---------------------------------|-------------|

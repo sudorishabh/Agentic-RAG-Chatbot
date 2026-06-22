@@ -244,6 +244,11 @@ def _docling_converter():
     if settings.docling_artifacts_path:
         opts.artifacts_path = settings.docling_artifacts_path
 
+    opts.ocr_batch_size = settings.docling_batch_size
+    opts.layout_batch_size = settings.docling_batch_size
+    opts.table_batch_size = settings.docling_batch_size
+    opts.queue_max_size = settings.docling_queue_max_size
+
     return DocumentConverter(
         format_options={InputFormat.PDF: PdfFormatOption(pipeline_options=opts)}
     )
