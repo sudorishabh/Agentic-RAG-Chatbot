@@ -1,10 +1,7 @@
 from __future__ import annotations
-
 import re
 from typing import Any, Protocol
-
 from app.core.models import CanonicalDocument, CanonicalSection
-
 
 def _slugify(value: str) -> str:
     slug = re.sub(r"[^a-z0-9]+", "_", (value or "").lower()).strip("_")

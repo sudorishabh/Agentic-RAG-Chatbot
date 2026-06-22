@@ -28,6 +28,8 @@ class Settings(BaseSettings):
     pdf_ocr_render_dpi: int = 300
     docling_table_mode: str = "accurate"
     docling_artifacts_path: str = ""
+    docling_batch_size: int = 1
+    docling_queue_max_size: int = 4
     pdf_extract_images: bool = True
     pdf_image_dir: str = "data/extracted_images"
     pdf_image_min_pixels: int = 64

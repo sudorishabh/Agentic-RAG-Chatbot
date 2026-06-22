@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 import io
 import logging
 import os
@@ -9,7 +8,6 @@ from enum import Enum
 from functools import lru_cache
 from html.parser import HTMLParser
 from typing import Any
-
 from app.config import get_settings
 
 logger = logging.getLogger(__name__)
@@ -23,7 +21,6 @@ __all__ = [
     "extract_pdf",
 ]
 
-
 class ExtractedVia(str, Enum):
 
     DOCLING = "docling"
@@ -31,10 +28,8 @@ class ExtractedVia(str, Enum):
     TEXT = "text"
     EMPTY = "empty"
 
-
 @dataclass
 class TableData:
-
     markdown: str
     page_number: int | None = None
     rows: int = 0
@@ -45,7 +40,6 @@ class TableData:
 
 @dataclass
 class ImageData:
-
     page_number: int | None = None
     index: int = 0
     path: str | None = None

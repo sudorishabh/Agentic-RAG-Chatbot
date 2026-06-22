@@ -34,10 +34,8 @@ DEFAULT_BUNDLES: tuple[str, ...] = (
 
 LONG_TEXT_THRESHOLD = 255
 
-
 @dataclass
 class DrupalRecord:
-
     uuid: str
     bundle: str
     nid: int | None

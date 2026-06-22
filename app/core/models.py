@@ -4,20 +4,16 @@ import hashlib
 from dataclasses import dataclass, field
 from typing import Any
 
-
 @dataclass
 class CanonicalSection:
-
     text: str
     heading: str | None = None
     page_start: int | None = None
     page_end: int | None = None
     order: int = 0
 
-
 @dataclass
 class CanonicalDocument:
-
     document_id: str
     source_type: str
     title: str | None = None
