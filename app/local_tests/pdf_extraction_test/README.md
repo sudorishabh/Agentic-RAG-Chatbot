@@ -7,7 +7,7 @@ directory under `results/`.
 Flow exercised:
 
 ```
-extract_pdf(bytes, name)  ->  ExtractionResult   (page classify -> docling/text/OCR)
+extract_pdf(bytes, name)  ->  ExtractionResult   (pypdfium2 classify -> text / Azure DI OCR)
 chunk_pdf(result)         ->  list[Chunk]         (canonical doc -> hierarchical chunks)
 ```
 
@@ -32,8 +32,7 @@ results/
     00_summary.json
     01_pages.md        page-by-page extracted text
     02_tables.md       every table (markdown) with page + caption
-    03_images.md       every figure: class, caption, description, saved path
-    04_chunks.md       chunking output (parents + children)
+    03_chunks.md       chunking output (parents + children)
     full_text.md       full concatenated extracted text
     ERROR.txt          present only if that PDF failed (with traceback)
 ```

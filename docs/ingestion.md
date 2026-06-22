@@ -38,13 +38,11 @@ Builders in [app/ingestion/canonical.py](../app/ingestion/canonical.py):
 
 1. **Classify pages** with pypdfium2: a page yielding fewer than
    `pdf_scanned_char_threshold` (default 100) characters is treated as *scanned*.
-2. **Digital pages** → Docling (layout, tables, reading order, figures), with a
-   pypdfium2 text fallback if Docling fails on a page.
-3. **Scanned pages** → Azure Document Intelligence OCR (`prebuilt-layout`).
-4. **Figures** (when `pdf_extract_images`) are saved under `pdf_image_dir`, captioned
-   by the vision LLM when `pdf_describe_images` is on, and inlined as placeholders.
+2. **Digital pages** → pypdfium2 text extraction.
+3. **Scanned pages** → Azure Document Intelligence OCR (`prebuilt-layout`), which
+   also reconstructs tables (emitted as Markdown).
 
-`ExtractionResult` exposes `pages`, `page_count`, `text`, `tables`, `images`, and
+`ExtractionResult` exposes `pages`, `page_count`, `text`, `tables`, and
 `ocr_page_numbers`. PDF-extraction settings are listed in
 [configuration.md](configuration.md#pdf-extraction--ocr).
 

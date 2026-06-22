@@ -12,8 +12,7 @@ directory** (``app/local_tests/pdf_extraction_test/results/<pdf-slug>/``):
     00_summary.json   the same stats, machine-readable
     01_pages.md       page-by-page extracted text
     02_tables.md      every table (markdown) with page + caption
-    03_images.md      every figure: class, caption, description, saved path
-    04_chunks.md      canonical chunking output (parents + children)
+    03_chunks.md      canonical chunking output (parents + children)
     full_text.md      the full concatenated extracted text
 
 A top-level ``results/_index.md`` + ``results/_index.json`` summarise the
@@ -96,7 +95,7 @@ def _route_counts(result) -> dict[str, int]:
 
 def _write_summary(out_dir: Path, name: str, result, chunks, elapsed: float) -> dict:
     routes = _route_counts(result)
-    digital = routes.get("docling", 0) + routes.get("text", 0)
+    digital = routes.get("text", 0)
     scanned = routes.get("ocr", 0)
     empty = routes.get("empty", 0)
     parents = [c for c in chunks if c.is_parent]
@@ -153,7 +152,7 @@ def _write_pages(out_dir: Path, name: str, result) -> None:
     for page in result.pages:
         lines.append(
             f"## Page {page.page_number} · via `{page.extracted_via.value}` "
-            f"· {len(page.tables)} table(s), {len(page.images)} image(s)"
+            f"· {len(page.tables)} table(s)"
         )
         lines.append("")
         body = page.text.strip()
@@ -175,23 +174,6 @@ def _write_tables(out_dir: Path, name: str, result) -> None:
         lines.append(t.markdown.strip() or "_(empty)_")
         lines.append("")
     (out_dir / "02_tables.md").write_text("\n".join(lines), encoding="utf-8")
-
-
-def _write_images(out_dir: Path, name: str, result) -> None:
-    lines = [f"# Images / Figures — {name}", "", f"Total images: **{result.image_count}**", ""]
-    if not result.images:
-        lines.append("_(no images extracted)_")
-    for img in result.images:
-        size = f" · {img.width}×{img.height}" if img.width else ""
-        lines.append(f"## Figure {img.index} · page {img.page_number}{size}")
-        lines.append("")
-        lines.append(f"- **classification**: {img.classification!r}")
-        lines.append(f"- **caption**: {img.caption!r}")
-        lines.append(f"- **saved path**: {img.path or '(not saved)'}")
-        if img.description:
-            lines.append(f"- **description**: {img.description}")
-        lines.append("")
-    (out_dir / "03_images.md").write_text("\n".join(lines), encoding="utf-8")
 
 
 def _write_chunks(out_dir: Path, name: str, chunks) -> None:
@@ -225,7 +207,7 @@ def _write_chunks(out_dir: Path, name: str, chunks) -> None:
         lines.append("")
         lines.append(_preview(c.text, 800))
         lines.append("")
-    (out_dir / "04_chunks.md").write_text("\n".join(lines), encoding="utf-8")
+    (out_dir / "03_chunks.md").write_text("\n".join(lines), encoding="utf-8")
 
 
 def _write_full_text(out_dir: Path, name: str, result) -> None:
@@ -266,14 +248,13 @@ def _process_one(pdf_path: Path) -> dict:
     stats = _write_summary(out_dir, pdf_path.name, result, chunks, elapsed)
     _write_pages(out_dir, pdf_path.name, result)
     _write_tables(out_dir, pdf_path.name, result)
-    _write_images(out_dir, pdf_path.name, result)
     _write_chunks(out_dir, pdf_path.name, chunks)
     _write_full_text(out_dir, pdf_path.name, result)
 
     print(
         f"  ✓ {stats['page_count']} pages "
         f"({stats['digital_pages']} digital / {stats['scanned_ocr_pages']} OCR), "
-        f"{stats['table_count']} tables, {stats['image_count']} images, "
+        f"{stats['table_count']} tables, "
         f"{stats['child_chunks']} child chunks · {stats['elapsed_seconds']}s "
         f"-> {out_dir.relative_to(HERE)}"
     )
@@ -296,24 +277,23 @@ def _write_index(all_stats: list[dict]) -> None:
         f"({len(ok)} ok, {len(failed)} failed)",
         f"- total pages: **{sum(s.get('page_count', 0) for s in ok)}**",
         f"- total tables: **{sum(s.get('table_count', 0) for s in ok)}**",
-        f"- total images: **{sum(s.get('image_count', 0) for s in ok)}**",
         f"- total child chunks: **{sum(s.get('child_chunks', 0) for s in ok)}**",
         "",
-        "| PDF | pages | digital/OCR | tables | images | chunks | sec | result |",
-        "| --- | ----: | ----------- | -----: | -----: | -----: | --: | ------ |",
+        "| PDF | pages | digital/OCR | tables | chunks | sec | result |",
+        "| --- | ----: | ----------- | -----: | -----: | --: | ------ |",
     ]
     for s in all_stats:
         slug = _slugify(Path(s["pdf"]).stem)
         if "error" in s:
             lines.append(
-                f"| {s['pdf']} | — | — | — | — | — | {s.get('elapsed_seconds', '?')} "
+                f"| {s['pdf']} | — | — | — | — | {s.get('elapsed_seconds', '?')} "
                 f"| ⚠ {s['error']} |"
             )
             continue
         lines.append(
             f"| {s['pdf']} | {s['page_count']} "
             f"| {s['digital_pages']}/{s['scanned_ocr_pages']} "
-            f"| {s['table_count']} | {s['image_count']} | {s['child_chunks']} "
+            f"| {s['table_count']} | {s['child_chunks']} "
             f"| {s['elapsed_seconds']} | [{slug}/](./{slug}/) |"
         )
     (RESULTS / "_index.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
