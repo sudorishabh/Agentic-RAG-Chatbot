@@ -9,7 +9,7 @@ Three factory functions return configured `AzureChatOpenAI` clients. `get_llm` a
 
 | Function | Deployment | Temperature | Use |
 | --- | --- | --- | --- |
-| `get_llm(temperature=None, streaming=False)` | `azure_openai_*` | as passed | general generation, chitchat, figure captions |
+| `get_llm(temperature=None, streaming=False)` | `azure_openai_*` | as passed | general generation, chitchat |
 | `get_reasoning_llm(temperature=None, streaming=False)` | `azure_openai_reasoning_*` | as passed | optional reasoning deployment |
 | `get_structured_llm(streaming=False)` | `azure_openai_*` | `llm_structured_temperature` | structured/deterministic extraction (query understanding, intent routing, LLM rerank, faithfulness) |
 

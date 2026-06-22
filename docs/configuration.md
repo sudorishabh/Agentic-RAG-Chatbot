@@ -16,7 +16,7 @@ upper-cased field names. Unknown env keys are ignored (`extra="ignore"`). See
 | `azure_openai_api_key` | `""` | API key for the chat deployment |
 | `azure_openai_endpoint` | `""` | Resource endpoint URL |
 | `azure_openai_api_version` | `2024-06-01` | API version |
-| `azure_openai_model` | `""` | Chat deployment name (also used for vision/figure captions) |
+| `azure_openai_model` | `""` | Chat deployment name |
 
 ## Azure OpenAI — reasoning (optional, separate deployment)
 
@@ -47,14 +47,6 @@ See [ingestion.md](ingestion.md#extraction) for the extraction pipeline.
 | `azure_document_intelligence_key` | `""` | Document Intelligence API key |
 | `azure_document_intelligence_model` | `prebuilt-layout` | DI model |
 | `pdf_scanned_char_threshold` | `100` | Min extracted chars/page to treat a page as digital; below → OCR |
-| `pdf_ocr_render_dpi` | `300` | DPI used when rasterising pages |
-| `docling_table_mode` | `accurate` | Docling table extraction mode (`fast` / `accurate`) |
-| `docling_artifacts_path` | `""` | Optional local path for Docling model artifacts |
-| `pdf_extract_images` | `true` | Save extracted figures to disk |
-| `pdf_image_dir` | `data/extracted_images` | Output directory for figures |
-| `pdf_image_min_pixels` | `64` | Skip images smaller than this (per side) |
-| `pdf_describe_images` | `true` | Generate figure captions via the vision LLM |
-| `pdf_image_caption_max_tokens` | `256` | Caption length budget |
 
 ## Qdrant (vector store)
 
