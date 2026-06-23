@@ -234,6 +234,20 @@ _LABELED = re.compile(
 )
 _TERMINAL = (".", "!", "?", ",", ";", ":")
 
+_STOPWORD_END = frozenset({
+    "a", "an", "the", "and", "or", "of", "to", "in", "on", "for", "with", "by",
+    "is", "are", "was", "were", "be", "as", "at", "from", "that", "this", "which",
+    "but", "nor", "so", "than", "into", "via", "per", "had", "has", "we", "it",
+})
+_MID_PUNCT = re.compile(r"[.,;:]\s")
+
+
+def _looks_like_prose(s: str) -> bool:
+    if _MID_PUNCT.search(s):
+        return True
+    tokens = s.rstrip(".,;:)]}").split()
+    return bool(tokens) and tokens[-1].lower() in _STOPWORD_END
+
 
 def _is_table_line(line: str) -> bool:
     return line.count("|") >= 2
@@ -262,10 +276,10 @@ def _line_heading_level(line: str, *, at_block_start: bool) -> int | None:
     m = _NUMBERED.match(s)
     if m and not s.endswith(_TERMINAL):
         title = m.group(2).strip()
-        if title and title[0].isalpha():
+        if title and title[0].isalpha() and len(title.split()) <= 8 and not _looks_like_prose(title):
             return min(m.group(1).count(".") + 1, 6)
 
-    if _LABELED.match(s) and not s.endswith(_TERMINAL):
+    if _LABELED.match(s) and not s.endswith(_TERMINAL) and not _looks_like_prose(s):
         return 2
 
     if not at_block_start:
@@ -278,6 +292,7 @@ def _line_heading_level(line: str, *, at_block_start: bool) -> int | None:
     if (
         len(words) <= 8
         and not s.endswith(_TERMINAL)
+        and not _looks_like_prose(s)
         and sum(w[:1].isupper() for w in words if w[:1].isalpha()) >= max(1, len(words) - 1)
     ):
         return 3

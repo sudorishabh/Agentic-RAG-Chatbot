@@ -174,6 +174,27 @@ def _partition_digital_text(content: bytes) -> dict[int, str]:
     return {pn: "\n\n".join(parts).strip() for pn, parts in by_page.items()}
 
 
+def _pypdf_pages_text(content: bytes) -> dict[int, str]:
+    try:
+        from pypdf import PdfReader
+    except Exception:
+        logger.warning("pypdf unavailable; digital fallback skipped.")
+        return {}
+    try:
+        reader = PdfReader(io.BytesIO(content))
+    except Exception:
+        logger.exception("pypdf could not open document; digital fallback skipped.")
+        return {}
+
+    out: dict[int, str] = {}
+    for i, page in enumerate(reader.pages, start=1):
+        try:
+            out[i] = (page.extract_text() or "").strip()
+        except Exception:
+            out[i] = ""
+    return out
+
+
 @lru_cache
 def _di_client():
     settings = get_settings()
@@ -301,6 +322,32 @@ def _ocr_pdf(content: bytes, page_numbers: list[int] | None = None) -> dict[int,
     return _pages_from_di(result, page_numbers)
 
 
+# Standard ligature glyphs (Alphabetic Presentation Forms, U+FB00-FB06) carry
+# meaning identical to their ASCII expansion but break embedding/keyword search
+# because e.g. "conﬁrmed" != "confirmed". Expand them to plain ASCII.
+_LIGATURES = {
+    "ﬀ": "ff", "ﬁ": "fi", "ﬂ": "fl",
+    "ﬃ": "ffi", "ﬄ": "ffl", "ﬅ": "st", "ﬆ": "st",
+}
+_LIGATURE_RE = re.compile("[" + "".join(_LIGATURES) + "]")
+
+
+def _normalize_text(text: str) -> str:
+    if not text:
+        return text
+    return _LIGATURE_RE.sub(lambda m: _LIGATURES[m.group(0)], text)
+
+
+def _finalize(filename: str, pages: list[PageContent]) -> ExtractionResult:
+    for page in pages:
+        page.text = _normalize_text(page.text)
+        for table in page.tables:
+            table.markdown = _normalize_text(table.markdown)
+    result = ExtractionResult(source=filename, pages=pages)
+    _log_summary(result, filename)
+    return result
+
+
 def extract_pdf(content: bytes, filename: str) -> ExtractionResult:
     settings = get_settings()
     text_by_page = _partition_digital_text(content)
@@ -309,14 +356,19 @@ def extract_pdf(content: bytes, filename: str) -> ExtractionResult:
     if total_pages == 0:
         pages_map = _ocr_pdf(content, None)
         pages = [pages_map[n] for n in sorted(pages_map)]
-        result = ExtractionResult(source=filename, pages=pages)
-        _log_summary(result, filename)
-        return result
+        return _finalize(filename, pages)
 
     pages_map: dict[int, PageContent] = {}
     scanned_page_numbers: list[int] = []
+    pypdf_by_page: dict[int, str] | None = None
     for n in range(1, total_pages + 1):
         text = text_by_page.get(n, "")
+        if len(text) < settings.pdf_scanned_char_threshold:
+            if pypdf_by_page is None:
+                pypdf_by_page = _pypdf_pages_text(content)
+            fallback = pypdf_by_page.get(n, "")
+            if len(fallback) > len(text):
+                text = fallback
         if len(text) < settings.pdf_scanned_char_threshold:
             scanned_page_numbers.append(n)
         else:
@@ -333,9 +385,7 @@ def extract_pdf(content: bytes, filename: str) -> ExtractionResult:
         )
         for n in range(1, total_pages + 1)
     ]
-    result = ExtractionResult(source=filename, pages=pages)
-    _log_summary(result, filename)
-    return result
+    return _finalize(filename, pages)
 
 
 def _log_summary(result: ExtractionResult, filename: str) -> None:

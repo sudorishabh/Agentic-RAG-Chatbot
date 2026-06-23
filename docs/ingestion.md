@@ -36,16 +36,29 @@ Builders in [app/ingestion/canonical.py](../app/ingestion/canonical.py):
 
 `extract_pdf(content: bytes, filename: str) -> ExtractionResult`
 
-1. **Extract digital text** with `unstructured` (`strategy="fast"`, pdfminer-based);
-   a page yielding fewer than `pdf_scanned_char_threshold` (default 100) characters
-   is treated as *scanned*. Total page count comes from `pypdf`.
-2. **Digital pages** → `unstructured` text.
-3. **Scanned pages** → Azure Document Intelligence OCR (`prebuilt-layout`), which
+1. **Extract digital text** with `unstructured` (`strategy="fast"`, pdfminer-based).
+   Total page count comes from `pypdf`.
+2. **pypdf fallback.** A page below `pdf_scanned_char_threshold` (default 100)
+   characters is re-read with `pypdf` before being judged *scanned* — `unstructured`
+   `fast` returns nothing on some PDFs, so this second reader keeps born-digital
+   pages off the (paid, slower) OCR path. A page is sent to OCR only when *both*
+   readers come up short.
+3. **Digital pages** → `unstructured`/`pypdf` text.
+4. **Scanned pages** → Azure Document Intelligence OCR (`prebuilt-layout`), which
    also reconstructs tables (emitted as Markdown).
+
+All page text is normalized to expand standard ligature glyphs (`ﬁ`/`ﬀ`/… →
+`fi`/`ff`/…) so words stay matchable in search. Font-specific Private-Use-Area
+glyphs and `(cid:N)` markers in some PDFs are *not* recoverable from the text
+layer (they need visual OCR) and are left as-is.
 
 `ExtractionResult` exposes `pages`, `page_count`, `text`, `tables`, and
 `ocr_page_numbers`. PDF-extraction settings are listed in
 [configuration.md](configuration.md#pdf-extraction--ocr).
+
+> Tables are produced only on the OCR path; born-digital pages carry their table
+> content as flattened text. Section headings are re-derived from text by the
+> chunker, so digital pages without Markdown headings chunk as flat sections.
 
 ### Drupal articles — [app/ingestion/extractors/drupal_extractor.py](../app/ingestion/extractors/drupal_extractor.py)
 
