@@ -1,16 +1,15 @@
 PDF EXTRACTION SUMMARY — ICDL_Poster_2019_Full.pdf
 ==============================================================================
-  elapsed            : 379.5s
+  elapsed            : 13.86s
   pages              : 188
-  tables             : 3
-  images / figures   : 38
-  extracted chars    : 407,622
+  tables             : 0
+  extracted chars    : 390,928
 
-  pages by route     : {'docling': 60, 'ocr': 6, 'text': 121, 'empty': 1}
-  digital vs scanned : 181 digital / 6 scanned (OCR) / 1 empty
-  OCR page numbers   : [10, 12, 14, 24, 30, 32]
+  pages by route     : {'text': 182, 'ocr': 5, 'empty': 1}
+  digital vs scanned : 182 digital / 5 scanned (OCR) / 1 empty
+  OCR page numbers   : [12, 14, 24, 30, 32]
 
-  chunks (total)     : 427
-  parent chunks      : 182
-  child chunks       : 245
-  child tokens       : min=25 max=671 avg=362
+  chunks (total)     : 490
+  parent chunks      : 225
+  child chunks       : 265
+  child tokens       : min=104 max=538 avg=309

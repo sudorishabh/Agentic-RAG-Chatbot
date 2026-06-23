@@ -1,9 +1,8 @@
 PDF EXTRACTION SUMMARY — Bengaluru-Conference-Report_2020.pdf
 ==============================================================================
-  elapsed            : 14.46s
+  elapsed            : 128.71s
   pages              : 44
   tables             : 5
-  images / figures   : 0
   extracted chars    : 97,053
 
   pages by route     : {'ocr': 44}

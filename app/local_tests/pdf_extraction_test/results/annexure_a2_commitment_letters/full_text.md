@@ -1,18 +1,8 @@
 # Full extracted text — Annexure_A2_Commitment-letters.pdf
 
-Figure 1: Logo image showing large blue "UN" letters with a circular emblem (laurel wreath surrounding a stylized human/plant figure) to the right, and the lowercase blue text "environment programme" beneath. The figure is the branding/logo for the UN Environment Programme.
+Annexure- Commitment Letters for participation in the ‘Rethink Plastic’ campaign\
 
-Figure 2: Logo-style graphic showing a crushed plastic bottle with a green stem and red flower growing from it, placed above brown segmented shapes, with the label "RETHINK PLASTIC" beneath. The image conveys an environmental/recycling message about rethinking plastic use.
-
-Figure 3: Logo: a stylized lowercase "teri" wordmark in bold red with a yellow diagonal-striped drop shadow. No axes or labels; the image is a brand logo emphasizing the name "teri."
-
-Figure 4: Black-and-white logo showing the word "Counter MEASURE" with a stylized river graphic to the right and the tagline "FOR PLASTIC FREE RIVERS" beneath; it is branding for a plastic-free rivers initiative.
-
-## AnnexureCommitment Letters for participation in the 'Rethink Plastic' campaign \
-
-## 1. Thane Belapur Industries Association (TBIA), Navi Mumbai
-
-Figure 5: A green, oval-framed company logo featuring stylized block letters "TBIA" with a small star above the "I" and the caption "ESTD. 1978" beneath. Main takeaway: brand emblem identifying the organization and its establishment year (1978).
+1. Thane Belapur Industries Association (TBIA), Navi Mumbai
 
 <figure>
 

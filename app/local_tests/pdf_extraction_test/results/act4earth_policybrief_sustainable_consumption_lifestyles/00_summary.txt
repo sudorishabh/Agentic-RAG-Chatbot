@@ -1,16 +1,15 @@
 PDF EXTRACTION SUMMARY — Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf
 ==============================================================================
-  elapsed            : 156.44s
+  elapsed            : 8.34s
   pages              : 20
-  tables             : 6
-  images / figures   : 17
-  extracted chars    : 56,923
+  tables             : 0
+  extracted chars    : 39,910
 
-  pages by route     : {'docling': 17, 'ocr': 2, 'text': 1}
-  digital vs scanned : 18 digital / 2 scanned (OCR) / 0 empty
-  OCR page numbers   : [4, 19]
+  pages by route     : {'ocr': 3, 'text': 17}
+  digital vs scanned : 17 digital / 3 scanned (OCR) / 0 empty
+  OCR page numbers   : [1, 4, 19]
 
-  chunks (total)     : 37
-  parent chunks      : 10
-  child chunks       : 27
-  child tokens       : min=197 max=606 avg=407
+  chunks (total)     : 40
+  parent chunks      : 15
+  child chunks       : 25
+  child tokens       : min=121 max=560 avg=358

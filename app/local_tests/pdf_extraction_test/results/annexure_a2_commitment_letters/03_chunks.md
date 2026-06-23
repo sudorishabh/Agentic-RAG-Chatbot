@@ -1,31 +1,50 @@
 # Chunking (chunk_pdf) — Annexure_A2_Commitment-letters.pdf
 
-- parents: **9**
-- children: **10**
+- parents: **8**
+- children: **9**
 
 ---
 
 ## Parent chunks
 
-### Parent · section=None · pages=(1, 2) · 383 tok
-
-Figure 1: Logo image showing large blue "UN" letters with a circular emblem (laurel wreath surrounding a stylized human/plant figure) to the right, and the lowercase blue text "environment programme" beneath. The figure is the branding/logo for the UN Environment Programme.
-
-Figure 2: Logo-style graphic showing a crushed plastic bottle with a green stem and red flower growing from it, placed above brown segmented shapes, with the label "RETHINK PLASTIC" beneath. The image conveys an environmental/recycling message about rethinking plastic use.
-
-Figure 3: Logo: a stylized lowercase "teri" wordmark in bold red with a yellow diagonal-striped drop shadow. No axes or labels; the image is a brand logo emphasizing the name "teri."
-
-Figure 4: Black-and-white logo showing the word "Counter MEASURE" with a stylized river graphic to the right and the tagline "FOR PLASTIC FREE RIVERS" beneath; it is branding for a plastic-free rivers initiative.
-
-AnnexureCommitment Letters for participation in the 'Rethink Plastic' campaign \ — 1. Thane Belapur Industries Association (TBIA), Navi Mumbai
-
-Figure 5: A green, oval-framed company logo featuring stylized block letters "TBIA" with a small star above
-
-… [+381 more chars]
-
-### Parent · section="OCATION — ICLES' — MOTILALJHUNJHUNWALA COLLEGE — OF ARTS, SCIENCE & COMMERCE" · pages=(2, 2) · 180 tok
+### Parent · section="OCATION — ICLES' — MOTILALJHUNJHUNWALA COLLEGE — OF ARTS, SCIENCE & COMMERCE" · pages=(1, 2) · 293 tok
 
 OCATION — ICLES' — MOTILALJHUNJHUNWALA COLLEGE — OF ARTS, SCIENCE & COMMERCE
+
+Annexure- Commitment Letters for participation in the ‘Rethink Plastic’ campaign\
+
+1. Thane Belapur Industries Association (TBIA), Navi Mumbai
+
+<figure>
+
+UN@
+
+environment
+programme
+
+</figure>
+
+<figure>
+
+Counter — MEASURE — FOR PLASTIC FREE RIVERS
+
+</figure>
+
+<figure>
+
+RETHINK PLASTIC
+
+</figure>
+
+<figure>
+
+teri
+
+</figure>
+
+2\. ICLES Motilal Jhunjhunwala College, Navi Mumbai
+
+<figure>
 
 Plot No. 53, Sector - 9A, Amlendu Roye Marg, Vashi, Navi Mumbai - 400 703.
 Tel. : 022 - 27663061 / 27800800 · Email : info@iclesmj.edu.in, Website : www.iclesmj.edu
@@ -337,19 +356,42 @@ Regd. office : Liberty Bu
 
 ## Child chunks
 
-### Child 0 · section=None · page=1 · 383 tok
+### Child 0 · section="OCATION — ICLES' — MOTILALJHUNJHUNWALA COLLEGE — OF ARTS, SCIENCE & COMMERCE" · page=1 · 260 tok
 
-Figure 1: Logo image showing large blue "UN" letters with a circular emblem (laurel wreath surrounding a stylized human/plant figure) to the right, and the lowercase blue text "environment programme" beneath. The figure is the branding/logo for the UN Environment Programme.
+Annexure- Commitment Letters for participation in the ‘Rethink Plastic’ campaign\
 
-Figure 2: Logo-style graphic showing a crushed plastic bottle with a green stem and red flower growing from it, placed above brown segmented shapes, with the label "RETHINK PLASTIC" beneath. The image conveys an environmental/recycling message about rethinking plastic use.
+1. Thane Belapur Industries Association (TBIA), Navi Mumbai
 
-Figure 3: Logo: a stylized lowercase "teri" wordmark in bold red with a yellow diagonal-striped drop shadow. No axes or labels; the image is a brand logo emphasizing the name "teri."
+<figure>
 
-Figure 4: Black-and-white logo showing the word "Counter MEASURE"
+UN@
 
-… [+781 more chars]
+environment
+programme
 
-### Child 1 · section="OCATION — ICLES' — MOTILALJHUNJHUNWALA COLLEGE — OF ARTS, SCIENCE & COMMERCE" · page=2 · 147 tok
+</figure>
+
+<figure>
+
+Counter — MEASURE — FOR PLASTIC FREE RIVERS
+
+</figure>
+
+<figure>
+
+RETHINK PLASTIC
+
+</figure>
+
+<figure>
+
+teri
+
+</figure>
+
+2\. ICLES Motilal Jhunjhunwala College, Navi Mumbai
+
+<figure>
 
 Plot No. 53, Sector - 9A, Amlendu Roye Marg, Vashi, Navi Mumbai - 400 703.
 Tel. : 022 - 27663061 / 27800800 · Email : info@iclesmj.edu.in, Website : www.iclesmj.edu
@@ -369,7 +411,7 @@ Date: 27/2/2020
 
 To.
 
-### Child 2 · section='Dr. Anjali Parasnis — Associate Director' · page=2 · 355 tok
+### Child 1 · section='Dr. Anjali Parasnis — Associate Director' · page=2 · 355 tok
 
 The Energy and Resources Institute -Western Regional Centre (TERI-WRC)
 CBD-Belapur, Navi Mumbai, 400614
@@ -387,7 +429,7 @@ responsible Educational Instituti
 
 … [+651 more chars]
 
-### Child 3 · section='Dr. Anjali Parasnis — Associate Director' · page=3 · 229 tok
+### Child 2 · section='Dr. Anjali Parasnis — Associate Director' · page=3 · 229 tok
 
 Navi Mumbai
 
@@ -413,7 +455,7 @@ Associate Director
 The Energy and Resources Institute -Western Regional Centre (TERI-WRC)
 CBD-Belapur, Navi Mumbai, 400614
 
-### Child 4 · section="NAAC GRADE 'A+' — COPA 3.53 — Sub: Commitment Towards Environment Conservation — DET-STAR COLLEGE — SCHEME — GOVERNMENT OF INDIA — (SINCE 2054)" · page=3 · 75 tok
+### Child 3 · section="NAAC GRADE 'A+' — COPA 3.53 — Sub: Commitment Towards Environment Conservation — DET-STAR COLLEGE — SCHEME — GOVERNMENT OF INDIA — (SINCE 2054)" · page=3 · 75 tok
 
 Dear Madam,
 through self-help
@@ -424,7 +466,7 @@ Programme (UNEP) for the 'Rethink Plastic' campaign under the project titled
 ""Promotion of countermeasures against marine plastic litter in Southeast Asia
 and India".
 
-### Child 5 · section='DST-FIST SCHEME — GOVERNMENT OF INDIA — (SINCE 2013 — BEST COLLEGE AWARD — UNIVERSITY OF MUMBAI' · page=3 · 229 tok
+### Child 4 · section='DST-FIST SCHEME — GOVERNMENT OF INDIA — (SINCE 2013 — BEST COLLEGE AWARD — UNIVERSITY OF MUMBAI' · page=3 · 229 tok
 
 \-
 
@@ -446,7 +488,7 @@ Vashi, Navi Mumbai-400703.
 
 … [+147 more chars]
 
-### Child 6 · section='RETHINK PLASTIC' · page=4 · 255 tok
+### Child 5 · section='RETHINK PLASTIC' · page=4 · 255 tok
 
 </figure>
 
@@ -482,7 +524,7 @@ hvorbel " Bnc College" by thémeily of Mondul
 12013-20141
 "Touger bertrandd' Aworied ty Out of Moheranders
 
-### Child 7 · section='Ref. No' · page=4 · 290 tok
+### Child 6 · section='Ref. No' · page=4 · 290 tok
 
 5" February, 2020
 
@@ -504,7 +546,7 @@ plastic usage and its management. Moreo
 
 … [+464 more chars]
 
-### Child 8 · section='5\\. IndusInd Bank — IndusInd Bank' · page=5 · 413 tok
+### Child 7 · section='5\\. IndusInd Bank — IndusInd Bank' · page=5 · 413 tok
 
 Date: January 13, 2020
 
@@ -541,7 +583,7 @@ Head -Corporate Services — Indusind Bank Limited — Andheri East, Mumbai 4000
 
 … [+651 more chars]
 
-### Child 9 · section='Pledge against Single Use Plastic' · page=6 · 369 tok
+### Child 8 · section='Pledge against Single Use Plastic' · page=6 · 369 tok
 
 As a good citizen of my country and a responsible resident of the planet Earth, I
 pledge to Refuse, Reduce, Recycle, Reuse, Repair, Re-gift, Recover and

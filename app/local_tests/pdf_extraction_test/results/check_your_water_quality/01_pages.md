@@ -1,6 +1,6 @@
 # Pages — check-your-water-quality.pdf
 
-## Page 1 · via `ocr` · 2 table(s), 0 image(s)
+## Page 1 · via `ocr` · 2 table(s)
 
 # HOW TO CHECK WATER QUALITYA
 

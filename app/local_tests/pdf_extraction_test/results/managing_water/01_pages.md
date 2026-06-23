@@ -1,6 +1,6 @@
 # Pages — managing-water.pdf
 
-## Page 1 · via `ocr` · 0 table(s), 0 image(s)
+## Page 1 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="IN PERSPECTIVE" -->
 

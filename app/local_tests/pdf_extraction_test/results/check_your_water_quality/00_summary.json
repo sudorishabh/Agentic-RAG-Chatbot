@@ -1,9 +1,8 @@
 {
   "pdf": "check-your-water-quality.pdf",
-  "elapsed_seconds": 4.47,
+  "elapsed_seconds": 4.33,
   "page_count": 1,
   "table_count": 2,
-  "image_count": 0,
   "char_count": 2406,
   "routes": {
     "ocr": 1

@@ -1,6 +1,6 @@
 # Pages — Bengaluru-Conference-Report_2020.pdf
 
-## Page 1 · via `ocr` · 0 table(s), 0 image(s)
+## Page 1 · via `ocr` · 0 table(s)
 
 <figure>
 
@@ -30,11 +30,11 @@ The Associated Chambers of Commerce of India (ASSOCHAM)
 
 <!-- PageBreak -->
 
-## Page 2 · via `ocr` · 0 table(s), 0 image(s)
+## Page 2 · via `ocr` · 0 table(s)
 
 <!-- PageBreak -->
 
-## Page 3 · via `ocr` · 0 table(s), 0 image(s)
+## Page 3 · via `ocr` · 0 table(s)
 
 # REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE
 
@@ -46,11 +46,11 @@ D N Narasimha Raju
 
 <!-- PageBreak -->
 
-## Page 4 · via `ocr` · 0 table(s), 0 image(s)
+## Page 4 · via `ocr` · 0 table(s)
 
 <!-- PageBreak -->
 
-## Page 5 · via `ocr` · 1 table(s), 0 image(s)
+## Page 5 · via `ocr` · 1 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -115,7 +115,7 @@ D N Narasimha Raju
 
 <!-- PageBreak -->
 
-## Page 6 · via `ocr` · 0 table(s), 0 image(s)
+## Page 6 · via `ocr` · 0 table(s)
 
 ## Introduction
 
@@ -154,7 +154,7 @@ agriculture leading to development of an implementation plan.
 <!-- PageNumber="6" -->
 <!-- PageBreak -->
 
-## Page 7 · via `ocr` · 0 table(s), 0 image(s)
+## Page 7 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -183,7 +183,7 @@ climate resilient agriculture.
 <!-- PageNumber="7" -->
 <!-- PageBreak -->
 
-## Page 8 · via `ocr` · 0 table(s), 0 image(s)
+## Page 8 · via `ocr` · 0 table(s)
 
 ## Context setting by Mr D N Narasimha Raju, Director, Southern Regional Centre, TERI
 
@@ -238,7 +238,7 @@ lead to preparation of a report on suggestions to meet the emerging climate chan
 <!-- PageNumber="8" -->
 <!-- PageBreak -->
 
-## Page 9 · via `ocr` · 0 table(s), 0 image(s)
+## Page 9 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -288,7 +288,7 @@ culture
 <!-- PageNumber="9" -->
 <!-- PageBreak -->
 
-## Page 10 · via `ocr` · 0 table(s), 0 image(s)
+## Page 10 · via `ocr` · 0 table(s)
 
 ## Vote of Thanks by Mr R.R Rashmi, Distinguished Fellow & Programme Director, TERI
 
@@ -309,7 +309,7 @@ institutions for their support.
 <!-- PageNumber="10" -->
 <!-- PageBreak -->
 
-## Page 11 · via `ocr` · 0 table(s), 0 image(s)
+## Page 11 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -385,7 +385,7 @@ future. The existing knowledge, success stories from different states in mainstr
 <!-- PageNumber="11" -->
 <!-- PageBreak -->
 
-## Page 12 · via `ocr` · 0 table(s), 0 image(s)
+## Page 12 · via `ocr` · 0 table(s)
 
 information in planning is necessary and there is a need for providing high resolution climate
 information for local level planning. Grameen Krishi Monsoon Seva has served for the last three
@@ -439,7 +439,7 @@ rain gauges up to Gram Panchayat level in 6500 stations which are solar powered 
 <!-- PageNumber="12" -->
 <!-- PageBreak -->
 
-## Page 13 · via `ocr` · 0 table(s), 0 image(s)
+## Page 13 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -494,7 +494,7 @@ sustainable soil and water management and Agri-business promotion.
 <!-- PageNumber="13" -->
 <!-- PageBreak -->
 
-## Page 14 · via `ocr` · 0 table(s), 0 image(s)
+## Page 14 · via `ocr` · 0 table(s)
 
 #### 1.5 Measures taken for Climate Change in Tamil Nadu - Mr T Karthikeyan:
 
@@ -557,7 +557,7 @@ with risks by stakeholders who are aware of the climate impacts. But, they need 
 <!-- PageNumber="14" -->
 <!-- PageBreak -->
 
-## Page 15 · via `ocr` · 0 table(s), 0 image(s)
+## Page 15 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -584,7 +584,7 @@ making.
 <!-- PageNumber="15" -->
 <!-- PageBreak -->
 
-## Page 16 · via `ocr` · 0 table(s), 0 image(s)
+## Page 16 · via `ocr` · 0 table(s)
 
 ## Session 2: Impacts on Agriculture, Mitigation and Adaptation Strategies
 
@@ -665,7 +665,7 @@ national level, state level and district level.
 <!-- PageNumber="16" -->
 <!-- PageBreak -->
 
-## Page 17 · via `ocr` · 0 table(s), 0 image(s)
+## Page 17 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -722,7 +722,7 @@ monitoring such situations, weather forecasting plays a crucial role.
 <!-- PageNumber="17" -->
 <!-- PageBreak -->
 
-## Page 18 · via `ocr` · 0 table(s), 0 image(s)
+## Page 18 · via `ocr` · 0 table(s)
 
 Horticulture crops are crucial in mitigating risks of climate change. Apart from diversifying crop
 production, they provide employment, income and nutritional security. Under NICRA, State-of-the-
@@ -786,7 +786,7 @@ in hastened maturation and reduced yield.
 <!-- PageNumber="18" -->
 <!-- PageBreak -->
 
-## Page 19 · via `ocr` · 0 table(s), 0 image(s)
+## Page 19 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -851,7 +851,7 @@ done and ZBNF needs to be tested a little more before wider adoption.
 <!-- PageNumber="19" -->
 <!-- PageBreak -->
 
-## Page 20 · via `ocr` · 0 table(s), 0 image(s)
+## Page 20 · via `ocr` · 0 table(s)
 
 ## Session 3: The Policy Landscape; International to National and Sub-National Linkages
 
@@ -926,7 +926,7 @@ level and subnational scales were discussed in the form of India's National Miss
 <!-- PageNumber="20" -->
 <!-- PageBreak -->
 
-## Page 21 · via `ocr` · 0 table(s), 0 image(s)
+## Page 21 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -982,7 +982,7 @@ highlighted as priority areas in water resources.
 <!-- PageNumber="21" -->
 <!-- PageBreak -->
 
-## Page 22 · via `ocr` · 0 table(s), 0 image(s)
+## Page 22 · via `ocr` · 0 table(s)
 
 ### 3.4 Need for policies:
 
@@ -1043,7 +1043,7 @@ In a multi-country study of Coffee Agro-forestry, India stood top on most parame
 <!-- PageNumber="22" -->
 <!-- PageBreak -->
 
-## Page 23 · via `ocr` · 0 table(s), 0 image(s)
+## Page 23 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -1103,7 +1103,7 @@ implementation.
 <!-- PageNumber="23" -->
 <!-- PageBreak -->
 
-## Page 24 · via `ocr` · 0 table(s), 0 image(s)
+## Page 24 · via `ocr` · 0 table(s)
 
 ## Session 4: Case studies showcasing Sustainable Agriculture practices (including Integrated Farming Systems models) in emerging Climate Change Scenarios
 
@@ -1188,7 +1188,7 @@ ASSOCHA
 <!-- PageNumber="24" -->
 <!-- PageBreak -->
 
-## Page 25 · via `ocr` · 0 table(s), 0 image(s)
+## Page 25 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -1249,7 +1249,7 @@ Custom Hiring Centres and Climate information Centres.
 <!-- PageNumber="25" -->
 <!-- PageBreak -->
 
-## Page 26 · via `ocr` · 0 table(s), 0 image(s)
+## Page 26 · via `ocr` · 0 table(s)
 
 ### 4.3 Promoting the use of agro-meteorological information - Dr P Vijaya Kumar:
 
@@ -1307,7 +1307,7 @@ highlighted. Rubber can grow in temperature that can go less than 10 degree Cels
 <!-- PageNumber="26" -->
 <!-- PageBreak -->
 
-## Page 27 · via `ocr` · 0 table(s), 0 image(s)
+## Page 27 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -1355,7 +1355,7 @@ be provided.
 <!-- PageNumber="27" -->
 <!-- PageBreak -->
 
-## Page 28 · via `ocr` · 0 table(s), 0 image(s)
+## Page 28 · via `ocr` · 0 table(s)
 
 ## Session 5: Climate Finance: Garnering Support for Actions
 
@@ -1430,7 +1430,7 @@ and sustainable development benefits. However, the benefits of adaptation are di
 <!-- PageNumber="28" -->
 <!-- PageBreak -->
 
-## Page 29 · via `ocr` · 0 table(s), 0 image(s)
+## Page 29 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -1490,7 +1490,7 @@ under which 10 lakh hectare will be covered.
 <!-- PageNumber="29" -->
 <!-- PageBreak -->
 
-## Page 30 · via `ocr` · 0 table(s), 0 image(s)
+## Page 30 · via `ocr` · 0 table(s)
 
 Finance is an issue but there are opportunities. Following are the projects that are being undertaken
 by the department:
@@ -1551,7 +1551,7 @@ The Andhra Pradesh Zero Budget Natural Farming-loan based agricultural project i
 <!-- PageNumber="30" -->
 <!-- PageBreak -->
 
-## Page 31 · via `ocr` · 0 table(s), 0 image(s)
+## Page 31 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -1618,7 +1618,7 @@ this area and thus, need to bring in private financing.
 <!-- PageNumber="31" -->
 <!-- PageBreak -->
 
-## Page 32 · via `ocr` · 0 table(s), 0 image(s)
+## Page 32 · via `ocr` · 0 table(s)
 
 There is a requirement for enhancing the capacity of the farmers who need to understand the risks
 and possible benefits. 22 case studies have revealed that the following 3 aspects are important.
@@ -1666,7 +1666,7 @@ in evolving a coordinated approach to meet challenges of climate change in agric
 <!-- PageNumber="32" -->
 <!-- PageBreak -->
 
-## Page 33 · via `ocr` · 0 table(s), 0 image(s)
+## Page 33 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -1729,7 +1729,7 @@ senior officers of major banks and financial organizations, etc.
 <!-- PageNumber="33" -->
 <!-- PageBreak -->
 
-## Page 34 · via `ocr` · 0 table(s), 0 image(s)
+## Page 34 · via `ocr` · 0 table(s)
 
 Mr T.M Vijay Bhaskar, Chief Secretary, Government of Karnataka In his Valedictory Address, highlighted
 that agriculture and farmers welfare is the top priority of the Government, which has also been mentioned
@@ -1782,7 +1782,7 @@ in making the Governmental programmes more effective.
 <!-- PageNumber="34" -->
 <!-- PageBreak -->
 
-## Page 35 · via `ocr` · 0 table(s), 0 image(s)
+## Page 35 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -1799,7 +1799,7 @@ NABARD, State Bank of India, for their support.
 <!-- PageNumber="35" -->
 <!-- PageBreak -->
 
-## Page 36 · via `ocr` · 0 table(s), 0 image(s)
+## Page 36 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="Key Takeaways and Suggestions" -->
 
@@ -1851,7 +1851,7 @@ demystify the knowledge. Relying on local networks helps in up-scaling adoption.
 <!-- PageNumber="36" -->
 <!-- PageBreak -->
 
-## Page 37 · via `ocr` · 0 table(s), 0 image(s)
+## Page 37 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -1904,7 +1904,7 @@ Mr T. M. V
 <!-- PageNumber="37" -->
 <!-- PageBreak -->
 
-## Page 38 · via `ocr` · 1 table(s), 0 image(s)
+## Page 38 · via `ocr` · 1 table(s)
 
 <!-- PageHeader="Annexure" -->
 
@@ -1948,7 +1948,7 @@ Mr T. M. V
 <!-- PageNumber="38" -->
 <!-- PageBreak -->
 
-## Page 39 · via `ocr` · 1 table(s), 0 image(s)
+## Page 39 · via `ocr` · 1 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -1986,7 +1986,7 @@ Mr T. M. V
 <!-- PageNumber="39" -->
 <!-- PageBreak -->
 
-## Page 40 · via `ocr` · 1 table(s), 0 image(s)
+## Page 40 · via `ocr` · 1 table(s)
 
 ## List of Participants
 
@@ -2031,7 +2031,7 @@ Mr T. M. V
 <!-- PageNumber="40" -->
 <!-- PageBreak -->
 
-## Page 41 · via `ocr` · 1 table(s), 0 image(s)
+## Page 41 · via `ocr` · 1 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -2079,14 +2079,14 @@ Mr T. M. V
 <!-- PageNumber="41" -->
 <!-- PageBreak -->
 
-## Page 42 · via `ocr` · 0 table(s), 0 image(s)
+## Page 42 · via `ocr` · 0 table(s)
 
 ### Notes
 
 <!-- PageNumber="42" -->
 <!-- PageBreak -->
 
-## Page 43 · via `ocr` · 0 table(s), 0 image(s)
+## Page 43 · via `ocr` · 0 table(s)
 
 <!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
@@ -2096,7 +2096,7 @@ Mr T. M. V
 <!-- PageNumber="43" -->
 <!-- PageBreak -->
 
-## Page 44 · via `ocr` · 0 table(s), 0 image(s)
+## Page 44 · via `ocr` · 0 table(s)
 
 ## About TERI
 

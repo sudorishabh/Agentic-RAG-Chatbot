@@ -1,0 +1,15 @@
+PDF EXTRACTION SUMMARY — Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf
+==============================================================================
+  elapsed            : 71.59s
+  pages              : 324
+  tables             : 0
+  extracted chars    : 587,206
+
+  pages by route     : {'text': 298, 'ocr': 25, 'empty': 1}
+  digital vs scanned : 298 digital / 25 scanned (OCR) / 1 empty
+  OCR page numbers   : [3, 4, 6, 8, 12, 20, 24, 29, 32, 33, 44, 94, 95, 106, 107, 127, 154, 155, 229, 234, 259, 277, 290, 291, 323]
+
+  chunks (total)     : 878
+  parent chunks      : 358
+  child chunks       : 520
+  child tokens       : min=4 max=627 avg=353

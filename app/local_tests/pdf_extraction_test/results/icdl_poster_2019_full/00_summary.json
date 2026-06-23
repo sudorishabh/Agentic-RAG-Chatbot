@@ -1,31 +1,28 @@
 {
   "pdf": "ICDL_Poster_2019_Full.pdf",
-  "elapsed_seconds": 379.5,
+  "elapsed_seconds": 13.86,
   "page_count": 188,
-  "table_count": 3,
-  "image_count": 38,
-  "char_count": 407622,
+  "table_count": 0,
+  "char_count": 390928,
   "routes": {
-    "docling": 60,
-    "ocr": 6,
-    "text": 121,
+    "text": 182,
+    "ocr": 5,
     "empty": 1
   },
-  "digital_pages": 181,
-  "scanned_ocr_pages": 6,
+  "digital_pages": 182,
+  "scanned_ocr_pages": 5,
   "empty_pages": 1,
   "ocr_page_numbers": [
-    10,
     12,
     14,
     24,
     30,
     32
   ],
-  "chunks_total": 427,
-  "parent_chunks": 182,
-  "child_chunks": 245,
-  "child_token_min": 25,
-  "child_token_max": 671,
-  "child_token_avg": 362
+  "chunks_total": 490,
+  "parent_chunks": 225,
+  "child_chunks": 265,
+  "child_token_min": 104,
+  "child_token_max": 538,
+  "child_token_avg": 309
 }

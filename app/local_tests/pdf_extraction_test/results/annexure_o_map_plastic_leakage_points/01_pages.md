@@ -1,6 +1,6 @@
 # Pages — Annexure_O_Map-Plastic-Leakage-Points.pdf
 
-## Page 1 · via `ocr` · 0 table(s), 0 image(s)
+## Page 1 · via `ocr` · 0 table(s)
 
 UN@
 environment

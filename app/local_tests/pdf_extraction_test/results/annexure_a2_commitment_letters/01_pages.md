@@ -1,22 +1,12 @@
 # Pages — Annexure_A2_Commitment-letters.pdf
 
-## Page 1 · via `docling` · 0 table(s), 5 image(s)
+## Page 1 · via `text` · 0 table(s)
 
-Figure 1: Logo image showing large blue "UN" letters with a circular emblem (laurel wreath surrounding a stylized human/plant figure) to the right, and the lowercase blue text "environment programme" beneath. The figure is the branding/logo for the UN Environment Programme.
+Annexure- Commitment Letters for participation in the ‘Rethink Plastic’ campaign\
 
-Figure 2: Logo-style graphic showing a crushed plastic bottle with a green stem and red flower growing from it, placed above brown segmented shapes, with the label "RETHINK PLASTIC" beneath. The image conveys an environmental/recycling message about rethinking plastic use.
+1. Thane Belapur Industries Association (TBIA), Navi Mumbai
 
-Figure 3: Logo: a stylized lowercase "teri" wordmark in bold red with a yellow diagonal-striped drop shadow. No axes or labels; the image is a brand logo emphasizing the name "teri."
-
-Figure 4: Black-and-white logo showing the word "Counter MEASURE" with a stylized river graphic to the right and the tagline "FOR PLASTIC FREE RIVERS" beneath; it is branding for a plastic-free rivers initiative.
-
-## AnnexureCommitment Letters for participation in the 'Rethink Plastic' campaign \
-
-## 1. Thane Belapur Industries Association (TBIA), Navi Mumbai
-
-Figure 5: A green, oval-framed company logo featuring stylized block letters "TBIA" with a small star above the "I" and the caption "ESTD. 1978" beneath. Main takeaway: brand emblem identifying the organization and its establishment year (1978).
-
-## Page 2 · via `ocr` · 0 table(s), 0 image(s)
+## Page 2 · via `ocr` · 0 table(s)
 
 <figure>
 
@@ -112,7 +102,7 @@ Head Department of Zoology
 
 <!-- PageBreak -->
 
-## Page 3 · via `ocr` · 0 table(s), 0 image(s)
+## Page 3 · via `ocr` · 0 table(s)
 
 <figure>
 
@@ -241,7 +231,7 @@ Vashi, Navi Mumbai-400703.
 
 <!-- PageBreak -->
 
-## Page 4 · via `ocr` · 0 table(s), 0 image(s)
+## Page 4 · via `ocr` · 0 table(s)
 
 <figure>
 
@@ -336,7 +326,7 @@ Dr. C. S. Panse
 
 <!-- PageBreak -
 
-## Page 5 · via `ocr` · 0 table(s), 0 image(s)
+## Page 5 · via `ocr` · 0 table(s)
 
 ->
 
@@ -426,7 +416,7 @@ CN:L65191PN1994PLC076333
 
 <!-- PageBreak -
 
-## Page 6 · via `ocr` · 0 table(s), 0 image(s)
+## Page 6 · via `ocr` · 0 table(s)
 
 ->
 

@@ -1,6 +1,6 @@
 # Pages — make-solar-cooker.pdf
 
-## Page 1 · via `ocr` · 0 table(s), 0 image(s)
+## Page 1 · via `ocr` · 0 table(s)
 
 # Let's Make a Solar Cooker!
 

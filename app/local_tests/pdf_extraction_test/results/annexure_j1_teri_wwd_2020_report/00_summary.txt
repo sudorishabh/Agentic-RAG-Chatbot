@@ -1,16 +1,15 @@
 PDF EXTRACTION SUMMARY — Annexure_J1_ TERI_WWD-2020_Report.pdf
 ==============================================================================
-  elapsed            : 228.0s
+  elapsed            : 8.14s
   pages              : 47
-  tables             : 2
-  images / figures   : 34
-  extracted chars    : 44,780
+  tables             : 0
+  extracted chars    : 32,902
 
-  pages by route     : {'docling': 18, 'ocr': 11, 'text': 18}
-  digital vs scanned : 36 digital / 11 scanned (OCR) / 0 empty
-  OCR page numbers   : [8, 24, 28, 29, 32, 41, 42, 43, 44, 45, 46]
+  pages by route     : {'text': 35, 'ocr': 12}
+  digital vs scanned : 35 digital / 12 scanned (OCR) / 0 empty
+  OCR page numbers   : [8, 24, 27, 28, 29, 32, 41, 42, 43, 44, 45, 46]
 
-  chunks (total)     : 72
-  parent chunks      : 30
-  child chunks       : 42
-  child tokens       : min=110 max=519 avg=321
+  chunks (total)     : 48
+  parent chunks      : 18
+  child chunks       : 30
+  child tokens       : min=176 max=525 avg=380
