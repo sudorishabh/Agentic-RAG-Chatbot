@@ -1,6 +1,6 @@
 PDF EXTRACTION SUMMARY — managing-water.pdf
 ==============================================================================
-  elapsed            : 5.35s
+  elapsed            : 6.8s
   pages              : 1
   tables             : 0
   extracted chars    : 5,553

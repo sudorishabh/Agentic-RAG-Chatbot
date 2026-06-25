@@ -2,145 +2,197 @@
 
 ## Page 1 · via `text` · 0 table(s)
 
-Report on Save Wetlands from Plastic Litter A celebration of
-
-World Wetlands Day- February 2, 2020 Location : Veer Savarkar Udyan, Sagar Vihar; Vashi, Navi Mumbai
+Report
+on
+Save Wetlands from 
+Plastic Litter
+A celebration of 
+World Wetlands Day- February 2, 2020
+Location : Veer Savarkar Udyan, Sagar Vihar; Vashi, 
+Navi Mumbai
 
 ## Page 2 · via `text` · 0 table(s)
 
-Special Message Shri Annasaheb Misal Commissioner, Navi Mumbai Municipal Corporation (NMMC)
-
-Navi Mumbai Municipal Corporation (NMMC), one of the most progressive ULB’s in India has always focused on the environmental conservation and sustainable development of the city. The measures taken by NMMC have led to Navi Mumbai being ranked 7th in India under Swachha Bharat Abhiyan (SBA) in 2019. Additionally, Navi Mumbai has been bestowed with rich natural vegetation, mangroves and wetlands which protect the city from natural calamities like floods, provides carbon sink and contributes to the quality of life in the city. However, today, like most other cities in the world, plastic pollution is a growing concern in Navi Mumbai as well, directly impacting its ecosystems and thus needing conservation measures.
-
-I congratulate The Energy and Resources Institute (TERI) and United Nations Environment Programme (UNEP) and other project partners on their efforts to create the much needed awareness about plastic pollution and wetland conservation among citizens. I appreciate the efforts taken by the National Service Scheme (NSS) volunteers and college students for carrying this message forward to a larger group of stakeholders, thus creating a domino effect.
-
-It was an honor to interact with diverse group of stakeholders, especially the UNEP representatives. Participation of Mr. G.S.Gill (IAS), Distinguished Advisor, TERI-WRC; and Mr. J. S. Saharia, Former Chief Secretary, Government of Maharashtra was very encouraging. Their guidance while developing a Policy document would be very valuable.
-
-Navi Mumbai needs presence of motivated leaders like the citizens felicitated by event organizers. The initiatives for plastic alternatives like cloth bags made from used clothing should be replicated in Navi Mumbai on large scale. I feel motivated to see representatives from Helen Keller Institute of Deaf and Deaf blind taking active part in the program. Furthermore, I truly appreciate the organizations and citizens who have raised the saplings in waste plastic bottles and those who have agreed to nurture it further for afforestation. As part of the Eco-city Project, a joint collaboration with TERI, NMMC would be pleased to work towards the implementation of these initiatives on a larger scale with the objective of not only creating awareness but also a bigger long term positive impact.
-
-I feel optimistic that with collaborative efforts by Government, Non-Government and Research organizations, Corporates, students and other citizens, Navi Mumbai will be able to achieve its goal of being a plastic waste free city in the near future. It is the moral responsibility of each and every individual to act responsibly and work towards making the city plastic waste free.
+Special Message
+Shri Annasaheb Misal
+Commissioner, Navi Mumbai Municipal Corporation 
+(NMMC) 
+Navi Mumbai Municipal Corporation (NMMC), one of the most progressive ULB’s in India has always focused on the
+environmental conservation and sustainable development of the city. The measures taken by NMMC have led to Navi Mumbai
+being ranked 7th in India under Swachha Bharat Abhiyan (SBA) in 2019. Additionally, Navi Mumbai has been bestowed with
+rich natural vegetation, mangroves and wetlands which protect the city from natural calamities like floods, provides carbon sink
+and contributes to the quality of life in the city. However, today, like most other cities in the world, plastic pollution is a growing
+concern in Navi Mumbai as well, directly impacting its ecosystems and thus needing conservation measures.
+I congratulate The Energy and Resources Institute (TERI) and United Nations Environment Programme (UNEP) and other
+project partners on their efforts to create the much needed awareness about plastic pollution and wetland conservation among
+citizens. I appreciate the efforts taken by the National Service Scheme (NSS) volunteers and college students for carrying this
+message forward to a larger group of stakeholders, thus creating a domino effect.
+It was an honor to interact with diverse group of stakeholders, especially the UNEP representatives. Participation of Mr. G.S.Gill
+(IAS), Distinguished Advisor, TERI-WRC; and Mr. J. S. Saharia, Former Chief Secretary, Government of Maharashtra was very
+encouraging. Their guidance while developing a Policy document would be very valuable.
+Navi Mumbai needs presence of motivated leaders like the citizens felicitated by event organizers. The initiatives for plastic
+alternatives like cloth bags made from used clothing should be replicated in Navi Mumbai on large scale. I feel motivated to see
+representatives from Helen Keller Institute of Deaf and Deaf blind taking active part in the program. Furthermore, I truly
+appreciate the organizations and citizens who have raised the saplings in waste plastic bottles and those who have agreed to
+nurture it further for afforestation. As part of the Eco-city Project, a joint collaboration with TERI, NMMC would be pleased to
+work towards the implementation of these initiatives on a larger scale with the objective of not only creating awareness but also
+a bigger long term positive impact.
+I feel optimistic that with collaborative efforts by Government, Non-Government and Research organizations, Corporates,
+students and other citizens, Navi Mumbai will be able to achieve its goal of being a plastic waste free city in the near future. It is
+the moral responsibility of each and every individual to act responsibly and work towards making the city plastic waste free.
 
 ## Page 3 · via `text` · 0 table(s)
 
-Special Message Prof. Suhas Pednekar, Vice Chancellor, University of Mumbai
-
-The University of Mumbai, one of the oldest and largest Universities in India, has 720 kilometers of coastline under its jurisdiction. There are more than 800 colleges affiliated to the university with 176 environment initiatives being undertaken in the campuses with the combined participation of over 15,000 students. The University’s National Service Scheme (NSS) unit has always been a front runner in participating in environment, social and community based programs.
-
-Wetlands are one of the most productive ecosystems, home to rich biodiversity and are essential to human survival. As Mumbai is a coastal city, the presence of coastal wetlands such as Mangroves becomes extremely important. However, with ever increasing human footprint, developmental activities and the problem of improper waste disposal in Mumbai, these wetlands and the biodiversity within them are facing the threat of being permanently wiped out from the city’s geographical map. Thus, the conservation of mangroves through active participation of stakeholders is the need of the hour.
-
-With our University as an official partner of TERI-UNEP’s ‘’Promotion of Counter-Measures against Marine Plastic Litter in Southeast Asia and India’’ project, its’ been a great opportunity for TERI, UNEP and the University of Mumbai to come together and collaborate to address the issue of plastic pollution. Our NSS staff and volunteers have participated in various awareness activities organized by TERI under ‘Rethink Plastic’ campaign, including World Wetlands Day (WWD) – 2020. I appreciate TERI-UNEP’s efforts on emphasizing the issue of plastic pollution in each and every program and grateful for giving NSS students the opportunity to be a part of the campaign. It’s been a great learning experience for our students and it helped sensitize them to the perils of incorrect plastic disposal as well as significance of protecting mangrove ecosystem.
-
-Further, the University shall support TERI and encourage the students to actively participate in future endeavors in environment conservation. This, hopefully, would also inspire our students to further spread the knowledge gained from such initiatives to create a much larger positive impact.
+Special Message
+Prof. Suhas Pednekar,
+Vice Chancellor, University of Mumbai 
+The University of Mumbai, one of the oldest and largest Universities in India, has 720 kilometers of coastline under
+its jurisdiction. There are more than 800 colleges affiliated to the university with 176 environment initiatives being
+undertaken in the campuses with the combined participation of over 15,000 students. The University’s National
+Service Scheme (NSS) unit has always been a front runner in participating in
+environment, social and community
+based programs.
+Wetlands are one of the most productive ecosystems, home to rich biodiversity and are essential to human survival.
+As Mumbai is a coastal city, the presence of coastal wetlands such as Mangroves becomes extremely important.
+However, with ever increasing human footprint, developmental activities and the problem of improper waste
+disposal in Mumbai, these wetlands and the biodiversity within them are facing the threat of being permanently
+wiped out from the city’s geographical map. Thus, the conservation of mangroves through active participation of
+stakeholders is the need of the hour.
+With our University as an official partner of TERI-UNEP’s ‘’Promotion of Counter-Measures against Marine Plastic
+Litter in Southeast Asia and India’’ project, its’ been a great opportunity for TERI, UNEP and the University of
+Mumbai to come together and collaborate to address the issue of plastic pollution.
+Our NSS staff and volunteers
+have participated in various awareness activities organized by TERI under ‘Rethink Plastic’ campaign, including
+World Wetlands Day (WWD) – 2020. I appreciate TERI-UNEP’s efforts on emphasizing the issue of plastic pollution
+in each and every program and grateful for giving NSS students the opportunity to be a part of the campaign. It’s
+been a great learning experience for our students and it helped sensitize them to the perils of incorrect plastic
+disposal as well as significance of protecting mangrove ecosystem.
+Further, the University shall support TERI and encourage the students to actively participate in future endeavors 
+in environment conservation. This, hopefully, would also inspire our students to further spread the knowledge 
+gained from such initiatives to create a much larger positive impact.
 
 ## Page 4 · via `text` · 0 table(s)
 
-Special Message Mr. Atul Bagai Country Head- India Office, United Nations Environment Programme (UNEP)
-
-The UNEP is the leading and authoritative global voice on environmental issues. It is the key driver of the environmental dimension of sustainable development, within the United Nations system. UNEP’s global campaigns ‘Beat Plastic Pollution’ and ‘Clean Seas’ are increasingly gaining traction. The India office of UNEP started operations 3 years ago. It made its mark when it organised a highly successful World Environment Day in 2018 when the Prime Minister of India, committed to phasing out single-use plastics.
-
-Despite the best efforts, and the spotlight on plastics, our understanding of its science is limited. Assessment of sources of plastic waste, its content, accumulation hotspots, leakage pathways, are approximate. Most importantly we are still grappling with challenges of technology and finance for its management.
-
-UNEP is currently implementing the Japan Government funded “Promotion of Counter Measures against Marine Plastic litter in South-east Asia and India” project in Agra,Haridwar, Allahabad and Mumbai, as well as a Norway Government funded project where we are supporting the high-level Marine Litter Cell in the Ministry of Environment Forest and Climate Change. UNEP shall be working closely with the Ministry to develop a national road map on marine litter and plastics.
-
-The Counter Measures project is a first ever project in this part of the world that targets collecting ground-level data on plastics. The project also attempts to reach out to a spectrum of stakeholders, both to increase their understanding of the issue, as well as to embed and institutionalise sustainable initiatives for reduction and improved management of plastic waste.
-
-UNEP has partnered with TERI for project implementation in Mumbai. Through the “Rethink Plastic” campaign, we have reached out to more than 5000 people through perception surveys, pledge campaign, treasure hunts for waste bottles and saplings, awareness and training activities. We deeply value this partnership and hope to strengthen it in times to come, to strengthen UNEP’s vision and leadership on marine plastic litter.
+Special Message 
+Mr. Atul Bagai
+Country Head- India Office, United Nations Environment Programme
+(UNEP)
+The UNEP is the leading and authoritative global voice on environmental issues. It is the key driver of the environmental
+dimension of sustainable development, within the United Nations system. UNEP’s global campaigns ‘Beat Plastic Pollution’
+and ‘Clean Seas’ are increasingly gaining traction. The India office of UNEP started operations 3 years ago. It made its mark
+when it organised a highly successful World Environment Day in 2018 when the Prime Minister of India, committed to
+phasing out single-use plastics.
+Despite the best efforts, and the spotlight on plastics, our understanding of its science is limited. Assessment of sources of
+plastic waste, its content, accumulation hotspots, leakage pathways, are approximate. Most importantly we are still grappling
+with challenges of technology and finance for its management.
+UNEP is currently implementing the Japan Government funded “Promotion of Counter Measures against Marine Plastic litter
+in South-east Asia and India” project in Agra,Haridwar, Allahabad and Mumbai, as well as a Norway Government funded
+project where we are supporting the high-level Marine Litter Cell in the Ministry of Environment Forest and Climate Change.
+UNEP shall be working closely with the Ministry to develop a national road map on marine litter and plastics.
+The Counter Measures project is a first ever project in this part of the world that targets collecting ground-level data on
+plastics. The project also attempts to reach out to a spectrum of stakeholders, both to increase their understanding of the
+issue, as well as to embed and institutionalise sustainable initiatives for reduction and improved management of plastic
+waste.
+UNEP has partnered with TERI for project implementation in Mumbai. Through the “Rethink Plastic” campaign, we have
+reached out to more than 5000 people through perception surveys, pledge campaign, treasure hunts for waste bottles and
+saplings, awareness and training activities. We deeply value this partnership and hope to strengthen it in times to come, to
+strengthen UNEP’s vision and leadership on marine plastic litter.
 
 ## Page 5 · via `text` · 0 table(s)
 
-Special Message Dr. Ajay Mathur Director General, The Energy and Resources Institute (TERI)
+Special Message
+Dr. Ajay Mathur
+Director General, The Energy and Resources Institute
+(TERI)
+I am glad that TERI’s Western Regional Center (WRC) has been celebrating World Wetlands Day (WWD) in Mumbai for the
+past 12 years with diverse stakeholders and in collaboration with the Ramsar Convention. The reports of all these events are
+available on the Ramsar website (https://www.ramsar.org/). The WWD-2020 celebration on the theme ’Save Wetlands from
+Plastic Litter’ by TERI was in collaboration with United Nations Environment Programme (UNEP), Navi Mumbai Municipal
+Corporation (NMMC), and National Service Scheme (NSS).
+NMMC has been partnering with TERI for various environmental and sustainable development initiatives under the Eco City
+project since 2012; whereas TERI is currently the outreach partner for the UNEP sponsored project titled ‘Promotion of
+countermeasures against marine plastic litter in Southeast Asia and India’ in Mumbai. As part of this project TERI- WRC is
+implementing an action oriented campaign ‘Rethink Plastic’ (November 2019- March 2020) to reach out to various
+stakeholders and urge them to Refuse, Reduce Reuse, Recycle and Rethink plastic responsibly.
+I am overwhelmed to see the large participation of youth representing the NSS and other educational institutions like
+Karmaveer Bhaurao Patil College, Vashi, South Indian Education Institute (SIES), Nerul, Maharshi Dayanand College, Parel,
+India Culture League Education and Society (ICLES) Motilal Jhunjhunvala College, Vashi, in this event. I was informed that
+over 300 participants were a part of the event; and more than 100 kg of plastic was collected from the mangroves just in an
+hour. It was heartening to note that all participants have taken a pledge against single use plastics and many of them drafted
+roadmaps against plastic pollution. These suggestions will be collated and submitted to the Hon’ble Chief Minister of
+Maharashtra by TERI, UNEP and other project partners; requesting him to develop a roadmap against plastic pollution in the
+state. The participation of representatives from Helen Keller Institute for Deaf and Deaf blind was a true value addition to the
+event. I am happy that TERI handed over 100 saplings of native trees raised in waste plastic bottles to them for nurturing and
+use in afforestation. Further, TERI’s commitment to prepare a Braille booklet on Plastic Pollution is a noteworthy initiative to
+spread the message against plastic pollution to the differently abled students.
+I congratulate and thank all the participants, partners and media representatives for undertaking such an illustrious
+initiative with an objective to minimize single use plastic and also conserve wetland ecosystems.
 
-I am glad that TERI’s Western Regional Center (WRC) has been celebrating World Wetlands Day (WWD) in Mumbai for the past 12 years with diverse stakeholders and in collaboration with the Ramsar Convention. The reports of all these events are available on the Ramsar website (https://www.ramsar.org/). The WWD-2020 celebration on the theme ’Save Wetlands from Plastic Litter’ by TERI was in collaboration with United Nations Environment Programme (UNEP), Navi Mumbai Municipal Corporation (NMMC), and National Service Scheme (NSS).
+## Page 6 · via `ocr` · 1 table(s)
 
-NMMC has been partnering with TERI for various environmental and sustainable development initiatives under the Eco City project since 2012; whereas TERI is currently the outreach partner for the UNEP sponsored project titled ‘Promotion of countermeasures against marine plastic litter in Southeast Asia and India’ in Mumbai. As part of this project TERI- WRC is implementing an action oriented campaign ‘Rethink Plastic’ (November 2019- March 2020) to reach out to various stakeholders and urge them to Refuse, Reduce Reuse, Recycle and Rethink plastic responsibly.
+# Index
 
-I am overwhelmed to see the large participation of youth representing the NSS and other educational institutions like Karmaveer Bhaurao Patil College, Vashi, South Indian Education Institute (SIES), Nerul, Maharshi Dayanand College, Parel, India Culture League Education and Society (ICLES) Motilal Jhunjhunvala College, Vashi, in this event. I was informed that over 300 participants were a part of the event; and more than 100 kg of plastic was collected from the mangroves just in an hour. It was heartening to note that all participants have taken a pledge against single use plastics and many of them drafted roadmaps against plastic pollution. These suggestions will be collated and submitted to the Hon’ble Chief Minister of Maharashtra by TERI, UNEP and other project partners; requesting him to develop a roadmap against plastic pollution in the state. The participation of representatives from Helen Keller Institute for Deaf and Deaf blind was a true value addition to the event. I am happy that TERI handed over 100 saplings of native trees raised in waste plastic bottles to them for nurturing and use in afforestation. Further, TERI’s commitment to prepare a Braille booklet on Plastic Pollution is a noteworthy initiative to spread the message against plastic pollution to the differently abled students.
 
-I congratulate and thank all the participants, partners and media representatives for undertaking such an illustrious initiative with an objective to minimize single use plastic and also conserve wetland ecosystems.
 
-## Page 6 · via `text` · 0 table(s)
 
-Sr No.
+| Sr No. |  |  | Content |
+| --- | --- | --- | --- |
+|  |  |  | Agenda |
+| 1 | Inaugural and Interactive Session | Inaugural and Interactive Session | Inaugural and Interactive Session |
+|  | a | a | Welcome and Event Introduction |
+|  | b | b | Key Address by the Chief Guest |
+|  | c | c | Address by the Dignitaries |
+|  | d | d | Pledge by participants against Single Use Plastic |
+|  | e | e | Felicitation: Exemplary Initiatives for Environmental Betterment |
+|  | f | f | Commitment of Differently Abled |
+|  |  | g | Panel Discussion - Youth Vision on Plastic Pollution |
+| 2 | Mangrove Cleanup activity - Sagar Vihar | Mangrove Cleanup activity - Sagar Vihar | Mangrove Cleanup activity - Sagar Vihar |
+| 3 | Parallel Activities | Parallel Activities |  |
+|  |  | a | Collage using Waste Plastic Bottles caps |
+|  |  | b | Wetland conservation message through art |
+|  | c | c | Pledge Against Single use plastic and Perception survey |
+|  |  | d | Plant a Sapling in waste plastic bottle |
+|  |  | e | Display of Cloth Bags - Aapli Pishvi |
+| 4 | Media Coverage |  |  |
+| 5 | Take Home Message | Take Home Message |  |
 
-1
 
-2
 
-3
-
-4
-
-5
-
-Index
-
-Content
-
-Agenda
-
-Inaugural and Interactive Session
-
-a Welcome and Event Introduction
-
-b Key Address by the Chief Guest
-
-c Address by the Dignitaries
-
-d Pledge by participants against Single Use Plastic
-
-e Felicitation: Exemplary Initiatives for Environmental Betterment
-
-f Commitment of Differently Abled
-
-g Panel Discussion – Youth Vision on Plastic Pollution
-
-Mangrove Cleanup activity - Sagar Vihar
-
-Parallel Activities
-
-a Collage using Waste Plastic Bottles caps
-
-b Wetland conservation message through art
-
-c Pledge Against Single use plastic and Perception survey
-
-d Plant a Sapling in waste plastic bottle
-
-e Display of Cloth Bags - Aapli Pishvi
-
-Media Coverage
-
-Take Home Message
 
 Acknowledgment
 
-## Page 7 · via `text` · 0 table(s)
+<!-- PageBreak -->
 
-Agenda: World Wetlands Day 2020 Event February 2, 2020
+## Page 7 · via `ocr` · 1 table(s)
 
-9.30 AM - 10.00 AM 10.00 AM - 10.30 AM Cleanup activity in mangroves
+# Agenda: World Wetlands Day 2020 Event February 2, 2020
 
-Registration
 
-Inaugural and Interactive Session
 
-10.00 AM - 10.15 AM Arrival of guests and chief guest; Exploring the live activities (Poster making, Mural
 
-making, Rangoli and more)
+| 9.30 AM - 10.00 AM | Registration |
+| --- | --- |
+| 10.00 AM - 10.30 AM | Cleanup activity in mangroves |
+| Inaugural and Interactive Session | Inaugural and Interactive Session |
+| 10.00 AM - 10.15 AM | Arrival of guests and chief guest; Exploring the live activities (Poster making, Mural making, Rangoli and more) |
+| 10.15 AM - 10.30 AM | Welcome and Introduction about project and the event- TERI and UNEP |
+| 10.30 AM - 11.00 AM | Address by the Guest of Honor and dignitaries |
+| 11.00 AM - 11.10 AM | Key note address by the Chief Guest |
+| 11.10 AM - 11.20 AM | Felicitation of citizens carrying out exemplary work for environmental betterment |
+| 11. 20 AM - 11.30 AM | Handing over of saplings for further nurturing |
+| 11.30 AM - 12.00 PM | Panel discussion to understand views of the youth for preparing the Road Map to counter Marine Plastic Pollution |
+| 12.00 PM - 12.05 PM | Vote of Thanks |
+| Parallel Activities | Parallel Activities |
+| 12.05 PM - 1.00 PM | Making collage using bottle caps |
+| Messages on Wetland conservation through art (Rangoli and Posters) |  |
+| Pledge against single use plastic and Perception survey |  |
+| Plant a Sapling in waste plastic bottle |  |
+| 12.30 PM - 1.00 PM | Refreshments (Healthy Food- Millet Idli and Fruit Plate) |
 
-10.15 AM - 10.30 AM Welcomeand Introductionabout projectand the event-TERI and UNEP 10.30 AM - 11.00 AM Address by the Guest of Honor and dignitaries 11.00 AM - 11.10 AM Key note address by the Chief Guest 11.10 AM - 11.20 AM Felicitation of citizens carrying out exemplary work for environmental betterment 11. 20 AM - 11.30 AM Handing over of saplings for further nurturing 11.30 AM - 12.00 PM Panel discussion to understand views of the youth for preparing the Road Map to counter
 
-Marine Plastic Pollution
 
-12.00 PM - 12.05 PM Vote of Thanks
 
-Parallel Activities
-
-12.05 PM - 1.00 PM
-
-12.30 PM - 1.00 PM
-
-Making collage using bottle caps Messageson Wetland conservationthroughart (Rangoli and Posters) Pledge against single use plastic and Perceptionsurvey Plant a Sapling in waste plastic bottle Refreshments (Healthy Food- Millet Idli and Fruit Plate)
+<!-- PageBreak -->
 
 ## Page 8 · via `ocr` · 0 table(s)
 
@@ -151,203 +203,419 @@ MUMBAI
 </figure>
 
 
-# 1. Inaugural and Interactive Session
+## 1. Inaugural and Interactive Session
 
 <!-- PageBreak -->
 
 ## Page 9 · via `text` · 0 table(s)
 
 Dignitaries on Dais
-
-(From L to R): Smt. Shaila Sam, Media and Communication Specialist, UNEP; Shri. Lovish Ahuja, Vice President, Governmental Affairs – India, TOMRA; Smt. Saloni Goel, Consultant, Plastic Pollution Programme, UNEP; Shri. G.S. Gill (IAS), Distinguished Advisor, TERI-WRC; Shri. Annasaheb Misal, IAS, Commissioner, NMMC and Shri. J.S.Saharia, (IAS), Former Chief Secretary, Government of Maharashtra (GoM)
+(From L to R): Smt. Shaila Sam, Media and Communication Specialist, UNEP; Shri. Lovish Ahuja, Vice
+President, Governmental Affairs – India, TOMRA; Smt. Saloni Goel, Consultant, Plastic Pollution Programme,
+UNEP; Shri. G.S. Gill (IAS), Distinguished Advisor, TERI-WRC; Shri. Annasaheb Misal, IAS, Commissioner,
+NMMC and Shri. J.S.Saharia, (IAS), Former Chief Secretary, Government of Maharashtra (GoM)
 
 ## Page 10 · via `text` · 0 table(s)
 
 a) Welcome and Event Introduction
-
-While explaining the concept of ‘Rethink Plastic Campaign’, Dr. Anjali Parasnis, Associate Director, TERI-WRC emphasized on the innovative approach of raising saplings of native trees and nurturing them in waste plastic bottles thereby practicing reuse and recycling of plastic. It’s also a great way to offset the carbon footprint.
-
-the Further, she also explained about importance of mangroves for coastal cities like Mumbai and Navi Mumbai and emphasized on their better management and conservation.
-
-Dr. Anjali Parasnis
+Dr. Anjali Parasnis 
+While explaining the concept of ‘Rethink
+Plastic
+Campaign’, Dr. Anjali Parasnis,
+Associate Director, TERI-WRC emphasized
+on
+the
+innovative
+approach
+of
+raising
+saplings of native trees and nurturing
+them in waste plastic bottles thereby
+practicing reuse and recycling of plastic.
+It’s also a great way to offset the carbon
+footprint.
+Further,
+she
+also explained
+about the
+importance of mangroves for coastal
+cities like Mumbai and Navi Mumbai and
+emphasized on their better management
+and conservation.
 
 ## Page 11 · via `text` · 0 table(s)
 
-Program Inauguration World Wetlands Day 2020
-
-Hon’ble Chief Guest planting the Native Sapling (left) and unveiling the collage made from Plastic waste (right)
+Program Inauguration  
+World Wetlands Day 2020 
+Hon’ble Chief Guest planting the Native Sapling (left) and unveiling the collage made 
+from Plastic waste (right)
 
 ## Page 12 · via `text` · 0 table(s)
 
-Welcoming the Dignitaries with Native Tree Saplings
-
-Mr. Lovish Ahuja, Vice President, Governmental Affairs, India, TOMRA
-
-Mr. J.S. Saharia, Former Chief Secretary, GoM
+Welcoming the Dignitaries with 
+Native Tree Saplings
+Mr. Lovish Ahuja, Vice President, Governmental 
+Affairs, India, TOMRA
+Mr. J.S. Saharia, Former Chief Secretary, 
+GoM
 
 ## Page 13 · via `text` · 0 table(s)
 
+Shri Annasaheb Misal, I.A.S., 
+Hon’ble Commissioner,
+NMMC
+•
+The Commissioner, NMMC appreciated the TERI-
+UNEP initiative to counter marine plastic pollution.
+•
+He highlighted the need of individual efforts by all
+citizens to make the city free from plastic pollution.
+•
+He urged the youth to actively take action to tackle
+plastic
+pollution;
+and
+encouraged
+citizens’
+participation
+in
+cleanliness
+initiatives
+like
+the
+Swachha Bharat Mission (SBM).
+•
+He also mentioned that change in behaviour and
+thinking
+is
+extremely
+important
+in
+solving
+the
+menace of plastic pollution; and highlighted the role
+of
+media
+in
+raising
+awareness
+and
+sensitizing
+citizens about environmental issues.
+•
+Talking about NMMC’s initiatives against single use
+plastic, he told that the NMMC head office is single
+use plastic free; and the corporation shall continue
+to work towards managing plastic pollution in the
+city through concrete policies and action against the
+same.
 b) Key Address by the Chief Guest
-
-The Commissioner, NMMC appreciated the TERI- UNEP initiative to counter marine plastic pollution. • He highlighted the need of individual efforts by all citizens to make the city free from plastic pollution. • He urged the youth to actively take action to tackle citizens’ and the like
-
-Shri Annasaheb Misal, I.A.S., Hon’ble Commissioner, NMMC
-
-He also mentioned that change in behaviour and thinking is extremely important in solving the menace of plastic pollution; and highlighted the role of media in raising awareness and sensitizing citizens about environmental issues.
-
-Talking about NMMC’s initiatives against single use plastic, he told that the NMMC head office is single use plastic free; and the corporation shall continue to work towards managing plastic pollution in the city through concrete policies and action against the same.
 
 ## Page 14 · via `text` · 0 table(s)
 
 c) Address by the Dignitaries
-
-Shri. J. S. Saharia (Guest of Honor) appreciated TERI and UNEP’s efforts towards creating awareness and sensitization among the citizens through action oriented programmes being conducted under the ‘Rethink Plastic campaign’.
-
-Shri. J. S. Saharia (IAS), Former Chief Secretary, GoM
-
-He specifically emphasized that all citizens especially youth must take individual and concrete steps against plastic pollution, both at institutional level.
-
-Shri. G.S.Gill emphasized on continual work towards creating awareness and conducting impactful activities.
-
-He mentioned that
-
-involvement of youth in environmental and
-
+Shri. J. S. Saharia (IAS),  
+Former Chief Secretary, 
+GoM
+•
+Shri. J. S. Saharia (Guest of Honor) appreciated TERI and UNEP’s
+efforts
+towards
+creating
+awareness
+and
+sensitization
+among
+the
+citizens through action oriented programmes being conducted under
+the ‘Rethink Plastic campaign’.
+•
+He specifically emphasized that all citizens especially youth must take
+concrete
+steps
+against
+plastic
+pollution,
+both
+at
+individual
+and
+institutional level.
+•
+Shri.
+G.S.Gill
+emphasized
+on
+continual
+work
+towards
+creating
+awareness and conducting impactful activities.
+•
+He
+mentioned
+that
+involvement
+of
+youth
+in
+environmental
+and
 sustainable development initiatives is of great importance.
-
-Shri. G.S.Gill (IAS) Distinguished Advisor, TERI-WRC
-
-Towards this, he also submitted a proposal to NMMC, on behalf of TERI for a long term project against plastic pollution for the city of Navi Mumbai.
+•
+Towards this, he also submitted a proposal to NMMC, on behalf of TERI
+for a long term project against plastic pollution for the city of Navi
+Mumbai.
+Shri. G.S.Gill (IAS)
+Distinguished Advisor, 
+TERI-WRC
 
 ## Page 15 · via `text` · 0 table(s)
 
 c) Address by the Dignitaries
-
-Smt. Saloni Goel, gave insightful details about the UNEP project ‘Promotion of countermeasures against marine plastic litter in Southeast Asia and India’ being implemented in 4 Indian cities namely Agra, Prayagraj (Allahabad), Rishikesh and Mumbai to tackle plastic pollution.
-
-Smt. Saloni Goel Consultant, Plastic Pollution, UNEP
-
-She also highlighted that lack of knowledge and awareness about the intricacies of plastic like different types of plastic is a key concern in managing plastic pollution.
-
-Smt. Divya Gaikwad highlighted the need of outreach events to raise awareness and motivate the community for environmental betterment.
-
-She urged the citizens to stop using single use plastics and switch to eco- friendly alternatives and encouraged the young participants to actively act against plastic pollution.
-
-Smt. Divya Gaikwad, Corporator, NMMC
-
-Shri. Lovish Ahuja specifically highlighted that the real solution to the waste is segregation at source while technological and end of pipe solutions can mitigate only ~30% of the waste problem.
-
-Shri. Lovish Ahuja Vice President, Governmental Affairs, India - TOMRA
-
-He also mentioned about the importance of life cycle analysis of each and every product we consume, specially with respect to the amount of waste generated by those products.
+Smt. Saloni Goel
+Consultant, Plastic 
+Pollution, UNEP
+•
+Smt. Saloni Goel, gave insightful details about the UNEP project ‘Promotion of
+countermeasures against marine plastic litter in Southeast Asia and India’ being
+implemented in 4 Indian cities namely Agra, Prayagraj (Allahabad), Rishikesh and
+Mumbai to tackle plastic pollution.
+•
+She also highlighted that lack of knowledge and awareness about the intricacies
+of plastic like different types of plastic is a key concern in managing plastic
+pollution.
+Smt.  Divya Gaikwad, 
+Corporator, NMMC
+•
+Smt. Divya Gaikwad highlighted the need of outreach events to raise awareness
+and motivate the community for environmental betterment.
+•
+She urged the citizens to stop using single use plastics and switch to eco-
+friendly alternatives and encouraged the young participants to actively act
+against plastic pollution.
+Shri.  Lovish Ahuja
+Vice President, 
+Governmental Affairs, 
+India - TOMRA
+•
+Shri. Lovish Ahuja specifically highlighted that the real solution to the waste is
+segregation at source while technological and end of pipe solutions can mitigate
+only ~30% of the waste problem.
+•
+He also mentioned about the importance of life cycle analysis of each and every
+product we consume, specially with respect to the amount of waste generated by
+those products.
 
 ## Page 16 · via `text` · 0 table(s)
 
-Pledge by the Dignitaries
-
 Pledge by the participants
-
-d) More than 300 participants took Pledge against Single Use Plastic
-
-As a good citizen of my country and a responsible resident of the planet Earth, I pledge to Refuse, Reduce, Recycle, Reuse, Repair, Re-gift, Recover and “Rethink plastic”, to the best of my efforts by doing the following:
-
- I shall say “NO” to single use plastic items  I shall always carry a cloth bag, reusable  NOT purchase fruits and vegetables wrapped  Sensitize peers,  Sort my waste for recycling and disposal  Ask restaurants NOT to send plastic cutlery  Purchase usually what can be either recycled,  NOT accept  Avoid sachets as much as possible
-
+Pledge by the Dignitaries
+d) More than 300 participants 
+took Pledge against Single Use 
+Plastic
+As a good citizen of my country and a responsible
+resident of the planet Earth, I pledge to Refuse,
+Reduce, Recycle, Reuse, Repair, Re-gift, Recover
+and “Rethink plastic”, to the best of my efforts by
+doing the following:
+
+I shall say “NO” to single use plastic items
 (Straw, carry bags, cutlery etc.)
-
+
+I
+shall
+always
+carry
+a
+cloth
+bag,
+reusable
 cutlery, straw and cup.
-
+
+NOT purchase fruits and vegetables wrapped
 in plastic films
-
-friends and family about
-
+
+Sensitize
+peers,
+friends
+and
+family
+about
 minimizing single use plastic
-
+
+Sort my waste for recycling and disposal
+
+Ask restaurants NOT to send plastic cutlery
 when ordering food online
-
+
+Purchase usually what can be either recycled,
 reused, refilled or repaired
-
-gifts/ bouquets wrapped in
-
+
+NOT
+accept
+gifts/
+bouquets
+wrapped
+in
 plastics
+
+Avoid sachets as much as possible
 
 ## Page 17 · via `text` · 0 table(s)
 
-e) Felicitation: Exemplary Initiatives for Environmental Betterment
-
-1. Smt. Neeta Karnik (Aapli Pishvi Initiative)
-
-She works with local women residents to make cloth bags from old sarees, dupattas and dresses and distributes them to to vendors promote the use of cloth bags. She one aims Municipal Market in her locality, free from plastic bags.
-
+e) Felicitation: Exemplary Initiatives 
+for Environmental Betterment
+1.
+Smt.
+Neeta
+Karnik
+(Aapli
+Pishvi Initiative)
+She
+works
+with
+local
+women
+residents
+to
+make
+cloth
+bags
+from old sarees, dupattas and
+dresses and distributes them to
+vendors
 and
-
 customers
-
-to make
-
+to
+promote the use of cloth bags. She
+aims
+to
+make
 at
-
 least
+one
+Municipal Market in her locality,
+free from plastic bags.
 
 ## Page 18 · via `text` · 0 table(s)
 
-3. Smt. Jyoti Nadkarni
-
-collectively works with housing She societies in Kharghar, Navi Mumbai to help collect and segregate household waste at source.
-
 2. Shri. P. S Lokhande
-
-He started PSL Waste Management LLP to collect, segregate and effectively manage municipal waste.
+He started PSL Waste Management LLP to
+collect,
+segregate
+and
+effectively
+manage
+municipal waste.
+3. Smt. Jyoti Nadkarni
+She
+collectively
+works
+with
+housing
+societies in Kharghar, Navi Mumbai to
+help collect and segregate household waste
+at source.
 
 ## Page 19 · via `text` · 0 table(s)
 
-5. Smt. Kalpana Chhatre
-
-A member of Mangrove Marshal Group, Navi Mumbai. The group organizes weekly mangrove cleanup activity at Sagar Vihar and Mini Sea Shore, Vashi, Navi Mumbai.
-
 4. Shri. Prakash Chandra Joshi
-
-Individually collected more than 1500 waste plastic bottles for the campaign
+Individually
+collected more than 1500
+waste plastic bottles for the campaign
+5. Smt. Kalpana Chhatre
+A member of Mangrove Marshal Group,
+Navi Mumbai. The group organizes weekly
+mangrove cleanup activity at Sagar Vihar
+and Mini Sea Shore, Vashi, Navi Mumbai.
 
 ## Page 20 · via `text` · 0 table(s)
 
 f) Commitment of Differently Abled
-
-The Helen Keller Institute of Deaf and Deaf blind engages their students in raising and nurturing saplings
-
-The institute adopted 100 saplings of native trees raised by students of ICLES Motilal Jhunjhunwala College, Vashi in waste the TERI-UNEP plastic bottles as part of ‘Rethink Plastic’ Campaign, at the hands of Dr. Anita Jadhav, Associate Professor, ICLES Motilal Jhunjhunwala College, Vashi
-
-TERI also committed to prepare a Braille book and Touch and Feel kits for these special students to introduce them to Plastic and its impacts on health and environment.
-
-A draft of the Braille book was handed over to representatives of Helen Keller Institute of Deaf and Deaf blind by the Hon’ble commissioner, NMMC.
+•
+The Helen Keller Institute of Deaf and Deaf
+blind engages their students in raising and
+nurturing saplings
+•
+The institute adopted 100 saplings of native
+trees raised by students of ICLES Motilal
+Jhunjhunwala
+College,
+Vashi
+in
+waste
+plastic
+bottles
+as
+part
+of
+the
+TERI-UNEP
+‘Rethink Plastic’ Campaign, at the hands of
+Dr.
+Anita
+Jadhav,
+Associate
+Professor,
+ICLES
+Motilal
+Jhunjhunwala
+College,
+Vashi
+•
+TERI also committed to prepare a Braille
+book and Touch and Feel kits for these
+special students to introduce them to
+Plastic and its impacts on health and
+environment.
+•
+A draft of the Braille book was handed
+over to representatives of Helen Keller
+Institute of Deaf and Deaf blind by the
+Hon’ble commissioner, NMMC.
 
 ## Page 21 · via `text` · 0 table(s)
 
-g) Panel discussion : Youth Vision on Plastic Pollution
-
-A 6 membered panel including 3 experts and 3 young volunteers led a very interactive discussion with participants
+g) Panel discussion : Youth Vision on 
+Plastic Pollution
+A 6 membered panel including 3 experts and 3 young volunteers led a very 
+interactive discussion  with participants
 
 ## Page 22 · via `text` · 0 table(s)
 
-Use paper bags instead of plastic bags as bin liners
-
-Is there any alternative to plastic that can be used for waterproofing?
-
-Need for developing sustainable alternatives to Multi Layer Plastic packaging
-
-Stakeholders Expressing their views on Plastic Pollution
+Use paper bags 
+instead of  plastic 
+bags as bin liners
+Need for 
+developing 
+sustainable 
+alternatives to 
+Multi Layer 
+Plastic packaging
+Is there any  alternative  to 
+plastic that can be used for 
+waterproofing?
+Stakeholders 
+Expressing 
+their views on 
+Plastic 
+Pollution
 
 ## Page 23 · via `text` · 0 table(s)
 
-Key Points Highlighted During The Panel Discussion
-
-As the participants voiced their concerns and opinion on Plastic Pollution, there was consensus on the following points: • Use of Single Use Plastic should be banned. However, alternatives to
-
+Key Points Highlighted During The 
+Panel Discussion
+As the participants voiced their concerns and opinion on Plastic
+Pollution, there was consensus on the following points:
+• Use of Single Use Plastic should be banned. However, alternatives to
 plastic should be practical, affordable and easily available
-
-In depth research on life cycle of different materials being used as alternatives to plastic to be carried out
-
-Policies need to be strengthened • Usability of plastics in areas like food and medicine packaging, electronic equipment, medical instruments, automobiles and others cannot be neglected.
+• In depth research on life cycle of different materials being used as
+alternatives to plastic to be carried out
+• Policies need to be strengthened
+• Usability of plastics in areas like food and medicine packaging,
+electronic equipment, medical instruments, automobiles and others
+cannot be neglected.
 
 ## Page 24 · via `ocr` · 0 table(s)
 
@@ -362,47 +630,80 @@ Sagar Vihar
 
 ## Page 25 · via `text` · 0 table(s)
 
-Location
-
+•
 Mangroves
-
-Vashi Creek
-
-Collection Points
-
-Mini sea shore
-
-Sagar Vihar
-
-Significance of mangroves
-
-Mangroves
-
-act as buffer
-
-events extreme weather hurricanes, coastal floods.
-
-against such as
-
-They stabilize coastline and slows down soil erosion rate
-
-Act as source of
-
-livelihood for local communities – fishing, collection of honey, tannins and wax
-
-Act as a Carbon Sink • Mangrove roots are a complex system and that inorganic nutrients and thus, act as a breeding ground and nursery for organisms. various However, plastic litter in mangroves is a cause of concern as it gets trapped in the mangroves. marine
-
+act
+as
+buffer
+against
+extreme
+weather
+events
+such
+as
+hurricanes, coastal floods.
+•
+They
+stabilize
+coastline
+and
+slows
+down soil erosion rate
+•
+Act as source of livelihood for local
+communities – fishing, collection of
+honey, tannins and wax
+•
+Act as a Carbon Sink
+•
+Mangrove roots are a complex system
+that
 accumulate
-
 organic
-
-The cleanup activity was carried out in order to collect plastic waste trapped in the mangroves and dispose it off responsibly.
+and
+inorganic nutrients and thus, act as a
+breeding
+ground
+and
+nursery
+for
+various
+marine
+organisms.
+However, plastic litter in mangroves is
+a cause of concern as it gets trapped
+in the mangroves.
+•
+The cleanup activity was carried out
+in
+order
+to
+collect
+plastic
+waste
+trapped in the mangroves and dispose
+it off responsibly.
+Collection Points
+Mangroves
+Vashi Creek
+Location
+Sagar Vihar
+Mini sea shore 
+Significance of 
+mangroves
 
 ## Page 26 · via `text` · 0 table(s)
 
-Participation of 100 NSS volunteers, University of Mumbai
-
-All participants were provided Personal Protective Equipment (Gloves and Masks) Instead of plastic bags, Gunny bags were used for waste collection
+Participation of 100 
+NSS volunteers, 
+University of Mumbai 
+•
+All participants were provided Personal 
+Protective Equipment (Gloves and 
+Masks)
+•
+Instead of plastic bags, Gunny bags were 
+used for waste collection
 
 ## Page 27 · via `ocr` · 0 table(s)
 
@@ -450,7 +751,7 @@ SAVE OUR
 </figure>
 
 
-## 3.Parallel Sessions
+# 3.Parallel Sessions
 
 <!-- PageBreak -->
 
@@ -486,23 +787,43 @@ along the lines
 
 ## Page 30 · via `text` · 0 table(s)
 
-a) Collage from Waste Bottle Caps
-
-Rationale • Waste plastic needs to be properly channelized to prevent it from ending up in the terrestrial and marine ecosystems.
-
-Caps of waste plastic bottles were used to convey an important message. • Plastic can be reused. • Single used caps to be recycled and responsible channelized disposal.
-
-Volunteers making using waste bottle caps
-
+Volunteers
+making
 collage
-
-SAVE OCEANS from single use
-
+using waste bottle caps
+• Waste plastic needs to be properly
+channelized to prevent it from ending
+up
+in
+the
+terrestrial
+and
+marine
+ecosystems.
+• Caps
+of
+waste
+plastic
+bottles
+were
+used to convey an important message.
+• Plastic can be reused.
+• Single used caps to be recycled and
+channelized
+for
+responsible
+disposal.
+• SAVE OCEANS from single use
 plastic.
+a) Collage from Waste Bottle Caps
+Rationale
 
 ## Page 31 · via `text` · 0 table(s)
 
-the Volunteers used bottle caps to create the display of message ‘Save Oceans’. These caps were pasted on Duck shaped cardboard cut outs to depict the plight of aquatic animals and birds.
+Volunteers used bottle caps to create the display of the
+message ‘Save Oceans’. These caps were pasted on Duck
+shaped cardboard cut outs to depict the plight of aquatic
+animals and birds.
 
 ## Page 32 · via `ocr` · 0 table(s)
 
@@ -520,139 +841,233 @@ the Volunteers used bottle caps to create the display of message ‘Save Oceans�
 
 ## Page 33 · via `text` · 0 table(s)
 
-enthusiastically The to skills showcased their of wetland convey conservation using the traditional art form.
-
+The
 volunteers
-
+enthusiastically
+showcased
+their
 creative
-
-the message
+skills
+to
+convey
+the
+message
+of
+wetland
+conservation using the traditional art
+form.
 
 ## Page 34 · via `text` · 0 table(s)
 
-A vibrant array of posters was made by the volunteers. Each poster artistically conveyed the importance of wetlands and the need to save them from plastic pollution.
-
-2. Awareness through Posters
+2. Awareness 
+through Posters
+A vibrant array of posters was
+made by the volunteers. Each
+poster artistically conveyed the
+importance
+of
+wetlands
+and
+the need to save them from
+plastic pollution.
 
 ## Page 35 · via `text` · 0 table(s)
 
 c) Pledge and Perception survey
-
-Perception Survey- Rationale • Perception of is
-
-to understand the behavior, practices and awareness of the citizens as well as to carve out a way forward.
-
+Perception Survey- Rationale
+•
+Perception
+of
 individuals
-
+is
 very
-
 important
-
-The perception survey on ‘Plastic Use and Management’ was designed to assess the opinions of individuals regarding plastic use, management of plastic waste and awareness about alternatives to plastic and and of impacts environment. on
-
-The results of the survey are important in formulating policy recommendations to tackle plastic pollution for the state of Maharashtra.
-
+to
+understand the behavior, practices and awareness of
+the citizens as well as to carve out a way forward.
+•
+The perception survey on ‘Plastic Use and Management’
+was designed to assess the opinions of individuals
+regarding plastic use, management of plastic waste
+and
+awareness
+about
+alternatives
+to
+plastic
+and
+impacts
+of
+plastic
+pollution
+on
+health
+and
+environment.
+•
+The results of the survey are important in formulating
+policy recommendations to tackle plastic pollution for
+the state of Maharashtra.
 Pledge against single use plastics- Rationale
-
+•
 Single use plastic is a rising global concern. Invented for the sake of convenience, today it
-
-is an environmental hazard. In order to reduce dependence on single use plastics and promote use of alternatives, the participants were encouraged to take pledge against single use plastic.
+is an environmental hazard.
+•
+In order to reduce dependence on single use plastics and promote use of alternatives, the
+participants were encouraged to take pledge against single use plastic.
 
 ## Page 36 · via `text` · 0 table(s)
 
-Special Electronic Interphase to take Pledge and Perception survey
-
-TERI created special electronic interphase- QR Codes to take the pledge and perception Survey which were displayed at the event venue, to reduce paper wastage and keeping in mind the tech savvy young participants.
-
-More than 300 individuals took the Pledge against Single Use Plastics and filled in the Perception survey
-
-QR Code to take the Perception Survey
-
-QR Code to take the Pledge against Single Use Plastic
-
-QR Code of the ‘Rethink Plastic’ App to register contribution of saplings and waste plastic bottles
+Special Electronic Interphase to take Pledge and 
+Perception survey
+QR Code to take the 
+Perception Survey
+QR Code to take the 
+Pledge against Single 
+Use Plastic
+TERI created special electronic interphase- QR Codes to take the pledge and
+perception Survey which were displayed at the event venue, to reduce paper
+wastage and
+keeping in mind the tech savvy young participants.
+More than 300 
+individuals took the 
+Pledge against 
+Single Use Plastics 
+and filled in the 
+Perception survey
+QR Code of the 
+‘Rethink Plastic’ App 
+to register 
+contribution of 
+saplings and waste 
+plastic bottles
 
 ## Page 37 · via `text` · 0 table(s)
 
-d) Plant a Sapling in Waste Plastic Bottle- Rationale
-
-Native trees saplings raised in waste plastic bottles when used for afforestation will help offset carbon footprint towards production of these bottles.
-
-This would also demonstrate a responsible reuse and disposal of waste plastic bottles.
-
-Sapling of Indian Almond Tree (Terminalia catappa)
-
-Around 630 mature trees are required to offset Carbon footprint towards production of 1 lakh PET bottles
-
-Benefits of using native tree species for afforestation include:
-
-1. They survive well in local climate
-
-2. No threat of invasion
-
-3. Support native biodiversity
+d) Plant a Sapling in Waste Plastic 
+Bottle- Rationale
+• Native trees saplings raised in
+waste
+plastic
+bottles
+when
+used for afforestation will help
+offset carbon footprint towards
+production of these bottles.
+• This would also demonstrate a
+responsible reuse and disposal
+of waste plastic bottles.
+Sapling of Indian Almond 
+Tree (Terminalia catappa)
+Around 630
+mature trees are 
+required to offset  
+Carbon footprint  
+towards 
+production of 1
+lakh PET  bottles 
+• Benefits of using native tree species for afforestation include:
+1.
+They survive well in local climate
+2.
+No threat of invasion
+3.
+Support native biodiversity
 
 ## Page 38 · via `text` · 0 table(s)
 
-Why plant Native saplings?
-
-Banyan (Ficus benghalensis) (Vad, Bargad) leaf, • Medicinal properties: bark, seeds and fig cure disorders diarrhea, like polyuria, dental, diabetes and urine disorders
-
-Wood
-
-:
-
-making
-
-door
-
-panels, boxes
-
-Bark : making paper and ropes
-
-Figs: edible • Habitat for numerous bird species
-
-Sacred Fig (Ficus religiosa) (Peepal, Pimpal) • Host for Lac Insects • Fodder for goats and cattle • Figs: edible • Bark: extraction of reddish inflammations
-
-dye; and glandular swelling
-
+Banyan (Ficus
+benghalensis) (Vad, Bargad)
+• Medicinal
+properties:
+leaf,
+bark,
+seeds
+and
+fig
 cure
-
-Medicinal uses:
-
-beneficial for eczema, asthma, blood purification, digestive ailments
-
-Neem (Azadirachta indica) • Medicinal uses: effective for intestinal diabetes,
-
-skin infections, problems, malaria, • Neem oil:
-
-pesticide for
-
+disorders
+like
+diarrhea,
+polyuria,
+dental,
+diabetes
+and urine disorders
+• Wood
+:
+making
+door
+panels, boxes
+• Bark : making paper and
+ropes
+• Figs: edible
+• Habitat for numerous bird
+species
+Sacred Fig (Ficus religiosa)
+(Peepal, Pimpal)
+• Host for Lac Insects
+• Fodder for goats and cattle
+• Figs: edible
+• Bark: extraction of reddish
+dye;
+cure
+inflammations
+and glandular swelling
+• Medicinal uses:
+beneficial
+for eczema, asthma, blood
+purification,
+digestive
+ailments
+Neem (Azadirachta indica)
+• Medicinal uses: effective for
+skin
+infections,
+intestinal
+problems,
+diabetes,
+malaria,
+• Neem
+oil:
+pesticide
+for
 grain storage
-
-Twigs: used for brushing teeth
-
-Bark fiber: rope making • Requires less water growth for
-
-Provides shade
-
+• Twigs:
+used
+for
+brushing
+teeth
+• Bark fiber: rope making
+• Requires
+less
+water
+for
+growth
+• Provides shade
+Why plant Native saplings? 
 Other suggested native species: Ficus racemosa (Umbar), Terminalia catappa (Kadwa Badam)
 
 ## Page 39 · via `text` · 0 table(s)
 
-Volunteers planting saplings of native tree species (collected from roadsides/ cracks of walls and buildings) in waste plastic bottles prepared as planters.
-
 30 volunteers participated in this activity
+Volunteers planting saplings of native tree species (collected 
+from roadsides/ cracks of walls and buildings) in waste plastic 
+bottles prepared as planters.
 
 ## Page 40 · via `text` · 0 table(s)
 
 e) Display of Cloth Bags - Aapli Pishvi
-
-A display of cloth carry bags made using old clothes was set up by the representatives of Pishvi initiative
-
+A display of cloth carry bags made
+using old clothes was set up by the
+representatives
+of
 Aapli
-
-They gave away the cloth bags free of cost to the participants in order to promote the use of cloth carry bags and reducing plastic carry bags
+Pishvi
+initiative
+They gave away the cloth bags free of
+cost to the participants in order to
+promote the use of cloth carry bags
+and reducing plastic carry bags
 
 ## Page 41 · via `ocr` · 0 table(s)
 
@@ -890,19 +1305,24 @@ Mumbai Chauffer_05.02.2020
 ## Page 47 · via `text` · 0 table(s)
 
 Acknowledgement
-
 We would like to express our gratitude to :
-
-Project Partners, Sponsors, NSS volunteers, College students for actively participating in all the activities.
-
-Local citizens and all participants for making this event successful.
-
-Media personnel
-
-for covering the event and
-
+• Project
+Partners,
+Sponsors,
+NSS
+volunteers,
+College students for actively participating in all
+the activities.
+• Local citizens and all participants for making this
+event successful.
+• Media
+personnel
+for
+covering
+the
+event
+and
 helping us reach out to greater audience.
-
-Each and Every one who has been associated with us in this endeavor
-
+• Each and Every one who has been associated with
+us in this endeavor
 THANK YOU

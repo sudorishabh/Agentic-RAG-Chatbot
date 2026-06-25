@@ -1,6 +1,6 @@
 PDF EXTRACTION SUMMARY — Navbharat_Times.pdf
 ==============================================================================
-  elapsed            : 4.41s
+  elapsed            : 4.79s
   pages              : 1
   tables             : 0
   extracted chars    : 3,527

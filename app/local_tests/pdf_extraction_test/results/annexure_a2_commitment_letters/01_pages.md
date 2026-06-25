@@ -2,8 +2,7 @@
 
 ## Page 1 · via `text` · 0 table(s)
 
-Annexure- Commitment Letters for participation in the ‘Rethink Plastic’ campaign\
-
+Annexure- Commitment Letters for participation in the ‘Rethink Plastic’ campaign\ 
 1. Thane Belapur Industries Association (TBIA), Navi Mumbai
 
 ## Page 2 · via `ocr` · 0 table(s)

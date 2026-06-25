@@ -1,25 +1,29 @@
 {
   "pdf": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
-  "elapsed_seconds": 8.34,
+  "elapsed_seconds": 9.69,
   "page_count": 20,
-  "table_count": 0,
-  "char_count": 39910,
+  "table_count": 5,
+  "char_count": 41625,
   "routes": {
-    "ocr": 3,
-    "text": 17
+    "text": 13,
+    "ocr": 7
   },
-  "digital_pages": 17,
-  "scanned_ocr_pages": 3,
+  "digital_pages": 13,
+  "scanned_ocr_pages": 7,
   "empty_pages": 0,
   "ocr_page_numbers": [
-    1,
     4,
+    8,
+    9,
+    12,
+    13,
+    15,
     19
   ],
-  "chunks_total": 40,
-  "parent_chunks": 15,
-  "child_chunks": 25,
-  "child_token_min": 121,
-  "child_token_max": 560,
-  "child_token_avg": 358
+  "chunks_total": 34,
+  "parent_chunks": 8,
+  "child_chunks": 26,
+  "child_token_min": 126,
+  "child_token_max": 620,
+  "child_token_avg": 400
 }

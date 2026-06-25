@@ -279,12 +279,8 @@ def _local_extract(content: bytes, filename: str, *, mode: str, route: str) -> E
 def _azure_extract(content: bytes, filename: str) -> ExtractionResult | None:
     """Send the WHOLE document to Azure Layout; None if Azure is unavailable.
 
-    STEP 5 (optional, OFF by default — ``settings.extraction_azure_page_ranges``):
-    for long, sparsely-tabled documents we could send only the flagged page
-    ranges here via ``_ocr_pdf(content, page_numbers)`` instead of the whole
-    file. Each flagged page's range must first be expanded to include adjacent
-    flagged pages so a table spanning a page break stays whole. Not enabled:
-    whole-document Azure is simpler and avoids splitting cross-page tables.
+    Used by EXTRACTION_MODE=azure_only and as the hybrid fallback when page
+    classification itself fails.
     """
     pages_map = _ocr_pdf(content, None)
     if not pages_map:
@@ -317,24 +313,57 @@ def _signal_summary(signals: list) -> dict[str, Any]:
 
 
 def _hybrid_extract(content: bytes, filename: str, *, mode: str) -> ExtractionResult:
-    """Classify each page with PyMuPDF, then route the WHOLE document.
+    """Classify each page, then route PER PAGE and stitch the result in order.
 
-    Bias toward Azure when uncertain: any scanned or table page (or a failed
-    classification) sends the whole document to Azure, which owns every table.
+    Clean born-digital pages extract locally with PyMuPDF; scanned/table pages
+    go to Azure (which owns every table). If classification fails entirely we
+    bias to Azure for the whole document.
+
+    STEP 5 (optional, OFF — ``settings.extraction_azure_page_ranges``): a table
+    spanning a page break can be split if only one of the two pages is flagged.
+    When enabled we would expand each table page to include its neighbours so
+    the whole table reaches Azure intact. Not wired up yet.
     """
-    from app.ingestion.extractors.pymupdf_local import classify_document, document_needs_azure
+    from app.ingestion.extractors.pymupdf_local import classify_document, extract_local_pages
 
     try:
         signals = classify_document(content)
-        needs_azure = document_needs_azure(signals)
     except Exception:
-        logger.exception("Page classification failed for %s; biasing to Azure.", filename)
-        signals, needs_azure = [], True
+        logger.exception(
+            "Page classification failed for %s; sending whole document to Azure.", filename
+        )
+        return _azure_with_fallback(content, filename, mode=mode)
 
-    if needs_azure:
-        result = _azure_with_fallback(content, filename, mode=mode)
-    else:
-        result = _local_extract(content, filename, mode=mode, route="local")
+    total = len(signals)
+    azure_pages = [s.page_number for s in signals if s.needs_azure]
+    local_pages = [s.page_number for s in signals if not s.needs_azure]
+
+    pages_map: dict[int, PageContent] = {}
+    route = "local"
+    if azure_pages:
+        di = _ocr_pdf(content, azure_pages)
+        if di:
+            pages_map.update(di)
+            route = "per_page"
+        else:
+            logger.warning(
+                "Azure unavailable for %s; %d flagged page(s) fall back to local "
+                "PyMuPDF text (tables on those pages degrade to plain text).",
+                filename,
+                len(azure_pages),
+            )
+            local_pages = [s.page_number for s in signals]  # everything local
+            route = "azure_unavailable_local_fallback"
+
+    if local_pages:
+        pages_map.update(extract_local_pages(content, local_pages))
+
+    pages = [
+        pages_map.get(n, PageContent(page_number=n, text="", extracted_via=ExtractedVia.EMPTY))
+        for n in range(1, total + 1)
+    ]
+    result = ExtractionResult(source=filename, pages=pages)
+    result.metadata.update({"extraction_mode": mode, "route": route})
     result.metadata["page_signals"] = _signal_summary(signals)
     return result
 
@@ -386,6 +415,7 @@ def _main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
+    
     path = Path(args.path)
     result = extract_pdf(path.read_bytes(), path.name)
 

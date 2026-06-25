@@ -29,14 +29,20 @@ class Settings(BaseSettings):
     # page and sends the whole doc to Azure if any page is scanned or has a table;
     # "azure_only" always uses Azure Layout; "local_only" uses PyMuPDF text only.
     extraction_mode: str = "hybrid"
-    # Per-page table detection thresholds (PyMuPDF). A page is a table candidate if
-    # find_tables() hits, or ruling-line/rectangle count >= the drawings threshold,
-    # or (when enabled) several consecutive lines share x-positions (borderless).
-    pdf_table_drawing_threshold: int = 12
-    pdf_detect_borderless_tables: bool = True
+    # Per-page table detection (PyMuPDF). find_tables() is the primary, reliable
+    # signal — it handles both ruled and borderless tables. The two extra
+    # heuristics below are OFF by default: on heavily-designed PDFs (banners,
+    # side panels, page borders, multi-column text) they fire on nearly every
+    # page and over-route everything to Azure. Enable them only for simpler
+    # corpora where biasing harder toward Azure is worth the false positives.
+    pdf_detect_ruled_grid: bool = False
+    pdf_table_min_grid_lines: int = 3
+    pdf_detect_borderless_tables: bool = False
     pdf_borderless_min_aligned_rows: int = 4
-    # STEP 5 (optional, off by default): send only flagged page ranges to Azure
-    # instead of the whole document. See pdf_extractor for the TODO.
+    pdf_borderless_min_columns: int = 3
+    # STEP 5 (optional, off): hybrid already sends only flagged pages to Azure;
+    # when True, expand table pages to adjacent pages so a table spanning a page
+    # break stays whole. See _hybrid_extract for the TODO.
     extraction_azure_page_ranges: bool = False
     qdrant_url: str = "http://localhost:6333"
     qdrant_api_key: str | None = None
