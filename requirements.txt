@@ -17,3 +17,6 @@ celery  # optional: background ingestion workers (app/workers/tasks.py)
 # PDF extraction (app/ingestion/extractors/pdf_extractor.py)
 azure-ai-documentintelligence  # OCR + layout + tables; owns all tables in hybrid routing
 PyMuPDF                        # page classification (scanned/table signals) + local text extraction
+
+# dev
+pytest                         # router unit tests (tests/)
