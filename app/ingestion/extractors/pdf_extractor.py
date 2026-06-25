@@ -391,12 +391,13 @@ def _normalize_result(result: ExtractionResult) -> None:
     """Strip layout boilerplate from every page's text (in place)."""
     from app.ingestion.extractors.text_normalize import normalize_page_text, strip_running_lines
 
+    settings = get_settings()
     for page in result.pages:
-        page.text = normalize_page_text(page.text)
+        page.text = normalize_page_text(page.text, drop_number_soup=settings.pdf_drop_number_soup)
 
     cleaned = strip_running_lines(
         [p.text for p in result.pages],
-        min_fraction=get_settings().pdf_running_header_min_fraction,
+        min_fraction=settings.pdf_running_header_min_fraction,
     )
     for page, text in zip(result.pages, cleaned):
         page.text = text

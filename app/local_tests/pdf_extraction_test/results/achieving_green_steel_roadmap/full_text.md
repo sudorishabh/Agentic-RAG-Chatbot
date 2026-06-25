@@ -5,26 +5,16 @@
 Roadmap To A Net Zero
 Steel Sector In India
 
-
-<figure>
-
 teri
 THE ENERGY AND
 RESOURCES INSTITUTE
 Creating Innovative Solutions for a Sustainable Future
-
-</figure>
-
 
 ENERGY TRANSITIONS
 COMMISSION INDIA
 
 CHY
 
-<!-- PageBreak -->
-
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  ii  |
 ©2022 The Energy and Resources Institute
 Authors
 Will Hall, Visiting Fellow, TERI (till June 2022)
@@ -42,8 +32,6 @@ Suggested Citation
 Will Hall, Sachin Kumar, Sneha Kashyap, Shruti Dayal. 2022. Achieving Green Steel: Roadmap to a net zero 
 steel sector in India. New Delhi: The Energy and Resources Institute (TERI)
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  iii  |
 Energy Transitions Commission (ETC) India is a research platform based in The Energy and 
 Resources Institute (TERI) in Delhi. ETC India is the Indian chapter of the global Energy 
 Transitions Commission, which is chaired by Lord Adair Turner.
@@ -58,10 +46,6 @@ Learn more at: https://www.teriin.org/energy-transitions
 ENERGY TRANSITIONS 
 COMMISSION INDIA
 
-<!-- PageBreak -->
-
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  v  |
 We would like to extend our sincere thanks to the Children’s Investment Fund Foundation. 
 This work would not have been possible without their financial support. Their contribution 
 was vital in continuing the conversation on a low carbon transition for the Indian iron and 
@@ -82,8 +66,6 @@ Dr. Mukesh Kumar (Steel Research & Technology Mission of India).
 We would also like to acknowledge the support of Mr. R R Rashmi (TERI) for reviewing and 
 providing valuable remarks on this document.
 ACKNOWLEDGEMENTS
-
-<!-- PageBreak -->
 
 ## FOREWORD
 
@@ -126,12 +108,6 @@ Lubla Dhawan.
 Dr Vibha Dhawan
 Director General, TERI
 
-<!-- PageBreak -->
-
-<!-- PageBreak -->
-
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  ix  |
 Executive Summary . ........................................................................................................................... 3
 Introduction	
 ..................................................................................................................................5
@@ -210,8 +186,6 @@ Bibliography
 ................................................................................................................................45
 TABLE OF CONTENTS
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  x  |
 Figure 1: Route-wise crude steel production share, 2020-21...............................................................7
 Figure 2: Historical steel production and use.....................................................................................8
 Figure 3: Global steel production route-wise breakdown, 2019...........................................................9
@@ -240,14 +214,10 @@ Figure 25: Pathways for low carbon primary steelmaking..........................
 Figure 26: Carbon border adjustment. ............................................................................................ 41
 LIST OF FIGURES
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  xi  |
 Table 1: Cost premium for steel production in India..........................................................................20
 Table 2: Low emissions steelmaking technologies............................................................................23
 LIST OF TABLES
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  xii  |
 AI – Artificial Intelligence 
 BEE – Bureau of Energy Efficiency 
 BF-BOF – Blast Furnace – Basic Oxygen Furnace 
@@ -282,13 +252,6 @@ WSA – World Steel Association
 GLOSSARY
 
 ### Achieving Green Steel: Roadmap to a net zero steel sector in India
-
-
-<figure>
-</figure>
-
-
-<figure>
 
 National Steel
 Policy, 2017
@@ -349,28 +312,14 @@ NEUTRAL
 Net zero iron and
 steel sector
 
-</figure>
-
-
-<figure>
-
 teri
 THE ENERGY AND
 RESOURCES INSTITUTE
 Creating Innovative Solutions for a Sustainable Future
 
-</figure>
-
-
 ENERGY TRANSITIONS
 COMMISSION TARDE
 
-<!-- PageBreak -->
-
-<!-- PageBreak -->
-
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  3  |
 •	
 The global steel sector is shifting rapidly. More than 30% of steel companies (by 
 production) have net zero targets - up from zero less than 3 years ago - and more 
@@ -410,10 +359,6 @@ policy and international finance. The result will be a globally competitive stee
 sector, supporting India’s ambitions of a self-reliant, net zero major economy.
 EXECUTIVE SUMMARY
 
-<!-- PageBreak -->
-
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  5  |
 The steel sector plays an important role in the Indian economy and has been a core pillar of India’s industrial 
 development. As a critical input for various sectors, steel will play a major role in helping India support the 
 infrastructure that facilitates growth, the housing that drives urbanisation, and the machinery and tools 
@@ -447,10 +392,7 @@ INTRODUCTION
 Economy Possible (ETC, 2021); Net-Zero Steel: Sector Transition Strategy (MPP, 2021)
 
 ## 1 BACKGROUND
-<!-- PageBreak -->
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  7  |
 1.1	 Indian steel industry
 India is currently the world’s second-largest steel producer, and second-largest steel consumer (WSA, 
 2020a). The steel industry in India is relatively heterogeneous compared to other countries, with a wide 
@@ -479,8 +421,6 @@ BOF
 EAF
 EIF
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  8  |
 Figure 2: Historical steel production and use
 Source: (MoS, 2021a; 2021b) 
 As with any industrializing economy, the steel sector is of vital importance to India, contributing around 
@@ -507,26 +447,10 @@ Achieve and Trade (PAT) scheme, delivered through the Bureau of Energy Efficienc
 has been covered under the PAT scheme since its inception in 2012. Until PAT cycle-III, a total energy 
 saving of just over 5.68 Mtoe has been achieved by 81 identified facilities within the steel sector (BEE, 
 2	 April-December 2020 for crude steel production in 2020-21
-0
-20
-40
-60
-80
-100
-120
 Steel production / use (Mt)
 Crude steel production
 Apparent steel use
-2014-15
-2015-16
-2016-17
-2017-18
-2018-19
-2019-20
-2020-21
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  9  |
 2020). Alongside energy efficiency, the Government has begun efforts to increase material circularity, with 
 the MoS launch their Steel Scrap Recycling Policy in 2019, aimed at increasing the availability and use of 
 steel scrap throughout India.
@@ -557,8 +481,6 @@ Oxygen
 Electric
 Other
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  10  |
 Figure 4: BAU demand for crude steel and scrap availability
 Source: (MPP, 2021)
 1.3	 Macro-trends
@@ -577,58 +499,45 @@ economies like India become the major centres of steel demand growth in the comi
 in other major economies, such as China, stabilises.
 200
 100
-2020     2030     2040     2050
 Japan, South Korea
 1,500
 1,000
 500
-2020     2030     2040     2050
 China
 600
 400
 200
-2020     2030     2040     2050
 India
 100
 50
-2020     2030     2040     2050
 RoW
 300
 200
 100
-2020     2030     2040     2050
 Europe
 200
 100
-2020     2030     2040     2050
 Middle East
 100
 50
-2020     2030     2040     2050
 CIS
 400
 200
-2020     2030     2040     2050
 Southeast Asia
 300
 200
 100
-2020     2030     2040     2050
 NAFTA
 200
 100
-2020     2030     2040     2050
 Africa
 100
 50
-2020     2030     2040     2050
 South and Central America
 Crude steel demand
 Scrap availability
 in million metric tonnes
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  11  |
 Forecasting demand growth out to 2050, and beyond, clearly carries a lot of uncertainty. Both the rate of 
 economic growth, as well as its key drivers, are uncertain. Will India follow a more service-based economy? 
 Or will its rate of infrastructure investment and industrialization pick up, following a path more similar to 
@@ -647,19 +556,6 @@ will drive growth over the medium and long-term, such as population growth, indu
 incomes, and support for major infrastructure projects such as “Gati Shakti”, will persist.
 Figure 5: True steel consumption per capita versus GDP per capita
 Source: TERI analysis based on data from (WSA, 2018), (World Bank, 2017)
-0
-100
-200
-300
-400
-500
-600
-0
-10,000
-20,000
-30,000
-40,000
-50,000
 True steel use per capita
 (kg ﬁnished steel) 
 GDP per capita ($2011)
@@ -667,8 +563,6 @@ Cluster of Western European
 countries where steel use has
 started to saturate
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  12  |
 Figure 6: Digitalistion trends over the 2020s
 Source: (PwC, 2019)
 Augmented reality
@@ -700,9 +594,6 @@ digital-enabled business transformation journey intending to be the leader in di
 through the adoption of digital technologies (The Economic Times, 2021). Their Kalinganagar plant has 
 developed an expert team of analytics specialists, including data scientists and translators.
 
-<!-- PageNumber="13" -->
-<!-- PageHeader="ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA" -->
-
 The net impact of digitalisation on the Indian iron and steel sector is uncertain. It represents a significant
 opportunity for Indian steelmakers as build new capacity in the coming decades, able to take advantage of
 the latest technologies, unavailable to other countries when they were expanding their steel production.
@@ -717,7 +608,6 @@ sector in India, as along with a loss of employment for domestic coal production
 jobs may be lost within the steel plant. This needs to be balanced against the overall gains in employment
 opportunities from the renewable and green hydrogen industries, that will be required to replace fossil
 fuel production and import.
-
 
 ### 1.3.3 Decarbonisation
 
@@ -739,13 +629,6 @@ on the heavy industry sectors,
 such as iron & steel, cement and
 chemicals.
 
-
-<figure>
-</figure>
-
-
-
-
 |  | TOTAL STEEL PRODUCED (MN TONNES P.A.)* COMPANY | TOTAL STEEL PRODUCED (MN TONNES P.A.)* COMPANY | TOTAL STEEL PRODUCED (MN TONNES P.A.)* COMPANY | TOTAL STEEL PRODUCED (MN TONNES P.A.)* COMPANY | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 |  |  |  | Baowu | Baowu | TBC | TBC | TBC | TBC |  |  |  |  |  |  |  |  |
@@ -761,9 +644,6 @@ chemicals.
 |  | 115 57 0 | 115 57 0 |  | Project scale |  |  |  |  |  |  |  |  |  |  |  |  |
 |  | * Source: World Steel in Figures 2020 | * Source: World Steel in Figures 2020 | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant |  | R&D |  | partnership |  |
 
-
-
-
 Figure 7: Green steel projects pipeline
 
 In India, total emissions from the
@@ -776,10 +656,6 @@ efficiency measures to reduce energy consumption and mitigate demand growth, the
 in the Indian iron & steel sector will be incompatible with the ambition of limiting global warming to well
 below 2ºC.
 
-<!-- PageBreak -->
-
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  14  |
 For further emissions reduction, the introduction of new, low carbon technologies will be required, such 
 as the use of low carbon hydrogen or carbon, capture, utilisation and storage (CCUS). Initially, these 
 new processes will increase the costs of steel production, and will require the introduction of supportive 
@@ -795,10 +671,7 @@ strategies today.
 ### 2 MACROECONOMIC IMPACTS
 
 ZA
-<!-- PageBreak -->
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  16  |
 2.1	 Overview
 The steel sector contributes around 2% of India’s GDP (MoS, 2020a) and is valued at well over $100bn (Niti 
 Aayog, 2016). The indirect contribution of the sector is significantly higher, given its enabling role in several 
@@ -827,8 +700,6 @@ job creation. This Mission aims to facilitate investments worth $70 billion, sup
 (MoS, 2020b).
 Macroeconomic Impacts
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  17  |
 Achieving Green Steel: 
 roadmap to a net zero steel sector in India
 Iron ore mines
@@ -845,8 +716,6 @@ transporting iron or electrons across the mineral rich and highly endowed renewa
 of the country. It will be vital for the success of the energy transition that its benefits are spread more 
 equally across India – a competitive, green steel sector in Eastern India can be an important part of that.
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  18  |
 18
 2.4 Employment
 The Indian steel sector currently employs approximately 2.5 million people throughout the supply chain 
@@ -870,26 +739,11 @@ sector.
 
 # 3 CHALLENGES
 
-
-
-
-
-
-
-
-
-<!-- PageBreak -->
-
-<!-- PageNumber="20" -->
-<!-- PageHeader="ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA" -->
-
-
 ## Challenges
 
 This section covers some of the key challenges that are being faced by the Indian iron and steel sector for
 decarbonisation. These include cost-competitiveness of production, rapid growth of domestic demand,
 and the availability of the required low emission technologies.
-
 
 ### 3.1 Competitiveness
 
@@ -913,9 +767,6 @@ in 2019-20. To help improve the relative competitiveness of domestic producers, 
 recently approved the Production Linked Incentive Scheme for 'Speciality Steel' (PIB, 2021), although it is
 too early to assess the effectiveness of this programme.
 
-
-
-
 | Item | Cost ($/ton) |
 | --- | --- |
 | Logistics and Infrastructure | 25-30 |
@@ -926,28 +777,8 @@ too early to assess the effectiveness of this programme.
 | Finance | 30-35 |
 | Total cost disadvantage | 80-100 |
 
-
-
 Source: (Niti Aayog, 2016)
 
-
-<!-- PageBreak -->
-
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  21  |
--31%
-0%
-31%
-63%
-94%
-125%
-2007-08
-2009-10
-2011-12
-2013-14
-2015-16
-2017-18
-2019-20
 EBITDA/Net Sales (%)
 JSW
 Tata Steel Ltd.
@@ -978,11 +809,6 @@ average true steel use per capita across the European Union (WSA, 2020a). Whilst
 by these projections is high (5% CAGR), we believe this is plausible, given the vast amount of steel that 
 India still requires to develop.
 
-<!-- PageNumber="22" -->
-<!-- PageHeader="ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA" -->
-
-
-<figure>
 <figcaption>Figure 10: Steel demand scenarios including resource efficiency, 2000-50</figcaption>
 
 500
@@ -1017,17 +843,13 @@ Baseline
 
 Resource efficiency
 
-</figure>
-
 Source: TERI analysis based on data from (MoS, 2017; Cullen, Allwood, & Bambach, 2012)
-
 
 Whilst rapid growth in steel demand is positive to support India's development, the near-term requirements
 for new steel production place additional pressures on the sector as new green steel production
 technologies are still not deployed at scale even in developed countries. This puts new capacity additions
 at risk of being stranded in later life, as the global steel sector decarbonises and high emitting steel
 production becomes less competitive.
-
 
 ### 3.3 Technology availability
 
@@ -1046,14 +868,6 @@ Each of these technologies differ in their suitability to the Indian context, ba
 availability, ability to reduce emissions, and interface with India's existing infrastructure and resource
 profile. An overview is provided in Table 2.
 
-<!-- PageBreak -->
-
-<!-- PageNumber="23" -->
-<!-- PageHeader="ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA" -->
-
-
-
-
 | Technology | TRL | Emissions reduction potential | Suitability for deep decarbonisation in India |
 | --- | --- | --- | --- |
 | Carbon Capture, Utilisation, and Storage | Carbon Capture, Utilisation, and Storage | Carbon Capture, Utilisation, and Storage |  |
@@ -1068,13 +882,6 @@ profile. An overview is provided in Table 2.
 | Direct electrification | Direct electrification | Direct electrification | Direct electrification |
 | Electrolysis | 4 | If produced from low carbon electricity, there is the potential for >90% emissions reduction. | Current research projects are still at early stages with uncertain timeline for commercial scale. (Siderwin and Boston Metal) |
 
-
-
-
-<!-- PageBreak -->
-
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  24  |
 Figure 11: Overview of decarbonisation technology projects for the iron and steel sector
 Source: Adapted from (WSA, 2019)
 BIOMASS
@@ -1127,10 +934,7 @@ supported by public loans domestically, or from international finance via multi-
 will be vital to accelerate the deployment of new near zero emission plants.
 
 ## 4 TRANSITION PATHWAY
-<!-- PageBreak -->
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  26  |
 Transition Pathway
 4.1 Structure of Indian steel assets
 Before exploring future pathways for the Indian steel sector, it is worth outlining the structure of existing 
@@ -1164,8 +968,6 @@ BOF
 EAF
 EIF
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  27  |
 Based on the largest assessment of blast furnace capacity done to date (Vogl, Olsson & Nykvist, 2021), we 
 can understand in more detail about the lifetime of this technology and timescales for reinvestment. The 
 average blast furnace can last around 45 to 50 years, with between 2 and 3 relining campaigns occurring 
@@ -1173,41 +975,14 @@ over that timeframe. The length of time between campaigns tends to decrease the 
 (see Figure 14).  
 Figure 13: Blast furnace capacity in India, 1960-2020
  Source: (Vogl, Olsson & Nykvist, 2021)
-0
-10
-20
-30
-40
-50
-60
-70
-80
-90
-1960
-1970
-1980
-1990
-2000
-2010
-2020
 Blast furnace capacity (Mt)
 Figure 14: Global average reinvestment timeframes for blast furnace relining 
 Source: (Vogl, Olsson & Nykvist, 2021)
-19
-16
-10.5
-0
-5
-10
-15
-20
 Campaign 1
 Campaign 2
 Campaign 3
 Years
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  28  |
 Relining the blast furnace represents the most significant investment over the lifetime of such a facility 
 and therefore provides a point in time where the producer could choose between prolonging the life of 
 such a plant, retrofitting with new low emissions technology, or mothballing to be replaced by a new, low 
@@ -1220,20 +995,6 @@ only be entering its second campaign, thus limiting the potential of a complete 
 significant policy support.
 Figure 15: Reinvestment timeframe for existing blast furnace capacity in India
 Source: (Agora Industry, 2021)
-0
-5
-10
-15
-20
-25
-30
-35
-2021-25
-2026-30
-2031-2035
-2036-2040
-2041-2045
-2046-2050
 Blast furnace capacity (Mt)
 4.2 Technology option assessment
 After understanding the existing technology make-up of the Indian steel sector, it is necessary to 
@@ -1246,8 +1007,6 @@ routes in India range from around $300/t of crude steel, to just below $500/t. T
 5	 Towards a Low Carbon Steel Sector (Hall et. al, 2020); The Potential Role of Hydrogen in India (Hall et. al, 2020); Green steel through hydrogen direct 
 reduction (Hall et. al, 2021); Net-Zero Steel: Sector Transition Strategy (MPP, 2021)
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  29  |
 analysis is the coal-based direct reduction using a rotary kiln. Lower capital and operational costs, as well 
 as having access to cheaper, domestically available fuel mean that this route is one of the cheaper ways 
 to produce steel in India today. However, many of these plants are highly polluting and the quality of steel 
@@ -1272,13 +1031,6 @@ Figure 16: Costs of steel production by route6
 6	 BF-BOF = Blast Furnace – Basic Oxygen Furnace, Coal DR-EAF = Coal-based Direct Reduction – Electric Arc Furnace, NG DR-EAF = Natural gas-based 
 Direct Reduction – Electric Arc Furnace, SR-BOF CCUS = Smelting Reduction – Basic Oxygen Furnace with Carbon Capture, Usage and or Storage, H2 
 DR-EAF = Hydrogen-based Direct Reduction – Electric Arc Furnace, MOE-EAF = Molten Oxide Electrolysis – Electric Arc Furnace. 
-0
-100
-200
-300
-400
-500
-600
 BF-BOF
 Coal DR-EAF
 NG DR-EAF
@@ -1293,9 +1045,6 @@ Fuel
 Raw materials
 CCUS
 Range
-
-<!-- PageNumber="30" -->
-<!-- PageHeader="ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA" -->
 
 Costs of production from the hydrogen direct reduction route are largely similar to those in the natural
 gas direct reduction route, with the main difference being the cost of hydrogen as a fuel versus natural
@@ -1320,8 +1069,6 @@ could start to compete.
 It is worth noting that since the publication of our hydrogen report, which covered this in detail, there
 have been several key developments in this space. Firstly, the only major smelting reduction with CCUS
 
-
-<figure>
 <figcaption>Figure 17: Costs of production - H -DR vs SR-BOF with CCUS</figcaption>
 
 TERI
@@ -1372,16 +1119,9 @@ SR-BOF CCUS
 
 H, DR-EAF
 
-</figure>
-
 Source: TERI analysis based on (IEA, 2019; Hall, Spencer, & Kumar, 2020; BNEF, 2020)
 Note: tCO2 refers to the cost of carbon capture and storage, not to carbon price.
 
-
-<!-- PageBreak -->
-
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  31  |
 pilot facility, being taken forward by Tata Steel Europe in the Netherlands has now switched to developing 
 a hydrogen direct reduction facility, signalling the industry’s relative support for these technologies. 
 Conversely, there are over 30 (and growing) hydrogen direct reduction projects. 
@@ -1404,19 +1144,6 @@ the main primary route to replace the blast furnace is hydrogen direct reduction
 from the 2030s, at which point it will start to compete directly with the less efficient conventional plants. 
 Figure 18: Net Zero by 2070 scenario
  Source: TERI analysis
-0
-100
-200
-300
-400
-500
-600
-2020
-2030
-2040
-2050
-2060
-2070
 Steel production (Mt)
 BF-BOF
 Coal DR-EAF
@@ -1426,8 +1153,6 @@ BF-BOF CCUS
 MOE
 H2 DR-EAF
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  32  |
 From 2040 onwards, we also see some early MOE plants being deployed. They are at an earlier stage of 
 development versus the hydrogen route but could prove competitive in certain areas without access to 
 hydrogen, as they use a similar amount of electricity. Scrap-based EAFs will see an ever-increasing role, 
@@ -1451,19 +1176,6 @@ joining together of the Net Zero vision, along with a vision of self-reliance, w
 another. 
 Figure 19: Net Zero by 2050 scenario
  Source: TERI analysis
-0
-100
-200
-300
-400
-500
-600
-2020
-2030
-2040
-2050
-2060
-2070
 Steel production (Mt)
 BF-BOF
 Coal DR-EAF
@@ -1473,8 +1185,6 @@ BF-BOF CCUS
 MOE
 H2 DR-EAF
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  33  |
 In the NZ2050 scenario, low emission technologies are introduced at an even faster rate, with the most 
 significant additions being made up by hydrogen direct reduction, followed by MOE. The greater challenge 
 here is phasing out blast furnaces faster, potentially before the end of their useful lifetime. This is largely 
@@ -1496,26 +1206,11 @@ to 70 TWh by 2030, nearly 4-fold again to 260 TWh by 2050 and then more than 3-f
 TWh. This represents 65% of India’s electricity production today, for just a single sector. 
 Figure 20: Coking coal demand in Net Zero scenarios
  Source: TERI analysis
-0
-20
-40
-60
-80
-100
-120
-2020
-2030
-2040
-2050
-2060
-2070
 Coking coal demand (Mt)
 NZ2070
 NZ2050
 6	 Electricity consumption assumptions = 650 kWh for EAF, 3.4 MWh for MOE and 2.9 MWh for H2DR
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  34  |
 In the NZ2050 scenario, the challenge is even more extreme with demand increasing by 100-fold between 
 now and 2050, before reaching just over 1,000 TWh in 2070. This faster ramp-up is required in order to 
 meet the dual targets of net zero and self-reliance. To put this in the context of India’s current installations, 
@@ -1525,35 +1220,9 @@ require around 45 GW by 2030, rising to 330 GW by 2050. This, alongside the rest
 the transition to low emission steelmaking, both in the NZ2070 and NZ2050 scenarios. 
 Figure 21: Natural gas demand in Net Zero scenarios
 Source: TERI analysis
-0
-5
-10
-15
-20
-25
-30
-2020
-2030
-2040
-2050
-2060
-2070
 Natural gas demand (MCM)
 NZ2070
 NZ2050
-0
-200
-400
-600
-800
-1000
-1200
-2020
-2030
-2040
-2050
-2060
-2070
 Electricity demand (TWh)
 NZ2070
 NZ2050
@@ -1561,10 +1230,7 @@ Figure 22: Electricity demand for Net Zero scenarios
 Source: TERI analysis
 
 ## 5 ACHIEVING GREEN STEEL: ACTION PLAN
-<!-- PageBreak -->
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  36  |
 In exploring illustrative scenarios for the steel sector’s transition, it is clear that early action is required to 
 ensure that the sector remains competitive as countries ramp up emissions reduction policies.  
 5.1	 Maximize energy efficiency
@@ -1574,25 +1240,6 @@ available technologies have the potential to reduce energy and emissions by arou
 primary steelmaking routes (see Technical Annex). There are a number of older plants in dire need of 
 modernization and by applying even the already widely adopted efficiency technologies, these plants can 
 substantially improve their energy efficiency (see Figure 23).
-7.1
-0.6
-6.5
-0.3
-0.3
-0.9
-0.4
-0.2
-0.4
-4
-0
-1
-2
-3
-4
-5
-6
-7
-8
 Ine cient plants 
 Widely adopted technologies
 Current Indian Average
@@ -1604,11 +1251,6 @@ Rolling
 Others*
 BAT
 SEC (GCal/tcs)
-0.5
-0.2
-2.6
-0.4
-0.3
 Breakdown
 Rolling
 Steelmaking
@@ -1621,8 +1263,6 @@ Source: (WSP, Parsons Brinckerhoff and DNV GL, 2015; JISF, 2014; CII, 2013; Morr
 * The analysis is exclusive of impact of Bio-energy use or Bio-sequestration on specific energy consumption. 
 Achieving Green Steel: Action Plan
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  37  |
 Investing in energy efficiency measures for electricity-based production (including electric arc furnaces and 
 induction furnaces) represent ‘low-regrets’ options for further investment. Unlike coal-based production, 
 most of which will most likely need to be retired by the mid-century, electricity-based production routes 
@@ -1649,34 +1289,14 @@ Coking coal
 Non-coking coal
 Limestone
 Iron ore
-0
-1
-2
-3
-4
-5
-6
-7
 Energy (Gcal/tcs)
 -70%
 BF-BOF
 EAF
-0
-1
-2
-3
-4
 Raw materials (tl/tcs)
 -85%
 BF-BOF
 EAF
-0
-0.5
-1
-1.5
-2
-2.5
-3
 Emissions (tCO2/tcs)
 -85%
 BF-BOF
@@ -1684,8 +1304,6 @@ EAF
 Figure 24: Material, energy and emissions benefits of scrap-based production
 Source: TERI analysis based on data from BEE 2018; MoS 2017. Assuming an emissions intensity of electricity of 700gCO2/kWh.
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  38  |
 5.3	 Create procurement alliances 
 To send clear demand signals to steel producers to start producing green steel, groups of corporates who 
 use steel can band together to create clubs which achieve a critical mass of demand. Over time, such clubs 
@@ -1719,8 +1337,6 @@ substandard steel and steel products to help improve the availability of quality
 infrastructure, and automotive sectors. A similar approach could be taken with green steel standards, to 
 gradually decrease the GHG intensity of steel.
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  39  |
 5.5	 Promote technical research & development and set-
 up demonstration plants
 Technological research and development (R&D) plays a crucial role in determining a steel producer’s 
@@ -1750,11 +1366,6 @@ establish smelting reduction facilities, such as HIsarna, over the coming decade
 retrofit with CCUS technology to reduce emissions. CCUS technology is relatively underdeveloped in India, 
 with only a few, small-scale projects currently underway in the oil and gas and fertilizer sectors.
 
-<!-- PageNumber="40" -->
-<!-- PageHeader="ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA" -->
-
-
-<figure>
 <figcaption>Figure 25: Pathways for low carbon primary steelmaking</figcaption>
 
 CH
@@ -1810,10 +1421,7 @@ Net zero
 
 2070
 
-</figure>
-
 Source: TERI Analysis
-
 
 ### 5.7 Lay the groundwork for a domestic carbon trading market
 
@@ -1829,7 +1437,6 @@ rapidly decarbonize its production post-2030. This will require more significant
 measures to incentivize a mass-market switch that will put the entire sector on a net zero trajectory, not
 just the most progressive companies.
 
-
 ### 5.8 Support for commercial-scale plants
 
 As a series of demonstration projects in the 2020s help clarify the preferred technology options for low
@@ -1840,10 +1447,6 @@ the difference in production costs will be mitigated somewhat if green product s
 initiatives, and an emissions penalty are introduced, it may still be necessary to support the first few
 commercial-scale plants.
 
-<!-- PageBreak -->
-
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  41  |
 This could include direct financial support from the GoI, via existing bodies such as the Ministry of Steel 
 (for example through Carbon Contracts for Difference, which are being explored in Germany), although this 
 is likely to be insufficient given limited domestic resources. As renewable electricity projects become ‘self-
@@ -1864,10 +1467,6 @@ level playing field in the EU where steel is one of the few sectors that will co
 be worth exploring similar import restrictions on steel imports to India originating from countries having 
 Figure 26: Carbon border adjustment
 Source: TERI
-500
-250
-0
-500
 + carbon tax
 at the border
 Cheaper imports
@@ -1877,8 +1476,6 @@ domestic industry during transition
 250
 0
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  42  |
 higher steel carbon intensity. This may dissuade Indian steel importers from importing and will help in 
 switching to domestic. Additional revenue, that may be collected as import duty, based on carbon content 
 of imported steel, can be considered for supporting India’s greening of steel. This may enhance export 
@@ -1909,10 +1506,7 @@ H2
 drog
 
 22 60155/08
-<!-- PageBreak -->
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  44  |
 Conclusions
 The Indian steel sector is on the cusp of a significant transformation. As explored in this report, India is 
 well positioned to reap many of the benefits associated with a competitive, digital, and decarbonised 
@@ -1925,8 +1519,6 @@ Whilst challenging, this report sets out that such a pathway is possible and des
 scaling-up renewable electricity and green hydrogen production, in particular, the steel sector can shift 
 away from imported fossil fuels, putting the sector on a path to a net zero, self-reliant future.
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  45  |
 ArcelorMittal. (2021). ArcelorMittal launches XCarb™, signalling its commitment to producing carbon neutral 
 steel. 
 Retrieved 
@@ -1968,8 +1560,6 @@ IBEF. (2020). Retrieved from https://www.ibef.org/download/Chhattisgarh-June-202
 IBEF. (2021). Retrieved from https://www.ibef.org/states/steel-presentation
 Bibliography
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  46  |
 IEA. (2017). Renewable Energy for Industry. Retrieved from https://iea.blob.core.windows.net/assets/48356f8e-77a7-
 49b8-87de-87326a862a9a/Insights_series_2017_Renewable_Energy_for_Industry.pdf
 IEA. (2020). Iron and Steel Technology Roadmap: Towards more sustainable steelmaking. Retrieved October 2020, 
@@ -2006,8 +1596,6 @@ NSP. (2017). National Steel Policy. Retrieved from https://steel.gov.in/national
 its%20economy.&text=The%20policy%20projects%20crude%20steel,current%20consumption%20of%2061%20
 Kgs.
 
-ACHIEVING GREEN STEEL: ROADMAP TO A NET ZERO STEEL SECTOR IN INDIA
-|  47  |
 OECD. (2018). Economic Outlook No 103 - July 2018 - Long-term baseline projections. (Organisation for Economic Co-
 operation and Development) Retrieved from Stat: https://stats.oecd.org/Index.aspx?DataSetCode=EO103_LTB
 PHDCCI. (2019). Retrieved from https://www.phdcci.in/wp-content/uploads/2019/01/Rising-Jharkhand-Economic-
@@ -2049,19 +1637,10 @@ dam/jcr:f7982217-cfde-4fdc-8ba0-795ed807f513/World%2520Steel%2520in%2520Figures%
 WSA. (2020b). Steel Statistical Yearbook 2020 Concise Version. Retrieved from https://www.worldsteel.org/en/dam/
 jcr:5001dac8-0083-46f3-aadd-35aa357acbcc/SSY%25202020_concise%2520version.pdf
 
-<figure>
-
 teri
 THE ENERGY AND
 RESOURCES INSTITUTE
 Creating Innovative Solutions for a Sustainable Future
-
-</figure>
-
-
-<figure>
-</figure>
-
 
 ENERGY TRANSITIONS
 COMMISSION INDIA

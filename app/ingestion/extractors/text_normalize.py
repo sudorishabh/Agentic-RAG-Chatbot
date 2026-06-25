@@ -25,7 +25,43 @@ _FIGURE_TAG = re.compile(r"</?figure>", re.IGNORECASE)
 # a page number (roman or arabic). Real multi-cell table rows are left alone.
 _PAGE_NUMBER_BAR = re.compile(r"^\s*\|\s*[ivxlcdm\d]+\s*\|\s*$", re.IGNORECASE)
 
+# A "number token": digits plus number punctuation (e.g. "2,020", "-12.5%", "(3)").
+_NUM_TOKEN = re.compile(r"^[\d.,%+\-–—()]+$")
+
 _BLANK_RUNS = re.compile(r"\n{3,}")
+
+
+def _is_number_soup(line: str) -> bool:
+    """A bare numeric run on one line (chart axis/data labels), no semantic content."""
+    toks = line.split()
+    if len(toks) < 4:
+        return False
+    numeric = sum(1 for t in toks if _NUM_TOKEN.match(t))
+    return numeric / len(toks) >= 0.7
+
+
+def _is_bare_number(line: str) -> bool:
+    s = line.strip()
+    return bool(s) and bool(_NUM_TOKEN.match(s)) and any(c.isdigit() for c in s)
+
+
+def _drop_number_runs(lines: list[str], min_run: int = 4) -> list[str]:
+    """Drop runs of >= min_run consecutive bare-number lines (vertical chart axes)."""
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        j = i
+        while j < len(lines) and _is_bare_number(lines[j]):
+            j += 1
+        if j - i >= min_run:
+            i = j  # skip the whole run
+        elif j > i:
+            out.extend(lines[i:j])  # short run of numbers — keep
+            i = j
+        else:
+            out.append(lines[i])
+            i += 1
+    return out
 
 
 def _strip_figures(text: str) -> str:
@@ -33,13 +69,21 @@ def _strip_figures(text: str) -> str:
     return _FIGURE_TAG.sub("", text)  # drop any unmatched stray tags
 
 
-def normalize_page_text(text: str) -> str:
+def normalize_page_text(text: str, *, drop_number_soup: bool = True) -> str:
     """Remove layout boilerplate from a single page's text."""
     if not text:
         return text
     text = _HTML_COMMENT.sub("", text)
     text = _strip_figures(text)
-    lines = [ln for ln in text.splitlines() if not _PAGE_NUMBER_BAR.match(ln)]
+    lines = []
+    for ln in text.splitlines():
+        if _PAGE_NUMBER_BAR.match(ln):
+            continue
+        if drop_number_soup and _is_number_soup(ln):
+            continue
+        lines.append(ln)
+    if drop_number_soup:
+        lines = _drop_number_runs(lines)
     text = _BLANK_RUNS.sub("\n\n", "\n".join(lines))
     return text.strip()
 

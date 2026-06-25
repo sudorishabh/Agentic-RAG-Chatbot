@@ -87,3 +87,35 @@ def test_never_strips_table_rows():
 def test_disabled_when_fraction_zero():
     pages = _pages(["a", "b", "c", "d"])
     assert strip_running_lines(pages, min_fraction=0) == pages
+
+
+# --- chart/axis number-soup --------------------------------------------- #
+
+def test_drops_axis_number_soup():
+    assert normalize_page_text("2020     2030     2040     2050") == ""
+    assert normalize_page_text("200 100 2020 2030 2040 2050") == ""
+
+
+def test_keeps_numbers_inside_prose():
+    line = "In 2020 the sector emitted 200 Mt of CO2."
+    assert normalize_page_text(line) == line
+
+
+def test_keeps_short_numeric_runs():
+    assert normalize_page_text("200 100 0") == "200 100 0"  # < 4 tokens
+
+
+def test_number_soup_can_be_disabled():
+    soup = "2020 2030 2040 2050"
+    assert normalize_page_text(soup, drop_number_soup=False) == soup
+
+
+def test_drops_vertical_axis_number_runs():
+    chart = "Body sentence.\n600\n2020\n2030\n2040\n2050\n2060\nMore body."
+    out = normalize_page_text(chart)
+    assert "2020" not in out and "600" not in out
+    assert "Body sentence." in out and "More body." in out
+
+
+def test_keeps_short_vertical_number_run():
+    assert normalize_page_text("100\n200\n300") == "100\n200\n300"  # < 4 lines
