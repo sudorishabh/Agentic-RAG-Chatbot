@@ -1,6 +1,6 @@
 PDF EXTRACTION SUMMARY — Achieving_Green_Steel_Roadmap.pdf
 ==============================================================================
-  elapsed            : 15.1s
+  elapsed            : 13.29s
   pages              : 60
   tables             : 4
   extracted chars    : 103,711

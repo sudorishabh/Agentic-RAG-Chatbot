@@ -1,6 +1,6 @@
 PDF EXTRACTION SUMMARY — check-your-water-quality.pdf
 ==============================================================================
-  elapsed            : 4.39s
+  elapsed            : 4.35s
   pages              : 1
   tables             : 2
   extracted chars    : 2,406

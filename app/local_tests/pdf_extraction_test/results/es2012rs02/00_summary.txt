@@ -1,6 +1,6 @@
 PDF EXTRACTION SUMMARY — ES2012RS02.pdf
 ==============================================================================
-  elapsed            : 7.76s
+  elapsed            : 7.02s
   pages              : 31
   tables             : 7
   extracted chars    : 17,407

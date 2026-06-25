@@ -382,8 +382,17 @@ def extract_pdf(content: bytes, filename: str) -> ExtractionResult:
     else:  # hybrid
         result = _hybrid_extract(content, filename, mode=mode)
 
+    _normalize_result(result)
     _log_summary(result, filename)
     return result
+
+
+def _normalize_result(result: ExtractionResult) -> None:
+    """Strip layout boilerplate from every page's text (in place)."""
+    from app.ingestion.extractors.text_normalize import normalize_page_text
+
+    for page in result.pages:
+        page.text = normalize_page_text(page.text)
 
 
 def _log_summary(result: ExtractionResult, filename: str) -> None:

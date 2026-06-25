@@ -1,6 +1,6 @@
 PDF EXTRACTION SUMMARY — Annexure_J1_ TERI_WWD-2020_Report.pdf
 ==============================================================================
-  elapsed            : 8.69s
+  elapsed            : 7.98s
   pages              : 47
   tables             : 2
   extracted chars    : 33,687

@@ -1,6 +1,6 @@
 PDF EXTRACTION SUMMARY — Annexure_A2_Commitment-letters.pdf
 ==============================================================================
-  elapsed            : 5.5s
+  elapsed            : 5.45s
   pages              : 6
   tables             : 0
   extracted chars    : 9,002

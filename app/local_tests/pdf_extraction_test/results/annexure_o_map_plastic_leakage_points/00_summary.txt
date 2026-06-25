@@ -1,6 +1,6 @@
 PDF EXTRACTION SUMMARY — Annexure_O_Map-Plastic-Leakage-Points.pdf
 ==============================================================================
-  elapsed            : 4.58s
+  elapsed            : 4.27s
   pages              : 1
   tables             : 0
   extracted chars    : 344

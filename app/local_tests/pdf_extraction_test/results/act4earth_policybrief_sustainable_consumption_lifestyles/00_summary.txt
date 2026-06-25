@@ -1,6 +1,6 @@
 PDF EXTRACTION SUMMARY — Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf
 ==============================================================================
-  elapsed            : 9.69s
+  elapsed            : 8.57s
   pages              : 20
   tables             : 5
   extracted chars    : 41,625

@@ -1,6 +1,6 @@
 PDF EXTRACTION SUMMARY — Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf
 ==============================================================================
-  elapsed            : 63.47s
+  elapsed            : 56.24s
   pages              : 324
   tables             : 138
   extracted chars    : 635,295

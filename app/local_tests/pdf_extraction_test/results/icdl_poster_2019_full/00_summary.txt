@@ -1,6 +1,6 @@
 PDF EXTRACTION SUMMARY — ICDL_Poster_2019_Full.pdf
 ==============================================================================
-  elapsed            : 34.05s
+  elapsed            : 19.23s
   pages              : 188
   tables             : 15
   extracted chars    : 399,911
