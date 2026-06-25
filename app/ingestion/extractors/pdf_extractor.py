@@ -1,8 +1,6 @@
 from __future__ import annotations
-import io
 import logging
 import re
-from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
 from functools import lru_cache
@@ -142,38 +140,6 @@ def _html_tables_to_pipe(text: str) -> str:
     )
 
 
-def _page_count(content: bytes) -> int:
-    try:
-        from pypdf import PdfReader
-
-        return len(PdfReader(io.BytesIO(content)).pages)
-    except Exception:
-        logger.warning("pypdf unavailable; page count derived from partition output.")
-        return 0
-
-
-def _partition_digital_text(content: bytes) -> dict[int, str]:
-    try:
-        from unstructured.partition.pdf import partition_pdf
-    except Exception:
-        logger.warning("unstructured unavailable; digital pages skipped.")
-        return {}
-
-    try:
-        elements = partition_pdf(file=io.BytesIO(content), strategy="fast")
-    except Exception:
-        logger.exception("unstructured partition failed; digital pages skipped.")
-        return {}
-
-    by_page: dict[int, list[str]] = defaultdict(list)
-    for el in elements:
-        page_no = getattr(getattr(el, "metadata", None), "page_number", None)
-        text = (getattr(el, "text", None) or "").strip()
-        if page_no is not None and text:
-            by_page[page_no].append(text)
-    return {pn: "\n\n".join(parts).strip() for pn, parts in by_page.items()}
-
-
 @lru_cache
 def _di_client():
     settings = get_settings()
@@ -301,39 +267,92 @@ def _ocr_pdf(content: bytes, page_numbers: list[int] | None = None) -> dict[int,
     return _pages_from_di(result, page_numbers)
 
 
+def _local_extract(content: bytes, filename: str, *, mode: str, route: str) -> ExtractionResult:
+    """Text-only PyMuPDF extraction (never keeps tables)."""
+    from app.ingestion.extractors.pymupdf_local import extract_local
+
+    result = extract_local(content, filename)
+    result.metadata.update({"extraction_mode": mode, "route": route})
+    return result
+
+
+def _azure_extract(content: bytes, filename: str) -> ExtractionResult | None:
+    """Send the WHOLE document to Azure Layout; None if Azure is unavailable.
+
+    STEP 5 (optional, OFF by default — ``settings.extraction_azure_page_ranges``):
+    for long, sparsely-tabled documents we could send only the flagged page
+    ranges here via ``_ocr_pdf(content, page_numbers)`` instead of the whole
+    file. Each flagged page's range must first be expanded to include adjacent
+    flagged pages so a table spanning a page break stays whole. Not enabled:
+    whole-document Azure is simpler and avoids splitting cross-page tables.
+    """
+    pages_map = _ocr_pdf(content, None)
+    if not pages_map:
+        return None
+    pages = [pages_map[n] for n in sorted(pages_map)]
+    return ExtractionResult(source=filename, pages=pages)
+
+
+def _azure_with_fallback(content: bytes, filename: str, *, mode: str) -> ExtractionResult:
+    """Azure whole-document extraction, falling back to local text if Azure fails."""
+    result = _azure_extract(content, filename)
+    if result is not None:
+        result.metadata.update({"extraction_mode": mode, "route": "azure"})
+        return result
+    logger.warning(
+        "%s routed to Azure but Azure is unavailable; falling back to local "
+        "PyMuPDF text (tables on this document will degrade to plain text).",
+        filename,
+    )
+    return _local_extract(content, filename, mode=mode, route="azure_unavailable_local_fallback")
+
+
+def _signal_summary(signals: list) -> dict[str, Any]:
+    return {
+        "pages": len(signals),
+        "scanned": sorted(s.page_number for s in signals if s.scanned),
+        "table": sorted(s.page_number for s in signals if s.has_table),
+        "needs_azure": sorted(s.page_number for s in signals if s.needs_azure),
+    }
+
+
+def _hybrid_extract(content: bytes, filename: str, *, mode: str) -> ExtractionResult:
+    """Classify each page with PyMuPDF, then route the WHOLE document.
+
+    Bias toward Azure when uncertain: any scanned or table page (or a failed
+    classification) sends the whole document to Azure, which owns every table.
+    """
+    from app.ingestion.extractors.pymupdf_local import classify_document, document_needs_azure
+
+    try:
+        signals = classify_document(content)
+        needs_azure = document_needs_azure(signals)
+    except Exception:
+        logger.exception("Page classification failed for %s; biasing to Azure.", filename)
+        signals, needs_azure = [], True
+
+    if needs_azure:
+        result = _azure_with_fallback(content, filename, mode=mode)
+    else:
+        result = _local_extract(content, filename, mode=mode, route="local")
+    result.metadata["page_signals"] = _signal_summary(signals)
+    return result
+
+
 def extract_pdf(content: bytes, filename: str) -> ExtractionResult:
     settings = get_settings()
-    text_by_page = _partition_digital_text(content)
-    total_pages = _page_count(content) or (max(text_by_page) if text_by_page else 0)
+    mode = (settings.extraction_mode or "hybrid").strip().lower()
+    if mode not in ("hybrid", "azure_only", "local_only"):
+        logger.warning("Unknown EXTRACTION_MODE %r; using 'hybrid'.", mode)
+        mode = "hybrid"
 
-    if total_pages == 0:
-        pages_map = _ocr_pdf(content, None)
-        pages = [pages_map[n] for n in sorted(pages_map)]
-        result = ExtractionResult(source=filename, pages=pages)
-        _log_summary(result, filename)
-        return result
+    if mode == "local_only":
+        result = _local_extract(content, filename, mode=mode, route="local")
+    elif mode == "azure_only":
+        result = _azure_with_fallback(content, filename, mode=mode)
+    else:  # hybrid
+        result = _hybrid_extract(content, filename, mode=mode)
 
-    pages_map: dict[int, PageContent] = {}
-    scanned_page_numbers: list[int] = []
-    for n in range(1, total_pages + 1):
-        text = text_by_page.get(n, "")
-        if len(text) < settings.pdf_scanned_char_threshold:
-            scanned_page_numbers.append(n)
-        else:
-            pages_map[n] = PageContent(
-                page_number=n, text=text, extracted_via=ExtractedVia.TEXT
-            )
-
-    if scanned_page_numbers:
-        pages_map.update(_ocr_pdf(content, scanned_page_numbers))
-
-    pages = [
-        pages_map.get(
-            n, PageContent(page_number=n, text="", extracted_via=ExtractedVia.EMPTY)
-        )
-        for n in range(1, total_pages + 1)
-    ]
-    result = ExtractionResult(source=filename, pages=pages)
     _log_summary(result, filename)
     return result
 
@@ -367,7 +386,6 @@ def _main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
-    
     path = Path(args.path)
     result = extract_pdf(path.read_bytes(), path.name)
 
@@ -396,6 +414,7 @@ def _main(argv: list[str] | None = None) -> int:
         parents = sum(c.is_parent for c in chunks)
         print(f"\nchunks: {len(chunks)} ({parents} parents, {len(chunks) - parents} children)")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(_main())

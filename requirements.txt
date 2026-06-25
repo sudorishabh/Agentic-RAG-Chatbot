@@ -8,7 +8,6 @@ langchain-qdrant
 langchain-community
 langchain-text-splitters
 qdrant-client
-pypdf
 pymysql
 cryptography
 requests
@@ -16,5 +15,5 @@ redis
 celery  # optional: background ingestion workers (app/workers/tasks.py)
 
 # PDF extraction (app/ingestion/extractors/pdf_extractor.py)
-azure-ai-documentintelligence  # OCR + layout + tables for scanned PDFs
-unstructured[pdf]              # digital-page text extraction (fast/pdfminer strategy)
+azure-ai-documentintelligence  # OCR + layout + tables; owns all tables in hybrid routing
+PyMuPDF                        # page classification (scanned/table signals) + local text extraction
