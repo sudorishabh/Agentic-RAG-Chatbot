@@ -9,6 +9,10 @@ from app.deps import get_embeddings, get_qdrant_client
 
 logger = logging.getLogger(__name__)
 
+# Section types that extract cleanly but pollute retrieval (tables of contents,
+# bibliographies, glossaries) — excluded from search via the query filter.
+_NON_SEARCHABLE_SECTIONS = ("toc", "references", "glossary")
+
 
 @dataclass
 class Candidate:
@@ -45,7 +49,10 @@ def build_filter(
         must.append(FieldCondition(key="acl", match=MatchAny(any=groups)))
     if extra:
         must.extend(extra)
-    return Filter(must=must)
+    must_not = [
+        FieldCondition(key="section_type", match=MatchAny(any=list(_NON_SEARCHABLE_SECTIONS)))
+    ]
+    return Filter(must=must, must_not=must_not)
 
 
 def search(
