@@ -7,12 +7,9 @@
 
 ## Parent chunks
 
-### Parent · section='HOW TO CHECK WATER QUALITYA' · pages=(1, 1) · 762 tok
+### Parent · section='HOW TO CHECK WATER QUALITYA' · pages=(1, 1) · 738 tok
 
 HOW TO CHECK WATER QUALITYA
-
-<figure>
-</figure>
 
 | SI. No. | Parameters | Method | Desirable Limit | Undesirable effect outisde the desirable limit | Permissible limit in the absence of alternate source | Cause of these parameters in water |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -20,29 +17,26 @@ HOW TO CHECK WATER QUALITYA
 | 2. | Odour | By smell | Agreeable |  | Agreeable | Organic & inorganic waste from municipal and industrial waste discharge, or due to natural sources. |
 | 3. | pH | by pH paper strip | 6.5-8.5 | Beyond this range the water will affect the mucous membrane and/or water supply system. | No relaxation | Atmospheric pollution, sewage and industrial effluents |
 | 4. | Total hardness (as CaCO3) mg/l, max | Titrimetric (EDTA) | 200 | Encrustation in water supply structure and adverse effects on domestic use | 600 | Due to discharge of calcium and magnesium ions |
-| 5. | Chloride (as CI) mg/l, max | Titrimetic (argentometric) | 250 | Beyond this limit, taste, corrosion and palatability are affected | 1000 | Due to industrialization, irrigati
+| 5. | Chloride (as CI) mg/l, max | Titrimetic (argentometric) | 250 | Beyond this limit, taste, corrosion and palatability are affected | 1000 | Due to industrialization, irrigation drainage and sea 
 
-… [+1195 more chars]
+… [+1113 more chars]
 
 ---
 
 ## Child chunks
 
-### Child 0 · section='HOW TO CHECK WATER QUALITYA' · page=1 · 468 tok
-
-<figure>
-</figure>
+### Child 0 · section='HOW TO CHECK WATER QUALITYA' · page=1 · 462 tok
 
 | SI. No. | Parameters | Method | Desirable Limit | Undesirable effect outisde the desirable limit | Permissible limit in the absence of alternate source | Cause of these parameters in water |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1. | Colour (Hazen Units, max) | By Visual | 5 | Above 5 consumer acceptance decreases. | 15 | Due to natural metallic, ions, humus, peat material, industrial waste. |
 | 2. | Odour | By smell | Agreeable |  | Agreeable | Organic & inorganic waste from municipal and industrial waste discharge, or due to natural sources. |
 | 3. | pH | by pH paper strip | 6.5-8.5 | Beyond this range the water will affect the mucous membrane and/or water supply system. | No relaxation | Atmospheric pollution, sewage and industrial effluents |
-| 4. | Total 
+| 4. | Total hardness (as CaCO3) 
 
-… [+908 more chars]
+… [+888 more chars]
 
-### Child 1 · section='HOW TO CHECK WATER QUALITYA' · page=1 · 337 tok
+### Child 1 · section='HOW TO CHECK WATER QUALITYA' · page=1 · 319 tok
 
 decomposition of organic residue |
 | 8. | Residual, free Chlorine mg/l min | Colorimetric (ortho toluidine) | 0.2 | - | 1 | Chlorinated industrial effluent, sewage waste. | \* Drinking water quality standard as per IS-10500, 2012.
@@ -57,21 +51,7 @@ decomposition of organic residue |
 | FRIDAY |  |  |  |  |  |  |  |  |  |  |
 | SATURDAY |  |  |  |  |  |  |  |  |  |  |
 
-<figure>
-
-Bharti — Infratel — Limited
-
-</figure>
-
-<figure>
-
-FLOW — Facilitating Learning on WASH
-
-</figure>
-
-<figure>
+Bharti — Infratel — Limited — FLOW — Facilitating Learning on WASH
 
 teri
-The Energy and R
-
-… [+29 more chars]
+The Energy and Resources Institute

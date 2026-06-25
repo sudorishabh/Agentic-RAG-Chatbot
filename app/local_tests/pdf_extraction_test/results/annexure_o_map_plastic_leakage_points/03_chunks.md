@@ -7,30 +7,17 @@
 
 ## Parent chunks
 
-### Parent · section='UN@' · pages=(1, 1) · 103 tok
+### Parent · section='UN@' · pages=(1, 1) · 79 tok
 
 UN@
 
 environment
 programme
 
-<figure>
-
 Counter — MEASURE — FOR PLASTIC FREE RIVERS
-
-</figure>
-
-<figure>
-</figure>
 
 teri
 RETHINK PLASTIC
-
-<figure>
-</figure>
-
-<figure>
-</figure>
 
 Micro Plastic Leakage Points — Legend — O Leakage points — Railroads — Drains and Rivers — MMR Boundary — Built Up — Water Bodies — Slums
 
@@ -48,28 +35,15 @@ Kilometers
 
 ## Child chunks
 
-### Child 0 · section='UN@' · page=1 · 101 tok
+### Child 0 · section='UN@' · page=1 · 77 tok
 
 environment
 programme
 
-<figure>
-
 Counter — MEASURE — FOR PLASTIC FREE RIVERS
-
-</figure>
-
-<figure>
-</figure>
 
 teri
 RETHINK PLASTIC
-
-<figure>
-</figure>
-
-<figure>
-</figure>
 
 Micro Plastic Leakage Points — Legend — O Leakage points — Railroads — Drains and Rivers — MMR Boundary — Built Up — Water Bodies — Slums
 

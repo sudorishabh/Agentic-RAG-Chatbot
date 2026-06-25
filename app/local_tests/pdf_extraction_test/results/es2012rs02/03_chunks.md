@@ -1,16 +1,15 @@
 # Chunking (chunk_pdf) — ES2012RS02.pdf
 
-- parents: **16**
-- children: **17**
+- parents: **17**
+- children: **18**
 
 ---
 
 ## Parent chunks
 
-### Parent · section='Relative Environment Economics Of Natural Gas and' · pages=(1, 3) · 226 tok
+### Parent · section=None · pages=(1, 3) · 226 tok
 
-Relative Environment Economics Of Natural Gas and
-
+Relative Environment Economics Of Natural Gas and 
 Other Fossil Fuels for Power Generation and Policy 
 Options for India
 
@@ -47,7 +46,7 @@ carbon emissions
 Given the rising dependence on imports to meet demand, it is also essential 
 to plan for the future keeping in view the evolving international markets
 
-### Parent · section="India's Power Sector" · pages=(4, 4) · 307 tok
+### Parent · section="India's Power Sector" · pages=(4, 4) · 261 tok
 
 India's Power Sector
 
@@ -83,8 +82,6 @@ Supply of gas up to January 2013 was 41.45
 ☐
 mmscmd as against a requirement of 86 mmscmd
 
-<figure>
-
 RES
 
 12%
@@ -108,10 +105,6 @@ Natural — Gas
 Diesel
 
 1%
-
-</figure>
-
-<figure>
 
 90,000
 
@@ -155,17 +148,9 @@ MW
 
 0
 
-7th Plan — 8th Plan — 9th Plan — 10th Plan — 11 th Plan
+### Parent · section='7th Plan — 8th Plan — 9th Plan — 10th Plan — 11 th Plan — Target — Achieved — The Study' · pages=(5, 6) · 228 tok
 
-</figure>
-
-Target — Achieved
-
-<!-- PageBreak -->
-
-### Parent · section='The Study' · pages=(5, 6) · 199 tok
-
-The Study
+7th Plan — 8th Plan — 9th Plan — 10th Plan — 11 th Plan — Target — Achieved — The Study
 
 Comparison of the cost of power generation using different fuels (i.e. coal 
 and gas both domestic and international) across various locations in the 
@@ -197,7 +182,7 @@ Components of cost:
 
 All calculations based on CERC norms
 
-### Parent · section='Assumptions — Fixed Costs and O&M — Costs of Fuel' · pages=(7, 7) · 431 tok
+### Parent · section='Assumptions — Fixed Costs and O&M — Costs of Fuel' · pages=(7, 7) · 426 tok
 
 Assumptions — Fixed Costs and O&M — Costs of Fuel
 
@@ -228,9 +213,9 @@ average for 2011-12 (Source: Coal Spot)
 
 · Exchange rat
 
-… [+53 more chars]
+… [+33 more chars]
 
-### Parent · section='Financial Cost of Power Generation' · pages=(8, 9) · 170 tok
+### Parent · section='Financial Cost of Power Generation' · pages=(8, 9) · 167 tok
 
 Financial Cost of Power Generation
 
@@ -256,8 +241,6 @@ and the prevailing exchange rate
 
 Financial Cost of Power Generation
 
-<figure>
-
 7
 
 6
@@ -274,11 +257,9 @@ Rs/kWh
 
 1
 
-### Parent · section='Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG' · pages=(9, 10) · 321 tok
+### Parent · section='Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG' · pages=(9, 9) · 306 tok
 
 Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG
-
-</figure>
 
 | Plant Locations | Fuel Options | Fuel Options | Fuel Options | Fuel Options |
 | --- | --- | --- | --- | --- |
@@ -293,15 +274,9 @@ Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhan
 | Agartala | 3.73 | 5.75 | 3.97 | 6.38 |
 | Nagpur | 3.52 | 5.35 | 3.63 | 6.28 |
 
-<!-- PageBreak -->
+### Parent · section='Carbon Implications — Carbon Emissions and Power Generation' · pages=(11, 13) · 540 tok
 
-Carbon Implications
-
-<!-- PageBreak -->
-
-### Parent · section='Carbon Emissions and Power Generation' · pages=(11, 13) · 539 tok
-
-Carbon Emissions and Power Generation
+Carbon Implications — Carbon Emissions and Power Generation
 
 
 Electricity generation contributes the largest 
@@ -353,15 +328,13 @@ Calculating the Cost of Carbon
 Current Carbon Emission Reduction (CER) prices in European Emission 
 Trading Scheme (ETS) have been affected by prevailing macroeconomic 
 and market situation and have declined substantially in 2011-12 
-Prices of carbon are based on the c
+Prices of car
 
-… [+853 more chars]
+… [+865 more chars]
 
-### Parent · section='Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG' · pages=(13, 14) · 370 tok
+### Parent · section='Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG' · pages=(13, 14) · 360 tok
 
 Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG
-
-</figure>
 
 | Plant Locations | Fuel Options | Fuel Options | Fuel Options | Fuel Options |
 | --- | --- | --- | --- | --- |
@@ -376,11 +349,7 @@ Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhan
 | Agartala | 5.32 | 7.30 | 4.72 | 7.11 |
 | Nagpur | 4.47 | 6.90 | 4.38 | 7.02 |
 
-<!-- PageBreak -->
-
 Adding the Cost of Carbon to Power Generation Costs (2) — Total cost of power generation at a carbon price of US$ 10/tCO2 (in Rs./kWh)
-
-<figure>
 
 7
 
@@ -398,11 +367,9 @@ Rs/kWh
 
 1
 
-### Parent · section='Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG' · pages=(14, 15) · 380 tok
+### Parent · section='Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG' · pages=(14, 15) · 373 tok
 
 Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG
-
-</figure>
 
 | Plant Locations | Fuel Options | Fuel Options | Fuel Options | Fuel Options |
 | --- | --- | --- | --- | --- |
@@ -417,8 +384,6 @@ Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhan
 | Agartala | 4.26 | 6.27 | 4.22 | 6.62 |
 | Nagpur | 3.41 | 5.87 | 3.88 | 6.53 |
 
-<!-- PageBreak -->
-
 Adding the Cost of Carbon to Power Generation Cost (3) 
 When the costs of carbon are incorporated:
 
@@ -429,7 +394,7 @@ locations
 and LNG even becomes competitive in distant locations (such as 
 Agartala)
 
-### Parent · section='A Comparison' · pages=(16, 16) · 428 tok
+### Parent · section='A Comparison' · pages=(16, 16) · 424 tok
 
 A Comparison
 
@@ -447,13 +412,9 @@ A Comparison
 | Agartala | 5.75 | 6.27 | 7.30 | 6.38 | 6.62 | 7.11 |
 | Nagpur | 5.35 | 5.87 | 6.90 | 6.28 | 6.53 | 7.02 |
 
-<!-- PageBreak -->
-
-### Parent · section='Domestic Coal and Gas Availability and Projected Requirements' · pages=(17, 20) · 312 tok
+### Parent · section='Domestic Coal and Gas Availability and Projected Requirements' · pages=(18, 19) · 299 tok
 
 Domestic Coal and Gas Availability and Projected Requirements
-
-<!-- PageBreak -->
 
 Domestic Fuel Availability in India - 
 Coal 
@@ -485,13 +446,13 @@ KG-D6 output which has decreased to nearly 16 mmscmd*
 Advisory by Ministry of Power not to build gas based power plants till 
 2015-16
 
-* Lo
+* Lok Sabha Standing Com
 
-… [+93 more chars]
+… [+25 more chars]
 
-### Parent · section='Changing Trends in International Markets' · pages=(21, 21) · 205 tok
+### Parent · section='International Fuel Markets — Changing Trends in International Markets' · pages=(21, 21) · 191 tok
 
-Changing Trends in International Markets
+International Fuel Markets — Changing Trends in International Markets
 
 
 Need to examine the international fuel 
@@ -517,15 +478,6 @@ the
 international 
 markets 
 Price of Indian basket of crude oil 
-90
-95
-100
-105
-110
-115
-120
-125
-130
 Mar-12
 Apr-12
 May-12
@@ -540,7 +492,7 @@ Jan-13
 Feb-13
 US$/bbl
 
-### Parent · section='Global Coal Markets (1)' · pages=(22, 24) · 439 tok
+### Parent · section='Global Coal Markets (1)' · pages=(22, 23) · 308 tok
 
 Global Coal Markets (1)
 
@@ -575,10 +527,33 @@ production
 
 [ South Africa - exporting nearly 30% 
 
-… [+573 more chars]
+… [+143 more chars]
 
-### Parent · section='4 gas markets – North America, Europe,  Asia and Australia' · pages=(24, 25) · 159 tok
+### Parent · section='Changing policies in exporting nations ☐' · pages=(23, 23) · 120 tok
 
+Changing policies in exporting nations ☐
+
+D Increase in prices of coal in Indonesia and
+'potential' ban of certain exports
+
+[ Resource nationalism and sovereignty
+
+|  | Share in global coal reserves | R/P ratio |
+| --- | --- | --- |
+| % | # |  |
+| South Africa | 3.5 | 118 |
+| Australia | 8.9 | 184 |
+| Indonesia | 0.6 | 17 |
+| China | 13.3 | 33 |
+| India | 7 | 103 |
+
+Source: BP, 2012
+
+### Parent · section='Global Gas Markets' · pages=(24, 24) · 159 tok
+
+Global Gas Markets
+
+
 4 gas markets – North America, Europe,  Asia and Australia
 
 
@@ -605,13 +580,9 @@ Reports of gas contracts being renegotiated in these regions
 
 Likelihood of excess gas availability and softening of prices in Asia?
 
-Conclusions
+### Parent · section='Conclusions — Conclusions' · pages=(26, 28) · 281 tok
 
-<!-- PageBreak -->
-
-### Parent · section='Conclusions' · pages=(26, 28) · 282 tok
-
-Conclusions
+Conclusions — Conclusions
 
 The difference between cost of power generated using LNG and imported coal 
 reduces if the carbon implications are taken into account 
@@ -627,11 +598,7 @@ LNG in addition to clean coal and domestic gas
 However, tariff rationalisation will be a sine qua non for such a multi fuel 
 strategy
 
-Suggestions - Policy Options
-
-<!-- PageBreak -->
-
-Infrastructure Requirements
+Suggestions - Policy Options — Infrastructure Requirements
 
 Infrastructure capacity needs be increased in order to meet the 
 requirements
@@ -640,9 +607,9 @@ requirements
 coal production as well as imports
 
 Substantial infrastructure capacity addition is required to facilitate imports 
-C
+Creati
 
-… [+189 more chars]
+… [+184 more chars]
 
 ### Parent · section='Coal' · pages=(29, 30) · 198 tok
 
@@ -683,8 +650,9 @@ Pricing — THANK YOU
 
 ## Child chunks
 
-### Child 0 · section='Relative Environment Economics Of Natural Gas and' · page=1 · 218 tok
+### Child 0 · section=None · page=1 · 226 tok
 
+Relative Environment Economics Of Natural Gas and 
 Other Fossil Fuels for Power Generation and Policy 
 Options for India
 
@@ -713,13 +681,11 @@ Background
 
 Need to explore all options for fuel 
 Coal and gas - the two major fuels for power generation in the country 
-Shortage of domestic fuel and rising dependence on imported coal and gas
+Shortage of domestic fuel and rising dependence on impor
 
-Rising concerns of climate chang
+… [+263 more chars]
 
-… [+212 more chars]
-
-### Child 1 · section="India's Power Sector" · page=4 · 302 tok
+### Child 1 · section="India's Power Sector" · page=4 · 256 tok
 
 ☐
 Installed capacity in the country is based largely
@@ -753,8 +719,6 @@ Supply of gas up to January 2013 was 41.45
 ☐
 mmscmd as against a requirement of 86 mmscmd
 
-<figure>
-
 RES
 
 12%
@@ -778,10 +742,6 @@ Natural — Gas
 Diesel
 
 1%
-
-</figure>
-
-<figure>
 
 90,000
 
@@ -807,11 +767,20 @@ MW
 
 34462
 
-30,00
+30,000
 
-… [+162 more chars]
+22245
 
-### Child 2 · section='The Study' · page=5 · 196 tok
+21180
+
+20,000
+
+21401
+
+
+… [+24 more chars]
+
+### Child 2 · section='7th Plan — 8th Plan — 9th Plan — 10th Plan — 11 th Plan — Target — Achieved — The Study' · page=5 · 196 tok
 
 Comparison of the cost of power generation using different fuels (i.e. coal 
 and gas both domestic and international) across various locations in the 
@@ -845,7 +814,7 @@ All
 
 … [+32 more chars]
 
-### Child 3 · section='Assumptions — Fixed Costs and O&M — Costs of Fuel' · page=7 · 417 tok
+### Child 3 · section='Assumptions — Fixed Costs and O&M — Costs of Fuel' · page=7 · 412 tok
 
 | Element | Unit | Domestic Coal | Imported Coal | Domestic Gas | LNG |
 | --- | --- | --- | --- | --- | --- |
@@ -867,9 +836,9 @@ All
 *The variation in prices is due to difference in transportation costs
 Prices for domestic coal are 
 
-… [+402 more chars]
+… [+382 more chars]
 
-### Child 4 · section='Financial Cost of Power Generation' · page=8 · 164 tok
+### Child 4 · section='Financial Cost of Power Generation' · page=8 · 161 tok
 
 
 Domestic coal based generation at pit head power plants is less expensive than 
@@ -893,8 +862,6 @@ and the prevailing exchange rate
 
 Financial Cost of Power Generation
 
-<figure>
-
 7
 
 6
@@ -911,9 +878,7 @@ Rs/kWh
 
 1
 
-### Child 5 · section='Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG' · page=9 · 277 tok
-
-</figure>
+### Child 5 · section='Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG' · page=9 · 262 tok
 
 | Plant Locations | Fuel Options | Fuel Options | Fuel Options | Fuel Options |
 | --- | --- | --- | --- | --- |
@@ -928,13 +893,7 @@ Rs/kWh
 | Agartala | 3.73 | 5.75 | 3.97 | 6.38 |
 | Nagpur | 3.52 | 5.35 | 3.63 | 6.28 |
 
-<!-- PageBreak -->
-
-Carbon Implications
-
-<!-- PageBreak -->
-
-### Child 6 · section='Carbon Emissions and Power Generation' · page=11 · 224 tok
+### Child 6 · section='Carbon Implications — Carbon Emissions and Power Generation' · page=11 · 224 tok
 
 
 Electricity generation contributes the largest 
@@ -983,7 +942,7 @@ Sour
 
 … [+30 more chars]
 
-### Child 7 · section='Carbon Emissions and Power Generation' · page=12 · 367 tok
+### Child 7 · section='Carbon Implications — Carbon Emissions and Power Generation' · page=12 · 364 tok
 
 92, 9% 
 Iron and 
@@ -1006,11 +965,9 @@ carbon emissions in the future.
 In the BaU scenario, the social cost of carbon rises to as much as US$85/tCO2e  
 “If the target were be
 
-… [+557 more chars]
+… [+547 more chars]
 
-### Child 8 · section='Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG' · page=13 · 326 tok
-
-</figure>
+### Child 8 · section='Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG' · page=13 · 316 tok
 
 | Plant Locations | Fuel Options | Fuel Options | Fuel Options | Fuel Options |
 | --- | --- | --- | --- | --- |
@@ -1025,11 +982,7 @@ carbon emissions in the future.
 | Agartala | 5.32 | 7.30 | 4.72 | 7.11 |
 | Nagpur | 4.47 | 6.90 | 4.38 | 7.02 |
 
-<!-- PageBreak -->
-
 Adding the Cost of Carbon to Power Generation Costs (2) — Total cost of power generation at a carbon price of US$ 10/tCO2 (in Rs./kWh)
-
-<figure>
 
 7
 
@@ -1047,9 +1000,7 @@ Rs/kWh
 
 1
 
-### Child 9 · section='Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG' · page=14 · 336 tok
-
-</figure>
+### Child 9 · section='Delhi — Bilaspur — Vadodara — Vishakapatnam — Kochi — Talcher — Dhanbad — Agartala — Nagpur — Domestic Coal — Imported Coal — Domestic Gas — LNG' · page=14 · 329 tok
 
 | Plant Locations | Fuel Options | Fuel Options | Fuel Options | Fuel Options |
 | --- | --- | --- | --- | --- |
@@ -1064,19 +1015,18 @@ Rs/kWh
 | Agartala | 4.26 | 6.27 | 4.22 | 6.62 |
 | Nagpur | 3.41 | 5.87 | 3.88 | 6.53 |
 
-<!-- PageBreak -->
-
 Adding the Cost of Carbon to Power Generation Cost (3) 
 When the costs of carbon are incorporated:
 
 Domestic natural gas becomes competitive with domestic coal in most 
 locations
 
-The difference between imported coal and LNG reduce
+The difference between imported coal and LNG reduces substantially 
+and LNG even b
 
-… [+90 more chars]
+… [+59 more chars]
 
-### Child 10 · section='A Comparison' · page=16 · 425 tok
+### Child 10 · section='A Comparison' · page=16 · 421 tok
 
 | Plant Locations | Fuel Options | Fuel Options | Fuel Options | Fuel Options | Fuel Options | Fuel Options |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -1091,11 +1041,9 @@ locations
 | Dhanbad | 5.09 | 5.61 | 6.64 | 6.38 | 6.62 | 7.11 |
 | Agartala | 5.7
 
-… [+111 more chars]
+… [+91 more chars]
 
-### Child 11 · section='Domestic Coal and Gas Availability and Projected Requirements' · page=17 · 301 tok
-
-<!-- PageBreak -->
+### Child 11 · section='Domestic Coal and Gas Availability and Projected Requirements' · page=18 · 288 tok
 
 Domestic Fuel Availability in India - 
 Coal 
@@ -1116,11 +1064,12 @@ Mt in in 2021-22*
 
 Domestic Fuel Availability in India – 
 Natural Gas 
-Production of natural gas from domestic fields has declined – red
+Production of natural gas from domestic fields has declined – reduction in 
+KG-D6 out
 
-… [+430 more chars]
+… [+362 more chars]
 
-### Child 12 · section='Changing Trends in International Markets' · page=21 · 199 tok
+### Child 12 · section='International Fuel Markets — Changing Trends in International Markets' · page=21 · 181 tok
 
 
 Need to examine the international fuel 
@@ -1146,15 +1095,6 @@ the
 international 
 markets 
 Price of Indian basket of crude oil 
-90
-95
-100
-105
-110
-115
-120
-125
-130
 Mar-12
 Apr-12
 May-12
@@ -1169,7 +1109,7 @@ Jan-13
 Feb-13
 US$/bbl
 
-### Child 13 · section='Global Coal Markets (1)' · page=22 · 433 tok
+### Child 13 · section='Global Coal Markets (1)' · page=22 · 302 tok
 
 Coal continues to be a major source of energy – fastest growing source in 
 absolute terms in 2011  
@@ -1186,9 +1126,30 @@ OECD countries – particularly India and China
 China – became a net importer of coal in 2009 
 This will increase the competiti
 
-… [+948 more chars]
+… [+518 more chars]
 
-### Child 14 · section='4 gas markets – North America, Europe,  Asia and Australia' · page=24 · 145 tok
+### Child 14 · section='Changing policies in exporting nations ☐' · page=23 · 112 tok
+
+D Increase in prices of coal in Indonesia and
+'potential' ban of certain exports
+
+[ Resource nationalism and sovereignty
+
+|  | Share in global coal reserves | R/P ratio |
+| --- | --- | --- |
+| % | # |  |
+| South Africa | 3.5 | 118 |
+| Australia | 8.9 | 184 |
+| Indonesia | 0.6 | 17 |
+| China | 13.3 | 33 |
+| India | 7 | 103 |
+
+Source: BP, 2012
+
+### Child 15 · section='Global Gas Markets' · page=24 · 155 tok
+
+
+4 gas markets – North America, Europe,  Asia and Australia
 
 
 Natural gas prices in Asian markets - largely linked to crude oil prices
@@ -1214,11 +1175,7 @@ Reports of gas contracts being renegotiated in these regions
 
 Likelihood of excess gas availability and softening of prices in Asia?
 
-Conclusions
-
-<!-- PageBreak -->
-
-### Child 15 · section='Conclusions' · page=26 · 279 tok
+### Child 16 · section='Conclusions — Conclusions' · page=26 · 275 tok
 
 The difference between cost of power generated using LNG and imported coal 
 reduces if the carbon implications are taken into account 
@@ -1233,9 +1190,9 @@ approach‟ and attempt to increase the availability of piped natural gas and
 LNG in addition to clean coal and domestic gas 
 However, tariff rationalisation will be a sine qua non f
 
-… [+576 more chars]
+… [+557 more chars]
 
-### Child 16 · section='Coal' · page=29 · 196 tok
+### Child 17 · section='Coal' · page=29 · 196 tok
 
 • Evacuation infrastructure in terms of rail networks to transport  
 mined coal to demand centres 

@@ -6,34 +6,14 @@ UN@
 environment
 programme
 
-
-<figure>
-
 Counter
 MEASURE
 FOR PLASTIC FREE RIVERS
 
-</figure>
-
-
-<figure>
-</figure>
-
-
 teri
 RETHINK PLASTIC
 
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
 # Micro Plastic Leakage Points
-
 
 ## Legend
 

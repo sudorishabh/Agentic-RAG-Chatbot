@@ -1,9 +1,9 @@
 {
   "pdf": "make-solar-cooker.pdf",
-  "elapsed_seconds": 5.99,
+  "elapsed_seconds": 8.66,
   "page_count": 1,
   "table_count": 0,
-  "char_count": 1319,
+  "char_count": 1209,
   "routes": {
     "ocr": 1
   },
@@ -16,7 +16,7 @@
   "chunks_total": 2,
   "parent_chunks": 1,
   "child_chunks": 1,
-  "child_token_min": 332,
-  "child_token_max": 332,
-  "child_token_avg": 332
+  "child_token_min": 302,
+  "child_token_max": 302,
+  "child_token_avg": 302
 }

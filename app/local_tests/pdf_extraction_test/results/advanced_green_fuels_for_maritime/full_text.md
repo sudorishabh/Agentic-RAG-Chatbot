@@ -6,8 +6,6 @@ for India (Part A)
 National Centre of Excellence in Green Port and 
 Shipping (NCoEGPS)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 ii
 ©TERI All Rights Reserved, 2026
 No part of this Publication may be reproduced, stored in a retrieval system or transmitted in any 
@@ -65,13 +63,7 @@ Shyam Jagannathan, L.A.S.
 Director General of Shipping &
 Additional Secretary to the Govt. of India
 
-
-<figure>
-
 बलदेव बचने
-
-</figure>
-
 
 भारत सरकार
 Government of India
@@ -79,11 +71,6 @@ Government of India
 MINISTRY OF PORTS, SHIPPING AND WATERWAYS
 नौवहन महानिदेशालय
 Directorate General of Shipping
-
-
-<figure>
-</figure>
-
 
 MESSAGE
 
@@ -130,15 +117,9 @@ maritime transport.
 Mumbai
 Date: 12.01.2026
 
-
-<figure>
-
 lyt
 
 (Shyam Jagannathan)
-
-</figure>
-
 
 <!-- PageFooter="9वीं मंज़िल, बीटा बिल्डींग, आई थिंक टेक्नो कैम्पस, कांजुर गाँव रोड, कांजुरमार्ग (पूर्व), मुंबई-400042 9th Floor, BETA Building, I-Think Techno Campus, Kanjur Village Road, Kanjurmarg (E), Mumbai-400042 दूरभाष/Tel:No .: +91-22-2575 2005/10 . फैक्स/Fax: +9
 
@@ -212,8 +193,6 @@ Acknowledgements
 v.in" -->
 <!-- PageB
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 ix
 Table of Contents
 Executive Summary	 ........................................................................................................................................... 1
@@ -298,8 +277,6 @@ Top Shipbuilders by Alternative-Fuel Vessel Construction
 	
 (Inservice and Orderbook).......................................................................................................90
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 x
 Chapter 3: Alternative Fuel Powered Marine Engines (ICE) for Decarbonizing Shipping..............99
 Introduction ........................................................................................................................................................100
@@ -388,8 +365,6 @@ Types of Fuel Cells for Shipping Application....................................
 5.1.1	
 Working of Fuel Cells .............................................................................................................203
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 xi
 5.2 	
 Comparison of Key Characteristics of Fuel Cells..............................................................................203
@@ -443,8 +418,6 @@ reak -->
 
 <!-- PageB
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 xiii
 List of Figures
 Figure 1: 	
@@ -488,7 +461,6 @@ for Indian Coastal Vessels (Figure 4.42 in Chapter 4) ..........................
 Figure 10: 	
 Impact of GFI Compliance on Fuel Cost with GHG Emission Pricing between Year  
 	
-2028 to 2035.  ...............................................................................................................................23
 Figure 11: 	
 Impact of GFI Compliance on Blended Fuel Cost with GHG Emission Pricing from  
 	
@@ -526,8 +498,6 @@ Result Plot for Case 5a B24 or BD24 ( (LHV: 40,648 MJ/t | GFI: 75.92 gCO₂/MJ)
 	
 (i.e. D(HFO/LFO/DO)—Biodiesel blend) (*B or BD both represents Biodiesel blend)...45
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 xiv
 Figure 23: 	
 Result Plot for Diesel-Biodiesel Case 5b: B30 or BD 30 (LHV: 40,713 MJ/t)  
@@ -602,8 +572,6 @@ with Number.....................................................................
 Figure 1.7: 	 Indian Ocean-Going Vessels (>5000GT): GT Distribution.....................................................74
 Figure 1.8: 	 Global Ocean-Going Vessels(>5000GT): Fuel Type v/s GT with Number...........................76
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 xv
 Figure 1.9: 	 Global Ocean-Going Vessels(>5000 GT): Age of vessels v/s GT  
 	
@@ -674,8 +642,6 @@ Figure 3.1
 	
 Countries In ICE-Ownership) and  No of Vessels..................................................................102
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 xvi
 Figure 3.1	
 (c): Biofuel (Biodiesel) ICE Engine Overview (in-service vs orderbook):  
@@ -738,8 +704,6 @@ Figure 4.9 : 	 MEPC 83 New Amendments in Emission Targets.......................
 Figure 4.10: 	Base Trajectory of MEPC 83 (in blue) vs Different Country Proposals...........................149
 Figure 4.11: 	Life Cycle GHG Emissions per kWh of Auxiliary Engine Output Power...........................150
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 xvii
 Figure 4.12: 	Life Cycle GHG Emissions per kWh of Main Engine Output Power..................................150
 Figure 4.13: 	NPVs of Ship Life   Cycle Fuel Costs including Carbon Price..............................................151
@@ -795,8 +759,6 @@ Figure 4.36: 	Alternative Fuel-Mix Demand with RE &Green Hydrogen Requirement fo
 	
 GFI-Compliance (>5000GT) Year 2035 (Direct Compliance Category) ...........................174
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 xviii
 Figure 4.37: 	Dual Fuel Blend Scenarios (HFO/LFO/DO& Methanol 10 %v/v) with  
 	
@@ -863,8 +825,6 @@ Figure 4.52: 	Alternative Fuel-Mix Demand-Supply Gap for 10 & 5 v/v % Methanol
 	
 Blending Scenarios (India Cumulative Costal and OGVs) ..................................................184
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 xix
 Figure 4.53: 	Methanol Production Projects Global vs India.....................................................................184
 Figure 4.54: 	Ammonia Production Projects Global vs India.....................................................................185
@@ -923,8 +883,6 @@ reak -->
 
 <!-- PageB
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 xxi
 List of Table
 Table 1: 	
@@ -1004,8 +962,6 @@ Case 10: D (HFO/LFO/DO) M4.8BD40(LHV: 39,322 MJ/t | GFI: 58.98 gCO₂/MJ)
 	
 (blend with EMethanol)................................................................................................................56
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 xxii
 Table 31: 	
 Case 11: D (HFO/LFO/DO) M4.8BD50 (LHV: 38,882 MJ/t) (GFI: 51.08 gCO₂/MJ) 
@@ -1071,8 +1027,6 @@ Table 4.17: 	 Overview of Hydrogen Plants in India..............................
 Table 4.18: 	 Infrastructure Projects in Global Ports for Hydrogen and Hydrogen Derived Fuels.....193
 Table 5.2: 	 Status of Fuel Cells Vessels In Service.....................................................................................211
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 xxiii
 Table 5.3: 	 Status of Fuel Cells Vessels (Orderbook)................................................................................215
 Table 5.4: 	 Status of Fuel Cells Adoption Indian Shipping.......................................................................219
@@ -1100,17 +1054,7 @@ reak -->
 
 reak -->
 
-<!-- PageBreak -->
-
-<!-- PageBreak -->
-
-<!-- PageBreak -->
-
-
 ## List of Abbreviations
-
-
-
 
 | Abbreviations | Definitions |
 | --- | --- |
@@ -1149,20 +1093,9 @@ reak -->
 | EU | European Union |
 | EU ETS | European Union Emissions Trading System |
 
-
-
 Advanced Green Fuels for Ma
 
 ritime Application-
-Road Map for India (Part A)
-
-
-<!-- PageBreak -->
-
-<!-- PageNumber="xxvi" -->
-
-
-
 
 | Abbreviations | Definitions |
 | --- | --- |
@@ -1203,20 +1136,9 @@ Road Map for India (Part A)
 | LLCF | Low Life Cycle Fuels |
 | LNG | Liquified Natural Gas |
 
-
-
-
 Advanced Green Fuels for M
 
 aritime Application-
-Road Map for India (Part A)
-
-<!-- PageBreak -->
-
-<!-- PageHeader="xxvii" -->
-
-
-
 
 | Abbreviations | Definitions |
 | --- | --- |
@@ -1257,18 +1179,9 @@ Road Map for India (Part A)
 | SCR | Selective Catalytic Reduction |
 | SI | Spark Ignition |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="xxviii" -->
-
-
-
 
 | Abbreviations | Definitions |
 | --- | --- |
@@ -1297,18 +1210,12 @@ ime Application- Road Map for India (Part A)" -->
 | YSZ | Yttria-stabilized Zirconia |
 | ZNZ | Zero & Near Zero Emission Fuels |
 
-
-
-
 Advanced Green Fuels for M
 
 aritime Application-
-Road Map for India (Part A)
 
 <!-- PageBreak
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 2
 In April 2025, during 83rd meeting of Marine Environment Protection Committee (MEPC 83), IMO 
 has introduced Net Zero Framework setting mandatory GHG Fuel Intensity (GFI) based target for 
@@ -1352,8 +1259,6 @@ meet direct compliance target only till 2031 where as B40 is needed to remain co
 B50 covers direct compliance target till 2035. Although B40 and B50 are sufficient enough to meet 
 Direct compliance emission targets till 2033 and 2035 respectively, multi-fuel blends such as Bio/E
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 3
 Alcohol (Methanol/2GEthanol 10 v/v %)-Biodiesel- Diesel blends can fetch much higher degree of 
 Surplus Unit and Rewards thus making the transition economically attractive. The advantage of blend 
@@ -1393,32 +1298,16 @@ coastal lines
 
 -->
 
-
-<figure>
-
 1
-
-</figure>
-
 
 Executive Sum
 
 mary
 
-<!-- PageBreak -->
-
-<!-- PageNumber="4" -->
-<!-- PageBreak -->
-
-
-<figure>
-
 5
 
 </
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 6
 Presently there are stringent environmental standards and regulatory focus on maritime 
 decarbonization. IMO, the governing body of international shipping, has set an overall goal of net 
@@ -1463,8 +1352,6 @@ Green-Diesel etc.) and their roles in decarbonizing India’s Maritime transport
 alignment with global developments. Towards this, it is of paramount importance to understand 
 progress in fuel and engine development, policy, economics and regulations, and global perspectives.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 7
 With this as a background, the major objective of this study was initially set to outline the green fuel 
 roadmap (especially the Hydrogen derived fuels like Hydrogen, Methanol and Ammonia with fossil 
@@ -1516,8 +1403,6 @@ Scenario-1 estimates fuel/fuel-mix demand for meeting GFI based emission targets
 drop in fuels, existing engines retrofitting or replacement to alternative engines (dual-fuel 
 or mono fuel) is a necessity.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 8
 	
 Scenarios-2 is built on blend-fuel approach which considers dual or multi-fuel blending of 
@@ -1558,13 +1443,7 @@ Recommendations
 
 figure>
 
-
 # Introduction and Objectives of Study
-
-<!-- PageBreak -->
-
-<!-- PageNumber="9" -->
-
 
 ## Latest Amendments in IMO's Regulations related to GHG Reduction and Fuel Standards-MEPC 83 & MEPC 2nd Extraordinary Session (MEPC-ES.2)
 
@@ -1595,9 +1474,6 @@ guidance is provided in Annexure I.
 GFI targets for emissions from ships are set to be progressively stricter over the years. For instance,
 the Base Targets and Direct Targets for the years between 2028 to 2035 are given in Table 1 below.
 
-
-
-
 | Year | Base Targets (GHG emission reduction % with 2008 as Reference) | Direct Targets (GHG emission reduction % with 2008 as Reference) |
 | --- | --- | --- |
 | 2028 | 4.0 | 17.0 |
@@ -1609,13 +1485,8 @@ the Base Targets and Direct Targets for the years between 2028 to 2035 are given
 | 2034 | 25.6 | 38.6 |
 | 2035 | 30.0 | 43.0 |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 10
 Setting of the Base and Direct Target for the years between 2036 to 2040 are scheduled at 1 
 January 2032 although the Base Target for 2040 is tentatively set as 65% GHG emission reduction 
@@ -1657,12 +1528,7 @@ IMO GHG study to cover Inventory of International shipping GHG emissions, estima
 fuel intensity (GFI) & emission projections. Next MEPC 84 is scheduled for April 2026
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
 
-<!-- PageNumber="11" -->
-
-
-<figure>
 <figcaption>Figure 1: MEPC 83 New Amendments in Emission Targets</figcaption>
 
 Tier 2 Compliance
@@ -1731,18 +1597,12 @@ Year
 
 Source: American Bureau of Shipping (ABS), 2025
 
-</figure>
-
-
 When carbon pricing is reinforced, it is expected to account for a large portion of fuel costs. Also,
 several financial institutions are signing onto the Poseidon Principles, established in 2019 in order to
 assess the climate alignment of ship finance portfolios. This is expected to expedite the process of
 shipping companies ensuring alignment with the IMO's GHG emission reduction targets.
 
 The following Table illustrates the key outcome of MEPC 83.
-
-
-
 
 | Topic | Description | Key Outcomes / Developments |
 | --- | --- | --- |
@@ -1751,18 +1611,9 @@ The following Table illustrates the key outcome of MEPC 83.
 | Incentives for Zero/ | Mechanism to financially reward adoption of ultra-low GHG fuels or technologies. | Fuels below 19 gCO2eq/MJ (until 2034, |
 | Near-Zero GHG Fuels & Technologies (ZNZ) | then 14 gCO2eq/MJ) eligible. Rewards framework under development. |  |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="12" -->
-
-
-
 
 | Topic | Description | Key Outcomes / Developments |
 | --- | --- | --- |
@@ -1775,14 +1626,9 @@ ime Application- Road Map for India (Part A)" -->
 | Onboard Carbon Capture (OCCS) | Development of a regulatory framework for CO2 capture onboard ships. | Work to be completed by 2028. Focus on emission traceability, environmental safety, and reception facility access. |
 | Fuel Standards and Certification Pathways | Verification of fuels under LCA framework using default or actual emissions factors. | Includes Excel-based templates, submission procedures, and sustainability criteria (e.g., land/water use, labor rights). |
 
-
-
-
 ## Key Findings of the Study
 
-
 ### Chapter 1: Vessel Ownership
-
 
 #### Analysis of global distribution of vessel ownership shows a clear dominance by Asian countries, followed by Europe and North America and India's significant contribution with 2,179 vessels.
 
@@ -1794,8 +1640,6 @@ with 2,986 vessels. European countries such as Russia, Norway, and Germany have 
 
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 13
 of vessels counting to 2,948, 2,773, and 2,643 respectively. The U.A.E. stands out in the middle east 
 with 2,608 vessels. Other notable countries are the Philippines with 2,212 vessels and Vietnam 
@@ -1841,10 +1685,6 @@ The China P.R, Belgium, USA and UK stand out in Hydrogen-powered vessels.
 Ammonia powered 11 vessels will be owned by Belgium and 4 by Netherlands.
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="14" -->
-
 
 #### For other alternative fuel option
 
@@ -1854,9 +1694,6 @@ ime Application- Road Map for India (Part A)" -->
 
 » China P. R emerges as a frontrunner in Ethane-powered vessels with 28, Followed by Germany,
 Japan, Norway, Singapore and UAE
-
-
-
 
 | In service | In service | In service | In service | Orderbook | Orderbook | Orderbook | Orderbook |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1871,13 +1708,8 @@ Japan, Norway, Singapore and UAE
 | Nuclear | 10 (<1%) |  |  | Ammonia | 22(1%) |  |  |
 | Ammonia | 3 (<1%) |  |  | Nuclear | 7(<1%) |  |  |
 
-
-
 *Majorly Biodiesel or Biodiesel blends along with few other biofuels like Green Diesel, Biobutanol, Bioethanol etc.
 This excludes Methanol
-
-
-
 
 | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vessels (Orderbook) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -1892,13 +1724,8 @@ This excludes Methanol
 | >50K | 777 | 50 | 28 | 4 | 20 | 1 | - | - | 841 | 140 | 48 | 37 |  | 8 | 11 | 3 |
 | Unknown | 14 |  | 17 | 1 | - | 4 | - | - |  | 8 |  |  |  | 2 | 1 |  |
 
-
-
 *Majorly Biodiesel or Biodiesel blends along with few other biofuels like Green Diesel, Biobutanol, Bioethanol etc.
 This excludes Methanol
-
-
-<figure>
 
 Ammonia
 
@@ -1910,13 +1737,8 @@ Ethane
 
 Biofuel
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 15
 Chapter 3: Alternative Fuel Powered Marine Engines (ICE)-Global 
 Status 
@@ -1949,18 +1771,12 @@ run although it has the easy retro fitment and bunkering aspects. Overall analys
 Ammonia and Hydrogen combustion engines development trajectory is summarized in the following 
 Figure 2 whereas, for other alternative fuel-based combustion engines it is shown in Figure 3.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 16
 Figure 2: Hydrogen derived Alternative Fuel based Marine Engine Development Status
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 17
 Figure 3: Alternative-Fuel (excluding Hydrogen derived) Marine Engine Development Status
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 18
 Chapter 4: Comparative Assessment of Alternative Fuels
 NCoEGPS’s analysis shows that only the following alternative fuels  have the potential to meet 
@@ -2004,8 +1820,6 @@ Key highlights from the analysis of the blend-fuel Scenario 2 as observed from t
 representative Methanol- Biodiesel-Diesel blend options which could support in achieving either 
 Base or Direct compliance in 2030 and 2035 are mentioned below.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 19
 Figure 4: Dual Fuel Blend Scenarios (HFO/LFO/DO& Methanol 10 %v/v) with GHG Emission 
 Reduction Profile (2030) for Indian OGVs (Figure 4.37 in Chapter 4) 
@@ -2029,8 +1843,6 @@ Hence, in the present study the fuel-blend Scenarios are also built for Indian C
 7,8&9 (Figures 4.42,4.43 and 4.44 respectively in Chapter 4) presents the blend fuels options for 
 Coastal Vessels.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 20
 Figure 6: Multifuel Blend Scenarios (HFO/LFO/DO, Methanol 10 v/v %) & Biodiesel Blend (5%, 
 10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2035) for Indian OGVs 
@@ -2052,8 +1864,6 @@ meet Direct
 compliance 
 (2035)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 21
 Figure 8: Multifuel Blend Scenarios (HFO/LFO/DO, Methanol 10 v/v %) & Biodiesel Blend (5%, 
 10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2030) for Indian Coastal 
@@ -2076,8 +1886,6 @@ meet Direct
 compliance 
 (2035)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 22
 4.1  Alternative Fuel (un-blended and blended) Cost Comparison 	
 with and without IMO Proposed Carbon (GHG equivalent) 	 	
@@ -2115,12 +1923,6 @@ represent estimated/projected cost per tonne of conventional and alternative fue
 proposed for maritime applications in India with IMO’s (MEPC 83) proposed GHG emission price.
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="23" -->
-
-
-
 
 | Fuel | Present Cost in 2025 (USD/Ton) | Reference |
 | --- | --- | --- |
@@ -2140,10 +1942,6 @@ ime Application- Road Map for India (Part A)" -->
 | Green Hydrogen compressed | 4600 | 17 |
 | Ethanol | 855 | 18 |
 
-
-
-
-<figure>
 <figcaption>Figure 10: Impact of GFI Compliance on Fuel Cost with GHG Emission Pricing between Year 2028 to 2035.</figcaption>
 
 Cost of Fuels With Carbon Tax/Rewards in USD/Ton
@@ -2344,18 +2142,9 @@ Green Hydrogen Compressed (GF 4)
 
 Cost of Fuel
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="24" -->
-
-
-
 
 | Fuel Type | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -2381,9 +2170,6 @@ ime Application- Road Map for India (Part A)" -->
 | Green Hydrogen | 4600 | 1251.2 | 1336.3 | 1421.4 | 1608.5 | 1795.7 | 1983.0 | 2170.2 | 2357.3 |
 | Compressed |  |  |  |  |  |  |  |  |  |
 
-
-
-
 It is seen that from 2028 to 2035, the total cost of marine fuels varies significantly depending on
 their carbon intensity (GHG Equivalent), shaped by the IMO's GHG emission pricing scheme. Under
 this mechanism, fuels are subjected to carbon taxes or rewarded for carbon savings, based on their
@@ -2401,9 +2187,6 @@ $837.0 to $1,233.4, a 47% increase, reflecting its cleaner profile but still fos
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="25" -->
 
 Conversely, low- and zero-carbon fuels are expected to benefit substantially from reward
 mechanisms. E-Ammonia, despite a high base cost of $675 /ton, effectively falls to $213.2 in
@@ -2423,7 +2206,6 @@ still significantly below its initial cost. Green Hydrogen (liquid) declines fro
 $1,251.2, then reaches $2,357.3. These reductions are primarily driven by their near-zero carbon
 intensity, attracting the highest rewards under the IMO system.
 
-
 ##### 4.1.2 Impact of GFI Compliance on Alternative Blended Fuels Cost with GHG Emission Pricing
 
 Table 7 presents the estimated present cost per tonne of blended alternative fuels used or proposed
@@ -2431,9 +2213,6 @@ for maritime applications in Indi. Blended fuel costs are derived by applying th
 percentages to these baseline prices. Figure 11 and Table 8 represent estimated/projected cost
 per tonne of blended alternative fuel used or proposed for maritime application for India with and
 without IMO's proposed GHG Emission Pricing.
-
-
-
 
 | S. No | Fuel | Cost (USD/Ton) |
 | --- | --- | --- |
@@ -2450,20 +2229,12 @@ without IMO's proposed GHG Emission Pricing.
 | 11 | *DE2.47 BD 40 (Attained GFI 58.40) (2G- Ethanol GFI 25) | 852.9 |
 | 12 | *DE9.47BD 40 (Attained GFI 58.07) (2G- Ethanol GFI 17.73) | 852.9 |
 
-
-
 *D represents HFO/LFO/DO
-
 
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
 
-<!-- PageNumber="26" -->
-
-
-<figure>
 <figcaption>Figure 11: Impact of GFI Compliance on Blended Fuel Cost with GHG Emission Pricing from 2028 to 2035</figcaption>
 
 Cost of Blended Fuels With Carbon Tax/Rewards in
@@ -2680,11 +2451,6 @@ a
 
 Cost of Fuel
 
-</figure>
-
-
-
-
 | Blended Fuel Type | Cost of Fuel | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 |  | 2025 | 2028 | 2029 | 2030 | 2031 | 2032 | 2033 | 2034 | 2035 |
@@ -2699,18 +2465,9 @@ Cost of Fuel
 | Biodiesel 50% (GFI 51.86) | 900.5 | 514.03 | 542.23 | 570.42 | 632.44 | 694.46 | 756.50 | 818.52 | 880.54 |
 | *DM9.47BD25 (GFI 69.39) | 777.8 | 777.8 | 658.3 | 686.0 | 713.7 | 774.7 | 793.0 | 809.1 | 825.1 |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="27" -->
-
-
-
 
 | Blended Fuel Type | Cost of Fuel | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -2725,10 +2482,7 @@ ime Application- Road Map for India (Part A)" -->
 | *DM9.47BD50 (GFI 50.29) | 993.3 | 724.26 | 751.23 | 778.19 | 837.51 | 896.84 | 956.18 | 1015.50 | 1074.82 |
 | *DM9.47BD50 (GFI49.91) | 993.6 | 455.07 | 482.03 | 509.00 | 568.32 | 627.65 | 686.98 | 746.31 | 805.63 |
 
-
-
 *D represents HFO/LFO/DO
-
 
 For D(HFO/LFO/DO)-Biodiesel Blends like BD30 (base cost: 727.9 USD/t), the price drops to 617.5
 USD/t in 2030, which is a 15% reduction due to IMO carbon reward mechanism. However, by 2035
@@ -2756,8 +2510,6 @@ Tier-1 and Tier-2 carbon tax/reward regimes, though the margin of advantage decl
 
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 28
 4.2 Alternative Fuel Demand Scenarios vs Supply Readiness (India)
 The demand supply gap or fuel supply readiness level for all the alternative fuels (including ZNZ fuels 
@@ -2777,8 +2529,6 @@ Hydrogen demand 0.02 MT and RE requirement as 1042.12 GWH.
 Figure 12: Alternative Fuel-Mix Demand with RE &Green Hydrogen Requirement for GFI-
 Compliance (>5000GT) Year 2030 (Base Compliance Category)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 29
 Figure 13: Alternative Fuel-Mix Demand with RE &Green Hydrogen Requirement for GFI-
 Compliance (>5000GT) Year 2030 (Direct Compliance Category) 
@@ -2786,10 +2536,6 @@ Figure 14: Alternative Fuel Demand with RE &Green Hydrogen Requirement for 10 V/
 Methanol Blending (>5000GT) Year 2030
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="30" -->
-
 
 ### 4.3 Alternative Fuel Ranking for Maritime Applications in India
 
@@ -2824,9 +2570,6 @@ order: Biodiesel (GFI 9.4) Rank 1> Both Bio LNG (GFI 9.4) & E Methanol (GFI 6.4)
 Ammonia (GFI 12.1) Rank 6> Blue Ammonia (GFI 22.6) & Green Hydrogen Compressed ( GFI 4)
 Jointly Rank 7> Green Hydrogen Liquid (GFI 11) Rank 8> Blue Hydrogen (GFI 22.6) Rank 9.
 
-
-
-
 | Parameter | Ranking | Ranking | Ranking | Ranking | Ranking |
 | --- | --- | --- | --- | --- | --- |
 | 5 | 4 | 3 | 2 | 1 |  |
@@ -2844,18 +2587,9 @@ Jointly Rank 7> Green Hydrogen Liquid (GFI 11) Rank 8> Blue Hydrogen (GFI 22.6) 
 | Fuel Standards / | Fully defined / | Mostly | Interim codes | Codes under | None / |
 | Regulations | ISO/IGF | defined |  | development | uncertain |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="31" -->
-
-
-
 
 | Colour Code of Ranking of Fuels | Colour Code of Ranking of Fuels | Colour Code of Ranking of Fuels |
 | --- | --- | --- |
@@ -2864,11 +2598,6 @@ ime Application- Road Map for India (Part A)" -->
 | Under Development | 3 |  |
 | Established | 4 |  |
 | Mainstream | 5 |  |
-
-
-
-
-
 
 |  | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -2890,16 +2619,11 @@ ime Application- Road Map for India (Part A)" -->
 | Bio - LNG (Methane) (GFI 9.4) | 5 | 5 | 2 | 2 | 5 | 4 | 1 | 5 | 29 | 2 |
 | E LNG (Methane) (GFI 12.1) | 4 | 4 | 1 | 2 | 5 | 4 | 1 | 5 | 26 | 5 |
 
-
-
 Supply readiness - E-Methanol and E-Ammonia is significantly more feasible; From life cycle cost perspective
 blended fuels most cost-competitive across most vessel types
 
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 32
 4.4 Alternative Fuel Bunkering
 In Chapter 4, India’s Alternative Fuel-Mix Demand for GFI Compliance by 2030, 2035 (both 
@@ -2939,8 +2663,6 @@ For cruise, and long-haul vessels, pilot projects need to be initiated with SOFC
 (immediate) and SOFC/ICE hybrid with alternative fuel options like Methanol and Ammonia 
 (medium to long term) especially for auxiliary power units (AMUs). The drawbacks of low power
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 33
 density, short lifetime and high capital costs are surmountable by sustained innovation, high efficiency 
 of integrated SOFC-CHP system &and drastic GHG emission reduction which could be made favorable 
@@ -2981,8 +2703,6 @@ ISO/TC 28.The following grades are specified in the ISO standard:
 Marine methanol grade A (MMA): MMA lists the characteristics considered applicable when using 
 methanol as a marine fuel with additional requirements in respect of lubricity and particle count
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 34
 	»
 Marine methanol grade B (MMB): MMB lists the characteristics considered applicable when using 
@@ -3018,9 +2738,6 @@ Speed: 29.8 tonnes per day (Tpd)
 Age: 18 years (as of 2024)
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="35" -->
 
 Fuel consumption is calculated using standard operational assumptions based on vessel type, service
 speed, and total annual operating days. The voyage of vessel between Kandla Port (India) and
@@ -3045,9 +2762,6 @@ Adjusted fuel Consumption= (X+Y) x 1.05 = 332.46 tonness (Z)
 Annual Total Fuel Conumption (assuming 20 such port calls in a year) = Z x 20= 6,649 tonnes/
 year.The following fuel and alternative fuel-blends are considered for Case studies.
 
-
-
-
 | Cases | Fuel Mix | Calculated LHV (MJ/t) | Attained GFI gCO2eq/MJ) | Table/Figure No |
 | --- | --- | --- | --- | --- |
 | Mono Fuel | Mono Fuel | Mono Fuel | Mono Fuel | Mono Fuel |
@@ -3064,18 +2778,9 @@ year.The following fuel and alternative fuel-blends are considered for Case stud
 | 5c | Biodiesel-Diesel Blend (BD 40 wt.%) (GFI 9.4) | 40,288 | 60.91 | 21/24 |
 | 5d | Biodiesel-Diesel Blend (BD 50 wt.%) (GFI 9.4) | 39,769 | 51.86 | 22/25 |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="36" -->
-
-
-
 
 | Cases | Fuel Mix | Calculated LHV (MJ/t) | Attained GFI gCO2eq/MJ) | Table/Figure No |
 | --- | --- | --- | --- | --- |
@@ -3092,10 +2797,7 @@ ime Application- Road Map for India (Part A)" -->
 | 12a | *DE10BD40 (v/v%) Blend with 2G- Ethanol (GFI 25) | 39,058 | 58.40 | 32/35 |
 | 12b | *DE10BD40 (v/v%) Blend with 2G- Ethanol (GFI 17.73) | 39,058 | 58.07 | 33/36 |
 
-
-
 *D represents HFO/LFO/DO
-
 
 From the following analysis it is it is observed that there is multiple alter bunkering and alternative and
 conventional blend-fuel options which can help India achieving Base Compliance or even surpassing
@@ -3109,12 +2811,6 @@ Target are highlighted in green in the following Table 12-Table 33.
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="37" -->
-
-
-
 
 | Year | Target GFI (Base/Direct) (gCO2eq/MJ) | Balance (t CO2) | Deficits (T1/T2) (t CO2) or SUS Generated | Net Outcome (Cost) | T1 RU Cost (@$100/t) | T2 RU Cost (@$380/t) |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -3127,18 +2823,10 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | -9,190.69 | Deficits: 3,306.475 / 5,884.211 | $2,566,647.54 | $330,647.46 | $2,236,000.08 |
 | 2035 | 65.310 / 53.181 | -10,309.80 | Deficits: 3,306.475 / 7,003.325 | $2,991,911.04 | $330,647.46 | $2,661,263.58 |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
 
-<!-- PageNumber="38" -->
-
-
-<figure>
 <figcaption>Figure 15: Result Plot for Case 1 : HFO (LHV: 41,000 MJ/t | GFI: 91 gCO2/MJ</figcaption>
 
 Fuel: HFO (6,649.00 t/y), Attained GFI: 91.00 gCO2eq/MJ
@@ -3187,11 +2875,6 @@ Tier 2 RU Cost (per t CO2 deficit)
 
 Year
 
-</figure>
-
-
-
-
 | Year | Target GFI (Base/ Direct) (gCO2/MJ) | Balance (t CO2) | Deficits (T1/T2) (t CO2) or SUS Generated | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
 | 2028 | 89.568 / 77.439 | -827.565 | Deficits: 827.565 / 0.000 | $82,756.51 (Cost) | $82,756.51 | $0.00 |
@@ -3200,18 +2883,9 @@ Year
 | 2031 | 81.731 / 69.602 | -3,360.09 | Deficits: 3,360.089 / 0.000 | $336,008.89 (Cost) | $336,008.89 | $0.00 |
 | 2032 | 77.626 / 65.497 | -4,686.65 | Deficits: 3,919.382/767.267 | $683,499.64 (Cost) | $391,938.20 | $291,561.44 |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="39" -->
-
-
-
 
 | Year | Target GFI (Base/ Direct) (gCO2/MJ) | Balance (t CO2) | Deficits (T1/T2) (t CO2) or SUS Generated | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -3219,10 +2893,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | -7,339.77 | Deficits: 3,919.382 / 3,420.38 | $1,691,685.30 (Cost) | $391,938.20 | $1,299,747.09 |
 | 2035 | 65.310 / 53.181 | -8,666.33 | Deficits: 3,919.382 / 4,746.94 | $2,195,778.13 (Cost) | $391,938.20 | $1,803,839.92 |
 
-
-
-
-<figure>
 <figcaption>Figure 16: Result Plot for Case 2 LNG ( (LHV: 48,600 MJ/t | GFI: 80.00 gCO2/MJ))</figcaption>
 
 Fuel: LNG (6,649.00 t/y), Attained GFI: 80.00 gCO2eq/MJ
@@ -3266,18 +2936,9 @@ Tier 2 RU Cost (per t CO2 deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="40" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost /Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -3290,10 +2951,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | 5,588.24 | SUs Generated: 5,588.241 | $2,123,531.43 Revenue | $0.00 | $0.00 |
 | 2035 | 65.310 / 53.181 | 5,080.55 | SUs Generated: 5,080.545 | $1,930,607.02 Revenue | $0.00 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 17: Result Plot for Case 3a E-Ammonia (LHV: 18,600 MJ/t | GFI: 12.10 gCO2/MJ)</figcaption>
 
 Fuel: e-Ammonia GFI: 12.10 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 18,600 MJ/t
@@ -3340,18 +2997,9 @@ Tier 2 RU Cost (per t CO. deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="41" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/ MJ) | Balance (t CO2) | Deficits (T1 / T2) or SUs Generated (tCO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -3364,10 +3012,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | 6,713.65 | SUs Generated: 6,713.650 | $2,551,187.13 (Revenue) | $0.00 | $0.00 |
 | 2035 | 65.310 / 53.181 | 6,205.96 | SUs Generated: 6,205.955 | $2,358,262.72 (Revenue) | $0.00 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 18: Result Plot for Case 3b E-Ammonia (LHV: 18,600 MJ/t | GFI: 3.00 gCO2/MJ)</figcaption>
 
 Fuel: e-Ammonia (6,649.00 t/y), Attained GFI: 3.00 gCO2eq/MJ
@@ -3417,18 +3061,9 @@ Tier 2 RU Cost (per t CO2 deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="42" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -3441,10 +3076,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | 5,330.47 | SUs Generated: 5,330.47 | $2,025,579.58 Revenue | $0.00 | $0.00 |
 | 2035 | 65.310 / 53.181 | 4,787.29 | SUs Generated: 4,787.29 | $1,819,171.20 Revenue | $0.00 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 19: Result Plot for Case 4a Bio- Methanol (LHV: 19,900 MJ/t | GFI: 17.00 gCO2/MJ)</figcaption>
 
 Fuel: bio-Methanol (6,649.00 t/y), Attained GFI: 17.00 gCO2eq/MJ
@@ -3492,18 +3123,9 @@ Tier 2 RU Cost (per t CO2 deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="43" -->
-
-
-
 
 |  | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost / Revenue |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -3516,10 +3138,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | 6,336.07 | SUs Generated: 6,336.067 | $2,407,705.59 Revenue | $0.00 | $0.00 |
 | 2035 | 65.310 / 53.181 | 5,792.89 | SUs Generated: 5,792.887 | $2,201,297.21 Revenue | $0.00 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 20: Result Plot for Case 4b: Bio- Methanol (LHV: 19,900 MJ/t | GFI: 9.4 gCO2/MJ)</figcaption>
 
 Fuel: bio-MethanolGFI: 9.40 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 19,900 MJ/t
@@ -3568,18 +3186,9 @@ Tier 2 RU Cost (per t CO: deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="44" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs Generated (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -3592,10 +3201,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | 11,939.83 | SUS Generated: 11,939.83 | $4,537,133.65 (Revenue) | $0.00 | $0.00 |
 | 2035 | 65.310 / 53.181 | 10,916.25 | SUS Generated: 10,916.25 | $4,148,173.13 (Revenue) | $0.00 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 21: Result Plot for Case 5: Biodiesel 100 (B100 orBD100) (LHV: 19,900 MJ/t | GFI: 9.4 gCO2/MJ)</figcaption>
 
 Fuel : B100 Custom GFI: 9.40 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 37,500 MJ/t
@@ -3644,18 +3249,9 @@ Tier 2 RU Cost (per t CO2 deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="45" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -3668,10 +3264,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | -4,504.65 | Deficits: 1,084.267 / 3,420.38 | $1,691,685.30 (Cost) | $108,426.70 | $1,299,747.09 |
 | 2035 | 65.310 / 53.181 | -5,623.78 | Deficits: 876.544 / 4,746.94 | $2,195,778.13 (Cost) | $87,654.40 | $1,803,839.92 |
 
-
-
-
-<figure>
 <figcaption>Figure 22: Result Plot for Case 5a B24 or BD24 ( (LHV: 40,648 MJ/t | GFI: 75.92 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Biodiesel blend) (*B or BD both represents Biodiesel blend)</figcaption>
 
 Custom GFI: 73.81 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 41,001 MJ/t
@@ -3736,18 +3328,9 @@ T
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="46" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -3760,10 +3343,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | -3,020.677 | Deficit: 3,020.677 | $302,067.68 Cost | $302,067.68 | $0.00 |
 | 2035 | 65.310 / 53.181 | -4,132.449 | Deficit: 3,284.781 (T1) / 847.668 (T2) | $650,591.89 Cost | $328,478.09 | $322,113.81 |
 
-
-
-
-<figure>
 <figcaption>Figure 23: Result Plot for Diesel-Biodiesel Case 5b: B30 or BD 30 (LHV: 40,713 MJ/t) (GFI: 68.44 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Biodiesel blend)</figcaption>
 
 Custom GFI: 68.44 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 40,731 MJ/t
@@ -3816,18 +3395,9 @@ Tier 2 RU Cost (per t CO2 deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="47" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -3841,10 +3411,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | -970.725 | Deficit: 970.725 | $97,072.51 Cost | $97,072.51 | $0.00 |
 | 2035 | 65.310 / 53.181 | -2,070.405 | Deficit: 2,070.405 | $207,040.52 Cost | $207,040.52 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 24: Result Plot for D(HFO/LFO/DO)-Biodiesel Case 5c: B40 or BD40 (LHV: 40,288 MJ/t) (GFI: 60.91 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Biodiesel blend)</figcaption>
 
 Custom GFI: 60.91 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 40,288 MJ/t
@@ -3894,18 +3460,9 @@ Tier 2 RU Cost (per t CO2 deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="48" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | Deficits / SUs (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -3926,10 +3483,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2035 | 65.310 / 53.181 | 349.3 | SUs Generated: | $132,735.60 Revenue | $0.00 | $0.00 |
 | 349.304 |  |  |  |  |  |  |
 
-
-
-
-<figure>
 <figcaption>Figure 25: Result Plot for D(HFO/LFO/DO)-Biodiesel Case 5d: B50 or BD50 ( LHV: 39,769 MJ/t |GFI: 51.86 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Biodiesel blend)</figcaption>
 
 Custom GFI: 50.29 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,036 MJ/t
@@ -3974,18 +3527,9 @@ Tier 2 RU Cost (per t CO: deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="49" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (T1 / T2) (t CO2) | Net Outcome | T1 RU Cost | T2 RU Cost / Revenue |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -3998,10 +3542,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | -3,145.409 | Deficit: 3,145.409 / 0.000 | $314,540.86 (Cost) | $314,540.86 | $0.00 |
 | 2035 | 65.310 / 53.181 | -4,212.225 | Deficit: 3,151.957 / 1,060.268 | $718,097.43 (Cost) | $315,195.74 | $402,901.70 |
 
-
-
-
-<figure>
 <figcaption>Figure 26: Result Plot for Case 6: D(HFO/LFO/DO) M9.47BD25 (LHV: 39,084 MJ/t) (Attained GFI: 69.39gCO2/MJ) (i.e. D(HFO/LFO/DO)-Methanol-Biodiesel blend)</figcaption>
 
 Custom GFI: 69.39 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 39,084 MJ/t
@@ -4052,18 +3592,9 @@ Tier 2 RU Cost (per t CO. deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="50" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | Deficits / SUs (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -4076,10 +3607,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | -2,156.59 | Deficit: 2,156.593 t / 0.000 t | $215,659.34 Cost | $215,659.34 | $0.00 |
 | 2035 | 65.310 / 53.181 | -3,217.65 | Deficit: 3,134.941 t / 82.709 t | $344,923.65 Cost | $313,494.11 | $31,429.54 |
 
-
-
-
-<figure>
 <figcaption>Figure 27: Result Plot for Case 7: D (HFO/LFO/DO) M9.47BD30(LHV: 38,873 MJ/t | GFI: 65.63 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Methanol-Biodiesel blend)</figcaption>
 
 Custom GFI: 65.63 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,873 MJ/t
@@ -4130,21 +3657,12 @@ Tier 2 RU Cost (per t CO. deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="51" -->
 
 Table 25: Case 8 a: D(HFO/LFO/DO) M9.47BD40(LHV: 38,459 MJ/t) (GFI: 57.69 gCO2/MJ) (blend
 with Bio-Methanol GFI 9.4)
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/ MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -4157,10 +3675,6 @@ with Bio-Methanol GFI 9.4)
 | 2034 | 69.415 / 57.286 | -103.257 | Deficit: 103.257 (T1) | $10,325.73 Cost | $10,325.73 | $0.00 |
 | 2035 | 65.310 / 53.181 | -1,153.01 | Deficit: 1,153.014 (T1) | $115,301.39 Cost | $115,301.39 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 28: Result Plot for Case 8a: D(HFO/LFO/DO) M9.47BD50 (LHV: 38,459 MJ/t) (GFI: 57.69 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Methanol-Biodiesel blend)</figcaption>
 
 Custom GFI: 57.69 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,459 MJ/t
@@ -4212,18 +3726,9 @@ Tier 2 RU Cost (per & CO. deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="52" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -4236,10 +3741,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | -200.429 | Deficit: 200.429 (T1) | $20,042.85 Cost | $20,042.85 | $0.00 |
 | 2035 | 65.310 / 53.181 | -1,250.19 | Deficit: 1,250.185 (T1) | $125,018.52 Cost | $125,018.52 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 29: Result Plot Case 8: D(HFO/LFO/DO) M9.47BD50 (LHV: 38,459 MJ/t) (GFI: 58.07 gCO2/ MJ) (i.e. D(HFO/LFO/DO)-Methanol-Biodiesel blend)</figcaption>
 
 Custom GFI: 58.07 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,459 MJ/t
@@ -4290,20 +3791,9 @@ Tier 2 RU Cost (per t CO2 deficit)
 
 Year
 
-</figure>
-
-
 Advanced Green Fuels for M
 
 aritime Application-
-Road Map for India (Part A)
-
-<!-- PageBreak -->
-
-<!-- PageNumber="53" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -4316,10 +3806,6 @@ Road Map for India (Part A)
 | 2034 | 69.415 / 57.286 | -42.538 | Deficits: 42.538 / 0.000 | $4,253.83 (Cost) | $4,253.83 | $0.00 |
 | 2035 | 65.310 / 53.181 | -1,108.645 | Deficits: 1,108.645 / 0.000 | $110,864.50 (Cost) | $110,864.50 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 30: Result Plot for Case 8 c: D(HFO/LFO/DO) M9.47BD40(LHV: 39,058 MJ/t) (GFI: 57.45 gCO2/MJ) (blend with E- Methanol GFI 4)(i.e. D(HFO/LFO/DO)-E Methanol-Biodiesel blend)</figcaption>
 
 Custom GFI: 57.45 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 39,058 MJ/t
@@ -4372,21 +3858,11 @@ Tier 2 RU Cost (per t CO. deficit
 
 war
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="54" -->
-
 
 #### Table 28: Case 9 a: D(HFO/LFO/DO) M9.47BD50(LHV: 38,036 MJ/t) (GFI: 50.29 gCO2/MJ) (blend with E-Methanol )
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUS / Deficits (T1 / T2) (t CO2) | Net Outcome | T1 RU Cost | T2 RU Cost / Revenue |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -4399,10 +3875,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | 1,769.349 t CO2 (Surplus) | 1,769.349 t / 0 t CO2 | $672,352.44 Revenue | $176,934.90 | $0.00 |
 | 2035 | 65.310 / 53.181 | 731.138 t CO2 (Surplus) | 731.138 t /0 t CO2 | $277,832.38 Revenue | $73,113.80 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 31: Result Plot for Case 8: D(HFO/LFO/DO) M9.47BD50 (LHV: 38,036 MJ/t) (GFI: 50.29 gCO2/MJ) (i.e. D(HFO/LFO/DO)-E Methanol-Biodiesel blend)</figcaption>
 
 Custom GFI: 50.29 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,036 MJ/t
@@ -4447,20 +3919,9 @@ Tier 2 RU Cost iper t CO: deficit)
 
 war
 
-</figure>
-
-
 Advanced Green Fuels for M
 
 aritime Application-
-Road Map for India (Part A)
-
-<!-- PageBreak -->
-
-<!-- PageNumber="55" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs Generated (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -4473,10 +3934,6 @@ Road Map for India (Part A)
 | 2034 | 69.415 / 57.286 | 1,865.45 | SUS Generated: 1,865.451 | $708,871.40 (Revenue) | $0.00 | $0.00 |
 | 2035 | 65.310 / 53.181 | 827.24 | SUs Generated: 827.240 | $314,351.34 (Revenue) | $0.00 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 32: Result Plot for Case 9: D(HFO/LFO/DO) M9.47BD50 (LHV: 38,036 MJ/t) (GFI: 49.91 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Bio Methanol-Biodiesel blend)</figcaption>
 
 Custom GFI: 49.91 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,036 MJ/t
@@ -4521,18 +3978,9 @@ Tier 2 RU Cost (per t CO: deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="56" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/ MJ) | Balance (t CO2) | Deficits / SUs (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -4545,10 +3993,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | -442.85 | Deficit: 442.847 t / 0.000 t | $44,284.74 Cost | $44,284.74 | $0.00 |
 | 2035 | 65.310 / 53.181 | -1,516.16 | Deficit: 1,516.160 t / 0.000 t | $151,616.00 Cost | $151,616.00 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 33: Result Plot for Case 10: D (HFO/LFO/DO) M4.8BD40(LHV: 39,322 MJ/t | GFI: 58.98 gCO2/MJ) (i.e. D(HFO/LFO/DO)-E Methanol-Biodiesel blend)</figcaption>
 
 Custom GFI: 58.98 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 39,322 MJ/t
@@ -4597,20 +4041,9 @@ Tier 2 RU Cost (per t CO, deficit)
 
 Year
 
-</figure>
-
-
 Advanced Green Fuels for M
 
 aritime Application-
-Road Map for India (Part A)
-
-<!-- PageBreak -->
-
-<!-- PageNumber="57" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs Generated (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -4623,10 +4056,6 @@ Road Map for India (Part A)
 | 2034 | 69.415 / 57.286 | 1,604.47 | SUS Generated: 1,604.467 | $609,697.33 (Revenue) | $0.00 | $0.00 |
 | 2035 | 65.310 / 53.181 | 543.164 | SUs Generated: 543.164 | $206,402.32 (Revenue) | $0.00 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 34: Result Plot for Case 11: D(HFO/LFO/DO) M4.8BD50 (LHV: 38,882 MJ/t ) (GFI: 51.08 gCO2/MJ) (i.e. D(HFO/LFO/DO)-E Methanol-Biodiesel blend)</figcaption>
 
 Custom GFI: 51.08 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,882 MJ/t
@@ -4671,18 +4100,9 @@ Tier 2 RU Cost (per t CO. deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="58" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -4695,10 +4115,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | -289.250 | Deficits: 289.250 | $28,925.01 Cost | $28,925.01 | $0.00 |
 | 2035 | 65.310 / 53.181 | -1,355.357 | Deficits: 1,355.357 | $135,535.68 Cost | $135,535.68 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 35: Result Plot for Case 12 a: : D(HFO/LFO/DO) E10BD40(LHV: 38,882 MJ/t ) (GFI: 58.40 gCO2/MJ) (i.e. D(HFO/LFO/DO)-2G Ethanol-Biodiesel blend)</figcaption>
 
 Custom GFI: 58.40 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 39,058 MJ/t
@@ -4749,18 +4165,9 @@ Tier 2 RU Cost (per t CO. deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="59" -->
-
-
-
 
 | Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -4773,10 +4180,6 @@ ime Application- Road Map for India (Part A)" -->
 | 2034 | 69.415 / 57.286 | -203.550 | Deficit: 203.550 | $20,355.02 Cost | $20,355.02 | $0.00 |
 | 2035 | 65.310 / 53.181 | -1,269.657 | Deficit: 1,269.657 | $126,965.69 Cost | $126,965.69 | $0.00 |
 
-
-
-
-<figure>
 <figcaption>Figure 36: Result Plot for Case 12 b: D(HFO/LFO/DO) E10BD40(LHV: 38,882 MJ/t ) (GFI: 58.07 gCO2/MJ) (i.e. D(HFO/LFO/DO)-2G Ethanol-Biodiesel blend)</figcaption>
 
 Custom GFI: 58.07 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 39,058 MJ/t
@@ -4828,13 +4231,8 @@ Tier 2 RU Cost (per t CO. deficit)
 
 Year
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 60
 Overall Conclusions and Recommendations
 	»
@@ -4881,8 +4279,6 @@ Global fuel adoption trends in vessel orderbooks shows LNG accounts for approxim
 Methanol at 17%, LPG at 8%, Ethane at 3%, Biodiesel, Hydrogen, and Ammonia make up the 
 remaining 5%.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 61
 	»
 	Alternative low Carbon and ZNZ fuels are not only pivotal for avoiding 2 tier GHG emission cost in 
@@ -4934,8 +4330,6 @@ values achieved till date. LNG (E/Bio), Ammonia, Hydrogen not feasible for blend
 Alcohol being octane fuel, blending up to 10 v/v% feasible technically with minor 
 adjustment in flash point
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 62
 	•
 Only D(HFO/LFO/DO)-10 v/v% Alcohol (Bio/E-Methanol/2G-Ethanol) blend-unable 
@@ -4987,8 +4381,6 @@ In comparison to E-Methanol and Bio/E-Methane, although E-Ammonia supply readine
 would exceed the projected demand from 2030 onwards, India should start investing on 
 Ammonia Engine Pilot testing for coastal ships rather than OGVs.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 63
 	»
 In case of dual-fuel engines, for Methanol the modifications are needed only in the injectors, 
@@ -5038,8 +4430,6 @@ As indicated in the consultative document on proposed National Green Shipping Po
 is high time to set regulatory GHG Emission limits with timeline and also enforce phase-wise GHG 
 emission pricing, adoption of Low Carbon/ZNZ fuels and technologies.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 64
 	»
 Additionally, India should invest in futuristic research and innovation to other alternative 
@@ -5077,8 +4467,6 @@ FOR-SHIPPING-PAPER_final.pdf
 market-slows-but-shipowners-eye-offtakes
 15.	 https://petrobazaar.com/biodiesel-boiler-diesel-best-online-price-in-india/
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 65
 16.	 https://gh2.org/publication/search-real-price-blue-hydrogen#:~:text=Summary,Download%20
 the%20full%20report%20here.
@@ -5090,23 +4478,12 @@ per-kg/
 ime Application- Roa
 
 d Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageBreak -->
-
-
-<figure>
 
 4
-
-</figure>
-
 
 Chapter 1
 Statistics
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 68
 Introduction 
 This section presents the Indian and Global vessel statistics covering all types of vessels along 
@@ -5144,8 +4521,6 @@ for the orderbook status, 1477 vessels are collected. Among the alternative fuel
 power types include combinations like Fuel Cell & Diesel, Diesel Electric, Batteries & Diesel, Battery 
 Propulsion, Fuel Cell & Battery, and hybrid systems with Batteries, Diesel & Fuel Cell.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 69
 1.1	
 Coastal Vessel Statistics
@@ -5171,8 +4546,6 @@ in the Coastal fleet. The 1000-2000 GT category follows with 515 vessels, showin
 presence of moderate sized vessels. The 500-1000 GT category contains 113 vessels, while the 2000-
 3000 GT category has 92 vessels. The number of vessels continues to decrease with increasing GT,
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 70
 with the 3000-4000 GT and 4000-5000 GT categories containing 39 and 20 vessels, respectively. This 
 distribution reflects the dominance of smaller vessels in the fleet, with progressively fewer vessels 
@@ -5197,8 +4570,6 @@ the data highlights the widespread adoption of Very Low Sulfur (VLS) fuels, incl
 Intermediate Fuel Oil (IFO), and VLS MGO. These fuels exhibit robust usage across all GT ranges, 
 particularly prevalent in vessels ranging from 0-500 to 1000-2000 GT.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 71
 Overall, the data underscores a diversified fuel landscape within the maritime industry, reflecting 
 a blend of conventional and alternative fuel choices. The distribution of vessels across different GT 
@@ -5224,8 +4595,6 @@ Hydrogen and Dual Fuel: 9 Vessels
 Figure 1.3: Global Coastal Vessels ( <5000 GT): Fuel Type v/s GT Distribution with Number  
 of Vessels
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 72
 Figure 1.4 shows a comprehensive breakdown of the age distribution of vessels against gross 
 tonnage (GT) ranges. Each of the columns here represents a specific GT range, while each cluster of 
@@ -5246,8 +4615,6 @@ presence of smaller vessels. Such insights into the distribution of vessels by G
 context for understanding the scale and composition of maritime fleets, aiding in strategic decision-
 making and industry analysis for future transition to green fuels through dual fuel/ retrofitting.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 73
 1.2	
 Ocean Going Vessels OGV’s Statistics
@@ -5267,8 +4634,6 @@ in the 30k-50k GT category, reflecting the industry’s reliance on mid-aged ves
 tonnage operations.  
 Figure 1.5: Global Coastal Vessels (<5000 GT): GT Distribution
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 74
 Figure 1.6: Indian Ocean-Going Vessel (>5000 GT): Age of Vessels v/s GT Distribution with Number
 Figure 1.7 shows the gross tonnage (GT) versus the number of vessels for Indian Ocean-going vessels. 
@@ -5276,8 +4641,6 @@ This illustrates the present distribution of 520 vessels across various size cat
 OGV category. 
 Figure 1.7: Indian Ocean-Going Vessels (>5000GT): GT Distribution
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 75
 It shows that mid-sized vessels (30k-50k GT) dominate the fleet with 178 vessels, accounting 
 for 34% of the total. This is followed by medium-sized vessels (10k-30k GT), which make up 119 
@@ -5321,8 +4684,6 @@ number of vessels, followed by the 0-10-year-age range, suggesting a concentrati
 newer vessels within these ranges. The higher counts in these younger age brackets might 
 reflect the addition of newer vessels to the fleet or more frequent updates. Overall, the data
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 76
 Figure 1.8: Global Ocean-Going Vessels(>5000GT): Fuel Type v/s GT with Number
 Figure 1.9: Global Ocean-Going Vessels(>5000 GT): Age of vessels v/s GT Distribution  
@@ -5330,8 +4691,6 @@ with Number
 showcases a significant distribution of vessels across these age ranges, providing insights into the 
 age composition and modernization trends within the maritime fleet.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 77
 Figure 1.10 provides the snapshot of gross tonnage versus the number of vessel distribution with 
 a total of 37,152 OGV vessels excluding the Indian data. Medium-sized vessels in the 10k-30k GT 
@@ -5357,8 +4716,6 @@ ownership across Asia, Europe, and North America. This chart illustrates the glo
 vessel ownership, with a clear dominance by Asian countries, followed by strong representations 
 from Europe and North America, and highlights India’s significant contribution with 2,179 vessels.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 78
 Figure 1.11: Top 25 Countries with Vessel Ownership
 
@@ -5366,20 +4723,10 @@ Figure 1.11: Top 25 Countries with Vessel Ownership
 Indian Vessels and
 Fuel Consumption
 
-<!-- PageBreak -->
-
-
-<figure>
-
 4
-
-</figure>
-
 
 ## Chapter
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 80
 Introduction 
 As the maritime industry speeding up its journey towards decarbonization, Alternative Fuels are 
@@ -5424,13 +4771,6 @@ Methanol, Ammonia, Hydrogen, Ethane, LNG and LPG and Nuclear.
 
 2 Alternative Fuel Transition in Marine Vessels
 
-<!-- PageBreak -->
-
-<!-- PageNumber="81" -->
-
-
-
-
 | S. No. | Alternative Fuel Type | Mono/ Dual fuel with | Number of vessels (%) | GT Range Min-Max | Dominated by GT Range |
 | --- | --- | --- | --- | --- | --- |
 | 1 | LPG | VLS IFO | 125 | 5,494 - 54,696 | 50000-54000 |
@@ -5442,9 +4782,6 @@ Methanol, Ammonia, Hydrogen, Ethane, LNG and LPG and Nuclear.
 | 7 | Nuclear | VLS MDO | 10 | 20,646 - 38,226 | 20000-28000 |
 | 8 | Ammonia | LNG, VLS MGO,VLS MDO | 3 | 272-5073 | 272-5073 |
 | Total number of alternative fuel vessels: 1447 | Total number of alternative fuel vessels: 1447 | Total number of alternative fuel vessels: 1447 | Total number of alternative fuel vessels: 1447 | Total number of alternative fuel vessels: 1447 | Total number of alternative fuel vessels: 1447 |
-
-
-
 
 ### Ammonia
 
@@ -5479,12 +4816,7 @@ followed by Hydrogen with 33% share.
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
 
-<!-- PageNumber="82" -->
-
-
-<figure>
 <figcaption>Figure 2.1: Alternative Fuel Vessels Global (In-Service): Fuel Types v/s Total Number of Vessel (as on August 2024) Number with Percentage (as on August 2024) Figure 2.2(a): Relative Share Of All Alternative Fuels Figure 2.1 (b): Relative Share of only Hydrogen Derived Fuels</figcaption>
 
 Alternative Fuels Vessels (In Service)
@@ -5531,11 +4863,6 @@ Source : Clarkson's research
 
 (b)
 
-</figure>
-
-
-
-
 | S. No. | Alternative fuel type | Mono/ dual fuel with | Number of vessels | GT range Min-max | Dominated by GT Range |
 | --- | --- | --- | --- | --- | --- |
 | 1. | Methanol | ULS MGO,ULS MDO, ULS IFO , IFO 380, VLS IFO, VLS MDO, VLS MGO | 251 | 300- 236000 | >100000 |
@@ -5547,11 +4874,6 @@ Source : Clarkson's research
 | 7. | Ammonia | VLS IFO, VLS MDO | 22 | 500 - 110,000 | 15000-27000 |
 | 8. | Nuclear | VLS MDO | 7 | 30000-68000 | 30000-33000 |
 | Total number of alternative fuel vessels: 1477 | Total number of alternative fuel vessels: 1477 | Total number of alternative fuel vessels: 1477 | Total number of alternative fuel vessels: 1477 | Total number of alternative fuel vessels: 1477 | Total number of alternative fuel vessels: 1477 |
-
-
-
-
-<figure>
 
 Ammonia
 
@@ -5569,13 +4891,8 @@ LPG
 
 Nuclear
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 83
 It is apparent from Figure 2.2 (order book data) that among all the alternative fuel considered, LNG 
 still dominates with 991 vessels (67%) followed by Methanol with 251 vessels ordered respectively, 
@@ -5600,12 +4917,6 @@ Percentage (as on August 2024) Figure 2.2(a): Relative Share of All Alternative 
 (b): Relative Share of only Hydrogen Derived Fuels
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="84" -->
-
-
-
 
 | In service | In service | In service | In service | Orderbook | Orderbook | Orderbook | Orderbook |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -5620,13 +4931,9 @@ ime Application- Road Map for India (Part A)" -->
 | Nuclear | 10 (<1%) |  |  | Ammonia | 22(1%) |  |  |
 | Ammonia | 3 (<1%) |  |  | Nuclear | 7(<1%) |  |  |
 
-
-
 *Majorly Biodiesel or Biodiesel blends along with few other biofuels like Green Diesel, Biobutanol, Bioethanol etc.
 This excludes Methanol
 
-
-<figure>
 <figcaption>Figure 2.3: Alternative Fuel Vessels (in-service): Gross Tonnage Distribution with Total Number of Vessels</figcaption>
 
 Alternative Fuel Vessels (In Service)
@@ -5883,13 +5190,8 @@ Number of Vessels
 
 Number of Vessels
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 85
 Analyses of Figures 2.2 & 2.3 show that 
 In-service 
@@ -5914,8 +5216,6 @@ as 20 to 50 GT range to medium and large vessels.
 Figure 2.4: Alternative Fuel Vessels (order-book): Gross Tonnage Distribution with Total Number 
 of vessels
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 86
 	»
 Ethane is limited to 24 vessels, primarily used in larger vessels, especially in the >50000 GT 
@@ -5967,8 +5267,6 @@ Figure 2.5 and 2.6 offers detailed insight into the integration of alternative f
 various main engine power types for in-service vessels and orderbook Vessels respectively. It is 
 observed that observe a diverse range of alternative fuels being utilized alongside different engine
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 87
 configurations. Ammonia, for instance, is paired with Diesel 2-Stroke, Diesel 4-Stroke engines. 
 Similarly, biofuels find application in both Batteries & Diesel and Batteries, Diesel & Fuel Cell engines, 
@@ -5981,8 +5279,6 @@ standalone option, showcasing a specialized approach to propulsion technology.
 Figure 2.5: Alternative Fuel Vessels Global (in-service): Power Types Across Different Engines
 Figure 2.6:Alternative Fuel Vessels Global (Orderbook): Power Types Across Different Engine
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 88
 2.1.3	 Top Countries by Alternative-Fuel Vessel Ownership  
 	
@@ -6002,8 +5298,6 @@ highlighting the adoption rates of these fuels across different countries. This 
 trends in the maritime industry’s shift towards cleaner energy sources and regional preferences for 
 various types of alternative fuels.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 89
 Among Green/e-Fuel options 
 In-service analysis shows
@@ -6023,8 +5317,6 @@ Ammonia fueled 3 vessels belongs to Australia, Japan and Norway.
 Figure 2.8: Top Countries with Alternative Fueled Vessel Ownership with Number -Orderbook  (as 
 on August 2024)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 90
 Order book analysis shows
 	»
@@ -6073,44 +5365,30 @@ The data reflects current trends in shipbuilding aligned with international deca
 and regulatory developments. Figures 2.9a, 2.10b, 2.10c, 2.10d, 2.10e, 2.10f, 2.10g, 2.10h show the 
 country wise capacity in building alternative fuel ships/vessels.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 91
 Figure 2.9 (a): Top Countries with Methanol Fuel Shipbuilder Companies and Number (In-Service & Orderbook) as on  
 August 2024
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 92
 Figure 2.9 (b): Top Countries with Hydrogen Fuel Shipbuilder Companies and Number (In-Service & Orderbook) as on 
 August 2024
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 93
 Figure 2.9 (c): Top Countries with Ammonia Fuel Shipbuilder Companies and Number (In-Service & Orderbook) as on 
 August 2024
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 94
 Figure 2.9 (d): Top Countries with LNG Fuel Shipbuilder Companies and Number (In-Service & Orderbook) as on 
 August 2024
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 95
 Figure 2.9 (e): Top Countries with  LPG Fuel Shipbuilder Companies and Number (In-Service & Orderbook)  as on 
 August 2024
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 96
 Figure 2.9 (f) : Top Countries with Biofuel (Biodiesel) Fuel Shipbuilder Companies and Number (In-Service & Orderbook)  as on 
 August 2024
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 97
 Among the Alternative Fuel Shipbuilders 
 Analysis of in-service data shows
@@ -6160,8 +5438,6 @@ In-service data analysis shows
 As shipbuilding nations, S. Korea China P.R. tops in Biofuel vessel construction with 17 builds, 
 followed by Poland 10 and China PR 8 vessels.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 98
 	»
 In Methanol propulsion, South Korea leads the yard count at 20 vessels, China P.R.  8 vessels 
@@ -6198,21 +5474,12 @@ For LNG vessels on order, China P.R. leads with 496 vessels, followed by Sou
 Russia with 21 vessel.
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-
-<figure>
 
 4
-
-</figure>
-
 
 Chapter 3
 Alternative Fuel Powered
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 100
 Introduction 
 India’s Net Zero ambitions needs its shipping industry to move towards adoption of alternative 
@@ -6250,8 +5517,6 @@ industrial alignment toward this fuel. Ammonia engine developments are increasin
 frontrunner with 64.3%, while MAN continues to hold influence in the broader market. In hydrogen-
 fueled vessels, MAN and ABC-MAN collectively account for over 78% of upcoming deployments.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 101
 These data reflect two important things: (i) Ship owners are increasingly moving towards alternative 
 fueled ships to meet the International Maritime Organization (IMO) regulations, and (ii) Each country 
@@ -6281,40 +5546,30 @@ lead, Figures 3.1a, 3.1b, 3.1c, 3.1d, 3.1e, 3.1f  3.1g provide very significant 
 Ammonia, Biofuel (Biodiesel), Hydrogen, Ethane, LNG, LPG fueled engine respectively in marine 
 application. Figure 3.1h is related to nuclear energy powered vessels. Similarly,
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 102
 Figure 3.1 (a) : Methanol ICE Overview  (in-service vs orderbook):  Manufacturers, Countries  
 (In ICE-Ownership)  and  No of Vessels 
 Figure 3.1(b) : Ammonia ICE Engine Overview (in-service  vs orderbook):  Manufacturers, 
 Countries In ICE-Ownership) and  No of Vessels
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 103
 Figure 3.1(c): Biofuel (Biodiesel) ICE Engine Overview (in-service vs orderbook): 
 Manufacturers, Countries (In ICE-Ownership) and  No of Vessels
 Figure 3.1 (d) : Hydrogen ICE Overview (in-service vs orderbook: Manufacturers, Countries (In 
 ICE-Ownership) and  No of Vessels
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 104
 Figure 3.1 (e):  Ethane Fueled Engine Overview (in-service vs orderbook): Manufacturers, 
 Countries (In ICE-Ownership) and  No of Vessels
 Figure 3.1( f) : LNG Fueled Engine Overview (in-service vs orderbook): Manufacturers, 
 Countries  (In ICE-Ownership) and No of Vessels
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 105
 Figure 3.1 (g): LPG Fueled Engine Overview (in-service vs orderbook): Manufacturers, 
 Countries (In ICE-Ownership) and No of Vessels
 Figure 3.1(h): Nuclear Engine Overview (in-service  vs orderbook): Manufacturers, Countries 
 (In ICE-Ownership) and No of Vessels
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 106
 3.1 Alternative Fuel Operated Large Bore Marine Engines 	
 	
@@ -6340,12 +5595,6 @@ Figure 3.2: Main Propulsion Engines Across Vessel Types with Relative Fuel Consu
 Marine Engines (ICE) for
 Decarbonizing Shipping
 
-<!-- PageBreak -->
-
-<!-- PageNumber="107" -->
-
-
-<figure>
 <figcaption>Figure 3.3: Engine Size for Passenger Car, Auxiliary, Small Vessel, Oceangoing</figcaption>
 
 AUXILIARY/ REC
@@ -6378,14 +5627,8 @@ GOING VESSELS
 6 ft
 Human
 
-</figure>
-
-
 Some significant completed/ongoing projects related to alternate fueled ICE development are
 detailed in Table 3.1
-
-
-
 
 | S. No | Project Title | Important Details |
 | --- | --- | --- |
@@ -6403,18 +5646,9 @@ detailed in Table 3.1
 | passenger shipping) | Funding volume: €0.6 million [11] |  |
 | Status: Completed | ("BMWK - MethaShip - Green cruises with methanol,") |  |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="108" -->
-
-
-
 
 | S. No | Project Title | Important Details |
 | --- | --- | --- |
@@ -6436,18 +5670,9 @@ ime Application- Road Map for India (Part A)" -->
 | Status: Completed | Funding volume: €3.1 million [14] ("BMWK - AmmoniaMot - Ammonia as the ship fuel of the future,") |  |
 | 6. | Ammonia Mot2 - Demonstration of a Ship Propulsion System Powered by Climate-Neutral Ammonia. (Development of a demonstrator full engine with modularized fuel system technology for operation with renewably produced Ammonia as marine fuel) Status: Ongoing | Coordination: MAN Energy Solutions SE Partner: WTZ Roßlau gGmbH, Woodward L'Orange GmbH, SFM TU-Munich, Neptun Ship Design GmbH, LKV Rostock, GenSys GmbH, MNR GmbH [15] Duration: 08.2024 - 01.2028 Funding volume: €12.8 million [15] |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="109" -->
-
-
-
 
 | S. No | Project Title | Important Details |
 | --- | --- | --- |
@@ -6461,9 +5686,6 @@ ime Application- Road Map for India (Part A)" -->
 | Status: Ongoing |  |  |
 | 9. | MariNH3 | Coordination: University of Nottingham, University of |
 | Status: Ongoing | Birmingham, University of Brighton, Cardiff University (MariNH3) [18] Funding Volume: £ 7.5 million (5.5 million by the Engineering and Physical Sciences Research Council + £2 million by industry) |  |
-
-
-
 
 #### 3.1.1 Alternative Fuel Based ICE & Fuel Cell (FC)- Technological Maturity Comparison [19]
 
@@ -6482,12 +5704,6 @@ attained by ICE & Fuel Cell (FC) technologies. The score numbering is defined as
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="110" -->
-
-
-
 
 | Fuel | Converter | Components | Maturity |
 | --- | --- | --- | --- |
@@ -6529,18 +5745,9 @@ ime Application- Road Map for India (Part A)" -->
 | High Pressure | Storage tanks Process system |  |  |
 |  | NOx reduction system (EGR/SCR) |  |  |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="111" -->
-
-
-
 
 | Fuel | Converter | Components | Maturity |
 | --- | --- | --- | --- |
@@ -6560,9 +5767,6 @@ ime Application- Road Map for India (Part A)" -->
 | Battery-electric | Battery | Electric motor | 1 |
 | Battery, |  |  |  |
 | Battery management system |  |  |  |
-
-
-
 
 ##### 3.2 Methanol Fuel Marine Engines (Global Status)
 
@@ -6592,8 +5796,6 @@ of Methanol presents challenges for its direct use in diesel engines. Several te
 
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 112
 to introduce Methanol into large-bore marine diesel engines, which includes (i) Blending [23] (ii) 
 Emulsification with diesel, (iii) Port injection of Methanol and Direct injection of pilot diesel [24] (iv) 
@@ -6618,8 +5820,6 @@ knocking and engine derating; low total hydrocarbon (THC), CO, and formaldehyde 
 high NOx emissions – and a cost-effective adaption of Methanol. Nevertheless, this NOx is related to 
 the pilot fuel quantity and expected to be improved via optimization.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 113
 3.2.1	 Commercial Methanol Fuel Marine Engine 
 According to the Clarkson’s in-service and order book data, MAN Energy Solutions (formerly MAN 
@@ -6650,9 +5850,6 @@ in order and service book are
 Figure 3.5: Co-axial Injector. Reproduced from [30]
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="114" -->
 
 This entire series adds dual fuel-assisting technology to the already available electronically
 controlled ME engine series. Low and High-Pressure Methanol Supply Systems are developed by
@@ -6664,9 +5861,6 @@ at around 400 bar This configuration is recently proposed for a general cargo ve
 Eemsborg, equipped with a 4.5 MW Wärtsilä engine [32].
 
 Methanol Engine Manufacturers and their Engine profiles are briefed in Table 3.3
-
-
-
 
 | S. No. | Manufacturer | Details |
 | --- | --- | --- |
@@ -6680,13 +5874,8 @@ Methanol Engine Manufacturers and their Engine profiles are briefed in Table 3.3
 | 8. | Wärtsilä | W32 and W46 methanol engines already in the market draw from the experience accumulated since 2015 on the conversion of a Wartsila Z40 engine and its operation in the ropax vessel Stena Germanica. Additionally, two- stroke engine retrofits in collaboration with MSC. |
 | 9 | WinGD and HSD Engine | Methanol-fueled engines under development in a joint development program. It aims to launch the first engines by 2024. |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 115
 Waterfront Shipping Canada has achieved dual-fuel Methanol two-stroke engines operation over 
 145,000 hours and owns 19 Methanol ready vessels [53]. Another Company, Marinvest Shipping, one 
@@ -6730,8 +5919,6 @@ and corrodes metals such as brass and gaskets. The onboard safety of Ammonia is 
 in terms of storage as it has a narrow flammability range (15%–28% by volume in air). The octane 
 rating of Ammonia is 120, higher than Gasoline’s, typically in the range of 86-93. making it a fuel
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 116
 more suitable for Spark Ignition engines. It can be ignited in CI engines with some different ignition 
 strategies. Also, it can be easily used in Fuel Cell s. One of the major drawbacks of using Ammonia as 
@@ -6756,8 +5943,6 @@ injector, especially for marine engines. In the latter approach, one injector in
 combustion chamber, and another injector injects Ammonia into the chamber. The Diesel in this case 
 is injected earlier to start combustion, and the Ammonia is injected in the hot Environment.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 117
 3.3.1	 Commercial Ammonia Fuel Marine Engines
 The low reactivity of Ammonia makes it a suitable fuel for Spark Ignition (SI) and a challenging fuel 
@@ -6802,8 +5987,6 @@ embrittlement is another challenge for metal parts, eventually affecting their m
 and longevity [37]. Thus, hydrogen usage requires strict practical standards to be followed for 
 hydrogen purification, hydrogen production, and transportation purposes.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 118
 The development and operation of hydrogen-fueled engines highly depend on using a fuel 
 injection system. One of the significant challenges for hydrogen-fueled internal combustion 
@@ -6828,8 +6011,6 @@ abnormal combustion that occurs during the intake stroke. A backfire is an abnor
 the intake manifold during the intake stroke that happens in the engine’s intake manifold. In the worst 
 case, it elevates the engine knock phenomenon and eventually damages the cylinders and pistons.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 119
 Several researchers have suggested that the control of injection timing and location of the hydrogen 
 injector positions can be optimized to eliminate backfire issues [39]. Also, injection angles could play 
@@ -6854,8 +6035,6 @@ Blending Hydrogen with Methane (in long-term replacing with bio- or e- Methane) 
 another viable option for using Hydrogen. Critical analysis of the Hydrogen-Methane blending 
 effect on power capability and emissions characteristics has shown that blending upto 20 vol %
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 120
 Hydrogen can significantly reduce CO2 emissions while maintaining the Methane concentration at a 
 moderate level [41]. Focused research should be carried out in this direction. 
@@ -6878,8 +6057,6 @@ For Alternative fuels, focus should be on scaling up production technologies wit
 (e.g. towards 2030 Priority could be Biofuel (GFI 9.4), Bio LNG (GFI 9.4), E-Ammonia (GFI 12.1), bio-
 Methanol (GFI 13.3), blue Ammonia (22.6), E-Methanol (29).
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 121
 	»
 Appropriate carbon pricing, decrease of green Hydrogen cost, availability of additional RE will 
@@ -6932,8 +6109,6 @@ Methane slip concerns make LNG and E-LNG still unattractive in medium to long ru
 the easy retro fitment and bunkering aspects. LNG conversions lack the use of their full potential 
 owing to unacceptable levels of high methane slip. HPDF, RCCI, and Stoic-EGR-TWC methods
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 122
 can reduce methane slip to enable LNG ships and mitigate the adverse effects of obtaining GHG 
 reduction (Methane Slip 1 g/kWh).  
@@ -6977,8 +6152,6 @@ MARTRA.2021.100033.Fuel/EngineInteractions.
 https://www.sae.org/publications/books/
 content/r-409 / (accessed August 23, 2024).
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 123
 8.	 Concawe. Marine fuel facts, https://www.concawe.eu/wp-content/uploads/2017/01/marine_
 factsheet_web.pdf (2017,accessed 22 November 2023).
@@ -7019,8 +6192,6 @@ future-fuels/methanol
 on Ships? Retrieved November 19, 2022, from Marine Insight: https://www.marineinsight.com/
 main-engine/why-2-stroke-engines-are-used-more-commonly-than-4-stroke-on-ships/
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 124
 23.	 GreyViews. (2022, Jan). Global Marine Engines Market Overview. Retrieved November 19, 2022, 
 from greyviews.com: https://greyviews.com/reports/global-marine-engines-market/17
@@ -7059,8 +6230,6 @@ COCHE.2021.100670.
 Engines: State-of-the-Art and Future Perspectives. Front Mech Eng 2022;8. https://doi.
 org/10.3389/FMECH.2022.944201.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 125
 38.	 Dai P, Chen Z, Gan X, Liberman MA. Autoignition and detonation development from a hot spot 
 inside a closed chamber: Effects of end wall reflection. Proc Combust Inst 2021;38(4):5905–13. 
@@ -7079,22 +6248,11 @@ Reference)
 ime Application- Roa
 
 d Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageBreak -->
-
-
-<figure>
 
 4
 
-</figure>
-
-
 Chapt
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 128
 In this Chapter, the Section 4.1 provides a comparative assessment of the alternative fuels based 
 on their sustainability aspect like properties and production pathways (4.1.1), Cost (4.1.2) and LCA 
@@ -7138,11 +6296,6 @@ Comparative
 Assessment of
 Alternative Fuels
 
-<!-- PageBreak -->
-
-
-
-
 | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Fuel type | HFO | LNG | LPG | LPG | Methanol | Ammonia | Hydrogen | Biodiesel |
@@ -7155,93 +6308,9 @@ Alternative Fuels
 | Toxicity (TLV-TWA*) | - | - | - | - | 200 ppm | 25ppm | - | - |
 | Cyrogenic (Boiling point) | - (Liquid at room temp.) | -161 ℃ | - 42 ℃ | -0.5 ℃ | - (Liquid at room temp) | -33 ℃ | - 253 ℃ | - 100-350 |
 
-
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<!-- PageNumber="129" -->
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
 </fi
 
 gure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <caption>Table 4.1: Comparison of Alternative fuels properties from energy, environmental, design and safety aspects [data from 2, 3]</caption>
@@ -7364,13 +6433,6 @@ l</td>
 </tr>
 </table>
 
-
-<!-- PageNumber="130" -->
-<!-- PageBreak -->
-
-
-
-
 | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) |  |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Fuel type | HFO | LNG | LPG | LPG | Methanol | Ammonia | Hydrogen | Biodiesel |
@@ -7384,15 +6446,8 @@ l</td>
 | Toxicity [ppm] (ACGIH, TWA- LV*1) | - | - | - | 200 | 25 | - |  | - |
 | Toxicity [ppm] (ACGIH, TWA- LV*2) | - | - |  | 1000 | 250 | 35 | - | - |
 
-
-
-
-<!-- PageNumber="131" -->
-<!-- PageHeader="Road Map for India (Part A)" -->
 <!-- PageHeader="Ad
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 132
 Comparison of the properties of alternative fuels gives the following insight
 	»
@@ -7442,8 +6497,6 @@ future zero-carbon strategies as technology matures.
 A brief glimpse of individual production pathways of (bio- and e -) alternative fuels are presented 
 below.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 133
 Methanol (Bio & E)
 Currently, Methanol is generated from fossil fuels (either Natural gas or Coal) with global production 
@@ -7478,14 +6531,10 @@ Hydrogen which is produced via steam reforming of Methane SMR) is used with Nitr
 through air separation for Ammonia production as per Haber Bosh (HB) process according to the 
 following reaction shown in Equation 2. The enhanced HB process employs renewable electricity for
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 134
 Figure 4.1 : Methanol Production Pathways [based on 4] 
 Figure 4.2: Ammonia Production Pathways [based on 4]
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 135
 water splitting/ electrolysis to generate green Hydrogen and the resulting Ammonia is termed as 
 green Ammonia.
@@ -7521,12 +6570,7 @@ and brown), e-Methane is considered sustainable and have lower GHG emission wher
 hydrogen is produced from water electrolysis and renewable electricity (green Methane).
 
 vanced Green Fuels for Maritime Application-" -->
-<!-- PageBreak -->
 
-<!-- PageNumber="136" -->
-
-
-<figure>
 <figcaption>Figure 4.3: Methane Production Pathways [based on 4]</figcaption>
 
 Green
@@ -7603,16 +6647,10 @@ Brown Methane
 
 Methane Production pathways
 
-</figure>
-
-
 LNG is primarily composed of Methane, with minor constituents of light hydrocarbon gases
 such as Ethane, Propane, and Butane. The composition of LNG highly depends on the liquefication
 process followed and the locations. Table 4.2 shows the variety of LNG compositions, subject to
 location.
-
-
-
 
 | Terminal | Methane | Ethane | Propane | Butane | Nitrogen |
 | --- | --- | --- | --- | --- | --- |
@@ -7628,13 +6666,8 @@ location.
 | Trinidad | 92.26 | 6.39 | 0.91 | 0.43 | 0.00 |
 | Nigeria | 91.60 | 4.60 | 2.40 | 1.30 | 0.10 |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 137
 Liquefied Natural Gas (LNG), occupies 600 times less space for storage and transportation 
 compared to its gaseous state, hence Natural gas is liquefied by cooling at −162 0C. Currently, 
@@ -7664,11 +6697,6 @@ the ideal Hydrogen colour is green, where hydrogen is produced from renewable en
 (wind, solar, hydropower, etc.) and thus considered as zero GHG and carbon negative fuel.
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <caption>Figure 4.4 : Hydrogen production pathways [16]</caption>
@@ -7766,8 +6794,6 @@ ime Application- Road Map for India (Part A)" -->
 <td>-</td>
 <td>CO2
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 139
 Figure 4.5: India’s National Green Hydrogen Mission Initiatives with Timeline 
 Liquid hydrogen (LH2) has several advantages over other potential zero-emission fuels for shipping 
@@ -7797,8 +6823,6 @@ delivered by bunkering barges or vessels classified as oil tankers are restricte
 biofuel share of 25% (by volume). That is one of the reasons why, for example, in Singapore, 
 the vast majority of biofuel bunkered in 2023 was B24 or BD24. For bunkering of higher FAME
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 140
 biofuel content blends from bunkering ships (e.g. B30or BD30, B50 or BD 50), B100 or BD100), 
 IMO Type 2 chemical tankers are needed. This is considered a bottleneck for the uptake of 
@@ -7843,8 +6867,6 @@ diesel engines. Like Methanol, Ethanol also has a poor miscibility with diesel; 
 additives/surfactants to make Diesel and Ethanol miscible to each other. ARAI, India has explored 
 the possibilities of using Ethanol-Diesel blends in an Ethanol proportion of 5% (v/v), 7.7% (v/v), 10%
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 141
 (v/v), 12.5% (v/v), and 15% (v/v) using stabilizers for Road transport engines [25]. The additives are 
 selected to improve combustion stability, lubricity, and efficiency. The study indicated that the 7.7% 
@@ -7880,8 +6902,6 @@ that timely intervention of policies on carbon pricing (e.g EU ETS policy measur
 forecast prices of the alternative fuels to within ±50% of the forecast price of VLSFO in 2050 as seen 
 in Figure 4.6- right.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 142
 Another important position paper on alternative fuel options scenarios developed by e Mærsk Mc-
 Kinney Møller Center for Zero Carbon Shipping [29], also endorsed by different classification societies 
@@ -7907,8 +6927,6 @@ Figure 4.6: Forecast of fuel costs relative to VLSFO after accounting for the im
 additional energy efficiency measures, without a Euro 100/t carbon price (left) and with a 
 Euro 100/t carbon price (right)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 143
 Figure 4.7: Fuel Costs1 (USD/GJ) Decline Over Time, Though There Remains Uncertainty on    
 Absolute Fuel Cost Levels [29]
@@ -7931,16 +6949,7 @@ pyrolysis oil availability and cost projections
 </tr>
 </table>
 
-
-<!-- PageBreak -->
-
-<!-- PageNumber="144" -->
-
-
 ### Total Cost of Ownership by Type of Ship (Millions of euros per year, base case) [30,31]
-
-
-
 
 |  |  | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | General Cargo Ships | General Cargo Ships | General Cargo Ships | General Cargo Ships | General Cargo Ships | General Cargo Ships |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -7966,18 +6975,9 @@ pyrolysis oil availability and cost projections
 | LH2 | LH2 | 4.7 | 5.3 |  | 8.8 | 8.6 |  | 13.0 | 11.9 |  | 7.0 | 6.5 | 8.7 | 8.0 | 11.0 | 9.9 |
 | Electricity | Electricity |  |  | 2.8 |  |  | 5.5 |  |  | 8.3 |  |  |  |  |  |  |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="145" -->
-
-
-
 
 |  |  | Bulk Carrier Ships | Bulk Carrier Ships | Bulk Carrier Ships | Bulk Carrier Ships | Bulk Carrier Ships | Bulk Carrier Ships | Container Ships | Container Ships | Container Ships | Container Ships | Container Ships | Container Ships |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -8002,9 +7002,6 @@ ime Application- Road Map for India (Part A)" -->
 | Ammonia | 12.5 | 14.2 | 15.4 | 16.8 | 19.3 | 20.2 | 53.9 | 59.3 | 66.3 | 70.4 | 73.1 | 76.4 |  |
 | LH2 | LH2 | 16.6 | 16.5 | 21.4 | 20.7 | 27.5 | 26.2 | 71.4 | 70.2 | 90.8 | 87.6 | 102.6 | 98.2 |
 
-
-
-
 This analyses [30,31] show Bio Methanol with lowest TCO across 4 ship categories, viz., Large
 Ferries, General Cargo, Bulk Carrier Ships and Container Ships under all degrees of utilisation.
 Among e-Fuel category, especially for ship types Bulk Carrier and large Ferries, e Methanol has
@@ -8022,9 +7019,6 @@ economy and environment [34] and therefore, the social cost of different emissio
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="146" -->
 
 consideration [35] The specific values of the social cost of different emissions which varies in turn
 w.r.to alternate fuel types are shown in Table 4.4. This study although shows distinctive advantage of
@@ -8032,9 +7026,6 @@ lower social cost for Ammonia and Hydrogen as alternative fuels, nevertheless, t
 are in-line with the majority of the studies as mentioned above with Methanol cost being lowest
 followed by LNG and Ammonia as shown in Table 4.5. The ship size specifications considered in this
 study is presented in Table 4.6.
-
-
-
 
 | Exhaust Gas | Social Fost Factors ($/T) |
 | --- | --- |
@@ -8044,11 +7035,6 @@ study is presented in Table 4.6.
 | NOx | 34,700 |
 | PM | 79,500 |
 | SO2 | 24,900 |
-
-
-
-
-
 
 | Options | Ship Size | HFO | MGO | LNG | Methanol | Hydrogen | Ammonia |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -8065,9 +7051,6 @@ study is presented in Table 4.6.
 |  | Large | 1396.582 | 1355.184 | 1640.503 | 1364.578 | 1843.425 | 2311.111 |
 |  | Ultra | 1803.136 | 1794.223 | 2166.631 | 1805.879 | 2419.674 | 3025.687 |
 
-
-
-
 Table 4.6 : Parameters of Sample Vessels and Engines Selected in Reference [6]
 
 Size
@@ -8083,14 +7066,6 @@ Ultra
 Advanced Green Fuels for M
 
 aritime Application-
-Road Map for India (Part A)
-
-<!-- PageBreak -->
-
-<!-- PageNumber="147" -->
-
-
-
 
 | Builder | Hyundai Mipo | New Times SB | Hyundai HI (Ulsan) | Hudong Zhonghua |
 | --- | --- | --- | --- | --- |
@@ -8116,9 +7091,6 @@ Road Map for India (Part A)
 | RPM | 900 | 720 | 420 | 750 |
 | Number | 3 | 3 | 3 | 5 |
 
-
-
-
 ### 4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment
 
 From an environmental perspective, it is worth noting that different fuel pathways can generate
@@ -8136,8 +7108,6 @@ emission (from the fuel tank of the ship to an exhaust gas). Alternative fuels a
 
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 148
 compared to conventional fuels, despite their positive effects in terms of GHG reduction in the 
 maritime sector. Therefore, for the fuel transition from conventional fossil fuels to alternative fuels, 
@@ -8160,8 +7130,6 @@ will be formally adopted by October 2025 and with enforcement starting on 2028.
 It seen from Figure 4.9, the Base as well as Direct Target trajectories are highly ambitious. Figure 
 Figure 4.9 : MEPC 83 New Amendments in Emission Targets
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 149
 4.10 shows MEPC 83’s Base Target trajectory (in blue) versus the different proposals submitted by 
 different countries at IMO. It is interesting to note that only the Fuel EU and Japanese proposal 
@@ -8190,8 +7158,6 @@ varying year and the net present value (NPV) of the ship. For the sensitivity st
 are varied from the baseline scenario and is investigated the approximate years for when alternative 
 fuels will become more cost-effective than conventional fossil fuels. In this study, also the effects
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 150
 of blending fuels those are produced through different pathways are assessed and compared. The 
 fuel blending included HFO and biomass-based FT-Diesel, blend of NG-based Ammonia and NG-based 
@@ -8219,8 +7185,6 @@ from the air for the synthesis of Methanol. In the case of NG-based Ammonia plus
 life cycle is 79.9%. This has resulted from the GWP effects of CH4 and N2O, which are not captured 
 in CCS, and CO2-eq emissions from pilot fuels combusted in the engine. In most cases, except for
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 151
 Ammonia, the Tank-to-Wake stage accounts for the majority of the GHG emissions. Due to the 
 efficiency difference between the main and auxiliary engines, slightly more emissions are generated 
@@ -8249,8 +7213,6 @@ Carbon Price
 Figure 4.13: NPVs of Ship Life   Cycle Fuel 
 Costs including Carbon Price
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 152
 Figure 4.15 : NPVs of Ship Life Cycle Cost of Blended Fuels
 The most cost-competitive option from a life cycle perspective involves using blended oil with 
@@ -8276,8 +7238,6 @@ A recent exhaustive LCA study by IFP Energies Nouvelles, commissioned by CMA CGM
 compared bio- E- blue fuel of both against VLSFO. The saliant nature of this assessment is that for 
 the first time (as per the PI’s knowledge) the geographic variation in alternative fuel  production
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 153
 considered across 17 region including India, China, Australia, Indonesia and South Africa  estimating 
 the GHG emission of the fuels for 2035 and 2050  Additionally in building fuel production Scenarios, 
@@ -8299,8 +7259,6 @@ These distribution curves are derived from a global sensitivity analysis conduct
 results are approximated as normal distributions, using mean values and standard deviations, to represent the most 
 probable range of GHG emissions for each assessed fuel based on the defined parameter variations.]
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 154
 However, it is interesting to note that Methanol achieves higher overall decarbonization as 
 per gCO2eq/TEU.Km unit. This is attributed to Methanol’s much higher engine efficiency, lower 
@@ -8323,11 +7281,6 @@ be large enough to be considered viable for global trade, therefore an increase 
 extent would be unavoidable. The design range calculation details are given in Annexure.
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <caption>Table 4.7 a: A Comparison of Volume and Mass (for fuel only without storage tank) to provide 9270MWh of Delivered Energy. The Upper Boundary for Efficiency used for Each Propulsion Type.</caption>
@@ -8478,15 +7431,6 @@ ime Application- Road Map for India (Part A)" -->
 </tr>
 </table>
 
-
-<!-- PageNumber="155" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="156" -->
-
-
-
-
 | Fuel type | LNG | Diesel (HFO) | Hydrogen (gas) | Hydrogen (liquid) | Metal Hydride | Ammonia | Methanol | Batteries (Li-ion) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Efficiency | 58% | 20-40% | 40-60% | 40-60% | 40-60% | 30-60% | 55-60% | 70-95% |
@@ -8508,11 +7452,6 @@ ime Application- Road Map for India (Part A)" -->
 | (tonnes) |  |  |  |  |  |  |  |  |
 | % of Total | 3.2 % | 4.3% | 12.8% | 11.5% | 57.7% | 8.3% | 6% | 97.2% |
 
-
-
-
-
-
 | Fuel Option | Range (nm) | Range (km) |
 | --- | --- | --- |
 | Diesel (HFO) | 7155 | 13251 |
@@ -8522,17 +7461,12 @@ ime Application- Road Map for India (Part A)" -->
 | Ammonia | 3578 | 6626 |
 | Methanol | 4579 | 8480 |
 
-
-
-
 Analyses of Table 4.7a, 4.7b and 4.8 shows Ammonia's high toxicity and corrosion, Hydrogen's
 complex storage requirements and Methanol's carbon content and subsequent CCS requirement
 making none of the fuels as ideal one.
 
 Advanced Green Fuels for M
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 157
 Ships tend to operate with more fuel especially HFO storage onboard than what is required for 
 a single voyage. This study has shown that reducing storage levels to closer to the expected 
@@ -8575,8 +7509,6 @@ the significant environmental impact associated with the use of these traditiona
 The fuel mix calculations consider the proportion of various alternative fuels required to achieve the 
 emission targets to achieve net zero by 2050 while considering the well-to-wake emission pathways.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 158
 This calculation will guide the transition from conventional marine fuels to alternative fuels, such as 
 Methanol, Ammonia, green Hydrogen, Biofuels, and other low- or zero-carbon options. 
@@ -8595,15 +7527,8 @@ integration of cleaner fuel sources while maintaining operational efficiency.
 Figure 4.17 : Base GFI Compliance Fuel Mix Scenarios (OGVs >5000 GT Vessels) Year:2030
 
 aritime Application-
-Road Map for India (Part A)
-
-<!-- PageBreak -->
-
 
 ### OGVs (>5000GT) Vessels
-
-
-
 
 | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -8628,36 +7553,19 @@ Road Map for India (Part A)
 | Bio LNG | 1.21 | 0.09 | 1.01 | 0.34 | 1.01 | 0.24 | 0.82 | 0.48 |
 | ELNG | 1.19 | 0.10 | 1.02 | 0.33 | 0.98 | 0.26 | 0.83 | 0.47 |
 
-
-
-
-<!-- PageNumber="159" -->
-
-Road Map for India (Part A)
-
 <!-- PageHeader="Ad
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 160
 Figure 4.18: Base GFI Compliance Fuel Mix Scenarios (OGVs >5000 GT Vessels) Year:2035
 Figure 4.19: Direct GFI Compliance Fuel Mix Scenarios (OGVs >5000 GT Vessels) Year:2030
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 161
 Figure 4.20: Direct GFI Compliance Fuel Mix Scenarios (OGVs  >5000 GT Vessels) Year:2035
 Figure 4.21: Base GFI Compliance Fuel Mix Scenarios (Coastal <5000 GT Vessels) Year:2030
 
 vanced Green Fuels for Maritime Application-" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 ### Coastal Vessels (<5000 GT)
-
 
 <table>
 <caption>Table 4.10: Fuel Mix Demand for Coastal Vessels (&lt;5000GT) -Base and Direct Compliance (Diesel + Alternative Fuel)</caption>
@@ -8849,14 +7757,10 @@ vanced Green Fuels for Maritime Application-" -->
 <td>0.19</td>
 <td>0.1
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 163
 Figure 4.22: Base GFI Compliance Fuel Mix Scenarios (Coastal <5000 GT Vessels) Year:2035
 Figure 4.23: Direct GFI Compliance Fuel Mix Scenarios (Coastal <5000 GT Vessels) Year:2030
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 164
 4.2.2	 Case B: Conventional Fuel  (CF)+ Alternative fuel  (AF) Mix + 20%  
 Biodiesel (BD) mix  
@@ -8871,15 +7775,7 @@ Figure 4.24: Direct GFI Compliance Fuel Mix Scenarios (Coastal <5000 GT Vessels)
 </tr>
 </table>
 
-
-<!-- PageNumber="162" -->
-<!-- PageBreak -->
-
-
 ### OGV'S (>5000GT)
-
-
-
 
 |  | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -8904,39 +7800,19 @@ Figure 4.24: Direct GFI Compliance Fuel Mix Scenarios (Coastal <5000 GT Vessels)
 | Bio LNG | 0.96 | 0.27 | 0.09 | 0.81 | 0.22 | 0.24 | 0.81 | 0.22 | 0.34 | 0.65 | 0.18 | 0.48 |
 | E LNG | 0.95 | 0.26 | 0.10 | 0.78 | 0.22 | 0.26 | 0.82 | 0.22 | 0.33 | 0.66 | 0.18 | 0.47 |
 
-
-
-
-<!-- PageNumber="165" -->
-<!-- PageFooter="Road Map for India (Part A)" -->
-
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 166
 Figure 4.25: Base GFI Compliance Fuel Mix Scenarios (OGV’S >5000 GT Vessels) 
 Year:2030(Conventional Fuel +Alternative Fuel+ 20% Biodiesel)
 Figure 4.26: Base GFI Compliance Fuel Mix Scenarios (OGV’S >5000 GT Vessels)  
 Year:2035(Conventional Fuel +Alternative Fuel+ 20% Biodiesel)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 167
 Figure 4.27: Direct GFI compliance fuel mix scenarios (OGV’S >5000 GT Vessels)  
 Year:2030 (Conventional Fuel +Alternative Fuel+ 20% Biodiesel)
  Figure 4.28: Direct GFI Compliance Fuel Mix Scenarios (OGV’S >5000 GT Vessels) 
  Year:2035 (Conventional Fuel +Alternative Fuel+ 20% Biodiesel)
 
-Advanced Green Fuels for Maritime Application-
-
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-
-Advanced Green Fuels for Maritime Application-
-
-
 ### Coastal (<5000GT) Vessels
-
 
 <table>
 <caption>Table 4.12: Fuel Mix Demand for OGV's (&gt;5000GT)-Base and Direct Compliance (Conventional Fuel + Alternative Fuel+ 20%Biodiesel)</caption>
@@ -9210,16 +8086,12 @@ Advanced Green Fuels for Maritime Application-
 <td>0.04</td>
 <td>0.1
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 169
 Figure 4.29: Base GFI Compliance Fuel Mix Scenarios (Coastal <5000 GT Vessels) Year:2030 
 (Diesel +Alternative Fuel+ 20% Biodiesel)
 Figure 4.30: Base GFI Compliance Fuel Mix Scenarios (Coastal <5000 GT Vessels) Year:2035 
 (Conventional Fuel +Alternative Fuel+ 20% Biodiesel)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 170
 Figure 4.31: Direct GFI compliance fuel mix scenarios (Coastal <5000 GT Vessels) Year:2030(Diesel 
 +Alternative Fuel+ 20% Biodiesel
@@ -9229,13 +8101,6 @@ Year:2035(Diesel +Alternative Fuel+ 20% Biodiesel)
 1</td>
 </tr>
 </table>
-
-
-<!-- PageNumber="168" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="171" -->
-
 
 ### 4.2.3 Estimation of Renewable Energy and Hydrogen Requirement
 
@@ -9261,9 +8126,6 @@ demand with Hydrogen and RE requirement for GFI Compliance of Indian OGV's > 500
 
 A) Scenario 1-Case 1: Base Compliance Category
 
-
-
-
 |  | (In Million Tonnes) | (In Million Tonnes) | (In Million Tonnes) | (In Million Tonnes) | GWh x 103 | GWh x 103 |
 | --- | --- | --- | --- | --- | --- | --- |
 | Fuel Type | GFI Compliance Fuel Mix Quantity | GFI Compliance Fuel Mix Quantity | Amount of Hydrogen Required | Amount of Hydrogen Required | Amount of Renewable Electricity needed to Produce Hydrogen | Amount of Renewable Electricity needed to Produce Hydrogen |
@@ -9278,13 +8140,8 @@ A) Scenario 1-Case 1: Base Compliance Category
 | Bio LNG | 0.09 | 0.34 | 0.05 | 0.17 | 2.12 | 7.99 |
 | E LNG | 0.1 | 0.33 | 0.05 | 0.17 | 2.35 | 7.76 |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 172
 Figure 4.33: Alternative Fuel-Mix Demand with RE &Green Hydrogen Requirement for GFI-
 Compliance (>5000GT) Year 2030 (Base Compliance Category) 
@@ -9292,15 +8149,8 @@ Figure 4.34: Alternative Fuel-Mix Demand with RE &Green Hydrogen Requirement for
 Compliance (>5000GT) Year 2035 (Base Compliance Category)
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="173" -->
-
 
 #### B) Scenario 1-Case 2: Direct Compliance Category
-
-
-
 
 |  | (In Million Tonnes) | (In Million Tonnes) | (In Million Tonnes) | (In Million Tonnes) | GWh x 103 | GWh x 103 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -9318,10 +8168,6 @@ ime Application- Road Map for India (Part A)" -->
 | Bio LNG | 0.24 | 0.48 | 0.12 | 0.24 | 5.64 | 11.28 |
 | E LNG | 0.26 | 0.47 | 0.13 | 0.24 | 6.11 | 11.05 |
 
-
-
-
-<figure>
 <figcaption>Figure 4.35: Alternative Fuel-Mix Demand with RE &amp;Green Hydrogen Requirement for GFI- Compliance (&gt;5000GT) Year 2030 (Direct Compliance Category)</figcaption>
 
 Renewable Energy & Hydrogen Demand for GFI Direct Compliance Fuel mix-
@@ -9413,13 +8259,8 @@ GFI Compliance fuel mix quantity
 
 Amount of hydrogen requirement
 
-</figure>
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 174
 4.2.4	 Scenario 2: Blend Fuel Demand Scenarios with Emission Reduction by 2030 	
 & 2035 (10 and 5 v/v % Methanol-Biodiesel-Diesel blend)
@@ -9440,8 +8281,6 @@ represent Coastal respectively.
 Figure 4.36: Alternative Fuel-Mix Demand with RE &Green Hydrogen Requirement for GFI-
 Compliance (>5000GT) Year 2035 (Direct Compliance Category)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 175
 Figure 4.37: Dual Fuel Blend Scenarios (HFO/LFO/DO& Methanol 10 %v/v) with GHG Emission 
 Reduction Profile (2030) for Indian OGVs
@@ -9460,8 +8299,6 @@ meet Direct
 compliance 
 (2035)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 176
 Set1: Coastal for Year 2030 & 2035
 Figure 4.39: Multifuel Blend Scenarios (HFO/LFO/DO, Methanol 10 v/v %) & Biodiesel Blend (5%, 
@@ -9482,8 +8319,6 @@ for Base and
 Direct  
 Compliance
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 177
 Figure 4.41: Multifuel Blend Scenarios (Diesel, Methanol 10 v/v %) & Biodiesel (5%, 10%,20%, 
 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2030) for Coastal 
@@ -9504,8 +8339,6 @@ meet Direct
 compliance 
 (2035)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 178
 Set 2: OGVs for Year 2030 & 2035
 Figure 4.43: Dual Fuel Blend Scenarios (Diesel & Methanol 5 %v/v) with GHG Emission Reduction 
@@ -9513,8 +8346,6 @@ Profile (2030) for OGVs
 Figure 4.44: Multifuel Blend Scenarios (Diesel, Methanol 5 v/v %) & Biodiesel Blend (5%, 
 10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2030) for OGVs
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 179
 Set 2: Coastal for Year 2030 & 2035
 Figure 4.45: Multifuel Blend Scenarios (Diesel, Methanol 5 v/v %) & Biodiesel Blend (5%, 
@@ -9522,8 +8353,6 @@ Figure 4.45: Multifuel Blend Scenarios (Diesel, Methanol 5 v/v %) & Biodiesel Bl
 Figure 4.46: Dual Fuel Blend Scenarios (Diesel & Methanol 5 %v/v) with GHG Emission Reduction 
 Profile (2030) for Coastal
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 180
 Figure 4.47: Multifuel Blend Scenarios (Diesel, Methanol 5 v/v %) & Biodiesel Blend (5%, 
 10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2030) for Coastal
@@ -9531,10 +8360,6 @@ Figure 4.48: Multifuel Blend Scenarios (Diesel, Methanol 5 v/v %) & Biodiesel Bl
 10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2035) for Coastal
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="181" -->
-
 
 ### 4.3 Alternative Fuel Feedstock and Supply (India and Global) Alternative Fuel Supply Chain (India)
 
@@ -9552,20 +8377,12 @@ has the highest projected capacity, with an operational total of 20.40 Mt/y. Fea
 account for 15.81 Mt/y, while concept-stage projects could add 4.35 Mt/y (excluding one project with
 an unknown capacity). A single project under construction is expected to contribute 2.5 MT/y.
 
-
-
-
 | Fuel | Status | No of projects | Sub Total Capacity T MeOH /y | Total |
 | --- | --- | --- | --- | --- |
 | Methanol | Operational | - | - | 831,536 T/y |
 |  | FID/Construction | 1 | 3,650 T/y | Or |
 |  | Feasibility study | 2 | 800,000 T/y | 0.83 MT/y |
 |  | Concept | 2 | 27,886 T/y |  |
-
-
-
-
-
 
 | Fuel | Status | No of projects | Sub Total Capacity T NH3/y | Total |
 | --- | --- | --- | --- | --- |
@@ -9575,18 +8392,9 @@ an unknown capacity). A single project under construction is expected to contrib
 |  | Concept | 12 | 4,350,000 | (Or) |
 |  |  |  | (1-Unknown capacity) | 20.40 MT |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="182" -->
-
-
-
 
 | Fuel | Status | No of Projects | Sub Total Capacity T Methanol/y | Total |
 | --- | --- | --- | --- | --- |
@@ -9595,9 +8403,6 @@ ime Application- Road Map for India (Part A)" -->
 |  | Feasibility study | 25 | 176,286.57 T H2/y | 4.25 MT Hz/y. |
 |  | Demo | 4 | 203.06 T H2/y. |  |
 |  | Concept | 17 | 4,065,925 T H2/y. |  |
-
-
-
 
 #### 4.4 Bridging the Gap: Alternative Fuel-Mix Demand Scenarios Vs Supply Capacity (India Status)
 
@@ -9612,8 +8417,6 @@ Case 2 depict the fuel demand-supply gap for 10 and 5 v/v % blended Methanol Sce
 Case 1: Alternative Fuel Mix Demand Supply Gap for GFI Compliance Scenario (India Cumulative
 Costal and OGVs)
 
-
-<figure>
 <figcaption>Figure 4.49, Figure 4.50 and Figure 4.51 represent Case 1 Scenario's demand supply gap</figcaption>
 
 GFI Compliance Methanol fuel Demand vs Supply Readiness
@@ -9671,16 +8474,11 @@ Coastal (<5000GT)
 
 Supply Readiness
 
-</figure>
-
-
 Figure 4.49: Alternative Fuel (Methanol) Mix Demand-Supply Gap for GFI Compliance Scenario
 (India)
 
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 183
 Figure 4.50: Alternative Fuel (Ammonia) Mix Demand-Supply Gap for GFI 
 Compliance Scenario (India) 
@@ -9691,8 +8489,6 @@ Case 2: Alternative Fuel-Mix Demand Supply Gap for 10 & 5 v/v % Methanol Blendin
 Following Figure 4.52 shows the projected Methanol blend fuel demand and the status of alternative 
 fuels supply statistics in achieving this demand by 2030.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 184
 Alternative Fuel Supply Status (Global) vs India 
 The global production capacities of Methanol, Hydrogen, and ammonia are distributed across 
@@ -9702,8 +8498,6 @@ Figure 4.52: Alternative Fuel-Mix Demand-Supply Gap for 10 & 5 v/v % Methanol Bl
 Scenarios (India Cumulative Costal and OGVs) 
 Figure 4.53: Methanol Production Projects Global vs India
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 185
 Figure 4.54: Ammonia Production Projects Global vs India
 Figure 4.55: Hydrogen Production Projects Global vs India
@@ -9712,8 +8506,6 @@ a) Methanol
 As of November 2024,   status shows 113 e-Methanol plants and projects with total capacity of 18.7 
 Mt (+0.6 Mt), 77 bio Methanol plants and projects with total capacity of 13.1 Mt (+0.7 Mt), and 14
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 186
 low-carbon Methanol plants and projects with total capacity of 8.1 Mt. Currently, 2.6 Mt of renewable 
 Methanol facilities are either operational or under construction.
@@ -9760,8 +8552,6 @@ applications like heavy industry, transport, and energy storage accounting for l
 and incentives could raise this to 6 Mtpa by 2030, just 10% of NZE Scenario needs. Firm offtake 
 agreements are increasing, especially in chemicals, refining, and shipping, alongside tenders and
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 187
 aggregation initiatives. Large-scale projects for refining, chemicals, and steel could push demand for 
 low-emissions Hydrogen to 1.5 Mtpa by 2030, 3 times today’s levels.
@@ -9806,8 +8596,6 @@ necessitate brand new or largely modified infrastructures.
 It is worth mentioning that, the availability of standards for fuel quality and production along with 
 presence of guidelines and regulations for safe storing, handling, transport and bunkering are of
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 188
 critical importance for fast paced adoption of alternative fuels. Fuel standards ensure that fuels are 
 safe for purchase, and fuels that lack standardization may vary in quality and thus are less attractive 
@@ -9849,26 +8637,18 @@ fuel type and by facility type, such as Terminals and Ship-to-Ship (STS) or Truc
 and those still under construction, providing a perspective on where we stand now and what the 
 future holds w.r.to clean marine fuel bunkering.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 189
 Figure 4.56: Volumetric Versus Gravimetric Energy Density [reproduced from 47]
 Figure 4.57 a: LNG Bunkering Capable Ports
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 190
 Figure 4.57 b: Biofuel (Biodiesel) Bunkering Capable Ports
 Figure 4.57 c: Methanol Bunkering Capable Ports
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 191
 Figure 4.57 d: Ammonia Bunkering Capable Ports
 Figure 4.57 e: Hydrogen Bunkering Capable Ports
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 192
 Global Bunkering Status of Alternative Fuels 
 1.	 LNG is currently the frontrunner among alternative fuels, boasting over 254 bunkering setups in 
@@ -9892,9 +8672,6 @@ flexibility and less reliance on port facilities.
 Figure 4.57 f: LPG Bunkering Capable Ports
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="193" -->
 
 Based on IEA's Hydrogen production and infrastructure projects database, infrastructure readiness
 level in ports for low emission Hydrogen and Hydrogen derived fuels are plotted in Table 4.18.
@@ -9905,7 +8682,6 @@ It shows existing capacity of 2.76 MT for Methanol, 71.69 MT for Ammonia, and 1.
 excluding the existing terminals and announced projects which are principally aimed at storing
 unabated fossil Ammonia and Methanol. However, the actual numbers could be much higher as some
 of the capacities are undisclosed [IEA Hydrogen Production and Infrastructure Projects Database]
-
 
 ### Global Infrastructure Project and Readiness of Hydrogen Derived Fuels
 
@@ -9919,9 +8695,6 @@ actually under construction or close to it.
 
 \>\> For Hydrogen, there are 13 projects with a capacity of 1.18 MT across 7 projects. A significant
 69% are in the feasibility stage, and only one is in the concept phase.
-
-
-
 
 | Fuel | Status | No of projects | Total |
 | --- | --- | --- | --- |
@@ -9941,19 +8714,12 @@ actually under construction or close to it.
 |  | Demo | 3 | (For 7 out of 13 Projects) |
 |  | Concept | 1 |  |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 194
 Figure 4.58 a: Low Emission Hydrogen Infrastructure at Global Port (Country-wise Distribution
 Figure 4.58 b: Low Emission Methanol Infrastructure at Global Port (Country-wise Distribution)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 195
 4.5.2	 Alternative Fuel for Bunkering (India) 
 The bunkering scenario of year 2022 as shown in Figure 4.59 at major Indian ports is led by 
@@ -9974,22 +8740,16 @@ fuel quantities and infrastructure required for transition. It also explores sup
 and supports strategic planning for cleaner, sustainable maritime operations.
 Figure 4.58 c : Low Emission Ammonia Infrastructure at Global Port (Country-wise Distribution)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 196
 Figure 4.59: Bunkering Volume and Supply Modes at Major Indian Ports, Highlighting Total Fuel 
 Bunkered (in Million Tonnes) and the Distribution of Supply Methods
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 197
 Figure 4.60: Energy Equivalence Analysis (5%, 10%, 20%, 50%) of Alternative Marine Fuels—
 Methanol, Ammonia, Biodiesel, LNG, and Hydrogen—at Kandla, Paradip, and VOC ports, based 
 on their annual bunkering capacity, to assess feasibility and infrastructure requirement for fuel 
 transition.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 198
 References 
 1.	 Marine Environment Protection Committee 83rd Session Report (MEPC 83), 7-11 April 2025 
@@ -10029,8 +8789,6 @@ org/10.1016/j.apenergy.2019.05.098.
 Fuels for Dual Fuel Engines: Opportunities, Challenges and Responses. Energies 2020, Vol 13(22), 
 Page 6127 2020;13:6127. https://doi.org/10.3390/EN13226127 .
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 199
 16.	 Mehta, A., “Status Update on India’s National Hydrogen Mission and Ecosystem Green Shipping 
 Business Roundtable”, Mumbai, 21 February, 2025
@@ -10072,8 +8830,6 @@ Economic Analyses of Alternative Marine Fuels: Insights for Practical Strategies
 Multiple Vessel Sizes” Transportation Research Part D 115, 2023, 103583, https://doi.
 org/10.1016/j.trd.2022.103583
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 200
 34.	 Zhong, H., Guo, C., Yip, T.L., Gu, Y. Bi-perspective Sulfur Abatement Options to Mitigate Coastal 
 Shipping Ships Emissions: A Case Study of Chinese Coastal Zone. Ocean Coast. Manag. 209. , 2021
@@ -10116,22 +8872,13 @@ LNG as a Marine Fuel. International Council on Clean Transportation. Working Pap
 projects-database)
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-
-<figure>
 
 4
-
-</figure>
-
 
 Chapter 5
 Fuel Cell for
 Decar
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 202
 Introduction
 IMO has set the ambitious target to cut down the GHG emissions from international shipping to reach 
@@ -10173,8 +8920,6 @@ marine energy revolution will only be realized with sustained research, funding,
 Looking from India perspective the inland water vessels have great near-future prospects, whereas 
 the adoption of Fuel Cell  technology for coastal and especially for OGVs seems a little distant future.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 203
 5.1	
 Types of Fuel Cells for Shipping Application
@@ -10216,15 +8961,11 @@ but thermal issues) and SOFC-H+ (lower temp, better hydrogen compatibility). Mat
 (high conductivity, less stable) and BaZrO₃ (more stable, lower conductivity) are enhanced by doping. 
 Waste heat can be reused, but units are bulky and prone to cracking.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 204
 Figure 5.1:This Figure shows (a) schematic diagrams (b] process flows of six key Fuel Cell  types 
 used in maritime applications: i – PEMFC, ii – SOFC, iii – AFC, iv – MCFC, v – PAFC, and VI – AFC.   
 (Represented from [12,13,&14)]
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 205
 Alkaline Fuel Cells (AFCs): It uses compressed hydrogen and oxygen with a liquid potassium 
 hydroxide (KOH) electrolyte. Typically operates at 60–250 °C and offers around 70% efficiency. 
@@ -10247,20 +8988,12 @@ a crucial role in lowering emissions and enhancing performance. The table below 
 features of different Fuel Cell  technologies, emphasizing their benefits, drawbacks, and potential 
 uses, especially in the context of maritime decarbonization.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 206
 Figure 5.2: Overview of Different Fuel Cell Types and Their Key Characteristics.
 
 bonizing Maritime
 Sector and Prospects
 for India
-
-<!-- PageBreak -->
-
-<!-- PageFooter="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <caption>Table 5.1: Characteristics of Different Types of Fuel Cells</caption>
@@ -10389,14 +9122,6 @@ for India
 —</td>
 </tr>
 </table>
-
-
-<!-- PageNumber="207" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <caption>Table 5.1: Characteristics of Different Types of Fuel Cells</caption>
@@ -10552,14 +9277,6 @@ h</td>
 </tr>
 </table>
 
-
-<!-- PageNumber="208" -->
-<!-- PageBreak -->
-
-<!-- PageFooter="Road Map for India (Part A)" -->
-<!-- PageFooter="Advanced Green Fuels for Maritime Application-" -->
-
-
 <table>
 <caption>Table 5.1: Characteristics of Different Types of Fuel Cells</caption>
 <tr>
@@ -10592,8 +9309,6 @@ h</td>
 <td>Methanol Crossover</td>
 <td>CO S Poisonin
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 210
 5.3	
 Global Status and Trends in Fuel Cell Adoption in Shipping  
@@ -10621,14 +9336,6 @@ diverse industry commitment to clean maritime solutions.
 g</td>
 </tr>
 </table>
-
-
-<!-- PageNumber="209" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <caption>Table 5.2: Status of Fuel Cells Vessels In Service</caption>
@@ -10882,14 +9589,6 @@ g</td>
 </tr>
 </table>
 
-
-<!-- PageNumber="211" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
-
 <table>
 <caption>Table 5.2: Status of Fuel Cells Vessels In Service</caption>
 <tr>
@@ -11058,14 +9757,6 @@ l</td>
 </tr>
 </table>
 
-
-<!-- PageNumber="212" -->
-<!-- PageBreak -->
-
-<!-- PageFooter="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
-
 <table>
 <caption>Table 5.2: Status of Fuel Cells Vessels In Service</caption>
 <tr>
@@ -11162,14 +9853,6 @@ y</td>
 </tr>
 </table>
 
-
-<!-- PageNumber="213" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
-
 <table>
 <caption>Table 5.2: Status of Fuel Cells Vessels In Service</caption>
 <tr>
@@ -11254,14 +9937,6 @@ y</td>
 n</td>
 </tr>
 </table>
-
-
-<!-- PageNumber="214" -->
-<!-- PageBreak -->
-
-<!-- PageFooter="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <caption>Table 5.3: Status of Fuel Cells Vessels (Orderbook)</caption>
@@ -11478,14 +10153,6 @@ l</td>
 </tr>
 </table>
 
-
-<!-- PageNumber="215" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
-
 <table>
 <caption>Table 5.3: Status of Fuel Cells Vessels (Orderbook)</caption>
 <tr>
@@ -11662,14 +10329,6 @@ y</td>
 </tr>
 </table>
 
-
-<!-- PageNumber="216" -->
-<!-- PageBreak -->
-
-<!-- PageFooter="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
-
 <table>
 <caption>Table 5.3: Status of Fuel Cells Vessels (Orderbook)</caption>
 <tr>
@@ -11767,14 +10426,6 @@ y</td>
 y</td>
 </tr>
 </table>
-
-
-<!-- PageNumber="217" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <caption>Table 5.3: Status of Fuel Cells Vessels (Orderbook)</caption>
@@ -11881,13 +10532,6 @@ n</td>
 </tr>
 </table>
 
-
-<!-- PageNumber="218" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="219" -->
-
-
 #### 5.4 India Status for Fuel Cell Adoption in Shipping
 
 The Table 5.4 showcases the upcoming projects of Cochin Shipyard Ltd (CSL) for alternative Fuel Cell
@@ -11903,17 +10547,11 @@ IWAI. CSL has also established a temporary Hydrogen dispensing facility based on
 system used for filling the cylinders onboard from shore which has managed by a professional agency
 for filling the H2 to the vessel.
 
-
-
-
 | S. No. | Project | No of Vessels | Technology | Order Type | Year of completion (Tentative) |
 | --- | --- | --- | --- | --- | --- |
 | 1 | FCV PILOT 01 | 1 | Hydrogen Fuel based 50kw) | Domestic | 2024 |
 | 2 | Hydrogen Fuel Cell vessels | 4 | Hydrogen Fuel Cell based ( 2x 1600kw) | Domestic | 2027-2028 |
 | 3 | Samskip feeder container vessel | 2 | Hydrogen Fuel Cell based | International | 2025-2026 |
-
-
-
 
 #### 5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping
 
@@ -11943,8 +10581,6 @@ higher efficiency than ICE.
 
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 220
 7.	 Case 7 (ENH₃SOFC): Uses ammonia in a solid oxide Fuel Cell  (SOFC) to generate electricity for 
 propulsion.
@@ -11969,8 +10605,6 @@ out with the greatest potential for reduction. In contrast, for carbon-free fuel
 ELH₂, and BE, the production phase—especially the generation of electricity—plays a bigger 
 role in emissions. The study also takes a closer look at battery-electric (BE) systems in a renewable
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 221
 electricity context, emphasizing how much they rely on energy sources. While manufacturing and 
 replacing components generally have a minor impact on overall emissions, battery production does 
@@ -12020,8 +10654,6 @@ about 2 to 2.5 times more energy than MGO, while in Fuel Cell s (FCs), this need
 1.5 times more energy. On the other side, battery-electric (BE) systems are much more efficient, 
 requiring 40% less energy than MGO since they utilize electrical energy directly without going through
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 222
 multiple conversion steps. The study assesses energy conversion using intermediate energy carriers 
 like electricity and fossil fuels, which can be used directly (for instance, MGO or battery electricity) or 
@@ -12029,8 +10661,6 @@ further transformed into fuels for ships.
 Figure 5.4 : Energy Conversion Efficiency for the Major Conversion Processes from Pathways 
 Starting from the Base Energy Carrier [3].
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 223
 Global Standards and Regulations for Fuel Cells  
 The IMO has issued interim guidelines regarding Fuel Cell  onboard ships. Different classification 
@@ -12074,12 +10704,6 @@ of Fuel Cell  systems on ships, ensuring their safe and effective use. Together,
 to improve safety, efficiency, and sustainability in the adoption of advanced maritime technologies.
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="224" -->
-
-
-
 
 | S. No. | Standard No. | Standard Name | Remarks |
 | --- | --- | --- | --- |
@@ -12095,18 +10719,9 @@ ime Application- Road Map for India (Part A)" -->
 | 10. | IEC 62282-3- 200:2015 | Stationary Fuel Cell Power Systems - Performance Test Methods | Operational and environmental aspects of stationary Fuel Cell power systems with electrical output exceeding 10 kW. |
 | 11. | IEC 62282-3- 300:2012 | Stationary Fuel Cell Power Systems - Installations | Minimum safety requirements for the installation of indoor and outdoor stationary Fuel Cell power systems per IEC 62282-3- 100. |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="225" -->
-
-
-
 
 | S. No. | Standard No. | Standard Name | Remarks |
 | --- | --- | --- | --- |
@@ -12121,18 +10736,9 @@ ime Application- Road Map for India (Part A)" -->
 | 21. | ISO/TR 15916 | Basic Considerations for the Safety of Hydrogen Systems | - |
 | 22. | ISO 26142:2010 | Hydrogen Detection Apparatus - Stationary Applications | Detection of leaks related to hydrogen systems. |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="226" -->
-
-
-
 
 | S. No. | Standard No. | Standard Name | Remarks |
 | --- | --- | --- | --- |
@@ -12140,9 +10746,6 @@ ime Application- Road Map for India (Part A)" -->
 | 24. | ISO/TS 18683 | Guidelines for Systems and Installations for Supply of LNG as Fuel to Ships | Guidance on design and operation of LNG refueling facilities, including LNG refueling of ships. |
 | 25. | DNV-GL Rules Part 6, Chapter 2, Section 3 | Study on the use of Fuel Cell s in shipping | Fuel Cell Installations: Covers safety and operational requirements for Fuel Cell power installations, including fuel supply, reformers, and exhaust systems. |
 | 26. | ASME B31.12 | Hydrogen Piping and Pipelines | Provides requirements for the design, construction, and maintenance of hydrogen piping and pipelines. |
-
-
-
 
 The main regulatory gaps arise from the lack of internationally accepted standards. The Maritime
 sector in general follows in the footsteps of the automotive sector in terms of technology. Therefore,
@@ -12158,9 +10761,6 @@ regulations can be categorized under 3 subtitles namely: Safety, design and oper
 should provide enough knowledge about these topics. These contents can be summarized as shown
 in Table 5.6
 
-
-
-
 | Safety | Design | Operational |
 | --- | --- | --- |
 | System Installation | Material and Installation | Periodical Inspections |
@@ -12171,13 +10771,8 @@ in Table 5.6
 | Surveillance | Port Facilities | Fuel Bunkering Procedure |
 | Electrical Safety |  | Energy Management System |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 227
 Conclusions  
 	»
@@ -12231,8 +10826,6 @@ most preferred option for shipping in smaller vessel (< 500 GT) and power range
 Analysis of Global Research Projects on FC System onboard ships spanning over 22 years shows 
 the following [11].
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 228
 Recommendations for India
 	»
@@ -12280,8 +10873,6 @@ SOFCs make up 13% (5 projects), using LNG, Diesel, Methanol, and Ammonia.
 	»
 MCFCs account for 11% (4 projects).
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 229
 	»
 The drawbacks of low power density, short lifetime and high capital costs are surmountable by 
@@ -12329,8 +10920,6 @@ articleDetail?id=202306130451461092#:~:text=CCS%20has%20carried%20out%20
 research%20on%20epidemic%20prevention%20safety%20for,quality%20development%20
 of%20the%20industry
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 230
 11.	 Elkafas, A. G., Rivarolo, M., Gadducci, E., Magistri, L., & Massardo, A. F. (2022). Fuel Cell Systems 
 for Maritime: A review of research development, commercial products, applications, and 
@@ -12346,15 +10935,8 @@ History, Types, and Applications. International Journal of Energy Research, 2024
 org/10.1155/2024/7271748.
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-
-<figure>
 
 4
-
-</figure>
-
 
 Chapter 6
 Shipping
@@ -12362,10 +10944,6 @@ Shipping
 Fuels and
 Possibility of On-Board
 Carbon Capture
-
-<!-- PageBreak -->
-
-<!-- PageNumber="232" -->
 
 Globally Marine sector is moving towards LNG (near and medium term though fossil-based but later
 can be shifted to CBG), Methanol (immediate), and Hydrogen & Ammonia (long term) as dual fuel &
@@ -12381,9 +10959,6 @@ circumstances. In a recent study as shown in Table 6.1, a critical assessment is
 possibility of integrating deployment of these low carbon bio/green fuels in combination with CCS
 for ambitious emission reduction in marine sector [2]. This awareness though presently is lacking
 among industrial stakeholders but likely to be enhanced in future.
-
-
-
 
 |  | Weight | Bio-Methanol | Bio-Methanol | Bio-Methanol | Bio-DME | Bio-DME | Bio-DME | Bio-LNG | Bio-LNG | Bio-LNG | Bio-oil | Bio-oil | Bio-oil |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -12401,12 +10976,9 @@ among industrial stakeholders but likely to be enhanced in future.
 | compatibility |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | Sum |  | 20.0 |  | 21.2 | 20.0 |  | 19.4 | 19.5 |  | 18.8 | 18.5 |  | 20.6 |
 
-
-
 \* A: Score allotted to fuel for criterion based on literature study; B: Score allotted to fuel criterion by stakeholders;
 
 C: Weighted score of fuel for criterion (C=Weight\*B\*6, as 6 criteria used; rounded to one decimal place)
-
 
 In a comparison between Hydrothermal Liquefaction (HTL) derived bio crude (Technology mostly
 deployed for wet feedstock like algal biomass, organic food wastes etc.) and pyrolysis oil derived
@@ -12418,8 +10990,6 @@ applicability for dry wastes and low cost of pyrolysis bio-oil production could 
 
 <!-- PageFooter="Advanced Green Fuels for Marit
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 233
 the present cost of its downstream upgrading. Another critical study is conducted on OCC as part of 
 the Green Fuels Optionality Project (GFOP) at the Mærsk McKinney Møller Centre for Zero Carbon 
@@ -12460,14 +11030,10 @@ liquid CO2 is a major safety concern due to its instability at the triple phase 
 6. However, at ambient pressure, gaseous CO2 requires large space available on-board, which would 
 make this option infeasible even for a week trip.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 234
 Figure 6.1: Different Pathways of OCCS (Inspired by [4])
 Figure 6.2: Phase Diagram of CO2 [5]
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 235
 6.1.2	 Viable Options for Onboard CO₂ Storage
 The viable options for storing CO2 onboard include a gaseous state, supercritical state, solid state, 
@@ -12510,8 +11076,6 @@ storage option. The liquefied CO₂ must be kept under cryogenic conditions in p
 insulated tanks to stop it from turning back into gas. These tanks are usually built following the 
 guidelines set by the International Code for the Construction and Equipment of Ships Carrying
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 236
 Liquefied Gases in Bulk (IGC Code) [9]. In particular, Type C liquefied gas tanks are the go-to choose 
 for storing pressurized CO₂, due to their proven safety, durability, and ability to handle liquefied 
@@ -12533,11 +11097,6 @@ achieve maritime decarbonization goals. Table 6.2 provides a list of significant
 projects, highlighting their objectives, the country, stakeholders involved, and their status.
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageFooter="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <caption>Table 6.2: Some significant OCCS demonstration projects, detailing their objectives, the country, stakeholders involved, and their current status</caption>
@@ -12589,13 +11148,6 @@ ime Application- Road Map for India (Part A)" -->
 </tr>
 </table>
 
-
-<!-- PageNumber="237" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A) Advanced Green Fuels for Maritime Application-" -->
-
-
 <table>
 <caption>Table 6.2: Some significant OCCS demonstration projects, detailing their objectives, the country, stakeholders involved, and their current status</caption>
 <tr>
@@ -12645,14 +11197,6 @@ ime Application- Road Map for India (Part A)" -->
 ]</td>
 </tr>
 </table>
-
-
-<!-- PageNumber="238" -->
-<!-- PageBreak -->
-
-<!-- PageFooter="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <caption>Table 6.2: Some significant OCCS demonstration projects, detailing their objectives, the country, stakeholders involved, and their current status</caption>
@@ -12715,13 +11259,6 @@ ime Application- Road Map for India (Part A)" -->
 </tr>
 </table>
 
-
-<!-- PageNumber="239" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A) Advanced Green Fuels for Maritime Application-" -->
-
-
 <table>
 <caption>Table 6.2: Some significant OCCS demonstration projects, detailing their objectives, the country, stakeholders involved, and their current status</caption>
 <tr>
@@ -12768,8 +11305,6 @@ ime Application- Road Map for India (Part A)" -->
 <td>China</td>
 <td>[26
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 241
 6.3	
 OCCS Readiness Level  
@@ -12808,20 +11343,14 @@ and disadvantages vary significantly based on the type of carbon capture technol
 combustion capture, oxy-fuel combustion capture, or post-combustion capture are presented in 
 Figure 6.4- 6.6.
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 242
 Figure 6.3: Readiness Levels of Onboard Carbon Capture 
 Figure 6.4: Advantages and Disadvantages of Pre Combustion Capture
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 243
 Figure 6.5: Advantages and Disadvantages of Oxy Fuel Combustion Capture
 Figure 6.6: Advantages and Disadvantages of Post Combustion Capture Chemical Absorption
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 244
 6.5	
 Key Parameters for OCCS
@@ -12848,8 +11377,6 @@ maturity, energy requirements, space requirements and other relevant considerati
 Figure 6.7: Key Parameters Worth Investigating when Considering Onboard Carbon 
 Capture Source (DNV  2024)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 245
 Conclusions 
 Present Technological status of Onboard Carbon Capture and Storage (OCCS) are poised to cut CO₂ 
@@ -12889,8 +11416,6 @@ Adsorption (short to medium term)
 cryogenic & solid-state storage technology upscaling and adoption in shipping (short to medium 
 term projects to undertake)
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 246
 3.	 In order to minimize CO2 transport and enable larger adoption of OCC, policy support is needed in 
 developing CCU units in ports along India’s coastal belt for frequent offloading of captured CO2 
@@ -12932,8 +11457,6 @@ haggqvist_nico.pdf
 density, thermal data & more.  https://www.engineeringtoolbox.com/CO2-carbon-dioxide-
 properties-d_2017.html
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 247
 8.	 Wang, H., Zhou, P., & Wang, Z. (2017). Reviews on current carbon emission reduction technologies 
 and projects and their feasibilities on ships. Journal of Marine Science and Application, 16(2), 
@@ -12974,8 +11497,6 @@ Deltamarin. 
 https://deltamarin.com/news/blog/article/carbon-capture-case-study-for-a-ropax-
 ship/
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 248
 22.	 Kelleher, J. (2025, March 25). Value Maritime and MOL Complete Carbon Capture First. Value 
 Maritime.  https://valuemaritime.com/news/value-maritime-and-mol-complete-carbon-capture-
@@ -13006,32 +11527,16 @@ https://doi.org/10.1007/s40868-024-00161-w
 </tr>
 </table>
 
-
-<!-- PageNumber="240" -->
-<!-- PageBreak -->
-
-
-<figure>
-
 4
-
-</figure>
 
 Chapter 7
 Standards, Regulations
 and Policies
 
-<!-- PageBreak -->
-
-<!-- PageNumber="250" -->
-
 Table7.1 presents the overview of the IMO's ongoing initiatives through the MEPC aimed at tackling
 greenhouse gas (GHG) emissions from international shipping. It tracks tracks significant progress
 from MEPC 76 up to the anticipated adoption of new amendments at MEPC 83 in 2025. More detailed
 Amendments and Measurses of MEPC can be asscessed through [1-3].
-
-
-
 
 | Timeline / Meeting | Event / Measure | Key Actions / Outcomes |
 | --- | --- | --- |
@@ -13059,9 +11564,6 @@ Amendments and Measurses of MEPC can be asscessed through [1-3].
 | Autumn 2025 | Adoption of amendments | - Special MEPC session to adopt approved measures |
 | 2027 (Expected Entry into Force) | Implementation | - Mid-term measures from 2025 enter into force |
 
-
-
-
 The maritime industry is leading the charge in the global effort to decarbonize, with regulatory
 frameworks playing a crucial role in the shift towards cleaner fuels and more sustainable practices.
 Key players, including international organizations like the International Maritime Organization (IMO)
@@ -13071,9 +11573,6 @@ at reaching net-zero greenhouse gas (GHG) emissions by 2050.
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="251" -->
 
 In this chapter, a closer look is taken at the main regulatory tools that are currently shaping the
 maritime decarbonization agenda. The global initiatives are led by the IMO-like efficiency indices
@@ -13099,27 +11598,15 @@ Fit-for-55 package. These initiatives set mandatory renewable energy goals, outl
 and greenhouse gas (GHG) performance standards, and create a framework for alternative fuels like
 e-methanol and e-ammonia.
 
-
-
-
 | Regulation/Directive | Scope | Targets and Main Requirements | Sustainability and GHG Savings Criteria |
 | --- | --- | --- | --- |
 | EU GHG regulatory framework | EU GHG regulatory framework |  |  |
 | EU Renewable Energy Directive (REDIII) DIRECTIVE (EU) 2023/2413 | WtT | . Overall binding RES target: at least 42.5% by 2030 in | Defines sustainability criteria and minimum GHG savings for renewable fuels brought to EU market and sets a GHG emissions reduction threshold compared to reference fossil (94 gCO2eq/MJ): · biofuels requiring at least 50- 65% (depending on the date of facility installation) · RFNBO and RCFs at least 70% |
 | · Advanced biofuels (AB) and RFNBOs: Combined 5.5% Advanced biofuels and RFNBO (min. 1%) target in 2030. Incentive for AB and RFNBOs (double counting) and their use in aviation and maritime (1,2 x for AB and x1,5 for RFNBOs). Indicative target of 1.2% for RFNBOs in shipping · Waste G Residues: Capped to 1.7% . Food and feed crops: capped to 7% or 2020 share +1% (all transport), limit to high- ILUC risk except if certified Low-ILUC risk biomass |  |  |  |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="252" -->
-
-
-
 
 | Regulation/Directive | Scope | Targets and Main Requirements | Sustainability and GHG Savings Criteria Defines the conditions under which the electricity used for hydrogen production is considered fully renewable: temporal correlation, geographical correlation and additionality. Refers to RED II Directive: · RED compliant : use actual certified GHG intensity values for well-to-tank emissions · RED compliant : considered as having GHG emissions equal to the least favourable fossil |
 | --- | --- | --- | --- |
@@ -13128,27 +11615,13 @@ ime Application- Road Map for India (Part A)" -->
 | EU Emissions Trading System Directive (EU ETS) 2003/87/EC consolidated text | TtW | Since 2024, the EU ETS has been extended to cover the maritime sector. Regulate GHG emissions in the EU/ EEA through cap and trade of emission allowances. Ships of 5000 GT and above to be included in the EU ETS from 2023. Applicable to all intra-EEA voyages and 50% of voyages to/from countries outside the EEA. | EU-ETS allows for a zero CO2 emissions factor for biofuels, RFNBOs and RCFs that meet specific sustainability and GHG savings criteria defined by the RED. |
 | Alternative Fuels Infrastructure Regulation (AFIR) (EU) 2023/1804 |  | Main EU ports are required to provide a minimum shore power supply for container ships and passenger ships over 5,000 GT by 2030. Mandates LNG refuelling infrastructure at major ports by 2025. |  |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="253" -->
-
-
-
 
 | Regulation/Directive | Scope | Targets and Main Requirements | Sustainability and GHG Savings Criteria |
 | --- | --- | --- | --- |
 | Revision of Energy Taxation Directive (ETD) 2003/96/EC |  | Aims to modify the way energy products are taxed in EU. The proposal introduces a new structure of tax rates based on energy content and environmental performance of the fuels and electricity. Removes tax exemptions for conventional maritime fuels; introduces €10.75/GJ tax for fossil fuels while advanced biofuels, biogas, and RFNBOs have a reduced rate of €0.15/GJ. |  |
-
-
-
-
-
 
 | Regulation/Directive | Scope | Targets and Main Requirements |
 | --- | --- | --- |
@@ -13159,25 +11632,13 @@ ime Application- Road Map for India (Part A)" -->
 | · To adopt Life cycle GHG assessment guidelines (LCA Guidelines) using a well-to-wake GHG emissions approach · Interim guidance on the use of biofuels under DCS and CII |  |  |
 | EEDI/EEXI (Energy Efficiency Design/ Existing Ship Index) | TtW | EEDI (2013) applies to new ships, mandating design efficiency improvements; EEXI (2023) extends efficiency standards to existing ships, requiring compliance by 2023. |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="254" -->
-
-
-
 
 | Regulation/Directive | Scope | Targets and Main Requirements | Targets and Main Requirements |
 | --- | --- | --- | --- |
 | CII (Carbon Intensity Indicator) | TtW | · Carbon Intensity Indicator (starting 2023), vessels must collect emissions and be rated A-E for annual efficiency of all ships above 5000 GT. The use of biofuels under IMO DCS and CII regulations | · Biofuels that have been certified as sustainable through an international certification system (ISCC, RSB,etc.) should be promoted. · Biofuels that are not certified as sustainable or do not meet the emissions reduction criterion will be assigned a Cf equal to that of the equivalent fossil fuel type |
-
-
-
 
 ### Alternative Marine Fuels: Regulatory Mapping
 
@@ -13212,13 +11673,6 @@ with required work yet to start
 Advanced Green Fuels for M
 
 aritime Application-
-Road Map for India (Part A)
-
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <tr>
@@ -13248,14 +11702,6 @@ Road Map for India (Part A)
 .</td>
 </tr>
 </table>
-
-
-<!-- PageNumber="255" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <caption>Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks</caption>
@@ -13293,14 +11739,6 @@ x</td>
 </tr>
 </table>
 
-
-<!-- PageNumber="256" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
-
 <table>
 <tr>
 <th colspan="4">Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks</th>
@@ -13332,14 +11770,6 @@ x</td>
 ></td>
 </tr>
 </table>
-
-
-<!-- PageNumber="257" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <tr>
@@ -13373,15 +11803,7 @@ x</td>
 </tr>
 </table>
 
-
-<!-- PageNumber="258" -->
-<!-- PageBreak -->
-
-
 ### Road Map for India (Part A)
-
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <tr>
@@ -13409,29 +11831,14 @@ x</td>
 </tr>
 </table>
 
-
-<!-- PageNumber="259" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
-
-
-
 | Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks | Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks | Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks | Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks |
 | --- | --- | --- | --- |
 | Fuel | External Standards | IMO Safety-SOLAS | IMO Environment - MARPOL |
 | Ammonia | No marine standards available ISO/AWI 23397 Ships and marine technology Ammonia fuel systems for ships is under development | SOLAS Chapter II regulates low-flashpoint fuels (< 60℃) through SOLAS Ch II-1 Part G (low-flashpoint liquid fuel or gas) and IGF Code; alternatively SOLAS Ch II-1 Part F (Alternative design and arrangement) -MSC. 1/Circ. 1212/ Rev.1 and MSC.1/Circ.1455 IGC Code identifies ammonia as a toxic product and prohibits toxic cargo to be used as a fuel. The IGF Code does not cover ammonia as fuel. Draft interim guidelines for the safety of ships using ammonia as fuel are currently under development. | Ammonia aqueous" is assigned category Y as per the IBC Code, meaning it presents a hazard to either marine resources or human health. MARPOL Annex II requirements do not apply for spill and discharges of ammonia as fuel. MARPOL Annex VI regulates emissions of CO, and NO, Other combustion products e.g., N, O are not currently regulated under MARPOL Annex VI. |
 | Hydrogen | ISO 14687:2019 "Hydrogen fuel quality - Product specification" No marine standards available | The IGF Code does not currently cover hydrogen as fuel. Resolution MSC.420(97) provides interim recommendations for the safe carriage of liquid hydrogen in bulk on ships. Additionally, draft interim guidelines are being developed to ensure the safety of ships using hydrogen as fuel. These measures aim to address the gap in regulations and promote the safe adoption of hydrogen as a maritime fuel. | MARPOL Annex VI regulates emissions of CO2 and NOx |
 
-
-
-
 Source: https://greenvoyage2050.imo.org/alternative-marine-fue
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 261
 References
 1.	 2018 Initial IMO Strategy. https://www.imo.org/en/OurWork/Environment/Pages/Vision-and-
@@ -13468,13 +11875,8 @@ ls-regulatory-mappin
 
 g/
 
-<!-- PageNumber="260" -->
-<!-- PageBreak -->
-
 <!-
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 264
 Annexure I
 IMO LCA Methodological Guidance 
@@ -13512,8 +11914,6 @@ and delivery) are assessed regardless of the final use of fuels/energy carriers,
 (i.e. emissions related to the fuel use) are quantified regardless of the sourcing/production/
 conversion/transport and delivery steps of the fuel/energy carrier. WtW emissions are given by the
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 265
 sum of the two parts, providing the full emission performance associated with the fuel production 
 and use of a certain fuel/energy in a specific converter onboard.
@@ -13556,24 +11956,12 @@ geographic regions, where feedstock production and/or conversion occurs, as appr
 
 - PageBreak -->
 
-
-<figure>
-</figure>
-
-
 Annexures
-
-<!-- PageBreak -->
-
-<!-- PageNumber="266" -->
 
 The WET GHG emission factor (gCO2eq/MJ(Lcv) fuel or electricity) is calculated according to
 Equation (1).
 
 GHGWIT = efecu + el + ep + etd - esca - eccs ....... (1)
-
-
-
 
 | Term | Units | Explanation |
 | --- | --- | --- |
@@ -13589,21 +11977,12 @@ GHGWIT = efecu + el + ep + etd - esca - eccs ....... (1)
 | est | gCO2eq/ MJ(LCV) | Any emissions associated with the process of storing (long- term: 100 years) the captured CO2 (including fugitive emissions that may happen during long-term storage and/or the injection of CO2 into the storage) |
 | ex | gCO2eq /MJ(LCV) | Any additional emissions related to the CCS |
 
-
-
 *Pending further methodological guidance to be developed by OMI, the value of parameter should be
 set to 0.
-
 
 Advanced Green Fuels for M
 
 aritime Application-
-Road Map for India (Part A)
-
-<!-- PageBreak -->
-
-<!-- PageNumber="267" -->
-
 
 ### b) TANK-TO-WAKE (TtW)
 
@@ -13650,9 +12029,6 @@ X
 ☒
 (2)
 
-
-
-
 | Term | Units | Explanation |
 | --- | --- | --- |
 | Cslip_ship | % of total fuel mass | Factoraccounting forfuel (expressedin % oftotalfuelmass delivered to the ship) which escapes from the energy converter without being oxidized (including fuel that escapes from combustion chamber/ oxidation process and from crankcase, as appropriate) Cslip_ship = Cslip * (1-Cfug/100) |
@@ -13667,18 +12043,9 @@ X
 | https://www.ipcc.ch/assessment-report/ar5/ |  |  |
 | GWPfuelx | gCO2eq/g GHG | Global Warming Potential of GHG in the components of the fuel over 100 years (based on the fifth IPCC scientific Assessment Report) |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="268" -->
-
-
-
 
 | Term | Units | Explanation |
 | --- | --- | --- |
@@ -13695,9 +12062,6 @@ ime Application- Road Map for India (Part A)" -->
 | ex LCV | gCO2eq / g fuel MJ/g | Any additional emission related to the CCS |
 | Lower Calorific Value is the amount of heat that would be released by the complete combustion of a specified fuel |  |  |
 
-
-
-
 · Pending further methodological guidance to be developed by the Organization, the value of the multiplication
 SFccu x eccu should be set to zero.
 
@@ -13710,10 +12074,6 @@ set to zero.
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="269" -->
-
 
 #### c) WELL-TO-WAKE (WtW)
 
@@ -13724,9 +12084,6 @@ The WtW GHG emission factor (gCO2eq/MJLCV fuel or electricity) is calculated as 
 
 GHGWtw = GHGWtT + GHGTtw ..................... (3)
 
-
-
-
 | Term | Units | Explanation |
 | --- | --- | --- |
 | GHGWtW | gCO2eq/ | Total well-to-wake GHG emissions per energy unit from the use |
@@ -13734,9 +12091,6 @@ GHGWtw = GHGWtT + GHGTtw ..................... (3)
 | GHGWIT | gCO2eq/ | Total well-to-tank GHG upstream emissions per energy unit of |
 | MJ(LCV) | the fuel provided to the ship |  |
 | GHGTtW | gCO2eq/ MJ(LCV) | Total tank-to-wake GHG downstream emissions per energy unit from the use of fuel or electricity in a consumer on board the ship |
-
-
-
 
 ### Reference
 
@@ -13752,13 +12106,8 @@ ifpen.fr/files/inline-images/20250310_IFPEN_CMACGM_ok.pdf
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="270" -->
-
 
 ### Annexure II Alternative Fuel Bunkering Readiness At Global Ports
-
 
 #### 1. Ammonia Bunkering
 
@@ -13767,9 +12116,6 @@ Active
 Potential
 
 Under construction
-
-
-
 
 | S. No. | Port Name | Port Country | Port Operator |
 | --- | --- | --- | --- |
@@ -13799,18 +12145,9 @@ Under construction
 |  | Jacksonville | United States | JAXPORT |
 |  | Benicia | United States | AMPORTS |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="271" -->
-
-
-
 
 | S. No. | Port Name | Port Country | Port Operator |
 | --- | --- | --- | --- |
@@ -13826,13 +12163,7 @@ ime Application- Road Map for India (Part A)" -->
 | Ammonia Bunkering TTS | Ammonia Bunkering TTS | Ammonia Bunkering TTS | Ammonia Bunkering TTS |
 |  | Yokohama | Japan | Yokohama Port |
 
-
-
-
 #### 2. Biofuel Bunkering
-
-
-
 
 | S. No. | Port Name | Port Country | Port Operator |
 | --- | --- | --- | --- |
@@ -13860,18 +12191,9 @@ ime Application- Road Map for India (Part A)" -->
 |  | Yantian | China P.R. | Shenzhen Port Group |
 |  | Nansha | China P.R. | Guangzhou Port Grp |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="272" -->
-
-
-
 
 | S. No. | Port Name | Port Country | Port Operator |
 | --- | --- | --- | --- |
@@ -13889,13 +12211,7 @@ ime Application- Road Map for India (Part A)" -->
 |  | Toulon | France |  |
 |  | Aarhus | Denmark | Port of Aarhus |
 
-
-
-
 #### 3. Hydrogen bunkering
-
-
-
 
 | S. No. | Port Name | Port Country | Port Operator |
 | --- | --- | --- | --- |
@@ -13918,18 +12234,9 @@ ime Application- Road Map for India (Part A)" -->
 |  | Portland | United Kingdom | Portland Port UK |
 |  | Sandnessjøen | Norway | Helgeland Havn |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="273" -->
-
-
-
 
 | S. No. | Port Name | Port Country | Port Operator |
 | --- | --- | --- | --- |
@@ -13959,13 +12266,7 @@ ime Application- Road Map for India (Part A)" -->
 |  | Bellingham | United States | Port of Bellingham |
 |  | Osaka | Japan | Osaka Port Corporation |
 
-
-
-
 #### 4. LNG bunkering
-
-
-
 
 | Sl no. | Port name | Port country | Port operator |
 | --- | --- | --- | --- |
@@ -13977,18 +12278,9 @@ ime Application- Road Map for India (Part A)" -->
 |  | Frederikshavn | United Kingdom/Continent | Port Frederikshavn |
 |  | Huelva | United Kingdom/Continent | Port of Huelva |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="274" -->
-
-
-
 
 | Sl no. | Port name | Port country | Port operator |
 | --- | --- | --- | --- |
@@ -14030,20 +12322,9 @@ ime Application- Road Map for India (Part A)" -->
 |  | La Spezia | Italy | La Spezia Port Autho |
 |  | Pengerang | Malaysia |  |
 
-
-
-
 Advanced Green Fuels for M
 
 aritime Application-
-Road Map for India (Part A)
-
-<!-- PageBreak -->
-
-<!-- PageNumber="275" -->
-
-
-
 
 | Sl no. | Port name | Port country | Port operator |
 | --- | --- | --- | --- |
@@ -14085,18 +12366,9 @@ Road Map for India (Part A)
 |  | Port Hedland | Australia | Pilbara Ports |
 |  | Piraeus | Greece | Piraeus Port Auth |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="276" -->
-
-
-
 
 | Sl no. | Port name | Port country | Port operator |
 | --- | --- | --- | --- |
@@ -14137,20 +12409,9 @@ ime Application- Road Map for India (Part A)" -->
 |  | Hirtshals | Denmark | Port of Hirtshals |
 |  | Wilhelmshaven | Germany | Niedersachsen Ports |
 
-
-
-
 Advanced Green Fuels for M
 
 aritime Application-
-Road Map for India (Part A)
-
-<!-- PageBreak -->
-
-<!-- PageNumber="277" -->
-
-
-
 
 | Sl no. | Port name | Port country | Port operator |
 | --- | --- | --- | --- |
@@ -14191,18 +12452,9 @@ Road Map for India (Part A)
 |  | Incheon | South Korea | Incheon Port Auth |
 |  | Dunkirk | France | Port de Dunkerque |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="278" -->
-
-
-
 
 | Sl no. | Port name | Port country | Port operator |
 | --- | --- | --- | --- |
@@ -14243,20 +12495,9 @@ ime Application- Road Map for India (Part A)" -->
 |  | Algeciras | Spain | APBA |
 |  | Antwerp | Belgium | Port Antwerp-Bruges |
 
-
-
-
 Advanced Green Fuels for M
 
 aritime Application-
-Road Map for India (Part A)
-
-<!-- PageBreak -->
-
-<!-- PageNumber="279" -->
-
-
-
 
 | Sl no. | Port name | Port country | Port operator |
 | --- | --- | --- | --- |
@@ -14297,18 +12538,9 @@ Road Map for India (Part A)
 |  | Sakai-Semboku | Japan | Sakai Semboku Port |
 |  | Jacksonville | United States | JAXPORT |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="280" -->
-
-
-
 
 | Sl no. | Port name | Port country | Port operator |
 | --- | --- | --- | --- |
@@ -14347,36 +12579,18 @@ ime Application- Road Map for India (Part A)" -->
 |  | New Orleans | United States | Port of New Orleans |
 |  | Port Arthur | United States |  |
 
-
-
-
 Advanced Green Fuels for M
 
 aritime Application-
-Road Map for India (Part A)
-
-<!-- PageBreak -->
-
-<!-- PageHeader="281" -->
-
 
 #### 5. LPG Bunkering
-
-
-
 
 | S. No. | Port Name | Port Country | Port Operator |
 | --- | --- | --- | --- |
 |  |  | LPG Bunkering STS |  |
 |  | Portland | United Kingdom | Portland Port UK |
 
-
-
-
 #### 6. Methanol Bunkering
-
-
-
 
 | S. No. | Port Name | Port Country | Port Operator |
 | --- | --- | --- | --- |
@@ -14409,18 +12623,9 @@ Road Map for India (Part A)
 |  | Gothenburg | Sweden | Gothenburg Port |
 |  | Antwerp | Belgium | Port Antwerp-Bruges |
 
-
-
-
 <!-- PageFooter="Advanced Green Fuels for Marit
 
 ime Application- Road Map for India (Part A)" -->
-<!-- PageBreak -->
-
-<!-- PageNumber="282" -->
-
-
-
 
 | S. No. | Port Name | Port Country | Port Operator |
 | --- | --- | --- | --- |
@@ -14439,27 +12644,15 @@ ime Application- Road Map for India (Part A)" -->
 |  | Ain Sokhna | Middle East | Suez Canal Zone |
 |  | Duqm | Middle East | Port of Duqm |
 
-
-
-
 Advanced Green Fuels for M
 
 aritime Application-
-Road Map for India (Part A)
-
-<!-- PageBreak -->
-
 
 ### Annexure III
 
-
 #### Alternative Fuel Feedstock and Supply (India)
 
-
 ##### A) Ammonia
-
-
-
 
 | S. No. | Project Name | Date | Status | Technology Details | Capacity |  | Technology Partners | Ref. |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -14472,19 +12665,9 @@ Road Map for India (Part A)
 | 6 | Ammonia plant Deendayal Port - Site Kandla in Gujarat | 2027 | Concept | Unknown | 133 kt NH3/y production | 133,000 t NH3/y |  | 11 |
 | 7 | Ammonia plant Kota - Rajasthan state - phase 1 | 2025 | Concept | Unknown | 15 kt NH3/y capacity | 15,000 t NH3/y |  | 11 |
 
-
-
-
-<!-- PageNumber="283" -->
-<!-- PageFooter="Road Map for India (Part A)" -->
 <!-- PageHeader="Ad
 
 vanced Green Fuels for Maritime Application-" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <tr>
@@ -14638,15 +12821,6 @@ vanced Green Fuels for Maritime Application-" -->
 </tr>
 </table>
 
-
-<!-- PageNumber="284" -->
-<!-- PageBreak -->
-
-Road Map for India (Part A)
-
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
-
 <table>
 <tr>
 <th rowspan="2">S. No.</th>
@@ -14766,16 +12940,7 @@ Road Map for India (Part A)
 </tr>
 </table>
 
-
-<!-- PageNumber="285" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
-
 ##### B) Methanol
-
 
 <table>
 <tr>
@@ -14841,17 +13006,7 @@ Road Map for India (Part A)
 </tr>
 </table>
 
-
-<!-- PageNumber="286" -->
-<!-- PageBreak -->
-
-Road Map for India (Part A)
-
-<!-- PageFooter="Advanced Green Fuels for Maritime Application-" -->
-
-
 ##### B) Methanol
-
 
 <table>
 <tr>
@@ -14905,16 +13060,7 @@ Road Map for India (Part A)
 </tr>
 </table>
 
-
-<!-- PageNumber="287" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
-
 ### C) Hydrogen
-
 
 <table>
 <tr>
@@ -15080,15 +13226,6 @@ Road Map for India (Part A)
 1</td>
 </tr>
 </table>
-
-
-<!-- PageNumber="288" -->
-<!-- PageBreak -->
-
-Road Map for India (Part A)
-
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <tr>
@@ -15270,14 +13407,6 @@ Road Map for India (Part A)
 </tr>
 </table>
 
-
-<!-- PageNumber="289" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
-
 <table>
 <tr>
 <th rowspan="3">S. No.</th>
@@ -15455,14 +13584,6 @@ Road Map for India (Part A)
 1</td>
 </tr>
 </table>
-
-
-<!-- PageNumber="290" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
 
 <table>
 <tr>
@@ -15706,14 +13827,6 @@ Road Map for India (Part A)
 </tr>
 </table>
 
-
-<!-- PageNumber="291" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="Road Map for India (Part A)" -->
-<!-- PageHeader="Advanced Green Fuels for Maritime Application-" -->
-
-
 <table>
 <tr>
 <th rowspan="3">S. No.</th>
@@ -15856,8 +13969,6 @@ Road Map for India (Part A)
 <td>175.2 t H2/y</td>
 <td>1
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 293
 Reference 
 1.	 Adani New Industries Limited. (2024). Green Hydrogen Ecosystem. https://www.adanienterprises.
@@ -15899,8 +14010,6 @@ Capacity:%20What’s%20this%20about,on%20the%20current%20project%20pipeline.
 hydrogen sector in India. In  (SAREP) FINAL REPORT [Report]. https://sscgj.in/wp-content/
 uploads/2024/06/GH2-Skill-Gap-report_MSDE.pdf
 
-Advanced Green Fuels for Maritime Application- 
-Road Map for India (Part A)
 294
 14.	 Hygenco Green Energies Private Limited.  https://www.hygenco.in/press-first-green-hydrogen-
 plant.html

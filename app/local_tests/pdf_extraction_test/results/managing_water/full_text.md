@@ -1,8 +1,5 @@
 # Full extracted text — managing-water.pdf
 
-<!-- PageHeader="IN PERSPECTIVE" -->
-
-
 # Integrated means of managing water
 
 Need to promote

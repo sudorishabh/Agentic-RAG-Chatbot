@@ -2,9 +2,6 @@
 
 # CONFERENCE PAPERS Poster Presentation
 
-
-<figure>
-
 INEJUISTRIAL
 
 7
@@ -144,19 +141,11 @@ Io
 
 BUG DATA
 
-</figure>
-
-
-<figure>
-
 Organizer
 teri
 THE ENERGY AND
 RESOURCES INSTITUTE
 Creating Innovative Solutions for a Sustainable Future
-
-</figure>
-
 
 Editors
 
@@ -166,17 +155,9 @@ Dr Projes Roy
 Ms Jolly Koshy
 Ms Pallavi Shukla
 
-<!-- PageBreak -->
-
 ## ICDL 2019 MOBILE APP
 
-
-<figure>
-
 0001100010
-
-</figure>
-
 
 ### DOWNLOAD
 
@@ -204,8 +185,6 @@ Tweet using ICDL Hashtags
 #ActDigitally
 
 #DigitalTransformation
-
-<!-- PageBreak -->
 
 CONFERENCE PAPERS
 International Conference on Digital Landscape
@@ -403,8 +382,6 @@ O P Verma and Somen Chakraborty
 
 Author Index ... 163
 
-<!-- PageBreak -->
-
 Foreword
 W
 ith the Digital Transformation (DT), the era of trotting from one 
@@ -439,8 +416,6 @@ International Conference on Digital Landscape
 Digital Transformation for an Agile Environment
 November 6-8, 2019 | New Delhi
 ICDL2019
-
-<!-- PageBreak -->
 
 Message from Director General
 I
@@ -486,8 +461,6 @@ International Conference on Digital Landscape
 Digital Transformation for an Agile Environment
 November 6-8, 2019 | New Delhi
 ICDL2019
-
-<!-- PageBreak -->
 
 Preface
 D
@@ -1038,8 +1011,6 @@ ICDL2019
 KEYNOTE SPEECH
 The Energy and Resources Institute
 
-<!-- PageBreak -->
-
 6 November 2019 
 Keynote speech at the ICDL 2019 Conference: 
 Digital Transformation leading to a low carbon 
@@ -1246,8 +1217,6 @@ developed.
 Thank you.
 7
 
-<!-- PageBreak -->
-
 Organizer
 International Conference on Digital Landscape
 Digital Transformation for an Agile Environment
@@ -1256,9 +1225,6 @@ ICDL2019
 POSTER PRESENTATION
 The Energy and Resources Institute
 
-<!-- PageBreak -->
-
-ICDL 2019: Poster 
 Digital Rights Management and how it is solution 
 to libraries 
 Priyanka Bose 
@@ -1291,7 +1257,6 @@ It is by which that the control and management of the user right & business logi
 DRM technology with the components such as locker right, subscription management would be 
 11
 
-ICDL 2019: Poster 
 across the various devices. Those who have right in their hand can work out over who will use 
 their work and how will they use the work. These kinds of the rights are attached to the particular 
 document at the time of the distribution with the work author give up the rights of his work to the 
@@ -1323,7 +1288,6 @@ Whatever we are observing above is very important for the REL for the management
 which is also automated. 
 12
 
-ICDL 2019: Poster 
 Interoperability 
 There are large number of stakeholders who are working with these regulations, there is no 
 alternate ways for cooperation, and all the standards have to be international in the global 
@@ -1359,7 +1323,6 @@ institution such as, if the institution is of engineering then the library will 
 on the engineering. This can also include creating course content, and course management 
 13
 
-ICDL 2019: Poster 
 software are also there for all this thing. Born Digital can be in both form, it is possible this 
 content is present in analogue form, print form and also certain times it is possible that it is 
 present in only in the digital form, sometime we find document which are not for printing also. 
@@ -1392,7 +1355,6 @@ materials is not the difficult. Digitalization is also important as it preserve 
 material.  
 14
 
-ICDL 2019: Poster 
 Copyright Laws 
 World Intellectual Property Organization 
 This is a kind of special organization of United Nations, created in 1967 so there is production of 
@@ -1426,7 +1388,6 @@ established intelligence world. They need to support rights which are transparen
 have new ways of showing rights to show things are transparent which supports DRM such as 
 15
 
-ICDL 2019: Poster 
 documents & open access to have legal confidence. The users of the library will use their rights 
 well if they are aware about it. Legality and Technological issues become very important in the 
 work of the librarians. This can be achieved by machine readable from of rights to get big 
@@ -1461,7 +1422,6 @@ As it can be seen that DRM is sometimes taken to be very restrictive on the libr
 time it is very useful, and make things manageable.  
 16
 
-ICDL 2019: Poster 
 References 
 1.
 Böhner, D. (2008). Digital rights description as part of digital rights management: A challenge for libraries.
@@ -1483,9 +1443,6 @@ Mahesh, G., & Mittal, R. (2009). Digital content creation and copyright issues. 
 27(4), 676–683. https://doi.org/10.1108/02640470910979615
 17
 
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
 # Role of Librarian in Promoting Open Access: Study of Indian Librarians Community
 
 Vrushali Dandawate
@@ -1493,7 +1450,6 @@ Librarian, AISSMS College of Engineering College Pune; DOAJ Ambassador, India.
 
 M Dhanamajaya
 Registrar, Reva University, Bangalore
-
 
 ## Abstract
 
@@ -1509,14 +1465,11 @@ about awareness of open Access among Indian Librarians Community. The main aim o
 study is to get an idea about how Librarians view about open Access and various open access
 resources. Data is collected through online survey method from various Librarians group.
 
-
 ## Keywords
 
 Open Access, Librarian Role, Open Access and Indian Librarians
 
-
 ## Introduction
-
 
 ### What is Open Access
 
@@ -1532,11 +1485,6 @@ them as data to software, or use them for any other lawful purpose, without fina
 1
 http://www.budapestopenaccessinitiative.org/ Accessed on 18/3/2018
 
-<!-- PageNumber="18" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
 technical barriers other than those inseparable from gaining access to the internet itself. The only
 constraint on reproduction and distribution, and the only role for copyright in this domain, should
 be to give authors control over the integrity of their work and the right to be properly
@@ -1551,7 +1499,6 @@ Open Society foundation mentioned3: "Open access is an alternative publishing an
 distribution model that makes scholarly research literature-most of which is already funded by
 taxpayers around the world-freely available to the public online, without restrictions."
 
-
 ## Open Access and Librarians
 
 Earlier Librarian role just considered as "Information gatekeeper" but due to information
@@ -1564,12 +1511,10 @@ are adopting open access since we are living in a democratic world and society a
 knowledge and Information are for all for the balanced development of the Society. Hence
 Librarians should work essentially for the promotion of Open Access.
 
-
 ## Benefits of Open Access
 
 Open access scholarly information source book (OASIS) describe the benefits of open access for
 all4
-
 
 ### Researchers
 
@@ -1591,18 +1536,11 @@ https://www.opensocietyfoundations.org/explainers/what-open-access Accessed on 1
 4
 http://wordpress.openoasis.org/promoting-open-access/ accessed on 24/5/2018
 
-<!-- PageNumber="19" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
 ### Administrators
 
 1\. Help to improve visibility and prestige of Institute
 
 2\. To enable research institutions to better account for their research output.
-
 
 ### Policy makers and funding agencies
 
@@ -1616,9 +1554,7 @@ more widespread dissemination and uptake of knowledge.
 outputs from their funding, and measure and assess how effectively their money has been
 spent.
 
-
 ## Open Access Resources
-
 
 ### Open Access Books
 
@@ -1630,7 +1566,6 @@ services and libraries can integrate the directory into their online catalogues,
 students to discover the books. The directory is open to all publishers who publish academic,
 peer reviewed books in Open Access and should contain as many books as possible, provided
 that these publications are in Open Access and meet academic standards.
-
 
 ### Open Access Journals
 
@@ -1645,10 +1580,6 @@ author.
 5
 http://doabooks.org/
 
-<!-- PageNumber="20" -->
-<!-- PageBreak -->
-
-ICDL 2019: Poster 
 DOAJ (https://doaj.org)6 is a centrally, publicly and internationally available community-curated
 database containing information on high quality open access journal titles across all disciplines, 
 maintained by a team of professionals. It aims to become the default service for finding quality, 
@@ -1688,7 +1619,6 @@ http://lackoftalent.org/michael/papers/532.pdf
 Promoting Open Access to Research in Academic Libraries. 
 21
 
-ICDL 2019: Poster 
 and becoming active OA journal publishers. Ugwuanyi etl11 (2013) identified that the
 perceptions of librarians in colleges of education in south-east Nigeria towards Open Access to 
 knowledge were positive. The researchers Ugwuanyi & Ugwaungy (2013) also discovered that 
@@ -1716,7 +1646,6 @@ resources to support reference services: A case of private institutions of highe
 Conference paper IFLA Conference 2015 
 22
 
-ICDL 2019: Poster 
 Chart 1: It shows the response rate to questionnaire from various respondent institute librarians 
 79.4% was working as Academic Librarians while 3.2 % was corporate librarians 7.9 % was 
 university librarians and 9.5% was research librarians   
@@ -1728,7 +1657,6 @@ ROAD is most useful database and 9.5% said DOAR is useful for researchers and 17
 this database are useful for researcher and academic users.   
 23
 
-ICDL 2019: Poster 
 Chart 4: It shows 7.9% librarians were not promoting Open Access and 92.1 % Librarians was 
 promoting open access at their institutes.  
 Chart 5: It shows 55.5% librarians was promoting open access among the users by giving 
@@ -1738,7 +1666,6 @@ Access for users. And 12.7% of librarians were involved in organizing workshop a
 conferences on Open Access for user community.    
 24
 
-ICDL 2019: Poster 
 Chart 6: It shows 96.8% libraries in India are giving APC charges to the users to publish their 
 paper in Open Access Journals while 3.2% libraries have budget for this was research Libraries.   
 Chart 7: 93.7 % librarians said that Open Access is important for them while 6.3% librarians 
@@ -1748,7 +1675,6 @@ Many librarians mentioned Open Access is a good source, but most of the students
 avoid library use and depends on the free documents only. They also mentioned mostly library 
 25
 
-ICDL 2019: Poster 
 users are unaware of open access. Many librarians mentioned Open Access to books, journals 
 etc. are useful for researchers and students. and Open Access always worth to use and it is 
 essential E-information sources in paid environment. Open Access is solution for migration of 
@@ -1791,7 +1717,6 @@ http://doaj.org
 http://opendoar.org/
 26
 
-ICDL 2019: Poster 
 8.
 Jain, Priti, "Promoting Open Access to Research in Academic Libraries" (2012). Library Philosophy and
 Practice (e-journal). 737. http://digitalcommons.unl.edu/libphilprac/737
@@ -1808,7 +1733,6 @@ resources to support reference services: A case of private institutions of highe
 Botswana  Conference paper IFLA Conference 2015
 27
 
-ICDL 2019: Poster 
 Security and Safety issues in Libraries with 
 special reference to Disaster Management 
 Anam Jamal  
@@ -1844,7 +1768,6 @@ building from fire. Some suggestions are also be proffered for the security of t
 including E-resources and buildings of both libraries. 
 28
 
-ICDL 2019: Poster 
 Is Science Built on False Claim: An Analysis of 
 Citation Dependency of Scientific Literature on 
 Retracted Article 
@@ -1878,7 +1801,6 @@ studies suggested that retractions are on the rise “with reference to overall 
 literature” (Marcus & Oransky, 2014). There are number of reasons which lead to loss of 
 29
 
-ICDL 2019: Poster 
 ethics, misbehavior or fraud in research and it has been revealed the main reason for such cause 
 is the lack of dedication and honesty of researchers/scientists towards their research. Scientific 
 fraud can take place with the emergence of various undesirable practices such as plagiarism, 
@@ -1918,9 +1840,6 @@ The scope of study is confined to one of the retracted article “Visfatin: A pr
 visceral fat that mimics the effects of insulin” 
 30
 
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
 ## Methodology
 
 List of highly cited retracted articles were retrieved using "Retraction Watch", devoted to the
@@ -1930,7 +1849,6 @@ networks visualization of citations using VOS viewer. The retracted article was 
 of Science (WoS) and a total number of 1302 citations as on July 2019 were retrieved. The
 results obtained were exported to VOSviewer for Constructing and visualizing bibliometric
 networks of data.
-
 
 ## Review Of Literature
 
@@ -1957,7 +1875,6 @@ maps. The software is used in various study to study the bibliometric mapping an
 clustering (Chen., Hu., Milbank., & Schultz, 2013) .; Leydesdorff., Carley., & Rafols,
 2013; Derrick, Meijer., & Van , 2014; Waltman, 2017)
 
-
 ## Data Analysis and Interpretation
 
 The article "Visfatin: A protein secreted by visceral fat that mimics the effects of insulin"
@@ -1966,30 +1883,16 @@ been unable to reproduce some of the reported spontaneous transformation events 
 the phenomenon is due to a cross-contamination artifact. However, the retracted article is cited
 continuously in the literature.
 
-<!-- PageNumber="31" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
-
-
 | Retracted Article | Authors | Citing Articles before retraction | Citing Articles after retraction | Total cites in Web of Science |
 | --- | --- | --- | --- | --- |
 | "Visfatin: A protein secreted by visceral fat that mimics the effects of insulin" | Fukuhara A, Matsuda M, Nishizawa M, Segawa K, Tanaka M, Kishimoto K, Matsuki Y, Murakami M, Ichisaka T, Murakami H, Watanabe E, Takagi T, Akiyoshi M, Ohtsubo T, Kihara S, Yamashita S, Makishima M, Funahashi T, Yamanaka S, Hiramatsu R, Matsuzawa Y, Shimomura I. | 228 | 1074 | 1302* |
 
-
-
 *Citations received by article as on July 2019
-
 
 Table 1 lists citation to retracted article. It was observed that out 1302 citations, 228 citations are
 received before the article is retracted and 1074 citations are received by the article after
 retraction. Thus, it shows that a majority of articles are using the retracted works after retraction.
 It implies that it could have a direct implication on the citing literature.
-
-
-
 
 | S.No | Name of Citing Journal | Times Citing Retracted Article |
 | --- | --- | --- |
@@ -2004,19 +1907,9 @@ It implies that it could have a direct implication on the citing literature.
 | 9 | Biochemical and Biophysical Research Communications | 12 |
 | 10 | Diabetes Research and Clinical Practice | 12 |
 
-
-
-
 Out of the total number of 1302 citations received by retracted article. Table 2 lists top ten
 journals, which publishes the articles citing the retracted article. The reputed journals like "Plos
 
-<!-- PageNumber="32" -->
-<!-- PageBreak -->
-
-ICDL 2019: Poster 
- 
- 
- 
 One, Journal of Clinical Endocrinology Metabolism, Metabolism Clinical and Experimental” 
 are among the reputed journals having no policy to stop citing the retracted articles.  
  
@@ -2028,7 +1921,6 @@ Fig.1b:  Bibliographic coupling of  Sources  in  cluster View with left hand sid
 panel  providing details about clusters and link strength 
 33
 
-ICDL 2019: Poster 
 The above network visualization map shows bibliographic coupling patterns of the 100 citing 
 journals of selected retracted article. Bibliographic coupling network includes the journals with 
 the largest number of bibliographic coupling links. The distance between two journals in the 
@@ -2049,7 +1941,6 @@ that Fukuhara, A (lead author of the retracted article) has not only the highest
 verified and analyzed through the following screenshots captures in the VOSviewer. 
 34
 
-ICDL 2019: Poster 
 Fig.2a Cluster view of Citations and Total Link Strength of Cited References as Visualized 
 through VOSviewer.
  The network visualization represented in fig. 2b represents the data set of cited references of the 
@@ -2067,14 +1958,10 @@ Visfatin: A protein secreted by visceral fat that mimics the effects of
 insulin”  published in  Science in 2005 by Fukuhara, A 
 35
 
-ICDL 2019: Poster 
 Fig.2b Network visualization of Bibliographic coupling and co-citation of retracted article 
 Visfatin: A protein secreted by visceral fat that mimics the effects of insulin”  published in  Science in 2005 
 by Fukuhara, A 
 36
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
 
 ## Discussion and Conclusion
 
@@ -2096,7 +1983,6 @@ challenging as new publications are added to the literature, and their validity 
 granted because they are not directly involved in any retractions. New mechanisms for checking
 plagiarism, duplication, and indirect citations to retracted articles in new manuscripts should be
 considered as an integral part of a manuscript-management workflow.
-
 
 ## References
 
@@ -2130,11 +2016,6 @@ indicators conference (pp. 145-154).
 
 10\. Fang, F. C., & Casadevall, A. (2011). Retracted science and the retraction index. Infection and immunity,
 IAI-05661.
-
-<!-- PageNumber="37" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
 
 11\. Fang, F. C., Steen, R. G., & Casadevall, A. (2012). Misconduct accounts for the majority of retracted
 scientific publications. Proceedings of the National Academy of Sciences, 109(42), 17028-17033.
@@ -2198,10 +2079,6 @@ VOSviewer. Scientometrics, 111(2), 1053-1070.
 32\. Waltman, L. (2017). Citation-based clustering of publications using CitNetExplorer and
 VOSviewer. Scientometrics, 111(2), 1053-1070.
 
-<!-- PageNumber="38" -->
-<!-- PageBreak -->
-
-ICDL 2019: Poster 
 Was Beall’s List of predatory Journals worth 
 Disappearing?  
 Rosy Jan  
@@ -2222,7 +2099,6 @@ misleading and dangerous to academics. The paper is a discourse on the 56 charac
 Beall as guidelines for Determining Predatory Open-Access Publishers and journals. 
 39
 
-ICDL 2019: Poster 
 Predatory Publishing or Quality Research: Which 
 is Bigger Challenge for India 
 Rosy Jan  
@@ -2257,7 +2133,6 @@ documented this phenomenon on his blog and in an annual list (Beall,2017). Altho
 website closed in January 2017 under mysterious circumstances, it has effectively set the tone of
 40
 
-ICDL 2019: Poster 
 debate around such journals, and the term ‘predatory’ has become the standard way to describe 
 them. Indeed, the closure of his website has generated considerable consternation. In this 
 framing, Beall is treated as the lone bulwark against the tide of predatory journals that would 
@@ -2301,7 +2176,6 @@ inexperienced, or incompetent researchers for scholarly publications avaricious 
 publishers created shoddy websites where authors might be enticed to publish because of lax 
 41
 
-ICDL 2019: Poster 
 review, if any, and promised fast printing. It has a negative impact on OA publishing in 
 particular and on scholarly communication in general. Predatory publishing are often 
 unprofessional and lack quality control, it has many attributes that make it different from 
@@ -2345,7 +2219,6 @@ centric and what effect predatory publishing has had on scholarly communication 
 particularly India. 
 42
 
-ICDL 2019: Poster 
 Reasons of low quality research and the consequent submission 
 of manuscripts by Indian Acedemicians in Predatory journals 
 Low Quality Academic Research in India 
@@ -2389,7 +2262,6 @@ generalists; they are expected to be superior performers in all aspects of acade
 research and administration), which is unrealistic as each requires a unique competence. The lack 
 43
 
-ICDL 2019: Poster 
 of research in India universities could also be attributed to the “teaching” and “training” 
 emphasis, which is in keeping with the mandate given by the Government of India to provide 
 quality teaching and produce quality graduates. The recruitment of faculty is also based on their 
@@ -2435,7 +2307,6 @@ skills, fundraising ability, strong prior administrative record, and a long list
 accomplishments; political appointments are rare in western world in comparison with India. 
 44
 
-ICDL 2019: Poster 
 Consequently, the academic leaders at Indian institutions are not really successful in raising 
 money for research projects and other related aspects. Thus, to support and uphold academic 
 research India needs considerable improvement in this regard. But education policymaking in 
@@ -2477,7 +2348,6 @@ would help them publish in quality journals that would bring an end to the deman
 dependence on the market of predatory publishing. 
 45
 
-ICDL 2019: Poster 
 Conclusion 
 A healthy eco-system that facilitates organizationally relevant research and transformation of the 
 academic research environment and reward system, raising standards and development of true 
@@ -2528,7 +2398,6 @@ journals 2007–2012:A bibiliometric study. Learned Publishing, 28(1), pp. 23–
 Management Learning and Education, 4(1), 75e91.
 46
 
-ICDL 2019: Poster 
 15. Khatri, N., Ojha, A. K., Budhwar, P., Srinivasan, V., & Varma, A. (2012). Management research in India:
 current state and future directions. IIMB Management Review, 24, 104e115.
 16. Kilmann, R., Slevin, D., & Jerrell, L. S. (1983). The problem of producing useful knowledge. In R.
@@ -2573,7 +2442,6 @@ shuts-down-1.21328.
 74. DOI:10.1087/20150111.
 47
 
-ICDL 2019: Poster 
 Information Literacy Skills among Faculty 
 members of Central Universities in India: A 
 survey 
@@ -2612,7 +2480,6 @@ Research limitations/implications: The study is limited to three central univers
 BHU, DU and JamiaMiliaIslamia, New Delhi by only targeting the discipline of Science and 
 48
 
-ICDL 2019: Poster 
 Social Science. Therefore, findings, conclusions and recommendations may be applicable and 
 reasonable to be generalized on all the faculties of these universities as well as other central 
 universities.  The study recommended a further research to examine more additional aspects of 
@@ -2649,7 +2516,6 @@ hunger, fighting inequality, having access to clean water and sanitation, good j
 growth and peace and justice among others.(Olufunke,2018 as cited in global goals2018) 
 49
 
-ICDL 2019: Poster 
 Good as these new sustainable goals might be, they may become a mirage and unattainable if the 
 citizens of any nation willing to achieve the above goals lack information literacy 
 skills.(Olufunke,2018 as cited in Eyong, 2016) 
@@ -2686,7 +2552,6 @@ common prerequisite and necessary to cope up with digital environment.(Kumari an
 2017). 
 50
 
-ICDL 2019: Poster 
 To survive and work in this digital age, high level skills for using information and 
 communication technologies are essential for all Professionals. 
 Digital Information Literacy 
@@ -2726,7 +2591,6 @@ a research study of internet use by students and teachers in engineering college
 ,Haryana and Himachal Pradesh. The study provides information about the benefits of internet 
 51
 
-ICDL 2019: Poster 
 over conventional documents.It has been found in the study that internet has become a vital 
 instrument for teaching , research and learning process of respondents. Mishra(2007) conducted 
 a questionnaire survey to study digital information literacy among faculty members at Sambalpur 
@@ -2772,9 +2636,6 @@ most of the students are aware of web applications and are agree that web helps 
 knowledge and skills of students.
 52
 
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
 ## Methodology
 
 A well-structured questionnaire was used for collecting data from faculty members of DU; JMI
@@ -2786,17 +2647,12 @@ BHU,148 respondents(75.51%) responded. 97 respondents out of 125 faculty members
 118 respondents out of 125 faculty members of JMI and 148 respondents out of 196 faculty
 members in BHU were selected as sample to administer the questionnaire.
 
-
 ## Data analysis and interpretation
 
 The collected data was analyzed using simple percentage mentioned and presented in table 1 to
 8.
 
-
 ### Knowledge of IT
-
-
-
 
 | S.No. | IT Knowledge | Responses (DU) | % | Responses (JMI) | % | Responses (BHU) | % |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -2805,10 +2661,6 @@ The collected data was analyzed using simple percentage mentioned and presented 
 | 3. | Multimedia | 58 | 59.79% | 70 | 59.32 % | 96 | 64.86% |
 | 4. | Programming Language | 69 | 71.13% | 77 | 65.25 % | 102 | 68.91% |
 
-
-
-
-<figure>
 <figcaption>Figure 1: IT skills of faculty members</figcaption>
 
 150
@@ -2834,17 +2686,6 @@ S.No.
 3
 
 4
-
-</figure>
-
-
-<!-- PageNumber="53" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
-<figure>
 
 150
 
@@ -2889,9 +2730,6 @@ Responses
 
 Responses
 
-</figure>
-
-
 This table shows that maximum number of respondents(91.89%) from BHU followed by
 (91.52%) of JMI and (84.53%)of DU have used internet to acquire digital information. A
 significant number (83.05%) respondents of JMI followed by (79.38%) and (79.05%) of DU and
@@ -2900,11 +2738,7 @@ BHU respectively have working knowledge of MS-office.
 It has been found from above interpretation that faculty members of above mentioned
 universities have good knowledge of internet applications.
 
-
 ### Information Sources
-
-
-
 
 | S.No. | Information Sources | Responses (DU) | % | Responses (JMI) | % | Responses (BHU) | % |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -2915,19 +2749,11 @@ universities have good knowledge of internet applications.
 | 5. | Theses and dissertations | 44 | 45.36% | 53 | 44.91% | 68 | 45.94% |
 | 6. | Newspaper articles | 27 | 27.83% | 32 | 27.11% | 42 | 28.37% |
 
-
-
-
 Figure 2: Information sources preferred to search information
 
 Table 2 reveals that E-journal is the most preferred information source to search information as
 most of the respondents(85.81%) From BHU followed by(84.74%) from JMI and (83.5%) of DU
 are having more demand of E-journals as compare to any other information source. Electronic
-
-<!-- PageNumber="54" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
 
 articles are used by a significant number of respondents i.e. (82.43%) of BHU; (80.50%) of JMI
 followed by (83.5%) of DU. E-databases are however needed by 110 (74.32%) of BHU;
@@ -2936,11 +2762,7 @@ followed by (83.5%) of DU. E-databases are however needed by 110 (74.32%) of BHU
 The need of other sources of information such as E-books, Theses and dissertations and
 newspaper articles are less popular among faculty members of all the respective universities.
 
-
 ### Most used search tool
-
-
-
 
 | S.No. | Search Tools | Responses (DU) | % | Responses (JMI) | % | Responses (BHU) | % |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -2950,10 +2772,6 @@ newspaper articles are less popular among faculty members of all the respective 
 | 4. | Meta search engines | 25 | 25.7% | 27 | 22.8% | 87 | 58.78% |
 | 5. | Online bibliographic databases | 44 | 45.3% | 33 | 27.9% | 45 | 30.40% |
 
-
-
-
-<figure>
 <figcaption>Figure 3: Most used search tool</figcaption>
 
 131
@@ -3011,27 +2829,15 @@ Responses
 
 Responses
 
-</figure>
-
-
 Table 3 reveals that 84(86.5%) respondents from DU; 102(86.44%) respondents from JMI and
 131(88.51%) respondents from BHU use search engines for searching the internet. A significant
 number of respondents i.e.70 (72.1%) respondents of DU; 95(80.5%) of JMI and 117 (79.05%)
-
-<!-- PageNumber="55" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
 
 respondents of BHU use web portals. Few of them prefer subject gateways i.e. 40.2% from DU;
 (74.57%) from JMI and (75%) from BHU. Meta search engines and online bibliographic
 databases are least used search tool by the respondents of DU, JMI and BHU.
 
-
 ### Purpose of using E-resources
-
-
-
 
 | S.No. | Purpose | Responses (DU) | % | Responses (JMI) | % | Responses (BHU) | % |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -3040,10 +2846,6 @@ databases are least used search tool by the respondents of DU, JMI and BHU.
 | 3. | To support research | 53 | 54.63% | 61 | 51.6% | 75 | 50.6% |
 | 4. | To write paper for publication | 58 | 59.79% | 73 | 61.8% | 88 | 59.4% |
 
-
-
-
-<figure>
 <figcaption>Figure 4: Purpose of using E-resources</figcaption>
 
 Responses
@@ -3083,9 +2885,6 @@ publication
 
 3
 
-</figure>
-
-
 Table 4 reveals that 69 respondents i.e.(71.13%) from DU; 88 respondents (74.5%) from JMI
 and 103 respondents (69.5%) from BHU use e-resources for preparing their lectures to teach;
 (59.79%)respondents from DU; (59.3%) respondents from JMI and (54.7%) respondents from
@@ -3094,16 +2893,7 @@ BHU need e-resources to keep their knowledge update. A significant number of res
 paper for publication followed by support researchi.e.(54.63%) from DU; (51.6%) from JMI and
 (50.6%) from BHU.
 
-<!-- PageNumber="56" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
 ### Criteria for evaluation of web resources
-
-
-
 
 | S.No. | Criteria for evaluation | Responses (DU) | % | Responses (JMI) | % | Responses (BHU) | % |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -3112,10 +2902,6 @@ paper for publication followed by support researchi.e.(54.63%) from DU; (51.6%) 
 | 3. | Reliability | 15 | 15.46% | 18 | 12.16% | 19 | 12.83% |
 | 4. | Others | 0 | 0% | 0 | 0% | 0 | 0% |
 
-
-
-
-<figure>
 <figcaption>Figure 5: Criteria for evaluation of web resources</figcaption>
 
 80
@@ -3154,20 +2940,13 @@ Others
 
 Responses Responses Responses
 
-</figure>
-
-
 It is clear from table 5 that major criteria for evaluating web resources of information is the
 authenticity of information i.e. (49.4%) from DU; (51.6%) from JMI and (48.6%) from BHU
 followed by Relevancy (39.17%); (38.13%) and (35.13%) from the respondents of DU:JMI and
 BHU respectively. Reliability is the minor criteria as (15.46%) respondents from DU; (12.16%)
 from JMI and (12.83%) from BHU evaluate web resources of information for reliability.
 
-
 #### Search strategy used at the time of searching
-
-
-
 
 | S.No. | Search Strategy | Responses (DU) | % | Responses (JMI) | % | Responses (BHU) | % |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -3176,16 +2955,6 @@ from JMI and (12.83%) from BHU evaluate web resources of information for reliabi
 | 3. | Complex search | 30 | 30.92% | 37 | 31.35% | 47 | 31.7% |
 | 4. | Advanced search | 20 | 20.61% | 26 | 22.03% | 30 | 20.2% |
 
-
-
-
-<!-- PageNumber="57" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
-<figure>
 <figcaption>Figure 6: Search strategy used at the time of searching</figcaption>
 
 Responses
@@ -3218,9 +2987,6 @@ Simple search (use of keywords)
 
 140
 
-</figure>
-
-
 It is revealed from table 6 that most of the respondents i.e. (84.5%) from DU; (84.7%) from JMI
 and (83.1%) from BHU use simple search by using keywords. It is followed by phrase search as
 (40.2%) respondents from DU ;(42.3%) respondents from JMI and (43.2%) from BHU use
@@ -3228,11 +2994,7 @@ quotations for searching the required information. Some respondents (30.92%) fro
 (31.35%) from JMI and (31.7%) from BHU use complex search. Boolean logic is used by very
 less number of respondents i.e. (20.61%) of DU; (22.03%) from JMI and (20.2%) from BHU.
 
-
 #### Impact of digital sources on academic work performance
-
-
-
 
 | S.No. | Disciplines of Impact | Responses (DU) | % | Responses (JMI) | % | Responses (BHU) | % |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -3241,16 +3003,6 @@ less number of respondents i.e. (20.61%) of DU; (22.03%) from JMI and (20.2%) fr
 | 3. | Fast access to information | 72 | 74.2% | 87 | 73.7% | 101 | 68.24% |
 | 4. | Access to wide range of information | 54 | 55.6% | 67 | 56.7% | 76 | 51.3% |
 
-
-
-
-<!-- PageNumber="58" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
-<figure>
 <figcaption>Figure 7: Impact of digital sources on academic work performance</figcaption>
 
 160
@@ -3297,9 +3049,6 @@ Responses
 ☒
 Responses
 
-</figure>
-
-
 Table 7 shows that 92 respondents i.e. (94.8%) from DU; 106 (89.8%) respondents from JMI and
 137(92.5%) from BHU access to current up-to-date information by using digital resources. 82
 (84.5%) respondents from DU; 95 (80.5%) from JMI and 116 (78.3%) respondents from BHU
@@ -3307,11 +3056,7 @@ indicates easier access to information. 72 respondents i.e.(74.2%) from DU; 87(7
 and 101 (68.24%) from BHU stated that fast access to information is the great benefit of using
 digital sources.
 
-
 #### Constraints faced in searching the required information
-
-
-
 
 | S.No. | Constraints | Responses (DU) | % | Responses (JMI) | % | Responses (BHU) | % |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -3321,13 +3066,6 @@ digital sources.
 | 4. | Time consuming | 15 | 15.4% | 14 | 11.8% | 20 | 13.5% |
 | 5. | Language of search engine | 12 | 12.3% | 10 | 8.47% | 16 | 10.81% |
 
-
-
-
-<!-- PageNumber="59" -->
-<!-- PageBreak -->
-
-ICDL 2019: Poster 
 Figure 8: Constraints faced in searching the required information 
 It is clear from table 8 that major problem faced by the respondents while searching the 
 information is non availability of required information according to their needs as per responses 
@@ -3352,16 +3090,6 @@ BHU use e-resources for the preparation of their course material. (59.79%) respo
 from DU; (59.3%) from JMI and (54.7%) from BHU use e-resources to update their subject
 knowledge. More than 50% respondents from all respective universities use e-resources in
 order to support their research work and for the preparation of articles to publish.
-0
-20
-40
-60
-80
-100
-120
-140
-160
-180
 NON 
 AVAILAB IL ITY 
 OF R E QUIR ED 
@@ -3373,20 +3101,11 @@ TIM E
 C ONSUM ING 
 LANGUAGE OF 
 SEAR C H ENGINE  
-1  
-2  
-3  
-4  
-5  
 Responses
 Responses
 Responses
 60
 
-ICDL 2019: Poster 
- 
- 
- 
  It is found from the study that major criteria for evaluating web resources is the authenticity 
 of information followed by relevancy and reliability. 
  
@@ -3433,7 +3152,6 @@ educational goals.
  
 61
 
-ICDL 2019: Poster 
 In view of the above assertion it can be recommended that: 
 o
 Digital information literacy should be incorporated in the university curriculum in such a
@@ -3476,7 +3194,6 @@ an analytical study. International research journal of library and information s
 Glister, P. (1997). Digital Literacy. New York: willey. p.67.
 62
 
-ICDL 2019: Poster 
 7.
 Haneefa K and Sarika C(2018).Web competency of Library and information science students in
 universities in Kerala.Journal of knowledge and communication management.8(2).117-131.
@@ -3512,7 +3229,6 @@ Tirunelveli district, Tamil nadu: a study. International research journal of mul
 technology. 1(6). p 42-50.
 63
 
-ICDL 2019: Poster 
 Digital Avatar: Is e-Publishing Future of 
 Publishing 
 “Yesterday’s backward nations were those which missed out on industrial revolution and 
@@ -3547,7 +3263,6 @@ Electronic publishing also called digital publishing, e-publishing, online publi
 application of computing software by a publisher for content creation and the distribution of the 
 64
 
-ICDL 2019: Poster 
 final product through electronic means. It includes the publication of journals, newspapers, 
 books, magazines databases and other documents published electronically and can be read on 
 electronic devices like e-book reader and tablets, PCs, laptops etc. They can be categorized into 
@@ -3583,7 +3298,6 @@ on the web  using HTML and XML  and wireless Internet publishing on wireless/ mo
 held devices. 
 65
 
-ICDL 2019: Poster 
 File formats: 
 In order to read e-books, users are required to install specific software or app based on 
 compatibility with e-book formats. For example, the .azw e-book format can only be read on 
@@ -3621,7 +3335,6 @@ eReaders are less convenient for special interest literature, newspapers, and ma
 e-Ink technology cannot jump instantly from one screen to another: In addition, photographs and
 66
 
-ICDL 2019: Poster 
 illustrations may not display well on an e-Ink display, as the screen lacks color and backlighting. 
 Future eReaders may overcome these limitations. 
 Tablets: 
@@ -3654,7 +3367,6 @@ electronic publication. The steps are:
 4. Proofreading.
 67
 
-ICDL 2019: Poster 
 5. Now the document is ready to get published, convert it to a desired file format.
 6. Design Cover using image processing software
 7. ISBN (International Standard Book Number) : Acquire a ISBN if desired however for
@@ -3688,7 +3400,6 @@ NOx, Sulphur etc in the air which promotes smog, acid rain and climate crisis, C
 chemicals like Sodium hydroxide, hydrogen peroxide are used in paper bleaching process. Paper 
 68
 
-ICDL 2019: Poster 
 sourced for forests have issues like biodiversity loss, water level depletion, floods, displacement 
 of distinct native habitats and human rights violations also. 
 Americans are the heaviest paper users in the world with per capita consumption 354kg or about 
@@ -3728,7 +3439,6 @@ An e-Book publisher does not incur inventory return costs
 that are typically associated with traditional print channels. 
 69
 
-ICDL 2019: Poster 
 The demands and requirements of the users can be promptly catered by the Electronic publishers 
 due to trimmed delivery process, also motivates larger range of titles availability, including 
 books that customers would not find in standard book retailers, due to insufficient demand for a 
@@ -3749,7 +3459,6 @@ E-documents can be accessed by a number of users at a time without increasing th
 acquisition; if the subscription is online a single user can also access e-documents on a multiple
 70
 
-ICDL 2019: Poster 
 device. Publishers and aggregators are providing access to online journals through assigning 
 passwords to library patrons or IP addresses of universities and institutions. 
 Indexing and Abstracting Services: 
@@ -3782,7 +3491,6 @@ infrastructure like electricity and internet connectivity, these investments and
 affordable to various citizens of the world in under-developing and developing countries. 
 71
 
-ICDL 2019: Poster 
 Intellectual property rights and copyright issues: 
 Various users are reluctant to pay for the digital editions as they think that internet is a place 
 where everything is free. 
@@ -3812,7 +3520,6 @@ Most of e-books are available only in English or international languages, these 
 for regional or native language readers.  
 72
 
-ICDL 2019: Poster 
 Impact of E-Publishing 
 Book publishing is the largest of the industries that produce media and entertainment content, 
 bigger even than the much more glamorous film and entertainment businesses. The economics 
@@ -3850,7 +3557,6 @@ Bengaluru based Samarthanam Trust for Disabled has 5,000 audio books and more ar
 the volunteers. 
 73
 
-ICDL 2019: Poster 
 Audio Book Resources: 
 Audible.com is the first and most successful source of commercial electronic books online. You 
 can listen to the books on your computer (streaming), iPhone, or transfer them to a portable MP3 
@@ -3884,7 +3590,6 @@ books existing which can be used by anyone.
 International Back Volumes: 
 74
 
-ICDL 2019: Poster 
 A researcher can access those journals that have been subscribed in their Libraries, but they 
 always require more, with electronic publication researcher can use back volume journals of 
 those journals that has been published internationally and can continue their research works. 
@@ -3916,7 +3621,6 @@ but printed documents can be used by single reader at a time unless document has
 device.
 75
 
-ICDL 2019: Poster 
 7. Reference Verification: The authenticity can be checked with the source  if the content is
 available online.
 8. Faster Publication: For paper documents, user need to wait till they are available in the
@@ -3950,7 +3654,6 @@ essential for payment of the cost of the document.
 download them or read online.
 76
 
-ICDL 2019: Poster 
 5. All e-book reading platforms are battery powered which required charging at regular
 interval which can create a waiting period before reusing.
 6. The feel of traditional books is not available with digital book readers.
@@ -3985,7 +3688,6 @@ recommended textbooks of each subject.
 NDL, etc before purchasing any subject book.
 77
 
-ICDL 2019: Poster 
 4. Universities should subscribe international databases so that user can get access to those
 contents too, e.g., Clinical Key, Medline for Medical Students.
 5. Digital edition of newspapers should be promoted as news prints are useful for a day
@@ -4036,8 +3738,6 @@ Dinosaur?. Wikibon. Retrieved from
 http://wikibon.org/wiki/v/March_1_Peer_Incite:_Big_Data_Explosion_-
 _Is_Your_Data_Warehouse_a_Dinosaur%3F
 78
-
-<!-- PageHeader="ICDL 2019: Poster" -->
 
 12\. Emery, Christina, Mithu Lucraft, Agata Morka, and Ros Pyne. (2017). The OA Effect: How Does Open
 Access Affect the Usage of Scholarly Books?, 1-34. Retrieved form
@@ -4102,11 +3802,6 @@ Retrieved form https://devicebar.com/ebooks-vs-books-pros-and-cons/2041/
 29\. Lean, Geoffrey. (2010). How Many E-Books to Spare a Tree ?. Retrieved from
 https://www.telegraph.co.uk/journalists/geoffrey-lean/8234044/How-many-e-books-to-spare-a-tree.html
 
-<!-- PageNumber="79" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
 30\. Mason, Caleb. (2016). Trashing Paper : Why We Should Consider Time Spent With Print. Book Business.
 Retrieved from https://www.bookbusinessmag.com/post/trashing-paper-consider-time-spent-print/
 
@@ -4170,10 +3865,6 @@ okumentenarchiv/17/diw_01.c.534645.de/cs-pulp-and-paper.pdf+&cd=1&hl=en&ct=clnk&
 Techtree.com. Retrieved form http://www.techtree.com/content/news/3245/10000-hp-pavilion-g4-
 notebooks-distributed-akhilesh-yadav-govt.html
 
-<!-- PageNumber="80" -->
-<!-- PageBreak -->
-
-ICDL 2019: Poster 
 48. Shabbir, Imran, and Mirzaeian, Mojtaba. (2017). Carbon Emissions Reduction Potentials in Pulp and Paper
 Mills by Applying Cogeneration Technologies. Energy Procedia 112 (October 2016). 142–49. Retrieved
 from https://doi.org/10.1016/j.egypro.2017.03.1075
@@ -4202,7 +3893,6 @@ California. Retried from http://successnet.org/cms/sales-and-marketing/top-ten-r
 better-than-printed-books
 81
 
-ICDL 2019: Poster 
 Information E-resources for Generation Alpha: 
 MRIS library as an Information Resource Centre 
 Monika Mukh 
@@ -4237,10 +3927,6 @@ resources are much helpful as they save the time of the users, are easy to acces
 friendly.  
 82
 
-ICDL 2019: Poster 
- 
- 
- 
 The Government of India has initiated major educational reforms aimed to improve the quality 
 and access to education across the country. Setting up smart classes in government schools, 
 emphasis on teachers training new premier higher education institutions have been opened across 
@@ -4288,7 +3974,6 @@ inputs and knowledge.
  
 83
 
-ICDL 2019: Poster 
 IMPRINT India 
 It is an effort to direct research in the premier institutions into areas of social relevance. 10 such 
 domains have been identified which could substantially impact the living standards of the rural 
@@ -4323,10 +4008,6 @@ expected to spend Rs. 1,00,000 crore in next 5 years, for creation of high quali
 premier education institutions. 
 84
 
-ICDL 2019: Poster 
- 
- 
- 
 Rashtriya Madhyamik Shiksha Abhiyan (RMSA) 
  
 It was launched by the Government of India in March, 2009 envisaging inter-alia provision of a 
@@ -4365,7 +4046,6 @@ or annual projects.
  
 85
 
-ICDL 2019: Poster 
 Chart 1 : MRIS library as “Information Resource Centre” for seven learning areas 
 Children take up various activities in library like: vocabulary building by reading newspapers, 
 weaving their our own story with new words, writing book reviews, solving word puzzles, cross 
@@ -4377,12 +4057,6 @@ significant days like World Book Day, World Magazine Day, and Birthdays of diffe
 etc.  Children read their favourite stories, watch and listen to stories online on the iPads.  
 86
 
-ICDL 2019: Poster 
- 
- 
- 
- 
- 
 Chart 2: Library activities @ MRIS Mohali 
  
 Children look forward to solve ‘Mind Games’ through solving on daily basis which include 
@@ -4408,7 +4082,6 @@ libraries etc. to acquaint them with different sections of different libraries.
  
 87
 
-ICDL 2019: Poster 
 Provide the badges for ‘Star Readers’, ‘TRIVIA Stars’ and ‘Riddle Master’ 
 Conclusion 
 There are various ‘Electronic Information Resources’ available with in a click away. A librarian 
@@ -4427,8 +4100,6 @@ quality-and-access-to-education/
 Manav Rachna International School, Mohali.
 88
 
-ICDL 2019: Poster 
- 
 Children’s Right to Read: Community 
 participation in improving Reading 
  
@@ -4481,7 +4152,6 @@ everywhere.
  
 89
 
-ICDL 2019: Poster 
 The 10 Fundamental Rights of Children’s Rights to Read are: 
 1. Children have the basic human right to read.
 2. Children have the right to access texts in print and digital formats.
@@ -4525,7 +4195,6 @@ in the promotion of one’s personal development in particular social progress i
 and systematic reading sharpens the intellect, refines the emotions, elevates tastes and provides 
 90
 
-ICDL 2019: Poster 
 perspective for one’s living and thereby prepares one for an effective participation in the social 
 and political life. Reading gives a unifying and civilization force tending to unite social group 
 through the dissemination of common experiences. 
@@ -4569,10 +4238,6 @@ has to be cultivated and natured in the early years of life. The reading habit, 
 very crucial role in enabling a person to achieve practical efficiency. 
 91
 
-ICDL 2019: Poster 
- 
- 
- 
 Reading habit benefits our life in many ways. The regular benefit us in several ways like: 
  
  Exercise our mind 
@@ -4617,11 +4282,6 @@ formulated based on 5W1H analyses are tabulated below:
  
 92
 
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
-
-
 | 5W1H | Consider these Questions | Myths & Predictions |
 | --- | --- | --- |
 | Why | Why children need to read? | 1. Is it really necessary for parents to take part in school reading activities? |
@@ -4645,9 +4305,6 @@ formulated based on 5W1H analyses are tabulated below:
 | 12. Is academic performance the most important? |  |  |
 | How technology is changing reading habits? | 13. If my child is using a tablet or computer? 14. Children make good use of information from the internet? |  |
 
-
-
-
 ## Why Children need to Read?
 
 Evidence suggests that children who read for enjoyment everyday not only perform better in
@@ -4659,13 +4316,6 @@ positive attitudes towards reading in the early years. In fact, there's evidence
 reading for pleasure is more likely to determine whether a child does well at school than their
 social or economic background.
 
-<!-- PageNumber="93" -->
-<!-- PageBreak -->
-
-ICDL 2019: Poster 
- 
- 
- 
 A. 
 Developing Cognitive Abilities: 
  
@@ -4717,10 +4367,6 @@ will bring home from school.
  
 94
 
-ICDL 2019: Poster 
- 
- 
- 
 Myths & Predictions 
  
 Myth-1. Is it really necessary for parents to take part in  school reading activities? 
@@ -4770,10 +4416,6 @@ them and know what they mean.
  
 95
 
-ICDL 2019: Poster 
- 
- 
- 
 What should Children Read? 
  
 Parents should let children choose their own books for leisure reading and expose them to 
@@ -4825,10 +4467,6 @@ curiosity as well as develop their interest and inquiry about science.
  
 96
 
-ICDL 2019: Poster 
- 
- 
- 
 E. 
 Newspapers & Magazines: 
  
@@ -4876,11 +4514,6 @@ Here are some strategies intended for students to be conducted during their libr
 in two weeks by the Teacher librarian. Students are free to choose their library activity. 
 97
 
-ICDL 2019: Poster 
- 
- 
- 
- 
 The objectives of the school library activity: 
  
 o 
@@ -4938,10 +4571,6 @@ Have multiple copies of popular books. Create smaller class libraries if you can
  
 98
 
-ICDL 2019: Poster 
- 
- 
- 
 9. 
 Get parents involved. Permit them to use the library if they wish. This will create a 
 sense of belonging and partnership. 
@@ -4994,11 +4623,6 @@ struggle with reading and writing at school and boys are more likely to say they
 time reading outside the classroom. But there are ways you can help: 
 99
 
-ICDL 2019: Poster 
- 
- 
- 
- 
 o 
 It’s important to make sure that you’re reading something with your son which 
 interests him. Many boys like non-fiction books, so try asking at your local library 
@@ -5047,10 +4671,6 @@ catch the visitors' attention.
  
 100
 
-ICDL 2019: Poster 
- 
- 
- 
 Libraries today have become bustling information centres. What with Wi-Fi availability one 
 wonders whether it is a school library. But, I must state that more than the books that are read, 
 the young student makes a beeline for the technology centre and accesses his reading material 
@@ -5101,10 +4721,6 @@ supplementary learning materials such as computers, audio-visual materials like 
 ROM, tapes, videos, films. School libraries are always rich in colourful story books 
 101
 
-ICDL 2019: Poster 
- 
- 
- 
 that capture the attention and imaginations of students to develop lifelong learning 
 abilities. Secondary school students can be taught about basic ICT appreciation to 
 prepare them for future use. 
@@ -5154,10 +4770,6 @@ about various books.
  
 102
 
-ICDL 2019: Poster 
- 
- 
- 
 B. 
 Role of teachers: 
  
@@ -5206,10 +4818,6 @@ centres and from your family doctor.
  
 103
 
-ICDL 2019: Poster 
- 
- 
- 
 Your Child’s Teacher 
  
 When children see their parents and teachers working together, they feel more secure and 
@@ -5274,10 +4882,6 @@ Some children find books with interactive features particularly motivating.
  
 104
 
-ICDL 2019: Poster 
- 
- 
- 
 Ask the librarians for help. They will know which books are most appealing to young 
 children. 
  
@@ -5332,10 +4936,6 @@ It’s great to read to your child from the earliest months. Cuddle close and si
 read a story with lots of sound effects, or play peek-a-boo along with a book. This shows your 
 105
 
-ICDL 2019: Poster 
- 
- 
- 
 baby how important books are to you, that books come with a loving adult and that books are fun 
 and exciting. 
  
@@ -5395,10 +4995,6 @@ periods of time, while slightly older children may be readier to listen for long
  
 106
 
-ICDL 2019: Poster 
- 
- 
- 
 • 
 As for how often, there’s no right answer, but many experts suggest a routine helps. For 
 school-age children, a bedtime story can be a nice way for you to spend a small amount 
@@ -5457,11 +5053,6 @@ great for encouraging your child or children to join in and remember the words.
  
 107
 
-ICDL 2019: Poster 
- 
- 
- 
- 
 e) 
 Choosing what to read: 
  
@@ -5510,10 +5101,6 @@ up:
  
 108
 
-ICDL 2019: Poster 
- 
- 
- 
 h) 
 My child has just started school and is learning to read via phonics. What is 
 phonics? 
@@ -5561,10 +5148,6 @@ trying to use all the letters rather than guessing from just the first letter or
  
 109
 
-ICDL 2019: Poster 
- 
- 
- 
 Myth-10. Tips can I use to help Children learn to Read? 
  
 A. 
@@ -5623,10 +5206,6 @@ Subscribe to a magazine for your child. He or she will love receiving mail!
  
 110
 
-ICDL 2019: Poster 
- 
- 
- 
 C. 
 Read every day: 
  
@@ -5682,10 +5261,6 @@ Encourage your child to ask questions and to comment on the story and pictures i
 – before, during, and after reading it.  
 111
 
-ICDL 2019: Poster 
- 
- 
- 
 • 
 Look at the cover and the title of a book with your child, and ask your child what he or 
 she thinks might happen in the story or what the book may be about. 
@@ -5741,10 +5316,6 @@ learn:
  
 112
 
-ICDL 2019: Poster 
- 
- 
- 
 • 
 Help your child decide on a reading goal. Choose books and activities that are “just right” 
 for your child and that will help him or her improve reading skills and confidence. 
@@ -5803,10 +5374,6 @@ Help and guide pupils in using the computers, especially in the library
 Participate in teaching how to retrieve information 
 113
 
-ICDL 2019: Poster 
- 
- 
- 
 • 
 Maintain the computers in the school library 
  
@@ -5868,10 +5435,6 @@ Arrange for visiting authors etc. to support the library activities
 Participate in the planning of the school library activities 
 114
 
-ICDL 2019: Poster 
- 
- 
- 
 • 
 Do voluntary work in the school library 
  
@@ -5926,10 +5489,6 @@ children can read and learn with better concentration.
  
 115
 
-ICDL 2019: Poster 
- 
- 
- 
 c) 
 Computers: Plenty of reading materials are available on the Internet. A home 
 computer not only helps children learn the application, it also broadens their scope of 
@@ -5980,10 +5539,6 @@ reflections after reading.
  
 116
 
-ICDL 2019: Poster 
- 
- 
- 
 C. Creating space for reading: 
  
 Children need to have enough space in order to develop good reading habits. Parents can 
@@ -6036,11 +5591,6 @@ schools or other places (e.g. public libraries) so that they can browse educatio
 improve their reading literacy. 
 117
 
-ICDL 2019: Poster 
- 
- 
- 
- 
 Although many children spend a lot of time on reading website materials, books cannot be totally 
 replaced. 
  
@@ -6056,10 +5606,6 @@ Recommendation
  
 118
 
-ICDL 2019: Poster 
- 
- 
- 
 Electronic Publishing: A Simplified Approach  
  
 Priyanka Roychowdhury  
@@ -6103,10 +5649,6 @@ information technology industry for generating, processing and disseminating the
 Most of the scientific research literature today is coming on an array if information resources, 
 119
 
-ICDL 2019: Poster 
- 
- 
- 
 such as floppies, magnetic tapes, internet, websites, CD ROMs, the outgrowth of advances in 
 computer and communication technology. They are becoming more popular for accessing, 
 retrieval and offering services electronically, replacing gradually their print counterparts. During 
@@ -6153,10 +5695,6 @@ Chandrakar (2006) quotes Gordon Wills of MCB University Press, UK, as he explain
 “electronic publishing is the exploitation of electronics in any and every cost-effective and cost-
 120
 
-ICDL 2019: Poster 
- 
- 
- 
 beneficial way that can facilitate the process of publishing, where publishing for our purpose 
 means: conceiving, creating, capturing, transforming, disseminating, archiving, searching, and 
 retrieving academic and professional knowledge and information”. In fact electronic publishing 
@@ -6201,11 +5739,6 @@ The fusion of electronics, computer and communication technologies together for 
 be termed as electronic publishing to denote any information source published in electronic form. 
 121
 
-ICDL 2019: Poster 
- 
- 
- 
- 
 ARPANET, the forerunner of the Internet were created more than forty years ago in 1969 by 
 researchers at the University of California Los Angeles, University of California Santa Barbara, 
 Stanford Research Institute and the University of Utah. Even in the early days of the internet 
@@ -6251,10 +5784,6 @@ demand and even the production of customized publications tailored to individual
  
 122
 
-ICDL 2019: Poster 
- 
- 
- 
  The distribution of text in electronic form, where the electronic version is the exact 
 equivalent of a paper version and may have been used to generate the paper version. For 
 secondary publications (indexing and abstracting services), electronic distribution began 
@@ -6301,10 +5830,6 @@ editor’s desk without much delay.
  
 123
 
-ICDL 2019: Poster 
- 
- 
- 
  Copy editing and typography: As the manuscript is submitted in digital form, editing 
 the text, page design, and other editorial works are easy and less time consuming. In 
 electronic publishing typing and editing are done by author himself where in print 
@@ -6350,10 +5875,6 @@ publications do publish in different Indian languages on various subjects, needs
  
 124
 
-ICDL 2019: Poster 
- 
- 
- 
  Electronic version of journals gets wider exposure to research scholars through greater 
 accessibility of 24X7 hours and offers opportunity to use new form of creative 
 scholarship through use of interactive elements, multimedia, hyperlinks etc. 
@@ -6399,10 +5920,6 @@ Electronic publishing can be categorized into two ways.
  
 125
 
-ICDL 2019: Poster 
- 
- 
- 
 In off-line publishing information is entirely passes into the possession of the purchaser or user, 
 who can access it an unlimited number of times without any further change. For example 
 computer software or reference material on compact disc in a physically tangible and 
@@ -6449,10 +5966,6 @@ diverse audience throughout the world as well as a readership that may include n
 academics, but students and lay people (Saxena, 2009). 
 126
 
-ICDL 2019: Poster 
- 
- 
- 
 Electronic databases 
  
 With the influx of computers and communication technologies, the strength of information 
@@ -6500,10 +6013,6 @@ away the works (Saxena, 2009).
  
 127
 
-ICDL 2019: Poster 
- 
- 
- 
 Electronic ink 
  
 Electronic Ink is a developing technology that has a huge impact on the media and publishing 
@@ -6549,10 +6058,6 @@ publication’ to access the information in it, they can have online access to t
 and download or print the required material. EP provides aids for connectivity, audio 
 128
 
-ICDL 2019: Poster 
- 
- 
- 
 visualization customizability, creation and revision of documents, interactivity and rapid 
 information retrieval. 
  
@@ -6599,10 +6104,6 @@ book can be read.
  
 129
 
-ICDL 2019: Poster 
- 
- 
- 
  The technology consumes a greater amount of energy in its use than the book. 
  
 Electronic Publishing and its Role in Libraries: 
@@ -6650,11 +6151,6 @@ The Serials Librarian, 60, 23-36.
 Brownrigg, E. B., & Lynch, C. (1985). Electrons, Electronic Publishing, and Electronic 
 130
 
-ICDL 2019: Poster 
- 
- 
- 
- 
  
 Chandrakar, R. (2006). Electronic publishing model for Indian academic journals. Proceedings of 
 International Conference on Digital Libraries, (pp. 412-421). New Delhi. 
@@ -6727,10 +6223,6 @@ Wiesner, K. (2003). Electronic publishing: The Definitive Guide (1st Ed.). Amher
  
 131
 
-ICDL 2019: Poster 
- 
- 
- 
  
 Wills, M and Wills, G (1996). The Ins and Outs of electronic publishing. Internet Research: Electronic 
 Networking applications and Policy, 6 (1), 10-21 
@@ -6745,10 +6237,6 @@ Communications of the ACM, 44 (12), December.
  
 132
 
-ICDL 2019: Poster 
- 
- 
- 
 Campus TV Through Digital Library: A Never-
 ending Possibility for Knowledge Streaming 
   
@@ -6779,10 +6267,6 @@ knowledge stream, Digital knowledge stream, Digital Library, Camus TV
  
 133
 
-ICDL 2019: Poster 
- 
- 
- 
 Reinforcing Library Resources Access for 
 Different abled Person through Assistive and 
 other technologies 
@@ -6825,24 +6309,15 @@ specially abled users.
  
 134
 
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
 ## Indian Scenario
 
 As per the Census 2011, in India out of the 121 Cr population, 2.68 Cr persons are 'disabled'
 which is 2.21% of the total population.
 
-
-
-
 | Population ,India 2011 | Population ,India 2011 | Population ,India 2011 | Disabled persons, India 2011 | Disabled persons, India 2011 | Disabled persons, India 2011 |
 | --- | --- | --- | --- | --- | --- |
 | Persons | Males | Females | Persons | Males | Females |
 | 121.08 Cr | 62.32 Cr | 58.76 Cr | 2.68 Cr | 1.5 Cr | 1.18 Cr |
-
-
-
 
 India is trying to empower its disabled citizens. All possible support is being provided to the
 persons with disabilities either by enacting a special Act, or by executing a 'National Policy for
@@ -6854,7 +6329,6 @@ with disabilities with appropriate skills. Given this background, it is evident 
 committed to support, encourage and empower its large population of specially-abled persons.
 A brief account of such initiatives and efforts are given in this module.
 
-
 ### Persons with Disability (Equal Opportunities, Protection of Rights and Full Participation) Act, 1995
 
 The Persons with Disabilities (Equal Opportunities, Protection of Rights and Full Participation)
@@ -6865,7 +6339,6 @@ aspects of rehabilitation like education, employment and vocational training, jo
 research and manpower development, creation of barrier-free environment, rehabilitation of
 persons with disability, unemployment allowance for the disabled, special insurance scheme for
 the disabled employees and establishment of homes for persons with severe disability.
-
 
 ### National Policy for Persons with Disabilities, 2006
 
@@ -6880,17 +6353,11 @@ which result in disability and the creation of awareness regarding measures to b
 for prevention disabilities during the period of pregnancy and thereafter will be
 intensified and their coverage expanded.
 
-<!-- PageNumber="135" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
 2\. Rehabilitation Measures: Rehabilitation measures can be classified into three distinct
 groups, i.e. Physical rehabilitation, which includes early detection and intervention,
 counseling & medical interventions and provision of aids & appliances. It will also
 include development of rehabilitation professionals; Educational rehabilitation including
 vocational education; and economic rehabilitation for a dignified life in society.
-
 
 ## Library services for persons with disabilities
 
@@ -6907,9 +6374,6 @@ technologies in the libraries. But the disability laws of the different countrie
 public places, educational institutions should facilitate access and use of resources to the
 differently abled persons. Consequently, the libraries deploy these technologies to provide access
 to library resources and help differently abled users in becoming self- dependent.
-
-
-
 
 | Types of disabilities | Library services |
 | --- | --- |
@@ -6929,25 +6393,11 @@ to library resources and help differently abled users in becoming self- dependen
 | · Books on tape and text kits |  |
 | · Audio and video tape in daisy format |  |
 
-
-
-
-<!-- PageNumber="136" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
-
-
 | Physical disabilities | · Voice recognition |
 | --- | --- |
 | · Screen enlargement |  |
 | · Software for converting print documents |  |
 | · Text highlighting and advanced reading in different formats |  |
-
-
-
 
 ### Assistive or Adaptive Technology
 
@@ -6957,7 +6407,6 @@ education, work, and recreation and enhance quality of life. Assistive technolog
 independence by enabling people with disabilities to perform tasks which they were formerly
 unable to accomplish.
 
-
 ### Types of some Assistive technology
 
 Text-to-speech software: Text-to-speech software enables computer to read aloud web pages,
@@ -6965,21 +6414,14 @@ text documents, emails and PDF documents in a natural sounding voice. Examples: 
 Read& Write, SprintPlus, and Kurzweil 1000 for windows are most popular text to speech
 software.
 
-
-<figure>
 <figcaption>Text to speech software Sprint plus</figcaption>
 
 \-
-
-</figure>
-
 
 Speech recognition software: Speech recognition software allows individuals to transform their
 spoken words into digital text. Example: The most popular software is Dragon which is available
 for PC and Mac.
 
-
-<figure>
 <figcaption>Speech recognition software Dragon</figcaption>
 
 Home
@@ -6999,17 +6441,6 @@ Speech nacognition nottiwve
 
 NUANCE
 
-</figure>
-
-
-<!-- PageNumber="137" -->
-<!-- PageBreak -->
-
-ICDL 2019: Poster 
- 
- 
- 
- 
 Reading and writing support software: There is a wide range of  assistive technology to 
 support individuals with reading and writing difficulties. Example: AcceleRead AcceleWrite is a 
 popular reading and writing software 
@@ -7031,11 +6462,6 @@ magnify text, read aloud text and much more. Example: Dolphin SuperNova and Zoom
 Dolphin SuperNova 
 138
 
-ICDL 2019: Poster 
- 
- 
- 
-  
 Note-taking support: There is a wide range of note-taking support technology, the majority of 
 which help to eliminate the difficulties that are associated with writing whilst listening. Some 
 technology also helps individuals with organising and editing notes that have been made to help 
@@ -7056,10 +6482,6 @@ Maths.
 Software Math Type 
 139
 
-ICDL 2019: Poster 
- 
- 
- 
 Typing tutors: Typing Tutors help individuals to type quickly and accurately when using a 
 computer, which in time can benefit reading, comprehension, vocabulary and spelling skills. 
 Example: English type, Mavis Beacon and Nessy Fingers are popular examples of typing tutors. 
@@ -7080,10 +6502,6 @@ computer.
  
 140
 
-ICDL 2019: Poster 
- 
- 
- 
 Livescribe: Livescribe Smartpens are a note taking solution with a difference, can capture 
 handwriting whilst recording the audio of your meeting or lecture which can then transferred to 
 your computer, The special inks and notebooks are also available in this section. 
@@ -7111,10 +6529,6 @@ developed for the blind or visually impaired.
  
 141
 
-ICDL 2019: Poster 
- 
- 
- 
 Sparsha: Sparsha is a toolset for the blind. sparsha can translate the text on screen to bharati 
 braille – a unified braille script used to write english languages using cells containing six braille 
 dots 
@@ -7166,10 +6580,6 @@ Network and Computer Applications, 35(2), 584–596. https://doi.org/10.1016/j.j
  
 142
 
-ICDL 2019: Poster 
- 
- 
- 
 9. Pollack, M. E., Brown, L., Colbry, D., McCarthy, C. E., Orosz, C., Peintner, B., … Tsamardinos, I. (2003). 
 Autominder: An intelligent cognitive orthotic system for people with memory impairment. Robotics and 
 Autonomous Systems, 44(3–4), 273–282. https://doi.org/10.1016/S0921-8890(03)00077-0 
@@ -7187,10 +6597,6 @@ Quarterly, 23(2), 169–190. https://doi.org/10.1016/j.giq.2006.03.002
  
 143
 
-ICDL 2019: Poster 
- 
- 
- 
 Preservation of Digital Assets in libraries for 
 present generation and posterity 
  
@@ -7235,10 +6641,6 @@ in five-point plan i.e (i) Cultivate a foundation of knowledge and identify a sh
 Assess the current digital preservation landscape at each institution; (iii) Advocate for the value 
 144
 
-ICDL 2019: Poster 
- 
- 
- 
 of digital preservation activities; (iv) Implement shared digital preservation services; (v) Sustain 
 group activities and establish structures for on-going support. 
  
@@ -7283,10 +6685,6 @@ dangerous threat to digital continuity is “losing the access”.
  
 145
 
-ICDL 2019: Poster 
- 
- 
- 
 Need and Importance for Digital Preservation 
  
 It becomes very easy, quick and ubiquitous access to information in the digital environment. 
@@ -7326,10 +6724,6 @@ needed; and making the content available to the end-user”.  Further, the below
 shows the other pathways being used for digital preservation. 
 146
 
-ICDL 2019: Poster 
- 
- 
- 
 The above-mentioned cycle has unique items helping in the preparation of digital material such 
 as transferring the data from one old preservation CD to a new one because of the deterioration 
 of physical media. Further, migration is also very important in digital preservation such as from 
@@ -7366,11 +6760,6 @@ IPR and
 Preservation 
 147
 
-ICDL 2019: Poster 
- 
- 
- 
- 
 Investment Strategies 
  
 Restricting Range of Formats and Standards, Reliance on Standards, Data Abstraction and 
@@ -7416,10 +6805,6 @@ finally storing the data as a file and hard-disk.
  
 148
 
-ICDL 2019: Poster 
- 
- 
- 
 Preservation Planning 
  
 In this process preservation activities are organized in a logical sequence. Preservation planning 
@@ -7449,13 +6834,10 @@ According to Praveen Dalal, Advocate Supreme Court of India and Cyberlaw expert 
 adoption of a digital rights management system in India. The stagnation of national digital 
 149
 
-<!-- PageHeader="ICDL 2019: Poster" -->
-
 preservation program cannot be removed until or unless the government of India takes positive
 steps in the required direction of availing the services of experts who are very much familiar with
 this. No doubt that till now no such serious efforts have been undertaken by the Indian
 government.
-
 
 ## Selection of Library Materials for Digital Preservation
 
@@ -7476,7 +6858,6 @@ have been challenged by the development of digital objects. This is essential if
 libraries of the future are to contain the late twentieth-century and later equivalents of the printed
 books and manuscripts, which now fill their shelves.
 
-
 ### Some Examples
 
 It has been observed that the preservation of digital material has a lot of challenges from
@@ -7494,12 +6875,6 @@ connected files. Data in those files started disappearing. They retrieved back u
 the data only to find out that data was corrupted. They had to pull up different versions
 and piece together enough good data to fix the problem6ª
 
-<!-- PageNumber="150" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
 ## Conclusion
 
 Long term preservation of library material in today's time is a big challenge. It is also considered
@@ -7516,7 +6891,6 @@ information with its paradox of short media life, obsolete hardware and software
 of old media, and defunct web sites". There is no doubt that we have enormous challenges but
 opportunities too. For the growth and development of national infrastructure, we need to adopt
 long term preservation of digital information which also will be fruitful to posterity.
-
 
 ## Reference
 
@@ -7538,12 +6912,6 @@ Collections & Technical Services (ALCTS). Retrieved 2018-03-09.
 from https://blogs.loc.gov/digitalpreservation/2012/07/digital-disaster/planning-get-the-picture-before-
 losing-the-picture/.
 
-<!-- PageNumber="151" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
 ## Digital Rights Management (DRM) in India: Threat or Opportunity to Intellectual Property Rights (IPR)
 
 O. P. Verma
@@ -7555,7 +6923,6 @@ Somen Chakraborty
 
 Senior Legal Analyst, and Hon'y Director, Society for Social Development and People's Action.
 New Delhi
-
 
 ### Abstract
 
@@ -7586,17 +6953,10 @@ and some case studies related to disputes and litigations in India are discussed
 Property Law is discussed in respect of Indian Copyright Act 1957, Indian Patents Act 1970,
 Trademarks Act 1990, Geographical Indications of Goods Act 1999 and Design Act 2000.
 
-<!-- PageNumber="152" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
-
 ### Keywords
 
 Digital Rights Management; DRM; Indian Copyright Act 1957; Intellectual Property Rights ;
 IPR
-
 
 ### Digital Rights Management (DRM)
 
@@ -7619,7 +6979,6 @@ technologies are available to prevent the piracy and verify the true owners of d
 unfortunately specifics of these technologies are often proprietary. Content can be protected by a
 variety of encryption techniques for the storage and transmission of digital information yet; these
 same techniques can limit access and usability of digital content.
-
 
 #### Objectives
 
@@ -7645,12 +7004,6 @@ mechanism
 · To ensure compliance with regulatory standards more than making profit
 
 · To strengthen home management instead of litigation and recover indemnity
-
-<!-- PageNumber="153" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
-
 
 ### 2012 Amendments to Indian Copyright Act 1957
 
@@ -7682,7 +7035,6 @@ The amendments introduced through Copyright (Amendment) Act 2012 can be categori
 
 6\. Reform of Copyright Board and other minor amendments
 
-
 ### Protection of Technological Measures
 
 The new section 65A, introduced for protection of technological protection measures (TPM)
@@ -7697,10 +7049,6 @@ This amendment also clarifies the problem of circumvention impacting the public 
 access to work facilitated by the copyright laws. Sub-section (2) permits circumvention for
 specified uses.
 
-<!-- PageNumber="154" -->
-<!-- PageBreak -->
-
-ICDL 2019: Poster 
 Digital Rights Management Information 
 Section 65B has been introduced to provide protection of rights management information, which 
 has been defined under clause (xa) of section 2. 
@@ -7737,7 +7085,6 @@ located prominently on the order form, either on the front side of the form or i
 adjacent to the space for the name and signature of the user. The library may make only one copy 
 155
 
-ICDL 2019: Poster 
 of such works per patron. Copying a complete work from the library collection is prohibited 
 unless the work is not available at a “fair price.” This is generally the case when the work is out 
 of print and used copies are not available at a reasonable price. If a work, located within the 
@@ -7785,8 +7132,6 @@ Making download a complex process: As a site license user, he is able to utilize
 "batch processing" feature.  The "batch processing" feature allows user to submit your
 156
 
-<!-- PageHeader="ICDL 2019: Poster" -->
-
 query directly to the server, and allows it to be executed in the background (unattended
 download). Once the extraction is complete, User will be notified via email and will be
 provided a link to download the file using ZIP format.
@@ -7820,26 +7165,14 @@ within an enterprise. The second application is often called Enterprise Digital 
 Management (E-DRM). E-DRM plays an extremely important role in fighting against
 information theft, especially the theft due to insider threat.
 
-
 #### Difference between Copyright and DRM
 
 Copyright, and digital rights management (DRM), have been among the most contentious issues
 of the digital age.
 
-
-
-
 | Copyright | Digital Rights Management |
 | --- | --- |
 | · Right over expression of ideas, invention (book narrating process of turning coal to diamond) · Right is automatic | · Language is formal like mathematics or like programming code; Language that can be executed as an algorithm · Not open to interpretation but precise |
-
-
-
-
-<!-- PageNumber="157" -->
-<!-- PageBreak -->
-
-<!-- PageHeader="ICDL 2019: Poster" -->
 
 · "Everything that is not forbidden is
 permitted"
@@ -7885,7 +7218,6 @@ dealing principles. (Electronic Frontier
 Foundation has recorded fairly large
 number of such transgression cases)
 
-
 ##### Problem arisen for Library and Academia
 
 \> DRM will reduce open space
@@ -7895,7 +7227,6 @@ number of such transgression cases)
 \> Libraries may need to introduce undue restrictions and regulatory mechanism
 
 \> Interface between Library Management and Users will require to be redefined
-
 
 # DRM provision is non-compliant with today's India for the following reasons
 
@@ -7908,10 +7239,6 @@ happened around 20-25 years before. Pentium 1 came to the offices not before 199
 Except television which came home around 1980 but with extremely limited telecast in terms of
 hours and number of channels.
 
-<!-- PageNumber="158" -->
-<!-- PageBreak -->
-
-ICDL 2019: Poster 
 •
 Nature of piracy is not that widespread (other than movies and songs) in
 India that DRM should be felt so pressing a need (internet mostly in
@@ -7944,7 +7271,6 @@ AAP organised a programme ‘Tarpan’ to pay tribute to noted Hindi poets. Kuma
 Dr.HarivanshRaiBachchan’s poem line, “Need kaNirmanPhirPhir”. Amitabh Bachchan alleged it 
 159
 
-ICDL 2019: Poster 
 was copyright infringement as this was used without obtaining prior permission.  Video was 
 deleted and Vishwas twitted to pay Rs. 32 earned  from it. 
 Supreme Court Order on Privacy Right, 2017
@@ -7982,7 +7308,6 @@ B which is more stable and suitable for solid oral dosage form than the compound
 Cipla’s argument. 
 160
 
-ICDL 2019: Poster 
 Some important Milestones in India under Intellectual Property 
 Rights 
 Indian Patents Act, 1970 (Amended in 2005) 
@@ -8018,7 +7343,6 @@ mechanical device, and does not include any trade mark as defined in clause (v) 
 (1) of section 2 of the Trade and Merchandise Marks Act, 1958 or property mark as defined in
 161
 
-ICDL 2019: Poster 
 section 479 of the Indian Penal Code or any artistic work as defined in clause (c) of section 2 of 
 the Copyright Act, 1957 
 Conclusion 
@@ -8099,14 +7423,9 @@ CONFERENCE POSTERS
 AUTHOR INDEX
 163
 
-<!-- PageBreak -->
-
 ICDL 2019 WEBCASTING
 Supported by
 Indira Gandhi National Open University (IGNOU)
-
-
-<figure>
 
 teri
 
@@ -8150,31 +7469,14 @@ R
 6
 E
 
-</figure>
-
-
-<!-- PageFooter="Copyright | 2019 RUJC,IGNOU. All rights reserved." -->
-<!-- PageBreak -->
-
-<figure>
-
 teri
 
-</figure>
-
-
 # World Digital Libraries: an international journal
-
-
-<figure>
 
 WORLD DIGITAL LIBRARIES
 An International Journal
 
 devi
-
-</figure>
-
 
 Annual Subscription within India
 Print:

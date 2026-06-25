@@ -2,16 +2,10 @@
 
 # Let's Make a Solar Cooker!
 
-
 ## YOU WILL NEED
 
 . a large cardboard box . thermocol . aluminium foil . clear plastic wrap
 . a sheet of black paper . ruler . pair of scissors . glue . tape
-
-
-<figure>
-</figure>
-
 
 1
 Start by taking a cardboard box.
@@ -24,21 +18,11 @@ three sides of the square. Fold this
 flap out so that it stands up when
 the lid is closed.
 
-
-<figure>
-</figure>
-
-
 3
 Take five one-inch thick pieces
 of thermocol and stick them to
 the base and walls of the box so
 that they provide insulation.
-
-
-<figure>
-</figure>
-
 
 4
 Glue aluminium foil to all
@@ -63,15 +47,6 @@ airtight window for sunlight
 to enter the box. Do this by
 taping the glass or plastic over the
 opening of the flap.
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
 
 8
 Open the lid carefully and place

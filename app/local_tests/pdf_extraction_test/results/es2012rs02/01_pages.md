@@ -76,9 +76,6 @@ Supply of gas up to January 2013 was 41.45
 ☐
 mmscmd as against a requirement of 86 mmscmd
 
-
-<figure>
-
 RES
 12%
 
@@ -97,11 +94,6 @@ Gas
 
 Diesel
 1%
-
-</figure>
-
-
-<figure>
 
 90,000
 
@@ -155,14 +147,9 @@ MW
 
 11 th Plan
 
-</figure>
-
-
 Target
 
 Achieved
-
-<!-- PageBreak -->
 
 ## Page 5 · via `text` · 0 table(s)
 
@@ -203,14 +190,9 @@ All calculations based on CERC norms
 
 ## Assumptions
 
-
 ### Fixed Costs and O&M
 
-
 ### Costs of Fuel
-
-
-
 
 | Element | Unit | Domestic Coal | Imported Coal | Domestic Gas | LNG |
 | --- | --- | --- | --- | --- | --- |
@@ -222,19 +204,12 @@ All calculations based on CERC norms
 | Fixed operating cost as % of capital cost | % | 3.49 | 3.49 | 4.65 | 4.65 |
 | Discount Rate | % | 15.13 | 15.13 | 15.13 | 15.13 |
 
-
-
-
-
-
 | Fuel Type | Price* |
 | --- | --- |
 | Domestic Coal | Rs. 1003.42 - 3056.02/tonne |
 | Imported Coal | Rs. 6956.46 - 8827.86/tonne |
 | Domestic Gas | Rs. 263.6 - 315.28/mBtu |
 | Imported Gas | Rs. 578.05 - 609.22/mBtu |
-
-
 
 *The variation in prices is due to difference in transportation costs
 Prices for domestic coal are as on January 2012, other charges for 2010-11
@@ -245,9 +220,6 @@ average for 2011-12 (Source: Coal Spot)
 · Assumptions for power generation costs are based on norms specified by CERC (for 2009-14)
 
 · Exchange rate - Rs 52.2/US$ as on August 2012
-
-
-<!-- PageBreak -->
 
 ## Page 8 · via `text` · 0 table(s)
 
@@ -275,9 +247,6 @@ and the prevailing exchange rate
 ## Page 9 · via `ocr` · 1 table(s)
 
 ## Financial Cost of Power Generation
-
-
-<figure>
 
 7
 
@@ -321,11 +290,6 @@ Domestic Gas
 
 LNG
 
-</figure>
-
-
-
-
 | Plant Locations | Fuel Options | Fuel Options | Fuel Options | Fuel Options |
 | --- | --- | --- | --- | --- |
 | Domestic Coal | Imported Coal | Domestic Gas | LNG |  |
@@ -339,16 +303,9 @@ LNG
 | Agartala | 3.73 | 5.75 | 3.97 | 6.38 |
 | Nagpur | 3.52 | 5.35 | 3.63 | 6.28 |
 
-
-
-
-<!-- PageBreak -->
-
 ## Page 10 · via `ocr` · 0 table(s)
 
 ### Carbon Implications
-
-<!-- PageBreak -->
 
 ## Page 11 · via `text` · 0 table(s)
 
@@ -421,13 +378,9 @@ carbon tax of AU$ 23-25/tonne of CO2 to be followed by an ETS
 
 # Adding the Cost of Carbon to Power Generation Costs (1)
 
-
 ## Total cost of power generation at a carbon price of US$ 30/tCO2 (in Rs./kWh)
 
 Rs/kWh
-
-
-<figure>
 
 7
 
@@ -466,11 +419,6 @@ Imported Coal
 Domestic Gas
 
 LNG
-
-</figure>
-
-
-
 
 | Plant Locations | Fuel Options | Fuel Options | Fuel Options | Fuel Options |
 | --- | --- | --- | --- | --- |
@@ -485,20 +433,11 @@ LNG
 | Agartala | 5.32 | 7.30 | 4.72 | 7.11 |
 | Nagpur | 4.47 | 6.90 | 4.38 | 7.02 |
 
-
-
-
-<!-- PageBreak -->
-
 ## Page 14 · via `ocr` · 1 table(s)
 
 # Adding the Cost of Carbon to Power Generation Costs (2)
 
-
 ## Total cost of power generation at a carbon price of US$ 10/tCO2 (in Rs./kWh)
-
-
-<figure>
 
 7
 
@@ -542,11 +481,6 @@ Domestic Gas
 
 LNG
 
-</figure>
-
-
-
-
 | Plant Locations | Fuel Options | Fuel Options | Fuel Options | Fuel Options |
 | --- | --- | --- | --- | --- |
 | Domestic Coal | Imported Coal | Domestic Gas | LNG |  |
@@ -559,11 +493,6 @@ LNG
 | Dhanbad | 3.21 | 5.61 | 4.20 | 6.62 |
 | Agartala | 4.26 | 6.27 | 4.22 | 6.62 |
 | Nagpur | 3.41 | 5.87 | 3.88 | 6.53 |
-
-
-
-
-<!-- PageBreak -->
 
 ## Page 15 · via `text` · 0 table(s)
 
@@ -581,9 +510,6 @@ Agartala)
 
 ## A Comparison
 
-
-
-
 | Plant Locations | Fuel Options | Fuel Options | Fuel Options | Fuel Options | Fuel Options | Fuel Options |
 | --- | --- | --- | --- | --- | --- | --- |
 | Imported Coal | Imported Coal | Imported Coal | LNG | LNG | LNG |  |
@@ -598,16 +524,9 @@ Agartala)
 | Agartala | 5.75 | 6.27 | 7.30 | 6.38 | 6.62 | 7.11 |
 | Nagpur | 5.35 | 5.87 | 6.90 | 6.28 | 6.53 | 7.02 |
 
-
-
-
-<!-- PageBreak -->
-
 ## Page 17 · via `ocr` · 0 table(s)
 
 ### Domestic Coal and Gas Availability and Projected Requirements
-
-<!-- PageBreak -->
 
 ## Page 18 · via `text` · 0 table(s)
 
@@ -651,8 +570,6 @@ KG-D6 output which has decreased to nearly 16 mmscmd*
 
 #### International Fuel Markets
 
-<!-- PageBreak -->
-
 ## Page 21 · via `text` · 0 table(s)
 
 Changing Trends in International Markets 
@@ -680,15 +597,6 @@ the
 international 
 markets 
 Price of Indian basket of crude oil 
-90
-95
-100
-105
-110
-115
-120
-125
-130
 Mar-12
 Apr-12
 May-12
@@ -740,15 +648,12 @@ production
 [ South Africa - exporting nearly 30% of its
 production
 
-
 ### ☐
-
 
 ### Climate change implications on countries/regions
 
 Carbon tax in Australia introduced in 2012-13
 (AU$ 23/tonne of carbon)
-
 
 ### Changing policies in exporting nations ☐
 
@@ -756,9 +661,6 @@ D Increase in prices of coal in Indonesia and
 'potential' ban of certain exports
 
 [ Resource nationalism and sovereignty
-
-
-
 
 |  | Share in global coal reserves | R/P ratio |
 | --- | --- | --- |
@@ -769,12 +671,7 @@ D Increase in prices of coal in Indonesia and
 | China | 13.3 | 33 |
 | India | 7 | 103 |
 
-
-
 Source: BP, 2012
-
-
-<!-- PageBreak -->
 
 ## Page 24 · via `text` · 0 table(s)
 
@@ -810,8 +707,6 @@ Likelihood of excess gas availability and softening of prices in Asia?
 
 ## Conclusions
 
-<!-- PageBreak -->
-
 ## Page 26 · via `text` · 0 table(s)
 
 Conclusions   
@@ -832,8 +727,6 @@ strategy
 ## Page 27 · via `ocr` · 0 table(s)
 
 ## Suggestions - Policy Options
-
-<!-- PageBreak -->
 
 ## Page 28 · via `text` · 0 table(s)
 

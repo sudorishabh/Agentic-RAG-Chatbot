@@ -1,6 +1,6 @@
 # Chunking (chunk_pdf) — Achieving_Green_Steel_Roadmap.pdf
 
-- parents: **38**
+- parents: **36**
 - children: **64**
 
 ---
@@ -40,7 +40,7 @@ Resources Insti
 
 … [+2278 more chars]
 
-### Parent · section='FOREWORD' · pages=(7, 9) · 751 tok
+### Parent · section='FOREWORD' · pages=(7, 9) · 996 tok
 
 FOREWORD
 
@@ -59,21 +59,27 @@ sectors such as iron and steel and an assessment of the sector-wise potential fo
 In 2020, we published a consultation document on the iron and steel sector - Towards a Low Carbon
 Steel Sector - an in-depth study outlining various options for reducing e
 
-… [+3963 more chars]
+… [+6203 more chars]
 
-### Parent · section='3.1\t Competitiveness................................................................................................................. 20 — 3.2\t Rapid growth required in the near term.................................................................................21 — 3.3\t Technology availability ....................................................................................................... 22 — 3.4\t Capital requirements.......................................................................................................... 24 — 4. Transition pathway....................................................................................................................... 25 — 4.1 \t Structure of Indian steel assets........................................................................................... 26 — 4.2 \t Technology option assessment............................................................................................ 28 — 4.3 \t Pathways to net zero............................................................................................................31 — 5. Achieving Green Steel: Action Plan................................................................................................ 35' · pages=(9, 9) · 144 tok
+### Parent · section='5.9\t Implement a carbon border tariff..........................................................................................41' · pages=(9, 11) · 558 tok
 
-3.1	 Competitiveness................................................................................................................. 20 — 3.2	 Rapid growth required in the near term.................................................................................21 — 3.3	 Technology availability ....................................................................................................... 22 — 3.4	 Capital requirements.......................................................................................................... 24 — 4. Transition pathway....................................................................................................................... 25 — 4.1 	 Structure of Indian steel assets........................................................................................... 26 — 4.2 	 Technology option assessment............................................................................................ 28 — 4.3 	 Pathways to net zero............................................................................................................31 — 5. Achieving Green Steel: Action Plan....................................................................
+5.9	 Implement a carbon border tariff..........................................................................................41
 
-… [+165 more chars]
+5.10 	Retire older, polluting facilities............................................................................................ 42
+Conclusions	
+............................................................................................................................... 44
+Bibliography	
+................................................................................................................................45
+TABLE OF CONTENTS
 
-### Parent · section='5.2\t Increase scrap utilisation.....................................................................................................37 — 5.3\t Create procurement alliances ............................................................................................. 38 — 5.4\t Introduce green product standards...................................................................................... 38 — 5.5\t Promote technical research & development and set-up demonstration plants....................... 39 — 5.6\t Future-proof new capacity................................................................................................... 39 — 5.7 \t Lay the groundwork for a domestic carbon trading market.................................................... 40 — 5.8 \t Support for commercial-scale plants................................................................................... 40 — 5.9\t Implement a carbon border tariff..........................................................................................41 — 5.10 \tRetire older, polluting facilities............................................................................................ 42 — Conclusions' · pages=(9, 11) · 675 tok
+Figure 1: Route-wise crude steel production share, 2020-21...............................................................7
+Figure 2: Historical steel production and use.....................................................................................8
+Figure 3: Global steel production route-wise breakdown, 2019...........................................................9
+Figure 4: BAU demand for crude steel and scrap availability............................................................ 10
+Figure 5: True steel consumption per capita versus GDP per capita....................................................11
+Figure
 
-5.2	 Increase scrap utilisation.....................................................................................................37 — 5.3	 Create procurement alliances ............................................................................................. 38 — 5.4	 Introduce green product standards...................................................................................... 38 — 5.5	 Promote technical research & development and set-up demonstration plants....................... 39 — 5.6	 Future-proof new capacity................................................................................................... 39 — 5.7 	 Lay the groundwork for a domestic carbon trading market.................................................... 40 — 5.8 	 Support for commercial-scale plants................................................................................... 40 — 5.9	 Implement a carbon border tariff..........................................................................................41 — 5.10 	Retire older, polluting facilities............................................................................................ 42 — Conclusions
-
-...........................
-
-… [+3786 more chars]
+… [+2893 more chars]
 
 ### Parent · section='AI – Artificial Intelligence' · pages=(12, 13) · 449 tok
 
@@ -111,9 +117,13 @@ TRL – Technology Readiness Level
 WSA – World Steel Association
 GLOSSARY
 
-Achieving Green Steel: Roadmap to a net zero steel sector in India — National Steel — Policy, 2017 — Towards a Low Carbon — Steel Sector (TERI
+Achieving Green Steel: Roadmap to a net zero steel sector in India — National Steel
 
-… [+616 more chars]
+Policy, 2017
+
+Towards a Low Carbon — Steel Sector (TERI C
+
+… [+609 more chars]
 
 ### Parent · section='ENERGY TRANSITIONS — COMMISSION TARDE' · pages=(15, 17) · 1029 tok
 
@@ -716,7 +726,7 @@ Given the high risk associated with demonstr
 
 … [+219 more chars]
 
-### Parent · section='5.6\t Future-proof new capacity' · pages=(51, 52) · 367 tok
+### Parent · section='5.6\t Future-proof new capacity' · pages=(51, 52) · 373 tok
 
 5.6	 Future-proof new capacity
 
@@ -734,11 +744,11 @@ with only a few, small-scale projects currently underway in the oil and gas and 
 
 <figcaption>Figure 25: Pathways for low carbon primary steelmak
 
-… [+436 more chars]
+… [+459 more chars]
 
-### Parent · section='Source: TERI Analysis — 5.7 Lay the groundwork for a domestic carbon trading market' · pages=(52, 52) · 207 tok
+### Parent · section='5.7 Lay the groundwork for a domestic carbon trading market' · pages=(52, 52) · 200 tok
 
-Source: TERI Analysis — 5.7 Lay the groundwork for a domestic carbon trading market
+5.7 Lay the groundwork for a domestic carbon trading market
 
 An important tool to help accelerate the switch to low carbon technologies is development of domestic
 carbon trading market. India has already achieved much success with the implementation of the Perform,
@@ -772,7 +782,7 @@ familiarity with such projects among private sector lenders, greater fo
 
 … [+649 more chars]
 
-### Parent · section='5.9\t Implement a carbon border tariff' · pages=(53, 54) · 293 tok
+### Parent · section='5.9\t Implement a carbon border tariff' · pages=(53, 55) · 608 tok
 
 5.9	 Implement a carbon border tariff
 
@@ -798,26 +808,7 @@ of imported steel, can be considered for supporting India’s greening of steel.
 competitiveness of India’s steel sector particularly when it comes to our export to developed nations like 
 the EU.  However such strategies wi
 
-… [+237 more chars]
-
-### Parent · section='5.10 Retire older, polluting facilities' · pages=(54, 55) · 315 tok
-
-5.10 Retire older, polluting facilities
-
-As the industry decarbonises and new, low emission capacity comes online, it may be necessary to retire 
-older, polluting facilities that are close to the end of their lifetimes. Whilst all efforts should be made to 
-‘future-proof’ new capacities, high emission steel plants built in the 2010s and early 2020s could still be 
-operating in 2070 without concerted efforts to retire these facilities.
-For a net zero by 2070 scenario, it is assumed that largely gas based direct reduction plants are installed 
-during the 2020s, primarily using natural gas. When low-cost hydrogen is available, these plants can 
-switch over to hydrogen. From 2030 onwards, it is assumed that further direct reduction plants using high 
-shares of green hydrogen from the beginning will be constructed.
-The existing blast furnaces would need to be steadily decommissioned as they reach the end of their 
-economic life. This might require consideration for some form of fiscal/ financial packages to facilitate 
-this process. By 2070, a limited number of blast furnaces would remain, and those that do would be 
-fitted with carbon capture technology. Coal-based direct reduction uni
-
-… [+260 more chars]
+… [+1697 more chars]
 
 ### Parent · section='Conclusions' · pages=(56, 58) · 1938 tok
 
@@ -938,7 +929,7 @@ understanding of possible routes for decarbonizing India's energy system and key
 
 … [+1100 more chars]
 
-### Child 4 · section='FOREWORD' · page=7 · 456 tok
+### Child 4 · section='FOREWORD' · page=7 · 521 tok
 
 : Roadmap to a Net Zero
 Steel Sector in India builds on this work. In the formulation of this Roadmap, TERI has carried out extensive
@@ -949,15 +940,25 @@ as maximizing energy efficiency, increasing utilization of scrap, introducing gr
 creating demand for green steel, setting up pilot demonstration plants based on low carbon technologies,
 and initiatives to develop a domestic carbon market may be necessary to ensure that the Ind
 
-… [+2746 more chars]
+… [+3428 more chars]
 
-### Child 5 · section='3.1\t Competitiveness................................................................................................................. 20 — 3.2\t Rapid growth required in the near term.................................................................................21 — 3.3\t Technology availability ....................................................................................................... 22 — 3.4\t Capital requirements.......................................................................................................... 24 — 4. Transition pathway....................................................................................................................... 25 — 4.1 \t Structure of Indian steel assets........................................................................................... 26 — 4.2 \t Technology option assessment............................................................................................ 28 — 4.3 \t Pathways to net zero............................................................................................................31 — 5. Achieving Green Steel: Action Plan................................................................................................ 35' · page=9 · 13 tok
+### Child 5 · section='FOREWORD' · page=9 · 240 tok
 
-5.1	
-Maximize energy efficiency.................................................................................................. 36
+itiveness................................................................................................................. 20
 
-### Child 6 · section='5.2\t Increase scrap utilisation.....................................................................................................37 — 5.3\t Create procurement alliances ............................................................................................. 38 — 5.4\t Introduce green product standards...................................................................................... 38 — 5.5\t Promote technical research & development and set-up demonstration plants....................... 39 — 5.6\t Future-proof new capacity................................................................................................... 39 — 5.7 \t Lay the groundwork for a domestic carbon trading market.................................................... 40 — 5.8 \t Support for commercial-scale plants................................................................................... 40 — 5.9\t Implement a carbon border tariff..........................................................................................41 — 5.10 \tRetire older, polluting facilities............................................................................................ 42 — Conclusions' · page=9 · 523 tok
+3.2	 Rapid growth required in the near term.................................................................................21
 
+3.3	 Technology availability ....................................................................................................... 22
+
+3.4	 Capital requirements.......................................................................................................... 24
+4. Transition pathway....................................................................................................................... 25 4.1 	 Structure of Indian steel assets...........................................................................................
+
+… [+1427 more chars]
+
+### Child 6 · section='5.9\t Implement a carbon border tariff..........................................................................................41' · page=9 · 544 tok
+
+5.10 	Retire older, polluting facilities............................................................................................ 42
+Conclusions	
 ............................................................................................................................... 44
 Bibliography	
 ................................................................................................................................45
@@ -965,11 +966,9 @@ TABLE OF CONTENTS
 
 Figure 1: Route-wise crude steel production share, 2020-21...............................................................7
 Figure 2: Historical steel production and use.....................................................................................8
-Figure 3: Global steel production route-wise breakdown, 2019...........................................................9
-Figure 4: BAU demand for crude steel and scrap availability............................................................ 10
-Figure
+Figure 3: Global steel production route-wise breakdown, 2019.........................................
 
-… [+3014 more chars]
+… [+3163 more chars]
 
 ### Child 7 · section='AI – Artificial Intelligence' · page=12 · 444 tok
 
@@ -998,7 +997,7 @@ Mt – Millions of tonnes
 Mtoe – Million Tonnes of Oil Equivalent 
 Mtpa – Millions of 
 
-… [+986 more chars]
+… [+979 more chars]
 
 ### Child 8 · section='ENERGY TRANSITIONS — COMMISSION TARDE' · page=15 · 433 tok
 
@@ -1712,7 +1711,7 @@ Going forward, these funds need to increase
 
 … [+563 more chars]
 
-### Child 51 · section='5.6\t Future-proof new capacity' · page=51 · 358 tok
+### Child 51 · section='5.6\t Future-proof new capacity' · page=51 · 364 tok
 
 An important consideration for low carbon steelmaking routes in India is the lifetime of the plants and 
 the possibility of retrofit in the coming decades. Steel plants have long lifetimes (30 years plus), resulting 
@@ -1724,9 +1723,9 @@ syngas, which is more readily available. This could then be switched to low carb
 reducing emissions without a significant change in the infrastructure. Alternatively, steel producers could 
 establi
 
-… [+804 more chars]
+… [+827 more chars]
 
-### Child 52 · section='Source: TERI Analysis — 5.7 Lay the groundwork for a domestic carbon trading market' · page=52 · 187 tok
+### Child 52 · section='5.7 Lay the groundwork for a domestic carbon trading market' · page=52 · 187 tok
 
 An important tool to help accelerate the switch to low carbon technologies is development of domestic
 carbon trading market. India has already achieved much success with the implementation of the Perform,
@@ -1755,7 +1754,7 @@ This could include direct financial support from the GoI, via existing bodies su
 
 … [+1008 more chars]
 
-### Child 54 · section='5.9\t Implement a carbon border tariff' · page=53 · 283 tok
+### Child 54 · section='5.9\t Implement a carbon border tariff' · page=53 · 142 tok
 
 Steel, a carbon intensive product which is also heavily traded globally, has found a lot of attention in 
 recent years in the trade environment policy discourses. For example, the EU green deal mentions 
@@ -1773,23 +1772,25 @@ domestic industry during transition
 250
 0
 
-higher steel carbon intensity. This may dissuade Indian steel importers from importing and will h
+### Child 55 · section='5.9\t Implement a carbon border tariff' · page=54 · 514 tok
 
-… [+598 more chars]
+be worth exploring similar import restrictions on steel imports to India originating from countries having 
+Figure 26: Carbon border adjustment
+Source: TERI
++ carbon tax
+at the border
+Cheaper imports
+without carbon tax
+Carbon border tax protects
+domestic industry during transition
+250
+0 higher steel carbon intensity. This may dissuade Indian steel importers from importing and will help in 
+switching to domestic. Additional revenue, that may be collected as import duty, based on carbon content 
+of imported steel, can be considered for supporting India’s greening of steel. This may enhance export 
+competitiveness of India’s steel sector particularly when it comes to our export to developed nations like 
+the EU.  However such strategies will require better understanding of the extent of CBAM 
 
-### Child 55 · section='5.10 Retire older, polluting facilities' · page=54 · 304 tok
-
-As the industry decarbonises and new, low emission capacity comes online, it may be necessary to retire 
-older, polluting facilities that are close to the end of their lifetimes. Whilst all efforts should be made to 
-‘future-proof’ new capacities, high emission steel plants built in the 2010s and early 2020s could still be 
-operating in 2070 without concerted efforts to retire these facilities.
-For a net zero by 2070 scenario, it is assumed that largely gas based direct reduction plants are installed 
-during the 2020s, primarily using natural gas. When low-cost hydrogen is available, these plants can 
-switch over to hydrogen. From 2030 onwards, it is assumed that further direct reduction plants using high 
-shares of green hydrogen from the beginning will be constructed.
-The existing blast 
-
-… [+619 more chars]
+… [+1643 more chars]
 
 ### Child 56 · section='Conclusions' · page=56 · 190 tok
 

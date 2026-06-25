@@ -7,11 +7,9 @@
 
 ## Parent chunks
 
-### Parent · section='SK Sarkar — F' · pages=(1, 1) · 1253 tok
+### Parent · section='SK Sarkar — F' · pages=(1, 1) · 1242 tok
 
 SK Sarkar — F
-
-<!-- PageHeader="IN PERSPECTIVE" -->
 
 Integrated means of managing water
 
@@ -58,17 +56,16 @@ water services is less than its de-
 mand, and this gap is likely to
 increase in the coming years.
 It is estimated that by 2050, In-
-dia will be categorised
+dia will be categorised as a wa-
+ter-scarce country, and its 
 
-… [+4352 more chars]
+… [+4314 more chars]
 
 ---
 
 ## Child chunks
 
-### Child 0 · section='SK Sarkar — F' · page=1 · 323 tok
-
-<!-- PageHeader="IN PERSPECTIVE" -->
+### Child 0 · section='SK Sarkar — F' · page=1 · 312 tok
 
 Integrated means of managing water
 
@@ -101,9 +98,11 @@ ment was typically command
 and control type, as it aimed to
 control generally the hydrolog-
 ical cycle through structures
-suc
+such as dams.
 
-… [+612 more chars]
+With population growthinth
+
+… [+574 more chars]
 
 ### Child 1 · section='SK Sarkar — F' · page=1 · 397 tok
 

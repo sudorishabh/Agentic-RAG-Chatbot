@@ -1,9 +1,9 @@
 {
   "pdf": "Annexure_A2_Commitment-letters.pdf",
-  "elapsed_seconds": 5.45,
+  "elapsed_seconds": 5.43,
   "page_count": 6,
   "table_count": 0,
-  "char_count": 9002,
+  "char_count": 7392,
   "routes": {
     "text": 1,
     "ocr": 5
@@ -18,10 +18,10 @@
     5,
     6
   ],
-  "chunks_total": 17,
-  "parent_chunks": 8,
+  "chunks_total": 16,
+  "parent_chunks": 7,
   "child_chunks": 9,
-  "child_token_min": 75,
-  "child_token_max": 413,
-  "child_token_avg": 275
+  "child_token_min": 100,
+  "child_token_max": 409,
+  "child_token_avg": 225
 }

@@ -1,7 +1,7 @@
 # Chunking (chunk_pdf) — Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf
 
 - parents: **8**
-- children: **26**
+- children: **25**
 
 ---
 
@@ -30,7 +30,7 @@ The Energy an
 
 … [+208 more chars]
 
-### Parent · section='Introduction' · pages=(3, 7) · 1793 tok
+### Parent · section='Introduction' · pages=(3, 7) · 1789 tok
 
 Introduction
 
@@ -45,8 +45,6 @@ References
 18
 CONTENTS
 
-<!-- PageBreak -->
-
 Internationalizing Lifestyles for Environment: Messages for G20	
 5
 ABSTRACT
@@ -58,11 +56,11 @@ the consumption of goods and services along with extraction of resources, produc
 demand, including lifestyle choices, drives supply, it is important to focus on downstream components and 
 linkages across resource value chains. To understand the sustainability of lifestyles and consumption for G20 
 countries and the European Union, a composite index and indices on consumption sectors (such as food, 
-transport, residential, and waste management) are developed in this p
+transport, residential, and waste management) are developed in this paper. The objective 
 
-… [+8002 more chars]
+… [+7982 more chars]
 
-### Parent · section='LIFESTYLES AND CONSUMPTION INDEX FOR G20' · pages=(8, 9) · 812 tok
+### Parent · section='LIFESTYLES AND CONSUMPTION INDEX FOR G20' · pages=(8, 9) · 763 tok
 
 LIFESTYLES AND CONSUMPTION INDEX FOR G20
 
@@ -78,13 +76,11 @@ and the European Union.
 | Residential Buildings | Total final energy consumption in residential sector (TJ/ capita) | IEA World Energy Balances https://www.iea.org/data-and- statistics/data-product/world- energy-statistics-and-balances | 2019 |
 | Waste Disposal | Plastic waste generation (tonnes/capita) | Source: Jambeck et al (2015) in https://ourworldindata. org/grapher/plastic-waste- gen
 
-… [+2235 more chars]
+… [+2055 more chars]
 
-### Parent · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · pages=(9, 10) · 1622 tok
+### Parent · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · pages=(9, 10) · 1591 tok
 
 India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States
-
-</figure>
 
 | Country | Meat and dairy production (tonnes/ capita) | Meat and dairy production (tonnes/ capita) | TFC in transport sector (TJ/ capita) | TFC in transport sector (TJ/ capita) | TFC in residential sector (TJ/ capita) | TFC in residential sector (TJ/ capita) | Plastic waste generation (tonnes/ capita) | Plastic waste generation (tonnes/ capita) | Sustainable Consumption Index | Sustainable Consumption Index Score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -94,11 +90,11 @@ India — Indonesia — Mexico — China — Turkey — Japan — South Africa �
 | Mexico | 0.06 | 0.72 | 0.02 | 0.83 | 0.01 | 0.98 | 0.03 | 0.83 | 0.84 | 84 |
 | China | 0.06 | 0.69 | 0.01 | 0.92 | 0.01 | 0.85 | 0.04 | 0.77 | 0.81 | 81 |
 | Turkey | 0.04 | 0.79 | 0.01 | 0.86 | 0.01 | 0.84 | 0.08 | 0.58 | 0.77 | 77 |
-| Ja
+| Japan | 0.03 
 
-… [+3242 more chars]
+… [+3101 more chars]
 
-### Parent · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · pages=(11, 13) · 2006 tok
+### Parent · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · pages=(11, 13) · 1966 tok
 
 India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States (cont.)
 
@@ -116,9 +112,9 @@ Policy Instruments: Policy instruments are used by governments when they have a 
 the issue as well as the legitimacy to intervene. Policy instruments can include policy frameworks and goals, 
 regulatory and legislative instruments, public finan
 
-… [+8283 more chars]
+… [+8131 more chars]
 
-### Parent · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · pages=(13, 14) · 517 tok
+### Parent · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · pages=(13, 14) · 489 tok
 
 India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States (cont.)
 
@@ -128,19 +124,16 @@ implies a higher emphasis on the application and effective implementation of tec
 appliances at sub-national, national, and international levels. The G20 Energy Efficiency Leading Programme
 (EELP) in collaboration with the International Energy Partnership for Energy Efficiency Collaboration (IPEEC)
 
-<!-- PageFooter="Internationalizing Lifestyles for Environment: Messages for G20" -->
-<!-- PageNumber="13" -->
-<!-- PageBreak -->
-
 14	
 SDG Charter Policy Brief
 focuses on promoting energy efficiency through research, information dissemination, policy options and 
 designing and strengthening the development and implementation frameworks. While there has been a 
-heavy focus on energy, considerable gaps exist in the residen
+heavy focus on energy, considerable gaps exist in the residential building sector on water conservation – 
+when it comes to deploying large scale interventions. Moreover, many interventions ar
 
-… [+1541 more chars]
+… [+1410 more chars]
 
-### Parent · section='WAY FORWARD: INTERNATIONALIZING LIFESTYLES AND DEPLOYING INSTRUMENTS' · pages=(15, 15) · 386 tok
+### Parent · section='WAY FORWARD: INTERNATIONALIZING LIFESTYLES AND DEPLOYING INSTRUMENTS' · pages=(15, 15) · 383 tok
 
 WAY FORWARD: INTERNATIONALIZING LIFESTYLES AND DEPLOYING INSTRUMENTS
 
@@ -158,17 +151,11 @@ the United Nations General Assembly; for example through a mandating report by U
 General. Lifestyles could also be considered as a theme for the High-level Political Forum - Sustainable
 Development Goals. Table 3 presents key hooks for internationalizing lifestyle for environme
 
-… [+565 more chars]
+… [+555 more chars]
 
-### Parent · section='G20' · pages=(15, 20) · 2104 tok
+### Parent · section='G20' · pages=(16, 20) · 2049 tok
 
 G20
-
-</figure>
-
-<!-- PageFooter="Internationalizing Lifestyles for Environment: Messages for G20" -->
-<!-- PageNumber="15" -->
-<!-- PageBreak -->
 
 16	
 SDG Charter Policy Brief
@@ -187,8 +174,10 @@ instruments, ranging from command and control to voluntary instruments. The role
 advertising is essential and this is a segment which remains to be tapped. 
 	»
 Promoting science-based actions: Science should help in understanding some of the successful 
+solutions—behaviour change solutions, market solutions and policy solutions—that are being deployed 
+in G20 and how these can be replicated a
 
-… [+8389 more chars]
+… [+8135 more chars]
 
 ---
 
@@ -211,7 +200,7 @@ sustainable consumption and lifes
 
 … [+464 more chars]
 
-### Child 1 · section='Introduction' · page=3 · 330 tok
+### Child 1 · section='Introduction' · page=3 · 326 tok
 
 6
 Lifestyles and Consumption Index for G20 	
@@ -224,8 +213,6 @@ References
 18
 CONTENTS
 
-<!-- PageBreak -->
-
 Internationalizing Lifestyles for Environment: Messages for G20	
 5
 ABSTRACT
@@ -234,9 +221,9 @@ include resource extraction, manufacturing, processing, use by consumer, and dis
 frameworks on sustainable consumption and production focus more on upstream and mid-stream 
 components, such as resource efficiency and circular economy. Lifecycle approaches need to consider 
 the consumption of goods and services along with extraction of resources, production and disposal. Since 
-dema
+demand, including lifest
 
-… [+969 more chars]
+… [+949 more chars]
 
 ### Child 2 · section='Introduction' · page=6 · 495 tok
 
@@ -305,7 +292,7 @@ lifestyles is complex, since these would vary from indiv
 
 … [+1286 more chars]
 
-### Child 6 · section='LIFESTYLES AND CONSUMPTION INDEX FOR G20' · page=8 · 320 tok
+### Child 6 · section='LIFESTYLES AND CONSUMPTION INDEX FOR G20' · page=8 · 441 tok
 
 To understand the state of lifestyles and consumption for G20 countries and the European Union, a composite
 index and indices on consumption sectors (such as food, transport, residential and waste management)
@@ -318,43 +305,34 @@ and the European Union.
 | Food | Meat and dairy production (tonnes/ capita) | UN (2019), Gapminder (v6) and HYDE (v3.2); FAR (2020); Eurostat (2018) in OurWorldInData.org/ meat-production | 2018 |
 | Residenti
 
-… [+479 more chars]
+… [+1145 more chars]
 
-### Child 7 · section='LIFESTYLES AND CONSUMPTION INDEX FOR G20' · page=8 · 540 tok
+### Child 7 · section='LIFESTYLES AND CONSUMPTION INDEX FOR G20' · page=8 · 370 tok
 
-et al (2015) in https://ourworldindata. org/grapher/plastic-waste- generation-total; Eurostat | 2010 and 2015 |
+food-waste was that the data for all types of food waste
+(households, out-of-home consumption and retail) is not available for all G20 entities - for Turkey, no data
+was available for food waste; for EU, data was not available for out-of-home consumption category. Further computation and normalization of indicator values is done for identifying and collecting basic data,
+so that it falls in the range of 0-1. This procedure makes the respective values of the chosen indicators (as
+mentioned in the above table) unitless, so that indicators are comparable for construction of an index. In the
+index, the best performer gets a value of 1, while the worst performer gets a value of 0; moreover, all values
+become unidirectional.
 
-<figure>
-</figure>
+The normalization procedure using x as a variable is as follows:
 
-<figure>
-</figure>
+x-in
 
-<figure>
-</figure>
+… [+731 more chars]
 
-<figure>
-</figure> The choice of index is based on key sectors that have been extensively covered in the literature and contribute
-significantly to sustainable consumption on the downstream or end-consumer side. The downstream side
-of production and consumption systems pertain to lifestyles and consumers, as opposed to upstream, which
-includes aspects related to resource extraction. The choice of these indicators is also constrained by data
-availability. For example, the reason for leaving our food-waste was that the data for all types of food waste
-(households, out-of-home consumption and retail) is not available for a
-
-… [+1504 more chars]
-
-### Child 8 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=9 · 561 tok
-
-</figure>
+### Child 8 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=9 · 558 tok
 
 | Country | Meat and dairy production (tonnes/ capita) | Meat and dairy production (tonnes/ capita) | TFC in transport sector (TJ/ capita) | TFC in transport sector (TJ/ capita) | TFC in residential sector (TJ/ capita) | TFC in residential sector (TJ/ capita) | Plastic waste generation (tonnes/ capita) | Plastic waste generation (tonnes/ capita) | Sustainable Consumption Index | Sustainable Consumption Index Score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Value | Index | Value | Index | Value | Index | Value | Index |  |  |  |
 | India | 0.01 | 1.00 | 0.00 | 1.00 | 0.00 | 1.00 | 0.00 | 1.00 | 1.00 | 100 |
 | Indonesia | 0.01 | 0.96 | 0.01 | 0.93 | 0.00 | 1.00 | 0.02 | 0.90 | 0.95 | 95 |
-| Mexico | 0.06 | 0.72 | 0.02 | 0.83 | 0.01 | 0.98 | 0.03 | 0.83 
+| Mexico | 0.06 | 0.72 | 0.02 | 0.83 | 0.01 | 0.98 | 0.03 | 0.83 | 0.84 | 84
 
-… [+417 more chars]
+… [+406 more chars]
 
 ### Child 9 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=9 · 572 tok
 
@@ -371,7 +349,7 @@ availability. For example, the reason for leaving our food-waste was that the da
 
 … [+113 more chars]
 
-### Child 10 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=9 · 216 tok
+### Child 10 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=9 · 188 tok
 
 | 0.44 | 44 |
 | Germany | 0.10 | 0.49 | 0.03 | 0.68 | 0.03 | 0.36 | 0.18 | 0.00 | 0.38 | 38 | | Canada | 0.13 | 0.30 | 0.08 | 0.06 | 0.04 | 0.05 | 0.03 | 0.83 | 0.31 | 31 |
@@ -379,28 +357,21 @@ availability. For example, the reason for leaving our food-waste was that the da
 
 Source: Based on FAO (2022), IEA (2022); and Jambeck et al (2015)
 
-<!-- PageFooter="Internationalizing Lifestyles for Environment: Messages for G20" -->
-<!-- PageNumber="9" -->
-<!-- PageBreak -->
-
 ### Child 11 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=10 · 407 tok
 
-0.19 | 19 |
+08 | 0.00 | 0.03 | 0.19 | 0.12 | 0.32 | 0.19 | 19 |
 
-Source: Based on FAO (2022), IEA (2022); and Jambeck et al (2015)
-
-<!-- PageFooter="Internationalizing Lifestyles for Environment: Messages for G20" -->
-<!-- PageNumber="9" -->
-<!-- PageBreak --> 10	
+Source: Based on FAO (2022), IEA (2022); and Jambeck et al (2015) 10	
 SDG Charter Policy Brief
 Among G20 entities, India has the highest score in the Lifestyles and Consumption Index, while United States 
 has the lowest score. Annexure 1 presents the sub-indices on lifestyles and consumption for G20 countries 
 and the EU. India has the highest score—and thus the lowest consumption—for all the four consumption 
 sectors (food consumption, transport, residential sector, and plastic waste generation). These score do not 
 indicate the normative direction of lifestyles and consumption, but merely indicate the present level of 
-consumption. As mentioned, t
+consumption. As mentioned, these metrics are constrained by data availability, especially when it comes to 
+indicators
 
-… [+1227 more chars]
+… [+1137 more chars]
 
 ### Child 12 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=11 · 443 tok
 
@@ -418,7 +389,7 @@ Policy Instruments: Policy instruments are used by governments when they have a 
 
 … [+1589 more chars]
 
-### Child 13 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=11 · 219 tok
+### Child 13 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=11 · 206 tok
 
 This tool is fuelled by social movements involving 
 people, repairers and sustainability groups – who advocate that reusing, refurbishing and repairing products will lead to benefits 
@@ -431,30 +402,24 @@ at the individual and community levels, like carpooling.
 
 Table 2 depicts instruments for nudgin
 
-… [+311 more chars]
+… [+271 more chars]
 
 ### Child 14 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=12 · 620 tok
 
-. The instruments followed by * denotes the ones that are being deployed in G20
+and sustainable consumption for the four sectors
+considered in the analysis. The instruments followed by * denotes the ones that are being deployed in G20
 countries for the G20 sectors.
 
-TABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION
-
-<figure>
-</figure>
-
-<figure>
-</figure> |  | Policy Instruments | Policy Instruments |  | Market Instruments | Social instruments |
+TABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION |  | Policy Instruments | Policy Instruments |  | Market Instruments | Social instruments |
 | --- | --- | --- | --- | --- | --- |
 | Transport | » | Taxation on fuel and high fuel/emissions vehicles | › | Provision of eco- mobility | » Campaigns on policy measures |
 |  | » | Congestion charges | » | Company logistics | » Advertisements |
 | » | Toll roads |  | and contracts | Public » |  |
 | » > | Government encouragement to participate in carbon emission trading schemes | » | Withdrawing inappropriate products | awareness campaigns |  |
-|  | » › | High parking fees/ maxi
 
-… [+1638 more chars]
+… [+1673 more chars]
 
-### Child 15 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=12 · 365 tok
+### Child 15 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=12 · 337 tok
 
 elling and certification* | » | Energy efficiency | raising, |
 |  | certificate schemes* | education and |  |  |  |
@@ -464,20 +429,14 @@ elling and certification* | » | Energy efficiency | raising, |
 |  |  |  |  | disclosure |  |
 |  |  |  |  | programs* |  |
 
-<!-- PageFooter="SDG Charter Policy Brief" -->
-<!-- PageNumber="12" -->
-<!-- PageBreak -->
-
-<figure>
-</figure>
-
 |  | Policy Instruments | Policy Instruments | Market Instruments | Social instruments |
 | --- | --- | --- | --- | --- |
 | Waste | » | Right to repair | » Deposit Refund | » Capacity |
 | Disposal | » | Product restrictions or bans | Schemes | building |
-| » | Standards for recycled materials | » Pay-as-you throw | 
+| » | Standards for recycled materials | » Pay-as-you throw | » Social |  |
+| » | Bans/restrictions on landfill | pricing for waste collection system | movements and sensitiz
 
-… [+576 more chars]
+… [+464 more chars]
 
 ### Child 16 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=13 · 334 tok
 
@@ -506,7 +465,7 @@ an important role in pricing, communication, production and distribution of envi
 
 … [+695 more chars]
 
-### Child 18 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=13 · 126 tok
+### Child 18 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=13 · 441 tok
 
 For G20 countries, the dominant focus of instruments has been in the categories of standards and labelling
 for energy-efficient buildings and automatic-networked residential appliances. Thus, for these countries, this
@@ -514,28 +473,15 @@ implies a higher emphasis on the application and effective implementation of tec
 appliances at sub-national, national, and international levels. The G20 Energy Efficiency Leading Programme
 (EELP) in collaboration with the International Energy Partnership for Energy Efficiency Collaboration (IPEEC)
 
-<!-- PageFooter="Internationalizing Lifestyles for Environment: Messages for G20" -->
-<!-- PageNumber="13" -->
-<!-- PageBreak -->
-
-### Child 19 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=14 · 404 tok
-
-and international levels. The G20 Energy Efficiency Leading Programme
-(EELP) in collaboration with the International Energy Partnership for Energy Efficiency Collaboration (IPEEC)
-
-<!-- PageFooter="Internationalizing Lifestyles for Environment: Messages for G20" -->
-<!-- PageNumber="13" -->
-<!-- PageBreak --> 14	
+14	
 SDG Charter Policy Brief
 focuses on promoting energy efficiency through research, information dissemination, policy options and 
 designing and strengthening the development and implementation frameworks. While there has been a 
-heavy focus on energy, considerable gaps exist in the residential building sector on water conservation – 
-when it comes to deploying large scale interventions. Moreover, many interventions are focussed on public 
-buildings and need to further consider priv
+heavy focus on energy, co
 
-… [+1345 more chars]
+… [+1577 more chars]
 
-### Child 20 · section='WAY FORWARD: INTERNATIONALIZING LIFESTYLES AND DEPLOYING INSTRUMENTS' · page=15 · 368 tok
+### Child 19 · section='WAY FORWARD: INTERNATIONALIZING LIFESTYLES AND DEPLOYING INSTRUMENTS' · page=15 · 365 tok
 
 The messages from our stakeholder dialogue point to the need for nudging consumer behaviour by a variety
 of stakeholders. The recommendations from the study as well as the stakeholder consultations (TERI, 2022)
@@ -548,15 +494,9 @@ lifestyles. Through G20, India can take a leadership role in internationalizing 
 India can work towards the launch a 'G20 Coalition on Lifestyle for the Environment' and a 'G20
 Roadmap/Coalition on Responsible Advertisement'. The issue 
 
-… [+895 more chars]
+… [+885 more chars]
 
-### Child 21 · section='G20' · page=15 · 469 tok
-
-</figure>
-
-<!-- PageFooter="Internationalizing Lifestyles for Environment: Messages for G20" -->
-<!-- PageNumber="15" -->
-<!-- PageBreak -->
+### Child 20 · section='G20' · page=16 · 438 tok
 
 16	
 SDG Charter Policy Brief
@@ -568,11 +508,14 @@ eco-labels. This will be an important step forward when it comes to internationa
 Promoting adaptation and mitigation behaviours: From a Global South perspective, when discussing 
 lifestyles, climate change adaptation and mitigation need to be considered. Under UNFCCC, the 
 Subsidiary Body for Scientific and Technological Advice (SBSTA) can be given a mandate to produce 
-technical reports on adaptation and
+technical reports on adaptation and mitigation lifestyles.
+	»
+Deploy a variety of instruments: There is need to examine the scope of deployment of all types of 
+instruments, ran
 
-… [+1611 more chars]
+… [+1469 more chars]
 
-### Child 22 · section='G20' · page=17 · 501 tok
+### Child 21 · section='G20' · page=17 · 501 tok
 
 sector is important. Consumers need services 
 rather than the products, which implies that policies should aim at providing well-functioning and 
@@ -587,7 +530,7 @@ and increasing the life of vehicles. Retrofitting and supporting technologies s
 
 … [+1820 more chars]
 
-### Child 23 · section='G20' · page=17 · 569 tok
+### Child 22 · section='G20' · page=17 · 569 tok
 
 supply side is key.
 	»
@@ -606,7 +549,7 @@ Al-Fouzan, S. A. (2012). Using car parking requirements to promote sustainab
 
 … [+1474 more chars]
 
-### Child 24 · section='G20' · page=18 · 333 tok
+### Child 23 · section='G20' · page=18 · 309 tok
 
 kacemi, A. Hasija, G. Lisboa, S. Luz, J. Malley, (eds.)]. Cambridge University Press, 
 Cambridge, UK and New York, NY, USA. doi: 10.1017/9781009157926.001. Jambeck et al. (2015). Plastic waste inputs from land into the ocean. Science. 347(6223), 768-771 in Our World in Data. 
@@ -616,16 +559,14 @@ gov.in/press-releases.htm?dtl/35700/Indias_forthcoming_G20_Presidency (Last Acce
 NITI Aayog. (2022). Mission Document for LiFE (Lifestyle for Environment). New Delhi: NITI Aayog.
 TERI (The Energy and Resources Institute). (2022). Virtual Dialogue on Lifestyles and Sustainable
 
-… [+402 more chars]
+… [+290 more chars]
 
-### Child 25 · section='G20' · page=20 · 466 tok
+### Child 24 · section='G20' · page=20 · 466 tok
 
+Context of SDG 12 [Discussion Summary]. Act4Earth and World Sustainable Development Summit. New Delhi: The 
 Energy and Resources Institute.
 UNEP (United Nations Environment Programme). (2022). Global Strategy for Sustainable Consumption and Production 
-2023-2030. UNEP.
-
-<!-- PageFooter="Internationalizing Lifestyles for Environment: Messages for G20" -->
-<!-- PageNumber="19" --> 20	
+2023-2030. UNEP. 20	
 SDG Charter Policy Brief
 WORLD SUSTAINABLE 
 DEVELOPMENT SUMMIT
@@ -635,6 +576,6 @@ flagship Track II initiative organized by The Energy and Resources Institute
 decades for making ‘sustainable development’ a globally shared goal. 
 The only independently convened international Summit on sustainable 
 development and environment, based in the Global South, WSDS strives 
-to provide long-term solutions for th
+to provide long-term solutions for the be
 
-… [+1349 more chars]
+… [+1345 more chars]

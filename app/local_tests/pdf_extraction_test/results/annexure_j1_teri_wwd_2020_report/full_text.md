@@ -120,9 +120,6 @@ initiative with an objective to minimize single use plastic and also conserve we
 
 # Index
 
-
-
-
 | Sr No. |  |  | Content |
 | --- | --- | --- | --- |
 |  |  |  | Agenda |
@@ -144,17 +141,9 @@ initiative with an objective to minimize single use plastic and also conserve we
 | 4 | Media Coverage |  |  |
 | 5 | Take Home Message | Take Home Message |  |
 
-
-
-
 Acknowledgment
 
-<!-- PageBreak -->
-
 # Agenda: World Wetlands Day 2020 Event February 2, 2020
-
-
-
 
 | 9.30 AM - 10.00 AM | Registration |
 | --- | --- |
@@ -175,21 +164,9 @@ Acknowledgment
 | Plant a Sapling in waste plastic bottle |  |
 | 12.30 PM - 1.00 PM | Refreshments (Healthy Food- Millet Idli and Fruit Plate) |
 
-
-
-
-<!-- PageBreak -->
-
-<figure>
-
 MUMBAI
 
-</figure>
-
-
 ## 1. Inaugural and Interactive Session
-
-<!-- PageBreak -->
 
 Dignitaries on Dais
 (From L to R): Smt. Shaila Sam, Media and Communication Specialist, UNEP; Shri. Lovish Ahuja, Vice
@@ -571,14 +548,8 @@ alternatives to plastic to be carried out
 electronic equipment, medical instruments, automobiles and others
 cannot be neglected.
 
-<figure>
-</figure>
-
-
 2\. Mangrove Cleanup Activity-
 Sagar Vihar
-
-<!-- PageBreak -->
 
 •
 Mangroves
@@ -653,8 +624,6 @@ Masks)
 Instead of plastic bags, Gunny bags were 
 used for waste collection
 
-<figure>
-
 N.S.S
 NOT ME BUT YOU
 
@@ -664,9 +633,6 @@ Milka
 
 GOLD
 
-</figure>
-
-
 Weighing of the
 collected Waste
 
@@ -675,57 +641,23 @@ of Plastic waste was
 collected in 1 hour
 time
 
-<!-- PageBreak -->
-
-<figure>
-
 \-
 
 SAVE OUR
 9
 
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
 # 3.Parallel Sessions
 
-<!-- PageBreak -->
-
-<figure>
-
 SRAIT
-
-</figure>
-
-
-<figure>
-</figure>
-
 
 The Chief Guest
 Appreciating the
 exhibition Area
 
-
-<figure>
-
 Best from waste
 Mark your cartriation
 by sticking botte tap
 along the lines
-
-</figure>
-
-
-<!-- PageBreak -->
 
 Volunteers
 making
@@ -765,15 +697,7 @@ animals and birds.
 
 # b) Wetland Conservation Messages Through Art
 
-
 ## 1. Rangoli- A Traditional Art
-
-
-<figure>
-</figure>
-
-
-<!-- PageBreak -->
 
 The
 volunteers
@@ -990,10 +914,8 @@ promote the use of cloth carry bags
 and reducing plastic carry bags
 
 ## 4. Media Coverage
-<!-- PageBreak -->
 
 ### Media Coverage
-
 
 #### Clean-up drives carried out on World Wetland Day
 
@@ -1022,7 +944,6 @@ which began from November
 2020 .- BB Nayak
 
 Times of India_03.02.2020
-
 
 #### पाणथळ जागा वाचविण्यासाठी उपक्रम
 
@@ -1057,7 +978,6 @@ Times of India_03.02.2020
 बनवलेल्या कोलाजचे अनावरणही करण्यात आले.
 
 Tarun Bharat_04.02.2020
-
 
 #### प्लास्टिक न वापरण्याची शपथ
 
@@ -1094,13 +1014,7 @@ Tarun Bharat_04.02.2020
 
 Loksatta_05.02.2020
 
-<!-- PageBreak -->
-
-
 #### Media Coverage
-
-
-<figure>
 
 Promotion of Counter
 
@@ -1119,17 +1033,13 @@ VI
 
 2020
 
-</figure>
-
 टेरी, युनाइटेड नेशन्स एन्व्हायर्मेन्ट आणि नवी मुंबई पालिकेच्या संयुक्त विद्यमाने वाशी येथे जागतिक
 पाणथळ दिवसाचे औचित्य साधून जनजागृती कार्यक्रम झाला. 'प्लास्टिकविषयी पुनर्विचार' संकल्पने-
 अंतर्गत प्लास्टिकपासून तयार केलेल्या कोलाज चित्राचे अनावरण आयुक्त अण्णासाहेब मिसाळ यांनी केले.
 
-
 Maharashtra Times_04.02.2020
 
 Navrashtra_05.02.2020
-
 
 ##### जागतिक पाणथळ दिनानिमित्त विविध जनजागृतीपर उपक्रम संपन्न
 
@@ -1153,7 +1063,6 @@ Navrashtra_05.02.2020
 
 Mumbai Chauffer_05.02.2020
 
-
 ##### प्लास्टिक प्रदूषणाविरोधात भरीव कामाची गरज
 
 जे. एस. सहारिया यांचे प्रतिपादन
@@ -1176,15 +1085,10 @@ Mumbai Chauffer_05.02.2020
 रावविण्याबाबतही काम सुरु असल्याची
 माहिती त्यांनी दिली.
 
-
-<figure>
-</figure>
-
 · टेरी व युनाइटेड नेशन्स एन्व्हायरमेन्ट आणि नवी मुंबई
 महानगरपालिका यांच्या संयुक्त विद्यमाने सागर विहार से. ८, वाशी येथे
 जागतिक पाणथळ दिवसाचे औचित्य साधून आयोजित करण्यात
 आलेल्या विशेष कार्यक्रमाप्रसंगी ते आपले मनोगत व्यक्त करीत होते.
-
 
 ##### 'समुद्री प्लास्टिकपासून पाणथळ जागांचा बचाव'
 

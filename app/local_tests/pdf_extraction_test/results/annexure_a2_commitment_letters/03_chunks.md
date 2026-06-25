@@ -1,55 +1,27 @@
 # Chunking (chunk_pdf) — Annexure_A2_Commitment-letters.pdf
 
-- parents: **8**
+- parents: **7**
 - children: **9**
 
 ---
 
 ## Parent chunks
 
-### Parent · section="OCATION — ICLES' — MOTILALJHUNJHUNWALA COLLEGE — OF ARTS, SCIENCE & COMMERCE" · pages=(1, 2) · 293 tok
+### Parent · section="OCATION — ICLES' — MOTILALJHUNJHUNWALA COLLEGE — OF ARTS, SCIENCE & COMMERCE" · pages=(1, 2) · 186 tok
 
 OCATION — ICLES' — MOTILALJHUNJHUNWALA COLLEGE — OF ARTS, SCIENCE & COMMERCE
 
-Annexure- Commitment Letters for participation in the ‘Rethink Plastic’ campaign\
-
+Annexure- Commitment Letters for participation in the ‘Rethink Plastic’ campaign\ 
 1. Thane Belapur Industries Association (TBIA), Navi Mumbai
 
-<figure>
-
-UN@
-
-environment
-programme
-
-</figure>
-
-<figure>
-
-Counter — MEASURE — FOR PLASTIC FREE RIVERS
-
-</figure>
-
-<figure>
-
-RETHINK PLASTIC
-
-</figure>
-
-<figure>
-
-teri
-
-</figure>
-
 2\. ICLES Motilal Jhunjhunwala College, Navi Mumbai
-
-<figure>
 
 Plot No. 53, Sector - 9A, Amlendu Roye Marg, Vashi, Navi Mumbai - 400 703.
 Tel. : 022 - 27663061 / 27800800 · Email : info@iclesmj.edu.in, Website : www.iclesmj.edu
 Permanently Affiliated to the University of Mumbai.
 Listed u/s 2(f) & 12 (B) of UGC Act 1956
+
+### Parent · section='Accredited A Grade by NAAC' · pages=(2, 3) · 577 tok
 
 Accredited A Grade by NAAC
 
@@ -63,13 +35,6 @@ Date :
 Date: 27/2/2020
 
 To.
-
-### Parent · section='Dr. Anjali Parasnis — Associate Director' · pages=(2, 3) · 546 tok
-
-Dr. Anjali Parasnis — Associate Director
-
-The Energy and Resources Institute -Western Regional Centre (TERI-WRC)
-CBD-Belapur, Navi Mumbai, 400614
 
 In line with our Institute's commitment towards Environment Conservation, we hereby
 agree to join hands with TERI-WRC and United Nations Environment Programme (UNEP)
@@ -91,35 +56,13 @@ Mumbai
 
 Dr Anita S.Jadhav — Associate Professor — Head Department of Zoology
 
-</figure>
+3\. Karmaveer Bhaurao Patil College, Navi Mumbai
 
-<!-- PageBreak -->
+Rayat Shikshan Sanstha's — KARMAVEER BHAURAO PATIL COLLEGE, V
 
-<figure>
+… [+871 more chars]
 
-UN@
-
-environment
-programme
-
-</figure>
-
-… [+777 more chars]
-
-### Parent · section="NAAC GRADE 'A+' — COPA 3.53 — Sub: Commitment Towards Environment Conservation — DET-STAR COLLEGE — SCHEME — GOVERNMENT OF INDIA — (SINCE 2054)" · pages=(3, 3) · 123 tok
-
-NAAC GRADE 'A+' — COPA 3.53 — Sub: Commitment Towards Environment Conservation — DET-STAR COLLEGE — SCHEME — GOVERNMENT OF INDIA — (SINCE 2054)
-
-Dear Madam,
-through self-help
-
-In line with our Institute's commitment towards Environment Conservation, we
-hereby agree to join hands with TERI-WRC and United Nations Environment
-Programme (UNEP) for the 'Rethink Plastic' campaign under the project titled
-""Promotion of countermeasures against marine plastic litter in Southeast Asia
-and India".
-
-### Parent · section='DST-FIST SCHEME — GOVERNMENT OF INDIA — (SINCE 2013 — BEST COLLEGE AWARD — UNIVERSITY OF MUMBAI' · pages=(3, 4) · 265 tok
+### Parent · section='DST-FIST SCHEME — GOVERNMENT OF INDIA — (SINCE 2013 — BEST COLLEGE AWARD — UNIVERSITY OF MUMBAI' · pages=(3, 3) · 136 tok
 
 DST-FIST SCHEME — GOVERNMENT OF INDIA — (SINCE 2013 — BEST COLLEGE AWARD — UNIVERSITY OF MUMBAI
 
@@ -133,48 +76,15 @@ Moreover, being part of a responsible Educational Institution, we would also lik
 to participate in future events not only for this campaign but other activities
 related to environment conservation as well.
 
+### Parent · section='ISO 9001:2015 — INTERNATIONAL — ACCREDITATION FORUM — (SINCE 2917) — COMMUNITY — COLLEGE — UNIVERSITY OF MUMILAL — Thanking You — MERIT IN — INNOVATION AWARD — HIGHER EDUCATION FORUM — Principal — Marmaveer Bhaurao Patil College' · pages=(3, 5) · 532 tok
+
 ISO 9001:2015 — INTERNATIONAL — ACCREDITATION FORUM — (SINCE 2917) — COMMUNITY — COLLEGE — UNIVERSITY OF MUMILAL — Thanking You — MERIT IN — INNOVATION AWARD — HIGHER EDUCATION FORUM — Principal — Marmaveer Bhaurao Patil College
 
 Vashi, Navi Mumbai-400703.
 
 €
 
-</figure>
-
-<!-- PageBreak -->
-
-<figure>
-
-UN@
-
-environment
-programme
-
-</figure>
-
-<figure>
-
-Counter — MEASURE — FOR PLASTIC FREE RIVERS
-
-</figure>
-
-<figure>
-
-### Parent · section='RETHINK PLASTIC' · pages=(4, 4) · 262 tok
-
-RETHINK PLASTIC
-
-</figure>
-
-<figure>
-
-teri
-
-</figure>
-
 4\. Maharshi Dayanand College of Arts, Science and Commerce, Mumbai
-
-<figure>
 
 Maharshi Dayanand College of Arts, Science & Commerce
 NAAC - REACCREDITED - A GRADE
@@ -198,66 +108,29 @@ hvorbel " Bnc College" by thémeily of Mondul
 12013-20141
 "Touger bertrandd' Aworied ty Out of Moheranders
 
-### Parent · section='Ref. No' · pages=(4, 5) · 294 tok
-
 Ref. No
 
 5" February, 2020
 
 Ta,
-Dr. Anjali Parasnis
-Associate Director
-The Energy and Resources Institute -Western Regional Centre (TERI-WRC)
-CBD-Belapur, Navi Mumbai, 400614
 
 In line with our Institute's commitment towards Environment Conservation, we hereby
 agree to join hands with TERI-WRC and United Nations Environment Programme (UNEP) for the
 'Rethink Plastic' campaign under the project titled "Promotion of countermeasures against
 marine plastic litter in Southeast Asia and India".
 
-Towards this, our Institutionhas provided218 number cf native tree saplings collected
-from roadsides and raised in waste plastic bottles. We shall also appeal to our staff members
-and students to take a pledge to avoid single use plastic and participate inperception survey on
-plastic usage and its management. Moreover, being part of a responsible Educational
-Institution,we would also like to participate in future events not only for this campaign but
-other activitiesrelated to environment conservation as well.
+Towards this, our Insti
 
-Thanking You!
+… [+584 more chars]
 
-DENAL — Principal — Dr. C. S. Panse
+### Parent · section='IndusInd Bank' · pages=(5, 5) · 159 tok
 
-</figure>
-
-<!-- PageBreak -
-
-->
-
-<figure>
-
-UN@
-
-environment
-programme
-
-</figure>
-
-<figure>
-
-Counter — MEASURE — FOR PLASTIC FREE RIVERS
-
-<
-
-… [+73 more chars]
-
-### Parent · section='5\\. IndusInd Bank — IndusInd Bank' · pages=(5, 6) · 425 tok
-
-5\. IndusInd Bank — IndusInd Bank
+IndusInd Bank
 
 Date: January 13, 2020
 
 To,
 Dr Anjali Parasnis
-Associate Director
 The Energy & Resources Institute
 CBD - Belapur, Navi Mumbai
 
@@ -273,34 +146,35 @@ outreach materials.
 
 Thanking You!
 
-<figure>
-
 M
 
 ☒
 Mr Adwait Hebbar
 
-</figure>
+### Parent · section='Head -Corporate Services — Indusind Bank Limited' · pages=(5, 6) · 183 tok
 
-Head -Corporate Services — Indusind Bank Limited — Andheri East, Mumbai 400093
+Head -Corporate Services — Indusind Bank Limited
 
-<figure>
+Andheri East, Mumbai 400093
 
 PILA House Officer Indusind Bank Limited, Basement, Ist Floor, 3rd Floor & cth Floor,
 PNA House, Plet No 57, Street No. 17,MIDC, Andheri, Mumbai 400 093, India. Tel: (0022) 61069299
 
 Registered Office: 2401 Gen. Thinmayya Road, Pine-411:001, Inda
-
 Tel: (020) 2634 3201 Fax: (020) 2634 3241 Wist us at www.indunsind.com
 CN:L65191PN1994PLC076333
 
-</figure>
+<!-- PageBreak -
 
-<!-
+->
 
-… [+286 more chars]
+6\. Netel (India) Limited
 
-### Parent · section='Pledge against Single Use Plastic' · pages=(6, 6) · 376 tok
+NETEL — Netel (India) Limited
+
+17.12.19
+
+### Parent · section='Pledge against Single Use Plastic' · pages=(6, 6) · 333 tok
 
 Pledge against Single Use Plastic
 
@@ -326,9 +200,10 @@ pledge to Refuse, Reduce, Recycle, Reuse, Repair, Re-gift, Recover and
 
 · Avoid sachets as much as possible
 
-Freatila — Authorized Signatory — Feroze R. Katila — CEO, Netel India Limited
+Freatila — Authorized Signatory
 
-<figure>
+Feroze R. Katila
+CEO, Netel India Limited
 
 A Neterwala Group Company
 
@@ -336,9 +211,6 @@ W-408, Rabale MIDC.
 TTC Industrial Area.
 NAVI MUMBAI - 400 701.
 INDIA
-
-Tel. : + 81 022 2760 7102 / 2760 7103
-Fax: + 91 022 2760 7100
 
 E-mail : sales@petal-india.com
 Website : www.net-india.com
@@ -348,57 +220,27 @@ A
 
 \-
 
-Regd. office : Liberty Bu
+Regd. office : Liberty Building: 3rd Floor, Sir Vithaidas Thackersey Marg. (New Marine Lines), Mumbai
 
-… [+118 more chars]
+… [+31 more chars]
 
 ---
 
 ## Child chunks
 
-### Child 0 · section="OCATION — ICLES' — MOTILALJHUNJHUNWALA COLLEGE — OF ARTS, SCIENCE & COMMERCE" · page=1 · 260 tok
+### Child 0 · section="OCATION — ICLES' — MOTILALJHUNJHUNWALA COLLEGE — OF ARTS, SCIENCE & COMMERCE" · page=1 · 153 tok
 
-Annexure- Commitment Letters for participation in the ‘Rethink Plastic’ campaign\
-
+Annexure- Commitment Letters for participation in the ‘Rethink Plastic’ campaign\ 
 1. Thane Belapur Industries Association (TBIA), Navi Mumbai
 
-<figure>
-
-UN@
-
-environment
-programme
-
-</figure>
-
-<figure>
-
-Counter — MEASURE — FOR PLASTIC FREE RIVERS
-
-</figure>
-
-<figure>
-
-RETHINK PLASTIC
-
-</figure>
-
-<figure>
-
-teri
-
-</figure>
-
 2\. ICLES Motilal Jhunjhunwala College, Navi Mumbai
-
-<figure>
 
 Plot No. 53, Sector - 9A, Amlendu Roye Marg, Vashi, Navi Mumbai - 400 703.
 Tel. : 022 - 27663061 / 27800800 · Email : info@iclesmj.edu.in, Website : www.iclesmj.edu
 Permanently Affiliated to the University of Mumbai.
 Listed u/s 2(f) & 12 (B) of UGC Act 1956
 
-Accredited A Grade by NAAC
+### Child 1 · section='Accredited A Grade by NAAC' · page=2 · 409 tok
 
 (Established in 1978)
 
@@ -411,11 +253,6 @@ Date: 27/2/2020
 
 To.
 
-### Child 1 · section='Dr. Anjali Parasnis — Associate Director' · page=2 · 355 tok
-
-The Energy and Resources Institute -Western Regional Centre (TERI-WRC)
-CBD-Belapur, Navi Mumbai, 400614
-
 In line with our Institute's commitment towards Environment Conservation, we hereby
 agree to join hands with TERI-WRC and United Nations Environment Programme (UNEP)
 for the 'Rethink Plastic' campaign under the project titled "Promotion of countermeasures
@@ -425,37 +262,31 @@ Towards this, our Institution commits to provide 100 number of native tree sapli
 collected from roadsides and raised in waste plastic bottles. We shall also appeal to our
 staff members and students to take a pledge to avoid single use plastic and participate
 inperception survey on plastic usage and its management. Moreover, being part of a
-responsible Educational Instituti
+responsible Educational Institution,we would also li
 
-… [+651 more chars]
+… [+680 more chars]
 
-### Child 2 · section='Dr. Anjali Parasnis — Associate Director' · page=3 · 229 tok
+### Child 2 · section='Accredited A Grade by NAAC' · page=3 · 209 tok
 
-Navi Mumbai
+.in » Web : www.kbpcollegevashi.edu.in
 
-<figure>
+Principal
 
-Rayat Shikshan Sanstha's — KARMAVEER BHAURAO PATIL COLLEGE, VASHI — (AUTONOMOUS COLLEGE) — Karmavees Sector 15-A, Vashi, Navi Mumbai - 400 703. (Maharashtra)
-(O): 022-2766 1210 (Fax) : 022-2789 1210
-Email : principal@kbpcollegevashi.edu.in » Web : www.kbpcollegevashi.edu.in
+Dr. V. S. Shivankar
 
-Principal — Dr. V. S. Shivankar
-
-FOUNDER : Padmabhushan Dr. Karmaveer Bhaurao Patil, D. Litt.
-
-Ref. No .: 1202/2019-2020
+FOUNDER : Padmabhushan Dr. Karmaveer Bhaurao Patil, D. Litt. Ref. No .: 1202/2019-2020
 
 Date : 6/3/2020
 
 AUTONOMOUS — COLLEGE
 
 To,
-Dr. Anjali Parasnis
-Associate Director
-The Energy and Resources Institute -Western Regional Centre (TERI-WRC)
-CBD-Belapur, Navi Mumbai, 400614
 
-### Child 3 · section="NAAC GRADE 'A+' — COPA 3.53 — Sub: Commitment Towards Environment Conservation — DET-STAR COLLEGE — SCHEME — GOVERNMENT OF INDIA — (SINCE 2054)" · page=3 · 75 tok
+NAAC GRADE 'A+' — COPA 3.53
+
+Sub: Commitment Towards Environment Conservation
+
+DET-STAR COLLEGE — SCHEME — GOVERNMENT OF INDIA — (SINCE 2054)
 
 Dear Madam,
 through self-help
@@ -466,7 +297,7 @@ Programme (UNEP) for the 'Rethink Plastic' campaign under the project titled
 ""Promotion of countermeasures against marine plastic litter in Southeast Asia
 and India".
 
-### Child 4 · section='DST-FIST SCHEME — GOVERNMENT OF INDIA — (SINCE 2013 — BEST COLLEGE AWARD — UNIVERSITY OF MUMBAI' · page=3 · 229 tok
+### Child 3 · section='DST-FIST SCHEME — GOVERNMENT OF INDIA — (SINCE 2013 — BEST COLLEGE AWARD — UNIVERSITY OF MUMBAI' · page=3 · 100 tok
 
 \-
 
@@ -478,29 +309,13 @@ Moreover, being part of a responsible Educational Institution, we would also lik
 to participate in future events not only for this campaign but other activities
 related to environment conservation as well.
 
-ISO 9001:2015 — INTERNATIONAL — ACCREDITATION FORUM — (SINCE 2917) — COMMUNITY — COLLEGE — UNIVERSITY OF MUMILAL — Thanking You — MERIT IN — INNOVATION AWARD — HIGHER EDUCATION FORUM — Principal — Marmaveer Bhaurao Patil College
+### Child 4 · section='ISO 9001:2015 — INTERNATIONAL — ACCREDITATION FORUM — (SINCE 2917) — COMMUNITY — COLLEGE — UNIVERSITY OF MUMILAL — Thanking You — MERIT IN — INNOVATION AWARD — HIGHER EDUCATION FORUM — Principal — Marmaveer Bhaurao Patil College' · page=3 · 329 tok
 
 Vashi, Navi Mumbai-400703.
 
 €
 
-</figur
-
-… [+147 more chars]
-
-### Child 5 · section='RETHINK PLASTIC' · page=4 · 255 tok
-
-</figure>
-
-<figure>
-
-teri
-
-</figure>
-
 4\. Maharshi Dayanand College of Arts, Science and Commerce, Mumbai
-
-<figure>
 
 Maharshi Dayanand College of Arts, Science & Commerce
 NAAC - REACCREDITED - A GRADE
@@ -524,35 +339,43 @@ hvorbel " Bnc College" by thémeily of Mondul
 12013-20141
 "Touger bertrandd' Aworied ty Out of Moheranders
 
-### Child 6 · section='Ref. No' · page=4 · 290 tok
+Ref. No
 
 5" February, 2020
 
 Ta,
-Dr. Anjali Parasnis
-Associate Director
-The Energy and Resources Institute -Western Regional Centre (TERI-WRC)
-CBD-Belapur, Navi Mumbai, 400614
 
 In line with our Institute's commitment towards Environment Conservation, we hereby
+agree to join hands with TERI-WRC and United Nations Environment Programme (UNEP) for 
+
+… [+145 more chars]
+
+### Child 5 · section='ISO 9001:2015 — INTERNATIONAL — ACCREDITATION FORUM — (SINCE 2917) — COMMUNITY — COLLEGE — UNIVERSITY OF MUMILAL — Thanking You — MERIT IN — INNOVATION AWARD — HIGHER EDUCATION FORUM — Principal — Marmaveer Bhaurao Patil College' · page=4 · 179 tok
+
+hereby
 agree to join hands with TERI-WRC and United Nations Environment Programme (UNEP) for the
 'Rethink Plastic' campaign under the project titled "Promotion of countermeasures against
-marine plastic litter in Southeast Asia and India".
-
-Towards this, our Institutionhas provided218 number cf native tree saplings collected
+marine plastic litter in Southeast Asia and India". Towards this, our Institutionhas provided218 number cf native tree saplings collected
 from roadsides and raised in waste plastic bottles. We shall also appeal to our staff members
 and students to take a pledge to avoid single use plastic and participate inperception survey on
-plastic usage and its management. Moreo
+plastic usage and its management. Moreover, being part of a responsible Educational
+Institution,we would also like to participate in future events not only for this campaign but
+other activitiesrelated to environment conservation as well.
 
-… [+464 more chars]
+Thanking You!
 
-### Child 7 · section='5\\. IndusInd Bank — IndusInd Bank' · page=5 · 413 tok
+DENAL — Principal
+
+Dr. C. S. 
+
+… [+46 more chars]
+
+### Child 6 · section='IndusInd Bank' · page=5 · 154 tok
 
 Date: January 13, 2020
 
 To,
 Dr Anjali Parasnis
-Associate Director
 The Energy & Resources Institute
 CBD - Belapur, Navi Mumbai
 
@@ -568,22 +391,33 @@ outreach materials.
 
 Thanking You!
 
-<figure>
-
 M
 
 ☒
 Mr Adwait Hebbar
 
-</figure>
+### Child 7 · section='Head -Corporate Services — Indusind Bank Limited' · page=5 · 172 tok
 
-Head -Corporate Services — Indusind Bank Limited — Andheri East, Mumbai 400093
+Andheri East, Mumbai 400093
 
-<fig
+PILA House Officer Indusind Bank Limited, Basement, Ist Floor, 3rd Floor & cth Floor,
+PNA House, Plet No 57, Street No. 17,MIDC, Andheri, Mumbai 400 093, India. Tel: (0022) 61069299
 
-… [+651 more chars]
+Registered Office: 2401 Gen. Thinmayya Road, Pine-411:001, Inda
+Tel: (020) 2634 3201 Fax: (020) 2634 3241 Wist us at www.indunsind.com
+CN:L65191PN1994PLC076333
 
-### Child 8 · section='Pledge against Single Use Plastic' · page=6 · 369 tok
+<!-- PageBreak -
+
+->
+
+6\. Netel (India) Limited
+
+NETEL — Netel (India) Limited
+
+17.12.19
+
+### Child 8 · section='Pledge against Single Use Plastic' · page=6 · 326 tok
 
 As a good citizen of my country and a responsible resident of the planet Earth, I
 pledge to Refuse, Reduce, Recycle, Reuse, Repair, Re-gift, Recover and
@@ -609,4 +443,4 @@ pledge to Refuse, Reduce, Recycle, Reuse, Repair, Re-gift, Recover and
 
 Freat
 
-… [+483 more chars]
+… [+396 more chars]

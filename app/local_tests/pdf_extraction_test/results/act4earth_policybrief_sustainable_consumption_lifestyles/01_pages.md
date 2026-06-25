@@ -48,7 +48,7 @@ CONTENTS
 
 ## Page 4 · via `ocr` · 0 table(s)
 
-<!-- PageBreak -->
+_(no text on this page)_
 
 ## Page 5 · via `text` · 0 table(s)
 
@@ -179,34 +179,12 @@ index and indices on consumption sectors (such as food, transport, residential a
 have been developed. Table 1 summarises the indicators used in calculating the metrics for G20 countries
 and the European Union.
 
-
-
-
 | Sector | Indicator | Data source | Year |
 | --- | --- | --- | --- |
 | Transport | Total final energy consumption in transport sector (TJ/ capita) | IEA World Energy Balances https://www.iea.org/data-and- statistics/data-product/world- energy-statistics-and-balances | 2019 |
 | Food | Meat and dairy production (tonnes/ capita) | UN (2019), Gapminder (v6) and HYDE (v3.2); FAR (2020); Eurostat (2018) in OurWorldInData.org/ meat-production | 2018 |
 | Residential Buildings | Total final energy consumption in residential sector (TJ/ capita) | IEA World Energy Balances https://www.iea.org/data-and- statistics/data-product/world- energy-statistics-and-balances | 2019 |
 | Waste Disposal | Plastic waste generation (tonnes/capita) | Source: Jambeck et al (2015) in https://ourworldindata. org/grapher/plastic-waste- generation-total; Eurostat | 2010 and 2015 |
-
-
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
 
 The choice of index is based on key sectors that have been extensively covered in the literature and contribute
 significantly to sustainable consumption on the downstream or end-consumer side. The downstream side
@@ -232,18 +210,12 @@ with respect to each indicator are then averaged using equal weights.
 For scoring, the standardized values are then multiplied by 100 to arrive at scores. These are then depicted
 graphically (Figure 2). The higher the score, the lower the consumption is in per capita terms for the individual.
 
-<!-- PageFooter="SDG Charter Policy Brief" -->
-<!-- PageNumber="8" -->
-<!-- PageBreak -->
-
 ## Page 9 · via `ocr` · 1 table(s)
 
 Low consumption
 
 High consumption
 
-
-<figure>
 <figcaption>FIGURE 2: LIFESTYLES AND CONSUMPTION INDEX FOR G20 COUNTRIES AND EU</figcaption>
 
 100
@@ -350,11 +322,6 @@ Canada
 
 United States
 
-</figure>
-
-
-
-
 | Country | Meat and dairy production (tonnes/ capita) | Meat and dairy production (tonnes/ capita) | TFC in transport sector (TJ/ capita) | TFC in transport sector (TJ/ capita) | TFC in residential sector (TJ/ capita) | TFC in residential sector (TJ/ capita) | Plastic waste generation (tonnes/ capita) | Plastic waste generation (tonnes/ capita) | Sustainable Consumption Index | Sustainable Consumption Index Score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Value | Index | Value | Index | Value | Index | Value | Index |  |  |  |
@@ -379,14 +346,7 @@ United States
 | Canada | 0.13 | 0.30 | 0.08 | 0.06 | 0.04 | 0.05 | 0.03 | 0.83 | 0.31 | 31 |
 | United States | 0.14 | 0.24 | 0.08 | 0.00 | 0.03 | 0.19 | 0.12 | 0.32 | 0.19 | 19 |
 
-
-
 Source: Based on FAO (2022), IEA (2022); and Jambeck et al (2015)
-
-
-<!-- PageFooter="Internationalizing Lifestyles for Environment: Messages for G20" -->
-<!-- PageNumber="9" -->
-<!-- PageBreak -->
 
 ## Page 10 · via `text` · 0 table(s)
 
@@ -453,17 +413,6 @@ countries for the G20 sectors.
 
 TABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION
 
-
-<figure>
-</figure>
-
-
-<figure>
-</figure>
-
-
-
-
 |  | Policy Instruments | Policy Instruments |  | Market Instruments | Social instruments |
 | --- | --- | --- | --- | --- | --- |
 | Transport | » | Taxation on fuel and high fuel/emissions vehicles | › | Provision of eco- mobility | » Campaigns on policy measures |
@@ -498,20 +447,7 @@ TABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION
 |  |  |  |  | disclosure |  |
 |  |  |  |  | programs* |  |
 
-
-
-
-<!-- PageFooter="SDG Charter Policy Brief" -->
-<!-- PageNumber="12" -->
-<!-- PageBreak -->
-
 ## Page 13 · via `ocr` · 1 table(s)
-
-<figure>
-</figure>
-
-
-
 
 |  | Policy Instruments | Policy Instruments | Market Instruments | Social instruments |
 | --- | --- | --- | --- | --- |
@@ -526,10 +462,7 @@ TABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION
 |  |  | » Take back/ buy- back schemes/ |  |  |
 |  |  | Extended producer responsibility* |  |  |
 
-
-
 *Instruments that are being considered in G20 countries
-
 
 In the transport sector, most of the G20 countries have used the policy instruments pertaining to fuel efficiency
 and emissions, along with investment in public infrastructure. Brazil uses registration taxes on vehicles
@@ -564,10 +497,6 @@ for energy-efficient buildings and automatic-networked residential appliances. T
 implies a higher emphasis on the application and effective implementation of technologies, equipment, and
 appliances at sub-national, national, and international levels. The G20 Energy Efficiency Leading Programme
 (EELP) in collaboration with the International Energy Partnership for Energy Efficiency Collaboration (IPEEC)
-
-<!-- PageFooter="Internationalizing Lifestyles for Environment: Messages for G20" -->
-<!-- PageNumber="13" -->
-<!-- PageBreak -->
 
 ## Page 14 · via `text` · 0 table(s)
 
@@ -610,9 +539,6 @@ the United Nations General Assembly; for example through a mandating report by U
 General. Lifestyles could also be considered as a theme for the High-level Political Forum - Sustainable
 Development Goals. Table 3 presents key hooks for internationalizing lifestyle for environment.
 
-
-
-
 | G20 Forum | Global Indicator Framework for SDGs | UNFCCC | UNGA |
 | --- | --- | --- | --- |
 | » LIFE as a major cross- | » Include downstream | » Include mandate on sustainable lifestyles | » Secretary General |
@@ -622,19 +548,7 @@ Development Goals. Table 3 presents key hooks for internationalizing lifestyle f
 | 10YFP/ One Planet |  |  |  |
 | Network and UNEP |  |  |  |
 
-
-
-
-<figure>
-
 G20
-
-</figure>
-
-
-<!-- PageFooter="Internationalizing Lifestyles for Environment: Messages for G20" -->
-<!-- PageNumber="15" -->
-<!-- PageBreak -->
 
 ## Page 16 · via `text` · 0 table(s)
 
@@ -744,8 +658,7 @@ UNEP (United Nations Environment Programme). (2022). Global Strategy for Sustain
 
 ## Page 19 · via `ocr` · 0 table(s)
 
-<!-- PageFooter="Internationalizing Lifestyles for Environment: Messages for G20" -->
-<!-- PageNumber="19" -->
+_(no text on this page)_
 
 ## Page 20 · via `text` · 0 table(s)
 

@@ -7,15 +7,12 @@
 
 ## Parent chunks
 
-### Parent · section="Let's Make a Solar Cooker! — YOU WILL NEED" · pages=(1, 1) · 345 tok
+### Parent · section="Let's Make a Solar Cooker! — YOU WILL NEED" · pages=(1, 1) · 315 tok
 
 Let's Make a Solar Cooker! — YOU WILL NEED
 
 . a large cardboard box . thermocol . aluminium foil . clear plastic wrap
 . a sheet of black paper . ruler . pair of scissors . glue . tape
-
-<figure>
-</figure>
 
 1
 Start by taking a cardboard box.
@@ -28,17 +25,11 @@ three sides of the square. Fold this
 flap out so that it stands up when
 the lid is closed.
 
-<figure>
-</figure>
-
 3
 Take five one-inch thick pieces
 of thermocol and stick them to
 the base and walls of the box so
 that they provide insulation.
-
-<figure>
-</figure>
 
 4
 Glue aluminium foil to all
@@ -64,31 +55,24 @@ to enter the box. Do this by
 taping the glass or plastic over the
 opening of the flap.
 
-<figure>
-</figure>
-
-<figure>
-</figure>
-
 8
 Open the lid carefully and place
 your food inside. Set the flap
 open in such a way that the foil
-reflects 
+reflects sunlight and directs it inside.
+Use a ruler or stick to support the
+flap. Your solar cooker is now r
 
-… [+105 more chars]
+… [+5 more chars]
 
 ---
 
 ## Child chunks
 
-### Child 0 · section="Let's Make a Solar Cooker! — YOU WILL NEED" · page=1 · 332 tok
+### Child 0 · section="Let's Make a Solar Cooker! — YOU WILL NEED" · page=1 · 302 tok
 
 . a large cardboard box . thermocol . aluminium foil . clear plastic wrap
 . a sheet of black paper . ruler . pair of scissors . glue . tape
-
-<figure>
-</figure>
 
 1
 Start by taking a cardboard box.
@@ -101,17 +85,11 @@ three sides of the square. Fold this
 flap out so that it stands up when
 the lid is closed.
 
-<figure>
-</figure>
-
 3
 Take five one-inch thick pieces
 of thermocol and stick them to
 the base and walls of the box so
 that they provide insulation.
-
-<figure>
-</figure>
 
 4
 Glue aluminium foil to all
@@ -126,6 +104,10 @@ a piece of aluminium foil to
 the inside of the flap.
 
 6
-Glue blac
+Glue black paper to
+the base of the box.
 
-… [+461 more chars]
+7
+Use a sheet of glass or c
+
+… [+361 more chars]

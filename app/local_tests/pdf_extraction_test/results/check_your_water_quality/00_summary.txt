@@ -1,9 +1,9 @@
 PDF EXTRACTION SUMMARY — check-your-water-quality.pdf
 ==============================================================================
-  elapsed            : 4.35s
+  elapsed            : 4.4s
   pages              : 1
   tables             : 2
-  extracted chars    : 2,406
+  extracted chars    : 2,308
 
   pages by route     : {'ocr': 1}
   digital vs scanned : 0 digital / 1 scanned (OCR) / 0 empty
@@ -12,4 +12,4 @@ PDF EXTRACTION SUMMARY — check-your-water-quality.pdf
   chunks (total)     : 3
   parent chunks      : 1
   child chunks       : 2
-  child tokens       : min=337 max=468 avg=402
+  child tokens       : min=319 max=462 avg=390

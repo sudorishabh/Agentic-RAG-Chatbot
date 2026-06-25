@@ -1,9 +1,9 @@
 {
   "pdf": "managing-water.pdf",
-  "elapsed_seconds": 4.32,
+  "elapsed_seconds": 5.37,
   "page_count": 1,
   "table_count": 0,
-  "char_count": 5553,
+  "char_count": 5514,
   "routes": {
     "ocr": 1
   },
@@ -18,5 +18,5 @@
   "child_chunks": 4,
   "child_token_min": 310,
   "child_token_max": 397,
-  "child_token_avg": 349
+  "child_token_avg": 346
 }

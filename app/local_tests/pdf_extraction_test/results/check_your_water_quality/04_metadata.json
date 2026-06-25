@@ -1,0 +1,33 @@
+{
+  "pdf": "check-your-water-quality.pdf",
+  "document": {
+    "title": null,
+    "author": null,
+    "subject": null,
+    "keywords": null,
+    "creator": "Adobe Acrobat 11.0.7",
+    "producer": "Adobe Acrobat 11.0.7 Image Conversion Plug-in",
+    "creation_date": "2018-10-18 15:10:30 +0530",
+    "modification_date": "2018-10-18 15:20:21 +0530",
+    "creation_date_raw": "D:20181018151030+05'30'",
+    "modification_date_raw": "D:20181018152021+05'30'",
+    "format": "PDF 1.4",
+    "trapped": null,
+    "encrypted": false,
+    "page_count": 1
+  },
+  "extraction": {
+    "extraction_mode": "hybrid",
+    "route": "per_page",
+    "page_signals": {
+      "pages": 1,
+      "scanned": [
+        1
+      ],
+      "table": [],
+      "needs_azure": [
+        1
+      ]
+    }
+  }
+}

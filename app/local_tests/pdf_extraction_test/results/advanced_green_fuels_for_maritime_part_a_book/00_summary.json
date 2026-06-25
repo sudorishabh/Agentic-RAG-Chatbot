@@ -1,9 +1,9 @@
 {
   "pdf": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
-  "elapsed_seconds": 56.24,
+  "elapsed_seconds": 62.36,
   "page_count": 324,
   "table_count": 138,
-  "char_count": 635295,
+  "char_count": 609251,
   "routes": {
     "text": 174,
     "ocr": 149,
@@ -163,10 +163,10 @@
     320,
     323
   ],
-  "chunks_total": 759,
-  "parent_chunks": 273,
-  "child_chunks": 486,
-  "child_token_min": 87,
-  "child_token_max": 667,
-  "child_token_avg": 391
+  "chunks_total": 639,
+  "parent_chunks": 174,
+  "child_chunks": 465,
+  "child_token_min": 130,
+  "child_token_max": 692,
+  "child_token_avg": 411
 }

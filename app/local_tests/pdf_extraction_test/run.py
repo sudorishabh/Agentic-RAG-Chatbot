@@ -3,17 +3,22 @@
 Runs the full extraction flow for every sample PDF:
 
     extract_pdf(bytes, name)  ->  ExtractionResult
-    chunk_pdf(result)         ->  list[Chunk]   (canonical + chunking)
+    chunk_pdf(result)         ->  list[Chunk]            (canonical + chunking)
+    -> id + vector + payload points                      (exactly what Qdrant gets)
 
 and writes a categorised result folder per PDF, **entirely inside this
 directory** (``app/local_tests/pdf_extraction_test/results/<pdf-slug>/``):
 
-    00_summary.txt    headline stats + route breakdown
-    00_summary.json   the same stats, machine-readable
-    01_pages.md       page-by-page extracted text
-    02_tables.md      every table (markdown) with page + caption
-    03_chunks.md      canonical chunking output (parents + children)
-    full_text.md      the full concatenated extracted text
+    00_summary.txt         headline stats + route breakdown
+    00_summary.json        the same stats, machine-readable
+    01_pages.md            page-by-page extracted text
+    02_tables.md           every table (markdown) with page + caption
+    03_chunks.md           canonical chunking output (parents + children)
+    04_metadata.md         native PDF metadata (title/author/dates) + route info
+    04_metadata.json       the same metadata, machine-readable
+    05_qdrant_points.json  the exact id+vector+payload points upserted to Qdrant
+    05_qdrant_points.md    readable preview of those points (vectors truncated)
+    full_text.md           the full concatenated extracted text
 
 A top-level ``results/_index.md`` + ``results/_index.json`` summarise the
 whole run across all PDFs.
@@ -26,6 +31,15 @@ Usage
     # only specific files (names within pdf_examples, or full paths)
     python -m app.local_tests.pdf_extraction_test.run managing-water.pdf
     python -m app.local_tests.pdf_extraction_test.run C:\\some\\other.pdf
+
+    # skip embedding (05_qdrant_points.json keeps payloads, vectors left null)
+    python -m app.local_tests.pdf_extraction_test.run managing-water.pdf --no-embed
+
+``05_qdrant_points.json`` mirrors ``index_chunks``: each child carries its real
+embedding vector, each parent a zero vector, and the payload is exactly
+``Chunk.to_payload()`` plus created_at / updated_at. Embedding is best-effort —
+without the Azure OpenAI embedding config the vectors are left ``null`` so the
+payloads are still inspectable.
 """
 
 from __future__ import annotations
@@ -87,6 +101,67 @@ def _route_counts(result) -> dict[str, int]:
         key = page.extracted_via.value
         counts[key] = counts.get(key, 0) + 1
     return counts
+
+
+def _parse_pdf_date(value: str | None) -> str | None:
+    """Turn a PDF date string (``D:20210204153000+05'30'``) into readable text."""
+    if not value:
+        return None
+    s = value.strip()
+    if s.startswith("D:"):
+        s = s[2:]
+    m = re.match(r"(\d{4})(\d{2})?(\d{2})?(\d{2})?(\d{2})?(\d{2})?", s)
+    if not m:
+        return value
+    y, mo, d, hh, mm, ss = (g or "" for g in m.groups())
+    out = f"{y}-{mo or '01'}-{d or '01'}"
+    if hh:
+        out += f" {hh}:{mm or '00'}:{ss or '00'}"
+    tz = s[m.end():].replace("'", "").strip()
+    if tz == "Z":
+        out += " UTC"
+    elif tz:
+        out += f" {tz}"
+    return out
+
+
+def _pdf_document_metadata(content: bytes) -> dict:
+    """Read the PDF's own document info directly with PyMuPDF.
+
+    This is independent of the extraction route: it reads the native PDF info
+    dictionary (title/author/dates/producer …) plus a couple of structural
+    facts (encryption, page count). Best-effort — never raises.
+    """
+    try:
+        import fitz  # PyMuPDF
+    except Exception as exc:  # pragma: no cover - optional dependency
+        return {"_error": f"PyMuPDF not available: {exc}"}
+
+    try:
+        doc = fitz.open(stream=content, filetype="pdf")
+    except Exception as exc:
+        return {"_error": f"could not open PDF: {type(exc).__name__}: {exc}"}
+
+    try:
+        raw = dict(doc.metadata or {})
+        return {
+            "title": raw.get("title") or None,
+            "author": raw.get("author") or None,
+            "subject": raw.get("subject") or None,
+            "keywords": raw.get("keywords") or None,
+            "creator": raw.get("creator") or None,
+            "producer": raw.get("producer") or None,
+            "creation_date": _parse_pdf_date(raw.get("creationDate")),
+            "modification_date": _parse_pdf_date(raw.get("modDate")),
+            "creation_date_raw": raw.get("creationDate") or None,
+            "modification_date_raw": raw.get("modDate") or None,
+            "format": raw.get("format") or None,
+            "trapped": raw.get("trapped") or None,
+            "encrypted": bool(getattr(doc, "is_encrypted", False)),
+            "page_count": doc.page_count,
+        }
+    finally:
+        doc.close()
 
 
 # --------------------------------------------------------------------------- #
@@ -210,6 +285,155 @@ def _write_chunks(out_dir: Path, name: str, chunks) -> None:
     (out_dir / "03_chunks.md").write_text("\n".join(lines), encoding="utf-8")
 
 
+def _write_metadata(out_dir: Path, name: str, doc_meta: dict, result) -> dict:
+    extraction_meta = dict(result.metadata) if result is not None else {}
+    payload = {"pdf": name, "document": doc_meta, "extraction": extraction_meta}
+    (out_dir / "04_metadata.json").write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+
+    def _cell(v) -> str:
+        if v is None or v == "" or v == [] or v == {}:
+            return "—"
+        return str(v).replace("|", r"\|").replace("\n", " ")
+
+    lines = [f"# Metadata — {name}", "", "## Document metadata (native PDF)", ""]
+    if not doc_meta or doc_meta.get("_error"):
+        reason = doc_meta.get("_error", "no metadata available") if doc_meta else \
+            "no metadata available"
+        lines += [f"_Could not read native PDF metadata: {reason}_", ""]
+    else:
+        lines += ["| field | value |", "| --- | --- |"]
+        for key in (
+            "title", "author", "subject", "keywords", "creator", "producer",
+            "creation_date", "modification_date", "format", "trapped",
+            "encrypted", "page_count",
+        ):
+            lines.append(f"| {key} | {_cell(doc_meta.get(key))} |")
+        lines.append("")
+
+    lines += ["## Extraction metadata (pipeline)", ""]
+    if extraction_meta:
+        lines += ["| key | value |", "| --- | --- |"]
+        for key in sorted(extraction_meta):
+            lines.append(f"| {key} | {_cell(extraction_meta[key])} |")
+    else:
+        lines.append("_(extraction did not complete)_")
+    lines.append("")
+
+    (out_dir / "04_metadata.md").write_text("\n".join(lines), encoding="utf-8")
+    return payload
+
+
+def _build_qdrant_points(chunks, *, embed: bool) -> tuple[list[dict], dict]:
+    """Assemble the points ``index_chunks`` would upsert, as plain dicts.
+
+    Mirrors ``app.ingestion.indexer._build_points``: each child carries its
+    embedding vector, each parent a zero vector, and every payload is
+    ``Chunk.to_payload()`` stamped with created_at / updated_at. Embedding is
+    best-effort — if the Azure OpenAI embedding config is missing the vectors
+    are left ``None`` so the payloads are still inspectable.
+    """
+    from datetime import datetime, timezone
+
+    children = [c for c in chunks if not c.is_parent]
+    info: dict = {
+        "embedded": False,
+        "vector_dim": 0,
+        "embedding_model": None,
+        "embed_error": None,
+    }
+    vec_by_id: dict[str, list[float]] = {}
+    dim = 0
+    if embed and children:
+        try:
+            # Reuse the production embedding path so batching matches the real run.
+            from app.config import get_settings
+            from app.ingestion.indexer import _embed_children
+
+            vectors = _embed_children([c.text for c in children], 128)
+            vec_by_id = {c.chunk_id: v for c, v in zip(children, vectors)}
+            dim = len(vectors[0]) if vectors else 0
+            info.update(
+                embedded=True,
+                vector_dim=dim,
+                embedding_model=get_settings().azure_openai_embedding_model,
+            )
+        except Exception as exc:  # no Azure embedding config / network — payloads only
+            info["embed_error"] = f"{type(exc).__name__}: {exc}"
+
+    timestamp = datetime.now(timezone.utc).isoformat()
+    zero = [0.0] * dim
+    points: list[dict] = []
+    for c in chunks:
+        payload = c.to_payload()
+        payload.setdefault("created_at", timestamp)
+        payload["updated_at"] = timestamp
+        if c.is_parent:
+            vector = zero if dim else None
+        else:
+            vector = vec_by_id.get(c.chunk_id)
+        points.append({"id": c.chunk_id, "vector": vector, "payload": payload})
+    return points, info
+
+
+def _write_qdrant_points(out_dir: Path, name: str, chunks, *, embed: bool) -> dict:
+    points, info = _build_qdrant_points(chunks, embed=embed)
+
+    (out_dir / "05_qdrant_points.json").write_text(
+        json.dumps(
+            {"pdf": name, "point_count": len(points), **info, "points": points},
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    def _vec_preview(v) -> str:
+        if v is None:
+            return "_(not embedded)_"
+        head = ", ".join(f"{x:.4f}" for x in v[:8])
+        return f"dim={len(v)} · [{head}, …]"
+
+    lines = [
+        f"# Qdrant points — {name}",
+        "",
+        f"- points (rows upserted): **{len(points)}**",
+        f"- embedded: **{info['embedded']}**"
+        + (
+            f" · model `{info['embedding_model']}` · dim {info['vector_dim']}"
+            if info["embedded"]
+            else ""
+        ),
+    ]
+    if info["embed_error"]:
+        lines.append(f"- embedding skipped: _{info['embed_error']}_")
+    lines += [
+        "",
+        "Each point is `{id, vector, payload}` exactly as `index_chunks` upserts "
+        "it. Children carry their embedding; parents carry a zero vector and are "
+        "reached through their children. Below, vectors are truncated and "
+        "`chunk_text` is clipped — see `05_qdrant_points.json` for the full data.",
+        "",
+        "---",
+        "",
+    ]
+    for p in points:
+        pl = dict(p["payload"])
+        is_parent = pl.get("is_parent", False)
+        pl["chunk_text"] = _preview(pl.get("chunk_text", ""), 600)
+        lines.append(f"## {'Parent' if is_parent else 'Child'} · `{p['id']}`")
+        lines.append("")
+        lines.append(f"- vector: {_vec_preview(p['vector'])}")
+        lines.append("")
+        lines.append("```json")
+        lines.append(json.dumps(pl, indent=2, ensure_ascii=False))
+        lines.append("```")
+        lines.append("")
+    (out_dir / "05_qdrant_points.md").write_text("\n".join(lines), encoding="utf-8")
+    return info
+
+
 def _write_full_text(out_dir: Path, name: str, result) -> None:
     (out_dir / "full_text.md").write_text(
         f"# Full extracted text — {name}\n\n{result.text}\n", encoding="utf-8"
@@ -220,7 +444,7 @@ def _write_full_text(out_dir: Path, name: str, result) -> None:
 # Per-PDF driver
 # --------------------------------------------------------------------------- #
 
-def _process_one(pdf_path: Path) -> dict:
+def _process_one(pdf_path: Path, *, embed: bool = True) -> dict:
     from app.ingestion.chunker import chunk_pdf
     from app.ingestion.extractors.pdf_extractor import extract_pdf
 
@@ -229,8 +453,11 @@ def _process_one(pdf_path: Path) -> dict:
 
     print(f"\n• {pdf_path.name}")
     start = time.perf_counter()
+    doc_meta: dict = {}
     try:
-        result = extract_pdf(pdf_path.read_bytes(), pdf_path.name)
+        content = pdf_path.read_bytes()
+        doc_meta = _pdf_document_metadata(content)
+        result = extract_pdf(content, pdf_path.name)
         chunks = chunk_pdf(result)
     except Exception as exc:  # one bad PDF must not sink the whole run
         elapsed = time.perf_counter() - start
@@ -240,6 +467,7 @@ def _process_one(pdf_path: Path) -> dict:
             "(Often an optional dependency or Azure config is missing.)\n",
             encoding="utf-8",
         )
+        _write_metadata(out_dir, pdf_path.name, doc_meta, None)
         print(f"  ✗ FAILED: {type(exc).__name__}: {exc}")
         return {"pdf": pdf_path.name, "error": f"{type(exc).__name__}: {exc}",
                 "elapsed_seconds": round(elapsed, 2)}
@@ -249,13 +477,20 @@ def _process_one(pdf_path: Path) -> dict:
     _write_pages(out_dir, pdf_path.name, result)
     _write_tables(out_dir, pdf_path.name, result)
     _write_chunks(out_dir, pdf_path.name, chunks)
+    _write_metadata(out_dir, pdf_path.name, doc_meta, result)
+    point_info = _write_qdrant_points(out_dir, pdf_path.name, chunks, embed=embed)
     _write_full_text(out_dir, pdf_path.name, result)
 
+    vec_note = (
+        f", embedded dim {point_info['vector_dim']}"
+        if point_info["embedded"]
+        else " (vectors skipped)"
+    )
     print(
         f"  ✓ {stats['page_count']} pages "
         f"({stats['digital_pages']} digital / {stats['scanned_ocr_pages']} OCR), "
         f"{stats['table_count']} tables, "
-        f"{stats['child_chunks']} child chunks · {stats['elapsed_seconds']}s "
+        f"{stats['child_chunks']} child chunks{vec_note} · {stats['elapsed_seconds']}s "
         f"-> {out_dir.relative_to(HERE)}"
     )
     return stats
@@ -301,7 +536,8 @@ def _write_index(all_stats: list[dict]) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     argv = sys.argv[1:] if argv is None else argv
-    pdfs = _resolve_pdfs(argv)
+    embed = "--no-embed" not in argv
+    pdfs = _resolve_pdfs([a for a in argv if not a.startswith("--")])
     if not pdfs:
         print("No PDFs to process.")
         print(f"  Drop .pdf files into {EXAMPLES} or pass file paths as arguments.")
@@ -310,9 +546,10 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Running PDF extraction flow over {len(pdfs)} PDF(s)")
     print(f"  source : {EXAMPLES}")
     print(f"  results: {RESULTS}")
+    print(f"  embed  : {'on' if embed else 'off (--no-embed)'}")
 
     run_start = time.perf_counter()
-    all_stats = [_process_one(pdf) for pdf in pdfs]
+    all_stats = [_process_one(pdf, embed=embed) for pdf in pdfs]
     _write_index(all_stats)
 
     ok = sum(1 for s in all_stats if "error" not in s)

@@ -1,9 +1,9 @@
 {
   "pdf": "Navbharat_Times.pdf",
-  "elapsed_seconds": 4.43,
+  "elapsed_seconds": 4.44,
   "page_count": 1,
   "table_count": 0,
-  "char_count": 3527,
+  "char_count": 3482,
   "routes": {
     "ocr": 1
   },
@@ -16,7 +16,7 @@
   "chunks_total": 14,
   "parent_chunks": 3,
   "child_chunks": 11,
-  "child_token_min": 189,
+  "child_token_min": 183,
   "child_token_max": 445,
-  "child_token_avg": 340
+  "child_token_avg": 339
 }

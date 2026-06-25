@@ -2,9 +2,6 @@
 
 ## Page 1 · via `ocr` · 0 table(s)
 
-<!-- PageHeader="IN PERSPECTIVE" -->
-
-
 # Integrated means of managing water
 
 Need to promote

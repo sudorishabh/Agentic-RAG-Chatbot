@@ -7,42 +7,7 @@ Annexure- Commitment Letters for participation in the ‘Rethink Plastic’ camp
 
 ## Page 2 · via `ocr` · 0 table(s)
 
-<figure>
-
-UN@
-environment
-programme
-
-</figure>
-
-
-<figure>
-
-Counter
-MEASURE
-FOR PLASTIC FREE RIVERS
-
-</figure>
-
-
-<figure>
-
-RETHINK PLASTIC
-
-</figure>
-
-
-<figure>
-
-teri
-
-</figure>
-
-
 2\. ICLES Motilal Jhunjhunwala College, Navi Mumbai
-
-
-<figure>
 
 OCATION
 
@@ -65,11 +30,6 @@ Date :
 Date: 27/2/2020
 
 To.
-
-Dr. Anjali Parasnis
-Associate Director
-The Energy and Resources Institute -Western Regional Centre (TERI-WRC)
-CBD-Belapur, Navi Mumbai, 400614
 
 In line with our Institute's commitment towards Environment Conservation, we hereby
 agree to join hands with TERI-WRC and United Nations Environment Programme (UNEP)
@@ -96,49 +56,9 @@ Dr Anita S.Jadhav
 Associate Professor
 Head Department of Zoology
 
-</figure>
-
-
-<!-- PageBreak -->
-
 ## Page 3 · via `ocr` · 0 table(s)
 
-<figure>
-
-UN@
-environment
-programme
-
-</figure>
-
-
-<figure>
-
-Counter
-MEASURE
-FOR PLASTIC FREE RIVERS
-
-</figure>
-
-
-<figure>
-
-RETHINK PLASTIC
-
-</figure>
-
-
-<figure>
-
-teri
-
-</figure>
-
-
 3\. Karmaveer Bhaurao Patil College, Navi Mumbai
-
-
-<figure>
 
 Rayat Shikshan Sanstha's
 KARMAVEER BHAURAO PATIL COLLEGE, VASHI
@@ -163,10 +83,6 @@ AUTONOMOUS
 COLLEGE
 
 To,
-Dr. Anjali Parasnis
-Associate Director
-The Energy and Resources Institute -Western Regional Centre (TERI-WRC)
-CBD-Belapur, Navi Mumbai, 400614
 
 NAAC GRADE 'A+'
 COPA 3.53
@@ -225,49 +141,9 @@ Vashi, Navi Mumbai-400703.
 
 €
 
-</figure>
-
-
-<!-- PageBreak -->
-
 ## Page 4 · via `ocr` · 0 table(s)
 
-<figure>
-
-UN@
-environment
-programme
-
-</figure>
-
-
-<figure>
-
-Counter
-MEASURE
-FOR PLASTIC FREE RIVERS
-
-</figure>
-
-
-<figure>
-
-RETHINK PLASTIC
-
-</figure>
-
-
-<figure>
-
-teri
-
-</figure>
-
-
 4\. Maharshi Dayanand College of Arts, Science and Commerce, Mumbai
-
-
-<figure>
 
 Maharshi Dayanand College of Arts, Science & Commerce
 NAAC - REACCREDITED - A GRADE
@@ -296,10 +172,6 @@ Ref. No
 5" February, 2020
 
 Ta,
-Dr. Anjali Parasnis
-Associate Director
-The Energy and Resources Institute -Western Regional Centre (TERI-WRC)
-CBD-Belapur, Navi Mumbai, 400614
 
 In line with our Institute's commitment towards Environment Conservation, we hereby
 agree to join hands with TERI-WRC and United Nations Environment Programme (UNEP) for the
@@ -320,47 +192,11 @@ DENAL
 Principal
 Dr. C. S. Panse
 
-</figure>
-
-
 <!-- PageBreak -
 
 ## Page 5 · via `ocr` · 0 table(s)
 
 ->
-
-
-<figure>
-
-UN@
-environment
-programme
-
-</figure>
-
-
-<figure>
-
-Counter
-MEASURE
-FOR PLASTIC FREE RIVERS
-
-</figure>
-
-
-<figure>
-
-RETHINK PLASTIC
-
-</figure>
-
-
-<figure>
-
-teri
-
-</figure>
-
 
 5\. IndusInd Bank
 
@@ -370,7 +206,6 @@ Date: January 13, 2020
 
 To,
 Dr Anjali Parasnis
-Associate Director
 The Energy & Resources Institute
 CBD - Belapur, Navi Mumbai
 
@@ -386,22 +221,13 @@ outreach materials.
 
 Thanking You!
 
-
-<figure>
-
 M
 ☒
 Mr Adwait Hebbar
 
-</figure>
-
-
 Head -Corporate Services
 Indusind Bank Limited
 Andheri East, Mumbai 400093
-
-
-<figure>
 
 PILA House Officer Indusind Bank Limited, Basement, Ist Floor, 3rd Floor & cth Floor,
 PNA House, Plet No 57, Street No. 17,MIDC, Andheri, Mumbai 400 093, India. Tel: (0022) 61069299
@@ -410,62 +236,19 @@ Registered Office: 2401 Gen. Thinmayya Road, Pine-411:001, Inda
 Tel: (020) 2634 3201 Fax: (020) 2634 3241 Wist us at www.indunsind.com
 CN:L65191PN1994PLC076333
 
-</figure>
-
-
 <!-- PageBreak -
 
 ## Page 6 · via `ocr` · 0 table(s)
 
 ->
 
-
-<figure>
-
-UN@
-environment
-programme
-
-</figure>
-
-
-<figure>
-
-Counter
-MEASURE
-FOR PLASTIC FREE RIVERS
-
-</figure>
-
-
-<figure>
-
-RETHINK PLASTIC
-
-</figure>
-
-
-<figure>
-
-teri
-
-</figure>
-
-
 6\. Netel (India) Limited
-
-
-<figure>
 
 NETEL
 
 Netel (India) Limited
 
-</figure>
-
-
 17.12.19
-
 
 # Pledge against Single Use Plastic
 
@@ -497,18 +280,12 @@ Authorized Signatory
 Feroze R. Katila
 CEO, Netel India Limited
 
-
-<figure>
-
 A Neterwala Group Company
 
 W-408, Rabale MIDC.
 TTC Industrial Area.
 NAVI MUMBAI - 400 701.
 INDIA
-
-Tel. : + 81 022 2760 7102 / 2760 7103
-Fax: + 91 022 2760 7100
 
 E-mail : sales@petal-india.com
 Website : www.net-india.com
@@ -519,5 +296,3 @@ A
 \-
 
 Regd. office : Liberty Building: 3rd Floor, Sir Vithaidas Thackersey Marg. (New Marine Lines), Mumbai - 400 020. Tel .: 22066231 /61
-
-</figure>

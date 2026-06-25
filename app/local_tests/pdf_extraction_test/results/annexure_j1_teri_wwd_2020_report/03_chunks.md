@@ -1,15 +1,15 @@
 # Chunking (chunk_pdf) — Annexure_J1_ TERI_WWD-2020_Report.pdf
 
-- parents: **23**
+- parents: **20**
 - children: **35**
 
 ---
 
 ## Parent chunks
 
-### Parent · section='Special Message — Shri Annasaheb Misal — Commissioner, Navi Mumbai Municipal Corporation — (NMMC)' · pages=(1, 2) · 622 tok
+### Parent · section='Special Message — Shri Annasaheb Misal' · pages=(1, 2) · 623 tok
 
-Special Message — Shri Annasaheb Misal — Commissioner, Navi Mumbai Municipal Corporation — (NMMC)
+Special Message — Shri Annasaheb Misal
 
 Report
 
@@ -21,6 +21,8 @@ World Wetlands Day- February 2, 2020
 Location : Veer Savarkar Udyan, Sagar Vihar; Vashi, 
 Navi Mumbai
 
+Commissioner, Navi Mumbai Municipal Corporation 
+(NMMC) 
 Navi Mumbai Municipal Corporation (NMMC), one of the most progressive ULB’s in India has always focused on the
 environmental conservation and sustainable development of the city. The measures taken by NMMC have led to Navi Mumbai
 being ranked 7th in India under Swachha Bharat Abhiyan (SBA) in 2019. Additionally, Navi Mumbai has been bestowed with
@@ -28,9 +30,9 @@ rich natural vegetation, mangroves and wetlands which protect the city from natu
 and contributes to the quality of life in the city. However, today, like most other cities in the world, plastic pollution is a growing
 concern in Navi Mumbai as well, directly impacting its ecosystems and thus needing conservation measures.
 I congratulate The Energy and Resources Institute (TERI) and United Nations Environment Programme (UNEP) and other
-project partners on their efforts to create the much needed awareness about plastic pollution and w
+project partners on their efforts to create the much needed awareness about plastic pollution and wet
 
-… [+1755 more chars]
+… [+1753 more chars]
 
 ### Parent · section='Special Message' · pages=(3, 3) · 463 tok
 
@@ -54,10 +56,13 @@ With our University as an official partner of TERI-UNEP’s
 
 … [+1094 more chars]
 
-### Parent · section='Special Message — Mr. Atul Bagai — Country Head- India Office, United Nations Environment Programme — (UNEP)' · pages=(4, 4) · 440 tok
+### Parent · section='Special Message' · pages=(4, 4) · 440 tok
 
-Special Message — Mr. Atul Bagai — Country Head- India Office, United Nations Environment Programme — (UNEP)
+Special Message
 
+Mr. Atul Bagai
+Country Head- India Office, United Nations Environment Programme
+(UNEP)
 The UNEP is the leading and authoritative global voice on environmental issues. It is the key driver of the environmental
 dimension of sustainable development, within the United Nations system. UNEP’s global campaigns ‘Beat Plastic Pollution’
 and ‘Clean Seas’ are increasingly gaining traction. The India office of UNEP started operations 3 years ago. It made its mark
@@ -68,14 +73,17 @@ plastic waste, its content, accumulation hotspots, leakage pathways, are approxi
 with challenges of technology and finance for its management.
 UNEP is currently implementing the Japan Government funded “Promotion of Counter Measures against Marine Plastic litter
 in South-east Asia and India” project in Agra,Haridwar, Allahabad and Mumbai, as well as a Norway Government funded
-project where we are s
+project where we are support
 
-… [+1012 more chars]
+… [+1006 more chars]
 
-### Parent · section='Special Message — Dr. Ajay Mathur — Director General, The Energy and Resources Institute — (TERI)' · pages=(5, 5) · 595 tok
+### Parent · section='Special Message' · pages=(5, 5) · 595 tok
 
-Special Message — Dr. Ajay Mathur — Director General, The Energy and Resources Institute — (TERI)
+Special Message
 
+Dr. Ajay Mathur
+Director General, The Energy and Resources Institute
+(TERI)
 I am glad that TERI’s Western Regional Center (WRC) has been celebrating World Wetlands Day (WWD) in Mumbai for the
 past 12 years with diverse stakeholders and in collaboration with the Ramsar Convention. The reports of all these events are
 available on the Ramsar website (https://www.ramsar.org/). The WWD-2020 celebration on the theme ’Save Wetlands from
@@ -86,11 +94,11 @@ project since 2012; whereas TERI is currently the outreach partner for the UNEP 
 countermeasures against marine plastic litter in Southeast Asia and India’ in Mumbai. As part of this project TERI- WRC is
 implementing an action oriented campaign ‘Rethink Plastic’ (November 2019- March 2020) to reach out to various
 stakeholders and urge them to Refuse, Reduce Reuse, Recycle and Rethink plastic responsibly.
-I am 
+I am overwh
 
-… [+1530 more chars]
+… [+1524 more chars]
 
-### Parent · section='Index' · pages=(6, 6) · 326 tok
+### Parent · section='Index' · pages=(6, 6) · 319 tok
 
 Index
 
@@ -115,13 +123,9 @@ Index
 | 4 | Media Coverage |  |  |
 | 5 | Take Home Message | Take Home Message |  |
 
-Acknowledgment
+### Parent · section='Acknowledgment — Agenda: World Wetlands Day 2020 Event February 2, 2020' · pages=(7, 7) · 388 tok
 
-<!-- PageBreak -->
-
-### Parent · section='Agenda: World Wetlands Day 2020 Event February 2, 2020' · pages=(7, 8) · 414 tok
-
-Agenda: World Wetlands Day 2020 Event February 2, 2020
+Acknowledgment — Agenda: World Wetlands Day 2020 Event February 2, 2020
 
 | 9.30 AM - 10.00 AM | Registration |
 | --- | --- |
@@ -138,13 +142,13 @@ Agenda: World Wetlands Day 2020 Event February 2, 2020
 | Parallel Activities | Parallel Activities |
 | 12.05 PM - 1.00 PM | Making collage using bottle caps |
 | Messages on Wetland conservation through art (Rangoli and Posters) |  |
-| Pledge against single use plastic and Perception surv
+| Pledge against single use plastic an
 
-… [+243 more chars]
+… [+153 more chars]
 
-### Parent · section='Dignitaries on Dais' · pages=(9, 10) · 268 tok
+### Parent · section='MUMBAI — 1. Inaugural and Interactive Session — Dignitaries on Dais' · pages=(9, 10) · 283 tok
 
-Dignitaries on Dais
+MUMBAI — 1. Inaugural and Interactive Session — Dignitaries on Dais
 
 (From L to R): Smt. Shaila Sam, Media and Communication Specialist, UNEP; Shri. Lovish Ahuja, Vice
 President, Governmental Affairs – India, TOMRA; Smt. Saloni Goel, Consultant, Plastic Pollution Programme,
@@ -177,7 +181,7 @@ cities like Mumbai and Navi Mumbai and
 emphasized on their better management
 and conservation.
 
-### Parent · section='Program Inauguration — World Wetlands Day 2020' · pages=(11, 19) · 1414 tok
+### Parent · section='Program Inauguration — World Wetlands Day 2020' · pages=(11, 20) · 1555 tok
 
 Program Inauguration — World Wetlands Day 2020
 
@@ -238,35 +242,9 @@ plastic, he told that the NMMC head office is single
 use plastic free; and the corporation shall continue
 to work towards managing p
 
-… [+4055 more chars]
+… [+4516 more chars]
 
-### Parent · section='5. Smt. Kalpana Chhatre' · pages=(19, 20) · 140 tok
-
-5. Smt. Kalpana Chhatre
-
-A member of Mangrove Marshal Group,
-Navi Mumbai. The group organizes weekly
-mangrove cleanup activity at Sagar Vihar
-and Mini Sea Shore, Vashi, Navi Mumbai.
-
-f) Commitment of Differently Abled
-•
-The Helen Keller Institute of Deaf and Deaf
-blind engages their students in raising and
-nurturing saplings
-•
-The institute adopted 100 saplings of native
-trees raised by students of ICLES Motilal
-Jhunjhunwala
-College,
-Vashi
-in
-waste
-plastic
-bottles
-as
-
-### Parent · section='part' · pages=(20, 22) · 243 tok
+### Parent · section='part' · pages=(20, 29) · 751 tok
 
 part
 
@@ -319,123 +297,16 @@ their views on
 Plastic 
 Pollution
 
-### Parent · section='Key Points Highlighted During The — Panel Discussion' · pages=(23, 24) · 122 tok
-
-Key Points Highlighted During The — Panel Discussion
-
+Key Points Highlighted During The 
+Panel Discussion
 As the participants voiced their concerns and opinion on Plastic
 Pollution, there was consensus on the following points:
 • Use of Single Use Plastic should be banned. However, alternatives to
-plastic should be practical, affordable and easily available
-• In depth research on life cycle of different materials being used as
-alternatives to plastic to be carried out
-• Policies need to be strengthened
-• Usability of plastics in areas like food and medicine packaging,
-electronic equipment, medical instruments, automobiles and others
-cannot be neglected.
+plastic should be practical, afforda
 
-<figure>
-</figure>
+… [+1671 more chars]
 
-### Parent · section='2\\. Mangrove Cleanup Activity- — Sagar Vihar' · pages=(24, 29) · 449 tok
-
-2\. Mangrove Cleanup Activity- — Sagar Vihar
-
-<!-- PageBreak -->
-
-•
-Mangroves
-act
-as
-buffer
-against
-extreme
-weather
-events
-such
-as
-hurricanes, coastal floods.
-•
-They
-stabilize
-coastline
-and
-slows
-down soil erosion rate
-•
-Act as source of livelihood for local
-communities – fishing, collection of
-honey, tannins and wax
-•
-Act as a Carbon Sink
-•
-Mangrove roots are a complex system
-that
-accumulate
-organic
-and
-inorganic nutrients and thus, act as a
-breeding
-ground
-and
-nursery
-for
-various
-marine
-organisms.
-However, plastic litter in mangroves is
-a cause of concern as it gets trapped
-in the mangroves.
-•
-The cleanup activity was carried out
-in
-order
-to
-collect
-plastic
-waste
-trapped in the mangroves and dispose
-it off responsibly.
-Collection Points
-Mangroves
-Vashi Creek
-Location
-Sagar Vihar
-Mini sea shore 
-Significance of 
-mangroves
-
-Participation of 100 
-NSS volunteers, 
-University of Mumbai 
-•
-All participants were provided Personal 
-Protective Equipment (Gloves and 
-Masks)
-•
-Instead of plastic bags, Gunny bags were 
-used for waste collection
-
-<figure>
-
-N.S.S — NOT ME BUT YOU
-
-0835
-
-Milka — GOLD
-
-</figure>
-
-Weighing of the
-collected Waste
-
-More than 100kg
-of Plastic waste was
-collected in 
-
-… [+370 more chars]
-
-### Parent · section='Volunteers' · pages=(30, 33) · 235 tok
+### Parent · section='Volunteers' · pages=(30, 33) · 225 tok
 
 Volunteers
 
@@ -476,13 +347,7 @@ animals and birds.
 
 b) Wetland Conservation Messages Through Art — 1. Rangoli- A Traditional Art
 
-<figure>
-</figure>
-
-<!-- PageBreak -->
-
 The
-
 volunteers
 enthusiastically
 showcased
@@ -634,7 +499,7 @@ growth
 Why plant Native saplings? 
 Other suggested native species: Ficus racemosa (Umbar), Terminalia catappa (Kadwa Badam)
 
-### Parent · section='30 volunteers participated in this activity' · pages=(39, 41) · 130 tok
+### Parent · section='30 volunteers participated in this activity' · pages=(39, 40) · 120 tok
 
 30 volunteers participated in this activity
 
@@ -655,13 +520,9 @@ cost to the participants in order to
 promote the use of cloth carry bags
 and reducing plastic carry bags
 
-4. Media Coverage
+### Parent · section='4. Media Coverage — Media Coverage — Clean-up drives carried out on World Wetland Day' · pages=(42, 42) · 195 tok
 
-<!-- PageBreak -->
-
-### Parent · section='Media Coverage — Clean-up drives carried out on World Wetland Day' · pages=(42, 42) · 190 tok
-
-Media Coverage — Clean-up drives carried out on World Wetland Day
+4. Media Coverage — Media Coverage — Clean-up drives carried out on World Wetland Day
 
 Navi Mumbai: The civic bo-
 dy, in association with The
@@ -723,7 +584,7 @@ Times of India_03.02.2020 — पाणथळ जागा वाचविण्
 
 … [+124 more chars]
 
-### Parent · section='Tarun Bharat_04.02.2020 — प्लास्टिक न वापरण्याची शपथ' · pages=(42, 43) · 956 tok
+### Parent · section='Tarun Bharat_04.02.2020 — प्लास्टिक न वापरण्याची शपथ' · pages=(42, 43) · 948 tok
 
 Tarun Bharat_04.02.2020 — प्लास्टिक न वापरण्याची शपथ
 
@@ -758,25 +619,15 @@ Tarun Bharat_04.02.2020 — प्लास्टिक न वापरण्�
 अडकलेला तब्बल १०० किलोग्रॅम
 प्लास्टिक कचरा गोळा केला.
 
-Loksatta_05.02.2020
-
-<!-- PageBreak -->
-
-Media Coverage
-
-<figure>
-
-Promotion of Counter — Litter in Soc — pinst Marine Plastic — and India — RETHI — STIC
+Loksatta_05.02.2020 — Media Coverage — Promotion of Counter — Litter in Soc — pinst Marine Plastic — and India — RETHI — STIC
 
 २
 
-### Parent · section='VI' · pages=(43, 43) · 295 tok
+### Parent · section='VI' · pages=(43, 43) · 292 tok
 
 VI
 
 2020
-
-</figure>
 
 टेरी, युनाइटेड नेशन्स एन्व्हायर्मेन्ट आणि नवी मुंबई पालिकेच्या संयुक्त विद्यमाने वाशी येथे जागतिक
 पाणथळ दिवसाचे औचित्य साधून जनजागृती कार्यक्रम झाला. 'प्लास्टिकविषयी पुनर्विचार' संकल्पने-
@@ -804,7 +655,7 @@ Maharashtra Times_04.02.2020 — Navrashtra_05.02.2020 — जागतिक �
 करण्यासाठी पुढे आली आहे हे चित्र आश्वासन
 असल्याचे मत महापालिका आयुक्त अण्णासाहेब
 
-### Parent · section='Mumbai Chauffer_05.02.2020 — प्लास्टिक प्रदूषणाविरोधात भरीव कामाची गरज' · pages=(43, 43) · 910 tok
+### Parent · section='Mumbai Chauffer_05.02.2020 — प्लास्टिक प्रदूषणाविरोधात भरीव कामाची गरज' · pages=(43, 43) · 904 tok
 
 Mumbai Chauffer_05.02.2020 — प्लास्टिक प्रदूषणाविरोधात भरीव कामाची गरज
 
@@ -827,9 +678,6 @@ Mumbai Chauffer_05.02.2020 — प्लास्टिक प्रदूषण
 प्रतिबंधाबाबत एक अभिनव प्रकल्प
 रावविण्याबाबतही काम सुरु असल्याची
 माहिती त्यांनी दिली.
-
-<figure>
-</figure>
 
 · टेरी व युनाइटेड नेशन्स एन्व्हायरमेन्ट आणि नवी मुंबई
 महानगरपालिका यांच्या संयुक्त विद्यमाने सागर विहार से. ८, वाशी येथे
@@ -890,7 +738,7 @@ THANK YOU
 
 ## Child chunks
 
-### Child 0 · section='Special Message — Shri Annasaheb Misal — Commissioner, Navi Mumbai Municipal Corporation — (NMMC)' · page=1 · 598 tok
+### Child 0 · section='Special Message — Shri Annasaheb Misal' · page=1 · 479 tok
 
 Report
 
@@ -902,16 +750,29 @@ World Wetlands Day- February 2, 2020
 Location : Veer Savarkar Udyan, Sagar Vihar; Vashi, 
 Navi Mumbai
 
+Commissioner, Navi Mumbai Municipal Corporation 
+(NMMC) 
 Navi Mumbai Municipal Corporation (NMMC), one of the most progressive ULB’s in India has always focused on the
 environmental conservation and sustainable development of the city. The measures taken by NMMC have led to Navi Mumbai
 being ranked 7th in India under Swachha Bharat Abhiyan (SBA) in 2019. Additionally, Navi Mumbai has been bestowed with
 rich natural vegetation, mangroves and wetlands which protect the city from natural calamities like floods, provides carbon sink
-and contributes to the quality of life in the city. However, today, like most other cities in the world, plastic pollution is a growing
-concern in Navi Mum
+and contributes to the quality of life in the city. However, today, like most other cities in the 
 
-… [+2057 more chars]
+… [+1437 more chars]
 
-### Child 1 · section='Special Message' · page=3 · 460 tok
+### Child 1 · section='Special Message — Shri Annasaheb Misal' · page=2 · 189 tok
+
+avi Mumbai on large scale. I feel motivated to see
+representatives from Helen Keller Institute of Deaf and Deaf blind taking active part in the program. Furthermore, I truly
+appreciate the organizations and citizens who have raised the saplings in waste plastic bottles and those who have agreed to nurture it further for afforestation. As part of the Eco-city Project, a joint collaboration with TERI, NMMC would be pleased to
+work towards the implementation of these initiatives on a larger scale with the objective of not only creating awareness but also
+a bigger long term positive impact.
+I feel optimistic that with collaborative efforts by Government, Non-Government and Research organizations, Corporates,
+students and other citizens, Navi Mumbai will be able to achieve its goal of being a p
+
+… [+174 more chars]
+
+### Child 2 · section='Special Message' · page=3 · 460 tok
 
 Prof. Suhas Pednekar,
 Vice Chancellor, University of Mumbai 
@@ -927,45 +788,48 @@ However, with ever increasing human footpr
 
 … [+1478 more chars]
 
-### Child 2 · section='Special Message — Mr. Atul Bagai — Country Head- India Office, United Nations Environment Programme — (UNEP)' · page=4 · 415 tok
+### Child 3 · section='Special Message' · page=4 · 437 tok
 
+Mr. Atul Bagai
+Country Head- India Office, United Nations Environment Programme
+(UNEP)
 The UNEP is the leading and authoritative global voice on environmental issues. It is the key driver of the environmental
 dimension of sustainable development, within the United Nations system. UNEP’s global campaigns ‘Beat Plastic Pollution’
 and ‘Clean Seas’ are increasingly gaining traction. The India office of UNEP started operations 3 years ago. It made its mark
 when it organised a highly successful World Environment Day in 2018 when the Prime Minister of India, committed to
 phasing out single-use plastics.
 Despite the best efforts, and the spotlight on plastics, our understanding of its science is limited. Assessment of sources of
-plastic waste, its content, accumulation hotspots, leakage pathways, are approximate. Most importantly we are still grappling
-with challenges of technology 
+plastic waste, its content, accumulation hotspots, leakage pathways, 
 
-… [+1302 more chars]
+… [+1389 more chars]
 
-### Child 3 · section='Special Message — Dr. Ajay Mathur — Director General, The Energy and Resources Institute — (TERI)' · page=5 · 443 tok
+### Child 4 · section='Special Message' · page=5 · 436 tok
 
+Dr. Ajay Mathur
+Director General, The Energy and Resources Institute
+(TERI)
 I am glad that TERI’s Western Regional Center (WRC) has been celebrating World Wetlands Day (WWD) in Mumbai for the
 past 12 years with diverse stakeholders and in collaboration with the Ramsar Convention. The reports of all these events are
 available on the Ramsar website (https://www.ramsar.org/). The WWD-2020 celebration on the theme ’Save Wetlands from
 Plastic Litter’ by TERI was in collaboration with United Nations Environment Programme (UNEP), Navi Mumbai Municipal
 Corporation (NMMC), and National Service Scheme (NSS).
 NMMC has been partnering with TERI for various environmental and sustainable development initiatives under the Eco City
-project since 2012; whereas TERI is currently the outreach partner for the UNEP sponsored project titled ‘Promotion of
-countermeasures against marine 
+project since 2012; whereas TERI is currently the outreach partner for the
 
-… [+1150 more chars]
+… [+1103 more chars]
 
-### Child 4 · section='Special Message — Dr. Ajay Mathur — Director General, The Energy and Resources Institute — (TERI)' · page=5 · 189 tok
+### Child 5 · section='Special Message' · page=5 · 213 tok
 
-pledge against single use plastics and many of them drafted
-roadmaps against plastic pollution. These suggestions will be collated and submitted to the Hon’ble Chief Minister of
-Maharashtra by TERI, UNEP and other project partners; requesting him to develop a roadmap against plastic pollution in the state. The participation of representatives from Helen Keller Institute for Deaf and Deaf blind was a true value addition to the
+of plastic was collected from the mangroves just in an
+hour. It was heartening to note that all participants have taken a pledge against single use plastics and many of them drafted
+roadmaps against plastic pollution. These suggestions will be collated and submitted to the Hon’ble Chief Minister of Maharashtra by TERI, UNEP and other project partners; requesting him to develop a roadmap against plastic pollution in the
+state. The participation of representatives from Helen Keller Institute for Deaf and Deaf blind was a true value addition to the
 event. I am happy that TERI handed over 100 saplings of native trees raised in waste plastic bottles to them for nurturing and
-use in afforestation. Further, TERI’s commitment to prepare a Braille booklet on Plastic Pollution is a noteworthy initiative to
-spread the message against plastic pollution to the differently abled students.
-I congratulate and thank all the p
+use in afforestation. Further, TERI’s commitment to prepare a Braille booklet on Plastic Pollution is a noteworthy initia
 
-… [+181 more chars]
+… [+303 more chars]
 
-### Child 5 · section='Index' · page=6 · 324 tok
+### Child 6 · section='Index' · page=6 · 317 tok
 
 | Sr No. |  |  | Content |
 | --- | --- | --- | --- |
@@ -982,9 +846,9 @@ I congratulate and thank all the p
 | 3 | Parallel Activities | Parallel Activities |  |
 |  |  | a | Collage using Waste Pla
 
-… [+364 more chars]
+… [+328 more chars]
 
-### Child 6 · section='Agenda: World Wetlands Day 2020 Event February 2, 2020' · page=7 · 395 tok
+### Child 7 · section='Acknowledgment — Agenda: World Wetlands Day 2020 Event February 2, 2020' · page=7 · 367 tok
 
 | 9.30 AM - 10.00 AM | Registration |
 | --- | --- |
@@ -998,9 +862,9 @@ I congratulate and thank all the p
 | 11. 20 AM - 11.30 AM | Handing over of saplings for further nurturing |
 | 11.30 AM - 12.00 PM | Panel discussion to understand views of the y
 
-… [+587 more chars]
+… [+480 more chars]
 
-### Child 7 · section='Dignitaries on Dais' · page=9 · 260 tok
+### Child 8 · section='MUMBAI — 1. Inaugural and Interactive Session — Dignitaries on Dais' · page=9 · 260 tok
 
 (From L to R): Smt. Shaila Sam, Media and Communication Specialist, UNEP; Shri. Lovish Ahuja, Vice
 President, Governmental Affairs – India, TOMRA; Smt. Saloni Goel, Consultant, Plastic Pollution Programme,
@@ -1029,7 +893,7 @@ s
 
 … [+158 more chars]
 
-### Child 8 · section='Program Inauguration — World Wetlands Day 2020' · page=11 · 323 tok
+### Child 9 · section='Program Inauguration — World Wetlands Day 2020' · page=11 · 323 tok
 
 Hon’ble Chief Guest planting the Native Sapling (left) and unveiling the collage made 
 from Plastic waste (right)
@@ -1072,7 +936,7 @@ extrem
 
 … [+469 more chars]
 
-### Child 9 · section='Program Inauguration — World Wetlands Day 2020' · page=14 · 318 tok
+### Child 10 · section='Program Inauguration — World Wetlands Day 2020' · page=14 · 318 tok
 
 NMMC’s initiatives against single use
 plastic, he told that the NMMC head office is single
@@ -1117,7 +981,7 @@ conti
 
 … [+400 more chars]
 
-### Child 10 · section='Program Inauguration — World Wetlands Day 2020' · page=15 · 378 tok
+### Child 11 · section='Program Inauguration — World Wetlands Day 2020' · page=15 · 378 tok
 
 great importance.
 •
@@ -1146,7 +1010,7 @@ Corporator, NMMC
 
 … [+764 more chars]
 
-### Child 11 · section='Program Inauguration — World Wetlands Day 2020' · page=16 · 560 tok
+### Child 12 · section='Program Inauguration — World Wetlands Day 2020' · page=16 · 443 tok
 
 is
 segregation at source while technological and end of pipe solutions can mitigate
@@ -1180,33 +1044,57 @@ cutlery, straw and cup.
 
 NOT purch
 
-… [+1172 more chars]
+… [+780 more chars]
 
-### Child 12 · section='5. Smt. Kalpana Chhatre' · page=19 · 128 tok
+### Child 13 · section='Program Inauguration — World Wetlands Day 2020' · page=18 · 319 tok
 
+from old sarees, dupattas and
+dresses and distributes them to
+vendors
+and
+customers
+to
+promote the use of cloth bags. She
+aims
+to
+make
+at
+least
+one
+Municipal Market in her locality,
+free from plastic bags. 2. Shri. P. S Lokhande
+He started PSL Waste Management LLP to
+collect,
+segregate
+and
+effectively
+manage
+municipal waste.
+3. Smt. Jyoti Nadkarni
+She
+collectively
+works
+with
+housing
+societies in Kharghar, Navi Mumbai to
+help collect and segregate household waste
+at source.
+
+4. Shri. Prakash Chandra Joshi
+Individually
+collected more than 1500
+waste plastic bottles for the campaign
+5. Smt. Kalpana Chhatre
 A member of Mangrove Marshal Group,
 Navi Mumbai. The group organizes weekly
 mangrove cleanup activity at Sagar Vihar
 and Mini Sea Shore, Vashi, Navi Mumbai.
 
-f) Commitment of Differently Abled
-•
-The Helen Keller Institute of Deaf and Deaf
-blind engages their students in raising and
-nurturing saplings
-•
-The institute adopted 100 saplings of native
-trees raised by students of ICLES Motilal
-Jhunjhunwala
-College,
-Vashi
-in
-waste
-plastic
-bottles
-as
+f) Commitment of Differently Ab
 
-### Child 13 · section='part' · page=20 · 241 tok
+… [+257 more chars]
+
+### Child 14 · section='part' · page=20 · 369 tok
 
 of
 the
@@ -1250,29 +1138,19 @@ Multi Layer
 Plastic packaging
 Is there any  alternativ
 
-… [+112 more chars]
+… [+764 more chars]
 
-### Child 14 · section='Key Points Highlighted During The — Panel Discussion' · page=23 · 112 tok
+### Child 15 · section='part' · page=25 · 439 tok
 
-As the participants voiced their concerns and opinion on Plastic
-Pollution, there was consensus on the following points:
-• Use of Single Use Plastic should be banned. However, alternatives to
-plastic should be practical, affordable and easily available
-• In depth research on life cycle of different materials being used as
+materials being used as
 alternatives to plastic to be carried out
 • Policies need to be strengthened
 • Usability of plastics in areas like food and medicine packaging,
 electronic equipment, medical instruments, automobiles and others
 cannot be neglected.
 
-<figure>
-</figure>
-
-### Child 15 · section='2\\. Mangrove Cleanup Activity- — Sagar Vihar' · page=24 · 436 tok
-
-<!-- PageBreak -->
-
-•
+2\. Mangrove Cleanup Activity-
+Sagar Vihar •
 Mangroves
 act
 as
@@ -1313,32 +1191,11 @@ various
 marine
 organisms.
 However, plastic litter in mangroves is
-a cause of concern as it gets trapped
-in the mangroves.
-•
-The cleanup activity was carried out
-in
-order
-to
-collect
-plastic
-waste
-trapped in the mangroves and dispose
-it off responsibly.
-Collection Points
-Mangroves
-Vashi Creek
-Location
-Sagar Vihar
-Mini sea shore 
-Significance of 
-mangroves
+a cause of concern as 
 
-Participat
+… [+798 more chars]
 
-… [+724 more chars]
-
-### Child 16 · section='Volunteers' · page=30 · 232 tok
+### Child 16 · section='Volunteers' · page=30 · 222 tok
 
 making
 collage
@@ -1377,13 +1234,7 @@ animals and birds.
 
 b) Wetland Conservation Messages Through Art — 1. Rangoli- A Traditional Art
 
-<figure>
-</figure>
-
-<!-- PageBreak -->
-
 The
-
 volunteers
 enthusiastically
 showcased
@@ -1392,9 +1243,13 @@ creative
 skills
 to
 convey
+the
+message
+of
+wetland
+conservation using
 
-
-… [+67 more chars]
+… [+26 more chars]
 
 ### Child 17 · section='2. Awareness — through Posters' · page=34 · 398 tok
 
@@ -1561,7 +1416,7 @@ growth
 
 … [+132 more chars]
 
-### Child 20 · section='30 volunteers participated in this activity' · page=39 · 123 tok
+### Child 20 · section='30 volunteers participated in this activity' · page=39 · 113 tok
 
 Volunteers planting saplings of native tree species (collected 
 from roadsides/ cracks of walls and buildings) in waste plastic 
@@ -1580,11 +1435,7 @@ cost to the participants in order to
 promote the use of cloth carry bags
 and reducing plastic carry bags
 
-4. Media Coverage
-
-<!-- PageBreak -->
-
-### Child 21 · section='Media Coverage — Clean-up drives carried out on World Wetland Day' · page=42 · 176 tok
+### Child 21 · section='4. Media Coverage — Media Coverage — Clean-up drives carried out on World Wetland Day' · page=42 · 176 tok
 
 Navi Mumbai: The civic bo-
 dy, in association with The
@@ -1683,7 +1534,7 @@ which began from November
 महाविद्यालयीन विद्यार्थी उपस्थित
 होते. पालिका आयुक्त अण्णासाहेब
 
-### Child 27 · section='Tarun Bharat_04.02.2020 — प्लास्टिक न वापरण्याची शपथ' · page=43 · 360 tok
+### Child 27 · section='Tarun Bharat_04.02.2020 — प्लास्टिक न वापरण्याची शपथ' · page=43 · 352 tok
 
 �्यालयीन विद्यार्थी उपस्थित
 होते. पालिका आयुक्त अण्णासाहेब मिसाळ यांनी, प्रत्यकाने स्वतः
@@ -1695,23 +1546,13 @@ which began from November
 अडकलेला तब्बल १०० किलोग्रॅम
 प्लास्टिक कचरा गोळा केला.
 
-Loksatta_05.02.2020
-
-<!-- PageBreak -->
-
-Media Coverage
-
-<figure>
-
-Promotion of Counter — Litter in Soc — pinst Marine Plastic — and India — RETHI — STIC
+Loksatta_05.02.2020 — Media Coverage — Promotion of Counter — Litter in Soc — pinst Marine Plastic — and India — RETHI — STIC
 
 २
 
-### Child 28 · section='VI' · page=43 · 293 tok
+### Child 28 · section='VI' · page=43 · 290 tok
 
 2020
-
-</figure>
 
 टेरी, युनाइटेड नेशन्स एन्व्हायर्मेन्ट आणि नवी मुंबई पालिकेच्या संयुक्त विद्यमाने वाशी येथे जागतिक
 पाणथळ दिवसाचे औचित्य साधून जनजागृती कार्यक्रम झाला. 'प्लास्टिकविषयी पुनर्विचार' संकल्पने-
@@ -1757,7 +1598,7 @@ Promotion of Counter — Litter in Soc — pinst Marine Plastic — and India �
 शहर इको सिटी बनण्यासाठी
 महानगरपालिका प्रयत्नशील असून
 
-### Child 32 · section='Mumbai Chauffer_05.02.2020 — प्लास्टिक प्रदूषणाविरोधात भरीव कामाची गरज' · page=43 · 463 tok
+### Child 32 · section='Mumbai Chauffer_05.02.2020 — प्लास्टिक प्रदूषणाविरोधात भरीव कामाची गरज' · page=43 · 457 tok
 
 बई
 शहर इको सिटी बनण्यासाठी
@@ -1766,9 +1607,6 @@ Promotion of Counter — Litter in Soc — pinst Marine Plastic — and India �
 प्रतिबंधाबाबत एक अभिनव प्रकल्प
 रावविण्याबाबतही काम सुरु असल्याची
 माहिती त्यांनी दिली.
-
-<figure>
-</figure>
 
 · टेरी व युनाइटेड नेशन्स एन्व्हायरमेन्ट आणि नवी मुंबई
 महानगरपालिका यांच्या संयुक्त विद्यमाने सागर विहार से. ८, वाशी येथे

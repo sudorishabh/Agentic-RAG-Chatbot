@@ -4,13 +4,6 @@
 
 # HOW TO CHECK WATER QUALITYA
 
-
-<figure>
-</figure>
-
-
-
-
 | SI. No. | Parameters | Method | Desirable Limit | Undesirable effect outisde the desirable limit | Permissible limit in the absence of alternate source | Cause of these parameters in water |
 | --- | --- | --- | --- | --- | --- | --- |
 | 1. | Colour (Hazen Units, max) | By Visual | 5 | Above 5 consumer acceptance decreases. | 15 | Due to natural metallic, ions, humus, peat material, industrial waste. |
@@ -22,13 +15,7 @@
 | 7. | Nitrate (as NO3) mg/l | By Nitrate test strip | 45 | Beyond this limit, methaemoglobinemia takes place | No relaxation | Due to decomposition of organic residue |
 | 8. | Residual, free Chlorine mg/l min | Colorimetric (ortho toluidine) | 0.2 | - | 1 | Chlorinated industrial effluent, sewage waste. |
 
-
-
-
 \* Drinking water quality standard as per IS-10500, 2012.
-
-
-
 
 | PERIOD | I | II | II | III | IV | エ | V | VI | VII | VIII |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -40,29 +27,12 @@
 | FRIDAY |  |  |  |  |  |  |  |  |  |  |
 | SATURDAY |  |  |  |  |  |  |  |  |  |  |
 
-
-
-
-<figure>
-
 Bharti
 Infratel
 Limited
 
-</figure>
-
-
-<figure>
-
 FLOW
 Facilitating Learning on WASH
 
-</figure>
-
-
-<figure>
-
 teri
 The Energy and Resources Institute
-
-</figure>

@@ -1,15 +1,15 @@
 PDF EXTRACTION SUMMARY — ES2012RS02.pdf
 ==============================================================================
-  elapsed            : 7.02s
+  elapsed            : 7.07s
   pages              : 31
   tables             : 7
-  extracted chars    : 17,407
+  extracted chars    : 16,974
 
   pages by route     : {'text': 18, 'ocr': 13}
   digital vs scanned : 18 digital / 13 scanned (OCR) / 0 empty
   OCR page numbers   : [4, 7, 9, 10, 13, 14, 16, 17, 20, 23, 25, 27, 31]
 
-  chunks (total)     : 33
-  parent chunks      : 16
-  child chunks       : 17
-  child tokens       : min=145 max=433 avg=282
+  chunks (total)     : 35
+  parent chunks      : 17
+  child chunks       : 18
+  child tokens       : min=112 max=421 avg=259

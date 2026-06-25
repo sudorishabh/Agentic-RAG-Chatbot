@@ -1,15 +1,15 @@
 PDF EXTRACTION SUMMARY — Annexure_A2_Commitment-letters.pdf
 ==============================================================================
-  elapsed            : 5.45s
+  elapsed            : 5.43s
   pages              : 6
   tables             : 0
-  extracted chars    : 9,002
+  extracted chars    : 7,392
 
   pages by route     : {'text': 1, 'ocr': 5}
   digital vs scanned : 1 digital / 5 scanned (OCR) / 0 empty
   OCR page numbers   : [2, 3, 4, 5, 6]
 
-  chunks (total)     : 17
-  parent chunks      : 8
+  chunks (total)     : 16
+  parent chunks      : 7
   child chunks       : 9
-  child tokens       : min=75 max=413 avg=275
+  child tokens       : min=100 max=409 avg=225

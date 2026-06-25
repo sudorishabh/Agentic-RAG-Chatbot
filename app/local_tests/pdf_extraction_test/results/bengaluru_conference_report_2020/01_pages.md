@@ -2,22 +2,12 @@
 
 ## Page 1 · via `ocr` · 0 table(s)
 
-<figure>
-
 ASSOCHAM
 Celebrating 100 Years
-
-</figure>
-
-
-<figure>
 
 teri
 THE ENERGY AND RESOURCES INSTITUTE
 Creating Innovative Solutions for a Sustainable Future
-
-</figure>
-
 
 # REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE
 
@@ -28,11 +18,9 @@ The Energy and Resources Institute (TERI)
 &
 The Associated Chambers of Commerce of India (ASSOCHAM)
 
-<!-- PageBreak -->
-
 ## Page 2 · via `ocr` · 0 table(s)
 
-<!-- PageBreak -->
+_(no text on this page)_
 
 ## Page 3 · via `ocr` · 0 table(s)
 
@@ -44,21 +32,13 @@ Rhea Puri . Suruchi Bhadwal
 Reviewed by
 D N Narasimha Raju
 
-<!-- PageBreak -->
-
 ## Page 4 · via `ocr` · 0 table(s)
 
-<!-- PageBreak -->
+_(no text on this page)_
 
 ## Page 5 · via `ocr` · 1 table(s)
 
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
-
-
 ## Table of Contents
-
-
-
 
 | INTRODUCTION | 6 |
 | --- | --- |
@@ -110,11 +90,6 @@ D N Narasimha Raju
 | Agenda: Approaches to Shaping Climate Resilient Agriculture | 38 |
 | LIST OF PARTICIPANTS | 40 |
 
-
-
-
-<!-- PageBreak -->
-
 ## Page 6 · via `ocr` · 0 table(s)
 
 ## Introduction
@@ -151,13 +126,7 @@ states like Karnataka is much more and in this context, it is important to analy
 the trends and identify measures required to build in resilience in rain-fed
 agriculture leading to development of an implementation plan.
 
-<!-- PageNumber="6" -->
-<!-- PageBreak -->
-
 ## Page 7 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
-
 
 ## Welcome Address by Mr S. Sampathraman, ASSOCHAM Karnataka Chapter
 
@@ -179,9 +148,6 @@ A big thanks to the sponsors, department of agriculture and horticulture,
 Government of Karnataka, NABARD, State Bank of India, ICAR, IIHR, office bearers
 of ASSOCHAM in together bringing out the conference on approaches to shaping
 climate resilient agriculture.
-
-<!-- PageNumber="7" -->
-<!-- PageBreak -->
 
 ## Page 8 · via `ocr` · 0 table(s)
 
@@ -235,13 +201,7 @@ and from Southern States, scientists and experts from national institutes & agri
 leaders from Industry and Trade, Farmer Producer Organizations and Senior Officers from Banks will
 lead to preparation of a report on suggestions to meet the emerging climate change challenges.
 
-<!-- PageNumber="8" -->
-<!-- PageBreak -->
-
 ## Page 9 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
-
 
 ## Inaugural Address by Shri B S Yediyuruppa, Honourable Chief Minister of Karnataka
 
@@ -263,9 +223,6 @@ development of an implementation plan. He requested the participants to discuss 
 findings of the discussion through the white papers and other relevant information documents. He
 wished the Conference all success.
 
-
-<figure>
-
 IFTIVI
 ears
 
@@ -281,12 +238,6 @@ Resimen
 culture
 
 \- wewwwrappa
-
-</figure>
-
-
-<!-- PageNumber="9" -->
-<!-- PageBreak -->
 
 ## Page 10 · via `ocr` · 0 table(s)
 
@@ -306,13 +257,7 @@ their presence and their contribution that will be made during the conference. H
 also thanked the civil society members especially the media and Banks & financial
 institutions for their support.
 
-<!-- PageNumber="10" -->
-<!-- PageBreak -->
-
 ## Page 11 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
-
 
 ## Session 1: Exposure to climatic risks: Developing an understanding of the risks at the sub-national scale
 
@@ -320,7 +265,6 @@ Chair: Dr K.J Ramesh, Former Director General, India Meteorological Department, 
 Sciences, Government of India
 
 Co-chair: Mr T.K Anil Kumar, IAS, Principal Secretary, Revenue Department, Government of Karnataka
-
 
 ### Speakers:
 
@@ -332,9 +276,6 @@ Secretariat, Kerala
 3\. Mr T. Karthikeyan, Joint Director of Agriculture, Directorate of Agriculture, Government of Tamil Nadu
 
 4\. Mr Saurabh Bhardwaj, Fellow, Earth Science and Climate Change, TERI
-
-
-<figure>
 
 G-UNE Partimets
 
@@ -371,9 +312,6 @@ ASSO
 
 DE.i & Ranein
 
-</figure>
-
-
 #### .1 Introduction - Dr K J Ramesh
 
 The impact of climate change has been noticed in agriculture, water resources, public health
@@ -381,9 +319,6 @@ sectors and in extreme events. India is good in predicting occurrence of extreme
 climate ready future towards any development plan or any ground action, it is imperative to have
 a scientifically robust, and sector specific risk profiling of the hazards set up both at baseline and
 future. The existing knowledge, success stories from different states in mainstreaming climate
-
-<!-- PageNumber="11" -->
-<!-- PageBreak -->
 
 ## Page 12 · via `ocr` · 0 table(s)
 
@@ -396,7 +331,6 @@ Climate change and variability in different parameters generates different kinds
 impacts are different because of varying ecosystems and local conditions. Rain-fed agriculture
 forms a significant portion of India's total agriculture and it is critical to address these issues to
 ensure India's food and nutritional security as well as economic development.
-
 
 #### 1.2 Impact of climate change on agriculture - Mr T K Anil Kumar:
 
@@ -411,7 +345,6 @@ these issues need to get into political discourse and solutions have to be evolv
 is a need for collaboration across governments, private sector, civil society, etc. along with inter-
 departmental collaboration to address these critical issues. Strengthening of existing institutions,
 creating new institutions, data analytics and use of Al are important.
-
 
 #### 1.3 Forecasting the weather conditions and provision of updated data - Dr G S Srinivasa Reddy:
 
@@ -436,12 +369,7 @@ monitoring, forecasting and advisory services have been designed, developed and 
 The Karnataka State Natural Disaster Management Centre has set up a dense network of telemetry
 rain gauges up to Gram Panchayat level in 6500 stations which are solar powered and GPS enabled.
 
-<!-- PageNumber="12" -->
-<!-- PageBreak -->
-
 ## Page 13 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
 The process of data collection and dissemination to all the key stakeholders is on real time basis
 and automated which is first in the country. Forecasts are being shared at the gram panchayat level.
@@ -458,7 +386,6 @@ sending advisories from Agriculture Department. Varuna Mitra call centre is set 
 hour support to farmers on weather information. It received 15 lakh calls last year and many users of
 this call centre have reported increased production, reduced input costs and harvest losses by use of
 weather information.
-
 
 #### 1.4 Impact of Climate Change on Agriculture in Kerala - Mr Harikumar B:
 
@@ -490,9 +417,6 @@ foothills, high hills and Palghat plains have been demarcated with 23 units. Pla
 of activities are done on the basis of zoning. Other approaches are: restoration of damaged soils,
 re-engineering institutional framework for effective last-mile delivery, capacity building of farmers,
 sustainable soil and water management and Agri-business promotion.
-
-<!-- PageNumber="13" -->
-<!-- PageBreak -->
 
 ## Page 14 · via `ocr` · 0 table(s)
 
@@ -531,7 +455,6 @@ change.
 · There is a need for capacity building for the farmers to understand the usage of various chemicals
 in agriculture.
 
-
 #### 1.6 .. 6 Future Projections - Mr Saurabh Bhardwaj:
 
 The global climate change and variability is manifesting itself in terms of changing regional climate
@@ -554,12 +477,7 @@ of oil and gas installations. It has also brought out State specific and Distric
 regional and sectoral modeling in Maharashtra and West Bengal. It enhances the ability to deal
 with risks by stakeholders who are aware of the climate impacts. But, they need a policy backed
 
-<!-- PageNumber="14" -->
-<!-- PageBreak -->
-
 ## Page 15 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
 direction and framework to start developing and implementing required measures. At the smaller
 scale, the municipalities are getting sensitive to the issues. Around 71 local bodies of Telangana were
@@ -568,7 +486,6 @@ and user-centric, to help understand the climate impacts and forecast them, at a
 each of the stakeholder. The Climate Services Product can be used at national, State, District or even
 at a smaller level (by pinpointing in the grid) for advance information and is highly useful in planning
 initiatives and policy design.
-
 
 ##### 1.7 Conclusion:
 
@@ -581,9 +498,6 @@ information from global level through Agro-met advisories is needed. This is pos
 allows it and application of data analytics enables faster processing for providing inputs in policy
 making.
 
-<!-- PageNumber="15" -->
-<!-- PageBreak -->
-
 ## Page 16 · via `ocr` · 0 table(s)
 
 ## Session 2: Impacts on Agriculture, Mitigation and Adaptation Strategies
@@ -591,7 +505,6 @@ making.
 Chair: Dr S. Bhaskar, Assistant Director General, Natural Resources Management (NRM) Division, ICAR
 Co-chair: Mr Rajender Kumar Kataria, IAS, Principal Secretary, Agriculture Department,
 Government of Karnataka
-
 
 ### Speakers:
 
@@ -602,9 +515,6 @@ of Horticultural Research (IIHR)
 meteorology, University of Agricultural Sciences, GKVK
 
 3\. Ms Suruchi Bhadwal, Senior Fellow, Earth Science and Climate Change, TERI
-
-
-<figure>
 
 Bankowy Pxtakis
 
@@ -651,9 +561,6 @@ Is
 
 Es
 
-</figure>
-
-
 #### 2.1 L Introduction - Dr S Bhaskar:
 
 Climate change is a reality. The frequency of extreme events is increasing enormously over the
@@ -662,12 +569,7 @@ plan on Climate Change Agriculture Mission, the focus is on four to five major c
 on sustainable development goals. . There is a need to formulate the risk assessment map at the
 national level, state level and district level.
 
-<!-- PageNumber="16" -->
-<!-- PageBreak -->
-
 ## Page 17 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
 Studies show that 85% of water is going for irrigation, and in the view of water vulnerability, this
 needs to be minimized. With Central Institute for Dry land Agriculture (CRIDA), activities such as
@@ -691,7 +593,6 @@ districts which will be shared with State Governments for operationalizing. Our 
 UNFCC is for adaptation measures only and not for mitigation as the latter will impact food security.
 The district level climate change adaptation will come in the next phase.
 
-
 #### 2.2 Adoption of Technological Changes- Mr Rajender Kumar Kataria:
 
 The point of focus should be on how to get the required technologies and deploy them. This can
@@ -707,7 +608,6 @@ the available technology and its uses. Also, there is a need to get farmers inte
 varieties of crop and mechanisation as well as develop confidence and capability to use them. The
 links between the farmers, govt., technologies-information, etc. need to be strengthened.
 
-
 #### 2.3 Horticulture - Dr R H Laxman
 
 Under the National Innovations in Climate Resilient Agriculture (NICRA) Project, seven core
@@ -718,9 +618,6 @@ grown in various seasons, the critical stages of growing and being subject to ab
 important. In Karnataka, drought like situation was created in July 2019, and in August month,
 northern Karnataka had heavy rainfall. Onion crop could not be harvested and it rotted in fields. In
 monitoring such situations, weather forecasting plays a crucial role.
-
-<!-- PageNumber="17" -->
-<!-- PageBreak -->
 
 ## Page 18 · via `ocr` · 0 table(s)
 
@@ -755,7 +652,6 @@ It is important to link the identified risks from the climate models to the rese
 suggest measures to farmers. The need to use the crop models for assessing impact of climate
 change in mid and long term was also emphasised.
 
-
 #### 2.4 Impact of Climate Change on Agriculture - Dr. M.B Rajegowda:
 
 According to the IPCC 20th century report findings, an increase in the global mean temperature is
@@ -768,7 +664,6 @@ decreased by 5-8% and temperature increased by 20% in all summer monsoon rainfal
 change is leading to a wide range of issues for agriculture and the environment. For instance,
 climate warming enhances the survival of pests and thus, will lead to higher use of pesticides, etc. All
 this further damages the environment.
-
 
 ##### Effects of higher temperature:
 
@@ -783,13 +678,7 @@ with a steep drop in net growth and yield.
 · Another important effect of high temperature is accelerated physiological development, resulting
 in hastened maturation and reduced yield.
 
-<!-- PageNumber="18" -->
-<!-- PageBreak -->
-
 ## Page 19 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
-
 
 #### 2.5 Impacts & Strategies - Ms Suruchi Bhadwal
 
@@ -806,7 +695,6 @@ respectively.
 While we cannot completely negate the impact of climate change, the aim is to take measures to
 minimize the negative impacts. Following are some of the strategies adapted:
 
-
 ##### Mitigation strategies:
 
 · Drought Mitigation: Providing protective irrigation to the crops that are subjected to moisture
@@ -814,7 +702,6 @@ stress.
 
 · Flood Mitigation: The most successful measures have been irrigation optimization and cultivators
 adjustments - adapting the types of crops planted and the cropping patterns.
-
 
 ##### Adaptation strategies:
 
@@ -839,7 +726,6 @@ adjustments - adapting the types of crops planted and the cropping patterns.
 Also, while framing the adaptation strategies we should also take into account its co-benefits and
 the need for it to be communicated to all stakeholders.
 
-
 #### 2.6 Conclusion :
 
 In summing up, the Chair and Co-Chair took note of and appreciated the many initiatives taken by
@@ -847,9 +733,6 @@ Karnataka in adaptation such as promotion of millets, nutri-cereals, natural far
 over 3 lakh farm ponds construction, micro irrigation facilities, Integrated Farming Systems and Land
 Resource Inventory creation taken up by Karnataka. They noted crop zone shifting may have to be
 done and ZBNF needs to be tested a little more before wider adoption.
-
-<!-- PageNumber="19" -->
-<!-- PageBreak -->
 
 ## Page 20 · via `ocr` · 0 table(s)
 
@@ -861,7 +744,6 @@ Change, TERI
 Co-chair: Dr. Sandeep Dave, IAS, Additional Chief Secretary, Department of Forest, Ecology and
 Environment, Government of Karnataka
 
-
 ### Speakers:
 
 1\) Dr. K.H Vinaykumar, IFS, Director, EMPRI
@@ -871,9 +753,6 @@ Environment, Government of Karnataka
 3\) Dr. Amir Bashir Bazaz, Senior Lead-Practice, IIHS
 
 4\) Dr. Y. Raghuramulu, Senior Advisor, Coffee Board, Ministry of Commerce and Industry, GOI
-
-
-<figure>
 
 Gold Partners
 
@@ -913,9 +792,6 @@ ASSOCHAM
 
 ASS
 
-</figure>
-
-
 #### 3.1 Introduction - Mr R R Rashmi:
 
 Given the challenges, there needs to be a focus on the policy environment, gaps if any and need
@@ -923,17 +799,11 @@ for further integration. It also seeks to look at the developments in polices at
 including the Paris agreement, the Sendai Framework and the SDGs. Implications at the country
 level and subnational scales were discussed in the form of India's National Missions on Climate
 
-<!-- PageNumber="20" -->
-<!-- PageBreak -->
-
 ## Page 21 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
 Change, its Nationally Determined Contributions (NDCs) and the State Action Plans on Climate
 Change (SAPCCs). There is a need for enhanced financial resources, additional scientific knowledge
 and capacity building for farmers to address and prepare for these unanticipated risks.
-
 
 ### 3.2 Schemes for Resilient Agriculture - Dr Sandeep Dave:
 
@@ -952,7 +822,6 @@ The State will be shortly introducing Green Index to evaluate government schemes
 compliance to prescribed Green norms. With these measures, the State will continue with its identity
 as 'Emerald State'. It is hoped that in the mitigation measures that this Conference would suggest,
 Agro-forestry would also find a mention.
-
 
 ### 3.3 State driven initiatives - Dr K H Vinaykumar:
 
@@ -979,9 +848,6 @@ of indigenous cattle breeds. Rainwater harvesting, integrated water resource man
 (IWRM), ground water management and new policy device to control the loss of potable water are
 highlighted as priority areas in water resources.
 
-<!-- PageNumber="21" -->
-<!-- PageBreak -->
-
 ## Page 22 · via `ocr` · 0 table(s)
 
 ### 3.4 Need for policies:
@@ -990,7 +856,6 @@ India level information is limited and many successful initiatives go unreported
 better dissemination of knowledge and information sharing across states and regions. In a country
 like India, we need to make sure that adaptive measures are more critical as compared to the
 mitigation measures.
-
 
 ### Dr. S. Rajendra Prasad:
 
@@ -1011,7 +876,6 @@ is framed by the university which is adopted by the state of Karnataka. For clim
 technologies, policy integration is a must. Weather advisory (by KSNMDC) and Agro-advisory (by the
 Universities) should be combined for larger coverage, impact and uptake by farmers.
 
-
 ### Dr. Amir Bashir Bazaz :
 
 The land ecosystem transition was identified as a critical component to achieve 1.5 scenarios. It has
@@ -1029,7 +893,6 @@ context. Localizing interventions becomes important. Studying local practices, g
 knowledge and building upon them becomes necessary. Relying on local networks and tapping
 influence of Progressive Farmers helps in knowledge exchange and up-scaling adoption.
 
-
 ### Dr. Raghu Ramulu, Coffee Board :
 
 In the plantation sector, coffee, tea, rubber and spices cover 3 million hectare and immensely
@@ -1040,19 +903,13 @@ coffee is being grown in North East, Andhra Pradesh and Odisha.
 
 In a multi-country study of Coffee Agro-forestry, India stood top on most parameters. In Coorg
 
-<!-- PageNumber="22" -->
-<!-- PageBreak -->
-
 ## Page 23 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
 area, coffee grown with multi-species is on a par with adjoining natural forest in terms of carbon
 sequestration and biodiversity conservation.
 
 India is the only country where 100% of coffee is grown under shade canopy and combined with
 mixed crops like spices, fruits etc.
-
 
 ### Impacts of climate change on coffee:
 
@@ -1066,7 +923,6 @@ resources
 
 · If an extreme event should severely curtail the output of one of the major producers, it may have
 a cascading effect on the industry
-
 
 ### Situation across the coffee growing countries:
 
@@ -1092,16 +948,12 @@ be made available to coffee growers as irrigation in April month is crucial for 
 reduce organic pollution in coffee processing, there is need to provide/promote zero discharge
 Pulpus machines which are expensive.
 
-
 ### 3.5 Conclusion.
 
 The Chair summed up the key points made by Panellists at the end of each presentation and
 observed that a number of important suggestions have been made which are useful inputs in
 policy making. Further, in preparation of SAPCC, some suggestions could be incorporated for
 implementation.
-
-<!-- PageNumber="23" -->
-<!-- PageBreak -->
 
 ## Page 24 · via `ocr` · 0 table(s)
 
@@ -1113,7 +965,6 @@ Farmers Welfare, Government of India
 Co-chair: Dr. M. Prabhakar, Principal Scientist (Agril. Entomology) & Principal Investigator, National
 Innovations in Climate Resilient Agriculture (NICRA) ICAR-Central Research Institute for Dryland
 Agriculture (CRIDA), Hyderabad
-
 
 ## Speakers:
 
@@ -1127,9 +978,6 @@ Telangana
 
 4\) Dr. Debabrata Ray, Scientist, Regional Research Station, Rubber Research Institute of India, Rubber
 Board
-
-
-<figure>
 
 king Partners
 
@@ -1182,16 +1030,7 @@ ALL
 
 ASSOCHA
 
-</figure>
-
-
-<!-- PageNumber="24" -->
-<!-- PageBreak -->
-
 ## Page 25 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
-
 
 ### 4.1 Introduction - Dr Ashok Dalwai:
 
@@ -1213,7 +1052,6 @@ main points to focus upon in developing a balanced approach:
 
 · Ecosystem based approach emphasizing adaptation.
 
-
 ### 4.2 Case study on Climate Resilient Agriculture Household, Telangana - Dr B Siva Prasad:
 
 The resilient agriculture household project focuses on enhancing the livelihoods of farming
@@ -1221,7 +1059,6 @@ community in targeted villages in Telangana through implementing climate resilie
 interventions- Promoting and implementing science-based climate-smart adaptation strategies,
 Enhancing the capacities of stakeholders, Improving the alternate livelihoods options and
 Mainstreaming adaptation strategies into policies.
-
 
 #### Major components under the project:
 
@@ -1239,15 +1076,11 @@ idea of climate change is a necessity. The farmers need to be trained to underst
 components of adaptation measures for implementation. This project is being monitored at different
 levels. Weather forecast advisory was developed and given to farmers.
 
-
 #### Adaptation strategies undertaken:
 
 PJTSAU prepared the list of adaptation strategies and indicated ideal packages (8) for farmers.
 PJTSAU Finalized 22 topics for trainings/ capacity building for farming communities, implementing
 Custom Hiring Centres and Climate information Centres.
-
-<!-- PageNumber="25" -->
-<!-- PageBreak -->
 
 ## Page 26 · via `ocr` · 0 table(s)
 
@@ -1276,7 +1109,6 @@ availability of long term data including yield data. This requires setting up ra
 Similar systems/products required to be set up for horticulture and poultry. To conclude he stated
 that characterization of climate and climate analogues is the need of the hour.
 
-
 ### 4.4 Impact of Climate Change on Coffee - Mr Cariappa M R:
 
 India grows about 3% of the world coffee and, therefore has no say in the prices of coffee. Kodagu
@@ -1297,19 +1129,13 @@ the quality of soil. The four important pillars for resilient agriculture are:
 
 · Corporates (CMR)
 
-
 ### 4.5 Case study on Climate Smart Rubber Cultivation- An Option for Changing Climate Situations - Dr Debabrata Ray:
 
 Rubber was introduced from Brazil. 65% of rubber grown is used by automobile industry. The
 project on climate smart rubber cultivation which is an option for changing climate situations was
 highlighted. Rubber can grow in temperature that can go less than 10 degree Celsius in North East
 
-<!-- PageNumber="26" -->
-<!-- PageBreak -->
-
 ## Page 27 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
 India and more than 40 degrees in Maharashtra. One ton of rubber produced removes more than 10
 tons of carbon from atmosphere. Thus, 2.1% of the current rate of CO2 increase in the atmosphere
@@ -1324,7 +1150,6 @@ released. Soil information systems are in place and use of predictive climate da
 done. Climate Change cannot always be negative, especially in the case of rubber plantation, there
 is scope for expanding the plantation in North East India.
 
-
 ### 4.6 NICRA - Dr. M Prabhakar
 
 When NICRA was started in 2011, there was no indigenously developed data available and IPCC
@@ -1337,7 +1162,6 @@ has been left out in estimation. The huge areas of mango cultivated has also not
 In 151 villages in vulnerable districts, demonstration of Climate Resilient technologies has been taken
 up. Recently, District Agriculture Contingency plans have been prepared for 650 districts. Policy
 briefs will be brought out.
-
 
 ### 4.7 Conclusion:
 
@@ -1352,16 +1176,12 @@ information to be matched with actual ground situation; and,
 · Where rational use of inputs results in loss of income in the short term, compensation needs to
 be provided.
 
-<!-- PageNumber="27" -->
-<!-- PageBreak -->
-
 ## Page 28 · via `ocr` · 0 table(s)
 
 ## Session 5: Climate Finance: Garnering Support for Actions
 
 Chair: Ms Ulka Kelkar, Director - Climate Program, World Resources Institute (WRI), India
 Co-chair: Mr C.V Reddy, Deputy General Manager, Karnataka Regional Office, NABARD
-
 
 ## Speakers:
 
@@ -1374,9 +1194,6 @@ Department, Government of Karnataka.
 3\) Ms. Tamiksha Singh, Associate Fellow, Earth Science and Climate Change, TERI
 
 4\) Mr. Sridhar P., Manager, State Bank of India
-
-
-<figure>
 
 ing Partners
 
@@ -1418,21 +1235,13 @@ ASSOC
 
 AS
 
-</figure>
-
-
 ### 5.1 Introduction - Ms Ulka Kelkar:
 
 Mobilizing Investments and Climate Finance is an important component under the broader theme.
 Adaptation investments, specifically in agriculture, offer an opportunity to leverage both climate
 and sustainable development benefits. However, the benefits of adaptation are difficult to quantify
 
-<!-- PageNumber="28" -->
-<!-- PageBreak -->
-
 ## Page 29 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
 in monetary terms and take time for impacts to show up, and this acts as a barrier to raising current
 adaptation investments and mobilizing them in future.
@@ -1449,7 +1258,6 @@ mining v/s finance for watershed management or Solar energy Vs. fossil fuels. If
 in crop, need for new market linkage has to be addressed and in case of insurance for climate
 change risk mitigation, there is a higher premium that the farmer has to pay. Also, access for
 women farmers is even more difficult.
-
 
 ### 5.2 NABARD - Mr C V Reddy
 
@@ -1473,7 +1281,6 @@ small changes meant for watershed projects, and within NABARD, about 25% of fund
 for watershed area, are being provided to resilient activities in agriculture. Similar approach can be
 taken by other financing agencies.
 
-
 ### 5.3 3 Projects undertaken by Watershed Development Department, Karnataka - Mr Prabhash Chandra Ray:
 
 Soil and water conservation activities have been taken up in the last three decades. Karnataka
@@ -1486,9 +1293,6 @@ Digital library is established and Decision Support System has gone live and is 
 Information on each parcel of land has been given in 12 districts covering 44 taluks. The Decision
 Support System will also be linked to Agro-met in the new watershed project termed as REVIVE,
 under which 10 lakh hectare will be covered.
-
-<!-- PageNumber="29" -->
-<!-- PageBreak -->
 
 ## Page 30 · via `ocr` · 0 table(s)
 
@@ -1524,7 +1328,6 @@ better post-harvest management and enhanced market access is achieved.
 Thus, various financing channels are being tapped for achieving climate change mitigation goals.
 Importantly, capacity of farmers needs to be developed.
 
-
 ### 5.4 Projects undertaken by KfW - Ms Sangeeta Agarwal:
 
 KfW, being a German Development Bank, provides international financing and development
@@ -1548,12 +1351,7 @@ guarantee fund was necessary in this project.
 
 The Andhra Pradesh Zero Budget Natural Farming-loan based agricultural project is being
 
-<!-- PageNumber="30" -->
-<!-- PageBreak -->
-
 ## Page 31 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
 implemented. With the goal of reaching out to all farmers, sound institutional structure is made
 available. This was a major consideration for providing loan financing by KfW. The major challenges
@@ -1588,7 +1386,6 @@ perceived high by comparing it to crop loans.
 8\. A flexible financial model project was designed in the UP NRM project, which helped in identifying
 specific terms for financing.
 
-
 ### 5.5 Projects funded by State Bank of India (SBI)-Mr Sridhar P:
 
 There are only 4-5 bio-tech institutions in Karnataka, which SBI has funded. The bank has also
@@ -1608,15 +1405,11 @@ takes into account only the cultivation aspects and labor costs. This Committee 
 into considering the cost of integrated nutrient management and pest management, which will
 promote eco-friendly cultivation at the farm level.
 
-
 ### 5.6 Climate Finance for Agriculture- Ms Tamiksha Singh:
 
 Traditional agriculture has many barriers such as lack of collaterals and the associated high risks. Last
 mile delivery to small farmers is another main issue. International Climate Funds are very limited in
 this area and thus, need to bring in private financing.
-
-<!-- PageNumber="31" -->
-<!-- PageBreak -->
 
 ## Page 32 · via `ocr` · 0 table(s)
 
@@ -1645,7 +1438,6 @@ projects, solar rooftop projects and in use of green bonds.
 technologies, it will provide confidence to investors and help in mobilizing national and
 international level financing.
 
-
 ### 5.7 Conclusion :
 
 The Chair noted that the session has identified several sources of funding and also recognised the
@@ -1663,18 +1455,9 @@ The Chair observed that the great advantage of this conference is in bringing di
 together for information exchange and developing proper understanding, which will go a long way
 in evolving a coordinated approach to meet challenges of climate change in agriculture.
 
-<!-- PageNumber="32" -->
-<!-- PageBreak -->
-
 ## Page 33 · via `ocr` · 0 table(s)
 
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
-
-
 ## Valedictory Session
-
-
-<figure>
 
 Banking Partners
 
@@ -1705,9 +1488,6 @@ Agri Partner
 
 ASSCX
 
-</figure>
-
-
 The Valedictory session started with Dr. Annapurna Vancheswaran Senior Director, TERI putting the session
 in context by acknowledging Honourable Chief Minister of Karnataka, Shri. B.S. Yediyurappa for giving
 us his valuable time to flag off this conference on 'Approaches to Shaping Climate Resilient Agriculture'.
@@ -1725,9 +1505,6 @@ during the proceedings of the day. She commended the deliberations that were car
 conglomeration of speakers with various backgrounds like policy makers, practitioners from government,
 scientists, academicians, sector experts, leaders from industry and trade, farmer producing organizations,
 senior officers of major banks and financial organizations, etc.
-
-<!-- PageNumber="33" -->
-<!-- PageBreak -->
 
 ## Page 34 · via `ocr` · 0 table(s)
 
@@ -1779,12 +1556,7 @@ While concluding, he observed that most of the actions taken by the State Govern
 of climate resilient farming and in that effort, the suggestions made in this conference will be considered
 in making the Governmental programmes more effective.
 
-<!-- PageNumber="34" -->
-<!-- PageBreak -->
-
 ## Page 35 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
 Ms. Uma S Nair Regional Director, ASSOCHAM proposed vote of thanks. She expressed gratitude to
 Honourable Chief Minister and the Chief Secretary for their participation and their wishes.
@@ -1796,12 +1568,7 @@ She also thanked ICAR- Indian Institute of Horticultural Research (IIHR), Agricu
 department, Government of India; Department of Agriculture and Horticulture, Government of Karnataka,
 NABARD, State Bank of India, for their support.
 
-<!-- PageNumber="35" -->
-<!-- PageBreak -->
-
 ## Page 36 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="Key Takeaways and Suggestions" -->
 
 1\. Climate Change has huge impacts on multiple sectors. Its impacts in agriculture can be a result
 of changes in average temperatures, rainfall and climate extremes (flood, droughts). It will have
@@ -1848,12 +1615,7 @@ adaptation by small and marginal farmers was highlighted. Risk management interv
 to be made in the social context. Knowledge is complex and hence the need to unpack and
 demystify the knowledge. Relying on local networks helps in up-scaling adoption.
 
-<!-- PageNumber="36" -->
-<!-- PageBreak -->
-
 ## Page 37 · via `ocr` · 0 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
 
 9\. Traditional agriculture has many barriers like lack of collaterals and associated high risks.
 International Climate Funds are limited and thus, there is need to bring in private financing.
@@ -1878,8 +1640,6 @@ loans without collateral. KfW through its channel partners is implementing many 
 together for information exchange and developing proper understanding, which will go a long
 way in evolving coordinated approach to meet challenges of climate change in agriculture.
 
-
-<figure>
 <figcaption>TERI TEAM</figcaption>
 
 ASSOCHAM
@@ -1898,21 +1658,9 @@ s to Shitng Clima resilien ricul
 
 Mr T. M. V
 
-</figure>
-
-
-<!-- PageNumber="37" -->
-<!-- PageBreak -->
-
 ## Page 38 · via `ocr` · 1 table(s)
 
-<!-- PageHeader="Annexure" -->
-
-
 ### Agenda: Approaches to Shaping Climate Resilient Agriculture 28th February, The Lalit Ashok, Bengaluru, India
-
-
-
 
 | 8:00-9:00 | Registration |
 | --- | --- |
@@ -1942,18 +1690,7 @@ Mr T. M. V
 | · Dr. R.H Laxman, Principal Scientist, Division of Plant Physiology and Biochemistry, ICAR- Indian Institute of Horticultural Research (IIHR) |  |
 | · Ms Suruchi Bhadwal, Senior Fellow, Earth Science and Climate Change, TERI |  |
 
-
-
-
-<!-- PageNumber="38" -->
-<!-- PageBreak -->
-
 ## Page 39 · via `ocr` · 1 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
-
-
-
 
 | 12:45-14:00 | Session 3: The policy landscape; international to national and sub-national linkages |
 | --- | --- |
@@ -1980,18 +1717,9 @@ Mr T. M. V
 | · Mr T.M Vijay Bhaskar, Chief Secretary, Government of Karnataka |  |
 | Vote of Thanks : · Ms Uma S Nair, Regional Director, ASSOCHAM |  |
 
-
-
-
-<!-- PageNumber="39" -->
-<!-- PageBreak -->
-
 ## Page 40 · via `ocr` · 1 table(s)
 
 ## List of Participants
-
-
-
 
 | SL. No. | Name | Designation | Organization |
 | --- | --- | --- | --- |
@@ -2025,18 +1753,7 @@ Mr T. M. V
 | 28 | Mr B Mahesh | Managing Director | Karnataka Council for Technological Upgradation |
 | 29 | Mr Amit B | Manager | Universal Corporation |
 
-
-
-
-<!-- PageNumber="40" -->
-<!-- PageBreak -->
-
 ## Page 41 · via `ocr` · 1 table(s)
-
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
-
-
-
 
 | Sl. No. | Name | Designation | Organization |
 | --- | --- | --- | --- |
@@ -2073,28 +1790,13 @@ Mr T. M. V
 | 60 | Mr Ravi | Consultant | UC |
 | 61 | Mr Ramesh | Partner | Rujul |
 
-
-
-
-<!-- PageNumber="41" -->
-<!-- PageBreak -->
-
 ## Page 42 · via `ocr` · 0 table(s)
 
 ### Notes
 
-<!-- PageNumber="42" -->
-<!-- PageBreak -->
-
 ## Page 43 · via `ocr` · 0 table(s)
 
-<!-- PageHeader="REPORT OF THE CONFERENCE ON APPROACHES TO SHAPING CLIMATE RESILIENT AGRICULTURE" -->
-
-
 ## Notes
-
-<!-- PageNumber="43" -->
-<!-- PageBreak -->
 
 ## Page 44 · via `ocr` · 0 table(s)
 
@@ -2135,7 +1837,6 @@ Currently, TERI's work is structured around seven sectors:
 · Health and Nutrition
 
 · Resources
-
 
 ## Contact Us:
 
