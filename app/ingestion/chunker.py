@@ -493,12 +493,27 @@ def _coalesce_windows(
     return windows
 
 
+# Sentence boundary: whitespace after .!? and before an opening capital / "(".
+# Lower-case follow (e.g. "et. al,") is intentionally not a boundary.
+_SENTENCE_BOUNDARY = re.compile(r"(?<=[.!?])\s+(?=[A-Z(])")
+
+
+def _overlap_carry(prev: str, overlap: int, enc: _Encoder) -> str:
+    """Last ~overlap tokens of prev, advanced to the next sentence boundary so the
+    carried context — and the child it prefixes — starts on a whole sentence."""
+    carry = enc.tail(prev, overlap).strip()
+    if not carry:
+        return ""
+    m = _SENTENCE_BOUNDARY.search(carry)
+    return carry[m.end():] if m else carry
+
+
 def _apply_overlap(texts: list[str], overlap: int, enc: _Encoder) -> list[str]:
     if overlap <= 0 or len(texts) < 2:
         return texts
     out = [texts[0]]
     for prev, text in zip(texts, texts[1:]):
-        carry = enc.tail(prev, overlap)
+        carry = _overlap_carry(prev, overlap, enc)
         out.append(f"{carry} {text}".strip() if carry else text)
     return out
 
