@@ -25,6 +25,9 @@ _FIGURE_TAG = re.compile(r"</?figure>", re.IGNORECASE)
 # a page number (roman or arabic). Real multi-cell table rows are left alone.
 _PAGE_NUMBER_BAR = re.compile(r"^\s*\|\s*[ivxlcdm\d]+\s*\|\s*$", re.IGNORECASE)
 
+# A markdown separator cell: "---", ":--", "--:" (alignment markers, no content).
+_SEP_CELL = re.compile(r"^:?-{2,}:?$")
+
 # A "number token": digits plus number punctuation (e.g. "2,020", "-12.5%", "(3)").
 _NUM_TOKEN = re.compile(r"^[\d.,%+\-–—()]+$")
 
@@ -91,6 +94,54 @@ def _strip_figures(text: str) -> str:
     return _FIGURE_TAG.sub("", text)  # drop any unmatched stray tags
 
 
+def _table_cells(line: str) -> list[str]:
+    """Cells of a markdown table row, without the outer pipes' empty edges."""
+    parts = [p.strip() for p in line.strip().split("|")]
+    if parts and parts[0] == "":
+        parts = parts[1:]
+    if parts and parts[-1] == "":
+        parts = parts[:-1]
+    return parts
+
+
+def _is_garbage_table(
+    block: list[str], *, min_cols: int = 6, max_empty: float = 0.5, max_repeat: float = 0.4
+) -> bool:
+    """A wide markdown table that is mostly empty cells or one phrase repeated
+    across columns — i.e. an infographic/timeline graphic Azure rendered as a
+    table, not real tabular data. Narrow tables (< min_cols) are never garbage.
+    """
+    rows = [_table_cells(ln) for ln in block]
+    rows = [r for r in rows if not (r and all(_SEP_CELL.match(c) for c in r))]
+    if not rows or max(len(r) for r in rows) < min_cols:
+        return False
+    cells = [c for r in rows for c in r]
+    nonempty = [c for c in cells if c]
+    if not cells:
+        return False
+    if (len(cells) - len(nonempty)) / len(cells) >= max_empty:
+        return True
+    return bool(nonempty) and Counter(nonempty).most_common(1)[0][1] / len(nonempty) >= max_repeat
+
+
+def _drop_garbage_tables(lines: list[str]) -> list[str]:
+    """Drop contiguous markdown-table blocks that are degenerate infographics."""
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        if lines[i].strip().startswith("|"):
+            j = i
+            while j < len(lines) and lines[j].strip().startswith("|"):
+                j += 1
+            if not _is_garbage_table(lines[i:j]):
+                out.extend(lines[i:j])
+            i = j
+        else:
+            out.append(lines[i])
+            i += 1
+    return out
+
+
 def normalize_page_text(text: str, *, drop_number_soup: bool = True) -> str:
     """Remove layout boilerplate from a single page's text."""
     if not text:
@@ -98,7 +149,7 @@ def normalize_page_text(text: str, *, drop_number_soup: bool = True) -> str:
     text = _HTML_COMMENT.sub("", text)
     text = _strip_figures(text)
     lines = []
-    for ln in text.splitlines():
+    for ln in _drop_garbage_tables(text.splitlines()):
         if _PAGE_NUMBER_BAR.match(ln):
             continue
         if drop_number_soup and _is_number_soup(ln):

@@ -135,3 +135,33 @@ def test_drops_interleaved_chart_data():
 def test_keeps_short_label_list_without_numbers():
     text = "Sintering\nCokemaking\nIronmaking\nSteelmaking"
     assert normalize_page_text(text) == text  # short labels but no numbers — kept
+
+
+# --- degenerate / infographic tables --------------------------------------- #
+
+def test_drops_sparse_wide_infographic_table():
+    head = "|  | " + " | ".join(["TOTAL STEEL"] * 4 + ["PROJECTS"] * 11) + " |"
+    sep = "| " + " | ".join(["---"] * 16) + " |"
+    row1 = "|  |  |  | JFE | JFE | TBC | TBC |  |  |  |  |  |  |  |  |  |"
+    row2 = "|  |  |  | US Steel | US Steel |  |  |  |  |  |  |  |  |  |  |"
+    table = f"Real intro sentence.\n{head}\n{sep}\n{row1}\n{row2}\nReal outro sentence."
+    out = normalize_page_text(table)
+    assert "JFE" not in out and "US Steel" not in out and "TOTAL STEEL" not in out
+    assert "Real intro sentence." in out and "Real outro sentence." in out
+
+
+def test_keeps_normal_narrow_table():
+    table = (
+        "| Technology | TRL | Suitability |\n"
+        "| --- | --- | --- |\n"
+        "| BF-BOF CCUS | 5 | Limited cost-effectiveness |"
+    )
+    assert normalize_page_text(table) == table
+
+
+def test_keeps_wide_table_with_real_data():
+    head = "| Year | 2020 | 2030 | 2040 | 2050 | 2060 | 2070 |"
+    sep = "| --- | --- | --- | --- | --- | --- | --- |"
+    row = "| Demand | 120 | 180 | 250 | 295 | 340 | 360 |"
+    table = f"{head}\n{sep}\n{row}"
+    assert normalize_page_text(table) == table  # wide but dense + varied — kept
