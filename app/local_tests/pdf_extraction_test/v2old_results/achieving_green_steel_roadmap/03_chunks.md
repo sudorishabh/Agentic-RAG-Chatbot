@@ -203,7 +203,7 @@ steel across a number of key sectors, digitalisation will deliver step-changes i
 efficiency and labour intensity of production, and decarbonisation will require new approaches to material 
 efficiency and circularity and the adoption of deep decarbonisation production processes.
 
-### Parent · section='1.3.1\t Development' · pages=(22, 24) · 594 tok
+### Parent · section='1.3.1\t Development' · pages=(22, 24) · 600 tok
 
 1.3.1	 Development
 
@@ -221,7 +221,7 @@ that charted by China and other East Asian industrial powerhouses like South Kor
 In our analysis of the historical experiences of a large number of countries, we find that the most significant 
 determinants of steel demand are income (GDP per capita), the rate of in
 
-… [+1468 more chars]
+… [+1466 more chars]
 
 ### Parent · section='1.3.2\t Digitalisation' · pages=(24, 25) · 641 tok
 
@@ -1032,7 +1032,7 @@ steel across a number of key sectors, digitalisation will deliver step-changes i
 efficiency and labour intensity of production, and decarbonisation will require new approaches to material 
 efficiency and circularity and the adoption of deep decarbonisation production processes.
 
-### Child 16 · section='1.3.1\t Development' · page=22 · 586 tok
+### Child 16 · section='1.3.1\t Development' · page=22 · 592 tok
 
 Steel is a material of vital importance to countries as they develop, a key input across construction, 
 infrastructure, and manufacturing sectors. As countries reach a certain level of economic development, 
@@ -1045,7 +1045,7 @@ Forecasting demand growth out to 2050, and beyond, clearly carries a lot of unce
 economic growth, as well as its key drivers, are uncertain. Will India follow a more service-based economy? 
 O
 
-… [+1848 more chars]
+… [+1846 more chars]
 
 ### Child 17 · section='1.3.2\t Digitalisation' · page=24 · 394 tok
 

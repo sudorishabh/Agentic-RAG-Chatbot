@@ -28,6 +28,49 @@ _PAGE_NUMBER_BAR = re.compile(r"^\s*\|\s*[ivxlcdm\d]+\s*\|\s*$", re.IGNORECASE)
 # A markdown separator cell: "---", ":--", "--:" (alignment markers, no content).
 _SEP_CELL = re.compile(r"^:?-{2,}:?$")
 
+# Unicode ligature glyphs some PDFs embed literally (ﬀ ﬁ ﬂ ﬃ ﬄ ﬅ ﬆ).
+_LIGATURES = {
+    "ﬀ": "ff", "ﬁ": "fi", "ﬂ": "fl",
+    "ﬃ": "ffi", "ﬄ": "ffl", "ﬅ": "ft", "ﬆ": "st",
+}
+_LIGATURE_RE = re.compile("|".join(map(re.escape, _LIGATURES)))
+
+# Words whose f-ligature dropped to a space on extraction ("e cient" -> "efficient").
+# Only non-lexical broken forms are listed, so the replacement can never hit real text.
+_DROPPED_LIGATURE = {
+    "ine cient": "inefficient", "ine ciency": "inefficiency",
+    "e cient": "efficient", "e ciency": "efficiency", "e ciently": "efficiently",
+    "su cient": "sufficient", "su ciently": "sufficiently", "insu cient": "insufficient",
+    "di cult": "difficult", "di culty": "difficulty", "di culties": "difficulties",
+    "signi cant": "significant", "signi cantly": "significantly", "signi cance": "significance",
+    "speci c": "specific", "speci cally": "specifically",
+    "speci cation": "specification", "speci cations": "specifications",
+    "di erent": "different", "di erence": "difference", "di erences": "differences",
+    "e ort": "effort", "e orts": "efforts",
+    "scienti c": "scientific", "classi cation": "classification",
+    "certi cate": "certificate", "certi cates": "certificates", "arti cial": "artificial",
+    "tra c": "traffic", "o cial": "official", "o cials": "officials",
+    "bene t": "benefit", "bene ts": "benefits", "bene cial": "beneficial",
+    "pro t": "profit", "pro ts": "profits", "pro table": "profitable",
+}
+_DROPPED_RE = re.compile(
+    r"(?<![A-Za-z])("
+    + "|".join(re.escape(k) for k in sorted(_DROPPED_LIGATURE, key=len, reverse=True))
+    + r")(?![A-Za-z])",
+    re.IGNORECASE,
+)
+
+
+def _fix_dropped(m: re.Match) -> str:
+    fixed = _DROPPED_LIGATURE[m.group(1).lower()]
+    return fixed[:1].upper() + fixed[1:] if m.group(1)[:1].isupper() else fixed
+
+
+def _repair_ligatures(text: str) -> str:
+    """Restore ligatures lost in extraction: literal glyphs and dropped-to-space gaps."""
+    text = _LIGATURE_RE.sub(lambda m: _LIGATURES[m.group()], text)
+    return _DROPPED_RE.sub(_fix_dropped, text)
+
 # A "number token": digits plus number punctuation (e.g. "2,020", "-12.5%", "(3)").
 _NUM_TOKEN = re.compile(r"^[\d.,%+\-–—()]+$")
 
@@ -146,6 +189,7 @@ def normalize_page_text(text: str, *, drop_number_soup: bool = True) -> str:
     """Remove layout boilerplate from a single page's text."""
     if not text:
         return text
+    text = _repair_ligatures(text)
     text = _HTML_COMMENT.sub("", text)
     text = _strip_figures(text)
     lines = []

@@ -35,14 +35,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     5
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `7588344d-0b1b-5f91-a8ba-5adc03800e51`
 
-- vector: dim=3072 · [0.0270, -0.0184, -0.0139, -0.0162, -0.0279, 0.0010, -0.0017, 0.0189, …]
+- vector: dim=3072 · [0.0269, -0.0184, -0.0139, -0.0162, -0.0279, 0.0010, -0.0017, 0.0189, …]
 
 ```json
 {
@@ -71,14 +71,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     2
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `358a363e-e752-5149-a03a-98a2055c2ade`
 
-- vector: dim=3072 · [0.0116, -0.0060, -0.0162, -0.0220, -0.0313, 0.0034, -0.0283, 0.0126, …]
+- vector: dim=3072 · [0.0116, -0.0060, -0.0162, -0.0220, -0.0312, 0.0034, -0.0283, 0.0126, …]
 
 ```json
 {
@@ -107,14 +107,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     3,
     3
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `5f049072-f979-58e9-a2ab-b832a7900270`
 
-- vector: dim=3072 · [0.0095, 0.0106, -0.0201, -0.0361, -0.0310, -0.0154, 0.0020, 0.0210, …]
+- vector: dim=3072 · [0.0094, 0.0109, -0.0201, -0.0360, -0.0305, -0.0152, 0.0022, 0.0206, …]
 
 ```json
 {
@@ -143,8 +143,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     5,
     5
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -177,8 +177,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     9
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -213,14 +213,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     7
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `59f1eb07-3835-5a15-8ec9-0ebe172400e9`
 
-- vector: dim=3072 · [0.0295, -0.0232, -0.0102, -0.0070, -0.0341, -0.0235, -0.0018, 0.0320, …]
+- vector: dim=3072 · [0.0298, -0.0232, -0.0102, -0.0067, -0.0341, -0.0231, -0.0019, 0.0318, …]
 
 ```json
 {
@@ -250,14 +250,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     9
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `b17edf1f-3af1-5e56-811f-b2fdd1142fdf`
 
-- vector: dim=3072 · [0.0373, -0.0271, -0.0096, 0.0091, -0.0557, -0.0004, -0.0074, 0.0363, …]
+- vector: dim=3072 · [0.0373, -0.0272, -0.0097, 0.0092, -0.0558, -0.0003, -0.0075, 0.0363, …]
 
 ```json
 {
@@ -287,8 +287,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     9
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -321,8 +321,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     11
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -358,8 +358,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     11
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -392,14 +392,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     12,
     13
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `ebce17fd-eca3-5605-ad95-53a0e5364d46`
 
-- vector: dim=3072 · [0.0178, 0.0010, -0.0052, -0.0076, -0.0233, -0.0079, -0.0043, 0.0228, …]
+- vector: dim=3072 · [0.0175, 0.0010, -0.0052, -0.0077, -0.0233, -0.0079, -0.0045, 0.0229, …]
 
 ```json
 {
@@ -429,8 +429,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     12,
     13
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -462,8 +462,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     15,
     17
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -498,14 +498,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     15,
     15
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `46964e2c-480b-5118-beb9-4475834cdecb`
 
-- vector: dim=3072 · [0.0298, -0.0376, -0.0005, -0.0076, -0.0323, -0.0176, 0.0012, 0.0173, …]
+- vector: dim=3072 · [0.0300, -0.0377, -0.0005, -0.0072, -0.0323, -0.0177, 0.0016, 0.0171, …]
 
 ```json
 {
@@ -534,8 +534,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     17,
     17
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -570,8 +570,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     17,
     17
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -603,8 +603,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     19,
     21
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -639,14 +639,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     19,
     19
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `65fef68a-bd8c-5a56-99ea-ebce6c7b6e68`
 
-- vector: dim=3072 · [0.0072, -0.0001, 0.0013, -0.0039, -0.0233, -0.0122, -0.0208, 0.0160, …]
+- vector: dim=3072 · [0.0072, -0.0032, 0.0020, -0.0023, -0.0252, -0.0145, -0.0168, 0.0154, …]
 
 ```json
 {
@@ -675,8 +675,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     20,
     20
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -711,8 +711,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     20,
     21
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -744,14 +744,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     21,
     22
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `aea94858-15b5-5a41-9fd2-098f1d473790`
 
-- vector: dim=3072 · [0.0208, 0.0051, -0.0137, 0.0087, -0.0146, -0.0209, 0.0013, -0.0147, …]
+- vector: dim=3072 · [0.0208, 0.0051, -0.0136, 0.0086, -0.0149, -0.0208, 0.0013, -0.0144, …]
 
 ```json
 {
@@ -780,8 +780,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     21,
     22
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -813,8 +813,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     22,
     22
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -849,8 +849,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     22,
     22
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -866,9 +866,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "1.3.1\t Development",
-  "chunk_text": "1.3.1\t Development\n\nSteel is a material of vital importance to countries as they develop, a key input across construction, \ninfrastructure, and manufacturing sectors. As countries reach a certain level of economic development, \nsteel demand starts to saturate, as most major infrastructure is built and future steel demand can largely \nbe satisfied by recycling, or is replaced with alternative materials. As such, we are likely to see emerging \neconomies like India become the major centres of steel demand growth in the coming decades, as demand \nin other major economies, such as China, stabilises\n\n… [+2068 more chars]",
-  "content_hash": "666982d07cadffcdf2706220d003bb7729957526fc0528fb5e7a128223faaf95",
-  "token_count": 594,
+  "chunk_text": "1.3.1\t Development\n\nSteel is a material of vital importance to countries as they develop, a key input across construction, \ninfrastructure, and manufacturing sectors. As countries reach a certain level of economic development, \nsteel demand starts to saturate, as most major infrastructure is built and future steel demand can largely \nbe satisfied by recycling, or is replaced with alternative materials. As such, we are likely to see emerging \neconomies like India become the major centres of steel demand growth in the coming decades, as demand \nin other major economies, such as China, stabilises\n\n… [+2066 more chars]",
+  "content_hash": "d707844aee382c28ee419c78a4e8bb1e530e6f977babd9e3a393f754b9db6b88",
+  "token_count": 600,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -882,14 +882,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     22,
     24
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `03ce0500-0a6b-5cc2-8fca-cd515588433e`
 
-- vector: dim=3072 · [0.0079, -0.0025, -0.0090, -0.0030, 0.0165, -0.0154, 0.0064, -0.0002, …]
+- vector: dim=3072 · [0.0092, -0.0019, -0.0086, -0.0042, 0.0162, -0.0137, 0.0058, -0.0002, …]
 
 ```json
 {
@@ -899,9 +899,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "1.3.1\t Development",
-  "chunk_text": "Steel is a material of vital importance to countries as they develop, a key input across construction, \ninfrastructure, and manufacturing sectors. As countries reach a certain level of economic development, \nsteel demand starts to saturate, as most major infrastructure is built and future steel demand can largely \nbe satisfied by recycling, or is replaced with alternative materials. As such, we are likely to see emerging \neconomies like India become the major centres of steel demand growth in the coming decades, as demand \nin other major economies, such as China, stabilises.\n\nForecasting deman\n\n… [+2048 more chars]",
-  "content_hash": "9a0e3d9b3a59b7a79595e9cf9547b495e6eba7b7b5a5cc7ccff6219ad36b7f0b",
-  "token_count": 586,
+  "chunk_text": "Steel is a material of vital importance to countries as they develop, a key input across construction, \ninfrastructure, and manufacturing sectors. As countries reach a certain level of economic development, \nsteel demand starts to saturate, as most major infrastructure is built and future steel demand can largely \nbe satisfied by recycling, or is replaced with alternative materials. As such, we are likely to see emerging \neconomies like India become the major centres of steel demand growth in the coming decades, as demand \nin other major economies, such as China, stabilises.\n\nForecasting deman\n\n… [+2046 more chars]",
+  "content_hash": "b880625682ef7210f664839d49d2a3e4d28cf678ca1d0cc002634abe7e7ac58f",
+  "token_count": 592,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -918,8 +918,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     22,
     24
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -951,8 +951,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     24,
     25
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -987,8 +987,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     24,
     24
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1023,8 +1023,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     25,
     25
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1056,8 +1056,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     25,
     25
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1092,8 +1092,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     25,
     25
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1125,14 +1125,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     25,
     26
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `b8a4fdc1-b3ea-596f-981f-5a4cab66dfce`
 
-- vector: dim=3072 · [0.0229, -0.0087, -0.0104, 0.0079, -0.0156, -0.0239, -0.0259, -0.0165, …]
+- vector: dim=3072 · [0.0228, -0.0086, -0.0104, 0.0078, -0.0155, -0.0239, -0.0259, -0.0164, …]
 
 ```json
 {
@@ -1161,8 +1161,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     25,
     26
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1194,14 +1194,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     28,
     28
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `2016fa91-aa35-5177-a341-2634b8dfbac8`
 
-- vector: dim=3072 · [0.0148, 0.0131, -0.0050, -0.0188, 0.0257, -0.0243, 0.0101, 0.0067, …]
+- vector: dim=3072 · [0.0148, 0.0131, -0.0050, -0.0188, 0.0256, -0.0244, 0.0101, 0.0067, …]
 
 ```json
 {
@@ -1230,8 +1230,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     28,
     28
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1263,14 +1263,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     28,
     28
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `e69fa337-3862-5a53-a466-66d5f6b75657`
 
-- vector: dim=3072 · [0.0160, 0.0185, -0.0120, 0.0038, 0.0221, -0.0268, -0.0231, -0.0198, …]
+- vector: dim=3072 · [0.0163, 0.0185, -0.0120, 0.0039, 0.0220, -0.0272, -0.0228, -0.0200, …]
 
 ```json
 {
@@ -1299,8 +1299,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     28,
     28
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1332,14 +1332,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     28,
     30
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `4731a355-4f0a-5cae-93eb-9d68ce161448`
 
-- vector: dim=3072 · [0.0153, 0.0179, -0.0009, 0.0047, -0.0328, -0.0216, 0.0030, -0.0185, …]
+- vector: dim=3072 · [0.0154, 0.0178, -0.0009, 0.0046, -0.0329, -0.0216, 0.0029, -0.0185, …]
 
 ```json
 {
@@ -1368,8 +1368,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     28,
     30
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1401,8 +1401,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     30,
     32
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1437,8 +1437,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     30,
     32
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1470,8 +1470,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     32,
     33
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1506,8 +1506,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     32,
     32
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1542,8 +1542,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     32,
     33
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1575,8 +1575,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     33,
     34
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1611,8 +1611,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     33,
     34
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1644,8 +1644,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     34,
     36
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1680,8 +1680,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     34,
     34
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1716,14 +1716,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     35,
     35
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `580b0363-c934-5ea2-876f-b7615995eaae`
 
-- vector: dim=3072 · [0.0220, 0.0067, -0.0195, 0.0021, -0.0230, -0.0074, 0.0195, 0.0137, …]
+- vector: dim=3072 · [0.0219, 0.0067, -0.0196, 0.0020, -0.0228, -0.0072, 0.0194, 0.0141, …]
 
 ```json
 {
@@ -1752,8 +1752,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     35,
     36
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1785,8 +1785,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     36,
     36
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1821,8 +1821,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     36,
     36
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1854,14 +1854,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     38,
     40
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `345c8e44-03e4-5c99-972b-fe3fde487ad1`
 
-- vector: dim=3072 · [0.0185, 0.0004, -0.0118, 0.0028, -0.0200, -0.0180, -0.0225, 0.0060, …]
+- vector: dim=3072 · [0.0185, 0.0005, -0.0118, 0.0029, -0.0200, -0.0180, -0.0224, 0.0061, …]
 
 ```json
 {
@@ -1890,14 +1890,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     38,
     38
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `4572236d-ca35-52ee-9063-3648b85c059c`
 
-- vector: dim=3072 · [-0.0128, 0.0097, -0.0129, -0.0164, -0.0382, -0.0154, -0.0339, 0.0190, …]
+- vector: dim=3072 · [-0.0129, 0.0097, -0.0129, -0.0166, -0.0382, -0.0153, -0.0339, 0.0190, …]
 
 ```json
 {
@@ -1926,8 +1926,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     39,
     40
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -1959,14 +1959,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     40,
     42
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `0ec0cc77-7e2b-5815-b705-fd2551d61ef1`
 
-- vector: dim=3072 · [0.0012, -0.0223, -0.0219, -0.0033, -0.0266, -0.0291, -0.0066, 0.0141, …]
+- vector: dim=3072 · [0.0010, -0.0225, -0.0220, -0.0033, -0.0267, -0.0294, -0.0066, 0.0141, …]
 
 ```json
 {
@@ -1995,14 +1995,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     40,
     40
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `5a971ca9-e29a-5685-a930-76fc9e31b300`
 
-- vector: dim=3072 · [0.0155, -0.0257, -0.0155, 0.0243, -0.0331, -0.0343, -0.0053, -0.0001, …]
+- vector: dim=3072 · [0.0153, -0.0260, -0.0155, 0.0237, -0.0328, -0.0344, -0.0053, 0.0001, …]
 
 ```json
 {
@@ -2031,14 +2031,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     41,
     41
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `c578deaa-fdae-5ac6-8324-76e9f58c87a4`
 
-- vector: dim=3072 · [0.0132, -0.0212, -0.0098, 0.0329, -0.0355, -0.0395, 0.0085, 0.0151, …]
+- vector: dim=3072 · [0.0133, -0.0213, -0.0098, 0.0329, -0.0355, -0.0397, 0.0086, 0.0150, …]
 
 ```json
 {
@@ -2067,14 +2067,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     41,
     42
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `922301fa-18fd-585c-97f4-5dbf7f040360`
 
-- vector: dim=3072 · [0.0258, -0.0112, -0.0137, 0.0050, -0.0298, -0.0586, 0.0065, 0.0218, …]
+- vector: dim=3072 · [0.0258, -0.0112, -0.0138, 0.0049, -0.0298, -0.0586, 0.0065, 0.0217, …]
 
 ```json
 {
@@ -2103,8 +2103,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     42,
     42
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2136,8 +2136,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     42,
     43
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2172,8 +2172,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     42,
     43
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2205,14 +2205,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     43,
     48
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `fbba2519-b45b-50c7-8297-7a057fbf1cfe`
 
-- vector: dim=3072 · [0.0173, -0.0073, -0.0155, -0.0025, -0.0480, -0.0124, 0.0030, 0.0254, …]
+- vector: dim=3072 · [0.0173, -0.0073, -0.0155, -0.0025, -0.0481, -0.0124, 0.0030, 0.0254, …]
 
 ```json
 {
@@ -2241,14 +2241,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     43,
     43
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `3eddf45e-793a-59d4-a15d-3baedfe3dcc8`
 
-- vector: dim=3072 · [-0.0002, -0.0037, -0.0152, 0.0020, -0.0363, -0.0072, 0.0020, 0.0275, …]
+- vector: dim=3072 · [-0.0001, -0.0038, -0.0152, 0.0021, -0.0363, -0.0073, 0.0021, 0.0273, …]
 
 ```json
 {
@@ -2277,14 +2277,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     44,
     44
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `f59ea535-f03f-55f6-b659-02ef03481ecf`
 
-- vector: dim=3072 · [0.0105, -0.0090, -0.0134, 0.0045, -0.0415, -0.0177, 0.0025, 0.0104, …]
+- vector: dim=3072 · [0.0105, -0.0090, -0.0134, 0.0045, -0.0415, -0.0177, 0.0025, 0.0105, …]
 
 ```json
 {
@@ -2313,14 +2313,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     45,
     45
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `7639440e-35ef-5f4e-80e9-7b798dc70567`
 
-- vector: dim=3072 · [0.0195, -0.0074, -0.0066, 0.0253, -0.0449, -0.0043, -0.0016, 0.0411, …]
+- vector: dim=3072 · [0.0195, -0.0074, -0.0066, 0.0253, -0.0448, -0.0043, -0.0016, 0.0411, …]
 
 ```json
 {
@@ -2349,8 +2349,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     45,
     48
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2382,14 +2382,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     48,
     49
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `478beb0a-08a6-5fbf-8374-5fa74ac5679a`
 
-- vector: dim=3072 · [0.0264, 0.0073, -0.0159, -0.0031, -0.0356, 0.0056, -0.0051, 0.0089, …]
+- vector: dim=3072 · [0.0264, 0.0074, -0.0160, -0.0032, -0.0356, 0.0056, -0.0050, 0.0088, …]
 
 ```json
 {
@@ -2418,8 +2418,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     48,
     49
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2451,14 +2451,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     49,
     49
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `d131021e-32cc-54a3-a56e-0023754ea85d`
 
-- vector: dim=3072 · [-0.0025, -0.0049, -0.0085, 0.0027, -0.0244, -0.0124, 0.0104, -0.0124, …]
+- vector: dim=3072 · [-0.0025, -0.0049, -0.0085, 0.0027, -0.0244, -0.0123, 0.0104, -0.0124, …]
 
 ```json
 {
@@ -2487,8 +2487,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     49,
     49
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2520,14 +2520,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     50,
     50
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `0c93286e-0250-566d-8c19-ab29b02e332c`
 
-- vector: dim=3072 · [0.0081, -0.0085, -0.0167, 0.0049, -0.0388, -0.0140, 0.0180, 0.0077, …]
+- vector: dim=3072 · [0.0080, -0.0084, -0.0167, 0.0048, -0.0388, -0.0140, 0.0182, 0.0077, …]
 
 ```json
 {
@@ -2556,8 +2556,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     50,
     50
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2589,14 +2589,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     50,
     50
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `051bfdc0-b1b0-542d-8801-25380dd83cd1`
 
-- vector: dim=3072 · [0.0270, 0.0029, -0.0214, 0.0196, -0.0014, -0.0015, 0.0085, -0.0035, …]
+- vector: dim=3072 · [0.0271, 0.0028, -0.0214, 0.0196, -0.0014, -0.0016, 0.0085, -0.0036, …]
 
 ```json
 {
@@ -2625,8 +2625,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     50,
     50
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2658,14 +2658,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     51,
     51
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `8537da82-5b00-52e1-a060-fabb8d14a1b1`
 
-- vector: dim=3072 · [0.0118, 0.0273, -0.0180, -0.0079, -0.0132, -0.0230, 0.0032, 0.0076, …]
+- vector: dim=3072 · [0.0118, 0.0273, -0.0180, -0.0079, -0.0132, -0.0230, 0.0033, 0.0076, …]
 
 ```json
 {
@@ -2694,8 +2694,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     51,
     51
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2727,8 +2727,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     51,
     52
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2763,8 +2763,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     51,
     52
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2796,8 +2796,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     52,
     52
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2832,8 +2832,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     52,
     52
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2865,8 +2865,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     52,
     53
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2901,8 +2901,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     52,
     53
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2934,8 +2934,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     53,
     55
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -2970,8 +2970,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     53,
     55
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -3004,14 +3004,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     56,
     58
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `95e1bd9a-5eaf-5d4e-afbb-a99e7dfa3b35`
 
-- vector: dim=3072 · [0.0262, -0.0235, -0.0160, 0.0046, -0.0191, -0.0154, -0.0024, 0.0006, …]
+- vector: dim=3072 · [0.0262, -0.0234, -0.0160, 0.0045, -0.0191, -0.0154, -0.0024, 0.0006, …]
 
 ```json
 {
@@ -3040,14 +3040,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     56,
     56
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `89834947-b0e6-55bc-88a2-f320c4d86224`
 
-- vector: dim=3072 · [0.0132, 0.0067, -0.0107, 0.0139, -0.0058, -0.0048, 0.0092, -0.0008, …]
+- vector: dim=3072 · [0.0132, 0.0065, -0.0106, 0.0142, -0.0057, -0.0047, 0.0089, -0.0008, …]
 
 ```json
 {
@@ -3077,8 +3077,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     57,
     57
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -3114,8 +3114,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     57,
     57
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -3151,8 +3151,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     57,
     58
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -3188,8 +3188,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     58,
     58
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
@@ -3222,14 +3222,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     59,
     60
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `25f58c8d-2e8a-5d5a-bdcf-e6a65547d180`
 
-- vector: dim=3072 · [0.0284, 0.0238, -0.0107, 0.0295, 0.0069, -0.0076, 0.0079, 0.0116, …]
+- vector: dim=3072 · [0.0284, 0.0238, -0.0107, 0.0295, 0.0068, -0.0076, 0.0079, 0.0115, …]
 
 ```json
 {
@@ -3259,14 +3259,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     59,
     59
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `aec6a648-0987-5e58-828a-b8d5fe9c0a40`
 
-- vector: dim=3072 · [0.0424, 0.0219, -0.0050, 0.0089, -0.0079, 0.0029, 0.0077, 0.0053, …]
+- vector: dim=3072 · [0.0424, 0.0220, -0.0051, 0.0089, -0.0080, 0.0028, 0.0076, 0.0053, …]
 
 ```json
 {
@@ -3296,14 +3296,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     59,
     59
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```
 
 ## Child · `faa68e5f-7f42-53ed-9dff-415735df20c3`
 
-- vector: dim=3072 · [0.0291, 0.0225, -0.0110, -0.0124, 0.0037, -0.0147, 0.0107, 0.0045, …]
+- vector: dim=3072 · [0.0292, 0.0227, -0.0111, -0.0125, 0.0037, -0.0147, 0.0104, 0.0046, …]
 
 ```json
 {
@@ -3313,7 +3313,6 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "Conclusions",
-  "section_type": "references",
   "chunk_text": "(2017). World Development Indicators. \nWSA. (2018). Steel Statistical Yearbook 2018. \nWSA. (2019). Towards a net-zero emissions steel industry. Retrieved from https://iea-industry.org/app/uploads/5- Ekdahl-Towrds-a-net-zero-emissions-steel-industry.pdf\nWSA. (2020a). World Steel in figures. Retrieved 2020, from World Steel Association: https://www.worldsteel.org/en/\ndam/jcr:f7982217-cfde-4fdc-8ba0-795ed807f513/World%2520Steel%2520in%2520Figures%25202020i.pdf\nWSA. (2020b). Steel Statistical Yearbook 2020 Concise Version. Retrieved from https://www.worldsteel.org/en/dam/\njcr:5001dac8-0083-46f3-aa\n\n… [+187 more chars]",
   "content_hash": "5effa822ee4ac0c35e4344d989baad603f562b0cee80b166be327eeea0bb169c",
   "token_count": 247,
@@ -3333,7 +3332,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     59,
     60
   ],
-  "created_at": "2026-06-25T12:24:39.341572+00:00",
-  "updated_at": "2026-06-25T12:24:39.341572+00:00"
+  "created_at": "2026-06-25T12:12:41.007409+00:00",
+  "updated_at": "2026-06-25T12:12:41.007409+00:00"
 }
 ```

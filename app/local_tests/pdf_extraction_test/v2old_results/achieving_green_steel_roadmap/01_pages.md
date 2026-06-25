@@ -571,7 +571,7 @@ incomes, and support for major infrastructure projects such as “Gati Shakti”
 Figure 5: True steel consumption per capita versus GDP per capita
 Source: TERI analysis based on data from (WSA, 2018), (World Bank, 2017)
 True steel use per capita
-(kg finished steel) 
+(kg ﬁnished steel) 
 GDP per capita ($2011)
 Cluster of Western European
 countries where steel use has
@@ -585,7 +585,7 @@ Augmented reality
 Internet of things
 Virtual reality
 Blockchain
-Artificial intelligence
+Artiﬁcial intelligence
 3D printing
 Drones
 Robots

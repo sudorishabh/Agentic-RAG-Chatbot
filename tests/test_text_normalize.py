@@ -165,3 +165,20 @@ def test_keeps_wide_table_with_real_data():
     row = "| Demand | 120 | 180 | 250 | 295 | 340 | 360 |"
     table = f"{head}\n{sep}\n{row}"
     assert normalize_page_text(table) == table  # wide but dense + varied — kept
+
+
+# --- ligature repair ------------------------------------------------------- #
+
+def test_repairs_unicode_ligatures():
+    assert normalize_page_text("eﬃcient ﬂow") == "efficient flow"
+
+
+def test_repairs_dropped_ffi_gap():
+    assert normalize_page_text("Ine cient plants are costly.") == "Inefficient plants are costly."
+    assert normalize_page_text("energy e cient routes") == "energy efficient routes"
+    assert normalize_page_text("a signi cant share") == "a significant share"
+
+
+def test_ligature_repair_preserves_correct_text():
+    s = "The efficient and significant gains were specific to India."
+    assert normalize_page_text(s) == s
