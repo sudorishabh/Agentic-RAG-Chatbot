@@ -119,6 +119,7 @@ class Chunk:
     is_parent: bool
     meta: DocumentMeta
     section_heading: str | None = None
+    section_type: str | None = None
     parent_chunk_id: str | None = None
     chunk_index: int | None = None
     page_number: int | None = None
@@ -135,6 +136,7 @@ class Chunk:
             "source_type": m.source_type,
             "title": m.title,
             "section_heading": self.section_heading,
+            "section_type": self.section_type,
             "chunk_text": self.text,
             "content_hash": self.content_hash,
             "token_count": self.token_count,
@@ -537,6 +539,35 @@ def _parent_text(heading: str | None, blocks: Sequence[_Block], part: int) -> st
     return f"{prefix}\n\n{body}" if body else prefix
 
 
+# --- non-substantive section detection ------------------------------------- #
+# Tables of contents, glossaries and bibliographies extract cleanly but pollute
+# retrieval. They are flagged by their line *shape* (extraction routinely garbles
+# their headings, so content is more reliable) so search can exclude them.
+
+_DOT_LEADER = re.compile(r"\.{4,}\s*\d*\s*$")          # "Conclusions ........ 44"
+_URL_RE = re.compile(r"https?://")
+_GLOSSARY_LINE = re.compile(r"^[A-Z][A-Za-z0-9/.\-]{0,7}\s+[–\-]\s+\S")
+
+
+def _classify_section(text: str) -> str | None:
+    """Return 'toc' | 'references' | 'glossary' for a non-substantive chunk, else None."""
+    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+    n = len(lines)
+    if n < 4:
+        return None
+    dots = sum(1 for ln in lines if _DOT_LEADER.search(ln))
+    if dots >= 3 and dots / n >= 0.3:
+        return "toc"
+    urls = sum(1 for ln in lines if _URL_RE.search(ln))
+    cites = urls + sum(1 for ln in lines if "Retrieved from" in ln)
+    if urls >= 4 and cites / n >= 0.3:
+        return "references"
+    gloss = sum(1 for ln in lines if _GLOSSARY_LINE.match(ln))
+    if gloss >= 5 and gloss / n >= 0.4:
+        return "glossary"
+    return None
+
+
 def _build_chunks(
     sections: Sequence[_Section], meta: DocumentMeta, config: ChunkingConfig, enc: _Encoder
 ) -> list[Chunk]:
@@ -569,7 +600,8 @@ def _build_chunks(
             chunks.append(
                 Chunk(
                     chunk_id=parent_id, text=ptext, is_parent=True, meta=meta,
-                    section_heading=heading, page_range=_page_range(parent_blocks),
+                    section_heading=heading, section_type=_classify_section(ptext),
+                    page_range=_page_range(parent_blocks),
                     token_count=enc.count(ptext), content_hash=_hash(ptext),
                 )
             )
@@ -594,7 +626,8 @@ def _build_chunks(
                     Chunk(
                         chunk_id=_uuid(meta, f"child|{child_index}"),
                         text=ctext, is_parent=False, meta=meta,
-                        section_heading=heading, parent_chunk_id=parent_id,
+                        section_heading=heading, section_type=_classify_section(ctext),
+                        parent_chunk_id=parent_id,
                         chunk_index=child_index,
                         page_number=pages[0] if pages else None,
                         page_range=pages, token_count=enc.count(ctext),
