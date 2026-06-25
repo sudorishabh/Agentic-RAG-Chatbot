@@ -25,6 +25,19 @@ class Settings(BaseSettings):
     azure_document_intelligence_key: str = ""
     azure_document_intelligence_model: str = "prebuilt-layout"
     pdf_scanned_char_threshold: int = 100
+    # PDF extraction routing (app/ingestion/extractors): "hybrid" classifies each
+    # page and sends the whole doc to Azure if any page is scanned or has a table;
+    # "azure_only" always uses Azure Layout; "local_only" uses PyMuPDF text only.
+    extraction_mode: str = "hybrid"
+    # Per-page table detection thresholds (PyMuPDF). A page is a table candidate if
+    # find_tables() hits, or ruling-line/rectangle count >= the drawings threshold,
+    # or (when enabled) several consecutive lines share x-positions (borderless).
+    pdf_table_drawing_threshold: int = 12
+    pdf_detect_borderless_tables: bool = True
+    pdf_borderless_min_aligned_rows: int = 4
+    # STEP 5 (optional, off by default): send only flagged page ranges to Azure
+    # instead of the whole document. See pdf_extractor for the TODO.
+    extraction_azure_page_ranges: bool = False
     qdrant_url: str = "http://localhost:6333"
     qdrant_api_key: str | None = None
     qdrant_collection: str = "documents"

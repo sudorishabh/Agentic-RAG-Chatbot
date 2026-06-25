@@ -367,6 +367,7 @@ def _main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
+    
     path = Path(args.path)
     result = extract_pdf(path.read_bytes(), path.name)
 
@@ -395,7 +396,6 @@ def _main(argv: list[str] | None = None) -> int:
         parents = sum(c.is_parent for c in chunks)
         print(f"\nchunks: {len(chunks)} ({parents} parents, {len(chunks) - parents} children)")
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(_main())
