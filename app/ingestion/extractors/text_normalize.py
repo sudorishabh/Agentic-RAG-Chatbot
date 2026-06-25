@@ -8,9 +8,11 @@ extraction layer so the downstream chunker / embedder / payload are untouched.
 
 from __future__ import annotations
 
+import math
 import re
+from collections import Counter
 
-__all__ = ["normalize_page_text"]
+__all__ = ["normalize_page_text", "strip_running_lines"]
 
 # <!-- PageBreak -->, <!-- PageNumber="22" -->, <!-- PageHeader=... -->, ...
 _HTML_COMMENT = re.compile(r"<!--.*?-->", re.DOTALL)
@@ -40,3 +42,45 @@ def normalize_page_text(text: str) -> str:
     lines = [ln for ln in text.splitlines() if not _PAGE_NUMBER_BAR.match(ln)]
     text = _BLANK_RUNS.sub("\n\n", "\n".join(lines))
     return text.strip()
+
+
+def _line_key(line: str) -> str:
+    """Comparison key for a line; '' for lines never treated as running boilerplate."""
+    s = " ".join(line.split()).lower()
+    if not s or s.startswith("|"):  # blank, or a table row (content — never strip)
+        return ""
+    return s
+
+
+def strip_running_lines(
+    pages: list[str],
+    *,
+    min_fraction: float = 0.5,
+    min_pages: int = 4,
+    min_count: int = 3,
+) -> list[str]:
+    """Remove running headers/footers: lines repeated across most of the pages.
+
+    A line counted once per page; if it appears on >= the page-count threshold it
+    is dropped from every page. No-op for short documents or min_fraction <= 0.
+    """
+    n = len(pages)
+    if n < min_pages or min_fraction <= 0:
+        return pages
+
+    page_counts: Counter = Counter()
+    for text in pages:
+        seen = {_line_key(ln) for ln in text.splitlines()}
+        seen.discard("")
+        page_counts.update(seen)
+
+    threshold = max(min_count, math.ceil(min_fraction * n))
+    boilerplate = {key for key, c in page_counts.items() if c >= threshold}
+    if not boilerplate:
+        return pages
+
+    out: list[str] = []
+    for text in pages:
+        kept = [ln for ln in text.splitlines() if _line_key(ln) not in boilerplate]
+        out.append(_BLANK_RUNS.sub("\n\n", "\n".join(kept)).strip())
+    return out

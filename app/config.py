@@ -40,6 +40,9 @@ class Settings(BaseSettings):
     pdf_detect_borderless_tables: bool = False
     pdf_borderless_min_aligned_rows: int = 4
     pdf_borderless_min_columns: int = 3
+    # A text line repeated on >= this fraction of a document's pages is treated as
+    # a running header/footer and stripped from every page (0 disables).
+    pdf_running_header_min_fraction: float = 0.5
     # STEP 5 (optional, off): hybrid already sends only flagged pages to Azure;
     # when True, expand table pages to adjacent pages so a table spanning a page
     # break stays whole. See _hybrid_extract for the TODO.

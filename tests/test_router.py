@@ -78,7 +78,8 @@ def router(monkeypatch):
         monkeypatch.setattr(pymupdf_local, "classify_document", lambda content: signals)
 
     def set_mode(mode):
-        monkeypatch.setattr(pdf_extractor, "get_settings", lambda: SimpleNamespace(extraction_mode=mode))
+        fake = SimpleNamespace(extraction_mode=mode, pdf_running_header_min_fraction=0.5)
+        monkeypatch.setattr(pdf_extractor, "get_settings", lambda: fake)
 
     return calls, set_signals, set_mode
 
