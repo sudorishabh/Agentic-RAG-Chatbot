@@ -119,3 +119,19 @@ def test_drops_vertical_axis_number_runs():
 
 def test_keeps_short_vertical_number_run():
     assert normalize_page_text("100\n200\n300") == "100\n200\n300"  # < 4 lines
+
+
+def test_drops_interleaved_chart_data():
+    chart = (
+        "Intro line that is real.\n"
+        "200\n100\nJapan, South Korea\n1,500\n1,000\n500\nChina\n600\n400\nIndia\n"
+        "Closing real sentence here."
+    )
+    out = normalize_page_text(chart)
+    assert "Japan, South Korea" not in out and "China" not in out and "1,500" not in out
+    assert "Intro line that is real." in out and "Closing real sentence here." in out
+
+
+def test_keeps_short_label_list_without_numbers():
+    text = "Sintering\nCokemaking\nIronmaking\nSteelmaking"
+    assert normalize_page_text(text) == text  # short labels but no numbers — kept

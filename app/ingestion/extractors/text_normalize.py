@@ -28,6 +28,9 @@ _PAGE_NUMBER_BAR = re.compile(r"^\s*\|\s*[ivxlcdm\d]+\s*\|\s*$", re.IGNORECASE)
 # A "number token": digits plus number punctuation (e.g. "2,020", "-12.5%", "(3)").
 _NUM_TOKEN = re.compile(r"^[\d.,%+\-–—()]+$")
 
+# A line ending like a sentence — never treated as a chart label.
+_SENTENCE_END = re.compile(r"[.:;!?]$")
+
 _BLANK_RUNS = re.compile(r"\n{3,}")
 
 
@@ -45,18 +48,37 @@ def _is_bare_number(line: str) -> bool:
     return bool(s) and bool(_NUM_TOKEN.match(s)) and any(c.isdigit() for c in s)
 
 
-def _drop_number_runs(lines: list[str], min_run: int = 4) -> list[str]:
-    """Drop runs of >= min_run consecutive bare-number lines (vertical chart axes)."""
+def _is_chart_label(line: str) -> bool:
+    """A short chart axis/category label — a few words, no sentence punctuation
+    (e.g. "China", "Japan, South Korea", "RoW"). Table rows are never labels."""
+    s = line.strip()
+    if not s or s.startswith("|") or _SENTENCE_END.search(s):
+        return False
+    return len(s) <= 28 and len(s.split()) <= 4
+
+
+def _drop_number_runs(lines: list[str], min_nums: int = 4) -> list[str]:
+    """Drop chart data regions: contiguous blocks of bare-number lines, possibly
+    interleaved with short category labels (vertical bar/line chart axes + data).
+
+    A block is dropped when it holds >= ``min_nums`` bare numbers and is at least
+    40% numeric, so number-dominated chart soup goes while real short lists (which
+    carry few or no bare numbers) are kept.
+    """
     out: list[str] = []
     i = 0
     while i < len(lines):
         j = i
-        while j < len(lines) and _is_bare_number(lines[j]):
+        nums = 0
+        while j < len(lines) and (_is_bare_number(lines[j]) or _is_chart_label(lines[j])):
+            if _is_bare_number(lines[j]):
+                nums += 1
             j += 1
-        if j - i >= min_run:
-            i = j  # skip the whole run
+        run = j - i
+        if run and nums >= min_nums and nums / run >= 0.4:
+            i = j  # numeric-dominated block — drop the whole chart region
         elif j > i:
-            out.extend(lines[i:j])  # short run of numbers — keep
+            out.extend(lines[i:j])  # not chart-like enough — keep
             i = j
         else:
             out.append(lines[i])
