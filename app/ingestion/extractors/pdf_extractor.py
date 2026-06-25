@@ -138,8 +138,6 @@ def _html_tables_to_pipe(text: str) -> str:
     return _TABLE_RE.sub(
         lambda m: "\n\n" + _html_table_to_markdown(m.group(0)) + "\n\n", text
     )
-
-
 @lru_cache
 def _di_client():
     settings = get_settings()

@@ -46,7 +46,7 @@ See [ingestion.md](ingestion.md#extraction) for the extraction pipeline.
 | `azure_document_intelligence_endpoint` | `""` | Azure Document Intelligence endpoint (OCR for scanned PDFs) |
 | `azure_document_intelligence_key` | `""` | Document Intelligence API key |
 | `azure_document_intelligence_model` | `prebuilt-layout` | DI model |
-| `pdf_scanned_char_threshold` | `100` | Min extracted chars/page to treat a page as digital; below → OCR |
+| `pdf_scanned_char_threshold` | `100` | Min extracted chars/page to treat a page as digital; below → pypdf fallback, then OCR if still short |
 
 ## Qdrant (vector store)
 
