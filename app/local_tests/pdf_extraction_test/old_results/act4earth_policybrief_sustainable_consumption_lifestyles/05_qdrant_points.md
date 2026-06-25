@@ -35,8 +35,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     2,
     2
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -71,8 +71,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     2,
     2
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -104,8 +104,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     3,
     7
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -140,14 +140,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     3,
     5
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `87815a3f-8947-599d-b9a0-e2eb45b932e7`
 
-- vector: dim=3072 · [-0.0156, 0.0050, -0.0149, -0.0063, -0.0254, -0.0141, 0.0110, 0.0070, …]
+- vector: dim=3072 · [-0.0166, -0.0027, -0.0140, -0.0030, -0.0258, -0.0142, 0.0056, 0.0024, …]
 
 ```json
 {
@@ -157,9 +157,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
   "section_heading": "Introduction",
-  "chunk_text": "Implications for internationalizing lifestyles through G20, Global \nIndicator Framework for SDGs, and United Nations Framework Convention on Climate Change is then \ndiscussed.\nKeywords: SDG 12, lifestyles, sustainable consumption, G20, sustainable development, climate \nchange 6\t\nSDG Charter Policy Brief\nINTRODUCTION \nThere has been a focus on unsustainable patterns of production and consumption at the global level since \nthe adoption of Agenda 21: an outcome document of the United Nations Conference on Environment \nand Development (UNCED). It is clearly understood that sustainable production a\n\n… [+2068 more chars]",
-  "content_hash": "53b67a5c91e0e6a10d19b9025bc71dd44cee740af5b062a337d16a6213e4d791",
-  "token_count": 488,
+  "chunk_text": "market instruments, and social instruments. Implications for internationalizing lifestyles through G20, Global \nIndicator Framework for SDGs, and United Nations Framework Convention on Climate Change is then \ndiscussed.\nKeywords: SDG 12, lifestyles, sustainable consumption, G20, sustainable development, climate \nchange 6\t\nSDG Charter Policy Brief\nINTRODUCTION \nThere has been a focus on unsustainable patterns of production and consumption at the global level since \nthe adoption of Agenda 21: an outcome document of the United Nations Conference on Environment \nand Development (UNCED). It is clea\n\n… [+2112 more chars]",
+  "content_hash": "2ed76bc7efcc78b8f874a6a1da2d265b4693023cdf33616d539ebeac2dd3be6e",
+  "token_count": 495,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -176,14 +176,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     6,
     6
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `90c55f49-9bb2-536f-ad89-4dfa1cb1d1be`
 
-- vector: dim=3072 · [-0.0310, 0.0143, -0.0171, 0.0038, -0.0253, -0.0357, 0.0094, -0.0232, …]
+- vector: dim=3072 · [-0.0305, 0.0132, -0.0154, 0.0037, -0.0268, -0.0347, 0.0098, -0.0218, …]
 
 ```json
 {
@@ -193,8 +193,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
   "section_heading": "Introduction",
-  "chunk_text": "Sustainable consumer lifestyles or sustainable \nlifestyles is a part of the downstream segment of resource value chains. Based on the concept of sustainable \ndevelopment, a working definition of sustainable lifestyles proposed through this paper is “individual \nconsumer choices and attitudes towards the consumption of goods and services to further human well- being, spur innovations, while minimizing ecological footprint and waste so as to promote intragenerational \nand intergenerational equity for sustainable development”.  \nAccording to AR6 WG-III report of the Intergovernmental Panel on Cli\n\n… [+925 more chars]",
-  "content_hash": "bf8ae1d67c8ebaf7ab1b7cb8f733844041896c3e716ac0d0f67d679c52f76ce4",
+  "chunk_text": ". Sustainable consumer lifestyles or sustainable \nlifestyles is a part of the downstream segment of resource value chains. Based on the concept of sustainable \ndevelopment, a working definition of sustainable lifestyles proposed through this paper is “individual \nconsumer choices and attitudes towards the consumption of goods and services to further human well- being, spur innovations, while minimizing ecological footprint and waste so as to promote intragenerational \nand intergenerational equity for sustainable development”.  \nAccording to AR6 WG-III report of the Intergovernmental Panel on C\n\n… [+927 more chars]",
+  "content_hash": "3d5cadafe37c3e6cf63cbc8be8116ea1445e31e6b6b51640db740df5de5972af",
   "token_count": 358,
   "doc_version": 1,
   "is_current": true,
@@ -212,8 +212,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     6,
     6
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -248,14 +248,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     7
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `5d119d9a-f907-5b22-a8a6-27874acf75a5`
 
-- vector: dim=3072 · [-0.0141, -0.0134, -0.0133, -0.0018, -0.0266, -0.0209, -0.0028, -0.0260, …]
+- vector: dim=3072 · [-0.0138, -0.0118, -0.0121, 0.0008, -0.0255, -0.0237, 0.0016, -0.0282, …]
 
 ```json
 {
@@ -265,9 +265,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
   "section_heading": "Introduction",
-  "chunk_text": "For example, intoxicants may be \nbanned, vaccination for contagious diseases may be mandatory, and people may be taxed for consuming \nharmful products, or given subsidies for consuming certain socially beneficial goods and services. An \nimportant aspect in influencing consumer choices is media advertisement. When it comes to individual choices, various perspectives are important. Governments may view individuals \nas constituents who are to be governed. Markets may view individuals as consumers whose purchasing \ndecisions are to be influenced. From the perspective of environmentalists, consumer\n\n… [+1457 more chars]",
-  "content_hash": "3aba182eadba7eb645cc751db378214eee03e99fc81650b35446506f2d63ee48",
-  "token_count": 348,
+  "chunk_text": "under certain circumstances. For example, intoxicants may be \nbanned, vaccination for contagious diseases may be mandatory, and people may be taxed for consuming \nharmful products, or given subsidies for consuming certain socially beneficial goods and services. An \nimportant aspect in influencing consumer choices is media advertisement. When it comes to individual choices, various perspectives are important. Governments may view individuals \nas constituents who are to be governed. Markets may view individuals as consumers whose purchasing \ndecisions are to be influenced. From the perspective o\n\n… [+1486 more chars]",
+  "content_hash": "fd2d84694c53fdccc462c6be53b0f1ceaa3bbd25a19b0a4fc9d6fe71f4721f24",
+  "token_count": 352,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -284,8 +284,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     7
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -317,14 +317,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     8,
     9
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `945fd016-eb6d-5d49-bde7-2a839822c112`
 
-- vector: dim=3072 · [-0.0159, 0.0041, -0.0139, -0.0237, -0.0165, -0.0651, 0.0119, -0.0075, …]
+- vector: dim=3072 · [-0.0159, 0.0041, -0.0139, -0.0237, -0.0164, -0.0651, 0.0119, -0.0075, …]
 
 ```json
 {
@@ -353,8 +353,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     8,
     8
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -389,8 +389,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     8,
     9
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -422,8 +422,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     10
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -458,14 +458,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     9
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `ba5a3d97-6871-5743-be63-1c1b59d8a58d`
 
-- vector: dim=3072 · [-0.0027, -0.0212, -0.0088, 0.0199, -0.0148, -0.0759, 0.0112, 0.0428, …]
+- vector: dim=3072 · [-0.0040, -0.0206, -0.0084, 0.0205, -0.0145, -0.0759, 0.0132, 0.0409, …]
 
 ```json
 {
@@ -494,8 +494,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     9
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -530,14 +530,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     9
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `2d8d9504-be57-584f-aeb4-e7861bb90b59`
 
-- vector: dim=3072 · [-0.0231, 0.0104, -0.0066, -0.0031, -0.0279, -0.0558, 0.0049, 0.0063, …]
+- vector: dim=3072 · [-0.0235, 0.0103, -0.0067, -0.0032, -0.0280, -0.0558, 0.0049, 0.0061, …]
 
 ```json
 {
@@ -566,8 +566,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     10,
     10
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -599,8 +599,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     11,
     13
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -635,14 +635,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     11,
     11
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `2b222c9d-8ff9-55b7-a125-8688c3f5ea4a`
 
-- vector: dim=3072 · [-0.0323, -0.0089, -0.0132, 0.0080, -0.0359, 0.0085, -0.0241, 0.0025, …]
+- vector: dim=3072 · [-0.0417, -0.0012, -0.0120, -0.0008, -0.0361, 0.0044, -0.0250, -0.0071, …]
 
 ```json
 {
@@ -652,9 +652,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
   "section_heading": "India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States",
-  "chunk_text": "India, European Union, Germany, France and United States have taken steps towards the ‘right to repair’.\n\nSocial instruments: Social Instruments aim at awareness generation and capacity building of consumers\nthrough providing information about a product or a service, such as product qualities and certifications, to\ninfluence consumer behaviour. Social instruments also include self-regulating and bottom-up instruments\nat the individual and community levels, like carpooling.\n\nTable 2 depicts instruments for nudging lifestyles and sustainable consumption for the four sectors\nconsidered in the ana\n\n… [+188 more chars]",
-  "content_hash": "7612672320b0942d0cc97d0d4f6e0e7a97c3f2eb6e1ac01523e779653e61d3a2",
-  "token_count": 153,
+  "chunk_text": "This tool is fuelled by social movements involving \npeople, repairers and sustainability groups – who advocate that reusing, refurbishing and repairing products will lead to benefits \nnot just in terms of sustainability, but also in terms of cost savings and creation of employment. India, European Union, Germany, France and United States have taken steps towards the ‘right to repair’.\n\nSocial instruments: Social Instruments aim at awareness generation and capacity building of consumers\nthrough providing information about a product or a service, such as product qualities and certifications, to\n\n\n… [+471 more chars]",
+  "content_hash": "e6543b369b4227b06d38f57c3edb320b0b02ac1c4adffc031810c8f52d9fee3c",
+  "token_count": 206,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -671,14 +671,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     11,
     12
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `59fc7588-0b88-5d15-8d5e-6be9eec6603a`
 
-- vector: dim=3072 · [-0.0023, -0.0085, -0.0168, -0.0159, -0.0223, -0.0256, 0.0049, 0.0031, …]
+- vector: dim=3072 · [-0.0089, -0.0004, -0.0158, -0.0072, -0.0165, -0.0250, 0.0014, 0.0060, …]
 
 ```json
 {
@@ -688,9 +688,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
   "section_heading": "India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States",
-  "chunk_text": "The instruments followed by * denotes the ones that are being deployed in G20\ncountries for the G20 sectors.\n\nTABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION |  | Policy Instruments | Policy Instruments |  | Market Instruments | Social instruments |\n| --- | --- | --- | --- | --- | --- |\n| Transport | » | Taxation on fuel and high fuel/emissions vehicles | › | Provision of eco- mobility | » Campaigns on policy measures |\n|  | » | Congestion charges | » | Company logistics | » Advertisements |\n| » | Toll roads |  | and contracts | Public » |  |\n| » > | Government encourag\n\n… [+1796 more chars]",
-  "content_hash": "b7d0e0f1837276e3258c3a197e1497045a4d3d95f5a205e6ddfef9b9e05d895a",
-  "token_count": 606,
+  "chunk_text": "and sustainable consumption for the four sectors\nconsidered in the analysis. The instruments followed by * denotes the ones that are being deployed in G20\ncountries for the G20 sectors.\n\nTABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION |  | Policy Instruments | Policy Instruments |  | Market Instruments | Social instruments |\n| --- | --- | --- | --- | --- | --- |\n| Transport | » | Taxation on fuel and high fuel/emissions vehicles | › | Provision of eco- mobility | » Campaigns on policy measures |\n|  | » | Congestion charges | » | Company logistics | » Advertisements |\n| \n\n… [+1873 more chars]",
+  "content_hash": "b3eb54aadeae7b1bff6497abfb5708a63b1b2c572d9f860bae4268f183440bef",
+  "token_count": 620,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -707,8 +707,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     12,
     12
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -743,14 +743,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     12,
     13
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `6aa17441-1d3d-5a08-b629-632c82873497`
 
-- vector: dim=3072 · [-0.0275, 0.0153, -0.0112, -0.0036, -0.0207, -0.0283, -0.0005, -0.0058, …]
+- vector: dim=3072 · [-0.0275, 0.0153, -0.0111, -0.0036, -0.0207, -0.0285, -0.0003, -0.0059, …]
 
 ```json
 {
@@ -779,14 +779,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     13,
     13
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `a54db484-66a2-5d99-8f6d-754252847a80`
 
-- vector: dim=3072 · [-0.0217, 0.0151, -0.0146, -0.0052, -0.0154, -0.0532, -0.0006, -0.0240, …]
+- vector: dim=3072 · [-0.0283, 0.0171, -0.0137, -0.0182, -0.0224, -0.0305, -0.0041, -0.0292, …]
 
 ```json
 {
@@ -796,9 +796,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
   "section_heading": "India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States",
-  "chunk_text": "There is scope to deploy more instruments,\nespecially when it comes to market instruments and social instruments, in the transport sector. In the food sector, for G20, most policies have focused on food safety and to some extent on labelling.\nThis is also because for many developing countries, ensuring food availability has been a focus along with\nminimizing waste in the storage and food distribution segments. Thus, for most countries the focus has\nbeen on production segments of agriculture value chains and on food safety. Market instruments can play\nan important role in pricing, communication\n\n… [+736 more chars]",
-  "content_hash": "474f03b7c217fb014f7eae0a55905500eef6e5e3fab64f632c325bea099f89b7",
-  "token_count": 238,
+  "chunk_text": "the social instrument of raising awareness about the health benefits that using active transports\n(like walking and cycling) brings (Egset & Nordfjorn, 2019). There is scope to deploy more instruments,\nespecially when it comes to market instruments and social instruments, in the transport sector. In the food sector, for G20, most policies have focused on food safety and to some extent on labelling.\nThis is also because for many developing countries, ensuring food availability has been a focus along with\nminimizing waste in the storage and food distribution segments. Thus, for most countries th\n\n… [+895 more chars]",
+  "content_hash": "6494066fda4e1eaf4816e634e8afe2767df715841be28f865c51603231f942d5",
+  "token_count": 274,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -815,8 +815,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     13,
     13
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -848,14 +848,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     13,
     14
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `09239c07-ff44-5688-8ccf-b0b4eacb1eec`
 
-- vector: dim=3072 · [-0.0234, 0.0187, -0.0081, -0.0114, -0.0227, -0.0046, 0.0250, -0.0052, …]
+- vector: dim=3072 · [-0.0234, 0.0187, -0.0081, -0.0113, -0.0228, -0.0045, 0.0250, -0.0052, …]
 
 ```json
 {
@@ -884,8 +884,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     13,
     14
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -917,8 +917,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     15,
     15
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -953,8 +953,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     15,
     15
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -986,8 +986,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     16,
     20
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
@@ -1022,14 +1022,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     16,
     16
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `3e52c124-2b31-51d9-bf82-1f130a623614`
 
-- vector: dim=3072 · [-0.0481, -0.0122, -0.0072, -0.0048, -0.0358, -0.0094, 0.0043, -0.0172, …]
+- vector: dim=3072 · [-0.0490, -0.0123, -0.0068, -0.0059, -0.0295, -0.0062, 0.0028, -0.0079, …]
 
 ```json
 {
@@ -1039,9 +1039,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
   "section_heading": "G20",
-  "chunk_text": "Consumers need services \nrather than the products, which implies that policies should aim at providing well-functioning and \naccessible public services, along with enabling conditions for the market. For example, for mobility, \npolicy instruments may be accompanied by certain business models, such as ride sharing. Internationalizing Lifestyles for Environment: Messages for G20\t\n17\n\t»\nConsideration of pricing and retrofitting: It is important to look at the aspect of pricing as masses \nmay not be able to afford expensive goods and services. In the mobility section, we are talking about \nscrappa\n\n… [+1999 more chars]",
-  "content_hash": "46efb04472a581280beb1130f567c659ad4f89efca132f6094c84f3afe89bc58",
-  "token_count": 498,
+  "chunk_text": "sector is important. Consumers need services \nrather than the products, which implies that policies should aim at providing well-functioning and \naccessible public services, along with enabling conditions for the market. For example, for mobility, \npolicy instruments may be accompanied by certain business models, such as ride sharing. Internationalizing Lifestyles for Environment: Messages for G20\t\n17\n\t»\nConsideration of pricing and retrofitting: It is important to look at the aspect of pricing as masses \nmay not be able to afford expensive goods and services. In the mobility section, we are t\n\n… [+2020 more chars]",
+  "content_hash": "39ec0efbea7775eb0d3c6bcd7cb210eb6a85820a5ba1977d2a32ea3b263f0985",
+  "token_count": 501,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1058,14 +1058,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     17,
     17
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `cafbee95-2176-5b00-87d3-24f50db54b42`
 
-- vector: dim=3072 · [-0.0166, 0.0256, -0.0096, 0.0045, -0.0136, -0.0110, -0.0152, -0.0003, …]
+- vector: dim=3072 · [-0.0160, 0.0129, -0.0051, 0.0007, -0.0409, -0.0117, 0.0008, 0.0093, …]
 
 ```json
 {
@@ -1075,9 +1075,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
   "section_heading": "G20",
-  "chunk_text": "It is essential \nto engage with social movements around community based sustainable consumption, to ensure a diversity of perspectives. More sustainable alternatives should be available and easily accessible, along \nwith providing the enabling conditions to nudge sustainable behaviour. The aspect of trust also becomes \nimportant. Looking at it from the consumer behaviour perspective, it is very important for consumers to \nbe able to trust the information that they get.\n*****\n\n18\t\nSDG Charter Policy Brief\nREFERENCES\nAl-Fouzan, S. A. (2012). Using car parking requirements to promote sustainable \n\n… [+1471 more chars]",
-  "content_hash": "112579e2a536c70d6ff4e78bb35eaf45e85e02cf4ecc9d4baefe89759fc69e6b",
-  "token_count": 527,
+  "chunk_text": "supply side is key.\n\t»\nEnabling social movements by empowering citizens: A key step is to empower pro-planet people \nby providing them with the necessary tools such as education, skills and information. It is essential \nto engage with social movements around community based sustainable consumption, to ensure a diversity of perspectives. More sustainable alternatives should be available and easily accessible, along \nwith providing the enabling conditions to nudge sustainable behaviour. The aspect of trust also becomes \nimportant. Looking at it from the consumer behaviour perspective, it is very\n\n… [+1674 more chars]",
+  "content_hash": "7eac04e74aff4671d42be71d02e1c730516c7693a6b036b6df7734fa049b00fd",
+  "token_count": 569,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1094,14 +1094,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     17,
     18
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `82a702cf-b49b-5abf-8eaf-d629e25894c6`
 
-- vector: dim=3072 · [-0.0321, 0.0114, -0.0073, -0.0011, -0.0175, -0.0136, 0.0087, 0.0152, …]
+- vector: dim=3072 · [-0.0345, 0.0101, -0.0060, -0.0019, -0.0161, -0.0129, 0.0051, 0.0186, …]
 
 ```json
 {
@@ -1111,9 +1111,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
   "section_heading": "G20",
-  "chunk_text": "Hasija, G. Lisboa, S. Luz, J. Malley, (eds.)]. Cambridge University Press, \nCambridge, UK and New York, NY, USA. doi: 10.1017/9781009157926.001. Jambeck et al. (2015). Plastic waste inputs from land into the ocean. Science. 347(6223), 768-771 in Our World in Data. \nURL: https://ourworldindata.org/grapher/plastic-waste-generation-total (Last accessed on 25 October 2022).\nMEA (Ministry of External Affairs). (2022). India’s Forthcoming G20 Presidency. New Delhi: MEA. URL: https://www.mea.\ngov.in/press-releases.htm?dtl/35700/Indias_forthcoming_G20_Presidency (Last Accessed 25 October 2022).\nNITI A\n\n… [+479 more chars]",
-  "content_hash": "366b7274a2cea9b99a8801b85c85243b8abcce2204f38cba23987f53e498ad40",
-  "token_count": 303,
+  "chunk_text": "kacemi, A. Hasija, G. Lisboa, S. Luz, J. Malley, (eds.)]. Cambridge University Press, \nCambridge, UK and New York, NY, USA. doi: 10.1017/9781009157926.001. Jambeck et al. (2015). Plastic waste inputs from land into the ocean. Science. 347(6223), 768-771 in Our World in Data. \nURL: https://ourworldindata.org/grapher/plastic-waste-generation-total (Last accessed on 25 October 2022).\nMEA (Ministry of External Affairs). (2022). India’s Forthcoming G20 Presidency. New Delhi: MEA. URL: https://www.mea.\ngov.in/press-releases.htm?dtl/35700/Indias_forthcoming_G20_Presidency (Last Accessed 25 October 20\n\n… [+490 more chars]",
+  "content_hash": "dd8b8268305fa02f5d1522db5aadac8b9a55403222a797ca2b92f4e82bdcb4b8",
+  "token_count": 309,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1130,14 +1130,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     18,
     18
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```
 
 ## Child · `b38087cc-5799-5d16-a0ae-38304775fdf0`
 
-- vector: dim=3072 · [0.0120, 0.0298, -0.0153, 0.0082, -0.0173, 0.0148, 0.0354, 0.0171, …]
+- vector: dim=3072 · [-0.0004, 0.0258, -0.0163, -0.0063, -0.0266, 0.0025, 0.0340, 0.0257, …]
 
 ```json
 {
@@ -1147,9 +1147,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
   "section_heading": "G20",
-  "chunk_text": "Act4Earth and World Sustainable Development Summit. New Delhi: The \nEnergy and Resources Institute.\nUNEP (United Nations Environment Programme). (2022). Global Strategy for Sustainable Consumption and Production \n2023-2030. UNEP. 20\t\nSDG Charter Policy Brief\nWORLD SUSTAINABLE \nDEVELOPMENT SUMMIT\nThe World Sustainable Development Summit (WSDS) is the annual \nflagship Track II initiative organized by The Energy and Resources Institute \n(TERI). Instituted in 2001, the Summit series has a legacy of over two \ndecades for making ‘sustainable development’ a globally shared goal. \nThe only independent\n\n… [+1505 more chars]",
-  "content_hash": "2aeda2acc3e442e22ed5b1ad6275b4c1bb26c3f3e8ca81555e97b39447892f82",
-  "token_count": 456,
+  "chunk_text": "Context of SDG 12 [Discussion Summary]. Act4Earth and World Sustainable Development Summit. New Delhi: The \nEnergy and Resources Institute.\nUNEP (United Nations Environment Programme). (2022). Global Strategy for Sustainable Consumption and Production \n2023-2030. UNEP. 20\t\nSDG Charter Policy Brief\nWORLD SUSTAINABLE \nDEVELOPMENT SUMMIT\nThe World Sustainable Development Summit (WSDS) is the annual \nflagship Track II initiative organized by The Energy and Resources Institute \n(TERI). Instituted in 2001, the Summit series has a legacy of over two \ndecades for making ‘sustainable development’ a glo\n\n… [+1545 more chars]",
+  "content_hash": "9baa58c5428db798516a19c48969037769469653b4c804811c78661a948b9d30",
+  "token_count": 466,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1166,7 +1166,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     20,
     20
   ],
-  "created_at": "2026-06-25T12:12:54.166102+00:00",
-  "updated_at": "2026-06-25T12:12:54.166102+00:00"
+  "created_at": "2026-06-25T11:17:37.888748+00:00",
+  "updated_at": "2026-06-25T11:17:37.888748+00:00"
 }
 ```

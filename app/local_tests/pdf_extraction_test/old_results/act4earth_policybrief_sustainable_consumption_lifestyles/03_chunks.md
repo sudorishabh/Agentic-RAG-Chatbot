@@ -225,9 +225,9 @@ demand, including lifest
 
 … [+949 more chars]
 
-### Child 2 · section='Introduction' · page=6 · 488 tok
+### Child 2 · section='Introduction' · page=6 · 495 tok
 
-Implications for internationalizing lifestyles through G20, Global 
+market instruments, and social instruments. Implications for internationalizing lifestyles through G20, Global 
 Indicator Framework for SDGs, and United Nations Framework Convention on Climate Change is then 
 discussed.
 Keywords: SDG 12, lifestyles, sustainable consumption, G20, sustainable development, climate 
@@ -238,22 +238,22 @@ There has been a focus on unsustainable patterns of production and consumption a
 the adoption of Agenda 21: an outcome document of the United Nations Conference on Environment 
 and Development (UNCED). It is clearly understood that sustainable production and consumption are the 
 keys to accomplishing sustainable development. Through the Johannesburg Plan of Implementation in 
-2002, countries reaffirmed that fundamental changes in the way societies prod
+2002, countries reaffirmed that f
 
-… [+1868 more chars]
+… [+1912 more chars]
 
 ### Child 3 · section='Introduction' · page=6 · 358 tok
 
-Sustainable consumer lifestyles or sustainable 
+. Sustainable consumer lifestyles or sustainable 
 lifestyles is a part of the downstream segment of resource value chains. Based on the concept of sustainable 
 development, a working definition of sustainable lifestyles proposed through this paper is “individual 
 consumer choices and attitudes towards the consumption of goods and services to further human well- being, spur innovations, while minimizing ecological footprint and waste so as to promote intragenerational 
 and intergenerational equity for sustainable development”.  
 According to AR6 WG-III report of the Intergovernmental Panel on Climate Change in 2019, approximately 
 34% (20 GtCO2-eq) of total net anthropogenic GHG emissions came from the energy supply sectors, 24% 
-(14 GtCO2-eq) from industry, 22% (13 GtCO2-eq) from agriculture
+(14 GtCO2-eq) from industry, 22% (13 GtCO2-eq) from agricultu
 
-… [+725 more chars]
+… [+727 more chars]
 
 ### Child 4 · section='Introduction' · page=7 · 494 tok
 
@@ -279,18 +279,18 @@ forward and further propagate a healthy and sustainable way of living based on
 
 … [+1545 more chars]
 
-### Child 5 · section='Introduction' · page=7 · 348 tok
+### Child 5 · section='Introduction' · page=7 · 352 tok
 
-For example, intoxicants may be 
+under certain circumstances. For example, intoxicants may be 
 banned, vaccination for contagious diseases may be mandatory, and people may be taxed for consuming 
 harmful products, or given subsidies for consuming certain socially beneficial goods and services. An 
 important aspect in influencing consumer choices is media advertisement. When it comes to individual choices, various perspectives are important. Governments may view individuals 
 as constituents who are to be governed. Markets may view individuals as consumers whose purchasing 
 decisions are to be influenced. From the perspective of environmentalists, consumers are humans 
 embedded within planet earth. Understanding the motivations of individuals for adopting sustainable 
-lifestyles is complex, since these would vary from individual to individual. Choices 
+lifestyles is complex, since these would vary from indiv
 
-… [+1257 more chars]
+… [+1286 more chars]
 
 ### Child 6 · section='LIFESTYLES AND CONSUMPTION INDEX FOR G20' · page=8 · 441 tok
 
@@ -389,24 +389,25 @@ Policy Instruments: Policy instruments are used by governments when they have a 
 
 … [+1589 more chars]
 
-### Child 13 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=11 · 153 tok
+### Child 13 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=11 · 206 tok
 
-India, European Union, Germany, France and United States have taken steps towards the ‘right to repair’.
+This tool is fuelled by social movements involving 
+people, repairers and sustainability groups – who advocate that reusing, refurbishing and repairing products will lead to benefits 
+not just in terms of sustainability, but also in terms of cost savings and creation of employment. India, European Union, Germany, France and United States have taken steps towards the ‘right to repair’.
 
 Social instruments: Social Instruments aim at awareness generation and capacity building of consumers
 through providing information about a product or a service, such as product qualities and certifications, to
 influence consumer behaviour. Social instruments also include self-regulating and bottom-up instruments
 at the individual and community levels, like carpooling.
 
-Table 2 depicts instruments for nudging lifestyles and sustainable consumption for the four sectors
+Table 2 depicts instruments for nudgin
+
+… [+271 more chars]
+
+### Child 14 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=12 · 620 tok
+
+and sustainable consumption for the four sectors
 considered in the analysis. The instruments followed by * denotes the ones that are being deployed in G20
-countries for the G20 sectors.
-
-TABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION
-
-### Child 14 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=12 · 606 tok
-
-The instruments followed by * denotes the ones that are being deployed in G20
 countries for the G20 sectors.
 
 TABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION |  | Policy Instruments | Policy Instruments |  | Market Instruments | Social instruments |
@@ -415,9 +416,8 @@ TABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION |  | Pol
 |  | » | Congestion charges | » | Company logistics | » Advertisements |
 | » | Toll roads |  | and contracts | Public » |  |
 | » > | Government encouragement to participate in carbon emission trading schemes | » | Withdrawing inappropriate products | awareness campaigns |  |
-|  | » › | High parking fees/ maximum parking norms | » | Consumer reward sc
 
-… [+1596 more chars]
+… [+1673 more chars]
 
 ### Child 15 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=12 · 337 tok
 
@@ -453,18 +453,17 @@ of transport is through the availability of car parki
 
 … [+883 more chars]
 
-### Child 17 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=13 · 238 tok
+### Child 17 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=13 · 274 tok
 
-There is scope to deploy more instruments,
+the social instrument of raising awareness about the health benefits that using active transports
+(like walking and cycling) brings (Egset & Nordfjorn, 2019). There is scope to deploy more instruments,
 especially when it comes to market instruments and social instruments, in the transport sector. In the food sector, for G20, most policies have focused on food safety and to some extent on labelling.
 This is also because for many developing countries, ensuring food availability has been a focus along with
 minimizing waste in the storage and food distribution segments. Thus, for most countries the focus has
 been on production segments of agriculture value chains and on food safety. Market instruments can play
-an important role in pricing, communication, production and distribution of environmentally sustainable
-and healthy food products. Communicating aspects like - the production form, origin, materials used,
-transport, impact on the environment, 
+an important role in pricing, communication, production and distribution of environm
 
-… [+536 more chars]
+… [+695 more chars]
 
 ### Child 18 · section='India — Indonesia — Mexico — China — Turkey — Japan — South Africa — South Korea — Brazil — European Union — Italy — Saudi Arabia — Argentina — United Kingdom — France — Russia — Australia — Germany — Canada — United States' · page=13 · 441 tok
 
@@ -516,9 +515,9 @@ instruments, ran
 
 … [+1469 more chars]
 
-### Child 21 · section='G20' · page=17 · 498 tok
+### Child 21 · section='G20' · page=17 · 501 tok
 
-Consumers need services 
+sector is important. Consumers need services 
 rather than the products, which implies that policies should aim at providing well-functioning and 
 accessible public services, along with enabling conditions for the market. For example, for mobility, 
 policy instruments may be accompanied by certain business models, such as ride sharing. Internationalizing Lifestyles for Environment: Messages for G20	
@@ -527,13 +526,16 @@ policy instruments may be accompanied by certain business models, such as ride s
 Consideration of pricing and retrofitting: It is important to look at the aspect of pricing as masses 
 may not be able to afford expensive goods and services. In the mobility section, we are talking about 
 scrappage of the older vehicles, but unfortunately talking very little about retrofitting of technologies 
-and increasing the life of vehicles. Retrofitting and supporting technologies should be explored to 
+and increasing the life of vehicles. Retrofitting and supporting technologies s
 
-… [+1799 more chars]
+… [+1820 more chars]
 
-### Child 22 · section='G20' · page=17 · 527 tok
+### Child 22 · section='G20' · page=17 · 569 tok
 
-It is essential 
+supply side is key.
+	»
+Enabling social movements by empowering citizens: A key step is to empower pro-planet people 
+by providing them with the necessary tools such as education, skills and information. It is essential 
 to engage with social movements around community based sustainable consumption, to ensure a diversity of perspectives. More sustainable alternatives should be available and easily accessible, along 
 with providing the enabling conditions to nudge sustainable behaviour. The aspect of trust also becomes 
 important. Looking at it from the consumer behaviour perspective, it is very important for consumers to 
@@ -543,27 +545,25 @@ be able to trust the information that they get.
 18	
 SDG Charter Policy Brief
 REFERENCES
-Al-Fouzan, S. A. (2012). Using car parking requirements to promote sustainable transport development in the Kingdom 
-of Saudi Arabia. Cities. 29(3), 201-211.
-Egset, K. S., & Nordfjœrn, T. (2019). The role of transport priorities, transport attitudes and situational factors for s
+Al-Fouzan, S. A. (2012). Using car parking requirements to promote sustainab
 
-… [+1271 more chars]
+… [+1474 more chars]
 
-### Child 23 · section='G20' · page=18 · 303 tok
+### Child 23 · section='G20' · page=18 · 309 tok
 
-Hasija, G. Lisboa, S. Luz, J. Malley, (eds.)]. Cambridge University Press, 
+kacemi, A. Hasija, G. Lisboa, S. Luz, J. Malley, (eds.)]. Cambridge University Press, 
 Cambridge, UK and New York, NY, USA. doi: 10.1017/9781009157926.001. Jambeck et al. (2015). Plastic waste inputs from land into the ocean. Science. 347(6223), 768-771 in Our World in Data. 
 URL: https://ourworldindata.org/grapher/plastic-waste-generation-total (Last accessed on 25 October 2022).
 MEA (Ministry of External Affairs). (2022). India’s Forthcoming G20 Presidency. New Delhi: MEA. URL: https://www.mea.
 gov.in/press-releases.htm?dtl/35700/Indias_forthcoming_G20_Presidency (Last Accessed 25 October 2022).
 NITI Aayog. (2022). Mission Document for LiFE (Lifestyle for Environment). New Delhi: NITI Aayog.
-TERI (The Energy and Resources Institute). (2022). Virtual Dialogue on Lifestyles and Sustainable Consumptio
+TERI (The Energy and Resources Institute). (2022). Virtual Dialogue on Lifestyles and Sustainable
 
-… [+279 more chars]
+… [+290 more chars]
 
-### Child 24 · section='G20' · page=20 · 456 tok
+### Child 24 · section='G20' · page=20 · 466 tok
 
-Act4Earth and World Sustainable Development Summit. New Delhi: The 
+Context of SDG 12 [Discussion Summary]. Act4Earth and World Sustainable Development Summit. New Delhi: The 
 Energy and Resources Institute.
 UNEP (United Nations Environment Programme). (2022). Global Strategy for Sustainable Consumption and Production 
 2023-2030. UNEP. 20	
@@ -576,7 +576,6 @@ flagship Track II initiative organized by The Energy and Resources Institute
 decades for making ‘sustainable development’ a globally shared goal. 
 The only independently convened international Summit on sustainable 
 development and environment, based in the Global South, WSDS strives 
-to provide long-term solutions for the benefit of global communities by 
-assembli
+to provide long-term solutions for the be
 
-… [+1305 more chars]
+… [+1345 more chars]

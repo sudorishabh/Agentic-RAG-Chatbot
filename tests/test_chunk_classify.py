@@ -39,6 +39,29 @@ def test_glossary_detected():
     assert _classify_section(text) == "glossary"
 
 
+def test_url_sparse_bibliography_detected():
+    # Tail of a bibliography: several entries have no URL, only "(YYYY)" citations.
+    text = "\n".join([
+        "World Bank. (2017). World Development Indicators.",
+        "WSA. (2018). Steel Statistical Yearbook 2018.",
+        "WSA. (2019). Towards a net-zero emissions steel industry.",
+        "WSA. (2020a). World Steel in figures.",
+        "WSA. (2020b). Steel Statistical Yearbook 2020 Concise Version.",
+    ])
+    assert _classify_section(text) == "references"
+
+
+def test_inline_prose_citations_not_flagged():
+    # Body prose with inline "(Author, YYYY)" citations must stay searchable.
+    text = (
+        "India is the second-largest producer of steel (WSA, 2020a).\n"
+        "Crude production rose to 1869 Mt (Hall, Spencer & Kumar, 2020) by 2019.\n"
+        "The sector is highly cyclical and capital-intensive in nature.\n"
+        "Investment depends on public and private players (NSP, 2017)."
+    )
+    assert _classify_section(text) is None
+
+
 def test_prose_not_flagged():
     text = (
         "The Indian steel sector is on the cusp of a significant transformation.\n"

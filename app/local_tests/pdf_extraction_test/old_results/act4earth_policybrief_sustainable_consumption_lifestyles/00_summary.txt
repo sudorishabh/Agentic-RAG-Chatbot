@@ -1,6 +1,6 @@
 PDF EXTRACTION SUMMARY — Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf
 ==============================================================================
-  elapsed            : 10.3s
+  elapsed            : 11.41s
   pages              : 20
   tables             : 5
   extracted chars    : 40,699
@@ -12,4 +12,4 @@ PDF EXTRACTION SUMMARY — Act4Earth_PolicyBrief_Sustainable_consumption_Lifesty
   chunks (total)     : 33
   parent chunks      : 8
   child chunks       : 25
-  child tokens       : min=153 max=606 avg=398
+  child tokens       : min=188 max=620 avg=405

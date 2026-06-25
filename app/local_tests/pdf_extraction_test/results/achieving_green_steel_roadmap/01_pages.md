@@ -498,8 +498,6 @@ has been covered under the PAT scheme since its inception in 2012. Until PAT cyc
 saving of just over 5.68 Mtoe has been achieved by 81 identified facilities within the steel sector (BEE, 
 2	 April-December 2020 for crude steel production in 2020-21
 Steel production / use (Mt)
-Crude steel production
-Apparent steel use
 
 ## Page 21 · via `text` · 0 table(s)
 
@@ -551,46 +549,6 @@ steel demand starts to saturate, as most major infrastructure is built and futur
 be satisfied by recycling, or is replaced with alternative materials. As such, we are likely to see emerging 
 economies like India become the major centres of steel demand growth in the coming decades, as demand 
 in other major economies, such as China, stabilises.
-200
-100
-Japan, South Korea
-1,500
-1,000
-500
-China
-600
-400
-200
-India
-100
-50
-RoW
-300
-200
-100
-Europe
-200
-100
-Middle East
-100
-50
-CIS
-400
-200
-Southeast Asia
-300
-200
-100
-NAFTA
-200
-100
-Africa
-100
-50
-South and Central America
-Crude steel demand
-Scrap availability
-in million metric tonnes
 
 ## Page 23 · via `text` · 0 table(s)
 
@@ -688,21 +646,6 @@ we are starting to see greater focus
 on the heavy industry sectors,
 such as iron & steel, cement and
 chemicals.
-
-|  | TOTAL STEEL PRODUCED (MN TONNES P.A.)* COMPANY | TOTAL STEEL PRODUCED (MN TONNES P.A.)* COMPANY | TOTAL STEEL PRODUCED (MN TONNES P.A.)* COMPANY | TOTAL STEEL PRODUCED (MN TONNES P.A.)* COMPANY | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) | PROJECTS (WITH LAUNCH YEAR) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|  |  |  | Baowu | Baowu | TBC | TBC | TBC | TBC |  |  |  |  |  |  |  |  |
-|  |  |  | Arcelor Mittal | Arcelor Mittal | '21 | '25 | '25 | '26 | '28 | '30 | '30 | TBC | '21 | '22 | '26 | 24 |
-|  |  |  | HBIS | HBIS | 2021 | 2021 | TBC | TBC |  |  |  |  |  |  |  |  |
-|  |  |  | Nippon Steel | Nippon Steel | TBC | TBC |  |  |  |  |  |  |  |  |  |  |
-|  |  |  | POSCO | POSCO | TBC | TBC | TBC | TBC | TBC | TBC | TBC | TBC |  | TBC |  |  |
-|  |  |  | Tata Steel | Tata Steel | 2024 | 2024 | 2030 | 2030 |  | 2017 |  |  |  |  |  |  |
-|  |  |  | JFE | JFE | TBC | TBC |  |  |  |  |  |  |  |  |  |  |
-|  |  |  | US Steel | US Steel | TBC | TBC |  |  |  |  |  |  |  |  |  |  |
-|  |  |  | Thyssen Krupp | Thyssen Krupp | 2025 | 2025 | 2025 | 2025 |  | 2027 |  |  |  |  |  |  |
-|  |  |  | Tenaris | Tenaris | TBC | TBC |  |  |  |  |  |  |  |  |  |  |
-|  | 115 57 0 | 115 57 0 |  | Project scale |  |  |  |  |  |  |  |  |  |  |  |  |
-|  | * Source: World Steel in Figures 2020 | * Source: World Steel in Figures 2020 | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant | Full scale Pilots Demonstration Plant |  | R&D |  | partnership |  |
 
 Figure 7: Green steel projects pipeline
 
@@ -855,8 +798,6 @@ Source: (Niti Aayog, 2016)
 
 ## Page 33 · via `text` · 0 table(s)
 
-EBITDA/Net Sales (%)
-JSW
 Tata Steel Ltd.
 Steel Authority of India Ltd.
 Jindal Steel & Power Ltd.
@@ -1040,19 +981,6 @@ and when they might enter a stage of reinvestment. India has seen a relatively s
 furnace technology since the 1960s, with a marked acceleration in deployment since 2000 from which 
 point two-thirds of blast furnace capacity was added. 
 Figure 12: Ironmaking and steelmaking production routes, Mt
-Source: (JPC, 2021) 
-80
-1.65
-49
-Blast furnace
-COREX
-Sponge iron
-57
-49
-42
-BOF
-EAF
-EIF
 
 ## Page 39 · via `text` · 0 table(s)
 
@@ -1063,13 +991,8 @@ over that timeframe. The length of time between campaigns tends to decrease the 
 (see Figure 14).  
 Figure 13: Blast furnace capacity in India, 1960-2020
  Source: (Vogl, Olsson & Nykvist, 2021)
-Blast furnace capacity (Mt)
 Figure 14: Global average reinvestment timeframes for blast furnace relining 
 Source: (Vogl, Olsson & Nykvist, 2021)
-Campaign 1
-Campaign 2
-Campaign 3
-Years
 
 ## Page 40 · via `text` · 0 table(s)
 
@@ -1085,7 +1008,6 @@ only be entering its second campaign, thus limiting the potential of a complete 
 significant policy support.
 Figure 15: Reinvestment timeframe for existing blast furnace capacity in India
 Source: (Agora Industry, 2021)
-Blast furnace capacity (Mt)
 4.2 Technology option assessment
 After understanding the existing technology make-up of the Indian steel sector, it is necessary to 
 understand how future lower emission technologies could compete, in terms of both costs, as well as 
@@ -1123,6 +1045,13 @@ Figure 16: Costs of steel production by route6
 6	 BF-BOF = Blast Furnace – Basic Oxygen Furnace, Coal DR-EAF = Coal-based Direct Reduction – Electric Arc Furnace, NG DR-EAF = Natural gas-based 
 Direct Reduction – Electric Arc Furnace, SR-BOF CCUS = Smelting Reduction – Basic Oxygen Furnace with Carbon Capture, Usage and or Storage, H2 
 DR-EAF = Hydrogen-based Direct Reduction – Electric Arc Furnace, MOE-EAF = Molten Oxide Electrolysis – Electric Arc Furnace. 
+0
+100
+200
+300
+400
+500
+600
 BF-BOF
 Coal DR-EAF
 NG DR-EAF
@@ -1239,15 +1168,6 @@ with a number of trials and demonstrations taking place in the 2020s. As shown b
 the main primary route to replace the blast furnace is hydrogen direct reduction. This can be scaled rapidly 
 from the 2030s, at which point it will start to compete directly with the less efficient conventional plants. 
 Figure 18: Net Zero by 2070 scenario
- Source: TERI analysis
-Steel production (Mt)
-BF-BOF
-Coal DR-EAF
-NG DR-EAF
-Scrap EAF
-BF-BOF CCUS
-MOE
-H2 DR-EAF
 
 ## Page 44 · via `text` · 0 table(s)
 
@@ -1273,15 +1193,6 @@ achieves Net Zero by 2050, supported by domestic energy resources alone. This hi
 joining together of the Net Zero vision, along with a vision of self-reliance, which can both support one 
 another. 
 Figure 19: Net Zero by 2050 scenario
- Source: TERI analysis
-Steel production (Mt)
-BF-BOF
-Coal DR-EAF
-NG DR-EAF
-Scrap EAF
-BF-BOF CCUS
-MOE
-H2 DR-EAF
 
 ## Page 45 · via `text` · 0 table(s)
 
@@ -1305,10 +1216,6 @@ production6. For the NZ2070 scenario, the challenge is already extreme, with pro
 to 70 TWh by 2030, nearly 4-fold again to 260 TWh by 2050 and then more than 3-fold again by 2070 to 900 
 TWh. This represents 65% of India’s electricity production today, for just a single sector. 
 Figure 20: Coking coal demand in Net Zero scenarios
- Source: TERI analysis
-Coking coal demand (Mt)
-NZ2070
-NZ2050
 6	 Electricity consumption assumptions = 650 kWh for EAF, 3.4 MWh for MOE and 2.9 MWh for H2DR
 
 ## Page 46 · via `text` · 0 table(s)
@@ -1321,13 +1228,6 @@ require around 45 GW by 2030, rising to 330 GW by 2050. This, alongside the rest
 (transport, heating / cooling, other industry, etc.), represents one of the most significant challenges for 
 the transition to low emission steelmaking, both in the NZ2070 and NZ2050 scenarios. 
 Figure 21: Natural gas demand in Net Zero scenarios
-Source: TERI analysis
-Natural gas demand (MCM)
-NZ2070
-NZ2050
-Electricity demand (TWh)
-NZ2070
-NZ2050
 Figure 22: Electricity demand for Net Zero scenarios
 Source: TERI analysis
 
@@ -1346,23 +1246,6 @@ available technologies have the potential to reduce energy and emissions by arou
 primary steelmaking routes (see Technical Annex). There are a number of older plants in dire need of 
 modernization and by applying even the already widely adopted efficiency technologies, these plants can 
 substantially improve their energy efficiency (see Figure 23).
-Ine cient plants 
-Widely adopted technologies
-Current Indian Average
-Sintering
-Cokemaking
-Ironmaking
-Steelmaking
-Rolling
-Others*
-BAT
-SEC (GCal/tcs)
-Breakdown
-Rolling
-Steelmaking
-Ironmaking
-Cokemaking
-Sintering
 Figure 23: Energy efficiency measures for the BF-BOF route*
 Source: (WSP, Parsons Brinckerhoff and DNV GL, 2015; JISF, 2014; CII, 2013; Morrow, Hasanbeigi, Sathaye, & Xu, 2014; BEE, 
 2018)
@@ -1392,23 +1275,6 @@ Designing steel products so that recycling is made easier, as well as building t
 infrastructure can be done immediately and the MoS’ Steel Scrap Recycling policy represents a positive 
 first step. In doing so, scrap use in the BF-BOF route and in EAFs can be increased to reduce energy 
 consumption and GHG emissions.
-Scrap
-Coking coal
-Non-coking coal
-Limestone
-Iron ore
-Energy (Gcal/tcs)
--70%
-BF-BOF
-EAF
-Raw materials (tl/tcs)
--85%
-BF-BOF
-EAF
-Emissions (tCO2/tcs)
--85%
-BF-BOF
-EAF
 Figure 24: Material, energy and emissions benefits of scrap-based production
 Source: TERI analysis based on data from BEE 2018; MoS 2017. Assuming an emissions intensity of electricity of 700gCO2/kWh.
 
@@ -1582,12 +1448,6 @@ imposition of Carbon Border Adjustment Mechanism (CBAM), to prevent carbon leaka
 level playing field in the EU where steel is one of the few sectors that will come under this measure. It may 
 be worth exploring similar import restrictions on steel imports to India originating from countries having 
 Figure 26: Carbon border adjustment
-Source: TERI
-+ carbon tax
-at the border
-Cheaper imports
-without carbon tax
-Carbon border tax protects
 domestic industry during transition
 250
 0
