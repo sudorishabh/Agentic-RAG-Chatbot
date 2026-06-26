@@ -216,33 +216,37 @@ def detect_drupal_changes(
                 default=None,
             )
 
-            for record in iter_bundle_records(
-                session, bundle, published_only=published_only, changed_since=high
-            ):
-                uuid = record.uuid
-                if not uuid:
-                    continue
-                fingerprint = record.changed or ""
-                prev = prior.get(uuid)
+            try:
+                for record in iter_bundle_records(
+                    session, bundle, published_only=published_only, changed_since=high
+                ):
+                    uuid = record.uuid
+                    if not uuid:
+                        continue
+                    fingerprint = record.changed or ""
+                    prev = prior.get(uuid)
 
-                if prev is None:
-                    status = ChangeStatus.NEW
-                elif prev.fingerprint != fingerprint:
-                    status = ChangeStatus.CHANGED
-                else:
-                    status = ChangeStatus.UNCHANGED
+                    if prev is None:
+                        status = ChangeStatus.NEW
+                    elif prev.fingerprint != fingerprint:
+                        status = ChangeStatus.CHANGED
+                    else:
+                        status = ChangeStatus.UNCHANGED
 
-                yield ChangeRecord(
-                    status=status,
-                    document_id=uuid,
-                    source_type="article",
-                    source_key=record.source,
-                    fingerprint=fingerprint,
-                    bundle=bundle,
-                    changed_mark=_to_unix(record.changed),
-                    prior=prev,
-                    payload=None if status is ChangeStatus.UNCHANGED else record,
-                )
+                    yield ChangeRecord(
+                        status=status,
+                        document_id=uuid,
+                        source_type="article",
+                        source_key=record.source,
+                        fingerprint=fingerprint,
+                        bundle=bundle,
+                        changed_mark=_to_unix(record.changed),
+                        prior=prev,
+                        payload=None if status is ChangeStatus.UNCHANGED else record,
+                    )
+            except Exception:
+                logger.exception("Drupal fetch failed for node/%s; skipping bundle.", bundle)
+                continue
 
             if reconcile_deletes and prior:
                 try:
