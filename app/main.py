@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -9,6 +11,16 @@ from app.config import get_settings
 from app.observability.tracing import init_observability
 
 settings = get_settings()
+
+# Surface app.* INFO logs (e.g. ingestion progress) under uvicorn, which
+# otherwise only configures its own loggers.
+_app_logger = logging.getLogger("app")
+if not _app_logger.handlers:
+    _handler = logging.StreamHandler()
+    _handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
+    _app_logger.addHandler(_handler)
+    _app_logger.setLevel(logging.INFO)
+    _app_logger.propagate = False
 
 app = FastAPI(title="Agentic RAG Chatbot", version="0.1.0")
 

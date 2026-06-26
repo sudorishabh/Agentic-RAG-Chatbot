@@ -43,6 +43,9 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder) -> str:
     if record.status is ChangeStatus.UNCHANGED:
         return "unchanged"
 
+    logger.info(
+        "Ingesting %s %s (%s)", record.source_type, record.document_id, record.source_key
+    )
     doc = build_doc(record)
     if doc is None:
         return "skipped"
@@ -92,7 +95,10 @@ def _build_drupal_doc(record: ChangeRecord) -> CanonicalDocument | None:
 
 
 def ingest_pdfs(roots=None, ignore_globs=None) -> Counter:
-    return _run(cd.detect_file_changes(roots, ignore_globs), _build_pdf_doc)
+    logger.info("PDF ingestion started (roots=%s)", roots or "configured PDF source")
+    tally = _run(cd.detect_file_changes(roots, ignore_globs), _build_pdf_doc)
+    logger.info("PDF ingestion finished: %s", dict(tally))
+    return tally
 
 
 def ingest_drupal(
@@ -101,10 +107,13 @@ def ingest_drupal(
     published_only: bool = True,
     reconcile_deletes: bool = False,
 ) -> Counter:
+    logger.info("Drupal ingestion started (bundles=%s, reconcile=%s)", bundles or "default", reconcile_deletes)
     records = cd.detect_drupal_changes(
         bundles, published_only=published_only, reconcile_deletes=reconcile_deletes
     )
-    return _run(records, _build_drupal_doc)
+    tally = _run(records, _build_drupal_doc)
+    logger.info("Drupal ingestion finished: %s", dict(tally))
+    return tally
 
 
 def _main(argv: list[str] | None = None) -> int:
