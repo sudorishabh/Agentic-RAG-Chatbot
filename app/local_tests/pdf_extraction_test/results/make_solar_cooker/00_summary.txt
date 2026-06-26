@@ -1,0 +1,15 @@
+PDF EXTRACTION SUMMARY — make-solar-cooker.pdf
+==============================================================================
+  elapsed            : 6.76s
+  pages              : 1
+  tables             : 0
+  extracted chars    : 1,209
+
+  pages by route     : {'ocr': 1}
+  digital vs scanned : 0 digital / 1 scanned (OCR) / 0 empty
+  OCR page numbers   : [1]
+
+  chunks (total)     : 2
+  parent chunks      : 1
+  child chunks       : 1
+  child tokens       : min=302 max=302 avg=302

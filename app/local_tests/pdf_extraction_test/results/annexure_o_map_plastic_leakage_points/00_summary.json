@@ -1,0 +1,22 @@
+{
+  "pdf": "Annexure_O_Map-Plastic-Leakage-Points.pdf",
+  "elapsed_seconds": 4.26,
+  "page_count": 1,
+  "table_count": 0,
+  "char_count": 256,
+  "routes": {
+    "ocr": 1
+  },
+  "digital_pages": 0,
+  "scanned_ocr_pages": 1,
+  "empty_pages": 0,
+  "ocr_page_numbers": [
+    1
+  ],
+  "chunks_total": 2,
+  "parent_chunks": 1,
+  "child_chunks": 1,
+  "child_token_min": 77,
+  "child_token_max": 77,
+  "child_token_avg": 77
+}

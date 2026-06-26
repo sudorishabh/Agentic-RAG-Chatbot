@@ -243,12 +243,36 @@ _STOPWORD_END = frozenset({
 })
 _MID_PUNCT = re.compile(r"[.,;:]\s")
 
+# A run of >= 4 dots — a table-of-contents / list-of-figures dot leader, never a heading.
+_DOT_LEADER_RUN = re.compile(r"\.{4,}")
+
 
 def _looks_like_prose(s: str) -> bool:
     if _MID_PUNCT.search(s):
         return True
     tokens = s.rstrip(".,;:)]}").split()
     return bool(tokens) and tokens[-1].lower() in _STOPWORD_END
+
+
+def _is_junk_heading(s: str) -> bool:
+    """Reject extraction artifacts that should never be treated as a heading:
+    ToC/LoF/LoT dot leaders, HTML-comment fragments, table/formula rows with a
+    pipe, and OCR symbol-soup (too few letters among the non-space characters).
+    """
+    if _DOT_LEADER_RUN.search(s) or "|" in s:
+        return True
+    if s.startswith("<!--") or s.startswith("-->"):
+        return True
+    non_space = sum(1 for c in s if not c.isspace())
+    letters = sum(1 for c in s if c.isalpha())
+    return bool(non_space) and letters / non_space < 0.55
+
+
+def _plausible_section_number(num: str) -> bool:
+    """A real section number ("1", "4.1", "1.3.2") — not a measurement ("0.35") or
+    a stray figure/page value ("250") that a numbered-heading match would swallow."""
+    head = num.split(".")[0]
+    return num.count(".") <= 3 and not num.startswith("0") and head.isdigit() and int(head) < 100
 
 
 def _is_table_line(line: str) -> bool:
@@ -271,12 +295,15 @@ def _line_heading_level(line: str, *, at_block_start: bool) -> int | None:
     if m:
         return len(m.group(1))
 
+    if _is_junk_heading(s):
+        return None
+
     words = s.split()
     if len(words) > _MAX_HEADING_WORDS:
         return None
 
     m = _NUMBERED.match(s)
-    if m and not s.endswith(_TERMINAL):
+    if m and not s.endswith(_TERMINAL) and _plausible_section_number(m.group(1)):
         title = m.group(2).strip()
         if title and title[0].isalpha() and len(title.split()) <= 8 and not _looks_like_prose(title):
             return min(m.group(1).count(".") + 1, 6)
