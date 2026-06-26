@@ -8,6 +8,8 @@ from app.ingestion.upload import ingest_article, ingest_upload
 from app.schemas.ingest import (
     ArticleIngestRequest,
     ArticleIngestResponse,
+    DirectIngestRequest,
+    DirectIngestResponse,
     IngestResponse,
     PdfIngestRunResponse,
     ReindexRequest,
@@ -38,6 +40,18 @@ async def ingest_pdfs_route() -> PdfIngestRunResponse:
 
     tally = await run_in_threadpool(ingest_pdfs)
     return PdfIngestRunResponse(source=source, tally=tally)
+
+
+@router.post("/ingest/run", response_model=DirectIngestResponse)
+async def ingest_run_route(request: DirectIngestRequest | None = None) -> DirectIngestResponse:
+    request = request or DirectIngestRequest()
+    settings = get_settings()
+    source = settings.pdf_source_dirs or settings.pdf_source_path
+    from app.workers.tasks import ingest_drupal, ingest_pdfs
+
+    pdfs = await run_in_threadpool(ingest_pdfs) if source else {}
+    drupal = await run_in_threadpool(ingest_drupal, request.bundles, request.reconcile)
+    return DirectIngestResponse(pdf_source=source or None, pdfs=pdfs, drupal=drupal)
 
 
 @router.post("/ingest/article", response_model=ArticleIngestResponse)

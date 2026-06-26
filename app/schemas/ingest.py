@@ -14,6 +14,17 @@ class PdfIngestRunResponse(BaseModel):
     tally: dict[str, int] = Field(default_factory=dict)
 
 
+class DirectIngestRequest(BaseModel):
+    bundles: list[str] | None = None
+    reconcile: bool = False
+
+
+class DirectIngestResponse(BaseModel):
+    pdf_source: str | None = None
+    pdfs: dict[str, int] = Field(default_factory=dict)
+    drupal: dict[str, int] = Field(default_factory=dict)
+
+
 class ArticleIngestRequest(BaseModel):
 
     title: str | None = None
