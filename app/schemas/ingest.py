@@ -9,6 +9,11 @@ class IngestResponse(BaseModel):
     chunks_ingested: int
 
 
+class PdfIngestRunResponse(BaseModel):
+    source: str
+    tally: dict[str, int] = Field(default_factory=dict)
+
+
 class ArticleIngestRequest(BaseModel):
 
     title: str | None = None

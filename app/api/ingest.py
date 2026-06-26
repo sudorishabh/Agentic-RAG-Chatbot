@@ -3,11 +3,13 @@ from __future__ import annotations
 from fastapi import APIRouter, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
 
+from app.config import get_settings
 from app.ingestion.upload import ingest_article, ingest_upload
 from app.schemas.ingest import (
     ArticleIngestRequest,
     ArticleIngestResponse,
     IngestResponse,
+    PdfIngestRunResponse,
     ReindexRequest,
     ReindexResponse,
 )
@@ -24,6 +26,18 @@ async def ingest_pdf(file: UploadFile) -> IngestResponse:
         raise HTTPException(status_code=400, detail="File is empty")
     document_id, chunks = await run_in_threadpool(ingest_upload, file.filename, content)
     return IngestResponse(filename=file.filename, document_id=document_id, chunks_ingested=chunks)
+
+
+@router.post("/ingest/pdfs", response_model=PdfIngestRunResponse)
+async def ingest_pdfs_route() -> PdfIngestRunResponse:
+    settings = get_settings()
+    source = settings.pdf_source_dirs or settings.pdf_source_path
+    if not source:
+        raise HTTPException(status_code=400, detail="PDF_SOURCE_PATH is not configured")
+    from app.workers.tasks import ingest_pdfs
+
+    tally = await run_in_threadpool(ingest_pdfs)
+    return PdfIngestRunResponse(source=source, tally=tally)
 
 
 @router.post("/ingest/article", response_model=ArticleIngestResponse)
