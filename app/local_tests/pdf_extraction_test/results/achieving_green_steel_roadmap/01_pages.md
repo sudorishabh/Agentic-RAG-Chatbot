@@ -2,11 +2,6 @@
 
 ## Page 1 · via `ocr` · 0 table(s)
 
-# ACHIEVING GREEN STEEL
-
-Roadmap To A Net Zero
-Steel Sector In India
-
 teri
 THE ENERGY AND
 RESOURCES INSTITUTE
@@ -297,10 +292,6 @@ Document), 2020
 Steel Scrap Recycling
 Policy, 2019
 
-Achieving Green Steel:
-Roadmap to a Net Zero
-Steel Sector in India
-
 R&D and
 Demonstration plants
 
@@ -358,7 +349,6 @@ _(no text on this page)_
 
 ## Page 15 · via `text` · 0 table(s)
 
-•	
 The global steel sector is shifting rapidly. More than 30% of steel companies (by 
 production) have net zero targets - up from zero less than 3 years ago - and more 
 than 90% of countries (by GDP) have national level net zero targets. 
@@ -653,7 +643,7 @@ In India, total emissions from the
 iron and steel sector are around
 Source: (Vogl, et al., 2021) as of June 2022
 250 MtCO2 (about 10% of total
-emissions) and will increase more than threefold to approximately 800 MtCO, by 2050, if no concerted
+emissions) and will increase more than threefold to approximately 800 MtCO2 by 2050, if no concerted
 action to decarbonize is taken (Hall, Spencer & Kumar, 2020). Even with ambitious energy and material
 efficiency measures to reduce energy consumption and mitigate demand growth, the level of emissions
 in the Indian iron & steel sector will be incompatible with the ambition of limiting global warming to well
@@ -711,8 +701,6 @@ Macroeconomic Impacts
 
 ## Page 29 · via `text` · 0 table(s)
 
-Achieving Green Steel: 
-roadmap to a net zero steel sector in India
 Iron ore mines
 Existing major BF-BOF steel
 capacties
@@ -729,7 +717,6 @@ equally across India – a competitive, green steel sector in Eastern India can 
 
 ## Page 30 · via `text` · 0 table(s)
 
-18
 2.4 Employment
 The Indian steel sector currently employs approximately 2.5 million people throughout the supply chain 
 (MoS, 2020a). This is estimated to increase to around 3.5 million by 2030, depending on the degree of 
@@ -892,13 +879,13 @@ profile. An overview is provided in Table 2.
 | Technology | TRL | Emissions reduction potential | Suitability for deep decarbonisation in India |
 | --- | --- | --- | --- |
 | Carbon Capture, Utilisation, and Storage | Carbon Capture, Utilisation, and Storage | Carbon Capture, Utilisation, and Storage |  |
-| BF-BOF with CCUS | 5 | Possibility to reduce CO2 by approximately 60%. Although higher capture rates are possible, costs increase substantially due to multiple CO, sources (IEA, 2017). | Limited cost-effective CO2 capture will restrict the use of this technology for deep decarbonisation, although could play an important role in retrofitting existing plants. |
+| BF-BOF with CCUS | 5 | Possibility to reduce CO2 by approximately 60%. Although higher capture rates are possible, costs increase substantially due to multiple CO2 sources (IEA, 2017). | Limited cost-effective CO2 capture will restrict the use of this technology for deep decarbonisation, although could play an important role in retrofitting existing plants. |
 | Coal based DRI with CCUS | 4 | There have been no comprehensive studies on applying CCUS technology to coal-based rotary kilns for sponge iron production but similarity to natural gas DRI suggests around 90% reduction may be possible. | Coal-based DRI units tend to have smaller capacities potentially making the fixed and operating costs of CCUS excessively large. Given the early stage of development of the necessary technology, seems to be unsuitable. |
 | Natural gas DRI with CCUS | 9 | Currently operating plants have shown that around 90% reduction is possible. | Limited availability of natural gas at competitive prices has already restricted the growth of natural gas-based capacity in India. Additional costs of CCUS would make these plants less competitive. |
 | Smelting reduction with CCUS | 7 | Smelting reduction processes alone can reduce emissions by approximately 20% versus conventional BF-BOF. The addition of CCUS can potentially reduce emissions by 80% (Tata Steel, 2020). | Tata Steel have developed a pilot smelting reduction plant in the Netherlands (Hlsarna) and considering to install a larger demonstration plant in India. The CAPEX and OPEX savings make such a technology attractive, although the potential of CCUS is uncertain. |
 | Hydrogen |  |  |  |
 | BF with H2 blending | 7 | It is expected that H, would only be able to replace part of the injected coal, resulting in maximum 20% emissions reduction. | The limited emissions reduction means that H2 injection into BFs can only ever be a transition technology to deeper decarbonisation. |
-| H, DRI | 7 | Emissions reduction potential depends on the share of H2 and whether the H, is from low carbon sources. Assuming 100% green H2, emissions reduction can be >90%, with residual emissions from carbon sources for steelmaking, graphite electrodes and limestone. | Low cost renewable electricity provides a cost-effective route for green H, production. Whilsta high H blend plant does not currently exist, technology is well understood. |
+| H2 DRI | 7 | Emissions reduction potential depends on the share of H2 and whether the H, is from low carbon sources. Assuming 100% green H2, emissions reduction can be >90%, with residual emissions from carbon sources for steelmaking, graphite electrodes and limestone. | Low cost renewable electricity provides a cost-effective route for green H2 production. Whilsta high H blend plant does not currently exist, technology is well understood. |
 | H2 plasma reduction | 4 | If produced from low carbon electricity, there is the potential for >90% emissions reduction. | Technology is still at an early stage, although trials have been carried out in both Europe and in India (Institute of Minerals and Materials Technology, IMMT). Timeline for commercial scale is unknown. |
 | Direct electrification | Direct electrification | Direct electrification | Direct electrification |
 | Electrolysis | 4 | If produced from low carbon electricity, there is the potential for >90% emissions reduction. | Current research projects are still at early stages with uncertain timeline for commercial scale. (Siderwin and Boston Metal) |
@@ -1140,7 +1127,7 @@ Hydrogen Cost ($/kg)
 
 SR-BOF CCUS
 
-H, DR-EAF
+H2 DR-EAF
 
 Source: TERI analysis based on (IEA, 2019; Hall, Spencer, & Kumar, 2020; BNEF, 2020)
 Note: tCO2 refers to the cost of carbon capture and storage, not to carbon price.

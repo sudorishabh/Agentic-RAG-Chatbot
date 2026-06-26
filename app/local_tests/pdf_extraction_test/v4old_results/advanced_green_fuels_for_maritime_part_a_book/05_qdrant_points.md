@@ -1,0 +1,20400 @@
+# Qdrant points — Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf
+
+- points (rows upserted): **577**
+- embedded: **True** · model `text-embedding-3-large` · dim 3072
+
+Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Children carry their embedding; parents carry a zero vector and are reached through their children. Below, vectors are truncated and `chunk_text` is clipped — see `05_qdrant_points.json` for the full data.
+
+---
+
+## Child · `47715480-800f-5699-9d3f-2aa0c160885a`
+
+- vector: dim=3072 · [-0.0137, 0.0178, -0.0125, -0.0367, -0.0134, 0.0067, -0.0175, 0.0148, …]
+
+```json
+{
+  "chunk_id": "47715480-800f-5699-9d3f-2aa0c160885a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_text": "National Centre of Excellence in Green Port and \nShipping (NCoEGPS)\n\nii\n©TERI All Rights Reserved, 2026\nNo part of this Publication may be reproduced, stored in a retrieval system or transmitted in any \nform or by any means, electronic, mechanical, photocopying, recording or otherwise, without prior \npermission of the copyright owner.\nSuggested citation:\nDas, P., Soodesh, Y.C., Upadhyay, P., Valera, H. A., (2026), “Advanced Green fuels for Maritime \nApplication-Road Map for India (Part A)” NCoEGPS, TERI, New Delhi, India\nTHE TEAM\nPrincipal Investigator (PI) and Author\nDr. Piyali Das  (Associat\n\n… [+1297 more chars]",
+  "content_hash": "db17509e0bc8cdf76e0f361317339b103ff1b940303b2d0d587deda9adb64e9a",
+  "token_count": 533,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 0,
+  "page_number": 1,
+  "page_range": [
+    1,
+    2
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `3f996241-4581-589f-aba9-1aee91239400`
+
+- vector: dim=3072 · [-0.0217, -0.0017, -0.0042, 0.0033, 0.0258, 0.0284, 0.0009, 0.0169, …]
+
+```json
+{
+  "chunk_id": "3f996241-4581-589f-aba9-1aee91239400",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Message from the Director General of Shipping",
+  "chunk_text": "श्याम जगन्नाथन, भा.प्र.से.\nनौवहन महानिदेशक\nएवं अपर सचिव, भारत सरकार\nShyam Jagannathan, L.A.S.\nDirector General of Shipping &\nAdditional Secretary to the Govt. of India\n\nबलदेव बचने\n\nभारत सरकार\nGovernment of India\nपत्तन, पोत परिवहन और जलमार्ग मंत्रालय\nMINISTRY OF PORTS, SHIPPING AND WATERWAYS\nनौवहन महानिदेशालय\nDirectorate General of Shipping",
+  "content_hash": "e17378122a97d6e39b1675e7d5ab2f2f4e47e43899887423c9efe5e083dc4f86",
+  "token_count": 196,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 1,
+  "page_number": 3,
+  "page_range": [
+    3,
+    3
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `5f984a45-5e49-5d9f-9937-f193ad6bcb08`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "5f984a45-5e49-5d9f-9937-f193ad6bcb08",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "MESSAGE",
+  "chunk_text": "MESSAGE\n\nfrom\nTHE DIRECTOR GENERAL OF SHIPPING\nGREEN FUELS ROADMAP REPORT BY DR. PIYALI DAS\n\nIt is a privilege to present the NCoEGPS Green Fuel Roadmap - Part A, which represents an important\nanalytical milestone in India's transition towards a low-carbon and future-ready maritime sector. Developed\nunder the National Centre of Excellence for Green Port and Shipping (NCoEGPS), this report reflects a\nstructured and collaborative effort to assess viable green fuel pathways for Indian maritime applications, with\nactive engagement from the Directorate General of Shipping and other key technical st\n\n… [+2423 more chars]",
+  "content_hash": "14f53fbcb4d31d9a097468f282eda53528bfd0f517337293a298be974a054e76",
+  "token_count": 561,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    3,
+    3
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c3e66b3b-5469-5e55-a0be-2b1c583608ae`
+
+- vector: dim=3072 · [-0.0042, 0.0015, -0.0072, -0.0337, -0.0146, -0.0093, -0.0069, 0.0323, …]
+
+```json
+{
+  "chunk_id": "c3e66b3b-5469-5e55-a0be-2b1c583608ae",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "MESSAGE",
+  "chunk_text": "from\nTHE DIRECTOR GENERAL OF SHIPPING\nGREEN FUELS ROADMAP REPORT BY DR. PIYALI DAS\n\nIt is a privilege to present the NCoEGPS Green Fuel Roadmap - Part A, which represents an important\nanalytical milestone in India's transition towards a low-carbon and future-ready maritime sector. Developed\nunder the National Centre of Excellence for Green Port and Shipping (NCoEGPS), this report reflects a\nstructured and collaborative effort to assess viable green fuel pathways for Indian maritime applications, with\nactive engagement from the Directorate General of Shipping and other key technical stakeholder\n\n… [+1397 more chars]",
+  "content_hash": "cc49f376e6762681007beb13476310c3c7d462a44152be1b399371694cdfe79a",
+  "token_count": 369,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "5f984a45-5e49-5d9f-9937-f193ad6bcb08",
+  "chunk_index": 2,
+  "page_number": 3,
+  "page_range": [
+    3,
+    3
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `5c394cdd-274e-5078-8051-43f9809ae079`
+
+- vector: dim=3072 · [-0.0057, 0.0038, -0.0062, -0.0429, -0.0149, -0.0174, -0.0203, 0.0559, …]
+
+```json
+{
+  "chunk_id": "5c394cdd-274e-5078-8051-43f9809ae079",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "MESSAGE",
+  "chunk_text": "The findings and\nrecommendations presented herein provide a strong technical foundation for the next stage of work, which must\nfocus on translating analytical outcomes into clear, time-bound and implementable actions. The immediate priority going forward is the development of Phase II, encompassing a comprehensive\nimplementation plan with defined short-, medium- and long-term action points for coastal vessels and foreign-\ngoing vessels. This phase will require close coordination among the Directorate General of Shipping, the\nNCoEGPS Green Fuel team and relevant technical and classification ins\n\n… [+633 more chars]",
+  "content_hash": "9634867b3dac04c81427170d3598de5a9dadffc2471a5a80b796623fc4289344",
+  "token_count": 228,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "5f984a45-5e49-5d9f-9937-f193ad6bcb08",
+  "chunk_index": 3,
+  "page_number": 3,
+  "page_range": [
+    3,
+    3
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `d99f0cda-6793-5fab-bd1e-3b518c4817e9`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "d99f0cda-6793-5fab-bd1e-3b518c4817e9",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(Shyam Jagannathan)",
+  "chunk_text": "(Shyam Jagannathan)\n\n1-22 2575 2011 • ई-म\n\nv\nForeward\nAs the Director General of The Energy and Resources Institute (TERI) \nI am delighted to present this Report which includes the key findings \nof the NCoEGPS Project entitled” Advanced Green fuels for Maritime \nApplication (Mono Fuel, Dual Fuel/Hybrid, Multi-Fuel Blending) \nRoad Map for India”. This project was undertaken by NCoEGPS with \nfinancial support from Cochin Shipyard Ltd. (CSL), V. O. Chidambaranar \nPort, Paradip Port, and Deendayal Port under overarching guidance \nand vision of Ministry of Port, Shipping and Waterways (MoPSW), \nGov\n\n… [+6845 more chars]",
+  "content_hash": "d113d62ae4767375438c29201598adce81280b85b9f77d055838faa95594e5b4",
+  "token_count": 1446,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    4,
+    9
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d4c63fee-5e14-5c3e-832c-34586baf06cc`
+
+- vector: dim=3072 · [-0.0053, 0.0007, -0.0108, -0.0396, -0.0168, -0.0158, -0.0127, 0.0393, …]
+
+```json
+{
+  "chunk_id": "d4c63fee-5e14-5c3e-832c-34586baf06cc",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(Shyam Jagannathan)",
+  "chunk_text": "1-22 2575 2011 • ई-म\n\nv\nForeward\nAs the Director General of The Energy and Resources Institute (TERI) \nI am delighted to present this Report which includes the key findings \nof the NCoEGPS Project entitled” Advanced Green fuels for Maritime \nApplication (Mono Fuel, Dual Fuel/Hybrid, Multi-Fuel Blending) \nRoad Map for India”. This project was undertaken by NCoEGPS with \nfinancial support from Cochin Shipyard Ltd. (CSL), V. O. Chidambaranar \nPort, Paradip Port, and Deendayal Port under overarching guidance \nand vision of Ministry of Port, Shipping and Waterways (MoPSW), \nGovernment of India. \nTh\n\n… [+1418 more chars]",
+  "content_hash": "20a01159082a50cf0dee20de08cad67db09bf1f376af78668dd2b4610fe3d745",
+  "token_count": 455,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d99f0cda-6793-5fab-bd1e-3b518c4817e9",
+  "chunk_index": 4,
+  "page_number": 4,
+  "page_range": [
+    4,
+    5
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d2f0070e-5297-5aee-9999-4221e7a49735`
+
+- vector: dim=3072 · [-0.0145, 0.0111, -0.0105, -0.0269, -0.0175, -0.0024, -0.0106, 0.0217, …]
+
+```json
+{
+  "chunk_id": "d2f0070e-5297-5aee-9999-4221e7a49735",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(Shyam Jagannathan)",
+  "chunk_text": "Additionally, alternative fuel \ndemand is also estimated for Coastal vessels < 5000GT. This report also covers alternative fuel marine \nengines development trajectory, Global Fuel Cells and Onboard Carbon Capture projects highlighting \nthe prospect for Indian maritime sector. In the next phase of Advanced Green Fuel Roadmap for Maritime Application-Part B study, the DG \nShipping and NCoEGPS Green Fuel team are committed to work together with other collaborating \npartners in developing the Fuel Transition Roadmap Implementation Plan for Indian vessels based \non their types and size categories. \n\n… [+704 more chars]",
+  "content_hash": "1c8f8330456f3e53ce00e0a8a1cd40963f6f2df08b3816a33df80d5d81101ab4",
+  "token_count": 247,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d99f0cda-6793-5fab-bd1e-3b518c4817e9",
+  "chunk_index": 5,
+  "page_number": 5,
+  "page_range": [
+    5,
+    6
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `20f49096-c70b-53b8-8dbc-aabe68558835`
+
+- vector: dim=3072 · [-0.0238, -0.0012, -0.0116, -0.0355, 0.0209, -0.0071, 0.0034, 0.0163, …]
+
+```json
+{
+  "chunk_id": "20f49096-c70b-53b8-8dbc-aabe68558835",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(Shyam Jagannathan)",
+  "chunk_text": "Dr. Vibha Dhawan \nDirector General \nThe Energy and Resources Institute (TERI)\n\nेल/Email : dg-dgs@go TERI is deeply grateful to Shri T.K. Ramachandran, Erstwhile Secretary of India’s Ministry of Ports, \nShipping and Waterways (MoPSW), Shri Vijay Kumar, Secretary, MoPSW, Shri Rajesh Kumar Sinha, \nSpecial Secretary, MoPSW & Shri Mandeep Singh Randhawa, Director, MoPSW for their constant \nguidance, support and directions given to team during review meetings. \nThe project team would like to acknowledge the invaluable contributions of External Review \nCommittee members especially from Director Gener\n\n… [+1270 more chars]",
+  "content_hash": "b34805e5d502d49f4631665862345c68aa0ec8b6526c0ced1848605fac09c5d2",
+  "token_count": 470,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d99f0cda-6793-5fab-bd1e-3b518c4817e9",
+  "chunk_index": 6,
+  "page_number": 7,
+  "page_range": [
+    7,
+    7
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `fe541c52-b6e0-5e95-a464-759973d00afa`
+
+- vector: dim=3072 · [-0.0205, 0.0098, -0.0075, -0.0185, -0.0172, -0.0244, -0.0332, 0.0422, …]
+
+```json
+{
+  "chunk_id": "fe541c52-b6e0-5e95-a464-759973d00afa",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(Shyam Jagannathan)",
+  "section_type": "toc",
+  "chunk_text": "Special appreciation goes to TERI green fuel research \nteam for their dedication and the team of TERI Press which includes Ms Anupama Jauhry, Mr Abhaas Mukherjee, Mr Sudeep Pawar and Mr Aman Sachdeva for carrying out editing and designing of the \nreport in a short time.\nAcknowledgements\n\nix\nTable of Contents\nExecutive Summary\t ........................................................................................................................................... 1\nIntroduction and Objectives of Study.............................................................................................\n\n… [+2156 more chars]",
+  "content_hash": "a59a936e09a5b92c11642468408d9070bb8b351b2bbd622834b6e18740313b2f",
+  "token_count": 377,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d99f0cda-6793-5fab-bd1e-3b518c4817e9",
+  "chunk_index": 7,
+  "page_number": 7,
+  "page_range": [
+    7,
+    9
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `7b578f0a-7247-50d5-8fd9-da354566b19a`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "7b578f0a-7247-50d5-8fd9-da354566b19a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "References",
+  "section_type": "toc",
+  "chunk_text": "References\n\n64\nChapter 1: Statistics: Global and Indian Vessels and Fuel Consumption............................................67\nIntroduction ..........................................................................................................................................................68\nMethodology.........................................................................................................................................................68\n1.1\t\nCoastal Vessel Statistics......................................................................................................\n\n… [+4872 more chars]",
+  "content_hash": "02ba9f4b76990d8c1fa2b705f694e53329f05c41ac14069eb0f2c32e718f334f",
+  "token_count": 801,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    9,
+    10
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `dacac35b-9c83-5d74-bad6-bc5bc10ff4cb`
+
+- vector: dim=3072 · [-0.0097, 0.0013, -0.0122, -0.0234, -0.0111, -0.0284, -0.0344, 0.0370, …]
+
+```json
+{
+  "chunk_id": "dacac35b-9c83-5d74-bad6-bc5bc10ff4cb",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "References",
+  "section_type": "toc",
+  "chunk_text": "64\nChapter 1: Statistics: Global and Indian Vessels and Fuel Consumption............................................67\nIntroduction ..........................................................................................................................................................68\nMethodology.........................................................................................................................................................68\n1.1\t\nCoastal Vessel Statistics..................................................................................................................\n\n… [+2559 more chars]",
+  "content_hash": "1efe8f286b63f801a68e1120a8df4527272d23c9fa5121ec6a475130701a122e",
+  "token_count": 432,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7b578f0a-7247-50d5-8fd9-da354566b19a",
+  "chunk_index": 8,
+  "page_number": 9,
+  "page_range": [
+    9,
+    10
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `bafb7635-3062-5b02-8be5-df72bb2bfdfd`
+
+- vector: dim=3072 · [-0.0195, 0.0081, -0.0079, 0.0061, -0.0266, -0.0300, -0.0469, 0.0264, …]
+
+```json
+{
+  "chunk_id": "bafb7635-3062-5b02-8be5-df72bb2bfdfd",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "References",
+  "section_type": "toc",
+  "chunk_text": "Comparison [19].......................................................................................................................109\n3.2\t\nMethanol Fuel Marine Engines (Global Status).................................................................................111\n\n3.2.1\t\nCommercial Methanol Fuel Marine Engine ........................................................................113\n3.3\t\nAmmonia Fuel Marine Engines.............................................................................................................115 3.3.1\t\nCommercial Ammonia Fuel Marine Engines...............\n\n… [+2239 more chars]",
+  "content_hash": "db8857a6f6b82b25188a544e2c1187a81a35b8d82e045e6574b05ccd5cc525ae",
+  "token_count": 427,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7b578f0a-7247-50d5-8fd9-da354566b19a",
+  "chunk_index": 9,
+  "page_number": 10,
+  "page_range": [
+    10,
+    10
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `b4ec77a5-a1b7-5f52-9722-7b112c611df4`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "b4ec77a5-a1b7-5f52-9722-7b112c611df4",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "(India Status)\n\n.......................................................................................................................................182\n4.5\t\nAlternative Fuel Storage and Bunkering (India and Global)...........................................................187\n\n4.5.1\t\nStorage and Bunkering of Alternative Fuels: Present Global Status\n\n(Technology /Infrastructure).................................................................................................187\n\n4.5.2\t\nAlternative Fuel for Bunkering (India) .....................................................................\n\n… [+9442 more chars]",
+  "content_hash": "d510f1d91e7504a22fe69592a65ce39d68e47efdb05edc45a313db8f717be179",
+  "token_count": 2010,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    10,
+    14
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7553d737-5552-59f0-a544-c07fdf13735c`
+
+- vector: dim=3072 · [-0.0027, 0.0138, -0.0105, -0.0054, -0.0151, -0.0347, -0.0411, 0.0267, …]
+
+```json
+{
+  "chunk_id": "7553d737-5552-59f0-a544-c07fdf13735c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": ".......................................................................................................................................182\n4.5\t\nAlternative Fuel Storage and Bunkering (India and Global)...........................................................187\n\n4.5.1\t\nStorage and Bunkering of Alternative Fuels: Present Global Status\n\n(Technology /Infrastructure).................................................................................................187\n\n4.5.2\t\nAlternative Fuel for Bunkering (India) ................................................................................195\nR\n\n… [+2573 more chars]",
+  "content_hash": "87081204950f14afc7f01c6714080a8a53c1abd5ae4229adc5762cc1fe4ae57c",
+  "token_count": 333,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b4ec77a5-a1b7-5f52-9722-7b112c611df4",
+  "chunk_index": 10,
+  "page_number": 10,
+  "page_range": [
+    10,
+    11
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `51dd83c6-ba01-5803-bbc2-a61cf5075d94`
+
+- vector: dim=3072 · [0.0006, 0.0297, -0.0100, 0.0017, -0.0098, -0.0299, -0.0247, 0.0400, …]
+
+```json
+{
+  "chunk_id": "51dd83c6-ba01-5803-bbc2-a61cf5075d94",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "..228\nReferences ..........................................................................................................................................................229\nChapter 6: Shipping Fuels and Possibility of On-Board Carbon Capture..........................................231\n6.1\t\nOnboard Carbon Capture Technologies.............................................................................................233\n\n6.1.1\t\nCCS Technology Pathways .....................................................................................................233 6.1.2\t\nViable Options for Onboard CO₂\n\n… [+3088 more chars]",
+  "content_hash": "9171bdea1d02a3347f3f02d34eb755dd9d33661b6c89689a8436829dae1c7246",
+  "token_count": 505,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b4ec77a5-a1b7-5f52-9722-7b112c611df4",
+  "chunk_index": 11,
+  "page_number": 11,
+  "page_range": [
+    11,
+    13
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d751e075-8c17-55fc-b1a9-7f65fbdaf36b`
+
+- vector: dim=3072 · [-0.0201, 0.0279, -0.0148, 0.0148, -0.0236, -0.0229, -0.0255, 0.0438, …]
+
+```json
+{
+  "chunk_id": "d751e075-8c17-55fc-b1a9-7f65fbdaf36b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "chunk_text": "Figure 6: \t\nMultifuel Blend Scenarios (HFO/LFO/DO, Methanol 10 v/v %) & Biodiesel Blend\n\n(5%,10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2035) for Indian OGVs (Figure 4.39 in Chapter 4) ................................................................20\nFigure 7: \t\nDual Fuel Blend Scenarios (HFO/LFO/DO & Methanol 10 %v/v) with GHG Emission\n\nReduction Profile (2030) for Indian Coastal Vessels(Figure 4.40 in Chapter 4)..............20\nFigure 8: \t\nMultifuel Blend Scenarios (HFO/LFO/DO, Methanol 10 v/v %) & Biodiesel\n\nBlend (5%, 10%,20%, 30%, 40% & 50% v/v%) with GHG Emission\n\n… [+1159 more chars]",
+  "content_hash": "5ce61657e332708a2ceded1fafc66cbfe19dc26644a58aca007782914bf4b091",
+  "token_count": 473,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b4ec77a5-a1b7-5f52-9722-7b112c611df4",
+  "chunk_index": 12,
+  "page_number": 13,
+  "page_range": [
+    13,
+    13
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4aed3478-f415-53ea-a0be-e59ce285e149`
+
+- vector: dim=3072 · [-0.0103, 0.0109, -0.0145, 0.0157, -0.0257, -0.0187, -0.0208, 0.0477, …]
+
+```json
+{
+  "chunk_id": "4aed3478-f415-53ea-a0be-e59ce285e149",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "Figure 13: \t\nAlternative Fuel-Mix Demand with RE &Green Hydrogen Requirement for\n\nGFI-Compliance (>5000GT) Year 2030 (Direct Compliance Category) .............................29\nFigure 14: \t\nAlternative Fuel Demand with RE &Green Hydrogen Requirement for 10 V/V % Methanol Blending (>5000GT) Year 2030..............................................................29\nFigure 15: \t\nResult Plot for Case 1 : HFO (LHV: 41,000 MJ/t | GFI: 91 gCO2/MJ...................................38\nFigure 16: \t\nResult Plot for Case 2 LNG ( (LHV: 48,600 MJ/t | GFI: 80.00 gCO₂/MJ))............................39\nFigure\n\n… [+877 more chars]",
+  "content_hash": "5488bc36e4685162accef27f72747a670df5dd3d4a52bdf205ebd62ca8b5d281",
+  "token_count": 499,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b4ec77a5-a1b7-5f52-9722-7b112c611df4",
+  "chunk_index": 13,
+  "page_number": 13,
+  "page_range": [
+    13,
+    14
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f9dd3238-1d8c-531a-8dcd-c5a42af1fd85`
+
+- vector: dim=3072 · [0.0074, -0.0031, -0.0127, 0.0219, -0.0223, -0.0291, -0.0410, 0.0428, …]
+
+```json
+{
+  "chunk_id": "f9dd3238-1d8c-531a-8dcd-c5a42af1fd85",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "chunk_text": "FO/LFO/DO)—Biodiesel blend) (*B or BD both represents Biodiesel blend)...45\n\nxiv\nFigure 23: \t\nResult Plot for Diesel-Biodiesel Case 5b: B30 or BD 30 (LHV: 40,713 MJ/t) (GFI: 68.44 gCO₂/MJ) (i.e. D(HFO/LFO/DO)—Biodiesel blend)............................................46\nFigure 24: \t\nResult Plot for D(HFO/LFO/DO)-Biodiesel Case 5c: B40 or BD40 (LHV: 40,288 MJ/t)\n\n(GFI: 60.91 gCO₂/MJ) (i.e. D(HFO/LFO/DO)-Biodiesel blend)..............................................47\nFigure 25: \t\nResult Plot for D(HFO/LFO/DO)-Biodiesel Case 5d: B50 or BD50\n\n( LHV: 39,769 MJ/t |GFI: 51.86 gCO₂/MJ) (i.e. D(HFO/L\n\n… [+466 more chars]",
+  "content_hash": "a3ff4c9c7f99b9d6c9ad43071bdbed1c1301f879034436a288f5fe15197fdffb",
+  "token_count": 435,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b4ec77a5-a1b7-5f52-9722-7b112c611df4",
+  "chunk_index": 14,
+  "page_number": 14,
+  "page_range": [
+    14,
+    14
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `b1deb4b9-8a0d-5415-bc20-7b75f3454aa8`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "b1deb4b9-8a0d-5415-bc20-7b75f3454aa8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "(India Status) (cont.)\n\n(GFI: 57.69 gCO₂/MJ) (i.e. D(HFO/LFO/DO)-Methanol-Biodiesel blend)............................51\nFigure 29: \t\nResult Plot Case 8: D(HFO/LFO/DO) M9.47BD50 (LHV: 38,459 MJ/t)\n\n(GFI: 58.07 gCO₂/MJ) (i.e. D(HFO/LFO/DO)-Methanol-Biodiesel blend)............................52\nFigure 30: \t\nResult Plot for Case 8 c: D(HFO/LFO/DO) M9.47BD40(LHV: 39,058 MJ/t)\n\n(GFI: 57.45 gCO₂/MJ) (blend with E- Methanol GFI 4)(i.e. D(HFO/LFO/DO)-\n\nE Methanol-Biodiesel blend)......................................................................................................53\nFigure 31: \t\nResul\n\n… [+7839 more chars]",
+  "content_hash": "145272754f16e82ac9dada34ef6825e210f8d062ebbe5f4d2e67c23a5a7e9c62",
+  "token_count": 1979,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    14,
+    16
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7c742fca-ee25-5c97-a7c5-e27130280d19`
+
+- vector: dim=3072 · [0.0043, 0.0044, -0.0143, 0.0092, -0.0324, -0.0345, -0.0412, 0.0431, …]
+
+```json
+{
+  "chunk_id": "7c742fca-ee25-5c97-a7c5-e27130280d19",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "(GFI: 57.69 gCO₂/MJ) (i.e. D(HFO/LFO/DO)-Methanol-Biodiesel blend)............................51\nFigure 29: \t\nResult Plot Case 8: D(HFO/LFO/DO) M9.47BD50 (LHV: 38,459 MJ/t)\n\n(GFI: 58.07 gCO₂/MJ) (i.e. D(HFO/LFO/DO)-Methanol-Biodiesel blend)............................52\nFigure 30: \t\nResult Plot for Case 8 c: D(HFO/LFO/DO) M9.47BD40(LHV: 39,058 MJ/t)\n\n(GFI: 57.45 gCO₂/MJ) (blend with E- Methanol GFI 4)(i.e. D(HFO/LFO/DO)-\n\nE Methanol-Biodiesel blend)......................................................................................................53\nFigure 31: \t\nResult Plot for Case 8: D(HFO\n\n… [+389 more chars]",
+  "content_hash": "efa6ce3e0eb5e99759ac3122964166a4c32db45e96b9decceb33b3212c85f5f0",
+  "token_count": 381,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b1deb4b9-8a0d-5415-bc20-7b75f3454aa8",
+  "chunk_index": 15,
+  "page_number": 14,
+  "page_range": [
+    14,
+    14
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f73e61dd-4560-5c44-ae94-87f1668db982`
+
+- vector: dim=3072 · [-0.0079, 0.0268, -0.0083, 0.0088, -0.0226, -0.0361, -0.0552, 0.0529, …]
+
+```json
+{
+  "chunk_id": "f73e61dd-4560-5c44-ae94-87f1668db982",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "D(HFO/LFO/DO)-Bio Methanol-Biodiesel blend).....................55\nFigure 33: \t\nResult Plot for Case 10: D (HFO/LFO/DO) M4.8BD40(LHV: 39,322 MJ/t | GFI: 58.98 gCO₂/MJ) (i.e. D(HFO/LFO/DO)-E Methanol-Biodiesel blend).........................56\nFigure 34: \t\nResult Plot for Case 11: D(HFO/LFO/DO) M4.8BD50 (LHV: 38,882 MJ/t )\n\n(GFI: 51.08 gCO₂/MJ) (i.e. D(HFO/LFO/DO)-E Methanol-Biodiesel blend)........................57\nFigure 35: \t\nResult Plot for Case 12 a: : D(HFO/LFO/DO) E10BD40(LHV: 38,882 MJ/t )\n\n(GFI: 58.40 gCO₂/MJ) (i.e. D(HFO/LFO/DO)-2G Ethanol-Biodiesel blend).........................58\n\n\n… [+1066 more chars]",
+  "content_hash": "6799fb9c433eddac67171771d0b959a1f6005a64037f83b3e337c82fde09ffb9",
+  "token_count": 496,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b1deb4b9-8a0d-5415-bc20-7b75f3454aa8",
+  "chunk_index": 16,
+  "page_number": 14,
+  "page_range": [
+    14,
+    14
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ddb471cc-c77f-5ea4-8f55-12a85d73f6f5`
+
+- vector: dim=3072 · [-0.0031, 0.0219, -0.0211, 0.0044, -0.0012, -0.0484, -0.0246, 0.0455, …]
+
+```json
+{
+  "chunk_id": "ddb471cc-c77f-5ea4-8f55-12a85d73f6f5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "/s GT Distribution with Number....................72\nFigure 1.5: \t Global Coastal Vessels (<5000 GT): GT Distribution..............................................................73\nFigure 1.6: \t Indian Ocean-Going Vessel (>5000 GT): Age of Vessels v/s GT Distribution with Number..................................................................................................................................74\nFigure 1.7: \t Indian Ocean-Going Vessels (>5000GT): GT Distribution.....................................................74\nFigure 1.8: \t Global Ocean-Going Vessels(>5000GT): Fuel Type v/s\n\n… [+2136 more chars]",
+  "content_hash": "7ca86f8013f4340ccb2556cf389df5ebe245901e67681d14100a8ccb7a51b7cf",
+  "token_count": 510,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b1deb4b9-8a0d-5415-bc20-7b75f3454aa8",
+  "chunk_index": 17,
+  "page_number": 14,
+  "page_range": [
+    14,
+    15
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e1cdfe56-94e8-5068-9544-4b1f4fbc04ba`
+
+- vector: dim=3072 · [-0.0018, 0.0214, -0.0277, 0.0009, -0.0109, -0.0285, -0.0210, 0.0292, …]
+
+```json
+{
+  "chunk_id": "e1cdfe56-94e8-5068-9544-4b1f4fbc04ba",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "Types Across\n\nDifferent Engines.........................................................................................................................87\nFigure 2.6:\t\nAlternative Fuel Vessels Global (Orderbook): Power Types Across\n\nDifferent Engine...........................................................................................................................87\nFigure 2.7: \t Top Countries with Alternative Fueled Vessel Ownership with Number- Inservice (as on August 2024)....................................................................................................88\nFigure 2.8:\n\n… [+2092 more chars]",
+  "content_hash": "8110cdb33a5ef6a2ca9f9cd1a6be12acb92253e9566739afbe24356935f4bda2",
+  "token_count": 506,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b1deb4b9-8a0d-5415-bc20-7b75f3454aa8",
+  "chunk_index": 18,
+  "page_number": 15,
+  "page_range": [
+    15,
+    16
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `5e3533ff-705e-5e8b-a7a1-6ce4fc4f2476`
+
+- vector: dim=3072 · [-0.0074, 0.0179, -0.0239, -0.0239, -0.0214, -0.0290, -0.0158, 0.0349, …]
+
+```json
+{
+  "chunk_id": "5e3533ff-705e-5e8b-a7a1-6ce4fc4f2476",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "Biofuel (Biodiesel) ICE Engine Overview (in-service vs orderbook):\n\nManufacturers, Countries (In ICE-Ownership) and  No of Vessels...................................103\nFigure 3.1 \t\n(d) : Hydrogen ICE Overview (in-service vs orderbook: Manufacturers, Countries (In ICE-Ownership) and  No of Vessels................................................................103\nFigure 3.1 \t\n(e):  Ethane Fueled Engine Overview (in-service vs orderbook):\n\nManufacturers, Countries (In ICE-Ownership) and  No of Vessels...................................104\nFigure 3.1\t\n(f) : LNG Fueled Engine Overview (in-service\n\n… [+849 more chars]",
+  "content_hash": "2af6f4c5c9b924125e283c387e55fc72591681b4c6a36a1bb500fecdc7e709f5",
+  "token_count": 315,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b1deb4b9-8a0d-5415-bc20-7b75f3454aa8",
+  "chunk_index": 19,
+  "page_number": 16,
+  "page_range": [
+    16,
+    16
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `796d4405-49e0-5598-8d70-60a86a5032a8`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "796d4405-49e0-5598-8d70-60a86a5032a8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "(India Status) (cont.)\n\nDiesel Engine[9]..........................................................................................................................112\nFigure 3.5: \t Co-axial Injector. Reproduced from [30]................................................................................113\nFigure 3.6: \t Comparaison of Selected Alternative Fuel Properties (Ignition Energy,\n\nAutoignitionTemperature, Laminar Flame Speed and Adiabatic\n\nFlame Temperature)..................................................................................................................116\nFigure 3.7: \t Po\n\n… [+8008 more chars]",
+  "content_hash": "5d4fda8a0c8691299d21c00901427343179744edeee11159abc701ad75ae3358",
+  "token_count": 2023,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    16,
+    18
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `491577ae-93d7-5fed-98c0-c7d89487a9c1`
+
+- vector: dim=3072 · [0.0045, 0.0230, -0.0066, 0.0010, -0.0345, -0.0156, -0.0247, 0.0398, …]
+
+```json
+{
+  "chunk_id": "491577ae-93d7-5fed-98c0-c7d89487a9c1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "Diesel Engine[9]..........................................................................................................................112\nFigure 3.5: \t Co-axial Injector. Reproduced from [30]................................................................................113\nFigure 3.6: \t Comparaison of Selected Alternative Fuel Properties (Ignition Energy,\n\nAutoignitionTemperature, Laminar Flame Speed and Adiabatic\n\nFlame Temperature)..................................................................................................................116\nFigure 3.7: \t Port Injection of Hydrogen\n\n… [+1642 more chars]",
+  "content_hash": "43dde848ed57d996f4d5deeab63644ab29cf77b80dda2a7f8d26b9b6cc22c499",
+  "token_count": 400,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "796d4405-49e0-5598-8d70-60a86a5032a8",
+  "chunk_index": 20,
+  "page_number": 16,
+  "page_range": [
+    16,
+    16
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a335d29e-2a53-5220-8f4a-744aab4aedef`
+
+- vector: dim=3072 · [-0.0211, 0.0293, -0.0079, 0.0026, -0.0163, -0.0443, -0.0128, 0.0516, …]
+
+```json
+{
+  "chunk_id": "a335d29e-2a53-5220-8f4a-744aab4aedef",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": ".7: \t Fuel Costs1 (USD/GJ) Decline Over Time, Though There Remains Uncertainty on\n\nAbsolute Fuel Cost Levels [29]................................................................................................143\nFigure 4.8: \t Estimated Total Cost of Ownership (TCO) of Vessels by Type of Fuel [reproduced from 29,30]..........................................................................................................143\nFigure 4.9 : \t MEPC 83 New Amendments in Emission Targets................................................................148\nFigure 4.10: \tBase Trajectory of MEPC 83 (in blu\n\n… [+825 more chars]",
+  "content_hash": "9275b684ddc9d48a7db5fc2a281e772359ccc804f4779c50a657f9d67c818061",
+  "token_count": 289,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "796d4405-49e0-5598-8d70-60a86a5032a8",
+  "chunk_index": 21,
+  "page_number": 16,
+  "page_range": [
+    16,
+    17
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d6aa2032-1dce-5646-89aa-c3655450a165`
+
+- vector: dim=3072 · [-0.0242, 0.0215, -0.0146, 0.0126, -0.0262, -0.0415, -0.0185, 0.0424, …]
+
+```json
+{
+  "chunk_id": "d6aa2032-1dce-5646-89aa-c3655450a165",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": ": \tNPVs of Ship Life Cycle Cost of Blended Fuels....................................................................152\nFigure 4.16: \tGHG Emissions from Transport Using Methanol or Ammonia – Relationship\n\nBetween Fuel Well-to-Wake (WtW) GHG Intensity and Container Unit Transportation WtW GHG Intensity [44]................................................................................153\nFigure 4.17: \tBase GFI Compliance Fuel Mix Scenarios (OGVs >5000 GT Vessels) Year:2030.............158\nFigure 4.18: \tBase GFI Compliance Fuel Mix Scenarios (OGVs >5000 GT Vessels) Year:2035.............160\nFig\n\n… [+1048 more chars]",
+  "content_hash": "31275ae6920d8dcca6ade60622aa58d7608c21e8cece6b4c57197407bf840da1",
+  "token_count": 478,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "796d4405-49e0-5598-8d70-60a86a5032a8",
+  "chunk_index": 22,
+  "page_number": 17,
+  "page_range": [
+    17,
+    17
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ab9d2a0f-61f2-5b7f-9022-0850e947693e`
+
+- vector: dim=3072 · [-0.0118, 0.0206, -0.0164, 0.0262, -0.0289, -0.0173, -0.0228, 0.0422, …]
+
+```json
+{
+  "chunk_id": "ab9d2a0f-61f2-5b7f-9022-0850e947693e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "V’S >5000 GT Vessels)\n\nYear:2035(Conventional Fuel +Alternative Fuel+ 20% Biodiesel)....................................166\nFigure 4.27: \tDirect GFI compliance fuel mix scenarios (OGV’S >5000 GT Vessels) Year:2030 (Conventional Fuel +Alternative Fuel+ 20% Biodiesel)...................................167\nFigure 4.28: \tDirect GFI Compliance Fuel Mix Scenarios (OGV’S >5000 GT Vessels)\n\nYear:2035 (Conventional Fuel +Alternative Fuel+ 20% Biodiesel)...................................167\nFigure 4.29: \tBase GFI Compliance Fuel Mix Scenarios (Coastal <5000 GT Vessels) Year:2030\n\n(Diesel +Alternative F\n\n… [+1441 more chars]",
+  "content_hash": "130fc0fae08e7758131482f694b15b33246d186aa2d297097c18088ddf881096",
+  "token_count": 517,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "796d4405-49e0-5598-8d70-60a86a5032a8",
+  "chunk_index": 23,
+  "page_number": 17,
+  "page_range": [
+    17,
+    17
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7f518ffa-fe16-5745-89a1-f70dc8cef025`
+
+- vector: dim=3072 · [-0.0162, 0.0259, -0.0150, 0.0234, -0.0183, -0.0110, -0.0196, 0.0435, …]
+
+```json
+{
+  "chunk_id": "7f518ffa-fe16-5745-89a1-f70dc8cef025",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "GT) Year 2030 (Direct Compliance Category)............................173\nFigure 4.36: \tAlternative Fuel-Mix Demand with RE &Green Hydrogen Requirement for\n\nGFI-Compliance (>5000GT) Year 2035 (Direct Compliance Category) ...........................174 xviii\nFigure 4.37: \tDual Fuel Blend Scenarios (HFO/LFO/DO& Methanol 10 %v/v) with\n\nGHG Emission Reduction Profile (2030) for Indian OGVs..................................................175\nFigure 4.38: \tMultifuel Blend Scenarios (HFO/LFO/DO, Methanol 10 v/v %) & Biodiesel Blend\n\n(5%, 10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Prof\n\n… [+1640 more chars]",
+  "content_hash": "6c3e0177453fad6af18985c87ccd98bf90db2ec0427499e47bceb3044b9615df",
+  "token_count": 567,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "796d4405-49e0-5598-8d70-60a86a5032a8",
+  "chunk_index": 24,
+  "page_number": 18,
+  "page_range": [
+    18,
+    18
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `7853df19-15fa-5032-936f-ad80d00099b5`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "7853df19-15fa-5032-936f-ad80d00099b5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "(India Status) (cont.)\n\n(2030) for OGVs..........................................................................................................................178\nFigure 4.45: \tMultifuel Blend Scenarios (Diesel, Methanol 5 v/v %) & Biodiesel Blend\n\n(5%, 10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile\n\n(2035) for OGVs..........................................................................................................................179\nFigure 4.46: \tDual Fuel Blend Scenarios (Diesel & Methanol 5 %v/v) with GHG Emission\n\nReduction Profile (2030) for Coastal .............\n\n… [+8696 more chars]",
+  "content_hash": "092cc4cba89defb93b0c4ca20bca781835fc65f51b9542e3f22ff1c69d564b2d",
+  "token_count": 1969,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    18,
+    21
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `96448bbf-32a5-5666-9aca-b03879edaa7a`
+
+- vector: dim=3072 · [-0.0180, 0.0298, -0.0140, 0.0173, -0.0239, -0.0247, -0.0381, 0.0421, …]
+
+```json
+{
+  "chunk_id": "96448bbf-32a5-5666-9aca-b03879edaa7a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "(2030) for OGVs..........................................................................................................................178\nFigure 4.45: \tMultifuel Blend Scenarios (Diesel, Methanol 5 v/v %) & Biodiesel Blend\n\n(5%, 10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile\n\n(2035) for OGVs..........................................................................................................................179\nFigure 4.46: \tDual Fuel Blend Scenarios (Diesel & Methanol 5 %v/v) with GHG Emission\n\nReduction Profile (2030) for Coastal .....................................\n\n… [+1519 more chars]",
+  "content_hash": "6b4bf0ef0d0e45ad1bbc57abb3cef793cb569f3e3586c4d8f35cb24cff22e506",
+  "token_count": 432,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7853df19-15fa-5032-936f-ad80d00099b5",
+  "chunk_index": 25,
+  "page_number": 18,
+  "page_range": [
+    18,
+    18
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `698cf856-390a-5f86-b35c-16552c530bfc`
+
+- vector: dim=3072 · [-0.0224, 0.0417, -0.0127, 0.0133, -0.0429, -0.0317, -0.0461, 0.0338, …]
+
+```json
+{
+  "chunk_id": "698cf856-390a-5f86-b35c-16552c530bfc",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "FI Compliance\n\nScenario (India)...........................................................................................................................183\nFigure 4.52: \tAlternative Fuel-Mix Demand-Supply Gap for 10 & 5 v/v % Methanol\n\nBlending Scenarios (India Cumulative Costal and OGVs) ..................................................184 xix\nFigure 4.53: \tMethanol Production Projects Global vs India.....................................................................184\nFigure 4.54: \tAmmonia Production Projects Global vs India..............................................................\n\n… [+2110 more chars]",
+  "content_hash": "c3b4db937efdc7c4807d5ab17e3ccb759c3c397eb4c97a55e2f5782197c0286a",
+  "token_count": 481,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7853df19-15fa-5032-936f-ad80d00099b5",
+  "chunk_index": 26,
+  "page_number": 19,
+  "page_range": [
+    19,
+    19
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `eb42ba3f-eabd-5895-a2d9-388cbdcdd33b`
+
+- vector: dim=3072 · [0.0001, 0.0208, -0.0067, -0.0028, -0.0073, -0.0300, -0.0316, 0.0370, …]
+
+```json
+{
+  "chunk_id": "eb42ba3f-eabd-5895-a2d9-388cbdcdd33b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "(5%, 10%, 20%, 50%) of Alternative Marine\n\nFuels—Methanol, Ammonia, Biodiesel, LNG, and Hydrogen—at Kandla, Paradip,\n\nand VOC ports, based on their annual bunkering capacity, to assess feasibility and infrastructure requirement for fuel transition. ..................................................................197\nFigure 5.1:\t\nThis Figure shows (a) schematic diagrams (b] process flows of six key Fuel Cell\n\ntypes used in maritime applications: i – PEMFC, ii – SOFC, iii – AFC, iv – MCFC, v – PAFC,\n\nand VI – AFC.   (Represented from [12,13,&14)].................................................\n\n… [+1853 more chars]",
+  "content_hash": "374dfe99de49f187ddbe4a418aaf5dd3d28ed11e579abaeb40d1becb671208f5",
+  "token_count": 473,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7853df19-15fa-5032-936f-ad80d00099b5",
+  "chunk_index": 27,
+  "page_number": 19,
+  "page_range": [
+    19,
+    21
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `0cc06899-d35d-5938-9811-65502d94ce6c`
+
+- vector: dim=3072 · [-0.0130, -0.0001, -0.0149, 0.0107, -0.0067, -0.0363, -0.0151, 0.0264, …]
+
+```json
+{
+  "chunk_id": "0cc06899-d35d-5938-9811-65502d94ce6c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "of Table\nTable 1: \t\nIMO’s proposed Emission Reduction Targets from International Water Ships > 5000GT.9\nTable 2: \t\nKey Outcome of MEPC 83............................................................................................................11\nTable 3: \t\nOverall Alternative Fuel Vessels Statistics: Comparative Assessment (w.r.to Fuel Types)..........................................................................................................................14\nTable 4: \t\nAlternative Fuel Vessels Statistics: Comparative Assessment (w.r.to GT Distribution)..14\nTable 5: \t\nCost of Convention\n\n… [+1510 more chars]",
+  "content_hash": "f8c70c902a693372e80a7e6c7cd2ec9b803b1054c2ff0a024f74f677ec02d8f2",
+  "token_count": 508,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7853df19-15fa-5032-936f-ad80d00099b5",
+  "chunk_index": 28,
+  "page_number": 21,
+  "page_range": [
+    21,
+    21
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `cf5b307a-a041-5dd7-b6af-5d2ad1f3e93b`
+
+- vector: dim=3072 · [0.0088, -0.0191, -0.0151, 0.0319, -0.0267, -0.0303, -0.0349, 0.0414, …]
+
+```json
+{
+  "chunk_id": "cf5b307a-a041-5dd7-b6af-5d2ad1f3e93b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": ".00 gCO₂/MJ)......................................42\nTable 17: \t\nCase 4b: Bio- Methanol  (LHV: 19,900 MJ/t | GFI: 9.4 gCO₂/MJ)...........................................43\nTable 18: Case 5: B100 or BD100 (LHV:  37,500 MJ/t) (GFI: 9.4 gCO₂/MJ)...........................................44\nTable 19: \t\nCase 5a: B24 or BD24 ( (LHV: 41,001MJ/t  GFI: 73.81 gCO₂eq/MJ).....................................45\nTable 20: \t\nCase 5b: B30 or BD30 i.e  D(HFO/LFO/DO)-Biodiesel (LHV: 40,713 MJ/t)\n\n(GFI: 68.44 gCO₂/MJ)................................................................................................\n\n… [+327 more chars]",
+  "content_hash": "4d5fa97d3e8af4edaae2ef9f94a7198784adb8a4a764de5c2cdd7e5e589c9d2f",
+  "token_count": 304,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7853df19-15fa-5032-936f-ad80d00099b5",
+  "chunk_index": 29,
+  "page_number": 21,
+  "page_range": [
+    21,
+    21
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `aac70e35-4f01-5858-b946-deaf8a40fecb`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "aac70e35-4f01-5858-b946-deaf8a40fecb",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "(India Status) (cont.)\n\n(GFI: 51.86 gCO₂/MJ).....................................................................................................................48\nTable 23: \t\nCase 6: D(HFO/LFO/DO) M9.47BD25 (LHV: 39,084 MJ/t) (Attained GFI: 69.39gCO₂/MJ)\n\n(blend with E-Methanol)..............................................................................................................49\nTable 26: \t\nCase 8 b: D(HFO/LFO/DO) M9.47BD40(LHV: 38,459 MJ/t)  (GFI: 58.07 gCO₂/MJ)\n\n(blend with E- Methanol GFI 17.1 )......................................................................................\n\n… [+6761 more chars]",
+  "content_hash": "25e94e3f36db75fdb19ee1509334c0e10fd8d7a7c4cd9fc9d3109e205d2ec058",
+  "token_count": 1477,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    21,
+    23
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7dc2fa4f-3ab3-5534-b195-b7811176e7b7`
+
+- vector: dim=3072 · [-0.0076, 0.0143, -0.0150, 0.0114, -0.0153, -0.0194, -0.0366, 0.0384, …]
+
+```json
+{
+  "chunk_id": "7dc2fa4f-3ab3-5534-b195-b7811176e7b7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "chunk_text": "(GFI: 51.86 gCO₂/MJ).....................................................................................................................48\nTable 23: \t\nCase 6: D(HFO/LFO/DO) M9.47BD25 (LHV: 39,084 MJ/t) (Attained GFI: 69.39gCO₂/MJ)\n\n(blend with E-Methanol)..............................................................................................................49\nTable 26: \t\nCase 8 b: D(HFO/LFO/DO) M9.47BD40(LHV: 38,459 MJ/t)  (GFI: 58.07 gCO₂/MJ)\n\n(blend with E- Methanol GFI 17.1 ).............................................................................................52\nTable 27: \t\nCa\n\n… [+853 more chars]",
+  "content_hash": "af262c62a3346c70f5482a9aa3b21ccfb591c373424d241e7d7e4273140716e7",
+  "token_count": 446,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "aac70e35-4f01-5858-b946-deaf8a40fecb",
+  "chunk_index": 30,
+  "page_number": 21,
+  "page_range": [
+    21,
+    22
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `33d5d039-4c88-5be3-ad68-37dfbe699cf8`
+
+- vector: dim=3072 · [-0.0077, 0.0224, -0.0070, 0.0165, -0.0086, -0.0220, -0.0562, 0.0421, …]
+
+```json
+{
+  "chunk_id": "33d5d039-4c88-5be3-ad68-37dfbe699cf8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "ethanol)................................................................................................................56\n\nxxii\nTable 31: \t\nCase 11: D (HFO/LFO/DO) M4.8BD50 (LHV: 38,882 MJ/t) (GFI: 51.08 gCO₂/MJ) (blend with E Methanol)...............................................................................................................57\nTable 32: \t\nCase 12 a: D (HFO/LFO/DO) E10BD40 (LHV: 39,058 MJ/t) (GFI: 58.40 gCO₂/MJ)\n\n(blend with 2G-Ethanol of GFI 25)..............................................................................................58\nTable 33: \t\nCase 12 b: D(HFO/LFO\n\n… [+1757 more chars]",
+  "content_hash": "c716371cfc7a4345b8910ef40bb59b33fb5a5efca5bcdf5ca0a17f06493b05a0",
+  "token_count": 487,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "aac70e35-4f01-5858-b946-deaf8a40fecb",
+  "chunk_index": 31,
+  "page_number": 22,
+  "page_range": [
+    22,
+    22
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c3f0cf75-71f1-59ab-a218-42a84ef91e87`
+
+- vector: dim=3072 · [-0.0033, 0.0205, -0.0117, 0.0052, -0.0218, -0.0265, -0.0502, 0.0387, …]
+
+```json
+{
+  "chunk_id": "c3f0cf75-71f1-59ab-a218-42a84ef91e87",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": "The Upper Boundary for Efficiency used for Each Propulsion Type...........................................................................................................155\nTable 4.8: \t Theoretical Design Ranges based on a Fuel Volume of 2700 m3 Shown in\n\nNautical Miles (nm) and Kilometres (km)................................................................................156\nTable 4.7 \t\nb): A Comparison of Volume and Mass (for Fuel and Storage) to provide 9270 MWh\n\nof Delivered Energy. The Upper Boundary for Efficiency used for Each\n\nPropulsion Type...........................................\n\n… [+1631 more chars]",
+  "content_hash": "97df1324f09f14def70212f2fa9763b1d5ed5509b87ccd746fb53f210a1871cb",
+  "token_count": 380,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "aac70e35-4f01-5858-b946-deaf8a40fecb",
+  "chunk_index": 32,
+  "page_number": 22,
+  "page_range": [
+    22,
+    22
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d6803448-a16a-54fb-85de-be0a27ca510f`
+
+- vector: dim=3072 · [0.0115, 0.0274, -0.0159, 0.0004, -0.0247, -0.0551, -0.0168, 0.0372, …]
+
+```json
+{
+  "chunk_id": "d6803448-a16a-54fb-85de-be0a27ca510f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "(India Status)",
+  "section_type": "toc",
+  "chunk_text": ".17: \t Overview of Hydrogen Plants in India.....................................................................................182\nTable 4.18: \t Infrastructure Projects in Global Ports for Hydrogen and Hydrogen Derived Fuels.....193\nTable 5.2: \t Status of Fuel Cells Vessels In Service.....................................................................................211 xxiii\nTable 5.3: \t Status of Fuel Cells Vessels (Orderbook)................................................................................215\nTable 5.4: \t Status of Fuel Cells Adoption Indian Shipping........................\n\n… [+1318 more chars]",
+  "content_hash": "fd79f32ac601fa4b52381f6817f0a07bba5b5d30fff5e1319259c97614484d42",
+  "token_count": 281,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "aac70e35-4f01-5858-b946-deaf8a40fecb",
+  "chunk_index": 33,
+  "page_number": 23,
+  "page_range": [
+    23,
+    23
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `10b95f7b-0446-5e06-8ef5-26a02f55fd66`
+
+- vector: dim=3072 · [-0.0126, 0.0450, -0.0191, -0.0341, -0.0161, -0.0201, -0.0247, 0.0169, …]
+
+```json
+{
+  "chunk_id": "10b95f7b-0446-5e06-8ef5-26a02f55fd66",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "List of Abbreviations",
+  "chunk_text": "| Abbreviations | Definitions |\n| --- | --- |\n| AFC | Alkaline Fuel Cell |\n| AFIR | Alternative Fuels Infrastructure Regulation |\n| AMU | Auxiliary Power Units |\n| ASTM | American Society for Testing and Materials |\n| BD | Biodiesel |\n| BE | Battery Electric |\n| BTL | Biomass to Liquid |\n| Bxx/BDxx | where xx = Biodiesel Blend % (by volume) |\n| C | Carbon |\n| CBG | Compressed Biogas |\n| CFPP | Cold Filter Plugging Point |\n| CH4 | Methane |\n| CHP | Combined Heat &Power |\n| CI | Compression ignition |\n| CO2 | Carbon Dioxide |\n| CO2eq | Carbon Dioxide Equivalent |\n| CP | Cloud Point |\n| CRL | Com\n\n… [+537 more chars]",
+  "content_hash": "2b79c3126c1a89f11dce8a587ad749e37b73e16462b14bb9d1da018411b31728",
+  "token_count": 315,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 34,
+  "page_number": 25,
+  "page_range": [
+    25,
+    25
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e232b864-d902-5d07-bbf8-ba1336059e5d`
+
+- vector: dim=3072 · [-0.0087, 0.0388, -0.0217, -0.0227, -0.0326, -0.0228, -0.0044, 0.0253, …]
+
+```json
+{
+  "chunk_id": "e232b864-d902-5d07-bbf8-ba1336059e5d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for Ma — ritime Application-",
+  "chunk_text": "| Abbreviations | Definitions |\n| --- | --- |\n| FAME | Fatty Acid Methyl Ester |\n| FBIV | Fuel Booster Injection Valve |\n| FC | Fuel Cells |\n| FEED | Front-End Engineering Design |\n| FID | Final Investment Decision |\n| FT | Fischer-Tropsch |\n| GCMD | Global Center for Maritime Decarbonization |\n| GFI | Greenhouse Gas Fuel Intensity |\n| GFOP | Green Fuels Optionality Project |\n| GHG | Greenhouse Gas |\n| GT | Gross Tonnage |\n| GTL | Gas to Liquid |\n| GWP | Global Warming Potential |\n| HFO | Heavy Fuel Oil |\n| HPDF | Dual Fuel High Pressure |\n| HPDI | High Pressure direct injection |\n| HTL | Hydr\n\n… [+795 more chars]",
+  "content_hash": "2bbedc3143375a1dcf53600be784729bedc17e998dd17c489587abc348b6a320",
+  "token_count": 353,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 35,
+  "page_number": 26,
+  "page_range": [
+    26,
+    26
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `b3b1783a-6bde-5bc4-92e2-5247c4dd9449`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "b3b1783a-6bde-5bc4-92e2-5247c4dd9449",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Advanced Green Fuels for M — aritime Application-\n\n| Abbreviations | Definitions |\n| --- | --- |\n| LOA | Length Overall |\n| LPDF | Dual Fuel Low Pressure |\n| LPG | Liquified Petroleum Gas |\n| LTMFC | Low Temperature Methanol Fuel Cell |\n| M | Methanol |\n| MARPOL | International Convention for the Prevention of Pollution from Ships |\n| MCFC | Molten Carbonate Fuel Cell |\n| MDO | Marine Diesel Oil |\n| MEPC | Marine Environment Protection Committee |\n| MGO | Marine Gas Oil |\n| MJ | Megajoules |\n| MMMCZCS | Mærsk McKinney Møller Centre for Zero Carbon Shipping |\n| MSW | Municipal solid wastes |\n| \n\n… [+1618 more chars]",
+  "content_hash": "94cd7e5a4336cfecc8b1176bf645e29e2af524dd7a03d56f86affa447bab7db8",
+  "token_count": 606,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    27,
+    28
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `08d5ad44-9260-5846-b970-68a2e7475c18`
+
+- vector: dim=3072 · [-0.0014, 0.0270, -0.0228, -0.0088, -0.0350, -0.0241, -0.0148, 0.0209, …]
+
+```json
+{
+  "chunk_id": "08d5ad44-9260-5846-b970-68a2e7475c18",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "| Abbreviations | Definitions |\n| --- | --- |\n| LOA | Length Overall |\n| LPDF | Dual Fuel Low Pressure |\n| LPG | Liquified Petroleum Gas |\n| LTMFC | Low Temperature Methanol Fuel Cell |\n| M | Methanol |\n| MARPOL | International Convention for the Prevention of Pollution from Ships |\n| MCFC | Molten Carbonate Fuel Cell |\n| MDO | Marine Diesel Oil |\n| MEPC | Marine Environment Protection Committee |\n| MGO | Marine Gas Oil |\n| MJ | Megajoules |\n| MMMCZCS | Mærsk McKinney Møller Centre for Zero Carbon Shipping |\n| MSW | Municipal solid wastes |\n| MWh | Megawatt-hour |\n| N2O | Nitrous Oxide |\n| NFP\n\n… [+706 more chars]",
+  "content_hash": "0b9c1ce29c9eaa9e462815b6741499b14159cd96f0cb59bf329221b70139db91",
+  "token_count": 348,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b3b1783a-6bde-5bc4-92e2-5247c4dd9449",
+  "chunk_index": 36,
+  "page_number": 27,
+  "page_range": [
+    27,
+    27
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `96b4e4d3-c90b-5f14-a479-13285c266de3`
+
+- vector: dim=3072 · [0.0041, 0.0330, -0.0205, -0.0270, -0.0129, -0.0361, 0.0028, 0.0232, …]
+
+```json
+{
+  "chunk_id": "96b4e4d3-c90b-5f14-a479-13285c266de3",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "essels |\n| RCCI | Reactivity-Controlled Compression |\n| RE | Renewable Energy |\n| RED | Renewable Energy Directive |\n| RO-RO | Roll-on/Roll-off |\n| RU | Remedial Units |\n| SCR | Selective Catalytic Reduction |\n| SI | Spark Ignition | | Abbreviations | Definitions |\n| --- | --- |\n| SIDS | Small Island Developing States |\n| SMR | Steam Methane Reforming |\n| SNCR | Selective Non-Catalytic Reduction |\n| SO2 | Sulphur Dioxide |\n| SOFC | Solid Oxide Fuel Cells |\n| SOLAS | Safety of Life at Sea |\n| STASHH | Standard Sized FC Module for Heavy Duty Applications |\n| STS | Ship-to-Ship |\n| SU | Surplus U\n\n… [+493 more chars]",
+  "content_hash": "247ae38977012c36bcb7b0d2f60565d2a7b22e05ed924e740b7e079712ee0431",
+  "token_count": 307,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b3b1783a-6bde-5bc4-92e2-5247c4dd9449",
+  "chunk_index": 37,
+  "page_number": 28,
+  "page_range": [
+    28,
+    28
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `91967cba-ba44-58de-a403-6efc3f493279`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "91967cba-ba44-58de-a403-6efc3f493279",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Advanced Green Fuels for M — aritime Application-\n\nIn April 2025, during 83rd meeting of Marine Environment Protection Committee (MEPC 83), IMO \nhas introduced Net Zero Framework setting mandatory GHG Fuel Intensity (GFI) based target for \nemission reduction from all global ships above 5000 GT. The GFI of a fuel sets a threshold on the \nannual well to wake GHG emission expressed per unit of energy used (gCO₂eq/MJ) and it is extremely \ncritical for accurate assessment of the true environmental benefits and overall climate performance \nof the alternative marine fuels. Under new framework, ships \n\n… [+6637 more chars]",
+  "content_hash": "042a7f8c04e618a18d5d17ecc4410a44a82acb04642e0d0dd851bcf4503083d6",
+  "token_count": 1601,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    30,
+    32
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1d0597ac-cf78-51f7-b5b3-73199316d67f`
+
+- vector: dim=3072 · [-0.0136, -0.0032, -0.0098, -0.0325, -0.0123, -0.0213, -0.0153, 0.0414, …]
+
+```json
+{
+  "chunk_id": "1d0597ac-cf78-51f7-b5b3-73199316d67f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "In April 2025, during 83rd meeting of Marine Environment Protection Committee (MEPC 83), IMO \nhas introduced Net Zero Framework setting mandatory GHG Fuel Intensity (GFI) based target for \nemission reduction from all global ships above 5000 GT. The GFI of a fuel sets a threshold on the \nannual well to wake GHG emission expressed per unit of energy used (gCO₂eq/MJ) and it is extremely \ncritical for accurate assessment of the true environmental benefits and overall climate performance \nof the alternative marine fuels. Under new framework, ships achieving emission targets are eligible to \nearn Su\n\n… [+1270 more chars]",
+  "content_hash": "21fb9a9533aaa4c5cda6ec49094709ce0191b6e3f0fa3df06e182f5246fe6288",
+  "token_count": 434,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "91967cba-ba44-58de-a403-6efc3f493279",
+  "chunk_index": 38,
+  "page_number": 30,
+  "page_range": [
+    30,
+    30
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c61182a2-3eac-5892-9266-a560a6b3d919`
+
+- vector: dim=3072 · [-0.0125, 0.0086, -0.0066, -0.0134, -0.0274, 0.0024, -0.0099, 0.0238, …]
+
+```json
+{
+  "chunk_id": "c61182a2-3eac-5892-9266-a560a6b3d919",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Well to Wake \n(WtW) GFI of fuel ii. LCA based GHG reduction potential iii. Fuel supply readiness, iv. Storage tank \ncapacity and bunkering infrastructure v. Global bunkering infrastructure readiness in ports, vi. Engine and Fuel Cell ecosystem vii. Cost of fuels with and without IMO proposed GHG emission tax and viii. \nStandard policy and regulatory gaps. In the absence of clearly defined classification of ZNZ fuels, in \nthis study bio and e fuels with GFI value below the IMO’s year wise threshold mark is considered as \nZNZ fuels.\nThis report presents the estimates of the alternative and ZNZ f\n\n… [+1670 more chars]",
+  "content_hash": "2935f12c3251f679682aa2c47f9cf0e7075d83375037bccdc3b6d4cb58ad6611",
+  "token_count": 480,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "91967cba-ba44-58de-a403-6efc3f493279",
+  "chunk_index": 39,
+  "page_number": 30,
+  "page_range": [
+    30,
+    30
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e87cb1c3-5071-5f6e-97ba-6fc83223a31b`
+
+- vector: dim=3072 · [-0.0123, 0.0173, -0.0114, -0.0141, -0.0248, 0.0006, -0.0528, 0.0156, …]
+
+```json
+{
+  "chunk_id": "e87cb1c3-5071-5f6e-97ba-6fc83223a31b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "B50 covers direct compliance target till 2035. Although B40 and B50 are sufficient enough to meet \nDirect compliance emission targets till 2033 and 2035 respectively, multi-fuel blends such as Bio/E Alcohol (Methanol/2GEthanol 10 v/v %)-Biodiesel- Diesel blends can fetch much higher degree of \nSurplus Unit and Rewards thus making the transition economically attractive. The advantage of blend \nfuel is continued use of existing engines without investing to alternate fuel engines. Additionally, \nalthough Coastal Vessels <5000GT are not presently subjected to IMO compliance, however, emission \ngui\n\n… [+1583 more chars]",
+  "content_hash": "923b196ddf0e3904b9ab7772702df0de73cb3d31ef8f180c829ff34ee5586836",
+  "token_count": 490,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "91967cba-ba44-58de-a403-6efc3f493279",
+  "chunk_index": 40,
+  "page_number": 31,
+  "page_range": [
+    31,
+    31
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b6c5934e-7deb-5c26-8c3f-151bc5f82da1`
+
+- vector: dim=3072 · [-0.0134, 0.0069, -0.0072, -0.0096, -0.0320, -0.0077, -0.0416, 0.0145, …]
+
+```json
+{
+  "chunk_id": "b6c5934e-7deb-5c26-8c3f-151bc5f82da1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "There is a heightened need to increasingly implement CO2 capture on-board and switching over to bio/ synthetic e-fuels from HFO with the advancement of alternate fuel engines. Immediate implementation \nstrategy needs to be developed to pilot dual-fuel and multifuel blend in existing engines with OCC in \nfew pilots for generating data to assess energy and economic viability. Domestic green corridor can be \nset up for with pilot demonstration. There is an urgent need of larger number of pilot demonstration \nof CCUS projects through valorisation of adsorbed CO2 especially for India with lack of g\n\n… [+777 more chars]",
+  "content_hash": "f958222da0cea06638e9490ffaafec0016dac086fdfd920e063cdb2e4ca3e7b4",
+  "token_count": 295,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "91967cba-ba44-58de-a403-6efc3f493279",
+  "chunk_index": 41,
+  "page_number": 31,
+  "page_range": [
+    31,
+    32
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `61f36e29-4d39-5c2e-ac0a-6a8d4e6141cd`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "61f36e29-4d39-5c2e-ac0a-6a8d4e6141cd",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Executive Sum",
+  "chunk_text": "Executive Sum\n\nmary\n\n5\n\n</\n\nPresently there are stringent environmental standards and regulatory focus on maritime \ndecarbonization. IMO, the governing body of international shipping, has set an overall goal of net \nzero GHG emissions from international shipping by or around 2050, relative to 2008 levels and is \npursuing efforts to phase out the emissions. Earlier in 2020, IMO also placed regulations limiting \nmarine fuel sulfur content to 0.5% by weight and issued a carriage ban on all non-compliant fuel. \nFuel sulfur regulations are further restricted to 0.1% sulfur by weight (S) especially \n\n… [+5528 more chars]",
+  "content_hash": "3b536938d4081f782761623a56e7da343886ad0012c3f6a1e93b69aa7b2dd7fb",
+  "token_count": 1280,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    33,
+    35
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `62222485-61c3-5b0c-b8c1-616b6809a6d6`
+
+- vector: dim=3072 · [-0.0102, 0.0269, -0.0029, -0.0092, -0.0018, -0.0206, -0.0202, 0.0220, …]
+
+```json
+{
+  "chunk_id": "62222485-61c3-5b0c-b8c1-616b6809a6d6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Executive Sum",
+  "chunk_text": "mary\n\n5\n\n</\n\nPresently there are stringent environmental standards and regulatory focus on maritime \ndecarbonization. IMO, the governing body of international shipping, has set an overall goal of net \nzero GHG emissions from international shipping by or around 2050, relative to 2008 levels and is \npursuing efforts to phase out the emissions. Earlier in 2020, IMO also placed regulations limiting \nmarine fuel sulfur content to 0.5% by weight and issued a carriage ban on all non-compliant fuel. \nFuel sulfur regulations are further restricted to 0.1% sulfur by weight (S) especially for vessel \nmov\n\n… [+1650 more chars]",
+  "content_hash": "5b87ec2badab3c4a1ca8d46fe0e3eb2db561dd255090e407375d9b4a6139ca6d",
+  "token_count": 447,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "61f36e29-4d39-5c2e-ac0a-6a8d4e6141cd",
+  "chunk_index": 42,
+  "page_number": 33,
+  "page_range": [
+    33,
+    34
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `92cc3478-de5c-5d4e-989d-ea5fd763cfd5`
+
+- vector: dim=3072 · [-0.0341, 0.0027, -0.0127, -0.0209, -0.0249, -0.0013, -0.0303, 0.0087, …]
+
+```json
+{
+  "chunk_id": "92cc3478-de5c-5d4e-989d-ea5fd763cfd5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Executive Sum",
+  "chunk_text": "It is being argued \nto adopt well to wake life cycle perspective of alternative fuels which can effectively capture \nenvironmental externalities beyond the purview of traditional metrics (such as EEDI) and thus support mitigating unintended environmental consequences of marine fuel consumption, such as \nshifting environmental burdens across segments of the supply chain or across pollutant categories \n(e.g., emissions to land, water, and air) Additionally, it is also advocated that IMO consider a full \nlife cycle perspective when accounting for the emissions from shipping and suggests exploitin\n\n… [+1370 more chars]",
+  "content_hash": "ca42847f6b29741df1b987ab903926bc377c952a390226e7ffcd0c2547f85f9d",
+  "token_count": 412,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "61f36e29-4d39-5c2e-ac0a-6a8d4e6141cd",
+  "chunk_index": 43,
+  "page_number": 34,
+  "page_range": [
+    34,
+    34
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4abdd242-928f-5235-af5a-3357b63e4c30`
+
+- vector: dim=3072 · [-0.0185, 0.0013, -0.0089, -0.0034, -0.0212, -0.0052, -0.0215, 0.0192, …]
+
+```json
+{
+  "chunk_id": "4abdd242-928f-5235-af5a-3357b63e4c30",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Executive Sum",
+  "chunk_text": "Overall activities require \nalignment with global developments. Towards this, it is of paramount importance to understand \nprogress in fuel and engine development, policy, economics and regulations, and global perspectives. With this as a background, the major objective of this study was initially set to outline the green fuel \nroadmap (especially the Hydrogen derived fuels like Hydrogen, Methanol and Ammonia with fossil \nfuels as reference) ensuring IMO Compliance in Indian maritime sector. \nHowever, with the evolving regulatory guidelines from IMO’s Marine environment Protection \nCommittee (\n\n… [+1725 more chars]",
+  "content_hash": "eb8442942711b7d0a1dc2170baf4abf87edac89a6b61915aba6c7ad8dc3543fd",
+  "token_count": 494,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "61f36e29-4d39-5c2e-ac0a-6a8d4e6141cd",
+  "chunk_index": 44,
+  "page_number": 35,
+  "page_range": [
+    35,
+    35
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `2e3d51b8-070f-566e-b02d-38e30ee6852c`
+
+- vector: dim=3072 · [-0.0045, 0.0074, -0.0117, -0.0148, -0.0293, -0.0219, -0.0174, 0.0305, …]
+
+```json
+{
+  "chunk_id": "2e3d51b8-070f-566e-b02d-38e30ee6852c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 4",
+  "chunk_text": "Two Scenarios are built where the\n\nScenario-1 estimates fuel/fuel-mix demand for meeting GFI based emission targets by year \n2030 and 2035 as per MEPC 83 amended guidelines. Under this Scenario, except for use of \ndrop in fuels, existing engines retrofitting or replacement to alternative engines (dual-fuel \nor mono fuel) is a necessity.\n\nScenarios-2 is built on blend-fuel approach which considers dual or multi-fuel blending of \npossible low carbon/ZNZ fuels (such as, Diesel-Biodiesel, E/Bio Alcohol (Methanol/Ethanol)- \nDiesel & E/Bio Alcohol (Methanol/Ethanol)- Biodiesel -Diesel blends). In th\n\n… [+1481 more chars]",
+  "content_hash": "4b41ad01978cb233b32afd709bf078032e827641ef58eebf819d95b13198a75b",
+  "token_count": 483,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 45,
+  "page_number": 35,
+  "page_range": [
+    35,
+    37
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `df1002c6-5267-5866-825e-79609d0aabe2`
+
+- vector: dim=3072 · [-0.0399, -0.0190, -0.0123, -0.0089, -0.0020, -0.0280, -0.0060, 0.0470, …]
+
+```json
+{
+  "chunk_id": "df1002c6-5267-5866-825e-79609d0aabe2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Introduction and Objectives of Study — Latest Amendments in IMO's Regulations related to GHG Reduction and Fuel Standards-MEPC 83 & MEPC 2nd Extraordinary Session (MEPC-ES.2)",
+  "chunk_text": "IMO's Marine Environment Protection Committee (MEPC 83) meeting held in April 2025 has\nestablished binding measures to reduce the well-to-wake (WTW) greenhouse gas fuel intensity\n(GFI) of International ships over 5,000 gross tonnage. To facilitate the transition to alternative\nfuels and accordingly achieve emission reductions in the maritime sector, carbon pricing is gaining\nunprecedented momentum as one of the most important measures.\n\nAs in the recently concluded MEPC 83, IMO has given green signal to Net-Zero Framework,\nsetting mandatory GHG Fuel Intensity (GFI) Targets for all global ships\n\n… [+406 more chars]",
+  "content_hash": "465083356853a718a84b3798e6b1ef6a6decd39d451b3874231c13a0b7dcc765",
+  "token_count": 233,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 46,
+  "page_number": 37,
+  "page_range": [
+    37,
+    37
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `e5f1a02a-ef00-530f-8e58-dea208a10dbb`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "e5f1a02a-ef00-530f-8e58-dea208a10dbb",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "GFIattained — Energytotal",
+  "chunk_text": "GFIattained — Energytotal\n\nΣ΄ ΕΙ|XEnergy]\n\nWhere, El, represents GHG Emission Intensity of each fuel/energy source used by the ship, Energy;\nrepresents Energy Value/Lower Heating Value of each fuel/energy source used and Energytotal is\nthe Total Energy consumed by the ship. A lower GFI value indicates more environmentally friendly\nenergy usage, contributing to reduced overall GHG emissions. IMO's LCA based methodological\nguidance is provided in Annexure I.\n\nGFI targets for emissions from ships are set to be progressively stricter over the years. For instance,\nthe Base Targets and Direct Target\n\n… [+4210 more chars]",
+  "content_hash": "127bbef6858e5aed55a941212236db910ccccdab837010d70387eb006ee401a6",
+  "token_count": 1288,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    37,
+    39
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `995bed51-e54b-57da-ab5e-1a25e0a40af2`
+
+- vector: dim=3072 · [-0.0242, 0.0072, -0.0080, -0.0024, -0.0109, -0.0188, 0.0179, 0.0338, …]
+
+```json
+{
+  "chunk_id": "995bed51-e54b-57da-ab5e-1a25e0a40af2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "GFIattained — Energytotal",
+  "chunk_text": "Σ΄ ΕΙ|XEnergy]\n\nWhere, El, represents GHG Emission Intensity of each fuel/energy source used by the ship, Energy;\nrepresents Energy Value/Lower Heating Value of each fuel/energy source used and Energytotal is\nthe Total Energy consumed by the ship. A lower GFI value indicates more environmentally friendly\nenergy usage, contributing to reduced overall GHG emissions. IMO's LCA based methodological\nguidance is provided in Annexure I.\n\nGFI targets for emissions from ships are set to be progressively stricter over the years. For instance,\nthe Base Targets and Direct Targets for the years between 202\n\n… [+380 more chars]",
+  "content_hash": "b8a121da0118559ff3371c93b8eb678ffd1169efa92d9fef8cc3d32ff2d30065",
+  "token_count": 309,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e5f1a02a-ef00-530f-8e58-dea208a10dbb",
+  "chunk_index": 47,
+  "page_number": 37,
+  "page_range": [
+    37,
+    37
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `83fae58c-360e-546e-b40a-28550fb1e439`
+
+- vector: dim=3072 · [-0.0337, -0.0043, 0.0000, -0.0288, -0.0191, -0.0334, -0.0039, 0.0636, …]
+
+```json
+{
+  "chunk_id": "83fae58c-360e-546e-b40a-28550fb1e439",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "GFIattained — Energytotal",
+  "chunk_text": "| 2032 | 16.8 | 29.8 |\n| 2033 | 21.2 | 34.2 |\n| 2034 | 25.6 | 38.6 |\n| 2035 | 30.0 | 43.0 | Setting of the Base and Direct Target for the years between 2036 to 2040 are scheduled at 1 \nJanuary 2032 although the Base Target for 2040 is tentatively set as 65% GHG emission reduction \nagainst 2008 reference value. The Well-to-Wake (WtW) fuel GFI Target for the period until 2034, is \nset as 19.0 gCO2e/MJ, and from 2025 onward, 14.0 gCO2e/MJ.\nUnder new framework, ships achieving emission targets are eligible to earn Surplus Units (SUs) which \ncan be traded, saved, or cancelled. Tier-1 (Direct compli\n\n… [+1171 more chars]",
+  "content_hash": "2d6a9bbe6b6ceb35c35133bbb399e3f558d8db8c9220ccb74e395f9e5ef6c9b3",
+  "token_count": 491,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e5f1a02a-ef00-530f-8e58-dea208a10dbb",
+  "chunk_index": 48,
+  "page_number": 38,
+  "page_range": [
+    38,
+    38
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9d18d7a2-00ba-5e1a-9c0b-e42f3f8e19c8`
+
+- vector: dim=3072 · [-0.0321, 0.0111, -0.0079, -0.0340, -0.0001, -0.0433, -0.0202, 0.0558, …]
+
+```json
+{
+  "chunk_id": "9d18d7a2-00ba-5e1a-9c0b-e42f3f8e19c8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "GFIattained — Energytotal",
+  "chunk_text": "It is \nobserved that under new regulations, Base as well as Direct Target trajectories are highly ambitious. \nAlso, it is worth highlighting that MEPC 83 trajectories still fall short of reaching net zero target by or near 2050 which needs future readjustment of trajectories between 2035-2040 to reach near zero \nin 2050.\nThe disbursement of generated revenue is proposed to be utilized for the following activities \n\t»\nTo provide incentives for alternative-fuel ships and developing Infrastructure \n\t»\nTo support GHG-vulnerable countries, such as small island developing states (SIDS)\n\t»\nTo cover a\n\n… [+1735 more chars]",
+  "content_hash": "cc38278b95820bf0d4a404f77524821538fd3f90757aad3c7d0b4581d69a765b",
+  "token_count": 582,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e5f1a02a-ef00-530f-8e58-dea208a10dbb",
+  "chunk_index": 49,
+  "page_number": 38,
+  "page_range": [
+    38,
+    39
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `501c4939-d71f-5a78-b302-e501d1354995`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "501c4939-d71f-5a78-b302-e501d1354995",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\nSource: American Bureau of Shipping (ABS), 2025\n\nWhen carbon pricing is reinforced, it is expected to account for a large portion of fuel costs. Also,\nseveral financial institutions are signing onto the Poseidon Principles, established in 2019 in order to\nassess the climate alignment of ship finance portfolios. This is expected to expedite the process of\nshipping companies ensuring alignment with the IMO's GHG emission reduction targets.\n\nThe following Table illustrates the key outcome of MEPC 83.\n\n| Topic | Description | Key Outcomes / Developments |\n| --- | --- | --- |\n| Mid-Sterm GHG \n\n… [+2531 more chars]",
+  "content_hash": "a9920663e1544b2a2b74ea2793a29f9d412705f079f5eda2fe3017d7b1a58c13",
+  "token_count": 695,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    39,
+    40
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d475b84e-03c8-58ea-9c51-14a5f6a1c220`
+
+- vector: dim=3072 · [-0.0186, -0.0081, -0.0188, -0.0172, -0.0095, -0.0539, 0.0095, 0.0501, …]
+
+```json
+{
+  "chunk_id": "d475b84e-03c8-58ea-9c51-14a5f6a1c220",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Source: American Bureau of Shipping (ABS), 2025\n\nWhen carbon pricing is reinforced, it is expected to account for a large portion of fuel costs. Also,\nseveral financial institutions are signing onto the Poseidon Principles, established in 2019 in order to\nassess the climate alignment of ship finance portfolios. This is expected to expedite the process of\nshipping companies ensuring alignment with the IMO's GHG emission reduction targets.\n\nThe following Table illustrates the key outcome of MEPC 83.\n\n| Topic | Description | Key Outcomes / Developments |\n| --- | --- | --- |\n| Mid-Sterm GHG Reduct\n\n… [+717 more chars]",
+  "content_hash": "1bd1fa6d778c807da337e89041d2a963689d31291b5de3a86e87b97df7ebefb9",
+  "token_count": 307,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "501c4939-d71f-5a78-b302-e501d1354995",
+  "chunk_index": 50,
+  "page_number": 39,
+  "page_range": [
+    39,
+    39
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `086b16a1-b624-5ba7-8680-5623a51ab5cd`
+
+- vector: dim=3072 · [-0.0099, 0.0048, -0.0193, -0.0046, -0.0216, -0.0090, -0.0042, 0.0388, …]
+
+```json
+{
+  "chunk_id": "086b16a1-b624-5ba7-8680-5623a51ab5cd",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Rewards framework under development. |  | | Topic | Description | Key Outcomes / Developments |\n| --- | --- | --- |\n| Fuel Certification & Recognition Guidelines | Sets out requirements for certifying sustainable marine fuels via IMO-recognized schemes. | IMO will define certification standards and procedures for recognition of schemes. To be adopted in supporting guidelines. |\n| Further Development of Life Cycle GHG Intensity Guidelines | Updates to LCA Guidelines for default values, fuel pathway codes, and emission boundaries. | Default emissions factors submitted for review (e.g., Methanol,\n\n… [+1248 more chars]",
+  "content_hash": "de2405b07faeb087e6bc0a055494cf4a0ef8923b472e6a8c1b8e09b77f722a26",
+  "token_count": 395,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "501c4939-d71f-5a78-b302-e501d1354995",
+  "chunk_index": 51,
+  "page_number": 40,
+  "page_range": [
+    40,
+    40
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `37b5ab12-6f8e-513b-ae3c-4dbdfb11167c`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "37b5ab12-6f8e-513b-ae3c-4dbdfb11167c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Key Findings of the Study — Chapter 1: Vessel Ownership — Analysis of global distribution of vessel ownership shows a clear dominance by Asian countries, followed by Europe and North America and India's significant contribution with 2,179 vessels.",
+  "chunk_text": "Key Findings of the Study — Chapter 1: Vessel Ownership — Analysis of global distribution of vessel ownership shows a clear dominance by Asian countries, followed by Europe and North America and India's significant contribution with 2,179 vessels.\n\nAmong top 25 countries, China P.R. leads significantly with 13,864 vessels, followed by Indonesia with\n11,994 vessels and Japan with 8,731 vessels. Greece, the United States, and an unspecified category\nlabeled \"Unknown\" also have substantial fleets, with 5,978, 4,890, and 4,066 vessels respectively.\nMid-tier countries include Singapore with 3,623 v\n\n… [+3337 more chars]",
+  "content_hash": "3b6818999275c4501f425f91e89afc598cdf984caf85dc81d615725a7f936c19",
+  "token_count": 966,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    40,
+    41
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `3df0f9f4-8a18-5201-ae37-b40012649100`
+
+- vector: dim=3072 · [-0.0025, 0.0330, -0.0144, -0.0265, 0.0213, -0.0243, 0.0181, 0.0059, …]
+
+```json
+{
+  "chunk_id": "3df0f9f4-8a18-5201-ae37-b40012649100",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Key Findings of the Study — Chapter 1: Vessel Ownership — Analysis of global distribution of vessel ownership shows a clear dominance by Asian countries, followed by Europe and North America and India's significant contribution with 2,179 vessels.",
+  "chunk_text": "Among top 25 countries, China P.R. leads significantly with 13,864 vessels, followed by Indonesia with\n11,994 vessels and Japan with 8,731 vessels. Greece, the United States, and an unspecified category\nlabeled \"Unknown\" also have substantial fleets, with 5,978, 4,890, and 4,066 vessels respectively.\nMid-tier countries include Singapore with 3,623 vessels, South Korea with 3,061 vessels, and Turkey\nwith 2,986 vessels. European countries such as Russia, Norway, and Germany have significant number",
+  "content_hash": "cac5d2ece6fc560e40a0231532a97e5da899582d4d65633bae04e5643f2b515e",
+  "token_count": 121,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "37b5ab12-6f8e-513b-ae3c-4dbdfb11167c",
+  "chunk_index": 52,
+  "page_number": 40,
+  "page_range": [
+    40,
+    40
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `5628f622-6b7a-5828-8c2d-92aa7388fcca`
+
+- vector: dim=3072 · [-0.0121, 0.0250, -0.0208, -0.0330, -0.0034, -0.0347, -0.0001, 0.0036, …]
+
+```json
+{
+  "chunk_id": "5628f622-6b7a-5828-8c2d-92aa7388fcca",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Key Findings of the Study — Chapter 1: Vessel Ownership — Analysis of global distribution of vessel ownership shows a clear dominance by Asian countries, followed by Europe and North America and India's significant contribution with 2,179 vessels.",
+  "chunk_text": "Mid-tier countries include Singapore with 3,623 vessels, South Korea with 3,061 vessels, and Turkey\nwith 2,986 vessels. European countries such as Russia, Norway, and Germany have significant number of vessels counting to 2,948, 2,773, and 2,643 respectively. The U.A.E. stands out in the middle east \nwith 2,608 vessels. Other notable countries are the Philippines with 2,212 vessels and Vietnam \n2,151 vessels. Italy, Malaysia, the Netherlands, and Hong Kong contribute further with vessel counts \nranging from 1,651 to 2,143. \nChapter 2: Global Alternative Fuel Transition in Marine Vessels\nIn mar\n\n… [+1364 more chars]",
+  "content_hash": "e88f182b2e8d0ea83751724aefe5bf49916cb8b579700ef3669c325211c7a3a0",
+  "token_count": 488,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "37b5ab12-6f8e-513b-ae3c-4dbdfb11167c",
+  "chunk_index": 53,
+  "page_number": 41,
+  "page_range": [
+    41,
+    41
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `14b4649f-8f28-56bf-9e39-265ab9284677`
+
+- vector: dim=3072 · [-0.0300, 0.0342, -0.0236, -0.0219, -0.0119, -0.0323, -0.0110, 0.0075, …]
+
+```json
+{
+  "chunk_id": "14b4649f-8f28-56bf-9e39-265ab9284677",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Key Findings of the Study — Chapter 1: Vessel Ownership — Analysis of global distribution of vessel ownership shows a clear dominance by Asian countries, followed by Europe and North America and India's significant contribution with 2,179 vessels.",
+  "chunk_text": "Comparative Assessment w.r.to Gross Tonnages (GT) Distribution of in-service vessels shows LNG is adopted highly in larger vessels particularly > 100K GT range. Whereas, from green \nalternative fuel perspective, Biofuel (Biodiesel) is adopted largely in 10-50K GT range, Methanol \nin 10K-50K GT range along with 20-50 GT, Hydrogen <500 GT and Ammonia adopted only for 3 \nvessels one each in <500, 10-30k and 5-10 K GT range. Orderbook data reveals LNG domination \nwith 991 vessels primarily >50K GT range among bulk carriers and container ships. With respect \nto alternative green fuel adoption, Meth\n\n… [+910 more chars]",
+  "content_hash": "2bc71965bd3602cde4d386ff2437786c290993a25ea2d4a71c3de85fc8642c84",
+  "token_count": 369,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "37b5ab12-6f8e-513b-ae3c-4dbdfb11167c",
+  "chunk_index": 54,
+  "page_number": 41,
+  "page_range": [
+    41,
+    41
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `2b72a19e-ae9d-5f06-bdb2-eeee6110bfd2`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "2b72a19e-ae9d-5f06-bdb2-eeee6110bfd2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "For other alternative fuel option",
+  "chunk_text": "For other alternative fuel option\n\n» Japan, Switzerland & Greece demonstrate substantial adoption of LNG\n\n» Notably, Russia's exclusive involvement in Nuclear-powered vessels\n\n» China P. R emerges as a frontrunner in Ethane-powered vessels with 28, Followed by Germany,\nJapan, Norway, Singapore and UAE\n\n| In service | In service | In service | In service | Orderbook | Orderbook | Orderbook | Orderbook |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| All Alternative Fuels | All Alternative Fuels | Hydrogen Derived Fuels | Hydrogen Derived Fuels | All Alternative Fuels | All Alternative Fuel\n\n… [+3223 more chars]",
+  "content_hash": "2ed26947aea72055c817b0b690906216fffb9362f7d9ae23629f86ae5494e885",
+  "token_count": 1280,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    42,
+    42
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `cb187920-cfc9-557f-a30c-b897e2bbbae7`
+
+- vector: dim=3072 · [-0.0013, 0.0314, -0.0202, -0.0363, -0.0118, -0.0344, 0.0103, 0.0196, …]
+
+```json
+{
+  "chunk_id": "cb187920-cfc9-557f-a30c-b897e2bbbae7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "For other alternative fuel option",
+  "chunk_text": "» Japan, Switzerland & Greece demonstrate substantial adoption of LNG\n\n» Notably, Russia's exclusive involvement in Nuclear-powered vessels\n\n» China P. R emerges as a frontrunner in Ethane-powered vessels with 28, Followed by Germany,\nJapan, Norway, Singapore and UAE\n\n| In service | In service | In service | In service | Orderbook | Orderbook | Orderbook | Orderbook |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| All Alternative Fuels | All Alternative Fuels | Hydrogen Derived Fuels | Hydrogen Derived Fuels | All Alternative Fuels | All Alternative Fuels | Hydrogen Derived fuel | Hydroge\n\n… [+895 more chars]",
+  "content_hash": "235f95f7f397e346c8f7d065f041dc4c5ef367c9f73a9637212772f7dad9873a",
+  "token_count": 483,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2b72a19e-ae9d-5f06-bdb2-eeee6110bfd2",
+  "chunk_index": 55,
+  "page_number": 42,
+  "page_range": [
+    42,
+    42
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `af7a783c-e4cc-59ee-b685-a49ffaa1b11d`
+
+- vector: dim=3072 · [0.0008, 0.0285, -0.0281, -0.0188, -0.0290, -0.0244, -0.0114, 0.0268, …]
+
+```json
+{
+  "chunk_id": "af7a783c-e4cc-59ee-b685-a49ffaa1b11d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "For other alternative fuel option",
+  "chunk_text": "This excludes Methanol | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (In Service) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vessels (Orderbook) | Alternative fuel Vess\n\n… [+1259 more chars]",
+  "content_hash": "e1a0f2acbd08d9f7afc843ecba0be77a072557a0b3450dc2357f7dfc81c7dd68",
+  "token_count": 563,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2b72a19e-ae9d-5f06-bdb2-eeee6110bfd2",
+  "chunk_index": 56,
+  "page_number": 42,
+  "page_range": [
+    42,
+    42
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d132ab26-6134-5fd6-9411-4cdef4256a2f`
+
+- vector: dim=3072 · [0.0227, 0.0156, -0.0104, -0.0060, -0.0263, -0.0110, -0.0367, 0.0238, …]
+
+```json
+{
+  "chunk_id": "d132ab26-6134-5fd6-9411-4cdef4256a2f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "For other alternative fuel option",
+  "chunk_text": "|  |  |  |  |  |\n| 3K-5K | 36 | - | 7 | 1 | - | 2 | - |  | 16 | 9 |  |  | 17 | 1 |  |  | | 5K-10K | 83 | 6 | 4 | - | - | - | - | 1 | 20 | 17 | 2 |  | 1 | 8 |  |  |\n| 10K-50K | 150 | 69 | 39 | 28 | 4 | 2 | 10 |  | 95 | 69 | 64 | 8 | 5 |  | 10 | 4 |\n| >50K | 777 | 50 | 28 | 4 | 20 | 1 | - | - | 841 | 140 | 48 | 37 |  | 8 | 11 | 3 |\n| Unknown | 14 |  | 17 | 1 | - | 4 | - | - |  | 8 |  |  |  | 2 | 1 |  |\n\n*Majorly Biodiesel or Biodiesel blends along with few other biofuels like Green Diesel, Biobutanol, Bioethanol etc.\nThis excludes Methanol",
+  "content_hash": "cde508ab706081e4d1856bd37c7d44d7b34483e78f3b83cd42cc5b0872e14086",
+  "token_count": 290,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2b72a19e-ae9d-5f06-bdb2-eeee6110bfd2",
+  "chunk_index": 57,
+  "page_number": 42,
+  "page_range": [
+    42,
+    42
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `14b4a481-b057-5aee-b6d3-d8c10d596bc0`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "14b4a481-b057-5aee-b6d3-d8c10d596bc0",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel",
+  "chunk_text": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel\n\nChapter 3: Alternative Fuel Powered Marine Engines (ICE)-Global \nStatus \nAlternative fuel propulsion is critically Important for long-term green shipping transition. Present \nglobal market is dominated by International engine manufacturers (MAN B&W leads with 79% for \nMethanol, 42.9% for Hydrogen, and varying shares with 49.1% LNG, 100% LPG, and Ethane; Wartsila \nfollows with significant 57% shares in LNG, 33% in Hydrogen , 33.3% in Ammonia ; WinGD focuses on \nMethanol 9% share and Ammonia 80% share ; Yanmar leads with biofuel share by 64.3%.\nD\n\n… [+8273 more chars]",
+  "content_hash": "e8f43aed217a4ca8ba3c1d0d2cbe43d757ffdf2e7c256a94ff619189fe3c9b20",
+  "token_count": 2144,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    43,
+    49
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `92f539f7-2f49-5f38-937a-a71b0dbe19db`
+
+- vector: dim=3072 · [-0.0205, 0.0064, -0.0112, -0.0223, -0.0308, -0.0052, -0.0124, 0.0104, …]
+
+```json
+{
+  "chunk_id": "92f539f7-2f49-5f38-937a-a71b0dbe19db",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel",
+  "chunk_text": "Chapter 3: Alternative Fuel Powered Marine Engines (ICE)-Global \nStatus \nAlternative fuel propulsion is critically Important for long-term green shipping transition. Present \nglobal market is dominated by International engine manufacturers (MAN B&W leads with 79% for \nMethanol, 42.9% for Hydrogen, and varying shares with 49.1% LNG, 100% LPG, and Ethane; Wartsila \nfollows with significant 57% shares in LNG, 33% in Hydrogen , 33.3% in Ammonia ; WinGD focuses on \nMethanol 9% share and Ammonia 80% share ; Yanmar leads with biofuel share by 64.3%.\nDual-fuel combustion systems as retro fitment strat\n\n… [+1532 more chars]",
+  "content_hash": "8911f7b8810c8569842f3a00c11edfad8957f5c93e7570babc0adc56eaed1e3e",
+  "token_count": 448,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "14b4a481-b057-5aee-b6d3-d8c10d596bc0",
+  "chunk_index": 58,
+  "page_number": 43,
+  "page_range": [
+    43,
+    43
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `96fb7699-3cf7-5965-b8fa-5378f5e75a0a`
+
+- vector: dim=3072 · [-0.0374, -0.0123, -0.0171, -0.0037, -0.0237, 0.0016, -0.0326, 0.0045, …]
+
+```json
+{
+  "chunk_id": "96fb7699-3cf7-5965-b8fa-5378f5e75a0a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel",
+  "chunk_text": "Methanol \nshows the highest adoption potential in ICE owing to large scale commercial development, ease of storing and bunkering being liquid at room temperature and more cost-effective w.r.to retro fitment \nin comparison to its other contenders like Hydrogen and Ammonia. DME should also be looked into as \na high cetane Diesel replacing renewable fuel which can easily be produced from Methanol through \ncatalytic dehydration. Methane slips concerns make LNG and e-LNG still unattractive in medium to long \nrun although it has the easy retro fitment and bunkering aspects. Overall analysis of globa\n\n… [+376 more chars]",
+  "content_hash": "d9a7434695d3dd721c64b16a44f18e638962bf18b9e598fa4aeeb9971de3c29d",
+  "token_count": 195,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "14b4a481-b057-5aee-b6d3-d8c10d596bc0",
+  "chunk_index": 59,
+  "page_number": 43,
+  "page_range": [
+    43,
+    45
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e2951146-53c5-52ed-857b-02e227f7b32c`
+
+- vector: dim=3072 · [-0.0200, 0.0095, -0.0177, -0.0007, -0.0196, -0.0049, -0.0216, 0.0096, …]
+
+```json
+{
+  "chunk_id": "e2951146-53c5-52ed-857b-02e227f7b32c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel",
+  "chunk_text": "Figure 2: Hydrogen derived Alternative Fuel based Marine Engine Development Status\n\nFigure 3: Alternative-Fuel (excluding Hydrogen derived) Marine Engine Development Status Chapter 4: Comparative Assessment of Alternative Fuels\nNCoEGPS’s analysis shows that only the following alternative fuels  have the potential to meet \nthe IMO target of reducing the total GHG emissions which are Bio based and E-based fuels such as \nBio Methanol, Green/E-Ammonia, E-Methanol, Green Hydrogen, where Bio Diesel, E-LNG and CCS \ncombined Natural Gas (NG)-based Ammonia can be useful for short term compliance.\nA rec\n\n… [+1472 more chars]",
+  "content_hash": "a618dfe1d3b605ca6dc0f95f9f1dec8d04cbb3ac5d95a440382d7f8693ad6945",
+  "token_count": 466,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "14b4a481-b057-5aee-b6d3-d8c10d596bc0",
+  "chunk_index": 60,
+  "page_number": 46,
+  "page_range": [
+    46,
+    46
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7e04b8c8-3f1d-5fa2-9142-b459f2ccf7e2`
+
+- vector: dim=3072 · [-0.0265, 0.0159, -0.0172, -0.0130, -0.0154, -0.0007, -0.0434, 0.0156, …]
+
+```json
+{
+  "chunk_id": "7e04b8c8-3f1d-5fa2-9142-b459f2ccf7e2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel",
+  "chunk_text": "From ship design perspective, another insight is significant. Ships tend to operate with more \nfuel, especially HFO storage onboard than is required for a single voyage. This study has shown \nthat reducing storage levels to closer to the expected output for single trip can reduce mass and volume requirements and hence make alternative fuels significantly more viable. In other words, \ntill the alternative fuels become largely available in a cost-effective manner, it could be an argument \nfor large design ranges (akin to those seen now). However once alternative fuel availability is \nmore univer\n\n… [+1545 more chars]",
+  "content_hash": "543253ec856a7a353ff270c422f204beaa7afc73312ecccb4b38d3e9a00db638",
+  "token_count": 442,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "14b4a481-b057-5aee-b6d3-d8c10d596bc0",
+  "chunk_index": 61,
+  "page_number": 46,
+  "page_range": [
+    46,
+    46
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `af1c161a-1fd3-5c34-8d83-6c7135154fba`
+
+- vector: dim=3072 · [-0.0239, 0.0115, -0.0189, 0.0170, -0.0160, 0.0108, -0.0345, 0.0209, …]
+
+```json
+{
+  "chunk_id": "af1c161a-1fd3-5c34-8d83-6c7135154fba",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel",
+  "chunk_text": "Some \nrepresentative Methanol- Biodiesel-Diesel blend options which could support in achieving either \nBase or Direct compliance in 2030 and 2035 are mentioned below. Figure 4: Dual Fuel Blend Scenarios (HFO/LFO/DO& Methanol 10 %v/v) with GHG Emission \nReduction Profile (2030) for Indian OGVs (Figure 4.37 in Chapter 4) \nFigure 5: Multifuel Blend Scenarios (HFO/LFO/DO, Methanol 10 v/v %) & Biodiesel Blend (5%, \n10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2030) for Indian OGVs \n(Figure 4.38 in Chapter 4)\nGHG reduction \nnot sufficient for \nBase and Direct  \nCompliance\nGHG r\n\n… [+492 more chars]",
+  "content_hash": "e20adbec6f1a187677d3fa69929aaebfa9166d892534a9a1df184c0b0359a75f",
+  "token_count": 318,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "14b4a481-b057-5aee-b6d3-d8c10d596bc0",
+  "chunk_index": 62,
+  "page_number": 47,
+  "page_range": [
+    47,
+    47
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `0df77bee-17a4-5444-b632-b09d8c450ceb`
+
+- vector: dim=3072 · [-0.0231, 0.0309, -0.0258, 0.0254, -0.0220, -0.0144, -0.0360, 0.0219, …]
+
+```json
+{
+  "chunk_id": "0df77bee-17a4-5444-b632-b09d8c450ceb",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel",
+  "chunk_text": "Figures \n7,8&9 (Figures 4.42,4.43 and 4.44 respectively in Chapter 4) presents the blend fuels options for \nCoastal Vessels. Figure 6: Multifuel Blend Scenarios (HFO/LFO/DO, Methanol 10 v/v %) & Biodiesel Blend (5%, \n10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2035) for Indian OGVs \n(Figure 4.39 in Chapter 4) \nFigure 7: Dual Fuel Blend Scenarios (HFO/LFO/DO & Methanol 10 %v/v) with GHG Emission \nReduction Profile (2030) for Indian Coastal Vessels(Figure 4.40 in Chapter 4)\nGHG \nreduction \nnot \nsufficient \nfor Base and \nDirect  \nCompliance\nGHG reduction \nfor these \nblend-f\n\n… [+658 more chars]",
+  "content_hash": "92e2599d1e7fda3f3b800c5fc0aee38cdd298c3d23e3dc68dcea56e7c0088ed1",
+  "token_count": 442,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "14b4a481-b057-5aee-b6d3-d8c10d596bc0",
+  "chunk_index": 63,
+  "page_number": 48,
+  "page_range": [
+    48,
+    49
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `75e82c50-c4c4-5cda-90e5-8bd2b5117e0a`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "75e82c50-c4c4-5cda-90e5-8bd2b5117e0a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1  Alternative Fuel (un-blended and blended) Cost Comparison",
+  "chunk_text": "4.1  Alternative Fuel (un-blended and blended) Cost Comparison\n\nwith and without IMO Proposed Carbon (GHG equivalent) \t \t\nEmissions Pricing\nWith respect to present cost of alternative fuels, the reported study shows Bio Methanol \nis having lowest Total Cost of Ownership (TCO) across 4 ship categories, viz., Large Ferries, \nGeneral Cargo, Bulk Carrier Ships and Container Ships under all degrees of utilization. Among \nE-Fuel category, especially for ship types Bulk Carrier and large Ferries, e Methanol has close \nproximity to e DME and e Ammonia. [5,6]\nThe most cost-competitive option from a lif\n\n… [+3157 more chars]",
+  "content_hash": "f8b43b2cc0d7cf9f21ee55f0f4fa1bd1bdffe187f0d1a84e50d3a2c40286f7da",
+  "token_count": 906,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    50,
+    51
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `99218a19-bd55-5d97-9f59-62ead7e7a3c1`
+
+- vector: dim=3072 · [-0.0388, 0.0109, -0.0144, 0.0016, -0.0253, -0.0202, -0.0253, 0.0104, …]
+
+```json
+{
+  "chunk_id": "99218a19-bd55-5d97-9f59-62ead7e7a3c1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1  Alternative Fuel (un-blended and blended) Cost Comparison",
+  "chunk_text": "with and without IMO Proposed Carbon (GHG equivalent) \t \t\nEmissions Pricing\nWith respect to present cost of alternative fuels, the reported study shows Bio Methanol \nis having lowest Total Cost of Ownership (TCO) across 4 ship categories, viz., Large Ferries, \nGeneral Cargo, Bulk Carrier Ships and Container Ships under all degrees of utilization. Among \nE-Fuel category, especially for ship types Bulk Carrier and large Ferries, e Methanol has close \nproximity to e DME and e Ammonia. [5,6]\nThe most cost-competitive option from a life cycle perspective is blended oil. Although as on today \nnone o\n\n… [+1474 more chars]",
+  "content_hash": "84d743b5999040c47bf4c1b79912389fc3757991e111235dffda408503864414",
+  "token_count": 433,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "75e82c50-c4c4-5cda-90e5-8bd2b5117e0a",
+  "chunk_index": 64,
+  "page_number": 50,
+  "page_range": [
+    50,
+    50
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `286da3ee-bf41-5b30-955d-5752692b399b`
+
+- vector: dim=3072 · [-0.0323, 0.0058, -0.0109, 0.0085, -0.0251, -0.0393, -0.0345, 0.0272, …]
+
+```json
+{
+  "chunk_id": "286da3ee-bf41-5b30-955d-5752692b399b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1  Alternative Fuel (un-blended and blended) Cost Comparison",
+  "chunk_text": "The IMOs Net Zero Framework are expected to \nplay a crucial role in bridging the cost gap between traditional, low-carbon and ZNZ fuels. Therefore, the prices presented reflect a scenario where carbon taxes (or similar pricing instruments) are applied \nto fossil fuels that exceed the GFI targets set by the IMO.\n4.1.1\t Impact of GFI Compliance on Alternative Fuel Cost with Carbon (GHG \t \t\nequivalent) Emissions Pricing (Non-Blended Fuels)\nTable 5 presents the present cost of conventional and alternative fuels used or proposed \nfor maritime applications in India. The Figures reflect a combination\n\n… [+1165 more chars]",
+  "content_hash": "bb67ce3cb00e9d178a4bb5ecb87f964e0275e6e687116d9924eeac237726b112",
+  "token_count": 489,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "75e82c50-c4c4-5cda-90e5-8bd2b5117e0a",
+  "chunk_index": 65,
+  "page_number": 50,
+  "page_range": [
+    50,
+    51
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `03230bb8-ee60-53d7-8023-34f86b600f3d`
+
+- vector: dim=3072 · [-0.0241, -0.0097, -0.0005, 0.0170, -0.0261, -0.0147, -0.0076, 0.0626, …]
+
+```json
+{
+  "chunk_id": "03230bb8-ee60-53d7-8023-34f86b600f3d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Cost Of Fuel Without Cabron Tax USD/Ton",
+  "chunk_text": "4000\n\n4600\n\n4600\n\n4000\n\n3500\n\nJ385.5\n\n3500\n\n3000\n\n3000\n\n2676.5\n\n2500\n\n2357.3\n\n2500\n\n2000\n\nYear 2035\n\n2000\n\n1400\n\n1332\n\n1500\n\n1026.9\n\n1233,4\n\n1400\n\n1400\n\n2449.5\n\n1106.2\n\n675\n\n1068.9\n\n855\n\n1740.6\n\n1500\n\n940.9\n\n1000\n\n849.0\n\n700.5\n\n1127.2\n\n10283\n\nYear 2028\n\n1421.4\n\n1000\n\n500\n\n691.5\n\n146.8\n\n9719\n\n549.1\n\n683 2\n\n$13.7\n\n$72.9\n\n500\n\n555.0 6os.s\n\n898.0\n\n455.0\n\n554.3\n\n961.1\n\n384.6\n\n0\n\n469.0\n\n768.0\n\n589.0\n\n420\n\n690\n\n793\n\n508\n\n360.8\n\n$79.0\n\nHTO (GP1 91)\n\n00 (GF1 91)\n\n0\n\nLFO (GF) 90,6)\n\nFossil LNG (GF BO)\n\nFossil Methanol (GF1 100.4)\n\nFossil Ammonia (GF 121)\n\nBlue Ammonia (GF 22.6)\n\nE Ammonia (G/ 12.1)\n\n239\n\n… [+249 more chars]",
+  "content_hash": "935fa00cffd62a31d4e69a3b6bdde352b0ecb6d3cdb50880ba676152b3f5e164",
+  "token_count": 424,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 66,
+  "page_number": 51,
+  "page_range": [
+    51,
+    51
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `56efdd63-f439-5195-86d8-40fe6ce363a4`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "56efdd63-f439-5195-86d8-40fe6ce363a4",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Cost of Fuel",
+  "chunk_text": "Cost of Fuel\n\n| Fuel Type | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  | 2025 | 2028 | 2029 | 2030 | 2031 | 2032 | 2033 | 2034 | 2035 |\n| HFO (GFI 91) | 555 | 630.6 | 661.0 | 691.5 | 758.6 | 825.7 | 892.8 | 959.9 | 1026.9 |\n| DO (GFI 91) | 469 | 544.6 | 575.0 | 6\n\n… [+4148 more chars]",
+  "content_hash": "169a860521ca2e0a609649db4d61c299a8f7ac215dda1eb531de2d3ee1e874d1",
+  "token_count": 1887,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    52,
+    53
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `eeb17c8f-4b7d-5971-a236-aa66cef28bb2`
+
+- vector: dim=3072 · [-0.0293, 0.0008, -0.0110, 0.0105, -0.0129, -0.0332, -0.0141, 0.0424, …]
+
+```json
+{
+  "chunk_id": "eeb17c8f-4b7d-5971-a236-aa66cef28bb2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Cost of Fuel",
+  "chunk_text": "| Fuel Type | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  | 2025 | 2028 | 2029 | 2030 | 2031 | 2032 | 2033 | 2034 | 2035 |\n| HFO (GFI 91) | 555 | 630.6 | 661.0 | 691.5 | 758.6 | 825.7 | 892.8 | 959.9 | 1026.9 |\n| DO (GFI 91) | 469 | 544.6 | 575.0 | 605.5 | 672.6 |\n\n… [+553 more chars]",
+  "content_hash": "95c605a4510ed6a62ed37caf2321f8058ed0163cb185518f1220a89216955ab4",
+  "token_count": 558,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "56efdd63-f439-5195-86d8-40fe6ce363a4",
+  "chunk_index": 67,
+  "page_number": 52,
+  "page_range": [
+    52,
+    52
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `830f2f73-1992-5312-a7cc-5fd3c05fdae7`
+
+- vector: dim=3072 · [-0.0144, -0.0232, -0.0058, 0.0032, -0.0219, -0.0342, -0.0207, 0.0370, …]
+
+```json
+{
+  "chunk_id": "830f2f73-1992-5312-a7cc-5fd3c05fdae7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Cost of Fuel",
+  "chunk_text": ".2 |\n| Blue Ammonia (GFI 22.6) | 508 | 120.4 | 133.6 | 146.8 | 175.8 | 204.8 | 233.8 | 262.8 | 291.9 | | E Ammonia | 675 | 213.2 | 226.4 | 239.6 | 268.6 | 297.6 | 326.6 | 355.6 | 384.6 |\n| (GFI 12.1) |  |  |  |  |  |  |  |  |  |\n| Bio Methanol (GFI 9.4) | 1400 | 885.5 | 899.6 | 913.7 | 944.8 | 975.8 | 1006.8 | 1037.9 | 1068.9 |\n| E-Methanol (GFI 17.1) | 1400 | 943.7 | 957.8 | 971.9 | 1003.0 | 1034.0 | 1065.1 | 1096.1 | 1127.2 |\n| E-Methanol (GFI 4) | 1400 | 844.7 | 858.8 | 872.9 | 903.9 | 935.0 | 966.0 | 997.1 | 1028.1 |\n| 2G Ethanol (GFI 25) | 855 | 323.0 | 341.9 | 360.8 | 402.5 | 444.1 | 485\n\n… [+436 more chars]",
+  "content_hash": "499ee8739f8a5051340c0a4433c0b2d50f455256b6d2a1358f587196c7014617",
+  "token_count": 614,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "56efdd63-f439-5195-86d8-40fe6ce363a4",
+  "chunk_index": 68,
+  "page_number": 52,
+  "page_range": [
+    52,
+    52
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `63f9f660-f61f-5e47-8787-8b853ddd8968`
+
+- vector: dim=3072 · [-0.0385, -0.0094, -0.0118, 0.0061, -0.0292, -0.0302, -0.0113, 0.0349, …]
+
+```json
+{
+  "chunk_id": "63f9f660-f61f-5e47-8787-8b853ddd8968",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Cost of Fuel",
+  "chunk_text": "|  |\n| Green Hydrogen | 4600 | 1251.2 | 1336.3 | 1421.4 | 1608.5 | 1795.7 | 1983.0 | 2170.2 | 2357.3 | | Compressed |  |  |  |  |  |  |  |  |  |\n\nIt is seen that from 2028 to 2035, the total cost of marine fuels varies significantly depending on\ntheir carbon intensity (GHG Equivalent), shaped by the IMO's GHG emission pricing scheme. Under\nthis mechanism, fuels are subjected to carbon taxes or rewarded for carbon savings, based on their\ngreenhouse gas footprint (GFI). It is assumed a surplus unit (SU) trading price of $380/t CO2 eq.,\nTier 1 Removal Units (RUS) are priced at $100/t CO2, and Tie\n\n… [+697 more chars]",
+  "content_hash": "15532e83c42ba8d972e68fb540cccd9dacc449ad79ba17de8482f8c6a9202125",
+  "token_count": 390,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "56efdd63-f439-5195-86d8-40fe6ce363a4",
+  "chunk_index": 69,
+  "page_number": 52,
+  "page_range": [
+    52,
+    52
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `150c6e50-2266-5248-b724-a983a71394a5`
+
+- vector: dim=3072 · [-0.0356, -0.0178, -0.0105, -0.0016, -0.0406, -0.0523, -0.0278, 0.0337, …]
+
+```json
+{
+  "chunk_id": "150c6e50-2266-5248-b724-a983a71394a5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Cost of Fuel",
+  "chunk_text": "Light Fuel Oil (LFO) moves from\n$837.0 to $1,233.4, a 47% increase, reflecting its cleaner profile but still fossil-based origin. Conversely, low- and zero-carbon fuels are expected to benefit substantially from reward\nmechanisms. E-Ammonia, despite a high base cost of $675 /ton, effectively falls to $213.2 in\n2028, remaining within the $226.4-384.6 range through 2035. Similarly, Bio Methanol drops from\n$1,400 to $885.5 in 2028, then gradually increases to $1,068.9 in 2035. E-Methanol, with a base\ncost of $1,400, declines to $943.7 in 2028 and ends at $1127.1 in 2035. An ultra-low GFI version\n\n\n… [+980 more chars]",
+  "content_hash": "d05d0433ae3a1654a3c29b5bdd29d01c7636c59907b47f4a35a9898efc5d9a05",
+  "token_count": 477,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "56efdd63-f439-5195-86d8-40fe6ce363a4",
+  "chunk_index": 70,
+  "page_number": 53,
+  "page_range": [
+    53,
+    53
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7ef04378-9f39-514a-b2de-261071ed18d2`
+
+- vector: dim=3072 · [-0.0311, 0.0135, -0.0076, 0.0008, -0.0167, -0.0316, -0.0370, 0.0329, …]
+
+```json
+{
+  "chunk_id": "7ef04378-9f39-514a-b2de-261071ed18d2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.2 Impact of GFI Compliance on Alternative Blended Fuels Cost with GHG Emission Pricing",
+  "chunk_text": "Table 7 presents the estimated present cost per tonne of blended alternative fuels used or proposed\nfor maritime applications in Indi. Blended fuel costs are derived by applying the respective blend\npercentages to these baseline prices. Figure 11 and Table 8 represent estimated/projected cost\nper tonne of blended alternative fuel used or proposed for maritime application for India with and\nwithout IMO's proposed GHG Emission Pricing.\n\n| S. No | Fuel | Cost (USD/Ton) |\n| --- | --- | --- |\n| 1 | Biodiesel 30%(Attained GFI 68.44) | 727.9 |\n| 2 | Biodiesel 40% (Attained GFI 60.91) | 814.2 |\n| 3 | \n\n… [+958 more chars]",
+  "content_hash": "7a3fd6407a0b46dae881294f57b04c3eb7a1d33a23df703a57f2f05f4237ba02",
+  "token_count": 600,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 71,
+  "page_number": 53,
+  "page_range": [
+    53,
+    54
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b725a11b-9636-5326-a582-0823a59f5705`
+
+- vector: dim=3072 · [-0.0217, 0.0052, -0.0054, 0.0258, -0.0184, -0.0348, 0.0042, 0.0656, …]
+
+```json
+{
+  "chunk_id": "b725a11b-9636-5326-a582-0823a59f5705",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Cost Of Blended Fuel Without Cabron Tax USD/Ton",
+  "chunk_text": "1200\n\n1026.9\n\n1106.2\n\n946.0\n\n1200\n\n940.9\n\n951.5\n\n1000\n\n849.0\n\n825.7\n\n880.5\n\n885.8\n\n926.1\n\n923.7\n\n872.9\n\n$24.5\n\n845.3\n\n872.7\n\n871.5\n\n1000\n\n709.5\n\nYear 2035\n\n800\n\n961.1\n\n200\n\n691.5\n\n00\n\n698,0\n\n646.4\n\n673.3\n\n549.4\n\n768.0\n\n701.7\n\n600\n\n678.6\n\n669.8\n\n605.5\n\n554,8\n\n618.6\n\n570.4\n\n654.9\n\n626.9\n\nYear 2028\n\n400\n\n555.0\n\n459.0\n\n713.7\n\n907.3\n\n631.7\n\n400\n\n469.0\n\n690.0\n\n814.2\n\n852.9\n\n585.0\n\n420.0\n\n727.9\n\n500.5\n\n777.8\n\n907.3\n\n993.3\n\n852.9\n\n200\n\n821.0\n\n907.3\n\n993.3\n\n200\n\n0\n\nwo (GR 3))",
+  "content_hash": "aefb9491f58953bb05a7610bf7298f4fdc9fd536e9ba2fa1c08464fb8f030eb2",
+  "token_count": 261,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 72,
+  "page_number": 54,
+  "page_range": [
+    54,
+    54
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `567e97f8-a6e3-5244-9e1b-7adfd1c35d13`
+
+- vector: dim=3072 · [-0.0175, -0.0155, -0.0048, 0.0063, -0.0153, 0.0236, -0.0496, 0.0273, …]
+
+```json
+{
+  "chunk_id": "567e97f8-a6e3-5244-9e1b-7adfd1c35d13",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "ĐỒ (GR S)]",
+  "chunk_text": "JO (68 106)\n\nFessở UNG (GP1 80]\n\nFossil Machance (GF) 100.4)\n\nFossil Ammonia jGF 121)\n\nt'as tươi xốc mapete\n\nBiodiesel (GF) 9.4)\n\nBiodiesel 40% (GF1 60.91)\n\nVindiesel (CF1 9,4)\n\nBiodiesel 50% 16/1 51.96)\n\nSiediese! (Gf) 9.4)\n\nDM9.478DAS (GF) 69.35]\n\n[ Methanol (GF) 17.1)\n\nOM9.478030 (GF) 65.63)\n\n[ Methanol (GFI 17.1)\n\nOM9.478040(6/1 57.691\n\n0149.478010 (67: 58.07)\n\n0M3.478040 (GF 57.45]\n\n0MS.478030 (GF1 50.29)\n\nDM9.475050 (6783.3)}\n\nDES.478064 (GF) 58. 40)\n\nDES.478040 (661 58.875\n\na\n\n2028\n\n2029\n\n2030\n\n2031\n\n2035\n\n2032\n\n2033\n\n2034",
+  "content_hash": "95daae52257688b7d424ceeb45174d0dc35f04ad9c3d47d3cb920bafb1e5bb74",
+  "token_count": 277,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 73,
+  "page_number": 54,
+  "page_range": [
+    54,
+    54
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `baf4cb68-46c3-59e0-84af-f625c6bb798a`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "baf4cb68-46c3-59e0-84af-f625c6bb798a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Cost of Fuel",
+  "chunk_text": "Cost of Fuel\n\n| Blended Fuel Type | Cost of Fuel | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  | 2025 | 2028 | 2029 | 2030 | 2031 | 2032 | 2033 | 2034 | 2035 |\n| HFO (GFI 91) | 555 | 630.6 | 661.0 | 691.5 | 758.6 | 825.7 | 892.8 | 959.9 | 1026.9 |\n| DO (GFI 91) | 469 | 544.6 | 575.0 | 605.5 | 672.6\n\n… [+3954 more chars]",
+  "content_hash": "b729989b1cee5b3337d1546fd7cdf01ce9feda0be53086097dc148008e99c8c9",
+  "token_count": 1903,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    54,
+    55
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `408df7dc-2bde-54a4-80f1-e4e98a1ab526`
+
+- vector: dim=3072 · [-0.0201, 0.0069, -0.0097, 0.0113, -0.0177, -0.0399, -0.0258, 0.0494, …]
+
+```json
+{
+  "chunk_id": "408df7dc-2bde-54a4-80f1-e4e98a1ab526",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Cost of Fuel",
+  "chunk_text": "| Blended Fuel Type | Cost of Fuel | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  | 2025 | 2028 | 2029 | 2030 | 2031 | 2032 | 2033 | 2034 | 2035 |\n| HFO (GFI 91) | 555 | 630.6 | 661.0 | 691.5 | 758.6 | 825.7 | 892.8 | 959.9 | 1026.9 |\n| DO (GFI 91) | 469 | 544.6 | 575.0 | 605.5 | 672.6 | 739.7 | 806\n\n… [+522 more chars]",
+  "content_hash": "81ba9bef0113e1992b6acfa04b3f1b4acade640e22db55f20598cf55bb4fa6a9",
+  "token_count": 539,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "baf4cb68-46c3-59e0-84af-f625c6bb798a",
+  "chunk_index": 74,
+  "page_number": 54,
+  "page_range": [
+    54,
+    54
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7a40cf43-000d-5cf8-858c-ae2908305417`
+
+- vector: dim=3072 · [-0.0039, -0.0136, -0.0123, 0.0157, -0.0036, -0.0123, -0.0385, 0.0463, …]
+
+```json
+{
+  "chunk_id": "7a40cf43-000d-5cf8-858c-ae2908305417",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Cost of Fuel",
+  "chunk_text": "Biodiesel 30% (GFI 68.44) | 727.9 | 588.62 | 617.50 | 646.38 | 709.92 | 739.89 | 756.61 | 773.33 | 825.75 | | Biodiesel 40% (GFI 60.91) | 814.2 | 561.51 | 590.04 | 618.57 | 681.32 | 744.08 | 806.85 | 828.78 | 845.29 |\n| Biodiesel 50% (GFI 51.86) | 900.5 | 514.03 | 542.23 | 570.42 | 632.44 | 694.46 | 756.50 | 818.52 | 880.54 |\n| *DM9.47BD25 (GFI 69.39) | 777.8 | 777.8 | 658.3 | 686.0 | 713.7 | 774.7 | 793.0 | 809.1 | 825.1 |",
+  "content_hash": "b5fba43e68963535c06df1f49aef49aa6c2d599d5bc6084790d08647b924ea4c",
+  "token_count": 244,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "baf4cb68-46c3-59e0-84af-f625c6bb798a",
+  "chunk_index": 75,
+  "page_number": 54,
+  "page_range": [
+    54,
+    54
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4d346bbc-b897-54bf-9d6e-da29bcdd2d77`
+
+- vector: dim=3072 · [-0.0056, -0.0035, -0.0171, 0.0116, 0.0004, -0.0264, -0.0263, 0.0529, …]
+
+```json
+{
+  "chunk_id": "4d346bbc-b897-54bf-9d6e-da29bcdd2d77",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Cost of Fuel",
+  "chunk_text": "DM9.47BD25 (GFI 69.39) | 777.8 | 777.8 | 658.3 | 686.0 | 713.7 | 774.7 | 793.0 | 809.1 | 825.1 | | Blended Fuel Type | Cost of Fuel | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton | Year-wise Total Cost in USD/ Ton |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  | 2025 | 2028 | 2029 | 2030 | 2031 | 2032 | 2033 | 2034 | 2035 |\n| *DM9.47BD30 | 821 | 821.0 | 646.6 | 674.1 | 701.7 | 76\n\n… [+544 more chars]",
+  "content_hash": "809999937aaec1b9b9da4f0c31b5486c04f0f2eb69826a5c94e675620357e48b",
+  "token_count": 572,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "baf4cb68-46c3-59e0-84af-f625c6bb798a",
+  "chunk_index": 76,
+  "page_number": 55,
+  "page_range": [
+    55,
+    55
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `71b465a4-92ad-5f6f-bde1-83ee7e89fafd`
+
+- vector: dim=3072 · [-0.0063, -0.0050, -0.0142, 0.0125, 0.0026, -0.0312, -0.0327, 0.0486, …]
+
+```json
+{
+  "chunk_id": "71b465a4-92ad-5f6f-bde1-83ee7e89fafd",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Cost of Fuel",
+  "chunk_text": ".47BD50 (GFI 50.29) | 993.3 | 724.26 | 751.23 | 778.19 | 837.51 | 896.84 | 956.18 | 1015.50 | 1074.82 | | *DM9.47BD50 (GFI49.91) | 993.6 | 455.07 | 482.03 | 509.00 | 568.32 | 627.65 | 686.98 | 746.31 | 805.63 |\n\n*D represents HFO/LFO/DO\n\nFor D(HFO/LFO/DO)-Biodiesel Blends like BD30 (base cost: 727.9 USD/t), the price drops to 617.5\nUSD/t in 2030, which is a 15% reduction due to IMO carbon reward mechanism. However, by 2035\nthe cost rises to 825.8 USD/t, about 13% higher than the base, showing that there is no long-term\nadvantage. Blend BD 40% (base 814.2 USD/t) performs better initially, falli\n\n… [+366 more chars]",
+  "content_hash": "288213c2281b418538c4e9542f972153f187301d17924adf8401ea8440cb47a1",
+  "token_count": 365,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "baf4cb68-46c3-59e0-84af-f625c6bb798a",
+  "chunk_index": 77,
+  "page_number": 55,
+  "page_range": [
+    55,
+    55
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ed8af4c2-78c5-5a28-b70c-019578269836`
+
+- vector: dim=3072 · [-0.0103, 0.0005, -0.0086, 0.0102, -0.0165, -0.0256, -0.0353, 0.0310, …]
+
+```json
+{
+  "chunk_id": "ed8af4c2-78c5-5a28-b70c-019578269836",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Cost of Fuel",
+  "chunk_text": "USD/t) offers the strongest\nshort-term benefit, falling sharply to 570.42 USD/t in 2030 (a 36.6% reduction), although by 2035\nthe cost recovers to 880.5 USD/t, only 2.2% below base. The D(HFO/LFO/DO)-Biodiesel-Methanol blends show similar behavior. DM9.47BD30 (base 944\nUSD/t) declines to 793.6 USD/t in 2030, a 15.9% reduction, but by 2035 the cost increases to 992.3\nUSD/t, which is 5% higher than base, eliminating the initial gain. DM9.47BD40 (base 907.3 USD/t) falls\nto 646.0 USD/t in 2030 (a 28.8% saving), but by 2035 it rises slightly above base to 924.6 USD/t, a 1.9%\nincrease. D(HFO/LFO/DO)\n\n… [+766 more chars]",
+  "content_hash": "68f359f33a63a797916b1c8e7f68f87c08a625024b4aa4c869030b3e21ea4f33",
+  "token_count": 419,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "baf4cb68-46c3-59e0-84af-f625c6bb798a",
+  "chunk_index": 78,
+  "page_number": 55,
+  "page_range": [
+    55,
+    55
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `6d0e3b94-6758-5b2b-abb1-c723966e52cb`
+
+- vector: dim=3072 · [-0.0151, 0.0110, -0.0110, 0.0124, -0.0286, -0.0204, -0.0220, 0.0192, …]
+
+```json
+{
+  "chunk_id": "6d0e3b94-6758-5b2b-abb1-c723966e52cb",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.2 Alternative Fuel Demand Scenarios vs Supply Readiness (India)",
+  "chunk_text": "The demand supply gap or fuel supply readiness level for all the alternative fuels (including ZNZ fuels \nare estimated towards 2030 both for India’s coastal vessels and OGVs. Figure 12 & Figure 13 shows \nthe alternative fuel demand for GFI compliance along with Green Hydrogen and RE requirement for \n2030 respectively for Base and Direct Compliance.\nFigure 14 presents the E/Bio Methanol demand for 10 v/v% blending in Diesel or in Diesel-Biodiesel \nwith Green Hydrogen demand and RE need for 2030.\nFor Scenario 1, i.e for GFI Compliance, E Methanol demand is 0.28 MT/y, whereas supply readiness \nis\n\n… [+1016 more chars]",
+  "content_hash": "1638b449505b2caea2215817dd1bf16ae67d2d6962679c2103f65ab7c10061d9",
+  "token_count": 456,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 79,
+  "page_number": 56,
+  "page_range": [
+    56,
+    57
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `6ed1c94c-f809-57ca-98bf-f29b154e5d9b`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "6ed1c94c-f809-57ca-98bf-f29b154e5d9b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.3 Alternative Fuel Ranking for Maritime Applications in India",
+  "chunk_text": "4.3 Alternative Fuel Ranking for Maritime Applications in India\n\nThe scoring framework for comparative evaluation of alternative fuels are made based on 8 critical\nparameters such as\n\n» WtW GFI of fuel\n\n»\nLCA based GHG reduction potential\n\n»\nFuel supply readiness\n\n»\nStorage tank capacity and bunkering infrastructure w.r.to fossil counterpart\n\n» Global bunkering infrastructure readiness at ports\n\n» Alternative engine and Fuel Cell ecosystem readiness\n\n» Cost of fuels with and without IMO's carbon tax\n\n»\nStandard policy and regulatory gaps\n\nEach parameter is scored on a 5-1 scale, where 5 indica\n\n… [+4075 more chars]",
+  "content_hash": "812b34ff5104e05fb105a89970062e7d3a3259447c99105e74863a8577aa0266",
+  "token_count": 1675,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    58,
+    59
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1a619234-2914-5bed-9213-e9b7f37b3803`
+
+- vector: dim=3072 · [-0.0162, 0.0073, -0.0135, -0.0100, -0.0237, -0.0183, -0.0020, 0.0238, …]
+
+```json
+{
+  "chunk_id": "1a619234-2914-5bed-9213-e9b7f37b3803",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.3 Alternative Fuel Ranking for Maritime Applications in India",
+  "chunk_text": "The scoring framework for comparative evaluation of alternative fuels are made based on 8 critical\nparameters such as\n\n» WtW GFI of fuel\n\n»\nLCA based GHG reduction potential\n\n»\nFuel supply readiness\n\n»\nStorage tank capacity and bunkering infrastructure w.r.to fossil counterpart\n\n» Global bunkering infrastructure readiness at ports\n\n» Alternative engine and Fuel Cell ecosystem readiness\n\n» Cost of fuels with and without IMO's carbon tax\n\n»\nStandard policy and regulatory gaps\n\nEach parameter is scored on a 5-1 scale, where 5 indicates excellent performance and 1 indicates\npoor Performance. The s\n\n… [+539 more chars]",
+  "content_hash": "0e33c8c0ff99a37b84815c5d320975a6d0473ae1c340d02d947073384dea7890",
+  "token_count": 325,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "6ed1c94c-f809-57ca-98bf-f29b154e5d9b",
+  "chunk_index": 80,
+  "page_number": 58,
+  "page_range": [
+    58,
+    58
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `adc3d13e-e9bc-5de2-b0fa-812462e625aa`
+
+- vector: dim=3072 · [-0.0031, -0.0013, -0.0113, -0.0112, -0.0257, -0.0362, 0.0158, 0.0235, …]
+
+```json
+{
+  "chunk_id": "adc3d13e-e9bc-5de2-b0fa-812462e625aa",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.3 Alternative Fuel Ranking for Maritime Applications in India",
+  "chunk_text": "> Blue Ammonia (GFI 22.6) & Green Hydrogen Compressed ( GFI 4)\nJointly Rank 7> Green Hydrogen Liquid (GFI 11) Rank 8> Blue Hydrogen (GFI 22.6) Rank 9. | Parameter | Ranking | Ranking | Ranking | Ranking | Ranking |\n| --- | --- | --- | --- | --- | --- |\n| 5 | 4 | 3 | 2 | 1 |  |\n| GFI (gCO2eq/MJ) | ≤ 10 | 11-20 | 21-50 | 51-90 | >90 |\n| *Alternative Fuel | Fully | Feasibility | Feasibility | Concept | Not available |\n| Supply Readiness | operational | done | started | stage |  |\n| Storage & | Fully | Minor | Moderate | High change / | Very complex |\n| Bunkering (MT) | compatible | modifications \n\n… [+865 more chars]",
+  "content_hash": "b3b369b026dcc23fe56b0563bdae4de5e686828d26af85efcc361fd3a9e72d2e",
+  "token_count": 483,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "6ed1c94c-f809-57ca-98bf-f29b154e5d9b",
+  "chunk_index": 81,
+  "page_number": 58,
+  "page_range": [
+    58,
+    59
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `364e8287-158e-5751-b52a-d71dfacffbd9`
+
+- vector: dim=3072 · [-0.0146, 0.0048, -0.0187, -0.0107, -0.0159, -0.0266, 0.0051, 0.0313, …]
+
+```json
+{
+  "chunk_id": "364e8287-158e-5751-b52a-d71dfacffbd9",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.3 Alternative Fuel Ranking for Maritime Applications in India",
+  "chunk_text": "Colour Code of Ranking of Fuels |\n| --- | --- | --- |\n| Ranking of Fuels | Minimal | 1 |\n| Emerging | 2 |  |\n| Under Development | 3 |  |\n| Established | 4 |  |\n| Mainstream | 5 |  | |  | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Parameters | Ranking Based on 8 Sustainability Pa\n\n… [+994 more chars]",
+  "content_hash": "393274553cd3e41455100d265c5ce77a12fe5a72169ff7be54261731f80d2ec4",
+  "token_count": 588,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "6ed1c94c-f809-57ca-98bf-f29b154e5d9b",
+  "chunk_index": 82,
+  "page_number": 59,
+  "page_range": [
+    59,
+    59
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c24760e5-7d0b-5a45-9c12-6c2c3c62b069`
+
+- vector: dim=3072 · [-0.0077, 0.0041, -0.0067, -0.0031, -0.0444, -0.0239, -0.0147, 0.0288, …]
+
+```json
+{
+  "chunk_id": "c24760e5-7d0b-5a45-9c12-6c2c3c62b069",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.3 Alternative Fuel Ranking for Maritime Applications in India",
+  "chunk_text": "2 | 4 | 2 | 3 | 27 | 4 |\n| E Methanol (GFI 6.4) | 5 | 5 | 4 | 4 | 2 | 4 | 2 | 3 | 29 | 2 | | E-Ammonia (GFI 3) | 5 | 5 | 4 | 2 | 2 | 1 | 4 | 1 | 24 | 6 |\n| E Ammonia (GFI 12.1) | 4 | 4 | 4 | 2 | 2 | 1 | 4 | 1 | 22 | 7 |\n| Blue Ammonia (GFI 22.6) | 3 | 4 | 4 | 2 | 2 | 1 | 1 | 1 | 18 | 8 |\n| Green Hydrogen Compressed (GFI 4) | 5 | 5 | 2 | 1 | 2 | 1 | 1 | 1 | 18 | 8 |\n| Green Hydrogen Liquid (GFI 11) | 4 | 5 | 2 | 1 | 2 | 1 | 1 | 1 | 17 | 9 |\n| Blue Hydrogen (GFI 22.6) | 3 | 5 | 2 | 1 | 2 | 1 | 1 | 1 | 16 | 10 |\n| Bio - LNG (Methane) (GFI 9.4) | 5 | 5 | 2 | 2 | 5 | 4 | 1 | 5 | 29 | 2 |\n| E LNG (M\n\n… [+232 more chars]",
+  "content_hash": "3e64573657de09b50b5c3c7c4d7d730cffdfe9d7e9a3193423f52f4746d17e57",
+  "token_count": 447,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "6ed1c94c-f809-57ca-98bf-f29b154e5d9b",
+  "chunk_index": 83,
+  "page_number": 59,
+  "page_range": [
+    59,
+    59
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `2743b4c3-a415-56aa-a4ba-cb757bed4105`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "2743b4c3-a415-56aa-a4ba-cb757bed4105",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Alternative Fuel Bunkering",
+  "chunk_text": "4.4 Alternative Fuel Bunkering\n\nIn Chapter 4, India’s Alternative Fuel-Mix Demand for GFI Compliance by 2030, 2035 (both \nCoastal and OGVs) with Green Electricity and Green Hydrogen Requirement is estimated. This \nassessment aligns with IMO’s fuel transition strategies with Green Fuel Index (GFI) compliance, \nensuring that the alternative fuel mix meets IMO’s latest targets. It also provides the estimates for \nadditional RE Power and green Hydrogen requirement to meet India’s alternative fuel-mix demand \nscenarios both for OGVs considering 4 types of alternative fuels viz., Methanol (bio- and \n\n… [+8266 more chars]",
+  "content_hash": "d73288e3a35c3cf9208bbb6e4d101dd6ce914640b64cd558cae7470d3e017c40",
+  "token_count": 2012,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    60,
+    63
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `5f0acd0c-038d-5eb5-9577-7c1823f547c4`
+
+- vector: dim=3072 · [-0.0209, 0.0131, -0.0119, -0.0035, -0.0326, -0.0309, -0.0136, 0.0218, …]
+
+```json
+{
+  "chunk_id": "5f0acd0c-038d-5eb5-9577-7c1823f547c4",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Alternative Fuel Bunkering",
+  "chunk_text": "In Chapter 4, India’s Alternative Fuel-Mix Demand for GFI Compliance by 2030, 2035 (both \nCoastal and OGVs) with Green Electricity and Green Hydrogen Requirement is estimated. This \nassessment aligns with IMO’s fuel transition strategies with Green Fuel Index (GFI) compliance, \nensuring that the alternative fuel mix meets IMO’s latest targets. It also provides the estimates for \nadditional RE Power and green Hydrogen requirement to meet India’s alternative fuel-mix demand \nscenarios both for OGVs considering 4 types of alternative fuels viz., Methanol (bio- and e-), Ammonia \n(blue and e-), Hyd\n\n… [+1378 more chars]",
+  "content_hash": "5bdc1a81e24f927e59b91a6a24c71e0b21e49ad8047f50dfabc0afce1d60dc8c",
+  "token_count": 438,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2743b4c3-a415-56aa-a4ba-cb757bed4105",
+  "chunk_index": 84,
+  "page_number": 60,
+  "page_range": [
+    60,
+    60
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4a46f977-5fb0-5b8b-87cd-c362b3f3dab8`
+
+- vector: dim=3072 · [-0.0231, 0.0198, -0.0140, -0.0180, -0.0382, -0.0143, -0.0272, -0.0035, …]
+
+```json
+{
+  "chunk_id": "4a46f977-5fb0-5b8b-87cd-c362b3f3dab8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Alternative Fuel Bunkering",
+  "chunk_text": "Instead of targeting C-free operation, use of renewable /e-/green fuels with high efficiency over whole life cycle should be the focus for ship operation using Fuel Cell s. Towards zero emission, \nFuel Cell should be considered promising option for Inland water and short sea/coastal shipping\nDirect Methanol Fuel Cell (DMFC) could be worth investing for India in very small vessel <100eKW \n(Inland water) category. India should also develop small to mid-sized (100-500ekW) LTMFC Fuel Cell \nships (PSV, Ferries, RO-RO & Cargo) till storage and safety challenges of compressed or liquified \nhydrogen (\n\n… [+725 more chars]",
+  "content_hash": "5360caa71ce8aee5473c90b45b5c370ebe33e40117e56fc73056f5e53a3d28f0",
+  "token_count": 297,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2743b4c3-a415-56aa-a4ba-cb757bed4105",
+  "chunk_index": 85,
+  "page_number": 60,
+  "page_range": [
+    60,
+    60
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `321abbad-fffc-5f66-b8fe-b60726b4990b`
+
+- vector: dim=3072 · [-0.0183, 0.0105, -0.0108, -0.0089, -0.0495, -0.0179, -0.0407, 0.0111, …]
+
+```json
+{
+  "chunk_id": "321abbad-fffc-5f66-b8fe-b60726b4990b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Alternative Fuel Bunkering",
+  "chunk_text": "The drawbacks of low power density, short lifetime and high capital costs are surmountable by sustained innovation, high efficiency \nof integrated SOFC-CHP system &and drastic GHG emission reduction which could be made favorable \nwith emission tax\nEstablishing bunkering for alternate fuels, especially renewable /e/green Methanol and \nAmmonia, is of absolute necessity to accelerate Fuel Cell  adoption in shipping. Research should \nbe encouraged in terms of Hydrogen storage solutions, high performance membranes, reducing \noperating temperature of SOFC to use cheaper materials, easier assembling \n\n… [+1683 more chars]",
+  "content_hash": "38d3feb388ee6c3d0f99325c81973d84d3ca62ea97f25ac81f95e606a90a3a4c",
+  "token_count": 449,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2743b4c3-a415-56aa-a4ba-cb757bed4105",
+  "chunk_index": 86,
+  "page_number": 61,
+  "page_range": [
+    61,
+    61
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1d4ceb9d-b65d-5e9f-a41f-b58b2be2bdd1`
+
+- vector: dim=3072 · [-0.0234, 0.0188, -0.0116, 0.0262, -0.0292, 0.0152, -0.0611, 0.0088, …]
+
+```json
+{
+  "chunk_id": "1d4ceb9d-b65d-5e9f-a41f-b58b2be2bdd1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Alternative Fuel Bunkering",
+  "chunk_text": "The working group reviewed the ISO 6583:2024 Methanol as a fuel for marine applications – General requirements and specifications, \nwhich defines the general requirements and specifications for methanol from all forms of production \nat the point of custody transfer, prior to any onboard required treatment, for use as fuel in marine \ndiesel engines, Fuel Cell s and other marine applications. After detailed deliberation, the working \ngroup construed that the ISO 6583:2024 is suitable for adoption as an Indian Standard, however, \nincorporation of green Methanol aspects with appropriately defined \n\n… [+293 more chars]",
+  "content_hash": "ea692457a8c52092f70fb92efe091b9dfbb092331c0916d1cec649e3a6cdbccc",
+  "token_count": 179,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2743b4c3-a415-56aa-a4ba-cb757bed4105",
+  "chunk_index": 87,
+  "page_number": 61,
+  "page_range": [
+    61,
+    61
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `93db8710-4544-54b2-9821-1898eaa17eb5`
+
+- vector: dim=3072 · [-0.0261, 0.0260, -0.0123, 0.0146, -0.0135, 0.0079, -0.0538, 0.0156, …]
+
+```json
+{
+  "chunk_id": "93db8710-4544-54b2-9821-1898eaa17eb5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Alternative Fuel Bunkering",
+  "chunk_text": "will be taken up with \nISO/TC 28.The following grades are specified in the ISO standard:\n\t»\nMarine methanol grade A (MMA): MMA lists the characteristics considered applicable when using \nmethanol as a marine fuel with additional requirements in respect of lubricity and particle count Marine methanol grade B (MMB): MMB lists the characteristics considered applicable when using \nmethanol as a marine fuel. \n\t»\nMarine methanol grade C (MMC): MMC grade provides for wider tolerances on some of the listed \ncharacteristics as compared to MMB.\nCase Study (Quantitative Financial Impact Assessement of GF\n\n… [+1417 more chars]",
+  "content_hash": "8095fcfcd0a74e404b021e7a113f2856d00405c2240a43866b86f238c9500539",
+  "token_count": 498,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2743b4c3-a415-56aa-a4ba-cb757bed4105",
+  "chunk_index": 88,
+  "page_number": 62,
+  "page_range": [
+    62,
+    62
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `520b5bf8-92a7-5330-b91e-a2fd46cced23`
+
+- vector: dim=3072 · [-0.0156, 0.0149, -0.0036, -0.0547, -0.0165, -0.0356, -0.0262, 0.0336, …]
+
+```json
+{
+  "chunk_id": "520b5bf8-92a7-5330-b91e-a2fd46cced23",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Alternative Fuel Bunkering",
+  "chunk_text": "awn Shipping\nBuilder: STX SB (Jinhae), South Korea, Engine Type: Diesel, \n2-Stroke\nMain Engine Model: MAN B&W 6S50MC-C8.1, Fuel Type: \nVery Low Sulphur IFO (VLS IFO) Service Speed: 14.8 knots, Fuel Consumption at Service \nSpeed: 29.8 tonnes per day (Tpd)\nAge: 18 years (as of 2024)\n\nFuel consumption is calculated using standard operational assumptions based on vessel type, service\nspeed, and total annual operating days. The voyage of vessel between Kandla Port (India) and\nSundai Gerong Port (Indonesia) with distance 3063.0 Nautical miles (nm) at a speed if 14.8 knots/h is\nconsidered with the fo\n\n… [+336 more chars]",
+  "content_hash": "ce8af40a1a16ff1d9a873faf73a6e698063998f7c2bab03a2f71556524337c53",
+  "token_count": 286,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2743b4c3-a415-56aa-a4ba-cb757bed4105",
+  "chunk_index": 89,
+  "page_number": 62,
+  "page_range": [
+    62,
+    63
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `9440bef8-8301-57c1-b80a-da6bf86393d4`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "9440bef8-8301-57c1-b80a-da6bf86393d4",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Alternative Fuel Bunkering",
+  "chunk_text": "4.4 Alternative Fuel Bunkering (cont.)\n\nAddition of 5% Unpumpables Fuel Margin (Fuel below the pump suction, including dirt and water-\ntypically ~5% of total fuel\nAdjusted fuel Consumption= (X+Y) x 1.05 = 332.46 tonness (Z)\n☒\n\nAnnual Total Fuel Conumption (assuming 20 such port calls in a year) = Z x 20= 6,649 tonnes/\nyear.The following fuel and alternative fuel-blends are considered for Case studies.\n\n| Cases | Fuel Mix | Calculated LHV (MJ/t) | Attained GFI gCO2eq/MJ) | Table/Figure No |\n| --- | --- | --- | --- | --- |\n| Mono Fuel | Mono Fuel | Mono Fuel | Mono Fuel | Mono Fuel |\n| 1 | HFO |\n\n… [+4039 more chars]",
+  "content_hash": "e89d6bf246dddeebfd1be2bd178dc8e6776dd62499e525a06b5d57c707866e3e",
+  "token_count": 1961,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    63,
+    66
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d215bfc0-30ff-528d-8b24-c288a0c8e24e`
+
+- vector: dim=3072 · [-0.0189, 0.0261, -0.0144, -0.0075, -0.0345, -0.0200, -0.0368, 0.0335, …]
+
+```json
+{
+  "chunk_id": "d215bfc0-30ff-528d-8b24-c288a0c8e24e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Alternative Fuel Bunkering",
+  "chunk_text": "Addition of 5% Unpumpables Fuel Margin (Fuel below the pump suction, including dirt and water-\ntypically ~5% of total fuel\nAdjusted fuel Consumption= (X+Y) x 1.05 = 332.46 tonness (Z)\n☒\n\nAnnual Total Fuel Conumption (assuming 20 such port calls in a year) = Z x 20= 6,649 tonnes/\nyear.The following fuel and alternative fuel-blends are considered for Case studies.\n\n| Cases | Fuel Mix | Calculated LHV (MJ/t) | Attained GFI gCO2eq/MJ) | Table/Figure No |\n| --- | --- | --- | --- | --- |\n| Mono Fuel | Mono Fuel | Mono Fuel | Mono Fuel | Mono Fuel |\n| 1 | HFO | 41000 | 91 | 12/15 |\n| 2 | LNG | 48600 \n\n… [+644 more chars]",
+  "content_hash": "16eac92a68b9a794634684dcf1a99a972ce94f77ec45ba48bafc9144b19cbda0",
+  "token_count": 515,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9440bef8-8301-57c1-b80a-da6bf86393d4",
+  "chunk_index": 90,
+  "page_number": 63,
+  "page_range": [
+    63,
+    63
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `aa13c619-75ce-551f-92fe-06e78dad5e42`
+
+- vector: dim=3072 · [0.0088, 0.0061, -0.0131, 0.0171, -0.0219, -0.0377, -0.0186, 0.0419, …]
+
+```json
+{
+  "chunk_id": "aa13c619-75ce-551f-92fe-06e78dad5e42",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Alternative Fuel Bunkering",
+  "chunk_text": "4) | 40,288 | 60.91 | 21/24 |\n| 5d | Biodiesel-Diesel Blend (BD 50 wt.%) (GFI 9.4) | 39,769 | 51.86 | 22/25 | | Cases | Fuel Mix | Calculated LHV (MJ/t) | Attained GFI gCO2eq/MJ) | Table/Figure No |\n| --- | --- | --- | --- | --- |\n| Multi-Fuel Blend | Multi-Fuel Blend |  |  |  |\n| 6 | *DM9.47BD25 (v/v%) Blend with E Methanol (GFI 17.1) | 39,084 | 69.39 | 23/26 |\n| 7 | DM9.47BD30 (v/v%) Blend with E Methanol (GFI 17.1) | 38,873 | 65.63 | 24/27 |\n| 8a | *DM9.47BD40 (v/v%) Blend with Bio Methanol (GFI 9.4) | 38,459 | 57.69 | 25/28 |\n| 8b | *DM9.47BD40 (v/v%) Blend with E Methanol (GFI 17.1) | 38,\n\n… [+620 more chars]",
+  "content_hash": "7f2fc60674b2f58acf6c14e06f1104b5ffaada7d4335a9be4780dc0fc8faa7c8",
+  "token_count": 608,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9440bef8-8301-57c1-b80a-da6bf86393d4",
+  "chunk_index": 91,
+  "page_number": 64,
+  "page_range": [
+    64,
+    64
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9ef4e063-864f-57b7-8aca-f6450ef550a7`
+
+- vector: dim=3072 · [-0.0286, 0.0063, -0.0060, 0.0056, -0.0108, -0.0090, -0.0602, 0.0436, …]
+
+```json
+{
+  "chunk_id": "9ef4e063-864f-57b7-8aca-f6450ef550a7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Alternative Fuel Bunkering",
+  "chunk_text": "39,058 | 58.40 | 32/35 |\n| 12b | *DE10BD40 (v/v%) Blend with 2G- Ethanol (GFI 17.73) | 39,058 | 58.07 | 33/36 | *D represents HFO/LFO/DO\n\nFrom the following analysis it is it is observed that there is multiple alter bunkering and alternative and\nconventional blend-fuel options which can help India achieving Base Compliance or even surpassing\nthe Direct Compliance and thus generating revenues which could be invested for alternative fuel\nproduction technology upscaling, developing\n\nbunkering and engine infrastructure, research and innovation to make India future ready in achieving\nnet zero in ma\n\n… [+148 more chars]",
+  "content_hash": "dd83fae00f7ac1dc551695628152fbc427460934ccac5d3cf557aa1c6adae0f9",
+  "token_count": 182,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9440bef8-8301-57c1-b80a-da6bf86393d4",
+  "chunk_index": 92,
+  "page_number": 64,
+  "page_range": [
+    64,
+    64
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f2f6dac0-21c1-5c2a-b802-e2bc32413bca`
+
+- vector: dim=3072 · [-0.0200, 0.0006, -0.0163, -0.0138, -0.0203, -0.0375, -0.0232, 0.0419, …]
+
+```json
+{
+  "chunk_id": "f2f6dac0-21c1-5c2a-b802-e2bc32413bca",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Alternative Fuel Bunkering",
+  "chunk_text": "The cases where revenue would be earned due to meeting Direct Compliance\nTarget are highlighted in green in the following Table 12-Table 33. | Year | Target GFI (Base/Direct) (gCO2eq/MJ) | Balance (t CO2) | Deficits (T1/T2) (t CO2) or SUS Generated | Net Outcome (Cost) | T1 RU Cost (@$100/t) | T2 RU Cost (@$380/t) |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | -3,696.85 | Deficits: 3,306.475 / 390.376 | $478,990.37 | $330,647.46 | $148,342.91 |\n| 2029 | 87.702 / 75.573 | -4,205.54 | Deficits: 3,306.475 / 899.064 | $672,291.96 | $330,647.46 | $341,644.50 |\n| 2030 | 85.\n\n… [+576 more chars]",
+  "content_hash": "7a51967dbbc16d16681233a15b028b3c475826e525814912c6e3a3dd8ce46c33",
+  "token_count": 544,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9440bef8-8301-57c1-b80a-da6bf86393d4",
+  "chunk_index": 93,
+  "page_number": 65,
+  "page_range": [
+    65,
+    65
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `28f53e01-f9ef-54de-9fcb-5c1ba6ef6aa5`
+
+- vector: dim=3072 · [-0.0148, 0.0141, -0.0097, -0.0182, -0.0345, -0.0622, -0.0309, 0.0637, …]
+
+```json
+{
+  "chunk_id": "28f53e01-f9ef-54de-9fcb-5c1ba6ef6aa5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Alternative Fuel Bunkering",
+  "chunk_text": "| 69.415 / 57.286 | -9,190.69 | Deficits: 3,306.475 / 5,884.211 | $2,566,647.54 | $330,647.46 | $2,236,000.08 | | 2035 | 65.310 / 53.181 | -10,309.80 | Deficits: 3,306.475 / 7,003.325 | $2,991,911.04 | $330,647.46 | $2,661,263.58 |\n\n<figcaption>Figure 15: Result Plot for Case 1 : HFO (LHV: 41,000 MJ/t | GFI: 91 gCO2/MJ</figcaption>\n\nFuel: HFO (6,649.00 t/y), Attained GFI: 91.00 gCO2eq/MJ\n\n0.0\n\n-0.5\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n-1.0\n\n-1.5\n\n-2.0\n\nGlobal Centre for\n\nMARITIME DECARBONISATION\n\n-2.5\n\nPotential SU Revenue (@ $380/t CO2)\n\nTier 1 RU Cost (per t CO2 deficit)\n\n-3.0\n\nTie\n\n… [+79 more chars]",
+  "content_hash": "fbea9bc70e6e52c0a8a0783bc16c0ef396e425ce42f97c29c6f89302625bd5e4",
+  "token_count": 311,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9440bef8-8301-57c1-b80a-da6bf86393d4",
+  "chunk_index": 94,
+  "page_number": 65,
+  "page_range": [
+    65,
+    66
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `c560d173-9d47-5943-8025-4e91d3c9da2d`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "c560d173-9d47-5943-8025-4e91d3c9da2d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base/ Direct) (gCO2/MJ) | Balance (t CO2) | Deficits (T1/T2) (t CO2) or SUS Generated | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | -827.565 | Deficits: 827.565 / 0.000 | $82,756.51 (Cost) | $82,756.51 | $0.00 |\n| 2029 | 87.702 / 75.573 | -1,430.55 | Deficits: 1,430.547 / 0.000 | $143,054.70 (Cost) | $143,054.70 | $0.00 |\n| 2030 | 85.836 / 73.707 | -2,033.53 | Deficits: 2,033.529 / 0.000 | $203,352.88 (Cost) | $203,352.88 | $0.00 |\n| 2031 | 81.731 / 69.602 | -3,360.09 | Deficits: 3,36\n\n… [+1199 more chars]",
+  "content_hash": "506dee58b1c2c26a372d03e9a6a43280731c4f2880364bf3973deccc6bf064bc",
+  "token_count": 823,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    66,
+    67
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `27490f48-3e53-53a9-aa31-49cc464e11fc`
+
+- vector: dim=3072 · [-0.0289, -0.0139, -0.0185, -0.0093, -0.0291, -0.0497, -0.0050, 0.0527, …]
+
+```json
+{
+  "chunk_id": "27490f48-3e53-53a9-aa31-49cc464e11fc",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base/ Direct) (gCO2/MJ) | Balance (t CO2) | Deficits (T1/T2) (t CO2) or SUS Generated | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | -827.565 | Deficits: 827.565 / 0.000 | $82,756.51 (Cost) | $82,756.51 | $0.00 |\n| 2029 | 87.702 / 75.573 | -1,430.55 | Deficits: 1,430.547 / 0.000 | $143,054.70 (Cost) | $143,054.70 | $0.00 |\n| 2030 | 85.836 / 73.707 | -2,033.53 | Deficits: 2,033.529 / 0.000 | $203,352.88 (Cost) | $203,352.88 | $0.00 |\n| 2031 | 81.731 / 69.602 | -3,360.09 | Deficits: 3,360.089 \n\n… [+170 more chars]",
+  "content_hash": "30c833ac5e2eebc261723fb6616e5d55bbecffb34c043359a2c595db8d272009",
+  "token_count": 368,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c560d173-9d47-5943-8025-4e91d3c9da2d",
+  "chunk_index": 95,
+  "page_number": 66,
+  "page_range": [
+    66,
+    66
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `3691916b-0e25-530a-94be-73dcd0eea6b2`
+
+- vector: dim=3072 · [-0.0146, 0.0019, -0.0151, -0.0212, -0.0362, -0.0717, -0.0249, 0.0548, …]
+
+```json
+{
+  "chunk_id": "3691916b-0e25-530a-94be-73dcd0eea6b2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| 2032 | 77.626 / 65.497 | -4,686.65 | Deficits: 3,919.382/767.267 | $683,499.64 (Cost) | $391,938.20 | $291,561.44 | | Year | Target GFI (Base/ Direct) (gCO2/MJ) | Balance (t CO2) | Deficits (T1/T2) (t CO2) or SUS Generated | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2033 | 73.520 / 61.391 | -6,013.21 | Deficits: 3,919.382/ 2,093.82 | $1,187,592.47 (Cost) | $391,938.20 | $795,654.27 |\n| 2034 | 69.415 / 57.286 | -7,339.77 | Deficits: 3,919.382 / 3,420.38 | $1,691,685.30 (Cost) | $391,938.20 | $1,299,747.09 |\n| 2035 | 65.310 / 53.181 \n\n… [+539 more chars]",
+  "content_hash": "0be9d5c097a2d033e3a110ee603484e85f145a24f21d0e7270311994fc3ae4eb",
+  "token_count": 513,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c560d173-9d47-5943-8025-4e91d3c9da2d",
+  "chunk_index": 96,
+  "page_number": 67,
+  "page_range": [
+    67,
+    67
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `fba54c1e-61e9-50bc-b098-fadb9ecca34d`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "fba54c1e-61e9-50bc-b098-fadb9ecca34d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost /Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 8,080.57 | SUs Generated: 8,080.566 | $3,070,614.93 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 7,849.80 | SUs Generated: 7,849.795 | $2,982,922.01 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 7,619.02 | SUs Generated: 7,619.024 | $2,895,229.10 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 7,111.33 | SUs Generated: 7,111.328 | $2,702,304.68 Revenue |\n\n… [+883 more chars]",
+  "content_hash": "46fac61b9360af41ba185fab0a3cf715c46986c044b4c0ed50d8441883a6190c",
+  "token_count": 681,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    68,
+    68
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ec308c43-677e-54c9-b5bb-b010cc5fabd4`
+
+- vector: dim=3072 · [-0.0172, -0.0113, -0.0193, -0.0042, -0.0272, -0.0460, -0.0077, 0.0638, …]
+
+```json
+{
+  "chunk_id": "ec308c43-677e-54c9-b5bb-b010cc5fabd4",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost /Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 8,080.57 | SUs Generated: 8,080.566 | $3,070,614.93 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 7,849.80 | SUs Generated: 7,849.795 | $2,982,922.01 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 7,619.02 | SUs Generated: 7,619.024 | $2,895,229.10 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 7,111.33 | SUs Generated: 7,111.328 | $2,702,304.68 Revenue | $0.00\n\n… [+430 more chars]",
+  "content_hash": "ada930ef8d82eda6e44a1a06ace62a775d1c8935372ce8e0f20526f4a984a077",
+  "token_count": 494,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "fba54c1e-61e9-50bc-b098-fadb9ecca34d",
+  "chunk_index": 97,
+  "page_number": 68,
+  "page_range": [
+    68,
+    68
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c8766182-8eb6-5bd3-aa68-5e4fecb25f96`
+
+- vector: dim=3072 · [-0.0045, 0.0054, -0.0076, -0.0049, -0.0437, -0.0507, -0.0463, 0.0607, …]
+
+```json
+{
+  "chunk_id": "c8766182-8eb6-5bd3-aa68-5e4fecb25f96",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "00 | $0.00 |\n| 2035 | 65.310 / 53.181 | 5,080.55 | SUs Generated: 5,080.545 | $1,930,607.02 Revenue | $0.00 | $0.00 | <figcaption>Figure 17: Result Plot for Case 3a E-Ammonia (LHV: 18,600 MJ/t | GFI: 12.10 gCO2/MJ)</figcaption>\n\nFuel: e-Ammonia GFI: 12.10 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 18,600 MJ/t\n\n30\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n2.5\n\n2.0\n\n15\n\n1.0\n\nMARITIME DECARBONISATION\n\n05\n\nPotential SU Revenue (@ $380/t CO.)\n\nTier 1 RU Cost (per t CO. deficit)\n\nTier 2 RU Cost (per t CO. deficit)\n\n0.0\n\n2028\n\n2029\n\n2030\n\n2031\n\n2032\n\n2033\n\n2034\n\n2035",
+  "content_hash": "0bbbfe186a279661d423d875975754de515b3ae2de40f5f84df297198940a9a8",
+  "token_count": 245,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "fba54c1e-61e9-50bc-b098-fadb9ecca34d",
+  "chunk_index": 98,
+  "page_number": 68,
+  "page_range": [
+    68,
+    68
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `32b8a24c-3dee-592b-bb98-4e062ab48448`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "32b8a24c-3dee-592b-bb98-4e062ab48448",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/ MJ) | Balance (t CO2) | Deficits (T1 / T2) or SUs Generated (tCO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 9,205.98 | SUs Generated: 9,205.975 | $3,498,270.63 (Revenue) | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 8,975.21 | SUs Generated: 8,975.205 | $3,410,577.71 (Revenue) | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 8,744.43 | SUs Generated: 8,744.434 | $3,322,884.80 (Revenue) | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 8,236.74 | SUs Generated: 8,236.7\n\n… [+933 more chars]",
+  "content_hash": "de6552b46106929f82d685b9e9b79e49acd897a914c464315ab9757b12640bbf",
+  "token_count": 711,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    69,
+    69
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a87c3498-0d96-5cf1-af4f-3de8caf9c3f0`
+
+- vector: dim=3072 · [-0.0141, -0.0105, -0.0216, -0.0055, -0.0302, -0.0452, -0.0095, 0.0604, …]
+
+```json
+{
+  "chunk_id": "a87c3498-0d96-5cf1-af4f-3de8caf9c3f0",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/ MJ) | Balance (t CO2) | Deficits (T1 / T2) or SUs Generated (tCO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 9,205.98 | SUs Generated: 9,205.975 | $3,498,270.63 (Revenue) | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 8,975.21 | SUs Generated: 8,975.205 | $3,410,577.71 (Revenue) | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 8,744.43 | SUs Generated: 8,744.434 | $3,322,884.80 (Revenue) | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 8,236.74 | SUs Generated: 8,236.738 | $\n\n… [+468 more chars]",
+  "content_hash": "0112d923597baf2ce14883cefb9899ce2bf0480da417fdeb0ca905c53a8d482a",
+  "token_count": 518,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "32b8a24c-3dee-592b-bb98-4e062ab48448",
+  "chunk_index": 99,
+  "page_number": 69,
+  "page_range": [
+    69,
+    69
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `268d56b2-20c6-5ba4-bfec-d1d2d93344e6`
+
+- vector: dim=3072 · [-0.0065, 0.0034, -0.0114, -0.0058, -0.0443, -0.0441, -0.0415, 0.0573, …]
+
+```json
+{
+  "chunk_id": "268d56b2-20c6-5ba4-bfec-d1d2d93344e6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "$0.00 |\n| 2035 | 65.310 / 53.181 | 6,205.96 | SUs Generated: 6,205.955 | $2,358,262.72 (Revenue) | $0.00 | $0.00 | <figcaption>Figure 18: Result Plot for Case 3b E-Ammonia (LHV: 18,600 MJ/t | GFI: 3.00 gCO2/MJ)</figcaption>\n\nFuel: e-Ammonia (6,649.00 t/y), Attained GFI: 3.00 gCO2eq/MJ\n\n3.5\n\n3.0\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n2.5\n\n2.0\n\n1.5\n\n1.0\n\nGlobal Centre for\nMARITIME DECARBONISATION\n\n0.5\n\nPotential SU Revenue (@ $380/t CO2)\n\nTier 1 RU Cost (per t CO2 deficit)\n\nTier 2 RU Cost (per t CO2 deficit)\n\n0.0\n\n2028\n\n2029\n\n2030\n\n2031\n\n2032\n\n2033\n\n2034\n\n2035",
+  "content_hash": "0f8aae466dde6b0430ebc51658b496cf0b81f9c6d7d414055729778bdad452f3",
+  "token_count": 251,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "32b8a24c-3dee-592b-bb98-4e062ab48448",
+  "chunk_index": 100,
+  "page_number": 69,
+  "page_range": [
+    69,
+    69
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `b6e2ea80-c906-5f67-b73d-a0b83cd9f631`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "b6e2ea80-c906-5f67-b73d-a0b83cd9f631",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 7,996.99 | SUs Generated: 7,996.99 | $3,038,857.08 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 7,750.09 | SUs Generated: 7,750.09 | $2,945,035.09 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 7,503.19 | SUs Generated: 7,503.19 | $2,851,213.10 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 6,960.01 | SUs Generated: 6,960.01 | $2,644,804.72 Revenue | $0\n\n… [+892 more chars]",
+  "content_hash": "fe446af1de6c4602ac5919789e0038a4114a6a751b4189ff115e059b11557c70",
+  "token_count": 683,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    70,
+    70
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `75dfabd5-377f-5f8a-bb8d-2b36e1011df1`
+
+- vector: dim=3072 · [-0.0160, -0.0129, -0.0201, -0.0048, -0.0296, -0.0437, -0.0089, 0.0666, …]
+
+```json
+{
+  "chunk_id": "75dfabd5-377f-5f8a-bb8d-2b36e1011df1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 7,996.99 | SUs Generated: 7,996.99 | $3,038,857.08 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 7,750.09 | SUs Generated: 7,750.09 | $2,945,035.09 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 7,503.19 | SUs Generated: 7,503.19 | $2,851,213.10 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 6,960.01 | SUs Generated: 6,960.01 | $2,644,804.72 Revenue | $0.00 | \n\n… [+423 more chars]",
+  "content_hash": "fd802ecd1e85cd97362ef4a5e6c0693f172cebe5dcffd4df689cf77aa6c85c82",
+  "token_count": 494,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b6e2ea80-c906-5f67-b73d-a0b83cd9f631",
+  "chunk_index": 101,
+  "page_number": 70,
+  "page_range": [
+    70,
+    70
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `6e0b4815-f051-5993-ae71-29a668699a03`
+
+- vector: dim=3072 · [-0.0039, 0.0010, -0.0119, -0.0012, -0.0458, -0.0635, -0.0648, 0.0610, …]
+
+```json
+{
+  "chunk_id": "6e0b4815-f051-5993-ae71-29a668699a03",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "00 | $0.00 |\n| 2035 | 65.310 / 53.181 | 4,787.29 | SUs Generated: 4,787.29 | $1,819,171.20 Revenue | $0.00 | $0.00 | <figcaption>Figure 19: Result Plot for Case 4a Bio- Methanol (LHV: 19,900 MJ/t | GFI: 17.00 gCO2/MJ)</figcaption>\n\nFuel: bio-Methanol (6,649.00 t/y), Attained GFI: 17.00 gCO2eq/MJ\n\n3.0\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n2.5\n\n2.0\n\n1.5\n\n1.0\n\nGlobal Centre for\nMARITIME DECARBONISATION\n\n0.5\n\nPotential SU Revenue (@ $380/t CO2)\n\nTier 1 RU Cost (per t CO2 deficit)\n\nTier 2 RU Cost (per t CO2 deficit)\n\n0.0\n\n2028\n\n2029\n\n2030\n\n2031\n\n2032\n\n2033\n\n2034\n\n2035",
+  "content_hash": "1643347224524385e2bde09b0aa1169c3fd369cc6bca32bf2da4961e9676db6c",
+  "token_count": 247,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b6e2ea80-c906-5f67-b73d-a0b83cd9f631",
+  "chunk_index": 102,
+  "page_number": 70,
+  "page_range": [
+    70,
+    70
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `65019e1b-0890-5351-9ecd-99d290eeac1f`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "65019e1b-0890-5351-9ecd-99d290eeac1f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n|  | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost / Revenue |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 9,002.59 | SUs Generated: 9,002.587 | $3,420,983.09 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 /75.573 | 8,755.69 | SUs Generated: 8,755.687 | $3,327,161.10 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 8,508.79 | SUs Generated: 8,508.787 | $3,233,339.11 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 7,965.61 | SUs Generated: 7,965.607 | $3,026,930.73 Rev\n\n… [+898 more chars]",
+  "content_hash": "a727e9fe2f059f8fce01ff2c29a4993caa0d07b1b1902b84f527b81236d8cba3",
+  "token_count": 688,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    71,
+    71
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `8b657c54-b0f3-5eb4-bece-747c74c8c2b7`
+
+- vector: dim=3072 · [-0.0144, -0.0153, -0.0191, -0.0043, -0.0313, -0.0397, -0.0105, 0.0661, …]
+
+```json
+{
+  "chunk_id": "8b657c54-b0f3-5eb4-bece-747c74c8c2b7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "|  | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost / Revenue |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 9,002.59 | SUs Generated: 9,002.587 | $3,420,983.09 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 /75.573 | 8,755.69 | SUs Generated: 8,755.687 | $3,327,161.10 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 8,508.79 | SUs Generated: 8,508.787 | $3,233,339.11 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 7,965.61 | SUs Generated: 7,965.607 | $3,026,930.73 Revenue |\n\n… [+436 more chars]",
+  "content_hash": "12da44c3c103095018bf44a058dcb51f384c3807bbf6d661d70903f63c582ed2",
+  "token_count": 495,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "65019e1b-0890-5351-9ecd-99d290eeac1f",
+  "chunk_index": 103,
+  "page_number": 71,
+  "page_range": [
+    71,
+    71
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9e129e87-b199-5c40-98eb-3ddf41b5bb94`
+
+- vector: dim=3072 · [-0.0034, 0.0092, -0.0119, 0.0041, -0.0495, -0.0603, -0.0717, 0.0626, …]
+
+```json
+{
+  "chunk_id": "9e129e87-b199-5c40-98eb-3ddf41b5bb94",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "00 | $0.00 |\n| 2035 | 65.310 / 53.181 | 5,792.89 | SUs Generated: 5,792.887 | $2,201,297.21 Revenue | $0.00 | $0.00 | <figcaption>Figure 20: Result Plot for Case 4b: Bio- Methanol (LHV: 19,900 MJ/t | GFI: 9.4 gCO2/MJ)</figcaption>\n\nFuel: bio-MethanolGFI: 9.40 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 19,900 MJ/t\n\n3.5\n\n3.0\n\nAnnual Revenue (+) / Cost (+) (Millions USD)\n\n25\n\n20\n\n15\n\n1.0\n\nMARITIME DECARBONISATION\n\n0.5\n\nPotential SU Revenue (@ $380/t CO,)\n\nTier 1 RU Cost (per t CO, deficit)\n\nTier 2 RU Cost (per t CO: deficit)\n\n0.0\n\n2028\n\n2029\n\n2030\n\n2031\n\n2032\n\n2033\n\n2034\n\n2035",
+  "content_hash": "3ac24328f8f36a979e60ec75ad9abf0b0813a8273d8d0d0b5089441c33d8898c",
+  "token_count": 251,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "65019e1b-0890-5351-9ecd-99d290eeac1f",
+  "chunk_index": 104,
+  "page_number": 71,
+  "page_range": [
+    71,
+    71
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `f8378c43-b9b0-5d47-a24d-4861e0b2132a`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "f8378c43-b9b0-5d47-a24d-4861e0b2132a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs Generated (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 16,964.67 | SUS Generated: 16,964.67 | $6,446,576.18 (Revenue) | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 16,499.41 | SUS Generated: 16,499.41 | $6,269,775.95 (Revenue) | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 16,034.15 | SUS Generated: 16,034.15 | $6,092,975.71 (Revenue) | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 15,010.57 | SUS Generated: 15,010.57 | $5,704,015.20\n\n… [+934 more chars]",
+  "content_hash": "84ab3885dbbae28ff07f15db12cec9788c1d613673decf40f80a1812a7bb376e",
+  "token_count": 692,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    72,
+    72
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9adabcdd-ef1f-5679-b896-1606adeb5de8`
+
+- vector: dim=3072 · [-0.0150, -0.0145, -0.0206, -0.0071, -0.0259, -0.0413, -0.0137, 0.0625, …]
+
+```json
+{
+  "chunk_id": "9adabcdd-ef1f-5679-b896-1606adeb5de8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs Generated (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 16,964.67 | SUS Generated: 16,964.67 | $6,446,576.18 (Revenue) | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 16,499.41 | SUS Generated: 16,499.41 | $6,269,775.95 (Revenue) | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 16,034.15 | SUS Generated: 16,034.15 | $6,092,975.71 (Revenue) | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 15,010.57 | SUS Generated: 15,010.57 | $5,704,015.20 (Reve\n\n… [+454 more chars]",
+  "content_hash": "2d02442c53a8871260121307554057dcb9033953d9d75bb698cbeb5db78e1cad",
+  "token_count": 500,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f8378c43-b9b0-5d47-a24d-4861e0b2132a",
+  "chunk_index": 105,
+  "page_number": 72,
+  "page_range": [
+    72,
+    72
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7e47d405-d51e-540c-af85-2853db2547de`
+
+- vector: dim=3072 · [-0.0076, 0.0025, -0.0106, 0.0048, -0.0315, -0.0668, -0.0514, 0.0550, …]
+
+```json
+{
+  "chunk_id": "7e47d405-d51e-540c-af85-2853db2547de",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| $0.00 |\n| 2035 | 65.310 / 53.181 | 10,916.25 | SUS Generated: 10,916.25 | $4,148,173.13 (Revenue) | $0.00 | $0.00 | <figcaption>Figure 21: Result Plot for Case 5: Biodiesel 100 (B100 orBD100) (LHV: 19,900 MJ/t | GFI: 9.4 gCO2/MJ)</figcaption>\n\nFuel : B100 Custom GFI: 9.40 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 37,500 MJ/t\n\n6\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n5\n\n4\n\n3\n\n2\n\nGlobal Conthe for\n\nMARITIME DECARBONISATION\n\n1\n\nPotential SU Revenue (@ $380/t CO2)\n\nTier 1 RU Cost (per t CO2 deficit)\n\nTier 2 RU Cost (per t CO2 deficit)\n\n0\n\n2028\n\n2029\n\n2030\n\n2031\n\n2032\n\n2033\n\n2034\n\n2035",
+  "content_hash": "6e9fc689c4f33383fd04e6cd323a261b74db8e8aa69b26a0c2293db8e1fe048e",
+  "token_count": 250,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f8378c43-b9b0-5d47-a24d-4861e0b2132a",
+  "chunk_index": 106,
+  "page_number": 72,
+  "page_range": [
+    72,
+    72
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `71d7b333-dc34-59fa-8975-683669d09a41`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "71d7b333-dc34-59fa-8975-683669d09a41",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 989.322 | SUs: 989.322 / 0.000 | $375,942.43 (Revenue) | $98,932.20 | $277,010.23 |\n| 2029 | 87.702 / 75.573 | 480.621 | SUs: 480.621 / 0.000 | $182,636.13 (Revenue) | $48,062.10 | $134,574.03 |\n| 2030 | 85.836 / 73.707 | -28.079 | Deficits: 28.079 / 0.000 | $2,807.94 (Cost) | $2,807.94 | $0.00 |\n| 2031 | 81.731 / 69.602 | -1,147.22 | Deficits: 1,147.221 / 0.000 | $114,722\n\n… [+1107 more chars]",
+  "content_hash": "787c5bd245ab487bae5ba5ba1e1a93a5ffe422026d515403273fadf3450bf14f",
+  "token_count": 805,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    73,
+    73
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `375bc718-16c9-5876-96c5-8ca53b31eb6d`
+
+- vector: dim=3072 · [-0.0183, -0.0137, -0.0173, -0.0065, -0.0294, -0.0476, -0.0096, 0.0605, …]
+
+```json
+{
+  "chunk_id": "375bc718-16c9-5876-96c5-8ca53b31eb6d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 989.322 | SUs: 989.322 / 0.000 | $375,942.43 (Revenue) | $98,932.20 | $277,010.23 |\n| 2029 | 87.702 / 75.573 | 480.621 | SUs: 480.621 / 0.000 | $182,636.13 (Revenue) | $48,062.10 | $134,574.03 |\n| 2030 | 85.836 / 73.707 | -28.079 | Deficits: 28.079 / 0.000 | $2,807.94 (Cost) | $2,807.94 | $0.00 |\n| 2031 | 81.731 / 69.602 | -1,147.22 | Deficits: 1,147.221 / 0.000 | $114,722.12 (C\n\n… [+518 more chars]",
+  "content_hash": "e5fb747ef19f2e65cc0e38790f1f1e60c702d270de9c6333000befd1e961511c",
+  "token_count": 556,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "71d7b333-dc34-59fa-8975-683669d09a41",
+  "chunk_index": 107,
+  "page_number": 73,
+  "page_range": [
+    73,
+    73
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `8017511c-f767-54c9-9494-d5842e7ce0f4`
+
+- vector: dim=3072 · [-0.0048, 0.0268, -0.0075, 0.0078, -0.0239, -0.0695, -0.0384, 0.0599, …]
+
+```json
+{
+  "chunk_id": "8017511c-f767-54c9-9494-d5842e7ce0f4",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "65.310 / 53.181 | -5,623.78 | Deficits: 876.544 / 4,746.94 | $2,195,778.13 (Cost) | $87,654.40 | $1,803,839.92 | <figcaption>Figure 22: Result Plot for Case 5a B24 or BD24 ( (LHV: 40,648 MJ/t | GFI: 75.92 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Biodiesel blend) (*B or BD both represents Biodiesel blend)</figcaption>\n\nCustom GFI: 73.81 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 41,001 MJ/t\n\n0.4\n\n0.2\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n0.0\n\n-0.2\n\n-0.4\n\n-0.6\n\n-0.8\n\nGlobal Contre for\n\nMARITIME DECARBONISATION\n\n-1.0\n\nPotential SU Revenue (@ $380/t CO.)\n\nTier 1 RU Cost (per t COz deficit)\n\n-1.2\n\nTier 2 RU C\n\n… [+94 more chars]",
+  "content_hash": "ab19766785392ed8c9d4d99f0df1ef278ece8044dc845760cf33d929cc36fc83",
+  "token_count": 306,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "71d7b333-dc34-59fa-8975-683669d09a41",
+  "chunk_index": 108,
+  "page_number": 73,
+  "page_range": [
+    73,
+    73
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `4368bf07-c1d0-5b87-8c8b-fcf91cad05b0`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "4368bf07-c1d0-5b87-8c8b-fcf91cad05b0",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 2,437.113 | SUs Generated: 2,437.113 | $926,102.92 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 /75.573 | 1,931.762 | SUs Generated: 1,931.762 | $734,069.58 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 1,426.411 | SUs Generated: 1,426.411 | $542,036.24 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 314.639 | SUs Generated: 314.639 | $119,562.88 Revenue | $0.00 |\n\n… [+964 more chars]",
+  "content_hash": "b0088f763b1614a0f181b20ed15243c4557791c176b33b8bb0c0c5b7ba98a1a6",
+  "token_count": 716,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    74,
+    74
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e111851e-1d05-5a27-815c-2e57deee06c4`
+
+- vector: dim=3072 · [-0.0168, -0.0143, -0.0210, -0.0057, -0.0285, -0.0468, -0.0039, 0.0601, …]
+
+```json
+{
+  "chunk_id": "e111851e-1d05-5a27-815c-2e57deee06c4",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 2,437.113 | SUs Generated: 2,437.113 | $926,102.92 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 /75.573 | 1,931.762 | SUs Generated: 1,931.762 | $734,069.58 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 1,426.411 | SUs Generated: 1,426.411 | $542,036.24 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 314.639 | SUs Generated: 314.639 | $119,562.88 Revenue | $0.00 | $0.00\n\n… [+430 more chars]",
+  "content_hash": "da5f02934e6674da6475639095abba25f918165d8b38f1d93b985f56ba66e6a3",
+  "token_count": 488,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "4368bf07-c1d0-5b87-8c8b-fcf91cad05b0",
+  "chunk_index": 109,
+  "page_number": 74,
+  "page_range": [
+    74,
+    74
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `65d2ce69-6072-57c7-866b-5e02087c6639`
+
+- vector: dim=3072 · [-0.0025, 0.0063, -0.0090, -0.0046, -0.0262, -0.0443, -0.0491, 0.0611, …]
+
+```json
+{
+  "chunk_id": "65d2ce69-6072-57c7-866b-5e02087c6639",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": ".310 / 53.181 | -4,132.449 | Deficit: 3,284.781 (T1) / 847.668 (T2) | $650,591.89 Cost | $328,478.09 | $322,113.81 | <figcaption>Figure 23: Result Plot for Diesel-Biodiesel Case 5b: B30 or BD 30 (LHV: 40,713 MJ/t) (GFI: 68.44 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Biodiesel blend)</figcaption>\n\nCustom GFI: 68.44 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 40,731 MJ/t\n\n10\n\n08\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n0.6\n\n0.4\n\n0.2\n\n0.0\n\n-0.2\n\nGobdi Conthe for\n\nMARITIME DECARBONISATION\n\n-0.4\n\nPotential SU Revenue (@ $380/t CO:)\n\n-0.6\n\nTier 1 RU Cost (per t CO: deficit)\n\nTier 2 RU Cost (per t CO2 deficit)\n\n202\n\n… [+43 more chars]",
+  "content_hash": "5d1b30b8d6ba63b22cb11e21296fbe63c379272d84c211b1de4f752bcbf3713b",
+  "token_count": 286,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "4368bf07-c1d0-5b87-8c8b-fcf91cad05b0",
+  "chunk_index": 110,
+  "page_number": 74,
+  "page_range": [
+    74,
+    74
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `19340b3a-4134-5867-9c12-2ae6fbd21883`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "19340b3a-4134-5867-9c12-2ae6fbd21883",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 4,427.70 | SUs Generated: 4,427.704 | $1,682,527.68 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 3,927.85 | SUs Generated: 3,927.850 | $1,492,582.94 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 3,428.00 | SUs Generated: 3,427.995 | $1,302,638.19 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 2,328.32 | SUs Generated: 2,328.315 | $884,759.76 Revenue | \n\n… [+971 more chars]",
+  "content_hash": "406ec5bb7835520e32a1c220770e728e4359b8b507126be1525339e42a91311f",
+  "token_count": 718,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    75,
+    75
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `45209cce-c0c8-5b7a-ab68-17885df736d4`
+
+- vector: dim=3072 · [-0.0199, -0.0161, -0.0184, -0.0035, -0.0281, -0.0495, -0.0035, 0.0592, …]
+
+```json
+{
+  "chunk_id": "45209cce-c0c8-5b7a-ab68-17885df736d4",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 4,427.70 | SUs Generated: 4,427.704 | $1,682,527.68 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 3,927.85 | SUs Generated: 3,927.850 | $1,492,582.94 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 3,428.00 | SUs Generated: 3,427.995 | $1,302,638.19 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 2,328.32 | SUs Generated: 2,328.315 | $884,759.76 Revenue | $0.00 \n\n… [+429 more chars]",
+  "content_hash": "8292a695c0018340b1ad75b58fdeeb46bcb80472572b9229ecb013fdb8e6191f",
+  "token_count": 490,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "19340b3a-4134-5867-9c12-2ae6fbd21883",
+  "chunk_index": 111,
+  "page_number": 75,
+  "page_range": [
+    75,
+    75
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `abafe2bb-157a-56c4-ab9b-02d48d995013`
+
+- vector: dim=3072 · [-0.0095, 0.0245, -0.0096, 0.0053, -0.0356, -0.0583, -0.0441, 0.0611, …]
+
+```json
+{
+  "chunk_id": "abafe2bb-157a-56c4-ab9b-02d48d995013",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": ".51 | $0.00 |\n| 2035 | 65.310 / 53.181 | -2,070.405 | Deficit: 2,070.405 | $207,040.52 Cost | $207,040.52 | $0.00 | <figcaption>Figure 24: Result Plot for D(HFO/LFO/DO)-Biodiesel Case 5c: B40 or BD40 (LHV: 40,288 MJ/t) (GFI: 60.91 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Biodiesel blend)</figcaption>\n\nCustom GFI: 60.91 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 40,288 MJ/t\n\n1.75\n\n1.50\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n1.25\n\n1.00\n\n0.75\n\n0.50\n\n0.25\n\nGlobal Centre for\nMARITIME DECARBONISATION\n\n0.00\n\nPotential SU Revenue (@ $380/t CO2)\n\nTier 1 RU Cost (per t CO: deficit)\n\nTier 2 RU Cost (per t CO2 defici\n\n… [+50 more chars]",
+  "content_hash": "c18686b08d1587c619fc10cbe862fbd3da5eb0fe1eea1d98334c940da011f961",
+  "token_count": 286,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "19340b3a-4134-5867-9c12-2ae6fbd21883",
+  "chunk_index": 112,
+  "page_number": 75,
+  "page_range": [
+    75,
+    75
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `fcee001c-74f3-5246-8b43-ab209cde222e`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "fcee001c-74f3-5246-8b43-ab209cde222e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | Deficits / SUs (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 6,763.70 | SUs Generated: | $2,570,207.36 | $0.00 | $0.00 |\n|  | 6,763.704 | Revenue |  |  |  |  |\n| 2029 | 87.702 / 75.573 | 6,270.29 | SUs Generated: | $2,382,709.53 | $0.00 | $0.00 |\n|  | 6,270.288 | Revenue |  |  |  |  |\n| 2030 | 85.836 / 73.707 | 5,776.87 | SUs Generated: | $2,195,211.70 | $0.00 | $0.00 |\n|  | 5,776.873 | Revenue |  |  |  |  |\n| 2031 | 81.731 / 69.602\n\n… [+1094 more chars]",
+  "content_hash": "8839950c7572083d4cb7a7086d5922448415d50448251893d6e7c9dfb1296066",
+  "token_count": 802,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    76,
+    76
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ed789864-ba17-5935-b5af-ef90836b5280`
+
+- vector: dim=3072 · [-0.0113, -0.0190, -0.0187, -0.0152, -0.0285, -0.0492, -0.0037, 0.0645, …]
+
+```json
+{
+  "chunk_id": "ed789864-ba17-5935-b5af-ef90836b5280",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | Deficits / SUs (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 6,763.70 | SUs Generated: | $2,570,207.36 | $0.00 | $0.00 |\n|  | 6,763.704 | Revenue |  |  |  |  |\n| 2029 | 87.702 / 75.573 | 6,270.29 | SUs Generated: | $2,382,709.53 | $0.00 | $0.00 |\n|  | 6,270.288 | Revenue |  |  |  |  |\n| 2030 | 85.836 / 73.707 | 5,776.87 | SUs Generated: | $2,195,211.70 | $0.00 | $0.00 |\n|  | 5,776.873 | Revenue |  |  |  |  |\n| 2031 | 81.731 / 69.602 | 4,6\n\n… [+469 more chars]",
+  "content_hash": "b08941db0491217f21090bf4918e54d8031b5ecf9b808b7d1703e64580d8aa97",
+  "token_count": 528,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "fcee001c-74f3-5246-8b43-ab209cde222e",
+  "chunk_index": 113,
+  "page_number": 76,
+  "page_range": [
+    76,
+    76
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ed2d2801-dcf6-5baf-aded-2c554d2bd5f7`
+
+- vector: dim=3072 · [-0.0103, 0.0088, -0.0111, 0.0036, -0.0196, -0.0535, -0.0524, 0.0621, …]
+
+```json
+{
+  "chunk_id": "ed2d2801-dcf6-5baf-aded-2c554d2bd5f7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| 69.415 / 57.286 | 1,434.82 | SUs Generated: | $545,230.82 | $0.00 | $0.00 |\n|  | 1,434.818 | Revenue |  |  |  |  | | 2035 | 65.310 / 53.181 | 349.3 | SUs Generated: | $132,735.60 Revenue | $0.00 | $0.00 |\n| 349.304 |  |  |  |  |  |  |\n\n<figcaption>Figure 25: Result Plot for D(HFO/LFO/DO)-Biodiesel Case 5d: B50 or BD50 ( LHV: 39,769 MJ/t |GFI: 51.86 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Biodiesel blend)</figcaption>\n\nCustom GFI: 50.29 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,036 MJ/t\n\n2.5\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n2.0\n\n1.5\n\n10\n\nMARITIME DECARBONISATION\n\n0.5\n\nPotential SU Revenue (@ $\n\n… [+135 more chars]",
+  "content_hash": "0611fd40f73dbe328635133ec64cdfd030b8ae7871e4091b6692b45a85ffca8c",
+  "token_count": 332,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "fcee001c-74f3-5246-8b43-ab209cde222e",
+  "chunk_index": 114,
+  "page_number": 76,
+  "page_range": [
+    76,
+    76
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `8551726f-98b7-5546-8ba1-1ff1d05bc8f1`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "8551726f-98b7-5546-8ba1-1ff1d05bc8f1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (T1 / T2) (t CO2) | Net Outcome | T1 RU Cost | T2 RU Cost / Revenue |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | +2,091.690 | SUs: 2,091.690 | $794,842.10 (Revenue) | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | +1,606.773 | SUs: 1,606.773 | $610,573.82 (Revenue) | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | +1,121.857 | SUs: 1,121.857 | $426,305.55 (Revenue) | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | +55.040 | SUs: 55.040 | $20,915.34 (Revenue) | $0.00 | $0.00 |\n| 2032 | 77.626 / \n\n… [+975 more chars]",
+  "content_hash": "dea22cfb4e2f71eb50d2a80e5f6334fc732fc04536734c787341835282ca4295",
+  "token_count": 754,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    77,
+    77
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ca14f571-1a06-50aa-bd2f-55c8ce615621`
+
+- vector: dim=3072 · [-0.0175, -0.0186, -0.0201, -0.0079, -0.0248, -0.0521, -0.0107, 0.0635, …]
+
+```json
+{
+  "chunk_id": "ca14f571-1a06-50aa-bd2f-55c8ce615621",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (T1 / T2) (t CO2) | Net Outcome | T1 RU Cost | T2 RU Cost / Revenue |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | +2,091.690 | SUs: 2,091.690 | $794,842.10 (Revenue) | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | +1,606.773 | SUs: 1,606.773 | $610,573.82 (Revenue) | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | +1,121.857 | SUs: 1,121.857 | $426,305.55 (Revenue) | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | +55.040 | SUs: 55.040 | $20,915.34 (Revenue) | $0.00 | $0.00 |\n| 2032 | 77.626 / 65.497\n\n… [+433 more chars]",
+  "content_hash": "d9c71169cbae2bc35b5b8414c87e2719bba8b01b4ced760fb6d8cef87e8af46c",
+  "token_count": 518,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "8551726f-98b7-5546-8ba1-1ff1d05bc8f1",
+  "chunk_index": 115,
+  "page_number": 77,
+  "page_range": [
+    77,
+    77
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1d4eeac5-8a07-5c4b-b016-954962aa9b02`
+
+- vector: dim=3072 · [-0.0062, 0.0287, -0.0085, -0.0067, -0.0324, -0.0539, -0.0487, 0.0637, …]
+
+```json
+{
+  "chunk_id": "1d4eeac5-8a07-5c4b-b016-954962aa9b02",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "5 | 65.310 / 53.181 | -4,212.225 | Deficit: 3,151.957 / 1,060.268 | $718,097.43 (Cost) | $315,195.74 | $402,901.70 | <figcaption>Figure 26: Result Plot for Case 6: D(HFO/LFO/DO) M9.47BD25 (LHV: 39,084 MJ/t) (Attained GFI: 69.39gCO2/MJ) (i.e. D(HFO/LFO/DO)-Methanol-Biodiesel blend)</figcaption>\n\nCustom GFI: 69.39 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 39,084 MJ/t\n\n0.8\n\n0.6\n\nAnnual Revenue (+) / Cost (-) [Millions USD)\n\n0,4\n\n0.2\n\n0.0\n\n-0.2\n\n-0.4\n\nGinbol Contre for\n\nMARITIME DECARBONISATION\n\n-0.6\n\nPotential SU Revenue (@ $380/t CO:)\n\nTier 1 RU Cost (per t CO, deficit)\n\nTier 2 RU Cost (per t CO. defic\n\n… [+51 more chars]",
+  "content_hash": "13984e3e675e333508538ed20e999d5f64532bf20d5bca94f7553a4abf72ae9e",
+  "token_count": 294,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "8551726f-98b7-5546-8ba1-1ff1d05bc8f1",
+  "chunk_index": 116,
+  "page_number": 77,
+  "page_range": [
+    77,
+    77
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `c6435192-bba2-5413-88c9-ba3b520e7198`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "c6435192-bba2-5413-88c9-ba3b520e7198",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | Deficits / SUs (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 3,052.23 | SUs Generated: 3,052.232 | $1,159,848.09 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 2,569.93 | SUs Generated: 2,569.933 | $976,574.61 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 2,087.64 | SUs Generated: 2,087.635 | $793,301.13 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 1,026.58 | SUs Generated: 1,026.578 | $390,099.47 Revenue | $0.0\n\n… [+973 more chars]",
+  "content_hash": "5e17f3457437fb9428eac639a311f7f295f842f83cc9f452681721aa35116ffc",
+  "token_count": 739,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    78,
+    78
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f98e9bb5-e868-583d-ba9a-879324257a00`
+
+- vector: dim=3072 · [-0.0184, -0.0154, -0.0170, -0.0111, -0.0282, -0.0508, -0.0126, 0.0587, …]
+
+```json
+{
+  "chunk_id": "f98e9bb5-e868-583d-ba9a-879324257a00",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | Deficits / SUs (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 3,052.23 | SUs Generated: 3,052.232 | $1,159,848.09 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 2,569.93 | SUs Generated: 2,569.933 | $976,574.61 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 2,087.64 | SUs Generated: 2,087.635 | $793,301.13 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 1,026.58 | SUs Generated: 1,026.578 | $390,099.47 Revenue | $0.00 | $0\n\n… [+454 more chars]",
+  "content_hash": "0ca0b1cb64638d74c0d42fe7ff01ba294b912182e5eb1156e2b5d19112874aea",
+  "token_count": 510,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c6435192-bba2-5413-88c9-ba3b520e7198",
+  "chunk_index": 117,
+  "page_number": 78,
+  "page_range": [
+    78,
+    78
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `fa1fdd83-78af-5bef-8615-6fb37b25dfa6`
+
+- vector: dim=3072 · [-0.0133, 0.0214, -0.0106, -0.0002, -0.0267, -0.0459, -0.0517, 0.0616, …]
+
+```json
+{
+  "chunk_id": "fa1fdd83-78af-5bef-8615-6fb37b25dfa6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "2035 | 65.310 / 53.181 | -3,217.65 | Deficit: 3,134.941 t / 82.709 t | $344,923.65 Cost | $313,494.11 | $31,429.54 | <figcaption>Figure 27: Result Plot for Case 7: D (HFO/LFO/DO) M9.47BD30(LHV: 38,873 MJ/t | GFI: 65.63 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Methanol-Biodiesel blend)</figcaption>\n\nCustom GFI: 65.63 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,873 MJ/t\n\n1.2\n\n1.0\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n0.8\n\n0.6\n\n0.4\n\n0.2\n\n0.0\n\nMARITIME DECARBONISATION\n\n-0.2\n\nPotential SU Revenue (@ $380/t CO:)\n\nTier 1 RU Cost (per t CO: deficit)\n\nTier 2 RU Cost (per t CO. deficit)\n\n-0.4\n\n2028\n\n2029\n\n2030\n\n\n\n… [+28 more chars]",
+  "content_hash": "ce52d94d259a3aa53481c7f4dca3a8906a69e96de58082b2d1f8540dd0ef26cb",
+  "token_count": 286,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c6435192-bba2-5413-88c9-ba3b520e7198",
+  "chunk_index": 118,
+  "page_number": 78,
+  "page_range": [
+    78,
+    78
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `3a1982b5-392b-518d-ba72-03fbdd6dea3f`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "3a1982b5-392b-518d-ba72-03fbdd6dea3f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\nTable 25: Case 8 a: D(HFO/LFO/DO) M9.47BD40(LHV: 38,459 MJ/t) (GFI: 57.69 gCO2/MJ) (blend\nwith Bio-Methanol GFI 9.4)\n\n| Year | Target GFI (Base / Direct) (gCO2/ MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 5,050.09 | SUs Generated: 5,050.094 | $1,919,035.58 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 4,572.93 | SUs Generated: 4,572.932 | $1,737,713.97 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 4,095.77 | SUs Generated: 4,095.769 | $1,556,3\n\n… [+1085 more chars]",
+  "content_hash": "755a29610e006d4d17c6392ff311632548569a0cfb2a863d04233d60d2b3f494",
+  "token_count": 784,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    79,
+    79
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `65857d0c-2a42-5935-b955-c0fbef606fe2`
+
+- vector: dim=3072 · [-0.0172, 0.0122, -0.0151, -0.0021, -0.0286, -0.0480, -0.0327, 0.0562, …]
+
+```json
+{
+  "chunk_id": "65857d0c-2a42-5935-b955-c0fbef606fe2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Table 25: Case 8 a: D(HFO/LFO/DO) M9.47BD40(LHV: 38,459 MJ/t) (GFI: 57.69 gCO2/MJ) (blend\nwith Bio-Methanol GFI 9.4)\n\n| Year | Target GFI (Base / Direct) (gCO2/ MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 5,050.09 | SUs Generated: 5,050.094 | $1,919,035.58 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 4,572.93 | SUs Generated: 4,572.932 | $1,737,713.97 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 4,095.77 | SUs Generated: 4,095.769 | $1,556,392.37 \n\n… [+540 more chars]",
+  "content_hash": "9562c90ef960e406900446096d6cde561afb1e5bd8ba61430ef0869c1d557670",
+  "token_count": 550,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "3a1982b5-392b-518d-ba72-03fbdd6dea3f",
+  "chunk_index": 119,
+  "page_number": 79,
+  "page_range": [
+    79,
+    79
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `dc5ffea9-9e42-5590-9d2c-6e1862f88d32`
+
+- vector: dim=3072 · [-0.0134, 0.0190, -0.0118, 0.0001, -0.0396, -0.0613, -0.0477, 0.0608, …]
+
+```json
+{
+  "chunk_id": "dc5ffea9-9e42-5590-9d2c-6e1862f88d32",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "0.00 |\n| 2035 | 65.310 / 53.181 | -1,153.01 | Deficit: 1,153.014 (T1) | $115,301.39 Cost | $115,301.39 | $0.00 | <figcaption>Figure 28: Result Plot for Case 8a: D(HFO/LFO/DO) M9.47BD50 (LHV: 38,459 MJ/t) (GFI: 57.69 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Methanol-Biodiesel blend)</figcaption>\n\nCustom GFI: 57.69 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,459 MJ/t\n\n2.00\n\n1.75\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n1.50\n\n1.25\n\n1.00\n\n0.75\n\n0.50\n\nGlobal Certhe for\nMARITIME DECARBONISATION\n\n0.25\n\nPotential SU Revenue (@ $380/t CO2)\n\nTier 1 RU Cost (per t CO2 deficit)\n\n0.00\n\nTier 2 RU Cost (per & CO. defici\n\n… [+50 more chars]",
+  "content_hash": "212985fbfa92db87b5ba9c664e3c33fbe6b2556ea8e4ecc03e8a860aa0f16cb8",
+  "token_count": 292,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "3a1982b5-392b-518d-ba72-03fbdd6dea3f",
+  "chunk_index": 120,
+  "page_number": 79,
+  "page_range": [
+    79,
+    79
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `69342c06-ddc3-5b56-a80a-1e3eb5e8009b`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "69342c06-ddc3-5b56-a80a-1e3eb5e8009b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 4,952.92 | SUs Generated: 4,952.922 | $1,882,110.49 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 4,475.76 | SUs Generated: 4,475.760 | $1,700,788.89 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 3,998.60 | SUs Generated: 3,998.598 | $1,519,467.28 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 2,948.84 | SUs Generated: 2,948.841 | $1,120,559.75 Revenue \n\n… [+957 more chars]",
+  "content_hash": "f9badbefa3e27f15347fe51f7206da716b1b5f0ab050b966c8f8f177606b8da8",
+  "token_count": 715,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    80,
+    80
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `73984e77-0dac-5da1-870c-4ef1d457fb5d`
+
+- vector: dim=3072 · [-0.0188, -0.0156, -0.0196, -0.0065, -0.0284, -0.0492, -0.0033, 0.0615, …]
+
+```json
+{
+  "chunk_id": "73984e77-0dac-5da1-870c-4ef1d457fb5d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 4,952.92 | SUs Generated: 4,952.922 | $1,882,110.49 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 4,475.76 | SUs Generated: 4,475.760 | $1,700,788.89 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 3,998.60 | SUs Generated: 3,998.598 | $1,519,467.28 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 2,948.84 | SUs Generated: 2,948.841 | $1,120,559.75 Revenue | $0.0\n\n… [+421 more chars]",
+  "content_hash": "28b6d3396d5486009e9e7274c3881d0f0b031c5cc470815cf5a3b2e29cf64489",
+  "token_count": 488,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "69342c06-ddc3-5b56-a80a-1e3eb5e8009b",
+  "chunk_index": 121,
+  "page_number": 80,
+  "page_range": [
+    80,
+    80
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `89015c74-81f5-5be4-bf55-6d25175821fe`
+
+- vector: dim=3072 · [-0.0143, 0.0266, -0.0069, -0.0015, -0.0342, -0.0579, -0.0454, 0.0690, …]
+
+```json
+{
+  "chunk_id": "89015c74-81f5-5be4-bf55-6d25175821fe",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "0.00 |\n| 2035 | 65.310 / 53.181 | -1,250.19 | Deficit: 1,250.185 (T1) | $125,018.52 Cost | $125,018.52 | $0.00 | <figcaption>Figure 29: Result Plot Case 8: D(HFO/LFO/DO) M9.47BD50 (LHV: 38,459 MJ/t) (GFI: 58.07 gCO2/ MJ) (i.e. D(HFO/LFO/DO)-Methanol-Biodiesel blend)</figcaption>\n\nCustom GFI: 58.07 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,459 MJ/t\n\n1.75\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n1.50\n\n1.25\n\n1.00\n\n0.75\n\n0.50\n\nGlobal Conthe for\n\nMARITIME DECARBONISATION\n\n0.25\n\nPotential SU Revenue (@ $300/t CO.)\n\n0.00\n\nTier 1 RU Cost (per t CO: deficit)\n\nTier 2 RU Cost (per t CO2 deficit)\n\n2028\n\n\n… [+41 more chars]",
+  "content_hash": "fe0f76747c478b5926c2187a6dfe67d644077e9af3ce66ed4b745e08517b3ff4",
+  "token_count": 285,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "69342c06-ddc3-5b56-a80a-1e3eb5e8009b",
+  "chunk_index": 122,
+  "page_number": 80,
+  "page_range": [
+    80,
+    80
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `b47419e3-6385-531c-9ba9-dd2706ac9224`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "b47419e3-6385-531c-9ba9-dd2706ac9224",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Year — Advanced Green Fuels for M — aritime Application-\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 5,191.08 | SUs: 5,191.076 / 0.000 | $1,972,608.95 (Revenue) | $519,107.60 | $1,453,501.35 |\n| 2029 | 87.702 / 75.573 | 4,706.48 | SUs: 4,706.482 / 0.000 | $1,788,463.25 (Revenue) | $470,648.20 | $1,317,815.05 |\n| 2030 | 85.836 / 73.707 | 4,221.89 | SUs: 4,221.888 / 0.000 | $1,604,317.56 (Revenue) | $422,188.80 | $1,182,12\n\n… [+1143 more chars]",
+  "content_hash": "200d83b1ce096f80f0f496a3859ce771bbeed74d485c562b9fba3ea2c5fa300d",
+  "token_count": 820,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    81,
+    81
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `30f45222-f3a3-5b1b-abf1-9c36d1f64438`
+
+- vector: dim=3072 · [-0.0116, -0.0099, -0.0190, -0.0092, -0.0274, -0.0444, -0.0071, 0.0584, …]
+
+```json
+{
+  "chunk_id": "30f45222-f3a3-5b1b-abf1-9c36d1f64438",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 5,191.08 | SUs: 5,191.076 / 0.000 | $1,972,608.95 (Revenue) | $519,107.60 | $1,453,501.35 |\n| 2029 | 87.702 / 75.573 | 4,706.48 | SUs: 4,706.482 / 0.000 | $1,788,463.25 (Revenue) | $470,648.20 | $1,317,815.05 |\n| 2030 | 85.836 / 73.707 | 4,221.89 | SUs: 4,221.888 / 0.000 | $1,604,317.56 (Revenue) | $422,188.80 | $1,182,128.76 |\n| 2031 | 81.731 / 69.602 | 3,155.78 | SUs: 3,155.78\n\n… [+398 more chars]",
+  "content_hash": "51d2b220eb7a9e51f15d162a70ef7c1f8ce0777cb4b2a538e0d07c78b6fd7c5a",
+  "token_count": 505,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b47419e3-6385-531c-9ba9-dd2706ac9224",
+  "chunk_index": 123,
+  "page_number": 81,
+  "page_range": [
+    81,
+    81
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `133c4c37-b3a1-50bf-9382-61d505b77b7f`
+
+- vector: dim=3072 · [-0.0086, 0.0164, -0.0032, -0.0001, -0.0381, -0.0536, -0.0464, 0.0594, …]
+
+```json
+{
+  "chunk_id": "133c4c37-b3a1-50bf-9382-61d505b77b7f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": ",599.17 |\n| 2034 | 69.415 / 57.286 | -42.538 | Deficits: 42.538 / 0.000 | $4,253.83 (Cost) | $4,253.83 | $0.00 | | 2035 | 65.310 / 53.181 | -1,108.645 | Deficits: 1,108.645 / 0.000 | $110,864.50 (Cost) | $110,864.50 | $0.00 |\n\n<figcaption>Figure 30: Result Plot for Case 8 c: D(HFO/LFO/DO) M9.47BD40(LHV: 39,058 MJ/t) (GFI: 57.45 gCO2/MJ) (blend with E- Methanol GFI 4)(i.e. D(HFO/LFO/DO)-E Methanol-Biodiesel blend)</figcaption>\n\nCustom GFI: 57.45 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 39,058 MJ/t\n\n2.00\n\n1.75\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n1.50\n\n1.25\n\n1.00\n\n075\n\n0.50\n\nGribis Cares ts \n\n… [+199 more chars]",
+  "content_hash": "1349fa7019bc518f8ca87c44d71b3ba6a6e512f74e7c6d43cc5204731a0f583d",
+  "token_count": 362,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b47419e3-6385-531c-9ba9-dd2706ac9224",
+  "chunk_index": 124,
+  "page_number": 81,
+  "page_range": [
+    81,
+    81
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `d213e0d4-0f91-53bc-ab9b-56883a0bb8b6`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "d213e0d4-0f91-53bc-ab9b-56883a0bb8b6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Table 28: Case 9 a: D(HFO/LFO/DO) M9.47BD50(LHV: 38,036 MJ/t) (GFI: 50.29 gCO2/MJ) (blend with E-Methanol )",
+  "chunk_text": "Table 28: Case 9 a: D(HFO/LFO/DO) M9.47BD50(LHV: 38,036 MJ/t) (GFI: 50.29 gCO2/MJ) (blend with E-Methanol )\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUS / Deficits (T1 / T2) (t CO2) | Net Outcome | T1 RU Cost | T2 RU Cost / Revenue |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 6,866.019 t CO2 (Surplus) | 6,866.019 t / 0 t CO2 | $2,609,087.27 Revenue | $686,601.90 | $0.00 |\n| 2029 | 87.702 / 75.573 | 6,394.105 t CO2 (Surplus) | 6,394.105 t / 0 t CO2 | $2,429,759.97 Revenue | $639,410.50 | $0.00 |\n| 2030 | 85.836 / 73.707 | 5,922.191 t CO2 (Su\n\n… [+1191 more chars]",
+  "content_hash": "35a5c846bea32235e5ce3e5f0298e9766929e58796437f19e4a6ed732dd4767d",
+  "token_count": 847,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    82,
+    82
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `84514b40-23e1-5ef6-875b-ba4fce379406`
+
+- vector: dim=3072 · [-0.0132, -0.0136, -0.0179, -0.0127, -0.0262, -0.0440, -0.0223, 0.0599, …]
+
+```json
+{
+  "chunk_id": "84514b40-23e1-5ef6-875b-ba4fce379406",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Table 28: Case 9 a: D(HFO/LFO/DO) M9.47BD50(LHV: 38,036 MJ/t) (GFI: 50.29 gCO2/MJ) (blend with E-Methanol )",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUS / Deficits (T1 / T2) (t CO2) | Net Outcome | T1 RU Cost | T2 RU Cost / Revenue |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 6,866.019 t CO2 (Surplus) | 6,866.019 t / 0 t CO2 | $2,609,087.27 Revenue | $686,601.90 | $0.00 |\n| 2029 | 87.702 / 75.573 | 6,394.105 t CO2 (Surplus) | 6,394.105 t / 0 t CO2 | $2,429,759.97 Revenue | $639,410.50 | $0.00 |\n| 2030 | 85.836 / 73.707 | 5,922.191 t CO2 (Surplus) | 5,922.191 t / 0 t CO2 | $2,250,432.67 Revenue | $592,219.10 | $0.00 |\n| 2031 | 81.731 / 69.602 | 4,8\n\n… [+467 more chars]",
+  "content_hash": "c5575c2eabb08299aa8ac789eca21ad9299456d17cb0f4add6e8ef98d392c2b0",
+  "token_count": 526,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d213e0d4-0f91-53bc-ab9b-56883a0bb8b6",
+  "chunk_index": 125,
+  "page_number": 82,
+  "page_range": [
+    82,
+    82
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d167fe04-b1d3-518b-8ed6-e8532cf9b09b`
+
+- vector: dim=3072 · [-0.0077, 0.0148, -0.0062, -0.0069, -0.0379, -0.0403, -0.0593, 0.0643, …]
+
+```json
+{
+  "chunk_id": "d167fe04-b1d3-518b-8ed6-e8532cf9b09b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Table 28: Case 9 a: D(HFO/LFO/DO) M9.47BD50(LHV: 38,036 MJ/t) (GFI: 50.29 gCO2/MJ) (blend with E-Methanol )",
+  "chunk_text": "4 | 69.415 / 57.286 | 1,769.349 t CO2 (Surplus) | 1,769.349 t / 0 t CO2 | $672,352.44 Revenue | $176,934.90 | $0.00 | | 2035 | 65.310 / 53.181 | 731.138 t CO2 (Surplus) | 731.138 t /0 t CO2 | $277,832.38 Revenue | $73,113.80 | $0.00 |\n\n<figcaption>Figure 31: Result Plot for Case 8: D(HFO/LFO/DO) M9.47BD50 (LHV: 38,036 MJ/t) (GFI: 50.29 gCO2/MJ) (i.e. D(HFO/LFO/DO)-E Methanol-Biodiesel blend)</figcaption>\n\nCustom GFI: 50.29 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,036 MJ/t\n\n25\n\nAnnual Revenue (+) / Cost (-) (Milions USD)\n\n20\n\n1.5\n\n10\n\nMARITIME DECARBONISATION\n\n05\n\nPotential SU Revenue (@ $380/t CO\n\n… [+132 more chars]",
+  "content_hash": "d3385eeae06001d4d614886e39b41ddd06223d85eddcaefe362b84f824827714",
+  "token_count": 326,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d213e0d4-0f91-53bc-ab9b-56883a0bb8b6",
+  "chunk_index": 126,
+  "page_number": 82,
+  "page_range": [
+    82,
+    82
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `c510be57-4be4-5e15-8293-d2260f6e87b1`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "c510be57-4be4-5e15-8293-d2260f6e87b1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Advanced Green Fuels for M — aritime Application-\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs Generated (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 6,962.12 | SUS Generated: 6,962.122 | $2,645,606.23 (Revenue) | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 6,490.21 | SUS Generated: 6,490.208 | $2,466,278.93 (Revenue) | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 6,018.29 | SUS Generated: 6,018.294 | $2,286,951.63 (Revenue) | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 4,980.08 |\n\n… [+987 more chars]",
+  "content_hash": "6689f2f0af9480ad7e9b6a4cc10f15234cd5ced9bb6c13002b680bf827dc2bc5",
+  "token_count": 713,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    83,
+    83
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `efaa0c03-2819-5dd5-a94b-419b151f672c`
+
+- vector: dim=3072 · [-0.0121, -0.0124, -0.0211, -0.0069, -0.0255, -0.0432, -0.0124, 0.0609, …]
+
+```json
+{
+  "chunk_id": "efaa0c03-2819-5dd5-a94b-419b151f672c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs Generated (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 6,962.12 | SUS Generated: 6,962.122 | $2,645,606.23 (Revenue) | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 6,490.21 | SUS Generated: 6,490.208 | $2,466,278.93 (Revenue) | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 6,018.29 | SUS Generated: 6,018.294 | $2,286,951.63 (Revenue) | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 4,980.08 | SUS Generated: 4,980.083 | $1,892,431.57 (Revenue)\n\n… [+438 more chars]",
+  "content_hash": "bfcbebae766faaaf792441163d4d0e76e232a23eb6cb82c0492a94718f9651bc",
+  "token_count": 493,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c510be57-4be4-5e15-8293-d2260f6e87b1",
+  "chunk_index": 127,
+  "page_number": 83,
+  "page_range": [
+    83,
+    83
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `19ce6e71-963b-53a3-b8b8-ce8378e03088`
+
+- vector: dim=3072 · [-0.0058, 0.0234, -0.0099, -0.0010, -0.0380, -0.0449, -0.0607, 0.0630, …]
+
+```json
+{
+  "chunk_id": "19ce6e71-963b-53a3-b8b8-ce8378e03088",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "| $0.00 | $0.00 |\n| 2035 | 65.310 / 53.181 | 827.24 | SUs Generated: 827.240 | $314,351.34 (Revenue) | $0.00 | $0.00 | <figcaption>Figure 32: Result Plot for Case 9: D(HFO/LFO/DO) M9.47BD50 (LHV: 38,036 MJ/t) (GFI: 49.91 gCO2/MJ) (i.e. D(HFO/LFO/DO)-Bio Methanol-Biodiesel blend)</figcaption>\n\nCustom GFI: 49.91 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,036 MJ/t\n\n25\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n20\n\n1.5\n\n1.0\n\nMARITIME DECARBONISATION\n\n0.5\n\nPotential SU Revenue (@ $380/t CO.)\n\nTier 1 RU Cost (per t CO, deficit)\n\nTier 2 RU Cost (per t CO: deficit)\n\n0.0\n\n2028\n\n2029\n\n2030\n\n2031\n\n2032\n\n2\n\n… [+15 more chars]",
+  "content_hash": "5b6014fefdcb144f0cdf88b1c1e706e236128506f5db1917cabb7c7eb17b9e01",
+  "token_count": 269,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c510be57-4be4-5e15-8293-d2260f6e87b1",
+  "chunk_index": 128,
+  "page_number": 83,
+  "page_range": [
+    83,
+    83
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `dbfe2fad-92b8-5a59-92f4-df9fe51e26bc`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "dbfe2fad-92b8-5a59-92f4-df9fe51e26bc",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/ MJ) | Balance (t CO2) | Deficits / SUs (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 4,826.14 | SUs Generated: 4,826.142 | $1,833,933.98 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 4,338.27 | SUs Generated: 4,338.273 | $1,648,543.61 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 3,850.40 | SUs Generated: 3,850.403 | $1,463,153.25 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 2,777.09 | SUs Generated: 2,777.091 | $1,055,294.44 Revenue\n\n… [+954 more chars]",
+  "content_hash": "afb7a3bb5c5d12697036c2bc81ab389514dea9564d53344cb6d9744807671c09",
+  "token_count": 714,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    84,
+    84
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9ac2c126-dfe8-5500-a5b6-ec17c3ed0abd`
+
+- vector: dim=3072 · [-0.0091, -0.0122, -0.0160, -0.0060, -0.0285, -0.0539, -0.0090, 0.0573, …]
+
+```json
+{
+  "chunk_id": "9ac2c126-dfe8-5500-a5b6-ec17c3ed0abd",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/ MJ) | Balance (t CO2) | Deficits / SUs (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 4,826.14 | SUs Generated: 4,826.142 | $1,833,933.98 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 4,338.27 | SUs Generated: 4,338.273 | $1,648,543.61 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 3,850.40 | SUs Generated: 3,850.403 | $1,463,153.25 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 2,777.09 | SUs Generated: 2,777.091 | $1,055,294.44 Revenue | $0.\n\n… [+434 more chars]",
+  "content_hash": "6488d5a4b2db8405f0ba7f36b436161009f68d4d8e86f4f67bf49c550c156828",
+  "token_count": 494,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "dbfe2fad-92b8-5a59-92f4-df9fe51e26bc",
+  "chunk_index": 129,
+  "page_number": 84,
+  "page_range": [
+    84,
+    84
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e962b4af-639c-5e66-9d86-6a70b9bb638f`
+
+- vector: dim=3072 · [-0.0177, 0.0198, -0.0110, -0.0008, -0.0324, -0.0476, -0.0574, 0.0564, …]
+
+```json
+{
+  "chunk_id": "e962b4af-639c-5e66-9d86-6a70b9bb638f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "|\n| 2035 | 65.310 / 53.181 | -1,516.16 | Deficit: 1,516.160 t / 0.000 t | $151,616.00 Cost | $151,616.00 | $0.00 | <figcaption>Figure 33: Result Plot for Case 10: D (HFO/LFO/DO) M4.8BD40(LHV: 39,322 MJ/t | GFI: 58.98 gCO2/MJ) (i.e. D(HFO/LFO/DO)-E Methanol-Biodiesel blend)</figcaption>\n\nCustom GFI: 58.98 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 39,322 MJ/t\n\n1.75\n\nAnnual Revenue (+) / Cost (-) (Milions USD)\n\n1.50\n\n1.25\n\n1.00\n\n0.75\n\n050\n\nMARITIME DECARBONISATION\n\n0.25\n\nPotential SU Revenue (@ $380/t CO.)\n\n0.00\n\nTier 1 RU Cost (pet & CO. deficit)\n\nTier 2 RU Cost (per t CO, deficit)\n\n2028\n\n2079\n\n2030\n\n2\n\n… [+27 more chars]",
+  "content_hash": "4676cf3951bc08f77c993ceb951030b60f77d2bc183086c352c515d0329582b1",
+  "token_count": 278,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "dbfe2fad-92b8-5a59-92f4-df9fe51e26bc",
+  "chunk_index": 130,
+  "page_number": 84,
+  "page_range": [
+    84,
+    84
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `4e37c188-b0d5-52df-8094-31f7eecbcfc1`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "4e37c188-b0d5-52df-8094-31f7eecbcfc1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Year — Advanced Green Fuels for M — aritime Application-\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs Generated (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 6,814.50 | SUS Generated: 6,814.498 | $2,589,509.18 (Revenue) | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 6,332.09 | SUS Generated: 6,332.088 | $2,406,193.27 (Revenue) | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 5,849.68 | SUS Generated: 5,849.677 | $2,222,877.36 (Revenue) | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 4,7\n\n… [+994 more chars]",
+  "content_hash": "f193e2742d262925792a76e7cd7579e5cb7346ced2056c20a7fe09aac06f66ee",
+  "token_count": 715,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    85,
+    85
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `72fb0851-5906-596b-8e58-fd08a6a04c98`
+
+- vector: dim=3072 · [-0.0114, -0.0139, -0.0213, -0.0060, -0.0237, -0.0423, -0.0123, 0.0608, …]
+
+```json
+{
+  "chunk_id": "72fb0851-5906-596b-8e58-fd08a6a04c98",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs Generated (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 6,814.50 | SUS Generated: 6,814.498 | $2,589,509.18 (Revenue) | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 6,332.09 | SUS Generated: 6,332.088 | $2,406,193.27 (Revenue) | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 5,849.68 | SUS Generated: 5,849.677 | $2,222,877.36 (Revenue) | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 4,788.38 | SUS Generated: 4,788.375 | $1,819,582.35 (Revenue)\n\n… [+439 more chars]",
+  "content_hash": "78d0f8b5b3aabc0057f0b95d2fe65f81a19c9e3f1ff0066e4e1a833444645782",
+  "token_count": 493,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "4e37c188-b0d5-52df-8094-31f7eecbcfc1",
+  "chunk_index": 131,
+  "page_number": 85,
+  "page_range": [
+    85,
+    85
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `701ffd1a-667e-5b4e-9a9f-6332aa196c4b`
+
+- vector: dim=3072 · [-0.0155, 0.0184, -0.0088, -0.0019, -0.0386, -0.0466, -0.0656, 0.0644, …]
+
+```json
+{
+  "chunk_id": "701ffd1a-667e-5b4e-9a9f-6332aa196c4b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "| $0.00 | $0.00 |\n| 2035 | 65.310 / 53.181 | 543.164 | SUs Generated: 543.164 | $206,402.32 (Revenue) | $0.00 | $0.00 | <figcaption>Figure 34: Result Plot for Case 11: D(HFO/LFO/DO) M4.8BD50 (LHV: 38,882 MJ/t ) (GFI: 51.08 gCO2/MJ) (i.e. D(HFO/LFO/DO)-E Methanol-Biodiesel blend)</figcaption>\n\nCustom GFI: 51.08 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 38,882 MJ/t\n\n2.5\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n2.0\n\n15\n\n10\n\nMARITIME DECARBONISATION\n\n0.5\n\nPotential SU Revenue (@ $380/t CO.)\n\nTier 1 RU Cost (per t CO, deficit)\n\nTier 2 RU Cost (per t CO. deficit)\n\n0.0\n\n2028\n\n2029\n\n2030\n\n2031\n\n2032\n\n2\n\n… [+15 more chars]",
+  "content_hash": "6d6b85d61cb850c30c1e8226f0a73e4df501bcb43ed9ef8bda33de7fd4057528",
+  "token_count": 269,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "4e37c188-b0d5-52df-8094-31f7eecbcfc1",
+  "chunk_index": 132,
+  "page_number": 85,
+  "page_range": [
+    85,
+    85
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `0457a226-4656-5558-9279-848b34b43b85`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "0457a226-4656-5558-9279-848b34b43b85",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 4,944.36 | SUs Generated: 4,944.364 | $1,878,858.46 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 /75.573 | 4,459.77 | SUs Generated: 4,459.770 | $1,694,712.76 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 3,975.18 | SUs Generated: 3,975.176 | $1,510,567.07 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 2,909.07 | SUs Generated: 2,909.070 | $1,105,446.54 Revenue |\n\n… [+956 more chars]",
+  "content_hash": "70e3dfbb707b1a5fc271f747bbdbf9665d05744b1860eafae50af966cdc83ba7",
+  "token_count": 708,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    86,
+    86
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `2c05172f-900b-5fe2-83a7-984bfdec710f`
+
+- vector: dim=3072 · [-0.0175, -0.0126, -0.0189, -0.0035, -0.0282, -0.0484, -0.0055, 0.0588, …]
+
+```json
+{
+  "chunk_id": "2c05172f-900b-5fe2-83a7-984bfdec710f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 4,944.36 | SUs Generated: 4,944.364 | $1,878,858.46 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 /75.573 | 4,459.77 | SUs Generated: 4,459.770 | $1,694,712.76 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 3,975.18 | SUs Generated: 3,975.176 | $1,510,567.07 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 2,909.07 | SUs Generated: 2,909.070 | $1,105,446.54 Revenue | $0.00\n\n… [+413 more chars]",
+  "content_hash": "41a1d46e1665b30be5b204c3686cf1ed18be861b0a80cadf489a02aa43e134ee",
+  "token_count": 479,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "0457a226-4656-5558-9279-848b34b43b85",
+  "chunk_index": 133,
+  "page_number": 86,
+  "page_range": [
+    86,
+    86
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ea463201-0209-5d7f-a63f-3d24821f8d47`
+
+- vector: dim=3072 · [-0.0205, 0.0198, -0.0086, 0.0094, -0.0396, -0.0753, -0.0367, 0.0683, …]
+
+```json
+{
+  "chunk_id": "ea463201-0209-5d7f-a63f-3d24821f8d47",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": ".01 | $0.00 |\n| 2035 | 65.310 / 53.181 | -1,355.357 | Deficits: 1,355.357 | $135,535.68 Cost | $135,535.68 | $0.00 | <figcaption>Figure 35: Result Plot for Case 12 a: : D(HFO/LFO/DO) E10BD40(LHV: 38,882 MJ/t ) (GFI: 58.40 gCO2/MJ) (i.e. D(HFO/LFO/DO)-2G Ethanol-Biodiesel blend)</figcaption>\n\nCustom GFI: 58.40 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 39,058 MJ/t\n\n1.75\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n1.50\n\n1.25\n\n1.00\n\n0.75\n\n0.50\n\nGlobal Corte for\n\nMARITIME DECARBONISATION\n\n0.25\n\nPotential SU Revenue (@ $380/t CO:)\n\n0.00\n\nTier 1 RU Cost (per t CO: deficit)\n\nTier 2 RU Cost (per t CO. defi\n\n… [+52 more chars]",
+  "content_hash": "39d20b2add7fd11e8f8a28139d04f9be05bc96ad8eea69355dc170253396b050",
+  "token_count": 287,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "0457a226-4656-5558-9279-848b34b43b85",
+  "chunk_index": 134,
+  "page_number": 86,
+  "page_range": [
+    86,
+    86
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `a34d9ae1-f5fb-5358-b738-51d5e182d0ac`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "a34d9ae1-f5fb-5358-b738-51d5e182d0ac",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "Year\n\n| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 5,030.06 | SUs Generated: 5,030.064 | $1,911,424.42 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 4,545.47 | SUs Generated: 4,545.470 | $1,727,278.72 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 4,060.88 | SUs Generated: 4,060.876 | $1,543,133.03 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 2,994.77 | SUs Generated: 2,994.770 | $1,138,012.50 Revenue \n\n… [+957 more chars]",
+  "content_hash": "feb5c9cced0d22987f5abe9446700fafbb94ec36fc070e8ff0404fe9ae4696a1",
+  "token_count": 711,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    87,
+    87
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1f332d1b-93c6-59be-b999-4426e3a60963`
+
+- vector: dim=3072 · [-0.0176, -0.0106, -0.0184, -0.0043, -0.0303, -0.0509, -0.0045, 0.0607, …]
+
+```json
+{
+  "chunk_id": "1f332d1b-93c6-59be-b999-4426e3a60963",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": "| Year | Target GFI (Base / Direct) (gCO2/MJ) | Balance (t CO2) | SUs / Deficits (t CO2) | Net Outcome (Cost / Revenue) | T1 RU Cost | T2 RU Cost |\n| --- | --- | --- | --- | --- | --- | --- |\n| 2028 | 89.568 / 77.439 | 5,030.06 | SUs Generated: 5,030.064 | $1,911,424.42 Revenue | $0.00 | $0.00 |\n| 2029 | 87.702 / 75.573 | 4,545.47 | SUs Generated: 4,545.470 | $1,727,278.72 Revenue | $0.00 | $0.00 |\n| 2030 | 85.836 / 73.707 | 4,060.88 | SUs Generated: 4,060.876 | $1,543,133.03 Revenue | $0.00 | $0.00 |\n| 2031 | 81.731 / 69.602 | 2,994.77 | SUs Generated: 2,994.770 | $1,138,012.50 Revenue | $0.0\n\n… [+412 more chars]",
+  "content_hash": "3408474d142c3907d4fe633a7635c9d5cbfbe08ac93bcec2c18260f52652441e",
+  "token_count": 480,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "a34d9ae1-f5fb-5358-b738-51d5e182d0ac",
+  "chunk_index": 135,
+  "page_number": 87,
+  "page_range": [
+    87,
+    87
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4f0bcbba-1f4c-57d7-b2a4-bbb026e8776f`
+
+- vector: dim=3072 · [-0.0118, 0.0220, -0.0059, -0.0023, -0.0368, -0.0541, -0.0392, 0.0627, …]
+
+```json
+{
+  "chunk_id": "4f0bcbba-1f4c-57d7-b2a4-bbb026e8776f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year",
+  "chunk_text": ".02 | $0.00 |\n| 2035 | 65.310 / 53.181 | -1,269.657 | Deficit: 1,269.657 | $126,965.69 Cost | $126,965.69 | $0.00 | <figcaption>Figure 36: Result Plot for Case 12 b: D(HFO/LFO/DO) E10BD40(LHV: 38,882 MJ/t ) (GFI: 58.07 gCO2/MJ) (i.e. D(HFO/LFO/DO)-2G Ethanol-Biodiesel blend)</figcaption>\n\nCustom GFI: 58.07 gCO2eq/MJ, Tonnes: 6,649 t/y, LHV: 39,058 MJ/t\n\n2.00\n\n1.75\n\nAnnual Revenue (+) / Cost (-) (Millions USD)\n\n1.50\n\n1.25\n\n1.00\n\n0.75\n\n0.50\n\nGood Centre for\nMARITIME DECARBONISATION\n\n0.25\n\nPotential SU Revenue (@ $300/t CO2)\n\n0.00\n\nTier 1 RU Cost (per t CO, deficit)\n\nTier 2 RU Cost (per t CO. def\n\n… [+53 more chars]",
+  "content_hash": "75ca45742e2a71d73249b3e995c3782b0a83ddee7bce12ff579c5d08e3f47e7b",
+  "token_count": 289,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "a34d9ae1-f5fb-5358-b738-51d5e182d0ac",
+  "chunk_index": 136,
+  "page_number": 87,
+  "page_range": [
+    87,
+    87
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `8e5f2369-9159-5fbd-b07c-3b24998781a8`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "8e5f2369-9159-5fbd-b07c-3b24998781a8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Overall Conclusions and Recommendations",
+  "chunk_text": "Year — Overall Conclusions and Recommendations\n\n»\nReported literature based on detailed cost analysis for four ship categories (Large Ferries, \nGeneral Cargo Ships, Bulk Carriers, and Container Ships) reveals that Bio-Methanol has the lowest \nTotal Cost of Ownership (TCO). Among E-fuels, E-Methanol is closely competitive with E-DME and \nE-Ammonia, especially for bulk carriers and large ferries.\n\t»\nThe TERI-NCoEGPS study shows supply readiness for E Methanol and E Ammonia as significantly \nmore feasible compared to Hydrogen, which currently lacks storage & transport technology, \ninfrastructure \n\n… [+5594 more chars]",
+  "content_hash": "8878b4729f88b5f8f81cc4fd71ec4ebec843be06504c5acb903e3aa6c3ebe34d",
+  "token_count": 1500,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    88,
+    89
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `99f06db5-bcf1-55e6-8985-ca51b5ab8b28`
+
+- vector: dim=3072 · [-0.0193, 0.0096, -0.0142, -0.0135, -0.0307, -0.0307, -0.0281, 0.0247, …]
+
+```json
+{
+  "chunk_id": "99f06db5-bcf1-55e6-8985-ca51b5ab8b28",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Overall Conclusions and Recommendations",
+  "chunk_text": "»\nReported literature based on detailed cost analysis for four ship categories (Large Ferries, \nGeneral Cargo Ships, Bulk Carriers, and Container Ships) reveals that Bio-Methanol has the lowest \nTotal Cost of Ownership (TCO). Among E-fuels, E-Methanol is closely competitive with E-DME and \nE-Ammonia, especially for bulk carriers and large ferries.\n\t»\nThe TERI-NCoEGPS study shows supply readiness for E Methanol and E Ammonia as significantly \nmore feasible compared to Hydrogen, which currently lacks storage & transport technology, \ninfrastructure and scalability. From a life cycle cost perspect\n\n… [+1280 more chars]",
+  "content_hash": "8f4113ceec15ca548eb629edbcc389b7349b4017925ad8fd374fa23a50e3c77d",
+  "token_count": 448,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "8e5f2369-9159-5fbd-b07c-3b24998781a8",
+  "chunk_index": 137,
+  "page_number": 88,
+  "page_range": [
+    88,
+    88
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `cba46cdc-5f28-561a-9ae8-f4762e8368f5`
+
+- vector: dim=3072 · [-0.0080, 0.0183, -0.0120, -0.0183, -0.0296, -0.0363, -0.0191, 0.0357, …]
+
+```json
+{
+  "chunk_id": "cba46cdc-5f28-561a-9ae8-f4762e8368f5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Overall Conclusions and Recommendations",
+  "chunk_text": "This will be reviewed every five years, and the corresponding \ncompensation amounts will be updated based on future IMO guidelines.\n\t» The definition of ZNZ fuels is awaited and the reward mechanism is yet to be developed and \nannounced by IMO. Once the rewards are defined, the quantitative value of reward and the Surplus \nUnit (SU) collectively will attract the investments towards these ZNZ fuels and ships. There is a \npossibility of introducing differentiated reward mechanism by IMO based on type of ZNZ fuels \nand its LCA based WtW GFI values. \n\t»\nRamping up production of low carbon and ZNZ \n\n… [+709 more chars]",
+  "content_hash": "2d4b37c6c4fba2a74955026d0d03a908ace02092654d9857c91d5def92e600e7",
+  "token_count": 283,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "8e5f2369-9159-5fbd-b07c-3b24998781a8",
+  "chunk_index": 138,
+  "page_number": 88,
+  "page_range": [
+    88,
+    88
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e3a0c023-c595-5f7d-978f-b8450b03ff14`
+
+- vector: dim=3072 · [-0.0223, 0.0132, -0.0094, -0.0175, -0.0398, -0.0096, -0.0229, 0.0201, …]
+
+```json
+{
+  "chunk_id": "e3a0c023-c595-5f7d-978f-b8450b03ff14",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Overall Conclusions and Recommendations",
+  "chunk_text": ". \n\t»\nGlobal fuel adoption trends in vessel orderbooks shows LNG accounts for approximately 67%, \nMethanol at 17%, LPG at 8%, Ethane at 3%, Biodiesel, Hydrogen, and Ammonia make up the \nremaining 5%. Alternative low Carbon and ZNZ fuels are not only pivotal for avoiding 2 tier GHG emission cost in \nshort to medium term but also in achieving net zero in shipping over long term.\n\t»\nAlthough LCA guidelines have been adopted by IMO, nevertheless, unavailability of default \nWTW values of many of the Low C and ZNZ fuels poses a serious impediment in assessing true \neconomics of alternative fuels. Th\n\n… [+1537 more chars]",
+  "content_hash": "aec1183b7223baeed22becb9b23e8ac9f82c0f267c9d22080b36de9e58204cd6",
+  "token_count": 485,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "8e5f2369-9159-5fbd-b07c-3b24998781a8",
+  "chunk_index": 139,
+  "page_number": 89,
+  "page_range": [
+    89,
+    89
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `44142f6c-a880-5eb4-a96a-5ed7c53e6eee`
+
+- vector: dim=3072 · [-0.0064, 0.0174, -0.0117, -0.0078, -0.0229, 0.0173, -0.0578, 0.0140, …]
+
+```json
+{
+  "chunk_id": "44142f6c-a880-5eb4-a96a-5ed7c53e6eee",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Overall Conclusions and Recommendations",
+  "chunk_text": "Methanol (10% V/V)-D(HFO/LFO/DO)-Biodiesel blends and 2G Ethanol (10% V/V)-D(HFO/LFO/DO)-Biodiesel blends are possible blend options. India can achieve the \nBase and Direct Compliance targets with dual and or multi-fuel blends which doesn’t need \nchange of existing engine and hence would be one of the most cost-effective options for \nexisting vessels between 2028-2035. \nFor D(HFO/LFO/DO)- Blend with Biodiesel (GFI 9.4)\n\t•\nB30 or BD30 (Attained GFI 68.44): Meet Direct Compliance till 2031, Biodiesel need \n0.35 MT (2030)\n\t•\nB40 or BD40 (Attained GFI 60.91): Meet Direct Compliance  generates SUs\n\n… [+620 more chars]",
+  "content_hash": "988f8b76c560d22838406498786e6e887f8b660ebca9108dbbe81647732c24fd",
+  "token_count": 390,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "8e5f2369-9159-5fbd-b07c-3b24998781a8",
+  "chunk_index": 140,
+  "page_number": 89,
+  "page_range": [
+    89,
+    89
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `fc31c809-04e7-5751-afda-3515b7ad2b7d`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "fc31c809-04e7-5751-afda-3515b7ad2b7d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Overall Conclusions and Recommendations",
+  "chunk_text": "Year — Overall Conclusions and Recommendations (cont.)\n\nOnly D(HFO/LFO/DO)-10 v/v% Alcohol (Bio/E-Methanol/2G-Ethanol) blend-unable \nto meet GFI Compliance beyond 2028.  \n\t•\n10% (Bio/E) Methanol with B40- Meet Direct Compliance generates SUs till 2033 , \nBio/E Methanol need 0.11MT\n\t•\n10% 2G Ethanol with B40/BD40- Meet Direct Compliance generates SUs till 2033\n\t•\n10% (Bio/E) Methanol and B50/BD50 –Meet Direct Compliance generates SUs till \n2035, Methanol need 0.12 MT\n\t•\nIndia should focus on scaling up alternative low Carbon and ZNZ fuels with lower \nGHG Fuel Intensity (GFI) to become global\n\n… [+5866 more chars]",
+  "content_hash": "8974c7be3d8b48aadef10f21ecf20f97f432b577c6429e1e2c2c65928d863bf3",
+  "token_count": 1578,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    90,
+    91
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ca0482d0-6ff0-5c74-bba2-572af58de1c4`
+
+- vector: dim=3072 · [-0.0275, 0.0043, -0.0033, -0.0026, -0.0277, 0.0004, -0.0659, 0.0134, …]
+
+```json
+{
+  "chunk_id": "ca0482d0-6ff0-5c74-bba2-572af58de1c4",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Overall Conclusions and Recommendations",
+  "chunk_text": "Only D(HFO/LFO/DO)-10 v/v% Alcohol (Bio/E-Methanol/2G-Ethanol) blend-unable \nto meet GFI Compliance beyond 2028.  \n\t•\n10% (Bio/E) Methanol with B40- Meet Direct Compliance generates SUs till 2033 , \nBio/E Methanol need 0.11MT\n\t•\n10% 2G Ethanol with B40/BD40- Meet Direct Compliance generates SUs till 2033\n\t•\n10% (Bio/E) Methanol and B50/BD50 –Meet Direct Compliance generates SUs till \n2035, Methanol need 0.12 MT\n\t•\nIndia should focus on scaling up alternative low Carbon and ZNZ fuels with lower \nGHG Fuel Intensity (GFI) to become global hub catering both domestic and global \ndemand. Fuels li\n\n… [+1011 more chars]",
+  "content_hash": "109d82dee7dc09324160ee69f7d774a3aba92ddf2ef002d2884fb47e00a05a69",
+  "token_count": 434,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "fc31c809-04e7-5751-afda-3515b7ad2b7d",
+  "chunk_index": 141,
+  "page_number": 90,
+  "page_range": [
+    90,
+    90
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1bc44352-e16c-5c47-ba2e-fd99fb000521`
+
+- vector: dim=3072 · [-0.0118, 0.0012, -0.0117, 0.0022, -0.0516, 0.0107, -0.0491, 0.0041, …]
+
+```json
+{
+  "chunk_id": "1bc44352-e16c-5c47-ba2e-fd99fb000521",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Overall Conclusions and Recommendations",
+  "chunk_text": "For long-term decarbonisation, among fuel \nmix-options with engine change (> 5000GT OGV), the following seems most viable for India\n\t• Methanol (E/Bio) with Dual Fuel Engine appears most preferred based on 8 \nsustainability parameters. India’s E-Methanol need 0.73 MT by 2030, 1.31 MT by \n2035F. \n\t•\nLNG (only E/Bio-LNG/Bio-Methane) with Dual Fuel LNG Engine appears as 2nd best \nchoice India’s E-LNG /E/Bio- Methane demand 0.26 MT by 2030, 0.47 MT by 2035 \nbio/E LNG at present faces supply constraints.\n\t•\nAmmonia with Dual Fuel Engine adoptions need to be slow paced as Ammonia \nengine supply read\n\n… [+763 more chars]",
+  "content_hash": "b66d7aa00f5fc34afb6173bae01691a61ff9458fe1645591624d54eae608a4fc",
+  "token_count": 375,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "fc31c809-04e7-5751-afda-3515b7ad2b7d",
+  "chunk_index": 142,
+  "page_number": 90,
+  "page_range": [
+    90,
+    90
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `55e13298-be38-5405-bbdd-0f6bfd937f6f`
+
+- vector: dim=3072 · [-0.0294, 0.0093, -0.0077, -0.0075, -0.0456, -0.0084, -0.0207, 0.0135, …]
+
+```json
+{
+  "chunk_id": "55e13298-be38-5405-bbdd-0f6bfd937f6f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Overall Conclusions and Recommendations",
+  "chunk_text": "larger deployment.\n\t»\nIn comparison to E-Methanol and Bio/E-Methane, although E-Ammonia supply readiness \nwould exceed the projected demand from 2030 onwards, India should start investing on \nAmmonia Engine Pilot testing for coastal ships rather than OGVs. In case of dual-fuel engines, for Methanol the modifications are needed only in the injectors, \ncylinder heads, and the fuel delivery system and not inside the engine, while for Ammonia \nreadiness the engines internals /combustion system itself need replacement. This makes Methanol \nengines presently more cost effective against Ammonia engin\n\n… [+1690 more chars]",
+  "content_hash": "a36780d7b5f641c9fded7dcddd5a5878afac5434b5cfac640cddc49176410d10",
+  "token_count": 501,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "fc31c809-04e7-5751-afda-3515b7ad2b7d",
+  "chunk_index": 143,
+  "page_number": 91,
+  "page_range": [
+    91,
+    91
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `56255df6-5ba9-5e21-bdc9-a897d92e2620`
+
+- vector: dim=3072 · [-0.0229, 0.0130, -0.0130, -0.0199, -0.0357, -0.0295, -0.0144, 0.0088, …]
+
+```json
+{
+  "chunk_id": "56255df6-5ba9-5e21-bdc9-a897d92e2620",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Overall Conclusions and Recommendations",
+  "chunk_text": "overcome the become viable technological and safety challenges, larger ships can \nbe integrated too. \n\t»\nTo avoid the challenge of Hydrogen storage at high pressure or cryogenic temperature on board, \nPEMFC with reforming technology using Biodiesel and/Methanol could be worth investing to especially >500 eKW. SOFC technology should leverage its high fuel flexibility especially Ammonia \n& Methanol. For cruise, and long-haul vessels, pilot projects need to be initiated with SOFC –\nBattery hybrid (immediate) and SOFC/ICE hybrid with alternative fuel options like Methanol and \nAmmonia (medium to l\n\n… [+1223 more chars]",
+  "content_hash": "4a0c0fd592159d6b0dea5cd7b7f86baceec9ca808db37054aa2f11c73fb7b026",
+  "token_count": 410,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "fc31c809-04e7-5751-afda-3515b7ad2b7d",
+  "chunk_index": 144,
+  "page_number": 91,
+  "page_range": [
+    91,
+    91
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `af00e5f5-ef13-5b76-92c9-f30fd4a4fcc1`
+
+- vector: dim=3072 · [-0.0268, 0.0209, -0.0166, -0.0129, -0.0118, -0.0126, -0.0376, -0.0017, …]
+
+```json
+{
+  "chunk_id": "af00e5f5-ef13-5b76-92c9-f30fd4a4fcc1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Year — Overall Conclusions and Recommendations",
+  "chunk_text": "Additionally, India should invest in futuristic research and innovation to other alternative \nbiofuels such as SVO, Biocrude, and Pyrolysis and Hydrothermal (HTL) bio-oil, where a lack of \nstandardization still present barriers to their adoption although these technologies undoubtedly \nshow present economic attractiveness globally and are in high Technology Readiness Level \n(TRL7-9). ASTM, EU, and ISO authorities carry the responsibility to clarify potential barriers to and \ntimelines for developing and disseminating future alternative fuel quality standards. In concern \nwith path dependence, \n\n… [+1234 more chars]",
+  "content_hash": "614fc78d6f211b2cfbf0ce170a9c19ebb3d51e122e4c0172373bdc144ffef7d0",
+  "token_count": 470,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 145,
+  "page_number": 92,
+  "page_range": [
+    92,
+    92
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9dd2bab3-eb6f-5eaf-a72a-b3f63a1a33d6`
+
+- vector: dim=3072 · [-0.0443, -0.0139, -0.0137, 0.0208, -0.0140, -0.0459, -0.0216, 0.0492, …]
+
+```json
+{
+  "chunk_id": "9dd2bab3-eb6f-5eaf-a72a-b3f63a1a33d6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "7.\t https://www.netpas.net/bunker/bunkerprice.php?pname=Skaw — 8.\t https://shipandbunker.com/prices#MGO — 9.\t https://www.imarcgroup.com/liquefied-natural-gas-pricing-report — 10.\t https://www.methanex.com/wp-content/uploads/Mx-Price-Sheet-Janaury-28-2025.pdf — 11.\t https://energyforum.in/fileadmin/india/media_elements/publications/20230515_GNH3_ — Deloitte_Study/20230707_gs_GNH3_finalprint.pdf — 12.\t https://ptx-hub.org/wp-content/uploads/2025/02/h2uppp-ppp-result-india-rwe-en.pdf — 13.\t https://www.methanol.org/wp-content/uploads/2024/09/ECONOMIC-VALUE-OF-METHANOL- — FOR-SHIPPING-PAPER_final.pdf — 14.\t https://www.argusmedia.com/en/news-and-insights/latest-market-news/2569021-biomethanol-",
+  "section_type": "references",
+  "chunk_text": "market-slows-but-shipowners-eye-offtakes\n\n15.\t https://petrobazaar.com/biodiesel-boiler-diesel-best-online-price-in-india/ — 16.\t https://gh2.org/publication/search-real-price-blue-hydrogen#:~:text=Summary,Download%20\n\nthe%20full%20report%20here.\n\n17.\t https://jmkresearch.com/iocl-concludes-indias-first-green-h2-end-user-offtake-auction-at-us4-6-\n\nper-kg/\n\n18.\t https://www.pib.gov.in/PressReleasePage.aspx?PRID=2097307\n\n19.\t GCMD, April 14, 2025. Calculator - GCMD. https://gcformd.org/calculator/\n\nime Application- Roa\n\n4",
+  "content_hash": "ec39ca896d2cb05f792d3d9ce9091b4839eb360d7d872c1855b5325835a3cdea",
+  "token_count": 168,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 146,
+  "page_number": 92,
+  "page_range": [
+    92,
+    95
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `f4635c5f-93ad-5788-9b93-157739d25573`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "f4635c5f-93ad-5788-9b93-157739d25573",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 1 — Statistics — Introduction",
+  "chunk_text": "Chapter 1 — Statistics — Introduction\n\nThis section presents the Indian and Global vessel statistics covering all types of vessels along \nwith transition trend of alternative fuels vessels including green/sustainable fuels (Bio & E- \nfuels) in shipping across ship types and gross tonnage (GT). \nIt is worth mentioning that all ships < 5000 GT are considered under coastal ship category while \nthose >5000GT are marked as Ocean-Going Vessels (OGVs) or Vessels in International water. This \nis interesting to observe that non-withstanding the earlier trends of alternate green fuel adoption \nexclusive\n\n… [+2424 more chars]",
+  "content_hash": "545fd874b10c6088fea1d3943109a66261961f0a341c3529f48af0324ed3358f",
+  "token_count": 666,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    96,
+    96
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a57fdddb-fe8a-52cd-8f51-876babb4371e`
+
+- vector: dim=3072 · [-0.0251, 0.0197, -0.0164, -0.0116, -0.0076, -0.0313, -0.0115, 0.0191, …]
+
+```json
+{
+  "chunk_id": "a57fdddb-fe8a-52cd-8f51-876babb4371e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 1 — Statistics — Introduction",
+  "chunk_text": "This section presents the Indian and Global vessel statistics covering all types of vessels along \nwith transition trend of alternative fuels vessels including green/sustainable fuels (Bio & E- \nfuels) in shipping across ship types and gross tonnage (GT). \nIt is worth mentioning that all ships < 5000 GT are considered under coastal ship category while \nthose >5000GT are marked as Ocean-Going Vessels (OGVs) or Vessels in International water. This \nis interesting to observe that non-withstanding the earlier trends of alternate green fuel adoption \nexclusively in large category vessels i.e. OGVs,\n\n… [+1470 more chars]",
+  "content_hash": "2d49db7f1711acdd9db658464eec0bdfa01dbf2df6c824c534e085362bc9015f",
+  "token_count": 442,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f4635c5f-93ad-5788-9b93-157739d25573",
+  "chunk_index": 147,
+  "page_number": 96,
+  "page_range": [
+    96,
+    96
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `144e70d3-7ffc-511f-a803-b47138f665e5`
+
+- vector: dim=3072 · [-0.0260, 0.0529, -0.0160, -0.0346, 0.0077, -0.0217, -0.0166, 0.0261, …]
+
+```json
+{
+  "chunk_id": "144e70d3-7ffc-511f-a803-b47138f665e5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 1 — Statistics — Introduction",
+  "chunk_text": "After \nfiltering out abandoned, commissioned, damaged/not in-service, detained, idle, laid-up, under repair, \nin-storage, and hijacked vessels; around 100,708 in-service vessel data are used for final analysis. Among these vessels data, 66,244 belong to coastal vessels and 34,464 to OGVs.\nRegarding Indian fleets, Clarkson’s Research database indicates a cumulative 2,171 number for \ncoastal vessels and OGVs. After focusing only on in-service vessels, 2,008 vessel data are selected for \nanalysis which comprises of 1,558 coastal vessels and 450 OGVs. \nIn terms of alternative fuels and battery/hyb\n\n… [+524 more chars]",
+  "content_hash": "61b73e563014592e153752de264e954bba0da4c00a3cf4ac682bd50925df1025",
+  "token_count": 263,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f4635c5f-93ad-5788-9b93-157739d25573",
+  "chunk_index": 148,
+  "page_number": 96,
+  "page_range": [
+    96,
+    96
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `2950e353-d72b-519f-81fc-ae78831682a2`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "2950e353-d72b-519f-81fc-ae78831682a2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal Vessel Statistics — 1.1.1\t Vessels Details (Indian Coastal)",
+  "chunk_text": "Coastal Vessel Statistics — 1.1.1\t Vessels Details (Indian Coastal)\n\nFigure 1.1 presents the age distribution of Indian coastal vessels across various gross tonnage (GT). \nIt is observed that the majority of coastal vessels fall within the 0-500 GT category, totaling 748 \nvessels, followed by 515 vessels in the 1000-2000 GT category. The number of vessels decreases \nas GT increases, with the 4000-5000 GT category having the fewest vessels around 20. Among 0-10 \nyears, i.e. newer vessels there are 181 in the 0-500 GT category and 65 in the 1000-2000 GT category, \nbut none in the 4000-5000 GT ca\n\n… [+1684 more chars]",
+  "content_hash": "5d852d97519483918375007ab32f714edf50df0ff29bb70e2e33958a445ad5a2",
+  "token_count": 569,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    97,
+    98
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e508fd7d-37a6-58d0-826c-f65467812247`
+
+- vector: dim=3072 · [-0.0351, 0.0230, -0.0051, -0.0144, -0.0007, -0.0447, -0.0364, 0.0165, …]
+
+```json
+{
+  "chunk_id": "e508fd7d-37a6-58d0-826c-f65467812247",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal Vessel Statistics — 1.1.1\t Vessels Details (Indian Coastal)",
+  "chunk_text": "Figure 1.1 presents the age distribution of Indian coastal vessels across various gross tonnage (GT). \nIt is observed that the majority of coastal vessels fall within the 0-500 GT category, totaling 748 \nvessels, followed by 515 vessels in the 1000-2000 GT category. The number of vessels decreases \nas GT increases, with the 4000-5000 GT category having the fewest vessels around 20. Among 0-10 \nyears, i.e. newer vessels there are 181 in the 0-500 GT category and 65 in the 1000-2000 GT category, \nbut none in the 4000-5000 GT category. 11–20-year age group is notably large in the 1000-2000 GT \nca\n\n… [+1106 more chars]",
+  "content_hash": "a1463ddffc43130322589d191a3a1a9f613559a5c4d97356385f9c19a96274dd",
+  "token_count": 426,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2950e353-d72b-519f-81fc-ae78831682a2",
+  "chunk_index": 149,
+  "page_number": 97,
+  "page_range": [
+    97,
+    97
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `aa4ea01b-21b6-5c24-8f98-7e1115967b1c`
+
+- vector: dim=3072 · [-0.0054, 0.0202, -0.0106, -0.0249, 0.0113, -0.0489, -0.0243, 0.0224, …]
+
+```json
+{
+  "chunk_id": "aa4ea01b-21b6-5c24-8f98-7e1115967b1c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal Vessel Statistics — 1.1.1\t Vessels Details (Indian Coastal)",
+  "chunk_text": "This category significantly outnumbers the others, indicating a higher prevalence of smaller vessels \nin the Coastal fleet. The 1000-2000 GT category follows with 515 vessels, showing a substantial presence of moderate sized vessels. The 500-1000 GT category contains 113 vessels, while the 2000-\n3000 GT category has 92 vessels. The number of vessels continues to decrease with increasing GT,\n\nwith the 3000-4000 GT and 4000-5000 GT categories containing 39 and 20 vessels, respectively. This \ndistribution reflects the dominance of smaller vessels in the fleet, with progressively fewer vessels \nin\n\n… [+105 more chars]",
+  "content_hash": "5e7e25dbe25417ee185b8b1db577d865df0cbdac7e06255db0a2f5f9e7c402fb",
+  "token_count": 159,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2950e353-d72b-519f-81fc-ae78831682a2",
+  "chunk_index": 150,
+  "page_number": 97,
+  "page_range": [
+    97,
+    98
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `1a3fe5b0-cede-5e7a-b310-d294d440a6bc`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "1a3fe5b0-cede-5e7a-b310-d294d440a6bc",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "1.1.2\t Vessel Details and Fuel Distribution (Global Coastal)",
+  "chunk_text": "1.1.2\t Vessel Details and Fuel Distribution (Global Coastal)\n\nAs per Clarkson Data (accessed on August 2024), total number of Global coastal vessels appears to be \n72030 whereas in-service vessels are 67802. Figure 1.3 offers a detailed snapshot of the distribution \nof vessels across different gross tonnage (GT) ranges and their corresponding fuel types. Each column \nrepresents a distinct fuel type or combination whereas, each color delineates a specific GT range, \nranging from 0-500 to 4000-5000 GT. The total number of vessels under each category and GT range \nare mentioned inside each color \n\n… [+3817 more chars]",
+  "content_hash": "c816342b694aba4cba62b6616700281aa1105a16acc468252d10d65078a841ed",
+  "token_count": 1061,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    98,
+    100
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7729b19a-1f92-5c7d-a23e-219cc8bbeac6`
+
+- vector: dim=3072 · [-0.0216, 0.0259, -0.0155, -0.0150, 0.0154, -0.0361, -0.0235, 0.0198, …]
+
+```json
+{
+  "chunk_id": "7729b19a-1f92-5c7d-a23e-219cc8bbeac6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "1.1.2\t Vessel Details and Fuel Distribution (Global Coastal)",
+  "chunk_text": "As per Clarkson Data (accessed on August 2024), total number of Global coastal vessels appears to be \n72030 whereas in-service vessels are 67802. Figure 1.3 offers a detailed snapshot of the distribution \nof vessels across different gross tonnage (GT) ranges and their corresponding fuel types. Each column \nrepresents a distinct fuel type or combination whereas, each color delineates a specific GT range, \nranging from 0-500 to 4000-5000 GT. The total number of vessels under each category and GT range \nare mentioned inside each color bar.\nIt is worth noticing the presence of alternative and envi\n\n… [+997 more chars]",
+  "content_hash": "9b01c4e555a9919438dabb8f15b4dd9338894fe89dcc5afd0b2b330408b3bf47",
+  "token_count": 387,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1a3fe5b0-cede-5e7a-b310-d294d440a6bc",
+  "chunk_index": 151,
+  "page_number": 98,
+  "page_range": [
+    98,
+    98
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `8e9d5c3c-ca63-5774-9dba-3e263a816d9d`
+
+- vector: dim=3072 · [-0.0157, 0.0261, -0.0245, -0.0197, -0.0081, -0.0240, -0.0236, 0.0116, …]
+
+```json
+{
+  "chunk_id": "8e9d5c3c-ca63-5774-9dba-3e263a816d9d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "1.1.2\t Vessel Details and Fuel Distribution (Global Coastal)",
+  "chunk_text": "These fuels exhibit robust usage across all GT ranges, \nparticularly prevalent in vessels ranging from 0-500 to 1000-2000 GT. Overall, the data underscores a diversified fuel landscape within the maritime industry, reflecting \na blend of conventional and alternative fuel choices. The distribution of vessels across different GT \nranges, coupled with the corresponding fuel preferences, provides insights into the evolving dynamics \nof fuel usage   within the maritime sector.   Additionally, traditional fuels are still prevalent but are \noften supplemented or replaced by low-sulfur and alternative\n\n… [+581 more chars]",
+  "content_hash": "ba24ac8d6367973c802535e6a4eb812a09f267b82e608b9b3e2008f5d11a665f",
+  "token_count": 300,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1a3fe5b0-cede-5e7a-b310-d294d440a6bc",
+  "chunk_index": 152,
+  "page_number": 99,
+  "page_range": [
+    99,
+    99
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `61465286-7034-589d-9546-8dd9a295ab7e`
+
+- vector: dim=3072 · [-0.0204, 0.0281, -0.0198, -0.0197, -0.0032, -0.0374, -0.0134, 0.0185, …]
+
+```json
+{
+  "chunk_id": "61465286-7034-589d-9546-8dd9a295ab7e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "1.1.2\t Vessel Details and Fuel Distribution (Global Coastal)",
+  "chunk_text": "»\nBiofuel & Dual Fuel: 44 Vessels\n\t»\nHydrogen and Dual Fuel: 9 Vessels\nFigure 1.3: Global Coastal Vessels ( <5000 GT): Fuel Type v/s GT Distribution with Number  \nof Vessels Figure 1.4 shows a comprehensive breakdown of the age distribution of vessels against gross \ntonnage (GT) ranges. Each of the columns here represents a specific GT range, while each cluster of \ncolumns delineates the age range of the vessels, ranging from 0-10 years to over 100 years. The total \nnumber of vessels under each GT category and age group are mentioned at the top of each column. \nFigure 1.4: Global Coastal Vesse\n\n… [+1273 more chars]",
+  "content_hash": "114b89054f77f44100f406f8fc03e3013ae5c4f421fd98635ac9073537ba1ef0",
+  "token_count": 447,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1a3fe5b0-cede-5e7a-b310-d294d440a6bc",
+  "chunk_index": 153,
+  "page_number": 100,
+  "page_range": [
+    100,
+    100
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `c9ee4cca-a77c-5770-a02a-5483f62828c6`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "c9ee4cca-a77c-5770-a02a-5483f62828c6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ocean Going Vessels OGV’s Statistics — 1.2.1\t Vessel Details and Fuel Consumption (Indian OGVs)",
+  "chunk_text": "Ocean Going Vessels OGV’s Statistics — 1.2.1\t Vessel Details and Fuel Consumption (Indian OGVs)\n\nFigure 1.6 represents distinct distribution pattern of ocean going vessel ages across various gross \ntonnage (GT) categories, underscoring trends in fleet composition and operational practices. \nNewer vessels, aged 0-10 years, are significantly present across all GT categories, particularly in \nthe 5k-10k GT range, suggesting a steady influx of new vessels in smaller tonnage classes. The 11-\n20 years age range is the most populated, especially within the 30k-50k GT category, indicating a \nsubstanti\n\n… [+1756 more chars]",
+  "content_hash": "8a0743c3b6b8f61d06591fd15f01419cc95601c8e002b6640b16dc280c3d860b",
+  "token_count": 577,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    101,
+    103
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `3f2c965f-2842-5303-b6d4-03ae3229f9e1`
+
+- vector: dim=3072 · [-0.0304, 0.0208, -0.0125, -0.0166, -0.0203, -0.0565, -0.0208, 0.0277, …]
+
+```json
+{
+  "chunk_id": "3f2c965f-2842-5303-b6d4-03ae3229f9e1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ocean Going Vessels OGV’s Statistics — 1.2.1\t Vessel Details and Fuel Consumption (Indian OGVs)",
+  "chunk_text": "Figure 1.6 represents distinct distribution pattern of ocean going vessel ages across various gross \ntonnage (GT) categories, underscoring trends in fleet composition and operational practices. \nNewer vessels, aged 0-10 years, are significantly present across all GT categories, particularly in \nthe 5k-10k GT range, suggesting a steady influx of new vessels in smaller tonnage classes. The 11-\n20 years age range is the most populated, especially within the 30k-50k GT category, indicating a \nsubstantial number of mid-aged vessels in medium tonnage categories which likely reflect peak \noperational\n\n… [+1052 more chars]",
+  "content_hash": "b24998258899e3144c8264c3f933b79706cbf72728923ca594f78e8e63e53b59",
+  "token_count": 387,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c9ee4cca-a77c-5770-a02a-5483f62828c6",
+  "chunk_index": 154,
+  "page_number": 101,
+  "page_range": [
+    101,
+    102
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4ab4c90d-efa2-5e0c-993b-61c17321fdd0`
+
+- vector: dim=3072 · [-0.0191, 0.0179, -0.0114, -0.0145, -0.0218, -0.0470, -0.0147, 0.0282, …]
+
+```json
+{
+  "chunk_id": "4ab4c90d-efa2-5e0c-993b-61c17321fdd0",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ocean Going Vessels OGV’s Statistics — 1.2.1\t Vessel Details and Fuel Consumption (Indian OGVs)",
+  "chunk_text": "This illustrates the present distribution of 520 vessels across various size categories within the Indian \nOGV category. \nFigure 1.7: Indian Ocean-Going Vessels (>5000GT): GT Distribution It shows that mid-sized vessels (30k-50k GT) dominate the fleet with 178 vessels, accounting \nfor 34% of the total. This is followed by medium-sized vessels (10k-30k GT), which make up 119 \nvessels or 23%. Larger vessels (50k-100k GT) also have a significant presence, with 115 vessels \nrepresenting 22% of the fleet. Smaller vessels (5k-10k GT) account for 80 vessels, or 16%, while \nthe very large vessels (>10\n\n… [+193 more chars]",
+  "content_hash": "5872c72fc59447cfd5a1e87e9ab3832718c1426518cbc060ab976002b6ada260",
+  "token_count": 202,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c9ee4cca-a77c-5770-a02a-5483f62828c6",
+  "chunk_index": 155,
+  "page_number": 103,
+  "page_range": [
+    103,
+    103
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `625d4c64-7025-51a0-8f9c-4f12a0e5225d`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "625d4c64-7025-51a0-8f9c-4f12a0e5225d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)",
+  "chunk_text": "1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)\n\nFigure 1.8 represents a comprehensive overview of fuel usage across various vessel sizes categorized \nby gross tonnage (GT) globally. The analysis highlights that Very Low Sulfur Fuel Oil (VLS IFO) is \nthe predominant fuel choice across all GT categories, indicating widespread industry compliance \nwith sulfur regulations. For vessels in the 5k-10k GT range, VLS IFO is used in 5863 vessels, \nfollowed by significant counts for VLS MDO (345 vessels), VLS MGO (179 vessels), and vessels \nwith unspecified fuel types (Blanks, 967 vessels). \nIn\n\n… [+5285 more chars]",
+  "content_hash": "2568d889b84e3251ba08192ebb1e1a98f451bfde9311092666fbcccdb1e06bc6",
+  "token_count": 1488,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    103,
+    107
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ccb17a36-9b0a-54aa-82bd-e4eaabb0101f`
+
+- vector: dim=3072 · [-0.0109, 0.0024, -0.0153, -0.0183, -0.0299, -0.0412, -0.0160, 0.0363, …]
+
+```json
+{
+  "chunk_id": "ccb17a36-9b0a-54aa-82bd-e4eaabb0101f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)",
+  "chunk_text": "Figure 1.8 represents a comprehensive overview of fuel usage across various vessel sizes categorized \nby gross tonnage (GT) globally. The analysis highlights that Very Low Sulfur Fuel Oil (VLS IFO) is \nthe predominant fuel choice across all GT categories, indicating widespread industry compliance \nwith sulfur regulations. For vessels in the 5k-10k GT range, VLS IFO is used in 5863 vessels, \nfollowed by significant counts for VLS MDO (345 vessels), VLS MGO (179 vessels), and vessels \nwith unspecified fuel types (Blanks, 967 vessels). \nIn the 10k-30k GT category, VLS IFO continues to lead with 9\n\n… [+1148 more chars]",
+  "content_hash": "0b5221b0035ba591059b8b5bc37b4d4efffeb33374aaead2f4c3858c91fea93c",
+  "token_count": 438,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "625d4c64-7025-51a0-8f9c-4f12a0e5225d",
+  "chunk_index": 156,
+  "page_number": 103,
+  "page_range": [
+    103,
+    103
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1b82b39e-667f-57cf-a98c-64133d8793c7`
+
+- vector: dim=3072 · [-0.0294, 0.0192, -0.0122, -0.0365, -0.0162, -0.0536, -0.0104, 0.0072, …]
+
+```json
+{
+  "chunk_id": "1b82b39e-667f-57cf-a98c-64133d8793c7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)",
+  "chunk_text": "However, fuels like Biofuel, Hydrogen, and \nNuclear started showing usage, suggesting these are emerging or applications that may gain \ntraction as technology advances and environmental regulations become stricter.  \nFigure 1.9 provides a detailed breakdown of the number of global Ocean-going vessels within various gross tonnage (GT) ranges along the age of the vessels. In the 5k-10k GT category, the highest \nconcentration of vessels is found in the 11-20 years age range with 3516 vessels, followed by \n2071 vessels in the 0-10 years range and 1199 vessels in the 21-30 years range, summing up t\n\n… [+1080 more chars]",
+  "content_hash": "8b54b00000f0cf1c1cf45f25aebc098bcf3165ee6fe20558e3e9863809a369c8",
+  "token_count": 428,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "625d4c64-7025-51a0-8f9c-4f12a0e5225d",
+  "chunk_index": 157,
+  "page_number": 103,
+  "page_range": [
+    103,
+    103
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b1c98414-174a-5f2b-ba7b-6a18b38b6451`
+
+- vector: dim=3072 · [-0.0273, 0.0389, -0.0147, -0.0149, 0.0010, -0.0522, -0.0075, 0.0126, …]
+
+```json
+{
+  "chunk_id": "b1c98414-174a-5f2b-ba7b-6a18b38b6451",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)",
+  "chunk_text": "The higher counts in these younger age brackets might \nreflect the addition of newer vessels to the fleet or more frequent updates. Overall, the data Figure 1.8: Global Ocean-Going Vessels(>5000GT): Fuel Type v/s GT with Number\nFigure 1.9: Global Ocean-Going Vessels(>5000 GT): Age of vessels v/s GT Distribution  \nwith Number\nshowcases a significant distribution of vessels across these age ranges, providing insights into the \nage composition and modernization trends within the maritime fleet.\n\nFigure 1.10 provides the snapshot of gross tonnage versus the number of vessel distribution with \na to\n\n… [+1664 more chars]",
+  "content_hash": "2e1203b7010ec624e69ea1086b4872e60ad5574807bf1c7105b63ff3e9d87cc6",
+  "token_count": 559,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "625d4c64-7025-51a0-8f9c-4f12a0e5225d",
+  "chunk_index": 158,
+  "page_number": 104,
+  "page_range": [
+    104,
+    105
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `db07f0b3-7b59-59ea-aa80-c52c98e4ce1b`
+
+- vector: dim=3072 · [-0.0282, 0.0328, -0.0088, -0.0468, 0.0161, -0.0350, -0.0249, 0.0083, …]
+
+```json
+{
+  "chunk_id": "db07f0b3-7b59-59ea-aa80-c52c98e4ce1b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)",
+  "chunk_text": "The U.A.E. stands out \nin the Middle East with 2,608 vessels. Other notable countries are the Philippines (2,212 vessels) \nand Vietnam (2,151 vessels). Italy, Malaysia, the Netherlands, and Hong Kong contribute further with vessel counts ranging from 1,651 to 2,143. The list is rounded out by the United Kingdom, \nTaiwan, Denmark, Spain, and Canada, showcasing a diverse and widespread distribution of maritime \nownership across Asia, Europe, and North America. This chart illustrates the global distribution of \nvessel ownership, with a clear dominance by Asian countries, followed by strong repres\n\n… [+215 more chars]",
+  "content_hash": "98d1fac5d141a4eb4fbc15d4e1a7cda78ba2525f60bab1d0a3e216fda6335523",
+  "token_count": 180,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "625d4c64-7025-51a0-8f9c-4f12a0e5225d",
+  "chunk_index": 159,
+  "page_number": 105,
+  "page_range": [
+    105,
+    107
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `afef8509-8da0-579c-9964-f8ef63e40c33`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "afef8509-8da0-579c-9964-f8ef63e40c33",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter — Introduction",
+  "chunk_text": "Chapter — Introduction\n\nAs the maritime industry speeding up its journey towards decarbonization, Alternative Fuels are \nbecoming essential for meeting global climate targets. This chapter takes a closer look at the \ncurrent state and trends in the use of alternative marine fuels, such as methanol, ethanol, ammonia, \nHydrogen, LNG, and biodiesel. While around 98% of vessels still depend on traditional fuels, an \nincreasing number of ships are now being fitted with alternative propulsion systems. This shift is \nlargely driven by IMO regulations and the growing demand for sustainable operations.\n\n… [+2930 more chars]",
+  "content_hash": "6012fa15050900446c8e9a68d927e6d771297e7304452619f46cc6ac8d5dd64c",
+  "token_count": 763,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    108,
+    108
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `2ef3443b-2371-5284-a5dd-7e6b7dd4370e`
+
+- vector: dim=3072 · [-0.0082, 0.0128, -0.0170, -0.0226, -0.0238, 0.0001, -0.0193, 0.0017, …]
+
+```json
+{
+  "chunk_id": "2ef3443b-2371-5284-a5dd-7e6b7dd4370e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter — Introduction",
+  "chunk_text": "As the maritime industry speeding up its journey towards decarbonization, Alternative Fuels are \nbecoming essential for meeting global climate targets. This chapter takes a closer look at the \ncurrent state and trends in the use of alternative marine fuels, such as methanol, ethanol, ammonia, \nHydrogen, LNG, and biodiesel. While around 98% of vessels still depend on traditional fuels, an \nincreasing number of ships are now being fitted with alternative propulsion systems. This shift is \nlargely driven by IMO regulations and the growing demand for sustainable operations. By examining \ndata from\n\n… [+1357 more chars]",
+  "content_hash": "21177e4de12b789f34ffb2a778adae1f2fcc8dc49e59abca5ca6776fa8f9cc86",
+  "token_count": 446,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "afef8509-8da0-579c-9964-f8ef63e40c33",
+  "chunk_index": 160,
+  "page_number": 108,
+  "page_range": [
+    108,
+    108
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `16e92106-9b60-5d00-8291-003c3c73b8b6`
+
+- vector: dim=3072 · [-0.0009, 0.0168, -0.0179, -0.0272, -0.0157, -0.0299, -0.0082, 0.0115, …]
+
+```json
+{
+  "chunk_id": "16e92106-9b60-5d00-8291-003c3c73b8b6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter — Introduction",
+  "chunk_text": "Surprisingly, in the order-book data, Methanol \nis visibly emerging as the front-runner with 251 vessels followed by Biofuel with 24 vessels, Hydrogen with 23 vessels and Ammonia 22 vessels.\nThese data reflect two important things: (i) Globally ship owners are increasingly moving towards \nalternative fueled ships to meet the IMO regulations, and (ii) Each country focusing on its maritime \nsectors to lower greenhouse gas (GHG) emissions and eventually, net-zero emissions. The selection \nof alternative fuel is very crucial which is ultimately influenced by critical parameters   such as (i) \nTech\n\n… [+1089 more chars]",
+  "content_hash": "c36e62d86ba127b6438dca7bb2e7d60b4aea9a7b584d3abc6613cefc19f76efb",
+  "token_count": 343,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "afef8509-8da0-579c-9964-f8ef63e40c33",
+  "chunk_index": 161,
+  "page_number": 108,
+  "page_range": [
+    108,
+    108
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b2260d53-8baf-5d27-b336-d7a1d8ab285f`
+
+- vector: dim=3072 · [0.0002, 0.0254, -0.0237, -0.0266, -0.0097, -0.0175, -0.0157, 0.0236, …]
+
+```json
+{
+  "chunk_id": "b2260d53-8baf-5d27-b336-d7a1d8ab285f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "2 Alternative Fuel Transition in Marine Vessels",
+  "chunk_text": "| S. No. | Alternative Fuel Type | Mono/ Dual fuel with | Number of vessels (%) | GT Range Min-Max | Dominated by GT Range |\n| --- | --- | --- | --- | --- | --- |\n| 1 | LPG | VLS IFO | 125 | 5,494 - 54,696 | 50000-54000 |\n| 2 | LNG | ULS IFO, ULS MDO VLS IFO, VLS MDO, VLS MGO | 1105 | 276 - 248,663 | 100000- 200000 |\n| 3 | Biofuel (Biodiesel) | Hydrogen, LNG, VLS MGO | 123 | 179 - 195636 | 1000-10000 |\n| 4 | Methanol | ULS MGO, VLS IFO, VLS MDO, VLS MGO | 37 | 20- 172093 | 27000- 30000 |\n| 5 | Ethane | VLS IFO, IFO 380 | 24 | 27,546 - 61,272 | 60,611 - 61,272 |\n| 6 | Hydrogen | IFO 380, LNG, V\n\n… [+478 more chars]",
+  "content_hash": "b8bec3eea72344dc2c11534b3e2153dcd9a444d4868bb5d8713f15282b4a4bcf",
+  "token_count": 428,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 162,
+  "page_number": 109,
+  "page_range": [
+    109,
+    109
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f30ebc13-2228-548e-842b-abe7e2793510`
+
+- vector: dim=3072 · [-0.0076, 0.0179, -0.0164, -0.0050, -0.0313, -0.0120, -0.0293, 0.0122, …]
+
+```json
+{
+  "chunk_id": "f30ebc13-2228-548e-842b-abe7e2793510",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel — LNG — LPG — Nuclear",
+  "chunk_text": "Methanol fuel adoption has also started happening for smaller vessels as low as 20 to 50 GT range.\nFigure 2.1 shows among all the alternate fuels, liquefied natural gas (LNG) stands out as the most\nextensively researched option, constituting approximately 76% (1105 Nos) of the total instances.\nFollowing closely behind is liquefied petroleum gas (LPG), representing around 9% (125 Nos) of\nthe total vessels. Biofuels (biodiesel) emerge as another prominent focus, comprising about 8%\n(123 Nos) of the total vessels, while methanol constitutes approximately 3 % (37 Nos). Ammonia,\nalthough less preva\n\n… [+1130 more chars]",
+  "content_hash": "38cef227f3da98bdea613850e3c17f5008709cdcd146d086b494daa746e42583",
+  "token_count": 458,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 163,
+  "page_number": 109,
+  "page_range": [
+    109,
+    110
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c8098246-c58b-553c-be2f-d10aa6f393f7`
+
+- vector: dim=3072 · [-0.0069, 0.0133, -0.0172, -0.0243, -0.0157, -0.0150, -0.0062, 0.0308, …]
+
+```json
+{
+  "chunk_id": "c8098246-c58b-553c-be2f-d10aa6f393f7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Methanol",
+  "chunk_text": "62%\n\nSource : Clarkson's research\n\n(a)\n\nSource : Clarkson's research\n\n(b)\n\n| S. No. | Alternative fuel type | Mono/ dual fuel with | Number of vessels | GT range Min-max | Dominated by GT Range |\n| --- | --- | --- | --- | --- | --- |\n| 1. | Methanol | ULS MGO,ULS MDO, ULS IFO , IFO 380, VLS IFO, VLS MDO, VLS MGO | 251 | 300- 236000 | >100000 |\n| 2. | LPG | VLS IFO | 114 | 6,249 - 55,460 | 50000-54000 |\n| 3. | LNG | VLS IFO, VLS MGO | 991 | 313 - 250,800 | 100000-200000 |\n| 4. | Ethane | VLS IFO | 45 | 18,965- 54,112 | 52100-54112 |\n| 5. | Biofuel | Hydrogen, Methanol | 24 | 179 - 20000 | 4000-\n\n… [+512 more chars]",
+  "content_hash": "f8b2acbe35403168e7427efeccbac660c5478bee9cdb79d2ebb379dde0f679d0",
+  "token_count": 425,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 164,
+  "page_number": 110,
+  "page_range": [
+    110,
+    110
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `fecaf2cc-8552-5497-84db-aba7fe52c00e`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "fecaf2cc-8552-5497-84db-aba7fe52c00e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel — LNG — LPG — Nuclear",
+  "chunk_text": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel — LNG — LPG — Nuclear\n\nIt is apparent from Figure 2.2 (order book data) that among all the alternative fuel considered, LNG \nstill dominates with 991 vessels (67%) followed by Methanol with 251 vessels ordered respectively, \nconstituting 17% of the total orders. Following closely, LPG accounts for 114 vessels (8%). Ethane \nfollows with 45 vessels (3%), while Ammonia, Biofuel, and Hydrogen occupy smaller but significant \nshares, with 22 vessels (1%), 24 vessels (2%), and 23 vessels (2%) respectively. Nuclear propulsion \noccupies a minor share of \n\n… [+3648 more chars]",
+  "content_hash": "434f7c4c68550ed832f8fc651d9aa2dc0aae250cb2470a0ebf0ff5f1f7154b70",
+  "token_count": 1362,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    111,
+    112
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7b554014-cdbe-5059-b64c-953e0e27b306`
+
+- vector: dim=3072 · [-0.0069, 0.0308, -0.0207, -0.0213, -0.0126, -0.0327, -0.0206, 0.0124, …]
+
+```json
+{
+  "chunk_id": "7b554014-cdbe-5059-b64c-953e0e27b306",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel — LNG — LPG — Nuclear",
+  "chunk_text": "It is apparent from Figure 2.2 (order book data) that among all the alternative fuel considered, LNG \nstill dominates with 991 vessels (67%) followed by Methanol with 251 vessels ordered respectively, \nconstituting 17% of the total orders. Following closely, LPG accounts for 114 vessels (8%). Ethane \nfollows with 45 vessels (3%), while Ammonia, Biofuel, and Hydrogen occupy smaller but significant \nshares, with 22 vessels (1%), 24 vessels (2%), and 23 vessels (2%) respectively. Nuclear propulsion \noccupies a minor share of 7 vessels (<1%). These figures illustrate a diverse array of fuel types \n\n… [+1308 more chars]",
+  "content_hash": "4aed50b42a802767a76ecefcb809d1d9d81c178de53f7d2b364f6562eca2d362",
+  "token_count": 433,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "fecaf2cc-8552-5497-84db-aba7fe52c00e",
+  "chunk_index": 165,
+  "page_number": 111,
+  "page_range": [
+    111,
+    111
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `aa62fc1f-cf20-5366-bc74-4da96c678ead`
+
+- vector: dim=3072 · [0.0135, 0.0210, -0.0219, -0.0182, -0.0175, -0.0383, -0.0149, 0.0167, …]
+
+```json
+{
+  "chunk_id": "aa62fc1f-cf20-5366-bc74-4da96c678ead",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel — LNG — LPG — Nuclear",
+  "chunk_text": ": Alternative Fuel Vessels Global Order Book: Fuel Types v/s Total Vessel Number with \nPercentage (as on August 2024) Figure 2.2(a): Relative Share of All Alternative Fuels Figure 2.2 \n(b): Relative Share of only Hydrogen Derived Fuels | In service | In service | In service | In service | Orderbook | Orderbook | Orderbook | Orderbook |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| All Alternative Fuels | All Alternative Fuels | Hydrogen Derived Fuels | Hydrogen Derived Fuels | All Alternative Fuels | All Alternative Fuels | Hydrogen Derived fuel | Hydrogen Derived fuel |\n| Fuels | Total \n\n… [+862 more chars]",
+  "content_hash": "22da6b9a189cdea310695878ae0fb9a2d4a9e97adb7ba9b50fef33c5f2fcd1ae",
+  "token_count": 485,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "fecaf2cc-8552-5497-84db-aba7fe52c00e",
+  "chunk_index": 166,
+  "page_number": 112,
+  "page_range": [
+    112,
+    112
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d1ae4855-8bdb-52d5-877c-29a6bf515fe5`
+
+- vector: dim=3072 · [-0.0142, 0.0211, -0.0217, -0.0232, -0.0140, -0.0277, -0.0244, 0.0260, …]
+
+```json
+{
+  "chunk_id": "d1ae4855-8bdb-52d5-877c-29a6bf515fe5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Ammonia — Hydrogen — Methanol — Ethane — Biofuel — LNG — LPG — Nuclear",
+  "chunk_text": "This excludes Methanol <figcaption>Figure 2.3: Alternative Fuel Vessels (in-service): Gross Tonnage Distribution with Total Number of Vessels</figcaption>\n\nAlternative Fuel Vessels (In Service)\n\nTotal number v/s Gross Tonnage (GT)\n\n1105\nLNG\n\n125\nLPG\n\n123\nBiofuel\n\n24\nEthane\n\n37\nMethanol\n\n20\n\nHydrogen\n\n10\nNuclear\n\n3\nAmmonia\n\nAmmonia Vessels — Biofuel Vessels — Ethane Vessels — Hydrogen Vessels\n\n10K-50K\n\n39\n\n0-500\n\n6\n\n0-500\n\n1\n\n\\>50K\n\n28\n\n1K-3K\n\n4\n\n1K-3K\n\n23\n\n\\>SOK\n\n20\n\nunknown\n\n4\n\n5\n\n1K-3K\n\n1\n\n5\n\n0-500\n\n17\n\n5\n\n5\n\n10K-SOK\n\n2\n\n3K-SK\n\n7\n\n10K-50K\n\n4\n\n3K-SK\n\n2\n\nSK-10K\n\n1\n\n500-1K\n\n5\n\n\\>50K\n\n1\n\nSK-10K\n\n\n… [+461 more chars]",
+  "content_hash": "db6bce02a4f88d8aa4b4aa34ce751fc3ffc2a5fbd2a5461560217e1aa2c708ab",
+  "token_count": 483,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "fecaf2cc-8552-5497-84db-aba7fe52c00e",
+  "chunk_index": 167,
+  "page_number": 112,
+  "page_range": [
+    112,
+    112
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `a6d8fa84-ec5c-5ecc-9601-2c4e2279f560`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "a6d8fa84-ec5c-5ecc-9601-2c4e2279f560",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Number of Vessels — Number of Vessels",
+  "chunk_text": "Number of Vessels — Number of Vessels\n\nAnalyses of Figures 2.2 & 2.3 show that \nIn-service \n\t»\nLNG (Liquefied Natural Gas) is used in 1105 vessels demonstrating broad adoption across all \nGT ranges, particularly in the 100000-150000 GT range (488 vessels). This significant presence \nunderscores LNG’s popularity which could be met through greener options likeE-LNG or bio \nbased CBG as a cleaner alternative to traditional LNG. \n\t»\nLPG (Liquefied Petroleum Gas), with 125 vessels, is predominantly used in the largest GT ranges \n(>50000 GT and 10000-50000 GT) highlighting its specific application i\n\n… [+3069 more chars]",
+  "content_hash": "2372d9c1a15a3a24588564ed0b226bb620610ddf69b1d66a67f0755d8f061c0a",
+  "token_count": 924,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    113,
+    114
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `addc4c51-74d5-5810-90a8-002d584e5a37`
+
+- vector: dim=3072 · [-0.0289, 0.0263, -0.0298, -0.0233, -0.0161, -0.0339, -0.0153, 0.0245, …]
+
+```json
+{
+  "chunk_id": "addc4c51-74d5-5810-90a8-002d584e5a37",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Number of Vessels — Number of Vessels",
+  "chunk_text": "Analyses of Figures 2.2 & 2.3 show that \nIn-service \n\t»\nLNG (Liquefied Natural Gas) is used in 1105 vessels demonstrating broad adoption across all \nGT ranges, particularly in the 100000-150000 GT range (488 vessels). This significant presence \nunderscores LNG’s popularity which could be met through greener options likeE-LNG or bio \nbased CBG as a cleaner alternative to traditional LNG. \n\t»\nLPG (Liquefied Petroleum Gas), with 125 vessels, is predominantly used in the largest GT ranges \n(>50000 GT and 10000-50000 GT) highlighting its specific application in large gas carriers and \nmaking up a s\n\n… [+690 more chars]",
+  "content_hash": "aef6d29ae0e576a5736939a51aa8002dcaabd95745b6cdbba3cf29820e384730",
+  "token_count": 315,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "a6d8fa84-ec5c-5ecc-9601-2c4e2279f560",
+  "chunk_index": 168,
+  "page_number": 113,
+  "page_range": [
+    113,
+    113
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `72d5068c-2939-594e-a83f-d5bebf82ec56`
+
+- vector: dim=3072 · [-0.0194, 0.0315, -0.0139, -0.0209, -0.0131, -0.0347, -0.0175, 0.0054, …]
+
+```json
+{
+  "chunk_id": "72d5068c-2939-594e-a83f-d5bebf82ec56",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Number of Vessels — Number of Vessels",
+  "chunk_text": "Its liquid state at ambient condition provides the adaptability from very small vessels as low \nas 20 to 50 GT range to medium and large vessels. \nFigure 2.4: Alternative Fuel Vessels (order-book): Gross Tonnage Distribution with Total Number \nof vessels Ethane is limited to 24 vessels, primarily used in larger vessels, especially in the >50000 GT \nrange (20 vessels). This niche application highlights its use in very large gas carriers and specialized \nships.\n\t»\nHydrogen, with 20 vessels spanning multiple GT ranges, shows growing interest across various \nvessel sizes. The highest number of Hyd\n\n… [+1400 more chars]",
+  "content_hash": "96512f3c6b2cfbb792f9fe123fcf47d2da0e006befe65526fef6b26512f5ef59",
+  "token_count": 486,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "a6d8fa84-ec5c-5ecc-9601-2c4e2279f560",
+  "chunk_index": 169,
+  "page_number": 114,
+  "page_range": [
+    114,
+    114
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `992a2481-31f8-55a2-9f50-81c3a4c35c03`
+
+- vector: dim=3072 · [-0.0116, 0.0230, -0.0113, -0.0227, -0.0031, -0.0547, 0.0011, 0.0109, …]
+
+```json
+{
+  "chunk_id": "992a2481-31f8-55a2-9f50-81c3a4c35c03",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Number of Vessels — Number of Vessels",
+  "chunk_text": "K GT category 48 vessels specifically role in the larger gas carrier.\n\t»\nHydrogen is represented by 23 vessels across various size categories, with a notable presence \nin both the >50K GT and 5K–10K GT ranges (8 vessels each).  \n\t» Ethane appears in 45 vessels, predominantly large ones, especially in the >50K GT category (37 \nvessels), which aligns with its specialized role in large ethane carriers.\n\t»\nBiofuel-powered vessels totaling 24, fall within the smaller GT ranges, particularly the 3K–5K GT \ncategory.  \n\t»\nAmmonia is still in its early stages, with 22 vessels, mostly found in the 10K–5\n\n… [+224 more chars]",
+  "content_hash": "c69bd4af715010bde2585b3b8dee0ab7012c7b866b865059a578758ebc34740a",
+  "token_count": 227,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "a6d8fa84-ec5c-5ecc-9601-2c4e2279f560",
+  "chunk_index": 170,
+  "page_number": 114,
+  "page_range": [
+    114,
+    114
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `2fd39a73-a7bd-5980-95d7-0de9b4bf46e6`
+
+- vector: dim=3072 · [0.0089, 0.0334, -0.0265, -0.0055, -0.0266, -0.0108, -0.0291, 0.0235, …]
+
+```json
+{
+  "chunk_id": "2fd39a73-a7bd-5980-95d7-0de9b4bf46e6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "2.1.2\t Integration of Alternative-FuelPowered Engines with Main Engine Types",
+  "chunk_text": "Figure 2.5 and 2.6 offers detailed insight into the integration of alternative fueled engines with \nvarious main engine power types for in-service vessels and orderbook Vessels respectively. It is \nobserved that observe a diverse range of alternative fuels being utilized alongside different engine\n\nconfigurations. Ammonia, for instance, is paired with Diesel 2-Stroke, Diesel 4-Stroke engines. \nSimilarly, biofuels find application in both Batteries & Diesel and Batteries, Diesel & Fuel Cell engines, \nDiesel 4-Stroke highlighting the industry’s exploration of hybrid propulsion systems. \nEthane p\n\n… [+658 more chars]",
+  "content_hash": "4aa4fad563e31e7ccae8b70854afbd0032d981ba1fc2b43b3d6b61e362be8dcb",
+  "token_count": 263,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 171,
+  "page_number": 114,
+  "page_range": [
+    114,
+    115
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `5c2ab193-b313-57c1-8a8d-07df358d64bd`
+
+- vector: dim=3072 · [-0.0120, 0.0342, -0.0285, -0.0117, -0.0318, -0.0329, -0.0102, 0.0246, …]
+
+```json
+{
+  "chunk_id": "5c2ab193-b313-57c1-8a8d-07df358d64bd",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "2.1.3\t Top Countries by Alternative-Fuel Vessel Ownership",
+  "chunk_text": "(Inservice and Orderbook)\nThis section takes a closer look on the global momentum on how alternative marine fuels are spread \nacross different regions and how countries are adopting them on a national level, using data from \nboth active vessels and those on order. It dives into how various nations are incorporating fuels such \nas biofuel, methanol, Hydrogen, ammonia, LNG, LPG, and ethane, showcasing both what’s currently \npossible and what strategies are being planned. The findings show clear regional preferences \ninfluenced by things like the readiness of infrastructure, support from regulati\n\n… [+668 more chars]",
+  "content_hash": "c5c8ef559dd3f95d5c6f7ae802a16f8028ed361a45c3061e4864f5819e2ee956",
+  "token_count": 258,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 172,
+  "page_number": 116,
+  "page_range": [
+    116,
+    116
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `e3f24371-d896-5aaa-99cb-5bad22b2a492`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "e3f24371-d896-5aaa-99cb-5bad22b2a492",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Among Green/e-Fuel options",
+  "chunk_text": "Among Green/e-Fuel options\n\nIn-service analysis shows\n\t»\nBiofuel (Biodiesel) is widely adopted, with 123 vessels distributed across 22 countries. The \nNorway (30 vessels) and Germany (15 vessels) &Japan (13 vessels) have the highest number of \nbiofuel-powered vessels, indicating strong regional support and infrastructure for biofuel use. \n\t»\nMethanol is used in 37 vessels, with significant adoption in Japan (11 vessels), Norway (3 vessels) \nand Sweden (9 vessels). \n\t»\nHydrogen-powered 20 vessels have notable concentrations in Netherlands (6 vessels) and USA \n(4 vessels). The spread of Hydrogen\n\n… [+3662 more chars]",
+  "content_hash": "e20eebfdbbd752069d1bfa30cc076d63831f5f73fbd9340aa7b3d3a9a2353795",
+  "token_count": 1032,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    117,
+    124
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `cbc4f965-b00f-5765-988c-928f0f590759`
+
+- vector: dim=3072 · [-0.0087, 0.0344, -0.0178, -0.0155, -0.0290, -0.0361, -0.0080, 0.0146, …]
+
+```json
+{
+  "chunk_id": "cbc4f965-b00f-5765-988c-928f0f590759",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Among Green/e-Fuel options",
+  "chunk_text": "In-service analysis shows\n\t»\nBiofuel (Biodiesel) is widely adopted, with 123 vessels distributed across 22 countries. The \nNorway (30 vessels) and Germany (15 vessels) &Japan (13 vessels) have the highest number of \nbiofuel-powered vessels, indicating strong regional support and infrastructure for biofuel use. \n\t»\nMethanol is used in 37 vessels, with significant adoption in Japan (11 vessels), Norway (3 vessels) \nand Sweden (9 vessels). \n\t»\nHydrogen-powered 20 vessels have notable concentrations in Netherlands (6 vessels) and USA \n(4 vessels). The spread of Hydrogen vessels across 11 countries\n\n… [+307 more chars]",
+  "content_hash": "538ba400c22b5bbb971051839d903b03d254f6dbd69626c42d4eb7beb4cfde76",
+  "token_count": 216,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e3f24371-d896-5aaa-99cb-5bad22b2a492",
+  "chunk_index": 173,
+  "page_number": 117,
+  "page_range": [
+    117,
+    117
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `052e2ec9-082b-560b-a5d2-61f74207425a`
+
+- vector: dim=3072 · [-0.0170, 0.0302, -0.0229, -0.0405, -0.0172, -0.0406, -0.0066, 0.0107, …]
+
+```json
+{
+  "chunk_id": "052e2ec9-082b-560b-a5d2-61f74207425a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Among Green/e-Fuel options",
+  "chunk_text": "Figure 2.8: Top Countries with Alternative Fueled Vessel Ownership with Number -Orderbook  (as \non August 2024) Order book analysis shows\n\t»\nMethanol comprised of the highest in all the category spread its adoption across different \ncountries led by Denmark, China P.R, France, Germany, Japan, Taiwan, Singapore and many more, \nsuggesting diverse strategies and regulatory frameworks. \n\t»\nAmong 24 Biodiesel vessels ordered, Singapore and Norway led by 9 and 4 vessels respectively.\n\t»\nThe China P.R, Belgium, USA and UK stand out in Hydrogen-powered vessels orderbook.\n\t»\nAmmonia powered 11 vessels \n\n… [+1394 more chars]",
+  "content_hash": "2919ab05d7347acc9d1a581c58af61932e84bbd7a4993e15567383ec0c936337",
+  "token_count": 464,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e3f24371-d896-5aaa-99cb-5bad22b2a492",
+  "chunk_index": 174,
+  "page_number": 118,
+  "page_range": [
+    118,
+    118
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `bab221c0-8330-569e-b666-e1336bd48b2e`
+
+- vector: dim=3072 · [0.0105, 0.0412, -0.0267, -0.0304, -0.0048, -0.0340, -0.0060, 0.0162, …]
+
+```json
+{
+  "chunk_id": "bab221c0-8330-569e-b666-e1336bd48b2e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Among Green/e-Fuel options",
+  "chunk_text": "unner in Ethane-powered vessels with 28, followed and distributed \nacross Germany, Japan, Norway, Singapore and UAE too indicating localized preferences and \ninfrastructure readiness. \n2.1.4\t Top Shipbuilders by Alternative-Fuel Vessel Construction (Inservice and \nOrderbook) This section 2.9 a-f presents an overview of the leading global shipbuilders actively engaged in the \nconstruction of alternative fuel vessels, including those currently in service and on order. It highlights \nthe capacity, technological readiness, and market positioning of key shipyards contributing to the \nmaritime energ\n\n… [+1118 more chars]",
+  "content_hash": "e5bbff87c1f1ec97d9e3e7197429b00d0c9b616c11693c872227991847826114",
+  "token_count": 436,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e3f24371-d896-5aaa-99cb-5bad22b2a492",
+  "chunk_index": 175,
+  "page_number": 118,
+  "page_range": [
+    118,
+    124
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `274af6d3-2ca4-5bec-a9c7-049bf9ff2fb5`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "274af6d3-2ca4-5bec-a9c7-049bf9ff2fb5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Among the Alternative Fuel Shipbuilders",
+  "chunk_text": "Among the Alternative Fuel Shipbuilders\n\nAnalysis of in-service data shows\n\t»\nBiofuel (majorly Biodiesel): Zhejiang Yangfan as the leading shipbuilder, accounting for 4.88% \nshare in-service biofuel fleet, with  Zhejiang Ouhua  and  Wright Shipyard Co.  following with \n3.25% share each and many smaller plyers\n\t»\nMethanol: Hyundai Mipo dominates Methanol vessel construction, contributing 45.95% of the active \nfleet. GSI Nansha and Hyundai HI (Ulsan) also play key roles, holding 16.22% and 8.11% shares \nrespectively.\n\t»\nHydrogen: Meyer Werft leadsin hydrogen-fuel shipbuilding with a 10% share, w\n\n… [+3083 more chars]",
+  "content_hash": "be8c84492c9db18aa126caff3c897229e9ea26b523ad4218a54b3519771cc36d",
+  "token_count": 1217,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    125,
+    127
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9f08f7dd-13a8-59c9-a00f-f50282af4633`
+
+- vector: dim=3072 · [0.0017, 0.0206, -0.0204, -0.0417, 0.0250, -0.0397, 0.0146, 0.0086, …]
+
+```json
+{
+  "chunk_id": "9f08f7dd-13a8-59c9-a00f-f50282af4633",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Among the Alternative Fuel Shipbuilders",
+  "chunk_text": "Analysis of in-service data shows\n\t»\nBiofuel (majorly Biodiesel): Zhejiang Yangfan as the leading shipbuilder, accounting for 4.88% \nshare in-service biofuel fleet, with  Zhejiang Ouhua  and  Wright Shipyard Co.  following with \n3.25% share each and many smaller plyers\n\t»\nMethanol: Hyundai Mipo dominates Methanol vessel construction, contributing 45.95% of the active \nfleet. GSI Nansha and Hyundai HI (Ulsan) also play key roles, holding 16.22% and 8.11% shares \nrespectively.\n\t»\nHydrogen: Meyer Werft leadsin hydrogen-fuel shipbuilding with a 10% share, while  Armon’s \nNavia and Vigo yards each \n\n… [+711 more chars]",
+  "content_hash": "ea3d65470486a2dea0ee384af1a5118b566be1cdbf7c543e3f6565cd7d6f3b5c",
+  "token_count": 444,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "274af6d3-2ca4-5bec-a9c7-049bf9ff2fb5",
+  "chunk_index": 176,
+  "page_number": 125,
+  "page_range": [
+    125,
+    125
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `40df8d49-df27-55ee-8999-f3fc673ab30c`
+
+- vector: dim=3072 · [0.0114, 0.0113, -0.0178, -0.0210, 0.0231, -0.0438, 0.0007, 0.0055, …]
+
+```json
+{
+  "chunk_id": "40df8d49-df27-55ee-8999-f3fc673ab30c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Among the Alternative Fuel Shipbuilders",
+  "chunk_text": "Biodiesel):Top shipbuilders CMJL Nanjing holds37.5%, Jiangmen \n\t»\nHangtong with 16.67%, and Myklebust Verft at 8.33% of the orderbook fleet.\n\t» Methanol: Hyundai Samho leads with 7.57%, share followed by Samsung Hyundai HI at 6.37% and  \n(Ulsan) with 5.58% of the orderbook vessels.\n\t»\nHydrogen:  Fincantieri Ancona  dominates with  26.09%, while  Ha Long shipbuilding follows \nwith 21.74%, indicating regional specialization in hydrogen-ready construction.\n\t»\nAmmonia vessels are built by Qingdao Beihai  which leads with 36.36% market share, followed \nby Hyundai Mipo with 27.27% and Dalian Shipbui\n\n… [+517 more chars]",
+  "content_hash": "0b5c93400d641cc8094f5365d86312bda5840ec2832abe64e70132c0cc177e03",
+  "token_count": 382,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "274af6d3-2ca4-5bec-a9c7-049bf9ff2fb5",
+  "chunk_index": 177,
+  "page_number": 125,
+  "page_range": [
+    125,
+    125
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7a7510b3-0c11-554d-98fe-70d293ff887b`
+
+- vector: dim=3072 · [-0.0006, 0.0181, -0.0172, -0.0163, 0.0162, -0.0370, 0.0071, 0.0121, …]
+
+```json
+{
+  "chunk_id": "7a7510b3-0c11-554d-98fe-70d293ff887b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Among the Alternative Fuel Shipbuilders",
+  "chunk_text": "Korea China P.R. tops in Biofuel vessel construction with 17 builds, \nfollowed by Poland 10 and China PR 8 vessels. In Methanol propulsion, South Korea leads the yard count at 20 vessels, China P.R.  8 vessels \nand Japan 3 vessels.\n\t»\nGermany and the Netherlands have each delivered 4 Hydrogen vessels, while China P.R. yards \naccount for 2 vessels.\n\t»\nFor Ammonia, Japan, Norway, and Singapore shipyards have each made 1 vessel.\n\t»\nSouth Korean yards dominate LPG construction with 69 vessels, ahead of China P.R. (32) and \nJapan (13).\n\t»\nIn LNG shipbuilding, South Korea leads with  (539) vessels b\n\n… [+871 more chars]",
+  "content_hash": "3816c0be573d968a5ae1222fc7bdd44a79ef2ab1278f4ada5f9b732f5d9f23a6",
+  "token_count": 479,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "274af6d3-2ca4-5bec-a9c7-049bf9ff2fb5",
+  "chunk_index": 178,
+  "page_number": 126,
+  "page_range": [
+    126,
+    127
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `263c8ac5-3e83-5a33-8d02-5c8daff93727`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "263c8ac5-3e83-5a33-8d02-5c8daff93727",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 3 — Alternative Fuel Powered — Introduction",
+  "chunk_text": "Chapter 3 — Alternative Fuel Powered — Introduction\n\nIndia’s Net Zero ambitions needs its shipping industry to move towards adoption of alternative \nfuels-operated marine engines. The use of alternative fuels in marine engines will contribute to (i) \nthe promotion of “indigenous” fuels, thereby making Atmanirbhar Bharat (ii) lowering greenhouse \ngas emissions (GHG), supporting the country’s Net Zero Vision and (iii) Reducing fuel import \ndependency/bill. \nAlthough Fuel cell-based propulsion and battery pack-based systems will penetrate, nevertheless, \nadoption of alternate fueled ICEs will be \n\n… [+6135 more chars]",
+  "content_hash": "307bad6a68de256b831cd932811fde2db84e0ccb69942f3ef58ce4754be24914",
+  "token_count": 1534,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    128,
+    133
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `462f87b3-a105-53d3-b964-c0189e6e0c11`
+
+- vector: dim=3072 · [-0.0139, 0.0076, -0.0102, -0.0311, -0.0175, 0.0054, -0.0239, 0.0039, …]
+
+```json
+{
+  "chunk_id": "462f87b3-a105-53d3-b964-c0189e6e0c11",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 3 — Alternative Fuel Powered — Introduction",
+  "chunk_text": "India’s Net Zero ambitions needs its shipping industry to move towards adoption of alternative \nfuels-operated marine engines. The use of alternative fuels in marine engines will contribute to (i) \nthe promotion of “indigenous” fuels, thereby making Atmanirbhar Bharat (ii) lowering greenhouse \ngas emissions (GHG), supporting the country’s Net Zero Vision and (iii) Reducing fuel import \ndependency/bill. \nAlthough Fuel cell-based propulsion and battery pack-based systems will penetrate, nevertheless, \nadoption of alternate fueled ICEs will be of much larger dimension and thus pivotal. Globally, \n\n… [+1701 more chars]",
+  "content_hash": "5502c3aa618e2d589321d679cd74b60d426061c3bd6e37796ff7960294cc5fc9",
+  "token_count": 441,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "263c8ac5-3e83-5a33-8d02-5c8daff93727",
+  "chunk_index": 179,
+  "page_number": 128,
+  "page_range": [
+    128,
+    128
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `94f517f0-e823-5aba-ad6c-5a89e54d6918`
+
+- vector: dim=3072 · [0.0288, 0.0169, -0.0178, -0.0419, -0.0118, 0.0037, -0.0046, -0.0056, …]
+
+```json
+{
+  "chunk_id": "94f517f0-e823-5aba-ad6c-5a89e54d6918",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 3 — Alternative Fuel Powered — Introduction",
+  "chunk_text": "From an engine manufacturer’s perspective, MAN is the dominant player in several fuel categories: \ncommanding 86.1% of methanol-fueled in-service engines, 100% of ethane engines, and full market share in LPG-powered ships. Wärtsilä leads the LNG segment with 57% of in-service engines, while \nin the hydrogen segment, it holds 33.3% of the current fleet, followed by Scania and Caterpillar. For \nammonia-powered vessels, Cummins, Wärtsilä, and Niigata share the market equally (33.3% each) \none vessels of each in-service.\nLooking at order-book trends, Methanol leads with MAN maintaining a 79% share\n\n… [+403 more chars]",
+  "content_hash": "2bdad52e704510eee852633e20c19c64368b719dd57ec0e0677c96ac129d2b6d",
+  "token_count": 252,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "263c8ac5-3e83-5a33-8d02-5c8daff93727",
+  "chunk_index": 180,
+  "page_number": 128,
+  "page_range": [
+    128,
+    128
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `047d5ed4-c54b-55ea-a691-06c05be3d282`
+
+- vector: dim=3072 · [0.0073, 0.0161, -0.0092, -0.0332, -0.0174, -0.0155, -0.0266, 0.0037, …]
+
+```json
+{
+  "chunk_id": "047d5ed4-c54b-55ea-a691-06c05be3d282",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 3 — Alternative Fuel Powered — Introduction",
+  "chunk_text": "In biofuel orders, Yanmar is the \nfrontrunner with 64.3%, while MAN continues to hold influence in the broader market. In hydrogen-\nfueled vessels, MAN and ABC-MAN collectively account for over 78% of upcoming deployments. These data reflect two important things: (i) Ship owners are increasingly moving towards alternative \nfueled ships to meet the International Maritime Organization (IMO) regulations, and (ii) Each country \nfocusing on its maritime sectors to lower greenhouse gas (GHG) emissions and eventually, net-zero \nemissions.\nThe selection of alternative fuel is very crucial which is ult\n\n… [+1732 more chars]",
+  "content_hash": "36f25828355b40f22dc9a9b95d92c99be49674d93eb011c896a16098da1074ea",
+  "token_count": 504,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "263c8ac5-3e83-5a33-8d02-5c8daff93727",
+  "chunk_index": 181,
+  "page_number": 129,
+  "page_range": [
+    129,
+    129
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ad05b4e3-01a5-5084-936e-6f2f1554e7c6`
+
+- vector: dim=3072 · [0.0032, 0.0163, -0.0196, -0.0246, -0.0178, -0.0164, -0.0169, 0.0089, …]
+
+```json
+{
+  "chunk_id": "ad05b4e3-01a5-5084-936e-6f2f1554e7c6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 3 — Alternative Fuel Powered — Introduction",
+  "chunk_text": "Two-stroke engines has reported a 54.3 % share of the marine engine market in 2020 [9]. \nHowever, four stroke engines are expected to have higher growth up to 2028, due to lower noise \nlevels, higher speeds, and lower capital cost. Looking from the lens of engine manufacturing capacity and country wise ICE vessel ownership \nlead, Figures 3.1a, 3.1b, 3.1c, 3.1d, 3.1e, 3.1f  3.1g provide very significant insight for Methanol, \nAmmonia, Biofuel (Biodiesel), Hydrogen, Ethane, LNG, LPG fueled engine respectively in marine \napplication. Figure 3.1h is related to nuclear energy powered vessels. Simil\n\n… [+1091 more chars]",
+  "content_hash": "fdd04130d4e530e0fefffd5fe1b40077f8e42065128f59ac4f5438cd89452d29",
+  "token_count": 485,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "263c8ac5-3e83-5a33-8d02-5c8daff93727",
+  "chunk_index": 182,
+  "page_number": 129,
+  "page_range": [
+    129,
+    133
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `eed5cf6a-cd87-526e-ad8a-913d12b146d9`
+
+- vector: dim=3072 · [-0.0006, 0.0398, -0.0160, -0.0269, -0.0054, -0.0077, -0.0047, -0.0003, …]
+
+```json
+{
+  "chunk_id": "eed5cf6a-cd87-526e-ad8a-913d12b146d9",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.1 Alternative Fuel Operated Large Bore Marine Engines — (Technology Status)",
+  "chunk_text": "Based on combustion cycles, typically marine propulsion is classified under two categories such as \n1.\t Two-stroke engines, known as low-speed primary propulsion engines used in large marine vessels \nand\n2.\t Four-stroke engines, known as medium/high-speed engines and used in smaller vessels as either \nthe primary propulsion system and/ auxiliary power generation system\nFigure 3.2 depicts the relative percentage of fuel use in these engines adopted as ship’s main \npropulsion type under different types of vessels in global maritime sector [8]. The main propulsion \nengines for large containers su\n\n… [+1264 more chars]",
+  "content_hash": "26217caa35631f816868df914973da4187735c5a603eaec514828d0098f9140d",
+  "token_count": 476,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 183,
+  "page_number": 134,
+  "page_range": [
+    134,
+    135
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `94a24c80-e7a2-5d54-8730-2c2b569ef30d`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "94a24c80-e7a2-5d54-8730-2c2b569ef30d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6 ft — Human",
+  "chunk_text": "6 ft — Human\n\nSome significant completed/ongoing projects related to alternate fueled ICE development are\ndetailed in Table 3.1\n\n| S. No | Project Title | Important Details |\n| --- | --- | --- |\n| 1 | MeOHmare - Methanol fuel | Coordination: Rolls-Royce Solutions GmbH [10] |\n| system for maritime engines (CO2-neutral high-speed marine | Partner: WTZ Roßlau gGmbH, Woodward L'Orange |  |\n| GmbH [55] |  |  |\n| combustion engines based on | Duration: 01.2023 - 12.2025 |  |\n| renewably produced Methanol) | Funding volume: €7.7 million [10] |  |\n| Status: Ongoing | (\"BMWK - MeOHmare - Methanol fuel \n\n… [+4117 more chars]",
+  "content_hash": "0bcf45ba0b7bfe5e3b1d2118af3b1af39ae1f80df864d4f9fe43eaa62ea2d265",
+  "token_count": 1330,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    135,
+    137
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `461913e8-6f7a-57b9-94a9-6bab154f6d0c`
+
+- vector: dim=3072 · [-0.0280, 0.0163, -0.0227, -0.0069, -0.0238, 0.0041, -0.0112, 0.0118, …]
+
+```json
+{
+  "chunk_id": "461913e8-6f7a-57b9-94a9-6bab154f6d0c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6 ft — Human",
+  "chunk_text": "Some significant completed/ongoing projects related to alternate fueled ICE development are\ndetailed in Table 3.1\n\n| S. No | Project Title | Important Details |\n| --- | --- | --- |\n| 1 | MeOHmare - Methanol fuel | Coordination: Rolls-Royce Solutions GmbH [10] |\n| system for maritime engines (CO2-neutral high-speed marine | Partner: WTZ Roßlau gGmbH, Woodward L'Orange |  |\n| GmbH [55] |  |  |\n| combustion engines based on | Duration: 01.2023 - 12.2025 |  |\n| renewably produced Methanol) | Funding volume: €7.7 million [10] |  |\n| Status: Ongoing | (\"BMWK - MeOHmare - Methanol fuel system for |  \n\n… [+487 more chars]",
+  "content_hash": "9ec8859a1d086a0f17c54932374e5d3e848b0277eb6079098d95d3c366f97ed6",
+  "token_count": 334,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "94a24c80-e7a2-5d54-8730-2c2b569ef30d",
+  "chunk_index": 184,
+  "page_number": 135,
+  "page_range": [
+    135,
+    135
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `6094d79d-476b-532b-a6bc-0a8b55cbf6e0`
+
+- vector: dim=3072 · [-0.0106, 0.0252, -0.0150, 0.0036, -0.0205, -0.0223, 0.0074, 0.0217, …]
+
+```json
+{
+  "chunk_id": "6094d79d-476b-532b-a6bc-0a8b55cbf6e0",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6 ft — Human",
+  "chunk_text": "| Duration: 09.2014 - 05.2018 |  |\n| passenger shipping) | Funding volume: €0.6 million [11] |  |\n| Status: Completed | (\"BMWK - MethaShip - Green cruises with methanol,\") |  | | S. No | Project Title | Important Details |\n| --- | --- | --- |\n| 3. | CliNeR-Eco - Climate-neutral E-Methanol and Ammonia in Large Maritime Engines (Evaluation of multi-fuel retrofit solutions for climate-neutral e-methanol and Ammonia in | Coordination: MAN Energy Solutions SE |\n| Partner: Scientific-Technical Center for Engine and Machine Research Roßlau gGmbH, Technical University of Darmstadt [12] |  |  |\n| Coord\n\n… [+1266 more chars]",
+  "content_hash": "d68d693869a2cb9947f8ae8fc1a6b2d3f14ce24d0ba9feb25c409b3b7b07e54f",
+  "token_count": 542,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "94a24c80-e7a2-5d54-8730-2c2b569ef30d",
+  "chunk_index": 185,
+  "page_number": 136,
+  "page_range": [
+    136,
+    136
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b6e9f45c-493f-58ae-9c0b-c8d86951279f`
+
+- vector: dim=3072 · [-0.0037, 0.0321, -0.0133, -0.0251, -0.0024, -0.0305, 0.0106, 0.0375, …]
+
+```json
+{
+  "chunk_id": "b6e9f45c-493f-58ae-9c0b-c8d86951279f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6 ft — Human",
+  "chunk_text": "|\n| Duration: 12.2020 - 02.2024 |  |  |\n| Status: Completed | Funding volume: €3.1 million [14] (\"BMWK - AmmoniaMot - Ammonia as the ship fuel of the future,\") |  | | 6. | Ammonia Mot2 - Demonstration of a Ship Propulsion System Powered by Climate-Neutral Ammonia. (Development of a demonstrator full engine with modularized fuel system technology for operation with renewably produced Ammonia as marine fuel) Status: Ongoing | Coordination: MAN Energy Solutions SE Partner: WTZ Roßlau gGmbH, Woodward L'Orange GmbH, SFM TU-Munich, Neptun Ship Design GmbH, LKV Rostock, GenSys GmbH, MNR GmbH [15] Dur\n\n… [+61 more chars]",
+  "content_hash": "7f31272b41f5c0c78897f623dfef58f9f826695688b7bee512364f3fd3bd8cc4",
+  "token_count": 200,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "94a24c80-e7a2-5d54-8730-2c2b569ef30d",
+  "chunk_index": 186,
+  "page_number": 136,
+  "page_range": [
+    136,
+    136
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `3b101f6a-807f-590e-9819-f52ad574388c`
+
+- vector: dim=3072 · [-0.0273, 0.0312, -0.0174, -0.0088, -0.0051, -0.0222, -0.0056, 0.0268, …]
+
+```json
+{
+  "chunk_id": "3b101f6a-807f-590e-9819-f52ad574388c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6 ft — Human",
+  "chunk_text": "L'Orange GmbH, SFM TU-Munich, Neptun Ship Design GmbH, LKV Rostock, GenSys GmbH, MNR GmbH [15] Duration: 08.2024 - 01.2028 Funding volume: €12.8 million [15] | | S. No | Project Title | Important Details |\n| --- | --- | --- |\n| 7. | HydroPoLEn - Hydrogen Engines as an Alternative for Deep-Sea Shipping Large, high-power density engines for hydrogen operation | Coordination: MAN Energy Solutions SE Partner: Scientific-Technical Center for Engine and Machine Research Roßlau gGmbH, Tenneco Inc., Technical University of Munich NMA, Carnival Maritime GmbH |\n| Status: Ongoing | Duration: 09.2022 - 08\n\n… [+986 more chars]",
+  "content_hash": "f72947ab8f57686d5fbfd02bc407d67b390b2f50080a83ff9111cf022001d7d3",
+  "token_count": 429,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "94a24c80-e7a2-5d54-8730-2c2b569ef30d",
+  "chunk_index": 187,
+  "page_number": 137,
+  "page_range": [
+    137,
+    137
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `0c3dc419-2a32-5390-9df6-ac036735ecec`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "0c3dc419-2a32-5390-9df6-ac036735ecec",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.1.1 Alternative Fuel Based ICE & Fuel Cell (FC)- Technological Maturity Comparison [19]",
+  "chunk_text": "3.1.1 Alternative Fuel Based ICE & Fuel Cell (FC)- Technological Maturity Comparison [19]\n\nTechnological maturity refers to both the maturity level achieved by ICE and FC Technology and\nassociated systems. The following Table [3.2] shows the relative score against degree of maturity\nattained by ICE & Fuel Cell (FC) technologies. The score numbering is defined as\n\n1\\. Measures that are off the shelf and commonly used on new ships\n\n2\\. Measures that are commonly available, but not fully mature\n\n3\\. Measures that are under piloting, and/or with only a few commercial applications\n\n4\\. Measures tha\n\n… [+2018 more chars]",
+  "content_hash": "f233bc59bfc5d01040287efe77adcea8bf47f07ad8fa7ff94bf2a0d60ae377ba",
+  "token_count": 848,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    137,
+    139
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `2241c5f6-6104-5c02-80d8-a5d0c7d01789`
+
+- vector: dim=3072 · [-0.0286, 0.0306, -0.0299, -0.0128, -0.0408, -0.0351, -0.0188, 0.0256, …]
+
+```json
+{
+  "chunk_id": "2241c5f6-6104-5c02-80d8-a5d0c7d01789",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.1.1 Alternative Fuel Based ICE & Fuel Cell (FC)- Technological Maturity Comparison [19]",
+  "chunk_text": "Technological maturity refers to both the maturity level achieved by ICE and FC Technology and\nassociated systems. The following Table [3.2] shows the relative score against degree of maturity\nattained by ICE & Fuel Cell (FC) technologies. The score numbering is defined as\n\n1\\. Measures that are off the shelf and commonly used on new ships\n\n2\\. Measures that are commonly available, but not fully mature\n\n3\\. Measures that are under piloting, and/or with only a few commercial applications\n\n4\\. Measures that have not been tested on a full scale and no piloting or full-scale testing Underway",
+  "content_hash": "c51dccdd209a2d23207bc4bd3ef0536fdd439b088f480e6df1774ee9c6c9f574",
+  "token_count": 124,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "0c3dc419-2a32-5390-9df6-ac036735ecec",
+  "chunk_index": 188,
+  "page_number": 137,
+  "page_range": [
+    137,
+    137
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `63971e58-9021-5160-93cc-71de787f1586`
+
+- vector: dim=3072 · [-0.0056, 0.0186, -0.0278, -0.0182, -0.0299, -0.0264, 0.0046, 0.0276, …]
+
+```json
+{
+  "chunk_id": "63971e58-9021-5160-93cc-71de787f1586",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.1.1 Alternative Fuel Based ICE & Fuel Cell (FC)- Technological Maturity Comparison [19]",
+  "chunk_text": "Measures that are commonly available, but not fully mature\n\n3\\. Measures that are under piloting, and/or with only a few commercial applications\n\n4\\. Measures that have not been tested on a full scale and no piloting or full-scale testing Underway | Fuel | Converter | Components | Maturity |\n| --- | --- | --- | --- |\n| LNG | ICE | Engine | 1 |\n| 4-stroke Lean Burn Spark Ignition/Dual Fuel Low Pressure | Storage tanks |  |  |\n| (4S LBSI/LPDF) | Process system |  |  |\n|  | ICE | Engine | 1 |\n| 2-stroke | Storage tanks |  |  |\n| Dual Fuel Low Pressure |  |  |  |\n| (2S LPDF) | Process system |  | \n\n… [+989 more chars]",
+  "content_hash": "deb4cd27ba621d44189c73b08a2d928170b3d82e78029a97e482ab3016884c67",
+  "token_count": 537,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "0c3dc419-2a32-5390-9df6-ac036735ecec",
+  "chunk_index": 189,
+  "page_number": 138,
+  "page_range": [
+    138,
+    138
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b0b47656-a520-5cc7-bee5-360d5d117372`
+
+- vector: dim=3072 · [0.0032, 0.0327, -0.0190, -0.0083, -0.0349, 0.0059, 0.0362, 0.0298, …]
+
+```json
+{
+  "chunk_id": "b0b47656-a520-5cc7-bee5-360d5d117372",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.1.1 Alternative Fuel Based ICE & Fuel Cell (FC)- Technological Maturity Comparison [19]",
+  "chunk_text": "|  |\n|  | Battery |  |  |\n|  | ICE 2-stroke Dual Fuel | Engine | 2 |\n| High Pressure | Storage tanks Process system |  |  |\n|  | NOx reduction system (EGR/SCR) |  |  | | Fuel | Converter | Components | Maturity |\n| --- | --- | --- | --- |\n|  | ICE 4-stroke | Engine | 2 |\n| Storage tanks |  |  |  |\n| Process system |  |  |  |\n| LPG | ICE - 2-stroke | Engine, | 2-3 |\n| Storage tanks, |  |  |  |\n| Process system |  |  |  |\n| NOx reduction system (EGR/SCR) |  |  |  |\n|  | ICE - 4-stroke | Engine, | 4 |\n| Storage tanks, |  |  |  |\n| Process system |  |  |  |\n| HVO | ICE | Engine, | 2 |\n| Storage ta\n\n… [+156 more chars]",
+  "content_hash": "19ea759e5ae307dad333d880e9333c8b02ddec2e004dd6ad7f176d9354b8e247",
+  "token_count": 274,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "0c3dc419-2a32-5390-9df6-ac036735ecec",
+  "chunk_index": 190,
+  "page_number": 139,
+  "page_range": [
+    139,
+    139
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `10a280c7-82c5-5374-84a5-29217cdbb110`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "10a280c7-82c5-5374-84a5-29217cdbb110",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.2 Methanol Fuel Marine Engines (Global Status)",
+  "chunk_text": "3.2 Methanol Fuel Marine Engines (Global Status)\n\nPresently Methanol Internal combustion engines (ICE) are most advanced among all other Hydrogen\nand Hydrogen derived fuel engines. This has high level of technological readiness and are available\ncommercially. Several companies have developed Methanol-ready shipping engines and supply\nsystems. A list of Methanol fueled vessels, either in operation or in the order books, can be found\n[20]. MAN Energy Solutions already commercialized dual-fuel, Methanol-ready two-stroke engines,\nfew of them in operation since 2016. MAN Energy Solutions has 82 Met\n\n… [+3541 more chars]",
+  "content_hash": "b8c648daa7e5a6655ccf34c5f1cdb6291e2739e1752d0279cdbcf59127349a05",
+  "token_count": 892,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    139,
+    140
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `bca413b3-e995-5cd4-a8fe-3b0dab574246`
+
+- vector: dim=3072 · [0.0040, 0.0142, -0.0129, -0.0232, -0.0375, -0.0081, -0.0369, -0.0012, …]
+
+```json
+{
+  "chunk_id": "bca413b3-e995-5cd4-a8fe-3b0dab574246",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.2 Methanol Fuel Marine Engines (Global Status)",
+  "chunk_text": "Presently Methanol Internal combustion engines (ICE) are most advanced among all other Hydrogen\nand Hydrogen derived fuel engines. This has high level of technological readiness and are available\ncommercially. Several companies have developed Methanol-ready shipping engines and supply\nsystems. A list of Methanol fueled vessels, either in operation or in the order books, can be found\n[20]. MAN Energy Solutions already commercialized dual-fuel, Methanol-ready two-stroke engines,\nfew of them in operation since 2016. MAN Energy Solutions has 82 Methanol dual-fuel engines in their\norder books, with\n\n… [+1472 more chars]",
+  "content_hash": "19fdbb6b80da631a53a86c3d07b59220e40c8f8f6bc26bcaebfaaae5b4719626",
+  "token_count": 432,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "10a280c7-82c5-5374-84a5-29217cdbb110",
+  "chunk_index": 191,
+  "page_number": 139,
+  "page_range": [
+    139,
+    139
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `0017b2d2-f46e-56ce-aa9b-eea5c1b818a4`
+
+- vector: dim=3072 · [0.0058, 0.0175, -0.0159, -0.0119, -0.0198, 0.0335, -0.0720, -0.0020, …]
+
+```json
+{
+  "chunk_id": "0017b2d2-f46e-56ce-aa9b-eea5c1b818a4",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.2 Methanol Fuel Marine Engines (Global Status)",
+  "chunk_text": "Four-stroke marine engines\nin small vessels are similar to diesel locomotive engines used in railways. The low cetane number\nof Methanol presents challenges for its direct use in diesel engines. Several techniques are used to introduce Methanol into large-bore marine diesel engines, which includes (i) Blending [23] (ii) \nEmulsification with diesel, (iii) Port injection of Methanol and Direct injection of pilot diesel [24] (iv) \nHigh Pressure direct injection HPDI of ethanol [25-27] and (v) the glow plug concept\nThe HPDI techniques are implemented in two ways: injecting Diesel and Methanol indi\n\n… [+1640 more chars]",
+  "content_hash": "370b2d8c9f08430f79ef5c81bf87334a5e02f443b52f46ee7efbbfc567441345",
+  "token_count": 490,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "10a280c7-82c5-5374-84a5-29217cdbb110",
+  "chunk_index": 192,
+  "page_number": 140,
+  "page_range": [
+    140,
+    140
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `f76f1146-c80b-5380-8a57-9d67d3fbeb59`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "f76f1146-c80b-5380-8a57-9d67d3fbeb59",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.2.1\t Commercial Methanol Fuel Marine Engine",
+  "chunk_text": "3.2.1\t Commercial Methanol Fuel Marine Engine\n\nAccording to the Clarkson’s in-service and order book data, MAN Energy Solutions (formerly MAN \nDiesel & Turbo) has the highest share in making methanol-fueled vessels. MAN Energy Solutions has \ndeveloped the entire engine family to assist dual-fuel engine-operated ships in decarbonizing the \nmaritime industry. This whole engine series has been labeled as the ME-LGI series. The typical engine \nin order and service book are \n\t»\n1 x Diesel MAN B. & W. 5S50ME-C9.6-LGIM\n\t»\n1 x Diesel - MAN B. & W. 7S50ME-B9.3-LGI\n\t»\n1 x Diesel - MAN B. & W. 6S60ME-C10\n\n… [+8707 more chars]",
+  "content_hash": "9f55da25e3f052393f0f6fb43ab2feba0f72257a45d62ed6a56e4002bf46f7a2",
+  "token_count": 2420,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    141,
+    144
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `2d04c6e8-1133-5a62-8a54-8d2a86d2c0f8`
+
+- vector: dim=3072 · [0.0205, 0.0304, -0.0170, -0.0428, -0.0100, 0.0208, -0.0233, -0.0002, …]
+
+```json
+{
+  "chunk_id": "2d04c6e8-1133-5a62-8a54-8d2a86d2c0f8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.2.1\t Commercial Methanol Fuel Marine Engine",
+  "chunk_text": "According to the Clarkson’s in-service and order book data, MAN Energy Solutions (formerly MAN \nDiesel & Turbo) has the highest share in making methanol-fueled vessels. MAN Energy Solutions has \ndeveloped the entire engine family to assist dual-fuel engine-operated ships in decarbonizing the \nmaritime industry. This whole engine series has been labeled as the ME-LGI series. The typical engine \nin order and service book are \n\t»\n1 x Diesel MAN B. & W. 5S50ME-C9.6-LGIM\n\t»\n1 x Diesel - MAN B. & W. 7S50ME-B9.3-LGI\n\t»\n1 x Diesel - MAN B. & W. 6S60ME-C10.5-LGIM\n\t»\n1 x Diesel - MAN B. & W. 7S60ME-C10.\n\n… [+331 more chars]",
+  "content_hash": "09815180ebc7bafe91114be599fa6806eaeb2b5bad799fe5d4ef581a181f10af",
+  "token_count": 368,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f76f1146-c80b-5380-8a57-9d67d3fbeb59",
+  "chunk_index": 193,
+  "page_number": 141,
+  "page_range": [
+    141,
+    141
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d699bef5-736c-58e3-8c0b-d2ef8d104092`
+
+- vector: dim=3072 · [0.0119, 0.0196, -0.0172, -0.0287, -0.0201, 0.0138, -0.0415, 0.0129, …]
+
+```json
+{
+  "chunk_id": "d699bef5-736c-58e3-8c0b-d2ef8d104092",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.2.1\t Commercial Methanol Fuel Marine Engine",
+  "chunk_text": "Reproduced from [30] This entire series adds dual fuel-assisting technology to the already available electronically\ncontrolled ME engine series. Low and High-Pressure Methanol Supply Systems are developed by\nseveral Companies [31]. Anglo Belgian Corporation NV, MAN Energy Solutions, Rolls-Royce-owned\nmtu Solutions, Caterpillar, China State Ship Building, and Hyundai Heavy Industries have developed\na low-pressure system which injects Methanol into the engine at 10 bar and between 25℃ and 50℃\n[31]. Wärtsilä and others use a high-pressure injection method where Methanol enters the engine\nat aroun\n\n… [+227 more chars]",
+  "content_hash": "061458b007b77bafa9dc066fd2f58be346b2e5b242e1de71d10c791a394a53d1",
+  "token_count": 188,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f76f1146-c80b-5380-8a57-9d67d3fbeb59",
+  "chunk_index": 194,
+  "page_number": 142,
+  "page_range": [
+    142,
+    142
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `561f94ed-4906-56ca-a2ba-4dda9d22dba1`
+
+- vector: dim=3072 · [0.0072, 0.0169, -0.0195, -0.0191, -0.0280, 0.0264, -0.0110, 0.0009, …]
+
+```json
+{
+  "chunk_id": "561f94ed-4906-56ca-a2ba-4dda9d22dba1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.2.1\t Commercial Methanol Fuel Marine Engine",
+  "chunk_text": "Methanol Engine Manufacturers and their Engine profiles are briefed in Table 3.3 | S. No. | Manufacturer | Details |\n| --- | --- | --- |\n| 1. | Anglo Belgian Corporation (ABC) | DZC dual-fuel engine portfolio, with 6 and 8 cylinder inline engines and 12 and 16 cylinder V-engines, covers a power range from 600 kW up to 10.4 MW. |\n| 2. | Caterpillar | Cat® 3500E-series marine engines can be modified to run on methanol. |\n| 3. | China State Shipbuilding Corporation (CSSC) Power Research Institute, Anqing CSSC Diesel Engine, and Hudong Heavy Machinery | Developed the 6M320DM methanol fuel engine, \n\n… [+1182 more chars]",
+  "content_hash": "20d74bc2f5ca6de9979b21dead5eeb0f8bb81730cd579dd4c6422f7085b4941d",
+  "token_count": 478,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f76f1146-c80b-5380-8a57-9d67d3fbeb59",
+  "chunk_index": 195,
+  "page_number": 142,
+  "page_range": [
+    142,
+    142
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c40d53cd-d39e-52f1-9dd3-ca0d687b92e8`
+
+- vector: dim=3072 · [0.0080, 0.0268, -0.0194, -0.0143, -0.0209, 0.0272, -0.0111, 0.0064, …]
+
+```json
+{
+  "chunk_id": "c40d53cd-d39e-52f1-9dd3-ca0d687b92e8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.2.1\t Commercial Methanol Fuel Marine Engine",
+  "chunk_text": "Additionally, two- stroke engine retrofits in collaboration with MSC. |\n| 9 | WinGD and HSD Engine | Methanol-fueled engines under development in a joint development program. It aims to launch the first engines by 2024. | Waterfront Shipping Canada has achieved dual-fuel Methanol two-stroke engines operation over \n145,000 hours and owns 19 Methanol ready vessels [53]. Another Company, Marinvest Shipping, one \nof Waterfront Shipping’s partners, is using Methanol over five years. Although Dual fuel engines \nleads to ~7 % increase in maintenance costs over single-fuel variants [32], these provide\n\n… [+1397 more chars]",
+  "content_hash": "18e04d1171fbb2a124d9280eba0c2e431778f4be4d479dc17b50fb5fe5915403",
+  "token_count": 485,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f76f1146-c80b-5380-8a57-9d67d3fbeb59",
+  "chunk_index": 196,
+  "page_number": 143,
+  "page_range": [
+    143,
+    143
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ac74fcde-4c37-5ddd-b7c4-c383b709464c`
+
+- vector: dim=3072 · [-0.0110, 0.0147, -0.0089, -0.0183, -0.0325, 0.0274, -0.0284, -0.0105, …]
+
+```json
+{
+  "chunk_id": "ac74fcde-4c37-5ddd-b7c4-c383b709464c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.2.1\t Commercial Methanol Fuel Marine Engine",
+  "chunk_text": "Wärtsilä W32 and W46 \nMethanol engines. In addition, two-stroke engine retrofits in collaboration with MSC. WinGD and HSD \nEngine Methanol fueled engines are presently under development [33]. In conjunction to Methanol ICE, there are great advancement in Low and High pressure Methanol \nsupply system development. Companies such as Anglo Belgian Corporation NV, MAN Energy \nSolutions, Rolls-Royce-owned mtu Solutions, Caterpillar, China State Ship Building, and Hyundai Heavy \nIndustries have developed a low pressure system that involves injecting methanol into the engine at \naround 10 bar and betw\n\n… [+1467 more chars]",
+  "content_hash": "3ad36975eabc04cf4eb12a31362cf32d5d390f07e91e77a274cddcbcaf68785a",
+  "token_count": 492,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f76f1146-c80b-5380-8a57-9d67d3fbeb59",
+  "chunk_index": 197,
+  "page_number": 143,
+  "page_range": [
+    143,
+    143
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `be4e6a53-7508-5e92-a9fc-257cd425129e`
+
+- vector: dim=3072 · [-0.0249, -0.0081, -0.0062, -0.0201, -0.0408, 0.0068, -0.0663, -0.0181, …]
+
+```json
+{
+  "chunk_id": "be4e6a53-7508-5e92-a9fc-257cd425129e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.2.1\t Commercial Methanol Fuel Marine Engine",
+  "chunk_text": "The onboard safety of Ammonia is also quite good \nin terms of storage as it has a narrow flammability range (15%–28% by volume in air). The octane rating of Ammonia is 120, higher than Gasoline’s, typically in the range of 86-93. making it a fuel\n\nmore suitable for Spark Ignition engines. It can be ignited in CI engines with some different ignition \nstrategies. Also, it can be easily used in Fuel Cell s. One of the major drawbacks of using Ammonia as \nfuel includes its high resistance to auto ignition, high ignition energy and low laminar flame speed \n(burning velocity as shown in Figure 3.6\nF\n\n… [+1709 more chars]",
+  "content_hash": "347c6666e541692dfb5efdc4500e0ea2cc6d84e030fb419c3f541c7e643c1146",
+  "token_count": 556,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f76f1146-c80b-5380-8a57-9d67d3fbeb59",
+  "chunk_index": 198,
+  "page_number": 143,
+  "page_range": [
+    143,
+    144
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `82023c62-2325-54bb-9131-5fbd7f46398e`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "82023c62-2325-54bb-9131-5fbd7f46398e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.3.1\t Commercial Ammonia Fuel Marine Engines",
+  "chunk_text": "3.3.1\t Commercial Ammonia Fuel Marine Engines\n\nThe low reactivity of Ammonia makes it a suitable fuel for Spark Ignition (SI) and a challenging fuel \nfor compression ignition (CI) engines. However, Ammonia has been pushed for the Maritime Industry, \nwhere large-bore low-speed, two-stroke CI engines operate huge ships. Generally large CI engines \nin ships are unaffected by slow-burning velocity of Ammonia on the initiation of combustion. A \nlarge amount of Ammonia injection into the engine can potentially overcome the energy demand \nin order to meet the engine torque [9]. The use of Ammonia as \n\n… [+7329 more chars]",
+  "content_hash": "8f4f81a55c97ccac377b41595f44b67dcb41de9836df2c3fc3c2b4ff8517ca80",
+  "token_count": 1670,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    145,
+    148
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `2133b967-96d4-5e20-b3cd-e76d47530324`
+
+- vector: dim=3072 · [-0.0177, 0.0161, -0.0017, -0.0215, -0.0265, 0.0105, -0.0311, -0.0158, …]
+
+```json
+{
+  "chunk_id": "2133b967-96d4-5e20-b3cd-e76d47530324",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.3.1\t Commercial Ammonia Fuel Marine Engines",
+  "chunk_text": "The low reactivity of Ammonia makes it a suitable fuel for Spark Ignition (SI) and a challenging fuel \nfor compression ignition (CI) engines. However, Ammonia has been pushed for the Maritime Industry, \nwhere large-bore low-speed, two-stroke CI engines operate huge ships. Generally large CI engines \nin ships are unaffected by slow-burning velocity of Ammonia on the initiation of combustion. A \nlarge amount of Ammonia injection into the engine can potentially overcome the energy demand \nin order to meet the engine torque [9]. The use of Ammonia as a fuel for low-speed, two-stroke \nengines focus\n\n… [+1430 more chars]",
+  "content_hash": "8ae0698a1d30169701cb06b0319cb9fb496bf4c9ae4cc42ab829db30bf9bc7d5",
+  "token_count": 440,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "82023c62-2325-54bb-9131-5fbd7f46398e",
+  "chunk_index": 199,
+  "page_number": 145,
+  "page_range": [
+    145,
+    145
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `907b7f65-feb0-5e38-a5b9-e62ea771cfae`
+
+- vector: dim=3072 · [-0.0127, 0.0109, -0.0081, -0.0172, -0.0242, 0.0050, -0.0114, 0.0026, …]
+
+```json
+{
+  "chunk_id": "907b7f65-feb0-5e38-a5b9-e62ea771cfae",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.3.1\t Commercial Ammonia Fuel Marine Engines",
+  "chunk_text": "Global engine developers like MAN, WinGD, and Wartsila are actively working on Ammonia \n2-stroke and 4-stroke marine engines development. Wartsilla has developed world’s first commercial medium-speed 4-stroke Ammonia engine. More details are given in Annexure III. \nPresently Win-GD is leading the Ammonia engine development as seen from orderbook data \nFigure3.1(b)\n3.4\t\nHydrogen as Fuel in Marine Engines\nHydrogen is a non-Carbon energy carrier with a low volumetric energy density (4.5 MJ/L) and need \nminimum 700 bar pressure for liquefaction under cryogenic condition (-252.90C). Compression ign\n\n… [+1274 more chars]",
+  "content_hash": "9b7a99887caafa03f876256af787460c4a14a23a3ce6938129510678f0b82cde",
+  "token_count": 407,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "82023c62-2325-54bb-9131-5fbd7f46398e",
+  "chunk_index": 200,
+  "page_number": 145,
+  "page_range": [
+    145,
+    145
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a9980a38-6832-59f1-a927-1db05bffbef3`
+
+- vector: dim=3072 · [-0.0009, -0.0038, -0.0127, -0.0155, -0.0053, -0.0218, -0.0260, -0.0187, …]
+
+```json
+{
+  "chunk_id": "a9980a38-6832-59f1-a927-1db05bffbef3",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.3.1\t Commercial Ammonia Fuel Marine Engines",
+  "chunk_text": "Hydrogen \nembrittlement is another challenge for metal parts, eventually affecting their mechanical properties \nand longevity [37]. Thus, hydrogen usage requires strict practical standards to be followed for \nhydrogen purification, hydrogen production, and transportation purposes. The development and operation of hydrogen-fueled engines highly depend on using a fuel \ninjection system. One of the significant challenges for hydrogen-fueled internal combustion \nengines is the backfiring of hydrogen flames from the intake system—this kind of backfiring \nresults in uneven operation of hydrogen-fuel\n\n… [+1782 more chars]",
+  "content_hash": "9747682af0faa6422ea3ea48797c5718fbfb5148abd6377d8813294a9b3966b1",
+  "token_count": 475,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "82023c62-2325-54bb-9131-5fbd7f46398e",
+  "chunk_index": 201,
+  "page_number": 146,
+  "page_range": [
+    146,
+    146
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e31ffba1-c187-517a-a8a4-ede23355f4bf`
+
+- vector: dim=3072 · [0.0098, -0.0248, -0.0127, -0.0153, -0.0028, -0.0057, -0.0335, -0.0216, …]
+
+```json
+{
+  "chunk_id": "e31ffba1-c187-517a-a8a4-ede23355f4bf",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.3.1\t Commercial Ammonia Fuel Marine Engines",
+  "chunk_text": "A backfire is an abnormal combustion inside \nthe intake manifold during the intake stroke that happens in the engine’s intake manifold. In the worst \ncase, it elevates the engine knock phenomenon and eventually damages the cylinders and pistons. Several researchers have suggested that the control of injection timing and location of the hydrogen \ninjector positions can be optimized to eliminate backfire issues [39]. Also, injection angles could play \na significant role, as shown in Figure 3.8 and Figure 3.9 [39].\nFigure 3.8: Different Positions for Hydrogen Injectors &  Figure 3.9: Different An\n\n… [+1694 more chars]",
+  "content_hash": "f4a9c350cb0d0402e71ee41cdb9b4c940e82243f24f7979902e9fda72bf76d85",
+  "token_count": 470,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "82023c62-2325-54bb-9131-5fbd7f46398e",
+  "chunk_index": 202,
+  "page_number": 147,
+  "page_range": [
+    147,
+    148
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `13ab93ec-2f75-599f-9dcc-5f55196e3c1b`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "13ab93ec-2f75-599f-9dcc-5f55196e3c1b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "3.4.1\t Commercial Hydrogen Fueled Marine Engines\n\nMAN Energy Solutions (formerly MAN Diesel & Turbo) has developed MAN D2862 Hydrogen Dual \nFuel Engine for marine applications. In this engine, Hydrogen is inducted into the charge using an \nadapter. Combustion happens according to the diesel principle; thus, a 5% diesel injection is needed \nto initiate diesel combustion. Photos of newly developed engine components are shown in Figure \n3.10. Technical details of Hydrogen Commercial engines are given in Annexure III\nFigure 3.10: Hydrogen engine by MAN Energy Solutions (formerly MAN Diesel & Turbo\n\n… [+6417 more chars]",
+  "content_hash": "7b5337e2cc31b2840a870929da0f04046ec88f202b22fc4c3f5e2df497ec4632",
+  "token_count": 1793,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    148,
+    150
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ff545ae6-45c9-53c8-8cb0-bcd306051939`
+
+- vector: dim=3072 · [-0.0093, 0.0234, -0.0141, -0.0168, -0.0396, 0.0009, -0.0284, 0.0012, …]
+
+```json
+{
+  "chunk_id": "ff545ae6-45c9-53c8-8cb0-bcd306051939",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "MAN Energy Solutions (formerly MAN Diesel & Turbo) has developed MAN D2862 Hydrogen Dual \nFuel Engine for marine applications. In this engine, Hydrogen is inducted into the charge using an \nadapter. Combustion happens according to the diesel principle; thus, a 5% diesel injection is needed \nto initiate diesel combustion. Photos of newly developed engine components are shown in Figure \n3.10. Technical details of Hydrogen Commercial engines are given in Annexure III\nFigure 3.10: Hydrogen engine by MAN Energy Solutions (formerly MAN Diesel & Turbo) [6]\nConclusions and Recommendations for India\n\t»\n\n… [+579 more chars]",
+  "content_hash": "a50546c1721777e74343d82d6004804345444156e9fc4c96b1db6b4a838e14b7",
+  "token_count": 301,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "13ab93ec-2f75-599f-9dcc-5f55196e3c1b",
+  "chunk_index": 203,
+  "page_number": 148,
+  "page_range": [
+    148,
+    148
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1d065a67-5285-52f4-bd95-a9d27e1a056e`
+
+- vector: dim=3072 · [-0.0336, 0.0126, -0.0108, -0.0281, -0.0300, 0.0079, -0.0189, 0.0114, …]
+
+```json
+{
+  "chunk_id": "1d065a67-5285-52f4-bd95-a9d27e1a056e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "fuel (GFI 9.4), Bio LNG (GFI 9.4), E-Ammonia (GFI 12.1), bio-\nMethanol (GFI 13.3), blue Ammonia (22.6), E-Methanol (29). Appropriate carbon pricing, decrease of green Hydrogen cost, availability of additional RE will \nencourage green fuel developers to invest in large scale Bio and E-Methanol as well as E-Ammonia \nproduction plants to make India  not only self-reliant but to become a global hub both for Methanol \nand Ammonia.\n\t»\nTill large scale development and deployment of alternate fuel-based ICE, mixed fuel strategy \nholds the key especially with blended fuel towards 2030 and beyond at lea\n\n… [+1224 more chars]",
+  "content_hash": "54b47696c6a3a17c3caf53ab6b737e7ffc327bd42735c2e6da423f3881bc04fc",
+  "token_count": 502,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "13ab93ec-2f75-599f-9dcc-5f55196e3c1b",
+  "chunk_index": 204,
+  "page_number": 149,
+  "page_range": [
+    149,
+    149
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1c59f5e3-9e32-5fb2-ab16-d4b16cba1d3b`
+
+- vector: dim=3072 · [-0.0261, -0.0045, -0.0096, -0.0267, -0.0365, 0.0036, -0.0294, -0.0025, …]
+
+```json
+{
+  "chunk_id": "1c59f5e3-9e32-5fb2-ab16-d4b16cba1d3b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "anol with 9%  share and Ammonia 80% share; Yanmar leads in biofuel with 64.3% share). \n\t»\nIndia needs to initiate alternative fuel IC Engine manufacturing and alternatively developing \nstrong strategic partnership with Global key players in ICE development.\n\t» Ammonia transition is projected between 2035 onwards due to ammonia-ICE development \ntrajectory is in infancy. The ammonia engines deals with a new combustion systems including \nfuel systems to withstand their challenging properties like high corrosivity, low lubricity, vapor \npressure and extreme safety issues.\n\t»\nAlthough Hydrogen is p\n\n… [+1083 more chars]",
+  "content_hash": "ec41f61498b9b6e223d55ed1feff660eb92b8250ffd60b44dc5bbfb74f773781",
+  "token_count": 357,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "13ab93ec-2f75-599f-9dcc-5f55196e3c1b",
+  "chunk_index": 205,
+  "page_number": 149,
+  "page_range": [
+    149,
+    149
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `6e9f423d-2dab-5b2a-905a-e811e46a7b31`
+
+- vector: dim=3072 · [0.0021, 0.0150, -0.0210, -0.0228, 0.0021, 0.0020, -0.0269, 0.0162, …]
+
+```json
+{
+  "chunk_id": "6e9f423d-2dab-5b2a-905a-e811e46a7b31",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "LNG conversions lack the use of their full potential \nowing to unacceptable levels of high methane slip. HPDF, RCCI, and Stoic-EGR-TWC methods can reduce methane slip to enable LNG ships and mitigate the adverse effects of obtaining GHG \nreduction (Methane Slip 1 g/kWh).  \n\t»\nDual-fuel combustion systems as retro fitment strategy also for new vessels are of absolute \nnecessity towards achieving decarbonization in shipping without the risk of investment in \nstranded assets \n\t»\nDual fuel combustion technologies are equally suitable to both types of engine classes i.e. four-\nstroke (medium- and h\n\n… [+1297 more chars]",
+  "content_hash": "348dd33e557ae18f2f048b9eb348988519d2f8e4e672f7ca721adbe0921028ba",
+  "token_count": 480,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "13ab93ec-2f75-599f-9dcc-5f55196e3c1b",
+  "chunk_index": 206,
+  "page_number": 150,
+  "page_range": [
+    150,
+    150
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c86a1cf6-347a-5b83-aa76-696b2a5a308e`
+
+- vector: dim=3072 · [-0.0132, 0.0051, -0.0149, -0.0119, 0.0131, 0.0013, -0.0235, 0.0052, …]
+
+```json
+{
+  "chunk_id": "c86a1cf6-347a-5b83-aa76-696b2a5a308e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "Hansson J, Månsson S, Brynolf S, Grahn M. Alternative marine fuels: Prospects based on multi- criteria decision analysis involving Swedish stakeholders. Biomass and Bioenergy 2019;126:159–\n73. https://doi.org/10.1016/J.BIOMBIOE.2019.05.008.\n5.\t Kesieme U, Pazouki K, Murphy A, Chrysanthou A. Biofuel as an alternative shipping fuel: \ntechnological, environmental and economic assessment. Sustain Energy Fuels 2019;3(4):899–\n909. https://doi.org/10.1039/C8SE00466H.\n6.\t Prussi M, Scarlat N, Acciaro M, Kosmas V. Potential and limiting factors in the use of alternative \nfuels in the European maritime \n\n… [+397 more chars]",
+  "content_hash": "338162f538fa68288b2d12949bab6695773da14adedb51b9655e65987f75e567",
+  "token_count": 318,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "13ab93ec-2f75-599f-9dcc-5f55196e3c1b",
+  "chunk_index": 207,
+  "page_number": 150,
+  "page_range": [
+    150,
+    150
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `b34c42bd-15ec-503a-b4f0-db4470968f1f`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "b34c42bd-15ec-503a-b4f0-db4470968f1f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "3.4.1\t Commercial Hydrogen Fueled Marine Engines (cont.)\n\n8.\t Concawe. Marine fuel facts, https://www.concawe.eu/wp-content/uploads/2017/01/marine_\nfactsheet_web.pdf (2017,accessed 22 November 2023).\n9.\t Curran S., et al, The future of ship engines: Renewable fuels and enabling technologies for \ndecarbonization. Editorial in International J of Engine Research,;25(1):85–110, 2024 https://doi.\norg/10.1177/14680874231187954.\n10.\t BMWK - MeOHmare - Methanol fuel system for maritime engines. https://www.bmwk.de/MAFO/\nprojekte/03SX586-MeOHmare/projekt-detail.html (accessed September 19, 2024).\n11.\t \n\n… [+5079 more chars]",
+  "content_hash": "ac4094a7a705a40c3ebbf2fdb62cdd5948f0c8a4374c2d53e90f3b8069838dc0",
+  "token_count": 1767,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    151,
+    152
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `390994f8-f26e-5d94-b698-fcdb104e24fc`
+
+- vector: dim=3072 · [0.0021, 0.0152, -0.0077, -0.0136, -0.0070, 0.0094, -0.0218, 0.0162, …]
+
+```json
+{
+  "chunk_id": "390994f8-f26e-5d94-b698-fcdb104e24fc",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "8.\t Concawe. Marine fuel facts, https://www.concawe.eu/wp-content/uploads/2017/01/marine_\nfactsheet_web.pdf (2017,accessed 22 November 2023).\n9.\t Curran S., et al, The future of ship engines: Renewable fuels and enabling technologies for \ndecarbonization. Editorial in International J of Engine Research,;25(1):85–110, 2024 https://doi.\norg/10.1177/14680874231187954.\n10.\t BMWK - MeOHmare - Methanol fuel system for maritime engines. https://www.bmwk.de/MAFO/\nprojekte/03SX586-MeOHmare/projekt-detail.html (accessed September 19, 2024).\n11.\t BMWK - MethaShip - Green cruises with Methanol. https://ww\n\n… [+745 more chars]",
+  "content_hash": "9f3b23b9c66c1508f351960de0bdba3db173133b562df8452ba987cbbe2229ed",
+  "token_count": 436,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b34c42bd-15ec-503a-b4f0-db4470968f1f",
+  "chunk_index": 208,
+  "page_number": 151,
+  "page_range": [
+    151,
+    151
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `cbe6a48d-8689-55f1-993a-fb48f4082c0d`
+
+- vector: dim=3072 · [0.0065, 0.0103, -0.0097, -0.0229, -0.0184, 0.0053, -0.0128, 0.0114, …]
+
+```json
+{
+  "chunk_id": "cbe6a48d-8689-55f1-993a-fb48f4082c0d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "BMWK - AmmoniaMot2 - Demonstration of a ship propulsion system powered by climate-neutral Ammonia. https://www.bmwk.de/MAFO/projekte/03SX620-AmmoniaMot2/projekt-detail.html \n(accessed September 19, 2024).\n16.\t BMWK - HydroPoLEn - Hydrogen engines as an alternative for deep-sea shipping. https://www.\nbmwk.de/MAFO/projekte/03SX570-HydroPoLEn/projekt-detail.html (accessed September 19, \n2024).\n17.\t FAST Track to Clean and Carbon-Neutral WATERborne Transport through Gradual Introduction of \nMethanol Fuel: Developing and Demonstrating an Evolutionary Pathway for Methanol Technology \nand Take-up. ht\n\n… [+897 more chars]",
+  "content_hash": "4fe72683d7d88f1a5d43d3c5f7bd117384b4322f7cf291399492ce15f7179dcf",
+  "token_count": 447,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b34c42bd-15ec-503a-b4f0-db4470968f1f",
+  "chunk_index": 209,
+  "page_number": 151,
+  "page_range": [
+    151,
+    151
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `8b8bf6d0-d94c-5ab3-bb65-6021f4a95b4f`
+
+- vector: dim=3072 · [0.0034, 0.0056, -0.0098, -0.0156, -0.0012, 0.0197, -0.0447, 0.0187, …]
+
+```json
+{
+  "chunk_id": "8b8bf6d0-d94c-5ab3-bb65-6021f4a95b4f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "Retrieved November 19, 2022, from Marine Insight: https://www.marineinsight.com/\nmain-engine/why-2-stroke-engines-are-used-more-commonly-than-4-stroke-on-ships/ 23.\t GreyViews. (2022, Jan). Global Marine Engines Market Overview. Retrieved November 19, 2022, \nfrom greyviews.com: https://greyviews.com/reports/global-marine-engines-market/17\n24.\t Grainger, T. (n.d.). Shipping companies are taking a new look at scrubbers. Retrieved November \n19, 2022, from Pacific Green: https://www.pacificgreen-group.com/articles/shipping-companies-\nare-taking-new-look-scrubbers/\n25.\t MAN Energy Solutions. (2021,\n\n… [+1018 more chars]",
+  "content_hash": "9479f55f695c4a8be2e3e5b38db0149883e3cf0f37a70a0a8c3583d60bb47e0c",
+  "token_count": 485,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b34c42bd-15ec-503a-b4f0-db4470968f1f",
+  "chunk_index": 210,
+  "page_number": 152,
+  "page_range": [
+    152,
+    152
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a7ac0d8d-c755-5cf6-9796-2060adfaf69e`
+
+- vector: dim=3072 · [-0.0098, -0.0042, -0.0151, -0.0120, -0.0274, 0.0382, -0.0490, 0.0074, …]
+
+```json
+{
+  "chunk_id": "a7ac0d8d-c755-5cf6-9796-2060adfaf69e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "Valera H, Kumar D and Agarwal AK. Evaluating the effect of variable methanol injection timings \nin a novel co-axial fuel injection system equipped locomotive engine. J Clean Prod 2022; 349: \n131452. 30.\t Portin K. Wa¨ rtsila¨ gas engine development and methanoladaptation: Classnk seminar, \nSingapore, 3 November2015, https://www.classnk.or.jp/classnk-rd/assets/pdf/V_Wartsila_Gas_\nEngine_Development_Methanol_Adaptation.pdf\n31.\t Marquez C., “Marine Methanol: Future-Proof Shipping Fuel”, Methanol Institute, May 2023\n32.\t MAN Diesel & Turbo (2014). Using Methanol Fuel in the MAN B&W ME-LGI Series. \n\n… [+1006 more chars]",
+  "content_hash": "704130a7bda8fec3be5feea77613ff99e6b35a1e3b6bf92fdcf61c7ea1f315c7",
+  "token_count": 503,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b34c42bd-15ec-503a-b4f0-db4470968f1f",
+  "chunk_index": 211,
+  "page_number": 152,
+  "page_range": [
+    152,
+    152
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d016605a-96be-5ecd-abf2-6055e002dcaa`
+
+- vector: dim=3072 · [0.0078, -0.0109, -0.0178, 0.0064, -0.0196, 0.0181, -0.0320, 0.0351, …]
+
+```json
+{
+  "chunk_id": "d016605a-96be-5ecd-abf2-6055e002dcaa",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "38.\t Dai P, Chen Z, Gan X, Liberman MA. Autoignition and detonation development from a hot spot \ninside a closed chamber: Effects of end wall reflection. Proc Combust Inst 2021;38(4):5905–13. \nhttps://doi.org/10.1016/J.PROCI.2020.09.025.\n39.\t Khalid AH, Muhamad Said MF, Veza I, Abas MA, Roslan MF, Abubakar S, et al. Hydrogen port fuel \ninjection: Review of fuel injection control strategies to mitigate backfire in internal combustion \nengine fuelled with Hydrogen. Int J Hydrogen Energy 2024;66:571–81. https://doi.org/10.1016/J.\nIJHYDENE.2024.04.087.\n40.\t Liu X, Yang L, Chan QN, Kook S. Split in\n\n… [+417 more chars]",
+  "content_hash": "4d2ea4360261aea1524e4dd260f25bd1b46a12589aef24f5b123281aa623ebb3",
+  "token_count": 321,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 212,
+  "page_number": 153,
+  "page_range": [
+    153,
+    155
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d355dafc-84a2-5251-bce2-0eef5c6efcfe`
+
+- vector: dim=3072 · [-0.0220, 0.0071, -0.0128, 0.0042, -0.0149, -0.0277, -0.0288, 0.0225, …]
+
+```json
+{
+  "chunk_id": "d355dafc-84a2-5251-bce2-0eef5c6efcfe",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapt",
+  "chunk_text": "In this Chapter, the Section 4.1 provides a comparative assessment of the alternative fuels based \non their sustainability aspect like properties and production pathways (4.1.1), Cost (4.1.2) and LCA \nperformance (4.1.3). \nIn Section 4.2 alternative fuel and fuel-mix demand scenarios are built to estimate the fuel \nrequired for India in meeting IMO’s revised emission targets as per MEPC 83 revised guidelines \n[1]. Three Scenarios are built where the Scenario-1 estimates fuel/fuel-mix demand for meeting \nGFI based emission targets by year 2030 and 2035. Scenarios-2 is built for replacing fossil\n\n… [+1451 more chars]",
+  "content_hash": "936e7fe338b4d4957ba49215740b708c595e33f22f6d756db37c03388f1e2d80",
+  "token_count": 456,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 213,
+  "page_number": 156,
+  "page_range": [
+    156,
+    156
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `be487176-71c2-59f8-b177-d50f11c28139`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "be487176-71c2-59f8-b177-d50f11c28139",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment\n\nAlternative fuels considered in this study are Methanol (bio & e-), Ammonia (e, green and blue), \nHydrogen (Green), Biofuels (Biodiesel, Bio Ethanol) & Methane (bio and e-LNG) for their potential in \ndecarbonizing Indian maritime sector. These fuels are assessed with respect to multiple production \npathways and properties as marine fuels. In particular, e-fuels are defined as green synthetic \nfuels which include e-Methanol, Hydrogen, e-Ammonia, e-LNG etc. In theory, e-fuel are seen as a \nphotovoltaic enrichment product, where the pro\n\n… [+3711 more chars]",
+  "content_hash": "a741a32e9137bf5e14632d71d9d591417b8ce00775a26e09c5447925d3752578",
+  "token_count": 1587,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    156,
+    159
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `962045d2-9d4d-5814-8cb6-fd2b2ef20baa`
+
+- vector: dim=3072 · [-0.0227, 0.0229, -0.0180, -0.0053, -0.0310, 0.0114, -0.0345, -0.0013, …]
+
+```json
+{
+  "chunk_id": "962045d2-9d4d-5814-8cb6-fd2b2ef20baa",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": "Alternative fuels considered in this study are Methanol (bio & e-), Ammonia (e, green and blue), \nHydrogen (Green), Biofuels (Biodiesel, Bio Ethanol) & Methane (bio and e-LNG) for their potential in \ndecarbonizing Indian maritime sector. These fuels are assessed with respect to multiple production \npathways and properties as marine fuels. In particular, e-fuels are defined as green synthetic \nfuels which include e-Methanol, Hydrogen, e-Ammonia, e-LNG etc. In theory, e-fuel are seen as a \nphotovoltaic enrichment product, where the production process is also termed as Power-to-X, which \ncan achi\n\n… [+364 more chars]",
+  "content_hash": "09f8d769cd7ee91ddd0fa910995bc00f24106b1386f24ccbfbf0588b269802e5",
+  "token_count": 230,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "be487176-71c2-59f8-b177-d50f11c28139",
+  "chunk_index": 214,
+  "page_number": 156,
+  "page_range": [
+    156,
+    157
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `8115baa8-4d71-5505-927d-85fa14e5151e`
+
+- vector: dim=3072 · [-0.0181, 0.0085, -0.0170, 0.0122, -0.0136, -0.0106, -0.0297, 0.0077, …]
+
+```json
+{
+  "chunk_id": "8115baa8-4d71-5505-927d-85fa14e5151e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": "Figure 2.1 Compares the alternative fuel properties from energy, environmental, design and safety \nrelated aspects.\n\ner 4\nComparative\nAssessment of\nAlternative Fuels | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Fuel type | HFO | LNG | LPG | LPG | Methanol | Ammonia | Hydrogen | Biodiesel |\n| (Methane) | Propane | Butane | \n\n… [+724 more chars]",
+  "content_hash": "ab78c379dd8b696600a843d40d8e4d71433d730603b5ce102ba4ebb3ef1ba0bf",
+  "token_count": 529,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "be487176-71c2-59f8-b177-d50f11c28139",
+  "chunk_index": 215,
+  "page_number": 157,
+  "page_range": [
+    157,
+    157
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d6bee04b-f47d-5a7d-9f9f-08635657d75d`
+
+- vector: dim=3072 · [-0.0201, -0.0012, -0.0138, 0.0131, 0.0050, -0.0120, -0.0371, -0.0028, …]
+
+```json
+{
+  "chunk_id": "d6bee04b-f47d-5a7d-9f9f-08635657d75d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": "Cyrogenic (Boiling point) | - (Liquid at room temp.) | -161 ℃ | - 42 ℃ | -0.5 ℃ | - (Liquid at room temp) | -33 ℃ | - 253 ℃ | - 100-350 | </fi\n\ngure>\n\n<table>\n<caption>Table 4.1: Comparison of Alternative fuels properties from energy, environmental, design and safety aspects [data from 2, 3]</caption>\n<tr>\n<th colspan=\"8\">Fuel Properties (Overview)</th>\n<th></th>\n</tr>\n<tr>\n<th rowspan=\"2\">Fuel type</th>\n<th rowspan=\"2\">HFO</th>\n<th rowspan=\"2\">LNG (Methane)</th>\n<th colspan=\"2\">LPG</th>\n<th rowspan=\"2\">Methanol</th>\n<th rowspan=\"2\">Ammonia</th>\n<th rowspan=\"2\">Hydrogen</th>\n<th rowspan=\"2\">Bi\n\n… [+796 more chars]",
+  "content_hash": "f4c23ca643f65b7ff6ca9e00fca7abebd8a65dd173e165602ae73ac16967bcd6",
+  "token_count": 513,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "be487176-71c2-59f8-b177-d50f11c28139",
+  "chunk_index": 216,
+  "page_number": 157,
+  "page_range": [
+    157,
+    158
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f96b7d3d-cdad-5eed-b32a-7da8650da8ff`
+
+- vector: dim=3072 · [-0.0107, -0.0137, 0.0002, 0.0039, -0.0112, -0.0335, -0.0234, 0.0032, …]
+
+```json
+{
+  "chunk_id": "f96b7d3d-cdad-5eed-b32a-7da8650da8ff",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": "FO=1]</td>\n<td>1</td>\n<td>1.89</td>\n<td>1.69</td>\n<td>1.41</td>\n<td>2.47</td>\n<td>3.07</td>\n<td>4.63</td> <td>0.86-0.9</td>\n</tr>\n<tr>\n<td>Liquid density [ton/m3]</td>\n<td>0.96</td>\n<td>0.42</td>\n<td>0.5</td>\n<td>0.6</td>\n<td>0.79</td>\n<td>0.68</td>\n<td>0.70</td>\n<td>0.88</td>\n</tr>\n<tr>\n<td>Liquefaction temp. (Boiling point )</td>\n<td>-</td>\n<td>-161 ℃</td>\n<td>-42 ℃</td>\n<td>-0.5℃</td>\n<td>65 °℃</td>\n<td>-33 ℃</td>\n<td>-253℃</td>\n<td>340°℃ to 375℃</td>\n</tr>\n<tr>\n<td>Lower calorific value [MJ/kg]</td>\n<td>40.5</td>\n<td>49.1</td>\n<td>46</td>\n<td>46</td>\n<td>19.9</td>\n<td>18.6</td>\n<td>120.0</\n\n… [+371 more chars]",
+  "content_hash": "e6d580a9f544c43f2b2497db2d74a98b8dfe270d95758b861a507e6820fd4c06",
+  "token_count": 457,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "be487176-71c2-59f8-b177-d50f11c28139",
+  "chunk_index": 217,
+  "page_number": 158,
+  "page_range": [
+    158,
+    159
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `b764fa2e-6012-5400-9d91-13b0927a8bfc`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "b764fa2e-6012-5400-9d91-13b0927a8bfc",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment (cont.)\n\n| Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) |  |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Fuel type | HFO | LNG | LPG | LPG | Methanol | Ammonia | Hydrogen | Biodiesel |\n| (Methane) | Propane | Butane |  |  |  |  |  |  |\n| Onboard storage methods | Gravity tank | Type A/B/C Membrane | Type A/B/C | Membrane | Gravity tank | T\n\n… [+6159 more chars]",
+  "content_hash": "ee1da6e596f6bd3ee4b4aef3e72c224667952c9dcbe50456184e58f1a05d5433",
+  "token_count": 1925,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    159,
+    162
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e72dad42-9f32-5196-8b86-e21bc40ff489`
+
+- vector: dim=3072 · [-0.0167, 0.0087, -0.0136, -0.0048, -0.0238, -0.0106, -0.0344, -0.0030, …]
+
+```json
+{
+  "chunk_id": "e72dad42-9f32-5196-8b86-e21bc40ff489",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": "| Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) | Fuel Properties (Overview) |  |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Fuel type | HFO | LNG | LPG | LPG | Methanol | Ammonia | Hydrogen | Biodiesel |\n| (Methane) | Propane | Butane |  |  |  |  |  |  |\n| Onboard storage methods | Gravity tank | Type A/B/C Membrane | Type A/B/C | Membrane | Gravity tank | Type A/B/C Membrane | Low temp. (Type C Membrane),High pressues (Type \n\n… [+864 more chars]",
+  "content_hash": "44d715634f3d341d723dd81fda86b88afe858c2b1d3df4187ad37e6c74a4fd1b",
+  "token_count": 552,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b764fa2e-6012-5400-9d91-13b0927a8bfc",
+  "chunk_index": 218,
+  "page_number": 159,
+  "page_range": [
+    159,
+    159
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `598a0df5-b6e5-5f2d-98de-c95b685a4f14`
+
+- vector: dim=3072 · [-0.0351, -0.0033, -0.0082, -0.0000, -0.0234, -0.0211, -0.0331, -0.0047, …]
+
+```json
+{
+  "chunk_id": "598a0df5-b6e5-5f2d-98de-c95b685a4f14",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": ") | - | - | - | 200 | 25 | - |  | - |\n| Toxicity [ppm] (ACGIH, TWA- LV*2) | - | - |  | 1000 | 250 | 35 | - | - | Comparison of the properties of alternative fuels gives the following insight\n\t»\nGHG Emission performance (WtW) of alternative fuels in descending order is Blue Hydrogen=Blue \nAmmonia (22.6)  > E Methanol (17.1)> E Ammonia (12.1) >E Hydrogen ( 12.1) > Biodiesel (9.4)= Bio \nMethanol (9.4)  with WtT and TtW in the following order respectively\n\t»\nStorage tank size variation  (considering HFO as 1) in descending order Hydrogen (4.6 x), Ammonia \n(3.07 x), Methanol (2.47x), LNG (1.89x)  L\n\n… [+1024 more chars]",
+  "content_hash": "9cdc61ba16448904af48768310f17d53615d22a45b6cf7bd1e046c80abeea69c",
+  "token_count": 509,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b764fa2e-6012-5400-9d91-13b0927a8bfc",
+  "chunk_index": 219,
+  "page_number": 160,
+  "page_range": [
+    160,
+    160
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `6aaac2ab-83e9-5537-a11f-152d519060ae`
+
+- vector: dim=3072 · [-0.0208, -0.0117, -0.0149, -0.0097, -0.0128, -0.0235, -0.0476, -0.0217, …]
+
+```json
+{
+  "chunk_id": "6aaac2ab-83e9-5537-a11f-152d519060ae",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": "used in some pilot vessels.\n\t»\nHydrogen is non-toxic but highly flammable, requiring extreme caution in storage and transport.\n\t»\nFlammability varies across fuels: Hydrogen (4.0 vol%) and LNG (5.0 vol%) are highly flammable, while Ammonia is only flammable above 15.0 vol%, making it less prone to explosions, Biodiesel \nis not having flammability issue.\n\t»\nTank size requirements significantly affect ship design, cargo capacity, and voyage planning, \nespecially for Hydrogen and Ammonia and Methanol.\n\t»\nCryogenic storage demands increase complexity and cost of fuel systems for Hydrogen, LNG, and \n\n… [+402 more chars]",
+  "content_hash": "be2c4754d7d0dae8bded0063a47bc9a6b5f798cf15d1c844c6a64b719949678d",
+  "token_count": 235,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b764fa2e-6012-5400-9d91-13b0927a8bfc",
+  "chunk_index": 220,
+  "page_number": 160,
+  "page_range": [
+    160,
+    160
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `24a68c8f-8591-5aac-a920-97439c4fca55`
+
+- vector: dim=3072 · [-0.0274, -0.0208, -0.0150, -0.0139, -0.0420, 0.0025, -0.0235, -0.0202, …]
+
+```json
+{
+  "chunk_id": "24a68c8f-8591-5aac-a920-97439c4fca55",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": "A brief glimpse of individual production pathways of (bio- and e -) alternative fuels are presented \nbelow. Methanol (Bio & E)\nCurrently, Methanol is generated from fossil fuels (either Natural gas or Coal) with global production \naround 98 Million Tons (MT) per year which emits around 0.3 Gigatons (GT) of CO2 annually. This \naccounts for about 10% of the emissions from chemical sector. Methanol demand is expected to rise \nto around 500 MT by 2050, leading to ~1.5 GT of annual CO2 emission. In order to reduce emission \nfrom its production, bio- & e-Methanol production pathways are absolutely n\n\n… [+1262 more chars]",
+  "content_hash": "e53b4e86c93bdb9c932c4edde0ee198da21231869c4dc3687fde0acb18a1723b",
+  "token_count": 459,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b764fa2e-6012-5400-9d91-13b0927a8bfc",
+  "chunk_index": 221,
+  "page_number": 161,
+  "page_range": [
+    161,
+    161
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `6cc76cf9-fb65-50aa-aaf7-597c24224109`
+
+- vector: dim=3072 · [-0.0159, -0.0133, -0.0131, 0.0090, -0.0533, 0.0047, -0.0207, -0.0248, …]
+
+```json
+{
+  "chunk_id": "6cc76cf9-fb65-50aa-aaf7-597c24224109",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": "E-methanol is produced using from captured CO2 and \nrenewable based green Hydrogen.  The captured CO2 can be of two types renewable CO2 which \nis originated from biomass and from direct air capture (DAC), whereas non-renewable CO2 is recycled from fossil fuels-based industries and power plants [6]. Blue Methanol on the other \nhand is produced using blue Hydrogen which in turn is generated with grey hydrogen integrated \nwith CCS. Methanol is miscible in water, biodegradable and can be 100% renewable. The life-cycle \nenvironmental footprint of bio-Methanol is “greener” in comparison to LNG.   \nA\n\n… [+810 more chars]",
+  "content_hash": "12b9667858ef220f3811d46326d0f71205dbbae54eba1aa69f3389efda638979",
+  "token_count": 347,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b764fa2e-6012-5400-9d91-13b0927a8bfc",
+  "chunk_index": 222,
+  "page_number": 161,
+  "page_range": [
+    161,
+    162
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `a773d2ab-bf52-5eca-bf8f-78fe19d94082`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "a773d2ab-bf52-5eca-bf8f-78fe19d94082",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment (cont.)\n\nwater splitting/ electrolysis to generate green Hydrogen and the resulting Ammonia is termed as \ngreen Ammonia.\nEquation 2: \nThis reaction takes place at 400- 500 0C and 100-450 bar pressure with iron catalyst at Hydrogen \nto Nitrogen molar ratio of 2:1 to 3:1 [7]. Figure 4.2 presents the schematic of different coloured \nAmmonia production pathways. Green Ammonia is produced by Net Zero Emission or water \nelectrolysis or using biomass-based hydrogen. The Ammonia produced from Natural gas, and other \nfossil-based feedstocks is\n\n… [+2673 more chars]",
+  "content_hash": "0b632307eeb8562197cd0f957fc9d026a589ce9665688f6571a4b276122bfde3",
+  "token_count": 837,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    163,
+    164
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `44019422-26e7-5d1c-88fc-94d97c4f113a`
+
+- vector: dim=3072 · [-0.0216, -0.0370, -0.0065, 0.0042, -0.0386, -0.0150, 0.0002, -0.0231, …]
+
+```json
+{
+  "chunk_id": "44019422-26e7-5d1c-88fc-94d97c4f113a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": "water splitting/ electrolysis to generate green Hydrogen and the resulting Ammonia is termed as \ngreen Ammonia.\nEquation 2: \nThis reaction takes place at 400- 500 0C and 100-450 bar pressure with iron catalyst at Hydrogen \nto Nitrogen molar ratio of 2:1 to 3:1 [7]. Figure 4.2 presents the schematic of different coloured \nAmmonia production pathways. Green Ammonia is produced by Net Zero Emission or water \nelectrolysis or using biomass-based hydrogen. The Ammonia produced from Natural gas, and other \nfossil-based feedstocks is termed as brown Ammonia whereas fossil-based production integrated \n\n\n… [+1179 more chars]",
+  "content_hash": "c68a506aadede208f3b25c33b0c89efc3aa06df5b06186dda314c72df3b73293",
+  "token_count": 449,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "a773d2ab-bf52-5eca-bf8f-78fe19d94082",
+  "chunk_index": 223,
+  "page_number": 163,
+  "page_range": [
+    163,
+    163
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `dccd6257-4558-50c4-be03-3c4557ad8c9d`
+
+- vector: dim=3072 · [-0.0061, -0.0197, -0.0164, 0.0180, -0.0189, 0.0001, -0.0091, -0.0260, …]
+
+```json
+{
+  "chunk_id": "dccd6257-4558-50c4-be03-3c4557ad8c9d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.1 \t Alternative Fuels Properties-Comparative Assessment",
+  "chunk_text": "Methane and LNG (Bio and E-) Methane is synthesized through reaction of one mole of CO2 with four mole of Hydrogen by Sabatier \nprocess (R3) as given in the Equation 3\nEquation 3:\nThe highly exothermic catalytic reaction occurs at 250-4000 C and 5-50 bars pressure [13,14]. This \nprocess, although is simple and straightforward, requires a large quantity of CO2 (5.5 kg for each kg \nof H2) which is difficult to obtain as CCS systems usually are located far away from renewable plants \nand that adds the cost of CO2 transportation [4] Figure 4.3 depicts different coloured Methane \nproduction pathway\n\n… [+853 more chars]",
+  "content_hash": "291ca740ea78a797db48cde59ec1718e6e508a235400b4defd86026de17f0345",
+  "token_count": 379,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "a773d2ab-bf52-5eca-bf8f-78fe19d94082",
+  "chunk_index": 224,
+  "page_number": 163,
+  "page_range": [
+    163,
+    164
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `d6fa5ba6-c561-5cf4-ab4d-10f6e1cbd7b0`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "d6fa5ba6-c561-5cf4-ab4d-10f6e1cbd7b0",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Methane Production pathways",
+  "chunk_text": "Methane Production pathways\n\nLNG is primarily composed of Methane, with minor constituents of light hydrocarbon gases\nsuch as Ethane, Propane, and Butane. The composition of LNG highly depends on the liquefication\nprocess followed and the locations. Table 4.2 shows the variety of LNG compositions, subject to\nlocation.\n\n| Terminal | Methane | Ethane | Propane | Butane | Nitrogen |\n| --- | --- | --- | --- | --- | --- |\n| Abu Dhabi | 87.07 | 11.41 | 1.27 | 0.14 | 0.11 |\n| Alaska | 99.8 | 0.10 | NA | NA | NA |\n| Algeria | 91.40 | 7.87 | 0.44 | 0.00 | 0.28 |\n| Australia | 87.82 | 8.30 | 2.98 | 0.88\n\n… [+5852 more chars]",
+  "content_hash": "fb907c29ec5bedd468c6ae55e7903961824ce0bd7bfa3c4d8201f7627468f166",
+  "token_count": 1905,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    164,
+    166
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `98f7b43a-2aa5-5213-88c9-103aa7ba522c`
+
+- vector: dim=3072 · [0.0058, -0.0086, -0.0121, -0.0042, -0.0052, -0.0112, -0.0283, -0.0122, …]
+
+```json
+{
+  "chunk_id": "98f7b43a-2aa5-5213-88c9-103aa7ba522c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Methane Production pathways",
+  "chunk_text": "LNG is primarily composed of Methane, with minor constituents of light hydrocarbon gases\nsuch as Ethane, Propane, and Butane. The composition of LNG highly depends on the liquefication\nprocess followed and the locations. Table 4.2 shows the variety of LNG compositions, subject to\nlocation.\n\n| Terminal | Methane | Ethane | Propane | Butane | Nitrogen |\n| --- | --- | --- | --- | --- | --- |\n| Abu Dhabi | 87.07 | 11.41 | 1.27 | 0.14 | 0.11 |\n| Alaska | 99.8 | 0.10 | NA | NA | NA |\n| Algeria | 91.40 | 7.87 | 0.44 | 0.00 | 0.28 |\n| Australia | 87.82 | 8.30 | 2.98 | 0.88 | 0.01 |\n| Brunei | 89.40 | \n\n… [+314 more chars]",
+  "content_hash": "621f8f690c56e7c88920d61295a734d81ceb38cd986e5a81d13d559fb21aac99",
+  "token_count": 397,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d6fa5ba6-c561-5cf4-ab4d-10f6e1cbd7b0",
+  "chunk_index": 225,
+  "page_number": 164,
+  "page_range": [
+    164,
+    164
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `02472f3d-88aa-5930-9b8f-88ee3c3ea7b6`
+
+- vector: dim=3072 · [-0.0029, 0.0015, 0.0041, -0.0069, -0.0273, -0.0489, 0.0020, -0.0025, …]
+
+```json
+{
+  "chunk_id": "02472f3d-88aa-5930-9b8f-88ee3c3ea7b6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Methane Production pathways",
+  "chunk_text": "0.19 |\n| Trinidad | 92.26 | 6.39 | 0.91 | 0.43 | 0.00 |\n| Nigeria | 91.60 | 4.60 | 2.40 | 1.30 | 0.10 | Liquefied Natural Gas (LNG), occupies 600 times less space for storage and transportation \ncompared to its gaseous state, hence Natural gas is liquefied by cooling at −162 0C. Currently, \nLNG is the cleanest available fuel for shipping which are available in large volumes and comply \nwith the SOx and NOx requirements while reducing CO2 emissions upto 20–30%. However, \nfrom the environmental Life Cycle perspective Methane/LNG has a Global Warming Potential \n(GWP) value of 28 on a 100-year tim\n\n… [+1346 more chars]",
+  "content_hash": "4aa04e952622988ba27c87a04100407486f61e1587eebbcdfe4b0e82d6ea79d2",
+  "token_count": 489,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d6fa5ba6-c561-5cf4-ab4d-10f6e1cbd7b0",
+  "chunk_index": 226,
+  "page_number": 165,
+  "page_range": [
+    165,
+    165
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9e5c5668-98f7-51be-b239-c8c646f570f7`
+
+- vector: dim=3072 · [0.0093, -0.0250, -0.0037, 0.0273, -0.0313, -0.0225, -0.0201, -0.0329, …]
+
+```json
+{
+  "chunk_id": "9e5c5668-98f7-51be-b239-c8c646f570f7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Methane Production pathways",
+  "chunk_text": "It is a colourless, non-corrosive, odourless, non-toxic, and safe gasthe \ntransportation of natural gas from different parts (gas producing to the consuming areas. \nHydrogen and Liquid Hydrogen (LH2) The Figure 4.4 [16] shows the production pathways for different coloured Hydrogen.  The India has \nset out an ambitious green hydrogen production target of 5 Million Metric Tonnes (MMT) per annum \nby 2030, with an associated renewable energy capacity of about 125 GW by 2030. India’s National \nGreen Hydrogen Mission initiatives with timeline is presented in Figure 4.4. Among all the colours, \nthe i\n\n… [+178 more chars]",
+  "content_hash": "4e00d9ba36d45316fe60a1423ef5f250f7496736fd4e1bdfffab3bf9b1732bbe",
+  "token_count": 186,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d6fa5ba6-c561-5cf4-ab4d-10f6e1cbd7b0",
+  "chunk_index": 227,
+  "page_number": 165,
+  "page_range": [
+    165,
+    165
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `0fc1da34-6afd-5be5-8378-1f25aef2d366`
+
+- vector: dim=3072 · [0.0120, -0.0414, -0.0163, 0.0171, -0.0228, -0.0323, 0.0352, -0.0312, …]
+
+```json
+{
+  "chunk_id": "0fc1da34-6afd-5be5-8378-1f25aef2d366",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Methane Production pathways",
+  "chunk_text": "Among all the colours, \nthe ideal Hydrogen colour is green, where hydrogen is produced from renewable energy sources \n(wind, solar, hydropower, etc.) and thus considered as zero GHG and carbon negative fuel. <table>\n<caption>Figure 4.4 : Hydrogen production pathways [16]</caption>\n<tr>\n<th></th>\n<th>Coal Gasification</th>\n<th>Methane Reforming</th>\n<th>Methane Reforming + Carbon Capture</th>\n<th>Methane Pyrolysis</th>\n<th>Water Electrolysis</th>\n<th>Bio Waste To Hydrogen</th>\n<th>Waste to Hydrogen (Non Bio)</th>\n<th>Nuclear</th>\n<th>Naturally Occurring</th>\n</tr>\n<tr>\n<td>Nomenclature</td>\n<td\n\n… [+931 more chars]",
+  "content_hash": "19bf07aef1edf20269c7f04fae1ad6637ca8e0a48dab4358a39a9e6681e6ce39",
+  "token_count": 495,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d6fa5ba6-c561-5cf4-ab4d-10f6e1cbd7b0",
+  "chunk_index": 228,
+  "page_number": 166,
+  "page_range": [
+    166,
+    166
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a2434a54-81d2-53f7-9599-4d133844db22`
+
+- vector: dim=3072 · [0.0196, -0.0217, -0.0151, 0.0027, -0.0251, -0.0470, -0.0156, -0.0041, …]
+
+```json
+{
+  "chunk_id": "a2434a54-81d2-53f7-9599-4d133844db22",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Methane Production pathways",
+  "chunk_text": ">\n<td>Hydrogen production tech.</td>\n<td>Gasification</td>\n<td>Reforming</td>\n<td>Reforming with carbon capture</td>\n<td>Pyrolysis</td>\n<td>Alkaline / PEM / AEM / SOEC</td> <td>Gasification / Pyrolysis</td>\n<td>Gasification / Pyrolysis</td>\n<td>SOEC / Alkaline / PEM / AEM</td>\n<td>Reaction between heat and sub- surface minerals</td>\n</tr>\n<tr>\n<td>Benefits</td>\n<td>Cost competitive Syngas (process byproduct) has several uses</td>\n<td>· Large-scale, widely used · High H2 Yield · Mature Supply Chain for Licensors and Technology · Easily available feedstock supply · Cost Competitive</td>\n<td>· La\n\n… [+1334 more chars]",
+  "content_hash": "2d655c237defeb68fda0817df77bf160b4741a4ac18cae67412f5eb3382a4a7f",
+  "token_count": 553,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d6fa5ba6-c561-5cf4-ab4d-10f6e1cbd7b0",
+  "chunk_index": 229,
+  "page_number": 166,
+  "page_range": [
+    166,
+    166
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `04022c80-b0dd-5a69-8772-08456825bd2e`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "04022c80-b0dd-5a69-8772-08456825bd2e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Methane Production pathways",
+  "chunk_text": "Methane Production pathways (cont.)\n\nFigure 4.5: India’s National Green Hydrogen Mission Initiatives with Timeline \nLiquid hydrogen (LH2) has several advantages over other potential zero-emission fuels for shipping \n[17]. Nevertheless, storage of LH2 is complicated and expensive and has severe safety issues owing \nto its requirement of cryogenic storage (at high pressures and low temperatures −252.9 °C). Another \ncritical challenge is related to its low temperature fuelling process. Advanced insulation materials are \nneeded for the tank materials in order to avoid evaporation of LH2 and subseq\n\n… [+5519 more chars]",
+  "content_hash": "4e78b90e8a162b6019e3bf31bd8f38e1e03670ad3f8b4af5730e45281a34f18b",
+  "token_count": 1502,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    167,
+    168
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `916f8434-d81b-50de-afeb-1e2f1c9ff8dc`
+
+- vector: dim=3072 · [-0.0017, 0.0025, -0.0076, 0.0041, -0.0432, -0.0341, -0.0036, 0.0072, …]
+
+```json
+{
+  "chunk_id": "916f8434-d81b-50de-afeb-1e2f1c9ff8dc",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Methane Production pathways",
+  "chunk_text": "Figure 4.5: India’s National Green Hydrogen Mission Initiatives with Timeline \nLiquid hydrogen (LH2) has several advantages over other potential zero-emission fuels for shipping \n[17]. Nevertheless, storage of LH2 is complicated and expensive and has severe safety issues owing \nto its requirement of cryogenic storage (at high pressures and low temperatures −252.9 °C). Another \ncritical challenge is related to its low temperature fuelling process. Advanced insulation materials are \nneeded for the tank materials in order to avoid evaporation of LH2 and subsequent avoidance of large \nheat fluxes \n\n… [+1214 more chars]",
+  "content_hash": "6bd1e2aa4f5ef02ea57989cc9edfa8307691246ce7de81fccb5929789f9a5ca7",
+  "token_count": 423,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "04022c80-b0dd-5a69-8772-08456825bd2e",
+  "chunk_index": 230,
+  "page_number": 167,
+  "page_range": [
+    167,
+    167
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ec21e33a-3147-5f2f-b76c-093692c9c500`
+
+- vector: dim=3072 · [0.0063, 0.0191, -0.0105, -0.0086, -0.0019, -0.0188, -0.0410, 0.0110, …]
+
+```json
+{
+  "chunk_id": "ec21e33a-3147-5f2f-b76c-093692c9c500",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Methane Production pathways",
+  "chunk_text": "The most common blends range from 20% (B20 or BD24) to 30% (B30 or BD30) biofuel \ncontent by volume. For example, B24 or BD24 biofuel accounted for 518,000 tonne or 99% of the bio-blended fuel bunkered in Singapore in 2023. In Rotterdam, B30 or BD30 biofuel is reportedly the \nmost common blend sold. Although B24 and B30 account for the largest volumes of biofuel delivered \nto ships, there are many examples of vessels bunkering other fuel blends, including B5, B10, B20, \nB50, B80, and B100 alternatively termed as BD5,BD10,BD20,BD50,BD80 and BD100 respectively. \nCurrently, as per MARPOL 11 Annex\n\n… [+337 more chars]",
+  "content_hash": "e66bf7a3e35be507d74325c048163c4d5bec88cebd3a33c77ddacb09b923ecfc",
+  "token_count": 260,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "04022c80-b0dd-5a69-8772-08456825bd2e",
+  "chunk_index": 231,
+  "page_number": 167,
+  "page_range": [
+    167,
+    167
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1ce39a20-a29c-5119-935b-1146f3f40211`
+
+- vector: dim=3072 · [-0.0122, 0.0181, -0.0117, 0.0026, -0.0147, -0.0146, -0.0342, 0.0012, …]
+
+```json
+{
+  "chunk_id": "1ce39a20-a29c-5119-935b-1146f3f40211",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Methane Production pathways",
+  "chunk_text": "That is one of the reasons why, for example, in Singapore, \nthe vast majority of biofuel bunkered in 2023 was B24 or BD24. For bunkering of higher FAME biofuel content blends from bunkering ships (e.g. B30or BD30, B50 or BD 50), B100 or BD100), \nIMO Type 2 chemical tankers are needed. This is considered a bottleneck for the uptake of \nbiofuels containing FAME biodiesel, especially for blends with 25% or higher biofuel content. \nIn Rotterdam, a high percentage of biofuel bunkering operations is made by inland waterway \nbarges. These barges are subject to different regulations compared to bunker\n\n… [+1442 more chars]",
+  "content_hash": "2d983abf824457b3554ca3e4280e60a1b3762a7b48d064c6a576bc3ee4c38165",
+  "token_count": 485,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "04022c80-b0dd-5a69-8772-08456825bd2e",
+  "chunk_index": 232,
+  "page_number": 168,
+  "page_range": [
+    168,
+    168
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `00be9958-3a6f-5314-bd0e-19f8e46a5be5`
+
+- vector: dim=3072 · [-0.0291, 0.0448, -0.0111, 0.0179, -0.0358, 0.0094, -0.0539, -0.0165, …]
+
+```json
+{
+  "chunk_id": "00be9958-3a6f-5314-bd0e-19f8e46a5be5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Methane Production pathways",
+  "chunk_text": "It is important to note that energy-rich or paraffinic \ndiesel fuels, such as HVO, GTL (gas to liquid), and BTL (biomass to liquid), have been permitted in previous versions of ISO 8217. These are classified as petroleum distillates and do not affect the \nclassification of blends that include paraffinic diesel fuel. An updated version of the standard, ISO \n8217:2024 is recently published titled’’ Products from Petroleum, Synthetic, and Renewable Sources \n— Fuels (Class F) — Specifications of Marine Fuels ‘[24]. The revision includes \n\t»\nDistillate and Bio-Distillate Marine Fuels, now allow up \n\n… [+1167 more chars]",
+  "content_hash": "c771eb7aac311d7056e6c2a29ff50e201ba3f05b9aeda520ee866a7b74120249",
+  "token_count": 465,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "04022c80-b0dd-5a69-8772-08456825bd2e",
+  "chunk_index": 233,
+  "page_number": 168,
+  "page_range": [
+    168,
+    168
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `97ee34f8-40ad-58a1-bfcf-f5ea4e4d6730`
+
+- vector: dim=3072 · [-0.0213, 0.0203, -0.0045, -0.0096, -0.0099, 0.0091, -0.0724, -0.0260, …]
+
+```json
+{
+  "chunk_id": "97ee34f8-40ad-58a1-bfcf-f5ea4e4d6730",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Methane Production pathways",
+  "chunk_text": "(v/v), 12.5% (v/v), and 15% (v/v) using stabilizers for Road transport engines [25]. The additives are \nselected to improve combustion stability, lubricity, and efficiency. The study indicated that the 7.7% \n(v/v) and 10% (v/v) Ethanol concentrated blend with 2% (v/v) solubilizer is optimum which improves \nengine performance and reduces emissions. As per Diesel vehicle trials, a 7% Ethanol concentrated \nblend emits ~13% less than commercial Diesel fuel. Overall, Ethanol up to 10% v/v can be used \nas fuel in marine engines, provided it meets the material compatibility declared by the engine \nma\n\n… [+1604 more chars]",
+  "content_hash": "575b65b5b52af47cd8865f9cf19d91f2e99b1c580d0eff7dbbb17858c8b3dfa4",
+  "token_count": 514,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 234,
+  "page_number": 169,
+  "page_range": [
+    169,
+    169
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `20fd3a91-3a8c-5297-881e-d8b2c006a4f9`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "20fd3a91-3a8c-5297-881e-d8b2c006a4f9",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.2 \t Alternative Fuels Cost-Comparative Assessment",
+  "chunk_text": "4.1.2 \t Alternative Fuels Cost-Comparative Assessment\n\nThere are significant number of reports which provide alternative fuel cost comparison based on \npresent and projected future data [27-33]. These reports although differs in absolute value, however \nlargely ranking fuel w.r.to their cost likewise\nThe study conducted by Ricardo and DNV for the IMO FFT Project [27] which includes meta-analysis \nof others’ price forecasts, predicts that many of the alternative fuels would be within the fuel price \nvolatility already often accommodated by industry as shown in Figure 4.6-1, left. It also indica\n\n… [+3556 more chars]",
+  "content_hash": "3bbdebe58e69121ff16db426ba21649052807dba239841f2fd08e5b4d04d3d09",
+  "token_count": 941,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    169,
+    172
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7a057ed6-239a-560d-a3b5-5fe28b68089a`
+
+- vector: dim=3072 · [-0.0337, 0.0111, -0.0218, 0.0211, -0.0188, -0.0109, -0.0502, 0.0303, …]
+
+```json
+{
+  "chunk_id": "7a057ed6-239a-560d-a3b5-5fe28b68089a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.2 \t Alternative Fuels Cost-Comparative Assessment",
+  "chunk_text": "There are significant number of reports which provide alternative fuel cost comparison based on \npresent and projected future data [27-33]. These reports although differs in absolute value, however \nlargely ranking fuel w.r.to their cost likewise\nThe study conducted by Ricardo and DNV for the IMO FFT Project [27] which includes meta-analysis \nof others’ price forecasts, predicts that many of the alternative fuels would be within the fuel price \nvolatility already often accommodated by industry as shown in Figure 4.6-1, left. It also indicates \nthat timely intervention of policies on carbon pri\n\n… [+176 more chars]",
+  "content_hash": "7da35219f197b0837eec2d3d2f26a4542bf1a177f18a7124b7f6c34144d5a2e4",
+  "token_count": 168,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "20fd3a91-3a8c-5297-881e-d8b2c006a4f9",
+  "chunk_index": 235,
+  "page_number": 169,
+  "page_range": [
+    169,
+    169
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e15069b3-6d71-5303-adca-273f29ac06b6`
+
+- vector: dim=3072 · [-0.0216, -0.0006, -0.0131, 0.0038, -0.0255, -0.0269, -0.0315, 0.0174, …]
+
+```json
+{
+  "chunk_id": "e15069b3-6d71-5303-adca-273f29ac06b6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.2 \t Alternative Fuels Cost-Comparative Assessment",
+  "chunk_text": "It also indicates \nthat timely intervention of policies on carbon pricing (e.g EU ETS policy measures) would lower the \nforecast prices of the alternative fuels to within ±50% of the forecast price of VLSFO in 2050 as seen \nin Figure 4.6- right. Another important position paper on alternative fuel options scenarios developed by e Mærsk Mc-\nKinney Møller Center for Zero Carbon Shipping [29], also endorsed by different classification societies \nincluding ClassNK (Japan), shows the following relative fuel cost as illustrated in Figure 4.7. This \nestimation is based on global weighted average for \n\n… [+1751 more chars]",
+  "content_hash": "e4728d4555456b64bf5d4b0aaed9516b14b15c893dc9c3afb97d64fb961c08da",
+  "token_count": 505,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "20fd3a91-3a8c-5297-881e-d8b2c006a4f9",
+  "chunk_index": 236,
+  "page_number": 170,
+  "page_range": [
+    170,
+    170
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `620eb308-1c66-5e08-a115-883d246847a8`
+
+- vector: dim=3072 · [-0.0248, 0.0090, -0.0180, 0.0269, -0.0115, -0.0446, -0.0305, 0.0330, …]
+
+```json
+{
+  "chunk_id": "620eb308-1c66-5e08-a115-883d246847a8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.2 \t Alternative Fuels Cost-Comparative Assessment",
+  "chunk_text": "Figure 4.6: Forecast of fuel costs relative to VLSFO after accounting for the impact of \nadditional energy efficiency measures, without a Euro 100/t carbon price (left) and with a \nEuro 100/t carbon price (right) Figure 4.7: Fuel Costs1 (USD/GJ) Decline Over Time, Though There Remains Uncertainty on    \nAbsolute Fuel Cost Levels [29]\nFigure 4.8: Estimated Total Cost of Ownership (TCO) of Vessels by Type of Fuel \n[reproduced from 29,30]\nAnother comprehensive study is conducted by Aalborg University and Chalmers University. This study \nhas considered the critical aspects such as, propulsion tech\n\n… [+829 more chars]",
+  "content_hash": "02f0b08ba75ebb58a7dae54db282e17e988285c448dcb9d117547d50e22d53cf",
+  "token_count": 364,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "20fd3a91-3a8c-5297-881e-d8b2c006a4f9",
+  "chunk_index": 237,
+  "page_number": 171,
+  "page_range": [
+    171,
+    172
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `19a10dc7-4d5a-54bf-9ffc-6429b3846e2a`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "19a10dc7-4d5a-54bf-9ffc-6429b3846e2a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Total Cost of Ownership by Type of Ship (Millions of euros per year, base case) [30,31]",
+  "chunk_text": "Total Cost of Ownership by Type of Ship (Millions of euros per year, base case) [30,31]\n\n|  |  | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | General Cargo Ships | General Cargo Ships | General Cargo Ships | General Cargo Ships | General Cargo Ships | General Cargo Ships |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Utilization/trip | Utilization/trip | Short | Short | Short | Medium | Medium | Medium | Long | Long | Long | Short | Sho\n\n… [+1879 more chars]",
+  "content_hash": "776b4ae2d80635e105f9011dd99edf43948df5c267b75dddac139763f4db865f",
+  "token_count": 1433,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    172,
+    172
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `0cf11851-11d2-599b-a80c-7f455f94dd4b`
+
+- vector: dim=3072 · [-0.0005, -0.0095, -0.0194, -0.0034, -0.0402, -0.0215, 0.0013, 0.0380, …]
+
+```json
+{
+  "chunk_id": "0cf11851-11d2-599b-a80c-7f455f94dd4b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Total Cost of Ownership by Type of Ship (Millions of euros per year, base case) [30,31]",
+  "chunk_text": "|  |  | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | Large Ferries | General Cargo Ships | General Cargo Ships | General Cargo Ships | General Cargo Ships | General Cargo Ships | General Cargo Ships |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Utilization/trip | Utilization/trip | Short | Short | Short | Medium | Medium | Medium | Long | Long | Long | Short | Short | Medium | Medium | Long | Long |\n| Propulsion | Propulsion | ICE | FC | BE | ICE | FC\n\n… [+496 more chars]",
+  "content_hash": "dfc6bdefc43b97381e66b654bf8b80386b4729b642fb95115a9fe03bbd28b50e",
+  "token_count": 491,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "19a10dc7-4d5a-54bf-9ffc-6429b3846e2a",
+  "chunk_index": 238,
+  "page_number": 172,
+  "page_range": [
+    172,
+    172
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `2372ee06-2be2-5230-a584-6c502e44ab47`
+
+- vector: dim=3072 · [-0.0027, 0.0064, -0.0179, 0.0090, -0.0302, -0.0530, -0.0004, 0.0576, …]
+
+```json
+{
+  "chunk_id": "2372ee06-2be2-5230-a584-6c502e44ab47",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Total Cost of Ownership by Type of Ship (Millions of euros per year, base case) [30,31]",
+  "chunk_text": "9 |  | 5.4 | 6.8 |  | 7.8 | 8.7 |  | 4.2 | 4.8 | 5.1 | 5.6 | 6.2 | 6.6 |  | | Bio LBG | 2.8 | 4.8 |  | 5.1 | 6.6 |  | 7.4 | 8.4 |  | 4.0 | 4.6 | 4.8 | 5.4 | 5.9 | 6.4 |  |\n| HVO | 2.4 |  |  | 4.6 |  |  | 6.8 |  |  | 3.6 |  | 4.3 |  | 5.2 |  |  |\n| Bio-electrofuels | E-Bio Methanol | 2.6 | 4.7 |  | 4.9 | 6.6 |  | 7.3 | 8.5 |  | 3.8 | 4.5 | 4.7 | 5.2 | 5.8 | 6.1 |\n| E-Bio DME | 2.9 |  |  | 5.4 |  |  | 7.9 |  |  | 4.1 |  | 5.0 |  | 6.2 |  |  |\n| E-Biodiesel | 3.2 |  |  | 6.2 |  |  | 9.2 |  |  | 4.8 |  | 5.8 |  | 7.0 |  |  |\n| E-Bio LMG | 3.6 | 5.4 |  | 6.6 | 7.8 |  | 9.6 | 10.2 |  | 5.1 | 5.6 | 6\n\n… [+236 more chars]",
+  "content_hash": "345b30cd05127f566435de9063171c5a5dd256494ac4eb1e48afa1244da0a914",
+  "token_count": 605,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "19a10dc7-4d5a-54bf-9ffc-6429b3846e2a",
+  "chunk_index": 239,
+  "page_number": 172,
+  "page_range": [
+    172,
+    172
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7347972f-0ea1-5184-9d21-4d05243f4ccb`
+
+- vector: dim=3072 · [-0.0154, -0.0040, -0.0101, 0.0003, -0.0378, -0.0379, 0.0071, 0.0550, …]
+
+```json
+{
+  "chunk_id": "7347972f-0ea1-5184-9d21-4d05243f4ccb",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Total Cost of Ownership by Type of Ship (Millions of euros per year, base case) [30,31]",
+  "chunk_text": "5.3 |  | 6.5 | 7.8 |  | 9.7 | 10.3 |  | 5.0 | 5.5 | 6.1 | 6.3 | 7.6 | 7.5 | | E-DME | 3.7 |  |  | 7.0 |  |  | 10.3 |  |  | 5.4 |  | 6.5 |  | 8.0 |  |  |\n| E-diesel | 4.3 |  |  | 8.4 |  |  | 12.5 |  |  | 6.5 |  | 7.8 |  | 9.5 |  |  |\n| E-LMG | 4.3 | 5.9 |  | 8.0 | 8.9 |  | 11.8 | 11.9 |  | 6.2 | 6.4 | 7.6 | 7.6 | 9.3 | 9.0 |  |\n| Ammonia | 3.7 | 5.5 |  | 6.9 | 8.0 |  | 10.2 | 10.6 |  | 5.3 | 5.6 | 6.4 | 6.5 | 8.0 | 7.8 |  |\n| LH2 | LH2 | 4.7 | 5.3 |  | 8.8 | 8.6 |  | 13.0 | 11.9 |  | 7.0 | 6.5 | 8.7 | 8.0 | 11.0 | 9.9 |\n| Electricity | Electricity |  |  | 2.8 |  |  | 5.5 |  |  | 8.3 |  |  |  | \n\n… [+8 more chars]",
+  "content_hash": "4c45858bc0fd218ebe1778578e611211f2cb60fedb371d4d02ccb952a633084f",
+  "token_count": 433,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "19a10dc7-4d5a-54bf-9ffc-6429b3846e2a",
+  "chunk_index": 240,
+  "page_number": 172,
+  "page_range": [
+    172,
+    172
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `c1aecef3-b5ed-5894-951c-05dd7717486e`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "c1aecef3-b5ed-5894-951c-05dd7717486e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Total Cost of Ownership by Type of Ship (Millions of euros per year, base case) [30,31]",
+  "chunk_text": "Total Cost of Ownership by Type of Ship (Millions of euros per year, base case) [30,31] (cont.)\n\n|  |  | Bulk Carrier Ships | Bulk Carrier Ships | Bulk Carrier Ships | Bulk Carrier Ships | Bulk Carrier Ships | Bulk Carrier Ships | Container Ships | Container Ships | Container Ships | Container Ships | Container Ships | Container Ships |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Utilization/trip | Utilization/trip | Short | Short | Medium | Medium | Long | Long | Short | Short | Medium | Medium | Long | Long |\n| Propulsion | Propulsion | ICE | FC | \n\n… [+3508 more chars]",
+  "content_hash": "f18ddfe171ecbf32ad692132b58892094af18d54a03ecb672a251bd8d32f5924",
+  "token_count": 1668,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    173,
+    174
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d9ca9383-5ed9-59cb-b1e3-9251a0314a58`
+
+- vector: dim=3072 · [-0.0089, -0.0036, -0.0184, -0.0021, -0.0406, -0.0379, -0.0038, 0.0395, …]
+
+```json
+{
+  "chunk_id": "d9ca9383-5ed9-59cb-b1e3-9251a0314a58",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Total Cost of Ownership by Type of Ship (Millions of euros per year, base case) [30,31]",
+  "chunk_text": "|  |  | Bulk Carrier Ships | Bulk Carrier Ships | Bulk Carrier Ships | Bulk Carrier Ships | Bulk Carrier Ships | Bulk Carrier Ships | Container Ships | Container Ships | Container Ships | Container Ships | Container Ships | Container Ships |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Utilization/trip | Utilization/trip | Short | Short | Medium | Medium | Long | Long | Short | Short | Medium | Medium | Long | Long |\n| Propulsion | Propulsion | ICE | FC | ICE | FC | ICE | FC | ICE | FC | ICE | FC | ICE | FC |\n| MGO | MGO | 3.2 |  | 3.7 |  | 4.4 |  | 1\n\n… [+551 more chars]",
+  "content_hash": "8bba932a9a2edfcf27b148f9aaeb580ba6e22ff097dd80e7d718f8f70110ef89",
+  "token_count": 540,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c1aecef3-b5ed-5894-951c-05dd7717486e",
+  "chunk_index": 241,
+  "page_number": 173,
+  "page_range": [
+    173,
+    173
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `6f04d82f-231a-53f4-b6b2-fbee89dbe476`
+
+- vector: dim=3072 · [-0.0048, 0.0028, -0.0155, 0.0028, -0.0373, -0.0443, -0.0087, 0.0522, …]
+
+```json
+{
+  "chunk_id": "6f04d82f-231a-53f4-b6b2-fbee89dbe476",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Total Cost of Ownership by Type of Ship (Millions of euros per year, base case) [30,31]",
+  "chunk_text": "55.6 | 60.7 |  |\n| HVO | 8.2 |  | 9.8 |  | 11.9 |  | 35.8 |  | 43.4 |  | 47.3 |  |  | | Bio-lectrofuels | E-Bio Methanol | 9.0 | 11.4 | 11.1 | 13.2 | 14.0 | 15.7 | 39.0 | 46.9 | 48.2 | 55.1 | 53.1 | 59.5 |\n| E-Bio DME | 9.6 |  | 11.8 |  | 14.6 |  | 41.7 |  | 51.2 |  | 56.4 |  |  |\n| E-Biodiesel | 11.0 |  | 13.1 |  | 15.9 |  | 48.0 |  | 58.3 |  | 63.5 |  |  |\n| E-Bio LMG | 12.1 | 13.8 | 14.7 | 16.1 | 18.2 | 19.2 | 51.8 | 57.4 | 64.0 | 68.3 | 71.0 | 74.5 |  |\n| E-Bio LBG | 11.9 | 13.6 | 14.5 | 16.0 | 17.9 | 18.9 | 51.1 | 56.7 | 63.1 | 67.5 | 70.0 | 73.7 |  |\n| Electrofuels | E-methanol | 11.7 | \n\n… [+322 more chars]",
+  "content_hash": "d5743310f3685f4bb0042e710e450aa3c4229ba97f0e50e94574fb6e523999c0",
+  "token_count": 607,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c1aecef3-b5ed-5894-951c-05dd7717486e",
+  "chunk_index": 242,
+  "page_number": 173,
+  "page_range": [
+    173,
+    173
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4d3af7b5-a9bb-5e3f-ba68-2e2537178b1f`
+
+- vector: dim=3072 · [-0.0132, -0.0062, -0.0048, -0.0165, -0.0336, -0.0173, -0.0402, 0.0297, …]
+
+```json
+{
+  "chunk_id": "4d3af7b5-a9bb-5e3f-ba68-2e2537178b1f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Total Cost of Ownership by Type of Ship (Millions of euros per year, base case) [30,31]",
+  "chunk_text": ".5 | 16.0 | 17.7 | 18.8 | 21.8 | 22.4 | 62.6 | 67.1 | 77.2 | 80.1 | 85.4 | 87.4 |  | | Ammonia | 12.5 | 14.2 | 15.4 | 16.8 | 19.3 | 20.2 | 53.9 | 59.3 | 66.3 | 70.4 | 73.1 | 76.4 |  |\n| LH2 | LH2 | 16.6 | 16.5 | 21.4 | 20.7 | 27.5 | 26.2 | 71.4 | 70.2 | 90.8 | 87.6 | 102.6 | 98.2 |\n\nThis analyses [30,31] show Bio Methanol with lowest TCO across 4 ship categories, viz., Large\nFerries, General Cargo, Bulk Carrier Ships and Container Ships under all degrees of utilisation.\nAmong e-Fuel category, especially for ship types Bulk Carrier and large Ferries, e Methanol has\nclose proximity to e DME and \n\n… [+813 more chars]",
+  "content_hash": "4a1b3e09d7bb6a9d97a1cfc70bb978b67830bfed193297bc17ad3d229b4ba124",
+  "token_count": 422,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c1aecef3-b5ed-5894-951c-05dd7717486e",
+  "chunk_index": 243,
+  "page_number": 173,
+  "page_range": [
+    173,
+    173
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `fafb816e-18d6-51cf-9c21-7c4da0a25308`
+
+- vector: dim=3072 · [-0.0334, -0.0085, -0.0061, 0.0091, -0.0168, -0.0377, -0.0339, 0.0100, …]
+
+```json
+{
+  "chunk_id": "fafb816e-18d6-51cf-9c21-7c4da0a25308",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Total Cost of Ownership by Type of Ship (Millions of euros per year, base case) [30,31]",
+  "chunk_text": "But\nfrom the perspective of the public, maximum social benefits mean achieving a balance point between\neconomy and environment [34] and therefore, the social cost of different emissions also needs consideration [35] The specific values of the social cost of different emissions which varies in turn\nw.r.to alternate fuel types are shown in Table 4.4. This study although shows distinctive advantage of\nlower social cost for Ammonia and Hydrogen as alternative fuels, nevertheless, total fuel cost figures\nare in-line with the majority of the studies as mentioned above with Methanol cost being lowest\n\n… [+289 more chars]",
+  "content_hash": "a07700a183d89e2e7c0990cfc3089a8373d760982cf2a175de45fe94de19950a",
+  "token_count": 226,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c1aecef3-b5ed-5894-951c-05dd7717486e",
+  "chunk_index": 244,
+  "page_number": 174,
+  "page_range": [
+    174,
+    174
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7cb3bfd2-9da8-59c4-9753-638779865659`
+
+- vector: dim=3072 · [-0.0124, 0.0081, -0.0047, 0.0045, -0.0208, -0.0371, -0.0125, 0.0367, …]
+
+```json
+{
+  "chunk_id": "7cb3bfd2-9da8-59c4-9753-638779865659",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Total Cost of Ownership by Type of Ship (Millions of euros per year, base case) [30,31]",
+  "chunk_text": "| Options | Ship Size | HFO | MGO | LNG | Methanol | Hydrogen | Ammonia |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| Private Cost ($/ton) | Small | 242.428 | 255.715 | 426.684 | 363.499 | 570.582 | 710.792 |\n|  | Medium | 418.972 | 439.006 | 656.922 | 608.214 | 926.445 | 1134.741 |\n|  | Large | 721.060 | 762.957 | 1204.876 | 1119.719 | 1777.306 | 2217.026 |\n|  | Ultra | 954.981 | 1009.068 | 1583.638 | 1469.154 | 2313.693 | 2883.602 |\n| Social Cost($/ton) | Small | 207.952 | 192.324 | 142.659 | 82.160 | 25.474 | 34.343 |\n|  | Medium | 328.540 | 308.196 | 233.315 | 142.097 | 56.629 | 70\n\n… [+553 more chars]",
+  "content_hash": "ff9c2a47fd00c56a7a997b656712e1f5c83e871040324e65f2bdefc17b4c7b5f",
+  "token_count": 519,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 245,
+  "page_number": 174,
+  "page_range": [
+    174,
+    174
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1a2ea382-47a9-5b03-b46c-2939088a41c7`
+
+- vector: dim=3072 · [-0.0048, 0.0210, -0.0161, -0.0039, 0.0123, 0.0009, 0.0014, 0.0376, …]
+
+```json
+{
+  "chunk_id": "1a2ea382-47a9-5b03-b46c-2939088a41c7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Size — Small — Medium — Large — Ultra — Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "| Builder | Hyundai Mipo | New Times SB | Hyundai HI (Ulsan) | Hudong Zhonghua |\n| --- | --- | --- | --- | --- |\n| TEU | 2,500 | 7,000 | 16,000 | 24,000 |\n| DWT | 32,479 | 81,689 | 1,57,473 | 2,26,367 |\n| Speed (kn) | 23 | 25 | 22 | 19 |\n| Price (m$) | 36.1 | 75.13 | 129.75 | 152.44 |\n| Main Engine |  |  |  |  |\n| Attribute | Small | Medium | Large | Ultra |\n| Type | 2-stroke 7-cyl | 2-stroke 7-cyl | 2-stroke 8-cyl | 2-stroke 11-cyl |\n| Model | MAN B. & W. | MAN B. & W. | MAN B. & W. 8G95ME-C10.5 | WinGD 11X92-B |\n| 7S60ME-C10.5 | 7G80ME-C10.5 |  |  |  |\n| Bore/Stroke | 600 mm × 2400 mm | 800 \n\n… [+648 more chars]",
+  "content_hash": "697bfd819a65af8c92edf00544782c31fcab85159f707d52daa805f75d2d2c9a",
+  "token_count": 583,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 246,
+  "page_number": 175,
+  "page_range": [
+    175,
+    175
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `b66264b8-37d1-59db-8199-3ffcf03366ae`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "b66264b8-37d1-59db-8199-3ffcf03366ae",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment\n\nFrom an environmental perspective, it is worth noting that different fuel pathways can generate\ndifferent amounts of emissions in the life cycle approach, although tail pipe emissions are similar.\nFrom this perspective, life cycle assessments (LCAs) for evaluating environmental impacts across\nthe entire life cycle of a fuel is necessary. The inclusion of the upstream emission of ship fuels can\nhelp in conducting a more comprehensive assessment of emissions in this sector and prevent the\nmiscalculation of overall emissions [36]\n\n… [+6987 more chars]",
+  "content_hash": "90da1ae397ddd3f61893edde0678eb6813ee48b6e5f1b5d4d22b589d6612b99d",
+  "token_count": 1735,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    175,
+    178
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c02f5852-07d5-5bab-8e68-0ec338559722`
+
+- vector: dim=3072 · [-0.0356, -0.0093, -0.0109, -0.0273, -0.0225, -0.0243, -0.0089, 0.0090, …]
+
+```json
+{
+  "chunk_id": "c02f5852-07d5-5bab-8e68-0ec338559722",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "From an environmental perspective, it is worth noting that different fuel pathways can generate\ndifferent amounts of emissions in the life cycle approach, although tail pipe emissions are similar.\nFrom this perspective, life cycle assessments (LCAs) for evaluating environmental impacts across\nthe entire life cycle of a fuel is necessary. The inclusion of the upstream emission of ship fuels can\nhelp in conducting a more comprehensive assessment of emissions in this sector and prevent the\nmiscalculation of overall emissions [36]\n\nAt the 76th session of MEPC held in 2021, the development of life \n\n… [+420 more chars]",
+  "content_hash": "048a7ee59e98ea8f7fa3f0eb1df0238427268e932365f655be6f33e02dc314d0",
+  "token_count": 213,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b66264b8-37d1-59db-8199-3ffcf03366ae",
+  "chunk_index": 247,
+  "page_number": 175,
+  "page_range": [
+    175,
+    175
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e1633334-4945-55c1-ae77-ab668c02036d`
+
+- vector: dim=3072 · [-0.0356, 0.0049, -0.0138, -0.0112, -0.0152, -0.0281, -0.0207, 0.0253, …]
+
+```json
+{
+  "chunk_id": "e1633334-4945-55c1-ae77-ab668c02036d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "Alternative fuels are relatively costly compared to conventional fuels, despite their positive effects in terms of GHG reduction in the \nmaritime sector. Therefore, for the fuel transition from conventional fossil fuels to alternative fuels, \nemission reductions and related costs should be considered [38]. Implementing LCAs of marine fuel \ncan help quantify GHG emissions from the extraction of feedstock and conversion or synthesis and \ntransportation of fuels, as well as their bunkering and onboard combustion. This would eventually \nhelp shipowners make decisions for the selection of environme\n\n… [+1296 more chars]",
+  "content_hash": "5d7614a34153a9fdc739103322c4f4002e3ef119f8244095a13ec95d4a5f79ed",
+  "token_count": 414,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b66264b8-37d1-59db-8199-3ffcf03366ae",
+  "chunk_index": 248,
+  "page_number": 176,
+  "page_range": [
+    176,
+    176
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ff2d06d1-76c4-5547-8477-482f0903bee5`
+
+- vector: dim=3072 · [-0.0489, -0.0063, -0.0182, -0.0048, -0.0257, -0.0236, -0.0116, 0.0172, …]
+
+```json
+{
+  "chunk_id": "ff2d06d1-76c4-5547-8477-482f0903bee5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "It seen from Figure 4.9, the Base as well as Direct Target trajectories are highly ambitious. Figure \nFigure 4.9 : MEPC 83 New Amendments in Emission Targets 4.10 shows MEPC 83’s Base Target trajectory (in blue) versus the different proposals submitted by \ndifferent countries at IMO. It is interesting to note that only the Fuel EU and Japanese proposal \nlooks more stricter beyond 2040 compared to MEPC 83. Also it is worth highlighting that MEPC \n83 trajectories fall short of reaching net zero target by 2050 which needs future readjustment of \ntrajectories between 2035-2040 to reach near zero i\n\n… [+1466 more chars]",
+  "content_hash": "fb17c5b366a96dfafd2493dd7504714f3b4b61d70de0f49879e849efcfeac9df",
+  "token_count": 480,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b66264b8-37d1-59db-8199-3ffcf03366ae",
+  "chunk_index": 249,
+  "page_number": 177,
+  "page_range": [
+    177,
+    177
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `239eae47-c3db-58ee-b0b8-9820567a22f2`
+
+- vector: dim=3072 · [-0.0384, 0.0118, -0.0143, -0.0054, -0.0139, -0.0005, -0.0192, 0.0212, …]
+
+```json
+{
+  "chunk_id": "239eae47-c3db-58ee-b0b8-9820567a22f2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "Fossil based marine fuels such as HFO (0.1% sulphur) \nand MGO (0.1% sulphur) are used as reference fuels. Interestingly, a Long Range 1 (LR1) tanker, ranging in size between 55,000 to 79,999 deadweights (DWT), is considered as a reference ship using \nalternative fuels aimed finding the fuel/s that would be commercially competitive over the next 25-\nyear ship life cycle. Economic analysis results are expressed as fuel cost including carbon price with \nvarying year and the net present value (NPV) of the ship. For the sensitivity study, the carbon prices \nare varied from the baseline scenario and\n\n… [+162 more chars]",
+  "content_hash": "b1dff591e25bf4b3ff19cd22962afadbf98daa372cc445687f2e3c7b62c49166",
+  "token_count": 171,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b66264b8-37d1-59db-8199-3ffcf03366ae",
+  "chunk_index": 250,
+  "page_number": 177,
+  "page_range": [
+    177,
+    177
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `44aaaf98-abc3-53e5-bb6a-208826ed5d11`
+
+- vector: dim=3072 · [-0.0432, 0.0054, -0.0146, -0.0060, -0.0116, -0.0013, -0.0225, 0.0057, …]
+
+```json
+{
+  "chunk_id": "44aaaf98-abc3-53e5-bb6a-208826ed5d11",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "For the sensitivity study, the carbon prices \nare varied from the baseline scenario and is investigated the approximate years for when alternative \nfuels will become more cost-effective than conventional fossil fuels. In this study, also the effects of blending fuels those are produced through different pathways are assessed and compared. The \nfuel blending included HFO and biomass-based FT-Diesel, blend of NG-based Ammonia and NG-based \nAmmonia plus CCS, and blend of NG-based Methanol and biomass-based Methanol. The advantage of \nblend fuels is that these fuels are structurally identical; and\n\n… [+1766 more chars]",
+  "content_hash": "6f589d9ac35e9ffc1deea5080e59b485140d8a92f4fcd8a3b7d3a15040582295",
+  "token_count": 572,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b66264b8-37d1-59db-8199-3ffcf03366ae",
+  "chunk_index": 251,
+  "page_number": 178,
+  "page_range": [
+    178,
+    178
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `2cc6cd9c-fea3-5939-9198-97ad86f978e8`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "2cc6cd9c-fea3-5939-9198-97ad86f978e8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment (cont.)\n\nAmmonia, the Tank-to-Wake stage accounts for the majority of the GHG emissions. Due to the \nefficiency difference between the main and auxiliary engines, slightly more emissions are generated \nin the auxiliary engine, as shown on Figure 4.12.\nIt is observed from this study that the following alternative fuels only have the potential to meet \nthe IMO target of reducing the total GHG emissions by 50% by 2050, based on the level recorded in \n2008: Bio-based fuels, E-Methanol, E-Ammonia, and CCS combined NG-based Ammonia; \n\n… [+7184 more chars]",
+  "content_hash": "81427628cb9728d6fa8c30118fbb478f128ed3368e6f74c56b4674717ee728a2",
+  "token_count": 1785,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    179,
+    182
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b9feee24-b65b-5bf7-9eb7-04e0e86da350`
+
+- vector: dim=3072 · [-0.0369, 0.0039, -0.0079, 0.0054, -0.0351, -0.0323, -0.0150, 0.0068, …]
+
+```json
+{
+  "chunk_id": "b9feee24-b65b-5bf7-9eb7-04e0e86da350",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "Ammonia, the Tank-to-Wake stage accounts for the majority of the GHG emissions. Due to the \nefficiency difference between the main and auxiliary engines, slightly more emissions are generated \nin the auxiliary engine, as shown on Figure 4.12.\nIt is observed from this study that the following alternative fuels only have the potential to meet \nthe IMO target of reducing the total GHG emissions by 50% by 2050, based on the level recorded in \n2008: Bio-based fuels, E-Methanol, E-Ammonia, and CCS combined NG-based Ammonia; they have \nreduction potentials of 69–92%, 88%, 86%, and 70%, respectively.\n\n\n… [+1145 more chars]",
+  "content_hash": "3ca2345614e818b1f4128c9d7393dbbf1825e15988a7af8199508192b31ed5c5",
+  "token_count": 417,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2cc6cd9c-fea3-5939-9198-97ad86f978e8",
+  "chunk_index": 252,
+  "page_number": 179,
+  "page_range": [
+    179,
+    179
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b65c273b-54fc-5fa2-a0d0-b60d99f8ab1d`
+
+- vector: dim=3072 · [-0.0333, 0.0200, -0.0090, 0.0165, -0.0386, -0.0438, -0.0356, 0.0203, …]
+
+```json
+{
+  "chunk_id": "b65c273b-54fc-5fa2-a0d0-b60d99f8ab1d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "The third and fourth higher \ncosts were identified for NG-based Ammonia and NG-based Ammonia plus CCS, respectively. In this \ncase, annual fuel production cost and carbon price are converted to present values and summed to CAPEX. The NPVs of E-Methanol and E-Ammonia are 442.50 mUSD and 373.28 mUSD, respectively. \nFor E-Methanol and E-Ammonia, these values are approximately 2.34 and 1.97 times that of HFO, \nrespectively, showing a similar trend with ship life cycle fuel cost\nFigure 4.14: Ship Life Cycle Fuel Costs including \nCarbon Price\nFigure 4.13: NPVs of Ship Life   Cycle Fuel \nCosts includ\n\n… [+1817 more chars]",
+  "content_hash": "a9aff7f846681d5fa3b0d6095464c7a551e9cb8b04e54d24b634a9fea09490f7",
+  "token_count": 607,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2cc6cd9c-fea3-5939-9198-97ad86f978e8",
+  "chunk_index": 253,
+  "page_number": 179,
+  "page_range": [
+    179,
+    180
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c415c66e-2dc5-5359-b30a-601407fcfb72`
+
+- vector: dim=3072 · [-0.0381, 0.0128, -0.0143, 0.0003, -0.0541, -0.0155, -0.0111, 0.0056, …]
+
+```json
+{
+  "chunk_id": "c415c66e-2dc5-5359-b30a-601407fcfb72",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "This will ultimately contribute in \nreducing the alternative fuel cost [44].\nA recent exhaustive LCA study by IFP Energies Nouvelles, commissioned by CMA CGM [44] has compared bio- E- blue fuel of both against VLSFO. The saliant nature of this assessment is that for \nthe first time (as per the PI’s knowledge) the geographic variation in alternative fuel  production\n\nconsidered across 17 region including India, China, Australia, Indonesia and South Africa  estimating \nthe GHG emission of the fuels for 2035 and 2050  Additionally in building fuel production Scenarios, \ndifference energy integrat\n\n… [+1638 more chars]",
+  "content_hash": "0d7df2def0e67fb51816b1dd1a42661cf1b97be0039abdcc59fd9eab19e4b4ae",
+  "token_count": 474,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2cc6cd9c-fea3-5939-9198-97ad86f978e8",
+  "chunk_index": 254,
+  "page_number": 180,
+  "page_range": [
+    180,
+    181
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `129ef6ca-4a88-5f2d-96e2-b3bebae0d9bd`
+
+- vector: dim=3072 · [-0.0216, 0.0219, -0.0137, 0.0030, -0.0228, -0.0178, -0.0421, 0.0203, …]
+
+```json
+{
+  "chunk_id": "129ef6ca-4a88-5f2d-96e2-b3bebae0d9bd",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "These distribution curves are derived from a global sensitivity analysis conducted using Monte Carlo simulations. The \nresults are approximated as normal distributions, using mean values and standard deviations, to represent the most \nprobable range of GHG emissions for each assessed fuel based on the defined parameter variations.] However, it is interesting to note that Methanol achieves higher overall decarbonization as \nper gCO2eq/TEU.Km unit. This is attributed to Methanol’s much higher engine efficiency, lower \npilot fuel consumption and absence of Nitrous Oxide (NO) emission compared to \n\n… [+1426 more chars]",
+  "content_hash": "45801d0861405f551db02c4830768f38b2f9aab5d82d622e57a614183da5df05",
+  "token_count": 411,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2cc6cd9c-fea3-5939-9198-97ad86f978e8",
+  "chunk_index": 255,
+  "page_number": 182,
+  "page_range": [
+    182,
+    182
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `1a82f6e9-8cdd-5dab-8e60-fbaa0c9c9b7a`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "1a82f6e9-8cdd-5dab-8e60-fbaa0c9c9b7a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment (cont.)\n\n<table>\n<caption>Table 4.7 a: A Comparison of Volume and Mass (for fuel only without storage tank) to provide 9270MWh of Delivered Energy. The Upper Boundary for Efficiency used for Each Propulsion Type.</caption>\n<tr>\n<th>Fuel Type</th>\n<th>Efficiency</th>\n<th>Volumetric Energy Density (MWh/m3)</th>\n<th>Total Volume Required (m3)</th>\n<th>Mass Energy Density (MWh/ kg)</th>\n<th>Total Mass Required (tonnes)</th>\n<th>40-ft Containers Equivalent</th>\n<th>% of Cargo Volume</th>\n<th>% Compared to Max HFO Volume</th>\n<th>Ene\n\n… [+3668 more chars]",
+  "content_hash": "6c2de4ccb3ba2e8a3ebdf1ea00f0b603754b1a87f71b526f3e3aafcd2a1ce917",
+  "token_count": 1900,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    183,
+    184
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `84cfe6c0-14f3-58ec-aaa5-f048c86c1ab2`
+
+- vector: dim=3072 · [-0.0130, 0.0092, -0.0173, 0.0266, -0.0008, -0.0427, -0.0180, 0.0313, …]
+
+```json
+{
+  "chunk_id": "84cfe6c0-14f3-58ec-aaa5-f048c86c1ab2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "<table>\n<caption>Table 4.7 a: A Comparison of Volume and Mass (for fuel only without storage tank) to provide 9270MWh of Delivered Energy. The Upper Boundary for Efficiency used for Each Propulsion Type.</caption>\n<tr>\n<th>Fuel Type</th>\n<th>Efficiency</th>\n<th>Volumetric Energy Density (MWh/m3)</th>\n<th>Total Volume Required (m3)</th>\n<th>Mass Energy Density (MWh/ kg)</th>\n<th>Total Mass Required (tonnes)</th>\n<th>40-ft Containers Equivalent</th>\n<th>% of Cargo Volume</th>\n<th>% Compared to Max HFO Volume</th>\n<th>Energy Density (MWh/ kg)</th>\n<th>Total Storage Mass (tonnes)</th>\n<th>% of Tot\n\n… [+637 more chars]",
+  "content_hash": "b5c25ac98ff04c0f8b70b53667483897b20a8245ebd60e75b25fab0110dd8491",
+  "token_count": 450,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1a82f6e9-8cdd-5dab-8e60-fbaa0c9c9b7a",
+  "chunk_index": 256,
+  "page_number": 183,
+  "page_range": [
+    183,
+    183
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `60273cce-9263-5057-8d30-c03b54098707`
+
+- vector: dim=3072 · [-0.0032, -0.0118, -0.0134, 0.0093, -0.0171, -0.0446, -0.0163, 0.0111, …]
+
+```json
+{
+  "chunk_id": "60273cce-9263-5057-8d30-c03b54098707",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "%</td>\n</tr>\n<tr>\n<td></td>\n</tr>\n<tr>\n<td>Hydrogen (gas @700 bar)</td>\n<td>40-60%</td>\n<td>1.4</td>\n<td>11,036</td>\n<td>143</td> <td>8.17%</td>\n<td>409%</td>\n<td>60%</td>\n<td>1.4</td>\n<td>0.0333</td>\n<td>464</td>\n<td>0.69%</td>\n</tr>\n<tr>\n<td>Hydrogen (liquid)</td>\n<td>40-60%</td>\n<td>2.36</td>\n<td>6547</td>\n<td>85</td>\n<td>4.85%</td>\n<td>242%</td>\n<td>60%</td>\n<td>2.36</td>\n<td>0.0333</td>\n<td>464</td>\n<td>0.69%</td>\n</tr>\n<tr>\n<td>Metal Hydride</td>\n<td>40-60%</td>\n<td>3.18</td>\n<td>4858</td>\n<td>63</td>\n<td>3.60%</td>\n<td>180%</td>\n<td>60%</td>\n<td>3.18</td>\n<td>0.0006</td>\n<td>26,638</td>\n\n… [+429 more chars]",
+  "content_hash": "14d78c03b0baaf8e095b0935aaa45a3251e0b8bf6cbabe643c6faac6629ddae3",
+  "token_count": 510,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1a82f6e9-8cdd-5dab-8e60-fbaa0c9c9b7a",
+  "chunk_index": 257,
+  "page_number": 183,
+  "page_range": [
+    183,
+    183
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d91639a3-491f-5ed0-a8a4-9948f7d70daa`
+
+- vector: dim=3072 · [-0.0113, -0.0190, -0.0042, 0.0299, -0.0018, -0.0521, -0.0331, 0.0252, …]
+
+```json
+{
+  "chunk_id": "d91639a3-491f-5ed0-a8a4-9948f7d70daa",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "03%</td>\n<td>151%</td>\n<td>60%</td>\n<td>3.78</td>\n<td>0.0063</td>\n<td>2472</td>\n<td>3.69%</td>\n</tr>\n<tr>\n<td>Methanol</td> <td>55-60%</td>\n<td>4.99</td>\n<td>3095</td>\n<td>40</td>\n<td>2.29%</td>\n<td>115%</td>\n<td>60%</td>\n<td>4.99</td>\n<td>0.0055</td>\n<td>2792</td>\n<td>4.17%</td>\n</tr>\n<tr>\n<td>Batteries (Li-ion)</td>\n<td>70- 95%</td>\n<td>0.3</td>\n<td>32,855</td>\n<td>427</td>\n<td>24.34%</td>\n<td>1217%</td>\n<td>95%</td>\n<td>0.3</td>\n<td>0.0002</td>\n<td>44,354</td>\n<td>66.30\n\n%</td>\n</tr>\n</table>",
+  "content_hash": "83c3e899fc3414e918b47c2672dcb2ad39033c12e561d56f3f4791c3bfa51d4f",
+  "token_count": 249,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1a82f6e9-8cdd-5dab-8e60-fbaa0c9c9b7a",
+  "chunk_index": 258,
+  "page_number": 183,
+  "page_range": [
+    183,
+    184
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `15722ef8-c8bf-5648-96a2-1683ff83a098`
+
+- vector: dim=3072 · [-0.0087, 0.0232, -0.0105, 0.0012, -0.0189, -0.0467, -0.0113, 0.0238, …]
+
+```json
+{
+  "chunk_id": "15722ef8-c8bf-5648-96a2-1683ff83a098",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": ">24.34%</td>\n<td>1217%</td>\n<td>95%</td>\n<td>0.3</td>\n<td>0.0002</td>\n<td>44,354</td>\n<td>66.30\n\n%</td>\n</tr>\n</table> | Fuel type | LNG | Diesel (HFO) | Hydrogen (gas) | Hydrogen (liquid) | Metal Hydride | Ammonia | Methanol | Batteries (Li-ion) |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Efficiency | 58% | 20-40% | 40-60% | 40-60% | 40-60% | 30-60% | 55-60% | 70-95% |\n| Volume |  |  |  |  |  |  |  |  |\n| Energy | 3.3 | 7 | 0.9 | 1.2 | 0.8 | 2.22 | 3.97 | 0.27 |\n| Density (MWh/m3) |  |  |  |  |  |  |  |  |\n| Total | 4843 | 3311 | 17167 | 12875 | 19313 | 6963 | 3892 | 36140 |\n|\n\n… [+575 more chars]",
+  "content_hash": "aab47d6ec5a7cad23fab30d4730daf7e87f7ee8e0f1839b449afc422ae1119bb",
+  "token_count": 603,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1a82f6e9-8cdd-5dab-8e60-fbaa0c9c9b7a",
+  "chunk_index": 259,
+  "page_number": 184,
+  "page_range": [
+    184,
+    184
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b20692e4-191c-5895-975a-5684fbf8d8a9`
+
+- vector: dim=3072 · [-0.0177, -0.0104, -0.0097, -0.0038, -0.0345, -0.0438, -0.0403, 0.0092, …]
+
+```json
+{
+  "chunk_id": "b20692e4-191c-5895-975a-5684fbf8d8a9",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.1.3 Alternative Fuels Life Cycle Analysis-Comparative Assessment",
+  "chunk_text": "|  |  |\n| Total | 2160 | 2897 | 8583 | 7725 | 38625 | 5557 | 4014 | 65053 |\n| Storage |  |  |  |  |  |  |  |  | | Mass |  |  |  |  |  |  |  |  |\n| (tonnes) |  |  |  |  |  |  |  |  |\n| % of Total | 3.2 % | 4.3% | 12.8% | 11.5% | 57.7% | 8.3% | 6% | 97.2% |\n\n| Fuel Option | Range (nm) | Range (km) |\n| --- | --- | --- |\n| Diesel (HFO) | 7155 | 13251 |\n| LNG | 5764 | 10675 |\n| Compressed Hydrogen (700 bar) | 1284 | 2378 |\n| Liquid Hydrogen | 2165 | 4009 |\n| Ammonia | 3578 | 6626 |\n| Methanol | 4579 | 8480 |\n\nAnalyses of Table 4.7a, 4.7b and 4.8 shows Ammonia's high toxicity and corrosion, Hydrogen\n\n… [+131 more chars]",
+  "content_hash": "7c42338f8c9fbd1d136292752f7699463d196a906691725713a95425c9d20e42",
+  "token_count": 311,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1a82f6e9-8cdd-5dab-8e60-fbaa0c9c9b7a",
+  "chunk_index": 260,
+  "page_number": 184,
+  "page_range": [
+    184,
+    184
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `2b4367e8-1971-59d2-bbc0-e479f3eb906b`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "2b4367e8-1971-59d2-bbc0-e479f3eb906b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M",
+  "chunk_text": "Advanced Green Fuels for M\n\nShips tend to operate with more fuel especially HFO storage onboard than what is required for \na single voyage. This study has shown that reducing storage levels to closer to the expected \noutput for single trip can reduce mass and volume requirements and hence make alternative \nfuels significantly more viable. In other words, till the alternative fuels become largely available \nin a cost-effective manner, it could be an argument for large design ranges (akin to those seen \nnow). However once alternative fuel availability is more universal and price differential low\n\n… [+4362 more chars]",
+  "content_hash": "68815ec30635fbd7fc7d489942b26781beebc3b40e433e44e4377ac7d7ce09ea",
+  "token_count": 1059,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    185,
+    186
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `6d655eec-50b0-5511-808a-dc891bc96793`
+
+- vector: dim=3072 · [-0.0238, 0.0055, -0.0116, -0.0061, -0.0163, -0.0034, -0.0310, -0.0002, …]
+
+```json
+{
+  "chunk_id": "6d655eec-50b0-5511-808a-dc891bc96793",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M",
+  "chunk_text": "Ships tend to operate with more fuel especially HFO storage onboard than what is required for \na single voyage. This study has shown that reducing storage levels to closer to the expected \noutput for single trip can reduce mass and volume requirements and hence make alternative \nfuels significantly more viable. In other words, till the alternative fuels become largely available \nin a cost-effective manner, it could be an argument for large design ranges (akin to those seen \nnow). However once alternative fuel availability is more universal and price differential low then \nbunkering more freque\n\n… [+1598 more chars]",
+  "content_hash": "53b8417c084be14dfa22ee6e8076948cf909e0beb55d4e42e03cced0ae80ee08",
+  "token_count": 443,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2b4367e8-1971-59d2-bbc0-e479f3eb906b",
+  "chunk_index": 261,
+  "page_number": 185,
+  "page_range": [
+    185,
+    185
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `100ecffa-c542-56b3-843d-5601622d8fe9`
+
+- vector: dim=3072 · [-0.0175, -0.0029, -0.0042, -0.0056, -0.0334, -0.0345, 0.0024, 0.0150, …]
+
+```json
+{
+  "chunk_id": "100ecffa-c542-56b3-843d-5601622d8fe9",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M",
+  "chunk_text": "Also, producing Hydrogen through \nelectrolysis requires a significant amount of renewable energy. On average, 1 kg of Hydrogen requires \napproximately 47 kWh of renewable electricity.\nA thorough examination of the fuel mix for the Indian maritime industry has been done in order to meet these GFI targets. This analysis used fuel consumption data from the Marine \nEnvironmental Management Report 2023, which gave insights into the shipping industry’s \ncurrent fuel consumption for ocean-going and coastal vessels alone. As a result, it should \nbe noted that fuel consumption for inland waterways is e\n\n… [+1046 more chars]",
+  "content_hash": "3521f2e878908544c4cf723f71f1d3776e61b9933eb3a58aa24f47a8c5a9ed5f",
+  "token_count": 368,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2b4367e8-1971-59d2-bbc0-e479f3eb906b",
+  "chunk_index": 262,
+  "page_number": 185,
+  "page_range": [
+    185,
+    185
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `141e08d1-6465-537f-8cfd-70018a5d973f`
+
+- vector: dim=3072 · [-0.0144, 0.0015, -0.0093, -0.0107, -0.0311, -0.0028, -0.0332, 0.0127, …]
+
+```json
+{
+  "chunk_id": "141e08d1-6465-537f-8cfd-70018a5d973f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M",
+  "chunk_text": "These values indicate \nthe significant environmental impact associated with the use of these traditional fuels.\nThe fuel mix calculations consider the proportion of various alternative fuels required to achieve the \nemission targets to achieve net zero by 2050 while considering the well-to-wake emission pathways. This calculation will guide the transition from conventional marine fuels to alternative fuels, such as \nMethanol, Ammonia, green Hydrogen, Biofuels, and other low- or zero-carbon options. \nAmount of Alternative Fuels Required: Base and Direct Compliance \nFor the Base and Direct strat\n\n… [+1074 more chars]",
+  "content_hash": "400134b72c5fdb04a49a1ff90d3252334360197cd25ddc65849d471e7674ba9d",
+  "token_count": 348,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "2b4367e8-1971-59d2-bbc0-e479f3eb906b",
+  "chunk_index": 263,
+  "page_number": 186,
+  "page_range": [
+    186,
+    186
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `e91041c7-15a2-5205-8d9b-61ada2543579`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "e91041c7-15a2-5205-8d9b-61ada2543579",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "aritime Application- — OGVs (>5000GT) Vessels",
+  "chunk_text": "aritime Application- — OGVs (>5000GT) Vessels\n\n| In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  | 2030 | 2030 | 2035 | 2035 | 2030 | 2030 | 2035 |  |\n|  | Base Compliance | Base Compliance | Base Compliance | Base Compliance | Direct Compliance | Direct Compliance | Direct Compliance | Direct Compliance |\n| Fuel Type | Conventional fuel | Alternative fuel | Conventional fuel | Alternative fuel | Conventio\n\n… [+1366 more chars]",
+  "content_hash": "864e376dd9a67c7b5ca270e5ab301a0ce0c20ecc115ac2c9adc5185406cb3367",
+  "token_count": 874,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    187,
+    189
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `96abbc32-1013-5cda-bc46-a3b97abbab5e`
+
+- vector: dim=3072 · [-0.0206, -0.0136, -0.0088, 0.0067, -0.0285, -0.0190, -0.0015, 0.0433, …]
+
+```json
+{
+  "chunk_id": "96abbc32-1013-5cda-bc46-a3b97abbab5e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "aritime Application- — OGVs (>5000GT) Vessels",
+  "chunk_text": "| In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  | 2030 | 2030 | 2035 | 2035 | 2030 | 2030 | 2035 |  |\n|  | Base Compliance | Base Compliance | Base Compliance | Base Compliance | Direct Compliance | Direct Compliance | Direct Compliance | Direct Compliance |\n| Fuel Type | Conventional fuel | Alternative fuel | Conventional fuel | Alternative fuel | Conventional fuel | Alternative fuel | Conventional fuel\n\n… [+655 more chars]",
+  "content_hash": "8db0f74f9651ec1aff59585eae737aa74a81441d2db9641156f8771e14ae702b",
+  "token_count": 546,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e91041c7-15a2-5205-8d9b-61ada2543579",
+  "chunk_index": 264,
+  "page_number": 187,
+  "page_range": [
+    187,
+    187
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `726e7a9d-e4b3-57a9-9ae7-844b3d441d0e`
+
+- vector: dim=3072 · [-0.0194, 0.0149, -0.0162, 0.0256, -0.0408, -0.0298, -0.0198, 0.0510, …]
+
+```json
+{
+  "chunk_id": "726e7a9d-e4b3-57a9-9ae7-844b3d441d0e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "aritime Application- — OGVs (>5000GT) Vessels",
+  "chunk_text": "1.203 | 0.043 | 1.019 | 0.152 | 1.007 | 0.110 | 0.830 | 0.217 |\n| Hydrogen |  |  |  |  |  |  |  |  | | liquid |  |  |  |  |  |  |  |  |\n| Green | 1.21 | 0.04 | 1.02 | 0.15 | 1.03 | 0.10 | 0.83 | 0.22 |\n| Hydrogen |  |  |  |  |  |  |  |  |\n| Compressed |  |  |  |  |  |  |  |  |\n| Bio LNG | 1.21 | 0.09 | 1.01 | 0.34 | 1.01 | 0.24 | 0.82 | 0.48 |\n| ELNG | 1.19 | 0.10 | 1.02 | 0.33 | 0.98 | 0.26 | 0.83 | 0.47 |\n\nFigure 4.18: Base GFI Compliance Fuel Mix Scenarios (OGVs >5000 GT Vessels) Year:2035\nFigure 4.19: Direct GFI Compliance Fuel Mix Scenarios (OGVs >5000 GT Vessels) Year:2030\n\nFigure 4.20: \n\n… [+164 more chars]",
+  "content_hash": "061c506fb35c33e7c70039fcc0b2e5016acb595087731a922328feecaa7d1056",
+  "token_count": 370,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e91041c7-15a2-5205-8d9b-61ada2543579",
+  "chunk_index": 265,
+  "page_number": 187,
+  "page_range": [
+    187,
+    189
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `92bd6195-2bd7-5bd8-9ff0-eb02386bce4b`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "92bd6195-2bd7-5bd8-9ff0-eb02386bce4b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal Vessels (<5000 GT)",
+  "chunk_text": "Coastal Vessels (<5000 GT)\n\n<table>\n<caption>Table 4.10: Fuel Mix Demand for Coastal Vessels (&lt;5000GT) -Base and Direct Compliance (Diesel + Alternative Fuel)</caption>\n<tr>\n<th colspan=\"9\">In Million tonnes</th>\n</tr>\n<tr>\n<th></th>\n<th colspan=\"4\">Base Compliance</th>\n<th colspan=\"4\">Direct Compliance</th>\n</tr>\n<tr>\n<th></th>\n<th colspan=\"2\">2030</th>\n<th colspan=\"2\">2035</th>\n<th colspan=\"2\">2030</th>\n<th colspan=\"2\">2035</th>\n</tr>\n<tr>\n<th>Fuel Type</th>\n<th>Conventional fuel</th>\n<th>Alternative fuel</th>\n<th>Conventional fuel</th>\n<th>Alternative fuel</th>\n<th>Conventional fuel</th>\n\n… [+3000 more chars]",
+  "content_hash": "1073d39051250757a722aa958ccf645b6097af6df407773bcef888834445465d",
+  "token_count": 1437,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    190,
+    193
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a8a8f798-de27-556c-b98a-d977f741a9d7`
+
+- vector: dim=3072 · [-0.0247, -0.0090, -0.0196, 0.0135, -0.0218, -0.0157, -0.0293, 0.0320, …]
+
+```json
+{
+  "chunk_id": "a8a8f798-de27-556c-b98a-d977f741a9d7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal Vessels (<5000 GT)",
+  "chunk_text": "<table>\n<caption>Table 4.10: Fuel Mix Demand for Coastal Vessels (&lt;5000GT) -Base and Direct Compliance (Diesel + Alternative Fuel)</caption>\n<tr>\n<th colspan=\"9\">In Million tonnes</th>\n</tr>\n<tr>\n<th></th>\n<th colspan=\"4\">Base Compliance</th>\n<th colspan=\"4\">Direct Compliance</th>\n</tr>\n<tr>\n<th></th>\n<th colspan=\"2\">2030</th>\n<th colspan=\"2\">2035</th>\n<th colspan=\"2\">2030</th>\n<th colspan=\"2\">2035</th>\n</tr>\n<tr>\n<th>Fuel Type</th>\n<th>Conventional fuel</th>\n<th>Alternative fuel</th>\n<th>Conventional fuel</th>\n<th>Alternative fuel</th>\n<th>Conventional fuel</th>\n<th>Alternative fuel</th>\n<\n\n… [+527 more chars]",
+  "content_hash": "31d009189f2dd0c2b09b1216d56529c4674079d10957bffa559d7482ca0bcc94",
+  "token_count": 445,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "92bd6195-2bd7-5bd8-9ff0-eb02386bce4b",
+  "chunk_index": 266,
+  "page_number": 190,
+  "page_range": [
+    190,
+    190
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `87505766-9f12-5b35-8e26-826880ad41ff`
+
+- vector: dim=3072 · [-0.0131, -0.0366, -0.0096, 0.0262, -0.0155, -0.0597, -0.0165, 0.0213, …]
+
+```json
+{
+  "chunk_id": "87505766-9f12-5b35-8e26-826880ad41ff",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal Vessels (<5000 GT)",
+  "chunk_text": ">0.19</td>\n<td>0.34</td>\n</tr>\n<tr>\n<td>Bio Methanol</td>\n<td>0.28</td>\n<td>0.06</td>\n<td>0.23</td>\n<td>0.23</td> <td>0.23</td>\n<td>0.16</td>\n<td>0.19</td>\n<td>0.32</td>\n</tr>\n<tr>\n<td>E Methanol</td>\n<td>0.27</td>\n<td>0.07</td>\n<td>0.23</td>\n<td>0.22</td>\n<td>0.22</td>\n<td>0.18</td>\n<td>0.19</td>\n<td>0.31</td>\n</tr>\n<tr>\n<td>Biodiesel</td>\n<td>0.28</td>\n<td>0.03</td>\n<td>0.23</td>\n<td>0.11</td>\n<td>0.23</td>\n<td>0.08</td>\n<td>0.19</td>\n<td>0.16</td>\n</tr>\n<tr>\n<td rowspan=\"2\">Blue Hydrogen</td>\n<td>0.271</td>\n<td>0.012</td>\n<td>0.214</td>\n<td>0.044</td>\n<td>0.219</td>\n<td>0.031</td>\n<td>0.162\n\n… [+466 more chars]",
+  "content_hash": "135d52699dc5e9ecfd71425dbc3cc5ac87661d1cc983a4a46bba5e74742da14f",
+  "token_count": 510,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "92bd6195-2bd7-5bd8-9ff0-eb02386bce4b",
+  "chunk_index": 267,
+  "page_number": 190,
+  "page_range": [
+    190,
+    190
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `98629058-9682-5a91-9b76-b4c1f1876c98`
+
+- vector: dim=3072 · [-0.0224, 0.0006, -0.0155, 0.0240, -0.0340, -0.0472, -0.0156, 0.0378, …]
+
+```json
+{
+  "chunk_id": "98629058-9682-5a91-9b76-b4c1f1876c98",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal Vessels (<5000 GT)",
+  "chunk_text": "Hydrogen liquid</td>\n<td rowspan=\"2\"></td>\n<td></td>\n<td rowspan=\"2\"></td>\n<td></td>\n<td></td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\"></td>\n</tr>\n<tr>\n<td></td>\n<td></td> <td></td>\n</tr>\n<tr>\n<td>Green</td>\n<td>0.28</td>\n<td>0.01</td>\n<td>0.23</td>\n<td>0.04</td>\n<td rowspan=\"3\">0.24</td>\n<td>0.02</td>\n<td>0.19</td>\n<td>0.05</td>\n</tr>\n<tr>\n<td rowspan=\"2\">Hydrogen Compressed</td>\n<td rowspan=\"2\"></td>\n<td></td>\n<td rowspan=\"2\"></td>\n<td></td>\n<td></td>\n<td rowspan=\"2\"></td>\n<td></td>\n</tr>\n<tr>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>Bio LNG</td>\n<td>0.28</td>\n<td>0.02</td>\n<td>0\n\n… [+391 more chars]",
+  "content_hash": "fe66b7f5ed0c0f03a83465c389ea75fabcdf8a82162fa525f012e72e5c113a19",
+  "token_count": 429,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "92bd6195-2bd7-5bd8-9ff0-eb02386bce4b",
+  "chunk_index": 268,
+  "page_number": 190,
+  "page_range": [
+    190,
+    191
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b4781094-3ece-5ef1-88cb-f531e905ed0c`
+
+- vector: dim=3072 · [-0.0123, 0.0194, -0.0178, 0.0282, -0.0253, -0.0116, -0.0368, 0.0350, …]
+
+```json
+{
+  "chunk_id": "b4781094-3ece-5ef1-88cb-f531e905ed0c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal Vessels (<5000 GT)",
+  "chunk_text": "4.22: Base GFI Compliance Fuel Mix Scenarios (Coastal <5000 GT Vessels) Year:2035\nFigure 4.23: Direct GFI Compliance Fuel Mix Scenarios (Coastal <5000 GT Vessels) Year:2030 4.2.2\t Case B: Conventional Fuel  (CF)+ Alternative fuel  (AF) Mix + 20%  \nBiodiesel (BD) mix  \nIn Case B, the fuel mix includes a 20% biodiesel blend, along with conventional fuels and alternative \nfuels. This scenario enhances sustainability by incorporating renewable fuel sources, significantly \nlowering greenhouse gas emissions compared to pure fossil fuel reliance. The 20% biodiesel \ninclusion ensures a balance between\n\n… [+241 more chars]",
+  "content_hash": "2fc3cff5e6533522dd1c1aa7165945294d1fc8ea92fabcc4ee6e4fb364ed3418",
+  "token_count": 223,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "92bd6195-2bd7-5bd8-9ff0-eb02386bce4b",
+  "chunk_index": 269,
+  "page_number": 192,
+  "page_range": [
+    192,
+    193
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `9ce966c4-abdf-55e5-ad13-d132a02491a7`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "9ce966c4-abdf-55e5-ad13-d132a02491a7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "OGV'S (>5000GT)",
+  "chunk_text": "OGV'S (>5000GT)\n\n|  | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  |  |  |  | 2030 | 2030 | 2030 |  | 2035 | 2035 | 2035 | 2035 | 2035 |\n|  | Base Compliance | Base Compliance | Base Compliance | Direct Compliance | Direct Compliance | Direct Compliance | Base | compliance | compliance | Direct Compliance | Direct Compli\n\n… [+2050 more chars]",
+  "content_hash": "cbe5aa07714ebb9898640fc9fb3063548b7fc0604f18cd4200481d561ab03b07",
+  "token_count": 1202,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    193,
+    195
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `31aff039-d0b3-54ae-af86-d7c905b00963`
+
+- vector: dim=3072 · [-0.0204, -0.0075, -0.0117, 0.0041, -0.0245, -0.0049, -0.0190, 0.0464, …]
+
+```json
+{
+  "chunk_id": "31aff039-d0b3-54ae-af86-d7c905b00963",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "OGV'S (>5000GT)",
+  "chunk_text": "|  | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes | In Million Tonnes |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  |  |  |  | 2030 | 2030 | 2030 |  | 2035 | 2035 | 2035 | 2035 | 2035 |\n|  | Base Compliance | Base Compliance | Base Compliance | Direct Compliance | Direct Compliance | Direct Compliance | Base | compliance | compliance | Direct Compliance | Direct Compliance | Direct Com\n\n… [+745 more chars]",
+  "content_hash": "b0c47a76aad59738ee1abf61c3b2b5d4886fc2803859e329dac32a9491aa7b6e",
+  "token_count": 555,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9ce966c4-abdf-55e5-ad13-d132a02491a7",
+  "chunk_index": 270,
+  "page_number": 193,
+  "page_range": [
+    193,
+    193
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `289334ab-ea39-5c22-b591-48f251f5a21d`
+
+- vector: dim=3072 · [-0.0066, -0.0203, -0.0116, 0.0071, -0.0131, -0.0644, 0.0238, 0.0381, …]
+
+```json
+{
+  "chunk_id": "289334ab-ea39-5c22-b591-48f251f5a21d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "OGV'S (>5000GT)",
+  "chunk_text": "0.95 | 0.26 | 0.28 | 0.78 | 0.22 | 0.73 | 0.82 | 0.22 | 0.92 | 0.66 | 0.18 | 1.31 | | Blue | 0.95 | 0.26 | 0.05 | 0.76 | 0.21 | 0.13 | 0.75 | 0.21 | 0.18 | 0.56 | 0.16 | 0.26 |\n| Hydrogen |  |  |  |  |  |  |  |  |  |  |  |  |\n| Green | 0.96 | 0.26 | 0.04 | 0.81 | 0.22 | 0.11 | 0.82 | 0.22 | 0.15 | 0.66 | 0.18 | 0.22 |\n| Hydrogen |  |  |  |  |  |  |  |  |  |  |  |  |\n| liquid |  |  |  |  |  |  |  |  |  |  |  |  |\n| Green | 0.97 | 0.27 | 0.04 | 0.83 | 0.23 | 0.10 | 0.82 | 0.22 | 0.15 | 0.66 | 0.18 | 0.22 |\n| Hydrogen |  |  |  |  |  |  |  |  |  |  |  |  |\n| Compressed |  |  |  |  |  |  |  |  |  |\n\n… [+199 more chars]",
+  "content_hash": "7fd5e90d4c35f4d338e8f2ad1838d14fc86a6927209cf169a85c284da83ed78d",
+  "token_count": 515,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9ce966c4-abdf-55e5-ad13-d132a02491a7",
+  "chunk_index": 271,
+  "page_number": 193,
+  "page_range": [
+    193,
+    193
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `873a86a2-cbf1-572b-a7ef-a2a6429800ef`
+
+- vector: dim=3072 · [-0.0196, 0.0143, -0.0185, 0.0159, -0.0279, -0.0066, -0.0297, 0.0510, …]
+
+```json
+{
+  "chunk_id": "873a86a2-cbf1-572b-a7ef-a2a6429800ef",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "OGV'S (>5000GT)",
+  "chunk_text": "0.95 | 0.26 | 0.10 | 0.78 | 0.22 | 0.26 | 0.82 | 0.22 | 0.33 | 0.66 | 0.18 | 0.47 | Figure 4.25: Base GFI Compliance Fuel Mix Scenarios (OGV’S >5000 GT Vessels) \nYear:2030(Conventional Fuel +Alternative Fuel+ 20% Biodiesel)\nFigure 4.26: Base GFI Compliance Fuel Mix Scenarios (OGV’S >5000 GT Vessels)  \nYear:2035(Conventional Fuel +Alternative Fuel+ 20% Biodiesel)\n\nFigure 4.27: Direct GFI compliance fuel mix scenarios (OGV’S >5000 GT Vessels)  \nYear:2030 (Conventional Fuel +Alternative Fuel+ 20% Biodiesel)\n Figure 4.28: Direct GFI Compliance Fuel Mix Scenarios (OGV’S >5000 GT Vessels) \n Year:203\n\n… [+54 more chars]",
+  "content_hash": "e1aa1daae919abd32453e98872c8b4dc19168f18ffc32b9593f78b7d81218b17",
+  "token_count": 242,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9ce966c4-abdf-55e5-ad13-d132a02491a7",
+  "chunk_index": 272,
+  "page_number": 194,
+  "page_range": [
+    194,
+    195
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `d7b3e041-d73c-5ae4-9c82-bc9706db6229`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "d7b3e041-d73c-5ae4-9c82-bc9706db6229",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) Vessels",
+  "chunk_text": "Coastal (<5000GT) Vessels\n\n<table>\n<caption>Table 4.12: Fuel Mix Demand for OGV's (&gt;5000GT)-Base and Direct Compliance (Conventional Fuel + Alternative Fuel+ 20%Biodiesel)</caption>\n<tr>\n<th></th>\n<th colspan=\"6\">In Million Tonnes</th>\n<th colspan=\"6\">In Million Tonnes</th>\n</tr>\n<tr>\n<th></th>\n<th colspan=\"6\">2030</th>\n<th colspan=\"6\">2035</th>\n</tr>\n<tr>\n<th></th>\n<th colspan=\"3\">Base compliance</th>\n<th colspan=\"3\">Direct Compliance</th>\n<th colspan=\"3\">Base compliance</th>\n<th colspan=\"3\">Direct Compliance</th>\n</tr>\n<tr>\n<th>Fuel Type</th>\n<th>Conventional Fuel</th>\n<th>20% Biodiesel</\n\n… [+3615 more chars]",
+  "content_hash": "96b77cdd9e748871d9bbad8e98e23614973557ccf5e8dc1a7c6a0818d5c230fe",
+  "token_count": 1850,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    196,
+    199
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ea00361c-c8f2-505b-9ce1-b0629eddbe05`
+
+- vector: dim=3072 · [-0.0282, -0.0181, -0.0165, 0.0336, -0.0217, -0.0146, -0.0150, 0.0359, …]
+
+```json
+{
+  "chunk_id": "ea00361c-c8f2-505b-9ce1-b0629eddbe05",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) Vessels",
+  "chunk_text": "<table>\n<caption>Table 4.12: Fuel Mix Demand for OGV's (&gt;5000GT)-Base and Direct Compliance (Conventional Fuel + Alternative Fuel+ 20%Biodiesel)</caption>\n<tr>\n<th></th>\n<th colspan=\"6\">In Million Tonnes</th>\n<th colspan=\"6\">In Million Tonnes</th>\n</tr>\n<tr>\n<th></th>\n<th colspan=\"6\">2030</th>\n<th colspan=\"6\">2035</th>\n</tr>\n<tr>\n<th></th>\n<th colspan=\"3\">Base compliance</th>\n<th colspan=\"3\">Direct Compliance</th>\n<th colspan=\"3\">Base compliance</th>\n<th colspan=\"3\">Direct Compliance</th>\n</tr>\n<tr>\n<th>Fuel Type</th>\n<th>Conventional Fuel</th>\n<th>20% Biodiesel</th>\n<th>Alternative Fuel</t\n\n… [+600 more chars]",
+  "content_hash": "a67979c2c1628cea8edb8ad57b3dd1b31616ae583120b8b7307e205b82deee4c",
+  "token_count": 447,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d7b3e041-d73c-5ae4-9c82-bc9706db6229",
+  "chunk_index": 273,
+  "page_number": 196,
+  "page_range": [
+    196,
+    196
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a9ce3b13-54c4-57e0-a711-eb546368e9fb`
+
+- vector: dim=3072 · [0.0070, -0.0352, -0.0014, 0.0282, -0.0016, -0.0378, -0.0251, 0.0257, …]
+
+```json
+{
+  "chunk_id": "a9ce3b13-54c4-57e0-a711-eb546368e9fb",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) Vessels",
+  "chunk_text": "></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>E Ammonia</td> <td>0.22</td>\n<td>0.06</td>\n<td>0.07</td>\n<td>0.18</td>\n<td>0.05</td>\n<td>0.17</td>\n<td>0.19</td>\n<td>0.05</td>\n<td>0.24</td>\n<td>0.15</td>\n<td>0.04</td>\n<td>0.34</td>\n</tr>\n<tr>\n<td>Bio</td>\n<td>0.22</td>\n<td>0.06</td>\n<td>0.06</td>\n<td>0.19</td>\n<td>0.05</td>\n<td>0.16</td>\n<td>0.19</td>\n<td>0.05</td>\n<td>0.23</td>\n<td>0.15</td>\n<td>0.04</td>\n<td>0.32</td>\n</tr>\n<tr>\n<td>Methanol</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td>\n\n… [+391 more chars]",
+  "content_hash": "d08a185611a915e46fc8b116c0fa3b7176b9521043e773631c35671863152e7c",
+  "token_count": 507,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d7b3e041-d73c-5ae4-9c82-bc9706db6229",
+  "chunk_index": 274,
+  "page_number": 196,
+  "page_range": [
+    196,
+    196
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `88df20de-4e8b-5c54-9dd0-1aa088e087eb`
+
+- vector: dim=3072 · [-0.0017, -0.0474, -0.0062, 0.0378, 0.0111, -0.0663, 0.0126, 0.0298, …]
+
+```json
+{
+  "chunk_id": "88df20de-4e8b-5c54-9dd0-1aa088e087eb",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) Vessels",
+  "chunk_text": "22</td>\n<td>0.06</td>\n<td>0.01</td>\n<td>0.18</td>\n<td>0.05</td>\n<td>0.03</td>\n<td>0.17</td>\n<td>0.05</td> <td>0.04</td>\n<td>0.13</td>\n<td>0.04</td>\n<td>0.06</td>\n</tr>\n<tr>\n<td>Hydrogen</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>Green</td>\n<td>0.22</td>\n<td>0.06</td>\n<td>0.01</td>\n<td>0.19</td>\n<td>0.05</td>\n<td>0.03</td>\n<td>0.19</td>\n<td>0.05</td>\n<td>0.04</td>\n<td>0.15</td>\n<td>0.04</td>\n<td>0.05</td>\n</tr>\n<tr>\n<td rowspan=\"2\">Hydrogen liquid</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></t\n\n… [+458 more chars]",
+  "content_hash": "5c11331694fbf0652ce034214e074728857ed4f8cf9f1d748057f552cd2c8aff",
+  "token_count": 510,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d7b3e041-d73c-5ae4-9c82-bc9706db6229",
+  "chunk_index": 275,
+  "page_number": 196,
+  "page_range": [
+    196,
+    196
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `801f888a-9d25-505d-885b-d7a964733b9b`
+
+- vector: dim=3072 · [-0.0276, 0.0124, -0.0157, 0.0338, -0.0244, -0.0289, -0.0278, 0.0311, …]
+
+```json
+{
+  "chunk_id": "801f888a-9d25-505d-885b-d7a964733b9b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) Vessels",
+  "chunk_text": "</td>\n<td>0.04</td>\n<td>0.15</td>\n<td>0.04</td>\n<td>0.05</td>\n</tr>\n<tr>\n<td>Hydrogen</td>\n<td></td>\n<td></td>\n<td></td> <td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>Compressed</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>Bio LNG</td>\n<td>0.22</td>\n<td>0.06</td>\n<td>0.02</td>\n<td>0.19</td>\n<td>0.05</td>\n<td>0.06</td>\n<td>0.19</td>\n<td>0.05</td>\n<td>0.08</td>\n<td>0.15</td>\n<td>0.04</td>\n<td>0.12</td>\n</tr>\n<tr>\n<td>E LNG</td>\n<td>0.22</td>\n<t\n\n… [+710 more chars]",
+  "content_hash": "b5356f3a9f2c6f39f4e350cc69315c4d6234f464eed25f05b4cbcb21b72f970c",
+  "token_count": 557,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d7b3e041-d73c-5ae4-9c82-bc9706db6229",
+  "chunk_index": 276,
+  "page_number": 196,
+  "page_range": [
+    196,
+    199
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `d8c90a95-ba7d-5061-9979-26ce99bb86c6`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "d8c90a95-ba7d-5061-9979-26ce99bb86c6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.2.3 Estimation of Renewable Energy and Hydrogen Requirement",
+  "chunk_text": "4.2.3 Estimation of Renewable Energy and Hydrogen Requirement\n\nScenario 1: India's Alternative Fuel-Mix Demand for GFI Compliance by 2030, 2035 (both Coastal\nand OGVs) with Green Electricity and Green Hydrogen Requirement\n\nThis Scenario aligns fuel transition strategies with Greenhouse gas Fuel Intensity (GFI) compliance,\nensuring that the alternative fuel mix meets IMO's latest targets. It also provides the estimates for\nadditional RE Power and green Hydrogen requirement to meet India's alternative fuel-mix demand\nscenarios both for OGVs considering 4 types of alternative fuels viz., Methanol\n\n… [+2129 more chars]",
+  "content_hash": "032f4a36f0c5dce8ee954f1a62f85c7eaa086d09ee9fd53867ce7d9e0a6b39bf",
+  "token_count": 884,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    199,
+    200
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `3f0c816c-87d4-5f7a-8e5c-14e6fa2ebda1`
+
+- vector: dim=3072 · [-0.0251, 0.0243, -0.0177, 0.0269, -0.0471, -0.0228, -0.0137, 0.0280, …]
+
+```json
+{
+  "chunk_id": "3f0c816c-87d4-5f7a-8e5c-14e6fa2ebda1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.2.3 Estimation of Renewable Energy and Hydrogen Requirement",
+  "chunk_text": "Scenario 1: India's Alternative Fuel-Mix Demand for GFI Compliance by 2030, 2035 (both Coastal\nand OGVs) with Green Electricity and Green Hydrogen Requirement\n\nThis Scenario aligns fuel transition strategies with Greenhouse gas Fuel Intensity (GFI) compliance,\nensuring that the alternative fuel mix meets IMO's latest targets. It also provides the estimates for\nadditional RE Power and green Hydrogen requirement to meet India's alternative fuel-mix demand\nscenarios both for OGVs considering 4 types of alternative fuels viz., Methanol (bio- and e-),\nAmmonia (blue and e-), Hydrogen (blue, green li\n\n… [+759 more chars]",
+  "content_hash": "16ddb65702c0c14cfbf769b24024587845a341be462635a1deac1d477fad9f13",
+  "token_count": 338,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d8c90a95-ba7d-5061-9979-26ce99bb86c6",
+  "chunk_index": 277,
+  "page_number": 199,
+  "page_range": [
+    199,
+    199
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `0012c020-7054-54e9-a8d7-ed67740d8739`
+
+- vector: dim=3072 · [-0.0260, 0.0050, -0.0133, 0.0235, -0.0493, -0.0272, -0.0103, 0.0309, …]
+
+```json
+{
+  "chunk_id": "0012c020-7054-54e9-a8d7-ed67740d8739",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.2.3 Estimation of Renewable Energy and Hydrogen Requirement",
+  "chunk_text": "35, 4.36 display fuel and /fuel mix\ndemand with Hydrogen and RE requirement for GFI Compliance of Indian OGV's > 5000GT for\n2030 and 2035 under Direct Compliance Category\n\nA) Scenario 1-Case 1: Base Compliance Category |  | (In Million Tonnes) | (In Million Tonnes) | (In Million Tonnes) | (In Million Tonnes) | GWh x 103 | GWh x 103 |\n| --- | --- | --- | --- | --- | --- | --- |\n| Fuel Type | GFI Compliance Fuel Mix Quantity | GFI Compliance Fuel Mix Quantity | Amount of Hydrogen Required | Amount of Hydrogen Required | Amount of Renewable Electricity needed to Produce Hydrogen | Amount of Renew\n\n… [+924 more chars]",
+  "content_hash": "a9aad3f576f1e02c4cba94bf3a9c677157a59b777a82b77c85519ef46c7f614f",
+  "token_count": 590,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "d8c90a95-ba7d-5061-9979-26ce99bb86c6",
+  "chunk_index": 278,
+  "page_number": 199,
+  "page_range": [
+    199,
+    200
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `8df2f50f-9cdc-506d-880c-1a81c6e773b5`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "8df2f50f-9cdc-506d-880c-1a81c6e773b5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "B) Scenario 1-Case 2: Direct Compliance Category",
+  "chunk_text": "B) Scenario 1-Case 2: Direct Compliance Category\n\n|  | (In Million Tonnes) | (In Million Tonnes) | (In Million Tonnes) | (In Million Tonnes) | GWh x 103 | GWh x 103 |\n| --- | --- | --- | --- | --- | --- | --- |\n| Fuel Type | GFI Compliance Fuel Mix Quantity | GFI Compliance Fuel Mix Quantity | Amount of Hydrogen Required | Amount of Hydrogen Required | Amount of Renewable Electricity Needed to Produce Hydrogen | Amount of Renewable Electricity Needed to Produce Hydrogen |\n|  | 2030 | 2035 | 2030 | 2035 | 2030 | 2035 |\n| Blue Ammonia | 0.83 | 1.68 | 0.15 | 0.30 | 6.94 | 14.05 |\n| E Ammonia | 0.\n\n… [+1079 more chars]",
+  "content_hash": "82ae71bcc27c7122e3806284d06f2d97b00f633ede0e27418702b8a4941030fa",
+  "token_count": 717,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    201,
+    201
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9350368a-7d4f-52af-bdf0-956d32583c12`
+
+- vector: dim=3072 · [-0.0071, -0.0142, -0.0148, 0.0278, -0.0453, -0.0302, 0.0104, 0.0294, …]
+
+```json
+{
+  "chunk_id": "9350368a-7d4f-52af-bdf0-956d32583c12",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "B) Scenario 1-Case 2: Direct Compliance Category",
+  "chunk_text": "|  | (In Million Tonnes) | (In Million Tonnes) | (In Million Tonnes) | (In Million Tonnes) | GWh x 103 | GWh x 103 |\n| --- | --- | --- | --- | --- | --- | --- |\n| Fuel Type | GFI Compliance Fuel Mix Quantity | GFI Compliance Fuel Mix Quantity | Amount of Hydrogen Required | Amount of Hydrogen Required | Amount of Renewable Electricity Needed to Produce Hydrogen | Amount of Renewable Electricity Needed to Produce Hydrogen |\n|  | 2030 | 2035 | 2030 | 2035 | 2030 | 2035 |\n| Blue Ammonia | 0.83 | 1.68 | 0.15 | 0.30 | 6.94 | 14.05 |\n| E Ammonia | 0.72 | 1.4 | 0.13 | 0.25 | 6.02 | 11.71 |\n| Bio Meth\n\n… [+464 more chars]",
+  "content_hash": "21eea81586ad1c45af93f86504050207f1d660184f9e45bc6824319a8a664aff",
+  "token_count": 481,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "8df2f50f-9cdc-506d-880c-1a81c6e773b5",
+  "chunk_index": 279,
+  "page_number": 201,
+  "page_range": [
+    201,
+    201
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9757f5ee-9a29-5d2b-80e0-9824ce9dca0a`
+
+- vector: dim=3072 · [-0.0416, -0.0102, -0.0146, 0.0188, -0.0449, -0.0224, -0.0003, 0.0381, …]
+
+```json
+{
+  "chunk_id": "9757f5ee-9a29-5d2b-80e0-9824ce9dca0a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "B) Scenario 1-Case 2: Direct Compliance Category",
+  "chunk_text": "| 0.48 | 0.12 | 0.24 | 5.64 | 11.28 |\n| E LNG | 0.26 | 0.47 | 0.13 | 0.24 | 6.11 | 11.05 | <figcaption>Figure 4.35: Alternative Fuel-Mix Demand with RE &amp;Green Hydrogen Requirement for GFI- Compliance (&gt;5000GT) Year 2030 (Direct Compliance Category)</figcaption>\n\nRenewable Energy & Hydrogen Demand for GFI Direct Compliance Fuel mix-\nOGVs > 5000GT: Year 2030\n\n1.2\n\n10\n\nRenewable Energy demand in GWh x10\n\n1\n\n0.15\n\n8\n\nMillion Tonnes\n\n0.8\n\n6.94\n\n6.86\n\n0.83\n\n0.13\n\n0:15\n\n6.11\n\n6.06\n\n0.6\n\n0.72\n\n6.02\n\n0.73\n\n5.17\n\n6\n\n4.7\n\n4\n\n0.4\n\n0.13\n\n0.2\n\n2\n\n0.129\n\n0.11\n\n0.1\n\n0.26\n\n0\n\n0\n\nBlue Ammonia — E Ammonia\n\n… [+54 more chars]",
+  "content_hash": "9a8ffee2a120b3ad3b1f72f60b253158760cd610b184f26074c45f291fbb1fdd",
+  "token_count": 282,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "8df2f50f-9cdc-506d-880c-1a81c6e773b5",
+  "chunk_index": 280,
+  "page_number": 201,
+  "page_range": [
+    201,
+    201
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `7af2d09a-681d-5948-b657-c5b2885b5f2c`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "7af2d09a-681d-5948-b657-c5b2885b5f2c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Green Hydrogen — Compressed — E LNG",
+  "chunk_text": "Green Hydrogen — Compressed — E LNG\n\nGFI Compliance fuel mix quantity\n\nAmount of hydrogen requirement\n\n4.2.4\t Scenario 2: Blend Fuel Demand Scenarios with Emission Reduction by 2030 \t\n& 2035 (10 and 5 v/v % Methanol-Biodiesel-Diesel blend)\nIn this section two sets of blend fuel scenarios are built. \nIn Set 1, Blend fuel Scenarios with Diesel & Methanol 10 v/v % are made along with additional \nDiesel-Biodiesel blends of varying proportion (2%, 5%, 10%, 20%, 30 & 50% v/v). This demand \nscenarios are made both for Indian Coastal and OGVs.\nIn Set 2, Blend fuel Scenarios with Diesel & Methanol 5 v/\n\n… [+3367 more chars]",
+  "content_hash": "650da7dad6465d88c9f2cc10b670249c681a5e5c3e88f9517dfcd1d4fae55483",
+  "token_count": 1315,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    201,
+    208
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `2e584fa3-7207-5f76-ba65-4a1af0aa0b87`
+
+- vector: dim=3072 · [-0.0313, 0.0216, -0.0142, 0.0152, -0.0187, -0.0099, -0.0184, 0.0368, …]
+
+```json
+{
+  "chunk_id": "2e584fa3-7207-5f76-ba65-4a1af0aa0b87",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Green Hydrogen — Compressed — E LNG",
+  "chunk_text": "GFI Compliance fuel mix quantity\n\nAmount of hydrogen requirement\n\n4.2.4\t Scenario 2: Blend Fuel Demand Scenarios with Emission Reduction by 2030 \t\n& 2035 (10 and 5 v/v % Methanol-Biodiesel-Diesel blend)\nIn this section two sets of blend fuel scenarios are built. \nIn Set 1, Blend fuel Scenarios with Diesel & Methanol 10 v/v % are made along with additional \nDiesel-Biodiesel blends of varying proportion (2%, 5%, 10%, 20%, 30 & 50% v/v). This demand \nscenarios are made both for Indian Coastal and OGVs.\nIn Set 2, Blend fuel Scenarios with Diesel & Methanol 5 v/v % are made along with additional \nD\n\n… [+850 more chars]",
+  "content_hash": "62417ff75a49f5a496107991d7c57c40c618e6d790d11a10971ee7e858762957",
+  "token_count": 418,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7af2d09a-681d-5948-b657-c5b2885b5f2c",
+  "chunk_index": 281,
+  "page_number": 201,
+  "page_range": [
+    201,
+    202
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1ff57f10-d044-5f84-a897-729705c180a6`
+
+- vector: dim=3072 · [-0.0232, 0.0198, -0.0223, 0.0294, -0.0351, 0.0004, -0.0251, 0.0300, …]
+
+```json
+{
+  "chunk_id": "1ff57f10-d044-5f84-a897-729705c180a6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Green Hydrogen — Compressed — E LNG",
+  "chunk_text": "Figure 4.36: Alternative Fuel-Mix Demand with RE &Green Hydrogen Requirement for GFI-\nCompliance (>5000GT) Year 2035 (Direct Compliance Category) Figure 4.37: Dual Fuel Blend Scenarios (HFO/LFO/DO& Methanol 10 %v/v) with GHG Emission \nReduction Profile (2030) for Indian OGVs\nFigure 4.38: Multifuel Blend Scenarios (HFO/LFO/DO, Methanol 10 v/v %) & Biodiesel Blend (5%, \n10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2030) for Indian OGVs\nSet 1: OGVs for year 2030 & 2035\nGHG reduction \nnot sufficient for \nBase and Direct  \nCompliance\nGHG reduction \nfor these \nblend-fuel \ncombi\n\n… [+503 more chars]",
+  "content_hash": "92a739ac32c79dcba3965da06bc017a17ad8411405eada1267386966841c66d0",
+  "token_count": 376,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7af2d09a-681d-5948-b657-c5b2885b5f2c",
+  "chunk_index": 282,
+  "page_number": 203,
+  "page_range": [
+    203,
+    204
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `595f1751-06ec-5a24-88d9-2e55e3d2f78a`
+
+- vector: dim=3072 · [-0.0185, 0.0141, -0.0231, 0.0188, -0.0279, -0.0089, -0.0209, 0.0290, …]
+
+```json
+{
+  "chunk_id": "595f1751-06ec-5a24-88d9-2e55e3d2f78a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Green Hydrogen — Compressed — E LNG",
+  "chunk_text": "& Methanol 10 %v/v) with GHG Emission \nGHG reduction \nfor these \nblend-fuel \ncombinatons \nmeet Direct \ncompliance \n(2035)\nGHG \nreduction \nnot \nsufficient \nfor Base and \nDirect  \nCompliance Figure 4.41: Multifuel Blend Scenarios (Diesel, Methanol 10 v/v %) & Biodiesel (5%, 10%,20%, \n30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2030) for Coastal \nFigure 4.42: Multifuel Blend Scenarios (Diesel, Methanol 10 v/v %) & Biodiesel Blend (5%, \n10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2030) for Coastal\nGHG reduction \nfor these \nblend-fuel \ncombinatons \nmeet Direct \n\n\n… [+757 more chars]",
+  "content_hash": "f8c934ff300d60d7003ac9558dc90782c6135ac5c7eac0126be865806609317f",
+  "token_count": 480,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7af2d09a-681d-5948-b657-c5b2885b5f2c",
+  "chunk_index": 283,
+  "page_number": 205,
+  "page_range": [
+    205,
+    207
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `59285333-e06f-5d35-a37e-5f8df455eb00`
+
+- vector: dim=3072 · [-0.0079, 0.0161, -0.0227, 0.0187, -0.0248, -0.0105, -0.0344, 0.0372, …]
+
+```json
+{
+  "chunk_id": "59285333-e06f-5d35-a37e-5f8df455eb00",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Green Hydrogen — Compressed — E LNG",
+  "section_type": "references",
+  "chunk_text": "& 50% v/v%) with GHG Emission Reduction Profile (2035) for OGVs\nFigure 4.46: Dual Fuel Blend Scenarios (Diesel & Methanol 5 %v/v) with GHG Emission Reduction \nProfile (2030) for Coastal Figure 4.47: Multifuel Blend Scenarios (Diesel, Methanol 5 v/v %) & Biodiesel Blend (5%, \n10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2030) for Coastal\nFigure 4.48: Multifuel Blend Scenarios (Diesel, Methanol 5 v/v %) & Biodiesel Blend (5%, \n10%,20%, 30%, 40% & 50% v/v%) with GHG Emission Reduction Profile (2035) for Coastal",
+  "content_hash": "6e4c7fe216634543ef489e6907d4f7295c88bfdc63e9e2dd1a56e08d1e431667",
+  "token_count": 187,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7af2d09a-681d-5948-b657-c5b2885b5f2c",
+  "chunk_index": 284,
+  "page_number": 208,
+  "page_range": [
+    208,
+    208
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `26a906c5-b79f-5322-b3f4-e0d217428f0e`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "26a906c5-b79f-5322-b3f4-e0d217428f0e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.3 Alternative Fuel Feedstock and Supply (India and Global) Alternative Fuel Supply Chain (India)",
+  "chunk_text": "4.3 Alternative Fuel Feedstock and Supply (India and Global) Alternative Fuel Supply Chain (India)\n\nThe production capacities of Methanol, Hydrogen, and Ammonia are distributed across different\nproject statuses, ranging from operational facilities to conceptual projects. The current and projected\ncapacities are as follows: The total Methanol production capacity stands at 0.83 million tonnes per\nyear (Mt/y) from operational projects, with additional potential from feasibility and concept-stage\nprojects. While only a single project is under construction, feasibility studies indicate 800,000 t/y \n\n… [+1800 more chars]",
+  "content_hash": "d986605a32f49e0e0cfd4fc5b46830763a9ff68cea52e60b40ad26f527a957dc",
+  "token_count": 706,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    209,
+    210
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `fdd00001-e7d3-5814-b9a7-9887fae91433`
+
+- vector: dim=3072 · [-0.0252, 0.0116, -0.0078, 0.0030, -0.0335, -0.0114, -0.0149, 0.0112, …]
+
+```json
+{
+  "chunk_id": "fdd00001-e7d3-5814-b9a7-9887fae91433",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.3 Alternative Fuel Feedstock and Supply (India and Global) Alternative Fuel Supply Chain (India)",
+  "chunk_text": "The production capacities of Methanol, Hydrogen, and Ammonia are distributed across different\nproject statuses, ranging from operational facilities to conceptual projects. The current and projected\ncapacities are as follows: The total Methanol production capacity stands at 0.83 million tonnes per\nyear (Mt/y) from operational projects, with additional potential from feasibility and concept-stage\nprojects. While only a single project is under construction, feasibility studies indicate 800,000 t/y of\nadditional capacity, with concept-stage projects contributing 27,886 t/y. The Hydrogen production\n\n… [+995 more chars]",
+  "content_hash": "a8ad1694ff2c2417b0972fc00c89f2af75d8ec246da29b271eb6118bd820e2ec",
+  "token_count": 395,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "26a906c5-b79f-5322-b3f4-e0d217428f0e",
+  "chunk_index": 285,
+  "page_number": 209,
+  "page_range": [
+    209,
+    209
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7d385a1f-7edd-50b8-a64d-4dd4496d987d`
+
+- vector: dim=3072 · [-0.0137, 0.0162, -0.0120, -0.0167, -0.0290, -0.0070, -0.0082, 0.0286, …]
+
+```json
+{
+  "chunk_id": "7d385a1f-7edd-50b8-a64d-4dd4496d987d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.3 Alternative Fuel Feedstock and Supply (India and Global) Alternative Fuel Supply Chain (India)",
+  "chunk_text": "| FID/Construction | 1 | 3,650 T/y | Or |\n|  | Feasibility study | 2 | 800,000 T/y | 0.83 MT/y |\n|  | Concept | 2 | 27,886 T/y |  | | Fuel | Status | No of projects | Sub Total Capacity T NH3/y | Total |\n| --- | --- | --- | --- | --- |\n| Ammonia | Operational | 1 | 1825 | 20,40,000 T |\n|  | FID/Construction | 1 | 250,000 |  |\n|  | Feasibility study | 14 | 15,816,000 |  |\n|  | Concept | 12 | 4,350,000 | (Or) |\n|  |  |  | (1-Unknown capacity) | 20.40 MT |\n\n| Fuel | Status | No of Projects | Sub Total Capacity T Methanol/y | Total |\n| --- | --- | --- | --- | --- |\n| Hydrogen | Operational | 8 | 3\n\n… [+235 more chars]",
+  "content_hash": "c00ad35bc6ab7f24cf471f1fe71017a03a676499eaa202a0fbbfd75ef1747563",
+  "token_count": 350,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "26a906c5-b79f-5322-b3f4-e0d217428f0e",
+  "chunk_index": 286,
+  "page_number": 209,
+  "page_range": [
+    209,
+    210
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ea30e475-c5d9-5634-96f9-8a1182377c7f`
+
+- vector: dim=3072 · [-0.0140, 0.0114, -0.0064, 0.0259, -0.0369, -0.0324, -0.0439, 0.0374, …]
+
+```json
+{
+  "chunk_id": "ea30e475-c5d9-5634-96f9-8a1182377c7f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.4 Bridging the Gap: Alternative Fuel-Mix Demand Scenarios Vs Supply Capacity (India Status)",
+  "chunk_text": "This Section shows the alternative fuel demand-supply gap or fuel supply readiness level for all the\nfuel- mix and blend-fuel demand Scenarios considered for India towards 2030 collectively for Coastal\nand OGVs. This Section also evaluates the current bunker capacity of in 3 major Indian ports and their\npreparedness in transitioning to alternate fuel bunkering hub.\n\nCase 1, represent the alternative fuel demand-supply gap for GFI Compliance Scenario, whereas\nCase 2 depict the fuel demand-supply gap for 10 and 5 v/v % blended Methanol Scenarios.\n\nCase 1: Alternative Fuel Mix Demand Supply Gap f\n\n… [+505 more chars]",
+  "content_hash": "8c42e102a9e0c81eb273bad7ad93100b2d90e8611f1afd4afe7740a3e0683972",
+  "token_count": 314,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 287,
+  "page_number": 210,
+  "page_range": [
+    210,
+    210
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `be361337-0d18-5f10-bdc7-9bfd379d6bc8`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "be361337-0d18-5f10-bdc7-9bfd379d6bc8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) — Supply Readiness",
+  "chunk_text": "Coastal (<5000GT) — Supply Readiness\n\nFigure 4.49: Alternative Fuel (Methanol) Mix Demand-Supply Gap for GFI Compliance Scenario\n(India)\n\nFigure 4.50: Alternative Fuel (Ammonia) Mix Demand-Supply Gap for GFI \nCompliance Scenario (India) \nFigure 4.51: Alternative Fuel (Hydrogen) Mix Demand-Supply Gap for GFI \nCompliance Scenario (India)\nCase 2: Alternative Fuel-Mix Demand Supply Gap for 10 & 5 v/v % Methanol Blending Scenarios \n(India Cumulative Costal and OGVs)\nFollowing Figure 4.52 shows the projected Methanol blend fuel demand and the status of alternative \nfuels supply statistics in achievi\n\n… [+7321 more chars]",
+  "content_hash": "87aae74d009e6afd41e3029ba560f2a60dc08635a0eb114f1a019cbc271f1f73",
+  "token_count": 1838,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    210,
+    215
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `48b1bb2a-d92b-5ce0-b5f3-0f0be16836ec`
+
+- vector: dim=3072 · [-0.0260, 0.0257, -0.0070, 0.0138, -0.0415, -0.0174, -0.0388, 0.0211, …]
+
+```json
+{
+  "chunk_id": "48b1bb2a-d92b-5ce0-b5f3-0f0be16836ec",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) — Supply Readiness",
+  "chunk_text": "Figure 4.49: Alternative Fuel (Methanol) Mix Demand-Supply Gap for GFI Compliance Scenario\n(India)\n\nFigure 4.50: Alternative Fuel (Ammonia) Mix Demand-Supply Gap for GFI \nCompliance Scenario (India) \nFigure 4.51: Alternative Fuel (Hydrogen) Mix Demand-Supply Gap for GFI \nCompliance Scenario (India)\nCase 2: Alternative Fuel-Mix Demand Supply Gap for 10 & 5 v/v % Methanol Blending Scenarios \n(India Cumulative Costal and OGVs)\nFollowing Figure 4.52 shows the projected Methanol blend fuel demand and the status of alternative \nfuels supply statistics in achieving this demand by 2030.\n\nAlternative F\n\n… [+844 more chars]",
+  "content_hash": "a370de87a26a3fbe9b34f37fe4d0fea9d88a2b50c89706cd253795750db5e650",
+  "token_count": 364,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "be361337-0d18-5f10-bdc7-9bfd379d6bc8",
+  "chunk_index": 288,
+  "page_number": 210,
+  "page_range": [
+    210,
+    213
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `8b9a1e56-89e9-5120-bbf3-762939fc0c65`
+
+- vector: dim=3072 · [-0.0187, 0.0117, -0.0048, 0.0117, -0.0430, 0.0025, -0.0100, 0.0283, …]
+
+```json
+{
+  "chunk_id": "8b9a1e56-89e9-5120-bbf3-762939fc0c65",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) — Supply Readiness",
+  "chunk_text": "of November 2024,   status shows 113 e-Methanol plants and projects with total capacity of 18.7 \nMt (+0.6 Mt), 77 bio Methanol plants and projects with total capacity of 13.1 Mt (+0.7 Mt), and 14 low-carbon Methanol plants and projects with total capacity of 8.1 Mt. Currently, 2.6 Mt of renewable \nMethanol facilities are either operational or under construction.\nIt is estimated that renewable Methanol capacity by 2030 could reach 7–14 Mt (22–44% of the \nproject pipeline). However, a lack of long-term off-take agreements and insufficient state support \nmay result in a lower capacity range of 3–\n\n… [+1310 more chars]",
+  "content_hash": "16f631002aa87f2e6ca8e7e440f51fcc17b44dce4c2b565134fe5ab765180b82",
+  "token_count": 507,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "be361337-0d18-5f10-bdc7-9bfd379d6bc8",
+  "chunk_index": 289,
+  "page_number": 214,
+  "page_range": [
+    214,
+    214
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `085ccdf5-db38-5e30-ba7c-6e952b69159c`
+
+- vector: dim=3072 · [-0.0161, -0.0067, -0.0047, -0.0036, -0.0606, -0.0013, 0.0161, 0.0150, …]
+
+```json
+{
+  "chunk_id": "085ccdf5-db38-5e30-ba7c-6e952b69159c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) — Supply Readiness",
+  "chunk_text": "However, low-\ncarbon projects have lower production costs, and a higher share of advanced-stage projects, which \nleads to a higher average expected success rate. Low-carbon ammonia capacity may reach about 18- 22 Mt by 2030, while renewable ammonia capacity may reach 14-30 Mt. However, weak state support, \nslower demand growth, hesitation of consumers to sign off-take agreements, and rising costs could \nlead to a more conservative set of capacity scenarios in a range of 5-14 Mt for renewable ammonia \nand 4-18 Mt for low-carbon ammonia. As of November 2024, the clean ammonia project pipeline \nc\n\n… [+902 more chars]",
+  "content_hash": "d5d1aae602583908fbc32e00c9785be41e07600a1a8ac58798a0bfff6f816b79",
+  "token_count": 371,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "be361337-0d18-5f10-bdc7-9bfd379d6bc8",
+  "chunk_index": 290,
+  "page_number": 214,
+  "page_range": [
+    214,
+    214
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b8742edd-90e6-5aa8-b7b5-ee044aa3b5ee`
+
+- vector: dim=3072 · [-0.0271, 0.0092, -0.0092, -0.0116, -0.0340, -0.0221, 0.0003, 0.0247, …]
+
+```json
+{
+  "chunk_id": "b8742edd-90e6-5aa8-b7b5-ee044aa3b5ee",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) — Supply Readiness",
+  "chunk_text": "Policies \nand incentives could raise this to 6 Mtpa by 2030, just 10% of NZE Scenario needs. Firm offtake \nagreements are increasing, especially in chemicals, refining, and shipping, alongside tenders and aggregation initiatives. Large-scale projects for refining, chemicals, and steel could push demand for \nlow-emissions Hydrogen to 1.5 Mtpa by 2030, 3 times today’s levels.\nRegional trends:\n\t»\nChina leads with 28 Mt (one-third of demand), followed by the US at 13 Mt (14%).\n\t»\nMiddle East (6%) and India (5%) posted strong growth in refining, Methanol, and steel.\n4.5\t\nAlternative Fuel Storage an\n\n… [+103 more chars]",
+  "content_hash": "656f3e9af21390b58c8f0dac6bf1f5ea31a6a6adcb13dad8df88525f2939b096",
+  "token_count": 185,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "be361337-0d18-5f10-bdc7-9bfd379d6bc8",
+  "chunk_index": 291,
+  "page_number": 215,
+  "page_range": [
+    215,
+    215
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `000ac785-ea3a-5a57-8e8a-4d30025bac51`
+
+- vector: dim=3072 · [-0.0278, 0.0187, -0.0054, -0.0161, 0.0028, -0.0068, -0.0412, 0.0018, …]
+
+```json
+{
+  "chunk_id": "000ac785-ea3a-5a57-8e8a-4d30025bac51",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) — Supply Readiness",
+  "chunk_text": "»\nMiddle East (6%) and India (5%) posted strong growth in refining, Methanol, and steel.\n4.5\t\nAlternative Fuel Storage and Bunkering (India and Global)\n4.5.1\t Storage and Bunkering of Alternative Fuels: Present Global Status (Technology /Infrastructure)\nThe alternative fuels used in maritime sector widely differ in their chemical and physical properties \nfrom their fossil counterparts as shown in earlier Sections. Current global infrastructure for the \nsupply, storage, delivery and bunkering of alternative fuels are at varying degree of maturity at ports, \nat terminals, and on ships. Global al\n\n… [+2554 more chars]",
+  "content_hash": "1631a55cd72671983fa53c4371f6a559f4d4400f7504856f883d70eae4ff9346",
+  "token_count": 606,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "be361337-0d18-5f10-bdc7-9bfd379d6bc8",
+  "chunk_index": 292,
+  "page_number": 215,
+  "page_range": [
+    215,
+    215
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `091fcf87-6680-5315-b2cf-a0d531f428ae`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "091fcf87-6680-5315-b2cf-a0d531f428ae",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) — Supply Readiness",
+  "chunk_text": "Coastal (<5000GT) — Supply Readiness (cont.)\n\ncritical importance for fast paced adoption of alternative fuels. Fuel standards ensure that fuels are \nsafe for purchase, and fuels that lack standardization may vary in quality and thus are less attractive \nto purchasers. Of particular importance to biofuels such as SVO, biocrude, pyrolysis and HTL bio-oil, \na lack of standardization still presents significant barriers to adoption although these technologies \nshow present economic attractiveness. ASTM, EU, and ISO authorities carry the responsibility to \nclarify potential barriers to and timeline\n\n… [+3543 more chars]",
+  "content_hash": "67eec8f0405757067a7ae0b0495f6d7092bd47ee0bbb3291337c12e800a8249e",
+  "token_count": 902,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    216,
+    219
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `dac46b9d-9929-5399-a5ed-5b72e84b8b22`
+
+- vector: dim=3072 · [-0.0247, 0.0306, -0.0130, -0.0088, -0.0068, -0.0091, -0.0486, -0.0035, …]
+
+```json
+{
+  "chunk_id": "dac46b9d-9929-5399-a5ed-5b72e84b8b22",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) — Supply Readiness",
+  "chunk_text": "critical importance for fast paced adoption of alternative fuels. Fuel standards ensure that fuels are \nsafe for purchase, and fuels that lack standardization may vary in quality and thus are less attractive \nto purchasers. Of particular importance to biofuels such as SVO, biocrude, pyrolysis and HTL bio-oil, \na lack of standardization still presents significant barriers to adoption although these technologies \nshow present economic attractiveness. ASTM, EU, and ISO authorities carry the responsibility to \nclarify potential barriers to and timelines for developing and disseminating alternative\n\n… [+1723 more chars]",
+  "content_hash": "f032cffe46b7207b5711363bc2870e383db9577b25d30ddbe28e9494376174fe",
+  "token_count": 438,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "091fcf87-6680-5315-b2cf-a0d531f428ae",
+  "chunk_index": 293,
+  "page_number": 216,
+  "page_range": [
+    216,
+    216
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `0cdb781f-22c8-5816-9571-00a9c9aaad1a`
+
+- vector: dim=3072 · [-0.0251, 0.0323, -0.0210, 0.0005, -0.0225, -0.0353, -0.0283, 0.0085, …]
+
+```json
+{
+  "chunk_id": "0cdb781f-22c8-5816-9571-00a9c9aaad1a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Coastal (<5000GT) — Supply Readiness",
+  "chunk_text": "Figure 4.56 demonstrates this \ntrade-off of volumetric and gravimetric energy density for selected alternative fuels, relative to HFO. \nRelative volumetric energy densities greater than 1 indicate the fuel requires less storage volume relative to HFO, and fuels with values less than 1 require more storage volume. \nThe Figure 4.56 indicates that prominent fuel pathways such as Methanol, LNG, LPG, Pyrolysis \noil and liquid-Ammonia have volumetric energy densities that are 0.36–0.61 that of HFO and thus \nwould require up to a 2.77 X increase in fuel storage volume. Liquified and compressed hydrog\n\n… [+1407 more chars]",
+  "content_hash": "29a4e063bf37511dfa82f970998cf48647bda295e69b8f98278412d43c224e0d",
+  "token_count": 494,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "091fcf87-6680-5315-b2cf-a0d531f428ae",
+  "chunk_index": 294,
+  "page_number": 216,
+  "page_range": [
+    216,
+    219
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9533f764-cb48-5528-99ae-21f7a7dc767f`
+
+- vector: dim=3072 · [-0.0060, 0.0177, -0.0185, -0.0315, -0.0070, -0.0035, -0.0031, 0.0169, …]
+
+```json
+{
+  "chunk_id": "9533f764-cb48-5528-99ae-21f7a7dc767f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Global Bunkering Status of Alternative Fuels",
+  "chunk_text": "1.\t LNG is currently the frontrunner among alternative fuels, boasting over 254 bunkering setups in \nvarious formats. It’s particularly strong in ship-to-ship (STS) operations, with 97 setups, and has 77 \nand 75 Terminals and TTS respectively in play.\n2.\t Methanol is on the rise, with a total of 34 facilities—including 17 active and 17 potentials—\nspread across 14 STS, 8 Terminals, and 3 Truck-to-ship (TTS) operations and rest bunkering type \nnot known. This growth reflects a growing interest, thanks to its easy storage and compatibility \nwith existing systems.\n3.\t Hydrogen bunkering is just s\n\n… [+505 more chars]",
+  "content_hash": "b59d87967db035d7f148190b9e9a8471188bfaf9ce497880aa5653cef0b082be",
+  "token_count": 284,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 295,
+  "page_number": 220,
+  "page_range": [
+    220,
+    220
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a3cec113-e613-5e9f-bb6d-5710552f7f4e`
+
+- vector: dim=3072 · [-0.0314, 0.0333, -0.0124, -0.0098, -0.0157, -0.0077, -0.0238, 0.0260, …]
+
+```json
+{
+  "chunk_id": "a3cec113-e613-5e9f-bb6d-5710552f7f4e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4 respectively",
+  "chunk_text": "7.\t TTS bunkering remains quite limited across all fuel types except for LNG with 75 ports likely due \nto concerns about volume capacity and safety.\n8.\t Ship-to-ship (STS) bunkering appears most common across all alternative fuels owing to its \nflexibility and less reliance on port facilities.\nFigure 4.57 f: LPG Bunkering Capable Ports\n\nBased on IEA's Hydrogen production and infrastructure projects database, infrastructure readiness\nlevel in ports for low emission Hydrogen and Hydrogen derived fuels are plotted in Table 4.18.\nFigures 4.58 (a, b and c) present the country wise distribution of P\n\n… [+463 more chars]",
+  "content_hash": "182ef40f9852e512b18f0c4a0e705429c74b6b70351629a95b661563a1fd36a0",
+  "token_count": 241,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 296,
+  "page_number": 220,
+  "page_range": [
+    220,
+    221
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `6b9b365a-1190-53bf-a05e-c965957f5ddb`
+
+- vector: dim=3072 · [-0.0226, 0.0323, -0.0139, -0.0028, -0.0533, -0.0258, 0.0024, 0.0196, …]
+
+```json
+{
+  "chunk_id": "6b9b365a-1190-53bf-a05e-c965957f5ddb",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Global Infrastructure Project and Readiness of Hydrogen Derived Fuels",
+  "chunk_text": "» For Methanol, there are 9 projects identified, with a total capacity of 2.76 MT spread across 4\ndisclosed projects. Most of these (56%) are still in the concept stage, and only one is currently\noperational.\n\n\\>\\> For Ammonia, there are 97 projects with a combined capacity of 71.69 MT across 69 of them.\nHere, 42% are still in the concept phase, and 41% are in feasibility studies, while just 7% are\nactually under construction or close to it.\n\n\\>\\> For Hydrogen, there are 13 projects with a capacity of 1.18 MT across 7 projects. A significant\n69% are in the feasibility stage, and only one is in\n\n… [+816 more chars]",
+  "content_hash": "ecd2453e35cc9efb69cf3517c8664eca2b2d7d62eb1bca1a3464cba7a8eb38a6",
+  "token_count": 443,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 297,
+  "page_number": 221,
+  "page_range": [
+    221,
+    222
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `77b10abd-a79f-5945-bd5b-d2e7cc87b1e0`
+
+- vector: dim=3072 · [-0.0241, 0.0132, -0.0160, -0.0085, -0.0184, -0.0245, -0.0404, 0.0145, …]
+
+```json
+{
+  "chunk_id": "77b10abd-a79f-5945-bd5b-d2e7cc87b1e0",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4.5.2\t Alternative Fuel for Bunkering (India)",
+  "chunk_text": "The bunkering scenario of year 2022 as shown in Figure 4.59 at major Indian ports is led by \nVishakhapatnam, which tops the list with 4.64 MT bunkering capacity. Mangalore follows with 3.08 \nMT, and then there’s Chennai at 2.14 MT. When it comes to how supplies are delivered, barges take the \nlead, making up 59% of the total, while trucks contribute 32%, and pipelines or terminals only account \nfor 6%. This shows there’s not much fixed infrastructure in place.   Ports such as Paradip, Tuticorin, \nand Vizag are heavily reliant on barges, while Chennai, Cochin, and Mumbai use a combination of \nb\n\n… [+1527 more chars]",
+  "content_hash": "26b63542941416d81d61a9a43bffd94ad4cced87afdd28adc86359fc5779159c",
+  "token_count": 529,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 298,
+  "page_number": 223,
+  "page_range": [
+    223,
+    225
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `e61bcd57-0d6e-5cc1-a9fa-335ae6ebbe00`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "e61bcd57-0d6e-5cc1-a9fa-335ae6ebbe00",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "References",
+  "chunk_text": "References\n\n1.\t Marine Environment Protection Committee 83rd Session Report (MEPC 83), 7-11 April 2025 \nhttps://www.imo.org/en/MediaCentre/MeetingSummaries/Pages/PREVIEW-MEPC-83.aspx\n2.\t Class NK Alternate Fuel Insight, 2024\n3.\t Wang, Y.; Xiao, X.; Ji, Y. A Review of LCA Studies on Marine Alternative Fuels: Fuels, Methodology, \nCase Studies, and Recommendations. J. Mar. Sci. Eng. 2025, 13, 196. https:// doi.org/10.3390/\njmse13020196]\n4.\t Nemmour, A., Inayat, A., Janajreh, I., & Ghenai, C. (2023). Green hydrogen-based E-fuels (E-methane, \nE-methanol, E-ammonia) to support clean energy transitio\n\n… [+5308 more chars]",
+  "content_hash": "37368709f31b858853f1338ec66ac0b25ea463ff484520d64d1e0b179dd93e1d",
+  "token_count": 1908,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    226,
+    227
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `344c1cbb-dacd-53ba-82b4-f04bfedac2f8`
+
+- vector: dim=3072 · [-0.0250, 0.0028, -0.0154, -0.0138, -0.0191, -0.0069, -0.0146, 0.0282, …]
+
+```json
+{
+  "chunk_id": "344c1cbb-dacd-53ba-82b4-f04bfedac2f8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "References",
+  "chunk_text": "1.\t Marine Environment Protection Committee 83rd Session Report (MEPC 83), 7-11 April 2025 \nhttps://www.imo.org/en/MediaCentre/MeetingSummaries/Pages/PREVIEW-MEPC-83.aspx\n2.\t Class NK Alternate Fuel Insight, 2024\n3.\t Wang, Y.; Xiao, X.; Ji, Y. A Review of LCA Studies on Marine Alternative Fuels: Fuels, Methodology, \nCase Studies, and Recommendations. J. Mar. Sci. Eng. 2025, 13, 196. https:// doi.org/10.3390/\njmse13020196]\n4.\t Nemmour, A., Inayat, A., Janajreh, I., & Ghenai, C. (2023). Green hydrogen-based E-fuels (E-methane, \nE-methanol, E-ammonia) to support clean energy transition: A literat\n\n… [+666 more chars]",
+  "content_hash": "b65b4dbb940bb0a9077cefc10b386b39de6263ef6e52322734a0bae747be7a55",
+  "token_count": 432,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e61bcd57-0d6e-5cc1-a9fa-335ae6ebbe00",
+  "chunk_index": 299,
+  "page_number": 226,
+  "page_range": [
+    226,
+    226
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `67efba9a-c2f5-5773-a461-40de867fc463`
+
+- vector: dim=3072 · [-0.0204, -0.0244, -0.0041, 0.0098, -0.0170, 0.0293, -0.0433, -0.0034, …]
+
+```json
+{
+  "chunk_id": "67efba9a-c2f5-5773-a461-40de867fc463",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "References",
+  "chunk_text": "Plasma-driven \ncatalysis: green ammonia synthesis with intermittent electricity. Green Chem 2020;22(19):6258e87. \nhttps://doi.org/10.1039/ d0gc02058c. 8.\t United states department of labor. Occupational safety and Health administration. 1994.\nhttps://www.osha.gov/lawsregs/standardinterpretations/1994-06-02#:~:text¼The National Fire \nProtection Association,4) - a flammable gas.\n9.\t Erisman JW, et al. Consequences of human modification ofthe global nitrogen cycle. Philos.\nTrans.R. Soc B Biol. Sci.2013;368(1621),  https://doi.org/10.1098/rstb.2013.0116\n10.\t Osman O, Sgouridis S. Optimizing the pr\n\n… [+836 more chars]",
+  "content_hash": "4c34400bedb30328f385f81fb66c4dbc9ec9c3aa6f86a2bba29f532dbc7c7559",
+  "token_count": 485,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e61bcd57-0d6e-5cc1-a9fa-335ae6ebbe00",
+  "chunk_index": 300,
+  "page_number": 226,
+  "page_range": [
+    226,
+    226
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b6f049df-320b-5b2c-9beb-e9a0a954823f`
+
+- vector: dim=3072 · [-0.0238, 0.0247, -0.0086, 0.0042, -0.0061, 0.0395, -0.0181, 0.0082, …]
+
+```json
+{
+  "chunk_id": "b6f049df-320b-5b2c-9beb-e9a0a954823f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "References",
+  "chunk_text": "Wang L, et al. Power-to-methane via co-electrolysis of H2O and CO2: the effects of pressurized operation and internal methanation. Appl Energy 2019;250(May):1432e45. https:// doi.\norg/10.1016/j.apenergy.2019.05.098.\n15.\t Arefin MA, Nabi MN, Akram MW, Islam MT, Chowdhury MW. A Review on Liquefied Natural Gas as \nFuels for Dual Fuel Engines: Opportunities, Challenges and Responses. Energies 2020, Vol 13(22), \nPage 6127 2020;13:6127. https://doi.org/10.3390/EN13226127 .",
+  "content_hash": "ceb9c7fbca40383134bc5a9ac09311d7f5fd8e5ae99cd2f551d930ea868e031b",
+  "token_count": 164,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e61bcd57-0d6e-5cc1-a9fa-335ae6ebbe00",
+  "chunk_index": 301,
+  "page_number": 226,
+  "page_range": [
+    226,
+    226
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `5344127c-edc9-582a-8198-c9873735f058`
+
+- vector: dim=3072 · [-0.0260, 0.0147, -0.0068, -0.0015, -0.0294, -0.0298, -0.0085, 0.0265, …]
+
+```json
+{
+  "chunk_id": "5344127c-edc9-582a-8198-c9873735f058",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "References",
+  "chunk_text": "Energies 2020, Vol 13(22), \nPage 6127 2020;13:6127. https://doi.org/10.3390/EN13226127 . 16.\t Mehta, A., “Status Update on India’s National Hydrogen Mission and Ecosystem Green Shipping \nBusiness Roundtable”, Mumbai, 21 February, 2025\n17.\t Shell. Decarbonising Shipping: Setting Shell’s Course; Shell: The Hague, The Netherlands, 2020. \n18.\t Van Hoecke, L.; Laffineur, L.; Campe, R.; Perreault, P.; Verbruggen, S.W.; Lenaerts, S. Challenges in \nthe use of hydrogen for maritime applications. Energy Environ. Sci. 2021, 14, 815–843. \n19.\t Zheng, J.; Chen, L.; Xu, X.; Guo, L.; Zhou, Y.; Wang, J. A nov\n\n… [+989 more chars]",
+  "content_hash": "3c46a092bfa4a4810188ffebf0609259e312a8f10f9b1a5e56e95fdb74170720",
+  "token_count": 492,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e61bcd57-0d6e-5cc1-a9fa-335ae6ebbe00",
+  "chunk_index": 302,
+  "page_number": 227,
+  "page_range": [
+    227,
+    227
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c764f944-d6c2-5427-8e2e-dfbe85c8dddf`
+
+- vector: dim=3072 · [-0.0136, 0.0147, -0.0125, -0.0119, -0.0268, -0.0017, -0.0329, 0.0093, …]
+
+```json
+{
+  "chunk_id": "c764f944-d6c2-5427-8e2e-dfbe85c8dddf",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "References",
+  "chunk_text": "ARAI Progress through Research Update. https://cms.araiindia.com/MediaFiles/ARAI-Update_\nQ41819_1380.pdf 26.\t Ethanol and Marine Use: https://ethanolrfa.org/file/358/RFA-Ethanol-and-Marine-Use-FAQ.pdf\n27.\t DNV Project Report for the IMO Future Fuel and Technology Project (FFT Project)”Study on the \nreadiness and availability of low- and zero-carbon ship technology and marine fuels” undertaken \nby Ricardo and 2023. I:\\MEPC\\80\\MEPC 80-INF.10.docx, Contract No. 2022-19, RFP2022-08, \nRicardo ref. ED17328\n28.\t Ryste J. A., Comparison of Alternative Marine Fuels, SEA\\LNG,  DNV GL – Report No. 2019-0\n\n… [+969 more chars]",
+  "content_hash": "aed7c31f03737adc17a5994958ca1ca7794d8995191aff68f9a85c6b78933738",
+  "token_count": 487,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e61bcd57-0d6e-5cc1-a9fa-335ae6ebbe00",
+  "chunk_index": 303,
+  "page_number": 227,
+  "page_range": [
+    227,
+    227
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `cf2c9106-dc67-5778-9c87-0b7958edc2f7`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "cf2c9106-dc67-5778-9c87-0b7958edc2f7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "References",
+  "chunk_text": "References (cont.)\n\n34.\t Zhong, H., Guo, C., Yip, T.L., Gu, Y. Bi-perspective Sulfur Abatement Options to Mitigate Coastal \nShipping Ships Emissions: A Case Study of Chinese Coastal Zone. Ocean Coast. Manag. 209. , 2021\n35.\t Bilgili, L., “A Systamatic Review on The Acceptance of Alternative Marine Fuels”, Renewable and \nSustainable Energy Reviews, 182, 113367, 2023, https://doi.org/10.1016/j.rser.2023.113367\n36.\t Gilbert, P.; Walsh, C.; Traut, M.; Kesieme, U.; Pazouki, K.; Murphy, A. Assessment of full life-cycle \nair emissions of alternative shipping fuels. J. Clean. Prod. 2018, 172, 855–866.\n\n… [+1880 more chars]",
+  "content_hash": "b5a0b8bf857e91e84ba44cf3ea626573992d8d4b70d16cdc895e318e364b2554",
+  "token_count": 774,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    228,
+    228
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1c5a5d94-ae31-5eda-a60c-0c9ebe582653`
+
+- vector: dim=3072 · [-0.0235, 0.0130, -0.0119, -0.0086, 0.0066, -0.0059, -0.0141, 0.0180, …]
+
+```json
+{
+  "chunk_id": "1c5a5d94-ae31-5eda-a60c-0c9ebe582653",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "References",
+  "chunk_text": "34.\t Zhong, H., Guo, C., Yip, T.L., Gu, Y. Bi-perspective Sulfur Abatement Options to Mitigate Coastal \nShipping Ships Emissions: A Case Study of Chinese Coastal Zone. Ocean Coast. Manag. 209. , 2021\n35.\t Bilgili, L., “A Systamatic Review on The Acceptance of Alternative Marine Fuels”, Renewable and \nSustainable Energy Reviews, 182, 113367, 2023, https://doi.org/10.1016/j.rser.2023.113367\n36.\t Gilbert, P.; Walsh, C.; Traut, M.; Kesieme, U.; Pazouki, K.; Murphy, A. Assessment of full life-cycle \nair emissions of alternative shipping fuels. J. Clean. Prod. 2018, 172, 855–866. \n37.\t Report of the\n\n… [+775 more chars]",
+  "content_hash": "48edd45d8741ec38bda1e26aba9261f14ad195cc51d15e9a713c927ba5021bf8",
+  "token_count": 436,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "cf2c9106-dc67-5778-9c87-0b7958edc2f7",
+  "chunk_index": 304,
+  "page_number": 228,
+  "page_range": [
+    228,
+    228
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b9057e3d-6247-5769-8490-572c8921b229`
+
+- vector: dim=3072 · [-0.0280, 0.0144, -0.0132, -0.0133, -0.0110, -0.0117, -0.0120, 0.0158, …]
+
+```json
+{
+  "chunk_id": "b9057e3d-6247-5769-8490-572c8921b229",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "References",
+  "chunk_text": "Christodoulou, A.; Dalaklis, D.; Ölçer, A.I.; Ghaforian Masodzadeh, P. Inclusion of shipping in the EU-ETS: Assessing the direct costs for the maritime sector using the MRV data. Energies 2021, 14, \n3915. [CrossRef] \n42.\t Poseidon Principles. Poseidon Principles: A global framework for responsible ship finance. \nCopenhagen 2019, 18, 2020. https://www.poseidonprinciples.org/finance/#home \n43.\t Lee, H.; Lee, J.; Roh, G.; Lee, S.; Choung, C.; Kang, H. Comparative Life Cycle Assessments and \nEconomic Analyses of Alternative Marine Fuels: Insights for Practical Strategies. Sustainability \n2024, 16,\n\n… [+583 more chars]",
+  "content_hash": "fbdd22ac5b32af94558566fb5920cb42d8fe3978dc0d7bbb3f4379baecad7eac",
+  "token_count": 372,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "cf2c9106-dc67-5778-9c87-0b7958edc2f7",
+  "chunk_index": 305,
+  "page_number": 228,
+  "page_range": [
+    228,
+    228
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d5e26b23-71cf-57c4-946e-0a773d072f40`
+
+- vector: dim=3072 · [-0.0048, -0.0036, -0.0070, -0.0206, -0.0347, -0.0244, -0.0021, 0.0245, …]
+
+```json
+{
+  "chunk_id": "d5e26b23-71cf-57c4-946e-0a773d072f40",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "46.\t https://doi.org/10.1016/j.ijhydene.2021.06.066https://www.genasolutions.com/analysis_and_",
+  "chunk_text": "insights)\n47.\t Foretich, A., Zaimes, G. G. Hawkins, R . T., Newes, E., “Challenges and opportunities for alternative \nfuels in the maritime sector’, Maritime Transport Research, 2,  2021, 100033, https://doi.\norg/10.1016/j.martra.2021.100033).\n48.\t Pavlenko, N., Comer, B., Zhou, Y., Clark, N., Rutherford, D., 2020. The Climate Implications of Using \nLNG as a Marine Fuel. International Council on Clean Transportation. Working Paper.\n\n49.\t https://www.iea.org/data-and-statistics/data-product/hydrogen-production-and-infrastructure-\n\nprojects-database)\n\n4\n\nChapter 5\n\nFuel Cell for\nDecar",
+  "content_hash": "6811bdfb57015814a32e73daa214714d74009455e39a96e5a0416080efb9b8e0",
+  "token_count": 174,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 306,
+  "page_number": 228,
+  "page_range": [
+    228,
+    229
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `b0a41081-562e-5612-85f2-d53e3c8d8ad6`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "b0a41081-562e-5612-85f2-d53e3c8d8ad6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Introduction",
+  "chunk_text": "Introduction\n\nIMO has set the ambitious target to cut down the GHG emissions from international shipping to reach \nnet zero by or around, i.e. close to, 2050. Fuel cells stand out to be one of the promising options \nwith potential for both emission reduction and efficient energy use. By assessing the available Fuel \nCell  technologies, it is possible to identify the most viable path forward which will ensure that each \ncheckpoint is meeting with the best approach. Although Fuel cells offer transformative technology \nfor the reduction in the GHG emissions creating a shift from traditional fuel \n\n… [+3203 more chars]",
+  "content_hash": "c5108c650ae3070118ce63b710a6546423d03c9c6e69f72d41f55736732e3d2b",
+  "token_count": 736,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    230,
+    231
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `36318fd6-9d76-5000-80af-7ce0994faada`
+
+- vector: dim=3072 · [-0.0066, 0.0147, -0.0134, -0.0119, -0.0257, -0.0354, -0.0180, 0.0052, …]
+
+```json
+{
+  "chunk_id": "36318fd6-9d76-5000-80af-7ce0994faada",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Introduction",
+  "chunk_text": "IMO has set the ambitious target to cut down the GHG emissions from international shipping to reach \nnet zero by or around, i.e. close to, 2050. Fuel cells stand out to be one of the promising options \nwith potential for both emission reduction and efficient energy use. By assessing the available Fuel \nCell  technologies, it is possible to identify the most viable path forward which will ensure that each \ncheckpoint is meeting with the best approach. Although Fuel cells offer transformative technology \nfor the reduction in the GHG emissions creating a shift from traditional fuel sources to gre\n\n… [+1764 more chars]",
+  "content_hash": "7b03904431514c02a6eabe0d7501b936f2b6979f60288ddb21d17c529e767e34",
+  "token_count": 443,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b0a41081-562e-5612-85f2-d53e3c8d8ad6",
+  "chunk_index": 307,
+  "page_number": 230,
+  "page_range": [
+    230,
+    230
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4ad304e1-bf0f-51ac-8813-eead2a758291`
+
+- vector: dim=3072 · [-0.0155, 0.0215, -0.0123, -0.0035, -0.0189, -0.0297, -0.0150, -0.0045, …]
+
+```json
+{
+  "chunk_id": "4ad304e1-bf0f-51ac-8813-eead2a758291",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Introduction",
+  "chunk_text": "Despite being more widely \navailable and simpler to carry, Ammonia is dangerous and needs to be handled carefully. This chapter \nalso illustrates the case studies and the progress of Fuel cell in the pilot/ demonstration projects which are currently operational and also in pipelines.\nAlthough Fuel Cell s show great promise for use in marine applications, a number of issues still need \nto be resolved. Future research should focus on creating Fuel Cell  stacks that are more affordable, \nextending stack life, and increasing efficiency. Therefore, by understanding these elements will help \nthe mar\n\n… [+1053 more chars]",
+  "content_hash": "c465dca9f5dd62ce5c530a1382369b2331ca27f0ade4975e7817c23b52a46857",
+  "token_count": 333,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b0a41081-562e-5612-85f2-d53e3c8d8ad6",
+  "chunk_index": 308,
+  "page_number": 230,
+  "page_range": [
+    230,
+    231
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f6fa756d-ab84-5271-a0f4-d8964dc16873`
+
+- vector: dim=3072 · [0.0041, 0.0107, -0.0087, -0.0196, -0.0343, -0.0217, -0.0063, -0.0027, …]
+
+```json
+{
+  "chunk_id": "f6fa756d-ab84-5271-a0f4-d8964dc16873",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.1.1\t Working of Fuel Cells",
+  "chunk_text": "A Fuel Cell  is a device that converts energy into electricity through a chemical reaction. Typically, it \nhas two electrodes: the anode and the cathode, where the chemical reactions take place as shown \nin Figure 5.1. Every Fuel Cell  also includes an electrolyte, which helps the transport of electrically \ncharged particles between the electrodes along with catalyst, which speeds up the reactions. Unlike \ntraditional mechanical systems, a Fuel Cell  operates without any moving parts, allowing it to function \nquietly which makes them reliable and easy to maintain. The energy that is released d\n\n… [+1377 more chars]",
+  "content_hash": "ba2be83ebc289312277d870cccd697088383321fa036fa39ca71b95751cef92f",
+  "token_count": 393,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 309,
+  "page_number": 231,
+  "page_range": [
+    231,
+    231
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `024839d9-6c0d-51d5-8cfe-6122eb1ca1dc`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "024839d9-6c0d-51d5-8cfe-6122eb1ca1dc",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.2 \t Comparison of Key Characteristics of Fuel Cells",
+  "chunk_text": "5.2 \t Comparison of Key Characteristics of Fuel Cells\n\nThis section dives into the main types of Fuel Cell s, each boasting its own unique traits that make \nthem ideal for different uses. Figure 5.2, which gives a clear visual breakdown of the key differences \namong these Fuel Cell  technologies along with a short brief, will shed light on how they vary in \nterms of electrolyte material, operating temperature, fuel flexibility, efficiency, power density, and \ncommon applications.\nProton Exchange Membrane Fuel Cells (PEMFCs): It uses a solid polymer electrolyte (e.g., Nafion), \nallowing proton \n\n… [+2925 more chars]",
+  "content_hash": "d7f8870504a203fbbf8c093de4cdbac36763f81a5e1715599fc924dece45d6c5",
+  "token_count": 865,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    231,
+    234
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c5f975d8-2e2e-57af-ba46-fad1864320fe`
+
+- vector: dim=3072 · [0.0072, 0.0180, -0.0257, -0.0151, -0.0169, -0.0344, -0.0126, -0.0174, …]
+
+```json
+{
+  "chunk_id": "c5f975d8-2e2e-57af-ba46-fad1864320fe",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.2 \t Comparison of Key Characteristics of Fuel Cells",
+  "chunk_text": "This section dives into the main types of Fuel Cell s, each boasting its own unique traits that make \nthem ideal for different uses. Figure 5.2, which gives a clear visual breakdown of the key differences \namong these Fuel Cell  technologies along with a short brief, will shed light on how they vary in \nterms of electrolyte material, operating temperature, fuel flexibility, efficiency, power density, and \ncommon applications.\nProton Exchange Membrane Fuel Cells (PEMFCs): It uses a solid polymer electrolyte (e.g., Nafion), \nallowing proton transfer but blocking electrons. It operates at 80–120 \n\n… [+998 more chars]",
+  "content_hash": "3745e9ae2011c6245ec7ceaec444e7e2d4148e83ed9bd84b470ada8a015d1f1f",
+  "token_count": 416,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "024839d9-6c0d-51d5-8cfe-6122eb1ca1dc",
+  "chunk_index": 310,
+  "page_number": 231,
+  "page_range": [
+    231,
+    232
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1bdb6334-dbec-57db-be85-9a36d36e15d3`
+
+- vector: dim=3072 · [0.0040, -0.0009, -0.0155, -0.0243, -0.0327, -0.0150, -0.0215, -0.0232, …]
+
+```json
+{
+  "chunk_id": "1bdb6334-dbec-57db-be85-9a36d36e15d3",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.2 \t Comparison of Key Characteristics of Fuel Cells",
+  "chunk_text": "(Represented from [12,13,&14)] Alkaline Fuel Cells (AFCs): It uses compressed hydrogen and oxygen with a liquid potassium \nhydroxide (KOH) electrolyte. Typically operates at 60–250 °C and offers around 70% efficiency. \nRequire high-purity hydrogen and use platinum catalysts. Risk of electrolyte leakage due to liquid \nnature.\nMolten Carbonate Fuel Cells (MCFCs): It uses molten carbonate salts (e.g., Sodium or Lithium \nCarbonates) as electrolytes. It operates at ~650 °C with 60–80% efficiency, generating up to 2 MW \n(and some designs up to 100 MW). It needs inexpensive nickel-based catalysts and\n\n… [+1301 more chars]",
+  "content_hash": "44bead45f3e6b2fcd1670c81a97581369f3bd3379d814a2e814b7940c3444aef",
+  "token_count": 448,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "024839d9-6c0d-51d5-8cfe-6122eb1ca1dc",
+  "chunk_index": 311,
+  "page_number": 233,
+  "page_range": [
+    233,
+    234
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `53c96fd2-ab58-524c-a68d-a1cd126b556b`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "53c96fd2-ab58-524c-a68d-a1cd126b556b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "bonizing Maritime — Sector and Prospects — for India",
+  "chunk_text": "bonizing Maritime — Sector and Prospects — for India\n\n<table>\n<caption>Table 5.1: Characteristics of Different Types of Fuel Cells</caption>\n<tr>\n<th>Characteristics</th>\n<th>Units</th>\n<th>Alkaline Fuel Cells (AFCs)</th>\n<th>Proton Exchange Membrane Fuel Cells (PEMFCs)</th>\n<th>Solid Oxide Fuel Cells (SOFC)</th>\n<th>Molten Carbonate Fuel Cells (MCFC)</th>\n<th>Direct Methanol Fuel Cells (DMFC)</th>\n<th>Phosphoric acid Fuel Cell s (PAFCs)</th>\n</tr>\n<tr>\n<td>Efficiency</td>\n<td>%</td>\n<td>60-70</td>\n<td>50-60</td>\n<td>33-60</td>\n<td>45-60</td>\n<td>40-50</td>\n<td>40-50</td>\n</tr>\n<tr>\n<td>Operat\n\n… [+5678 more chars]",
+  "content_hash": "abf19f021036df3a4fbfa53a80d7fa2b8bf6cba378c59e0cc6c6e2a072ac0bb3",
+  "token_count": 2476,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    235,
+    238
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c5f5ee17-c64e-597c-aed9-3b5ed3b267f8`
+
+- vector: dim=3072 · [0.0079, -0.0033, -0.0169, 0.0237, -0.0105, -0.0181, -0.0288, -0.0019, …]
+
+```json
+{
+  "chunk_id": "c5f5ee17-c64e-597c-aed9-3b5ed3b267f8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "bonizing Maritime — Sector and Prospects — for India",
+  "chunk_text": "<table>\n<caption>Table 5.1: Characteristics of Different Types of Fuel Cells</caption>\n<tr>\n<th>Characteristics</th>\n<th>Units</th>\n<th>Alkaline Fuel Cells (AFCs)</th>\n<th>Proton Exchange Membrane Fuel Cells (PEMFCs)</th>\n<th>Solid Oxide Fuel Cells (SOFC)</th>\n<th>Molten Carbonate Fuel Cells (MCFC)</th>\n<th>Direct Methanol Fuel Cells (DMFC)</th>\n<th>Phosphoric acid Fuel Cell s (PAFCs)</th>\n</tr>\n<tr>\n<td>Efficiency</td>\n<td>%</td>\n<td>60-70</td>\n<td>50-60</td>\n<td>33-60</td>\n<td>45-60</td>\n<td>40-50</td>\n<td>40-50</td>\n</tr>\n<tr>\n<td>Operating Temperature</td>\n<td>℃</td>\n<td>60-250</td>\n<td>80\n\n… [+554 more chars]",
+  "content_hash": "b59d4dd1aca3dfb229f3eaeabd82b4243a7854a2d013734f7f7077e10d8f2d24",
+  "token_count": 442,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "53c96fd2-ab58-524c-a68d-a1cd126b556b",
+  "chunk_index": 312,
+  "page_number": 235,
+  "page_range": [
+    235,
+    235
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `76f18553-0927-5a23-a8fc-02258029e276`
+
+- vector: dim=3072 · [0.0120, 0.0176, -0.0081, 0.0068, -0.0204, -0.0330, -0.0095, 0.0050, …]
+
+```json
+{
+  "chunk_id": "76f18553-0927-5a23-a8fc-02258029e276",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "bonizing Maritime — Sector and Prospects — for India",
+  "chunk_text": "ethanol</td>\n</tr>\n<tr>\n<td>Bio/Diesel</td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>Energy density</td>\n<td>(kW hr/ m3)</td>\n<td>172-462. 09</td> <td>112.2-770</td>\n<td>29.9-274</td>\n<td>—</td>\n<td>—</td>\n<td>25-40</td>\n</tr>\n<tr>\n<td>Power density</td>\n<td>(W/cm2)</td>\n<td>0.05-1</td>\n<td>&gt;2</td>\n<td>&gt;0.5</td>\n<td>0.15</td>\n<td>0.1</td>\n<td>0.16</td>\n</tr>\n<tr>\n<td>Cell voltage</td>\n<td>V</td>\n<td>0.8-1.0</td>\n<td>0.6-0.8</td>\n<td>0.8-1.0</td>\n<td>0.6-0.8</td>\n<td>0.5-0.7</td>\n<td>0.6-0.7</td>\n</tr>\n<tr>\n<td>Nominal current density</td>\n<td>A/cm2</td>\n<td>0.2-0.5</td>\n<td>0.5-2</td>\n<td>0.5-\n\n… [+564 more chars]",
+  "content_hash": "1bbdf6c186a8a0d85afd34fcf7fc5a50ade88bce2db94e85c928be88b4558dae",
+  "token_count": 506,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "53c96fd2-ab58-524c-a68d-a1cd126b556b",
+  "chunk_index": 313,
+  "page_number": 235,
+  "page_range": [
+    235,
+    235
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a009e7bc-d95a-51fc-849a-81f1e61ffd58`
+
+- vector: dim=3072 · [-0.0069, 0.0081, -0.0088, 0.0316, -0.0322, -0.0277, -0.0189, 0.0142, …]
+
+```json
+{
+  "chunk_id": "a009e7bc-d95a-51fc-849a-81f1e61ffd58",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "bonizing Maritime — Sector and Prospects — for India",
+  "chunk_text": "<td>Perfluoro sulfonic acid membrane, such as Nafion</td>\n<td>Phosphoric acid soaked in a porous matrix or imbibed in a polymer membrane</td>\n</tr>\n<tr>\n<td>Power Capacity</td>\n<td>kW/MW</td> <td>≤500kW</td>\n<td>≤120kW</td>\n<td>≤10 MW</td>\n<td>120KW-10MW</td>\n<td>≤5 KW</td>\n<td>100-400kW</td>\n</tr>\n<tr>\n<td>Start-up Time</td>\n<td>min</td>\n<td>&lt;1</td>\n<td>&lt;1</td>\n<td>~60</td>\n<td>10</td>\n<td>10</td>\n<td>\n\n—</td>\n</tr>\n</table>",
+  "content_hash": "097007ff800db10ec5f4e0e70ef5370bb6e5b10ca101060ea8423c7849a5569e",
+  "token_count": 185,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "53c96fd2-ab58-524c-a68d-a1cd126b556b",
+  "chunk_index": 314,
+  "page_number": 235,
+  "page_range": [
+    235,
+    236
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1a35da8c-6758-5151-b1cc-a43b8ca3f503`
+
+- vector: dim=3072 · [0.0211, -0.0033, -0.0196, 0.0292, -0.0472, -0.0313, -0.0304, 0.0088, …]
+
+```json
+{
+  "chunk_id": "1a35da8c-6758-5151-b1cc-a43b8ca3f503",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "bonizing Maritime — Sector and Prospects — for India",
+  "chunk_text": ">Start-up Time</td>\n<td>min</td>\n<td>&lt;1</td>\n<td>&lt;1</td>\n<td>~60</td>\n<td>10</td>\n<td>10</td>\n<td>\n\n—</td>\n</tr>\n</table> <table>\n<caption>Table 5.1: Characteristics of Different Types of Fuel Cells</caption>\n<tr>\n<th>Characteristics</th>\n<th>Units</th>\n<th>Alkaline Fuel Cells (AFCs)</th>\n<th>Proton Exchange Membrane Fuel Cells (PEMFCs)</th>\n<th>Solid Oxide Fuel Cells (SOFC)</th>\n<th>Molten Carbonate Fuel Cells (MCFC)</th>\n<th>Direct Methanol Fuel Cells (DMFC)</th>\n<th>Phosphoric acid Fuel Cell s (PAFCs)</th>\n</tr>\n<tr>\n<td>Combined heat and power</td>\n<td rowspan=\"2\">%</td>\n<td>&lt;90</\n\n… [+613 more chars]",
+  "content_hash": "2e235f7e98a63304447fbc0c4ca9851ddda510ccfac9ebbb22c0000f564c2cfb",
+  "token_count": 509,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "53c96fd2-ab58-524c-a68d-a1cd126b556b",
+  "chunk_index": 315,
+  "page_number": 236,
+  "page_range": [
+    236,
+    236
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `11929295-8546-5ffb-b6f4-a46d81f34e42`
+
+- vector: dim=3072 · [0.0208, -0.0360, -0.0092, 0.0280, -0.0323, -0.0310, -0.0197, 0.0066, …]
+
+```json
+{
+  "chunk_id": "11929295-8546-5ffb-b6f4-a46d81f34e42",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "bonizing Maritime — Sector and Prospects — for India",
+  "chunk_text": "2H,O + 2e-</td>\n<td></td>\n<td>b) CO +O2-</td>\n<td>CO2 + H2O +</td>\n<td>CO2 + 6H+ + 2</td>\n<td></td>\n</tr>\n<tr> <td></td>\n<td></td>\n<td></td>\n<td>&gt; CO,+ 2e</td>\n<td>2e</td>\n<td>6e</td>\n<td></td>\n</tr>\n<tr>\n<td rowspan=\"4\">Cathode reaction:</td>\n<td rowspan=\"3\"></td>\n<td>1/202 + H2O +</td>\n<td>1/202 +2H+ +</td>\n<td>O2 + 4e -&gt; 202-</td>\n<td>1/202 + CO2 + 2</td>\n<td>3(1/202) + 6H+</td>\n<td>1/202 +2H+ +</td>\n</tr>\n<tr>\n<td>2e -&gt; 20H-</td>\n<td>2e-&gt; H2O</td>\n<td></td>\n<td>2e</td>\n<td>+ 6e</td>\n<td>2e &gt;</td>\n</tr>\n<tr>\n<td></td>\n<td></td>\n<td></td>\n<td>&gt; CO22 3</td>\n<td>&gt;</td>\n<td\n\n… [+440 more chars]",
+  "content_hash": "5531c1c8a61a1bee0d8a5d8117f304fc2ce843458e58b28ccbd6b80ae509b086",
+  "token_count": 511,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "53c96fd2-ab58-524c-a68d-a1cd126b556b",
+  "chunk_index": 316,
+  "page_number": 236,
+  "page_range": [
+    236,
+    236
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f931ee12-fec9-5c05-aed5-03e128e473e5`
+
+- vector: dim=3072 · [-0.0167, -0.0582, -0.0071, 0.0623, 0.0177, -0.0445, -0.0095, 0.0149, …]
+
+```json
+{
+  "chunk_id": "f931ee12-fec9-5c05-aed5-03e128e473e5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "bonizing Maritime — Sector and Prospects — for India",
+  "chunk_text": "td>\n<td>&gt;</td>\n<td>H2O + CO2</td>\n<td>&gt;</td>\n<td>3(1/202) -&gt;</td>\n<td>-&gt;</td>\n</tr>\n<tr>\n<td></td>\n<td>H,O</td> <td>H,O</td>\n<td></td>\n<td>H2O</td>\n<td>CO2 + 3H2O</td>\n<td>H,O</td>\n</tr>\n<tr>\n<td>Size</td>\n<td>-</td>\n<td>Small</td>\n<td>Small</td>\n<td>Medium</td>\n<td>Large</td>\n<td>Small</td>\n<td>Large</td>\n</tr>\n<tr>\n<td>Lifetime</td>\n<td></td>\n<td>Not available</td>\n<td>2,000-3,000 h</td>\n<td>1,000 h</td>\n<td>7,000-8,000 h</td>\n<td>1,000 h</td>\n<td>&gt;50,000\n\nh</td>\n</tr>\n</table>",
+  "content_hash": "32b291daf0ef721f5b143bce1cf8b1c04209c19b39b26e3d548afa4477edbadf",
+  "token_count": 233,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "53c96fd2-ab58-524c-a68d-a1cd126b556b",
+  "chunk_index": 317,
+  "page_number": 236,
+  "page_range": [
+    236,
+    237
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `808d0784-fcb5-55af-ab62-5486b826881b`
+
+- vector: dim=3072 · [-0.0171, 0.0152, -0.0110, -0.0035, -0.0293, -0.0564, -0.0137, 0.0122, …]
+
+```json
+{
+  "chunk_id": "808d0784-fcb5-55af-ab62-5486b826881b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "bonizing Maritime — Sector and Prospects — for India",
+  "chunk_text": "2,000-3,000 h</td>\n<td>1,000 h</td>\n<td>7,000-8,000 h</td>\n<td>1,000 h</td>\n<td>&gt;50,000\n\nh</td>\n</tr>\n</table> <table>\n<caption>Table 5.1: Characteristics of Different Types of Fuel Cells</caption>\n<tr>\n<th>Characteristics</th>\n<th>Units</th>\n<th>Alkaline Fuel Cells (AFCs)</th>\n<th>Proton Exchange Membrane Fuel Cells (PEMFCs)</th>\n<th>Solid Oxide Fuel Cells (SOFC)</th>\n<th>Molten Carbonate Fuel Cells (MCFC)</th>\n<th>Direct Methanol Fuel Cells (DMFC)</th>\n<th>Phosphoric acid Fuel Cell s (PAFCs)</th>\n</tr>\n<tr>\n<td>By products</td>\n<td></td>\n<td>Water, heat</td>\n<td>Water</td>\n<td>Water and h\n\n… [+921 more chars]",
+  "content_hash": "16310f3f081fcb1d8521ac604dac64847f1decbcfd2ce2b6a5b560a92b8ece5e",
+  "token_count": 444,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "53c96fd2-ab58-524c-a68d-a1cd126b556b",
+  "chunk_index": 318,
+  "page_number": 237,
+  "page_range": [
+    237,
+    238
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d81799d6-3d67-594d-84bb-66d8cb64af9b`
+
+- vector: dim=3072 · [-0.0012, 0.0343, -0.0243, -0.0324, -0.0102, -0.0440, 0.0047, -0.0026, …]
+
+```json
+{
+  "chunk_id": "d81799d6-3d67-594d-84bb-66d8cb64af9b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.1\t Inservice",
+  "chunk_text": "The global fleet of fuel-cell vessels is on the rise, according to Clarkson Research, with more and more \nship types embracing this technology. Hydrogen stands out as the most popular fuel, frequently used \nalongside batteries and diesel. Cruise ships are at the forefront of this trend, utilizing large-capacity \nsystems that can reach up to 4,000ekW. Following closely are ferries, cargo ships, and inland vessels, \nwhich typically operate with smaller setups. Notable technology providers in this space include \nBallard, Nedstack, and Proton Motor, all of which offer modular solutions that cater \n\n… [+47 more chars]",
+  "content_hash": "2da9d42357ae0d362797a6a396ac257b3f4b5664d831aa34a6c29923700dc254",
+  "token_count": 135,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 319,
+  "page_number": 238,
+  "page_range": [
+    238,
+    238
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `0b4992d2-a5ff-53fc-8eb5-282234c7126b`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "0b4992d2-a5ff-53fc-8eb5-282234c7126b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "5.3.2\t Orderbook\n\nHydrogen is the leading fuel in fuel-cell vessel propulsion, mainly in hybrid systems with batteries \nand diesel. Among the 20 vessels examined, the majority utilize hydrogen in conjunction with Fuel \nCell s, batteries, and other fuels like LNG or biofuels.Cruise ships dominate adoption, with Fuel Cell \ncapacities reaching up to 6,000 ekW, while smaller vessels use lower capacities. Key technology \nproviders include PowerCell, Ballard, Alma Clean Power, and TECO 2030, reflecting a growing and \ndiverse industry commitment to clean maritime solutions.\n\ng</td>\n</tr>\n</table>\n\n<t\n\n… [+4014 more chars]",
+  "content_hash": "ae36cc573d9da34bea9f76b5dcd7069bc402299afe7772fb534ae205e5cec24b",
+  "token_count": 1692,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    238,
+    240
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b0536c9a-902f-570a-bcbd-b8377ff54a1e`
+
+- vector: dim=3072 · [0.0116, 0.0165, -0.0203, -0.0139, -0.0080, -0.0505, 0.0037, -0.0049, …]
+
+```json
+{
+  "chunk_id": "b0536c9a-902f-570a-bcbd-b8377ff54a1e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "Hydrogen is the leading fuel in fuel-cell vessel propulsion, mainly in hybrid systems with batteries \nand diesel. Among the 20 vessels examined, the majority utilize hydrogen in conjunction with Fuel \nCell s, batteries, and other fuels like LNG or biofuels.Cruise ships dominate adoption, with Fuel Cell \ncapacities reaching up to 6,000 ekW, while smaller vessels use lower capacities. Key technology \nproviders include PowerCell, Ballard, Alma Clean Power, and TECO 2030, reflecting a growing and \ndiverse industry commitment to clean maritime solutions.\n\ng</td>\n</tr>\n</table>",
+  "content_hash": "4f39e057f4e040f8021312f536bb705a4fd7caa56c3e1b63f418e2612084f515",
+  "token_count": 130,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "0b4992d2-a5ff-53fc-8eb5-282234c7126b",
+  "chunk_index": 320,
+  "page_number": 238,
+  "page_range": [
+    238,
+    239
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `54a3e29c-ba51-594a-b2cd-97d37358bdae`
+
+- vector: dim=3072 · [0.0087, 0.0249, -0.0198, -0.0148, -0.0098, -0.0393, -0.0062, 0.0054, …]
+
+```json
+{
+  "chunk_id": "54a3e29c-ba51-594a-b2cd-97d37358bdae",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "Key technology \nproviders include PowerCell, Ballard, Alma Clean Power, and TECO 2030, reflecting a growing and \ndiverse industry commitment to clean maritime solutions.\n\ng</td>\n</tr>\n</table> <table>\n<caption>Table 5.2: Status of Fuel Cells Vessels In Service</caption>\n<tr>\n<th>Type</th>\n<th>GT</th>\n<th>Builder</th>\n<th>Flag State</th>\n<th>Main Engine Fuel Type</th>\n<th>No. of Fuel Cell s propulsion system /Fuel cell Type-capacity/ Technology provider</th>\n<th>Registered Owner Company</th>\n<th>Registered Owner Country/ Region</th>\n<th>Power Type</th>\n</tr>\n<tr>\n<td>Cruise Ship</td>\n<td>2,48,6\n\n… [+806 more chars]",
+  "content_hash": "970f36f07be5848eb4f55f108d2cd06ce30cb9f7275e017dc97ef87a70674d9e",
+  "token_count": 493,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "0b4992d2-a5ff-53fc-8eb5-282234c7126b",
+  "chunk_index": 321,
+  "page_number": 239,
+  "page_range": [
+    239,
+    239
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7499564e-8014-55e6-be77-08fd60770510`
+
+- vector: dim=3072 · [-0.0063, 0.0392, -0.0208, -0.0097, 0.0004, -0.0265, 0.0049, 0.0138, …]
+
+```json
+{
+  "chunk_id": "7499564e-8014-55e6-be77-08fd60770510",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "DO</td>\n<td>4,000ekW/-</td>\n<td>LLC</td>\n<td></td>\n<td>Fuel Cell</td>\n</tr>\n<tr>\n<td rowspan=\"2\">Cruise Ship</td>\n<td rowspan=\"2\">47,878</td> <td rowspan=\"2\">Fincantieri Ancona</td>\n<td rowspan=\"2\">Norwegian Int'l</td>\n<td>Hydrogen,</td>\n<td>1 x Fuel Cell,</td>\n<td>Viking Ocean</td>\n<td rowspan=\"2\">Bermuda</td>\n<td>Fuel Cell &amp;</td>\n</tr>\n<tr>\n<td>IFO 380</td>\n<td>Propulsion /SOFC- 100ekW /-</td>\n<td>Cruises Ship IX</td>\n<td>Diesel</td>\n</tr>\n<tr>\n<td>Cruise Ship</td>\n<td rowspan=\"2\">44,650</td>\n<td rowspan=\"3\">Meyer Werft</td>\n<td rowspan=\"3\">Bahamas</td>\n<td>Hydrogen,</td>\n<td>1 x Fuel Ce\n\n… [+672 more chars]",
+  "content_hash": "bc078b3c0ab9686f9aac444224c9289abdf48f4a286c2618e2a31e9975e3c18f",
+  "token_count": 509,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "0b4992d2-a5ff-53fc-8eb5-282234c7126b",
+  "chunk_index": 322,
+  "page_number": 239,
+  "page_range": [
+    239,
+    239
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f020b0c8-5747-566a-9c06-13f6ac6a94d6`
+
+- vector: dim=3072 · [-0.0062, 0.0398, -0.0160, -0.0153, -0.0177, -0.0095, 0.0049, 0.0217, …]
+
+```json
+{
+  "chunk_id": "f020b0c8-5747-566a-9c06-13f6ac6a94d6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "GO</td>\n<td>Propulsion /MCFC-</td>\n<td>Shipping AS</td>\n<td></td>\n<td>Diesel &amp;</td>\n</tr>\n<tr>\n<td>4,000</td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\"></td> <td rowspan=\"2\"></td>\n<td></td>\n<td>320ekW/-</td>\n<td></td>\n<td rowspan=\"2\"></td>\n<td>Fuel Cell</td>\n</tr>\n<tr>\n<td>DWT+</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td>PSV/</td>\n<td>5,073</td>\n<td>Kleven Verft</td>\n<td>Norway</td>\n<td>Ammonia,</td>\n<td>1 x Fuel Cell,</td>\n<td>Eidesvik</td>\n<td>Norway</td>\n<td>Batteries,</td>\n</tr>\n<tr>\n<td>Supply</td>\n<td></td>\n<td></td>\n<td></td>\n<td>LNG, VLS</td>\n<td>Propulsion / SOFC-</td>\n\n… [+660 more chars]",
+  "content_hash": "259019e277c67e6da3264d869bc60978bb6178b298f0d5cec6210754b22a386c",
+  "token_count": 505,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "0b4992d2-a5ff-53fc-8eb5-282234c7126b",
+  "chunk_index": 323,
+  "page_number": 239,
+  "page_range": [
+    239,
+    239
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `dcc776c0-b79c-525b-9e5c-31646b0d6f14`
+
+- vector: dim=3072 · [-0.0037, 0.0212, -0.0129, 0.0049, -0.0150, -0.0453, 0.0150, 0.0196, …]
+
+```json
+{
+  "chunk_id": "dcc776c0-b79c-525b-9e5c-31646b0d6f14",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": ">\n<td rowspan=\"2\">Ferry</td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\"></td>\n<td></td>\n<td>Propulsion /100ekW</td>\n<td>SA</td>\n<td rowspan=\"2\"></td> <td>Diesel &amp;</td>\n</tr>\n<tr>\n<td></td>\n<td></td>\n<td></td>\n<td>Fuel Cell</td>\n</tr>\n<tr>\n<td>Container</td>\n<td>3,041</td>\n<td>Begej Shipyard</td>\n<td>Netherlands</td>\n<td>Hydrogen</td>\n<td>3 x Fuel Cell,</td>\n<td>Zero</td>\n<td>Netherlands</td>\n<td>Fuel Cell &amp;</td>\n</tr>\n<tr>\n<td>Ship</td>\n<td></td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\"></td>\n<td></td>\n<td>Propulsion /SOFC-</td>\n<td>Emission</td>\n<td rowspan=\"2\"></td>\n<td\n\n… [+135 more chars]",
+  "content_hash": "000391e32907c67cbe0f1fec5ca8eaa04b01cd43d8dcaaf907a3d400caaf197a",
+  "token_count": 277,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "0b4992d2-a5ff-53fc-8eb5-282234c7126b",
+  "chunk_index": 324,
+  "page_number": 239,
+  "page_range": [
+    239,
+    240
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `9246a066-e7dd-51f1-a5f3-aba76ba737c7`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "9246a066-e7dd-51f1-a5f3-aba76ba737c7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "5.3.2\t Orderbook (cont.)\n\n<table>\n<caption>Table 5.2: Status of Fuel Cells Vessels In Service</caption>\n<tr>\n<th>Type</th>\n<th>GT</th>\n<th>Builder</th>\n<th>Flag State</th>\n<th>Main Engine Fuel Type</th>\n<th>No. of Fuel Cell s propulsion system /Fuel cell Type-capacity/ Technology provider</th>\n<th>Registered Owner Company</th>\n<th>Registered Owner Country/ Region</th>\n<th>Power Type</th>\n</tr>\n<tr>\n<td rowspan=\"2\">Pass./Car Ferry</td>\n<td>2,699</td>\n<td rowspan=\"2\">Westcon</td>\n<td rowspan=\"2\">Norway</td>\n<td rowspan=\"2\">Hydrogen, VLS MGO</td>\n<td>2 x Fuel Cell,</td>\n<td rowspan=\"2\">Norled AS<\n\n… [+4817 more chars]",
+  "content_hash": "d20247edf12b5de2921aceea41cb4ddc800eee6805e41908c0c915005852807a",
+  "token_count": 1942,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    240,
+    242
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9e315cb1-2d12-57e2-b31d-e48235349392`
+
+- vector: dim=3072 · [-0.0145, 0.0151, -0.0182, 0.0104, -0.0060, -0.0402, -0.0001, 0.0231, …]
+
+```json
+{
+  "chunk_id": "9e315cb1-2d12-57e2-b31d-e48235349392",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "<table>\n<caption>Table 5.2: Status of Fuel Cells Vessels In Service</caption>\n<tr>\n<th>Type</th>\n<th>GT</th>\n<th>Builder</th>\n<th>Flag State</th>\n<th>Main Engine Fuel Type</th>\n<th>No. of Fuel Cell s propulsion system /Fuel cell Type-capacity/ Technology provider</th>\n<th>Registered Owner Company</th>\n<th>Registered Owner Country/ Region</th>\n<th>Power Type</th>\n</tr>\n<tr>\n<td rowspan=\"2\">Pass./Car Ferry</td>\n<td>2,699</td>\n<td rowspan=\"2\">Westcon</td>\n<td rowspan=\"2\">Norway</td>\n<td rowspan=\"2\">Hydrogen, VLS MGO</td>\n<td>2 x Fuel Cell,</td>\n<td rowspan=\"2\">Norled AS</td>\n<td rowspan=\"2\">Norwa\n\n… [+698 more chars]",
+  "content_hash": "24184bcdea228d57c56144cb855a2f4a811910bc330d43f393d4fa8f798ff2b0",
+  "token_count": 448,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9246a066-e7dd-51f1-a5f3-aba76ba737c7",
+  "chunk_index": 325,
+  "page_number": 240,
+  "page_range": [
+    240,
+    240
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c565f87e-f6a4-5d90-b6eb-0a0c6135e956`
+
+- vector: dim=3072 · [-0.0123, 0.0403, -0.0189, -0.0140, -0.0147, -0.0406, 0.0154, 0.0114, …]
+
+```json
+{
+  "chunk_id": "c565f87e-f6a4-5d90-b6eb-0a0c6135e956",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": ">\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\">Diesel &amp; Fuel Cell</td>\n</tr>\n<tr>\n<td></td>\n</tr>\n<tr>\n<td rowspan=\"2\">Trailing Suction</td>\n<td rowspan=\"2\">1,742</td> <td rowspan=\"2\">Chantiers Piriou</td>\n<td rowspan=\"2\">France</td>\n<td rowspan=\"2\">Hydrogen</td>\n<td rowspan=\"2\">1 x Fuel Cell, Propulsion /100ekW</td>\n<td>Region</td>\n<td rowspan=\"2\">France</td>\n<td rowspan=\"2\">Batteries, Diesel &amp;</td>\n</tr>\n<tr>\n<td>Occitanie</td>\n</tr>\n<tr>\n<td>Hopper Dredger</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td>/Helion</td>\n<td></td>\n<td></td>\n<td>Fuel Cell</td>\n</tr>\n<tr>\n<td>Container</td>\n<td>\n\n… [+748 more chars]",
+  "content_hash": "f2e930c17274873a02120fa25023c870373185a80a798810b19441feb177a464",
+  "token_count": 510,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9246a066-e7dd-51f1-a5f3-aba76ba737c7",
+  "chunk_index": 326,
+  "page_number": 240,
+  "page_range": [
+    240,
+    240
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `87ebeb59-d5aa-54a6-a186-eacc8dd537bb`
+
+- vector: dim=3072 · [0.0062, 0.0327, -0.0125, -0.0036, -0.0031, -0.0322, 0.0074, 0.0177, …]
+
+```json
+{
+  "chunk_id": "87ebeb59-d5aa-54a6-a186-eacc8dd537bb",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "=\"2\"></td>\n<td>Propulsion -/-</td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\"></td>\n<td>Battery</td>\n</tr>\n<tr>\n<td></td>\n<td>500ekW/ CSSC 712</td>\n<td></td> </tr>\n<tr>\n<td>Utility/</td>\n<td>328</td>\n<td>Metz</td>\n<td rowspan=\"2\">Netherlands</td>\n<td>Hydrogen,</td>\n<td>1 x Fuel Cell,</td>\n<td>Coastal</td>\n<td>Netherlands</td>\n<td>Fuel Cell &amp;</td>\n</tr>\n<tr>\n<td>Workboat</td>\n<td></td>\n<td></td>\n<td>VLS MDO</td>\n<td>Propulsion /PEMFC- 400ekW /Ballard Power</td>\n<td>Shipping BV</td>\n<td></td>\n<td>Battery</td>\n</tr>\n<tr>\n<td rowspan=\"2\">Passenger Vessel</td>\n<td>248</td>\n<td rowspan=\"2\">Hongawara \n\n… [+284 more chars]",
+  "content_hash": "d2d835688767ca8682b570f2430cec3116a07ad61dcaa346885b19596d0288da",
+  "token_count": 337,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9246a066-e7dd-51f1-a5f3-aba76ba737c7",
+  "chunk_index": 327,
+  "page_number": 240,
+  "page_range": [
+    240,
+    241
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1ab62a84-1745-5cab-96b2-2e69c1dc92d4`
+
+- vector: dim=3072 · [-0.0016, 0.0343, -0.0177, 0.0037, -0.0289, -0.0332, 0.0003, 0.0064, …]
+
+```json
+{
+  "chunk_id": "1ab62a84-1745-5cab-96b2-2e69c1dc92d4",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "<td>Batteries,</td>\n</tr>\n<tr>\n<td></td>\n<td>Hydrogen</td>\n<td>Propulsion / 480ekW /Yanmar Power Tech</td>\n<td>Diesel &amp; Fuel Cel\n\nl</td>\n</tr>\n</table> <table>\n<caption>Table 5.2: Status of Fuel Cells Vessels In Service</caption>\n<tr>\n<th>Type</th>\n<th>GT</th>\n<th>Builder</th>\n<th>Flag State</th>\n<th>Main Engine Fuel Type</th>\n<th>No. of Fuel Cell s propulsion system /Fuel cell Type-capacity/ Technology provider</th>\n<th>Registered Owner Company</th>\n<th>Registered Owner Country/ Region</th>\n<th>Power Type</th>\n</tr>\n<tr>\n<td rowspan=\"2\">Passenger Catamaran Vessel</td>\n<td rowspan=\"2\">200<\n\n… [+850 more chars]",
+  "content_hash": "25e712ab1d456c261665f32640abab48136efedc05d5cad86e19fb61cd525c66",
+  "token_count": 503,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9246a066-e7dd-51f1-a5f3-aba76ba737c7",
+  "chunk_index": 328,
+  "page_number": 241,
+  "page_range": [
+    241,
+    241
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `351640f1-ab9a-5490-9cf3-6a6deb4549ba`
+
+- vector: dim=3072 · [0.0036, 0.0311, -0.0150, -0.0091, 0.0035, -0.0260, 0.0070, 0.0089, …]
+
+```json
+{
+  "chunk_id": "351640f1-ab9a-5490-9cf3-6a6deb4549ba",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": ">\n<tr>\n<td rowspan=\"2\">Towing/ Pushing (Inland)</td>\n<td rowspan=\"2\">136</td>\n<td rowspan=\"2\">Hermann Barthel</td>\n<td rowspan=\"2\">Germany</td>\n<td rowspan=\"2\">Hydrogen</td> <td rowspan=\"2\">3 x Fuel Cell, Propulsion / PEMFC- 300ekW/ Ballard Power</td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\"></td>\n<td>Fuel Cell &amp;</td>\n</tr>\n<tr>\n<td>Battery</td>\n</tr>\n<tr>\n<td rowspan=\"2\">Passenger (Inland)</td>\n<td rowspan=\"2\">50</td>\n<td rowspan=\"2\">Zhongqing Bochuang</td>\n<td rowspan=\"2\">China P.R.</td>\n<td rowspan=\"2\">Hydrogen</td>\n<td>Fuel Cell,</td>\n<td></td>\n<td rowspan=\"2\"></td>\n<td>Fuel Cell &amp;</t\n\n… [+454 more chars]",
+  "content_hash": "85ff6e1d89dab3c756bc5bea76ccc86f7e4c16b03aabdd77297106f593731706",
+  "token_count": 376,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9246a066-e7dd-51f1-a5f3-aba76ba737c7",
+  "chunk_index": 329,
+  "page_number": 241,
+  "page_range": [
+    241,
+    242
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `c7f8f532-c3ed-5b25-ad15-d01b0afec0f8`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "c7f8f532-c3ed-5b25-ad15-d01b0afec0f8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "5.3.2\t Orderbook (cont.)\n\n<table>\n<caption>Table 5.2: Status of Fuel Cells Vessels In Service</caption>\n<tr>\n<th>Type</th>\n<th>GT</th>\n<th>Builder</th>\n<th>Flag State</th>\n<th>Main Engine Fuel Type</th>\n<th>No. of Fuel Cell s propulsion system /Fuel cell Type-capacity/ Technology provider</th>\n<th>Registered Owner Company</th>\n<th>Registered Owner Country/ Region</th>\n<th>Power Type</th>\n</tr>\n<tr>\n<td rowspan=\"2\">Passenger (Inland)</td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\">Bodewes Hasselt</td>\n<td rowspan=\"2\">Netherlands</td>\n<td rowspan=\"2\">Hydrogen</td>\n<td>Fuel Cell,</td>\n<td rowspan=\"2\">\n\n… [+4731 more chars]",
+  "content_hash": "07d35d94e40666754105e1a8985ff436f23324d60b33d0d46b9e137d39c2ee77",
+  "token_count": 1997,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    242,
+    244
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7544b445-1678-5b74-bdc8-e2fe0dc83ea8`
+
+- vector: dim=3072 · [-0.0167, 0.0139, -0.0211, 0.0171, -0.0056, -0.0375, 0.0015, 0.0188, …]
+
+```json
+{
+  "chunk_id": "7544b445-1678-5b74-bdc8-e2fe0dc83ea8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "<table>\n<caption>Table 5.2: Status of Fuel Cells Vessels In Service</caption>\n<tr>\n<th>Type</th>\n<th>GT</th>\n<th>Builder</th>\n<th>Flag State</th>\n<th>Main Engine Fuel Type</th>\n<th>No. of Fuel Cell s propulsion system /Fuel cell Type-capacity/ Technology provider</th>\n<th>Registered Owner Company</th>\n<th>Registered Owner Country/ Region</th>\n<th>Power Type</th>\n</tr>\n<tr>\n<td rowspan=\"2\">Passenger (Inland)</td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\">Bodewes Hasselt</td>\n<td rowspan=\"2\">Netherlands</td>\n<td rowspan=\"2\">Hydrogen</td>\n<td>Fuel Cell,</td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\"></td\n\n… [+694 more chars]",
+  "content_hash": "53fde9bf6e507f68c2ae1f4a5f9e844a4193ef985f32d5ed16f8dbb69bb021b4",
+  "token_count": 446,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c7f8f532-c3ed-5b25-ad15-d01b0afec0f8",
+  "chunk_index": 330,
+  "page_number": 242,
+  "page_range": [
+    242,
+    242
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `8797abe3-2787-5111-8b15-99b0f2785179`
+
+- vector: dim=3072 · [-0.0197, 0.0490, -0.0187, -0.0111, 0.0093, -0.0346, -0.0003, 0.0118, …]
+
+```json
+{
+  "chunk_id": "8797abe3-2787-5111-8b15-99b0f2785179",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "td>\n<td>2 x Fuel Cell,</td>\n<td></td>\n<td></td>\n<td>Batteries,</td>\n</tr>\n<tr>\n<td>Cargo (Inland)</td>\n<td></td>\n<td>Giurgiu</td>\n<td>VLS MDO</td> <td>Propulsion /PEMFC- 400ekW /Ballard Power</td>\n<td></td>\n<td></td>\n<td>Diesel &amp; Fuel Cell</td>\n</tr>\n<tr>\n<td>Passenger</td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\">Unknown Yard</td>\n<td>United</td>\n<td rowspan=\"2\">Hydrogen</td>\n<td>4 x Fuel Cell,</td>\n<td></td>\n<td rowspan=\"2\"></td>\n<td>Fuel Cell</td>\n</tr>\n<tr>\n<td>(Inland)</td>\n<td>Kingdom</td>\n<td>Propulsion /PEMFC - / Auriga Energy</td>\n<td></td>\n<td>Propulsio\n\nn</td>\n</tr>\n</table>",
+  "content_hash": "335f991846ef3f7947fb7fb5ab0db7668499079cb76142cc19c7cca286f7802a",
+  "token_count": 228,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c7f8f532-c3ed-5b25-ad15-d01b0afec0f8",
+  "chunk_index": 331,
+  "page_number": 242,
+  "page_range": [
+    242,
+    243
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `bb3b9f96-e6c8-5620-9a0c-c8a254f62311`
+
+- vector: dim=3072 · [-0.0102, 0.0425, -0.0224, -0.0143, -0.0076, -0.0403, -0.0053, 0.0131, …]
+
+```json
+{
+  "chunk_id": "bb3b9f96-e6c8-5620-9a0c-c8a254f62311",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "uel Cell</td>\n</tr>\n<tr>\n<td>(Inland)</td>\n<td>Kingdom</td>\n<td>Propulsion /PEMFC - / Auriga Energy</td>\n<td></td>\n<td>Propulsio\n\nn</td>\n</tr>\n</table> <table>\n<caption>Table 5.3: Status of Fuel Cells Vessels (Orderbook)</caption>\n<tr>\n<th>Type</th>\n<th>GT</th>\n<th>Builder</th>\n<th>Flag State</th>\n<th>Main Engine Fuel Type</th>\n<th>No. of Fuel Cell s propulsion system /Fuel cell Type-capacity/ Technology provider</th>\n<th>Registered Owner Company</th>\n<th>Registered Owner Country/ Region</th>\n<th>Power Type</th>\n</tr>\n<tr>\n<td>Cruise Ship</td>\n<td>2,48,663</td>\n<td>Meyer Turku</td>\n<td>Bahamas\n\n… [+798 more chars]",
+  "content_hash": "161728ba0ec147e47877a1e3b6498ba1c905e70d0da28fc6ef8101804eeef855",
+  "token_count": 505,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c7f8f532-c3ed-5b25-ad15-d01b0afec0f8",
+  "chunk_index": 332,
+  "page_number": 243,
+  "page_range": [
+    243,
+    243
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `21567360-aff3-5d10-abd4-987ef1bed6ac`
+
+- vector: dim=3072 · [-0.0073, 0.0329, -0.0176, 0.0000, 0.0074, -0.0263, -0.0063, 0.0132, …]
+
+```json
+{
+  "chunk_id": "21567360-aff3-5d10-abd4-987ef1bed6ac",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "</td>\n<td>Propulsion/</td>\n<td>Diesel &amp;</td>\n</tr>\n<tr>\n<td></td>\n<td></td>\n<td>MDO</td>\n<td>4,000ekW/-</td>\n<td>LLC</td>\n<td></td> <td>Fuel Cell</td>\n</tr>\n<tr>\n<td rowspan=\"2\">Cruise Ship</td>\n<td rowspan=\"2\">47,878</td>\n<td rowspan=\"2\">Fincantieri Ancona</td>\n<td>Norwegian</td>\n<td>Hydrogen,</td>\n<td>1 x Fuel Cell,</td>\n<td>Viking</td>\n<td>Bermuda</td>\n<td>Fuel Cell &amp;</td>\n</tr>\n<tr>\n<td>Int'l</td>\n<td>IFO 380</td>\n<td>Propulsion /SOFC- 100ekW /-</td>\n<td>Ocean Cruises Ship IX</td>\n<td></td>\n<td>Diesel</td>\n</tr>\n<tr>\n<td rowspan=\"3\">Cruise Ship</td>\n<td>44,650</td>\n<td>Meyer Werft<\n\n… [+630 more chars]",
+  "content_hash": "5039c28b34c4cf3efb0a6034d79a3d753b311d9d6bbcde86bf2e5f6c57676602",
+  "token_count": 503,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c7f8f532-c3ed-5b25-ad15-d01b0afec0f8",
+  "chunk_index": 333,
+  "page_number": 243,
+  "page_range": [
+    243,
+    243
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ee1893f6-e836-50cb-9e54-0a66f2eff512`
+
+- vector: dim=3072 · [0.0046, 0.0366, -0.0172, 0.0053, -0.0074, -0.0129, 0.0001, 0.0155, …]
+
+```json
+{
+  "chunk_id": "ee1893f6-e836-50cb-9e54-0a66f2eff512",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": ",</td>\n<td>Eidesvik</td>\n<td>Norway</td>\n<td>Batteries,</td>\n</tr>\n<tr>\n<td rowspan=\"2\">4,000 DWT+</td>\n<td></td>\n<td></td>\n<td></td>\n<td>MGO</td> <td>Propulsion /MCFC-</td>\n<td>Shipping AS</td>\n<td></td>\n<td>Diesel &amp;</td>\n</tr>\n<tr>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td>320ekW/-</td>\n<td></td>\n<td></td>\n<td>Fuel Cell</td>\n</tr>\n<tr>\n<td>PSV/Supply</td>\n<td>5,073</td>\n<td rowspan=\"2\">Kleven Verft</td>\n<td>Norway</td>\n<td>Ammonia,</td>\n<td>1 x Fuel Cell,</td>\n<td>Eidesvik</td>\n<td>Norway</td>\n<td>Batteries,</td>\n</tr>\n<tr>\n<td rowspan=\"3\">4,000 DWT+</td>\n<td></td>\n<td></td>\n<td>LNG, V\n\n… [+768 more chars]",
+  "content_hash": "fe7d5871de842ec07057eb9327f9027c468602af50236079561de905cb84e4c2",
+  "token_count": 548,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "c7f8f532-c3ed-5b25-ad15-d01b0afec0f8",
+  "chunk_index": 334,
+  "page_number": 243,
+  "page_range": [
+    243,
+    244
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `75ddfc26-f4fb-5c8e-9d8a-0a01b23c9fea`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "75ddfc26-f4fb-5c8e-9d8a-0a01b23c9fea",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "5.3.2\t Orderbook (cont.)\n\n<table>\n<caption>Table 5.3: Status of Fuel Cells Vessels (Orderbook)</caption>\n<tr>\n<th>Type</th>\n<th>GT</th>\n<th>Builder</th>\n<th>Flag State</th>\n<th>Main Engine Fuel Type</th>\n<th>No. of Fuel Cell s propulsion system /Fuel cell Type-capacity/ Technology provider</th>\n<th>Registered Owner Company</th>\n<th>Registered Owner Country/ Region</th>\n<th>Power Type</th>\n</tr>\n<tr>\n<td>Container</td>\n<td>3,041</td>\n<td>Begej Shipyard</td>\n<td rowspan=\"2\">Netherlands</td>\n<td>Hydrogen</td>\n<td>3 x Fuel Cell,</td>\n<td>Zero</td>\n<td>Netherlands</td>\n<td>Fuel Cell &amp;</td>\n</tr\n\n… [+4730 more chars]",
+  "content_hash": "20e200e192b8a60689561f042fe74ce2862c80f2893bc08f908dc657cbda2d4b",
+  "token_count": 1952,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    244,
+    246
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d8047c0a-5fd4-552c-b044-c3a172fdf821`
+
+- vector: dim=3072 · [-0.0078, 0.0168, -0.0184, 0.0041, -0.0041, -0.0495, 0.0131, 0.0324, …]
+
+```json
+{
+  "chunk_id": "d8047c0a-5fd4-552c-b044-c3a172fdf821",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "<table>\n<caption>Table 5.3: Status of Fuel Cells Vessels (Orderbook)</caption>\n<tr>\n<th>Type</th>\n<th>GT</th>\n<th>Builder</th>\n<th>Flag State</th>\n<th>Main Engine Fuel Type</th>\n<th>No. of Fuel Cell s propulsion system /Fuel cell Type-capacity/ Technology provider</th>\n<th>Registered Owner Company</th>\n<th>Registered Owner Country/ Region</th>\n<th>Power Type</th>\n</tr>\n<tr>\n<td>Container</td>\n<td>3,041</td>\n<td>Begej Shipyard</td>\n<td rowspan=\"2\">Netherlands</td>\n<td>Hydrogen</td>\n<td>3 x Fuel Cell,</td>\n<td>Zero</td>\n<td>Netherlands</td>\n<td>Fuel Cell &amp;</td>\n</tr>\n<tr>\n<td>Ship (Inland)</\n\n… [+652 more chars]",
+  "content_hash": "5aec31c63eced6a3e3d7ba1f2dac8940673967e80979f4cbc51c488bd8d2b546",
+  "token_count": 445,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "75ddfc26-f4fb-5c8e-9d8a-0a01b23c9fea",
+  "chunk_index": 335,
+  "page_number": 244,
+  "page_range": [
+    244,
+    244
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `438e2d37-4c79-5375-903f-f25043aa1f36`
+
+- vector: dim=3072 · [-0.0121, 0.0349, -0.0183, -0.0080, -0.0275, -0.0419, 0.0284, 0.0175, …]
+
+```json
+{
+  "chunk_id": "438e2d37-4c79-5375-903f-f25043aa1f36",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "<tr>\n<td>General</td>\n<td>2,466</td>\n<td>Concordia</td>\n<td>Netherlands</td>\n<td>Hydrogen,</td>\n<td>1 x Fuel Cell,</td>\n<td>Lenten</td>\n<td>Netherlands</td> <td>Batteries,</td>\n</tr>\n<tr>\n<td>Cargo</td>\n<td></td>\n<td>Damen JV</td>\n<td rowspan=\"2\"></td>\n<td>VLS IFO</td>\n<td>Propulsion /PEM-/</td>\n<td>Scheepvaart</td>\n<td></td>\n<td>Diesel &amp;</td>\n</tr>\n<tr>\n<td>(Inland)</td>\n<td></td>\n<td></td>\n<td></td>\n<td>Nedstack</td>\n<td>BV</td>\n<td></td>\n<td>Fuel Cell</td>\n</tr>\n<tr>\n<td>Trailing</td>\n<td>1,742</td>\n<td rowspan=\"2\">Chantiers Piriou</td>\n<td rowspan=\"2\">France</td>\n<td rowspan=\"2\">Hydrog\n\n… [+708 more chars]",
+  "content_hash": "cfc6e6ac90ce3f39cd0140b6e3ca9bb4973dda3496d918b8279660635f67d18b",
+  "token_count": 499,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "75ddfc26-f4fb-5c8e-9d8a-0a01b23c9fea",
+  "chunk_index": 336,
+  "page_number": 244,
+  "page_range": [
+    244,
+    244
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f4a7cb5a-3d43-59f8-a643-7d451b2445a2`
+
+- vector: dim=3072 · [-0.0125, 0.0407, -0.0176, 0.0089, -0.0081, -0.0392, 0.0049, 0.0172, …]
+
+```json
+{
+  "chunk_id": "f4a7cb5a-3d43-59f8-a643-7d451b2445a2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "<td>6 x Fuel Cell,</td>\n<td>-</td>\n<td>-</td>\n<td>Fuel Cell &amp;</td>\n</tr>\n<tr>\n<td>Ship (Inland)</td>\n<td></td>\n<td>Netherlands</td>\n<td></td>\n<td></td> <td>Propulsion / PEMFC- 1,200ekW/ Ballard Power</td>\n<td></td>\n<td></td>\n<td>Battery</td>\n</tr>\n<tr>\n<td rowspan=\"2\">Patrol Vessel</td>\n<td rowspan=\"2\">749</td>\n<td rowspan=\"2\">Zhuhai Jianglong</td>\n<td rowspan=\"2\">China P.R.</td>\n<td rowspan=\"2\">Hydrogen</td>\n<td>Fuel Cell,</td>\n<td rowspan=\"2\">-</td>\n<td rowspan=\"2\">China P.R.</td>\n<td rowspan=\"2\">Fuel Cell &amp; Battery</td>\n</tr>\n<tr>\n<td>Propulsion -/- 500ekW/ CSSC 712</td>\n</tr>\n<tr>\n\n\n… [+369 more chars]",
+  "content_hash": "5eee25b3400c9a59adaa221fcae1a4c112942366848fd731b96461ab96b8378e",
+  "token_count": 364,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "75ddfc26-f4fb-5c8e-9d8a-0a01b23c9fea",
+  "chunk_index": 337,
+  "page_number": 244,
+  "page_range": [
+    244,
+    245
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7bba1e18-07f8-540c-a2cd-5f6498285587`
+
+- vector: dim=3072 · [-0.0022, 0.0320, -0.0194, 0.0018, -0.0137, -0.0307, 0.0005, 0.0151, …]
+
+```json
+{
+  "chunk_id": "7bba1e18-07f8-540c-a2cd-5f6498285587",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": ">\n<tr>\n<td>Workboat</td>\n<td></td>\n<td>VLS MDO</td>\n<td>Propulsion /PEMFC- 400ekW /Ballard Power</td>\n<td></td>\n<td>Batter\n\ny</td>\n</tr>\n</table> <table>\n<caption>Table 5.3: Status of Fuel Cells Vessels (Orderbook)</caption>\n<tr>\n<th>Type</th>\n<th>GT</th>\n<th>Builder</th>\n<th>Flag State</th>\n<th>Main Engine Fuel Type</th>\n<th>No. of Fuel Cell s propulsion system /Fuel cell Type-capacity/ Technology provider</th>\n<th>Registered Owner Company</th>\n<th>Registered Owner Country/ Region</th>\n<th>Power Type</th>\n</tr>\n<tr>\n<td>Passenger Vessel</td>\n<td>248</td>\n<td>Hongawara Zosen</td>\n<td>Japan</td\n\n… [+805 more chars]",
+  "content_hash": "a34ba286187f24f22c4b2d17a54c3e057b21c97596cfc0e3bee8b1ebe5421b68",
+  "token_count": 497,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "75ddfc26-f4fb-5c8e-9d8a-0a01b23c9fea",
+  "chunk_index": 338,
+  "page_number": 245,
+  "page_range": [
+    245,
+    245
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ee44906e-d3fd-5d14-a8a4-6929608b400c`
+
+- vector: dim=3072 · [0.0029, 0.0316, -0.0196, 0.0041, 0.0169, -0.0314, 0.0008, 0.0207, …]
+
+```json
+{
+  "chunk_id": "ee44906e-d3fd-5d14-a8a4-6929608b400c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "<td>2 x Fuel Cell,</td>\n<td>-</td>\n<td>-</td>\n<td>Batteries,</td>\n</tr>\n<tr>\n<td>Research</td>\n<td></td>\n<td>Castell</td>\n<td></td>\n<td>VLS MGO</td> <td>Propulsion -/ PEMFC-140ekW/ Proton Motor</td>\n<td></td>\n<td></td>\n<td>Diesel &amp; Fuel Cell</td>\n</tr>\n<tr>\n<td>Towing/ Pushing (Inland)</td>\n<td>136</td>\n<td>Hermann Barthel</td>\n<td>Germany</td>\n<td>Hydrogen</td>\n<td>3 x Fuel Cell, Propulsion / PEMFC- 300ekW/ Ballard Power</td>\n<td>-</td>\n<td>-</td>\n<td>Fuel Cell &amp; Battery</td>\n</tr>\n<tr>\n<td>Passenger (Inland)</td>\n<td>50</td>\n<td>Zhongqing Bochuang</td>\n<td>China P.R.</td>\n<td>Hydroge\n\n… [+373 more chars]",
+  "content_hash": "2ea240e8e4e83be17c30804d1c675164b46de7a611c0350335ff74e9ad66e863",
+  "token_count": 380,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "75ddfc26-f4fb-5c8e-9d8a-0a01b23c9fea",
+  "chunk_index": 339,
+  "page_number": 245,
+  "page_range": [
+    245,
+    246
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `3480c83e-eaa3-56fa-9a05-8152fa67e2c8`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "3480c83e-eaa3-56fa-9a05-8152fa67e2c8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "5.3.2\t Orderbook (cont.)\n\n<table>\n<caption>Table 5.3: Status of Fuel Cells Vessels (Orderbook)</caption>\n<tr>\n<th>Type</th>\n<th>GT</th>\n<th>Builder</th>\n<th>Flag State</th>\n<th>Main Engine Fuel Type</th>\n<th>No. of Fuel Cell s propulsion system /Fuel cell Type-capacity/ Technology provider</th>\n<th>Registered Owner Company</th>\n<th>Registered Owner Country/ Region</th>\n<th>Power Type</th>\n</tr>\n<tr>\n<td>Passenger (Inland)</td>\n<td>-</td>\n<td>Bodewes Hasselt</td>\n<td>Netherlands</td>\n<td>Hydrogen</td>\n<td>Fuel Cell, Propulsion / PEMFC 70ekW /Nedstack</td>\n<td>-</td>\n<td>-</td>\n<td>Fuel Cell &am\n\n… [+1136 more chars]",
+  "content_hash": "c572918913c70df5974ba749f167dcc2c3d624a30045ae77ee572298f50cbe51",
+  "token_count": 652,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    246,
+    247
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `21a4bfb7-d709-5b15-9e21-a3d5b49acefe`
+
+- vector: dim=3072 · [-0.0134, 0.0132, -0.0210, 0.0107, -0.0056, -0.0443, 0.0062, 0.0270, …]
+
+```json
+{
+  "chunk_id": "21a4bfb7-d709-5b15-9e21-a3d5b49acefe",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": "<table>\n<caption>Table 5.3: Status of Fuel Cells Vessels (Orderbook)</caption>\n<tr>\n<th>Type</th>\n<th>GT</th>\n<th>Builder</th>\n<th>Flag State</th>\n<th>Main Engine Fuel Type</th>\n<th>No. of Fuel Cell s propulsion system /Fuel cell Type-capacity/ Technology provider</th>\n<th>Registered Owner Company</th>\n<th>Registered Owner Country/ Region</th>\n<th>Power Type</th>\n</tr>\n<tr>\n<td>Passenger (Inland)</td>\n<td>-</td>\n<td>Bodewes Hasselt</td>\n<td>Netherlands</td>\n<td>Hydrogen</td>\n<td>Fuel Cell, Propulsion / PEMFC 70ekW /Nedstack</td>\n<td>-</td>\n<td>-</td>\n<td>Fuel Cell &amp; Battery</td>\n</tr>\n<tr>\n\n… [+609 more chars]",
+  "content_hash": "b90e6617da1cf1a5cc11cd0dae736cd37a08708891703961b9f04ec9d3ef38b0",
+  "token_count": 443,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "3480c83e-eaa3-56fa-9a05-8152fa67e2c8",
+  "chunk_index": 340,
+  "page_number": 246,
+  "page_range": [
+    246,
+    246
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `14110b5f-32ec-56df-aa92-d794914a7c6b`
+
+- vector: dim=3072 · [-0.0136, 0.0431, -0.0216, -0.0084, 0.0048, -0.0280, -0.0032, 0.0028, …]
+
+```json
+{
+  "chunk_id": "14110b5f-32ec-56df-aa92-d794914a7c6b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.3.2\t Orderbook",
+  "chunk_text": ">Batteries,</td>\n</tr>\n<tr>\n<td>Cargo</td>\n<td></td>\n<td>Giurgiu</td>\n<td></td>\n<td>VLS MDO</td>\n<td>Propulsion /PEMFC-</td>\n<td></td>\n<td></td> <td>Diesel &amp;</td>\n</tr>\n<tr>\n<td>(Inland)</td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td>400ekW /Ballard Power</td>\n<td></td>\n<td></td>\n<td>Fuel Cell</td>\n</tr>\n<tr>\n<td>Passenger</td>\n<td>-</td>\n<td>Unknown Yard</td>\n<td>United</td>\n<td>Hydrogen</td>\n<td>4 x Fuel Cell,</td>\n<td>-</td>\n<td>-</td>\n<td>Fuel Cell</td>\n</tr>\n<tr>\n<td>(Inland)</td>\n<td></td>\n<td></td>\n<td>Kingdom</td>\n<td></td>\n<td>Propulsion /PEMFC - / Auriga Energy</td>\n<td></td>\n<\n\n… [+45 more chars]",
+  "content_hash": "e8b750e48324f7a834f383874771a7638ac198314d972f09a4010c9e34134b8a",
+  "token_count": 259,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "3480c83e-eaa3-56fa-9a05-8152fa67e2c8",
+  "chunk_index": 341,
+  "page_number": 246,
+  "page_range": [
+    246,
+    247
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c524d055-5a1e-529d-97d0-9e944f80a3a4`
+
+- vector: dim=3072 · [-0.0187, 0.0388, -0.0226, -0.0086, -0.0124, -0.0312, 0.0029, 0.0050, …]
+
+```json
+{
+  "chunk_id": "c524d055-5a1e-529d-97d0-9e944f80a3a4",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.4 India Status for Fuel Cell Adoption in Shipping",
+  "chunk_text": "The Table 5.4 showcases the upcoming projects of Cochin Shipyard Ltd (CSL) for alternative Fuel Cell\nvessels including hybrids, all designed to boost clean maritime transportation. It provides insights into\nthe number of vessels, their propulsion capabilities, and its timeline of deployment. These projects\nreally emphasize the increasing dedication and commitment to hydrogen technologies, which are key\nto cutting down emissions in both short and long-haul shipping.\n\nCSL, the first premier greenfield shipyard in India, has designed and constructed 23 Nos of 100\nPassenger capacity electric-hybri\n\n… [+812 more chars]",
+  "content_hash": "856121c39d45abe97b45e8f15afd672d4fd35a789a1ab5bd7c015ef659534904",
+  "token_count": 334,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 342,
+  "page_number": 247,
+  "page_range": [
+    247,
+    247
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `5fb18cbb-205f-54ea-a7cf-1aa090612056`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "5fb18cbb-205f-54ea-a7cf-1aa090612056",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping",
+  "chunk_text": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping\n\nAn unique study is reported evaluates the life cycle environmental and economic impacts of eight\ndecarbonization solutions for shipping [3]. Using Prospective Life Cycle Assessment (pLCA) and\nEnvironmental Life Cycle Costing (eLCC), it examines energy use, emissions, and cost trade-offs. The\nsolutions analyzed include e-Methanol, Hydrogen, Ammonia, and Battery-electric with reference to\nMGO systems in various propulsion technologies, providing a comprehensive comparison for future\nfossil-free shipping. The de\n\n… [+6007 more chars]",
+  "content_hash": "206070462ac91a5ddbd9ef9523eb13f3e0b9d621aaad859ae413db4ea3798e1e",
+  "token_count": 1603,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    247,
+    250
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c4a14c52-6b42-5e11-a6d9-6a65b475fb7c`
+
+- vector: dim=3072 · [-0.0254, 0.0185, -0.0242, -0.0138, -0.0468, -0.0046, 0.0124, 0.0127, …]
+
+```json
+{
+  "chunk_id": "c4a14c52-6b42-5e11-a6d9-6a65b475fb7c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping",
+  "chunk_text": "An unique study is reported evaluates the life cycle environmental and economic impacts of eight\ndecarbonization solutions for shipping [3]. Using Prospective Life Cycle Assessment (pLCA) and\nEnvironmental Life Cycle Costing (eLCC), it examines energy use, emissions, and cost trade-offs. The\nsolutions analyzed include e-Methanol, Hydrogen, Ammonia, and Battery-electric with reference to\nMGO systems in various propulsion technologies, providing a comprehensive comparison for future\nfossil-free shipping. The decarbonization solutions included are\n\n1\\. Case 1 (EMeOHICE): Uses electro-Methanol wit\n\n… [+641 more chars]",
+  "content_hash": "71b51592ea9f5988dce18d3e6a24e4ad0151a183100e08c22784ed153626d55d",
+  "token_count": 319,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "5fb18cbb-205f-54ea-a7cf-1aa090612056",
+  "chunk_index": 343,
+  "page_number": 247,
+  "page_range": [
+    247,
+    247
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `61f15f19-33bb-5d7d-a583-5616f911da1a`
+
+- vector: dim=3072 · [-0.0139, 0.0172, -0.0165, -0.0094, -0.0581, -0.0117, 0.0007, 0.0062, …]
+
+```json
+{
+  "chunk_id": "61f15f19-33bb-5d7d-a583-5616f911da1a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping",
+  "chunk_text": "Case 6 (ELH2PEMFC): Uses liquid hydrogen in a Fuel Cell , powering an electric motor, offering\nhigher efficiency than ICE. 7.\t Case 7 (ENH₃SOFC): Uses ammonia in a solid oxide Fuel Cell  (SOFC) to generate electricity for \npropulsion.\n8.\t Case 8 (BE): Uses lithium-ion batteries for round-trip operation with a 30% reserve, charged at \nGothenburg port.\n9.\t Case 9 (MGO ICE): Uses marine gas oil (MGO) in a medium-speed diesel ICE, with SCR for NOx \nreduction.\nLCA System Boundaries considered clear boundaries for this analysis by separating the foreground \nfrom the background processes. The foregro\n\n… [+1250 more chars]",
+  "content_hash": "767028ad6357fe388eabf9d493d088221a6b8467015d0095743d3d8d20c8f057",
+  "token_count": 437,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "5fb18cbb-205f-54ea-a7cf-1aa090612056",
+  "chunk_index": 344,
+  "page_number": 248,
+  "page_range": [
+    248,
+    248
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d06af825-74da-5b25-93db-2a015614216a`
+
+- vector: dim=3072 · [-0.0268, 0.0031, -0.0169, -0.0083, -0.0393, 0.0044, -0.0142, -0.0047, …]
+
+```json
+{
+  "chunk_id": "d06af825-74da-5b25-93db-2a015614216a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping",
+  "chunk_text": "In contrast, for carbon-free fuels such as ENH₃, \nELH₂, and BE, the production phase—especially the generation of electricity—plays a bigger \nrole in emissions. The study also takes a closer look at battery-electric (BE) systems in a renewable electricity context, emphasizing how much they rely on energy sources. While manufacturing and \nreplacing components generally have a minor impact on overall emissions, battery production does \nhave a notably higher effect. The uncertainty analysis indicates that eNH₃-ICE experiences a significant \nvariation (+25%) due to uncertainties surrounding N₂O em\n\n… [+1208 more chars]",
+  "content_hash": "6016a8275fefd3dd6134a1ef5b4df4a8bc25ca800ca617bc245f31435c064bcc",
+  "token_count": 504,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "5fb18cbb-205f-54ea-a7cf-1aa090612056",
+  "chunk_index": 345,
+  "page_number": 249,
+  "page_range": [
+    249,
+    249
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d54bec33-97ac-58b8-b8f6-55aa2e8d79c1`
+
+- vector: dim=3072 · [-0.0211, -0.0044, -0.0171, -0.0188, -0.0465, -0.0198, 0.0036, 0.0080, …]
+
+```json
+{
+  "chunk_id": "d54bec33-97ac-58b8-b8f6-55aa2e8d79c1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping",
+  "chunk_text": ")\n\t»\nENH3- ICE (Ammonia Fuel Cell): Emissions ~66 tCO₂-eq/round trip\n\t»\nMGO- ICE (Marine Gas Oil Internal Combustion Engine):   Emissions ~316 tCO₂-eq/round trip Overall, Hydrogen Fuel Cell s (eLH₂-PEMFC) provide the greatest climate benefit, while Ammonia \nand Methanol pathways show moderate reductions. The study highlights that the energy source \nand production method significantly impact GWP, making renewable electricity crucial for true \ndecarbonization.\nFigure 5.4 illustrates the energy conversion efficiencies across different decarbonization pathways, \nhighlighting how electricity and MG\n\n… [+1545 more chars]",
+  "content_hash": "209cb615e90f831d6fbd69ce4509b70a79bfef52818611b7a5008c8d254d53ed",
+  "token_count": 473,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "5fb18cbb-205f-54ea-a7cf-1aa090612056",
+  "chunk_index": 346,
+  "page_number": 249,
+  "page_range": [
+    249,
+    250
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `268b67fe-4867-5c96-96b0-ac810f454180`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "268b67fe-4867-5c96-96b0-ac810f454180",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping",
+  "chunk_text": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping (cont.)\n\nGlobal Standards and Regulations for Fuel Cells  \nThe IMO has issued interim guidelines regarding Fuel Cell  onboard ships. Different classification \nsocieties/flag states continuously adding newer guidelines appropriate to their specific need. \nGuidelines specific to the use of alternative fuels including hydrogen and its derivatives are covered \nin the International Code of Safety for ships using gases or other low flashpoint fuels (IGF Code) and \nInternational Code for the Construction and Equipmen\n\n… [+8079 more chars]",
+  "content_hash": "2ba4b8d2d208e7d97405d2bb55ff9ecb80184d8c2093d4d5d099ae5099281b0b",
+  "token_count": 1939,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    251,
+    254
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `14bea1a2-96ae-5e5a-a83e-6dd70e5f94a4`
+
+- vector: dim=3072 · [0.0047, 0.0110, -0.0084, 0.0021, -0.0103, -0.0181, -0.0185, 0.0034, …]
+
+```json
+{
+  "chunk_id": "14bea1a2-96ae-5e5a-a83e-6dd70e5f94a4",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping",
+  "chunk_text": "Global Standards and Regulations for Fuel Cells  \nThe IMO has issued interim guidelines regarding Fuel Cell  onboard ships. Different classification \nsocieties/flag states continuously adding newer guidelines appropriate to their specific need. \nGuidelines specific to the use of alternative fuels including hydrogen and its derivatives are covered \nin the International Code of Safety for ships using gases or other low flashpoint fuels (IGF Code) and \nInternational Code for the Construction and Equipment of ships carrying liquified gases in bulk (IGC \nCode). The above two guidelines are recogniz\n\n… [+1707 more chars]",
+  "content_hash": "961689b58e0e1a221ba8407e0005338a9b9e32a681dcbebb308002b42cdd9069",
+  "token_count": 440,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "268b67fe-4867-5c96-96b0-ac810f454180",
+  "chunk_index": 347,
+  "page_number": 251,
+  "page_range": [
+    251,
+    251
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `38afee5a-26d7-5128-abd6-cd5cd8fb33f3`
+
+- vector: dim=3072 · [0.0051, 0.0233, -0.0120, 0.0077, 0.0000, -0.0119, -0.0160, -0.0012, …]
+
+```json
+{
+  "chunk_id": "38afee5a-26d7-5128-abd6-cd5cd8fb33f3",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping",
+  "chunk_text": "Among the rules and standards \nintroduced by the International Electrochemical Commission (IEC) and international organization for standardization (ISO) in particular IEC 62281 & ISO 16110 have relevance to use of use of Fuel Cell s \nin marine use. \nThe following Table 5.5 outlines important guidelines from leading classification societies concerning \nFuel Cell  systems and liquefied hydrogen carriers in maritime settings [6,7,8,9,&10]   The American \nBureau of Shipping (ABS) sets forth requirements for Fuel Cell  power systems and liquefied hydrogen \ncarriers to guarantee safety, reliability,\n\n… [+1068 more chars]",
+  "content_hash": "33d247b3709ccd83805d0f9db55e7f8d3cefb9c118e0cca3ebcbe0749a5db250",
+  "token_count": 352,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "268b67fe-4867-5c96-96b0-ac810f454180",
+  "chunk_index": 348,
+  "page_number": 251,
+  "page_range": [
+    251,
+    251
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `922e4738-249c-5941-ad65-f4412bbcc338`
+
+- vector: dim=3072 · [-0.0150, 0.0049, -0.0099, -0.0005, -0.0003, -0.0155, -0.0039, 0.0023, …]
+
+```json
+{
+  "chunk_id": "922e4738-249c-5941-ad65-f4412bbcc338",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping",
+  "chunk_text": "Türk Loydu (TL) [7] also plays a role by providing specific regulations for the deployment \nof Fuel Cell  systems on ships, ensuring their safe and effective use. Together, these standards aim \nto improve safety, efficiency, and sustainability in the adoption of advanced maritime technologies. | S. No. | Standard No. | Standard Name | Remarks |\n| --- | --- | --- | --- |\n| 1. | NFPA 2 - 2011 Edition | Hydrogen Technologies Code | Establishes safety standards for hydrogen technologies and their applications. |\n| 2. | IMO IGF Code | International Code of Safety for Ships Using Gases or Other Low-\n\n… [+1736 more chars]",
+  "content_hash": "dfd292a688f7f43f22d72cdfe7102d56b1ad9a5f272cd19b9534a2d999cd457a",
+  "token_count": 556,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "268b67fe-4867-5c96-96b0-ac810f454180",
+  "chunk_index": 349,
+  "page_number": 252,
+  "page_range": [
+    252,
+    252
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `5c141ff0-d1da-5f3f-b324-93e219cbe6e6`
+
+- vector: dim=3072 · [0.0031, 0.0061, -0.0072, 0.0272, 0.0019, 0.0058, -0.0037, 0.0195, …]
+
+```json
+{
+  "chunk_id": "5c141ff0-d1da-5f3f-b324-93e219cbe6e6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping",
+  "chunk_text": "kW. |\n| 11. | IEC 62282-3- 300:2012 | Stationary Fuel Cell Power Systems - Installations | Minimum safety requirements for the installation of indoor and outdoor stationary Fuel Cell power systems per IEC 62282-3- 100. | | S. No. | Standard No. | Standard Name | Remarks |\n| --- | --- | --- | --- |\n| 12. | IEC 60079-10 | Explosive atmospheres - Part 10-1: Classification of areas - Explosive gas atmospheres | Explosive Atmospheres - Part 10-1: Classification of Areas - Explosive Gas Atmospheres: Focuses on classifying areas where flammable gases or vapors may occur. |\n| 13. | IEC 60079-14 | Expl\n\n… [+1517 more chars]",
+  "content_hash": "2f1b51ac34badffbc16830032e2ff70f9ee10269185de7919a9768591c7b2959",
+  "token_count": 509,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "268b67fe-4867-5c96-96b0-ac810f454180",
+  "chunk_index": 350,
+  "page_number": 253,
+  "page_range": [
+    253,
+    253
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4cb50578-06ad-5e03-9607-6d31dbd9920e`
+
+- vector: dim=3072 · [-0.0002, 0.0259, -0.0093, 0.0155, -0.0011, -0.0289, 0.0071, 0.0144, …]
+
+```json
+{
+  "chunk_id": "4cb50578-06ad-5e03-9607-6d31dbd9920e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping",
+  "chunk_text": "| - |\n| 21. | ISO/TR 15916 | Basic Considerations for the Safety of Hydrogen Systems | - |\n| 22. | ISO 26142:2010 | Hydrogen Detection Apparatus - Stationary Applications | Detection of leaks related to hydrogen systems. | | S. No. | Standard No. | Standard Name | Remarks |\n| --- | --- | --- | --- |\n| 23. | ISO/TS 19880- 1:2016 | Gaseous Hydrogen - Fueling Stations - Part 1: General Requirements | - |\n| 24. | ISO/TS 18683 | Guidelines for Systems and Installations for Supply of LNG as Fuel to Ships | Guidance on design and operation of LNG refueling facilities, including LNG refueling of ships\n\n… [+419 more chars]",
+  "content_hash": "aed18942e29585e5a1325120df9f3623ee098259446f5617f9e257b79fb46ada",
+  "token_count": 265,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "268b67fe-4867-5c96-96b0-ac810f454180",
+  "chunk_index": 351,
+  "page_number": 254,
+  "page_range": [
+    254,
+    254
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `48ca526c-3700-5ada-b0ad-b17165937df8`
+
+- vector: dim=3072 · [0.0111, 0.0319, -0.0091, -0.0076, -0.0273, -0.0150, -0.0191, -0.0107, …]
+
+```json
+{
+  "chunk_id": "48ca526c-3700-5ada-b0ad-b17165937df8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "5.5 Comparative LCA between Fuel Cells & Other Alternative Options in Green Shipping",
+  "chunk_text": "The main regulatory gaps arise from the lack of internationally accepted standards. The Maritime\nsector in general follows in the footsteps of the automotive sector in terms of technology. Therefore,\nwherever applicable the Fuel Cell standards in automotive sectors can be considered. The existing\nregulations for hydrogen and Fuel Cell s in the maritime sector still lack sufficient safety, quality,\nperformance and minimum retirement standards. The standards defined under IGF Code [3] primarily\nfocus on liquefied natural gas and although hydrogen is considered a reference point for Fuel Cell\ns, \n\n… [+1119 more chars]",
+  "content_hash": "8472a9a630c9e1c6386594d61ac2905936c56775cab51e3f211b4433b9c6c7b0",
+  "token_count": 327,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 352,
+  "page_number": 254,
+  "page_range": [
+    254,
+    254
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `4bd7eab3-23e1-573c-9f72-e706381308b6`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "4bd7eab3-23e1-573c-9f72-e706381308b6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Conclusions",
+  "chunk_text": "Conclusions\n\n»\nCritical factors for larger deployment of Fuel cells in shipping are power density, size, reliability, \ncost, fuel flexibility and durability\n\t»\nPresent power capacity from kW to few MW scale limits Fuel Cell s the application to inland water \nand sort sea/coastal shipping\n\t»\nHybrid power systems combining Diesel engines, batteries, and Fuel Cell s significantly help to \nreduce emissions (CO₂, NOx, SOx), improve fuel efficiency, and enhance vessel maneuverability.\n\t»\nBatteries and Fuel Cell s complement each other, with Fuel Cell s addressing battery range \nlimitations and batte\n\n… [+2240 more chars]",
+  "content_hash": "278898b0141ddc8496e7710ec24a85a6089b616ad398bf474be71cd02bcf5c80",
+  "token_count": 592,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    255,
+    255
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `dc229a3d-dfa5-5aa0-86a5-f4814d4c31d7`
+
+- vector: dim=3072 · [-0.0272, 0.0154, -0.0137, -0.0232, -0.0236, -0.0436, -0.0058, -0.0028, …]
+
+```json
+{
+  "chunk_id": "dc229a3d-dfa5-5aa0-86a5-f4814d4c31d7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Conclusions",
+  "chunk_text": "»\nCritical factors for larger deployment of Fuel cells in shipping are power density, size, reliability, \ncost, fuel flexibility and durability\n\t»\nPresent power capacity from kW to few MW scale limits Fuel Cell s the application to inland water \nand sort sea/coastal shipping\n\t»\nHybrid power systems combining Diesel engines, batteries, and Fuel Cell s significantly help to \nreduce emissions (CO₂, NOx, SOx), improve fuel efficiency, and enhance vessel maneuverability.\n\t»\nBatteries and Fuel Cell s complement each other, with Fuel Cell s addressing battery range \nlimitations and batteries enabling\n\n… [+1501 more chars]",
+  "content_hash": "f08b5ebfd46ca3501bff5da1f29ffe62f8b06544fceedc4786c015905db8f78f",
+  "token_count": 442,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "4bd7eab3-23e1-573c-9f72-e706381308b6",
+  "chunk_index": 353,
+  "page_number": 255,
+  "page_range": [
+    255,
+    255
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `20b40ad0-5444-5250-8ab8-3587d9995218`
+
+- vector: dim=3072 · [-0.0115, 0.0092, -0.0122, -0.0261, -0.0305, -0.0308, -0.0188, 0.0081, …]
+
+```json
+{
+  "chunk_id": "20b40ad0-5444-5250-8ab8-3587d9995218",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Conclusions",
+  "chunk_text": "The prevention of sea water mist entry to cathode \nair is important to maintain Fuel Cell  efficiency.\n\t» Fuel price is linked to supply of green hydrogen, infrastructure, especially the storage for hydrogen \nand bunkering for hydrogen derivatives in ports and terminals are absolute necessity\n\t»\nFuel cell reliability is largely impacted by the cycling effect and load variation especially for SOFC \nand MCFC (high temperature FC). Battery integration is the most practical solution to dampen \nFuel Cell  load variation for ship power.\n\t»\nAvailable system in the market w.r.to gravimetric and volume\n\n… [+231 more chars]",
+  "content_hash": "1f36cfcf65401aeb2796f12de7d219afddeaa46e1104b0e1e7eddcd44dc134b1",
+  "token_count": 169,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "4bd7eab3-23e1-573c-9f72-e706381308b6",
+  "chunk_index": 354,
+  "page_number": 255,
+  "page_range": [
+    255,
+    255
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `6949d488-e2ac-5e08-ad7c-358599295593`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "6949d488-e2ac-5e08-ad7c-358599295593",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Recommendations for India",
+  "chunk_text": "Recommendations for India\n\n»\nInstead of targeting C-free operation, use of renewable/e-/green fuels with high efficiency over \nwhole life cycle should be the focus for ship operation using Fuel Cell s\n\t»\nTowards zero emission, Fuel Cell should be considered a promising option for Inland water and \nshortsea/coastal shipping\n\t»\nFor very small vessel <100eKW (Inland water) DMFC could be worth investing for India. However, \nas DMFC relies on Methanol which produces CO2  as a byproduct, this technology will be \nconsidered carbon neutral/green only when Methanol is sourced from greener means. Thus, \n\n… [+5416 more chars]",
+  "content_hash": "052f749f2d79788b14d2d0c34a933879bf5ce678337c49d5eeb3b13d11dbccb4",
+  "token_count": 1763,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    256,
+    259
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e01b14fe-5be4-5e43-aac3-522434d9fa89`
+
+- vector: dim=3072 · [-0.0270, 0.0144, -0.0132, -0.0185, -0.0310, -0.0276, -0.0261, -0.0015, …]
+
+```json
+{
+  "chunk_id": "e01b14fe-5be4-5e43-aac3-522434d9fa89",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Recommendations for India",
+  "chunk_text": "»\nInstead of targeting C-free operation, use of renewable/e-/green fuels with high efficiency over \nwhole life cycle should be the focus for ship operation using Fuel Cell s\n\t»\nTowards zero emission, Fuel Cell should be considered a promising option for Inland water and \nshortsea/coastal shipping\n\t»\nFor very small vessel <100eKW (Inland water) DMFC could be worth investing for India. However, \nas DMFC relies on Methanol which produces CO2  as a byproduct, this technology will be \nconsidered carbon neutral/green only when Methanol is sourced from greener means. Thus, while \ncomplete adoption of\n\n… [+1280 more chars]",
+  "content_hash": "1fe94bc7a7fced8de7975885211d77b17ba8384d0be2a8914a2a14127b3a087e",
+  "token_count": 447,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "6949d488-e2ac-5e08-ad7c-358599295593",
+  "chunk_index": 355,
+  "page_number": 256,
+  "page_range": [
+    256,
+    256
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `3a6defab-bbd5-5ff7-b2da-1a23c5a8a3a7`
+
+- vector: dim=3072 · [-0.0144, 0.0220, -0.0224, -0.0279, -0.0367, -0.0026, -0.0173, -0.0015, …]
+
+```json
+{
+  "chunk_id": "3a6defab-bbd5-5ff7-b2da-1a23c5a8a3a7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Recommendations for India",
+  "chunk_text": "cruise, and long-haul vessels, pilot projects needs to be initiated with SOFC –Battery hybrid \n(immediate) and SOFC/ICE hybrid with alternative fuel options like Methanol and Ammonia \n(medium to long term) especially for auxiliary power units (AMUs). \n\t» SOFC technology should leverage its high fuel flexibility especially Ammonia & Methanol \n\t»\nEstablishing bunkering for alternate fuels especially renewable /E/green Methanol and Ammonia \nis of absolute necessity to accelerate Fuel Cell  adoption in shipping\nFuel Cell in Marine Snapshot: \n\t»\nPEMFCs lead with 76% (28 projects), mostly using Hydr\n\n… [+155 more chars]",
+  "content_hash": "5973ad71c633462e2a65203d635978b7557e8f5b5d5c53b5c6f102c1066deda9",
+  "token_count": 196,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "6949d488-e2ac-5e08-ad7c-358599295593",
+  "chunk_index": 356,
+  "page_number": 256,
+  "page_range": [
+    256,
+    256
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a20e752c-8e60-5fbe-81e7-c6941c90ff16`
+
+- vector: dim=3072 · [0.0010, 0.0270, -0.0092, -0.0303, -0.0339, -0.0133, 0.0069, 0.0114, …]
+
+```json
+{
+  "chunk_id": "a20e752c-8e60-5fbe-81e7-c6941c90ff16",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Recommendations for India",
+  "chunk_text": "), mostly using Hydrogen; 3 use Diesel/Methanol \nreforming.\n\t»\nSOFCs make up 13% (5 projects), using LNG, Diesel, Methanol, and Ammonia.\n\t»\nMCFCs account for 11% (4 projects). The drawbacks of low power density, short lifetime and high capital costs are surmountable by \nsustained innovation, high efficiency of integrated SOFC-CHP system &and drastic GHG emission \nreduction which could be made favorable with emission tax\n\t»\nResearch should be encouraged in terms of hydrogen storage solutions, high performance \nmembranes, reducing operating temperature of SOFC in order to use cheaper materials, \n\n… [+1088 more chars]",
+  "content_hash": "75cb4b5d412ab9471a704d8a493c888173faca395e15446d563c336f9b875a3c",
+  "token_count": 505,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "6949d488-e2ac-5e08-ad7c-358599295593",
+  "chunk_index": 357,
+  "page_number": 257,
+  "page_range": [
+    257,
+    257
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `646ed696-3b01-593b-b69b-a41d80218ca3`
+
+- vector: dim=3072 · [-0.0040, 0.0242, -0.0157, -0.0160, 0.0168, -0.0059, 0.0024, 0.0207, …]
+
+```json
+{
+  "chunk_id": "646ed696-3b01-593b-b69b-a41d80218ca3",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Recommendations for India",
+  "chunk_text": "Lloyd’s Register Report, 2023,, LR-GN-016 Guidance notes on the installation of Fuel Cell s on ships.  https://www.lr.org/en/knowledge/lloyds-register-rules/guidance-notes/guidance-notes-\non-the-installation-of-fuel-cells-on-ships/\n7.\t TÜRK LOYDU. , 2024. Guidelines for the use of Fuel Cell  systems on ships. In TÜRK LOYDU - \nGUIDELINES FOR THE USE OF FUEL CELL SYSTEMS ON SHIPS (pp. 1–8).  https://www.turkloydu.\norg/pdf-files/turk- \nloydu-kurallari/cilt-c/chapter-26-Guidelines-For-The-Use-of-Fuel-Cell-\nSystems-On-Ships-2024-JAN.pdf\n8.\t Inal, O. B. , 2024., Decarbonization of shipping: Hydrogen\n\n… [+661 more chars]",
+  "content_hash": "2009bf4bd9c196fd391c68dba86fa7d4bdb0ca2eeb435b16a63a2b4747bff188",
+  "token_count": 434,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "6949d488-e2ac-5e08-ad7c-358599295593",
+  "chunk_index": 358,
+  "page_number": 257,
+  "page_range": [
+    257,
+    257
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `83afd7de-1f73-5064-ad0b-9af5e6a27490`
+
+- vector: dim=3072 · [-0.0219, 0.0453, -0.0129, 0.0029, 0.0190, -0.0144, -0.0281, 0.0047, …]
+
+```json
+{
+  "chunk_id": "83afd7de-1f73-5064-ad0b-9af5e6a27490",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Recommendations for India",
+  "section_type": "references",
+  "chunk_text": "306130451461092#:~:text=CCS%20has%20carried%20out%20\nresearch%20on%20epidemic%20prevention%20safety%20for,quality%20development%20\nof%20the%20industry 11.\t Elkafas, A. G., Rivarolo, M., Gadducci, E., Magistri, L., & Massardo, A. F. (2022). Fuel Cell Systems \nfor Maritime: A review of research development, commercial products, applications, and \nperspectives. Processes, 11(1), 97. https://doi.org/10.3390/pr11010097\n12.\t Van Veldhuizen, B., Van Biert, L., Aravind, P. V., & Visser, K. (2023). Solid Oxide Fuel Cells for \nMarine Applications. International Journal of Energy Research, 2023, 1–35. ht\n\n… [+475 more chars]",
+  "content_hash": "c5f90adafb01b7c116b9a08db062a1a30cf6eefd6b8acbf611c9bdbdf7f79e60",
+  "token_count": 380,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "6949d488-e2ac-5e08-ad7c-358599295593",
+  "chunk_index": 359,
+  "page_number": 258,
+  "page_range": [
+    258,
+    259
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `27fc7500-1516-5043-bba3-2c0e4871c271`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "27fc7500-1516-5043-bba3-2c0e4871c271",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 6 — Shipping",
+  "chunk_text": "Chapter 6 — Shipping\n\nFuels and\nPossibility of On-Board\nCarbon Capture\n\nGlobally Marine sector is moving towards LNG (near and medium term though fossil-based but later\ncan be shifted to CBG), Methanol (immediate), and Hydrogen & Ammonia (long term) as dual fuel &\nretrofitting options for marine engines. From medium term perspective in the timeline between2027 to\n2035 [1], among the various bio/green fuel options, bio/e-methanol, bio-DME, bio/e-LNG, and pyrolysis\nbio-oil appears well suited for the marine sector owing to their potential for scale-up, global advanced\nproduction status, and low \n\n… [+5690 more chars]",
+  "content_hash": "0acd523b0c6c09d8c1e66269014329cfad9003ccff83f9870cb328c46b557067",
+  "token_count": 1791,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    260,
+    261
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4b6623d6-7029-53ee-893a-95a512e0913e`
+
+- vector: dim=3072 · [0.0055, 0.0267, -0.0142, -0.0102, -0.0176, -0.0038, -0.0470, -0.0028, …]
+
+```json
+{
+  "chunk_id": "4b6623d6-7029-53ee-893a-95a512e0913e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 6 — Shipping",
+  "chunk_text": "Fuels and\nPossibility of On-Board\nCarbon Capture\n\nGlobally Marine sector is moving towards LNG (near and medium term though fossil-based but later\ncan be shifted to CBG), Methanol (immediate), and Hydrogen & Ammonia (long term) as dual fuel &\nretrofitting options for marine engines. From medium term perspective in the timeline between2027 to\n2035 [1], among the various bio/green fuel options, bio/e-methanol, bio-DME, bio/e-LNG, and pyrolysis\nbio-oil appears well suited for the marine sector owing to their potential for scale-up, global advanced\nproduction status, and low costs. These options a\n\n… [+703 more chars]",
+  "content_hash": "31d359da9aaee1c893895f6e427524ae01c4705013e5a9372fe219777adb1a28",
+  "token_count": 285,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "27fc7500-1516-5043-bba3-2c0e4871c271",
+  "chunk_index": 360,
+  "page_number": 260,
+  "page_range": [
+    260,
+    260
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c7dfac79-c79c-5934-9a6b-76a808c416ff`
+
+- vector: dim=3072 · [-0.0172, 0.0217, -0.0187, -0.0033, -0.0291, -0.0540, -0.0050, 0.0224, …]
+
+```json
+{
+  "chunk_id": "c7dfac79-c79c-5934-9a6b-76a808c416ff",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 6 — Shipping",
+  "chunk_text": "This awareness though presently is lacking\namong industrial stakeholders but likely to be enhanced in future. |  | Weight | Bio-Methanol | Bio-Methanol | Bio-Methanol | Bio-DME | Bio-DME | Bio-DME | Bio-LNG | Bio-LNG | Bio-LNG | Bio-oil | Bio-oil | Bio-oil |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| A | B | C | A | B | C | A | B | C | A | B | C |  |  |\n| Present | 0.08 | 3.5 | 3.8 | 1.8 | 3 | 3.2 | 1.5 | 4 | 3.7 | 1.8 | 3.5 | 3.3 | 1.6 |\n| technology |  |  |  |  |  |  |  |  |  |  |  |  |  |\n| status |  |  |  |  |  |  |  |  |  |  |  |  |  |\n| Potent\n\n… [+485 more chars]",
+  "content_hash": "f3c3c17cbc611fd353a7db5eb1905c194c1adbe4afbca89eaa0b9e763ffff9e0",
+  "token_count": 577,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "27fc7500-1516-5043-bba3-2c0e4871c271",
+  "chunk_index": 361,
+  "page_number": 260,
+  "page_range": [
+    260,
+    260
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1037b2c1-2c1f-5fb6-9656-c17340c69146`
+
+- vector: dim=3072 · [0.0045, -0.0077, -0.0084, 0.0001, -0.0222, -0.0382, -0.0298, 0.0117, …]
+
+```json
+{
+  "chunk_id": "1037b2c1-2c1f-5fb6-9656-c17340c69146",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 6 — Shipping",
+  "chunk_text": ".5 | 3.5 | 3.3 | 3.2 | 3 | 3.7 | 3.6 |\n| compatibility |  |  |  |  |  |  |  |  |  |  |  |  |  | | CCS | 0.05 | 3 | 3.2 | 1.0 | 3 | 2.9 | 0.9 | 4 | 2.7 | 0.8 | 2 | 2.7 | 0.8 |\n| compatibility |  |  |  |  |  |  |  |  |  |  |  |  |  |\n| Sum |  | 20.0 |  | 21.2 | 20.0 |  | 19.4 | 19.5 |  | 18.8 | 18.5 |  | 20.6 |\n\n\\* A: Score allotted to fuel for criterion based on literature study; B: Score allotted to fuel criterion by stakeholders;\n\nC: Weighted score of fuel for criterion (C=Weight\\*B\\*6, as 6 criteria used; rounded to one decimal place)\n\nIn a comparison between Hydrothermal Liquefaction (HTL) \n\n… [+633 more chars]",
+  "content_hash": "39ea56572e71e9c16448128b4543d4d87059ad28786ea867c89138d0f767d314",
+  "token_count": 409,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "27fc7500-1516-5043-bba3-2c0e4871c271",
+  "chunk_index": 362,
+  "page_number": 260,
+  "page_range": [
+    260,
+    260
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `85989c63-1ab2-5239-825d-84bb7ec3d24a`
+
+- vector: dim=3072 · [-0.0155, 0.0201, -0.0049, -0.0062, -0.0266, -0.0226, -0.0425, -0.0046, …]
+
+```json
+{
+  "chunk_id": "85989c63-1ab2-5239-825d-84bb7ec3d24a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 6 — Shipping",
+  "chunk_text": "Nevertheless, the simplicity, maturity,\napplicability for dry wastes and low cost of pyrolysis bio-oil production could be balanced against the present cost of its downstream upgrading. Another critical study is conducted on OCC as part of \nthe Green Fuels Optionality Project (GFOP) at the Mærsk McKinney Møller Centre for Zero Carbon \nShipping (MMMCZCS). To gain a better understanding of the role of OCC in maritime decarbonization \nand assess OCC’s business case for different vessel types and sizes, the applicability of OCC to the \nlargest shipping segments (container, bulk, and tanker), main \n\n… [+1696 more chars]",
+  "content_hash": "0cb558d4ea87880ab3aba2dcd395b340ced9e051391b5283bd1f8b54f404e0e2",
+  "token_count": 466,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "27fc7500-1516-5043-bba3-2c0e4871c271",
+  "chunk_index": 363,
+  "page_number": 261,
+  "page_range": [
+    261,
+    261
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a5159b31-bf5d-5622-8e27-0823a72dd604`
+
+- vector: dim=3072 · [-0.0055, 0.0183, -0.0107, -0.0086, -0.0222, -0.0251, -0.0414, 0.0094, …]
+
+```json
+{
+  "chunk_id": "a5159b31-bf5d-5622-8e27-0823a72dd604",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 6 — Shipping",
+  "chunk_text": "ization of adsorbed CO2 especially for the \ncountries like India with lack of geological CO2 storage sites along with innovation in sustainable \nCO2 adsorption material production. \n6.1\t\nOnboard Carbon Capture Technologies\nThe IMO has initiated discussions towards creating a regulatory framework for Onboard Carbon Capture and Storage (OCCS), with the Marine Environment Protection Committee (MEPC) planning to \nreview progress this year in 2025. Meanwhile, the European Union (EU) has woven shipping emissions \ninto its climate policy, which includes the EU Emissions Trading System (EU ETS) and th\n\n… [+406 more chars]",
+  "content_hash": "9362de11b8b099ad0fd19fc795d3609483e99652d71724dc0d8368e4cc99bbb7",
+  "token_count": 213,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "27fc7500-1516-5043-bba3-2c0e4871c271",
+  "chunk_index": 364,
+  "page_number": 261,
+  "page_range": [
+    261,
+    261
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4bf0e4ee-1317-5953-85dc-702ac99e6714`
+
+- vector: dim=3072 · [-0.0037, 0.0068, -0.0097, -0.0049, -0.0290, -0.0336, -0.0342, 0.0259, …]
+
+```json
+{
+  "chunk_id": "4bf0e4ee-1317-5953-85dc-702ac99e6714",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6.1.1\t CCS Technology Pathways",
+  "chunk_text": "A detailed techno-economical study [3] reveals that retrofitted CO2 capture plant on-board scenario \nis technically feasible and economically competitive. This study also reveals that the transport of \nliquid CO2 is a major safety concern due to its instability at the triple phase point as shown in Figure \n6. However, at ambient pressure, gaseous CO2 requires large space available on-board, which would \nmake this option infeasible even for a week trip.\n\nFigure 6.1: Different Pathways of OCCS (Inspired by [4])\nFigure 6.2: Phase Diagram of CO2 [5]",
+  "content_hash": "3ae5c7fe77d7fb3bd7ed4a99ec1884404a0a9f44a374aeae720e1612f4c1f5e6",
+  "token_count": 129,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 365,
+  "page_number": 261,
+  "page_range": [
+    261,
+    262
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `81ad1567-76c7-55a1-ae16-72840e1edffe`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "81ad1567-76c7-55a1-ae16-72840e1edffe",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6.1.2\t Viable Options for Onboard CO₂ Storage",
+  "chunk_text": "6.1.2\t Viable Options for Onboard CO₂ Storage\n\nThe viable options for storing CO2 onboard include a gaseous state, supercritical state, solid state, \nor liquid state. Large number of studies [6] have shown the gas phase storage of CO2 impractical \nowing to the significant volume it would occupy, despite its pressurization and cooling requirement \nbeen much lower in comparison to other phases. In addition, gaseous CO2 has lowest density among \nother forms. In gaseous state CO2 has a density of 172 kg/m3 at 30 °C and 60 bar <density of \nsupercritical CO2 757 kg/m3 at 35 °C and 125 bar < the dens\n\n… [+6439 more chars]",
+  "content_hash": "1fb1d061f0d845b6bfb909339ae6b4ac5d7212c60fadfdebc5109b636414e213",
+  "token_count": 1716,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    263,
+    266
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `818600ae-f14c-575f-9b1f-a3834b709366`
+
+- vector: dim=3072 · [-0.0125, 0.0004, 0.0002, 0.0017, 0.0060, -0.0364, -0.0205, -0.0017, …]
+
+```json
+{
+  "chunk_id": "818600ae-f14c-575f-9b1f-a3834b709366",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6.1.2\t Viable Options for Onboard CO₂ Storage",
+  "chunk_text": "The viable options for storing CO2 onboard include a gaseous state, supercritical state, solid state, \nor liquid state. Large number of studies [6] have shown the gas phase storage of CO2 impractical \nowing to the significant volume it would occupy, despite its pressurization and cooling requirement \nbeen much lower in comparison to other phases. In addition, gaseous CO2 has lowest density among \nother forms. In gaseous state CO2 has a density of 172 kg/m3 at 30 °C and 60 bar <density of \nsupercritical CO2 757 kg/m3 at 35 °C and 125 bar < the density of liquid CO2 1011 kg/m3 at−15 \n°C and 30 b\n\n… [+1235 more chars]",
+  "content_hash": "a262e5915e9049eb0c56ee1e533649136e326335fb887bb4d46dffc391429ce5",
+  "token_count": 448,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "81ad1567-76c7-55a1-ae16-72840e1edffe",
+  "chunk_index": 366,
+  "page_number": 263,
+  "page_range": [
+    263,
+    263
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `0e5cbcb6-b64c-56ad-80da-8cbe6beb03c9`
+
+- vector: dim=3072 · [-0.0035, -0.0007, -0.0051, -0.0137, 0.0056, -0.0358, -0.0338, -0.0081, …]
+
+```json
+{
+  "chunk_id": "0e5cbcb6-b64c-56ad-80da-8cbe6beb03c9",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6.1.2\t Viable Options for Onboard CO₂ Storage",
+  "chunk_text": "Another method of CO₂ solidification involves chemically binding it to another substance. \nAlthough solid stage is promising shipboard storage [8], it remains in the lab stage and has not yet \nbeen mature enough for widespread commercial application. Additionally, this also requires onboard materials for binding process, therefore increasing ship weight. Both refrigeration and chemical \nsequestration demand a robust system to manage solid CO₂ effectively on ships. For refrigerated \nCO₂, a closed system is crucial to prevent sublimation, which could pose asphyxiation risks due to the \nair escap\n\n… [+1622 more chars]",
+  "content_hash": "cadc087cf05c0b0b90e1c3e8dc3290a1f65037b3f90b6174eb76578dc52c9dcd",
+  "token_count": 473,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "81ad1567-76c7-55a1-ae16-72840e1edffe",
+  "chunk_index": 367,
+  "page_number": 263,
+  "page_range": [
+    263,
+    263
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `324b13a1-d405-5549-b6e2-3a495a0d97d0`
+
+- vector: dim=3072 · [0.0098, 0.0328, -0.0098, -0.0049, -0.0109, -0.0182, -0.0000, 0.0108, …]
+
+```json
+{
+  "chunk_id": "324b13a1-d405-5549-b6e2-3a495a0d97d0",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6.1.2\t Viable Options for Onboard CO₂ Storage",
+  "chunk_text": "The liquefied CO₂ must be kept under cryogenic conditions in pressurized and \ninsulated tanks to stop it from turning back into gas. These tanks are usually built following the \nguidelines set by the International Code for the Construction and Equipment of Ships Carrying Liquefied Gases in Bulk (IGC Code) [9]. In particular, Type C liquefied gas tanks are the go-to choose \nfor storing pressurized CO₂, due to their proven safety, durability, and ability to handle liquefied \ngases even in tough maritime environments [10]. \nCaptured CO₂ needs to be periodically offloaded at ports, either at the e\n\n… [+1206 more chars]",
+  "content_hash": "671ff125a47011314642c5f38c9606a74771635ed6cd7728c509262c0638df31",
+  "token_count": 392,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "81ad1567-76c7-55a1-ae16-72840e1edffe",
+  "chunk_index": 368,
+  "page_number": 264,
+  "page_range": [
+    264,
+    264
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `80e34db2-ae89-5ad3-906a-f55a4b03fabb`
+
+- vector: dim=3072 · [0.0220, 0.0272, -0.0220, 0.0124, 0.0063, -0.0334, 0.0206, 0.0073, …]
+
+```json
+{
+  "chunk_id": "80e34db2-ae89-5ad3-906a-f55a4b03fabb",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6.1.2\t Viable Options for Onboard CO₂ Storage",
+  "chunk_text": "Table 6.2 provides a list of significant OCCS demonstration \nprojects, highlighting their objectives, the country, stakeholders involved, and their status. <table>\n<caption>Table 6.2: Some significant OCCS demonstration projects, detailing their objectives, the country, stakeholders involved, and their current status</caption>\n<tr>\n<th>S. No</th>\n<th>Project</th>\n<th>Objective</th>\n<th>Vessel Type</th>\n<th>Technology Used/ Technology Provider</th>\n<th>CO2 Capture Target/Scale of Capture</th>\n<th>Key Features and Progress</th>\n<th>Country</th>\n<th>Ref.</th>\n</tr>\n<tr>\n<td>1</td>\n<td>CC-Ocean Pr\n\n… [+1244 more chars]",
+  "content_hash": "071b334f523bac8ab17a42975c628a08124dfb0be18b8d63d7266f21ca7c68f8",
+  "token_count": 524,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "81ad1567-76c7-55a1-ae16-72840e1edffe",
+  "chunk_index": 369,
+  "page_number": 265,
+  "page_range": [
+    265,
+    266
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `e4a0d343-1c11-55f2-8832-fc158671fedc`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "e4a0d343-1c11-55f2-8832-fc158671fedc",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6.1.2\t Viable Options for Onboard CO₂ Storage",
+  "chunk_text": "6.1.2\t Viable Options for Onboard CO₂ Storage (cont.)\n\n<table>\n<caption>Table 6.2: Some significant OCCS demonstration projects, detailing their objectives, the country, stakeholders involved, and their current status</caption>\n<tr>\n<th>S. No</th>\n<th>Project</th>\n<th>Objective</th>\n<th>Vessel Type</th>\n<th>Technology Used/ Technology Provider</th>\n<th>CO2 Capture Target/Scale of Capture</th>\n<th>Key Features and Progress</th>\n<th>Country</th>\n<th>Ref.</th>\n</tr>\n<tr>\n<td>4</td>\n<td>Green Marine Project</td>\n<td>Retrofit ships with emission control technologies</td>\n<td>Passenger ferry (MV Cor\n\n… [+4400 more chars]",
+  "content_hash": "71d29e24c3f8d1f6fcc81292d4aec456a9a981c985e472a6d8efe8b6dc039408",
+  "token_count": 1423,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    266,
+    268
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `db03c906-a62c-5bcd-b532-ca481854e77d`
+
+- vector: dim=3072 · [0.0062, 0.0215, -0.0232, 0.0201, 0.0099, -0.0381, 0.0211, 0.0164, …]
+
+```json
+{
+  "chunk_id": "db03c906-a62c-5bcd-b532-ca481854e77d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6.1.2\t Viable Options for Onboard CO₂ Storage",
+  "chunk_text": "<table>\n<caption>Table 6.2: Some significant OCCS demonstration projects, detailing their objectives, the country, stakeholders involved, and their current status</caption>\n<tr>\n<th>S. No</th>\n<th>Project</th>\n<th>Objective</th>\n<th>Vessel Type</th>\n<th>Technology Used/ Technology Provider</th>\n<th>CO2 Capture Target/Scale of Capture</th>\n<th>Key Features and Progress</th>\n<th>Country</th>\n<th>Ref.</th>\n</tr>\n<tr>\n<td>4</td>\n<td>Green Marine Project</td>\n<td>Retrofit ships with emission control technologies</td>\n<td>Passenger ferry (MV Coruisk)</td>\n<td>Emission control retrofits, including CC\n\n… [+987 more chars]",
+  "content_hash": "4a91b616e34f9cd07780c758ae98ccb92016a9d42cc76610613794b3ab9d8e1f",
+  "token_count": 426,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e4a0d343-1c11-55f2-8832-fc158671fedc",
+  "chunk_index": 370,
+  "page_number": 266,
+  "page_range": [
+    266,
+    266
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `6226f464-fa27-5448-a33e-360f5ca410d7`
+
+- vector: dim=3072 · [0.0027, 0.0435, -0.0231, 0.0057, -0.0074, -0.0214, 0.0154, 0.0256, …]
+
+```json
+{
+  "chunk_id": "6226f464-fa27-5448-a33e-360f5ca410d7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6.1.2\t Viable Options for Onboard CO₂ Storage",
+  "chunk_text": "Planned two-year sea trials with potential for long-term CCS integration.</td> <td>23 Study Partners and 2 Observers. This includes Shell, Woodside Energy, Alfa Laval, Panasia, Maritime and Port Authority of Singapore, Port of Rotterdam Authority</td>\n<td>[18,19\n\n]</td>\n</tr>\n</table>\n\n<table>\n<caption>Table 6.2: Some significant OCCS demonstration projects, detailing their objectives, the country, stakeholders involved, and their current status</caption>\n<tr>\n<th>S. No</th>\n<th>Project</th>\n<th>Objective</th>\n<th>Vessel Type</th>\n<th>Technology Used/ Technology Provider</th>\n<th>CO2 Capture T\n\n… [+1154 more chars]",
+  "content_hash": "06855c72d5fa919d8114acb319946391e8e06a3b519b1b97ef34ee6f138baf10",
+  "token_count": 516,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e4a0d343-1c11-55f2-8832-fc158671fedc",
+  "chunk_index": 371,
+  "page_number": 266,
+  "page_range": [
+    266,
+    267
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ac5ffde3-4d82-5c4c-951f-358a8645db30`
+
+- vector: dim=3072 · [0.0064, 0.0390, -0.0246, -0.0036, -0.0010, -0.0467, 0.0015, 0.0197, …]
+
+```json
+{
+  "chunk_id": "ac5ffde3-4d82-5c4c-951f-358a8645db30",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6.1.2\t Viable Options for Onboard CO₂ Storage",
+  "chunk_text": "vessel; approved by ABS in 2023</td>\n<td>Dutch</td>\n<td>[22]</td>\n</tr>\n<tr>\n<td>10</td>\n<td>CO2ASTS (2020)</td>\n<td>Analyze OCCS effects on LNG-powered ships</td> <td>LNG-fueled ships</td>\n<td>MEA solvent- based capture</td>\n<td>75%, 54%, and 69% capture rates</td>\n<td>Demonstrated cost efficiency by integrating heat from exhaust gas and cold from LNG vaporization</td>\n<td>Germany, the Netherlands and the EU</td>\n<td>[23\n\n]</td>\n</tr>\n</table>\n\n<table>\n<caption>Table 6.2: Some significant OCCS demonstration projects, detailing their objectives, the country, stakeholders involved, and their cu\n\n… [+1245 more chars]",
+  "content_hash": "3fe858ef807ec9eec1d556b9738c7475a5e2fea5e11b9de853597b09bf02e81a",
+  "token_count": 542,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "e4a0d343-1c11-55f2-8832-fc158671fedc",
+  "chunk_index": 372,
+  "page_number": 267,
+  "page_range": [
+    267,
+    268
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `66065836-3f2e-5709-8f99-fc3d0528a8b2`
+
+- vector: dim=3072 · [-0.0136, 0.0272, -0.0095, -0.0237, -0.0206, -0.0349, -0.0134, 0.0125, …]
+
+```json
+{
+  "chunk_id": "66065836-3f2e-5709-8f99-fc3d0528a8b2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "OCCS Readiness Level",
+  "chunk_text": "The readiness assessment for carbon capture technologies evaluates their technology Readiness \nLevel (TRL), Investment Readiness Level  (IRL), and Commercial Readiness Level  (CRL). These metrics \nhelp gauge the feasibility, economic viability, safety, and scalability of carbon capture solutions \nacross maritime and industrial applications. \nValue Maritime’s post-combustion CO₂ capture system, currently deployed on vessels like the M/T \nPacific Cobalt (targeting 40% emissions capture), has reached TRL 6, indicating early operational \nsuccess. However, its IRL remains at 2 due to economic conce\n\n… [+2066 more chars]",
+  "content_hash": "f830402edb809ca43ef14bb1157d2f853d28336d19d87b3198dd66e08563f3e3",
+  "token_count": 556,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 373,
+  "page_number": 269,
+  "page_range": [
+    269,
+    269
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `840bcec3-cb2b-565a-886d-025b8058636a`
+
+- vector: dim=3072 · [0.0063, 0.0268, -0.0140, -0.0003, -0.0139, -0.0403, -0.0282, 0.0001, …]
+
+```json
+{
+  "chunk_id": "840bcec3-cb2b-565a-886d-025b8058636a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6.4 \t Advantages and Disadvantages of OCCS Technologies",
+  "chunk_text": "Implementing carbon capture technologies onboard ships presents opportunities and challenges \nthat influence their feasibility, efficiency, and overall impact on maritime operations. The advantages \nand disadvantages vary significantly based on the type of carbon capture technology utilized—pre-\ncombustion capture, oxy-fuel combustion capture, or post-combustion capture are presented in \nFigure 6.4- 6.6.\n\nFigure 6.3: Readiness Levels of Onboard Carbon Capture \nFigure 6.4: Advantages and Disadvantages of Pre Combustion Capture\n\nFigure 6.5: Advantages and Disadvantages of Oxy Fuel Combustion Cap\n\n… [+92 more chars]",
+  "content_hash": "1b978dea7018bb70bc349916fbe7aec93859576afadfb6dcc7cfabec2ecf5d21",
+  "token_count": 154,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 374,
+  "page_number": 269,
+  "page_range": [
+    269,
+    271
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `21d4bdf5-e5cc-53af-9242-cb79aeec0985`
+
+- vector: dim=3072 · [0.0112, 0.0209, -0.0123, -0.0181, -0.0084, -0.0411, -0.0364, 0.0051, …]
+
+```json
+{
+  "chunk_id": "21d4bdf5-e5cc-53af-9242-cb79aeec0985",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Key Parameters for OCCS",
+  "chunk_text": "The following diagram Figure 6.7 provides a clear overview of the essential factors to consider when \nsetting up onboard carbon capture systems (OCCS) for ships. It points out crucial elements like how \nthese systems affect engine performance, the power needed for auxiliary systems, and overall energy \nefficiency. The diagram stresses the importance of thoughtful design to tackle challenges such as \nCO₂ treatment and storage, ensuring fuel system compatibility, and addressing safety issues like the \nrisk of asphyxiation. Moreover, it points the need to optimize space, weight, and storage capac\n\n… [+1381 more chars]",
+  "content_hash": "fd31fdbcb8a7663a47908f5f91baaa475d679bb0efb1942dc6bd4413ff696738",
+  "token_count": 374,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 375,
+  "page_number": 272,
+  "page_range": [
+    272,
+    272
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `1c217b64-7705-52f8-a123-caf47c757224`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "1c217b64-7705-52f8-a123-caf47c757224",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Conclusions",
+  "chunk_text": "Conclusions\n\nPresent Technological status of Onboard Carbon Capture and Storage (OCCS) are poised to cut CO₂ \nemissions from ships by as much as 20% each year, while keeping the fuel consumption penalty \nbelow 10%. Projects like EverLoNG and various pilot studies have established the feasibility of OCCS, \nalthough rolling it out on larger scale comes with its intrinsic set of economic, technical, and regulatory \nhurdles. For instance, retrofitting a vessel like the Stena Imperio is expected to cost around $13.6 \nmillion, with an abatement cost of $769 for every ton of CO₂ captured [19]. Ongoin\n\n… [+5371 more chars]",
+  "content_hash": "ac8a4ffcd42f60d5a7be5143d6d78b94652c7cd260ebe24927dcc4d53ab617a3",
+  "token_count": 1429,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    273,
+    274
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9823566d-0f90-5ca5-9561-d915bb25080a`
+
+- vector: dim=3072 · [-0.0085, 0.0288, -0.0101, -0.0213, -0.0042, -0.0575, -0.0212, 0.0081, …]
+
+```json
+{
+  "chunk_id": "9823566d-0f90-5ca5-9561-d915bb25080a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Conclusions",
+  "chunk_text": "Present Technological status of Onboard Carbon Capture and Storage (OCCS) are poised to cut CO₂ \nemissions from ships by as much as 20% each year, while keeping the fuel consumption penalty \nbelow 10%. Projects like EverLoNG and various pilot studies have established the feasibility of OCCS, \nalthough rolling it out on larger scale comes with its intrinsic set of economic, technical, and regulatory \nhurdles. For instance, retrofitting a vessel like the Stena Imperio is expected to cost around $13.6 \nmillion, with an abatement cost of $769 for every ton of CO₂ captured [19]. Ongoing research an\n\n… [+1498 more chars]",
+  "content_hash": "c6f24c4183692892d17c1a459592fdf4e5d4ef3a8647b7447dd19b6e61874212",
+  "token_count": 436,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1c217b64-7705-52f8-a123-caf47c757224",
+  "chunk_index": 376,
+  "page_number": 273,
+  "page_range": [
+    273,
+    273
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `605e53ee-01f1-586c-b7e9-22dd7352c0a7`
+
+- vector: dim=3072 · [-0.0102, 0.0191, -0.0085, -0.0141, -0.0276, -0.0193, -0.0359, -0.0014, …]
+
+```json
+{
+  "chunk_id": "605e53ee-01f1-586c-b7e9-22dd7352c0a7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Conclusions",
+  "chunk_text": "While OCCS boasts a high technology readiness level (TRL) for capturing \nand storing carbon, its Investment readiness level (IRL) and Commercial readiness level (CRL) are still \nlagging, indicating a need for clearer regulations and operational and pilot level experience. As it is unrealistic to achieve a complete replacement of fossil fuels in the maritime sector \ndue to lack of both fuel supply chain and alternate engines, there is a need to increasingly \nimplement CO2 capture on-board and switch over to Bio/ synthetic E-fuels from HFO with the \nadvancement of alternate fuel engines. This co\n\n… [+840 more chars]",
+  "content_hash": "8f0ef5b9fd481627c2c66a86bc9b3dafeb5032b5e3221ecc0ed21a574a3a61a4",
+  "token_count": 292,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1c217b64-7705-52f8-a123-caf47c757224",
+  "chunk_index": 377,
+  "page_number": 273,
+  "page_range": [
+    273,
+    273
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7298653e-5433-58e6-8bbe-615022cc1b7f`
+
+- vector: dim=3072 · [-0.0072, 0.0226, -0.0120, -0.0080, -0.0030, -0.0212, -0.0373, 0.0038, …]
+
+```json
+{
+  "chunk_id": "7298653e-5433-58e6-8bbe-615022cc1b7f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Conclusions",
+  "chunk_text": "In addition to Amine based CCS, India should focus (through timebound innovative R&D) for \ncryogenic & solid-state storage technology upscaling and adoption in shipping (short to medium \nterm projects to undertake) 3.\t In order to minimize CO2 transport and enable larger adoption of OCC, policy support is needed in \ndeveloping CCU units in ports along India’s coastal belt for frequent offloading of captured CO2 \n(short to medium term)\n4.\t Among CCU options, onboard captured CO2 utilization for E-Methanol synthesis could be given \npriority for leveraging twin benefit of CO2 capture and E-Methan\n\n… [+1235 more chars]",
+  "content_hash": "8caeb9cc89751a9f7094200d6f4c8e8036ac68f6d82b99f579313b4a084d1403",
+  "token_count": 450,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1c217b64-7705-52f8-a123-caf47c757224",
+  "chunk_index": 378,
+  "page_number": 274,
+  "page_range": [
+    274,
+    274
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1ccf7752-e4c0-5d60-9ec5-549ae6bf514f`
+
+- vector: dim=3072 · [0.0081, 0.0182, -0.0092, -0.0027, 0.0137, -0.0181, -0.0302, -0.0026, …]
+
+```json
+{
+  "chunk_id": "1ccf7752-e4c0-5d60-9ec5-549ae6bf514f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Conclusions",
+  "section_type": "references",
+  "chunk_text": "(2020). A perspective on biofuels use and CCS \nfor GHG mitigation in the marine sector.  iScience,  23(11), 101758.  https://doi.org/10.1016/j.\nisci.2020.101758 3.\t Negri, V., Charalambous, M. A., Medrano-García, J. D., & Guillén-Gosálbez, G. (2022). Navigating \nwithin the Safe Operating Space with Carbon Capture On-Board. ACS Sustainable Chemistry & \nEngineering, 10(51), 17134–17142. https://doi.org/10.1021/acssuschemeng.2c04627\n4.\t Carbon dioxide Capture and Storage — IPCC. (2005). IPCC. https://www.ipcc.ch/report/carbon-\ndioxide-capture-and-storage/\n5.\t Seo, Y., Huh, C., Lee, S., & Chang, D\n\n… [+629 more chars]",
+  "content_hash": "bb42d765e38133c5b8c25035d28c9b145a247097076282bb26acc8accc05ad59",
+  "token_count": 402,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1c217b64-7705-52f8-a123-caf47c757224",
+  "chunk_index": 379,
+  "page_number": 274,
+  "page_range": [
+    274,
+    274
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `74600e2f-edc4-57de-baed-58b6e56dc48c`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "74600e2f-edc4-57de-baed-58b6e56dc48c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Conclusions",
+  "section_type": "references",
+  "chunk_text": "Conclusions (cont.)\n\n8.\t Wang, H., Zhou, P., & Wang, Z. (2017). Reviews on current carbon emission reduction technologies \nand projects and their feasibilities on ships. Journal of Marine Science and Application, 16(2), \n129–136. https://doi.org/10.1007/s11804-017-1413-y\n9.\t Onboard Carbon Capture Utilisation and Storage: A Promising Solution for Maritime \nDecarbonisation. (2024, August 14).  https://www.westpandi.com/news-and-resources/news/\naugust-2024/august-test-article/\n10.\t Baroudi, H. A., Awoyomi, A., Patchigolla, K., Jonnalagadda, K., & Anthony, E. (2021). A Review of \nLarge-Scale CO2 \n\n… [+4243 more chars]",
+  "content_hash": "22081ad2fa9b156a77a247735227a2c4d6a1a6fe1a089b606e1121d6641a6f82",
+  "token_count": 1428,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    275,
+    277
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `558f0bf4-714b-5bda-b5d3-cb09ae4c636b`
+
+- vector: dim=3072 · [-0.0043, 0.0496, -0.0103, -0.0096, -0.0128, -0.0162, -0.0226, 0.0220, …]
+
+```json
+{
+  "chunk_id": "558f0bf4-714b-5bda-b5d3-cb09ae4c636b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Conclusions",
+  "section_type": "references",
+  "chunk_text": "8.\t Wang, H., Zhou, P., & Wang, Z. (2017). Reviews on current carbon emission reduction technologies \nand projects and their feasibilities on ships. Journal of Marine Science and Application, 16(2), \n129–136. https://doi.org/10.1007/s11804-017-1413-y\n9.\t Onboard Carbon Capture Utilisation and Storage: A Promising Solution for Maritime \nDecarbonisation. (2024, August 14).  https://www.westpandi.com/news-and-resources/news/\naugust-2024/august-test-article/\n10.\t Baroudi, H. A., Awoyomi, A., Patchigolla, K., Jonnalagadda, K., & Anthony, E. (2021). A Review of \nLarge-Scale CO2 Shipping and Marine E\n\n… [+940 more chars]",
+  "content_hash": "1594318163a514165e3d0d5f1d8b10e3e7e48fabb6d9da83cec28156e86e20a3",
+  "token_count": 432,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "74600e2f-edc4-57de-baed-58b6e56dc48c",
+  "chunk_index": 380,
+  "page_number": 275,
+  "page_range": [
+    275,
+    275
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a7bf104d-d5c4-585f-8cbf-263e90416651`
+
+- vector: dim=3072 · [-0.0108, 0.0443, -0.0128, 0.0054, -0.0233, -0.0140, -0.0197, 0.0214, …]
+
+```json
+{
+  "chunk_id": "a7bf104d-d5c4-585f-8cbf-263e90416651",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Conclusions",
+  "section_type": "references",
+  "chunk_text": "About the project | EverLoNG. (n.d.). https://everlongccus.eu/about-the-project\n14.\t Warrender, E. (2025b, March 21). Onboard Carbon Capture (OCC): The Everlong project. Open Access Government. https://www.openaccessgovernment.org/article/onboard-carbon-capture-\nocc-the-everlong-project/190084/\n15.\t DecarbonICE. (n.d.). decarbonICE. https://www.decarbonice.org/home-1\n16.\t Cordis, C. (2023, March 7).  Retrofitting Towards Climate Neutrality. CORDIS | European \nCommission. https://cordis.europa.eu/project/id/101096522\n17.\t BV grants AIP for Bulk Carrier Carbon Capture Project. (n.d.). MarineLink\n\n… [+951 more chars]",
+  "content_hash": "84fae050d83d56466914cb54535dd44b4f5a20fe637da343e27397165f2a36b4",
+  "token_count": 462,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "74600e2f-edc4-57de-baed-58b6e56dc48c",
+  "chunk_index": 381,
+  "page_number": 275,
+  "page_range": [
+    275,
+    275
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `77cf7551-e597-5003-b015-92e643187b8d`
+
+- vector: dim=3072 · [0.0035, 0.0400, -0.0049, -0.0033, -0.0191, -0.0238, -0.0147, 0.0172, …]
+
+```json
+{
+  "chunk_id": "77cf7551-e597-5003-b015-92e643187b8d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Conclusions",
+  "section_type": "references",
+  "chunk_text": "Carbon Capture – Case Study for a Ropax Ship - Deltamarin. (2024, September 19). \nDeltamarin. \nhttps://deltamarin.com/news/blog/article/carbon-capture-case-study-for-a-ropax-\nship/ 22.\t Kelleher, J. (2025, March 25). Value Maritime and MOL Complete Carbon Capture First. Value \nMaritime.  https://valuemaritime.com/news/value-maritime-and-mol-complete-carbon-capture-\nfirst/\n23.\t Monteiro, J. (2020). CO2ASTS – Carbon Capture, Storage and Transfer in Shipping: A Technical \nand Economic Feasibility Study: Public Concise Report (J. Van Den Akker & FME, Eds.). https://\nconoship.com/wp-content/uploads\n\n… [+1098 more chars]",
+  "content_hash": "a43111eca107724615883e9834912ff24360ec6431137ea44722f98f1baa2c04",
+  "token_count": 500,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "74600e2f-edc4-57de-baed-58b6e56dc48c",
+  "chunk_index": 382,
+  "page_number": 276,
+  "page_range": [
+    276,
+    276
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4f3b29fd-3cf4-5bba-bd64-a5336038953c`
+
+- vector: dim=3072 · [-0.0025, 0.0361, -0.0121, 0.0034, 0.0009, -0.0127, -0.0332, 0.0279, …]
+
+```json
+{
+  "chunk_id": "4f3b29fd-3cf4-5bba-bd64-a5336038953c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Conclusions",
+  "section_type": "references",
+  "chunk_text": "The Lloyd’s Register Maritime Decarbonisation Hub. (2023). Onboard Carbon Capture Utilisation \nand Storage. In A Readiness Assessment for the Shipping Industry. https://safety4sea.com/wp- content/uploads/2023/04/LR-Onboard-carbon-capture-and-storage-2023_04.pdf\n\n28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf\n\n29.\t Ahmed, Y. A., Lazakis, I., & Mallouppas, G. (2025c).   Marine Systems & Ocean Technology, 20(1). \nhttps://doi.org/10.1007/s40868-024-00161-w\n\n]</td>\n</tr>\n</table>\n\n4",
+  "content_hash": "91da434de9bb5dcfa4a87c33ac122d75ad45ef762d425a44ba7bf51d1f2beb41",
+  "token_count": 180,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "74600e2f-edc4-57de-baed-58b6e56dc48c",
+  "chunk_index": 383,
+  "page_number": 276,
+  "page_range": [
+    276,
+    277
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `7f8c3e69-5b55-50af-a0cb-126d9a857692`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "7f8c3e69-5b55-50af-a0cb-126d9a857692",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 7",
+  "chunk_text": "Chapter 7\n\nStandards, Regulations\nand Policies\n\nTable7.1 presents the overview of the IMO's ongoing initiatives through the MEPC aimed at tackling\ngreenhouse gas (GHG) emissions from international shipping. It tracks tracks significant progress\nfrom MEPC 76 up to the anticipated adoption of new amendments at MEPC 83 in 2025. More detailed\nAmendments and Measurses of MEPC can be asscessed through [1-3].\n\n| Timeline / Meeting | Event / Measure | Key Actions / Outcomes |\n| --- | --- | --- |\n| MEPC 76 (2021) | Adoption of short- term measures | - Amendments to MARPOL Annex VI |\n| - Target: ≥40% ca\n\n… [+9411 more chars]",
+  "content_hash": "84bbca8196aab59a65a2b5f06b0a42d81e6da08c17e464efabc8bbb353063a6f",
+  "token_count": 2495,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    278,
+    282
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f2b50123-5b46-58c5-8112-46e8d4e616cc`
+
+- vector: dim=3072 · [-0.0317, -0.0009, -0.0105, -0.0128, -0.0234, -0.0247, -0.0120, 0.0418, …]
+
+```json
+{
+  "chunk_id": "f2b50123-5b46-58c5-8112-46e8d4e616cc",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 7",
+  "chunk_text": "Standards, Regulations\nand Policies\n\nTable7.1 presents the overview of the IMO's ongoing initiatives through the MEPC aimed at tackling\ngreenhouse gas (GHG) emissions from international shipping. It tracks tracks significant progress\nfrom MEPC 76 up to the anticipated adoption of new amendments at MEPC 83 in 2025. More detailed\nAmendments and Measurses of MEPC can be asscessed through [1-3].\n\n| Timeline / Meeting | Event / Measure | Key Actions / Outcomes |\n| --- | --- | --- |\n| MEPC 76 (2021) | Adoption of short- term measures | - Amendments to MARPOL Annex VI |\n| - Target: ≥40% carbon intens\n\n… [+1520 more chars]",
+  "content_hash": "48ac0ab58078584d6c7d5738d0863b7d5580e8fb077ddb6d3d2b55e14a652884",
+  "token_count": 592,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7f8c3e69-5b55-50af-a0cb-126d9a857692",
+  "chunk_index": 384,
+  "page_number": 278,
+  "page_range": [
+    278,
+    278
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `8caec9f2-ea40-5275-8fbe-db279dd5323b`
+
+- vector: dim=3072 · [-0.0324, -0.0102, -0.0116, 0.0008, -0.0336, -0.0163, -0.0192, 0.0297, …]
+
+```json
+{
+  "chunk_id": "8caec9f2-ea40-5275-8fbe-db279dd5323b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 7",
+  "chunk_text": "|\n| - Aim: Approval of MARPOL amendments |  |  |\n| Autumn 2025 | Adoption of amendments | - Special MEPC session to adopt approved measures |\n| 2027 (Expected Entry into Force) | Implementation | - Mid-term measures from 2025 enter into force | The maritime industry is leading the charge in the global effort to decarbonize, with regulatory\nframeworks playing a crucial role in the shift towards cleaner fuels and more sustainable practices.\nKey players, including international organizations like the International Maritime Organization (IMO)\nand regional authorities such as the European Union (EU\n\n… [+1940 more chars]",
+  "content_hash": "d42ade3e6854c44441851fe1a099d3ba7b2535adbf29680d8a610c9009fb1b9b",
+  "token_count": 497,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7f8c3e69-5b55-50af-a0cb-126d9a857692",
+  "chunk_index": 385,
+  "page_number": 278,
+  "page_range": [
+    278,
+    279
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7118e785-601c-5a12-9cdf-eb17a834d8ac`
+
+- vector: dim=3072 · [-0.0350, 0.0108, -0.0127, 0.0273, -0.0399, -0.0111, 0.0037, 0.0221, …]
+
+```json
+{
+  "chunk_id": "7118e785-601c-5a12-9cdf-eb17a834d8ac",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 7",
+  "chunk_text": "These initiatives set mandatory renewable energy goals, outline sustainability\nand greenhouse gas (GHG) performance standards, and create a framework for alternative fuels like\ne-methanol and e-ammonia. | Regulation/Directive | Scope | Targets and Main Requirements | Sustainability and GHG Savings Criteria |\n| --- | --- | --- | --- |\n| EU GHG regulatory framework | EU GHG regulatory framework |  |  |\n| EU Renewable Energy Directive (REDIII) DIRECTIVE (EU) 2023/2413 | WtT | . Overall binding RES target: at least 42.5% by 2030 in | Defines sustainability criteria and minimum GHG savings for rene\n\n… [+702 more chars]",
+  "content_hash": "97421a5d64d61865a038578aa3f010e3676aa0f5e268c4ba62755a1809d038fe",
+  "token_count": 360,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7f8c3e69-5b55-50af-a0cb-126d9a857692",
+  "chunk_index": 386,
+  "page_number": 279,
+  "page_range": [
+    279,
+    279
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `2a957477-1bbc-59b9-b9af-ecf6135acd5d`
+
+- vector: dim=3072 · [-0.0189, -0.0019, -0.0100, 0.0241, -0.0230, -0.0531, 0.0056, 0.0174, …]
+
+```json
+{
+  "chunk_id": "2a957477-1bbc-59b9-b9af-ecf6135acd5d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 7",
+  "chunk_text": "Food and feed crops: capped to 7% or 2020 share +1% (all transport), limit to high- ILUC risk except if certified Low-ILUC risk biomass |  |  |  | | Regulation/Directive | Scope | Targets and Main Requirements | Sustainability and GHG Savings Criteria Defines the conditions under which the electricity used for hydrogen production is considered fully renewable: temporal correlation, geographical correlation and additionality. Refers to RED II Directive: · RED compliant : use actual certified GHG intensity values for well-to-tank emissions · RED compliant : considered as having GHG emissions equ\n\n… [+1455 more chars]",
+  "content_hash": "126c4c3b93d20f07a4be5012b8dc4fe34422f7b2d37b3cfb35ee9c7170dc696b",
+  "token_count": 548,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7f8c3e69-5b55-50af-a0cb-126d9a857692",
+  "chunk_index": 387,
+  "page_number": 280,
+  "page_range": [
+    280,
+    280
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4909b5e2-878e-5b02-b625-8090c0e4a5a3`
+
+- vector: dim=3072 · [-0.0236, 0.0226, -0.0131, -0.0064, -0.0333, -0.0113, -0.0256, 0.0145, …]
+
+```json
+{
+  "chunk_id": "4909b5e2-878e-5b02-b625-8090c0e4a5a3",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 7",
+  "chunk_text": "-EEA voyages and 50% of voyages to/from countries outside the EEA. | EU-ETS allows for a zero CO2 emissions factor for biofuels, RFNBOs and RCFs that meet specific sustainability and GHG savings criteria defined by the RED. | | Alternative Fuels Infrastructure Regulation (AFIR) (EU) 2023/1804 |  | Main EU ports are required to provide a minimum shore power supply for container ships and passenger ships over 5,000 GT by 2030. Mandates LNG refuelling infrastructure at major ports by 2025. |  |\n\n| Regulation/Directive | Scope | Targets and Main Requirements | Sustainability and GHG Savings Criter\n\n… [+465 more chars]",
+  "content_hash": "da427d5d12fb5154854949db3b4c31fed4faaab68a63cc3a21d7e838fc849510",
+  "token_count": 263,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7f8c3e69-5b55-50af-a0cb-126d9a857692",
+  "chunk_index": 388,
+  "page_number": 280,
+  "page_range": [
+    280,
+    281
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `0ff1331d-8367-5c5e-81b0-6fec439d4960`
+
+- vector: dim=3072 · [-0.0153, 0.0048, -0.0108, -0.0026, -0.0240, -0.0323, -0.0126, 0.0156, …]
+
+```json
+{
+  "chunk_id": "0ff1331d-8367-5c5e-81b0-6fec439d4960",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Chapter 7",
+  "chunk_text": "Removes tax exemptions for conventional maritime fuels; introduces €10.75/GJ tax for fossil fuels while advanced biofuels, biogas, and RFNBOs have a reduced rate of €0.15/GJ. |  | | Regulation/Directive | Scope | Targets and Main Requirements |\n| --- | --- | --- |\n| 2023 IMO GHG Strategy | Wtw | · The 2023 revised IMO GHG Strategy strengthens the ambitions for international shipping to achieve net zero emissions by 2050: |\n| · To reduce CO2 emissions per transport work by at least 40% by 2030 (baseline2008) |  |  |\n| · To reduce total annual GHG emissions by at least 20%, striving for 30%, by \n\n… [+1310 more chars]",
+  "content_hash": "0b8e9060a1717044ca7442bbe1e1e75463747d1b629edb0eaef338349491718a",
+  "token_count": 486,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7f8c3e69-5b55-50af-a0cb-126d9a857692",
+  "chunk_index": 389,
+  "page_number": 281,
+  "page_range": [
+    281,
+    282
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9fcc3256-1e12-564c-b736-24e26730e61d`
+
+- vector: dim=3072 · [-0.0193, 0.0085, -0.0121, -0.0073, -0.0362, 0.0123, -0.0149, 0.0105, …]
+
+```json
+{
+  "chunk_id": "9fcc3256-1e12-564c-b736-24e26730e61d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Alternative Marine Fuels: Regulatory Mapping",
+  "chunk_text": "Table 7.4 provides regulatory mapping and insights into how fuel oil is defined across various\nregulatory frameworks, identifying potential inconsistencies or gaps [7] . This effort aims to\nassist IMO Member States and maritime stakeholders in understanding and addressing regulatory\nchallenges associated with the adoption of alternative fuels.\n\nThis regulatory mapping exercise is carried out by the Alternative Fuels Workstream of the Low\nCarbon Global Industry Alliance to Support Low Carbon Shipping (Low Carbon GIA). Significant\ncontributions from the International Chamber of Shipping (ICS) an\n\n… [+1431 more chars]",
+  "content_hash": "f5124d2e71b19275a819083de69b3c2a9c995588321994c18b2a342f2b2ec262",
+  "token_count": 374,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 390,
+  "page_number": 282,
+  "page_range": [
+    282,
+    282
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `ee84962a-affe-53eb-bf75-fd1c73663ef9`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "ee84962a-affe-53eb-bf75-fd1c73663ef9",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Advanced Green Fuels for M — aritime Application-\n\n<table>\n<tr>\n<th colspan=\"4\">Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks</th>\n</tr>\n<tr>\n<th>Fuel</th>\n<th>External Standards</th>\n<th>IMO Safety-SOLAS</th>\n<th>IMO Environment - MARPOL</th>\n</tr>\n<tr>\n<td rowspan=\"2\">Conventional fuels (Diesel/ Gas Oil/Fuel Oil)</td>\n<td rowspan=\"2\">ISO 8217:2017 \"Petroleum products - Fuels (class F) - Specifications of marine fuels\" ISO PAS 23263:2019 \"Considerations for fuel suppliers and users regarding marine fuel quality in view of the implementation of ma\n\n… [+6834 more chars]",
+  "content_hash": "01b84f46dc31a67d10afcffd8ec2cc1624822a9b85e437eb86bb7a6c6d3299fd",
+  "token_count": 1745,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    283,
+    286
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `8fcfed3d-64c7-5be7-b8ad-7ee599bceda5`
+
+- vector: dim=3072 · [0.0013, 0.0168, -0.0141, 0.0280, -0.0114, 0.0084, -0.0430, 0.0147, …]
+
+```json
+{
+  "chunk_id": "8fcfed3d-64c7-5be7-b8ad-7ee599bceda5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "<table>\n<tr>\n<th colspan=\"4\">Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks</th>\n</tr>\n<tr>\n<th>Fuel</th>\n<th>External Standards</th>\n<th>IMO Safety-SOLAS</th>\n<th>IMO Environment - MARPOL</th>\n</tr>\n<tr>\n<td rowspan=\"2\">Conventional fuels (Diesel/ Gas Oil/Fuel Oil)</td>\n<td rowspan=\"2\">ISO 8217:2017 \"Petroleum products - Fuels (class F) - Specifications of marine fuels\" ISO PAS 23263:2019 \"Considerations for fuel suppliers and users regarding marine fuel quality in view of the implementation of maximum 0.50 % sulfur in 2020\"</td>\n<td rowspan=\"2\"><\n\n… [+751 more chars]",
+  "content_hash": "88b4359dfa2e41e691081e13e365e55de0e8db3b244a720811ccf9758319179a",
+  "token_count": 337,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "ee84962a-affe-53eb-bf75-fd1c73663ef9",
+  "chunk_index": 391,
+  "page_number": 283,
+  "page_range": [
+    283,
+    283
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `548b7e92-20b4-5593-b7e6-5db05a476c6f`
+
+- vector: dim=3072 · [-0.0074, 0.0134, -0.0087, 0.0184, -0.0080, 0.0057, -0.0352, -0.0075, …]
+
+```json
+{
+  "chunk_id": "548b7e92-20b4-5593-b7e6-5db05a476c6f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "This indicates a move towards accommodating alternative and renewable fuels in the marine industry's specifications and standards, reflecting a broader trend towards sustainability and environmental responsibility in maritime fuel usage.</td> <td>SOLAS Chapter I regulates oil fuels with flashpoint &gt; 60℃ SOLAS Chapter II regulates low-flashpoint fuels (&lt; 60℃) through SOLAS Ch II-1 Part G (low-flashpoint liquid fuel or gas) and IGF Code; alternatively SOLAS Ch II-1 Part F (Alternative design and arrangement) -MSC.1/Circ. 1212/ Rev.1 and MSC.1/Circ.1455 The IGF Code does not cover low flash\n\n… [+873 more chars]",
+  "content_hash": "655aca3d1d3d4b16972b3719c46700692416f114d1fb56ecd7acbc1757bb32c2",
+  "token_count": 348,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "ee84962a-affe-53eb-bf75-fd1c73663ef9",
+  "chunk_index": 392,
+  "page_number": 283,
+  "page_range": [
+    283,
+    284
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `723374ab-7a78-560a-9371-9582cb80d0ee`
+
+- vector: dim=3072 · [-0.0256, 0.0098, -0.0172, 0.0240, -0.0028, 0.0084, -0.0476, -0.0004, …]
+
+```json
+{
+  "chunk_id": "723374ab-7a78-560a-9371-9582cb80d0ee",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "This interpretation facilitates the use of alternative fuels while ensuring compliance with NOx emission standards\n\n.</td>\n</tr>\n</table> <table>\n<caption>Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks</caption>\n<tr>\n<th>Fuel</th>\n<th>External Standards</th>\n<th>IMO Safety-SOLAS</th>\n<th>IMO Environment - MARPOL</th>\n</tr>\n<tr>\n<td></td>\n<td>EN 14214:2012 \"Liquid petroleum products - Fatty acid methyl esters (FAME) for use in diesel engines and heating applications - Requirements and test methods\"</td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td></td>\n<td>E\n\n… [+880 more chars]",
+  "content_hash": "16de8605d27b0d022590d2364e8562992918e7553ab62e567dff0452207ce83e",
+  "token_count": 359,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "ee84962a-affe-53eb-bf75-fd1c73663ef9",
+  "chunk_index": 393,
+  "page_number": 284,
+  "page_range": [
+    284,
+    284
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `168b5765-3b35-515d-9ae0-0587e090ee01`
+
+- vector: dim=3072 · [-0.0036, 0.0145, -0.0072, 0.0216, -0.0221, -0.0160, -0.0664, -0.0205, …]
+
+```json
+{
+  "chunk_id": "168b5765-3b35-515d-9ae0-0587e090ee01",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Currently, when specifying methanol quality for marine applications, industry stakeholders commonly refer to existing standards such as the IMPCA (International Methanol Producers and Consumers Association) Methanol reference specification and the ASTM (American Society for Testing and Materials) D1152 standard.</td> <td>SOLAS Chapter II regulates low-flashpoint fuels (those with a flashpoint below 60℃) through two main avenues: SOLAS Ch II-1 Part G and IGF Code: This part of SOLAS addresses the use of low-flashpoint liquid fuel or gas and is supplemented by the International Code of Safety fo\n\n… [+1069 more chars]",
+  "content_hash": "dd235cc5fbc6a53567812912bf2914eb99152fbea2abaca8ae8cabe9bfcfd0ac",
+  "token_count": 369,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "ee84962a-affe-53eb-bf75-fd1c73663ef9",
+  "chunk_index": 394,
+  "page_number": 284,
+  "page_range": [
+    284,
+    285
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `9f12ee25-4f13-5463-8ba6-4c9af42b0768`
+
+- vector: dim=3072 · [-0.0007, 0.0059, -0.0099, 0.0211, 0.0079, -0.0175, -0.0529, -0.0069, …]
+
+```json
+{
+  "chunk_id": "9f12ee25-4f13-5463-8ba6-4c9af42b0768",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "MARPOL Annex VI regulates emissions of CO2 and NO\n\nx</td>\n</tr>\n</table> <table>\n<tr>\n<th colspan=\"4\">Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks</th>\n</tr>\n<tr>\n<th>Fuel</th>\n<th>External Standards</th>\n<th>IMO Safety-SOLAS</th>\n<th>IMO Environment - MARPOL</th>\n</tr>\n<tr>\n<td></td>\n<td>IMPCA Methanol Reference Specification: Developed by the International Methanol Producers and Consumers Association, this reference specification provides detailed guidelines for the quality requirements of methanol intended for various applications, including m\n\n… [+1577 more chars]",
+  "content_hash": "04e2984266474ff6ed9014f198def51342f2e2264af4d202ae831d9ab4e4c033",
+  "token_count": 464,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "ee84962a-affe-53eb-bf75-fd1c73663ef9",
+  "chunk_index": 395,
+  "page_number": 285,
+  "page_range": [
+    285,
+    286
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `10edee88-c8b4-5aba-9463-5555708dfb73`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "10edee88-c8b4-5aba-9463-5555708dfb73",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Advanced Green Fuels for M — aritime Application- (cont.)\n\n<table>\n<tr>\n<th colspan=\"4\">Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks</th>\n</tr>\n<tr>\n<th>Fuel</th>\n<th>External Standards</th>\n<th>IMO Safety-SOLAS</th>\n<th>IMO Environment - MARPOL</th>\n</tr>\n<tr>\n<td>Ethyl Alcohol (Ethanol)</td>\n<td>No marine standards available</td>\n<td></td>\n<td>Ethanol is categorized as presenting a minor hazard under the IBC Code (Category Z), implying limited risk to marine resources or human health. Despite this classification, the spill and discharge require\n\n… [+5742 more chars]",
+  "content_hash": "3b0f9b64a68da9dac99940ee31de1ecbc420557faf5fe52b412e7c8d3d99fb19",
+  "token_count": 1468,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    286,
+    288
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `49f21512-7341-5e99-be0f-25427c2eb60b`
+
+- vector: dim=3072 · [-0.0051, 0.0002, -0.0148, 0.0306, -0.0069, -0.0063, -0.0522, 0.0161, …]
+
+```json
+{
+  "chunk_id": "49f21512-7341-5e99-be0f-25427c2eb60b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "<table>\n<tr>\n<th colspan=\"4\">Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks</th>\n</tr>\n<tr>\n<th>Fuel</th>\n<th>External Standards</th>\n<th>IMO Safety-SOLAS</th>\n<th>IMO Environment - MARPOL</th>\n</tr>\n<tr>\n<td>Ethyl Alcohol (Ethanol)</td>\n<td>No marine standards available</td>\n<td></td>\n<td>Ethanol is categorized as presenting a minor hazard under the IBC Code (Category Z), implying limited risk to marine resources or human health. Despite this classification, the spill and discharge requirements outlined in MARPOL Annex II do not specifically apply\n\n… [+782 more chars]",
+  "content_hash": "8763e49ba31541f6290836db9831aaa796f4914f0c873d0119594653dca3253e",
+  "token_count": 329,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "10edee88-c8b4-5aba-9463-5555708dfb73",
+  "chunk_index": 396,
+  "page_number": 286,
+  "page_range": [
+    286,
+    286
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `839f267a-3fca-5742-91ab-96f6c52cad32`
+
+- vector: dim=3072 · [-0.0305, -0.0029, -0.0102, 0.0233, 0.0019, 0.0043, -0.0578, -0.0124, …]
+
+```json
+{
+  "chunk_id": "839f267a-3fca-5742-91ab-96f6c52cad32",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "ME as a toxic product and prohibits toxic cargo to be used as a fuel</td>\n<td>MARPOL Annex VI regulates emissions of CO, and NO,</td>\n</tr>\n<tr>\n<td>Propane/ Butane (LPG)</td>\n<td>No marine standards available</td> <td>SOLAS Chapter II regulates low-flashpoint fuels (&lt; 60℃) through · SOLAS Ch II-1 Part G (low-flashpoint liquid fuel or gas) and IGF Code; alternatively · SOLAS Ch II-1 Part F (Alternative design and arrangement) -MSC.1/Circ.1212/ Rev.1 and MSC.1/Circ. 1455 The IGF Code does not cover LPG as fuel. Draft interim guidelines for the safety of ships using LPG fuels have been finali\n\n… [+126 more chars]",
+  "content_hash": "0f975318ffe11f2d343ea8b0b2b9af213f5e5307c34a8528b8acb4fb534c81f2",
+  "token_count": 209,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "10edee88-c8b4-5aba-9463-5555708dfb73",
+  "chunk_index": 397,
+  "page_number": 286,
+  "page_range": [
+    286,
+    287
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1acef3d9-59af-52e9-ba03-1452d8a247e7`
+
+- vector: dim=3072 · [-0.0102, 0.0053, -0.0155, 0.0207, -0.0047, -0.0007, -0.0432, 0.0076, …]
+
+```json
+{
+  "chunk_id": "1acef3d9-59af-52e9-ba03-1452d8a247e7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Draft interim guidelines for the safety of ships using LPG fuels have been finalized and are adopted by MSC 107 in June 2023.</td>\n<td>MARPOL Annex VI regulates emissions of CO2 and NO\n\nx</td>\n</tr>\n</table> <table>\n<tr>\n<th colspan=\"4\">Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks</th>\n</tr>\n<tr>\n<th>Fuel</th>\n<th>External Standards</th>\n<th>IMO Safety-SOLAS</th>\n<th>IMO Environment - MARPOL</th>\n</tr>\n<tr>\n<td>Methane (LNG)</td>\n<td>ISO 23306:2020 provides comprehensive specifications for liquefied natural gas (LNG) as a marine fuel. It outlines\n\n… [+1886 more chars]",
+  "content_hash": "ca5da480ff4b1323a77a387e96662e22f2b92160882228bd7c9a386967f442f3",
+  "token_count": 559,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "10edee88-c8b4-5aba-9463-5555708dfb73",
+  "chunk_index": 398,
+  "page_number": 287,
+  "page_range": [
+    287,
+    288
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c8ce0e04-e7ab-53bd-9143-6cfc3e4c88cf`
+
+- vector: dim=3072 · [-0.0183, -0.0043, -0.0065, 0.0053, -0.0050, -0.0140, -0.0311, 0.0011, …]
+
+```json
+{
+  "chunk_id": "c8ce0e04-e7ab-53bd-9143-6cfc3e4c88cf",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": ") -MSC.1/Circ.1212/Rev.1 and MSC.1/Circ.1455 No specific requirements or guidelines available for ethane as fuel.</td>\n<td>MARPOL Annex VI regulates emissions of CO, and NO\n\n,</td>\n</tr>\n</table> | Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks | Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks | Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks | Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks |\n| --- | --- | --- | --\n\n… [+1704 more chars]",
+  "content_hash": "3ae88f99c2312de26597d909283073c0b27c3a900d1b08af972b238799098370",
+  "token_count": 533,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "10edee88-c8b4-5aba-9463-5555708dfb73",
+  "chunk_index": 399,
+  "page_number": 288,
+  "page_range": [
+    288,
+    288
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f26931b3-e4d5-5267-882a-38ccef468fa3`
+
+- vector: dim=3072 · [-0.0171, 0.0131, -0.0151, -0.0032, -0.0293, 0.0015, -0.0191, 0.0211, …]
+
+```json
+{
+  "chunk_id": "f26931b3-e4d5-5267-882a-38ccef468fa3",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "References",
+  "section_type": "references",
+  "chunk_text": "1.\t 2018 Initial IMO Strategy. https://www.imo.org/en/OurWork/Environment/Pages/Vision-and-\nlevel-of-ambition-of-the-Initial-IMO-Strategy.aspx\n2.\t Fourth Greenhouse Gas Study 2020. https://www.imo.org/en/ourwork/Environment/Pages/\nFourth-IMO-Greenhouse-Gas-Study-2020.aspx\n3.\t Marine Environment Protection Committee (MEPC).  https://www.imo.org/en/MediaCentre/\nMeetingSummaries/Pages/MEPC-default.aspx\n4.\t Olivier (IFPEN, A. G. O. (IFPEN), LUCAS Maxime (IFPEN), MARICAR-PICHON Michèle (IFPEN), \nELKADI Joseph (CMA CGM), DAUPHIN Roland (CMA CGM). (n.d.). Title Life Cycle Assessment of \nE-/Bio- Metha\n\n… [+503 more chars]",
+  "content_hash": "5d51c9c3e03dc4330a6b7b6be43d3f8cd086d98a55eb499a8862afc27f4a853a",
+  "token_count": 371,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 400,
+  "page_number": 289,
+  "page_range": [
+    289,
+    289
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `2f8d6c29-387e-5ee7-97d6-1c175b04e1a7`
+
+- vector: dim=3072 · [-0.0268, 0.0325, -0.0132, -0.0069, -0.0007, -0.0001, 0.0025, 0.0257, …]
+
+```json
+{
+  "chunk_id": "2f8d6c29-387e-5ee7-97d6-1c175b04e1a7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "7.\t Alternative",
+  "chunk_text": "marine \nfuels: \nRegulatory \nmapping: \nGreenVoyage2050. \n(2022). \nhttps://\ngreenvoyage2050.imo.org/alternative-marine-fuels-regulatory-mapping/\n8.\t IMO Strategy on reduction of GHG emissions from ships. (2023). https://www.imo.org/en/\nOurWork/Environment/Pages/IMO-Strategy-on-reduction-of-GHG-emissions-from-ships.aspx\n9.\t EEXI and CII - ship carbon intensity and rating system. (2022). https://www.imo.org/en/\nMediaCentre/HotTopics/Pages/EEXI-CII-FAQ.aspx?ref=ctvc.co#:~:text=What%20is%20an%20\nEnergy%20Efficiency,a%20minimum%20energy%20efficiency%20standard.\n\nls-regulatory-mappin\n\ng/\n\n<!-",
+  "content_hash": "11ad4cb4f7301a588709fb5d61719fc4b1aa246cd2932747520c6b8352adfed1",
+  "token_count": 193,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 401,
+  "page_number": 289,
+  "page_range": [
+    289,
+    291
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `80da4f56-9e20-5989-afbb-b248913ed371`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "80da4f56-9e20-5989-afbb-b248913ed371",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
+  "chunk_text": "Annexure I — IMO LCA Methodological Guidance\n\nThe Life Cycle Assessment (LCA) is considered by the IMO as the methodological approach to \ncomprehensively assess the environmental impact of an energy carrier for maritime transport, from \nits production phase to its end of-life/combustion phase. This methodology is based on rigorous \nprinciples aimed at quantifying greenhouse gas emissions, resource and energy consumption, as \nwell as other environmental impacts. According to the recommendations adopted in July 2023 \n(MEPC.376(80)) by the IMO, the calculation of GHG emissions from marine fuels i\n\n… [+4415 more chars]",
+  "content_hash": "00d610da8f714a7301cd10f0d98f9e5a741b298af493686bd489b0d17a6e376e",
+  "token_count": 1490,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    292,
+    293
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `958d83d3-7245-5cb5-8863-47f033cdcf2a`
+
+- vector: dim=3072 · [-0.0266, 0.0010, -0.0150, -0.0267, -0.0301, -0.0276, 0.0043, 0.0239, …]
+
+```json
+{
+  "chunk_id": "958d83d3-7245-5cb5-8863-47f033cdcf2a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
+  "chunk_text": "The Life Cycle Assessment (LCA) is considered by the IMO as the methodological approach to \ncomprehensively assess the environmental impact of an energy carrier for maritime transport, from \nits production phase to its end of-life/combustion phase. This methodology is based on rigorous \nprinciples aimed at quantifying greenhouse gas emissions, resource and energy consumption, as \nwell as other environmental impacts. According to the recommendations adopted in July 2023 \n(MEPC.376(80)) by the IMO, the calculation of GHG emissions from marine fuels is detailed below.\nScope\nThe scope of these gui\n\n… [+1413 more chars]",
+  "content_hash": "87778053b802de51f0cb73cccd5da00357ffc89c5ff7b6223dc92e562cc18f4f",
+  "token_count": 442,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "80da4f56-9e20-5989-afbb-b248913ed371",
+  "chunk_index": 402,
+  "page_number": 292,
+  "page_range": [
+    292,
+    292
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `fe9f9f3c-0413-5f10-bb11-3810e1cd9e7c`
+
+- vector: dim=3072 · [-0.0126, 0.0190, -0.0060, -0.0364, -0.0257, -0.0454, 0.0200, 0.0182, …]
+
+```json
+{
+  "chunk_id": "fe9f9f3c-0413-5f10-bb11-3810e1cd9e7c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
+  "chunk_text": "1 The possibility to expand \nthe system boundaries for specific pathways in which the feedstock is displaced from present use(s) \nwill be assessed on a case-by-case basis.2 As such, emissions associated with the following life cycle \nstages of the fuel life cycle chain will be accounted for: 1.\t feedstock extraction/cultivation/acquisition/recovery;\n2.\t feedstock (early) processing/ transformation at source;\n3.\t feedstock transport to conversion site;\n4.\t feedstock conversion to product fuel;\n5.\t product fuel transport/storage/delivery/retail storage/bunkering; and\n6.\t fuel utilization on boar\n\n… [+511 more chars]",
+  "content_hash": "24647645227f680d5ab31533cc3a9736f7f9d2f076cda4f197043d8bbe49f69c",
+  "token_count": 242,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "80da4f56-9e20-5989-afbb-b248913ed371",
+  "chunk_index": 403,
+  "page_number": 292,
+  "page_range": [
+    292,
+    292
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e219c908-5253-59bb-adc4-716169331f3b`
+
+- vector: dim=3072 · [-0.0069, -0.0144, -0.0109, -0.0199, -0.0062, 0.0085, 0.0026, 0.0274, …]
+
+```json
+{
+  "chunk_id": "e219c908-5253-59bb-adc4-716169331f3b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
+  "chunk_text": "WtW emissions are given by the sum of the two parts, providing the full emission performance associated with the fuel production \nand use of a certain fuel/energy in a specific converter onboard.\nThe GHG emissions are calculated as CO2-equivalent (CO2eq), using the Global Warming Potential \nover a 100-year time-horizon (GWP100) to convert emissions of other gases than CO2, as given in the \nfifth IPCC Assessment Report,3 for CO2, CH4 and N2O, as follows:\n\t»\n𝑔𝐶𝑂2𝑒𝚐(100𝑦) = 𝐺𝑊𝑃𝐶𝑂2(100𝑦) × 𝑔𝐶𝑂2 + 𝐺𝑊𝑃𝐶𝐻4(100𝑦) × 𝑔𝐶𝐻4 + 𝐺𝑊𝑃𝑁2𝑂 (100𝑦) ×𝑔𝑁2𝑂\n(CO2 1; CH4 28; N2O 265), this would read as:\n\t»\n𝑔𝐶𝑂2𝑒𝚐(100𝑦\n\n… [+311 more chars]",
+  "content_hash": "5da5485861d0b405d5ffbefd7543eba601bb67d1fba029668634f649e8db75b0",
+  "token_count": 389,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "80da4f56-9e20-5989-afbb-b248913ed371",
+  "chunk_index": 404,
+  "page_number": 293,
+  "page_range": [
+    293,
+    293
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b3c703b0-f65f-5081-b627-1add41087c2b`
+
+- vector: dim=3072 · [-0.0148, -0.0193, -0.0044, -0.0216, -0.0087, -0.0028, -0.0100, 0.0259, …]
+
+```json
+{
+  "chunk_id": "b3c703b0-f65f-5081-b627-1add41087c2b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
+  "chunk_text": "A calculation using a Global Warming Potential over a 20-year horizon (GWP20) may be provided as \ninformation for comparative purposes, as follows:\n\t» 𝑔𝐶𝑂2𝑒𝚐(20𝑦) = 𝐺𝑊𝑃𝐶𝑂2(20𝑦) × 𝑔𝐶𝑂2 + 𝐺𝑊𝑃𝐶𝐻4(20𝑦) × 𝑔𝐶𝐻4 + 𝐺𝑊𝑃𝑁2𝑂 (20𝑦) × 𝑔𝑁2𝑂\n(CO2 1; CH4 84; N2O 264), this would read as:\n\t»\n𝑔𝐶𝑂2𝑒𝚐(20𝑦) = 1 × 𝑔𝐶𝑂2 + 84 × 𝑔𝐶𝐻4 + 264 × 𝑔𝑁2𝑂\nThese guidelines provide:\n\t»\nWtW GHG emission factors based on a life cycle attributional methodology, expressing the GHG \nprofile of each representative fuel using on Global Warming Potential (GWP) values over a 100-\nyear time-horizon of included GHG (CO2, CH4 and N2O);\n\t»\nW\n\n… [+806 more chars]",
+  "content_hash": "a63d827c762a720074a0fc4178f61234765ba8d273dd3c9c0675c8e5c58d08e4",
+  "token_count": 506,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "80da4f56-9e20-5989-afbb-b248913ed371",
+  "chunk_index": 405,
+  "page_number": 293,
+  "page_range": [
+    293,
+    293
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `3eb96dd6-c691-58da-a3dc-42b4c7d33924`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "3eb96dd6-c691-58da-a3dc-42b4c7d33924",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Annexures",
+  "chunk_text": "Annexures\n\nThe WET GHG emission factor (gCO2eq/MJ(Lcv) fuel or electricity) is calculated according to\nEquation (1).\n\nGHGWIT = efecu + el + ep + etd - esca - eccs ....... (1)\n\n| Term | Units | Explanation |\n| --- | --- | --- |\n| e fecu | gCO2eq/MJ(LCV) | Emissions associated with the feedstock extraction/ cultivation/ acquisition/ recovery |\n| el | gCO2eq /MJ(LCV) | Emissions (annualized emissions (over 20 years) from carbon stock changes caused by direct land-use change)5 |\n| ep | gCO2eq / MJ(LCV) | Emissions associated with the feedstock processing and/or transformation at source and emissio\n\n… [+2256 more chars]",
+  "content_hash": "2a321afccaa7984686693e971553eba191c00d3d1215ccbeea20d644a33542ba",
+  "token_count": 771,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    294,
+    295
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d734e604-edbc-5682-92ad-7105665feda1`
+
+- vector: dim=3072 · [0.0154, -0.0126, -0.0149, -0.0079, -0.0289, -0.0045, 0.0287, 0.0238, …]
+
+```json
+{
+  "chunk_id": "d734e604-edbc-5682-92ad-7105665feda1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Annexures",
+  "chunk_text": "The WET GHG emission factor (gCO2eq/MJ(Lcv) fuel or electricity) is calculated according to\nEquation (1).\n\nGHGWIT = efecu + el + ep + etd - esca - eccs ....... (1)\n\n| Term | Units | Explanation |\n| --- | --- | --- |\n| e fecu | gCO2eq/MJ(LCV) | Emissions associated with the feedstock extraction/ cultivation/ acquisition/ recovery |\n| el | gCO2eq /MJ(LCV) | Emissions (annualized emissions (over 20 years) from carbon stock changes caused by direct land-use change)5 |\n| ep | gCO2eq / MJ(LCV) | Emissions associated with the feedstock processing and/or transformation at source and emissions associat\n\n… [+1792 more chars]",
+  "content_hash": "3a32612bc8398a70e78c1e3b1fc3cdfddfe13c856ef294a0a586f5ce44928c98",
+  "token_count": 587,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "3eb96dd6-c691-58da-a3dc-42b4c7d33924",
+  "chunk_index": 406,
+  "page_number": 294,
+  "page_range": [
+    294,
+    294
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `addf8b1a-768a-5ae2-aa3e-42276551c02e`
+
+- vector: dim=3072 · [-0.0024, 0.0021, -0.0080, -0.0115, 0.0082, -0.0291, 0.0027, 0.0416, …]
+
+```json
+{
+  "chunk_id": "addf8b1a-768a-5ae2-aa3e-42276551c02e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Annexures",
+  "chunk_text": "of storing (long- term: 100 years) the captured CO2 (including fugitive emissions that may happen during long-term storage and/or the injection of CO2 into the storage) |\n| ex | gCO2eq /MJ(LCV) | Any additional emissions related to the CCS | *Pending further methodological guidance to be developed by OMI, the value of parameter should be\nset to 0.\n\nAdvanced Green Fuels for M — aritime Application- — b) TANK-TO-WAKE (TtW)\n\nThe TtW GHG emission factors should be calculated using Equation (2):\n\nGHG TtW = 1/LCV((1-1/100(C\n\nGWPN20) + 1/100(C\nN20\n\nslip_ship\n\n\\+\nCas ) x C xx GWP\nst\n\nslip_ship\nfug\n+C(\n\n… [+93 more chars]",
+  "content_hash": "4a16a861ee11fb9a9a6c38e39757483c56f10c69468bf8ae651a46ad3e648896",
+  "token_count": 240,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "3eb96dd6-c691-58da-a3dc-42b4c7d33924",
+  "chunk_index": 407,
+  "page_number": 294,
+  "page_range": [
+    294,
+    295
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `355ac99c-d7d1-5632-8818-9fe6712ed86e`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "355ac99c-d7d1-5632-8818-9fe6712ed86e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "x GWP — CH4",
+  "chunk_text": "x GWP — CH4\n\n\\+ Cf\nN20\nX\n☒\n(2)\n\n| Term | Units | Explanation |\n| --- | --- | --- |\n| Cslip_ship | % of total fuel mass | Factoraccounting forfuel (expressedin % oftotalfuelmass delivered to the ship) which escapes from the energy converter without being oxidized (including fuel that escapes from combustion chamber/ oxidation process and from crankcase, as appropriate) Cslip_ship = Cslip * (1-Cfug/100) |\n| Cslip | % of total fuel mass | Factor accounting for fuel (expressed in % of total fuel mass consumed in the energy converter) which escapes from the energy converter without being oxidized (\n\n… [+4089 more chars]",
+  "content_hash": "8096029213f0c263f2d07b6251ba59a12b2cbca40820db7769db55f0fc4d9da9",
+  "token_count": 1147,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    295,
+    296
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `781885e5-a799-542c-b7fe-63c6f58d1fa5`
+
+- vector: dim=3072 · [-0.0266, 0.0180, -0.0120, -0.0108, -0.0034, -0.0242, 0.0033, 0.0259, …]
+
+```json
+{
+  "chunk_id": "781885e5-a799-542c-b7fe-63c6f58d1fa5",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "x GWP — CH4",
+  "chunk_text": "\\+ Cf\nN20\nX\n☒\n(2)\n\n| Term | Units | Explanation |\n| --- | --- | --- |\n| Cslip_ship | % of total fuel mass | Factoraccounting forfuel (expressedin % oftotalfuelmass delivered to the ship) which escapes from the energy converter without being oxidized (including fuel that escapes from combustion chamber/ oxidation process and from crankcase, as appropriate) Cslip_ship = Cslip * (1-Cfug/100) |\n| Cslip | % of total fuel mass | Factor accounting for fuel (expressed in % of total fuel mass consumed in the energy converter) which escapes from the energy converter without being oxidized (including fue\n\n… [+1561 more chars]",
+  "content_hash": "49b4c8c4c8eea62358aaec8c3ad35cbbe407748427b233ca8ec17ca73c55c869",
+  "token_count": 556,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "355ac99c-d7d1-5632-8818-9fe6712ed86e",
+  "chunk_index": 408,
+  "page_number": 295,
+  "page_range": [
+    295,
+    295
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `432cce16-ca7b-556e-8479-26aaddf0bb6c`
+
+- vector: dim=3072 · [-0.0068, 0.0064, -0.0096, -0.0087, -0.0017, -0.0289, 0.0169, 0.0277, …]
+
+```json
+{
+  "chunk_id": "432cce16-ca7b-556e-8479-26aaddf0bb6c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "x GWP — CH4",
+  "chunk_text": "| https://www.ipcc.ch/assessment-report/ar5/ |  |  |\n| GWPfuelx | gCO2eq/g GHG | Global Warming Potential of GHG in the components of the fuel over 100 years (based on the fifth IPCC scientific Assessment Report) | | Term | Units | Explanation |\n| --- | --- | --- |\n| SFC | 0 or 1 | Carbon source factor to determine whether the emissions credits generated by biomass growth are accounted for in the calculation of the TtW value |\n| ec | gCO2eq/g fuel gCO2eq/g fuel | Emissions credits generated by biomass growth |\n| eccu | Emission credits from the used captured CO2 as carbon stock to produce synt\n\n… [+2128 more chars]",
+  "content_hash": "742ca69b49aaed701fa087ad0da9dca16295b927ecbcc2a8d9433c1949832087",
+  "token_count": 644,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "355ac99c-d7d1-5632-8818-9fe6712ed86e",
+  "chunk_index": 409,
+  "page_number": 296,
+  "page_range": [
+    296,
+    296
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1a3597ac-ef41-51ca-a5bd-a839f1dd03b6`
+
+- vector: dim=3072 · [-0.0176, -0.0262, -0.0159, -0.0249, -0.0356, -0.0406, 0.0239, 0.0306, …]
+
+```json
+{
+  "chunk_id": "1a3597ac-ef41-51ca-a5bd-a839f1dd03b6",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "c) WELL-TO-WAKE (WtW)",
+  "chunk_text": "The aim of the WtW methodology is to integrate WtT and TtW parts, to quantify the full life cycle\nemissions related to the production and use of a fuel.\n\nThe WtW GHG emission factor (gCO2eq/MJLCV fuel or electricity) is calculated as follows\n\nGHGWtw = GHGWtT + GHGTtw ..................... (3)\n\n| Term | Units | Explanation |\n| --- | --- | --- |\n| GHGWtW | gCO2eq/ | Total well-to-wake GHG emissions per energy unit from the use |\n| MJ(LCV) | of the fuel or electricity in a consumer on board the ship |  |\n| GHGWIT | gCO2eq/ | Total well-to-tank GHG upstream emissions per energy unit of |\n| MJ(LCV)\n\n… [+196 more chars]",
+  "content_hash": "2fceb3af21436e4640a9b18677f8dfa41fbcc2c274ee65f5c68328d64d649d59",
+  "token_count": 226,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 410,
+  "page_number": 297,
+  "page_range": [
+    297,
+    297
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `df9343e5-3db7-5951-be22-6c5d93d37d5f`
+
+- vector: dim=3072 · [-0.0416, 0.0049, -0.0200, -0.0160, -0.0430, -0.0012, -0.0081, 0.0282, …]
+
+```json
+{
+  "chunk_id": "df9343e5-3db7-5951-be22-6c5d93d37d5f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Reference",
+  "chunk_text": "1\\. Marine Environment Protection Committee (MEPC 80), 3-7 July 2023 .. https://www.imo.org/en/\nMediaCentre/MeetingSummaries/Pages/MEPC-80.aspx\n\n2\\. Olivier (IFPEN, A. G. O. (IFPEN), LUCAS Maxime (IFPEN), MARICAR-PICHON Michèle (IFPEN),\nELKADI Joseph (CMA CGM), DAUPHIN Roland (CMA CGM). (n.d.). Title Life Cycle Assessment of\nE-/Bio- Methanol and E-/Grey-/Blue-Ammonia for Maritime Transport. In IFPEN. Conducted by\nIFP Energies Nouvelles, commissioned by CMA CGM.https://www.ifpenergiesnouvelles.fr/sites/\nifpen.fr/files/inline-images/20250310_IFPEN_CMACGM_ok.pdf",
+  "content_hash": "f243ffcffd617a50d6591da4231d507587433ec651508656b4eea1e4f90f8c01",
+  "token_count": 193,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 411,
+  "page_number": 297,
+  "page_range": [
+    297,
+    297
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `fc33f04a-16fd-522f-b9d4-5adfb6fe66b1`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "fc33f04a-16fd-522f-b9d4-5adfb6fe66b1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Annexure II Alternative Fuel Bunkering Readiness At Global Ports — 1. Ammonia Bunkering — Active — Potential — Under construction",
+  "chunk_text": "Annexure II Alternative Fuel Bunkering Readiness At Global Ports — 1. Ammonia Bunkering — Active — Potential — Under construction\n\n| S. No. | Port Name | Port Country | Port Operator |\n| --- | --- | --- | --- |\n|  |  | Ammonia Bunkering | Ammonia Bunkering |\n|  | Singapore | Singapore | MPA Singapore |\n|  | Algeciras | Spain | APBA |\n|  | Houston | United States | Port of Houston |\n|  | Hamburg | Germany | Hamburg Port Auth |\n|  | Khalifa | U.A.E. | Abu Dhabi Ports |\n|  | Salalah | Oman | Salalah Port Service |\n|  | Gdynia | Poland | Port of Gdynia |\n|  | Amsterdam | Netherlands | Amsterdam Po\n\n… [+1412 more chars]",
+  "content_hash": "555c7a4ac723b11fd5dd93ffe4bf34b9df49deb76ac9463f9a27dbf168800403",
+  "token_count": 592,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    298,
+    299
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f686ce17-cd08-5e50-9c17-fb78dfd53e13`
+
+- vector: dim=3072 · [0.0087, 0.0284, -0.0132, -0.0182, -0.0158, -0.0229, -0.0106, 0.0221, …]
+
+```json
+{
+  "chunk_id": "f686ce17-cd08-5e50-9c17-fb78dfd53e13",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Annexure II Alternative Fuel Bunkering Readiness At Global Ports — 1. Ammonia Bunkering — Active — Potential — Under construction",
+  "chunk_text": "| S. No. | Port Name | Port Country | Port Operator |\n| --- | --- | --- | --- |\n|  |  | Ammonia Bunkering | Ammonia Bunkering |\n|  | Singapore | Singapore | MPA Singapore |\n|  | Algeciras | Spain | APBA |\n|  | Houston | United States | Port of Houston |\n|  | Hamburg | Germany | Hamburg Port Auth |\n|  | Khalifa | U.A.E. | Abu Dhabi Ports |\n|  | Salalah | Oman | Salalah Port Service |\n|  | Gdynia | Poland | Port of Gdynia |\n|  | Amsterdam | Netherlands | Amsterdam Port |\n|  | Aarhus | Denmark | Port of Aarhus |\n|  | Ngqura | South Africa | Transnet |\n|  | Ain Sokhna | Egypt | Suez Canal Zone |\n|\n\n… [+646 more chars]",
+  "content_hash": "05f5d1327671ba6ab035fd689148755478a8b9a34614ad4241d2fa592aeae8da",
+  "token_count": 369,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "fc33f04a-16fd-522f-b9d4-5adfb6fe66b1",
+  "chunk_index": 412,
+  "page_number": 298,
+  "page_range": [
+    298,
+    298
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `991e0f49-0f38-57bc-99ff-21bcabcfca8a`
+
+- vector: dim=3072 · [0.0165, 0.0267, -0.0145, -0.0201, -0.0263, -0.0276, -0.0133, 0.0157, …]
+
+```json
+{
+  "chunk_id": "991e0f49-0f38-57bc-99ff-21bcabcfca8a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Annexure II Alternative Fuel Bunkering Readiness At Global Ports — 1. Ammonia Bunkering — Active — Potential — Under construction",
+  "chunk_text": "|  | Dampier | Australia | Pilbara Ports |\n|  | Oakland | United States | Port of Oakland |\n|  | Amsterdam | Netherlands | Amsterdam Port |\n|  | Jacksonville | United States | JAXPORT |\n|  | Benicia | United States | AMPORTS | | S. No. | Port Name | Port Country | Port Operator |\n| --- | --- | --- | --- |\n|  |  | Ammonia Terminals | Ammonia Terminals |\n|  | Singapore | Singapore | South East Asia |\n|  | Dampier | Australia | Australasia |\n|  | Ulsan | South Korea | East Asia |\n|  | Newcastle | Australia | Australasia |\n|  | Jacksonville | United States | East Coast North America |\n|  | Ronne |\n\n… [+260 more chars]",
+  "content_hash": "f75ab6fc735e8083475fabc16d99defb044ab4549150b1296dca95095dae54b6",
+  "token_count": 251,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "fc33f04a-16fd-522f-b9d4-5adfb6fe66b1",
+  "chunk_index": 413,
+  "page_number": 299,
+  "page_range": [
+    299,
+    299
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `a77aeb72-34e2-5961-a866-faaa3a637f5f`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "a77aeb72-34e2-5961-a866-faaa3a637f5f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "2. Biofuel Bunkering",
+  "chunk_text": "2. Biofuel Bunkering\n\n| S. No. | Port Name | Port Country | Port Operator |\n| --- | --- | --- | --- |\n|  |  | Biofuel Bunkering | Biofuel Bunkering |\n|  | Singapore | Singapore | MPA Singapore |\n|  | Rotterdam | Netherlands | Port of Rotterdam |\n|  | Antwerp | Belgium | Port Antwerp-Bruges |\n|  | Barcelona | Spain | Barcelona Port Auth |\n|  | Amsterdam | Netherlands | Amsterdam Port |\n|  | Busan | South Korea | BPA |\n|  | Vancouver | Canada | Port of Vancouver |\n|  | Rio De Janeiro | Brazil | Porto do Rio |\n|  | Brisbane | Australia | Brisbane Port |\n|  | Colon | Panama | Colon Port Terminal |\n\n… [+1295 more chars]",
+  "content_hash": "311c626d121432434d0691fd8085bbeb08a3bd737f12c4510f8d290fcfd16bb8",
+  "token_count": 588,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    299,
+    300
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d0abb348-485f-5c08-b7bc-b6805e425419`
+
+- vector: dim=3072 · [0.0130, 0.0274, -0.0169, -0.0137, -0.0039, -0.0143, -0.0019, 0.0282, …]
+
+```json
+{
+  "chunk_id": "d0abb348-485f-5c08-b7bc-b6805e425419",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "2. Biofuel Bunkering",
+  "chunk_text": "| S. No. | Port Name | Port Country | Port Operator |\n| --- | --- | --- | --- |\n|  |  | Biofuel Bunkering | Biofuel Bunkering |\n|  | Singapore | Singapore | MPA Singapore |\n|  | Rotterdam | Netherlands | Port of Rotterdam |\n|  | Antwerp | Belgium | Port Antwerp-Bruges |\n|  | Barcelona | Spain | Barcelona Port Auth |\n|  | Amsterdam | Netherlands | Amsterdam Port |\n|  | Busan | South Korea | BPA |\n|  | Vancouver | Canada | Port of Vancouver |\n|  | Rio De Janeiro | Brazil | Porto do Rio |\n|  | Brisbane | Australia | Brisbane Port |\n|  | Colon | Panama | Colon Port Terminal |\n|  | Vlissingen-Oost \n\n… [+590 more chars]",
+  "content_hash": "50899aa202703f1b760828a755e7fcb3daf926d85ca6b330244783fee328c8ad",
+  "token_count": 351,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "a77aeb72-34e2-5961-a866-faaa3a637f5f",
+  "chunk_index": 414,
+  "page_number": 299,
+  "page_range": [
+    299,
+    299
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `1ad5378c-08a7-571e-8a94-64549dcc2abd`
+
+- vector: dim=3072 · [0.0184, 0.0216, -0.0117, -0.0178, 0.0054, -0.0277, 0.0034, 0.0268, …]
+
+```json
+{
+  "chunk_id": "1ad5378c-08a7-571e-8a94-64549dcc2abd",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "2. Biofuel Bunkering",
+  "chunk_text": ". | Ningbo Zhoushan Port |\n|  | Dalian | China P.R. | Dalian Port Group |\n|  | Yantian | China P.R. | Shenzhen Port Group |\n|  | Nansha | China P.R. | Guangzhou Port Grp | | S. No. | Port Name | Port Country | Port Operator |\n| --- | --- | --- | --- |\n|  | Nagoya | Japan | Nagoya Port |\n|  | Gibraltar | Gibraltar | Gibraltar Port |\n|  | Gothenburg | Sweden | Gothenburg Port |\n|  | Xinsha | China P.R. | Guangzhou Port Grp |\n|  | Mina Khalid | U.A.E. | Sharjah Ports |\n|  | Shekou | China P.R. | CMPort |\n|  | Khor Fakkan | U.A.E. | Khor Fakkan Port |\n|  | Wellington | New Zealand | Centreport Ltd\n\n… [+253 more chars]",
+  "content_hash": "2a4e377303fc92e4420df950d4211f0249008d41c3770bec7c53989e40aa96b4",
+  "token_count": 289,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "a77aeb72-34e2-5961-a866-faaa3a637f5f",
+  "chunk_index": 415,
+  "page_number": 300,
+  "page_range": [
+    300,
+    300
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `f1bb1b90-3184-5d45-a06a-d5f5bba23f4b`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "f1bb1b90-3184-5d45-a06a-d5f5bba23f4b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3. Hydrogen bunkering",
+  "chunk_text": "3. Hydrogen bunkering\n\n| S. No. | Port Name | Port Country | Port Operator |\n| --- | --- | --- | --- |\n| E- Hydrogen Bunkering | E- Hydrogen Bunkering | E- Hydrogen Bunkering | E- Hydrogen Bunkering |\n|  | Poole Harbor | United Kingdom |  |\n|  | Rouen | France | Haropa Port |\n| E-Hydrogen Bunkering Terminal | E-Hydrogen Bunkering Terminal | E-Hydrogen Bunkering Terminal | E-Hydrogen Bunkering Terminal |\n|  | Antwerp | Belgium | Port Antwerp-Bruges |\n|  | Newcastle | Australia | Newcastle Port Corp. |\n|  | Oostende | Belgium | Port Oostende |\n| E hydrogen Bunkering | E hydrogen Bunkering | E hy\n\n… [+1948 more chars]",
+  "content_hash": "9e0a0855c0853fd1793c8a8809ee9f735be7942fa7477d7dc48db1300415f5cf",
+  "token_count": 749,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    300,
+    301
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `5ece48b4-0f63-5a56-8371-dd0fc3fd4b07`
+
+- vector: dim=3072 · [0.0035, 0.0321, -0.0134, -0.0183, 0.0009, -0.0282, -0.0018, 0.0194, …]
+
+```json
+{
+  "chunk_id": "5ece48b4-0f63-5a56-8371-dd0fc3fd4b07",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3. Hydrogen bunkering",
+  "chunk_text": "| S. No. | Port Name | Port Country | Port Operator |\n| --- | --- | --- | --- |\n| E- Hydrogen Bunkering | E- Hydrogen Bunkering | E- Hydrogen Bunkering | E- Hydrogen Bunkering |\n|  | Poole Harbor | United Kingdom |  |\n|  | Rouen | France | Haropa Port |\n| E-Hydrogen Bunkering Terminal | E-Hydrogen Bunkering Terminal | E-Hydrogen Bunkering Terminal | E-Hydrogen Bunkering Terminal |\n|  | Antwerp | Belgium | Port Antwerp-Bruges |\n|  | Newcastle | Australia | Newcastle Port Corp. |\n|  | Oostende | Belgium | Port Oostende |\n| E hydrogen Bunkering | E hydrogen Bunkering | E hydrogen Bunkering | E hy\n\n… [+495 more chars]",
+  "content_hash": "888732fd327df512b192c9c77e81f3c38bb787660a254164b985fa00657ff9d8",
+  "token_count": 325,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f1bb1b90-3184-5d45-a06a-d5f5bba23f4b",
+  "chunk_index": 416,
+  "page_number": 300,
+  "page_range": [
+    300,
+    300
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `935a5830-19bf-5e30-9002-baa4af068d7c`
+
+- vector: dim=3072 · [0.0260, 0.0249, -0.0102, -0.0229, 0.0038, -0.0298, 0.0069, 0.0213, …]
+
+```json
+{
+  "chunk_id": "935a5830-19bf-5e30-9002-baa4af068d7c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "3. Hydrogen bunkering",
+  "chunk_text": "Harbour |\n|  | Esbjerg | Denmark | Port of Esbjerg |\n|  | Tanjung Langsat | Malaysia | TLP, Malaysia |\n|  | Portland | United Kingdom | Portland Port UK |\n|  | Sandnessjøen | Norway | Helgeland Havn | | S. No. | Port Name | Port Country | Port Operator |\n| --- | --- | --- | --- |\n| Hydrogen Bunkering Terminal | Hydrogen Bunkering Terminal | Hydrogen Bunkering Terminal | Hydrogen Bunkering Terminal |\n|  | Antwerp | Belgium | Port Antwerp-Bruges |\n|  | Shanghai | China P.R. | SIPG |\n| Hydrogen Bunkering | Hydrogen Bunkering | Hydrogen Bunkering | Hydrogen Bunkering |\n|  | San Francisco | United \n\n… [+1029 more chars]",
+  "content_hash": "5bcb44c238541bac4beb99f1931bc5a3df64e1fc08d90132f2932b6100c890dc",
+  "token_count": 478,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f1bb1b90-3184-5d45-a06a-d5f5bba23f4b",
+  "chunk_index": 417,
+  "page_number": 301,
+  "page_range": [
+    301,
+    301
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `728549f2-e0a4-5fe3-b1c8-26f502b07b9f`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "728549f2-e0a4-5fe3-b1c8-26f502b07b9f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4. LNG bunkering",
+  "chunk_text": "4. LNG bunkering\n\n| Sl no. | Port name | Port country | Port operator |\n| --- | --- | --- | --- |\n|  |  | LNG Bunkering Pontoon | LNG Bunkering Pontoon |\n|  | Nanjing | China P.R. | Nanjing Port |\n|  | Zhenjiang | China P.R. | Zhenjiang Port |\n|  |  | LNG Bunkering | LNG Bunkering |\n|  | Stockholm | United Kingdom/Continent | Ports of Stockholm |\n|  | Frederikshavn | United Kingdom/Continent | Port Frederikshavn |\n|  | Huelva | United Kingdom/Continent | Port of Huelva |\n\n| Sl no. | Port name | Port country | Port operator |\n| --- | --- | --- | --- |\n|  |  | LNG Bunkering STS | LNG Bunkering S\n\n… [+1632 more chars]",
+  "content_hash": "942a1b1c9350ce550e77c4fbdc5c14f0cb258230feec7dfea912ffcf38402cd4",
+  "token_count": 711,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    301,
+    302
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `8c910ba3-92b8-54c2-97f4-3c980f1646cd`
+
+- vector: dim=3072 · [0.0035, 0.0331, -0.0249, 0.0044, 0.0145, -0.0298, 0.0077, 0.0315, …]
+
+```json
+{
+  "chunk_id": "8c910ba3-92b8-54c2-97f4-3c980f1646cd",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4. LNG bunkering",
+  "chunk_text": "| Sl no. | Port name | Port country | Port operator |\n| --- | --- | --- | --- |\n|  |  | LNG Bunkering Pontoon | LNG Bunkering Pontoon |\n|  | Nanjing | China P.R. | Nanjing Port |\n|  | Zhenjiang | China P.R. | Zhenjiang Port |\n|  |  | LNG Bunkering | LNG Bunkering |\n|  | Stockholm | United Kingdom/Continent | Ports of Stockholm |\n|  | Frederikshavn | United Kingdom/Continent | Port Frederikshavn |\n|  | Huelva | United Kingdom/Continent | Port of Huelva |",
+  "content_hash": "e92dc61ec4e2a8282be283bc5fd65e941452a4f02ce95e52a53231979af0f988",
+  "token_count": 143,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "728549f2-e0a4-5fe3-b1c8-26f502b07b9f",
+  "chunk_index": 418,
+  "page_number": 301,
+  "page_range": [
+    301,
+    301
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `ce727f51-b318-5319-9be1-bb82d8752b60`
+
+- vector: dim=3072 · [0.0106, 0.0441, -0.0089, -0.0086, 0.0113, -0.0342, -0.0124, 0.0220, …]
+
+```json
+{
+  "chunk_id": "ce727f51-b318-5319-9be1-bb82d8752b60",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "4. LNG bunkering",
+  "chunk_text": "| LNG Bunkering |\n|  | Stockholm | United Kingdom/Continent | Ports of Stockholm |\n|  | Frederikshavn | United Kingdom/Continent | Port Frederikshavn |\n|  | Huelva | United Kingdom/Continent | Port of Huelva | | Sl no. | Port name | Port country | Port operator |\n| --- | --- | --- | --- |\n|  |  | LNG Bunkering STS | LNG Bunkering STS |\n|  | Yangshan | China P.R. | SIPG |\n|  | Algeciras | Spain | APBA |\n|  | Port Klang | Malaysia | Port Klang Auth |\n|  | Gwangyang | South Korea | Yeosu Gwangyang Port |\n|  | Zhoushan | China P.R. | Ningbo Zhoushan Port |\n|  | Antwerp | Belgium | Port Antwerp-Bru\n\n… [+1366 more chars]",
+  "content_hash": "3d5c16ef8d02dfbb8ac21efd896b32f5638b02eea9932e1ae09ff1f1b0c75b31",
+  "token_count": 622,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "728549f2-e0a4-5fe3-b1c8-26f502b07b9f",
+  "chunk_index": 419,
+  "page_number": 302,
+  "page_range": [
+    302,
+    302
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `9b65a210-00c3-5833-a1c9-5840f66b011a`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "9b65a210-00c3-5833-a1c9-5840f66b011a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Advanced Green Fuels for M — aritime Application-\n\n| Sl no. | Port name | Port country | Port operator |\n| --- | --- | --- | --- |\n|  | Jacksonville | United States | JAXPORT |\n|  | Bilbao | Spain | Bilbao Port |\n|  | Pasir Gudang | Malaysia | JPB |\n|  | St Petersburg | Russia | StPetersburg Seaport |\n|  | Bergen | Norway | Bergen Havn |\n|  | Visby | Sweden |  |\n|  | Vlissingen-Oost | Netherlands | North Sea Port |\n|  | Toyohashi | Japan | Mikawa Port Office |\n|  | Huangpu | China P.R. | Guangzhou Port Grp |\n|  | Malmo | Sweden | CopenhagenMalmo Port |\n|  | Naantali | Finland | Port of Naantal\n\n… [+2831 more chars]",
+  "content_hash": "3b8a6cfc2557dd349c1d3a8eebca6b20f97d36858361076ce7a6aa3600d62042",
+  "token_count": 1061,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    303,
+    304
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `032421bc-63d9-5ea3-a80b-065959fd398b`
+
+- vector: dim=3072 · [0.0222, 0.0290, -0.0085, -0.0098, -0.0108, -0.0271, 0.0181, 0.0309, …]
+
+```json
+{
+  "chunk_id": "032421bc-63d9-5ea3-a80b-065959fd398b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "| Sl no. | Port name | Port country | Port operator |\n| --- | --- | --- | --- |\n|  | Jacksonville | United States | JAXPORT |\n|  | Bilbao | Spain | Bilbao Port |\n|  | Pasir Gudang | Malaysia | JPB |\n|  | St Petersburg | Russia | StPetersburg Seaport |\n|  | Bergen | Norway | Bergen Havn |\n|  | Visby | Sweden |  |\n|  | Vlissingen-Oost | Netherlands | North Sea Port |\n|  | Toyohashi | Japan | Mikawa Port Office |\n|  | Huangpu | China P.R. | Guangzhou Port Grp |\n|  | Malmo | Sweden | CopenhagenMalmo Port |\n|  | Naantali | Finland | Port of Naantali |\n|  | Cadiz | Spain | Cadiz |\n|  | Hiroshima | J\n\n… [+1032 more chars]",
+  "content_hash": "38c5e457e786c891d415d631cb7c1613ef1a7a232aa17e90328454020090cff1",
+  "token_count": 523,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9b65a210-00c3-5833-a1c9-5840f66b011a",
+  "chunk_index": 420,
+  "page_number": 303,
+  "page_range": [
+    303,
+    303
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b1a40c07-ed39-5632-9248-eeae8f2d79a7`
+
+- vector: dim=3072 · [0.0151, 0.0200, -0.0096, -0.0052, -0.0029, -0.0257, 0.0032, 0.0369, …]
+
+```json
+{
+  "chunk_id": "b1a40c07-ed39-5632-9248-eeae8f2d79a7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Port of Rotterdam |\n|  | Hong Kong | Hong Kong | Hong Kong Port Board |\n|  | West Port Said | Egypt | Suez Canal Zone |\n|  | Port Hedland | Australia | Pilbara Ports |\n|  | Piraeus | Greece | Piraeus Port Auth | | Sl no. | Port name | Port country | Port operator |\n| --- | --- | --- | --- |\n|  | Suez | Egypt | Red Sea Port Auth. |\n|  | Laem Chabang | Thailand | Laem Chabang Port |\n|  | Napoli | Italy | PSA Tyrrhenian Sea |\n|  | Dampier | Australia | Dampier Office |\n|  | Ulsan | South Korea | Ulsan Port Auth |\n|  | Osaka | Japan | Osaka Port Corporati |\n|  | Colon | Panama | Colon Port Termina\n\n… [+1358 more chars]",
+  "content_hash": "1ae8292e7b4a8703529c80ec38f6c267440b2dde85216d4063bddf04e494dfe1",
+  "token_count": 587,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "9b65a210-00c3-5833-a1c9-5840f66b011a",
+  "chunk_index": 421,
+  "page_number": 304,
+  "page_range": [
+    304,
+    304
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `f7f5d4bf-94f1-5b71-ac7f-a2b0531cd8df`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "f7f5d4bf-94f1-5b71-ac7f-a2b0531cd8df",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Advanced Green Fuels for M — aritime Application-\n\n| Sl no. | Port name | Port country | Port operator |\n| --- | --- | --- | --- |\n|  | Kochi | India | Cochin Port Auth. |\n|  | Jacksonville | United States | JAXPORT |\n|  | Bilbao | Spain | Bilbao Port |\n|  | Tacoma | United States | Northwest Seaport |\n|  | Caucedo | Dominican Rep. | Caucedo Port |\n|  | Bergen | Norway | Bergen Havn |\n|  | Mongstad | Norway | Port of Mongstad |\n|  | Cristobal | Panama | Hutchison Ports PPC |\n|  | Ravenna | Italy |  |\n|  | Escombreras | Spain | Puerto de Cartagena |\n|  | Teesport | United Kingdom | PD Ports |\n|\n\n… [+2653 more chars]",
+  "content_hash": "df7b6b369acc54019c7bb087825055889b7d513b238a04efa6d7799074e3820c",
+  "token_count": 1071,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    305,
+    306
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `62fb44aa-7330-5b08-8f89-e9f8c4532249`
+
+- vector: dim=3072 · [0.0293, 0.0272, -0.0092, -0.0136, -0.0168, -0.0287, 0.0015, 0.0291, …]
+
+```json
+{
+  "chunk_id": "62fb44aa-7330-5b08-8f89-e9f8c4532249",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "| Sl no. | Port name | Port country | Port operator |\n| --- | --- | --- | --- |\n|  | Kochi | India | Cochin Port Auth. |\n|  | Jacksonville | United States | JAXPORT |\n|  | Bilbao | Spain | Bilbao Port |\n|  | Tacoma | United States | Northwest Seaport |\n|  | Caucedo | Dominican Rep. | Caucedo Port |\n|  | Bergen | Norway | Bergen Havn |\n|  | Mongstad | Norway | Port of Mongstad |\n|  | Cristobal | Panama | Hutchison Ports PPC |\n|  | Ravenna | Italy |  |\n|  | Escombreras | Spain | Puerto de Cartagena |\n|  | Teesport | United Kingdom | PD Ports |\n|  | Risavika | Norway |  |\n|  | Santander | Spain |\n\n… [+907 more chars]",
+  "content_hash": "523aff1a743e0c17b96c557052002f842196f9bae0aec4fd6df19ba0da98ad30",
+  "token_count": 492,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f7f5d4bf-94f1-5b71-ac7f-a2b0531cd8df",
+  "chunk_index": 422,
+  "page_number": 305,
+  "page_range": [
+    305,
+    305
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `2380e055-13c3-58c9-8402-9cdeb661cb25`
+
+- vector: dim=3072 · [0.0138, 0.0242, -0.0132, -0.0137, 0.0116, -0.0208, 0.0077, 0.0263, …]
+
+```json
+{
+  "chunk_id": "2380e055-13c3-58c9-8402-9cdeb661cb25",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "| SIPG |\n|  | Busan | South Korea | BPA |\n|  | Fujairah | U.A.E. | Abu Dhabi Ports |\n|  | Incheon | South Korea | Incheon Port Auth |\n|  | Dunkirk | France | Port de Dunkerque | | Sl no. | Port name | Port country | Port operator |\n| --- | --- | --- | --- |\n|  | Jakarta | Indonesia | Pelindo |\n|  | Napoli | Italy | PSA Tyrrhenian Sea |\n|  | Jiangyin | China P.R. | Jiangyin Port |\n|  | Sohar | Oman | Sohar Port |\n|  | Gdansk | Poland | Port of Gdansk |\n|  | Tomakomai | Japan | JPTMK |\n|  | Brunsbuttel | Germany | Brunsbuttel Ports |\n|  | Port Louis | Mauritius | CHCL |\n|  | Galveston | United S\n\n… [+1272 more chars]",
+  "content_hash": "9d41b92629789cba2abb065c8d34d8712c03b26309be460dcbe00c73e4a762a9",
+  "token_count": 628,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "f7f5d4bf-94f1-5b71-ac7f-a2b0531cd8df",
+  "chunk_index": 423,
+  "page_number": 306,
+  "page_range": [
+    306,
+    306
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `efd80ba1-380f-5d73-a05c-af5b6e360643`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "efd80ba1-380f-5d73-a05c-af5b6e360643",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Advanced Green Fuels for M — aritime Application-\n\n| Sl no. | Port name | Port country | Port operator |\n| --- | --- | --- | --- |\n|  | Barcelona | Spain | Barcelona Port Auth |\n|  | Nansha | China P.R. | Guangzhou Port Grp |\n|  | Yokohama | Japan | Yokohama Port |\n|  | Valencia | Spain | Valenciaport |\n|  | Hamburg | Germany | Hamburg Port Auth |\n|  | Nagoya | Japan | Nagoya Port |\n|  | Zeebrugge | Belgium | Port Antwerp-Bruges |\n|  | Helsinki | Finland | Port of Helsinki |\n|  | Le Havre | France | Haropa Port |\n|  | Tallinn | Estonia | Port of Tallinn |\n|  | Long Beach | United States | Port\n\n… [+2928 more chars]",
+  "content_hash": "0020bae4184897375403f7bc5b930fe5fe182a7096a5509098b86079ee96b5f4",
+  "token_count": 1091,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    307,
+    309
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d029dcb3-229d-5981-85fe-2eafa01d8c41`
+
+- vector: dim=3072 · [0.0283, 0.0310, -0.0083, -0.0154, -0.0090, -0.0441, 0.0146, 0.0380, …]
+
+```json
+{
+  "chunk_id": "d029dcb3-229d-5981-85fe-2eafa01d8c41",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "| Sl no. | Port name | Port country | Port operator |\n| --- | --- | --- | --- |\n|  | Barcelona | Spain | Barcelona Port Auth |\n|  | Nansha | China P.R. | Guangzhou Port Grp |\n|  | Yokohama | Japan | Yokohama Port |\n|  | Valencia | Spain | Valenciaport |\n|  | Hamburg | Germany | Hamburg Port Auth |\n|  | Nagoya | Japan | Nagoya Port |\n|  | Zeebrugge | Belgium | Port Antwerp-Bruges |\n|  | Helsinki | Finland | Port of Helsinki |\n|  | Le Havre | France | Haropa Port |\n|  | Tallinn | Estonia | Port of Tallinn |\n|  | Long Beach | United States | Port of Long Beach |\n|  | Gothenburg | Sweden | Gothenb\n\n… [+1131 more chars]",
+  "content_hash": "924f14e33713eba126671552b4a030365858cc3afd71d124ea3002df1559a8d5",
+  "token_count": 526,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "efd80ba1-380f-5d73-a05c-af5b6e360643",
+  "chunk_index": 424,
+  "page_number": 307,
+  "page_range": [
+    307,
+    307
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7b8c5c76-050c-5da4-bf5d-65bb474fa608`
+
+- vector: dim=3072 · [0.0108, 0.0429, -0.0084, -0.0021, -0.0098, -0.0138, -0.0163, 0.0239, …]
+
+```json
+{
+  "chunk_id": "7b8c5c76-050c-5da4-bf5d-65bb474fa608",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application-",
+  "chunk_text": "Aires |\n|  | Longkou | China P.R. | Longkou Port Group |\n|  | Amsterdam | Netherlands | Amsterdam Port |\n|  | Sakai-Semboku | Japan | Sakai Semboku Port |\n|  | Jacksonville | United States | JAXPORT | | Sl no. | Port name | Port country | Port operator |\n| --- | --- | --- | --- |\n|  | Yangpu | China P.R. | SDIC Jurong |\n|  | Bilbao | Spain | Bilbao Port |\n|  | Malaga | Spain | Port of Malaga |\n|  | Montreal | Canada | Montreal Port Auth |\n|  | Fremantle | Australia | Fremantle Ports |\n|  | Malmo | Sweden | CopenhagenMalmo Port |\n|  | Ijmuiden | Netherlands | Port of Ijmuiden |\n|  | Huelva | Sp\n\n… [+1345 more chars]",
+  "content_hash": "6a1551b2da26334dea99dd2b5ef36df1b66c4bffc019046e84721619d1733ac4",
+  "token_count": 615,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "efd80ba1-380f-5d73-a05c-af5b6e360643",
+  "chunk_index": 425,
+  "page_number": 308,
+  "page_range": [
+    308,
+    309
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `1f98bcfc-104d-573e-972d-24f971523519`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "1f98bcfc-104d-573e-972d-24f971523519",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6. Methanol Bunkering",
+  "chunk_text": "6. Methanol Bunkering\n\n| S. No. | Port Name | Port Country | Port Operator |\n| --- | --- | --- | --- |\n| Methanol Bunkering | Methanol Bunkering | Methanol Bunkering | Methanol Bunkering |\n|  | Ulsan | East Asia | Ulsan Port Auth |\n|  | Yokohama | East Asia | Yokohama Port |\n|  | Klaipeda | United Kingdom/Continent | Klaipeda Seaport |\n|  | Gdynia | United Kingdom/Continent | Port of Gdynia |\n|  | Amsterdam | United Kingdom/Continent | Amsterdam Port |\n| Methanol Bunkering STS | Methanol Bunkering STS | Methanol Bunkering STS | Methanol Bunkering STS |\n|  | Singapore | Singapore | MPA Singapor\n\n… [+2105 more chars]",
+  "content_hash": "3107f82e52b32bec14b3a105e52730f80c677680a13607a43b13bab97eb18c1a",
+  "token_count": 806,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    309,
+    310
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `aae59eff-ce69-50fe-b36f-9a86594ae1d1`
+
+- vector: dim=3072 · [0.0194, 0.0174, -0.0135, -0.0161, -0.0033, -0.0192, -0.0253, 0.0168, …]
+
+```json
+{
+  "chunk_id": "aae59eff-ce69-50fe-b36f-9a86594ae1d1",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6. Methanol Bunkering",
+  "chunk_text": "| S. No. | Port Name | Port Country | Port Operator |\n| --- | --- | --- | --- |\n| Methanol Bunkering | Methanol Bunkering | Methanol Bunkering | Methanol Bunkering |\n|  | Ulsan | East Asia | Ulsan Port Auth |\n|  | Yokohama | East Asia | Yokohama Port |\n|  | Klaipeda | United Kingdom/Continent | Klaipeda Seaport |\n|  | Gdynia | United Kingdom/Continent | Port of Gdynia |\n|  | Amsterdam | United Kingdom/Continent | Amsterdam Port |\n| Methanol Bunkering STS | Methanol Bunkering STS | Methanol Bunkering STS | Methanol Bunkering STS |\n|  | Singapore | Singapore | MPA Singapore |\n|  | Rotterdam | Ne\n\n… [+1060 more chars]",
+  "content_hash": "85043d28da44fa2c93599c93443db16d36b310d51f3077ba4365039929d0c758",
+  "token_count": 502,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1f98bcfc-104d-573e-972d-24f971523519",
+  "chunk_index": 426,
+  "page_number": 309,
+  "page_range": [
+    309,
+    309
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `0407682c-f03d-555c-b928-29516a8c5e01`
+
+- vector: dim=3072 · [-0.0010, 0.0232, -0.0166, -0.0251, 0.0107, 0.0068, -0.0213, 0.0179, …]
+
+```json
+{
+  "chunk_id": "0407682c-f03d-555c-b928-29516a8c5e01",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "6. Methanol Bunkering",
+  "chunk_text": "unkering TTS | Methanol Bunkering TTS |\n|  | Nansha | China P.R. | Guangzhou Port Grp |\n|  | Gothenburg | Sweden | Gothenburg Port |\n|  | Antwerp | Belgium | Port Antwerp-Bruges | | S. No. | Port Name | Port Country | Port Operator |\n| --- | --- | --- | --- |\n| Bio Methanol Bunkering Terminal | Bio Methanol Bunkering Terminal | Bio Methanol Bunkering Terminal | Bio Methanol Bunkering Terminal |\n|  | Geismar | United States |  |\n| E Methanol Bunkering STS | E Methanol Bunkering STS | E Methanol Bunkering STS | E Methanol Bunkering STS |\n|  | Singapore | Singapore | MPA Singapore |\n|  | Gothenbu\n\n… [+600 more chars]",
+  "content_hash": "2ab5a9838c935687ff3df3a7963a4017aa474b2b535b13d6f2d384d5b760b823",
+  "token_count": 356,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "1f98bcfc-104d-573e-972d-24f971523519",
+  "chunk_index": 427,
+  "page_number": 310,
+  "page_range": [
+    310,
+    310
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `b7d82a9a-d725-58f9-bd63-def3f2a904a2`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "b7d82a9a-d725-58f9-bd63-def3f2a904a2",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application- — Annexure III — Alternative Fuel Feedstock and Supply (India) — A) Ammonia",
+  "chunk_text": "Advanced Green Fuels for M — aritime Application- — Annexure III — Alternative Fuel Feedstock and Supply (India) — A) Ammonia\n\n| S. No. | Project Name | Date | Status | Technology Details | Capacity |  | Technology Partners | Ref. |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Production Rate | Normalized Production Rate (Tonnes) |  |  |  |  |  |  |  |\n| 1 | Anil urea plant | 2030 | Concept | wind + solar | 2 GW | 5,600,000 t/y | Total Energies + Adani | 1 |\n| 2 | ABC Cleantech H2 | 2027 | Concept | Unknown | 1275MW | 5,000,000 NH3/t/y | ABC Cleantech+ Axis Energy Group | 3 |\n| 3 \n\n… [+5501 more chars]",
+  "content_hash": "92348615e5b841f34befe5a70afeac89f676e662f9457c7c599929bddb3c39b5",
+  "token_count": 2325,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    311,
+    314
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c9b73627-104b-5e68-80b6-4dbe30a8093a`
+
+- vector: dim=3072 · [-0.0141, 0.0314, -0.0065, -0.0015, -0.0399, -0.0093, -0.0037, 0.0274, …]
+
+```json
+{
+  "chunk_id": "c9b73627-104b-5e68-80b6-4dbe30a8093a",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application- — Annexure III — Alternative Fuel Feedstock and Supply (India) — A) Ammonia",
+  "chunk_text": "| S. No. | Project Name | Date | Status | Technology Details | Capacity |  | Technology Partners | Ref. |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Production Rate | Normalized Production Rate (Tonnes) |  |  |  |  |  |  |  |\n| 1 | Anil urea plant | 2030 | Concept | wind + solar | 2 GW | 5,600,000 t/y | Total Energies + Adani | 1 |\n| 2 | ABC Cleantech H2 | 2027 | Concept | Unknown | 1275MW | 5,000,000 NH3/t/y | ABC Cleantech+ Axis Energy Group | 3 |\n| 3 | Greenko green ammonia project | 2026 | Concept | Unknown | 3440MW | - | - |  |\n| 4 | Hydreen HLC Green Energy Himachal Prades\n\n… [+453 more chars]",
+  "content_hash": "6abced0108516e8f0418ffe64d6e4bbec4ad14db0a217c9c2407dc1336966f12",
+  "token_count": 377,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b7d82a9a-d725-58f9-bd63-def3f2a904a2",
+  "chunk_index": 428,
+  "page_number": 311,
+  "page_range": [
+    311,
+    311
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d82387bc-2857-53f8-bb0d-67fd8260fadc`
+
+- vector: dim=3072 · [-0.0301, 0.0282, -0.0051, 0.0043, -0.0232, -0.0211, -0.0109, 0.0193, …]
+
+```json
+{
+  "chunk_id": "d82387bc-2857-53f8-bb0d-67fd8260fadc",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application- — Annexure III — Alternative Fuel Feedstock and Supply (India) — A) Ammonia",
+  "chunk_text": "133,000 t NH3/y |  | 11 |\n| 7 | Ammonia plant Kota - Rajasthan state - phase 1 | 2025 | Concept | Unknown | 15 kt NH3/y capacity | 15,000 t NH3/y |  | 11 | <table>\n<tr>\n<th rowspan=\"2\">S. No.</th>\n<th rowspan=\"2\">Project Name</th>\n<th rowspan=\"2\">Date</th>\n<th rowspan=\"2\">Status</th>\n<th rowspan=\"2\">Technology Details</th>\n<th>Capacity</th>\n<th></th>\n<th rowspan=\"2\">Technology Partners</th>\n<th rowspan=\"2\">Ref.</th>\n</tr>\n<tr>\n<th>Production Rate</th>\n<th>Normalized Production Rate (Tonnes)</th>\n</tr>\n<tr>\n<td>8</td>\n<td>ReNew-Jera plant in Odisha</td>\n<td></td>\n<td>Concept</td>\n<td>Unknown</t\n\n… [+760 more chars]",
+  "content_hash": "77e106091380ea4064194e949dc9e5c4c58ecaa8a58145bad2c52222bb38afe0",
+  "token_count": 504,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b7d82a9a-d725-58f9-bd63-def3f2a904a2",
+  "chunk_index": 429,
+  "page_number": 312,
+  "page_range": [
+    312,
+    312
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `7158bf5b-829e-583a-aaeb-bbc06700da14`
+
+- vector: dim=3072 · [-0.0164, 0.0280, -0.0074, 0.0022, -0.0190, -0.0252, -0.0006, 0.0312, …]
+
+```json
+{
+  "chunk_id": "7158bf5b-829e-583a-aaeb-bbc06700da14",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application- — Annexure III — Alternative Fuel Feedstock and Supply (India) — A) Ammonia",
+  "chunk_text": ",000,000 t NH3/y</td>\n<td></td>\n<td>11</td>\n</tr>\n<tr>\n<td>12</td>\n<td>Torrent ammonia plant</td>\n<td>2027</td>\n<td>Concept</td>\n<td>Solar PV</td> <td>100 kt NH3/y production</td>\n<td>1,000,000 t NH3/y</td>\n<td></td>\n<td>11</td>\n</tr>\n<tr>\n<td>13</td>\n<td>ACME Tamil Nadu plant - Chidambaranar port</td>\n<td>2030</td>\n<td>Feasibility study</td>\n<td>Solar PV</td>\n<td>1.5GW - 3300 t NH3/d</td>\n<td>1,204,500 t NH3/y</td>\n<td></td>\n<td>11</td>\n</tr>\n<tr>\n<td>14</td>\n<td>ACME Odisha Plant</td>\n<td>2028</td>\n<td>Feasibility study</td>\n<td>Solar PV</td>\n<td>1.5GW - 3300 t NH3/d</td>\n<td>1,204,500 ty</t\n\n… [+596 more chars]",
+  "content_hash": "148b0420326e6f48a8ecd404661d65dd9f2ee2fe380cfebff9bbbe5efff69fea",
+  "token_count": 508,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b7d82a9a-d725-58f9-bd63-def3f2a904a2",
+  "chunk_index": 430,
+  "page_number": 312,
+  "page_range": [
+    312,
+    312
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `77e6e1ba-c226-5611-8f15-146f71d5d48e`
+
+- vector: dim=3072 · [-0.0054, 0.0408, -0.0070, 0.0092, -0.0196, -0.0181, 0.0061, 0.0228, …]
+
+```json
+{
+  "chunk_id": "77e6e1ba-c226-5611-8f15-146f71d5d48e",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application- — Annexure III — Alternative Fuel Feedstock and Supply (India) — A) Ammonia",
+  "chunk_text": "ior Energy Gujarat H2</td>\n<td>2030</td>\n<td>Feasibility study</td>\n<td>Unknown</td>\n<td>2628 t H2/y production</td>\n<td>1,000,000 NH3/t/y</td>\n<td></td> <td>7</td>\n</tr>\n<tr>\n<td>18</td>\n<td>POSCO H2</td>\n<td>2027</td>\n<td>Feasibility study</td>\n<td>Unknown</td>\n<td>10 t H2/y production</td>\n<td>5,000,000 NH3/t/y</td>\n<td></td>\n<td>8</td>\n</tr>\n<tr>\n<td>19</td>\n<td>Renew Efuels Odisha Green H2</td>\n<td>2027</td>\n<td>Feasibility study</td>\n<td>Unknown</td>\n<td>365 t H2/y production</td>\n<td>1,200,000 NH3/t/y</td>\n<td></td>\n<td>\n\n9</td>\n</tr>\n</table>",
+  "content_hash": "58f92201524d8f2b761e5a27a9cdf0ab83c47a4e0cf57aa65ac6697b701cc155",
+  "token_count": 233,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b7d82a9a-d725-58f9-bd63-def3f2a904a2",
+  "chunk_index": 431,
+  "page_number": 312,
+  "page_range": [
+    312,
+    313
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4a10b009-e396-5a77-b8e7-94fb41c77abe`
+
+- vector: dim=3072 · [-0.0163, 0.0395, -0.0014, 0.0131, -0.0203, -0.0060, -0.0095, 0.0229, …]
+
+```json
+{
+  "chunk_id": "4a10b009-e396-5a77-b8e7-94fb41c77abe",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application- — Annexure III — Alternative Fuel Feedstock and Supply (India) — A) Ammonia",
+  "chunk_text": "7</td>\n<td>Feasibility study</td>\n<td>Unknown</td>\n<td>365 t H2/y production</td>\n<td>1,200,000 NH3/t/y</td>\n<td></td>\n<td>\n\n9</td>\n</tr>\n</table> <table>\n<tr>\n<th rowspan=\"2\">S. No.</th>\n<th rowspan=\"2\">Project Name</th>\n<th rowspan=\"2\">Date</th>\n<th rowspan=\"2\">Status</th>\n<th rowspan=\"2\">Technology Details</th>\n<th>Capacity</th>\n<th></th>\n<th rowspan=\"2\">Technology Partners</th>\n<th rowspan=\"2\">Ref.</th>\n</tr>\n<tr>\n<th>Production Rate</th>\n<th>Normalized Production Rate (Tonnes)</th>\n</tr>\n<tr>\n<td>20</td>\n<td>Ammonia project Avaada Odisha</td>\n<td></td>\n<td>Feasibility study</td>\n<td>Unkno\n\n… [+731 more chars]",
+  "content_hash": "7017f8431fc607500f86bd138e88107f3e1819a24ee5974474133384b5196361",
+  "token_count": 487,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b7d82a9a-d725-58f9-bd63-def3f2a904a2",
+  "chunk_index": 432,
+  "page_number": 313,
+  "page_range": [
+    313,
+    313
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b4af84de-cdbe-5cdd-b3ad-acf368d8d03f`
+
+- vector: dim=3072 · [-0.0128, 0.0406, -0.0086, 0.0137, -0.0294, -0.0144, -0.0041, 0.0274, …]
+
+```json
+{
+  "chunk_id": "b4af84de-cdbe-5cdd-b3ad-acf368d8d03f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Advanced Green Fuels for M — aritime Application- — Annexure III — Alternative Fuel Feedstock and Supply (India) — A) Ammonia",
+  "chunk_text": "></td>\n<td>Feasibility study</td>\n<td></td>\n<td>720kt NH3/y production</td>\n<td>720,000 t NH3/y</td>\n<td></td>\n<td>11</td>\n</tr>\n<tr>\n<td>24</td> <td>Hygenco Gopalpur GNH3 Plant- Tata Steel Special Economic Zone MoU, phase 1</td>\n<td>2026</td>\n<td>Feasibility study</td>\n<td>Others/ Various</td>\n<td>600 t NH3/day production</td>\n<td>219,000 t NH3/y</td>\n<td></td>\n<td>11</td>\n</tr>\n<tr>\n<td>25</td>\n<td>Hygenco Gopalpur GNH3 Plant - Tata Steel Special Economic Zone MoU, phase 2</td>\n<td></td>\n<td>Feasibility study</td>\n<td>Others/ Various</td>\n<td>3.2 kt NH3/day production</td>\n<td>1,168,000 t NH\n\n… [+621 more chars]",
+  "content_hash": "683b30541edd4156ea1954bb881aa0bf167cabcfb50ef7745b4ef1d7e6f9d6a7",
+  "token_count": 489,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b7d82a9a-d725-58f9-bd63-def3f2a904a2",
+  "chunk_index": 433,
+  "page_number": 313,
+  "page_range": [
+    313,
+    314
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `6cf2df39-c448-58ed-b2ee-5c832e0890b7`
+
+- vector: dim=3072 · [-0.0179, 0.0101, -0.0043, 0.0226, -0.0219, -0.0143, -0.0181, 0.0227, …]
+
+```json
+{
+  "chunk_id": "6cf2df39-c448-58ed-b2ee-5c832e0890b7",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "B) Methanol",
+  "chunk_text": "<table>\n<tr>\n<th>S.No.</th>\n<th>Project Name</th>\n<th>Date</th>\n<th>Status</th>\n<th>Technology</th>\n<th>Capacity</th>\n<th></th>\n<th></th>\n<th>Ref.</th>\n</tr>\n<tr>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\"></td>\n<td rowspan=\"2\">Details</td>\n<td>Given Production Rate</td>\n<td>Normalized Production rate</td>\n<td rowspan=\"2\">Other Details</td>\n<td rowspan=\"2\"></td>\n</tr>\n<tr>\n<td>(Source: IEA &amp; GENA)</td>\n<td>(Tonnes/ y)</td>\n</tr>\n<tr>\n<td></td>\n<td>NTPC-Technip-L&amp;T MeOH project, Vindhyachal</td>\n<td>2024</td>\n<td>FID/ Construction</td>\n<td>PEM</td>\n\n… [+834 more chars]",
+  "content_hash": "b38978e7c3b761ae1c2cbba2b839198d2c09563e9b98aca06f16e1e63d335b93",
+  "token_count": 473,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 434,
+  "page_number": 314,
+  "page_range": [
+    314,
+    315
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `16fe5e6b-b80f-58e2-a032-33a59696c1b8`
+
+- vector: dim=3072 · [-0.0135, 0.0121, -0.0049, 0.0197, -0.0103, -0.0027, -0.0235, 0.0217, …]
+
+```json
+{
+  "chunk_id": "16fe5e6b-b80f-58e2-a032-33a59696c1b8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "B) Methanol",
+  "chunk_text": "<table>\n<tr>\n<th>S.No.</th>\n<th>Project Name</th>\n<th>Date</th>\n<th>Status</th>\n<th>Technology</th>\n<th>Capacity</th>\n<th></th>\n<th></th>\n<th>Ref.</th>\n</tr>\n<tr>\n<th rowspan=\"2\"></th>\n<th rowspan=\"2\"></th>\n<th rowspan=\"2\"></th>\n<th rowspan=\"2\"></th>\n<th rowspan=\"2\">Details</th>\n<th>Given Production Rate</th>\n<th rowspan=\"2\">Normalized Production rate (Tonnes/ y)</th>\n<th rowspan=\"2\">Other Details</th>\n<th rowspan=\"2\"></th>\n</tr>\n<tr>\n<th>(Source: IEA &amp; GENA)</th>\n</tr>\n<tr>\n<td></td>\n<td>Thermax + IIT Delhi (CO2 to Methanol)</td>\n<td>-</td>\n<td>Feasibility or pre feasibility</td>\n<td>CO2-\n\n… [+400 more chars]",
+  "content_hash": "996a98a19dccfc525a3fdec8ca0cc2dda8775dbd1c1f294dbf294e8c558f6008",
+  "token_count": 348,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 435,
+  "page_number": 315,
+  "page_range": [
+    315,
+    316
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `7d54ec36-7b92-5eaa-b79c-578250a56be3`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "7d54ec36-7b92-5eaa-b79c-578250a56be3",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "C) Hydrogen\n\n<table>\n<tr>\n<th rowspan=\"2\">S. No.</th>\n<th rowspan=\"2\">Project Name</th>\n<th>Date</th>\n<th rowspan=\"2\">Status</th>\n<th rowspan=\"2\">Technology Details</th>\n<th rowspan=\"2\">Technology Electricity Eetails</th>\n<th>Capacity</th>\n<th></th>\n<th>Ref.</th>\n</tr>\n<tr>\n<th></th>\n<th>Given Production Rate (Source: IEA)</th>\n<th>Converted production rate (tonnes/ y)</th>\n<th></th>\n</tr>\n<tr>\n<td>1</td>\n<td>Dalstur Energy Coal India coal Hydrogen</td>\n<td></td>\n<td>Concept</td>\n<td>Coal w CCUS</td>\n<td></td>\n<td>-</td>\n<td>-</td>\n<td>11</td>\n</tr>\n<tr>\n<td>2</td>\n<td>Carbon Governance green \n\n… [+2444 more chars]",
+  "content_hash": "f0920facaa6a05c00e62e0b5fc0a649dee851a29a87b959816b4f20a855dc183",
+  "token_count": 1183,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    316,
+    317
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `26508f83-e43e-5471-919a-86d50efdd2e8`
+
+- vector: dim=3072 · [-0.0067, -0.0161, -0.0080, 0.0427, -0.0196, -0.0345, -0.0047, 0.0337, …]
+
+```json
+{
+  "chunk_id": "26508f83-e43e-5471-919a-86d50efdd2e8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "<table>\n<tr>\n<th rowspan=\"2\">S. No.</th>\n<th rowspan=\"2\">Project Name</th>\n<th>Date</th>\n<th rowspan=\"2\">Status</th>\n<th rowspan=\"2\">Technology Details</th>\n<th rowspan=\"2\">Technology Electricity Eetails</th>\n<th>Capacity</th>\n<th></th>\n<th>Ref.</th>\n</tr>\n<tr>\n<th></th>\n<th>Given Production Rate (Source: IEA)</th>\n<th>Converted production rate (tonnes/ y)</th>\n<th></th>\n</tr>\n<tr>\n<td>1</td>\n<td>Dalstur Energy Coal India coal Hydrogen</td>\n<td></td>\n<td>Concept</td>\n<td>Coal w CCUS</td>\n<td></td>\n<td>-</td>\n<td>-</td>\n<td>11</td>\n</tr>\n<tr>\n<td>2</td>\n<td>Carbon Governance green Hydrogen proj\n\n… [+634 more chars]",
+  "content_hash": "cda423bfc45a096ed4cebec04971db2749fb4d411dab91f0f58c767b6c981e39",
+  "token_count": 446,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7d54ec36-7b92-5eaa-b79c-578250a56be3",
+  "chunk_index": 436,
+  "page_number": 316,
+  "page_range": [
+    316,
+    316
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `3cbf2f85-31f1-52ec-b1b4-939124abcc04`
+
+- vector: dim=3072 · [-0.0109, 0.0218, -0.0059, 0.0024, -0.0149, -0.0188, -0.0024, 0.0250, …]
+
+```json
+{
+  "chunk_id": "3cbf2f85-31f1-52ec-b1b4-939124abcc04",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "</td>\n<td>Other Electrolysis</td>\n<td>Solar PV</td>\n<td>115 t H2/d (production)</td>\n<td>41,975 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>5</td> <td>Adani H2</td>\n<td>2030</td>\n<td>Concept</td>\n<td>Other Electrolysis</td>\n<td>Unknown</td>\n<td>1000 kt H2/y production</td>\n<td>1,000,000 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>6</td>\n<td>Chitrakoot H2</td>\n<td>2026</td>\n<td>Concept</td>\n<td>Other Electrolysis</td>\n<td>Unknown</td>\n<td>129.3 kt H2/y production</td>\n<td>1,293,000 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>7</td>\n<td>Larsen &amp; Toubro/ReNew Power Project</td>\n<td>2025</td>\n<td>Concept</td\n\n… [+609 more chars]",
+  "content_hash": "0c8a36f6d48f0bdc70c07f893634e2e41c166711a84200e915bbba93f1a6920b",
+  "token_count": 503,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7d54ec36-7b92-5eaa-b79c-578250a56be3",
+  "chunk_index": 437,
+  "page_number": 316,
+  "page_range": [
+    316,
+    316
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `d0344d20-ca91-5cde-bc31-d94b6f3f698c`
+
+- vector: dim=3072 · [-0.0273, 0.0134, -0.0061, -0.0121, -0.0456, -0.0454, -0.0029, 0.0316, …]
+
+```json
+{
+  "chunk_id": "d0344d20-ca91-5cde-bc31-d94b6f3f698c",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "500 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>10</td>\n<td>Indian Oil Corporation IOCL refinery</td>\n<td>2030</td>\n<td>Concept</td>\n<td>Biomass</td>\n<td></td> <td>350 kt H2/y production</td>\n<td>350,000 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>11</td>\n<td>Chennai Petroleum Corporation (CPCL) - phase 1</td>\n<td>2027</td>\n<td>Concept</td>\n<td>Other Electrolysis</td>\n<td>Unknown</td>\n<td>1 kt H2/y production</td>\n<td>1,000 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>12</td>\n<td>Chennai Petroleum Corporation (CPCL) - phase 2</td>\n<td>2030</td>\n<td>Concept</td>\n<td>Other Electrolysis</td>\n<td>Unknown</td>\n<td\n\n… [+283 more chars]",
+  "content_hash": "ef3a8712ccae8ae57a0e2b83ba00ae9f85af4409cfbf66d58a0955e42335100f",
+  "token_count": 351,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "7d54ec36-7b92-5eaa-b79c-578250a56be3",
+  "chunk_index": 438,
+  "page_number": 316,
+  "page_range": [
+    316,
+    317
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `b4e32d31-78e7-5bb5-9ce4-5f096b45f91f`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "b4e32d31-78e7-5bb5-9ce4-5f096b45f91f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "C) Hydrogen (cont.)\n\n<table>\n<tr>\n<th rowspan=\"3\">S. No.</th>\n<th rowspan=\"3\">Project Name</th>\n<th>Date</th>\n<th>Status</th>\n<th rowspan=\"3\">Technology Details</th>\n<th rowspan=\"3\">Technology Electricity Eetails</th>\n<th>Capacity</th>\n<th></th>\n<th>Ref.</th>\n</tr>\n<tr>\n<th rowspan=\"2\"></th>\n<th rowspan=\"2\"></th>\n<th>Given Production Rate</th>\n<th rowspan=\"2\">Converted production rate (tonnes/ y)</th>\n<th rowspan=\"2\"></th>\n</tr>\n<tr>\n<th>(Source: IEA)</th>\n</tr>\n<tr>\n<td>14</td>\n<td>MRPL Mangalore Refinery - phase 2</td>\n<td>2030</td>\n<td>Concept</td>\n<td>Other Electrolysis</td>\n<td>Unknown</t\n\n… [+2448 more chars]",
+  "content_hash": "3151d212e0c86495963926ea5358047857f16e75aeb34cdaedeeb1f100b5a3a1",
+  "token_count": 1226,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    317,
+    318
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `22cfe9f7-d1b0-549c-99c7-5f6fd238777b`
+
+- vector: dim=3072 · [-0.0147, -0.0038, -0.0072, 0.0191, -0.0286, -0.0273, 0.0026, 0.0292, …]
+
+```json
+{
+  "chunk_id": "22cfe9f7-d1b0-549c-99c7-5f6fd238777b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "<table>\n<tr>\n<th rowspan=\"3\">S. No.</th>\n<th rowspan=\"3\">Project Name</th>\n<th>Date</th>\n<th>Status</th>\n<th rowspan=\"3\">Technology Details</th>\n<th rowspan=\"3\">Technology Electricity Eetails</th>\n<th>Capacity</th>\n<th></th>\n<th>Ref.</th>\n</tr>\n<tr>\n<th rowspan=\"2\"></th>\n<th rowspan=\"2\"></th>\n<th>Given Production Rate</th>\n<th rowspan=\"2\">Converted production rate (tonnes/ y)</th>\n<th rowspan=\"2\"></th>\n</tr>\n<tr>\n<th>(Source: IEA)</th>\n</tr>\n<tr>\n<td>14</td>\n<td>MRPL Mangalore Refinery - phase 2</td>\n<td>2030</td>\n<td>Concept</td>\n<td>Other Electrolysis</td>\n<td>Unknown</td>\n<td>5 kt H2/y prod\n\n… [+605 more chars]",
+  "content_hash": "b46838526c00105bccb7084df163f9965299aa1c043a16cdfc93f0c6f04aeb9a",
+  "token_count": 449,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b4e32d31-78e7-5bb5-9ce4-5f096b45f91f",
+  "chunk_index": 439,
+  "page_number": 317,
+  "page_range": [
+    317,
+    317
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `f40f88ea-847a-539a-93b6-f8e4324bd5f3`
+
+- vector: dim=3072 · [-0.0264, 0.0269, -0.0116, 0.0176, -0.0166, -0.0246, 0.0184, 0.0362, …]
+
+```json
+{
+  "chunk_id": "f40f88ea-847a-539a-93b6-f8e4324bd5f3",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": ">\n<td>2029</td>\n<td>Concept</td>\n<td>Other Electrolysis</td>\n<td></td>\n<td>170 kt H2/y production -</td>\n<td>170,000 t H2/y</td>\n<td>11</td>\n</tr> <tr>\n<td>18</td>\n<td>Savli wind-Hydrogen demo project</td>\n<td>2013</td>\n<td>DEMO</td>\n<td>Other Electrolysis</td>\n<td></td>\n<td>0.005MW</td>\n<td>0.88 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>19</td>\n<td>MCRC bio-Hydrogen facility Chennai</td>\n<td>2015</td>\n<td>DEMO</td>\n<td>Biomass</td>\n<td></td>\n<td>12m3 H2/h</td>\n<td>9.46 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>20</td>\n<td>Hygenco Demonstration Plant</td>\n<td>2022</td>\n<td>DEMO</td>\n<td>ALK</td>\n<td\n\n… [+600 more chars]",
+  "content_hash": "4c7aba18b92f8a7d9f1d1c4fc98df28fe9a9f22c702ef9c021488f491da9070e",
+  "token_count": 501,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b4e32d31-78e7-5bb5-9ce4-5f096b45f91f",
+  "chunk_index": 440,
+  "page_number": 317,
+  "page_range": [
+    317,
+    317
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `bf58eefc-3b6a-5afb-847c-b83616b34935`
+
+- vector: dim=3072 · [-0.0212, 0.0297, -0.0017, 0.0106, -0.0231, -0.0225, -0.0016, 0.0311, …]
+
+```json
+{
+  "chunk_id": "bf58eefc-3b6a-5afb-847c-b83616b34935",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": ">\n<tr>\n<td>23</td>\n<td>Panipat refinery</td>\n<td>2028</td>\n<td>Feasibility study</td>\n<td>Other Electrolysis</td>\n<td>Unknown</td>\n<td>10 kt H2/y production</td> <td>10,000 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>24</td>\n<td>Tamil Nadu project</td>\n<td>2024</td>\n<td>Feasibility study</td>\n<td>PEM</td>\n<td>Solar PV</td>\n<td>-</td>\n<td>-</td>\n<td>11</td>\n</tr>\n<tr>\n<td>25</td>\n<td>Indian Oil Corporation Koyali refinery</td>\n<td>2026</td>\n<td>Feasibility study</td>\n<td>NG w CCUS</td>\n<td></td>\n<td>0.7Mt CO2/y (part for CCU)</td>\n<td>72,500 t H2/y</td>\n<td>15</td>\n</tr>\n<tr>\n<td>26</td>\n<td>JSW Ste\n\n… [+329 more chars]",
+  "content_hash": "cde16c7fe2b9ef92819e5b13c13d06e3afa0edd1d80c7873d11ced8d9026b48c",
+  "token_count": 391,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "b4e32d31-78e7-5bb5-9ce4-5f096b45f91f",
+  "chunk_index": 441,
+  "page_number": 317,
+  "page_range": [
+    317,
+    318
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `547643ec-bcbc-56aa-9f33-6277d614fddf`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "547643ec-bcbc-56aa-9f33-6277d614fddf",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "C) Hydrogen (cont.)\n\n<table>\n<tr>\n<th rowspan=\"3\">S. No.</th>\n<th rowspan=\"3\">Project Name</th>\n<th rowspan=\"3\">Date</th>\n<th rowspan=\"3\">Status</th>\n<th rowspan=\"3\">Technology Details</th>\n<th rowspan=\"3\">Technology Electricity Eetails</th>\n<th>Capacity</th>\n<th></th>\n<th>Ref.</th>\n</tr>\n<tr>\n<th>Given Production Rate</th>\n<th rowspan=\"2\">Converted production rate (tonnes/ y)</th>\n<th rowspan=\"2\"></th>\n</tr>\n<tr>\n<th>(Source: IEA)</th>\n</tr>\n<tr>\n<td>28</td>\n<td>Badarpur New Delhi H2</td>\n<td>2027</td>\n<td>Feasibility study</td>\n<td>Other Electrolysis</td>\n<td>Unknown</td>\n<td>94.9 t H2/y pro\n\n… [+2622 more chars]",
+  "content_hash": "193dac0d2ef3d46df52bcfb446997d375f995681ceaa58b04f80774cd827c142",
+  "token_count": 1298,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    318,
+    319
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `c88dbce1-e2e6-56b9-8970-7cabc2ccd877`
+
+- vector: dim=3072 · [-0.0065, -0.0177, -0.0045, 0.0244, -0.0054, -0.0258, 0.0079, 0.0285, …]
+
+```json
+{
+  "chunk_id": "c88dbce1-e2e6-56b9-8970-7cabc2ccd877",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "<table>\n<tr>\n<th rowspan=\"3\">S. No.</th>\n<th rowspan=\"3\">Project Name</th>\n<th rowspan=\"3\">Date</th>\n<th rowspan=\"3\">Status</th>\n<th rowspan=\"3\">Technology Details</th>\n<th rowspan=\"3\">Technology Electricity Eetails</th>\n<th>Capacity</th>\n<th></th>\n<th>Ref.</th>\n</tr>\n<tr>\n<th>Given Production Rate</th>\n<th rowspan=\"2\">Converted production rate (tonnes/ y)</th>\n<th rowspan=\"2\"></th>\n</tr>\n<tr>\n<th>(Source: IEA)</th>\n</tr>\n<tr>\n<td>28</td>\n<td>Badarpur New Delhi H2</td>\n<td>2027</td>\n<td>Feasibility study</td>\n<td>Other Electrolysis</td>\n<td>Unknown</td>\n<td>94.9 t H2/y production</td>\n<td>94.9\n\n… [+588 more chars]",
+  "content_hash": "68dd444c69621328285b83c76d15104dd8b280f979fe811493cec1a8c7294150",
+  "token_count": 447,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "547643ec-bcbc-56aa-9f33-6277d614fddf",
+  "chunk_index": 442,
+  "page_number": 318,
+  "page_range": [
+    318,
+    318
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `4e47925d-3fb5-5eac-b0bb-7f342721e5c8`
+
+- vector: dim=3072 · [-0.0182, 0.0180, -0.0083, -0.0007, -0.0184, -0.0222, 0.0211, 0.0332, …]
+
+```json
+{
+  "chunk_id": "4e47925d-3fb5-5eac-b0bb-7f342721e5c8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": ">\n<td>31</td>\n<td>Chamba H2</td>\n<td>2026</td>\n<td>Feasibility study</td>\n<td>Other Electrolysis</td>\n<td>Unknown</td>\n<td>7.3 t H2/y production</td> <td>7.3 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>32</td>\n<td>Indore Waste to H2</td>\n<td>2026</td>\n<td>Feasibility study</td>\n<td>Biomass</td>\n<td></td>\n<td>52.56 kt H2/y production</td>\n<td>52,560 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>33</td>\n<td>JSW green Hydrogen</td>\n<td>2026</td>\n<td>Feasibility study</td>\n<td>Other Electrolysis</td>\n<td>Unknown</td>\n<td>3.65 t H2/y production</td>\n<td>3.65 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>34</td>\n<td>K\n\n… [+600 more chars]",
+  "content_hash": "d7d0e7b8752f4e85f2e38274fa7b949e97154bd3e1c4776a1c597ca0183157f8",
+  "token_count": 509,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "547643ec-bcbc-56aa-9f33-6277d614fddf",
+  "chunk_index": 443,
+  "page_number": 318,
+  "page_range": [
+    318,
+    318
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `05113051-e97c-516e-89fa-8ca5323448ab`
+
+- vector: dim=3072 · [-0.0126, 0.0230, -0.0062, 0.0118, -0.0210, -0.0261, 0.0180, 0.0269, …]
+
+```json
+{
+  "chunk_id": "05113051-e97c-516e-89fa-8ca5323448ab",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": ">\n<td>PEM</td>\n<td>Unknown</td>\n<td>1 MW</td>\n<td>175.2 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>37</td>\n<td>Madhya Pradesh H2</td> <td>2040</td>\n<td>Feasibility study</td>\n<td>Other Electrolysis</td>\n<td>Unknown</td>\n<td>16.43 t H2/y production</td>\n<td>16.43 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>38</td>\n<td>MAHAPREIT</td>\n<td>2027</td>\n<td>Feasibility study</td>\n<td>Other Electrolysis</td>\n<td>Unknown</td>\n<td>64.02 t H2/y production</td>\n<td>64.02 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>39</td>\n<td>NMC Green Hydrogen</td>\n<td>2026</td>\n<td>Feasibility study</td>\n<td>Biomass</td>\n<td></td>\n<td\n\n… [+491 more chars]",
+  "content_hash": "d93b52e156fda69a1c3ca6ab39a062a1bc89551e52cb2dacc8d37b4f5df62611",
+  "token_count": 457,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "547643ec-bcbc-56aa-9f33-6277d614fddf",
+  "chunk_index": 444,
+  "page_number": 318,
+  "page_range": [
+    318,
+    319
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `86decc0c-3b02-5563-a5dc-fd111524a838`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "86decc0c-3b02-5563-a5dc-fd111524a838",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "C) Hydrogen (cont.)\n\n<table>\n<tr>\n<th>S.</th>\n<th>Project Name</th>\n<th>Date</th>\n<th>Status</th>\n<th>Technology</th>\n<th rowspan=\"2\">Technology Electricity Eetails</th>\n<th>Capacity</th>\n<th></th>\n<th>Ref.</th>\n</tr>\n<tr>\n<th rowspan=\"2\">No.</th>\n<th></th>\n<th></th>\n<th></th>\n<th>Details</th>\n<th>Given Production Rate</th>\n<th>Converted production rate (tonnes/ y)</th>\n<th></th>\n</tr>\n<tr>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td>(Source: IEA)</td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td rowspan=\"2\">42</td>\n<td>SOEC demonstrator</td>\n<td>2025</td>\n<td rowspan=\"2\">Feasibility study</td\n\n… [+3316 more chars]",
+  "content_hash": "3af3f858303d483a56ec00a627552db940d0786b78168b8c6beac2cb3e472126",
+  "token_count": 1563,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    319,
+    320
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `b3afd164-f983-55f1-9a40-f65e946b4c33`
+
+- vector: dim=3072 · [0.0136, -0.0091, -0.0088, 0.0137, -0.0230, -0.0336, 0.0155, 0.0284, …]
+
+```json
+{
+  "chunk_id": "b3afd164-f983-55f1-9a40-f65e946b4c33",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "<table>\n<tr>\n<th>S.</th>\n<th>Project Name</th>\n<th>Date</th>\n<th>Status</th>\n<th>Technology</th>\n<th rowspan=\"2\">Technology Electricity Eetails</th>\n<th>Capacity</th>\n<th></th>\n<th>Ref.</th>\n</tr>\n<tr>\n<th rowspan=\"2\">No.</th>\n<th></th>\n<th></th>\n<th></th>\n<th>Details</th>\n<th>Given Production Rate</th>\n<th>Converted production rate (tonnes/ y)</th>\n<th></th>\n</tr>\n<tr>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td></td>\n<td>(Source: IEA)</td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td rowspan=\"2\">42</td>\n<td>SOEC demonstrator</td>\n<td>2025</td>\n<td rowspan=\"2\">Feasibility study</td>\n<td>SOEC</td>\n<td r\n\n… [+594 more chars]",
+  "content_hash": "06d040bd81a1a17975f1adcc7cb2b68a33b5ba869aa79ccec3e3b889f72f1f0e",
+  "token_count": 450,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "86decc0c-3b02-5563-a5dc-fd111524a838",
+  "chunk_index": 445,
+  "page_number": 319,
+  "page_range": [
+    319,
+    319
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `bbf8e007-e1dd-5e88-b51b-3583fc1c43ba`
+
+- vector: dim=3072 · [-0.0218, 0.0198, -0.0073, 0.0034, -0.0257, -0.0172, 0.0014, 0.0345, …]
+
+```json
+{
+  "chunk_id": "bbf8e007-e1dd-5e88-b51b-3583fc1c43ba",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "production</td>\n<td></td>\n</tr>\n<tr>\n<td rowspan=\"2\">44</td>\n<td>Visakhapatnam H2</td>\n<td>2025</td>\n<td>Feasibility</td>\n<td>Other</td>\n<td>Unknown</td> <td>1569 t H2/y</td>\n<td>1,569 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td></td>\n<td></td>\n<td>study</td>\n<td>Electrolysis</td>\n<td></td>\n<td>production</td>\n<td></td>\n<td></td>\n</tr>\n<tr>\n<td rowspan=\"2\">45</td>\n<td rowspan=\"2\">Waaree Renewable Technologies H2</td>\n<td>2024</td>\n<td>Feasibility</td>\n<td>Other</td>\n<td>Unknown</td>\n<td>720 t H2/y</td>\n<td>720 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td></td>\n<td>study</td>\n<td>Electrolysis</td>\n<td></t\n\n… [+652 more chars]",
+  "content_hash": "cc20d4bff4b2748fba410d5452ca405910283979e03ba9d58876a797b02d344f",
+  "token_count": 508,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "86decc0c-3b02-5563-a5dc-fd111524a838",
+  "chunk_index": 446,
+  "page_number": 319,
+  "page_range": [
+    319,
+    319
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `a9ea530b-01c8-5fe4-b2e9-64a148bbb683`
+
+- vector: dim=3072 · [-0.0257, 0.0219, -0.0069, -0.0132, -0.0234, -0.0297, -0.0046, 0.0399, …]
+
+```json
+{
+  "chunk_id": "a9ea530b-01c8-5fe4-b2e9-64a148bbb683",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "td>\n<td>5,000 t H2/y</td>\n<td rowspan=\"2\">11</td>\n</tr>\n<tr>\n<td></td>\n<td>Construction</td>\n<td>Electrolysis</td>\n<td></td>\n<td></td>\n</tr>\n<tr> <td>48</td>\n<td>NTPC green Hydrogen mobiity project - Ladakh</td>\n<td>2024</td>\n<td>FID/ Construction</td>\n<td>ALK</td>\n<td>Solar PV</td>\n<td>0.8MW</td>\n<td>140.16 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>49</td>\n<td>NTPC Green Hydrogen Mobility Project - Delhi</td>\n<td>2024</td>\n<td>FID/ Construction</td>\n<td>ALK</td>\n<td>Unknown</td>\n<td>1.6 MW</td>\n<td>280.32 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>50</td>\n<td>Chusul Project</td>\n<td>2025</td>\n<td>FI\n\n… [+615 more chars]",
+  "content_hash": "27ac59eaf9656c2e69280da5a5396e9a69298603ab93ef31117d3281ef2382f1",
+  "token_count": 499,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "86decc0c-3b02-5563-a5dc-fd111524a838",
+  "chunk_index": 447,
+  "page_number": 319,
+  "page_range": [
+    319,
+    319
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `462a446d-3325-56e8-86d4-4008ff5a013d`
+
+- vector: dim=3072 · [-0.0041, 0.0265, -0.0016, 0.0040, -0.0201, -0.0341, -0.0136, 0.0204, …]
+
+```json
+{
+  "chunk_id": "462a446d-3325-56e8-86d4-4008ff5a013d",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "<td>2 kt H2/y</td>\n<td rowspan=\"2\">2,000 t H2/y</td>\n<td rowspan=\"2\">11</td>\n</tr>\n<tr>\n<td></td>\n<td>production</td>\n</tr>\n<tr>\n<td>53</td> <td>Hygenco Sterlite GH2 Plant</td>\n<td></td>\n<td>FID/ Construction</td>\n<td>ALK</td>\n<td>Others/ Various</td>\n<td>1.8 Mwel</td>\n<td>170 t H2/y</td>\n<td>14</td>\n</tr>\n<tr>\n<td>54</td>\n<td>Hazira, Reliance, back-up Hydrogen supply</td>\n<td>2005</td>\n<td>Operational</td>\n<td>ALK</td>\n<td></td>\n<td>-</td>\n<td>536 t H2/y</td>\n<td>13</td>\n</tr>\n<tr>\n<td>55</td>\n<td>Centre of Fuel Cell Technology, Chennai</td>\n<td>2012</td>\n<td>Operational</td>\n<td>PEM</td>\n<td\n\n… [+72 more chars]",
+  "content_hash": "aa98a727a880a587811017039ca59b6b4198dab851524901115e2b9a5cdda5c6",
+  "token_count": 282,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "86decc0c-3b02-5563-a5dc-fd111524a838",
+  "chunk_index": 448,
+  "page_number": 319,
+  "page_range": [
+    319,
+    320
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Parent · `75774d72-4341-5b5b-9187-f0601cc845e9`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "75774d72-4341-5b5b-9187-f0601cc845e9",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "C) Hydrogen (cont.)\n\n<table>\n<tr>\n<th rowspan=\"3\">S. No.</th>\n<th rowspan=\"3\">Project Name</th>\n<th>Date</th>\n<th>Status</th>\n<th rowspan=\"3\">Technology Details</th>\n<th rowspan=\"3\">Technology Electricity Eetails</th>\n<th>Capacity</th>\n<th rowspan=\"3\">Converted production rate (tonnes/ y)</th>\n<th>Ref.</th>\n</tr>\n<tr>\n<th rowspan=\"2\"></th>\n<th rowspan=\"2\"></th>\n<th>Given Production Rate</th>\n<th rowspan=\"2\"></th>\n</tr>\n<tr>\n<th>(Source: IEA)</th>\n</tr>\n<tr>\n<td>56</td>\n<td>Dahej, Reliance, back-up Hydrogen supply</td>\n<td>2014</td>\n<td>Operational</td>\n<td>ALK</td>\n<td></td>\n<td>444 Nm3 H2/h</\n\n… [+1896 more chars]",
+  "content_hash": "745564009e0efa4aef66fae9ac58c726331aab053e2896f39863e79c17d43be0",
+  "token_count": 998,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "page_range": [
+    320,
+    320
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e02f21a4-5601-5f4f-86af-138da923d02f`
+
+- vector: dim=3072 · [-0.0137, 0.0123, -0.0042, 0.0418, -0.0039, -0.0253, 0.0016, 0.0289, …]
+
+```json
+{
+  "chunk_id": "e02f21a4-5601-5f4f-86af-138da923d02f",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "<table>\n<tr>\n<th rowspan=\"3\">S. No.</th>\n<th rowspan=\"3\">Project Name</th>\n<th>Date</th>\n<th>Status</th>\n<th rowspan=\"3\">Technology Details</th>\n<th rowspan=\"3\">Technology Electricity Eetails</th>\n<th>Capacity</th>\n<th rowspan=\"3\">Converted production rate (tonnes/ y)</th>\n<th>Ref.</th>\n</tr>\n<tr>\n<th rowspan=\"2\"></th>\n<th rowspan=\"2\"></th>\n<th>Given Production Rate</th>\n<th rowspan=\"2\"></th>\n</tr>\n<tr>\n<th>(Source: IEA)</th>\n</tr>\n<tr>\n<td>56</td>\n<td>Dahej, Reliance, back-up Hydrogen supply</td>\n<td>2014</td>\n<td>Operational</td>\n<td>ALK</td>\n<td></td>\n<td>444 Nm3 H2/h</td>\n<td>350 t H2/y</t\n\n… [+599 more chars]",
+  "content_hash": "70e982c370a89d32c8669ecd00f88f819aaa9071228566662f82a4923491cc05",
+  "token_count": 447,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "75774d72-4341-5b5b-9187-f0601cc845e9",
+  "chunk_index": 449,
+  "page_number": 320,
+  "page_range": [
+    320,
+    320
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `3a283186-af43-566f-9730-872728292e47`
+
+- vector: dim=3072 · [-0.0176, 0.0399, -0.0071, 0.0086, -0.0043, -0.0141, 0.0007, 0.0391, …]
+
+```json
+{
+  "chunk_id": "3a283186-af43-566f-9730-872728292e47",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "C) Hydrogen",
+  "chunk_text": "4</td>\n<td>Operational</td>\n<td>PEM</td>\n<td>Unknown</td>\n<td>10 MW</td>\n<td>1,752 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>60</td> <td>NTPC Green Hydrogen Blending Project (Kawas, Surat)</td>\n<td>2023</td>\n<td>Operational</td>\n<td>PEM</td>\n<td>Unknown</td>\n<td>6.5 kW</td>\n<td>1.14 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>61</td>\n<td>Hygenco JSL Plant</td>\n<td>2024</td>\n<td>Operational</td>\n<td>ALK</td>\n<td>Solar PV</td>\n<td>1.8 Mwel -78 t H2/y production</td>\n<td>78 t H2/y</td>\n<td>11</td>\n</tr>\n<tr>\n<td>62</td>\n<td>Hydrogen Based Microgrid at NETRA</td>\n<td>2024</td>\n<td>Operational</td>\n<td>PEM\n\n… [+806 more chars]",
+  "content_hash": "94fdcb62872ee4cd34e6e0638419280fc3345e9a2e7e7803076315296d0a29d4",
+  "token_count": 605,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "parent_chunk_id": "75774d72-4341-5b5b-9187-f0601cc845e9",
+  "chunk_index": 450,
+  "page_number": 320,
+  "page_range": [
+    320,
+    320
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `2ed7f0eb-de3b-59ea-8cde-7843392aa0a8`
+
+- vector: dim=3072 · [0.0034, -0.0021, -0.0092, 0.0025, -0.0252, -0.0131, 0.0091, 0.0066, …]
+
+```json
+{
+  "chunk_id": "2ed7f0eb-de3b-59ea-8cde-7843392aa0a8",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "Reference",
+  "chunk_text": "1.\t Adani New Industries Limited. (2024). Green Hydrogen Ecosystem. https://www.adanienterprises.\ncom/-/media/Project/Enterprises/Investors/Investor-Downloads/Investors-Presentation/ANIL-\nInvestor-Presentation---June-2024.pdf\n2.\t Atchison, J. (2022, September 15). Greenko - Ammonia Energy Association. Ammonia Energy \nAssociation \n.https://ammoniaenergy.org/organization/greenko/#:~:text=Phase%20one%20\nof%20the%20Kakinada,taker%20for%20the%20ammonia%20product.\n3.\t Argus Media. (2022, November 3). Firms earmark $35bn for Indian green H2 in Karnataka. \nLatest \nMarket \nNews. \nhttps://www.argusmedia\n\n… [+709 more chars]",
+  "content_hash": "3becc111c058829ed18eae7da0275eb3d98db1afae6914fe697d22969be30844",
+  "token_count": 432,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 451,
+  "page_number": 321,
+  "page_range": [
+    321,
+    321
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```
+
+## Child · `e6b2ed2d-5545-50a5-b117-72807afb093b`
+
+- vector: dim=3072 · [-0.0186, 0.0026, -0.0017, 0.0251, -0.0282, -0.0144, -0.0010, 0.0098, …]
+
+```json
+{
+  "chunk_id": "e6b2ed2d-5545-50a5-b117-72807afb093b",
+  "document_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "section_heading": "8.\t https://www.livemint.com/industry/energy/posco-to-make-green-hydrogen-signs-mou-with-",
+  "chunk_text": "greenko-s-zeroc-11662039544742.html\n9.\t  Matalucci, U. G. a. S. (2024, February 19). The Hydrogen Stream: ReNew begins work on 1.2 \nmmtpa green ammonia plant in Odisha. Pv Magazine India. https://www.pv-magazine-india.\ncom/2024/02/19/the-hydrogen-stream-renew-begins-work-on-1-2-mmtpa-green-ammonia-\nplant-in-odisha/\n10.\t Methanol Institute. (2025, January 30). Renewable methanol | Methanol Institute. https://www.\nmethanol.org/renewable/\n11.\t Hydrogen Production and Infrastructure Projects Database - Data product  - IEA. (n.d.). IEA. https://\nwww.iea.org/data-and-statistics/data-product/hydrogen\n\n… [+899 more chars]",
+  "content_hash": "956b029da71e39491bbb22faf32757fdcdade5f679ade2e55ffc6fd6aba55aab",
+  "token_count": 468,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_part_a_book_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
+  "chunk_index": 452,
+  "page_number": 321,
+  "page_range": [
+    321,
+    323
+  ],
+  "created_at": "2026-06-26T05:49:42.826757+00:00",
+  "updated_at": "2026-06-26T05:49:42.826757+00:00"
+}
+```

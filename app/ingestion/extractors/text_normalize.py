@@ -71,6 +71,27 @@ def _repair_ligatures(text: str) -> str:
     text = _LIGATURE_RE.sub(lambda m: _LIGATURES[m.group()], text)
     return _DROPPED_RE.sub(_fix_dropped, text)
 
+
+# Formula subscripts that extraction turns into a comma: "CO₂" -> "CO,", "H₂" -> "H,".
+# A bare "CO," is also legitimate (carbon monoxide in a list), so each rule is anchored
+# to a right-context only a formula carries — never a list. Normalised to ASCII
+# ("CO2", "H2") to match how these formulae already read elsewhere in the corpus.
+_SUBSCRIPT_FIXES = (
+    (re.compile(r"\bMtCO,"), "MtCO2"),
+    (re.compile(
+        r"\bCO,(?=\s+(?:emission|emissions|source|sources|capture|abatement|intensity|"
+        r"equivalent|storage|footprint|removal|sequestration)\b)"
+    ), "CO2"),
+    (re.compile(r"\bH,(?=\s*(?:DR|DRI|blend\w*|injection|plasma|production)\b)"), "H2"),
+)
+
+
+def _repair_subscripts(text: str) -> str:
+    """Restore formula subscripts extraction mangled to commas (CO₂ -> "CO,")."""
+    for pattern, repl in _SUBSCRIPT_FIXES:
+        text = pattern.sub(repl, text)
+    return text
+
 # A "number token": digits plus number punctuation (e.g. "2,020", "-12.5%", "(3)").
 _NUM_TOKEN = re.compile(r"^[\d.,%+\-–—()]+$")
 
@@ -190,6 +211,7 @@ def normalize_page_text(text: str, *, drop_number_soup: bool = True) -> str:
     if not text:
         return text
     text = _repair_ligatures(text)
+    text = _repair_subscripts(text)
     text = _HTML_COMMENT.sub("", text)
     text = _strip_figures(text)
     lines = []

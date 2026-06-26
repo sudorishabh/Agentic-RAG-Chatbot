@@ -13,7 +13,6 @@ router = APIRouter(tags=["ops"])
 def health() -> dict[str, str]:
     return {"status": "ok"}
 
-
 def _qdrant_status() -> dict:
     from app.deps import get_qdrant_client
 

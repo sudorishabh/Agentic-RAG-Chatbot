@@ -645,14 +645,6 @@ def _build_chunks(
             ptext = _parent_text(heading, parent_blocks, part)
             if not ptext.strip():
                 continue
-            chunks.append(
-                Chunk(
-                    chunk_id=parent_id, text=ptext, is_parent=True, meta=meta,
-                    section_heading=heading, section_type=_classify_section(ptext),
-                    page_range=_page_range(parent_blocks),
-                    token_count=enc.count(ptext), content_hash=_hash(ptext),
-                )
-            )
 
             child_windows = _pack(
                 parent_blocks, target=config.child_target_tokens,
@@ -665,17 +657,32 @@ def _build_chunks(
             texts = _apply_overlap(
                 [_join_blocks(w) for w in child_windows], config.child_overlap_tokens, enc
             )
+            pairs = [(w, t) for w, t in zip(child_windows, texts) if t.strip()]
+            if not pairs:
+                continue
 
-            for window, ctext in zip(child_windows, texts):
-                if not ctext.strip():
-                    continue
+            # A parent with a single child is a near-duplicate of it: skip the
+            # parent and let the child stand alone (context falls back to child
+            # text when there is no parent).
+            emit_parent = len(pairs) > 1
+            if emit_parent:
+                chunks.append(
+                    Chunk(
+                        chunk_id=parent_id, text=ptext, is_parent=True, meta=meta,
+                        section_heading=heading, section_type=_classify_section(ptext),
+                        page_range=_page_range(parent_blocks),
+                        token_count=enc.count(ptext), content_hash=_hash(ptext),
+                    )
+                )
+
+            for window, ctext in pairs:
                 pages = _page_range(window)
                 chunks.append(
                     Chunk(
                         chunk_id=_uuid(meta, f"child|{child_index}"),
                         text=ctext, is_parent=False, meta=meta,
                         section_heading=heading, section_type=_classify_section(ctext),
-                        parent_chunk_id=parent_id,
+                        parent_chunk_id=parent_id if emit_parent else None,
                         chunk_index=child_index,
                         page_number=pages[0] if pages else None,
                         page_range=pages, token_count=enc.count(ctext),

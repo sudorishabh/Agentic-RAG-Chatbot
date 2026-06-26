@@ -96,6 +96,9 @@ class Settings(BaseSettings):
     drupal_page_size: int = 50
     drupal_max_retries: int = 3
     pdf_source_dirs: str = ""
+    # Single folder scanned by the PDF-only ingestion API. Used as the PDF
+    # source when pdf_source_dirs is not set.
+    pdf_source_path: str = ""
     pdf_ignore_globs: str = ""
     ingest_state_table: str = "ingest_state"
     drupal_reconcile_every: int = 10

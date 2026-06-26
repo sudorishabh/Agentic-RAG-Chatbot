@@ -121,7 +121,8 @@ def detect_file_changes(
     ignore_globs: list[str] | None = None,
 ) -> Iterator[ChangeRecord]:
     settings = get_settings()
-    roots = roots if roots is not None else _parse_roots(settings.pdf_source_dirs)
+    configured = settings.pdf_source_dirs or settings.pdf_source_path
+    roots = roots if roots is not None else _parse_roots(configured)
     ignore_globs = (
         ignore_globs if ignore_globs is not None else _parse_globs(settings.pdf_ignore_globs)
     )
