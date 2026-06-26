@@ -89,6 +89,27 @@ def test_disabled_when_fraction_zero():
     assert strip_running_lines(pages, min_fraction=0) == pages
 
 
+def test_strips_footer_fragmented_mid_word():
+    # Same footer, split at a different point on each page (OCR variance).
+    pages = [
+        "Body of page one here.\nAdvanced Green Fuels for Ma\nritime Application-",
+        "Body of page two here.\nAdvanced Green Fuels for M\naritime Application-",
+        "Body of page three here.\nAdvanced Green Fuels for Mar\nitime Application-",
+        "Body of page four here.\nAdvanced Green Fuels for Ma\nritime Application-",
+    ]
+    out = strip_running_lines(pages)
+    assert all("aritime" not in p and "ritime" not in p for p in out)
+    assert all(p.startswith("Body of page") for p in out)
+
+
+def test_keeps_short_repeated_real_heading_is_acceptable_loss():
+    # Sanity: long body sentences (> max_line_words) are never candidates.
+    long_line = "This is a genuinely long body sentence that recurs but must never be stripped as a header."
+    pages = [f"{long_line}\nunique {i}" for i in range(4)]
+    out = strip_running_lines(pages)
+    assert all(long_line in p for p in out)
+
+
 # --- chart/axis number-soup --------------------------------------------- #
 
 def test_drops_axis_number_soup():

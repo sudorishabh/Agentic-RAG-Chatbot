@@ -205,12 +205,20 @@ def normalize_page_text(text: str, *, drop_number_soup: bool = True) -> str:
     return text.strip()
 
 
-def _line_key(line: str) -> str:
-    """Comparison key for a line; '' for lines never treated as running boilerplate."""
-    s = " ".join(line.split()).lower()
-    if not s or s.startswith("|"):  # blank, or a table row (content — never strip)
-        return ""
-    return s
+def _running_key(line: str) -> str:
+    """Letters-only key for a line — robust to OCR space/hyphen variation so a
+    footer split as "Ma|ritime" and "M|aritime" compares equal once joined."""
+    return re.sub(r"[^a-z]", "", line.lower())
+
+
+def _eligible_lines(lines: list[str], max_words: int) -> list[tuple[int, str]]:
+    """(index, key) for short, non-blank, non-table lines — running-line candidates."""
+    out: list[tuple[int, str]] = []
+    for i, ln in enumerate(lines):
+        s = ln.strip()
+        if s and not s.startswith("|") and len(s.split()) <= max_words:
+            out.append((i, _running_key(s)))
+    return out
 
 
 def strip_running_lines(
@@ -219,21 +227,38 @@ def strip_running_lines(
     min_fraction: float = 0.5,
     min_pages: int = 4,
     min_count: int = 3,
+    max_window: int = 3,
+    min_key_len: int = 12,
+    max_key_len: int = 90,
+    max_line_words: int = 12,
 ) -> list[str]:
-    """Remove running headers/footers: lines repeated across most of the pages.
+    """Remove running headers/footers: short lines repeated across most pages.
 
-    A line counted once per page; if it appears on >= the page-count threshold it
-    is dropped from every page. No-op for short documents or min_fraction <= 0.
+    Detection joins up to ``max_window`` consecutive candidate lines into a
+    letters-only key, so a footer fragmented differently per page (e.g.
+    "…for Ma" + "ritime Application-" vs "…for M" + "aritime Application-")
+    still matches. A window appearing on >= the page threshold is dropped from
+    every page. No-op for short documents or min_fraction <= 0.
     """
     n = len(pages)
     if n < min_pages or min_fraction <= 0:
         return pages
 
+    def window_keys(elig: list[tuple[int, str]]):
+        """Yield (start_pos, span, key) for each joined run of candidate lines."""
+        for a in range(len(elig)):
+            joined = ""
+            for w in range(max_window):
+                if a + w >= len(elig):
+                    break
+                joined += elig[a + w][1]
+                if min_key_len <= len(joined) <= max_key_len:
+                    yield a, w + 1, joined
+
     page_counts: Counter = Counter()
     for text in pages:
-        seen = {_line_key(ln) for ln in text.splitlines()}
-        seen.discard("")
-        page_counts.update(seen)
+        elig = _eligible_lines(text.splitlines(), max_line_words)
+        page_counts.update({key for _, _, key in window_keys(elig)})
 
     threshold = max(min_count, math.ceil(min_fraction * n))
     boilerplate = {key for key, c in page_counts.items() if c >= threshold}
@@ -242,6 +267,12 @@ def strip_running_lines(
 
     out: list[str] = []
     for text in pages:
-        kept = [ln for ln in text.splitlines() if _line_key(ln) not in boilerplate]
+        lines = text.splitlines()
+        elig = _eligible_lines(lines, max_line_words)
+        drop: set[int] = set()
+        for a, span, key in window_keys(elig):
+            if key in boilerplate:
+                drop.update(elig[a + k][0] for k in range(span))
+        kept = [ln for i, ln in enumerate(lines) if i not in drop]
         out.append(_BLANK_RUNS.sub("\n\n", "\n".join(kept)).strip())
     return out
