@@ -194,6 +194,8 @@ def normalize_page_text(text: str, *, drop_number_soup: bool = True) -> str:
     text = _strip_figures(text)
     lines = []
     for ln in _drop_garbage_tables(text.splitlines()):
+        if "<!--" in ln or "-->" in ln:  # dangling comment half split across a page break
+            continue
         if _PAGE_NUMBER_BAR.match(ln):
             continue
         if drop_number_soup and _is_number_soup(ln):

@@ -34,6 +34,18 @@ def test_unwraps_figures_and_drops_empty_ones():
     assert "teri" in out  # non-empty figure content is kept, just unwrapped
 
 
+def test_strips_dangling_open_comment():
+    out = normalize_page_text('Body text stays.\n<!-- PageFooter="Advanced Green Fuels for Marit')
+    assert "PageFooter" not in out and "<!--" not in out
+    assert "Body text stays." in out
+
+
+def test_strips_dangling_close_comment():
+    out = normalize_page_text('ime Application- Road Map for India (Part A)" -->\nReal body here.')
+    assert "-->" not in out and "Application" not in out
+    assert "Real body here." in out
+
+
 def test_removes_page_number_bars():
     out = normalize_page_text(DIRTY)
     assert "|  ii  |" not in out
