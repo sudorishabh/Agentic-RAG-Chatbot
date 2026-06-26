@@ -1,6 +1,14 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
+
+
+def _clean_bundles(value: list[str] | None) -> list[str] | None:
+    """Drop blank entries; treat an empty/blank list as 'use default bundles'."""
+    if not value:
+        return None
+    cleaned = [b.strip() for b in value if b and b.strip()]
+    return cleaned or None
 
 
 class IngestResponse(BaseModel):
@@ -15,8 +23,10 @@ class PdfIngestRunResponse(BaseModel):
 
 
 class DirectIngestRequest(BaseModel):
-    bundles: list[str] | None = None
+    bundles: list[str] | None = Field(default=None, examples=[["news"]])
     reconcile: bool = False
+
+    _normalize_bundles = field_validator("bundles")(_clean_bundles)
 
 
 class DirectIngestResponse(BaseModel):
@@ -32,7 +42,9 @@ class ArticleIngestRequest(BaseModel):
     url: str | None = None
     uuid: str | None = None
     bundle: str = "article"
-    bundles: list[str] | None = None
+    bundles: list[str] | None = Field(default=None, examples=[["news"]])
+
+    _normalize_bundles = field_validator("bundles")(_clean_bundles)
 
 
 class ArticleIngestResponse(BaseModel):
