@@ -372,7 +372,9 @@ def _main(argv: list[str] | None = None) -> int:
     except (AttributeError, ValueError):
         pass
 
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser = argparse.ArgumentParser(
+        description=(__doc__ or "Inspect Drupal JSON:API node records.").splitlines()[0]
+    )
     parser.add_argument(
         "bundle",
         nargs="?",
