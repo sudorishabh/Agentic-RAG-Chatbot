@@ -278,6 +278,122 @@ def _write_full_text(out_dir: Path, record) -> None:
     )
 
 
+def _build_qdrant_points(chunks, *, embed: bool) -> tuple[list[dict], dict]:
+    """Assemble the points ``index_chunks`` would upsert, as plain dicts.
+
+    Mirrors ``app.ingestion.indexer._build_points``: each child carries its
+    embedding vector, each parent a zero vector, and every payload is
+    ``Chunk.to_payload()`` stamped with created_at / updated_at. Embedding is
+    best-effort — if the Azure OpenAI embedding config is missing the vectors
+    are left ``None`` so the payloads are still inspectable.
+    """
+    from datetime import datetime, timezone
+
+    children = [c for c in chunks if not c.is_parent]
+    info: dict = {
+        "embedded": False,
+        "vector_dim": 0,
+        "embedding_model": None,
+        "embed_error": None,
+    }
+    vec_by_id: dict[str, list[float]] = {}
+    dim = 0
+    if embed and children:
+        try:
+            # Reuse the production embedding path so batching matches the real run.
+            from app.config import get_settings
+            from app.ingestion.indexer import _embed_children
+
+            vectors = _embed_children([c.text for c in children], 128)
+            vec_by_id = {c.chunk_id: v for c, v in zip(children, vectors)}
+            dim = len(vectors[0]) if vectors else 0
+            info.update(
+                embedded=True,
+                vector_dim=dim,
+                embedding_model=get_settings().azure_openai_embedding_model,
+            )
+        except Exception as exc:  # no Azure embedding config / network — payloads only
+            info["embed_error"] = f"{type(exc).__name__}: {exc}"
+
+    timestamp = datetime.now(timezone.utc).isoformat()
+    zero = [0.0] * dim
+    points: list[dict] = []
+    for c in chunks:
+        payload = c.to_payload()
+        payload.setdefault("created_at", timestamp)
+        payload["updated_at"] = timestamp
+        if c.is_parent:
+            vector = zero if dim else None
+        else:
+            vector = vec_by_id.get(c.chunk_id)
+        points.append({"id": c.chunk_id, "vector": vector, "payload": payload})
+    return points, info
+
+
+def _write_qdrant_points(out_dir: Path, record, chunks, *, embed: bool) -> dict:
+    points, info = _build_qdrant_points(chunks, embed=embed)
+
+    (out_dir / "04_qdrant_points.json").write_text(
+        json.dumps(
+            {
+                "bundle": record.bundle,
+                "title": record.title,
+                "uuid": record.uuid,
+                "point_count": len(points),
+                **info,
+                "points": points,
+            },
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    def _vec_preview(v) -> str:
+        if v is None:
+            return "_(not embedded)_"
+        head = ", ".join(f"{x:.4f}" for x in v[:8])
+        return f"dim={len(v)} · [{head}, …]"
+
+    lines = [
+        f"# Qdrant points — {record.title or record.uuid}",
+        "",
+        f"- points (rows upserted): **{len(points)}**",
+        f"- embedded: **{info['embedded']}**"
+        + (
+            f" · model `{info['embedding_model']}` · dim {info['vector_dim']}"
+            if info["embedded"]
+            else ""
+        ),
+    ]
+    if info["embed_error"]:
+        lines.append(f"- embedding skipped: _{info['embed_error']}_")
+    lines += [
+        "",
+        "Each point is `{id, vector, payload}` exactly as `index_chunks` upserts "
+        "it. Children carry their embedding; parents carry a zero vector and are "
+        "reached through their children. Below, vectors are truncated and "
+        "`chunk_text` is clipped — see `04_qdrant_points.json` for the full data.",
+        "",
+        "---",
+        "",
+    ]
+    for p in points:
+        pl = dict(p["payload"])
+        is_parent = pl.get("is_parent", False)
+        pl["chunk_text"] = _preview(pl.get("chunk_text", ""), 600)
+        lines.append(f"## {'Parent' if is_parent else 'Child'} · `{p['id']}`")
+        lines.append("")
+        lines.append(f"- vector: {_vec_preview(p['vector'])}")
+        lines.append("")
+        lines.append("```json")
+        lines.append(json.dumps(pl, indent=2, ensure_ascii=False))
+        lines.append("```")
+        lines.append("")
+    (out_dir / "04_qdrant_points.md").write_text("\n".join(lines), encoding="utf-8")
+    return info
+
+
 # --------------------------------------------------------------------------- #
 # Per-record driver
 # --------------------------------------------------------------------------- #
@@ -313,13 +429,19 @@ def _process_one(record, *, embed: bool = True) -> dict:
     _write_record(out_dir, record)
     _write_chunks(out_dir, record, chunks)
     _write_metadata(out_dir, record)
+    point_info = _write_qdrant_points(out_dir, record, chunks, embed=embed)
     _write_full_text(out_dir, record)
     stats["result_dir"] = rel
 
+    vec_note = (
+        f", embedded dim {point_info['vector_dim']}"
+        if point_info["embedded"]
+        else " (vectors skipped)"
+    )
     print(
         f"  ✓ {stats['text_chars']:,} chars, "
         f"{stats['child_chunks']} child chunks, "
-        f"{stats['parent_chunks']} parents · {stats['elapsed_seconds']}s "
+        f"{stats['parent_chunks']} parents{vec_note} · {stats['elapsed_seconds']}s "
         f"-> {rel}"
     )
     return stats
