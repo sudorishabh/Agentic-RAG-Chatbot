@@ -76,6 +76,13 @@ def _record_slug(record) -> str:
     return f"{record.nid}_{base}" if record.nid is not None else base
 
 
+def _preview(text: str, limit: int) -> str:
+    snippet = (text or "").strip()
+    if len(snippet) > limit:
+        return snippet[:limit] + f"\n\n… [+{len(snippet) - limit} more chars]"
+    return snippet
+
+
 # --------------------------------------------------------------------------- #
 # Per-record report writers — each writes one categorised file.
 # --------------------------------------------------------------------------- #
@@ -152,6 +159,43 @@ def _write_record(out_dir: Path, record) -> None:
     (out_dir / "01_record.md").write_text("\n".join(lines), encoding="utf-8")
 
 
+def _write_chunks(out_dir: Path, record, chunks) -> None:
+    parents = [c for c in chunks if c.is_parent]
+    children = [c for c in chunks if not c.is_parent]
+    lines = [
+        f"# Chunking (chunk_drupal_record) — {record.title or record.uuid}",
+        "",
+        f"- parents: **{len(parents)}**",
+        f"- children: **{len(children)}**",
+        "",
+        "---",
+        "",
+        "## Parent chunks",
+        "",
+    ]
+    if not parents:
+        lines += ["_(no parent chunks — single-child sections stand alone)_", ""]
+    for c in parents:
+        lines.append(
+            f"### Parent · section={c.section_heading!r} · type={c.section_type or '—'} "
+            f"· {c.token_count} tok"
+        )
+        lines.append("")
+        lines.append(_preview(c.text, 1200))
+        lines.append("")
+    lines += ["---", "", "## Child chunks", ""]
+    for c in children:
+        lines.append(
+            f"### Child {c.chunk_index} · section={c.section_heading!r} "
+            f"· type={c.section_type or '—'} · parent={c.parent_chunk_id} "
+            f"· {c.token_count} tok"
+        )
+        lines.append("")
+        lines.append(_preview(c.text, 800))
+        lines.append("")
+    (out_dir / "02_chunks.md").write_text("\n".join(lines), encoding="utf-8")
+
+
 def _write_full_text(out_dir: Path, record) -> None:
     (out_dir / "full_text.md").write_text(
         f"# Full record text — {record.title or record.uuid}\n\n{record.to_text()}\n",
@@ -192,6 +236,7 @@ def _process_one(record, *, embed: bool = True) -> dict:
     elapsed = time.perf_counter() - start
     stats = _write_summary(out_dir, record, chunks, elapsed)
     _write_record(out_dir, record)
+    _write_chunks(out_dir, record, chunks)
     _write_full_text(out_dir, record)
     stats["result_dir"] = rel
 
