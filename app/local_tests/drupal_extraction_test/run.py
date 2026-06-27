@@ -129,6 +129,29 @@ def _write_summary(out_dir: Path, record, chunks, elapsed: float) -> dict:
     return stats
 
 
+def _write_record(out_dir: Path, record) -> None:
+    body = (record.body or "").strip()
+    lines = [
+        f"# Record — {record.title or record.uuid}",
+        "",
+        f"- bundle: `{record.bundle}`",
+        f"- url: {record.url or '—'}",
+        f"- nid / uuid: {record.nid} / {record.uuid}",
+        f"- created: {record.created or '—'}",
+        f"- changed: {record.changed or '—'}",
+        "",
+        "## Title",
+        "",
+        record.title or "_(no title)_",
+        "",
+        "## Body (extracted text)",
+        "",
+        body if body else "_(no body text)_",
+        "",
+    ]
+    (out_dir / "01_record.md").write_text("\n".join(lines), encoding="utf-8")
+
+
 def _write_full_text(out_dir: Path, record) -> None:
     (out_dir / "full_text.md").write_text(
         f"# Full record text — {record.title or record.uuid}\n\n{record.to_text()}\n",
@@ -168,6 +191,7 @@ def _process_one(record, *, embed: bool = True) -> dict:
 
     elapsed = time.perf_counter() - start
     stats = _write_summary(out_dir, record, chunks, elapsed)
+    _write_record(out_dir, record)
     _write_full_text(out_dir, record)
     stats["result_dir"] = rel
 
