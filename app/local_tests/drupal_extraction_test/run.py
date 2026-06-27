@@ -39,8 +39,11 @@ Usage
 
 from __future__ import annotations
 
+import json
 import re
 import sys
+import time
+import traceback
 from pathlib import Path
 
 # --- make the repo importable and keep Windows stdout from choking on text ---
@@ -66,6 +69,150 @@ def _resolve_bundles(argv: list[str]) -> tuple[str, ...]:
     from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 
     return tuple(argv) if argv else DEFAULT_BUNDLES
+
+
+def _record_slug(record) -> str:
+    base = _slugify(record.title or record.uuid or "record")[:80]
+    return f"{record.nid}_{base}" if record.nid is not None else base
+
+
+# --------------------------------------------------------------------------- #
+# Per-record report writers — each writes one categorised file.
+# --------------------------------------------------------------------------- #
+
+def _write_summary(out_dir: Path, record, chunks, elapsed: float) -> dict:
+    parents = [c for c in chunks if c.is_parent]
+    children = [c for c in chunks if not c.is_parent]
+    child_tokens = [c.token_count for c in children]
+
+    stats = {
+        "bundle": record.bundle,
+        "title": record.title,
+        "url": record.url,
+        "uuid": record.uuid,
+        "nid": record.nid,
+        "elapsed_seconds": round(elapsed, 2),
+        "title_chars": len(record.title or ""),
+        "body_chars": len(record.body or ""),
+        "text_chars": len(record.to_text()),
+        "chunks_total": len(chunks),
+        "parent_chunks": len(parents),
+        "child_chunks": len(children),
+        "child_token_min": min(child_tokens) if child_tokens else 0,
+        "child_token_max": max(child_tokens) if child_tokens else 0,
+        "child_token_avg": sum(child_tokens) // len(child_tokens) if child_tokens else 0,
+    }
+    (out_dir / "00_summary.json").write_text(
+        json.dumps(stats, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+
+    lines = [
+        f"DRUPAL EXTRACTION SUMMARY — {record.bundle} · {record.title or record.uuid}",
+        "=" * 78,
+        f"  elapsed            : {stats['elapsed_seconds']}s",
+        f"  bundle             : {stats['bundle']}",
+        f"  url                : {stats['url'] or '—'}",
+        f"  nid / uuid         : {stats['nid']} / {stats['uuid']}",
+        "",
+        f"  title chars        : {stats['title_chars']:,}",
+        f"  body chars         : {stats['body_chars']:,}",
+        f"  full text chars    : {stats['text_chars']:,}",
+        "",
+        f"  chunks (total)     : {stats['chunks_total']}",
+        f"  parent chunks      : {stats['parent_chunks']}",
+        f"  child chunks       : {stats['child_chunks']}",
+        f"  child tokens       : min={stats['child_token_min']} "
+        f"max={stats['child_token_max']} avg={stats['child_token_avg']}",
+        "",
+    ]
+    (out_dir / "00_summary.txt").write_text("\n".join(lines), encoding="utf-8")
+    return stats
+
+
+def _write_full_text(out_dir: Path, record) -> None:
+    (out_dir / "full_text.md").write_text(
+        f"# Full record text — {record.title or record.uuid}\n\n{record.to_text()}\n",
+        encoding="utf-8",
+    )
+
+
+# --------------------------------------------------------------------------- #
+# Per-record driver
+# --------------------------------------------------------------------------- #
+
+def _process_one(record, *, embed: bool = True) -> dict:
+    from app.ingestion.chunker import chunk_drupal_record
+
+    out_dir = RESULTS / _slugify(record.bundle) / _record_slug(record)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    rel = out_dir.relative_to(RESULTS).as_posix()
+    label = record.title or record.uuid or "(untitled)"
+
+    print(f"\n• {record.bundle} · {label}")
+    start = time.perf_counter()
+    try:
+        chunks = chunk_drupal_record(record)
+    except Exception as exc:  # one bad record must not sink the whole run
+        elapsed = time.perf_counter() - start
+        (out_dir / "ERROR.txt").write_text(
+            f"Chunking failed for {record.bundle} · {label}\n\n"
+            f"{type(exc).__name__}: {exc}\n\n{traceback.format_exc()}\n",
+            encoding="utf-8",
+        )
+        print(f"  ✗ FAILED: {type(exc).__name__}: {exc}")
+        return {
+            "bundle": record.bundle, "title": record.title,
+            "result_dir": rel, "error": f"{type(exc).__name__}: {exc}",
+            "elapsed_seconds": round(elapsed, 2),
+        }
+
+    elapsed = time.perf_counter() - start
+    stats = _write_summary(out_dir, record, chunks, elapsed)
+    _write_full_text(out_dir, record)
+    stats["result_dir"] = rel
+
+    print(
+        f"  ✓ {stats['text_chars']:,} chars, "
+        f"{stats['child_chunks']} child chunks, "
+        f"{stats['parent_chunks']} parents · {stats['elapsed_seconds']}s "
+        f"-> {rel}"
+    )
+    return stats
+
+
+def _write_index(all_stats: list[dict]) -> None:
+    RESULTS.mkdir(parents=True, exist_ok=True)
+    (RESULTS / "_index.json").write_text(
+        json.dumps(all_stats, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+
+    ok = [s for s in all_stats if "error" not in s]
+    failed = [s for s in all_stats if "error" in s]
+
+    lines = [
+        "# Drupal extraction test — run index",
+        "",
+        f"- records processed: **{len(all_stats)}** "
+        f"({len(ok)} ok, {len(failed)} failed)",
+        f"- total child chunks: **{sum(s.get('child_chunks', 0) for s in ok)}**",
+        "",
+        "| bundle | title | chunks | child | sec | result |",
+        "| ------ | ----- | -----: | ----: | --: | ------ |",
+    ]
+    for s in all_stats:
+        title = (s.get("title") or "—").replace("|", r"\|")
+        rel = s.get("result_dir", "")
+        if "error" in s:
+            lines.append(
+                f"| {s['bundle']} | {title} | — | — "
+                f"| {s.get('elapsed_seconds', '?')} | ⚠ {s['error']} |"
+            )
+            continue
+        lines.append(
+            f"| {s['bundle']} | {title} | {s['chunks_total']} | {s['child_chunks']} "
+            f"| {s['elapsed_seconds']} | [{rel}/](./{rel}/) |"
+        )
+    (RESULTS / "_index.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -100,7 +247,30 @@ def main(argv: list[str] | None = None) -> int:
     print(f"  limit    : {limit if limit is not None else 'none (all records)'}")
     print(f"  published: {'published only' if published_only else 'incl. unpublished'}")
     print(f"  embed    : {'on' if embed else 'off (--no-embed)'}")
-    return 0
+
+    from app.ingestion.extractors.drupal_extractor import iter_records
+
+    run_start = time.perf_counter()
+    all_stats: list[dict] = []
+    for bundle in bundles:
+        count = 0
+        for record in iter_records((bundle,), published_only=published_only):
+            if limit is not None and count >= limit:
+                break
+            all_stats.append(_process_one(record, embed=embed))
+            count += 1
+    _write_index(all_stats)
+
+    if not all_stats:
+        print("\nNo records fetched. Check the bundle name(s) and DRUPAL_JSONAPI_BASE.")
+        return 1
+
+    ok = sum(1 for s in all_stats if "error" not in s)
+    print(
+        f"\nDone in {time.perf_counter() - run_start:.1f}s — "
+        f"{ok}/{len(all_stats)} ok. See {RESULTS / '_index.md'}"
+    )
+    return 0 if ok == len(all_stats) else 2
 
 
 if __name__ == "__main__":
