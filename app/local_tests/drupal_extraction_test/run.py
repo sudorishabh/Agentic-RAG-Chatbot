@@ -196,6 +196,81 @@ def _write_chunks(out_dir: Path, record, chunks) -> None:
     (out_dir / "02_chunks.md").write_text("\n".join(lines), encoding="utf-8")
 
 
+def _canonical_metadata(record) -> dict:
+    """The CanonicalDocument fields ``from_drupal_record`` derives — i.e. exactly
+    what feeds ``chunk_canonical`` and lands in chunk payloads. Best-effort."""
+    from app.ingestion.canonical import from_drupal_record
+
+    try:
+        doc = from_drupal_record(record)
+    except Exception as exc:  # pragma: no cover - defensive
+        return {"_error": f"{type(exc).__name__}: {exc}"}
+    return {
+        "document_id": doc.document_id,
+        "source_type": doc.source_type,
+        "title": doc.title,
+        "source_url": doc.source_url,
+        "article_uuid": doc.article_uuid,
+        "tags": doc.tags,
+        "categories": doc.categories,
+        "authors": doc.authors,
+        "language": doc.language,
+        "tenant_id": doc.tenant_id,
+        "acl": doc.acl,
+        "published_at": doc.published_at,
+        "doc_version": doc.doc_version,
+        "is_current": doc.is_current,
+        "content_hash": doc.content_hash,
+        "extra": doc.extra,
+    }
+
+
+def _write_metadata(out_dir: Path, record) -> dict:
+    record_meta = record.to_metadata()
+    canonical_meta = _canonical_metadata(record)
+    payload = {
+        "bundle": record.bundle,
+        "record": record_meta,
+        "canonical": canonical_meta,
+    }
+    (out_dir / "03_metadata.json").write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+
+    def _cell(v) -> str:
+        if v is None or v == "" or v == [] or v == {}:
+            return "—"
+        return str(v).replace("|", r"\|").replace("\n", " ")
+
+    lines = [
+        f"# Metadata — {record.title or record.uuid}",
+        "",
+        "## Record metadata (Drupal JSON:API)",
+        "",
+        "| field | value |",
+        "| --- | --- |",
+    ]
+    for key in sorted(record_meta):
+        lines.append(f"| {key} | {_cell(record_meta[key])} |")
+    lines.append("")
+
+    lines += ["## Canonical metadata (chunking input)", ""]
+    if canonical_meta.get("_error"):
+        lines += [f"_Could not build canonical document: {canonical_meta['_error']}_", ""]
+    else:
+        lines += ["| field | value |", "| --- | --- |"]
+        for key in (
+            "document_id", "source_type", "title", "source_url", "article_uuid",
+            "tags", "categories", "authors", "language", "tenant_id", "acl",
+            "published_at", "doc_version", "is_current", "content_hash", "extra",
+        ):
+            lines.append(f"| {key} | {_cell(canonical_meta.get(key))} |")
+        lines.append("")
+
+    (out_dir / "03_metadata.md").write_text("\n".join(lines), encoding="utf-8")
+    return payload
+
+
 def _write_full_text(out_dir: Path, record) -> None:
     (out_dir / "full_text.md").write_text(
         f"# Full record text — {record.title or record.uuid}\n\n{record.to_text()}\n",
@@ -237,6 +312,7 @@ def _process_one(record, *, embed: bool = True) -> dict:
     stats = _write_summary(out_dir, record, chunks, elapsed)
     _write_record(out_dir, record)
     _write_chunks(out_dir, record, chunks)
+    _write_metadata(out_dir, record)
     _write_full_text(out_dir, record)
     stats["result_dir"] = rel
 
