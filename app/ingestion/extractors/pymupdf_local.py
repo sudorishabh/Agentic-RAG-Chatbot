@@ -3,14 +3,15 @@
 This module owns the *local* side of the hybrid router (see ``pdf_extractor``):
 
 * ``classify_document`` inspects every page with PyMuPDF and reports, per page,
-  whether it looks scanned or carries a table — the signals the document-level
-  router uses to decide between the local path and Azure.
-* ``extract_local`` extracts a born-digital document as text only and emits the
-  same canonical ``ExtractionResult`` the rest of the pipeline already expects.
+  whether it looks scanned or carries a table (``PageSignal``) — the signals the
+  router uses to pick a per-page extractor: scanned/image -> Azure OCR,
+  born-digital table -> Camelot, everything else -> local text.
+* ``extract_local`` / ``extract_local_pages`` extract born-digital text only and
+  emit the same canonical ``ExtractionResult`` the rest of the pipeline expects.
 
-Tables are never *kept* from the local path. Detection here is used purely to
-route: if any page needs Azure, the whole document goes to Azure (which owns
-every table). The local path handles text-only documents.
+Tables are never *kept* from the local path — on a born-digital table page the
+router pairs this module's page text with Camelot's table Markdown (see
+``camelot_tables``).
 """
 
 from __future__ import annotations

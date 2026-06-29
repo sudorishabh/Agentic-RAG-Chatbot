@@ -45,7 +45,7 @@ app/
 │   ├── indexer.py           Qdrant collection bootstrap + batched upsert
 │   ├── change_detection.py  Incremental ingest (fingerprint / content hash / version)
 │   ├── state.py             Ingest-state manifest (MySQL table)
-│   └── extractors/          pdf_extractor.py (Docling), ocr.py (Azure DI), drupal_extractor.py
+│   └── extractors/          pdf_extractor.py (PyMuPDF/Camelot/Azure-OCR router), drupal_extractor.py
 ├── cache/redis_cache.py     Response / embedding / semantic query caches (§10.3)
 ├── workers/
 │   ├── tasks.py             Celery ingestion workers, inline fallback when no broker (§10.4)

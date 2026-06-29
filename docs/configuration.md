@@ -43,10 +43,12 @@ See [ingestion.md](ingestion.md#extraction) for the extraction pipeline.
 
 | Setting | Default | Description |
 | --- | --- | --- |
-| `azure_document_intelligence_endpoint` | `""` | Azure Document Intelligence endpoint (OCR for scanned PDFs) |
+| `extraction_mode` | `hybrid` | Routing: `hybrid` (per-page), `azure_only` (whole doc to Azure), `local_only` (PyMuPDF text only) |
+| `azure_document_intelligence_endpoint` | `""` | Azure Document Intelligence endpoint (OCR for scanned/image pages) |
 | `azure_document_intelligence_key` | `""` | Document Intelligence API key |
 | `azure_document_intelligence_model` | `prebuilt-layout` | DI model |
-| `pdf_scanned_char_threshold` | `100` | Min extracted chars/page to treat a page as digital; below → pypdf fallback, then OCR if still short |
+| `camelot_flavor` | `lattice` | Camelot flavor for born-digital table pages; `lattice` retries empty pages with `stream` |
+| `pdf_scanned_char_threshold` | `100` | Min extracted chars/page to treat a page as born-digital; below → routed to Azure OCR |
 
 ## Qdrant (vector store)
 

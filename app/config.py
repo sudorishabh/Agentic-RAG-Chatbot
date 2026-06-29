@@ -51,10 +51,6 @@ class Settings(BaseSettings):
     # Drop chart/axis "number soup" lines (e.g. "2020 2030 2040 2050") — bare
     # numeric runs from figures that carry no semantic signal.
     pdf_drop_number_soup: bool = True
-    # STEP 5 (optional, off): hybrid already sends only flagged pages to Azure;
-    # when True, expand table pages to adjacent pages so a table spanning a page
-    # break stays whole. See _hybrid_extract for the TODO.
-    extraction_azure_page_ranges: bool = False
     qdrant_url: str = "http://localhost:6333"
     qdrant_api_key: str | None = None
     qdrant_collection: str = "documents"

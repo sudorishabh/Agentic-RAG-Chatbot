@@ -36,7 +36,7 @@ app/
 │   ├── indexer.py           Chunk → embed children → upsert to Qdrant
 │   ├── change_detection.py  Fingerprint / content-hash incremental detection
 │   ├── state.py             Ingest-state manifest (MySQL table)
-│   └── extractors/          pdf_extractor.py (unstructured/pypdf/Azure-OCR), drupal_extractor.py (JSON:API)
+│   └── extractors/          pdf_extractor.py (PyMuPDF text / Camelot tables / Azure-OCR), drupal_extractor.py (JSON:API)
 ├── cache/redis_cache.py     Response / embedding / semantic caches + corpus version
 ├── workers/tasks.py         Celery ingestion tasks with inline fallback + CLI
 ├── observability/tracing.py Per-stage spans, RAG metrics, optional OTel/Langfuse

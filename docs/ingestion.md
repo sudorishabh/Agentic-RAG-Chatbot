@@ -36,16 +36,23 @@ Builders in [app/ingestion/canonical.py](../app/ingestion/canonical.py):
 
 `extract_pdf(content: bytes, filename: str) -> ExtractionResult`
 
-1. **Extract digital text** with `unstructured` (`strategy="fast"`, pdfminer-based).
-   Total page count comes from `pypdf`.
-2. **pypdf fallback.** A page below `pdf_scanned_char_threshold` (default 100)
-   characters is re-read with `pypdf` before being judged *scanned* — `unstructured`
-   `fast` returns nothing on some PDFs, so this second reader keeps born-digital
-   pages off the (paid, slower) OCR path. A page is sent to OCR only when *both*
-   readers come up short.
-3. **Digital pages** → `unstructured`/`pypdf` text.
-4. **Scanned pages** → Azure Document Intelligence OCR (`prebuilt-layout`), which
-   also reconstructs tables (emitted as Markdown).
+1. **Classify each page** with PyMuPDF (`pymupdf_local.classify_document`): is it
+   *scanned* (extracted text below `pdf_scanned_char_threshold`, default 100
+   characters) and/or does it carry a *table* (`find_tables`, plus the optional
+   ruled-grid / borderless heuristics)?
+2. **Route per page** (`PageSignal.route`), then stitch the pages back in order:
+   - **born-digital text** → PyMuPDF text;
+   - **born-digital table** → Camelot extracts the table(s) to Markdown
+     (`camelot_flavor`, default `lattice`, with a `stream` retry on empty pages);
+     the page's prose still comes from PyMuPDF and the table Markdown is merged
+     into that page's text;
+   - **scanned / image** → Azure Document Intelligence OCR (`prebuilt-layout`),
+     which reconstructs both text and tables. A scanned page that *also* has a
+     table goes to Azure — Camelot cannot read an image.
+3. **Fallbacks.** If Azure is unavailable its pages degrade to PyMuPDF text; if
+   Camelot finds nothing on a flagged page that page keeps just its PyMuPDF text.
+   `EXTRACTION_MODE` overrides the path: `hybrid` (default, per-page above),
+   `azure_only` (whole document to Azure), `local_only` (PyMuPDF text only).
 
 All page text is normalized to expand standard ligature glyphs (`ﬁ`/`ﬀ`/… →
 `fi`/`ff`/…) so words stay matchable in search. Font-specific Private-Use-Area
@@ -56,9 +63,11 @@ layer (they need visual OCR) and are left as-is.
 `ocr_page_numbers`. PDF-extraction settings are listed in
 [configuration.md](configuration.md#pdf-extraction--ocr).
 
-> Tables are produced only on the OCR path; born-digital pages carry their table
-> content as flattened text. Section headings are re-derived from text by the
-> chunker, so digital pages without Markdown headings chunk as flat sections.
+> Tables reach the chunker as Markdown embedded in each page's text (the chunker
+> reads page text, not the separate `tables` list) — from Camelot on born-digital
+> table pages and from Azure on scanned pages. Section headings are re-derived
+> from text by the chunker, so pages without Markdown headings chunk as flat
+> sections.
 
 ### Drupal articles — [app/ingestion/extractors/drupal_extractor.py](../app/ingestion/extractors/drupal_extractor.py)
 
