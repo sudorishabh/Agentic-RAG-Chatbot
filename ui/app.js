@@ -23,6 +23,49 @@ function setTopK(value) {
 }
 
 /* ------------------------------------------------------------------ *
+ * Welcome suggestion cards
+ * icon = inner SVG paths (stroke, currentColor); bg/color = pastel chip.
+ * ------------------------------------------------------------------ */
+const ICON = {
+  find: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+  compare: '<rect x="5" y="5" width="5" height="14" rx="1"/><rect x="14" y="5" width="5" height="14" rx="1"/>',
+  track: '<path d="M3 17l6-6 4 4 7-7"/><path d="M21 8v5h-5"/>',
+  list: '<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2"/><circle cx="4.5" cy="12" r="1.2"/><circle cx="4.5" cy="18" r="1.2"/>',
+  analyze: '<path d="M5 21V11M12 21V4M19 21v-7"/>',
+  suggest: '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10c1 1 1 2 1 3h6c0-1 0-2 1-3a6 6 0 0 0-4-10z"/>',
+};
+const SUGGESTIONS = [
+  { verb: "Find", rest: " India's renewable energy capacity targets", icon: ICON.find, bg: "#e7f0ff", color: "#3b73d6" },
+  { verb: "Compare", rest: " solar and wind energy adoption across states", icon: ICON.compare, bg: "#ece8ff", color: "#6b53d6" },
+  { verb: "Track", rest: " progress on India's net-zero commitments", icon: ICON.track, bg: "#e2f4f1", color: "#1f9c86" },
+  { verb: "List", rest: " key recommendations on sustainable water management", icon: ICON.list, bg: "#fdeaf3", color: "#cc4f8e" },
+  { verb: "Analyze", rest: " the main drivers of urban air pollution", icon: ICON.analyze, bg: "#e9f6e6", color: "#4c9f38" },
+  { verb: "Suggest", rest: " actions to improve industrial energy efficiency", icon: ICON.suggest, bg: "#fff1e0", color: "#d9871f" },
+];
+
+function renderCards(container) {
+  if (!container) return;
+  container.innerHTML = "";
+  for (const s of SUGGESTIONS) {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "card";
+    card.innerHTML =
+      '<span class="card__icon" style="background:' + s.bg + ";color:" + s.color + '">' +
+      '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" ' +
+      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + s.icon + "</svg></span>" +
+      '<span class="card__text"><strong>' + escapeHtml(s.verb) + "</strong>" + escapeHtml(s.rest) + "</span>";
+    card.addEventListener("click", () => {
+      if (streaming) return;
+      el.input.value = (s.verb + s.rest).trim();
+      autoGrow();
+      handleSend();
+    });
+    container.appendChild(card);
+  }
+}
+
+/* ------------------------------------------------------------------ *
  * DOM refs
  * ------------------------------------------------------------------ */
 const el = {
@@ -81,13 +124,14 @@ function hideEmptyState() {
 function renderEmptyState() {
   const div = document.createElement("div");
   div.id = "emptyState";
-  div.className = "empty";
+  div.className = "welcome";
   div.innerHTML =
-    '<div class="empty__icon">💬</div>' +
-    '<p class="empty__title">Ask a question to get started</p>' +
-    '<p class="empty__hint">Answers are grounded in your indexed documents.</p>';
+    '<h2 class="welcome__title">Welcome to Agentic RAG Chatbot</h2>' +
+    '<p class="welcome__hint">What would you like to explore today?</p>' +
+    '<div id="cards" class="cards"></div>';
   el.messages.appendChild(div);
   el.emptyState = div;
+  renderCards(div.querySelector("#cards"));
 }
 
 function clearChat() {
@@ -128,7 +172,7 @@ function autoGrow() {
 function setStreaming(on) {
   streaming = on;
   el.send.disabled = on;
-  el.send.textContent = on ? "…" : "Send";
+  el.send.classList.toggle("busy", on);
 }
 
 async function handleSend() {
@@ -539,4 +583,5 @@ el.saveSettings.addEventListener("click", saveSettings);
 el.clearChat.addEventListener("click", clearChat);
 
 el.apiBase.value = getApiBase();
+renderCards(document.getElementById("cards"));
 checkHealth();
