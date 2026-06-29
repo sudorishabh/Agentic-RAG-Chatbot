@@ -564,7 +564,7 @@
             <span class="brand__mark" aria-hidden="true">
               <svg viewBox="0 0 32 32" width="26" height="26">
                 <defs><linearGradient id="teriMark" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#7bd35a"/><stop offset="1" stop-color="#2e7d32"/>
+                  <stop offset="0" stop-color="#4f9bff"/><stop offset="1" stop-color="#16b8a3"/>
                 </linearGradient></defs>
                 <circle cx="16" cy="16" r="14" fill="url(#teriMark)"/>
                 <path d="M16 7.5l2.1 4.4 4.4 2.1-4.4 2.1L16 20.5l-2.1-4.4L9.5 14l4.4-2.1z" fill="#fff"/>
@@ -594,7 +594,7 @@
         <footer class="composer">
           <div class="composer__box">
             <textarea id="input" class="composer__input" rows="1"
-              placeholder="Ask a question…"></textarea>
+              placeholder="Ask about policies, best practices, or data insights"></textarea>
             <button id="send" class="composer__send" title="Send" aria-label="Send">
               <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M3 20.5 21 12 3 3.5 3 10l12 2-12 2z"/></svg>
             </button>
@@ -611,15 +611,15 @@
   function STYLES() {
     return `<style>
     :host {
-      /* ---- TERI palette (adjust to confirmed brand hex) ---- */
-      --teri-green: #4c9f38;
-      --teri-green-dark: #3a7d2a;
-      --teri-green-soft: #eaf4e6;
-      --teri-ink: #1f2a24;
-      --teri-dim: #5f6b63;
+      /* ---- AI Sarthi palette (var names kept to minimise churn) ---- */
+      --teri-green: #2563eb;
+      --teri-green-dark: #1d4ed8;
+      --teri-green-soft: #e8f0fe;
+      --teri-ink: #1f2330;
+      --teri-dim: #6b7280;
       --teri-bg: #ffffff;
-      --teri-surface: #f6f9f4;
-      --teri-border: #e1e8dd;
+      --teri-surface: #f4f6fb;
+      --teri-border: #e6e8ef;
       --teri-user: var(--teri-green);
       --teri-bad: #d64545;
       --teri-warn: #c8860d;
@@ -666,7 +666,7 @@
       max-width: calc(100vw - 32px);
       height: 620px;
       max-height: calc(100vh - 120px);
-      background: linear-gradient(180deg, #fafdf9 0%, #eef5ea 100%);
+      background: linear-gradient(135deg, #eef2fc 0%, #f9f7fc 50%, #fdf5f2 100%);
       border: 1px solid var(--teri-border);
       border-radius: var(--radius);
       box-shadow: 0 12px 40px rgba(0,0,0,.24);
@@ -693,7 +693,8 @@
       padding-right: max(20px, calc((100% - 1040px) / 2));
     }
     :host(.expanded) .composer { padding-bottom: 26px; }
-    :host(.expanded) .composer__box { max-width: 1040px; margin: 0 auto; }
+    :host(.expanded) .composer__box { max-width: 1040px; margin: 0 auto; border-radius: 18px; padding: 10px 10px 10px 18px; }
+    :host(.expanded) .composer__input { min-height: 48px; }
 
     /* ---- Header: white bar with logo mark + dark title (AI Sarthi look) ---- */
     .head {
@@ -743,7 +744,7 @@
     }
 
     .welcome { margin: auto 0; text-align: center; padding: 8px 4px; }
-    .welcome__title { margin: 0 0 4px; font-size: 1.4rem; color: var(--teri-ink); }
+    .welcome__title { margin: 0 0 4px; font-size: 1.4rem; font-weight: 700; letter-spacing: -.01em; color: var(--teri-ink); }
     .welcome__hint { margin: 0 0 16px; font-size: .92rem; color: var(--teri-dim); }
     .cards { display: grid; grid-template-columns: 1fr; gap: 10px; }
     .card {
@@ -774,9 +775,9 @@
     .card__text { line-height: 1.4; }
 
     /* Expanded body = AI Sarthi look: soft gradient, big centred welcome, 3 cols. */
-    :host(.expanded) .messages { background: linear-gradient(180deg, #fafdf9 0%, #eef5ea 100%); }
+    :host(.expanded) .messages { background: linear-gradient(135deg, #eef2fc 0%, #f9f7fc 50%, #fdf5f2 100%); }
     :host(.expanded) .welcome { margin-top: 7vh; }
-    :host(.expanded) .welcome__title { font-size: 2.1rem; margin-bottom: 8px; }
+    :host(.expanded) .welcome__title { font-size: 2.25rem; margin-bottom: 8px; }
     :host(.expanded) .welcome__hint { font-size: 1.05rem; margin-bottom: 28px; }
     :host(.expanded) .cards {
       grid-template-columns: repeat(3, 1fr);
