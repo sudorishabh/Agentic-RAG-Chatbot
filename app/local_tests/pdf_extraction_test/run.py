@@ -169,10 +169,17 @@ def _pdf_document_metadata(content: bytes) -> dict:
 # --------------------------------------------------------------------------- #
 
 def _write_summary(out_dir: Path, name: str, result, chunks, elapsed: float) -> dict:
-    routes = _route_counts(result)
+    routes = _route_counts(result)  # by extracted_via: text / ocr / empty
     digital = routes.get("text", 0)
     scanned = routes.get("ocr", 0)
     empty = routes.get("empty", 0)
+    # Per-page extractor routing (hybrid mode): azure / camelot / local.
+    signals = result.metadata.get("page_signals") or {}
+    page_routes = {
+        "azure": len(signals.get("azure", [])),
+        "camelot": len(signals.get("camelot", [])),
+        "local": len(signals.get("local", [])),
+    }
     parents = [c for c in chunks if c.is_parent]
     children = [c for c in chunks if not c.is_parent]
     child_tokens = [c.token_count for c in children]
@@ -183,7 +190,10 @@ def _write_summary(out_dir: Path, name: str, result, chunks, elapsed: float) -> 
         "page_count": result.page_count,
         "table_count": result.table_count,
         "char_count": len(result.text),
+        "route": result.metadata.get("route"),
         "routes": routes,
+        "page_routes": page_routes,
+        "camelot_pages": page_routes["camelot"],
         "digital_pages": digital,
         "scanned_ocr_pages": scanned,
         "empty_pages": empty,
@@ -207,7 +217,10 @@ def _write_summary(out_dir: Path, name: str, result, chunks, elapsed: float) -> 
         f"  tables             : {stats['table_count']}",
         f"  extracted chars    : {stats['char_count']:,}",
         "",
-        f"  pages by route     : {routes}",
+        f"  extraction route   : {stats['route'] or '—'}",
+        f"  pages by extractor : azure={page_routes['azure']} "
+        f"camelot={page_routes['camelot']} local={page_routes['local']}",
+        f"  pages by source    : {routes}",
         f"  digital vs scanned : {digital} digital / {scanned} scanned (OCR) / {empty} empty",
         f"  OCR page numbers   : {stats['ocr_page_numbers'] or '—'}",
         "",
@@ -488,7 +501,8 @@ def _process_one(pdf_path: Path, *, embed: bool = True) -> dict:
     )
     print(
         f"  ✓ {stats['page_count']} pages "
-        f"({stats['digital_pages']} digital / {stats['scanned_ocr_pages']} OCR), "
+        f"({stats['digital_pages']} digital, {stats['camelot_pages']} via camelot / "
+        f"{stats['scanned_ocr_pages']} OCR), "
         f"{stats['table_count']} tables, "
         f"{stats['child_chunks']} child chunks{vec_note} · {stats['elapsed_seconds']}s "
         f"-> {out_dir.relative_to(HERE)}"
@@ -514,20 +528,21 @@ def _write_index(all_stats: list[dict]) -> None:
         f"- total tables: **{sum(s.get('table_count', 0) for s in ok)}**",
         f"- total child chunks: **{sum(s.get('child_chunks', 0) for s in ok)}**",
         "",
-        "| PDF | pages | digital/OCR | tables | chunks | sec | result |",
-        "| --- | ----: | ----------- | -----: | -----: | --: | ------ |",
+        "| PDF | pages | digital/OCR | camelot | tables | chunks | sec | result |",
+        "| --- | ----: | ----------- | ------: | -----: | -----: | --: | ------ |",
     ]
     for s in all_stats:
         slug = _slugify(Path(s["pdf"]).stem)
         if "error" in s:
             lines.append(
-                f"| {s['pdf']} | — | — | — | — | {s.get('elapsed_seconds', '?')} "
+                f"| {s['pdf']} | — | — | — | — | — | {s.get('elapsed_seconds', '?')} "
                 f"| ⚠ {s['error']} |"
             )
             continue
         lines.append(
             f"| {s['pdf']} | {s['page_count']} "
             f"| {s['digital_pages']}/{s['scanned_ocr_pages']} "
+            f"| {s.get('camelot_pages', 0)} "
             f"| {s['table_count']} | {s['child_chunks']} "
             f"| {s['elapsed_seconds']} | [{slug}/](./{slug}/) |"
         )

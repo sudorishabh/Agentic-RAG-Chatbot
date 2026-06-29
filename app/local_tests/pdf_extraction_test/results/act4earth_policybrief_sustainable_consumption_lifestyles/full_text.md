@@ -1,6 +1,4 @@
-# Pages — Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf
-
-## Page 1 · via `text` · 0 table(s)
+# Full extracted text — Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf
 
 ACT4EARTH 
 SDG CHARTER POLICY BRIEF
@@ -8,8 +6,6 @@ INTERNATIONALIZING
 LIFESTYLES FOR 
 ENVIRONMENT
 MESSAGES FOR G20
-
-## Page 2 · via `text` · 0 table(s)
 
 ISBN 978-93-94657-10-6
 AUTHORS
@@ -32,8 +28,6 @@ The Energy and Resources Institute (2022), Internationalizing Lifestyles for Env
 Messages for G20, SDG Charter, Act4Earth and World Sustainable Development Summit, 
 New Delhi: The Energy and Resources Institute.
 
-## Page 3 · via `text` · 0 table(s)
-
 Introduction 	
 6
 Lifestyles and Consumption Index for G20 	
@@ -45,12 +39,6 @@ Way Forward: Internationalizing Lifestyles and Deploying Instruments
 References	
 18
 CONTENTS
-
-## Page 4 · via `ocr` · 0 table(s)
-
-_(no text on this page)_
-
-## Page 5 · via `text` · 0 table(s)
 
 Internationalizing Lifestyles for Environment: Messages for G20	
 5
@@ -71,8 +59,6 @@ Indicator Framework for SDGs, and United Nations Framework Convention on Climate
 discussed.
 Keywords: SDG 12, lifestyles, sustainable consumption, G20, sustainable development, climate 
 change
-
-## Page 6 · via `text` · 0 table(s)
 
 6	
 SDG Charter Policy Brief
@@ -123,8 +109,6 @@ Sustainable
 Lifestyles
 FIGURE 1: SUSTAINABLE LIFESTYLES AND RESOURCE VALUE CHAINS
 
-## Page 7 · via `text` · 0 table(s)
-
 Internationalizing Lifestyles for Environment: Messages for G20	
 7
 of the Parties (COP26) in Glasgow last year. The idea promotes an environment-conscious lifestyle that 
@@ -169,8 +153,6 @@ and linkages across resource value chains. The objective of this brief is to con
 and sustainable consumption and implications for internationalizing LiFE, along with examining instruments 
 including policy instruments, market instruments, and social instruments. The scope of the analysis is limited 
 to G20 countries – considering the global importance of their collective resource consumption.
-
-## Page 8 · via `text` · 1 table(s)
 
 8	
 SDG Charter Policy Brief
@@ -264,8 +246,6 @@ graphically (Figure 2). The higher the score, the lower the consumption is in pe
 |  |  | org/grapher/plastic-waste- |  |
 |  |  | generation-total; Eurostat |  |
 
-## Page 9 · via `text` · 2 table(s)
-
 Internationalizing Lifestyles for Environment: Messages for G20	
 9
 FIGURE 2: LIFESTYLES AND CONSUMPTION INDEX FOR G20 COUNTRIES AND EU
@@ -304,8 +284,6 @@ Higher score indicates low consumpon
 | Canada | 0.13 | 0.30 | 0.08 | 0.06 | 0.04 | 0.05 | 0.03 | 0.83 | 0.31 | 31 |
 | United States | 0.14 | 0.24 | 0.08 | 0.00 | 0.03 | 0.19 | 0.12 | 0.32 | 0.19 | 19 |
 
-## Page 10 · via `text` · 0 table(s)
-
 10	
 SDG Charter Policy Brief
 Among G20 entities, India has the highest score in the Lifestyles and Consumption Index, while United States 
@@ -325,8 +303,6 @@ impact in terms of resource use, environmental degradation, waste and pollution?
 Moreover, to what extent can individual consumer choices be internationalized? Will lifestyles be a matter 
 of consumer sovereignty, or can policy, economic and social instruments nudge individual choices? 
 Furthermore, can individual choices nudge policy and markets through social movements and instruments?
-
-## Page 11 · via `text` · 0 table(s)
 
 Internationalizing Lifestyles for Environment: Messages for G20	
 11
@@ -355,8 +331,6 @@ a device to repair it themself or have it repaired by a professional of their ch
 people, repairers and sustainability groups – who advocate that reusing, refurbishing and repairing products will lead to benefits 
 not just in terms of sustainability, but also in terms of cost savings and creation of employment. India, European Union, Germany, 
 France and United States have taken steps towards the ‘right to repair’.
-
-## Page 12 · via `text` · 2 table(s)
 
 12	
 SDG Charter Policy Brief
@@ -527,8 +501,6 @@ programs*
 | countries for the G20 sectors. |  |  |
 | TABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION |  |  |
 
-## Page 13 · via `text` · 2 table(s)
-
 Internationalizing Lifestyles for Environment: Messages for G20	
 13
 Policy Instruments
@@ -653,8 +625,6 @@ appliances at sub-national, national, and international levels. The G20 Energy E
 | appliances at sub-national, national, and international levels. The G20 Energy Efficiency Leading Programme |  |  |
 | (EELP) in collaboration with the International Energy Partnership for Energy Efficiency Collaboration (IPEEC) |  |  |
 
-## Page 14 · via `text` · 0 table(s)
-
 14	
 SDG Charter Policy Brief
 focuses on promoting energy efficiency through research, information dissemination, policy options and 
@@ -675,8 +645,6 @@ of Consumer Affairs in India announced the development of a comprehensive framew
 repair’. The ‘right to repair’ refers to a government legislation that is intended to allow consumers the ability 
 to repair and modify their own consumer electronic devices, where otherwise/previously the manufacturers 
 of such devices require the consumer to use only their offered services.
-
-## Page 15 · via `text` · 2 table(s)
 
 Internationalizing Lifestyles for Environment: Messages for G20	
 15
@@ -744,8 +712,6 @@ Network and UNEP
 |  | General. Lifestyles could also be considered as a theme for the High-level Political Forum - Sustainable |
 |  | Development Goals. Table 3 presents key hooks for internationalizing lifestyle for environment. |
 
-## Page 16 · via `text` · 0 table(s)
-
 16	
 SDG Charter Policy Brief
 	»
@@ -778,8 +744,6 @@ management capacity and engaging with the informal sector is important. Consumer
 rather than the products, which implies that policies should aim at providing well-functioning and 
 accessible public services, along with enabling conditions for the market. For example, for mobility, 
 policy instruments may be accompanied by certain business models, such as ride sharing.
-
-## Page 17 · via `text` · 0 table(s)
 
 Internationalizing Lifestyles for Environment: Messages for G20	
 17
@@ -818,8 +782,6 @@ important. Looking at it from the consumer behaviour perspective, it is very imp
 be able to trust the information that they get.
 *****
 
-## Page 18 · via `text` · 0 table(s)
-
 18	
 SDG Charter Policy Brief
 REFERENCES
@@ -849,12 +811,6 @@ Context of SDG 12 [Discussion Summary]. Act4Earth and World Sustainable Developm
 Energy and Resources Institute.
 UNEP (United Nations Environment Programme). (2022). Global Strategy for Sustainable Consumption and Production 
 2023-2030. UNEP.
-
-## Page 19 · via `ocr` · 0 table(s)
-
-_(no text on this page)_
-
-## Page 20 · via `text` · 0 table(s)
 
 20	
 SDG Charter Policy Brief

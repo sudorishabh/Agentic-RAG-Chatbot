@@ -170,117 +170,161 @@ and sustainable consumption and implications for internationalizing LiFE, along 
 including policy instruments, market instruments, and social instruments. The scope of the analysis is limited 
 to G20 countries – considering the global importance of their collective resource consumption.
 
-## Page 8 · via `text` · 1 table(s)
+## Page 8 · via `ocr` · 1 table(s)
 
-8	
-SDG Charter Policy Brief
-LIFESTYLES AND CONSUMPTION INDEX FOR G20 
-To understand the state of lifestyles and consumption for G20 countries and the European Union, a composite 
-index and indices on consumption sectors (such as food, transport, residential and waste management) 
-have been developed. Table 1 summarises the indicators used in calculating the metrics for G20 countries 
-and the European Union. 
-TABLE 1: INDICATORS AND DATA SOURCES USED FOR DEVELOPING METRICS ON SUSTAINABLE 
-CONSUMPTION
-Sector
-Indicator
-Data source
-Year
-Transport
-Total final energy 
-consumption in 
-transport sector (TJ/
-capita)	
-IEA World Energy Balances 
-https://www.iea.org/data-and-
-statistics/data-product/world-
-energy-statistics-and-balances
-2019
-Food
-Meat and dairy 
-production (tonnes/
-capita)
-UN (2019), Gapminder (v6) and 
-HYDE (v3.2); FAR (2020); Eurostat 
-(2018) in OurWorldInData.org/
-meat-production
-2018
-Residential Buildings
-Total final energy 
-consumption in 
-residential sector (TJ/
-capita)	
-IEA World Energy Balances 
-https://www.iea.org/data-and-
-statistics/data-product/world-
-energy-statistics-and-balances
-2019
-Waste Disposal
- 
-Plastic waste generation 
-(tonnes/capita)
-Source: Jambeck et al (2015) 
-in https://ourworldindata.
-org/grapher/plastic-waste-
-generation-total; Eurostat
-2010 and 2015
-The choice of index is based on key sectors that have been extensively covered in the literature and contribute 
-significantly to sustainable consumption on the downstream or end-consumer side. The downstream side 
-of production and consumption systems pertain to lifestyles and consumers, as opposed to upstream, which 
-includes aspects related to resource extraction. The choice of these indicators is also constrained by data 
-availability. For example, the reason for leaving our food-waste was that the data for all types of food waste 
-(households, out-of-home consumption and retail) is not available for all G20 entities – for Turkey, no data 
+# LIFESTYLES AND CONSUMPTION INDEX FOR G20
+
+To understand the state of lifestyles and consumption for G20 countries and the European Union, a composite
+index and indices on consumption sectors (such as food, transport, residential and waste management)
+have been developed. Table 1 summarises the indicators used in calculating the metrics for G20 countries
+and the European Union.
+
+| Sector | Indicator | Data source | Year |
+| --- | --- | --- | --- |
+| Transport | Total final energy consumption in transport sector (TJ/ capita) | IEA World Energy Balances https://www.iea.org/data-and- statistics/data-product/world- energy-statistics-and-balances | 2019 |
+| Food | Meat and dairy production (tonnes/ capita) | UN (2019), Gapminder (v6) and HYDE (v3.2); FAR (2020); Eurostat (2018) in OurWorldInData.org/ meat-production | 2018 |
+| Residential Buildings | Total final energy consumption in residential sector (TJ/ capita) | IEA World Energy Balances https://www.iea.org/data-and- statistics/data-product/world- energy-statistics-and-balances | 2019 |
+| Waste Disposal | Plastic waste generation (tonnes/capita) | Source: Jambeck et al (2015) in https://ourworldindata. org/grapher/plastic-waste- generation-total; Eurostat | 2010 and 2015 |
+
+The choice of index is based on key sectors that have been extensively covered in the literature and contribute
+significantly to sustainable consumption on the downstream or end-consumer side. The downstream side
+of production and consumption systems pertain to lifestyles and consumers, as opposed to upstream, which
+includes aspects related to resource extraction. The choice of these indicators is also constrained by data
+availability. For example, the reason for leaving our food-waste was that the data for all types of food waste
+(households, out-of-home consumption and retail) is not available for all G20 entities - for Turkey, no data
 was available for food waste; for EU, data was not available for out-of-home consumption category.
-Further computation and normalization of indicator values is done for identifying and collecting basic data, 
-so that it falls in the range of 0-1. This procedure makes the respective values of the chosen indicators (as 
-mentioned in the above table) unitless, so that indicators are comparable for construction of an index. In the 
-index, the best performer gets a value of 1, while the worst performer gets a value of 0; moreover, all values 
-become unidirectional. 
-The normalization procedure using x as a variable is as follows: 
-x-index = [x-min(x)]/[max(x)-min(x)] 
-Here min(x) and max(x) were lowest and highest values for the variable x. The scores received by each state 
-with respect to each indicator are then averaged using equal weights. 
-For scoring, the standardized values are then multiplied by 100 to arrive at scores. These are then depicted 
+
+Further computation and normalization of indicator values is done for identifying and collecting basic data,
+so that it falls in the range of 0-1. This procedure makes the respective values of the chosen indicators (as
+mentioned in the above table) unitless, so that indicators are comparable for construction of an index. In the
+index, the best performer gets a value of 1, while the worst performer gets a value of 0; moreover, all values
+become unidirectional.
+
+The normalization procedure using x as a variable is as follows:
+
+x-index = [x-min(x)]/[max(x)-min(x)]
+
+Here min(x) and max(x) were lowest and highest values for the variable x. The scores received by each state
+with respect to each indicator are then averaged using equal weights.
+
+For scoring, the standardized values are then multiplied by 100 to arrive at scores. These are then depicted
 graphically (Figure 2). The higher the score, the lower the consumption is in per capita terms for the individual.
 
-| and the European Union. |  |  |  |
-| --- | --- | --- | --- |
-| TABLE 1: INDICATORS AND DATA SOURCES USED FOR DEVELOPING METRICS ON SUSTAINABLE |  |  |  |
-| CONSUMPTION |  |  |  |
-| Sector | Indicator | Data source | Year |
-| Transport | Total final energy | IEA World Energy Balances | 2019 |
-|  | consumption in | https://www.iea.org/data-and- |  |
-|  | transport sector (TJ/ | statistics/data-product/world- |  |
-|  | capita) | energy-statistics-and-balances |  |
-| Food | Meat and dairy | UN (2019), Gapminder (v6) and | 2018 |
-|  | production (tonnes/ | HYDE (v3.2); FAR (2020); Eurostat |  |
-|  | capita) | (2018) in OurWorldInData.org/ |  |
-|  |  | meat-production |  |
-| Residential Buildings | Total final energy | IEA World Energy Balances | 2019 |
-|  | consumption in | https://www.iea.org/data-and- |  |
-|  | residential sector (TJ/ | statistics/data-product/world- |  |
-|  | capita) | energy-statistics-and-balances |  |
-| Waste Disposal | Plastic waste generation | Source: Jambeck et al (2015) | 2010 and 2015 |
-|  | (tonnes/capita) | in https://ourworldindata. |  |
-|  |  | org/grapher/plastic-waste- |  |
-|  |  | generation-total; Eurostat |  |
+## Page 9 · via `ocr` · 1 table(s)
 
-## Page 9 · via `text` · 2 table(s)
+Low consumption
 
-Internationalizing Lifestyles for Environment: Messages for G20	
-9
-FIGURE 2: LIFESTYLES AND CONSUMPTION INDEX FOR G20 COUNTRIES AND EU
-Source: Based on FAO (2022), IEA (2022); and Jambeck et al (2015)
-Higher score indicates low consumpon
+High consumption
 
-|  |  | Meat and dairy |  |  | TFC in |  |  | Plastic waste |  |  |
+<figcaption>FIGURE 2: LIFESTYLES AND CONSUMPTION INDEX FOR G20 COUNTRIES AND EU</figcaption>
+
+100
+
+100
+
+95
+
+Higher score indicates low consumption
+
+90
+
+84
+
+81
+
+80
+
+77
+
+76
+
+75
+
+72
+
+70
+
+69
+
+68
+
+68
+
+66
+
+63
+
+62
+
+60
+
+58
+
+52
+
+50
+
+44
+
+40
+
+38
+
+31
+
+30
+
+20
+
+19
+
+10
+
+0
+
+India
+
+Indonesia
+
+Mexico
+
+China
+
+Turkey
+
+Japan
+
+South Africa
+
+South Korea
+
+Brazil
+
+European Union
+
+Italy
+
+Saudi Arabia
+
+Argentina
+
+United Kingdom
+
+France
+
+Russia
+
+Australia
+
+Germany
+
+Canada
+
+United States
+
+| Country | Meat and dairy production (tonnes/ capita) | Meat and dairy production (tonnes/ capita) | TFC in transport sector (TJ/ capita) | TFC in transport sector (TJ/ capita) | TFC in residential sector (TJ/ capita) | TFC in residential sector (TJ/ capita) | Plastic waste generation (tonnes/ capita) | Plastic waste generation (tonnes/ capita) | Sustainable Consumption Index | Sustainable Consumption Index Score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-|  |  |  |  | TFC in transport |  |  |  |  |  |  |
-|  | production |  |  |  | residential |  | generation |  | Sustainable | Sustainable |
-|  |  |  | sector (TJ/ |  |  |  |  |  |  |  |
-| Country | (tonnes/ |  |  |  | sector (TJ/ |  | (tonnes/ |  | Consumption | Consumption |
-|  |  |  | capita) |  |  |  |  |  |  |  |
-|  | capita) |  |  |  | capita) |  | capita) |  | Index | Index Score |
-|  | Value | Index | Value | Index | Value | Index | Value | Index |  |  |
+| Value | Index | Value | Index | Value | Index | Value | Index |  |  |  |
 | India | 0.01 | 1.00 | 0.00 | 1.00 | 0.00 | 1.00 | 0.00 | 1.00 | 1.00 | 100 |
 | Indonesia | 0.01 | 0.96 | 0.01 | 0.93 | 0.00 | 1.00 | 0.02 | 0.90 | 0.95 | 95 |
 | Mexico | 0.06 | 0.72 | 0.02 | 0.83 | 0.01 | 0.98 | 0.03 | 0.83 | 0.84 | 84 |
@@ -290,19 +334,19 @@ Higher score indicates low consumpon
 | South Africa | 0.06 | 0.72 | 0.01 | 0.86 | 0.01 | 0.89 | 0.09 | 0.52 | 0.75 | 75 |
 | South Korea | 0.05 | 0.76 | 0.03 | 0.66 | 0.02 | 0.67 | 0.04 | 0.79 | 0.72 | 72 |
 | Brazil | 0.14 | 0.26 | 0.02 | 0.82 | 0.01 | 0.99 | 0.06 | 0.68 | 0.69 | 69 |
-| European |  |  |  |  |  |  |  |  |  |  |
-| Union | 0.09 | 0.51 | 0.01 | 0.88 | 0.01 | 0.88 | 0.10 | 0.47 | 0.68 | 68 |
+| European Union | 0.09 | 0.51 | 0.01 | 0.88 | 0.01 | 0.88 | 0.10 | 0.47 | 0.68 | 68 |
 | Italy | 0.06 | 0.70 | 0.02 | 0.72 | 0.02 | 0.54 | 0.05 | 0.74 | 0.68 | 68 |
 | Saudi Arabia | 0.02 | 0.91 | 0.06 | 0.33 | 0.02 | 0.70 | 0.06 | 0.70 | 0.66 | 66 |
 | Argentina | 0.13 | 0.29 | 0.02 | 0.83 | 0.01 | 0.78 | 0.07 | 0.64 | 0.63 | 63 |
-| United |  |  |  |  |  |  |  |  |  |  |
-| Kingdom | 0.06 | 0.70 | 0.03 | 0.71 | 0.02 | 0.49 | 0.08 | 0.58 | 0.62 | 62 |
+| United Kingdom | 0.06 | 0.70 | 0.03 | 0.71 | 0.02 | 0.49 | 0.08 | 0.58 | 0.62 | 62 |
 | France | 0.09 | 0.55 | 0.03 | 0.67 | 0.02 | 0.47 | 0.07 | 0.61 | 0.58 | 58 |
 | Russia | 0.07 | 0.63 | 0.03 | 0.68 | 0.04 | 0.00 | 0.04 | 0.79 | 0.52 | 52 |
 | Australia | 0.19 | 0.00 | 0.06 | 0.32 | 0.02 | 0.65 | 0.04 | 0.79 | 0.44 | 44 |
 | Germany | 0.10 | 0.49 | 0.03 | 0.68 | 0.03 | 0.36 | 0.18 | 0.00 | 0.38 | 38 |
 | Canada | 0.13 | 0.30 | 0.08 | 0.06 | 0.04 | 0.05 | 0.03 | 0.83 | 0.31 | 31 |
 | United States | 0.14 | 0.24 | 0.08 | 0.00 | 0.03 | 0.19 | 0.12 | 0.32 | 0.19 | 19 |
+
+Source: Based on FAO (2022), IEA (2022); and Jambeck et al (2015)
 
 ## Page 10 · via `text` · 0 table(s)
 
@@ -356,302 +400,103 @@ people, repairers and sustainability groups – who advocate that reusing, refur
 not just in terms of sustainability, but also in terms of cost savings and creation of employment. India, European Union, Germany, 
 France and United States have taken steps towards the ‘right to repair’.
 
-## Page 12 · via `text` · 2 table(s)
+## Page 12 · via `ocr` · 1 table(s)
 
-12	
-SDG Charter Policy Brief
-Social instruments: Social Instruments aim at awareness generation and capacity building of consumers 
-through providing information about a product or a service, such as product qualities and certifications, to 
-influence consumer behaviour. Social instruments also include self-regulating and bottom-up instruments 
+Social instruments: Social Instruments aim at awareness generation and capacity building of consumers
+through providing information about a product or a service, such as product qualities and certifications, to
+influence consumer behaviour. Social instruments also include self-regulating and bottom-up instruments
 at the individual and community levels, like carpooling.
-Table 2 depicts instruments for nudging lifestyles and sustainable consumption for the four sectors 
-considered in the analysis. The instruments followed by * denotes the ones that are being deployed in G20 
-countries for the G20 sectors. 
+
+Table 2 depicts instruments for nudging lifestyles and sustainable consumption for the four sectors
+considered in the analysis. The instruments followed by * denotes the ones that are being deployed in G20
+countries for the G20 sectors.
+
 TABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION
-Policy Instruments
-Market Instruments
-Social instruments 
-Transport
-	»
-Taxation on fuel and high fuel/emissions 
-vehicles
-	»
-Congestion charges
-	»
-Toll roads
-	»
-Government encouragement to 
-participate in carbon emission trading 
-schemes
-	»
-High parking fees/ maximum parking 
-norms 
-	»
-Land use constraints
-	»
-Investing in public infrastructure*
-	»
-Investment in research 
-	»
-Registration fees
-	»
-Emission and fuel efficiency standards*
-	»
-Provision of eco-
-mobility
-	»
-Company logistics 
-and contracts
-	»
-Withdrawing 
-inappropriate 
-products
-	»
-Consumer reward 
-schemes
-	»
-Advertising of 
-responsible products
-	»
-Campaigns on 
-policy measures
-	»
-Advertisements
-	»
-Public 
-awareness 
-campaigns
-Food
-	»
-Regulation of marketing of unhealthy 
-food and drink
-	»
-Critically test existing food-safety 
-standards* 
-	»
-Set goals for a zero or negative-effect 
-food system
-	»
-Taxation on resource and carbon 
-intensive food items
-	»
-Subsidies on food products with low 
-emissions and environmental impacts
-	»
-Withdrawing 
-inappropriate 
-products
-	»
-Use of contracts and 
-conditions to shape 
-supply chains
-	»
-Consumer reward 
-schemes
-	»
-Focused marketing 
-on only healthy and 
-sustainably produced 
-foods
-	»
-Labelling*
-	»
-Build cultural 
-appeal for 
-healthy diets, 
-organic 
-food, from 
-sustainable food 
-systems
-	»
-Legislative 
-change 
-campaigns
-	»
-Campaigns 
-for alternative 
-products
-Residential 
-Buildings
-	»
-Appliance standards*
-	»
-Building codes*
-	»
-Mandatory audits
-	»
-Utility demand side management*
-	»
-Mandatory labelling and certification*
-	»
-Taxes and tax benefits
-	»
-Subsidies
-	»
-Water harvesting schemes
-	»
-Energy performance 
-contracting
-	»
-Cooperative 
-procurement
-	»
-Energy efficiency 
-certificate schemes*
-	»
-Pricing of water
-	»
-Procurement
-	»
-Voluntary 
-certification 
-and labelling* 
-	»
-Awareness 
-raising, 
-education and 
-information 
-campaigns
-	»
-Billing 
-disclosure 
-programs*
 
-| Social instruments: Social Instruments aim at awareness generation and capacity building of consumers |  |  |
-| --- | --- | --- |
-| through providing information about a product or a service, such as product qualities and certifications, to |  |  |
-| influence consumer behaviour. Social instruments also include self-regulating and bottom-up instruments |  |  |
-| at the individual and community levels, like carpooling. |  |  |
-| Table 2 depicts | instruments for nudging | lifestyles and sustainable consumption for the four sectors |
-| considered in the analysis. The instruments followed by * denotes the ones that are being deployed in G20 |  |  |
-| countries for the G20 sectors. |  |  |
-| TABLE 2: INSTRUMENTS FOR NUDGING LIFESTYLES AND SUSTAINABLE CONSUMPTION |  |  |
+|  | Policy Instruments | Policy Instruments |  | Market Instruments | Social instruments |
+| --- | --- | --- | --- | --- | --- |
+| Transport | » | Taxation on fuel and high fuel/emissions vehicles | › | Provision of eco- mobility | » Campaigns on policy measures |
+|  | » | Congestion charges | » | Company logistics | » Advertisements |
+| » | Toll roads |  | and contracts | Public » |  |
+| » > | Government encouragement to participate in carbon emission trading schemes | » | Withdrawing inappropriate products | awareness campaigns |  |
+|  | » › | High parking fees/ maximum parking norms | » | Consumer reward schemes |  |
+| » | Land use constraints | » | Advertising of |  |  |
+| » | Investing in public infrastructure* |  | responsible products |  |  |
+| » | Investment in research |  |  |  |  |
+| » | Registration fees |  |  |  |  |
+| » | Emission and fuel efficiency standards* |  |  |  |  |
+| Food | » | Regulation of marketing of unhealthy food and drink | » | Withdrawing inappropriate | » Build cultural appeal for |
+|  | » | Critically test existing food-safety |  | products | healthy diets, |
+|  | standards* | » > | Use of contracts and | organic |  |
+| » | Set goals for a zero or negative-effect food system |  | conditions to shape supply chains | food, from sustainable food |  |
+| » > | Taxation on resource and carbon | » | Consumer reward | systems |  |
+|  | intensive food items |  | schemes | » Legislative change |  |
+| » | Subsidies on food products with low emissions and environmental impacts | » | Focused marketing on only healthy and | campaigns » Campaigns |  |
+|  |  | sustainably produced foods | for alternative products |  |  |
+|  |  | » | Labelling* |  |  |
+| Residential | » | Appliance standards* | » | Energy performance | » Voluntary |
+| Buildings | » | Building codes* |  | contracting | certification |
+|  | » | Mandatory audits | » | Cooperative | and labelling* |
+| » | Utility demand side management* |  | procurement | » Awareness |  |
+|  | » | Mandatory labelling and certification* | » | Energy efficiency | raising, |
+|  | certificate schemes* | education and |  |  |  |
+| » | Taxes and tax benefits |  | Pricing of water | information |  |
+|  | » |  |  |  |  |
+| » | Subsidies |  |  | campaigns |  |
+| » | Water harvesting schemes | » | Procurement | » Billing |  |
+|  |  |  |  | disclosure |  |
+|  |  |  |  | programs* |  |
 
-## Page 13 · via `text` · 2 table(s)
+## Page 13 · via `ocr` · 1 table(s)
 
-Internationalizing Lifestyles for Environment: Messages for G20	
-13
-Policy Instruments
-Market Instruments
-Social instruments 
-Waste 
-Disposal
-	»
-Right to repair
-	»
-Product restrictions or bans
-	»
-Standards for recycled materials
-	»
-Bans/restrictions on landfill
-	»
-Tax benefits for recycled materials
-	»
-Landfill and incineration taxes
-	»
-Programmatic interventions*
-	»
-Deposit Refund 
-Schemes
-	»
-Pay-as-you throw 
-pricing for waste 
-collection system
-	»
-Soft loans to 
-construct waste 
-segregation & 
-processing facilities
-	»
-Labelling and 
-certification 
-schemes*
-	»
-Take back/ buy-
-back schemes/ 
-Extended producer 
-responsibility*
-	»
-Capacity 
-building 
-	»
-Social 
-movements and 
-sensitization
-	»
-Awareness 
-raising and 
-campaigns*
+|  | Policy Instruments | Policy Instruments | Market Instruments | Social instruments |
+| --- | --- | --- | --- | --- |
+| Waste | » | Right to repair | » Deposit Refund | » Capacity |
+| Disposal | » | Product restrictions or bans | Schemes | building |
+| » | Standards for recycled materials | » Pay-as-you throw | » Social |  |
+| » | Bans/restrictions on landfill | pricing for waste collection system | movements and sensitization |  |
+| » | Tax benefits for recycled materials | » Soft loans to | » Awareness |  |
+| » | Landfill and incineration taxes | construct waste | raising and |  |
+| » | Programmatic interventions* | segregation & processing facilities | campaigns* |  |
+|  |  | » Labelling and certification schemes* |  |  |
+|  |  | » Take back/ buy- back schemes/ |  |  |
+|  |  | Extended producer responsibility* |  |  |
+
 *Instruments that are being considered in G20 countries
-In the transport sector, most of the G20 countries have used the policy instruments pertaining to fuel efficiency 
-and emissions, along with investment in public infrastructure. Brazil uses registration taxes on vehicles 
-based on their engine size and their manufacturer’s fleet average efficiency, while the United Kingdom has 
-clean air zones where drivers must pay to drive through if their vehicles do not meet the required emission 
-standards. One way to promote better consumer choices and lifestyles that lead to a more sustainable use 
-of transport is through the availability of car parking. The availability of car parking space influences greatly 
-what transport people take, even in places that have good public transport (Al-Fouzan, 2012). A maximum 
-parking requirement provides a ceiling which ensures that even if developers wanted more, they would not 
-be able to build more parking space. Using maximum parking requirements, rather than minimum parking 
-requirements, will reduce the amount of private car usage and encourage consumers to use alternative 
-and more sustainable modes of transport. Another way to promote better consumer choices and lifestyles 
-is through the social instrument of raising awareness about the health benefits that using active transports 
-(like walking and cycling) brings (Egset & Nordfjœrn, 2019). There is scope to deploy more instruments, 
-especially when it comes to market instruments and social instruments, in the transport sector.
-In the food sector, for G20, most policies have focused on food safety and to some extent on labelling. 
-This is also because for many developing countries, ensuring food availability has been a focus along with 
-minimizing waste in the storage and food distribution segments. Thus, for most countries the focus has 
-been on production segments of agriculture value chains and on food safety. Market instruments can play 
-an important role in pricing, communication, production and distribution of environmentally sustainable 
-and healthy food products. Communicating aspects like – the production form, origin, materials used, 
-transport, impact on the environment, packaging used and possible waste that will be generated – may help 
-consumers in making informed choices on food and promote sustainable food consumption. Corporate 
-financiers, traders, processors, brands and retailers that make up the global supply chains must support 
-the transition to sustainable food production through their procurement practices; by investing in greater 
-transparency and traceability along food supply chains and by creating supplier assistance programs to 
-share information and incentivise sustainable practices.
-For G20 countries, the dominant focus of instruments has been in the categories of standards and labelling 
-for energy-efficient buildings and automatic-networked residential appliances. Thus, for these countries, this 
-implies a higher emphasis on the application and effective implementation of technologies, equipment, and 
-appliances at sub-national, national, and international levels. The G20 Energy Efficiency Leading Programme 
-(EELP) in collaboration with the International Energy Partnership for Energy Efficiency Collaboration (IPEEC)
 
-|  | » | Take back/ buy- |
-| --- | --- | --- |
-|  |  | back schemes/ |
-|  |  | Extended producer |
-|  |  | responsibility* |
-| *Instruments that are being considered in G20 countries |  |  |
-|  | In the transport sector, most of the G20 countries have used the policy instruments pertaining to fuel efficiency |  |
-|  | and emissions, along with investment in public infrastructure. Brazil uses registration taxes on vehicles |  |
-|  | based on their engine size and their manufacturer’s fleet average efficiency, while the United Kingdom has |  |
-|  | clean air zones where drivers must pay to drive through if their vehicles do not meet the required emission |  |
-|  | standards. One way to promote better consumer choices and lifestyles that lead to a more sustainable use |  |
-|  | of transport is through the availability of car parking. The availability of car parking space influences greatly |  |
-|  | what transport people take, even in places that have good public transport (Al-Fouzan, 2012). A maximum |  |
-|  | parking requirement provides a ceiling which ensures that even if developers wanted more, they would not |  |
-|  | be able to build more parking space. Using maximum parking requirements, rather than minimum parking |  |
-|  | requirements, will reduce the amount of private car usage and encourage consumers to use alternative |  |
-|  | and more sustainable modes of transport. Another way to promote better consumer choices and lifestyles |  |
-|  | is through the social instrument of raising awareness about the health benefits that using active transports |  |
-|  | (like walking and cycling) brings (Egset & Nordfjœrn, 2019). There is scope to deploy more instruments, |  |
-|  | especially when it comes to market instruments and social instruments, in the transport sector. |  |
-|  | In the food sector, for G20, most policies have focused on food safety and to some extent on labelling. |  |
-|  | This is also because for many developing countries, ensuring food availability has been a focus along with |  |
-|  | minimizing waste in the storage and food distribution segments. Thus, for most countries the focus has |  |
-|  | been on production segments of agriculture value chains and on food safety. Market instruments can play |  |
-|  | an important role in pricing, communication, production and distribution of environmentally sustainable |  |
-|  | and healthy food products. Communicating aspects like – the production form, origin, materials used, |  |
-|  | transport, impact on the environment, packaging used and possible waste that will be generated – may help |  |
-|  | consumers in making informed choices on food and promote sustainable food consumption. Corporate |  |
-|  | financiers, traders, processors, brands and retailers that make up the global supply chains must support |  |
-| the transition to sustainable food production through their procurement practices; by investing in greater |  |  |
-| transparency and traceability along food supply chains and by creating supplier assistance programs to |  |  |
-| share information and incentivise sustainable practices. |  |  |
-| For G20 countries, the dominant focus of instruments has been in the categories of standards and labelling |  |  |
-| for energy-efficient buildings and automatic-networked residential appliances. Thus, for these countries, this |  |  |
-| implies a higher emphasis on the application and effective implementation of technologies, equipment, and |  |  |
-| appliances at sub-national, national, and international levels. The G20 Energy Efficiency Leading Programme |  |  |
-| (EELP) in collaboration with the International Energy Partnership for Energy Efficiency Collaboration (IPEEC) |  |  |
+In the transport sector, most of the G20 countries have used the policy instruments pertaining to fuel efficiency
+and emissions, along with investment in public infrastructure. Brazil uses registration taxes on vehicles
+based on their engine size and their manufacturer's fleet average efficiency, while the United Kingdom has
+clean air zones where drivers must pay to drive through if their vehicles do not meet the required emission
+standards. One way to promote better consumer choices and lifestyles that lead to a more sustainable use
+of transport is through the availability of car parking. The availability of car parking space influences greatly
+what transport people take, even in places that have good public transport (Al-Fouzan, 2012). A maximum
+parking requirement provides a ceiling which ensures that even if developers wanted more, they would not
+be able to build more parking space. Using maximum parking requirements, rather than minimum parking
+requirements, will reduce the amount of private car usage and encourage consumers to use alternative
+and more sustainable modes of transport. Another way to promote better consumer choices and lifestyles
+is through the social instrument of raising awareness about the health benefits that using active transports
+(like walking and cycling) brings (Egset & Nordfjorn, 2019). There is scope to deploy more instruments,
+especially when it comes to market instruments and social instruments, in the transport sector.
+
+In the food sector, for G20, most policies have focused on food safety and to some extent on labelling.
+This is also because for many developing countries, ensuring food availability has been a focus along with
+minimizing waste in the storage and food distribution segments. Thus, for most countries the focus has
+been on production segments of agriculture value chains and on food safety. Market instruments can play
+an important role in pricing, communication, production and distribution of environmentally sustainable
+and healthy food products. Communicating aspects like - the production form, origin, materials used,
+transport, impact on the environment, packaging used and possible waste that will be generated - may help
+consumers in making informed choices on food and promote sustainable food consumption. Corporate
+financiers, traders, processors, brands and retailers that make up the global supply chains must support
+the transition to sustainable food production through their procurement practices; by investing in greater
+transparency and traceability along food supply chains and by creating supplier assistance programs to
+share information and incentivise sustainable practices.
+
+For G20 countries, the dominant focus of instruments has been in the categories of standards and labelling
+for energy-efficient buildings and automatic-networked residential appliances. Thus, for these countries, this
+implies a higher emphasis on the application and effective implementation of technologies, equipment, and
+appliances at sub-national, national, and international levels. The G20 Energy Efficiency Leading Programme
+(EELP) in collaboration with the International Energy Partnership for Energy Efficiency Collaboration (IPEEC)
 
 ## Page 14 · via `text` · 0 table(s)
 
@@ -676,73 +521,34 @@ repair’. The ‘right to repair’ refers to a government legislation that is 
 to repair and modify their own consumer electronic devices, where otherwise/previously the manufacturers 
 of such devices require the consumer to use only their offered services.
 
-## Page 15 · via `text` · 2 table(s)
+## Page 15 · via `ocr` · 1 table(s)
 
-Internationalizing Lifestyles for Environment: Messages for G20	
-15
-WAY FORWARD: INTERNATIONALIZING LIFESTYLES 
-AND DEPLOYING INSTRUMENTS
-The messages from our stakeholder dialogue point to the need for nudging consumer behaviour by a variety 
-of stakeholders. The recommendations from the study as well as the stakeholder consultations (TERI, 2022) 
+# WAY FORWARD: INTERNATIONALIZING LIFESTYLES AND DEPLOYING INSTRUMENTS
+
+The messages from our stakeholder dialogue point to the need for nudging consumer behaviour by a variety
+of stakeholders. The recommendations from the study as well as the stakeholder consultations (TERI, 2022)
 are summarized below.
-	»
-Internationalizing lifestyles and promoting normative shifts through G20: A critical mass is needed 
-for norms and institutions to change. There is need for a global campaign that can be supported by 
-all relevant actors, at country and global levels, that will help promote understanding on sustainable 
-lifestyles. Through G20, India can take a leadership role in internationalizing lifestyle for environment. 
-India can work towards the launch a ‘G20 Coalition on Lifestyle for the Environment’ and a ‘G20 
-Roadmap/Coalition on Responsible Advertisement’. The issue can be further internationalized through 
-the United Nations General Assembly; for example through a mandating report by UN Secretary 
-General. Lifestyles could also be considered as a theme for the High-level Political Forum - Sustainable 
-Development Goals. Table 3 presents key hooks for internationalizing lifestyle for environment.
-TABLE 3: HOOKS FOR INTERNATIONALIZING LIFESTYLE FOR ENVIRONMENT OR LIFE
-G20 Forum
-Global Indicator 
-Framework for SDGs
-UNFCCC
-UNGA
-	»
-LiFE as a major cross-
-cutting theme
-	»
-G20 Coalition on LiFE
-	»
-G20 Roadmap/ 
-Coalition on Responsible 
-Advertisement
-	»
-Include downstream 
-indicators for 
-SDG 12, including 
-eco-labels and 
-instruments such as 
-spending on public 
-awareness
-	»
-Include mandate 
-on sustainable 
-lifestyles
-	»
-Secretary General 
-Report on lifestyles, 
-along with UN 
-agencies such as 
-10YFP/ One Planet 
-Network and UNEP
 
-| The messages from our stakeholder dialogue point to the need for nudging consumer behaviour by a variety |  |
-| --- | --- |
-| of stakeholders. The recommendations from the study as well as the stakeholder consultations (TERI, 2022) |  |
-| are summarized below. |  |
-| » | Internationalizing lifestyles and promoting normative shifts through G20: A critical mass is needed |
-|  | for norms and institutions to change. There is need for a global campaign that can be supported by |
-|  | all relevant actors, at country and global levels, that will help promote understanding on sustainable |
-|  | lifestyles. Through G20, India can take a leadership role in internationalizing lifestyle for environment. |
-|  | India can work towards the launch a ‘G20 Coalition on Lifestyle for the Environment’ and a ‘G20 |
-|  | Roadmap/Coalition on Responsible Advertisement’. The issue can be further internationalized through |
-|  | the United Nations General Assembly; for example through a mandating report by UN Secretary |
-|  | General. Lifestyles could also be considered as a theme for the High-level Political Forum - Sustainable |
-|  | Development Goals. Table 3 presents key hooks for internationalizing lifestyle for environment. |
+» Internationalizing lifestyles and promoting normative shifts through G20: A critical mass is needed
+for norms and institutions to change. There is need for a global campaign that can be supported by
+all relevant actors, at country and global levels, that will help promote understanding on sustainable
+lifestyles. Through G20, India can take a leadership role in internationalizing lifestyle for environment.
+India can work towards the launch a 'G20 Coalition on Lifestyle for the Environment' and a 'G20
+Roadmap/Coalition on Responsible Advertisement'. The issue can be further internationalized through
+the United Nations General Assembly; for example through a mandating report by UN Secretary
+General. Lifestyles could also be considered as a theme for the High-level Political Forum - Sustainable
+Development Goals. Table 3 presents key hooks for internationalizing lifestyle for environment.
+
+| G20 Forum | Global Indicator Framework for SDGs | UNFCCC | UNGA |
+| --- | --- | --- | --- |
+| » LIFE as a major cross- | » Include downstream | » Include mandate on sustainable lifestyles | » Secretary General |
+| cutting theme | indicators for SDG 12, including | Report on lifestyles, |  |
+| » G20 Coalition on LIFE | along with UN |  |  |
+| » G20 Roadmap/ Coalition on Responsible Advertisement | eco-labels and instruments such as spending on public awareness |  | agencies such as |
+| 10YFP/ One Planet |  |  |  |
+| Network and UNEP |  |  |  |
+
+G20
 
 ## Page 16 · via `text` · 0 table(s)
 

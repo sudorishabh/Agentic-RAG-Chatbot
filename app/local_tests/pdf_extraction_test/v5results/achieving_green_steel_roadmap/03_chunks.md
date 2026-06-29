@@ -1,7 +1,7 @@
 # Chunking (chunk_pdf) — Achieving_Green_Steel_Roadmap.pdf
 
-- parents: **15**
-- children: **67**
+- parents: **14**
+- children: **61**
 
 ---
 
@@ -82,41 +82,9 @@ Steel Sector - an in-depth study outlining various options for reducing e
 
 … [+5279 more chars]
 
-### Parent · section='Steel Scrap Recycling' · pages=(13, 17) · 1152 tok
+### Parent · section='ENERGY TRANSITIONS — COMMISSION TARDE' · pages=(15, 17) · 1027 tok
 
-Steel Scrap Recycling
-
-Policy, 2019
-Towards a Low Carbon
-Steel Sector (TERI Consultation
-Document), 2020
-R&D and
-Demonstration plants
-Public procurement
-targets
-Green product
-standards
-Increase scrap
-utilisation
-Maximise energy
-efficiency
-Net zero iron and
-steel sector
-National Steel
-Policy, 2017
-Green steel vision 
-Commercial-scale
-facilities
-Rapid scale-up of
-new low-carbon
-technologies
-Retirement of high
-emission capacity
-THE ENERGY AND
-RESOURCES INSTITUTE
-Creating Innovative Solutions for a Sustainable Future
-Comprehensive
-policy framework
+ENERGY TRANSITIONS — COMMISSION TARDE
 
 The global steel sector is shifting rapidly. More than 30% of steel companies (by 
 production) have net zero targets - up from zero less than 3 years ago - and more 
@@ -128,9 +96,19 @@ commitments to joint standardization and climate clubs.
 •	
 The financial sector is shifting funds away from fossil investments, with a 
 significant additional push from COP26 under the Glasgow Financial Alliance 
-for Net Zero (GFANZ), as well as m
+for Net Zero (GFANZ), as well as more steel-focused efforts from the Centre for 
+Climate-Aligned Finance (RMI).
+•	
+Steel buyers in the construction, automotive and metal products sectors, 
+both public and private, are signaling a commitment to buy green steel. This 
+includes the First Movers Coalition (FMC), Steel Zero and CEM Industrial Deep 
+Decarbonisation initiatives.
+•	
+The Indian steel sector is at a crossroad. To continue to compete globally, increase 
+exports to a range of markets, champion domestic technology development, and 
+dras
 
-… [+4386 more chars]
+… [+3874 more chars]
 
 ### Parent · section='1 BACKGROUND — 1.1\t Indian steel industry' · pages=(19, 21) · 1057 tok
 
@@ -151,7 +129,7 @@ supplies as well as domestic coking coal of sufficient quality. The use of induc
 
 … [+3417 more chars]
 
-### Parent · section='1.3.2\t Digitalisation' · pages=(24, 25) · 644 tok
+### Parent · section='1.3.2\t Digitalisation' · pages=(24, 25) · 641 tok
 
 1.3.2	 Digitalisation
 
@@ -168,116 +146,88 @@ would be capable of autonomous information exchange, triggering actions and cont
 independently. This can result in significant cost-savings through reduction in labour costs, improvement 
 in effici
 
-… [+2095 more chars]
+… [+2084 more chars]
 
-### Parent · section='1.3.3\t Decarbonisation' · pages=(25, 26) · 938 tok
+### Parent · section='1.3.3 Decarbonisation' · pages=(25, 26) · 489 tok
 
-1.3.3	 Decarbonisation
+1.3.3 Decarbonisation
 
-The third macro-trend, and arguably 
-the trend driving the most significant 
-disruption in the iron and steel 
-sector, is the growing imperative for 
-decarbonisation. The iron and steel 
-sector is currently both highly energy 
-and emissions-intensive, accounting 
-for 8% of global final energy use and 
-7% of global direct energy-related 
-CO2 emissions (including industrial 
-process emissions) (IEA, 2020). As 
-progress to decarbonize the power 
-and transport sectors accelerates, 
-we are starting to see greater focus 
-on the heavy industry sectors, 
-such as iron & steel, cement and 
+The third macro-trend, and arguably
+the trend driving the most significant
+disruption in the iron and steel
+sector, is the growing imperative for
+decarbonisation. The iron and steel
+sector is currently both highly energy
+and emissions-intensive, accounting
+for 8% of global final energy use and
+7% of global direct energy-related
+CO2 emissions (including industrial
+process emissions) (IEA, 2020). As
+progress to decarbonize the power
+and transport sectors accelerates,
+we are starting to see greater focus
+on the heavy industry sectors,
+such as iron & steel, cement and
 chemicals.
-In India, total emissions from the 
-iron and steel sector are around 
-250 MtCO2 (about 10% of total 
-emissions) and will increase more than threefold to approximately 800 MtCO2 by 2050, if no concerted 
-action to decarbonize is taken (Hall, Spencer & Kumar, 2020). Even with ambitious energy and material 
-efficiency measures to reduce energy consumption and mitigate demand growth, the level of emissions 
-in the Indian iron & steel sector will be incompatible with the ambition of limiting global warming to well 
-below 2°C.
+
 Figure 7: Green steel projects pipeline
-Source: (Vo
 
-… [+2033 more chars]
+In India, total emissions from the
+iron and steel sector are around
+Source: (Vogl, et al., 2021) as of June 2022
+250 MtCO2 (about 10% of total
+emissions) and will increase more than threefold to approximately 800 MtCO2 by 2050, if no concerted
+action to decarbonize is taken (Hall, Spencer & Kumar, 2020). Even with ambitious energy and material
+efficiency measures to reduce energy consumption and mitigate demand growth, the level of emissions
+in the Indian iron & steel sector will be incompatible with the ambition of limiting global warming to well
 
-### Parent · section='3.1\t Competitiveness' · pages=(32, 33) · 828 tok
+… [+1017 more chars]
 
-3.1	 Competitiveness
+### Parent · section='3.1 Competitiveness' · pages=(32, 33) · 754 tok
 
-Whilst there have been significant improvements in the operational efficiencies of steel production in 
-India in recent years, on average, Indian steel producers are still facing costs around 5-10% higher as 
-compared to the global average. In the context of a global glut in steel supply, this places Indian steel 
-producers in a difficult position, reducing profits for reinvestment and limiting export markets. The cost 
-premium is driven by a number of factors (see Table 1), with the main contributors being costs of finance 
-(approximately 12% versus 3-5% across the European Union) and the costs of logistics and infrastructure. 
-For the latter, steel producers pay relatively high costs of raw material transport on Indian Railways, which 
-subsidises passenger transport (Kamboj & Tongia, 2018) and requires significant investment to modernise 
-(PwC, 2019).
-This, along with other factors, places India at a comparative disadvantage relative to other major producers, 
-such as China, Japan and South Korea, in some areas of higher technical sophistication, including stainless 
-steel and alloy steel production. In addition, India’s Free Trade Agreements (FTAs) with Sou
+3.1 Competitiveness
 
-… [+2289 more chars]
+Whilst there have been significant improvements in the operational efficiencies of steel production in
+India in recent years, on average, Indian steel producers are still facing costs around 5-10% higher as
+compared to the global average. In the context of a global glut in steel supply, this places Indian steel
+producers in a difficult position, reducing profits for reinvestment and limiting export markets. The cost
+premium is driven by a number of factors (see Table 1), with the main contributors being costs of finance
+(approximately 12% versus 3-5% across the European Union) and the costs of logistics and infrastructure.
+For the latter, steel producers pay relatively high costs of raw material transport on Indian Railways, which
+subsidises passenger transport (Kamboj & Tongia, 2018) and requires significant investment to modernise
+(PWC, 2019).
 
-### Parent · section='Technology TRL' · pages=(35, 36) · 1791 tok
+This, along with other factors, places India at a comparative disadvantage relative to other major producers,
+such as China, Japan and South Korea, in some areas of higher technical sophistication, including stainless
+steel and alloy steel production. In addition, India's Free Trade Agreements (FTAs) with South Korea a
 
-Technology TRL
+… [+2009 more chars]
 
-Emissions reduction potential
-Suitability for deep decarbonisation in 
-India
-Carbon Capture, Utilisation, and Storage 
-BF-BOF 
-with CCUS
-5
-Possibility 
-to 
-reduce 
-CO2 
-by 
-approximately 60%. Although higher 
-capture rates are possible, costs 
-increase substantially due to multiple 
-CO2 sources (IEA, 2017).
-Limited cost-effective CO2 capture will 
-restrict the use of this technology for deep 
-decarbonisation, although could play an 
-important role in retrofitting existing plants.
-Coal based 
-DRI with 
-CCUS
-4
-There have been no comprehensive 
-studies on applying CCUS technology 
-to coal-based rotary kilns for sponge 
-iron production but similarity to 
-natural gas DRI suggests around 90% 
-reduction may be possible.
-Coal-based DRI units tend to have smaller 
-capacities potentially making the fixed and 
-operating costs of CCUS excessively large. 
-Given the early stage of development of 
-the necessary technology, seems to be 
-unsuitable.
-Natural gas 
-DRI with 
-CCUS
-9
-Currently 
-operating 
-plants 
-have 
-shown that around 90% reduction is 
-possible. 
-Limited availability of natural gas at 
-competitive prices has already restricted 
-the growth of natural gas-based capacity 
+### Parent · section='3.3 Technology availability' · pages=(34, 36) · 1006 tok
 
-… [+5674 more chars]
+3.3 Technology availability
+
+To achieve deep decarbonisation of the iron and steel sector, new technologies will be required -
+in particular for the replacement of conventional primary production processes with low emissions
+alternatives. There are several emerging low emissions technologies to produce steel from iron ore. They
+broadly fall into three categories:
+
+· Carbon capture, utilisation, and storage (CCUS)
+
+· The use of low carbon hydrogen to replace fossil fuels
+
+· Direct electrification through electrolysis of iron ore
+
+Each of these technologies differ in their suitability to the Indian context, based on their commercial
+availability, ability to reduce emissions, and interface with India's existing infrastructure and resource
+profile. An overview is provided in Table 2.
+
+| Technology | TRL | Emissions reduction potential | Suitability for deep decarbonisation in India |
+| --- | --- | --- | --- |
+| Carbon Capture, Utilisation, and Storage | Carbon Capture, Utilisation, and Storage | Carbon Capture, Utilisation, and Storage |  |
+| BF-BOF with CCUS | 5 | Possibility to reduce CO2 by approximately 60%. Although higher capture rates are possible, costs increase substantially d
+
+… [+3277 more chars]
 
 ### Parent · section='4 TRANSITION PATHWAY — Transition Pathway — 4.1 Structure of Indian steel assets' · pages=(38, 40) · 717 tok
 
@@ -297,7 +247,7 @@ technology for blast furnaces can be expensive (especially at higher capture rat
 
 … [+2181 more chars]
 
-### Parent · section='4.2 Technology option assessment' · pages=(40, 43) · 1618 tok
+### Parent · section='4.2 Technology option assessment' · pages=(40, 42) · 1311 tok
 
 4.2 Technology option assessment
 
@@ -315,7 +265,7 @@ analysis is the coal-based direct reduction using a rotary kiln. Lower capital a
 as having access to cheaper, domestically available fuel mean that this route is one of the cheaper ways 
 to produce steel in India today. However, many of these plants are highl
 
-… [+5528 more chars]
+… [+4367 more chars]
 
 ### Parent · section='4.3 Pathways to net zero' · pages=(43, 48) · 1423 tok
 
@@ -336,52 +286,6 @@ Figure 18: Net Zero by 2070 scenario
 From 2040 onwards, we also see some early MOE plants being deployed. They are at an earlier stag
 
 … [+5044 more chars]
-
-### Parent · section='5.8 Support for commercial-scale plants' · pages=(52, 53) · 954 tok
-
-5.8 Support for commercial-scale plants
-
-As a series of demonstration projects in the 2020s help clarify the preferred technology options for low 
-emission steel production in India, by the 2030s, public and private sector should have proven joint 
-financing models to facilitate the construction of commercial-scale green steel plants. This will require 
-considerable support, assuming some cost difference between green steel and ‘dirty’ steel persists. Whilst 
-the difference in production costs will be mitigated somewhat if green product standards, procurement 
-initiatives, and an emissions penalty are introduced, it may still be necessary to support the first few 
-commercial-scale plants.
-Figure 25: Pathways for low carbon primary steelmaking
-Source: TERI Analysis
-2030
-2020
-2040
-2060
-2050
-Net zero
-CCUS
-route
-Hydrogen
-route
-Smelting reduction
-facility e.g. Hlsarna
-Natural gas / Syngas
-direct reduction
-2070
-Increase capture rate to >90%, making
-use of excess carbon where possible
-Shift to >90% hydrogen use, produced
-entirely from low carbon sources
-Begin blending of low
-carbon hydrogen
-CH4
-H2
-H2
-CO2
-CO2
-Carbon capture, use/
-storage technology
-
-|  | Figure 25: Pathways for low carbon 
-
-… [+3132 more chars]
 
 ### Parent · section='Conclusions' · pages=(56, 58) · 1938 tok
 
@@ -564,7 +468,7 @@ Figure 2: Histo
 
 … [+3381 more chars]
 
-### Child 8 · section='AI – Artificial Intelligence' · page=12 · 256 tok
+### Child 8 · section='AI – Artificial Intelligence' · page=12 · 427 tok
 
 BEE – Bureau of Energy Efficiency 
 BF-BOF – Blast Furnace – Basic Oxygen Furnace 
@@ -591,58 +495,11 @@ Mt – Millions of tonnes
 Mtoe – Million Tonnes of Oil Equivalent 
 Mtpa – Millions of 
 
-… [+226 more chars]
+… [+911 more chars]
 
-### Child 9 · section='Steel Scrap Recycling' · page=13 · 130 tok
+### Child 9 · section='ENERGY TRANSITIONS — COMMISSION TARDE' · page=15 · 431 tok
 
-Policy, 2019
-Towards a Low Carbon
-Steel Sector (TERI Consultation
-Document), 2020
-R&D and
-Demonstration plants
-Public procurement
-targets
-Green product
-standards
-Increase scrap
-utilisation
-Maximise energy
-efficiency
-Net zero iron and
-steel sector
-National Steel
-Policy, 2017
-Green steel vision 
-Commercial-scale
-facilities
-Rapid scale-up of
-new low-carbon
-technologies
-Retirement of high
-emission capacity
-THE ENERGY AND
-RESOURCES INSTITUTE
-Creating Innovative Solutions for a Sustainable Future
-Comprehensive
-policy framework
-
-### Child 10 · section='Steel Scrap Recycling' · page=15 · 491 tok
-
-, 2017
-Green steel vision 
-Commercial-scale
-facilities
-Rapid scale-up of
-new low-carbon
-technologies
-Retirement of high
-emission capacity
-THE ENERGY AND
-RESOURCES INSTITUTE
-Creating Innovative Solutions for a Sustainable Future
-Comprehensive
-policy framework The global steel sector is shifting rapidly. More than 30% of steel companies (by 
+The global steel sector is shifting rapidly. More than 30% of steel companies (by 
 production) have net zero targets - up from zero less than 3 years ago - and more 
 than 90% of countries (by GDP) have national level net zero targets. 
 •	
@@ -651,11 +508,15 @@ steel sectors during transition, including carbon border adjustment proposals,
 commitments to joint standardization and climate clubs. 
 •	
 The financial sector is shifting funds away from fossil investments, with a 
-sig
+significant additional push from COP26 under the Glasgow Financial Alliance 
+for Net Zero (GFANZ), as well as more steel-focused efforts from the Centre for 
+Climate-Aligned Finance (RMI).
+•	
+Steel buyers in the construction, automotive and metal products sector
 
-… [+1564 more chars]
+… [+1305 more chars]
 
-### Child 11 · section='Steel Scrap Recycling' · page=17 · 462 tok
+### Child 10 · section='ENERGY TRANSITIONS — COMMISSION TARDE' · page=17 · 462 tok
 
 The result will be a globally competitive steel 
 sector, supporting India’s ambitions of a self-reliant, net zero major economy.
@@ -669,7 +530,7 @@ for a net zero world, then an ambitious strategy for emissions reduction is r
 
 … [+1573 more chars]
 
-### Child 12 · section='Steel Scrap Recycling' · page=17 · 176 tok
+### Child 11 · section='ENERGY TRANSITIONS — COMMISSION TARDE' · page=17 · 176 tok
 
 This roadmap is a follow-up to the consultation document published by TERI in 2020, “Towards a Low Carbon Steel Sector: An overview of the changing market, technology and policy context for Indian steel”. 
 The updated consultation document is available at our website as Tech Annex . The roadmap builds on this 
@@ -680,7 +541,7 @@ INTRODUCTION
 1	 The Potential Role of Hydrogen in India (Hall et. al, 2020); Green steel through hydrogen direct reduction (Hall et. al, 2021); Making the Hydrogen 
 Economy Possible (ETC, 2021); Net-Zero Steel: Sector Transition Strategy (MPP, 2021)
 
-### Child 13 · section='1 BACKGROUND — 1.1\t Indian steel industry' · page=19 · 382 tok
+### Child 12 · section='1 BACKGROUND — 1.1\t Indian steel industry' · page=19 · 382 tok
 
 India is currently the world’s second-largest steel producer, and second-largest steel consumer (WSA, 
 2020a). The steel industry in India is relatively heterogeneous compared to other countries, with a wide 
@@ -694,7 +555,7 @@ Use of coal-based direct reduction processes is
 
 … [+970 more chars]
 
-### Child 14 · section='1 BACKGROUND — 1.1\t Indian steel industry' · page=20 · 491 tok
+### Child 13 · section='1 BACKGROUND — 1.1\t Indian steel industry' · page=20 · 491 tok
 
 Figure 1: Route-wise crude steel production share, 2020-21
 Source: (MoS, 2021a) 
@@ -715,7 +576,7 @@ import/export pattern from before the pandemic. Imports reduced by 39.4% and exp
 
 … [+1142 more chars]
 
-### Child 15 · section='1 BACKGROUND — 1.1\t Indian steel industry' · page=20 · 241 tok
+### Child 14 · section='1 BACKGROUND — 1.1\t Indian steel industry' · page=20 · 241 tok
 
 In 2017, the Ministry of Steel (MoS) launched the National Steel Policy (NSP), which included an aim to increase India’s steelmaking capacity to 300 Mt by 2030. This policy also encompasses targets to reduce 
 energy consumption per tonne of steel, through adopting the latest energy efficiency measures. To support 
@@ -728,7 +589,7 @@ saving of just over 5.68 Mtoe has been achieved by 81 identified facilities with
 
 … [+278 more chars]
 
-### Child 16 · section='1.2 Global steel industry' · page=21 · 448 tok
+### Child 15 · section='1.2 Global steel industry' · page=21 · 448 tok
 
 The global steel industry has continued to grow rapidly over the past few decades, with a significant 
 portion of that growth coming from China, which still produces over half of the world’s steel (WSA, 2020a). 
@@ -741,7 +602,7 @@ than nine times the production of India, as the second largest producer. Japan, 
 
 … [+1134 more chars]
 
-### Child 17 · section='1.3\t Macro-trends' · page=22 · 120 tok
+### Child 16 · section='1.3\t Macro-trends' · page=22 · 120 tok
 
 In the coming decades, the iron and steel sector in India will be affected by a number of ‘macro-trends’, 
 which have the potential to radically change the way steel is produced and consumed. Primarily, these 
@@ -750,7 +611,7 @@ steel across a number of key sectors, digitalisation will deliver step-changes i
 efficiency and labour intensity of production, and decarbonisation will require new approaches to material 
 efficiency and circularity and the adoption of deep decarbonisation production processes.
 
-### Child 18 · section='1.3.1\t Development' · page=22 · 586 tok
+### Child 17 · section='1.3.1\t Development' · page=22 · 586 tok
 
 Steel is a material of vital importance to countries as they develop, a key input across construction, 
 infrastructure, and manufacturing sectors. As countries reach a certain level of economic development, 
@@ -765,7 +626,7 @@ O
 
 … [+1848 more chars]
 
-### Child 19 · section='1.3.2\t Digitalisation' · page=24 · 394 tok
+### Child 18 · section='1.3.2\t Digitalisation' · page=24 · 394 tok
 
 As with other sectors in the economy, the iron and steel sector is set to realise significant benefits from 
 the digitalisation of production processes and supply chains. This is likely to have a step-change impact in 
@@ -778,109 +639,65 @@ reality, virtual reality, blockchain, artificial intellig
 
 … [+1156 more chars]
 
-### Child 20 · section='1.3.2\t Digitalisation' · page=25 · 264 tok
+### Child 19 · section='1.3.2\t Digitalisation' · page=25 · 261 tok
 
 Their Kalinganagar plant has 
-developed an expert team of analytics specialists, including data scientists and translators. The net impact of digitalisation on the Indian iron and steel sector is uncertain. It represents a significant 
-opportunity for Indian steelmakers as build new capacity in the coming decades, able to take advantage of 
-the latest technologies, unavailable to other countries when they were expanding their steel production. 
-India has shown a proficiency for rapid adoption of new technologies in other sectors, with a relatively 
-young and technically literate workforce better suited to taking advantage of the latest technologies. 
-The increasing pace of digitalisation also represents a challenge for the sector, as improved digital systems 
-can reduce the need for labour
+developed an expert team of analytics specialists, including data scientists and translators. The net impact of digitalisation on the Indian iron and steel sector is uncertain. It represents a significant
+opportunity for Indian steelmakers as build new capacity in the coming decades, able to take advantage of
+the latest technologies, unavailable to other countries when they were expanding their steel production.
+India has shown a proficiency for rapid adoption of new technologies in other sectors, with a relatively
+young and technically literate workforce better suited to taking advantage of the latest technologies.
 
-… [+638 more chars]
+The increasing pace of digitalisation also represents a challenge for the sector, as improved digital systems
+can reduce the need for labour in t
 
-### Child 21 · section='1.3.3\t Decarbonisation' · page=25 · 450 tok
+… [+627 more chars]
 
-The third macro-trend, and arguably 
-the trend driving the most significant 
-disruption in the iron and steel 
-sector, is the growing imperative for 
-decarbonisation. The iron and steel 
-sector is currently both highly energy 
-and emissions-intensive, accounting 
-for 8% of global final energy use and 
-7% of global direct energy-related 
-CO2 emissions (including industrial 
-process emissions) (IEA, 2020). As 
-progress to decarbonize the power 
-and transport sectors accelerates, 
-we are starting to see greater focus 
-on the heavy industry sectors, 
-such as iron & steel, cement and 
+### Child 20 · section='1.3.3 Decarbonisation' · page=25 · 283 tok
+
+The third macro-trend, and arguably
+the trend driving the most significant
+disruption in the iron and steel
+sector, is the growing imperative for
+decarbonisation. The iron and steel
+sector is currently both highly energy
+and emissions-intensive, accounting
+for 8% of global final energy use and
+7% of global direct energy-related
+CO2 emissions (including industrial
+process emissions) (IEA, 2020). As
+progress to decarbonize the power
+and transport sectors accelerates,
+we are starting to see greater focus
+on the heavy industry sectors,
+such as iron & steel, cement and
 chemicals.
-In India, total emissions from the 
-iron and steel sector are around 
-250 MtCO2 (about 10% of total 
-emissions) and will increase more than threefold to approximately 800 MtCO2 by 2050, if no concerted 
 
-… [+771 more chars]
+Figure 7: Green steel projects pipeline
 
-### Child 22 · section='1.3.3\t Decarbonisation' · page=25 · 340 tok
+In India, total emissions from the
+iron and steel sector are around
+Source: (Vogl, et al., 2021) as of June 2022
+250 MtCO2 (about 10% of total
+emissions) and will increase more
 
-TBC
-‘25
-‘25
-‘26
-‘28
-‘30
-‘30
-‘21
-‘22
-‘26
-‘24
-TBC
-‘21
-TBC
-2021
-TBC
-TBC
-TBC
-TBC
-TBC 2030
-2017
-2024
-2025
-2027
-2025
-TBC
-TBC
-TBC
-TBC
-TBC
+… [+388 more chars]
 
-| TOTAL STEEL PROJECTS PRODUCED (MN COMPANY (WITH LAUNCH YEAR) TONNES P.A.)* 115 57 0 Project scale * Source: World Steel in Full scale Pilots Demonstration Plant R&D partnership Figures 2020 |  |  |  |
-| --- | --- | --- | --- |
-|  |  |  | Baowu TBC TBC |
-|  |  |  | Arcelor Mittal ‘25 ‘25 ‘26 ‘28 ‘30 ‘30 TBC ‘21 ‘22 ‘26 ‘24 ‘21 |
-|  |  |  | HBIS 2021 TBC |
-|  |  |  | Nippon Steel TBC |
-|  |  |  | POSCO TBC TBC TBC TBC TBC |
-|  |  |  | Tata Steel 2024 2030 2017 |
-|  |  |  | JFE TBC |
-|  |  |  | US Steel TBC |
-|  |  |  | Thyssen Krupp 2025 2025 2027 |
-|  |  |  | Tenaris TBC |
+### Child 21 · section='1.3.3 Decarbonisation' · page=26 · 247 tok
 
-### Child 23 · section='1.3.3\t Decarbonisation' · page=26 · 257 tok
-
-7 |
-|  |  |  | JFE TBC |
-|  |  |  | US Steel TBC |
-|  |  |  | Thyssen Krupp 2025 2025 2027 |
-|  |  |  | Tenaris TBC | For further emissions reduction, the introduction of new, low carbon technologies will be required, such 
+Even with ambitious energy and material
+efficiency measures to reduce energy consumption and mitigate demand growth, the level of emissions
+in the Indian iron & steel sector will be incompatible with the ambition of limiting global warming to well
+below 2ºC. For further emissions reduction, the introduction of new, low carbon technologies will be required, such 
 as the use of low carbon hydrogen or carbon, capture, utilisation and storage (CCUS). Initially, these 
 new processes will increase the costs of steel production, and will require the introduction of supportive 
 policies by the government to help the industry through the transition, as we have seen in other sectors, 
 such as power and transport.
-Whilst it is true that some Indian steel companies are already taking significant steps to reduce energy 
-consumption and emissions, the pace and scale of transition taking place in other regions, most notably 
-Europe and China,
+Whilst it is true that some Indian steel companies are already taking significant steps
 
-… [+322 more chars]
+… [+463 more chars]
 
-### Child 24 · section='2 MACROECONOMIC IMPACTS — ZA — 2.1\t Overview' · page=28 · 132 tok
+### Child 22 · section='2 MACROECONOMIC IMPACTS — ZA — 2.1\t Overview' · page=28 · 132 tok
 
 The steel sector contributes around 2% of India’s GDP (MoS, 2020a) and is valued at well over $100bn (Niti 
 Aayog, 2016). The indirect contribution of the sector is significantly higher, given its enabling role in several 
@@ -889,7 +706,7 @@ this reason, it is estimated that the investment in the Indian steel sector has 
 nearly 4 times on GDP and employment multiplier factor of 6.8 times (NSP, 2017), signalling its importance 
 for India’s future growth story.
 
-### Child 25 · section='2.2\t Investment and profitability' · page=28 · 137 tok
+### Child 23 · section='2.2\t Investment and profitability' · page=28 · 137 tok
 
 The Indian iron and steel sector is currently relatively financially fragile. Even with a recent upswing with 
 narrow profit margins, low investment intensities, and an increasing interest burden (Hall, Spencer & 
@@ -899,7 +716,7 @@ Indian steel sector has seen an improvement in its condition. This being said, i
 risky investments will not be possible without support from public and private players, both domestic and 
 international.
 
-### Child 26 · section='2.3\t Rapid growth' · page=28 · 396 tok
+### Child 24 · section='2.3\t Rapid growth' · page=28 · 396 tok
 
 Over 80% of India’s iron reserves are in India’s eastern states (Odisha, Jharkhand, West Bengal, 
 Chhattisgarh and North Andhra Pradesh) (see Figure 8). These states also have access to logistics 
@@ -913,7 +730,7 @@ job creation. This Mission aims to facilitate investments worth $70 billion, sup
 
 … [+918 more chars]
 
-### Child 27 · section='2.4 Employment' · page=30 · 415 tok
+### Child 25 · section='2.4 Employment' · page=30 · 416 tok
 
 The Indian steel sector currently employs approximately 2.5 million people throughout the supply chain 
 (MoS, 2020a). This is estimated to increase to around 3.5 million by 2030, depending on the degree of 
@@ -924,42 +741,36 @@ graduates moving away from the manufacturing sectors to the service sectors. Thi
 perceptions around salary, working conditions and company mission and culture. The shortage is 
 particularly acute for metallurgists, where there could be a shortage of around 15,000 by the mid-
 
-… [+1207 more chars]
+… [+1218 more chars]
 
-### Child 28 · section='3.1\t Competitiveness' · page=32 · 445 tok
+### Child 26 · section='3.1 Competitiveness' · page=32 · 389 tok
 
-Whilst there have been significant improvements in the operational efficiencies of steel production in 
-India in recent years, on average, Indian steel producers are still facing costs around 5-10% higher as 
-compared to the global average. In the context of a global glut in steel supply, this places Indian steel 
-producers in a difficult position, reducing profits for reinvestment and limiting export markets. The cost 
-premium is driven by a number of factors (see Table 1), with the main contributors being costs of finance 
-(approximately 12% versus 3-5% across the European Union) and the costs of logistics and infrastructure. 
-For the latter, steel producers pay relatively high costs of raw material transport on Indian Railways, which 
-subsidises passenger transport (Kamboj & Tongia, 201
+Whilst there have been significant improvements in the operational efficiencies of steel production in
+India in recent years, on average, Indian steel producers are still facing costs around 5-10% higher as
+compared to the global average. In the context of a global glut in steel supply, this places Indian steel
+producers in a difficult position, reducing profits for reinvestment and limiting export markets. The cost
+premium is driven by a number of factors (see Table 1), with the main contributors being costs of finance
+(approximately 12% versus 3-5% across the European Union) and the costs of logistics and infrastructure.
+For the latter, steel producers pay relatively high costs of raw material transport on Indian Railways, which
+subsidises passenger transport (Kamboj & Tongia, 2018) and 
 
-… [+1140 more chars]
+… [+956 more chars]
 
-### Child 29 · section='3.1\t Competitiveness' · page=32 · 427 tok
+### Child 27 · section='3.1 Competitiveness' · page=32 · 410 tok
 
-Table 1: Cost premium for steel production in India
-Taxes and duties on iron ore
-8-12
-Finance
-30-35
-Total cost disadvantage
-80-100
-Source: (Niti Aayog, 2016)
-Challenges | too early to assess the effectiveness of this programme. |  |
+To help improve the relative competitiveness of domestic producers, the Government has
+recently approved the Production Linked Incentive Scheme for 'Speciality Steel' (PIB, 2021), although it is
+too early to assess the effectiveness of this programme. | Item | Cost ($/ton) |
 | --- | --- |
-| Table 1: Cost premium for steel production in india |  |
-| Item | Cost ($/ton) |
-| Logistics and infrastructure | 25-30 |
+| Logistics and Infrastructure | 25-30 |
 | Power | 8-12 |
-| import duty on coal | 5-7 |
+| Import duty on coal | 5-7 |
 | GST Compensation Cess | 2-4 |
 | Taxes and duties on iron ore | 8-12 |
 | Finance | 30-35 |
 | Total cost disadvantage | 80-100 |
+
+Source: (Niti Aayog, 2016)
 
 Tata Steel Ltd.
 Steel Authority of India Ltd.
@@ -967,11 +778,11 @@ Jindal Steel & Power Ltd.
 Jindal Stainless Ltd.
 Average
 Figure 9: EBITDA for the top five iron and steel producers
-Source: TERI analysis based on annual reports of iron and steel producers (JSW, Tata Steel,
+Source: TERI analysis based on annual reports of iron and steel producers (JSW, Tata Steel, SAIL, Jinda
 
-… [+894 more chars]
+… [+882 more chars]
 
-### Child 30 · section='3.2\t Rapid growth required in the near term' · page=33 · 350 tok
+### Child 28 · section='3.2\t Rapid growth required in the near term' · page=33 · 398 tok
 
 As India’s economy grows, its steel demand will grow substantially. India currently has the world’s second 
 largest population and is expected to be the largest by 2023 (OECD, 2018). By 2030, in our Baseline 
@@ -982,136 +793,43 @@ By 2050, in the Baseline scenario, we expect steel demand per capita to nearly q
 capita. This would make it similar to middle to high income economies today, being equivalent to the 
 average true steel use per capita across the European Union (WSA, 2020a). 
 
-… [+788 more chars]
+… [+932 more chars]
 
-### Child 31 · section='3.3\t Technology availability' · page=34 · 206 tok
+### Child 29 · section='3.3 Technology availability' · page=34 · 142 tok
 
-To achieve deep decarbonisation of the iron and steel sector, new technologies will be required – 
-in particular for the replacement of conventional primary production processes with low emissions 
-alternatives. There are several emerging low emissions technologies to produce steel from iron ore. They 
+To achieve deep decarbonisation of the iron and steel sector, new technologies will be required -
+in particular for the replacement of conventional primary production processes with low emissions
+alternatives. There are several emerging low emissions technologies to produce steel from iron ore. They
 broadly fall into three categories:
-•	
-Carbon capture, utilisation, and storage (CCUS)
-•	
-The use of low carbon hydrogen to replace fossil fuels
-•	
-Direct electrification through electrolysis of iron ore
-Each of these technologies differ in their suitability to the Indian context, based on their commercial 
-availability, ability to reduce emissions, and interface with India’s existing infrastructure and resource 
+
+· Carbon capture, utilisation, and storage (CCUS)
+
+· The use of low carbon hydrogen to replace fossil fuels
+
+· Direct electrification through electrolysis of iron ore
+
+Each of these technologies differ in their suitability to the Indian context, based on their commercial
+availability, ability to reduce emissions, and interface with India's existing infrastructure and resource
 profile. An overview is provided in Table 2.
 
-|  | 500 |  |
-| --- | --- | --- |
+### Child 30 · section='3.3 Technology availability' · page=35 · 487 tok
 
-… [+88 more chars]
-
-### Child 32 · section='Technology TRL' · page=35 · 445 tok
-
-Emissions reduction potential
-Suitability for deep decarbonisation in 
-India
-Carbon Capture, Utilisation, and Storage 
-BF-BOF 
-with CCUS
-5
-Possibility 
-to 
-reduce 
-CO2 
-by 
-approximately 60%. Although higher 
-capture rates are possible, costs 
-increase substantially due to multiple 
-CO2 sources (IEA, 2017).
-Limited cost-effective CO2 capture will 
-restrict the use of this technology for deep 
-decarbonisation, although could play an 
-important role in retrofitting existing plants.
-Coal based 
-DRI with 
-CCUS
-4
-There have been no comprehensive 
-studies on applying CCUS technology 
-to coal-based rotary kilns for sponge 
-iron production but similarity to 
-natural gas DRI suggests around 90% 
-reduction may be possible.
-Coal-based DRI units tend to have smaller 
-capacities potentially making the 
-
-… [+998 more chars]
-
-### Child 33 · section='Technology TRL' · page=35 · 363 tok
-
-The CAPEX 
-and OPEX savings make such a technology 
-attractive, although the potential of CCUS is 
-uncertain.
-Hydrogen 
-BF with H2 
-blending
-7 It is expected that H2 would only be 
-able to replace part of the injected 
-coal, resulting in maximum 20% 
-emissions reduction. 
-The limited emissions reduction means 
-that H2 injection into BFs can only ever 
-be a transition technology to deeper 
-decarbonisation. 
-H2 DRI 
-7
-Emissions 
-reduction 
-potential 
-depends on the share of H2 and 
-whether the H2 is from low carbon 
-sources. Assuming 100% green H2, 
-emissions reduction can be >90%, 
-with residual emissions from carbon 
-sources for steelmaking, graphite 
-electrodes and limestone.
-Low cost renewable electricity provides a 
-cost-effective route for green H2 production. 
-Whilst a high H2 blend p
-
-… [+711 more chars]
-
-### Child 34 · section='Technology TRL' · page=35 · 587 tok
-
-Current research projects are still at 
-early stages with uncertain timeline for 
-commercial scale. (Siderwin and Boston 
-Metal)
-Table 2: Low emissions steelmaking technologies | Table 2: Low emissions steelmaking technologies |  |  |  |
+An overview is provided in Table 2. | Technology | TRL | Emissions reduction potential | Suitability for deep decarbonisation in India |
 | --- | --- | --- | --- |
-| Technology | TRL | Emissions reduction potential | Suitability for deep decarbonisation in |
-|  |  |  | India |
-|  | Carbon Capture, Utilisation, and Storage |  |  |
-| BF-BOF | 5 | by Possibility to reduce CO2 | Limited cost-effective capture will CO2 |
-| with CCUS |  | approximately 60%. Although higher | restrict the use of this technology for deep |
-|  |  | capture rates are possible, costs | decarbonisation, although could play an |
-|  |  | increase substantially due to multiple | important role in retrofitting existing plan
+| Carbon Capture, Utilisation, and Storage | Carbon Capture, Utilisation, and Storage | Carbon Capture, Utilisation, and Storage |  |
+| BF-BOF with CCUS | 5 | Possibility to reduce CO2 by approximately 60%. Although higher capture rates are possible, costs increase substantially due to multiple CO2 sources (IEA, 2017). | Limited cost-effective CO2 capture will restrict the use of this technology for deep decarbonisation, although could play an important role in retrofitting existing plants. |
+| Coal based DRI with CCUS | 4 | There have been no comprehensive studies on applying CCUS technology to coal-based rotary kilns for sponge
 
-… [+1504 more chars]
+… [+1435 more chars]
 
-### Child 35 · section='Technology TRL' · page=35 · 527 tok
+### Child 31 · section='3.3 Technology availability' · page=35 · 440 tok
 
-| and OPEx savings make such a technology |
-|  |  | emissions by 80% (Tata Steel, 2020). | attractive, although the potential of CCUS is |
-|  |  |  | uncertain. |
-| Hydrogen |  |  |  | | BF with H2 | 7 | it is expected that H2 would only be | The limited emissions reduction means |
-| blending |  | able to replace part of the injected | injection into BFs can only ever that H2 |
-|  |  | coal, resulting in maximum 20% | be a transition technology to deeper |
-|  |  | emissions reduction. | decarbonisation. |
-| H2 DRi | 7 | Emissions reduction potential | Low cost renewable electricity provides a |
-|  |  | depends on the share of H2 and | cost-effective route for green H2 production. |
-|  |  | low carbon whether the H2 is from | Whilst a high H2 blend plant does not currently |
-|  |  | sources
+2 blending | 7 | It is expected that H, would only be able to replace part of the injected coal, resulting in maximum 20% emissions reduction. | The limited emissions reduction means that H2 injection into BFs can only ever be a transition technology to deeper decarbonisation. | | H2 DRI | 7 | Emissions reduction potential depends on the share of H2 and whether the H, is from low carbon sources. Assuming 100% green H2, emissions reduction can be >90%, with residual emissions from carbon sources for steelmaking, graphite electrodes and limestone. | Low cost renewable electricity provides a cost-effective route for green H2 production. Whilsta high H blend plant does not currently exist, technology is well understood. |
+| H2 plasma reduction | 4 | If produced from low carbon electricity, the
 
-… [+946 more chars]
+… [+965 more chars]
 
-### Child 36 · section='3.4 Capital requirements' · page=36 · 236 tok
+### Child 32 · section='3.4 Capital requirements' · page=36 · 236 tok
 
 The transition towards a net-zero steel sector will be highly capital-intensive, as new steel facilities will 
 need to be built, alongside supporting infrastructure (such as electricity, hydrogen and CCUS networks). 
@@ -1125,7 +843,7 @@ Beyond the quantum of financ
 
 … [+361 more chars]
 
-### Child 37 · section='4 TRANSITION PATHWAY — Transition Pathway — 4.1 Structure of Indian steel assets' · page=38 · 319 tok
+### Child 33 · section='4 TRANSITION PATHWAY — Transition Pathway — 4.1 Structure of Indian steel assets' · page=38 · 319 tok
 
 Before exploring future pathways for the Indian steel sector, it is worth outlining the structure of existing 
 assets. Principally, we are concerned with (a) the technological make-up and (b) lifetime of the existing 
@@ -1138,7 +856,7 @@ efficient technologies are adopted.
 
 … [+830 more chars]
 
-### Child 38 · section='4 TRANSITION PATHWAY — Transition Pathway — 4.1 Structure of Indian steel assets' · page=39 · 435 tok
+### Child 34 · section='4 TRANSITION PATHWAY — Transition Pathway — 4.1 Structure of Indian steel assets' · page=39 · 435 tok
 
 India has seen a relatively steady growth in blast 
 furnace technology since the 1960s, with a marked acceleration in deployment since 2000 from which 
@@ -1154,7 +872,7 @@ Figure 13: Blast furnace capacity in India, 1960-2020
 
 … [+1134 more chars]
 
-### Child 39 · section='4.2 Technology option assessment' · page=40 · 195 tok
+### Child 35 · section='4.2 Technology option assessment' · page=40 · 195 tok
 
 After understanding the existing technology make-up of the Indian steel sector, it is necessary to 
 understand how future lower emission technologies could compete, in terms of both costs, as well as 
@@ -1168,7 +886,7 @@ reduction
 
 … [+75 more chars]
 
-### Child 40 · section='4.2 Technology option assessment' · page=41 · 506 tok
+### Child 36 · section='4.2 Technology option assessment' · page=41 · 506 tok
 
 et. al, 2020); The Potential Role of Hydrogen in India (Hall et. al, 2020); Green steel through hydrogen direct 
 reduction (Hall et. al, 2021); Net-Zero Steel: Sector Transition Strategy (MPP, 2021) analysis is the coal-based direct reduction using a rotary kiln. Lower capital and operational costs, as well 
@@ -1180,7 +898,7 @@ in India. Costs of steel production vary based on the costs of coking coal, whic
 
 … [+1391 more chars]
 
-### Child 41 · section='4.2 Technology option assessment' · page=41 · 219 tok
+### Child 37 · section='4.2 Technology option assessment' · page=41 · 442 tok
 
 Figure 16: Costs of steel production by route6 
  Source: TERI analysis based on (IEA, 2019) and (MPP, 2021) 6	 BF-BOF = Blast Furnace – Basic Oxygen Furnace, Coal DR-EAF = Coal-based Direct Reduction – Electric Arc Furnace, NG DR-EAF = Natural gas-based 
@@ -1208,59 +926,41 @@ Raw materials
 CCUS
 Range
 
-### Child 42 · section='4.2 Technology option assessment' · page=42 · 508 tok
+Costs of production from the hydrogen direct reduction route are largely similar to those in the natural
+gas direct r
 
-600
-BF-BOF
-Coal DR-EAF
-NG DR-EAF
-SR-BOF
-CCUS
-H2 DR-EAF
-MOE-EAF
-Cost of production ($/t)
-CAPEX
-Fixed OPEX
-Fuel
-Raw materials
-CCUS
-Range Costs of production from the hydrogen direct reduction route are largely similar to those in the natural 
-gas direct reduction route, with the main difference being the cost of hydrogen as a fuel versus natural 
-gas. In our cost analysis, we assume that hydrogen is purchased from a separate producer by the steel 
-plant, as opposed to having the capital costs of the electrolysers included in the capital costs of the steel 
-plant. Today, costs of electrolytic hydrogen can be as high as $4/kg, factoring in costs of transportation 
-and storage infrastructure, although this is falling rapidly. Assuming the hydrogen is produced on-site, we 
-provide a range of cos
+… [+982 more chars]
 
-… [+1358 more chars]
+### Child 38 · section='4.2 Technology option assessment' · page=42 · 295 tok
 
-### Child 43 · section='4.2 Technology option assessment' · page=42 · 399 tok
+One key sensitivity to explore in a little more detail is how the cost of hydrogen would impact their relative
+competitiveness and how falling costs of green hydrogen could change this over time. In Figure 17, we present the range of costs for a smelting reduction plant with CCUS, as well as declining
+costs of steel produced via the hydrogen direct reduction route, based on declining costs of hydrogen. With
+costs in excess of $4/kg today, we can see that hydrogen direct reduction is consistently more expensive
+than the smelting reduction route. However, as costs of green hydrogen start to fall over time, potentially
+reaching $2/kg in 2030 and $1/kg in 2050 in the most suitable geographies, hydrogen direct reduction
+could start to compete.
 
-reduction with CCUS 
-Figure 17: Costs of production - H2-DR vs SR-BOF with CCUS
- Source: TERI analysis based on (IEA, 2019; Hall, Spencer, & Kumar, 2020; BNEF, 2020) Note: tCO2 refers to the cost of carbon capture and storage, not to carbon price.
+It is worth noting that since the publication of o
 
-|  | TERI | TERI |  |
-| --- | --- | --- | --- |
-|  | 2050 | 2030 |  |
-| 700 |  |  |  |
-| 600 |  |  |  |
-| 500 |  |  | $80/tCO2 |
-|  |  |  | Cost of CCS |
-| 400 |  |  |  |
-|  |  |  | $20/tCO2 |
-| 300 |  |  |  |
-| 200 |  |  |  |
-| 100 |  |  |  |
+… [+383 more chars]
+
+### Child 39 · section='Hydrogen Cost ($/kg) — SR-BOF CCUS — H2 DR-EAF' · page=42 · 241 tok
+
+Source: TERI analysis based on (IEA, 2019; Hall, Spencer, & Kumar, 2020; BNEF, 2020)
+Note: tCO2 refers to the cost of carbon capture and storage, not to carbon price.
 
 pilot facility, being taken forward by Tata Steel Europe in the Netherlands has now switched to developing 
 a hydrogen direct reduction facility, signalling the industry’s relative support for these technologies. 
 Conversely, there are over 30 (and growing) hydrogen direct reduction projects. 
-Secondly, o
+Secondly, our estimates for the costs of producing hydrogen in India, whilst among the most ambitious 
+when published, have been superseded by several Indian corporates own targets in this space. Most 
+notable is Mukesh Ambani’s aim to use the expertise of Reliance Industries to produce hydrogen for $1/kg 
+by 2030. Alongside other play
 
-… [+591 more chars]
+… [+265 more chars]
 
-### Child 44 · section='4.3 Pathways to net zero' · page=43 · 242 tok
+### Child 40 · section='4.3 Pathways to net zero' · page=43 · 242 tok
 
 Off the back of this understanding the existing assets and future technological trends, we can construct 
 future pathways to help us better understand the challenges and opportunities of achieving a net zero 
@@ -1273,7 +973,7 @@ with a number of trials and demonstrations taking place in the 2020s. As shown b
 
 … [+276 more chars]
 
-### Child 45 · section='4.3 Pathways to net zero' · page=44 · 488 tok
+### Child 41 · section='4.3 Pathways to net zero' · page=44 · 488 tok
 
 This can be scaled rapidly 
 from the 2030s, at which point it will start to compete directly with the less efficient conventional plants. 
@@ -1287,7 +987,7 @@ wit
 
 … [+1368 more chars]
 
-### Child 46 · section='4.3 Pathways to net zero' · page=45 · 476 tok
+### Child 42 · section='4.3 Pathways to net zero' · page=45 · 476 tok
 
 This highlights the important 
 joining together of the Net Zero vision, along with a vision of self-reliance, which can both support one 
@@ -1301,7 +1001,7 @@ dependence by 65% by 2030 and Coal India is taking some steps to support this, s
 
 … [+1327 more chars]
 
-### Child 47 · section='4.3 Pathways to net zero' · page=45 · 321 tok
+### Child 43 · section='4.3 Pathways to net zero' · page=45 · 321 tok
 
 This represents 65% of India’s electricity production today, for just a single sector. 
 Figure 20: Coking coal demand in Net Zero scenarios 6	 Electricity consumption assumptions = 650 kWh for EAF, 3.4 MWh for MOE and 2.9 MWh for H2DR
@@ -1315,7 +1015,7 @@ require around 45 GW by 2030, rising to 330 GW by 2050. This, alongside the rest
 
 … [+543 more chars]
 
-### Child 48 · section='5.1\t Maximize energy efficiency' · page=48 · 285 tok
+### Child 44 · section='5.1\t Maximize energy efficiency' · page=48 · 285 tok
 
 The application of best available energy efficient technologies (where cost-effective) should be encouraged, 
 particularly in recently built capacity with long lifetimes. Our analysis shows that the application of best 
@@ -1330,7 +1030,7 @@ Source: (WSP, Parsons Brinckerhoff and DNV GL, 2015; JISF, 2014; CII, 2013; Morr
 
 … [+519 more chars]
 
-### Child 49 · section='5.2\t Increase scrap utilisation' · page=49 · 362 tok
+### Child 45 · section='5.2\t Increase scrap utilisation' · page=49 · 362 tok
 
 Improving resource efficiency and encouraging greater levels of material circularity is vital for mitigating 
 negative environmental impacts as India continues to grow. This includes encouraging greater use of scrap, 
@@ -1344,7 +1044,7 @@ The increasing availability of scrap plays an important role in reducing the amo
 
 … [+865 more chars]
 
-### Child 50 · section='5.3\t Create procurement alliances' · page=50 · 256 tok
+### Child 46 · section='5.3\t Create procurement alliances' · page=50 · 256 tok
 
 To send clear demand signals to steel producers to start producing green steel, groups of corporates who 
 use steel can band together to create clubs which achieve a critical mass of demand. Over time, such clubs 
@@ -1357,7 +1057,7 @@ projects such as roads, bridges, railways, metros. Public
 
 … [+536 more chars]
 
-### Child 51 · section='5.4\t Introduce green product standards' · page=50 · 316 tok
+### Child 47 · section='5.4\t Introduce green product standards' · page=50 · 316 tok
 
 To help grow the market for green steel as a premium product, public and private sector players will need to 
 develop and implement green product standards and related product labelling. This will help consumers 
@@ -1371,7 +1071,7 @@ its 2050 net zero comm
 
 … [+770 more chars]
 
-### Child 52 · section='5.5\t Promote technical research & development and set-' · page=51 · 259 tok
+### Child 48 · section='5.5\t Promote technical research & development and set-' · page=51 · 259 tok
 
 up demonstration plants
 Technological research and development (R&D) plays a crucial role in determining a steel producer’s 
@@ -1385,7 +1085,7 @@ Going forward, these funds need to increase
 
 … [+563 more chars]
 
-### Child 53 · section='5.6\t Future-proof new capacity' · page=51 · 215 tok
+### Child 49 · section='5.6\t Future-proof new capacity' · page=51 · 364 tok
 
 An important consideration for low carbon steelmaking routes in India is the lifetime of the plants and 
 the possibility of retrofit in the coming decades. Steel plants have long lifetimes (30 years plus), resulting 
@@ -1397,87 +1097,38 @@ syngas, which is more readily available. This could then be switched to low carb
 reducing emissions without a significant change in the infrastructure. Alternatively, steel producers could 
 establi
 
-… [+303 more chars]
+… [+825 more chars]
 
-### Child 54 · section='5.7 Lay the groundwork for a domestic carbon trading' · page=52 · 190 tok
+### Child 50 · section='5.7 Lay the groundwork for a domestic carbon trading market' · page=52 · 187 tok
 
-market
-An important tool to help accelerate the switch to low carbon technologies is development of domestic 
-carbon trading market. India has already achieved much success with the implementation of the Perform, 
-Achieve and Trade (PAT) scheme, which trades energy efficiency certificates between Designated 
-Consumers (DCs), including the iron and steel sector. As the need for emission reduction grows, one 
-possibility would be to amend this existing policy to measure and control carbon emissions, as opposed 
+An important tool to help accelerate the switch to low carbon technologies is development of domestic
+carbon trading market. India has already achieved much success with the implementation of the Perform,
+Achieve and Trade (PAT) scheme, which trades energy efficiency certificates between Designated
+Consumers (DCS), including the iron and steel sector. As the need for emission reduction grows, one
+possibility would be to amend this existing policy to measure and control carbon emissions, as opposed
 to energy consumption. This would operate similar to the EU Emissions Trading Scheme (ETS).
-Taking the steps over the 2020s will put the Indian steel sector in a strong position to then start to 
-rapidly decarbonize its production post-2030. This will require more significant, coordin
 
-… [+163 more chars]
+Taking the steps over the 2020s will put the Indian steel sector in a strong position to then start to
+rapidly decarbonize its production post-2030. This will require more significant, coordinated policie
 
-### Child 55 · section='5.8 Support for commercial-scale plants' · page=52 · 263 tok
+… [+149 more chars]
 
-As a series of demonstration projects in the 2020s help clarify the preferred technology options for low 
-emission steel production in India, by the 2030s, public and private sector should have proven joint 
-financing models to facilitate the construction of commercial-scale green steel plants. This will require 
-considerable support, assuming some cost difference between green steel and ‘dirty’ steel persists. Whilst 
-the difference in production costs will be mitigated somewhat if green product standards, procurement 
-initiatives, and an emissions penalty are introduced, it may still be necessary to support the first few 
+### Child 51 · section='5.8 Support for commercial-scale plants' · page=52 · 339 tok
+
+As a series of demonstration projects in the 2020s help clarify the preferred technology options for low
+emission steel production in India, by the 20305, public and private sector should have proven joint
+financing models to facilitate the construction of commercial-scale green steel plants. This will require
+considerable support, assuming some cost difference between green steel and 'dirty' steel persists. Whilst
+the difference in production costs will be mitigated somewhat if green product standards, procurement
+initiatives, and an emissions penalty are introduced, it may still be necessary to support the first few
 commercial-scale plants.
-Figure 25: Pathways for low carbon primary steelmaking
-Source: TERI Analysis
-2030
-2020
-2040
-2060
-2050
-Net zero
-CCUS
-route
-Hydrogen
-route
-Smelti
 
-… [+317 more chars]
+This could include direct financial support from the GoI, via existing bodies such as the Ministry of Steel 
+(for example through Carbon Contracts f
 
-### Child 56 · section='5.8 Support for commercial-scale plants' · page=52 · 526 tok
+… [+1008 more chars]
 
->90%, making
-use of excess carbon where possible
-Shift to >90% hydrogen use, produced
-entirely from low carbon sources
-Begin blending of low
-carbon hydrogen
-CH4
-H2
-H2
-CO2
-CO2
-Carbon capture, use/
-storage technology |  | Figure 25: Pathways for low carbon primary steelmaking |  |
-| --- | --- | --- |
-|  |  | Source: TERI Analysis |
-| 5.7 Lay the groundwork for a domestic carbon trading |  |  |
-| market |  |  |
-| An important tool to help accelerate the switch to low carbon technologies is development of domestic |  |  |
-| carbon trading market. india has already achieved much success with the implementation of the Perform, |  |  |
-| Achieve and Trade | (PAT) scheme, which | trades energy efficiency certificates between Designated |
-| Consumers (DCs), including the iron and steel sector. As t
-
-… [+1429 more chars]
-
-### Child 57 · section='5.8 Support for commercial-scale plants' · page=53 · 275 tok
-
-|  |
-| the difference in production costs will be mitigated somewhat if green product standards, procurement |  |  |
-| initiatives, and an emissions penalty are introduced, it may still be necessary to support the first few |  |  |
-| commercial-scale plants. |  |  | This could include direct financial support from the GoI, via existing bodies such as the Ministry of Steel 
-(for example through Carbon Contracts for Difference, which are being explored in Germany), although this 
-is likely to be insufficient given limited domestic resources. As renewable electricity projects become ‘self-
-financing’ in India, thanks in large part to a dramatic reduction in technology costs, as well as a growing 
-familiarity with such projects among private sector lenders, greater focus should be given to the
-
-… [+623 more chars]
-
-### Child 58 · section='5.9\t Implement a carbon border tariff' · page=53 · 572 tok
+### Child 52 · section='5.9\t Implement a carbon border tariff' · page=53 · 572 tok
 
 Steel, a carbon intensive product which is also heavily traded globally, has found a lot of attention in 
 recent years in the trade environment policy discourses. For example, the EU green deal mentions 
@@ -1494,7 +1145,7 @@ switching to domestic. Additional revenue, that may be collected as import duty,
 
 … [+1955 more chars]
 
-### Child 59 · section='Conclusions' · page=56 · 190 tok
+### Child 53 · section='Conclusions' · page=56 · 190 tok
 
 The Indian steel sector is on the cusp of a significant transformation. As explored in this report, India is 
 well positioned to reap many of the benefits associated with a competitive, digital, and decarbonised 
@@ -1508,7 +1159,7 @@ scaling-up renewable electricity and green hydrogen prod
 
 … [+148 more chars]
 
-### Child 60 · section='Conclusions' · page=57 · 478 tok
+### Child 54 · section='Conclusions' · page=57 · 478 tok
 
 Through rapidly 
 scaling-up renewable electricity and green hydrogen production, in particular, the steel sector can shift 
@@ -1525,7 +1176,7 @@ BEE.
 
 … [+945 more chars]
 
-### Child 61 · section='Conclusions' · page=57 · 483 tok
+### Child 55 · section='Conclusions' · page=57 · 483 tok
 
 (2021). The Deloitte Global Millennial Survey 2020. Retrieved from https://www2.deloitte.com/global/en/
 pages/about-deloitte/articles/millennialsurvey.html DIPP. (2020). Fact sheet on foreign direct investment (FDI). Retrieved from https://dipp.gov.in/sites/default/files/
@@ -1539,7 +1190,7 @@ ey.com/content/dam/ey-sites/ey-com/e
 
 … [+959 more chars]
 
-### Child 62 · section='Conclusions' · page=57 · 509 tok
+### Child 56 · section='Conclusions' · page=57 · 509 tok
 
 (2018). Retrieved from https://www.ibef.org/states/odisha-presentation
 IBEF. (2020). Retrieved from https://www.ibef.org/download/Chhattisgarh-June-2020.pdf IBEF. (2021). Retrieved from https://www.ibef.org/states/steel-presentation
@@ -1557,7 +1208,7 @@ JPC. (2020). The Indian Iro
 
 … [+879 more chars]
 
-### Child 63 · section='Conclusions' · page=58 · 455 tok
+### Child 57 · section='Conclusions' · page=58 · 455 tok
 
 (2019). Draft Framework Policy - Development of Steel Clusters in India. Retrieved from Ministry of Steel: https://
 steel.gov.in/sites/default/files/Draft%20Policy%20for%20Steel%20Cluster_vf15.pdf MoS. (2020a). Annual Report 2019-20. Retrieved from https://steel.gov.in/sites/default/files/Annual%20Report-
@@ -1571,7 +1222,7 @@ content/u
 
 … [+678 more chars]
 
-### Child 64 · section='Conclusions' · page=59 · 437 tok
+### Child 58 · section='Conclusions' · page=59 · 437 tok
 
 OECD. (2018). Economic Outlook No 103 - July 2018 - Long-term baseline projections. (Organisation for Economic Co-
 operation and Development) Retrieved from Stat: https://stats.oecd.org/Index.aspx?DataSetCode=EO103_LTB
@@ -1585,7 +1236,7 @@ PwC. (2019). The Indian steel industry: Growth, challeng
 
 … [+814 more chars]
 
-### Child 65 · section='Conclusions' · page=59 · 493 tok
+### Child 59 · section='Conclusions' · page=59 · 493 tok
 
 (2021). Tata Steel commissions India’s first plant for CO2 capture from Blast Furnace gas at Jamshedpur. 
 Retrieved from https://www.tatasteel.com/media/newsroom/press-releases/india/2021/tata-steel-commissions- india-s-first-plant-for-co2-capture-from-blast-furnace-gas-at-jamshedpur/
@@ -1600,7 +1251,7 @@ jamshedpur-plant-recognised-as-advanced-4th-industrial-revolution-lighthouse/art
 
 … [+958 more chars]
 
-### Child 66 · section='Conclusions' · page=59 · 247 tok
+### Child 60 · section='Conclusions' · page=59 · 247 tok
 
 (2017). World Development Indicators. 
 WSA. (2018). Steel Statistical Yearbook 2018. 

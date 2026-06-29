@@ -1,0 +1,43 @@
+{
+  "pdf": "Achieving_Green_Steel_Roadmap.pdf",
+  "elapsed_seconds": 20.73,
+  "page_count": 60,
+  "table_count": 4,
+  "char_count": 94610,
+  "routes": {
+    "ocr": 21,
+    "text": 39
+  },
+  "digital_pages": 39,
+  "scanned_ocr_pages": 21,
+  "empty_pages": 0,
+  "ocr_page_numbers": [
+    1,
+    4,
+    6,
+    7,
+    8,
+    13,
+    14,
+    16,
+    18,
+    25,
+    27,
+    31,
+    32,
+    34,
+    35,
+    37,
+    42,
+    47,
+    52,
+    55,
+    60
+  ],
+  "chunks_total": 75,
+  "parent_chunks": 14,
+  "child_chunks": 61,
+  "child_token_min": 120,
+  "child_token_max": 586,
+  "child_token_avg": 348
+}

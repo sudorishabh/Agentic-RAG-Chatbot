@@ -1,6 +1,6 @@
 # Qdrant points — Achieving_Green_Steel_Roadmap.pdf
 
-- points (rows upserted): **82**
+- points (rows upserted): **75**
 - embedded: **True** · model `text-embedding-3-large` · dim 3072
 
 Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Children carry their embedding; parents carry a zero vector and are reached through their children. Below, vectors are truncated and `chunk_text` is clipped — see `05_qdrant_points.json` for the full data.
@@ -35,14 +35,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     5
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `7588344d-0b1b-5f91-a8ba-5adc03800e51`
 
-- vector: dim=3072 · [0.0116, -0.0065, -0.0166, -0.0220, -0.0247, 0.0100, 0.0029, 0.0088, …]
+- vector: dim=3072 · [0.0115, -0.0070, -0.0165, -0.0222, -0.0249, 0.0104, 0.0024, 0.0090, …]
 
 ```json
 {
@@ -71,14 +71,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     2
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `358a363e-e752-5149-a03a-98a2055c2ade`
 
-- vector: dim=3072 · [0.0117, -0.0062, -0.0162, -0.0219, -0.0312, 0.0037, -0.0280, 0.0126, …]
+- vector: dim=3072 · [0.0117, -0.0062, -0.0163, -0.0219, -0.0312, 0.0037, -0.0280, 0.0126, …]
 
 ```json
 {
@@ -107,14 +107,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     3,
     3
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `5f049072-f979-58e9-a2ab-b832a7900270`
 
-- vector: dim=3072 · [0.0093, 0.0110, -0.0201, -0.0363, -0.0310, -0.0154, 0.0024, 0.0206, …]
+- vector: dim=3072 · [0.0092, 0.0110, -0.0202, -0.0364, -0.0312, -0.0154, 0.0024, 0.0207, …]
 
 ```json
 {
@@ -143,8 +143,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     5,
     5
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
@@ -176,14 +176,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     9
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `58684db4-2513-5f62-85ad-68415c46e32d`
 
-- vector: dim=3072 · [0.0116, -0.0381, -0.0107, -0.0081, -0.0258, -0.0241, 0.0058, -0.0069, …]
+- vector: dim=3072 · [0.0115, -0.0378, -0.0107, -0.0080, -0.0258, -0.0245, 0.0054, -0.0071, …]
 
 ```json
 {
@@ -212,14 +212,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     7
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `59f1eb07-3835-5a15-8ec9-0ebe172400e9`
 
-- vector: dim=3072 · [0.0297, -0.0302, -0.0078, -0.0107, -0.0206, -0.0234, 0.0069, 0.0164, …]
+- vector: dim=3072 · [0.0296, -0.0302, -0.0079, -0.0107, -0.0206, -0.0233, 0.0069, 0.0164, …]
 
 ```json
 {
@@ -248,14 +248,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     9
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `b17edf1f-3af1-5e56-811f-b2fdd1142fdf`
 
-- vector: dim=3072 · [0.0303, -0.0068, -0.0159, -0.0047, 0.0160, -0.0311, 0.0111, 0.0418, …]
+- vector: dim=3072 · [0.0302, -0.0074, -0.0160, -0.0046, 0.0164, -0.0309, 0.0108, 0.0416, …]
 
 ```json
 {
@@ -284,8 +284,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     9
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
@@ -318,14 +318,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     11
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `3da91747-884e-5226-ab20-712e4ebd5abf`
 
-- vector: dim=3072 · [0.0420, -0.0267, -0.0018, -0.0012, -0.0346, -0.0078, -0.0080, 0.0326, …]
+- vector: dim=3072 · [0.0424, -0.0276, -0.0021, -0.0012, -0.0346, -0.0076, -0.0080, 0.0329, …]
 
 ```json
 {
@@ -355,14 +355,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     9
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `ebce17fd-eca3-5605-ad95-53a0e5364d46`
 
-- vector: dim=3072 · [0.0325, -0.0260, -0.0097, 0.0216, -0.0155, -0.0198, -0.0179, 0.0376, …]
+- vector: dim=3072 · [0.0325, -0.0260, -0.0097, 0.0218, -0.0154, -0.0200, -0.0180, 0.0374, …]
 
 ```json
 {
@@ -392,14 +392,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     10,
     11
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `e7655ac3-96f6-53f5-88d4-b0c0e5bb12f8`
 
-- vector: dim=3072 · [0.0131, 0.0402, -0.0098, -0.0029, 0.0239, -0.0118, -0.0184, 0.0265, …]
+- vector: dim=3072 · [0.0159, 0.0023, -0.0050, -0.0043, -0.0224, -0.0069, -0.0011, 0.0206, …]
 
 ```json
 {
@@ -410,9 +410,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "AI – Artificial Intelligence",
   "section_type": "glossary",
-  "chunk_text": "BEE – Bureau of Energy Efficiency \nBF-BOF – Blast Furnace – Basic Oxygen Furnace \nBIS –Bureau of Indian Standards \nCAGR – Compounded Annual Growth Rate \nCBAM – Carbon Border Adjustment Mechanism \nCCUS – Carbon Capture, Use and Storage \nCO2 – Carbon Dioxide DR – Direct Reduction \nEAF – Electric Arc Furnace \nEBITDA – Earnings before Interest, Taxes, Depreciation, and Amortization \nEIF – Electric Induction Furnace \nETS – Emissions Trading Scheme \nFDI – Foreign Direct Investment \nFTA – Free Trade Agreements \nGDP – Gross Domestic Product \nGHG – Greenhouse Gases \nGoI – Government of India \nIEA – Int\n\n… [+426 more chars]",
-  "content_hash": "0a9f9000a4dbe37306f66aa3f6a3a8657e8f9e50c813e4a427de0e5732534503",
-  "token_count": 256,
+  "chunk_text": "BEE – Bureau of Energy Efficiency \nBF-BOF – Blast Furnace – Basic Oxygen Furnace \nBIS –Bureau of Indian Standards \nCAGR – Compounded Annual Growth Rate \nCBAM – Carbon Border Adjustment Mechanism \nCCUS – Carbon Capture, Use and Storage \nCO2 – Carbon Dioxide DR – Direct Reduction \nEAF – Electric Arc Furnace \nEBITDA – Earnings before Interest, Taxes, Depreciation, and Amortization \nEIF – Electric Induction Furnace \nETS – Emissions Trading Scheme \nFDI – Foreign Direct Investment \nFTA – Free Trade Agreements \nGDP – Gross Domestic Product \nGHG – Greenhouse Gases \nGoI – Government of India \nIEA – Int\n\n… [+1111 more chars]",
+  "content_hash": "c756aa7060f98d1933b06232bd8f4723564d951cc6e4f6acd895f058d54426ca",
+  "token_count": 427,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -426,10 +426,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "page_number": 12,
   "page_range": [
     12,
-    12
+    13
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
@@ -444,10 +444,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": true,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "Steel Scrap Recycling",
-  "chunk_text": "Steel Scrap Recycling\n\nPolicy, 2019\nTowards a Low Carbon\nSteel Sector (TERI Consultation\nDocument), 2020\nR&D and\nDemonstration plants\nPublic procurement\ntargets\nGreen product\nstandards\nIncrease scrap\nutilisation\nMaximise energy\nefficiency\nNet zero iron and\nsteel sector\nNational Steel\nPolicy, 2017\nGreen steel vision \nCommercial-scale\nfacilities\nRapid scale-up of\nnew low-carbon\ntechnologies\nRetirement of high\nemission capacity\nTHE ENERGY AND\nRESOURCES INSTITUTE\nCreating Innovative Solutions for a Sustainable Future\nComprehensive\npolicy framework\n\nThe global steel sector is shifting rapidly. More\n\n… [+4986 more chars]",
-  "content_hash": "7fb3dcba1ece6ed35394cbe1c31480c335f162100fad2f50131da952e5879431",
-  "token_count": 1152,
+  "section_heading": "ENERGY TRANSITIONS — COMMISSION TARDE",
+  "chunk_text": "ENERGY TRANSITIONS — COMMISSION TARDE\n\nThe global steel sector is shifting rapidly. More than 30% of steel companies (by \nproduction) have net zero targets - up from zero less than 3 years ago - and more \nthan 90% of countries (by GDP) have national level net zero targets. \n•\t\nGovernments are moving fast to create ‘level playing fields’ to protect domestic \nsteel sectors during transition, including carbon border adjustment proposals, \ncommitments to joint standardization and climate clubs. \n•\t\nThe financial sector is shifting funds away from fossil investments, with a \nsignificant additional \n\n… [+4474 more chars]",
+  "content_hash": "2fa8d0478fef6ab785c488af3289a267cbf4f938de07e0ec043b6de7a538639c",
+  "token_count": 1027,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -458,17 +458,17 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "page_range": [
-    13,
+    15,
     17
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `46964e2c-480b-5118-beb9-4475834cdecb`
 
-- vector: dim=3072 · [0.0231, -0.0132, -0.0048, 0.0045, -0.0320, 0.0028, 0.0005, 0.0156, …]
+- vector: dim=3072 · [0.0258, -0.0195, -0.0094, -0.0036, -0.0135, -0.0335, 0.0043, 0.0104, …]
 
 ```json
 {
@@ -477,10 +477,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "Steel Scrap Recycling",
-  "chunk_text": "Policy, 2019\nTowards a Low Carbon\nSteel Sector (TERI Consultation\nDocument), 2020\nR&D and\nDemonstration plants\nPublic procurement\ntargets\nGreen product\nstandards\nIncrease scrap\nutilisation\nMaximise energy\nefficiency\nNet zero iron and\nsteel sector\nNational Steel\nPolicy, 2017\nGreen steel vision \nCommercial-scale\nfacilities\nRapid scale-up of\nnew low-carbon\ntechnologies\nRetirement of high\nemission capacity\nTHE ENERGY AND\nRESOURCES INSTITUTE\nCreating Innovative Solutions for a Sustainable Future\nComprehensive\npolicy framework",
-  "content_hash": "136408137407441f3af7df0d4fdca73e0c7e2190500c063d0b88824b89361d0e",
-  "token_count": 130,
+  "section_heading": "ENERGY TRANSITIONS — COMMISSION TARDE",
+  "chunk_text": "The global steel sector is shifting rapidly. More than 30% of steel companies (by \nproduction) have net zero targets - up from zero less than 3 years ago - and more \nthan 90% of countries (by GDP) have national level net zero targets. \n•\t\nGovernments are moving fast to create ‘level playing fields’ to protect domestic \nsteel sectors during transition, including carbon border adjustment proposals, \ncommitments to joint standardization and climate clubs. \n•\t\nThe financial sector is shifting funds away from fossil investments, with a \nsignificant additional push from COP26 under the Glasgow Finan\n\n… [+1505 more chars]",
+  "content_hash": "08ebb390cafb744502a6a52304532d5f4d9fb95ea0c97176166b220aa7f723bf",
+  "token_count": 431,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -492,19 +492,19 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "62f3149e-c5f3-5e77-9075-d170848bcb51",
   "chunk_index": 9,
-  "page_number": 13,
+  "page_number": 15,
   "page_range": [
-    13,
-    13
+    15,
+    15
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `d9574072-ac9e-531a-968e-901f37082db4`
 
-- vector: dim=3072 · [0.0206, -0.0132, -0.0063, 0.0013, -0.0155, -0.0171, 0.0152, 0.0251, …]
+- vector: dim=3072 · [0.0291, -0.0378, -0.0006, -0.0075, -0.0330, -0.0173, 0.0011, 0.0177, …]
 
 ```json
 {
@@ -513,10 +513,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "Steel Scrap Recycling",
-  "chunk_text": ", 2017\nGreen steel vision \nCommercial-scale\nfacilities\nRapid scale-up of\nnew low-carbon\ntechnologies\nRetirement of high\nemission capacity\nTHE ENERGY AND\nRESOURCES INSTITUTE\nCreating Innovative Solutions for a Sustainable Future\nComprehensive\npolicy framework The global steel sector is shifting rapidly. More than 30% of steel companies (by \nproduction) have net zero targets - up from zero less than 3 years ago - and more \nthan 90% of countries (by GDP) have national level net zero targets. \n•\t\nGovernments are moving fast to create ‘level playing fields’ to protect domestic \nsteel sectors during\n\n… [+1764 more chars]",
-  "content_hash": "70e74fe6f8855d947561df2da8b7e02ea26f85da7398da12281571537efb2aaa",
-  "token_count": 491,
+  "section_heading": "ENERGY TRANSITIONS — COMMISSION TARDE",
+  "chunk_text": "The result will be a globally competitive steel \nsector, supporting India’s ambitions of a self-reliant, net zero major economy.\nEXECUTIVE SUMMARY The steel sector plays an important role in the Indian economy and has been a core pillar of India’s industrial \ndevelopment. As a critical input for various sectors, steel will play a major role in helping India support the \ninfrastructure that facilitates growth, the housing that drives urbanisation, and the machinery and tools \nthat power industrialisation. The sector is expected to experience significant growth in the coming decades \nto satisfy \n\n… [+1773 more chars]",
+  "content_hash": "c2c5a56b1b3f7c27edba7331771ddc820c7ad1d8d574f4ccb1f28aa26b84bde4",
+  "token_count": 462,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -528,19 +528,19 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "62f3149e-c5f3-5e77-9075-d170848bcb51",
   "chunk_index": 10,
-  "page_number": 15,
+  "page_number": 17,
   "page_range": [
-    15,
-    15
+    17,
+    17
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `2684799c-bdc3-56e1-b5e0-ee100d5297fc`
 
-- vector: dim=3072 · [0.0300, -0.0377, -0.0005, -0.0072, -0.0323, -0.0177, 0.0016, 0.0171, …]
+- vector: dim=3072 · [0.0150, -0.0379, -0.0158, -0.0098, -0.0396, -0.0218, 0.0131, 0.0320, …]
 
 ```json
 {
@@ -549,10 +549,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "Steel Scrap Recycling",
-  "chunk_text": "The result will be a globally competitive steel \nsector, supporting India’s ambitions of a self-reliant, net zero major economy.\nEXECUTIVE SUMMARY The steel sector plays an important role in the Indian economy and has been a core pillar of India’s industrial \ndevelopment. As a critical input for various sectors, steel will play a major role in helping India support the \ninfrastructure that facilitates growth, the housing that drives urbanisation, and the machinery and tools \nthat power industrialisation. The sector is expected to experience significant growth in the coming decades \nto satisfy \n\n… [+1773 more chars]",
-  "content_hash": "c2c5a56b1b3f7c27edba7331771ddc820c7ad1d8d574f4ccb1f28aa26b84bde4",
-  "token_count": 462,
+  "section_heading": "ENERGY TRANSITIONS — COMMISSION TARDE",
+  "chunk_text": "This roadmap is a follow-up to the consultation document published by TERI in 2020, “Towards a Low Carbon Steel Sector: An overview of the changing market, technology and policy context for Indian steel”. \nThe updated consultation document is available at our website as Tech Annex . The roadmap builds on this \npreceding work, along with other TERI and ETC publications on steel and hydrogen1, incorporating in the \ndetailed comments and feedback from discussions with international experts, steel sector representatives, \nand government officials.\nINTRODUCTION\n1\t The Potential Role of Hydrogen in \n\n… [+199 more chars]",
+  "content_hash": "630c8ecb0f829e0312aa3f2b1c52a9e9f7c0bb4735a34a25042bd69780fb555f",
+  "token_count": 176,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -569,44 +569,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     17,
     17
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
-}
-```
-
-## Child · `65fef68a-bd8c-5a56-99ea-ebce6c7b6e68`
-
-- vector: dim=3072 · [0.0150, -0.0379, -0.0158, -0.0098, -0.0396, -0.0218, 0.0131, 0.0321, …]
-
-```json
-{
-  "chunk_id": "65fef68a-bd8c-5a56-99ea-ebce6c7b6e68",
-  "document_id": "achieving_green_steel_roadmap_pdf",
-  "is_parent": false,
-  "source_type": "pdf",
-  "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "Steel Scrap Recycling",
-  "chunk_text": "This roadmap is a follow-up to the consultation document published by TERI in 2020, “Towards a Low Carbon Steel Sector: An overview of the changing market, technology and policy context for Indian steel”. \nThe updated consultation document is available at our website as Tech Annex . The roadmap builds on this \npreceding work, along with other TERI and ETC publications on steel and hydrogen1, incorporating in the \ndetailed comments and feedback from discussions with international experts, steel sector representatives, \nand government officials.\nINTRODUCTION\n1\t The Potential Role of Hydrogen in \n\n… [+199 more chars]",
-  "content_hash": "630c8ecb0f829e0312aa3f2b1c52a9e9f7c0bb4735a34a25042bd69780fb555f",
-  "token_count": 176,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "achieving_green_steel_roadmap_pdf",
-  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "62f3149e-c5f3-5e77-9075-d170848bcb51",
-  "chunk_index": 12,
-  "page_number": 17,
-  "page_range": [
-    17,
-    17
-  ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
@@ -638,18 +602,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     19,
     21
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `69b7c667-73cc-519e-9c11-0c69e6548f97`
+## Child · `65fef68a-bd8c-5a56-99ea-ebce6c7b6e68`
 
-- vector: dim=3072 · [0.0297, 0.0127, -0.0108, -0.0065, -0.0081, -0.0145, 0.0011, -0.0171, …]
+- vector: dim=3072 · [0.0296, 0.0127, -0.0107, -0.0065, -0.0082, -0.0145, 0.0012, -0.0171, …]
 
 ```json
 {
-  "chunk_id": "69b7c667-73cc-519e-9c11-0c69e6548f97",
+  "chunk_id": "65fef68a-bd8c-5a56-99ea-ebce6c7b6e68",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -668,24 +632,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "6735efd5-1ad3-5cb6-9ec6-f2a61992b883",
-  "chunk_index": 13,
+  "chunk_index": 12,
   "page_number": 19,
   "page_range": [
     19,
     19
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `aea94858-15b5-5a41-9fd2-098f1d473790`
+## Child · `69b7c667-73cc-519e-9c11-0c69e6548f97`
 
-- vector: dim=3072 · [0.0072, -0.0032, 0.0020, -0.0023, -0.0252, -0.0145, -0.0168, 0.0154, …]
+- vector: dim=3072 · [0.0072, -0.0031, 0.0020, -0.0023, -0.0251, -0.0146, -0.0169, 0.0154, …]
 
 ```json
 {
-  "chunk_id": "aea94858-15b5-5a41-9fd2-098f1d473790",
+  "chunk_id": "69b7c667-73cc-519e-9c11-0c69e6548f97",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -704,24 +668,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "6735efd5-1ad3-5cb6-9ec6-f2a61992b883",
-  "chunk_index": 14,
+  "chunk_index": 13,
   "page_number": 20,
   "page_range": [
     20,
     20
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `687441d7-1545-5fd7-909d-c355cda58034`
+## Child · `aea94858-15b5-5a41-9fd2-098f1d473790`
 
-- vector: dim=3072 · [0.0069, -0.0110, -0.0015, 0.0188, -0.0210, 0.0054, -0.0172, 0.0093, …]
+- vector: dim=3072 · [0.0069, -0.0114, -0.0014, 0.0188, -0.0207, 0.0053, -0.0171, 0.0094, …]
 
 ```json
 {
-  "chunk_id": "687441d7-1545-5fd7-909d-c355cda58034",
+  "chunk_id": "aea94858-15b5-5a41-9fd2-098f1d473790",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -740,24 +704,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "6735efd5-1ad3-5cb6-9ec6-f2a61992b883",
-  "chunk_index": 15,
+  "chunk_index": 14,
   "page_number": 20,
   "page_range": [
     20,
     21
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `03ce0500-0a6b-5cc2-8fca-cd515588433e`
+## Child · `687441d7-1545-5fd7-909d-c355cda58034`
 
-- vector: dim=3072 · [0.0208, 0.0051, -0.0137, 0.0087, -0.0146, -0.0209, 0.0013, -0.0147, …]
+- vector: dim=3072 · [0.0209, 0.0050, -0.0136, 0.0086, -0.0146, -0.0209, 0.0013, -0.0147, …]
 
 ```json
 {
-  "chunk_id": "03ce0500-0a6b-5cc2-8fca-cd515588433e",
+  "chunk_id": "687441d7-1545-5fd7-909d-c355cda58034",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -775,24 +739,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 16,
+  "chunk_index": 15,
   "page_number": 21,
   "page_range": [
     21,
     22
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `241d7bd7-74c0-5722-a48b-1669da1e1bb0`
+## Child · `03ce0500-0a6b-5cc2-8fca-cd515588433e`
 
 - vector: dim=3072 · [-0.0004, -0.0122, -0.0119, -0.0030, 0.0084, 0.0011, -0.0066, -0.0172, …]
 
 ```json
 {
-  "chunk_id": "241d7bd7-74c0-5722-a48b-1669da1e1bb0",
+  "chunk_id": "03ce0500-0a6b-5cc2-8fca-cd515588433e",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -810,24 +774,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 17,
+  "chunk_index": 16,
   "page_number": 22,
   "page_range": [
     22,
     22
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `151361de-b436-59d5-87d1-ececede0c345`
+## Child · `241d7bd7-74c0-5722-a48b-1669da1e1bb0`
 
 - vector: dim=3072 · [0.0079, -0.0025, -0.0090, -0.0030, 0.0165, -0.0154, 0.0064, -0.0002, …]
 
 ```json
 {
-  "chunk_id": "151361de-b436-59d5-87d1-ececede0c345",
+  "chunk_id": "241d7bd7-74c0-5722-a48b-1669da1e1bb0",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -845,14 +809,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 18,
+  "chunk_index": 17,
   "page_number": 22,
   "page_range": [
     22,
     24
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
@@ -868,9 +832,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "1.3.2\t Digitalisation",
-  "chunk_text": "1.3.2\t Digitalisation\n\nAs with other sectors in the economy, the iron and steel sector is set to realise significant benefits from \nthe digitalisation of production processes and supply chains. This is likely to have a step-change impact in \noperational efficiencies. It will be important to consider digitalisation alongside other major trends, such \nas decarbonisation, to better understand the net impact of such major technological shifts.\nDigitalisation of industry is a wide-ranging area, often covered under topics such as Industry 4.0 (or 4th \nIndustrial Revolution), Internet of Things (IoT)\n\n… [+2695 more chars]",
-  "content_hash": "e1edea3eca067c8a6674323d025df52fb0ca4b3f887c97746bed91c7e304da98",
-  "token_count": 644,
+  "chunk_text": "1.3.2\t Digitalisation\n\nAs with other sectors in the economy, the iron and steel sector is set to realise significant benefits from \nthe digitalisation of production processes and supply chains. This is likely to have a step-change impact in \noperational efficiencies. It will be important to consider digitalisation alongside other major trends, such \nas decarbonisation, to better understand the net impact of such major technological shifts.\nDigitalisation of industry is a wide-ranging area, often covered under topics such as Industry 4.0 (or 4th \nIndustrial Revolution), Internet of Things (IoT)\n\n… [+2684 more chars]",
+  "content_hash": "d607e435c7b14785c83c310bcd286121aefc3aab2dd1367a628b34468aa3ceac",
+  "token_count": 641,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -884,18 +848,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     24,
     25
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `106c1561-5c4a-5559-a953-315cedd22e4b`
+## Child · `151361de-b436-59d5-87d1-ececede0c345`
 
-- vector: dim=3072 · [0.0249, 0.0316, -0.0173, 0.0092, 0.0060, 0.0103, 0.0089, -0.0005, …]
+- vector: dim=3072 · [0.0249, 0.0316, -0.0173, 0.0093, 0.0060, 0.0102, 0.0089, -0.0004, …]
 
 ```json
 {
-  "chunk_id": "106c1561-5c4a-5559-a953-315cedd22e4b",
+  "chunk_id": "151361de-b436-59d5-87d1-ececede0c345",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -914,32 +878,32 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "bf332323-2dfc-59a2-822e-7ba007c960f4",
-  "chunk_index": 19,
+  "chunk_index": 18,
   "page_number": 24,
   "page_range": [
     24,
     24
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `b8a4fdc1-b3ea-596f-981f-5a4cab66dfce`
+## Child · `106c1561-5c4a-5559-a953-315cedd22e4b`
 
-- vector: dim=3072 · [0.0172, 0.0062, -0.0114, 0.0059, -0.0085, 0.0040, 0.0055, -0.0122, …]
+- vector: dim=3072 · [0.0186, 0.0062, -0.0113, 0.0087, -0.0093, 0.0035, 0.0042, -0.0171, …]
 
 ```json
 {
-  "chunk_id": "b8a4fdc1-b3ea-596f-981f-5a4cab66dfce",
+  "chunk_id": "106c1561-5c4a-5559-a953-315cedd22e4b",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "1.3.2\t Digitalisation",
-  "chunk_text": "Their Kalinganagar plant has \ndeveloped an expert team of analytics specialists, including data scientists and translators. The net impact of digitalisation on the Indian iron and steel sector is uncertain. It represents a significant \nopportunity for Indian steelmakers as build new capacity in the coming decades, able to take advantage of \nthe latest technologies, unavailable to other countries when they were expanding their steel production. \nIndia has shown a proficiency for rapid adoption of new technologies in other sectors, with a relatively \nyoung and technically literate workforce bett\n\n… [+838 more chars]",
-  "content_hash": "b277f656d9184414c693d95cc7fc5a2ed303ec9bdca930366fa87ed31bf54230",
-  "token_count": 264,
+  "chunk_text": "Their Kalinganagar plant has \ndeveloped an expert team of analytics specialists, including data scientists and translators. The net impact of digitalisation on the Indian iron and steel sector is uncertain. It represents a significant\nopportunity for Indian steelmakers as build new capacity in the coming decades, able to take advantage of\nthe latest technologies, unavailable to other countries when they were expanding their steel production.\nIndia has shown a proficiency for rapid adoption of new technologies in other sectors, with a relatively\nyoung and technically literate workforce better s\n\n… [+827 more chars]",
+  "content_hash": "e6979d96606fab03b1c6861160872252d09b812784a5267f195602b2a6f8f002",
+  "token_count": 261,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -950,14 +914,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "bf332323-2dfc-59a2-822e-7ba007c960f4",
-  "chunk_index": 20,
+  "chunk_index": 19,
   "page_number": 25,
   "page_range": [
     25,
     25
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
@@ -972,10 +936,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": true,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "1.3.3\t Decarbonisation",
-  "chunk_text": "1.3.3\t Decarbonisation\n\nThe third macro-trend, and arguably \nthe trend driving the most significant \ndisruption in the iron and steel \nsector, is the growing imperative for \ndecarbonisation. The iron and steel \nsector is currently both highly energy \nand emissions-intensive, accounting \nfor 8% of global final energy use and \n7% of global direct energy-related \nCO2 emissions (including industrial \nprocess emissions) (IEA, 2020). As \nprogress to decarbonize the power \nand transport sectors accelerates, \nwe are starting to see greater focus \non the heavy industry sectors, \nsuch as iron & steel, c\n\n… [+2633 more chars]",
-  "content_hash": "0cff17b494242cf445013c948b9a21c42a93128e76119505cfdd8707e0bc7eee",
-  "token_count": 938,
+  "section_heading": "1.3.3 Decarbonisation",
+  "chunk_text": "1.3.3 Decarbonisation\n\nThe third macro-trend, and arguably\nthe trend driving the most significant\ndisruption in the iron and steel\nsector, is the growing imperative for\ndecarbonisation. The iron and steel\nsector is currently both highly energy\nand emissions-intensive, accounting\nfor 8% of global final energy use and\n7% of global direct energy-related\nCO2 emissions (including industrial\nprocess emissions) (IEA, 2020). As\nprogress to decarbonize the power\nand transport sectors accelerates,\nwe are starting to see greater focus\non the heavy industry sectors,\nsuch as iron & steel, cement and\nchemic\n\n… [+1617 more chars]",
+  "content_hash": "87570bd31baf852b88b3a50efea131721f7ed1b03a071ccd01c9287ef053551b",
+  "token_count": 489,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -989,14 +953,50 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     25,
     26
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
+}
+```
+
+## Child · `b8a4fdc1-b3ea-596f-981f-5a4cab66dfce`
+
+- vector: dim=3072 · [0.0025, -0.0231, -0.0170, 0.0035, -0.0360, -0.0319, 0.0068, -0.0038, …]
+
+```json
+{
+  "chunk_id": "b8a4fdc1-b3ea-596f-981f-5a4cab66dfce",
+  "document_id": "achieving_green_steel_roadmap_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Achieving_Green_Steel_Roadmap.pdf",
+  "section_heading": "1.3.3 Decarbonisation",
+  "chunk_text": "The third macro-trend, and arguably\nthe trend driving the most significant\ndisruption in the iron and steel\nsector, is the growing imperative for\ndecarbonisation. The iron and steel\nsector is currently both highly energy\nand emissions-intensive, accounting\nfor 8% of global final energy use and\n7% of global direct energy-related\nCO2 emissions (including industrial\nprocess emissions) (IEA, 2020). As\nprogress to decarbonize the power\nand transport sectors accelerates,\nwe are starting to see greater focus\non the heavy industry sectors,\nsuch as iron & steel, cement and\nchemicals.\n\nFigure 7: Green s\n\n… [+588 more chars]",
+  "content_hash": "c2362c29bced3cca557db8599a9e0a73194e9149c56ab0a0629e8d610ba725ed",
+  "token_count": 283,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "achieving_green_steel_roadmap_pdf",
+  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
+  "parent_chunk_id": "ab1cfcab-0ef4-5597-9d0b-9e4ab19d7d17",
+  "chunk_index": 20,
+  "page_number": 25,
+  "page_range": [
+    25,
+    25
+  ],
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `2016fa91-aa35-5177-a341-2634b8dfbac8`
 
-- vector: dim=3072 · [0.0128, -0.0121, -0.0183, 0.0036, -0.0268, -0.0258, 0.0066, 0.0033, …]
+- vector: dim=3072 · [0.0220, -0.0086, -0.0128, 0.0098, -0.0195, -0.0274, -0.0226, -0.0225, …]
 
 ```json
 {
@@ -1005,10 +1005,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "1.3.3\t Decarbonisation",
-  "chunk_text": "The third macro-trend, and arguably \nthe trend driving the most significant \ndisruption in the iron and steel \nsector, is the growing imperative for \ndecarbonisation. The iron and steel \nsector is currently both highly energy \nand emissions-intensive, accounting \nfor 8% of global final energy use and \n7% of global direct energy-related \nCO2 emissions (including industrial \nprocess emissions) (IEA, 2020). As \nprogress to decarbonize the power \nand transport sectors accelerates, \nwe are starting to see greater focus \non the heavy industry sectors, \nsuch as iron & steel, cement and \nchemicals.\nIn\n\n… [+971 more chars]",
-  "content_hash": "9fea8b4612a1b5745205b1b15998ebf47a0a797704ea4e427d5eebc96063f9f8",
-  "token_count": 450,
+  "section_heading": "1.3.3 Decarbonisation",
+  "chunk_text": "Even with ambitious energy and material\nefficiency measures to reduce energy consumption and mitigate demand growth, the level of emissions\nin the Indian iron & steel sector will be incompatible with the ambition of limiting global warming to well\nbelow 2ºC. For further emissions reduction, the introduction of new, low carbon technologies will be required, such \nas the use of low carbon hydrogen or carbon, capture, utilisation and storage (CCUS). Initially, these \nnew processes will increase the costs of steel production, and will require the introduction of supportive \npolicies by the governm\n\n… [+663 more chars]",
+  "content_hash": "ce237b68f91829962a067feb457df746c97c58b54334eced7c666c08769f1801",
+  "token_count": 247,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1020,95 +1020,23 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "ab1cfcab-0ef4-5597-9d0b-9e4ab19d7d17",
   "chunk_index": 21,
-  "page_number": 25,
-  "page_range": [
-    25,
-    25
-  ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
-}
-```
-
-## Child · `e69fa337-3862-5a53-a466-66d5f6b75657`
-
-- vector: dim=3072 · [0.0321, 0.0225, -0.0212, -0.0018, -0.0135, -0.0172, 0.0140, 0.0392, …]
-
-```json
-{
-  "chunk_id": "e69fa337-3862-5a53-a466-66d5f6b75657",
-  "document_id": "achieving_green_steel_roadmap_pdf",
-  "is_parent": false,
-  "source_type": "pdf",
-  "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "1.3.3\t Decarbonisation",
-  "chunk_text": "TBC\n‘25\n‘25\n‘26\n‘28\n‘30\n‘30\n‘21\n‘22\n‘26\n‘24\nTBC\n‘21\nTBC\n2021\nTBC\nTBC\nTBC\nTBC\nTBC 2030\n2017\n2024\n2025\n2027\n2025\nTBC\nTBC\nTBC\nTBC\nTBC\n\n| TOTAL STEEL PROJECTS PRODUCED (MN COMPANY (WITH LAUNCH YEAR) TONNES P.A.)* 115 57 0 Project scale * Source: World Steel in Full scale Pilots Demonstration Plant R&D partnership Figures 2020 |  |  |  |\n| --- | --- | --- | --- |\n|  |  |  | Baowu TBC TBC |\n|  |  |  | Arcelor Mittal ‘25 ‘25 ‘26 ‘28 ‘30 ‘30 TBC ‘21 ‘22 ‘26 ‘24 ‘21 |\n|  |  |  | HBIS 2021 TBC |\n|  |  |  | Nippon Steel TBC |\n|  |  |  | POSCO TBC TBC TBC TBC TBC |\n|  |  |  | Tata Steel 2024 2030 2017 |\n|\n\n… [+112 more chars]",
-  "content_hash": "9a0c9242998c2232d5e7918a54980e23bde91a671f5d1640bffea1cf4a2e8ab5",
-  "token_count": 340,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "achieving_green_steel_roadmap_pdf",
-  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "ab1cfcab-0ef4-5597-9d0b-9e4ab19d7d17",
-  "chunk_index": 22,
-  "page_number": 25,
-  "page_range": [
-    25,
-    25
-  ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
-}
-```
-
-## Child · `4731a355-4f0a-5cae-93eb-9d68ce161448`
-
-- vector: dim=3072 · [0.0302, -0.0084, -0.0078, 0.0200, -0.0087, -0.0191, 0.0039, 0.0085, …]
-
-```json
-{
-  "chunk_id": "4731a355-4f0a-5cae-93eb-9d68ce161448",
-  "document_id": "achieving_green_steel_roadmap_pdf",
-  "is_parent": false,
-  "source_type": "pdf",
-  "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "1.3.3\t Decarbonisation",
-  "chunk_text": "7 |\n|  |  |  | JFE TBC |\n|  |  |  | US Steel TBC |\n|  |  |  | Thyssen Krupp 2025 2025 2027 |\n|  |  |  | Tenaris TBC | For further emissions reduction, the introduction of new, low carbon technologies will be required, such \nas the use of low carbon hydrogen or carbon, capture, utilisation and storage (CCUS). Initially, these \nnew processes will increase the costs of steel production, and will require the introduction of supportive \npolicies by the government to help the industry through the transition, as we have seen in other sectors, \nsuch as power and transport.\nWhilst it is true that some \n\n… [+522 more chars]",
-  "content_hash": "fda803d27782776dafba3ffaf4566ff601bbb6c354f38a338dd24fe62da3adc2",
-  "token_count": 257,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "achieving_green_steel_roadmap_pdf",
-  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "ab1cfcab-0ef4-5597-9d0b-9e4ab19d7d17",
-  "chunk_index": 23,
   "page_number": 26,
   "page_range": [
     26,
     26
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `004f77c3-23e1-5d46-b4c5-5a53460f780f`
+## Child · `e69fa337-3862-5a53-a466-66d5f6b75657`
 
-- vector: dim=3072 · [0.0148, 0.0131, -0.0050, -0.0188, 0.0256, -0.0244, 0.0101, 0.0067, …]
+- vector: dim=3072 · [0.0148, 0.0131, -0.0050, -0.0188, 0.0257, -0.0243, 0.0101, 0.0067, …]
 
 ```json
 {
-  "chunk_id": "004f77c3-23e1-5d46-b4c5-5a53460f780f",
+  "chunk_id": "e69fa337-3862-5a53-a466-66d5f6b75657",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1126,24 +1054,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 24,
+  "chunk_index": 22,
   "page_number": 28,
   "page_range": [
     28,
     28
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `0c7a15af-0cc7-5d8f-a638-fcf3fbf3e115`
+## Child · `4731a355-4f0a-5cae-93eb-9d68ce161448`
 
 - vector: dim=3072 · [0.0163, 0.0185, -0.0120, 0.0039, 0.0220, -0.0272, -0.0228, -0.0200, …]
 
 ```json
 {
-  "chunk_id": "0c7a15af-0cc7-5d8f-a638-fcf3fbf3e115",
+  "chunk_id": "4731a355-4f0a-5cae-93eb-9d68ce161448",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1161,24 +1089,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 25,
+  "chunk_index": 23,
   "page_number": 28,
   "page_range": [
     28,
     28
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `9820d55d-49ab-5d0c-89a5-b39eaa5dfa03`
+## Child · `004f77c3-23e1-5d46-b4c5-5a53460f780f`
 
 - vector: dim=3072 · [0.0150, 0.0210, 0.0009, 0.0030, -0.0343, -0.0211, 0.0021, -0.0202, …]
 
 ```json
 {
-  "chunk_id": "9820d55d-49ab-5d0c-89a5-b39eaa5dfa03",
+  "chunk_id": "004f77c3-23e1-5d46-b4c5-5a53460f780f",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1196,32 +1124,32 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 26,
+  "chunk_index": 24,
   "page_number": 28,
   "page_range": [
     28,
     29
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `9f95be06-4b5e-5bd4-90c0-e7e0a15f8708`
+## Child · `0c7a15af-0cc7-5d8f-a638-fcf3fbf3e115`
 
-- vector: dim=3072 · [0.0128, -0.0074, -0.0028, 0.0008, -0.0222, -0.0245, -0.0167, -0.0115, …]
+- vector: dim=3072 · [0.0110, -0.0034, -0.0036, 0.0047, -0.0221, -0.0276, -0.0196, -0.0116, …]
 
 ```json
 {
-  "chunk_id": "9f95be06-4b5e-5bd4-90c0-e7e0a15f8708",
+  "chunk_id": "0c7a15af-0cc7-5d8f-a638-fcf3fbf3e115",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "2.4 Employment",
-  "chunk_text": "The Indian steel sector currently employs approximately 2.5 million people throughout the supply chain \n(MoS, 2020a). This is estimated to increase to around 3.5 million by 2030, depending on the degree of \nautomation (NSP, 2017). The highest-skilled jobs include engineers and metallurgists, which are vital for \nthe efficient operation of the plants and timely adoption of new technologies. \nHowever, the sector is currently facing a significant skills shortage, which is being exacerbated by skilled \ngraduates moving away from the manufacturing sectors to the service sectors. This is being drive\n\n… [+1407 more chars]",
-  "content_hash": "4e100d7a39c2fb1429976ca26a047ff4d683a62a765780320ebb9c461ad94e32",
-  "token_count": 415,
+  "chunk_text": "The Indian steel sector currently employs approximately 2.5 million people throughout the supply chain \n(MoS, 2020a). This is estimated to increase to around 3.5 million by 2030, depending on the degree of \nautomation (NSP, 2017). The highest-skilled jobs include engineers and metallurgists, which are vital for \nthe efficient operation of the plants and timely adoption of new technologies. \nHowever, the sector is currently facing a significant skills shortage, which is being exacerbated by skilled \ngraduates moving away from the manufacturing sectors to the service sectors. This is being drive\n\n… [+1418 more chars]",
+  "content_hash": "18d01cf52894196e4344355a7efa1fc5e3d4f44878fb42e90e7d7bbccd2fb433",
+  "token_count": 416,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1231,14 +1159,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 27,
+  "chunk_index": 25,
   "page_number": 30,
   "page_range": [
     30,
     32
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
@@ -1253,10 +1181,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": true,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "3.1\t Competitiveness",
-  "chunk_text": "3.1\t Competitiveness\n\nWhilst there have been significant improvements in the operational efficiencies of steel production in \nIndia in recent years, on average, Indian steel producers are still facing costs around 5-10% higher as \ncompared to the global average. In the context of a global glut in steel supply, this places Indian steel \nproducers in a difficult position, reducing profits for reinvestment and limiting export markets. The cost \npremium is driven by a number of factors (see Table 1), with the main contributors being costs of finance \n(approximately 12% versus 3-5% across the Europ\n\n… [+2889 more chars]",
-  "content_hash": "5a7fcd506773ea443981fd29edde7dc7310e553ca979c95441fe88d20d0bf55f",
-  "token_count": 828,
+  "section_heading": "3.1 Competitiveness",
+  "chunk_text": "3.1 Competitiveness\n\nWhilst there have been significant improvements in the operational efficiencies of steel production in\nIndia in recent years, on average, Indian steel producers are still facing costs around 5-10% higher as\ncompared to the global average. In the context of a global glut in steel supply, this places Indian steel\nproducers in a difficult position, reducing profits for reinvestment and limiting export markets. The cost\npremium is driven by a number of factors (see Table 1), with the main contributors being costs of finance\n(approximately 12% versus 3-5% across the European Un\n\n… [+2609 more chars]",
+  "content_hash": "7d34cdf9cdcf0936b9f3484a7710173bc4eaf8affea532380abfb7bf28241535",
+  "token_count": 754,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1270,14 +1198,86 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     32,
     33
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
+}
+```
+
+## Child · `9820d55d-49ab-5d0c-89a5-b39eaa5dfa03`
+
+- vector: dim=3072 · [0.0091, 0.0127, -0.0057, 0.0168, -0.0139, -0.0228, -0.0086, -0.0013, …]
+
+```json
+{
+  "chunk_id": "9820d55d-49ab-5d0c-89a5-b39eaa5dfa03",
+  "document_id": "achieving_green_steel_roadmap_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Achieving_Green_Steel_Roadmap.pdf",
+  "section_heading": "3.1 Competitiveness",
+  "chunk_text": "Whilst there have been significant improvements in the operational efficiencies of steel production in\nIndia in recent years, on average, Indian steel producers are still facing costs around 5-10% higher as\ncompared to the global average. In the context of a global glut in steel supply, this places Indian steel\nproducers in a difficult position, reducing profits for reinvestment and limiting export markets. The cost\npremium is driven by a number of factors (see Table 1), with the main contributors being costs of finance\n(approximately 12% versus 3-5% across the European Union) and the costs of\n\n… [+1156 more chars]",
+  "content_hash": "2244951d814a5194631f63b265cf00bd36b48bac34e6e45a926582f90b131b07",
+  "token_count": 389,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "achieving_green_steel_roadmap_pdf",
+  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
+  "parent_chunk_id": "a9ef31a8-c2b3-5729-8961-e3ed32bb0616",
+  "chunk_index": 26,
+  "page_number": 32,
+  "page_range": [
+    32,
+    32
+  ],
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
+}
+```
+
+## Child · `9f95be06-4b5e-5bd4-90c0-e7e0a15f8708`
+
+- vector: dim=3072 · [0.0082, 0.0172, -0.0055, 0.0120, -0.0009, -0.0207, -0.0038, 0.0165, …]
+
+```json
+{
+  "chunk_id": "9f95be06-4b5e-5bd4-90c0-e7e0a15f8708",
+  "document_id": "achieving_green_steel_roadmap_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Achieving_Green_Steel_Roadmap.pdf",
+  "section_heading": "3.1 Competitiveness",
+  "chunk_text": "To help improve the relative competitiveness of domestic producers, the Government has\nrecently approved the Production Linked Incentive Scheme for 'Speciality Steel' (PIB, 2021), although it is\ntoo early to assess the effectiveness of this programme. | Item | Cost ($/ton) |\n| --- | --- |\n| Logistics and Infrastructure | 25-30 |\n| Power | 8-12 |\n| Import duty on coal | 5-7 |\n| GST Compensation Cess | 2-4 |\n| Taxes and duties on iron ore | 8-12 |\n| Finance | 30-35 |\n| Total cost disadvantage | 80-100 |\n\nSource: (Niti Aayog, 2016)\n\nTata Steel Ltd.\nSteel Authority of India Ltd.\nJindal Steel & Pow\n\n… [+1082 more chars]",
+  "content_hash": "529a243ebce71fdc134efec50a194845f048b2c60bc0c5dfc7e99dc438832f54",
+  "token_count": 410,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "achieving_green_steel_roadmap_pdf",
+  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
+  "parent_chunk_id": "a9ef31a8-c2b3-5729-8961-e3ed32bb0616",
+  "chunk_index": 27,
+  "page_number": 32,
+  "page_range": [
+    32,
+    33
+  ],
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `acdddbc7-8827-59f4-84c0-a5f16c70a126`
 
-- vector: dim=3072 · [0.0058, 0.0131, -0.0017, 0.0157, -0.0172, -0.0254, -0.0163, -0.0032, …]
+- vector: dim=3072 · [-0.0111, -0.0007, -0.0032, -0.0006, -0.0144, -0.0281, -0.0072, -0.0028, …]
 
 ```json
 {
@@ -1286,10 +1286,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "3.1\t Competitiveness",
-  "chunk_text": "Whilst there have been significant improvements in the operational efficiencies of steel production in \nIndia in recent years, on average, Indian steel producers are still facing costs around 5-10% higher as \ncompared to the global average. In the context of a global glut in steel supply, this places Indian steel \nproducers in a difficult position, reducing profits for reinvestment and limiting export markets. The cost \npremium is driven by a number of factors (see Table 1), with the main contributors being costs of finance \n(approximately 12% versus 3-5% across the European Union) and the cos\n\n… [+1340 more chars]",
-  "content_hash": "947a3068f61bccd6f3e50376a4485264bf785989383d34b8109f2e7cc84927ff",
-  "token_count": 445,
+  "section_heading": "3.2\t Rapid growth required in the near term",
+  "chunk_text": "As India’s economy grows, its steel demand will grow substantially. India currently has the world’s second \nlargest population and is expected to be the largest by 2023 (OECD, 2018). By 2030, in our Baseline \nscenario (see Figure 10), we expect steel demand to more than double versus today, increasing the steel \nuse per capita to 150 kg. Under the Resource efficiency4 scenario, steel use per capita is similar over this \ntime frame, given the time taken for resource efficiency measures to have a substantial impact.\nBy 2050, in the Baseline scenario, we expect steel demand per capita to nearly q\n\n… [+1132 more chars]",
+  "content_hash": "350f39b2f68af38d1548352036b622fab77590ea1e10b3959c0ea88f9dc02c27",
+  "token_count": 398,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1299,21 +1299,53 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "a9ef31a8-c2b3-5729-8961-e3ed32bb0616",
   "chunk_index": 28,
-  "page_number": 32,
+  "page_number": 33,
   "page_range": [
-    32,
-    32
+    33,
+    34
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
+}
+```
+
+## Parent · `ad57f944-65bb-5fbc-a070-823c4da8b6eb`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "ad57f944-65bb-5fbc-a070-823c4da8b6eb",
+  "document_id": "achieving_green_steel_roadmap_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Achieving_Green_Steel_Roadmap.pdf",
+  "section_heading": "3.3 Technology availability",
+  "chunk_text": "3.3 Technology availability\n\nTo achieve deep decarbonisation of the iron and steel sector, new technologies will be required -\nin particular for the replacement of conventional primary production processes with low emissions\nalternatives. There are several emerging low emissions technologies to produce steel from iron ore. They\nbroadly fall into three categories:\n\n· Carbon capture, utilisation, and storage (CCUS)\n\n· The use of low carbon hydrogen to replace fossil fuels\n\n· Direct electrification through electrolysis of iron ore\n\nEach of these technologies differ in their suitability to the Ind\n\n… [+3877 more chars]",
+  "content_hash": "15838bfa824eb2df27adde26635ebfbf3201cf1dfd04d2ab4c5acb41b119711f",
+  "token_count": 1006,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "achieving_green_steel_roadmap_pdf",
+  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
+  "page_range": [
+    34,
+    36
+  ],
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `53440e1e-175f-5063-a8af-71aae63bac96`
 
-- vector: dim=3072 · [-0.0101, 0.0241, -0.0054, 0.0034, -0.0120, -0.0334, -0.0164, 0.0129, …]
+- vector: dim=3072 · [0.0258, -0.0081, -0.0175, 0.0118, -0.0331, -0.0012, -0.0115, -0.0156, …]
 
 ```json
 {
@@ -1322,10 +1354,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "3.1\t Competitiveness",
-  "chunk_text": "Table 1: Cost premium for steel production in India\nTaxes and duties on iron ore\n8-12\nFinance\n30-35\nTotal cost disadvantage\n80-100\nSource: (Niti Aayog, 2016)\nChallenges | too early to assess the effectiveness of this programme. |  |\n| --- | --- |\n| Table 1: Cost premium for steel production in india |  |\n| Item | Cost ($/ton) |\n| Logistics and infrastructure | 25-30 |\n| Power | 8-12 |\n| import duty on coal | 5-7 |\n| GST Compensation Cess | 2-4 |\n| Taxes and duties on iron ore | 8-12 |\n| Finance | 30-35 |\n| Total cost disadvantage | 80-100 |\n\nTata Steel Ltd.\nSteel Authority of India Ltd.\nJindal\n\n… [+1094 more chars]",
-  "content_hash": "72a503eaaabb328a99b8e569cb97f50a2fa0303d9e909d27122cf03abd3d8a96",
-  "token_count": 427,
+  "section_heading": "3.3 Technology availability",
+  "chunk_text": "To achieve deep decarbonisation of the iron and steel sector, new technologies will be required -\nin particular for the replacement of conventional primary production processes with low emissions\nalternatives. There are several emerging low emissions technologies to produce steel from iron ore. They\nbroadly fall into three categories:\n\n· Carbon capture, utilisation, and storage (CCUS)\n\n· The use of low carbon hydrogen to replace fossil fuels\n\n· Direct electrification through electrolysis of iron ore\n\nEach of these technologies differ in their suitability to the Indian context, based on their c\n\n… [+161 more chars]",
+  "content_hash": "48f3e411a5bd0a31867a0036d349ada7a1fd30702625aaacf6c7004281f24ae6",
+  "token_count": 142,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1335,21 +1367,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "a9ef31a8-c2b3-5729-8961-e3ed32bb0616",
+  "parent_chunk_id": "ad57f944-65bb-5fbc-a070-823c4da8b6eb",
   "chunk_index": 29,
-  "page_number": 32,
+  "page_number": 34,
   "page_range": [
-    32,
-    33
+    34,
+    34
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `580b0363-c934-5ea2-876f-b7615995eaae`
 
-- vector: dim=3072 · [-0.0129, 0.0013, -0.0047, -0.0028, -0.0148, -0.0258, 0.0005, -0.0100, …]
+- vector: dim=3072 · [0.0113, 0.0005, -0.0173, -0.0029, -0.0229, -0.0220, 0.0024, -0.0026, …]
 
 ```json
 {
@@ -1358,10 +1390,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "3.2\t Rapid growth required in the near term",
-  "chunk_text": "As India’s economy grows, its steel demand will grow substantially. India currently has the world’s second \nlargest population and is expected to be the largest by 2023 (OECD, 2018). By 2030, in our Baseline \nscenario (see Figure 10), we expect steel demand to more than double versus today, increasing the steel \nuse per capita to 150 kg. Under the Resource efficiency4 scenario, steel use per capita is similar over this \ntime frame, given the time taken for resource efficiency measures to have a substantial impact.\nBy 2050, in the Baseline scenario, we expect steel demand per capita to nearly q\n\n… [+988 more chars]",
-  "content_hash": "c0b39a2c29995ba128d00f17b5b0036207baa632e5953789db90944755b978fe",
-  "token_count": 350,
+  "section_heading": "3.3 Technology availability",
+  "chunk_text": "An overview is provided in Table 2. | Technology | TRL | Emissions reduction potential | Suitability for deep decarbonisation in India |\n| --- | --- | --- | --- |\n| Carbon Capture, Utilisation, and Storage | Carbon Capture, Utilisation, and Storage | Carbon Capture, Utilisation, and Storage |  |\n| BF-BOF with CCUS | 5 | Possibility to reduce CO2 by approximately 60%. Although higher capture rates are possible, costs increase substantially due to multiple CO2 sources (IEA, 2017). | Limited cost-effective CO2 capture will restrict the use of this technology for deep decarbonisation, although cou\n\n… [+1635 more chars]",
+  "content_hash": "2f96bd359ba29b74389d676b321438d98d3d5403508f2d17736fd159f9490dbc",
+  "token_count": 487,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1371,20 +1403,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
+  "parent_chunk_id": "ad57f944-65bb-5fbc-a070-823c4da8b6eb",
   "chunk_index": 30,
-  "page_number": 33,
+  "page_number": 35,
   "page_range": [
-    33,
-    34
+    35,
+    35
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `452f5453-f766-5889-8b03-ea64ba4fadae`
 
-- vector: dim=3072 · [0.0239, -0.0097, -0.0106, 0.0106, -0.0318, -0.0244, -0.0084, 0.0039, …]
+- vector: dim=3072 · [0.0199, 0.0063, -0.0192, 0.0020, -0.0226, -0.0068, 0.0165, 0.0128, …]
 
 ```json
 {
@@ -1393,10 +1426,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "3.3\t Technology availability",
-  "chunk_text": "To achieve deep decarbonisation of the iron and steel sector, new technologies will be required – \nin particular for the replacement of conventional primary production processes with low emissions \nalternatives. There are several emerging low emissions technologies to produce steel from iron ore. They \nbroadly fall into three categories:\n•\t\nCarbon capture, utilisation, and storage (CCUS)\n•\t\nThe use of low carbon hydrogen to replace fossil fuels\n•\t\nDirect electrification through electrolysis of iron ore\nEach of these technologies differ in their suitability to the Indian context, based on their\n\n… [+288 more chars]",
-  "content_hash": "cdaf2910a4daed9b4fd32985b48c78147022ab79377d168924ad630fbf14e60c",
-  "token_count": 206,
+  "section_heading": "3.3 Technology availability",
+  "chunk_text": "2 blending | 7 | It is expected that H, would only be able to replace part of the injected coal, resulting in maximum 20% emissions reduction. | The limited emissions reduction means that H2 injection into BFs can only ever be a transition technology to deeper decarbonisation. | | H2 DRI | 7 | Emissions reduction potential depends on the share of H2 and whether the H, is from low carbon sources. Assuming 100% green H2, emissions reduction can be >90%, with residual emissions from carbon sources for steelmaking, graphite electrodes and limestone. | Low cost renewable electricity provides a cost\n\n… [+1165 more chars]",
+  "content_hash": "232899ada32417ea8f348999e001ac861e22f704d384fe2699419c73f7cb9328",
+  "token_count": 440,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1406,201 +1439,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
+  "parent_chunk_id": "ad57f944-65bb-5fbc-a070-823c4da8b6eb",
   "chunk_index": 31,
-  "page_number": 34,
-  "page_range": [
-    34,
-    34
-  ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
-}
-```
-
-## Parent · `192c6065-5cf1-5ec9-8d3c-5ec092881b0c`
-
-- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
-
-```json
-{
-  "chunk_id": "192c6065-5cf1-5ec9-8d3c-5ec092881b0c",
-  "document_id": "achieving_green_steel_roadmap_pdf",
-  "is_parent": true,
-  "source_type": "pdf",
-  "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "Technology TRL",
-  "chunk_text": "Technology TRL\n\nEmissions reduction potential\nSuitability for deep decarbonisation in \nIndia\nCarbon Capture, Utilisation, and Storage \nBF-BOF \nwith CCUS\n5\nPossibility \nto \nreduce \nCO2 \nby \napproximately 60%. Although higher \ncapture rates are possible, costs \nincrease substantially due to multiple \nCO2 sources (IEA, 2017).\nLimited cost-effective CO2 capture will \nrestrict the use of this technology for deep \ndecarbonisation, although could play an \nimportant role in retrofitting existing plants.\nCoal based \nDRI with \nCCUS\n4\nThere have been no comprehensive \nstudies on applying CCUS technology \n\n… [+6274 more chars]",
-  "content_hash": "5577bd98150294625bf3b54f9e5bfb9b9f980a405aee280b21aa27c60c4c9d91",
-  "token_count": 1791,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "achieving_green_steel_roadmap_pdf",
-  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
+  "page_number": 35,
   "page_range": [
     35,
     36
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
 ## Child · `345c8e44-03e4-5c99-972b-fe3fde487ad1`
 
-- vector: dim=3072 · [0.0098, 0.0225, -0.0139, 0.0134, -0.0147, -0.0145, -0.0109, 0.0057, …]
+- vector: dim=3072 · [0.0092, 0.0157, -0.0081, -0.0041, -0.0126, -0.0289, 0.0210, 0.0048, …]
 
 ```json
 {
   "chunk_id": "345c8e44-03e4-5c99-972b-fe3fde487ad1",
-  "document_id": "achieving_green_steel_roadmap_pdf",
-  "is_parent": false,
-  "source_type": "pdf",
-  "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "Technology TRL",
-  "chunk_text": "Emissions reduction potential\nSuitability for deep decarbonisation in \nIndia\nCarbon Capture, Utilisation, and Storage \nBF-BOF \nwith CCUS\n5\nPossibility \nto \nreduce \nCO2 \nby \napproximately 60%. Although higher \ncapture rates are possible, costs \nincrease substantially due to multiple \nCO2 sources (IEA, 2017).\nLimited cost-effective CO2 capture will \nrestrict the use of this technology for deep \ndecarbonisation, although could play an \nimportant role in retrofitting existing plants.\nCoal based \nDRI with \nCCUS\n4\nThere have been no comprehensive \nstudies on applying CCUS technology \nto coal-based r\n\n… [+1198 more chars]",
-  "content_hash": "0645536f7a69a43fe2c2bb8dd7484f3a8f11a5266b6f454a4888804ee206d5b6",
-  "token_count": 445,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "achieving_green_steel_roadmap_pdf",
-  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "192c6065-5cf1-5ec9-8d3c-5ec092881b0c",
-  "chunk_index": 32,
-  "page_number": 35,
-  "page_range": [
-    35,
-    35
-  ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
-}
-```
-
-## Child · `4572236d-ca35-52ee-9063-3648b85c059c`
-
-- vector: dim=3072 · [0.0088, 0.0132, -0.0157, 0.0142, -0.0256, -0.0060, 0.0045, -0.0005, …]
-
-```json
-{
-  "chunk_id": "4572236d-ca35-52ee-9063-3648b85c059c",
-  "document_id": "achieving_green_steel_roadmap_pdf",
-  "is_parent": false,
-  "source_type": "pdf",
-  "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "Technology TRL",
-  "chunk_text": "The CAPEX \nand OPEX savings make such a technology \nattractive, although the potential of CCUS is \nuncertain.\nHydrogen \nBF with H2 \nblending\n7 It is expected that H2 would only be \nable to replace part of the injected \ncoal, resulting in maximum 20% \nemissions reduction. \nThe limited emissions reduction means \nthat H2 injection into BFs can only ever \nbe a transition technology to deeper \ndecarbonisation. \nH2 DRI \n7\nEmissions \nreduction \npotential \ndepends on the share of H2 and \nwhether the H2 is from low carbon \nsources. Assuming 100% green H2, \nemissions reduction can be >90%, \nwith residua\n\n… [+911 more chars]",
-  "content_hash": "7729445d918dc5e0043e2ffcd6acb3e5d33d483c87c2f77f6005b2a84b8b91cc",
-  "token_count": 363,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "achieving_green_steel_roadmap_pdf",
-  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "192c6065-5cf1-5ec9-8d3c-5ec092881b0c",
-  "chunk_index": 33,
-  "page_number": 35,
-  "page_range": [
-    35,
-    35
-  ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
-}
-```
-
-## Child · `0ec0cc77-7e2b-5815-b705-fd2551d61ef1`
-
-- vector: dim=3072 · [0.0221, 0.0092, -0.0174, 0.0077, -0.0365, -0.0177, 0.0072, 0.0012, …]
-
-```json
-{
-  "chunk_id": "0ec0cc77-7e2b-5815-b705-fd2551d61ef1",
-  "document_id": "achieving_green_steel_roadmap_pdf",
-  "is_parent": false,
-  "source_type": "pdf",
-  "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "Technology TRL",
-  "chunk_text": "Current research projects are still at \nearly stages with uncertain timeline for \ncommercial scale. (Siderwin and Boston \nMetal)\nTable 2: Low emissions steelmaking technologies | Table 2: Low emissions steelmaking technologies |  |  |  |\n| --- | --- | --- | --- |\n| Technology | TRL | Emissions reduction potential | Suitability for deep decarbonisation in |\n|  |  |  | India |\n|  | Carbon Capture, Utilisation, and Storage |  |  |\n| BF-BOF | 5 | by Possibility to reduce CO2 | Limited cost-effective capture will CO2 |\n| with CCUS |  | approximately 60%. Although higher | restrict the use of this t\n\n… [+1704 more chars]",
-  "content_hash": "b5a065a77ccaf66fc070dbd4a1856925f9ece5200e99ba14d9989307c62981c3",
-  "token_count": 587,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "achieving_green_steel_roadmap_pdf",
-  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "192c6065-5cf1-5ec9-8d3c-5ec092881b0c",
-  "chunk_index": 34,
-  "page_number": 35,
-  "page_range": [
-    35,
-    35
-  ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
-}
-```
-
-## Child · `5a971ca9-e29a-5685-a930-76fc9e31b300`
-
-- vector: dim=3072 · [0.0301, 0.0052, -0.0190, 0.0008, -0.0178, -0.0053, 0.0093, 0.0030, …]
-
-```json
-{
-  "chunk_id": "5a971ca9-e29a-5685-a930-76fc9e31b300",
-  "document_id": "achieving_green_steel_roadmap_pdf",
-  "is_parent": false,
-  "source_type": "pdf",
-  "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "Technology TRL",
-  "chunk_text": "| and OPEx savings make such a technology |\n|  |  | emissions by 80% (Tata Steel, 2020). | attractive, although the potential of CCUS is |\n|  |  |  | uncertain. |\n| Hydrogen |  |  |  | | BF with H2 | 7 | it is expected that H2 would only be | The limited emissions reduction means |\n| blending |  | able to replace part of the injected | injection into BFs can only ever that H2 |\n|  |  | coal, resulting in maximum 20% | be a transition technology to deeper |\n|  |  | emissions reduction. | decarbonisation. |\n| H2 DRi | 7 | Emissions reduction potential | Low cost renewable electricity provides a \n\n… [+1146 more chars]",
-  "content_hash": "039baf843fdaeb6e51ed2b1ca7026867f9c0007f22b52cdece087b742aa6b76e",
-  "token_count": 527,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "achieving_green_steel_roadmap_pdf",
-  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "192c6065-5cf1-5ec9-8d3c-5ec092881b0c",
-  "chunk_index": 35,
-  "page_number": 35,
-  "page_range": [
-    35,
-    36
-  ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
-}
-```
-
-## Child · `c578deaa-fdae-5ac6-8324-76e9f58c87a4`
-
-- vector: dim=3072 · [0.0091, 0.0159, -0.0083, -0.0036, -0.0127, -0.0289, 0.0209, 0.0049, …]
-
-```json
-{
-  "chunk_id": "c578deaa-fdae-5ac6-8324-76e9f58c87a4",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1618,24 +1475,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 36,
+  "chunk_index": 32,
   "page_number": 36,
   "page_range": [
     36,
     36
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Parent · `626d82a2-6ec1-5dad-b507-03e96e3b6925`
+## Parent · `e6cd6a41-86ff-5f98-a83a-6d4c139a91f4`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "626d82a2-6ec1-5dad-b507-03e96e3b6925",
+  "chunk_id": "e6cd6a41-86ff-5f98-a83a-6d4c139a91f4",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -1657,18 +1514,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     38,
     40
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `922301fa-18fd-585c-97f4-5dbf7f040360`
+## Child · `4572236d-ca35-52ee-9063-3648b85c059c`
 
-- vector: dim=3072 · [0.0186, 0.0005, -0.0118, 0.0029, -0.0201, -0.0181, -0.0225, 0.0060, …]
+- vector: dim=3072 · [0.0185, 0.0005, -0.0118, 0.0029, -0.0200, -0.0180, -0.0224, 0.0061, …]
 
 ```json
 {
-  "chunk_id": "922301fa-18fd-585c-97f4-5dbf7f040360",
+  "chunk_id": "4572236d-ca35-52ee-9063-3648b85c059c",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1686,25 +1543,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "626d82a2-6ec1-5dad-b507-03e96e3b6925",
-  "chunk_index": 37,
+  "parent_chunk_id": "e6cd6a41-86ff-5f98-a83a-6d4c139a91f4",
+  "chunk_index": 33,
   "page_number": 38,
   "page_range": [
     38,
     38
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `cb53d3e7-4a87-5102-aab3-7b787a9cd004`
+## Child · `0ec0cc77-7e2b-5815-b705-fd2551d61ef1`
 
-- vector: dim=3072 · [-0.0128, 0.0095, -0.0128, -0.0164, -0.0382, -0.0154, -0.0340, 0.0190, …]
+- vector: dim=3072 · [-0.0129, 0.0097, -0.0129, -0.0166, -0.0382, -0.0153, -0.0339, 0.0190, …]
 
 ```json
 {
-  "chunk_id": "cb53d3e7-4a87-5102-aab3-7b787a9cd004",
+  "chunk_id": "0ec0cc77-7e2b-5815-b705-fd2551d61ef1",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1722,33 +1579,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "626d82a2-6ec1-5dad-b507-03e96e3b6925",
-  "chunk_index": 38,
+  "parent_chunk_id": "e6cd6a41-86ff-5f98-a83a-6d4c139a91f4",
+  "chunk_index": 34,
   "page_number": 39,
   "page_range": [
     39,
     40
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Parent · `430cc7b2-b681-5a11-9092-4ed40aff55e2`
+## Parent · `626d82a2-6ec1-5dad-b507-03e96e3b6925`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "430cc7b2-b681-5a11-9092-4ed40aff55e2",
+  "chunk_id": "626d82a2-6ec1-5dad-b507-03e96e3b6925",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "4.2 Technology option assessment",
-  "chunk_text": "4.2 Technology option assessment\n\nAfter understanding the existing technology make-up of the Indian steel sector, it is necessary to \nunderstand how future lower emission technologies could compete, in terms of both costs, as well as \nbroader suitability (resource availability, import / export impacts). TERI and ETC have undertaken detailed \ntechnology assessments for the Indian and global steel sector,5 which will inform the conclusions in this \nsection. \nBased on this assessment, we observe that the costs of steel production from the main conventional \nroutes in India range from around $300/\n\n… [+6128 more chars]",
-  "content_hash": "cad97d2c9e40005745414a12bd35ef64a5bbb36efac9d9b1950674d35650a916",
-  "token_count": 1618,
+  "chunk_text": "4.2 Technology option assessment\n\nAfter understanding the existing technology make-up of the Indian steel sector, it is necessary to \nunderstand how future lower emission technologies could compete, in terms of both costs, as well as \nbroader suitability (resource availability, import / export impacts). TERI and ETC have undertaken detailed \ntechnology assessments for the Indian and global steel sector,5 which will inform the conclusions in this \nsection. \nBased on this assessment, we observe that the costs of steel production from the main conventional \nroutes in India range from around $300/\n\n… [+4967 more chars]",
+  "content_hash": "204aa73529bcfdb74fdff2debd60fb3deed9f285cf20f3fff4f6c657f7550030",
+  "token_count": 1311,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1760,20 +1617,20 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "page_range": [
     40,
-    43
+    42
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `fbba2519-b45b-50c7-8297-7a057fbf1cfe`
+## Child · `5a971ca9-e29a-5685-a930-76fc9e31b300`
 
-- vector: dim=3072 · [0.0011, -0.0225, -0.0220, -0.0032, -0.0266, -0.0293, -0.0066, 0.0141, …]
+- vector: dim=3072 · [0.0010, -0.0225, -0.0220, -0.0033, -0.0267, -0.0294, -0.0066, 0.0141, …]
 
 ```json
 {
-  "chunk_id": "fbba2519-b45b-50c7-8297-7a057fbf1cfe",
+  "chunk_id": "5a971ca9-e29a-5685-a930-76fc9e31b300",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1791,25 +1648,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "430cc7b2-b681-5a11-9092-4ed40aff55e2",
-  "chunk_index": 39,
+  "parent_chunk_id": "626d82a2-6ec1-5dad-b507-03e96e3b6925",
+  "chunk_index": 35,
   "page_number": 40,
   "page_range": [
     40,
     40
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `3eddf45e-793a-59d4-a15d-3baedfe3dcc8`
+## Child · `c578deaa-fdae-5ac6-8324-76e9f58c87a4`
 
-- vector: dim=3072 · [0.0155, -0.0259, -0.0154, 0.0236, -0.0330, -0.0344, -0.0053, 0.0001, …]
+- vector: dim=3072 · [0.0153, -0.0260, -0.0155, 0.0237, -0.0328, -0.0344, -0.0053, 0.0001, …]
 
 ```json
 {
-  "chunk_id": "3eddf45e-793a-59d4-a15d-3baedfe3dcc8",
+  "chunk_id": "c578deaa-fdae-5ac6-8324-76e9f58c87a4",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1827,33 +1684,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "430cc7b2-b681-5a11-9092-4ed40aff55e2",
-  "chunk_index": 40,
+  "parent_chunk_id": "626d82a2-6ec1-5dad-b507-03e96e3b6925",
+  "chunk_index": 36,
   "page_number": 41,
   "page_range": [
     41,
     41
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `f59ea535-f03f-55f6-b659-02ef03481ecf`
+## Child · `922301fa-18fd-585c-97f4-5dbf7f040360`
 
-- vector: dim=3072 · [0.0070, -0.0162, -0.0117, 0.0216, -0.0283, -0.0309, -0.0216, 0.0273, …]
+- vector: dim=3072 · [0.0132, -0.0213, -0.0098, 0.0330, -0.0355, -0.0397, 0.0087, 0.0151, …]
 
 ```json
 {
-  "chunk_id": "f59ea535-f03f-55f6-b659-02ef03481ecf",
+  "chunk_id": "922301fa-18fd-585c-97f4-5dbf7f040360",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "4.2 Technology option assessment",
-  "chunk_text": "Figure 16: Costs of steel production by route6 \n Source: TERI analysis based on (IEA, 2019) and (MPP, 2021) 6\t BF-BOF = Blast Furnace – Basic Oxygen Furnace, Coal DR-EAF = Coal-based Direct Reduction – Electric Arc Furnace, NG DR-EAF = Natural gas-based \nDirect Reduction – Electric Arc Furnace, SR-BOF CCUS = Smelting Reduction – Basic Oxygen Furnace with Carbon Capture, Usage and or Storage, H2 \nDR-EAF = Hydrogen-based Direct Reduction – Electric Arc Furnace, MOE-EAF = Molten Oxide Electrolysis – Electric Arc Furnace. \n0\n100\n200\n300\n400\n500\n600\nBF-BOF\nCoal DR-EAF\nNG DR-EAF\nSR-BOF\nCCUS\nH2 DR-EA\n\n… [+81 more chars]",
-  "content_hash": "1e3e5a4da71a3d513d54799bf7a50274780993ea95116afa55d47e38a089933d",
-  "token_count": 219,
+  "chunk_text": "Figure 16: Costs of steel production by route6 \n Source: TERI analysis based on (IEA, 2019) and (MPP, 2021) 6\t BF-BOF = Blast Furnace – Basic Oxygen Furnace, Coal DR-EAF = Coal-based Direct Reduction – Electric Arc Furnace, NG DR-EAF = Natural gas-based \nDirect Reduction – Electric Arc Furnace, SR-BOF CCUS = Smelting Reduction – Basic Oxygen Furnace with Carbon Capture, Usage and or Storage, H2 \nDR-EAF = Hydrogen-based Direct Reduction – Electric Arc Furnace, MOE-EAF = Molten Oxide Electrolysis – Electric Arc Furnace. \n0\n100\n200\n300\n400\n500\n600\nBF-BOF\nCoal DR-EAF\nNG DR-EAF\nSR-BOF\nCCUS\nH2 DR-EA\n\n… [+1182 more chars]",
+  "content_hash": "ddc5ff3986bd920e5874891e5fa06d073f7728d7d2e63bd50bbd581926cdbc89",
+  "token_count": 442,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1863,33 +1720,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "430cc7b2-b681-5a11-9092-4ed40aff55e2",
-  "chunk_index": 41,
+  "parent_chunk_id": "626d82a2-6ec1-5dad-b507-03e96e3b6925",
+  "chunk_index": 37,
   "page_number": 41,
   "page_range": [
     41,
-    41
+    42
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `7639440e-35ef-5f4e-80e9-7b798dc70567`
+## Child · `cb53d3e7-4a87-5102-aab3-7b787a9cd004`
 
-- vector: dim=3072 · [0.0299, -0.0159, -0.0114, 0.0256, -0.0378, -0.0475, 0.0069, 0.0167, …]
+- vector: dim=3072 · [0.0258, -0.0112, -0.0138, 0.0049, -0.0298, -0.0586, 0.0065, 0.0217, …]
 
 ```json
 {
-  "chunk_id": "7639440e-35ef-5f4e-80e9-7b798dc70567",
+  "chunk_id": "cb53d3e7-4a87-5102-aab3-7b787a9cd004",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "4.2 Technology option assessment",
-  "chunk_text": "600\nBF-BOF\nCoal DR-EAF\nNG DR-EAF\nSR-BOF\nCCUS\nH2 DR-EAF\nMOE-EAF\nCost of production ($/t)\nCAPEX\nFixed OPEX\nFuel\nRaw materials\nCCUS\nRange Costs of production from the hydrogen direct reduction route are largely similar to those in the natural \ngas direct reduction route, with the main difference being the cost of hydrogen as a fuel versus natural \ngas. In our cost analysis, we assume that hydrogen is purchased from a separate producer by the steel \nplant, as opposed to having the capital costs of the electrolysers included in the capital costs of the steel \nplant. Today, costs of electrolytic hyd\n\n… [+1558 more chars]",
-  "content_hash": "ca8f39201e8d9cf289472a9f8954a260d8afdc880de4b6c386cacdaa2fbf54cd",
-  "token_count": 508,
+  "chunk_text": "One key sensitivity to explore in a little more detail is how the cost of hydrogen would impact their relative\ncompetitiveness and how falling costs of green hydrogen could change this over time. In Figure 17, we present the range of costs for a smelting reduction plant with CCUS, as well as declining\ncosts of steel produced via the hydrogen direct reduction route, based on declining costs of hydrogen. With\ncosts in excess of $4/kg today, we can see that hydrogen direct reduction is consistently more expensive\nthan the smelting reduction route. However, as costs of green hydrogen start to fall\n\n… [+583 more chars]",
+  "content_hash": "7e6bd12d95c5af98b4610a3b7c8076fbaaf7063f90b54230a207d69c29f4440f",
+  "token_count": 295,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1899,33 +1756,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "430cc7b2-b681-5a11-9092-4ed40aff55e2",
-  "chunk_index": 42,
+  "parent_chunk_id": "626d82a2-6ec1-5dad-b507-03e96e3b6925",
+  "chunk_index": 38,
   "page_number": 42,
   "page_range": [
     42,
     42
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `478beb0a-08a6-5fbf-8374-5fa74ac5679a`
+## Child · `fbba2519-b45b-50c7-8297-7a057fbf1cfe`
 
-- vector: dim=3072 · [0.0170, -0.0117, -0.0128, 0.0187, -0.0395, -0.0562, 0.0051, 0.0250, …]
+- vector: dim=3072 · [0.0012, -0.0144, -0.0137, 0.0013, -0.0512, -0.0406, 0.0036, 0.0167, …]
 
 ```json
 {
-  "chunk_id": "478beb0a-08a6-5fbf-8374-5fa74ac5679a",
+  "chunk_id": "fbba2519-b45b-50c7-8297-7a057fbf1cfe",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "4.2 Technology option assessment",
-  "chunk_text": "reduction with CCUS \nFigure 17: Costs of production - H2-DR vs SR-BOF with CCUS\n Source: TERI analysis based on (IEA, 2019; Hall, Spencer, & Kumar, 2020; BNEF, 2020) Note: tCO2 refers to the cost of carbon capture and storage, not to carbon price.\n\n|  | TERI | TERI |  |\n| --- | --- | --- | --- |\n|  | 2050 | 2030 |  |\n| 700 |  |  |  |\n| 600 |  |  |  |\n| 500 |  |  | $80/tCO2 |\n|  |  |  | Cost of CCS |\n| 400 |  |  |  |\n|  |  |  | $20/tCO2 |\n| 300 |  |  |  |\n| 200 |  |  |  |\n| 100 |  |  |  |\n\npilot facility, being taken forward by Tata Steel Europe in the Netherlands has now switched to developing\n\n… [+791 more chars]",
-  "content_hash": "ae1229ce611ed50bdc44862d1ba48bd197532ebbb1fad97bf3916b367326993d",
-  "token_count": 399,
+  "section_heading": "Hydrogen Cost ($/kg) — SR-BOF CCUS — H2 DR-EAF",
+  "chunk_text": "Source: TERI analysis based on (IEA, 2019; Hall, Spencer, & Kumar, 2020; BNEF, 2020)\nNote: tCO2 refers to the cost of carbon capture and storage, not to carbon price.\n\npilot facility, being taken forward by Tata Steel Europe in the Netherlands has now switched to developing \na hydrogen direct reduction facility, signalling the industry’s relative support for these technologies. \nConversely, there are over 30 (and growing) hydrogen direct reduction projects. \nSecondly, our estimates for the costs of producing hydrogen in India, whilst among the most ambitious \nwhen published, have been supersed\n\n… [+465 more chars]",
+  "content_hash": "3fd94e7fdb650e38e9cadc5280c15eb10311a9ed4a15426af7c3f2be6d404503",
+  "token_count": 241,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1935,15 +1792,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "430cc7b2-b681-5a11-9092-4ed40aff55e2",
-  "chunk_index": 43,
+  "chunk_index": 39,
   "page_number": 42,
   "page_range": [
     42,
     43
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
@@ -1975,18 +1831,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     43,
     48
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `d131021e-32cc-54a3-a56e-0023754ea85d`
+## Child · `3eddf45e-793a-59d4-a15d-3baedfe3dcc8`
 
-- vector: dim=3072 · [0.0173, -0.0073, -0.0155, -0.0025, -0.0481, -0.0124, 0.0030, 0.0254, …]
+- vector: dim=3072 · [0.0174, -0.0072, -0.0155, -0.0025, -0.0480, -0.0124, 0.0029, 0.0254, …]
 
 ```json
 {
-  "chunk_id": "d131021e-32cc-54a3-a56e-0023754ea85d",
+  "chunk_id": "3eddf45e-793a-59d4-a15d-3baedfe3dcc8",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2005,24 +1861,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "1b320875-fced-5616-8213-97b18e420c63",
-  "chunk_index": 44,
+  "chunk_index": 40,
   "page_number": 43,
   "page_range": [
     43,
     43
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `0c93286e-0250-566d-8c19-ab29b02e332c`
+## Child · `f59ea535-f03f-55f6-b659-02ef03481ecf`
 
-- vector: dim=3072 · [-0.0002, -0.0038, -0.0151, 0.0019, -0.0362, -0.0074, 0.0022, 0.0275, …]
+- vector: dim=3072 · [-0.0001, -0.0038, -0.0152, 0.0021, -0.0363, -0.0073, 0.0021, 0.0273, …]
 
 ```json
 {
-  "chunk_id": "0c93286e-0250-566d-8c19-ab29b02e332c",
+  "chunk_id": "f59ea535-f03f-55f6-b659-02ef03481ecf",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2041,24 +1897,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "1b320875-fced-5616-8213-97b18e420c63",
-  "chunk_index": 45,
+  "chunk_index": 41,
   "page_number": 44,
   "page_range": [
     44,
     44
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `051bfdc0-b1b0-542d-8801-25380dd83cd1`
+## Child · `7639440e-35ef-5f4e-80e9-7b798dc70567`
 
 - vector: dim=3072 · [0.0109, -0.0093, -0.0135, 0.0044, -0.0417, -0.0175, 0.0021, 0.0105, …]
 
 ```json
 {
-  "chunk_id": "051bfdc0-b1b0-542d-8801-25380dd83cd1",
+  "chunk_id": "7639440e-35ef-5f4e-80e9-7b798dc70567",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2077,24 +1933,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "1b320875-fced-5616-8213-97b18e420c63",
-  "chunk_index": 46,
+  "chunk_index": 42,
   "page_number": 45,
   "page_range": [
     45,
     45
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `8537da82-5b00-52e1-a060-fabb8d14a1b1`
+## Child · `478beb0a-08a6-5fbf-8374-5fa74ac5679a`
 
 - vector: dim=3072 · [0.0195, -0.0074, -0.0066, 0.0253, -0.0448, -0.0043, -0.0016, 0.0411, …]
 
 ```json
 {
-  "chunk_id": "8537da82-5b00-52e1-a060-fabb8d14a1b1",
+  "chunk_id": "478beb0a-08a6-5fbf-8374-5fa74ac5679a",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2113,24 +1969,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "1b320875-fced-5616-8213-97b18e420c63",
-  "chunk_index": 47,
+  "chunk_index": 43,
   "page_number": 45,
   "page_range": [
     45,
     48
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `edc78c62-5e99-5e47-a15e-f63ecdb06e56`
+## Child · `d131021e-32cc-54a3-a56e-0023754ea85d`
 
-- vector: dim=3072 · [0.0264, 0.0072, -0.0160, -0.0033, -0.0355, 0.0058, -0.0050, 0.0089, …]
+- vector: dim=3072 · [0.0264, 0.0074, -0.0160, -0.0032, -0.0356, 0.0056, -0.0050, 0.0088, …]
 
 ```json
 {
-  "chunk_id": "edc78c62-5e99-5e47-a15e-f63ecdb06e56",
+  "chunk_id": "d131021e-32cc-54a3-a56e-0023754ea85d",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2148,24 +2004,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 48,
+  "chunk_index": 44,
   "page_number": 48,
   "page_range": [
     48,
     49
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `67611954-cfe9-55ba-8bca-76490fd82e86`
+## Child · `0c93286e-0250-566d-8c19-ab29b02e332c`
 
-- vector: dim=3072 · [-0.0026, -0.0051, -0.0085, 0.0027, -0.0243, -0.0126, 0.0103, -0.0123, …]
+- vector: dim=3072 · [-0.0025, -0.0049, -0.0085, 0.0027, -0.0244, -0.0123, 0.0104, -0.0124, …]
 
 ```json
 {
-  "chunk_id": "67611954-cfe9-55ba-8bca-76490fd82e86",
+  "chunk_id": "0c93286e-0250-566d-8c19-ab29b02e332c",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2183,24 +2039,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 49,
+  "chunk_index": 45,
   "page_number": 49,
   "page_range": [
     49,
     49
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `13e50e3e-0967-5c17-b2b7-513e14e65f6c`
+## Child · `051bfdc0-b1b0-542d-8801-25380dd83cd1`
 
-- vector: dim=3072 · [0.0081, -0.0085, -0.0168, 0.0049, -0.0388, -0.0140, 0.0180, 0.0077, …]
+- vector: dim=3072 · [0.0080, -0.0084, -0.0167, 0.0048, -0.0388, -0.0140, 0.0182, 0.0077, …]
 
 ```json
 {
-  "chunk_id": "13e50e3e-0967-5c17-b2b7-513e14e65f6c",
+  "chunk_id": "051bfdc0-b1b0-542d-8801-25380dd83cd1",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2218,24 +2074,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 50,
+  "chunk_index": 46,
   "page_number": 50,
   "page_range": [
     50,
     50
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `4c913f94-b6f1-5aab-864c-78be629b895c`
+## Child · `8537da82-5b00-52e1-a060-fabb8d14a1b1`
 
-- vector: dim=3072 · [0.0265, 0.0028, -0.0215, 0.0183, -0.0010, -0.0021, 0.0086, -0.0031, …]
+- vector: dim=3072 · [0.0271, 0.0028, -0.0214, 0.0196, -0.0014, -0.0016, 0.0085, -0.0036, …]
 
 ```json
 {
-  "chunk_id": "4c913f94-b6f1-5aab-864c-78be629b895c",
+  "chunk_id": "8537da82-5b00-52e1-a060-fabb8d14a1b1",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2253,24 +2109,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 51,
+  "chunk_index": 47,
   "page_number": 50,
   "page_range": [
     50,
     50
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `95e1bd9a-5eaf-5d4e-afbb-a99e7dfa3b35`
+## Child · `edc78c62-5e99-5e47-a15e-f63ecdb06e56`
 
-- vector: dim=3072 · [0.0118, 0.0273, -0.0180, -0.0079, -0.0132, -0.0230, 0.0033, 0.0076, …]
+- vector: dim=3072 · [0.0118, 0.0273, -0.0180, -0.0079, -0.0132, -0.0229, 0.0032, 0.0075, …]
 
 ```json
 {
-  "chunk_id": "95e1bd9a-5eaf-5d4e-afbb-a99e7dfa3b35",
+  "chunk_id": "edc78c62-5e99-5e47-a15e-f63ecdb06e56",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2288,32 +2144,32 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 52,
+  "chunk_index": 48,
   "page_number": 51,
   "page_range": [
     51,
     51
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `89834947-b0e6-55bc-88a2-f320c4d86224`
+## Child · `67611954-cfe9-55ba-8bca-76490fd82e86`
 
-- vector: dim=3072 · [0.0159, 0.0110, -0.0153, 0.0204, -0.0373, -0.0117, -0.0139, 0.0020, …]
+- vector: dim=3072 · [0.0040, -0.0010, -0.0094, 0.0157, -0.0394, -0.0197, -0.0086, 0.0055, …]
 
 ```json
 {
-  "chunk_id": "89834947-b0e6-55bc-88a2-f320c4d86224",
+  "chunk_id": "67611954-cfe9-55ba-8bca-76490fd82e86",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "5.6\t Future-proof new capacity",
-  "chunk_text": "An important consideration for low carbon steelmaking routes in India is the lifetime of the plants and \nthe possibility of retrofit in the coming decades. Steel plants have long lifetimes (30 years plus), resulting \nin significant potential for emissions lock-in for plants being built in the coming years, when low carbon \noptions might not be commercially available.\nFigure 25 illustrates two potential transition pathways for the leading technologies discussed earlier. \nFor the hydrogen route, gas-based capacity could be built in the 2020s, using natural gas or coal-based \nsyngas, which is mor\n\n… [+503 more chars]",
-  "content_hash": "60e016e6389ed795c54be87f599d4aec82798dc75577210ad341f17d8c9f1bb5",
-  "token_count": 215,
+  "chunk_text": "An important consideration for low carbon steelmaking routes in India is the lifetime of the plants and \nthe possibility of retrofit in the coming decades. Steel plants have long lifetimes (30 years plus), resulting \nin significant potential for emissions lock-in for plants being built in the coming years, when low carbon \noptions might not be commercially available.\nFigure 25 illustrates two potential transition pathways for the leading technologies discussed earlier. \nFor the hydrogen route, gas-based capacity could be built in the 2020s, using natural gas or coal-based \nsyngas, which is mor\n\n… [+1025 more chars]",
+  "content_hash": "7bacc137504b8daffcf830a7667fb7086a950a2b083850bc3739bcb67b4e5754",
+  "token_count": 364,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -2323,32 +2179,32 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 53,
+  "chunk_index": 49,
   "page_number": 51,
   "page_range": [
     51,
-    51
+    52
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `4af5dae5-3e9a-5f3e-a997-d7bd7fcce5af`
+## Child · `13e50e3e-0967-5c17-b2b7-513e14e65f6c`
 
-- vector: dim=3072 · [0.0032, -0.0096, -0.0092, 0.0047, -0.0414, -0.0024, -0.0404, 0.0131, …]
+- vector: dim=3072 · [0.0155, -0.0142, -0.0117, 0.0041, -0.0472, 0.0026, -0.0477, 0.0074, …]
 
 ```json
 {
-  "chunk_id": "4af5dae5-3e9a-5f3e-a997-d7bd7fcce5af",
+  "chunk_id": "13e50e3e-0967-5c17-b2b7-513e14e65f6c",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "5.7 Lay the groundwork for a domestic carbon trading",
-  "chunk_text": "market\nAn important tool to help accelerate the switch to low carbon technologies is development of domestic \ncarbon trading market. India has already achieved much success with the implementation of the Perform, \nAchieve and Trade (PAT) scheme, which trades energy efficiency certificates between Designated \nConsumers (DCs), including the iron and steel sector. As the need for emission reduction grows, one \npossibility would be to amend this existing policy to measure and control carbon emissions, as opposed \nto energy consumption. This would operate similar to the EU Emissions Trading Scheme \n\n… [+363 more chars]",
-  "content_hash": "e5e89a2c295d2d16b850bfb8799df04c91fe3bdaf4a426627f3da03213d28588",
-  "token_count": 190,
+  "section_heading": "5.7 Lay the groundwork for a domestic carbon trading market",
+  "chunk_text": "An important tool to help accelerate the switch to low carbon technologies is development of domestic\ncarbon trading market. India has already achieved much success with the implementation of the Perform,\nAchieve and Trade (PAT) scheme, which trades energy efficiency certificates between Designated\nConsumers (DCS), including the iron and steel sector. As the need for emission reduction grows, one\npossibility would be to amend this existing policy to measure and control carbon emissions, as opposed\nto energy consumption. This would operate similar to the EU Emissions Trading Scheme (ETS).\n\nTaki\n\n… [+349 more chars]",
+  "content_hash": "655113382d490384bd6911e0b2b0a6cbc04c52f72b8c45ac7fe8472021170d3b",
+  "token_count": 187,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -2358,32 +2214,32 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 54,
+  "chunk_index": 50,
   "page_number": 52,
   "page_range": [
     52,
     52
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Parent · `e2055103-754c-5c92-8520-ec53409c8a06`
+## Child · `4c913f94-b6f1-5aab-864c-78be629b895c`
 
-- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+- vector: dim=3072 · [0.0130, -0.0001, -0.0191, 0.0054, -0.0266, -0.0076, 0.0121, 0.0140, …]
 
 ```json
 {
-  "chunk_id": "e2055103-754c-5c92-8520-ec53409c8a06",
+  "chunk_id": "4c913f94-b6f1-5aab-864c-78be629b895c",
   "document_id": "achieving_green_steel_roadmap_pdf",
-  "is_parent": true,
+  "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "5.8 Support for commercial-scale plants",
-  "chunk_text": "5.8 Support for commercial-scale plants\n\nAs a series of demonstration projects in the 2020s help clarify the preferred technology options for low \nemission steel production in India, by the 2030s, public and private sector should have proven joint \nfinancing models to facilitate the construction of commercial-scale green steel plants. This will require \nconsiderable support, assuming some cost difference between green steel and ‘dirty’ steel persists. Whilst \nthe difference in production costs will be mitigated somewhat if green product standards, procurement \ninitiatives, and an emissions pen\n\n… [+3732 more chars]",
-  "content_hash": "137b09b256d31a522eff14f8f19f7c2066752bac420aee6b922be06275fe3926",
-  "token_count": 954,
+  "chunk_text": "As a series of demonstration projects in the 2020s help clarify the preferred technology options for low\nemission steel production in India, by the 20305, public and private sector should have proven joint\nfinancing models to facilitate the construction of commercial-scale green steel plants. This will require\nconsiderable support, assuming some cost difference between green steel and 'dirty' steel persists. Whilst\nthe difference in production costs will be mitigated somewhat if green product standards, procurement\ninitiatives, and an emissions penalty are introduced, it may still be necessary\n\n… [+1208 more chars]",
+  "content_hash": "5bd30d3933f35678fddaa2b405059effc37c2e48ba35268e64cba5c745251813",
+  "token_count": 339,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -2393,130 +2249,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
+  "chunk_index": 51,
+  "page_number": 52,
   "page_range": [
     52,
     53
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `794200f4-54f2-5b05-a50b-185635f3f244`
+## Child · `95e1bd9a-5eaf-5d4e-afbb-a99e7dfa3b35`
 
-- vector: dim=3072 · [0.0233, -0.0030, -0.0137, -0.0018, -0.0490, -0.0192, 0.0114, 0.0201, …]
-
-```json
-{
-  "chunk_id": "794200f4-54f2-5b05-a50b-185635f3f244",
-  "document_id": "achieving_green_steel_roadmap_pdf",
-  "is_parent": false,
-  "source_type": "pdf",
-  "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "5.8 Support for commercial-scale plants",
-  "chunk_text": "As a series of demonstration projects in the 2020s help clarify the preferred technology options for low \nemission steel production in India, by the 2030s, public and private sector should have proven joint \nfinancing models to facilitate the construction of commercial-scale green steel plants. This will require \nconsiderable support, assuming some cost difference between green steel and ‘dirty’ steel persists. Whilst \nthe difference in production costs will be mitigated somewhat if green product standards, procurement \ninitiatives, and an emissions penalty are introduced, it may still be nece\n\n… [+517 more chars]",
-  "content_hash": "d8090f1c311923050034b9e822901b4cd3c43772a68cf1dcf31151d27ad26e36",
-  "token_count": 263,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "achieving_green_steel_roadmap_pdf",
-  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "e2055103-754c-5c92-8520-ec53409c8a06",
-  "chunk_index": 55,
-  "page_number": 52,
-  "page_range": [
-    52,
-    52
-  ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
-}
-```
-
-## Child · `435e0044-b723-5726-b8ac-c3f3bb3f2a92`
-
-- vector: dim=3072 · [0.0189, -0.0291, -0.0071, 0.0000, -0.0574, -0.0211, -0.0085, 0.0305, …]
+- vector: dim=3072 · [-0.0027, -0.0211, -0.0004, -0.0006, -0.0085, -0.0138, -0.0474, 0.0144, …]
 
 ```json
 {
-  "chunk_id": "435e0044-b723-5726-b8ac-c3f3bb3f2a92",
-  "document_id": "achieving_green_steel_roadmap_pdf",
-  "is_parent": false,
-  "source_type": "pdf",
-  "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "5.8 Support for commercial-scale plants",
-  "chunk_text": ">90%, making\nuse of excess carbon where possible\nShift to >90% hydrogen use, produced\nentirely from low carbon sources\nBegin blending of low\ncarbon hydrogen\nCH4\nH2\nH2\nCO2\nCO2\nCarbon capture, use/\nstorage technology |  | Figure 25: Pathways for low carbon primary steelmaking |  |\n| --- | --- | --- |\n|  |  | Source: TERI Analysis |\n| 5.7 Lay the groundwork for a domestic carbon trading |  |  |\n| market |  |  |\n| An important tool to help accelerate the switch to low carbon technologies is development of domestic |  |  |\n| carbon trading market. india has already achieved much success with the im\n\n… [+1629 more chars]",
-  "content_hash": "219b41d77db6070c022ef418d126611d102990e92040dfca1b75710139c44f00",
-  "token_count": 526,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "achieving_green_steel_roadmap_pdf",
-  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "e2055103-754c-5c92-8520-ec53409c8a06",
-  "chunk_index": 56,
-  "page_number": 52,
-  "page_range": [
-    52,
-    52
-  ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
-}
-```
-
-## Child · `25f58c8d-2e8a-5d5a-bdcf-e6a65547d180`
-
-- vector: dim=3072 · [0.0078, 0.0077, -0.0158, 0.0147, -0.0302, -0.0186, 0.0034, 0.0132, …]
-
-```json
-{
-  "chunk_id": "25f58c8d-2e8a-5d5a-bdcf-e6a65547d180",
-  "document_id": "achieving_green_steel_roadmap_pdf",
-  "is_parent": false,
-  "source_type": "pdf",
-  "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "5.8 Support for commercial-scale plants",
-  "chunk_text": "|  |\n| the difference in production costs will be mitigated somewhat if green product standards, procurement |  |  |\n| initiatives, and an emissions penalty are introduced, it may still be necessary to support the first few |  |  |\n| commercial-scale plants. |  |  | This could include direct financial support from the GoI, via existing bodies such as the Ministry of Steel \n(for example through Carbon Contracts for Difference, which are being explored in Germany), although this \nis likely to be insufficient given limited domestic resources. As renewable electricity projects become ‘self-\nfinanc\n\n… [+823 more chars]",
-  "content_hash": "f4714babaa645e6bc2f1d1bfcdb16c18f9ff702e8cd9ccf5db3173b32abf17db",
-  "token_count": 275,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "achieving_green_steel_roadmap_pdf",
-  "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "parent_chunk_id": "e2055103-754c-5c92-8520-ec53409c8a06",
-  "chunk_index": 57,
-  "page_number": 53,
-  "page_range": [
-    53,
-    53
-  ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
-}
-```
-
-## Child · `aec6a648-0987-5e58-828a-b8d5fe9c0a40`
-
-- vector: dim=3072 · [-0.0027, -0.0211, -0.0004, -0.0006, -0.0084, -0.0137, -0.0473, 0.0143, …]
-
-```json
-{
-  "chunk_id": "aec6a648-0987-5e58-828a-b8d5fe9c0a40",
+  "chunk_id": "95e1bd9a-5eaf-5d4e-afbb-a99e7dfa3b35",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2534,14 +2284,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
-  "chunk_index": 58,
+  "chunk_index": 52,
   "page_number": 53,
   "page_range": [
     53,
     55
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
@@ -2574,18 +2324,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     56,
     58
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `faa68e5f-7f42-53ed-9dff-415735df20c3`
+## Child · `89834947-b0e6-55bc-88a2-f320c4d86224`
 
-- vector: dim=3072 · [0.0262, -0.0234, -0.0160, 0.0045, -0.0191, -0.0154, -0.0024, 0.0006, …]
+- vector: dim=3072 · [0.0262, -0.0235, -0.0160, 0.0046, -0.0191, -0.0154, -0.0024, 0.0006, …]
 
 ```json
 {
-  "chunk_id": "faa68e5f-7f42-53ed-9dff-415735df20c3",
+  "chunk_id": "89834947-b0e6-55bc-88a2-f320c4d86224",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2604,24 +2354,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "90684a8c-367e-5fee-bd72-5849a8384350",
-  "chunk_index": 59,
+  "chunk_index": 53,
   "page_number": 56,
   "page_range": [
     56,
     56
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `e28042e8-3ff5-59c9-8320-9d55a96eca56`
+## Child · `4af5dae5-3e9a-5f3e-a997-d7bd7fcce5af`
 
-- vector: dim=3072 · [0.0132, 0.0067, -0.0107, 0.0139, -0.0058, -0.0048, 0.0092, -0.0008, …]
+- vector: dim=3072 · [0.0132, 0.0067, -0.0107, 0.0140, -0.0058, -0.0048, 0.0090, -0.0008, …]
 
 ```json
 {
-  "chunk_id": "e28042e8-3ff5-59c9-8320-9d55a96eca56",
+  "chunk_id": "4af5dae5-3e9a-5f3e-a997-d7bd7fcce5af",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2641,24 +2391,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "90684a8c-367e-5fee-bd72-5849a8384350",
-  "chunk_index": 60,
+  "chunk_index": 54,
   "page_number": 57,
   "page_range": [
     57,
     57
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `244dc7b2-e82f-5831-ae7c-779dda4e4ed8`
+## Child · `794200f4-54f2-5b05-a50b-185635f3f244`
 
 - vector: dim=3072 · [0.0209, 0.0065, -0.0145, 0.0133, -0.0195, -0.0060, 0.0036, 0.0011, …]
 
 ```json
 {
-  "chunk_id": "244dc7b2-e82f-5831-ae7c-779dda4e4ed8",
+  "chunk_id": "794200f4-54f2-5b05-a50b-185635f3f244",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2678,24 +2428,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "90684a8c-367e-5fee-bd72-5849a8384350",
-  "chunk_index": 61,
+  "chunk_index": 55,
   "page_number": 57,
   "page_range": [
     57,
     57
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `e4a4aef9-fedf-5cad-b653-d1b19b8186f9`
+## Child · `435e0044-b723-5726-b8ac-c3f3bb3f2a92`
 
 - vector: dim=3072 · [0.0144, 0.0179, -0.0085, 0.0159, 0.0055, -0.0155, -0.0067, 0.0086, …]
 
 ```json
 {
-  "chunk_id": "e4a4aef9-fedf-5cad-b653-d1b19b8186f9",
+  "chunk_id": "435e0044-b723-5726-b8ac-c3f3bb3f2a92",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2715,24 +2465,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "90684a8c-367e-5fee-bd72-5849a8384350",
-  "chunk_index": 62,
+  "chunk_index": 56,
   "page_number": 57,
   "page_range": [
     57,
     58
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `ba33c38a-29e3-5ce2-acb1-90549857e10f`
+## Child · `25f58c8d-2e8a-5d5a-bdcf-e6a65547d180`
 
-- vector: dim=3072 · [0.0288, 0.0098, -0.0103, -0.0003, 0.0095, -0.0029, -0.0072, 0.0168, …]
+- vector: dim=3072 · [0.0288, 0.0096, -0.0103, -0.0004, 0.0094, -0.0032, -0.0073, 0.0168, …]
 
 ```json
 {
-  "chunk_id": "ba33c38a-29e3-5ce2-acb1-90549857e10f",
+  "chunk_id": "25f58c8d-2e8a-5d5a-bdcf-e6a65547d180",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2752,14 +2502,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "90684a8c-367e-5fee-bd72-5849a8384350",
-  "chunk_index": 63,
+  "chunk_index": 57,
   "page_number": 58,
   "page_range": [
     58,
     58
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
@@ -2792,18 +2542,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     59,
     60
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `dfc71df6-7e4d-5875-b1cf-7fcbcfa55f59`
+## Child · `aec6a648-0987-5e58-828a-b8d5fe9c0a40`
 
-- vector: dim=3072 · [0.0284, 0.0238, -0.0107, 0.0295, 0.0068, -0.0076, 0.0079, 0.0115, …]
+- vector: dim=3072 · [0.0284, 0.0238, -0.0107, 0.0295, 0.0069, -0.0076, 0.0079, 0.0116, …]
 
 ```json
 {
-  "chunk_id": "dfc71df6-7e4d-5875-b1cf-7fcbcfa55f59",
+  "chunk_id": "aec6a648-0987-5e58-828a-b8d5fe9c0a40",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2823,24 +2573,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "e8824cc1-0a94-58f5-b881-c57a582b033a",
-  "chunk_index": 64,
+  "chunk_index": 58,
   "page_number": 59,
   "page_range": [
     59,
     59
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `8380484e-96e8-512a-bf1a-db990c643dd2`
+## Child · `faa68e5f-7f42-53ed-9dff-415735df20c3`
 
-- vector: dim=3072 · [0.0424, 0.0220, -0.0051, 0.0089, -0.0080, 0.0028, 0.0076, 0.0053, …]
+- vector: dim=3072 · [0.0424, 0.0219, -0.0050, 0.0089, -0.0079, 0.0029, 0.0077, 0.0053, …]
 
 ```json
 {
-  "chunk_id": "8380484e-96e8-512a-bf1a-db990c643dd2",
+  "chunk_id": "faa68e5f-7f42-53ed-9dff-415735df20c3",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2860,24 +2610,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "e8824cc1-0a94-58f5-b881-c57a582b033a",
-  "chunk_index": 65,
+  "chunk_index": 59,
   "page_number": 59,
   "page_range": [
     59,
     59
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```
 
-## Child · `9fca97af-dd37-5ee3-ad6e-93942d1c80c2`
+## Child · `e28042e8-3ff5-59c9-8320-9d55a96eca56`
 
-- vector: dim=3072 · [0.0293, 0.0226, -0.0111, -0.0124, 0.0037, -0.0146, 0.0105, 0.0047, …]
+- vector: dim=3072 · [0.0292, 0.0227, -0.0111, -0.0125, 0.0037, -0.0147, 0.0104, 0.0046, …]
 
 ```json
 {
-  "chunk_id": "9fca97af-dd37-5ee3-ad6e-93942d1c80c2",
+  "chunk_id": "e28042e8-3ff5-59c9-8320-9d55a96eca56",
   "document_id": "achieving_green_steel_roadmap_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2897,13 +2647,13 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "achieving_green_steel_roadmap_pdf",
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "parent_chunk_id": "e8824cc1-0a94-58f5-b881-c57a582b033a",
-  "chunk_index": 66,
+  "chunk_index": 60,
   "page_number": 59,
   "page_range": [
     59,
     60
   ],
-  "created_at": "2026-06-29T10:33:06.863119+00:00",
-  "updated_at": "2026-06-29T10:33:06.863119+00:00"
+  "created_at": "2026-06-26T06:07:23.019148+00:00",
+  "updated_at": "2026-06-26T06:07:23.019148+00:00"
 }
 ```

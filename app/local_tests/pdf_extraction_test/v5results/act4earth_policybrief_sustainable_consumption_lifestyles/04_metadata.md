@@ -22,5 +22,5 @@
 | key | value |
 | --- | --- |
 | extraction_mode | hybrid |
-| page_signals | {'pages': 20, 'azure': [4, 19], 'camelot': [8, 9, 12, 13, 15], 'local': [1, 2, 3, 5, 6, 7, 10, 11, 14, 16, 17, 18, 20]} |
-| route | azure+camelot+local |
+| page_signals | {'pages': 20, 'scanned': [4, 19], 'table': [8, 9, 12, 13, 15], 'needs_azure': [4, 8, 9, 12, 13, 15, 19]} |
+| route | per_page |
