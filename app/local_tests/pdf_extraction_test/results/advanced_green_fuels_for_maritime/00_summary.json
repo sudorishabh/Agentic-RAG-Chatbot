@@ -1,0 +1,52 @@
+{
+  "pdf": "Advanced-Green-fuels-for-Maritime.pdf",
+  "elapsed_seconds": 85.5,
+  "page_count": 324,
+  "table_count": 139,
+  "char_count": 682837,
+  "route": "azure+camelot+local",
+  "routes": {
+    "text": 301,
+    "ocr": 22,
+    "empty": 1
+  },
+  "page_routes": {
+    "azure": 23,
+    "camelot": 127,
+    "local": 174
+  },
+  "camelot_pages": 127,
+  "digital_pages": 301,
+  "scanned_ocr_pages": 22,
+  "empty_pages": 1,
+  "ocr_page_numbers": [
+    3,
+    4,
+    6,
+    8,
+    12,
+    20,
+    24,
+    29,
+    32,
+    33,
+    94,
+    95,
+    107,
+    127,
+    154,
+    155,
+    229,
+    259,
+    277,
+    290,
+    291,
+    323
+  ],
+  "chunks_total": 653,
+  "parent_chunks": 128,
+  "child_chunks": 525,
+  "child_token_min": 78,
+  "child_token_max": 723,
+  "child_token_avg": 413
+}

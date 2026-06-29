@@ -1,13 +1,20 @@
 {
   "pdf": "Achieving_Green_Steel_Roadmap.pdf",
-  "elapsed_seconds": 19.61,
+  "elapsed_seconds": 17.11,
   "page_count": 60,
   "table_count": 8,
   "char_count": 100910,
+  "route": "azure+camelot+local",
   "routes": {
     "ocr": 14,
     "text": 46
   },
+  "page_routes": {
+    "azure": 14,
+    "camelot": 7,
+    "local": 39
+  },
+  "camelot_pages": 7,
   "digital_pages": 46,
   "scanned_ocr_pages": 14,
   "empty_pages": 0,

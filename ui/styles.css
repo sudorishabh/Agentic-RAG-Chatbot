@@ -186,6 +186,18 @@ body {
 }
 .msg__bubble pre code { background: none; border: none; padding: 0; }
 
+/* Tables */
+.msg__bubble .table-wrap { overflow-x: auto; margin: 0 0 0.6rem; }
+.msg__bubble table { border-collapse: collapse; width: 100%; font-size: 0.85em; }
+.msg__bubble th, .msg__bubble td {
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+.msg__bubble thead th { background: var(--surface-2); font-weight: 600; }
+.msg__bubble tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.03); }
+
 /* Citations / sources */
 .meta {
   display: flex;

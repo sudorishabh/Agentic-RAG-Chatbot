@@ -1,0 +1,17 @@
+PDF EXTRACTION SUMMARY — ICDL_Poster_2019_Full.pdf
+==============================================================================
+  elapsed            : 46.39s
+  pages              : 188
+  tables             : 27
+  extracted chars    : 412,351
+
+  extraction route   : azure+camelot+local
+  pages by extractor : azure=8 camelot=30 local=150
+  pages by source    : {'text': 180, 'ocr': 8}
+  digital vs scanned : 180 digital / 8 scanned (OCR) / 0 empty
+  OCR page numbers   : [10, 12, 14, 24, 30, 32, 186, 187]
+
+  chunks (total)     : 308
+  parent chunks      : 59
+  child chunks       : 249
+  child tokens       : min=128 max=623 avg=394

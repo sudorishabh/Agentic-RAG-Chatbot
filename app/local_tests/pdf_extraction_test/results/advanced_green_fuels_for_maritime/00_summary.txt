@@ -1,0 +1,17 @@
+PDF EXTRACTION SUMMARY — Advanced-Green-fuels-for-Maritime.pdf
+==============================================================================
+  elapsed            : 85.5s
+  pages              : 324
+  tables             : 139
+  extracted chars    : 682,837
+
+  extraction route   : azure+camelot+local
+  pages by extractor : azure=23 camelot=127 local=174
+  pages by source    : {'text': 301, 'ocr': 22, 'empty': 1}
+  digital vs scanned : 301 digital / 22 scanned (OCR) / 1 empty
+  OCR page numbers   : [3, 4, 6, 8, 12, 20, 24, 29, 32, 33, 94, 95, 107, 127, 154, 155, 229, 259, 277, 290, 291, 323]
+
+  chunks (total)     : 653
+  parent chunks      : 128
+  child chunks       : 525
+  child tokens       : min=78 max=723 avg=413

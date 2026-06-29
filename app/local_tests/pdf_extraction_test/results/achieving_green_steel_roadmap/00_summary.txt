@@ -1,11 +1,13 @@
 PDF EXTRACTION SUMMARY — Achieving_Green_Steel_Roadmap.pdf
 ==============================================================================
-  elapsed            : 19.61s
+  elapsed            : 17.11s
   pages              : 60
   tables             : 8
   extracted chars    : 100,910
 
-  pages by route     : {'ocr': 14, 'text': 46}
+  extraction route   : azure+camelot+local
+  pages by extractor : azure=14 camelot=7 local=39
+  pages by source    : {'ocr': 14, 'text': 46}
   digital vs scanned : 46 digital / 14 scanned (OCR) / 0 empty
   OCR page numbers   : [1, 4, 6, 7, 8, 14, 16, 18, 27, 31, 37, 47, 55, 60]
 

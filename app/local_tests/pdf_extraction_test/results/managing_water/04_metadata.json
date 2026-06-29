@@ -1,0 +1,31 @@
+{
+  "pdf": "managing-water.pdf",
+  "document": {
+    "title": null,
+    "author": null,
+    "subject": null,
+    "keywords": null,
+    "creator": null,
+    "producer": null,
+    "creation_date": null,
+    "modification_date": null,
+    "creation_date_raw": null,
+    "modification_date_raw": null,
+    "format": "PDF 1.4",
+    "trapped": null,
+    "encrypted": false,
+    "page_count": 1
+  },
+  "extraction": {
+    "extraction_mode": "hybrid",
+    "route": "azure",
+    "page_signals": {
+      "pages": 1,
+      "azure": [
+        1
+      ],
+      "camelot": [],
+      "local": []
+    }
+  }
+}

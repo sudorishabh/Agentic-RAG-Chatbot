@@ -1,11 +1,13 @@
 PDF EXTRACTION SUMMARY — Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf
 ==============================================================================
-  elapsed            : 10.05s
+  elapsed            : 9.81s
   pages              : 20
   tables             : 9
   extracted chars    : 46,969
 
-  pages by route     : {'text': 18, 'ocr': 2}
+  extraction route   : azure+camelot+local
+  pages by extractor : azure=2 camelot=5 local=13
+  pages by source    : {'text': 18, 'ocr': 2}
   digital vs scanned : 18 digital / 2 scanned (OCR) / 0 empty
   OCR page numbers   : [4, 19]
 

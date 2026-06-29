@@ -248,6 +248,38 @@ function renderInline(text) {
   return out;
 }
 
+/* GitHub-style tables: a header row, a |---|---| separator, then body rows. */
+function isTableSeparator(line) {
+  return /^\s*\|?\s*:?-{1,}:?\s*(\|\s*:?-{1,}:?\s*)*\|?\s*$/.test(line);
+}
+function isTableStart(line, next) {
+  return line != null && line.indexOf("|") !== -1 && next != null && isTableSeparator(next);
+}
+function splitTableRow(line) {
+  return line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
+}
+function tableAligns(sep) {
+  return splitTableRow(sep).map((c) => {
+    const l = c.startsWith(":");
+    const r = c.endsWith(":");
+    return l && r ? "center" : r ? "right" : l ? "left" : "";
+  });
+}
+function renderTable(header, aligns, rows) {
+  const at = (idx) => (aligns[idx] ? ' style="text-align:' + aligns[idx] + '"' : "");
+  let out = '<div class="table-wrap"><table><thead><tr>';
+  header.forEach((c, idx) => { out += "<th" + at(idx) + ">" + renderInline(c) + "</th>"; });
+  out += "</tr></thead><tbody>";
+  for (const row of rows) {
+    out += "<tr>";
+    for (let idx = 0; idx < header.length; idx++) {
+      out += "<td" + at(idx) + ">" + renderInline(row[idx] != null ? row[idx] : "") + "</td>";
+    }
+    out += "</tr>";
+  }
+  return out + "</tbody></table></div>";
+}
+
 function renderMarkdown(src) {
   const lines = escapeHtml(src).split("\n");
   const html = [];
@@ -262,6 +294,19 @@ function renderMarkdown(src) {
       while (i < lines.length && !/^```\s*$/.test(lines[i])) code.push(lines[i++]);
       i++; // skip closing fence
       html.push("<pre><code>" + code.join("\n") + "</code></pre>");
+      continue;
+    }
+
+    if (isTableStart(line, lines[i + 1])) {
+      const header = splitTableRow(line);
+      const aligns = tableAligns(lines[i + 1]);
+      i += 2;
+      const rows = [];
+      while (i < lines.length && lines[i].indexOf("|") !== -1 && !/^\s*$/.test(lines[i])) {
+        rows.push(splitTableRow(lines[i]));
+        i++;
+      }
+      html.push(renderTable(header, aligns, rows));
       continue;
     }
 
@@ -305,7 +350,8 @@ function renderMarkdown(src) {
       !/^```/.test(lines[i]) &&
       !/^\s*[-*]\s+/.test(lines[i]) &&
       !/^\s*\d+\.\s+/.test(lines[i]) &&
-      !/^#{1,6}\s+/.test(lines[i])
+      !/^#{1,6}\s+/.test(lines[i]) &&
+      !isTableStart(lines[i], lines[i + 1])
     ) {
       para.push(lines[i++]);
     }

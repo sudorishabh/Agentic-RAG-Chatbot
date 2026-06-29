@@ -1,0 +1,41 @@
+{
+  "pdf": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
+  "elapsed_seconds": 8.17,
+  "page_count": 47,
+  "table_count": 2,
+  "char_count": 34729,
+  "route": "azure+camelot+local",
+  "routes": {
+    "text": 35,
+    "ocr": 12
+  },
+  "page_routes": {
+    "azure": 12,
+    "camelot": 2,
+    "local": 33
+  },
+  "camelot_pages": 2,
+  "digital_pages": 35,
+  "scanned_ocr_pages": 12,
+  "empty_pages": 0,
+  "ocr_page_numbers": [
+    8,
+    24,
+    27,
+    28,
+    29,
+    32,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "chunks_total": 46,
+  "parent_chunks": 10,
+  "child_chunks": 36,
+  "child_token_min": 113,
+  "child_token_max": 530,
+  "child_token_avg": 362
+}
