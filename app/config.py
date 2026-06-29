@@ -26,9 +26,14 @@ class Settings(BaseSettings):
     azure_document_intelligence_model: str = "prebuilt-layout"
     pdf_scanned_char_threshold: int = 100
     # PDF extraction routing (app/ingestion/extractors): "hybrid" classifies each
-    # page and sends the whole doc to Azure if any page is scanned or has a table;
-    # "azure_only" always uses Azure Layout; "local_only" uses PyMuPDF text only.
+    # page and routes per page — scanned/image pages to Azure OCR, born-digital
+    # table pages to Camelot, the rest to PyMuPDF text; "azure_only" always uses
+    # Azure Layout; "local_only" uses PyMuPDF text only.
     extraction_mode: str = "hybrid"
+    # Camelot table extraction (born-digital table pages). "lattice" reads ruled
+    # tables and needs Ghostscript; the extractor falls back to "stream" when
+    # lattice finds nothing on a page.
+    camelot_flavor: str = "lattice"
     # Per-page table detection (PyMuPDF). find_tables() is the primary, reliable
     # signal — it handles both ruled and borderless tables. The two extra
     # heuristics below are OFF by default: on heavily-designed PDFs (banners,
