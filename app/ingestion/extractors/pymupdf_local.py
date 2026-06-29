@@ -33,7 +33,6 @@ logger = logging.getLogger(__name__)
 __all__ = [
     "PageSignal",
     "classify_document",
-    "document_needs_azure",
     "extract_local",
     "extract_local_pages",
 ]
@@ -47,10 +46,6 @@ class PageSignal:
     char_count: int
     scanned: bool
     has_table: bool
-
-    @property
-    def needs_azure(self) -> bool:
-        return self.scanned or self.has_table
 
     @property
     def route(self) -> str:
@@ -189,11 +184,6 @@ def classify_document(content: bytes) -> list[PageSignal]:
     finally:
         doc.close()
     return signals
-
-
-def document_needs_azure(signals: list[PageSignal]) -> bool:
-    """A document needs Azure if ANY page is scanned or carries a table."""
-    return any(s.needs_azure for s in signals)
 
 
 def extract_local_pages(
