@@ -3,7 +3,7 @@
 A FastAPI RAG service over a mixed corpus of **PDFs** and **website/Drupal articles**.
 Hybrid retrieval on **Qdrant**, cross-encoder reranking, grounded generation with
 **citations built from chunk payloads** (never hallucinated), intent routing to a
-structured MySQL/JSON:API path, optional Redis caches, Celery ingestion workers, and
+structured MySQL/JSON:API path, optional Redis caches, a background ingestion server, and
 observability. Models are served via **Azure OpenAI**; orchestration uses LangChain.
 
 The design rationale lives in [`docs/`](docs/) (chunking, canonical data model,
@@ -13,7 +13,9 @@ PDF extraction, and the end-to-end `gene` spec covering §5–§10).
 
 ```
 app/
-├── main.py                  FastAPI app + router wiring
+├── main.py                  Retrieval server: chat / search / health (read-only)
+├── ingest_main.py           Ingestion server: ingest / reindex + background sweep
+├── app_factory.py           Shared FastAPI setup (logging, CORS, observability)
 ├── config.py                Settings (environment / .env)
 ├── deps.py                  Shared clients: Qdrant, Redis, MySQL pool, embeddings, LLMs
 ├── rag.py                   Orchestration: retrieve → rerank → build context → generate (SSE)
@@ -45,7 +47,9 @@ app/
 │   ├── state.py             Ingest-state manifest (MySQL table)
 │   └── extractors/          pdf_extractor.py (Docling), ocr.py (Azure DI), drupal_extractor.py
 ├── cache/redis_cache.py     Response / embedding / semantic query caches (§10.3)
-├── workers/tasks.py         Celery ingestion workers, inline fallback when no broker (§10.4)
+├── workers/
+│   ├── tasks.py             Celery ingestion workers, inline fallback when no broker (§10.4)
+│   └── scheduler.py         Periodic background sweep loop (ingestion server)
 ├── observability/tracing.py Per-stage timing + RAG quality metrics + optional OTel/Langfuse (§10.4)
 ├── core/models.py           Shared domain models
 └── local_tests/             Offline runners: canonical, chunking, PDF extraction
@@ -79,27 +83,38 @@ docker compose up -d
 
 ## Run
 
+Two independent servers share the codebase and `.env`. Start Qdrant (above), then
+run each in its own terminal:
+
 ```bash
-uvicorn app.main:app --reload
+# Retrieval server — query API (chat / search), read-only
+uvicorn app.main:app --reload --port 8000
+
+# Ingestion server — background change-detection sweep + ingest/reindex endpoints
+uvicorn app.ingest_main:app --reload --port 8001
 ```
 
-- Swagger UI: http://127.0.0.1:8000/docs
-- Liveness: http://127.0.0.1:8000/health · Readiness: http://127.0.0.1:8000/ready
+The ingestion server runs an incremental sweep (PDFs + Drupal → Qdrant) every
+`WORKER_SWEEP_INTERVAL_SECONDS` (default 3600; set `0` to disable and ingest only
+on demand). The first sweep runs at startup.
+
+- Retrieval Swagger UI: http://127.0.0.1:8000/docs
+- Ingestion Swagger UI: http://127.0.0.1:8001/docs
 - Qdrant dashboard: http://localhost:6333/dashboard
 
 ## Endpoints
 
-| Method | Path | Purpose |
-|---|---|---|
-| `POST` | `/chat` | Ask a question. **Streams** the grounded answer as SSE: `token` events, then a `sources` event with citations, then `done`. |
-| `POST` | `/chat/feedback` | Record thumbs up/down + clicked citations (feeds evaluation). |
-| `POST` | `/search` | Retrieval only — returns the ranked context blocks, no generation. |
-| `POST` | `/ingest/pdf` | Multipart upload; extract (Docling/OCR) → chunk → embed → index. |
-| `POST` | `/ingest/article` | Index an inline article (`title`/`body`/`url`), or crawl live Drupal `bundles`. |
-| `POST` | `/reindex` | Reset one `document_id` for re-ingest, or run a full incremental `sweep`. |
-| `GET` | `/health` | Liveness probe. |
-| `GET` | `/ready` | Readiness — verifies Qdrant is reachable (503 until it is); reports Redis. |
-| `GET` | `/metrics` | JSON snapshot: collection size, retrieval params, cache/reranker wiring. |
+| Server | Method | Path | Purpose |
+|---|---|---|---|
+| Retrieval | `POST` | `/chat` | Ask a question. **Streams** the grounded answer as SSE: `token` events, then a `sources` event with citations, then `done`. |
+| Retrieval | `POST` | `/chat/feedback` | Record thumbs up/down + clicked citations (feeds evaluation). |
+| Retrieval | `POST` | `/search` | Retrieval only — returns the ranked context blocks, no generation. |
+| Ingestion | `POST` | `/ingest/pdf` | Multipart upload; extract (Docling/OCR) → chunk → embed → index. |
+| Ingestion | `POST` | `/ingest/article` | Index an inline article (`title`/`body`/`url`), or crawl live Drupal `bundles`. |
+| Ingestion | `POST` | `/reindex` | Reset one `document_id` for re-ingest, or run a full incremental `sweep`. |
+| Both | `GET` | `/health` | Liveness probe. |
+| Both | `GET` | `/ready` | Readiness — verifies Qdrant is reachable (503 until it is); reports Redis. |
+| Both | `GET` | `/metrics` | JSON snapshot: collection size, retrieval params, cache/reranker wiring. |
 
 ## Usage
 
