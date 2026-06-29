@@ -274,6 +274,25 @@ def _local_extract(content: bytes, filename: str, *, mode: str, route: str) -> E
     return result
 
 
+def _camelot_tables(content: bytes, page_numbers: list[int]) -> dict[int, list[TableData]]:
+    """Extract tables on born-digital table pages with Camelot; {} if unavailable.
+
+    Wrapped here (rather than imported inline) so the hybrid router can be tested
+    with this stubbed, just like ``_ocr_pdf``.
+    """
+    from app.ingestion.extractors.camelot_tables import extract_tables
+
+    return extract_tables(content, page_numbers)
+
+
+def _merge_table_text(text: str, tables: list[TableData]) -> str:
+    """Append each table's markdown after the page's prose so it reaches the
+    chunker (which reads only page text, not the separate tables list)."""
+    parts = [text.strip()] if text and text.strip() else []
+    parts.extend(t.markdown for t in tables if t.markdown)
+    return "\n\n".join(parts)
+
+
 def _azure_extract(content: bytes, filename: str) -> ExtractionResult | None:
     """Send the WHOLE document to Azure Layout; None if Azure is unavailable.
 
@@ -304,23 +323,25 @@ def _azure_with_fallback(content: bytes, filename: str, *, mode: str) -> Extract
 def _signal_summary(signals: list) -> dict[str, Any]:
     return {
         "pages": len(signals),
-        "scanned": sorted(s.page_number for s in signals if s.scanned),
-        "table": sorted(s.page_number for s in signals if s.has_table),
-        "needs_azure": sorted(s.page_number for s in signals if s.needs_azure),
+        "azure": sorted(s.page_number for s in signals if s.route == "azure"),
+        "camelot": sorted(s.page_number for s in signals if s.route == "camelot"),
+        "local": sorted(s.page_number for s in signals if s.route == "local"),
     }
 
 
 def _hybrid_extract(content: bytes, filename: str, *, mode: str) -> ExtractionResult:
     """Classify each page, then route PER PAGE and stitch the result in order.
 
-    Clean born-digital pages extract locally with PyMuPDF; scanned/table pages
-    go to Azure (which owns every table). If classification fails entirely we
-    bias to Azure for the whole document.
+    Three destinations (see ``PageSignal.route``):
 
-    STEP 5 (optional, OFF — ``settings.extraction_azure_page_ranges``): a table
-    spanning a page break can be split if only one of the two pages is flagged.
-    When enabled we would expand each table page to include its neighbours so
-    the whole table reaches Azure intact. Not wired up yet.
+    * scanned / image pages -> Azure OCR (owns text and tables there);
+    * born-digital table pages -> Camelot for the table(s), PyMuPDF for the
+      page's prose, merged into one page of text;
+    * everything else -> PyMuPDF text only.
+
+    Azure unavailable -> its pages degrade to local PyMuPDF text. Camelot finding
+    nothing on a flagged page -> that page keeps just its PyMuPDF text. If
+    classification itself fails we bias the whole document to Azure.
     """
     from app.ingestion.extractors.pymupdf_local import classify_document, extract_local_pages
 
@@ -333,35 +354,52 @@ def _hybrid_extract(content: bytes, filename: str, *, mode: str) -> ExtractionRe
         return _azure_with_fallback(content, filename, mode=mode)
 
     total = len(signals)
-    azure_pages = [s.page_number for s in signals if s.needs_azure]
-    local_pages = [s.page_number for s in signals if not s.needs_azure]
+    azure_pages = [s.page_number for s in signals if s.route == "azure"]
+    table_pages = [s.page_number for s in signals if s.route == "camelot"]
+    local_pages = [s.page_number for s in signals if s.route == "local"]
 
     pages_map: dict[int, PageContent] = {}
-    route = "local"
+    routes: list[str] = []
+
+    # Scanned / image pages -> Azure OCR.
     if azure_pages:
         di = _ocr_pdf(content, azure_pages)
         if di:
             pages_map.update(di)
-            route = "per_page"
+            routes.append("azure")
         else:
             logger.warning(
-                "Azure unavailable for %s; %d flagged page(s) fall back to local "
-                "PyMuPDF text (tables on those pages degrade to plain text).",
+                "Azure unavailable for %s; %d scanned page(s) fall back to local "
+                "PyMuPDF text (any tables on those pages are lost).",
                 filename,
                 len(azure_pages),
             )
-            local_pages = [s.page_number for s in signals]  # everything local
-            route = "azure_unavailable_local_fallback"
+            local_pages = local_pages + azure_pages
+            routes.append("azure_unavailable_local_fallback")
 
+    # Born-digital table pages -> Camelot table(s) merged with PyMuPDF text.
+    if table_pages:
+        text_map = extract_local_pages(content, table_pages)
+        tables_map = _camelot_tables(content, table_pages)
+        for n in table_pages:
+            base = text_map.get(n)
+            tabs = tables_map.get(n, [])
+            merged = _merge_table_text(base.text if base else "", tabs)
+            via = ExtractedVia.TEXT if merged else ExtractedVia.EMPTY
+            pages_map[n] = PageContent(page_number=n, text=merged, extracted_via=via, tables=tabs)
+        routes.append("camelot" if any(tables_map.values()) else "camelot_empty_local_fallback")
+
+    # Plain born-digital pages -> PyMuPDF text.
     if local_pages:
         pages_map.update(extract_local_pages(content, local_pages))
+        routes.append("local")
 
     pages = [
         pages_map.get(n, PageContent(page_number=n, text="", extracted_via=ExtractedVia.EMPTY))
         for n in range(1, total + 1)
     ]
     result = ExtractionResult(source=filename, pages=pages)
-    result.metadata.update({"extraction_mode": mode, "route": route})
+    result.metadata.update({"extraction_mode": mode, "route": "+".join(routes) if routes else "local"})
     result.metadata["page_signals"] = _signal_summary(signals)
     return result
 

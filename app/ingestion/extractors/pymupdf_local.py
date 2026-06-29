@@ -52,6 +52,17 @@ class PageSignal:
     def needs_azure(self) -> bool:
         return self.scanned or self.has_table
 
+    @property
+    def route(self) -> str:
+        """Per-page extractor: scanned/image -> Azure OCR, born-digital table ->
+        Camelot, everything else -> local PyMuPDF text. Scanned wins over table
+        because Camelot cannot read an image."""
+        if self.scanned:
+            return "azure"
+        if self.has_table:
+            return "camelot"
+        return "local"
+
 
 def _open(content: bytes):
     import fitz  # PyMuPDF
