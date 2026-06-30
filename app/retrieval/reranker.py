@@ -145,6 +145,7 @@ def rerank(
     candidates: Sequence[Candidate],
     *,
     top_n: int | None = None,
+    table_boost: float = 0.0,
 ) -> list[Candidate]:
     candidates = list(candidates)
     if not candidates:
@@ -165,6 +166,8 @@ def rerank(
             continue
         auth = _authority_score(cand.payload)
         blended = ws * sem_n + wr * rec + wa * auth
+        if table_boost and cand.payload.get("has_table"):
+            blended += table_boost
         scored.append((blended, sem_raw, cand))
 
     scored.sort(key=lambda t: t[0], reverse=True)

@@ -79,6 +79,10 @@ class Settings(BaseSettings):
     rerank_score_threshold: float = 0.0
     rerank_recency_weight: float = 0.05
     rerank_authority_weight: float = 0.05
+    # Additive boost to a candidate's blended score when it contains a table and
+    # the user asked for a table-shaped answer. Soft (not a filter) so a table
+    # request still returns non-table results when no table matches.
+    rerank_table_boost: float = 0.15
     dedup_cosine_threshold: float = 0.92
     context_token_budget: int = 8000
     faithfulness_check: bool = False

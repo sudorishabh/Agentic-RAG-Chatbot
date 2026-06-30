@@ -108,6 +108,7 @@ def retrieve(
     filters: list[Any] | None = None,
     n: int | None = None,
     query_vector: list[float] | None = None,
+    answer_format: str | None = None,
 ) -> list[ContextBlock]:
     settings = get_settings()
     n = n or settings.retrieval_top_k
@@ -125,7 +126,8 @@ def retrieve(
         s.set("candidates", len(candidates))
 
     with span("rag.rerank") as s:
-        ranked = rerank(search_query, candidates)
+        table_boost = settings.rerank_table_boost if answer_format == "table" else 0.0
+        ranked = rerank(search_query, candidates, table_boost=table_boost)
         s.set("survivors", len(ranked))
     if not ranked:
         return []
@@ -178,6 +180,7 @@ def _answer(
         filters=pq.filters,
         n=n,
         query_vector=query_vector,
+        answer_format=pq.answer_format,
     )
     if not blocks:
         return _empty(pq.intent, REFUSAL)
@@ -283,6 +286,7 @@ def stream_answer(
     blocks = retrieve(
         pq.search_query, tenant_id=tenant_id, user_groups=user_groups,
         filters=pq.filters, n=n, query_vector=query_vector,
+        answer_format=pq.answer_format,
     )
     if not blocks:
         yield {"type": "token", "text": REFUSAL}
@@ -314,7 +318,7 @@ def search_blocks(
     pq = process(question, history)
     blocks = retrieve(
         pq.search_query, tenant_id=tenant_id, user_groups=user_groups,
-        filters=pq.filters, n=top_k,
+        filters=pq.filters, n=top_k, answer_format=pq.answer_format,
     )
     return {
         "intent": pq.intent,

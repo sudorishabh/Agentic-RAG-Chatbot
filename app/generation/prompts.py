@@ -76,6 +76,8 @@ def _source_hint(payload: dict) -> str:
         bits.append(f"p.{payload['page_number']}")
     if payload.get("section_heading"):
         bits.append(str(payload["section_heading"]))
+    if payload.get("has_table"):
+        bits.append("contains a table")
     if payload.get("published_at"):
         bits.append(f"published {payload['published_at']}")
     if payload.get("doc_version"):
