@@ -126,6 +126,8 @@ class Chunk:
     page_range: tuple[int, int] | None = None
     token_count: int = 0
     content_hash: str = ""
+    has_table: bool = False
+    table_markdown: str = ""
 
     def to_payload(self) -> dict[str, Any]:
         m = self.meta
@@ -140,6 +142,8 @@ class Chunk:
             "chunk_text": self.text,
             "content_hash": self.content_hash,
             "token_count": self.token_count,
+            "has_table": self.has_table or None,
+            "table_markdown": self.table_markdown,
             "doc_version": m.doc_version,
             "is_current": m.is_current,
             "tenant_id": m.tenant_id,
@@ -432,6 +436,12 @@ def _page_range(blocks: Sequence[_Block]) -> tuple[int, int] | None:
     return (min(pages), max(pages)) if pages else None
 
 
+def _table_markdown(blocks: Sequence[_Block]) -> str:
+    """Verbatim text of any table blocks in this window, kept separately so
+    retrieval can surface the table without re-deriving it from chunk_text."""
+    return "\n\n".join(b.text for b in blocks if b.kind == "table" and b.text.strip())
+
+
 def _split_text_recursive(
     text: str, max_tokens: int, enc: _Encoder, seps: tuple[str, ...] = ("\n\n", "\n", ". ", " ")
 ) -> list[str]:
@@ -666,17 +676,20 @@ def _build_chunks(
             # text when there is no parent).
             emit_parent = len(pairs) > 1
             if emit_parent:
+                parent_tables = _table_markdown(parent_blocks)
                 chunks.append(
                     Chunk(
                         chunk_id=parent_id, text=ptext, is_parent=True, meta=meta,
                         section_heading=heading, section_type=_classify_section(ptext),
                         page_range=_page_range(parent_blocks),
                         token_count=enc.count(ptext), content_hash=_hash(ptext),
+                        has_table=bool(parent_tables), table_markdown=parent_tables,
                     )
                 )
 
             for window, ctext in pairs:
                 pages = _page_range(window)
+                child_tables = _table_markdown(window)
                 chunks.append(
                     Chunk(
                         chunk_id=_uuid(meta, f"child|{child_index}"),
@@ -687,6 +700,7 @@ def _build_chunks(
                         page_number=pages[0] if pages else None,
                         page_range=pages, token_count=enc.count(ctext),
                         content_hash=_hash(ctext),
+                        has_table=bool(child_tables), table_markdown=child_tables,
                     )
                 )
                 child_index += 1
