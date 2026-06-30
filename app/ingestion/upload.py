@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import logging
 import re
+import uuid
 from pathlib import Path
 
 from app.core.models import CanonicalDocument, CanonicalSection
+from app.ingestion import ingest_log
 from app.ingestion.indexer import index_canonical
 
 logger = logging.getLogger(__name__)
@@ -65,10 +67,50 @@ def ingest_article(
     return _index(doc, label=url or title or doc.document_id)
 
 
+def _log_doc(
+    doc: CanonicalDocument,
+    status: str,
+    *,
+    run_id: str | None = None,
+    chunks: int | None = None,
+    error: str | None = None,
+) -> None:
+    is_pdf = doc.source_type == "pdf"
+    ingest_log.record(
+        ingest_log.LogEntry(
+            run_id=run_id,
+            document_id=doc.document_id,
+            source_type=doc.source_type,
+            status=status,
+            source_path=doc.pdf_path if is_pdf else None,
+            source_url=None if is_pdf else doc.source_url,
+            bundle=(doc.extra or {}).get("bundle"),
+            tags=", ".join(doc.tags) if doc.tags else None,
+            title=doc.title,
+            doc_version=doc.doc_version,
+            chunks_indexed=chunks,
+            content_hash=doc.content_hash or None,
+            error_message=error,
+        )
+    )
+
+
 def _index(doc: CanonicalDocument, *, label: str) -> tuple[str, int]:
-    points = index_canonical(doc)
+    run_id = uuid.uuid4().hex
+    try:
+        ingest_log.ensure_table()
+    except Exception:
+        logger.exception("Could not ensure ingest_log table; events will be skipped.")
+
+    try:
+        points = index_canonical(doc)
+    except Exception as exc:
+        _log_doc(doc, "error", run_id=run_id, error=str(exc))
+        raise
+
     from app.cache.redis_cache import bump_corpus_version
 
     bump_corpus_version()
+    _log_doc(doc, "indexed", run_id=run_id, chunks=points)
     logger.info("Ingested %s -> %s (%d points)", label, doc.document_id, points)
     return doc.document_id, points
