@@ -80,6 +80,9 @@ for _bundle in (
 ):
     _PRESETS.setdefault(_bundle, _PRESETS["article"])
 
+# PDFs attached to Drupal nodes chunk like any other PDF.
+_PRESETS.setdefault("pdf_attachment", _PRESETS["pdf"])
+
 
 def config_for(key: str | None) -> ChunkingConfig:
     if not key:

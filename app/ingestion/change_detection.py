@@ -206,6 +206,7 @@ def detect_drupal_changes(
     settings = get_settings()
     bundles = tuple(bundles) if bundles is not None else DEFAULT_BUNDLES
     prior_all = state.load("article")
+    prior_pdf_all = state.load("pdf_attachment")
 
     session = _build_session(settings.drupal_max_retries)
     try:
@@ -244,6 +245,31 @@ def detect_drupal_changes(
                         prior=prev,
                         payload=None if status is ChangeStatus.UNCHANGED else record,
                     )
+
+                    # Each attached PDF becomes its own document, keyed by the
+                    # file uuid and fingerprinted on the node's changed mark.
+                    for file in record.files:
+                        if not file.uuid:
+                            continue
+                        a_prev = prior_pdf_all.get(file.uuid)
+                        if a_prev is None:
+                            a_status = ChangeStatus.NEW
+                        elif a_prev.fingerprint != fingerprint:
+                            a_status = ChangeStatus.CHANGED
+                        else:
+                            a_status = ChangeStatus.UNCHANGED
+                        yield ChangeRecord(
+                            status=a_status,
+                            document_id=file.uuid,
+                            source_type="pdf_attachment",
+                            source_key=file.url,
+                            fingerprint=fingerprint,
+                            bundle=bundle,
+                            changed_mark=_to_unix(record.changed),
+                            prior=a_prev,
+                            payload=None if a_status is ChangeStatus.UNCHANGED else (record, file),
+                            filename=file.filename,
+                        )
             except Exception:
                 logger.exception("Drupal fetch failed for node/%s; skipping bundle.", bundle)
                 continue

@@ -141,6 +141,12 @@ def _build_drupal_doc(record: ChangeRecord) -> CanonicalDocument | None:
     return from_drupal_record(record.payload)
 
 
+def _build_drupal_or_attachment(record: ChangeRecord) -> CanonicalDocument | None:
+    if record.source_type == "pdf_attachment":
+        return _build_attachment_doc(record)
+    return _build_drupal_doc(record)
+
+
 def _build_attachment_doc(record: ChangeRecord) -> CanonicalDocument | None:
     """Download a node's attached PDF, extract it, and build a canonical PDF
     document linked back to the node. ``record.payload`` is a (DrupalRecord,
@@ -200,7 +206,7 @@ def ingest_drupal(
     records = cd.detect_drupal_changes(
         bundles, published_only=published_only, reconcile_deletes=reconcile_deletes
     )
-    tally = _run(records, _build_drupal_doc)
+    tally = _run(records, _build_drupal_or_attachment)
     logger.info("Drupal ingestion finished: %s", dict(tally))
     return tally
 

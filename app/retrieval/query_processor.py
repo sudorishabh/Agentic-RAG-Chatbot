@@ -72,12 +72,17 @@ def _format_history(history: Sequence[dict[str, str]] | None, max_turns: int = 6
 
 
 def _facet_filters(analysis: QueryAnalysis) -> list[Any]:
-    from qdrant_client.models import FieldCondition, MatchValue
+    from qdrant_client.models import FieldCondition, MatchAny, MatchValue
 
     conditions: list[Any] = []
-    if analysis.source_type in ("pdf", "article"):
+    if analysis.source_type == "pdf":
+        # "PDFs" includes documents attached to web articles.
         conditions.append(
-            FieldCondition(key="source_type", match=MatchValue(value=analysis.source_type))
+            FieldCondition(key="source_type", match=MatchAny(any=["pdf", "pdf_attachment"]))
+        )
+    elif analysis.source_type == "article":
+        conditions.append(
+            FieldCondition(key="source_type", match=MatchValue(value="article"))
         )
     if analysis.language:
         conditions.append(
