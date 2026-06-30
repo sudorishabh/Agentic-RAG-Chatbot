@@ -9,6 +9,7 @@ from app.generation.prompts import (
     CHITCHAT_SYSTEM_PROMPT,
     GROUNDED_SYSTEM_PROMPT,
     format_context_blocks,
+    format_directive,
 )
 from app.retrieval.citations import build_citations
 from app.generation.prompts import REFUSAL
@@ -43,14 +44,30 @@ def _empty(intent: str, answer: str, *, cached: bool = False) -> dict[str, Any]:
     }
 
 
-def _generate(question: str, blocks: list[ContextBlock], *, correction: str | None = None) -> str:
+def _build_system(answer_format: str | None, correction: str | None) -> str:
+    system = GROUNDED_SYSTEM_PROMPT
+    directive = format_directive(answer_format)
+    if directive:
+        system += f"\n\n{directive}"
+    if correction:
+        system += f"\n\n{correction}"
+    return system
+
+
+def _generate(
+    question: str,
+    blocks: list[ContextBlock],
+    *,
+    correction: str | None = None,
+    answer_format: str | None = None,
+) -> str:
     from langchain_core.output_parsers import StrOutputParser
     from langchain_core.prompts import ChatPromptTemplate
 
     if not blocks:
         return REFUSAL
 
-    system = GROUNDED_SYSTEM_PROMPT + (f"\n\n{correction}" if correction else "")
+    system = _build_system(answer_format, correction)
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system", system),
@@ -63,15 +80,22 @@ def _generate(question: str, blocks: list[ContextBlock], *, correction: str | No
     ).strip()
 
 
-def _grounded_answer(question: str, blocks: list[ContextBlock]) -> str:
+def _grounded_answer(
+    question: str, blocks: list[ContextBlock], *, answer_format: str | None = None
+) -> str:
     from app.generation import faithfulness
 
-    answer = faithfulness.validate_markers(_generate(question, blocks), len(blocks))
+    answer = faithfulness.validate_markers(
+        _generate(question, blocks, answer_format=answer_format), len(blocks)
+    )
     if get_settings().faithfulness_check and blocks:
         report = faithfulness.verify(answer, blocks)
         if not report.faithful:
             logger.info("Faithfulness check flagged claims; regenerating once.")
-            retry = _generate(question, blocks, correction=report.correction_note())
+            retry = _generate(
+                question, blocks,
+                correction=report.correction_note(), answer_format=answer_format,
+            )
             answer = faithfulness.validate_markers(retry, len(blocks))
     return answer
 
@@ -159,7 +183,7 @@ def _answer(
         return _empty(pq.intent, REFUSAL)
 
     with span("rag.generate") as s:
-        answer = _grounded_answer(pq.search_query, blocks)
+        answer = _grounded_answer(pq.search_query, blocks, answer_format=pq.answer_format)
         s.set("answer_chars", len(answer))
     citations = build_citations(blocks)
 
@@ -204,13 +228,15 @@ def answer_query(
     return result
 
 
-def _generate_stream(question: str, blocks: list[ContextBlock]) -> Iterator[str]:
+def _generate_stream(
+    question: str, blocks: list[ContextBlock], *, answer_format: str | None = None
+) -> Iterator[str]:
     from langchain_core.output_parsers import StrOutputParser
     from langchain_core.prompts import ChatPromptTemplate
 
     prompt = ChatPromptTemplate.from_messages(
         [
-            ("system", GROUNDED_SYSTEM_PROMPT),
+            ("system", _build_system(answer_format, None)),
             ("human", "Numbered context:\n{context}\n\nQuestion: {question}"),
         ]
     )
@@ -265,7 +291,7 @@ def stream_answer(
         yield {"type": "done"}
         return
 
-    for token in _generate_stream(pq.search_query, blocks):
+    for token in _generate_stream(pq.search_query, blocks, answer_format=pq.answer_format):
         yield {"type": "token", "text": token}
     yield {
         "type": "sources",

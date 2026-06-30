@@ -25,6 +25,38 @@ GROUNDED_SYSTEM_PROMPT = (
 )
 
 
+# Per-format steering appended to the grounded system prompt when the query
+# understanding stage detected a specific desired shape (see query_processor).
+_FORMAT_DIRECTIVES: dict[str, str] = {
+    "list": (
+        "Shape the answer as a concise bulleted list — one point per line, no "
+        "preamble. Keep each bullet to a single claim with its citation."
+    ),
+    "table": (
+        "Shape the answer as a GitHub-flavored Markdown table: a header row, a "
+        "separator row, then one row per item. If the numbered context already "
+        "contains a relevant table, reproduce its rows and columns faithfully "
+        "rather than inventing structure. Put the citation [n] in its own column "
+        "or beside each row. Add a one-line caption above the table only if needed."
+    ),
+    "summary": (
+        "Shape the answer as a brief high-level summary of 2-4 sentences. Cover "
+        "only the most important points and omit minor detail."
+    ),
+    "detailed": (
+        "Shape the answer as a thorough, in-depth response. Cover the relevant "
+        "points comprehensively using the context, organized into short labeled "
+        "sections or paragraphs, each claim cited."
+    ),
+}
+
+
+def format_directive(answer_format: str | None) -> str:
+    """Return the generation directive for a detected answer format, or "" for
+    'default'/unknown (let the model choose the natural shape)."""
+    return _FORMAT_DIRECTIVES.get(answer_format or "", "")
+
+
 CHITCHAT_SYSTEM_PROMPT = (
     "You are an assistant for an enterprise knowledge base of PDFs and website "
     "articles. The user's message is small talk or a meta question, not a content "

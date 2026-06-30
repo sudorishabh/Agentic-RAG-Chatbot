@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 HEADERS = {"Accept": "application/vnd.api+json"}
 
-DEFAULT_BUNDLES: tuple[str, ...] = ("news",)
+DEFAULT_BUNDLES: tuple[str, ...] = ("news", "events", "article", "feature_articles")
     # "feature_articles",
     # "completed_projects",
     # "events",
