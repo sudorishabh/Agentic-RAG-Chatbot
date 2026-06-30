@@ -20,6 +20,7 @@ class CanonicalDocument:
     sections: list[CanonicalSection] = field(default_factory=list)
 
     source_url: str | None = None
+    file_url: str | None = None
     pdf_id: str | None = None
     pdf_path: str | None = None
     article_uuid: str | None = None

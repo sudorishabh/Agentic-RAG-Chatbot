@@ -115,6 +115,7 @@ def _drupal_document(
 
 
 def from_drupal_record(record: Any, **overrides: Any) -> CanonicalDocument:
+    overrides.setdefault("file_url", getattr(record, "pdf_url", None))
     return _drupal_document(
         body=record.body,
         title=record.title,

@@ -94,6 +94,7 @@ class DocumentMeta:
     source_type: str
     title: str | None = None
     source_url: str | None = None
+    file_url: str | None = None
     pdf_id: str | None = None
     pdf_path: str | None = None
     article_uuid: str | None = None
@@ -153,6 +154,7 @@ class Chunk:
             "authors": m.authors,
             "language": m.language,
             "source_url": m.source_url,
+            "file_url": m.file_url,
             "published_at": m.published_at,
             "pdf_id": m.pdf_id,
             "pdf_path": m.pdf_path,
@@ -743,6 +745,7 @@ def _meta_from_canonical(doc: CanonicalDocument) -> DocumentMeta:
         source_type=doc.source_type,
         title=doc.title,
         source_url=doc.source_url,
+        file_url=doc.file_url,
         pdf_id=doc.pdf_id,
         pdf_path=doc.pdf_path,
         article_uuid=doc.article_uuid,
