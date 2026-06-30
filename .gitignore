@@ -1,4 +1,5 @@
 venv/
+.venv/
 .env
 __pycache__/
 *.pyc
@@ -10,5 +11,7 @@ qdrant_storage/
 .vscode/
 .idea/
 pdf_examples/
+# Local-only agent settings (keep out of VCS even without global gitignore)
+.claude/settings.local.json
 # Added by code-review-graph
 .code-review-graph/
