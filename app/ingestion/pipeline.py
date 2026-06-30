@@ -141,6 +141,48 @@ def _build_drupal_doc(record: ChangeRecord) -> CanonicalDocument | None:
     return from_drupal_record(record.payload)
 
 
+def _build_attachment_doc(record: ChangeRecord) -> CanonicalDocument | None:
+    """Download a node's attached PDF, extract it, and build a canonical PDF
+    document linked back to the node. ``record.payload`` is a (DrupalRecord,
+    DrupalFile) pair; ``source_type`` is 'pdf_attachment' so the local on-disk
+    PDF pipeline's delete-reconcile never touches these web-sourced docs."""
+    import requests
+
+    from app.config import get_settings
+    from app.ingestion.canonical import from_pdf
+    from app.ingestion.extractors.drupal_extractor import _build_session
+    from app.ingestion.extractors.pdf_extractor import extract_pdf
+
+    node, file = record.payload
+    settings = get_settings()
+    session = _build_session(settings.drupal_max_retries)
+    try:
+        response = session.get(file.url, timeout=settings.drupal_request_timeout)
+        response.raise_for_status()
+        content = response.content
+    except requests.RequestException:
+        logger.exception("Could not download attachment %s; skipping.", file.url)
+        return None
+    finally:
+        session.close()
+    if not content:
+        logger.warning("Empty attachment body for %s; skipping.", file.url)
+        return None
+
+    result = extract_pdf(content, file.filename or record.document_id)
+    return from_pdf(
+        result,
+        document_id=record.document_id,
+        source_type="pdf_attachment",
+        title=(file.description or node.title or file.filename or None),
+        source_url=node.url,
+        file_url=file.url,
+        linked_article_uuid=(node.uuid or None),
+        published_at=node.created,
+        extra={"bundle": node.bundle},
+    )
+
+
 def ingest_pdfs(roots=None, ignore_globs=None) -> Counter:
     logger.info("PDF ingestion started (roots=%s)", roots or "configured PDF source")
     tally = _run(cd.detect_file_changes(roots, ignore_globs), _build_pdf_doc)

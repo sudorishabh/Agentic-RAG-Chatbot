@@ -39,6 +39,7 @@ class DrupalFile:
     url: str
     filename: str
     description: str | None = None
+    uuid: str = ""
 
 
 @dataclass
@@ -303,6 +304,7 @@ def _resolve_files(
                     url=abs_url,
                     filename=filename,
                     description=(meta.get("description") or None),
+                    uuid=ref.get("id") or "",
                 )
             )
     return out
