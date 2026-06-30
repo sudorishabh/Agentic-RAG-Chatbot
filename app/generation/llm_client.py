@@ -1,8 +1,19 @@
+import warnings
 from functools import lru_cache
 
 from langchain_openai import AzureChatOpenAI
 
 from app.config import get_settings
+
+# LangChain's structured-output path returns a response whose internal `parsed`
+# field is typed Optional; when it carries our QueryAnalysis / StructuredQuery
+# model, pydantic emits a benign "Pydantic serializer warnings" UserWarning on
+# serialization. It's harmless noise, so silence just that warning.
+warnings.filterwarnings(
+    "ignore",
+    message="Pydantic serializer warnings",
+    category=UserWarning,
+)
 
 
 @lru_cache
