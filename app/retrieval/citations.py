@@ -10,9 +10,23 @@ def _pdf_link(payload: dict[str, Any]) -> str | None:
     pdf_id = payload.get("pdf_id") or payload.get("document_id")
     if not pdf_id:
         return None
+    return _with_page(f"/source/{pdf_id}", payload)
+
+
+def _with_page(url: str | None, payload: dict[str, Any]) -> str | None:
     page = payload.get("page_number")
-    anchor = f"#page={page}" if page else ""
-    return f"/source/{pdf_id}{anchor}"
+    return f"{url}#page={page}" if (url and page) else url
+
+
+def _primary_url(payload: dict[str, Any]) -> str | None:
+    """The best openable link for a source: the real attached PDF if we have
+    one, else the article page, else the local /source fallback for disk PDFs."""
+    file_url = payload.get("file_url")
+    if file_url:
+        return _with_page(file_url, payload)
+    if payload.get("source_type") == "article":
+        return payload.get("source_url")
+    return _pdf_link(payload)
 
 
 def _source_from_payload(payload: dict[str, Any]) -> CitationSource:
@@ -20,13 +34,13 @@ def _source_from_payload(payload: dict[str, Any]) -> CitationSource:
         return CitationSource(
             type="article",
             title=payload.get("title"),
-            url=payload.get("source_url"),
+            url=_primary_url(payload),
             section=payload.get("section_heading"),
         )
     return CitationSource(
         type="pdf",
         title=payload.get("title"),
-        url=_pdf_link(payload),
+        url=_primary_url(payload),
         page=payload.get("page_number"),
         section=payload.get("section_heading"),
     )
@@ -40,7 +54,7 @@ def _citation_from_block(block: ContextBlock) -> Citation:
             n=block.n,
             type="article",
             title=p.get("title"),
-            url=p.get("source_url"),
+            url=_primary_url(p),
             section=p.get("section_heading"),
             document_id=p.get("document_id"),
             also_available=also,
@@ -49,7 +63,7 @@ def _citation_from_block(block: ContextBlock) -> Citation:
         n=block.n,
         type=p.get("source_type") or "pdf",
         title=p.get("title"),
-        url=_pdf_link(p),
+        url=_primary_url(p),
         page=p.get("page_number"),
         section=p.get("section_heading"),
         document_id=p.get("document_id"),
