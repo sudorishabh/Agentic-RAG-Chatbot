@@ -33,6 +33,15 @@ DEFAULT_BUNDLES: tuple[str, ...] = ("news", "events", "article", "feature_articl
 LONG_TEXT_THRESHOLD = 255
 
 @dataclass
+class DrupalFile:
+    """A file attached to a node — typically the source PDF behind an article."""
+
+    url: str
+    filename: str
+    description: str | None = None
+
+
+@dataclass
 class DrupalRecord:
     uuid: str
     bundle: str
@@ -43,10 +52,16 @@ class DrupalRecord:
     created: str | None
     changed: str | None
     metadata: dict[str, Any] = field(default_factory=dict)
+    files: list[DrupalFile] = field(default_factory=list)
 
     @property
     def source(self) -> str:
         return self.url or f"{self.bundle}/{self.uuid}"
+
+    @property
+    def pdf_url(self) -> str | None:
+        """The primary attached PDF's absolute URL, if any."""
+        return self.files[0].url if self.files else None
 
     def to_text(self) -> str:
         return "\n\n".join(part for part in (self.title, self.body) if part).strip()
@@ -240,7 +255,57 @@ def _build_record(
         created=attributes.get("created"),
         changed=attributes.get("changed"),
         metadata=metadata,
+        files=_resolve_files(node, included, site),
     )
+
+
+_PDF_MIME = "application/pdf"
+
+
+def _resolve_files(
+    node: dict, included: dict[tuple[str, str], dict], site: str
+) -> list[DrupalFile]:
+    """Collect this node's attached PDF files. Scans every field_* relationship
+    for referenced file--file entities (the file field name varies per bundle:
+    field_policybrieffile, field_report, field_*_full_text, ...) and keeps the
+    PDFs, resolving their relative uri.url to an absolute URL."""
+    out: list[DrupalFile] = []
+    seen: set[str] = set()
+    for field_name, relationship in node.get("relationships", {}).items():
+        if not field_name.startswith("field_"):
+            continue
+        data = relationship.get("data")
+        if not data:
+            continue
+        refs = data if isinstance(data, list) else [data]
+        for ref in refs:
+            if ref.get("type") != "file--file":
+                continue
+            entity = included.get((ref.get("type"), ref.get("id")))
+            if not entity:
+                continue
+            attrs = entity.get("attributes", {})
+            filename = (attrs.get("filename") or "").strip()
+            mime = (attrs.get("filemime") or "").lower()
+            if mime != _PDF_MIME and not filename.lower().endswith(".pdf"):
+                continue
+            uri = attrs.get("uri")
+            rel_url = uri.get("url") if isinstance(uri, dict) else None
+            if not rel_url:
+                continue
+            abs_url = rel_url if rel_url.startswith("http") else f"{site}{rel_url}"
+            if abs_url in seen:
+                continue
+            seen.add(abs_url)
+            meta = ref.get("meta") if isinstance(ref.get("meta"), dict) else {}
+            out.append(
+                DrupalFile(
+                    url=abs_url,
+                    filename=filename,
+                    description=(meta.get("description") or None),
+                )
+            )
+    return out
 
 
 def _partition_attributes(attributes: dict) -> tuple[list[str], dict[str, Any]]:
