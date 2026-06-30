@@ -187,7 +187,7 @@ def answer_structured(
     ]
     return {
         "answer": "Here is what I found:\n" + "\n".join(lines),
-        "citations": citations,
+        "citations": [c.model_dump() for c in citations],
         "intent": "structured",
         "used_chunks": len(records),
         "conflict": False,
