@@ -36,14 +36,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     3
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
 ## Child · `77036ff1-3d87-5896-a318-46737ff77520`
 
-- vector: dim=3072 · [-0.0247, 0.0032, 0.0066, 0.0453, -0.0266, 0.0022, -0.0362, 0.0113, …]
+- vector: dim=3072 · [-0.0244, 0.0029, 0.0066, 0.0454, -0.0268, 0.0024, -0.0361, 0.0114, …]
 
 ```json
 {
@@ -71,14 +71,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     4,
     4
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
 ## Child · `070bdaa1-5597-51ba-8f30-5f504bdc3bc1`
 
-- vector: dim=3072 · [-0.0307, -0.0064, -0.0106, 0.0122, -0.0142, -0.0130, -0.0387, 0.0190, …]
+- vector: dim=3072 · [-0.0307, -0.0064, -0.0106, 0.0122, -0.0142, -0.0130, -0.0386, 0.0190, …]
 
 ```json
 {
@@ -106,8 +106,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     5,
     6
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
@@ -141,14 +141,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     7
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
 ## Child · `76a9a9f1-e21e-5938-89cc-daa60b51c8fe`
 
-- vector: dim=3072 · [-0.0256, -0.0054, -0.0085, 0.0272, -0.0326, 0.0002, -0.0220, 0.0037, …]
+- vector: dim=3072 · [-0.0256, -0.0053, -0.0085, 0.0273, -0.0326, 0.0002, -0.0220, 0.0037, …]
 
 ```json
 {
@@ -176,14 +176,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     8,
     8
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
 ## Child · `de0b917e-94d3-52bf-9a9b-16cb106a43a4`
 
-- vector: dim=3072 · [-0.0076, -0.0208, -0.0108, 0.0339, -0.0345, -0.0048, -0.0203, 0.0257, …]
+- vector: dim=3072 · [-0.0065, -0.0207, -0.0105, 0.0314, -0.0309, -0.0078, -0.0186, 0.0247, …]
 
 ```json
 {
@@ -211,8 +211,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     9
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
@@ -228,9 +228,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "ES2012RS02.pdf",
   "section_heading": "Carbon Implications — Carbon Emissions and Power Generation",
-  "chunk_text": "Carbon Implications — Carbon Emissions and Power Generation\n\n\nElectricity generation contributes the largest \nshare to carbon emissions in India \n\nCarbon is emitted in the process of extraction \nof resource and during burning of fuel during \npower production \n\nCarbon emitted in the process of coal based \npower generation is nearly twice that of gas \nbased generation \n\nThese costs are internalised while computing \nthe final cost of power generation \n\nThere are other impacts on the environment \ngenerated \nin \nthe \nprocess \nof \npower \nproduction but these are not incorporated in \nthe current\n\n… [+3694 more chars]",
-  "content_hash": "53981b13ee7f78263b0e40894c0115f470fe68c8a7d2ccbac70c6c2184f9600e",
-  "token_count": 1558,
+  "chunk_text": "Carbon Implications — Carbon Emissions and Power Generation\n\n\nElectricity generation contributes the largest \nshare to carbon emissions in India \n\nCarbon is emitted in the process of extraction \nof resource and during burning of fuel during \npower production \n\nCarbon emitted in the process of coal based \npower generation is nearly twice that of gas \nbased generation \n\nThese costs are internalised while computing \nthe final cost of power generation \n\nThere are other impacts on the environment \ngenerated \nin \nthe \nprocess \nof \npower \nproduction but these are not incorporated in \nthe current\n\n… [+4921 more chars]",
+  "content_hash": "d2e6378412134b2a994492aa13380be89c12c5aa7f917f00f76fd79548227d9a",
+  "token_count": 1857,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -242,16 +242,16 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_path": "ES2012RS02.pdf",
   "page_range": [
     11,
-    16
+    19
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
 ## Child · `8c08714e-4a44-5c35-a054-5d7fbb96d295`
 
-- vector: dim=3072 · [0.0033, -0.0182, 0.0032, -0.0141, -0.0230, -0.0183, -0.0271, -0.0162, …]
+- vector: dim=3072 · [0.0033, -0.0182, 0.0031, -0.0142, -0.0229, -0.0185, -0.0270, -0.0162, …]
 
 ```json
 {
@@ -280,14 +280,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     11,
     11
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
 ## Child · `73703b23-20f5-59f8-bcba-2c2b3ec1657e`
 
-- vector: dim=3072 · [-0.0034, -0.0215, 0.0003, 0.0471, 0.0017, -0.0293, -0.0469, 0.0150, …]
+- vector: dim=3072 · [-0.0029, -0.0215, 0.0001, 0.0471, 0.0016, -0.0298, -0.0471, 0.0145, …]
 
 ```json
 {
@@ -316,14 +316,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     12,
     13
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
 ## Child · `67733f0d-abdb-5766-b5e5-b77a49577588`
 
-- vector: dim=3072 · [-0.0079, -0.0153, -0.0029, 0.0436, -0.0338, 0.0045, -0.0271, 0.0231, …]
+- vector: dim=3072 · [-0.0079, -0.0152, -0.0030, 0.0435, -0.0339, 0.0044, -0.0272, 0.0231, …]
 
 ```json
 {
@@ -352,14 +352,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     13,
     14
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
 ## Child · `44219a8d-9d2b-5cba-82d4-3481586e68b4`
 
-- vector: dim=3072 · [-0.0075, -0.0154, -0.0072, 0.0417, -0.0320, -0.0267, -0.0147, 0.0210, …]
+- vector: dim=3072 · [-0.0071, -0.0158, -0.0072, 0.0415, -0.0318, -0.0268, -0.0147, 0.0211, …]
 
 ```json
 {
@@ -388,14 +388,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     14,
     15
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
 ## Child · `4a62a11c-3875-5b45-9a61-ab362ce6bafc`
 
-- vector: dim=3072 · [-0.0006, -0.0139, -0.0127, 0.0270, -0.0464, -0.0080, -0.0140, 0.0226, …]
+- vector: dim=3072 · [-0.0062, -0.0094, -0.0092, 0.0327, -0.0377, -0.0025, -0.0172, 0.0187, …]
 
 ```json
 {
@@ -405,9 +405,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "ES2012RS02.pdf",
   "section_heading": "Carbon Implications — Carbon Emissions and Power Generation",
-  "chunk_text": "Generation Cost (3) \nWhen the costs of carbon are incorporated:\n\nDomestic natural gas becomes competitive with domestic coal in most \nlocations\n\nThe difference between imported coal and LNG reduces substantially \nand LNG even becomes competitive in distant locations (such as \nAgartala) | Plant Locations | Fuel Options |  |  |  |  |  |\n| --- | --- | --- | --- | --- | --- | --- |\n|  | Imported Coal |  |  | LNG |  |  |\n|  | Without carbon cost | With carbon costs (at US$ 10) | With carbon costs (at US$ 30) | Without carbon cost | With carbon costs (at US$ 10) | With carbon costs (at US$ 30) |\n\n\n… [+489 more chars]",
-  "content_hash": "8c77a553b97299870180f32ff6db828de322ba5ee6ef87998930f5aaf0b668eb",
-  "token_count": 474,
+  "chunk_text": "Generation Cost (3) \nWhen the costs of carbon are incorporated:\n\nDomestic natural gas becomes competitive with domestic coal in most \nlocations\n\nThe difference between imported coal and LNG reduces substantially \nand LNG even becomes competitive in distant locations (such as \nAgartala) | Plant Locations | Fuel Options |  |  |  |  |  |\n| --- | --- | --- | --- | --- | --- | --- |\n|  | Imported Coal |  |  | LNG |  |  |\n|  | Without carbon cost | With carbon costs (at US$ 10) | With carbon costs (at US$ 30) | Without carbon cost | With carbon costs (at US$ 10) | With carbon costs (at US$ 30) |\n\n\n… [+552 more chars]",
+  "content_hash": "aed4086830890382d28112ffdfb22b204733f9df79b3a6ee4d82a9d3d70e903b",
+  "token_count": 484,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -422,16 +422,16 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "page_number": 16,
   "page_range": [
     16,
-    16
+    17
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
 ## Child · `ab72c2d8-8beb-5609-8848-69c1d776cc4e`
 
-- vector: dim=3072 · [-0.0322, -0.0041, -0.0084, 0.0431, -0.0154, -0.0123, -0.0312, -0.0042, …]
+- vector: dim=3072 · [-0.0359, -0.0118, -0.0006, 0.0489, -0.0152, -0.0165, -0.0301, 0.0070, …]
 
 ```json
 {
@@ -440,10 +440,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "ES2012RS02.pdf",
-  "section_heading": "Domestic Coal and Gas Availability and Projected Requirements",
-  "chunk_text": "Domestic Fuel Availability in India - \nCoal \nCoal and gas shortages in the country are constraining the development of \npower sector in the country\n\nThe reasons cited for shortages of coal are delay in obtaining clearances, \nbottlenecks in transport and evacuation facilities\n\nThe total requirement for non-coking coal is projected to increase to 913.3 \nMt (Million tonnes) by 2016-17 and further to 1268 Mt by 2021-22*\n\nEven if domestic production targets are met, the gap between requirement \nand domestic availability is projected to be 150 Mt in 2016-17 and 230 \nMt in in 2021-22*\n\n*Planning \n\n… [+562 more chars]",
-  "content_hash": "9f3f99018fa9ecc16d40e9e6607c91512cb1e583108425761fadf0e2910191e2",
-  "token_count": 288,
+  "section_heading": "Carbon Implications — Carbon Emissions and Power Generation",
+  "chunk_text": "| 6.38 | 6.62 | 7.11 |\n| Nagpur | 5.35 | 5.87 | 6.90 | 6.28 | 6.53 | 7.02 |\n\nDomestic Coal and Gas Availability and Projected Requirements Domestic Fuel Availability in India - \nCoal \nCoal and gas shortages in the country are constraining the development of \npower sector in the country\n\nThe reasons cited for shortages of coal are delay in obtaining clearances, \nbottlenecks in transport and evacuation facilities\n\nThe total requirement for non-coking coal is projected to increase to 913.3 \nMt (Million tonnes) by 2016-17 and further to 1268 Mt by 2021-22*\n\nEven if domestic production targets \n\n… [+701 more chars]",
+  "content_hash": "043c8d24224f72df44a4470b6fc991f96aceb892db95ee9cef4f24d906c02eac",
+  "token_count": 347,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -453,20 +453,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "es2012rs02_pdf",
   "pdf_path": "ES2012RS02.pdf",
+  "parent_chunk_id": "a888c55e-c7e3-5f34-a577-6b5d500adf8e",
   "chunk_index": 11,
   "page_number": 18,
   "page_range": [
     18,
     19
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
 ## Child · `838896fa-862b-5480-b74d-27c663b06e39`
 
-- vector: dim=3072 · [-0.0533, -0.0358, -0.0130, 0.0171, -0.0103, -0.0283, -0.0078, 0.0133, …]
+- vector: dim=3072 · [-0.0536, -0.0363, -0.0129, 0.0175, -0.0104, -0.0283, -0.0079, 0.0131, …]
 
 ```json
 {
@@ -494,14 +495,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     21,
     21
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
 ## Child · `a3964f09-20d1-5522-894a-3cd3d038e329`
 
-- vector: dim=3072 · [-0.0218, -0.0072, -0.0091, 0.0135, -0.0270, -0.0107, -0.0111, 0.0030, …]
+- vector: dim=3072 · [-0.0216, -0.0068, -0.0091, 0.0132, -0.0272, -0.0106, -0.0110, 0.0031, …]
 
 ```json
 {
@@ -529,8 +530,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     22,
     23
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
@@ -564,8 +565,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     24,
     24
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
@@ -599,14 +600,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     26,
     28
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```
 
 ## Child · `f3d0b003-0c5d-5024-b1b0-a9e7ee345a64`
 
-- vector: dim=3072 · [-0.0255, 0.0192, -0.0057, -0.0047, -0.0283, -0.0246, -0.0382, 0.0161, …]
+- vector: dim=3072 · [-0.0256, 0.0194, -0.0057, -0.0047, -0.0282, -0.0245, -0.0383, 0.0161, …]
 
 ```json
 {
@@ -634,7 +635,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     29,
     30
   ],
-  "created_at": "2026-06-29T10:54:48.958318+00:00",
-  "updated_at": "2026-06-29T10:54:48.958318+00:00"
+  "created_at": "2026-06-30T08:33:01.181752+00:00",
+  "updated_at": "2026-06-30T08:33:01.181752+00:00"
 }
 ```

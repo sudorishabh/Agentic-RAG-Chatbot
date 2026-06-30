@@ -1,6 +1,6 @@
 # Qdrant points — Annexure_J1_ TERI_WWD-2020_Report.pdf
 
-- points (rows upserted): **46**
+- points (rows upserted): **44**
 - embedded: **True** · model `text-embedding-3-large` · dim 3072
 
 Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Children carry their embedding; parents carry a zero vector and are reached through their children. Below, vectors are truncated and `chunk_text` is clipped — see `05_qdrant_points.json` for the full data.
@@ -35,8 +35,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     2
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
@@ -71,8 +71,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     2
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
@@ -107,8 +107,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     2,
     2
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
@@ -142,14 +142,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     3,
     3
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `0c839165-abf0-59da-8167-57c137bfee6c`
 
-- vector: dim=3072 · [-0.0135, -0.0098, -0.0091, -0.0464, -0.0039, 0.0064, -0.0009, 0.0069, …]
+- vector: dim=3072 · [-0.0136, -0.0098, -0.0091, -0.0465, -0.0039, 0.0064, -0.0009, 0.0069, …]
 
 ```json
 {
@@ -177,8 +177,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     4,
     4
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
@@ -210,14 +210,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     5,
     7
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `0ef1cb1e-b639-524f-b14c-b85dd3cc146c`
 
-- vector: dim=3072 · [-0.0223, -0.0270, -0.0094, -0.0435, 0.0079, 0.0141, 0.0150, 0.0110, …]
+- vector: dim=3072 · [-0.0221, -0.0270, -0.0094, -0.0435, 0.0079, 0.0141, 0.0150, 0.0110, …]
 
 ```json
 {
@@ -246,8 +246,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     5,
     5
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
@@ -282,14 +282,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     5,
     6
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `370a071e-4365-505a-a86e-abe2e9d7aece`
 
-- vector: dim=3072 · [-0.0101, -0.0166, -0.0098, -0.0214, -0.0137, -0.0325, 0.0100, 0.0422, …]
+- vector: dim=3072 · [-0.0097, -0.0166, -0.0097, -0.0215, -0.0136, -0.0329, 0.0101, 0.0433, …]
 
 ```json
 {
@@ -318,8 +318,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     6,
     6
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
@@ -354,8 +354,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     7
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
@@ -390,14 +390,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     7
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `b385aa6a-ea2a-5bd6-b4d8-63ddabcf6f9c`
 
-- vector: dim=3072 · [-0.0211, -0.0036, -0.0202, -0.0219, -0.0336, -0.0587, -0.0080, 0.0201, …]
+- vector: dim=3072 · [-0.0211, -0.0036, -0.0202, -0.0218, -0.0338, -0.0589, -0.0079, 0.0201, …]
 
 ```json
 {
@@ -425,8 +425,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     10
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
@@ -458,14 +458,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     11,
     20
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `5f9e0514-0a40-5579-9f9e-f011d440ecb6`
 
-- vector: dim=3072 · [-0.0174, -0.0104, -0.0091, -0.0400, -0.0148, -0.0401, -0.0070, 0.0153, …]
+- vector: dim=3072 · [-0.0173, -0.0104, -0.0091, -0.0399, -0.0147, -0.0401, -0.0070, 0.0153, …]
 
 ```json
 {
@@ -494,14 +494,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     11,
     13
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `2a9d24a0-6faf-5a80-b6b5-6136a3eef0bd`
 
-- vector: dim=3072 · [-0.0212, 0.0036, -0.0158, -0.0290, -0.0013, -0.0379, -0.0012, 0.0198, …]
+- vector: dim=3072 · [-0.0212, 0.0034, -0.0158, -0.0289, -0.0013, -0.0380, -0.0013, 0.0198, …]
 
 ```json
 {
@@ -530,14 +530,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     14,
     14
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `f11c581f-7935-51e6-99fd-de600cb5fc3e`
 
-- vector: dim=3072 · [-0.0204, -0.0153, -0.0131, -0.0396, -0.0266, -0.0370, -0.0136, 0.0099, …]
+- vector: dim=3072 · [-0.0205, -0.0154, -0.0131, -0.0396, -0.0265, -0.0371, -0.0137, 0.0099, …]
 
 ```json
 {
@@ -566,14 +566,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     15,
     15
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `91d8fe80-205b-580b-8761-b25b3dfdba0b`
 
-- vector: dim=3072 · [-0.0266, -0.0256, -0.0109, -0.0237, -0.0165, -0.0354, 0.0092, 0.0091, …]
+- vector: dim=3072 · [-0.0266, -0.0257, -0.0108, -0.0238, -0.0163, -0.0356, 0.0091, 0.0092, …]
 
 ```json
 {
@@ -602,8 +602,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     16,
     17
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
@@ -638,47 +638,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     18,
     20
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
-}
-```
-
-## Parent · `cd1419ad-9951-5fba-bbec-a8581fe64311`
-
-- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
-
-```json
-{
-  "chunk_id": "cd1419ad-9951-5fba-bbec-a8581fe64311",
-  "document_id": "annexure_j1_teri_wwd_2020_report_pdf",
-  "is_parent": true,
-  "source_type": "pdf",
-  "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "part",
-  "chunk_text": "part\n\nof\nthe\nTERI-UNEP\n‘Rethink Plastic’ Campaign, at the hands of\nDr.\nAnita\nJadhav,\nAssociate\nProfessor,\nICLES\nMotilal\nJhunjhunwala\nCollege,\nVashi\n•\nTERI also committed to prepare a Braille\nbook and Touch and Feel kits for these\nspecial students to introduce them to\nPlastic and its impacts on health and\nenvironment.\n•\nA draft of the Braille book was handed\nover to representatives of Helen Keller\nInstitute of Deaf and Deaf blind by the\nHon’ble commissioner, NMMC.\n\ng) Panel discussion : Youth Vision on \nPlastic Pollution\nA 6 membered panel including 3 experts and 3 young volunteers led a very \n\n\n… [+2271 more chars]",
-  "content_hash": "3032a6f5371c1ae4e85e9f44429fba3ed2b22f70ad35c92e1fd8e19bcaae5c75",
-  "token_count": 751,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
-  "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "page_range": [
-    20,
-    29
-  ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `8fc87a5b-d9de-57c6-8e1e-e3e900a703d4`
 
-- vector: dim=3072 · [-0.0503, -0.0239, -0.0040, -0.0198, -0.0114, -0.0332, -0.0199, 0.0265, …]
+- vector: dim=3072 · [-0.0662, -0.0199, -0.0129, -0.0142, -0.0172, -0.0394, -0.0154, 0.0202, …]
 
 ```json
 {
@@ -688,9 +655,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
   "section_heading": "part",
-  "chunk_text": "of\nthe\nTERI-UNEP\n‘Rethink Plastic’ Campaign, at the hands of\nDr.\nAnita\nJadhav,\nAssociate\nProfessor,\nICLES\nMotilal\nJhunjhunwala\nCollege,\nVashi\n•\nTERI also committed to prepare a Braille\nbook and Touch and Feel kits for these\nspecial students to introduce them to\nPlastic and its impacts on health and\nenvironment.\n•\nA draft of the Braille book was handed\nover to representatives of Helen Keller\nInstitute of Deaf and Deaf blind by the\nHon’ble commissioner, NMMC.\n\ng) Panel discussion : Youth Vision on \nPlastic Pollution\nA 6 membered panel including 3 experts and 3 young volunteers led a very \nintera\n\n… [+964 more chars]",
-  "content_hash": "bdc1c4c7deb950e75c426864c57af2934468c7bb3c9c640fe1a28d666887c03e",
-  "token_count": 369,
+  "chunk_text": "of\nthe\nTERI-UNEP\n‘Rethink Plastic’ Campaign, at the hands of\nDr.\nAnita\nJadhav,\nAssociate\nProfessor,\nICLES\nMotilal\nJhunjhunwala\nCollege,\nVashi\n•\nTERI also committed to prepare a Braille\nbook and Touch and Feel kits for these\nspecial students to introduce them to\nPlastic and its impacts on health and\nenvironment.\n•\nA draft of the Braille book was handed\nover to representatives of Helen Keller\nInstitute of Deaf and Deaf blind by the\nHon’ble commissioner, NMMC.\n\ng) Panel discussion : Youth Vision on \nPlastic Pollution\nA 6 membered panel including 3 experts and 3 young volunteers led a very \nintera\n\n… [+920 more chars]",
+  "content_hash": "bcfac5a6f86e98ac8b083890ec7af8cd8219e8404f92ed86b555eed5a0046a02",
+  "token_count": 358,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -700,21 +667,20 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "parent_chunk_id": "cd1419ad-9951-5fba-bbec-a8581fe64311",
   "chunk_index": 15,
   "page_number": 20,
   "page_range": [
     20,
-    24
+    23
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `217ee824-f52c-55db-bdb1-657106ee2aa2`
 
-- vector: dim=3072 · [-0.0055, -0.0057, 0.0077, -0.0217, 0.0056, -0.0357, -0.0106, 0.0256, …]
+- vector: dim=3072 · [-0.0039, 0.0064, 0.0045, -0.0283, 0.0142, -0.0388, -0.0069, 0.0111, …]
 
 ```json
 {
@@ -723,10 +689,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "part",
-  "chunk_text": "Mangrove Cleanup Activity-\nSagar Vihar •\nMangroves\nact\nas\nbuffer\nagainst\nextreme\nweather\nevents\nsuch\nas\nhurricanes, coastal floods.\n•\nThey\nstabilize\ncoastline\nand\nslows\ndown soil erosion rate\n•\nAct as source of livelihood for local\ncommunities – fishing, collection of\nhoney, tannins and wax\n•\nAct as a Carbon Sink\n•\nMangrove roots are a complex system\nthat\naccumulate\norganic\nand\ninorganic nutrients and thus, act as a\nbreeding\nground\nand\nnursery\nfor\nvarious\nmarine\norganisms.\nHowever, plastic litter in mangroves is\na cause of concern as it gets trapped\nin the mangroves.\n•\nThe cleanup activity was\n\n… [+738 more chars]",
-  "content_hash": "178a36d92af49a2c313736e3841d15702a576d0be33487d0f037762d28a9d543",
-  "token_count": 389,
+  "section_heading": "2. Mangrove Cleanup Activity- Sagar Vihar",
+  "chunk_text": "•\nMangroves\nact\nas\nbuffer\nagainst\nextreme\nweather\nevents\nsuch\nas\nhurricanes, coastal floods.\n•\nThey\nstabilize\ncoastline\nand\nslows\ndown soil erosion rate\n•\nAct as source of livelihood for local\ncommunities – fishing, collection of\nhoney, tannins and wax\n•\nAct as a Carbon Sink\n•\nMangrove roots are a complex system\nthat\naccumulate\norganic\nand\ninorganic nutrients and thus, act as a\nbreeding\nground\nand\nnursery\nfor\nvarious\nmarine\norganisms.\nHowever, plastic litter in mangroves is\na cause of concern as it gets trapped\nin the mangroves.\n•\nThe cleanup activity was carried out\nin\norder\nto\ncollect\nplasti\n\n… [+693 more chars]",
+  "content_hash": "0d0abcfcf33fc966b01f6c81c4cba1dd41e638b9356ea28c4760161600c4513a",
+  "token_count": 372,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -736,15 +702,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "parent_chunk_id": "cd1419ad-9951-5fba-bbec-a8581fe64311",
   "chunk_index": 16,
   "page_number": 25,
   "page_range": [
     25,
     29
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
@@ -778,18 +743,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     30,
     33
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
-## Parent · `142d41d3-61d1-5082-80de-f8907a7ce661`
+## Parent · `d3d3c510-dbdc-5237-bbc6-d56a08a941bf`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "142d41d3-61d1-5082-80de-f8907a7ce661",
+  "chunk_id": "d3d3c510-dbdc-5237-bbc6-d56a08a941bf",
   "document_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -811,14 +776,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     34,
     37
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `2fbf871c-8295-560f-9595-92c5bf63aed2`
 
-- vector: dim=3072 · [-0.0136, -0.0208, -0.0155, -0.0351, 0.0113, -0.0151, 0.0169, 0.0240, …]
+- vector: dim=3072 · [-0.0141, -0.0200, -0.0155, -0.0352, 0.0110, -0.0152, 0.0170, 0.0242, …]
 
 ```json
 {
@@ -840,15 +805,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "parent_chunk_id": "142d41d3-61d1-5082-80de-f8907a7ce661",
+  "parent_chunk_id": "d3d3c510-dbdc-5237-bbc6-d56a08a941bf",
   "chunk_index": 18,
   "page_number": 34,
   "page_range": [
     34,
     36
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
@@ -876,21 +841,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "parent_chunk_id": "142d41d3-61d1-5082-80de-f8907a7ce661",
+  "parent_chunk_id": "d3d3c510-dbdc-5237-bbc6-d56a08a941bf",
   "chunk_index": 19,
   "page_number": 37,
   "page_range": [
     37,
     37
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `bf276f72-1289-51f3-8c73-7af1e19be5bb`
 
-- vector: dim=3072 · [-0.0035, 0.0321, -0.0083, 0.0056, -0.0443, 0.0084, -0.0306, -0.0391, …]
+- vector: dim=3072 · [-0.0032, 0.0320, -0.0085, 0.0053, -0.0441, 0.0087, -0.0304, -0.0386, …]
 
 ```json
 {
@@ -918,14 +883,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     38,
     38
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `87136855-c6ee-59c6-9998-ca5c35c1a372`
 
-- vector: dim=3072 · [-0.0354, -0.0019, -0.0094, -0.0134, -0.0254, -0.0238, 0.0148, 0.0051, …]
+- vector: dim=3072 · [-0.0354, -0.0019, -0.0095, -0.0135, -0.0254, -0.0238, 0.0148, 0.0051, …]
 
 ```json
 {
@@ -953,43 +918,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     39,
     40
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
-}
-```
-
-## Child · `de0355ef-6637-5f91-8f4c-279bce7bbd82`
-
-- vector: dim=3072 · [-0.0402, -0.0323, -0.0049, -0.0187, 0.0085, -0.0037, -0.0248, 0.0122, …]
-
-```json
-{
-  "chunk_id": "de0355ef-6637-5f91-8f4c-279bce7bbd82",
-  "document_id": "annexure_j1_teri_wwd_2020_report_pdf",
-  "is_parent": false,
-  "source_type": "pdf",
-  "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "4. Media Coverage — Media Coverage — Clean-up drives carried out on World Wetland Day",
-  "chunk_text": "Navi Mumbai: The civic bo-\ndy, in association with The\nEnergy and Resources Insti-\ntute (TERI) and United Na-\ntions Environment Program-\nme (UNEP), conducted a\nnumber of clean-up activiti-\nes along the vast wetland and\nmangrove fringe of Thane\ncreek line in Sagar Vihar,\nVashi. This was done on the\nocassion of World Wetland\nDay, which was observed on\nSunday. Hundreds of volun-\nteers joined hands to high-\nlight the need and importan-\nce of protecting wetlands and\nmangroves. TERI and UNEP\nhave jointly begun a campa-\nign called 'Rethink Plastic'\nwhich began from November\n2019 and will go up to Mar\n\n… [+46 more chars]",
-  "content_hash": "19dfea1011c1874fbc7a99c9e25ff80bf9075c77d9482aa390b8d1c80afdcfb5",
-  "token_count": 187,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
-  "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "chunk_index": 22,
-  "page_number": 42,
-  "page_range": [
-    42,
-    42
-  ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
@@ -1004,10 +934,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": true,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "पाणथळ जागा वाचविण्यासाठी उपक्रम",
-  "chunk_text": "पाणथळ जागा वाचविण्यासाठी उपक्रम\n\nमुंबई : खारफुटी पूरनियंत्रणाचे काम करते. तसेच\nकार्बन कपात करत सागरी किनाऱ्याची धूप कमी\nकरण्यातही खारफुटी महत्त्वाची भूमिका बजावते.\nपर्यावरण संतुलनासाठी महत्त्वाची असून यातून\nजैवविविधता आणि उपजीविका जपली जाते.\nखारफुटीच्या जंगलात अडकलेला प्लास्टिक कचरा\nस्वच्छ करणे महत्वाचे आहे. त्यामुळे ‘रिथिंक\nप्लास्टिक सारख्या उपक्रमावर भर देण्यात यावा, असे\nटेरीच्या सहसंचालिका डॉ. अंजली पारसनीस यांनी\nसांगितले. सागरी कचऱ्यापासून पाणथळ जागांच्या\nबचावासाठी स्वच्छता मोहिमेचे आयोजन द एनर्जी\nअँड रिसोर्सेस इन्स्टिट्यूट (टेरी) आणि द युनायटेड\nनेशन्स एन्व्हायर्नमेंट प्रोग्रॅम (यूएनईपी) य\n\n… [+721 more chars]",
-  "content_hash": "df47eec91fc6c3981be09f0cf1c254a2014bb34758a93e273d72ac49b926912f",
-  "token_count": 1371,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "4. Media Coverage — Media Coverage\n\nClean-up drives carried out on World Wetland Day\nNavi Mumbai: The civic bo- dy, in association with The Energy and Resources Insti- tute (TERI) and United Na- tions Environment Program- me (UNEP), conducted a number of clean-up activiti- es along the vast wetland and mangrove fringe of Thane creek line in Sagar Vihar, Vashi. This was done on the ocassion of World Wetland Day, which was observed on Sunday. Hundreds of volun- teers joined hands to high- light the need and importan- ce of protecting wetlands and mangroves. TERI and UNEP have jointly begun a cam\n\n… [+1612 more chars]",
+  "content_hash": "4ed04514b01182f6c6742f5a250d7dc863795fc71332acb6273409aab0618038",
+  "token_count": 1719,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1021,14 +951,50 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     42,
     42
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
+}
+```
+
+## Child · `de0355ef-6637-5f91-8f4c-279bce7bbd82`
+
+- vector: dim=3072 · [-0.0475, -0.0350, -0.0052, -0.0031, 0.0141, 0.0005, -0.0259, 0.0078, …]
+
+```json
+{
+  "chunk_id": "de0355ef-6637-5f91-8f4c-279bce7bbd82",
+  "document_id": "annexure_j1_teri_wwd_2020_report_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "Clean-up drives carried out on World Wetland Day\nNavi Mumbai: The civic bo- dy, in association with The Energy and Resources Insti- tute (TERI) and United Na- tions Environment Program- me (UNEP), conducted a number of clean-up activiti- es along the vast wetland and mangrove fringe of Thane creek line in Sagar Vihar, Vashi. This was done on the ocassion of World Wetland Day, which was observed on Sunday. Hundreds of volun- teers joined hands to high- light the need and importan- ce of protecting wetlands and mangroves. TERI and UNEP have jointly begun a campa- ign called 'Rethink Plastic' whi\n\n… [+126 more chars]",
+  "content_hash": "dc3759c853b8b93823b6a6121531582fbba97036c3158cc6744ec83499364102",
+  "token_count": 220,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
+  "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
+  "parent_chunk_id": "79ba3ccd-2304-53b3-b4cf-0640731bd262",
+  "chunk_index": 22,
+  "page_number": 42,
+  "page_range": [
+    42,
+    42
+  ],
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `19a7120f-b198-576a-94b6-d5481d9a01ef`
 
-- vector: dim=3072 · [-0.0391, -0.0520, -0.0157, -0.0246, -0.0072, -0.0209, -0.0114, -0.0096, …]
+- vector: dim=3072 · [-0.0289, -0.0353, 0.0005, -0.0028, 0.0060, -0.0119, -0.0208, 0.0390, …]
 
 ```json
 {
@@ -1037,10 +1003,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "पाणथळ जागा वाचविण्यासाठी उपक्रम",
-  "chunk_text": "मुंबई : खारफुटी पूरनियंत्रणाचे काम करते. तसेच\nकार्बन कपात करत सागरी किनाऱ्याची धूप कमी\nकरण्यातही खारफुटी महत्त्वाची भूमिका बजावते.\nपर्यावरण संतुलनासाठी महत्त्वाची असून यातून\nजैवविविधता आणि उपजीविका जपली जाते.\nखारफुटीच्या जंगलात अडकलेला प्लास्टिक कचरा\nस्वच्छ करणे महत्वाचे आहे. त्यामुळे ‘रिथिंक\nप्लास्टिक सारख्या उपक्रमावर भर देण्यात यावा, असे\nटेरीच्या सहसंचालिका डॉ. अंजली पारसनीस यांनी\nसांगितले. सागरी कचऱ्यापासून पाणथळ जागांच्या",
-  "content_hash": "7297a33dd510199f009b1df811d696822049416509ca24b851df140ba8e872c7",
-  "token_count": 448,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "9 and will go up to March 2020. - BB Nayak\nTimes of India_03.02.2020\nपाणथळ जागा वाचविण्यासाठी उपक्रम मुंबई : खारफुटी पूरनियंत्रणाचे काम करते. तसेच कार्बन कपात करत सागरी किनाऱ्याची धूप कमी करण्यातही खारफुटी महत्त्वाची भूमिका बजावते. पर्यावरण संतुलनासाठी महत्त्वाची असून यातून जैवविविधता आणि उपजीविका जपली जाते. खारफुटीच्या जंगलात अडकलेला प्लास्टिक कचरा स्वच्छ करणे महत्वाचे आहे. त्यामुळे ‘रिथिंक प्लास्टिक सारख्या उपक्रमावर भर देण्यात यावा, असे टेरीच्या सहसंचालिका डॉ. अंजली पारसनीस यांनी सांगितले",
+  "content_hash": "1a8c6f1c33031defe82fddcd9fe4f2a7b520a59b8359dfc63af83951492a2ec8",
+  "token_count": 463,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1057,14 +1023,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     42,
     42
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `1213a5fd-e0cd-55f6-84d1-542c1144319d`
 
-- vector: dim=3072 · [-0.0155, -0.0174, -0.0061, -0.0060, 0.0156, -0.0464, -0.0003, 0.0050, …]
+- vector: dim=3072 · [-0.0246, -0.0342, -0.0151, -0.0095, 0.0135, -0.0410, -0.0221, -0.0036, …]
 
 ```json
 {
@@ -1073,10 +1039,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "पाणथळ जागा वाचविण्यासाठी उपक्रम",
-  "chunk_text": "ारसनीस यांनी\nसांगितले. सागरी कचऱ्यापासून पाणथळ जागांच्या बचावासाठी स्वच्छता मोहिमेचे आयोजन द एनर्जी\nअँड रिसोर्सेस इन्स्टिट्यूट (टेरी) आणि द युनायटेड\nनेशन्स एन्व्हायर्नमेंट प्रोग्रॅम (यूएनईपी) यांनी नवी\nमुंबई महानगरपालिका (एनएमएमसी), नॅशनल\nसर्व्हिस स्कीम (राष्ट्रीय सेवा योजना एनएसएस)\nआणि संघटनांच्या मदतीने या मोहिमेचे आयोजन\nकेले होते. त्यावेळी पारसनीस बोलत होत्या. या\nस्वच्छता मोहिमेचे उद्घाटन करताना नवी मुंबई\nपालिकेचे आयुक्त अण्णासाहेब मिसाळ म्हणाले,",
-  "content_hash": "00b894db8886d6f09e2eb7fe87b6b8352509d801b26366e808dc6af3f5ee59bb",
-  "token_count": 479,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": ", असे टेरीच्या सहसंचालिका डॉ. अंजली पारसनीस यांनी सांगितले सागरी कचऱ्यापासून पाणथळ जागांच्या बचावासाठी स्वच्छता मोहिमेचे आयोजन द एनर्जी अँड रिसोर्सेस इन्स्टिट्यूट (टेरी) आणि द युनायटेड नेशन्स एन्व्हायर्नमेंट प्रोग्रॅम (यूएनईपी) यांनी नवी मुंबई महानगरपालिका (एनएमएमसी), नॅशनल सर्व्हिस स्कीम (राष्ट्रीय सेवा योजना एनएसएस) आणि संघटनांच्या मदतीने या मोहिमेचे आयोजन केले होते. त्यावेळी पारसनीस बोलत होत्या",
+  "content_hash": "96e62e979399ed4f0769aae1d5929d7a35d873c025beeaaba3b606eb86690300",
+  "token_count": 420,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1093,14 +1059,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     42,
     42
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `6e969308-7836-52a7-99e3-1f8a0b6075f8`
 
-- vector: dim=3072 · [-0.0020, -0.0653, -0.0150, -0.0086, -0.0137, -0.0168, -0.0539, 0.0116, …]
+- vector: dim=3072 · [0.0018, -0.0494, -0.0147, -0.0024, 0.0060, 0.0004, -0.0408, -0.0008, …]
 
 ```json
 {
@@ -1109,10 +1075,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "पाणथळ जागा वाचविण्यासाठी उपक्रम",
-  "chunk_text": "रताना नवी मुंबई\nपालिकेचे आयुक्त अण्णासाहेब मिसाळ म्हणाले, राज्यात नवी मुंबई पहिल्या क्रमांकाचे आणि\nदेशातील सातव्या क्रमांकाचे स्वच्छ शहर ठरले\nहोते. विविध उपाययोजनांमुळे आमचे एनएमएमसी\nमुख्यालय सिंगल यूज प्लास्टिक मुक्त इमारत\nअसून प्लास्टिक प्रदूषणाचा यशस्वी मुकाबला\nकरण्यासाठी वर्तणूक आणि विचारांमध्ये बदल करणे\nअत्यंत महत्त्वाचे आहे. टेरी आणि यूएनईपीने हाती\nघेतलेल्या या उपक्रमाचे कौतुक आयुक्तांनी केले.\nतत्याचप्रमाणे टेरीच्या चमूने प्लास्टिक कचऱ्यापासून\n\nबनवलेल्या कोलाजचे अनावरणही करण्यात आले.\n\nTarun Bharat_04.02.2020",
-  "content_hash": "7abd670520a036494df000581eb0330e644d4e477dc3831bc42fb255a08279fc",
-  "token_count": 530,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "�तीने या मोहिमेचे आयोजन केले होते. त्यावेळी पारसनीस बोलत होत्या या स्वच्छता मोहिमेचे उद्घाटन करताना नवी मुंबई पालिकेचे आयुक्त अण्णासाहेब मिसाळ म्हणाले, राज्यात नवी मुंबई पहिल्या क्रमांकाचे आणि देशातील सातव्या क्रमांकाचे स्वच्छ शहर ठरले होते. विविध उपाययोजनांमुळे आमचे एनएमएमसी मुख्यालय सिंगल यूज प्लास्टिक मुक्त इमारत असून प्लास्टिक प्रदूषणाचा यशस्वी मुकाबला करण्यासाठी वर्तणूक आणि विचारांमध्ये बदल करणे अत्यंत महत्वाचे आहे. टेरी आणि यूएनईपीने हाती घेतलेल्या या उपक्रमाचे कौतुक आयुक्तांनी केले",
+  "content_hash": "f995d058ada6e10cc3639940bc26b2db0e7a57df09a3e2279fae6b45bebc7b0a",
+  "token_count": 503,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1129,47 +1095,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     42,
     42
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
-}
-```
-
-## Parent · `090e3a4f-9c9c-54f1-ac90-b2a6959211ef`
-
-- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
-
-```json
-{
-  "chunk_id": "090e3a4f-9c9c-54f1-ac90-b2a6959211ef",
-  "document_id": "annexure_j1_teri_wwd_2020_report_pdf",
-  "is_parent": true,
-  "source_type": "pdf",
-  "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "प्लास्टिक न वापरण्याची शपथ",
-  "chunk_text": "प्लास्टिक न वापरण्याची शपथ\n\nनवी मुंबई : 'प्लास्टिक़ वापरणार\nनाही, प्रदूषण होईल असे कृत्य करणार\nनाही' अशी शपथ रविवारी जागतिक\nपानथळ दिनाचे औचित्य साधून\nमहाविद्यालयीन विद्यार्थ्यांना देण्यात\n\nआली.\n\nसांगरी कचऱ्यापासून पाणथळ\nजागांच्या बचावासाठी 'टेरी' आणि\n'यूएनईपी' या संस्थेतर्फे जनजागृती\nकार्यक्रमाचे आयोजन करण्यात आले\nहोते. या वेळी पालिका आयुक्त\nअण्णासाहेब मिसाळ प्रमुख पाहुणे\nम्हणूनउपस्थित होते.\n'प्लास्टिकबाबत पुनर्विचार करा’ असे\nघोषवाक्य घेत रविवारी वाशी येथील\nसागर विहार येथे जनजागृती\nकार्यक्रमाचे आयोजन करण्यात आले\nहोते. या वेळी मोठ्या संख्येने\nमहाविद्यालयीन विद्यार्थी उपस्थित\nहोते. पालिका आयुक्त\n\n… [+373 more chars]",
-  "content_hash": "fded31e73ec8c63043d5d670a6eb83b7480b6c17f8900b863b8a2e65e0905a95",
-  "token_count": 936,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
-  "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "page_range": [
-    42,
-    43
-  ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `70e585a1-3f97-5204-98fc-66debd85c795`
 
-- vector: dim=3072 · [-0.0155, -0.0274, -0.0112, 0.0171, -0.0031, -0.0134, -0.0381, 0.0206, …]
+- vector: dim=3072 · [-0.0112, -0.0448, -0.0146, 0.0037, -0.0039, 0.0156, -0.0465, 0.0088, …]
 
 ```json
 {
@@ -1178,10 +1111,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "प्लास्टिक न वापरण्याची शपथ",
-  "chunk_text": "नवी मुंबई : 'प्लास्टिक़ वापरणार\nनाही, प्रदूषण होईल असे कृत्य करणार\nनाही' अशी शपथ रविवारी जागतिक\nपानथळ दिनाचे औचित्य साधून\nमहाविद्यालयीन विद्यार्थ्यांना देण्यात\n\nआली.",
-  "content_hash": "560b7177ed86222af41f3f61cf12b6738dd41f8638c95d38dc26dade25426783",
-  "token_count": 176,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "�ूएनईपीने हाती घेतलेल्या या उपक्रमाचे कौतुक आयुक्तांनी केले त्याचप्रमाणे टेरीच्या चमूने प्लास्टिक कचऱ्यापासून बनवलेल्या कोलाजचे अनावरणही करण्यात आले.\n\nTarun Bharat_04.02.2020\nप्लास्टिक न वापरण्याची शपथ\nनवी मुंबई : 'प्लास्टिक़ वापरणार नाही, प्रदूषण होईल असे कृत्य करणार नाही' अशी शपथ रविवारी जागतिक पानथळ दिनाचे औचित्य साधून महाविद्यालयीन व",
+  "content_hash": "dec856aa9cbbfdc7ff7c5c6d557091783faa25cb87d45199c3dd4e1f790a89c1",
+  "token_count": 341,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1191,21 +1124,54 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "parent_chunk_id": "090e3a4f-9c9c-54f1-ac90-b2a6959211ef",
+  "parent_chunk_id": "79ba3ccd-2304-53b3-b4cf-0640731bd262",
   "chunk_index": 26,
   "page_number": 42,
   "page_range": [
     42,
+    42
+  ],
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
+}
+```
+
+## Parent · `5079c069-045b-5499-9807-346ca0d9cd64`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "5079c069-045b-5499-9807-346ca0d9cd64",
+  "document_id": "annexure_j1_teri_wwd_2020_report_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "4. Media Coverage — Media Coverage (cont.)\n\nद्यार्थ्यांना देण्यात आली.\nसांगरी कचऱ्यापासून पाणथळ जागांच्या बचावासाठी 'टेरी' आणि 'यूएनईपी' या संस्थेतर्फे जनजागृती कार्यक्रमाचे आयोजन करण्यात आले होते. या वेळी पालिका आयुक्त अण्णासाहेब मिसाळ प्रमुख पाहुणे म्हणून उपस्थित होते. 'प्लास्टिकबाबत पुनर्विचार करा' असे घोषवाक्य घेत रविवारी वाशी येथील सागर विहार येथे जनजागृती कार्यक्रमाचे आयोजन करण्यात आले होते. या वेळी मोठ्या संख्येने महाविद्यालयीन विद्यार्थी उपस्थित होते. पालिका आयुक्त अण्णासाहेब मिसाळ यांनी, प्रत्यकाने स्वतः प्लास्टिक वापर टाळणे आवश्यक असून वर्तणूक आणि विचारांमध्ये बदल अत्यंत महत्त्वाचे आ\n\n… [+1460 more chars]",
+  "content_hash": "aab1cf9c7ad79fcfb0b83c1458e90bf9dff53c4983a6c013e872f717d605972b",
+  "token_count": 1932,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
+  "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
+  "page_range": [
+    43,
     43
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `405e67b6-4f83-5f71-80bd-204a61c31afd`
 
-- vector: dim=3072 · [-0.0092, -0.0357, -0.0058, 0.0033, 0.0166, -0.0231, -0.0373, 0.0149, …]
+- vector: dim=3072 · [-0.0181, -0.0266, -0.0089, 0.0002, 0.0094, -0.0067, -0.0254, 0.0094, …]
 
 ```json
 {
@@ -1214,10 +1180,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "प्लास्टिक न वापरण्याची शपथ",
-  "chunk_text": "े औचित्य साधून\nमहाविद्यालयीन विद्यार्थ्यांना देण्यात\n\nआली. सांगरी कचऱ्यापासून पाणथळ\nजागांच्या बचावासाठी 'टेरी' आणि\n'यूएनईपी' या संस्थेतर्फे जनजागृती\nकार्यक्रमाचे आयोजन करण्यात आले\nहोते. या वेळी पालिका आयुक्त\nअण्णासाहेब मिसाळ प्रमुख पाहुणे\nम्हणूनउपस्थित होते.\n'प्लास्टिकबाबत पुनर्विचार करा’ असे\nघोषवाक्य घेत रविवारी वाशी येथील\nसागर विहार येथे जनजागृती\nकार्यक्रमाचे आयोजन करण्यात आले\nहोते. या वेळी मोठ्या संख्येने\nमहाविद्यालयीन विद्यार्थी उपस्थित\nहोते. पालिका आयुक्त अण्णासाहेब",
-  "content_hash": "cd2bb8b570783439a1af717dac3e217407d9c6ca55cdfd3fd19362be6c94f23c",
-  "token_count": 499,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "द्यार्थ्यांना देण्यात आली.\n\nसांगरी कचऱ्यापासून पाणथळ जागांच्या बचावासाठी 'टेरी' आणि 'यूएनईपी' या संस्थेतर्फे जनजागृती कार्यक्रमाचे आयोजन करण्यात आले होते. या वेळी पालिका आयुक्त अण्णासाहेब मिसाळ प्रमुख पाहुणे म्हणून उपस्थित होते. 'प्लास्टिकबाबत पुनर्विचार करा' असे घोषवाक्य घेत रविवारी वाशी येथील सागर विहार येथे जनजागृती कार्यक्रमाचे आयोजन करण्यात आले होते. या वेळी मोठ्या संख्येने महाविद्यालयीन विद्यार्थी उपस्थित होते",
+  "content_hash": "417022e497eae1e9d1836200b79360bcf1e7013a25df2d7cf5241c353637956d",
+  "token_count": 427,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1227,21 +1193,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "parent_chunk_id": "090e3a4f-9c9c-54f1-ac90-b2a6959211ef",
+  "parent_chunk_id": "5079c069-045b-5499-9807-346ca0d9cd64",
   "chunk_index": 27,
   "page_number": 43,
   "page_range": [
     43,
     43
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `b5510915-191f-5be6-a596-12ebc33b8d6a`
 
-- vector: dim=3072 · [-0.0010, -0.0277, -0.0058, -0.0071, -0.0395, 0.0037, -0.0223, 0.0243, …]
+- vector: dim=3072 · [0.0392, -0.0436, -0.0080, -0.0148, -0.0138, 0.0134, -0.0445, 0.0111, …]
 
 ```json
 {
@@ -1250,10 +1216,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "प्लास्टिक न वापरण्याची शपथ",
-  "chunk_text": "�्यालयीन विद्यार्थी उपस्थित\nहोते. पालिका आयुक्त अण्णासाहेब मिसाळ यांनी, प्रत्यकाने स्वतः\nप्लास्टिक वापर टाळणे आवश्यक\nअसून वर्तणूक आणि विचारांमध्ये\nबदल अत्यंत महत्त्वाचे आहे असे\nसांगितले. या मोहिमेत सहभागी\nस्वयंसेवकांनी खारफुटीच्या जंगलात\nअडकलेला तब्बल १०० किलोग्रॅम\nप्लास्टिक कचरा गोळा केला.\n\nLoksatta_05.02.2020\n\nMedia Coverage — Promotion of Counter — Litter in Soc — pinst Marine Plastic — and India — RETHI — STIC\n\n२",
-  "content_hash": "0e72bf4a1b0e67e2a71c266de30c1958941f23a9782c96fdc771b3e3672c1236",
-  "token_count": 352,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "�ा वेळी मोठ्या संख्येने महाविद्यालयीन विद्यार्थी उपस्थित होते पालिका आयुक्त अण्णासाहेब मिसाळ यांनी, प्रत्यकाने स्वतः प्लास्टिक वापर टाळणे आवश्यक असून वर्तणूक आणि विचारांमध्ये बदल अत्यंत महत्त्वाचे आहे असे सांगितले. या मोहिमेत सहभागी स्वयंसेवकांनी खारफुटीच्या जंगलात अडकलेला तब्बल १०० किलोग्रॅम प्लास्टिक कचरा गोळा केला.",
+  "content_hash": "57d859a2e7bbe9ba6a4ef16572aa5c223d38a51701f0d39a2db5e84f29a31bbb",
+  "token_count": 330,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1263,21 +1229,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "parent_chunk_id": "090e3a4f-9c9c-54f1-ac90-b2a6959211ef",
+  "parent_chunk_id": "5079c069-045b-5499-9807-346ca0d9cd64",
   "chunk_index": 28,
   "page_number": 43,
   "page_range": [
     43,
     43
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `4788ec76-c770-5319-a354-ab1a58f3cb35`
 
-- vector: dim=3072 · [-0.0368, -0.0337, -0.0081, -0.0035, 0.0013, -0.0164, -0.0416, 0.0141, …]
+- vector: dim=3072 · [-0.0150, -0.0441, -0.0087, -0.0042, -0.0055, -0.0109, -0.0403, 0.0238, …]
 
 ```json
 {
@@ -1286,10 +1252,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "VI",
-  "chunk_text": "2020\n\nटेरी, युनाइटेड नेशन्स एन्व्हायर्मेन्ट आणि नवी मुंबई पालिकेच्या संयुक्त विद्यमाने वाशी येथे जागतिक\nपाणथळ दिवसाचे औचित्य साधून जनजागृती कार्यक्रम झाला. 'प्लास्टिकविषयी पुनर्विचार' संकल्पने-\nअंतर्गत प्लास्टिकपासून तयार केलेल्या कोलाज चित्राचे अनावरण आयुक्त अण्णासाहेब मिसाळ यांनी केले.\n\nMaharashtra Times_04.02.2020\n\nNavrashtra_05.02.2020",
-  "content_hash": "45ab1768ed0632d5363dc9291855f749f4e55359f95f3fbd5039ec27e192ad05",
-  "token_count": 312,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "ात अडकलेला तब्बल १०० किलोग्रॅम प्लास्टिक कचरा गोळा केला. Loksatta_05.02.2020\nMedia Coverage\nMEN\nPromotion of Counter\npainst Marine Plastic\nLitter in Soc\nand India\nRETHI\nSTIC\n. 2020\nV\nटेरी, युनाइटेड नेशन्स एन्व्हायरमेन्ट आणि नवी मुंबई पालिकेच्या संयुक्त विद्यमाने वाशी येथे जागतिक पाणथळ दिवसाचे औचित्य साधून जनजागृती कार्यक्रम झाला. 'प्लास्टिकविषयी पुनर्विचार' संकल्पने- अंतर्गत प्लास्टिकपासून तयार केलेल्या कोलाज चित्राचे अनावरण आयुक्त अण्णासाहेब मिसाळ यांनी केले.\nMaharashtra Times_04.02.2020\nNavrashtra_05.02.2020\nजागतिक पाणथळ दिनानिमित्त विविध जनजागृतीपर उपक्रम संपन्न",
+  "content_hash": "454b3703d78b5ba5f0eb52ab6590ad018042aa812809a5fa0135280c5a84510d",
+  "token_count": 474,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1299,53 +1265,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
+  "parent_chunk_id": "5079c069-045b-5499-9807-346ca0d9cd64",
   "chunk_index": 29,
   "page_number": 43,
   "page_range": [
     43,
     43
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
-}
-```
-
-## Parent · `d66f3c33-f782-546c-9958-f68c120fb5d9`
-
-- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
-
-```json
-{
-  "chunk_id": "d66f3c33-f782-546c-9958-f68c120fb5d9",
-  "document_id": "annexure_j1_teri_wwd_2020_report_pdf",
-  "is_parent": true,
-  "source_type": "pdf",
-  "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "जागतिक पाणथळ दिनानिमित्त विविध जनजागृतीपर उपक्रम संपन्न",
-  "chunk_text": "जागतिक पाणथळ दिनानिमित्त विविध जनजागृतीपर उपक्रम संपन्न\n\nनवी मुंबई - नवी मुंबई हे राज्यातील पहिल्या\nक्रमांकाचे व देशातील सातव्या क्रमांकाचे स्वच्छ शहर\nम्हणून मागील वर्षी नावाजले गेले असून, यावर्षी देशात\nप्रथम क्रमांकाच्या मानांकनासाठी सज्ज आहे. स्वच्छ,\nसुंदर व प्लास्टिकमुक्त शहर निर्मितीकरिता नवी मुंबई\nमहानगरपालिका सातत्याने विविध उपक्रम राबवित\nआहे. स्वच्छता ही नागरिकांची सवय होण्यासाठी\nस्वतःपासूनच सुरुवात करत प्रथमतः महानगरपालिकेचे\nमिसाळ यांनी व्यक्त केले.\n\nमुख्यालय सिंगल यूज प्लास्टिक फ्री करण्यात आले\nआहे. प्लास्टिक प्रतिबंधाच्या दृष्टीने टेरी आणि यू.\nएन.ई.पी. यांनी घेतलेला पुढाकार प्रशंसनीय\n\n… [+180 more chars]",
-  "content_hash": "6a292810c41f4f9d3964ffee1dec55563be1800d7363450ecde4adfd93000e20",
-  "token_count": 789,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
-  "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "page_range": [
-    43,
-    43
-  ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `b8c6de0e-7d18-5a0b-b387-ef34b719b020`
 
-- vector: dim=3072 · [-0.0132, -0.0387, -0.0063, -0.0161, 0.0028, -0.0238, -0.0519, -0.0039, …]
+- vector: dim=3072 · [0.0032, -0.0320, -0.0108, 0.0042, 0.0038, -0.0236, -0.0582, 0.0075, …]
 
 ```json
 {
@@ -1354,10 +1288,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "जागतिक पाणथळ दिनानिमित्त विविध जनजागृतीपर उपक्रम संपन्न",
-  "chunk_text": "नवी मुंबई - नवी मुंबई हे राज्यातील पहिल्या\nक्रमांकाचे व देशातील सातव्या क्रमांकाचे स्वच्छ शहर\nम्हणून मागील वर्षी नावाजले गेले असून, यावर्षी देशात\nप्रथम क्रमांकाच्या मानांकनासाठी सज्ज आहे. स्वच्छ,\nसुंदर व प्लास्टिकमुक्त शहर निर्मितीकरिता नवी मुंबई\nमहानगरपालिका सातत्याने विविध उपक्रम राबवित\nआहे. स्वच्छता ही नागरिकांची सवय होण्यासाठी\nस्वतःपासूनच सुरुवात करत प्रथमतः महानगरपालिकेचे\nमिसाळ यांनी व्यक्त केले.",
-  "content_hash": "7ef66499ed315ae0c8f071ef6f82e494265f4e9bc626d2f455d21c52e117e9b9",
-  "token_count": 405,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "2020\nजागतिक पाणथळ दिनानिमित्त विविध जनजागृतीपर उपक्रम संपन्न नवी मुंबई - नवी मुंबई हे राज्यातील पहिल्या मुख्यालय सिंगल यूज प्लास्टिक फ्री करण्यात आले क्रमांकाचे व देशातील सातव्या क्रमांकाचे स्वच्छ शहर आहे. प्लास्टिक प्रतिबंधाच्या दृष्टीने टेरी आणि यू. म्हणून मागील वर्षी नावाजले गेले असून, यावर्षी देशात एन.ई.पी. यांनी घेतलेला पुढाकार प्रशंसनीय असून, प्रथम क्रमांकाच्या मानांकनासाठी सज्ज आहे. स्वच्छ, शहरातील नागरिक व त्यातही विशेषत्वाने तरुणाईने सुंदर व प्लास्टिकमुक्त शहर निर्मितीकरिता नवी मुंबई",
+  "content_hash": "c263eda5ba91811f5e3392904a32012f961357772cffda356c602b594c9e00a0",
+  "token_count": 498,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1367,21 +1301,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "parent_chunk_id": "d66f3c33-f782-546c-9958-f68c120fb5d9",
+  "parent_chunk_id": "5079c069-045b-5499-9807-346ca0d9cd64",
   "chunk_index": 30,
   "page_number": 43,
   "page_range": [
     43,
     43
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `d1e8ab19-2ef6-56fd-916a-4a1c451a0802`
 
-- vector: dim=3072 · [0.0429, -0.0503, 0.0054, -0.0287, -0.0168, -0.0214, -0.0346, 0.0301, …]
+- vector: dim=3072 · [0.0097, -0.0561, -0.0044, -0.0220, -0.0076, -0.0312, -0.0562, 0.0237, …]
 
 ```json
 {
@@ -1390,10 +1324,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "जागतिक पाणथळ दिनानिमित्त विविध जनजागृतीपर उपक्रम संपन्न",
-  "chunk_text": "च सुरुवात करत प्रथमतः महानगरपालिकेचे\nमिसाळ यांनी व्यक्त केले. मुख्यालय सिंगल यूज प्लास्टिक फ्री करण्यात आले\nआहे. प्लास्टिक प्रतिबंधाच्या दृष्टीने टेरी आणि यू.\nएन.ई.पी. यांनी घेतलेला पुढाकार प्रशंसनीय असून,\nशहरातील नागरिक व त्यातही विशेषत्वाने तरुणाईने\nयात सक्रिय सहभाग घेऊन प्लास्टिकमुक्त नवी मुंबई\nकरण्यासाठी पुढे आली आहे हे चित्र आश्वासन\nअसल्याचे मत महापालिका आयुक्त अण्णासाहेब",
-  "content_hash": "d73e6b9f380834cb30039d8d9658146b68a126d17f71e0045eeca9f2118ee727",
-  "token_count": 386,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "रुणाईने सुंदर व प्लास्टिकमुक्त शहर निर्मितीकरिता नवी मुंबई यात सक्रिय सहभाग घेऊन प्लास्टिकमुक्त नवी मुंबई महानगरपालिका सातत्याने विविध उपक्रम राबवित करण्यासाठी पुढे आली आहे हे चित्र आश्वासन आहे. स्वच्छता ही नागरिकांची सवय होण्यासाठी असल्याचे मत महापालिका आयुक्त अण्णासाहेब स्वतःपासूनच सुरुवात करत प्रथमतः महानगरपालिकेचे मिसाळ यांनी व्यक्त केले.\nMumbai Chauffer_05.02.2020\nप्लास्टिक प्रदूषणाविरोधात भरीव कामाची गरज\nजे. एस. सहारिया यांचे प्रतिपादन",
+  "content_hash": "1fbf300ad01a71fd5dbd128bb8e90f3e10af7007639e99f952921469c91b522d",
+  "token_count": 431,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1403,33 +1337,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "parent_chunk_id": "d66f3c33-f782-546c-9958-f68c120fb5d9",
+  "parent_chunk_id": "5079c069-045b-5499-9807-346ca0d9cd64",
   "chunk_index": 31,
   "page_number": 43,
   "page_range": [
     43,
     43
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
-## Parent · `589c1b4c-d393-5a98-9ff8-d59e170c38db`
+## Parent · `74663cfa-7f55-5518-8050-a9289adb26b0`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "589c1b4c-d393-5a98-9ff8-d59e170c38db",
+  "chunk_id": "74663cfa-7f55-5518-8050-a9289adb26b0",
   "document_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "Mumbai Chauffer_05.02.2020 — प्लास्टिक प्रदूषणाविरोधात भरीव कामाची गरज",
-  "chunk_text": "Mumbai Chauffer_05.02.2020 — प्लास्टिक प्रदूषणाविरोधात भरीव कामाची गरज\n\nजे. एस. सहारिया यांचे प्रतिपादन\n\nनवी मुंबई : महाराष्ट्र शासनाचे माजी\nमुख्य सचिव जे.एस.सहारिया यानी रिथीक\nप्लास्टिक या उपक्रमाचे कौतुक करून\nयामधील युवकांचा सहभाग लक्षणीय\nअसल्याबद्दल समाधान व्यक्त केले.\nप्लास्टिक प्रदूषणाविरुद्ध वैयक्तिक आणि\nसंस्थात्मक पातळीवर भरीव काम\nकरण्याची गरज त्यांनी व्यक्त केली. टेरी\nसंस्थेचे मुख्य सल्लागार निवृत्त सनदी\nअधिकारी जी. एस. गील यांनी नवी मुंबई\nशहर इको सिटी बनण्यासाठी\nमहानगरपालिका प्रयत्नशील असून\nत्यादृष्टीने टेरी संस्था सहयोगाने काम करीत\nअसल्याचे सांगितले, प्लास्टिक\nप्रतिबंधाबाबत एक अभिनव \n\n… [+297 more chars]",
-  "content_hash": "576afb402f00de7fa45180aece2305416d2e111c725e36c00e8ee2d1799aaea0",
-  "token_count": 904,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "4. Media Coverage — Media Coverage (cont.)\n\nनवी मुंबई : महाराष्ट्र शासनाचे माजी मुख्य सचिव जे.एस.सहारिया यांनी रिथीक प्लास्टिक या उपक्रमाचे कौतुक करून यामधील युवकांचा सहभाग लक्षणीय असल्याबद्दल समाधान व्यक्त केले. प्लास्टिक प्रदूषणाविरुद्ध वैयक्तिक आणि संस्थात्मक पातळीवर भरीव काम करण्याची गरज त्यांनी व्यक्त केली. टेरी संस्थेचे मुख्य सल्लागार निवृत्त सनदी अधिकारी जी. एस. गील यांनी नवी मुंबई शहर इको सिटी बनण्यासाठी महानगरपालिका प्रयत्नशील असून त्यादृष्टीने टेरी संस्था सहयोगाने काम करीत असल्याचे सांगितले, प्लास्टिक प्रतिबंधाबाबत एक अभिनव प्रकल्प राबविण्याबाबतही काम सुरु असल्याची माहिती त्यांनी दिल\n\n… [+1230 more chars]",
+  "content_hash": "5736f1b124759d4a6a131338c7885d0364089205d0868166f7c583d900478708",
+  "token_count": 1504,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1441,16 +1375,16 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
   "page_range": [
     43,
-    43
+    47
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `76d3dc8c-ff35-5c47-a272-459ecbf8329d`
 
-- vector: dim=3072 · [0.0115, -0.0392, -0.0120, -0.0182, 0.0177, -0.0055, -0.0358, 0.0181, …]
+- vector: dim=3072 · [0.0101, -0.0267, -0.0092, -0.0295, -0.0120, 0.0193, -0.0302, 0.0096, …]
 
 ```json
 {
@@ -1459,10 +1393,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "Mumbai Chauffer_05.02.2020 — प्लास्टिक प्रदूषणाविरोधात भरीव कामाची गरज",
-  "chunk_text": "जे. एस. सहारिया यांचे प्रतिपादन\n\nनवी मुंबई : महाराष्ट्र शासनाचे माजी\nमुख्य सचिव जे.एस.सहारिया यानी रिथीक\nप्लास्टिक या उपक्रमाचे कौतुक करून\nयामधील युवकांचा सहभाग लक्षणीय\nअसल्याबद्दल समाधान व्यक्त केले.\nप्लास्टिक प्रदूषणाविरुद्ध वैयक्तिक आणि\nसंस्थात्मक पातळीवर भरीव काम\nकरण्याची गरज त्यांनी व्यक्त केली. टेरी\nसंस्थेचे मुख्य सल्लागार निवृत्त सनदी\nअधिकारी जी. एस. गील यांनी नवी मुंबई\nशहर इको सिटी बनण्यासाठी\nमहानगरपालिका प्रयत्नशील असून",
-  "content_hash": "9782e39c7724725b26fb3fbbdda0b004eba10c22a8e0773af709b8573bad3602",
-  "token_count": 449,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "नवी मुंबई : महाराष्ट्र शासनाचे माजी मुख्य सचिव जे.एस.सहारिया यांनी रिथीक प्लास्टिक या उपक्रमाचे कौतुक करून यामधील युवकांचा सहभाग लक्षणीय असल्याबद्दल समाधान व्यक्त केले. प्लास्टिक प्रदूषणाविरुद्ध वैयक्तिक आणि संस्थात्मक पातळीवर भरीव काम करण्याची गरज त्यांनी व्यक्त केली. टेरी संस्थेचे मुख्य सल्लागार निवृत्त सनदी अधिकारी जी. एस",
+  "content_hash": "f5bcac6fa7cc19fa133d782b50b3e9d0429372e1d32a1ea8f8825cd9691cb5d7",
+  "token_count": 332,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1472,21 +1406,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "parent_chunk_id": "589c1b4c-d393-5a98-9ff8-d59e170c38db",
+  "parent_chunk_id": "74663cfa-7f55-5518-8050-a9289adb26b0",
   "chunk_index": 32,
   "page_number": 43,
   "page_range": [
     43,
     43
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `c86f6d6c-f1ad-542e-b6aa-b7c1f16ec392`
 
-- vector: dim=3072 · [-0.0153, -0.0488, -0.0053, -0.0221, -0.0131, -0.0165, -0.0305, 0.0143, …]
+- vector: dim=3072 · [0.0150, -0.0479, -0.0131, -0.0380, -0.0151, 0.0129, -0.0116, 0.0268, …]
 
 ```json
 {
@@ -1495,10 +1429,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "Mumbai Chauffer_05.02.2020 — प्लास्टिक प्रदूषणाविरोधात भरीव कामाची गरज",
-  "chunk_text": "बई\nशहर इको सिटी बनण्यासाठी\nमहानगरपालिका प्रयत्नशील असून त्यादृष्टीने टेरी संस्था सहयोगाने काम करीत\nअसल्याचे सांगितले, प्लास्टिक\nप्रतिबंधाबाबत एक अभिनव प्रकल्प\nरावविण्याबाबतही काम सुरु असल्याची\nमाहिती त्यांनी दिली.\n\n· टेरी व युनाइटेड नेशन्स एन्व्हायरमेन्ट आणि नवी मुंबई\nमहानगरपालिका यांच्या संयुक्त विद्यमाने सागर विहार से. ८, वाशी येथे\nजागतिक पाणथळ दिवसाचे औचित्य साधून आयोजित करण्यात\nआलेल्या विशेष कार्यक्रमाप्रसंगी ते आपले मनोगत व्यक्त करीत होते.",
-  "content_hash": "62504fdc9bb8083d545edb1aa856ce9e9cb0f13a55decda6f7f95c7257e193c2",
-  "token_count": 457,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "�ी. टेरी संस्थेचे मुख्य सल्लागार निवृत्त सनदी अधिकारी जी. एस गील यांनी नवी मुंबई शहर इको सिटी बनण्यासाठी महानगरपालिका प्रयत्नशील असून त्यादृष्टीने टेरी संस्था सहयोगाने काम करीत असल्याचे सांगितले, प्लास्टिक प्रतिबंधाबाबत एक अभिनव प्रकल्प राबविण्याबाबतही काम सुरु असल्याची माहिती त्यांनी दिली.",
+  "content_hash": "c6c9e4f106be483f6b7201304a5cbb3b4f03cd7a1ee466f0cef14325b20ad23b",
+  "token_count": 290,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1508,54 +1442,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "parent_chunk_id": "589c1b4c-d393-5a98-9ff8-d59e170c38db",
+  "parent_chunk_id": "74663cfa-7f55-5518-8050-a9289adb26b0",
   "chunk_index": 33,
   "page_number": 43,
   "page_range": [
     43,
     43
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
-}
-```
-
-## Parent · `854c8301-97fc-5eba-9e20-c0e909677161`
-
-- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
-
-```json
-{
-  "chunk_id": "854c8301-97fc-5eba-9e20-c0e909677161",
-  "document_id": "annexure_j1_teri_wwd_2020_report_pdf",
-  "is_parent": true,
-  "source_type": "pdf",
-  "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "'समुद्री प्लास्टिकपासून पाणथळ जागांचा बचाव'",
-  "chunk_text": "'समुद्री प्लास्टिकपासून पाणथळ जागांचा बचाव'\n\n· मनपा आयुक्त आवासाहेब मिसाळ टेरी संस्थेचे मुख्य\nसल्लागार माजी सनदी अधिकारी जी. एस. नील, भारत\nसरकारचे उच्च अधिकारी लोविश अहूजा, नवी मुंबई\nमहानगरपालिकेच्या पर्यावरण तदर्थ समिती सभापती दिव्या\nगायकवाड़, उप आयुक्त दादासाहेब चाबुरुस्वार, टेरी संस्थेच्या\nसह संचालक डॉ. अंजली पारसनीस, यूएनईपीच्या प्लास्टिक\nप्रदूषण सल्लावार सलोनी गोयल व इतर मान्यवर उपस्थित\n\nहोते. यावेळी वाशीतील कर्मवीर भाऊराज प\n\nाटील महाजियालय\nव आयसीएल महाविद्यालय, नेरुळचे रामर\n\nाव आदिक तंत्र\nमहाविद्यालय व एसआरएस महाविद्यालय तसेच इंडियन\nइन्स्टिट्यूट ऑफ एनव्हारमेंट मॅनेजमेंट तसेच एनएसएसचे\nविद\n\n… [+566 more chars]",
-  "content_hash": "c103930c11e98d8db2098cad211aa3a9023f69d8523122c8ae6fcf1835d77e3f",
-  "token_count": 879,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
-  "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "page_range": [
-    43,
-    47
-  ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `89258cc6-139f-5d33-9bb5-e614ee76cdfd`
 
-- vector: dim=3072 · [-0.0122, -0.0231, -0.0094, -0.0080, 0.0186, 0.0142, -0.0320, 0.0086, …]
+- vector: dim=3072 · [-0.0269, -0.0429, -0.0033, -0.0268, -0.0127, -0.0240, -0.0100, 0.0099, …]
 
 ```json
 {
@@ -1564,10 +1465,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "'समुद्री प्लास्टिकपासून पाणथळ जागांचा बचाव'",
-  "chunk_text": "· मनपा आयुक्त आवासाहेब मिसाळ टेरी संस्थेचे मुख्य\nसल्लागार माजी सनदी अधिकारी जी. एस. नील, भारत\nसरकारचे उच्च अधिकारी लोविश अहूजा, नवी मुंबई\nमहानगरपालिकेच्या पर्यावरण तदर्थ समिती सभापती दिव्या\nगायकवाड़, उप आयुक्त दादासाहेब चाबुरुस्वार, टेरी संस्थेच्या\nसह संचालक डॉ. अंजली पारसनीस, यूएनईपीच्या प्लास्टिक\nप्रदूषण सल्लावार सलोनी गोयल व इतर मान्यवर उपस्थित\n\nहोते. यावेळी वाशीतील कर्मवीर भाऊराज प",
-  "content_hash": "492074a691d594d22376be1639f5a968caeeb4bd2f597fa9aa37456c94281162",
-  "token_count": 403,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "� प्रकल्प राबविण्याबाबतही काम सुरु असल्याची माहिती त्यांनी दिली. · टेरी व युनाइटेड नेशन्स एन्व्हायरमेन्ट आणि नवी मुंबई महानगरपालिका यांच्या संयुक्त विद्यमाने सागर विहार से. ८, वाशी येथे जागतिक पाणथळ दिवसाचे औचित्य साधून आयोजित करण्यात आलेल्या विशेष कार्यक्रमाप्रसंगी से आपले मनोगत व्यक्त करीत होते.\n'समुद्री प्लास्टिकपासून पाणथळ जागांचा बचाव'",
+  "content_hash": "12b3e721610cc7344106b6a5ce419073354bf634556bf8db2cc2c508ca58d27b",
+  "token_count": 342,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1577,21 +1478,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "parent_chunk_id": "854c8301-97fc-5eba-9e20-c0e909677161",
+  "parent_chunk_id": "74663cfa-7f55-5518-8050-a9289adb26b0",
   "chunk_index": 34,
   "page_number": 43,
   "page_range": [
     43,
     43
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```
 
 ## Child · `8a2b4916-625e-5c44-adf9-4f93672a583c`
 
-- vector: dim=3072 · [-0.0172, -0.0004, -0.0073, -0.0107, -0.0007, -0.0164, -0.0237, 0.0375, …]
+- vector: dim=3072 · [-0.0217, -0.0213, -0.0067, -0.0066, 0.0107, -0.0159, -0.0305, 0.0099, …]
 
 ```json
 {
@@ -1600,10 +1501,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "section_heading": "'समुद्री प्लास्टिकपासून पाणथळ जागांचा बचाव'",
-  "chunk_text": "ल व इतर मान्यवर उपस्थित\n\nहोते. यावेळी वाशीतील कर्मवीर भाऊराज प ाटील महाजियालय\nव आयसीएल महाविद्यालय, नेरुळचे रामर\n\nाव आदिक तंत्र\nमहाविद्यालय व एसआरएस महाविद्यालय तसेच इंडियन\nइन्स्टिट्यूट ऑफ एनव्हारमेंट मॅनेजमेंट तसेच एनएसएसचे\nविद्यार्थी 'समुद्री प्\n\nलास्टिकपासून पाणथळ जागांचा बचाव' या\nसंकल्पनेस अनुसरून खारफुटी क्षेत्रातील प्लास्टिक संकलन\nमोहिमेत मोठ्या संख्येने सहभागी झाले होते.\n\nAcknowledgement\n\nWe would like to express our gratitude to :\n• Project\nPartners,\nSponsors,\nNSS\nvolunteers,\nCollege students for actively participating in all\nthe activities.\n• Local citizens and all participants for ma\n\n… [+194 more chars]",
-  "content_hash": "032b8acee12a2040023a58c12bf43ca263905ef1b84ad3ab310913fbc727071d",
-  "token_count": 491,
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "्यक्त करीत होते.\n'समुद्री प्लास्टिकपासून पाणथळ जागांचा बचाव' · मनपा आयुक्त आवासाहेब मिसाळ टेरी संस्थेचे मुख्य सल्लागार माजी सनदी अधिकारी जी. एस. गिल, भारत सरकारचे उच्च अधिकारी लोविश अहूजा, नवी मुंबई महानगरपालिकेच्या पर्यावरण तदर्थ समिती सभापती दिव्या गायकवाड, उप आयुक्त दादासाहेब चाबुकस्वार, टेरी संस्थेच्या सह संचालक डॉ. अंजली पारसनीस, बूप्नईपोच्या प्लास्टिक प्रदूषण सल्लागार सलोनी गोयल व इतर मान्यवर उपस्थित\nहोते.\n\nावेळी वाशीतील कर्मवी\n\nभाऊराव पाटील महाविद्यालय व आयसीएल महाविद्यालय, नेरुळ्ढचे रामराव",
+  "content_hash": "095b4beeecd6e774aa9ae8640caab83d9156bed09d0ad263462e5fd2c63d49eb",
+  "token_count": 511,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1613,14 +1514,50 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
   "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-  "parent_chunk_id": "854c8301-97fc-5eba-9e20-c0e909677161",
+  "parent_chunk_id": "74663cfa-7f55-5518-8050-a9289adb26b0",
   "chunk_index": 35,
-  "page_number": 44,
+  "page_number": 43,
   "page_range": [
-    44,
+    43,
+    45
+  ],
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
+}
+```
+
+## Child · `e1c92df6-2320-54c2-9512-d10879f66b39`
+
+- vector: dim=3072 · [-0.0233, 0.0151, -0.0102, -0.0049, -0.0020, -0.0026, -0.0257, 0.0410, …]
+
+```json
+{
+  "chunk_id": "e1c92df6-2320-54c2-9512-d10879f66b39",
+  "document_id": "annexure_j1_teri_wwd_2020_report_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
+  "section_heading": "4. Media Coverage — Media Coverage",
+  "chunk_text": "पाटील महाविद्यालय व आयसीएल महाविद्यालय, नेरुळ्ढचे रामराव दिक तंत्र महाविद्यालय व एसआईएस महाविद्यालय तसेच इंडियन इन्स्टिट्यूट ऑफ एनव्हारमेंट मॅनेजमेंट\n\nAcknowledgement\n\nWe would like to express our gratitude to :\n• Project\nPartners,\nSponsors,\nNSS\nvolunteers,\nCollege students for actively participating in all\nthe activities.\n• Local citizens and all participants for making this\nevent successful.\n• Media\npersonnel\nfor\ncovering\nthe\nevent\nand\nhelping us reach out to greater audience.\n• Each and Every one who has been associated with\nus in this endeavor\nTHANK YOU",
+  "content_hash": "7f5e8f2c579abc0f0dfb089374cf27f9c8c2e44c8a0dd93cdc3a6fbdbb152546",
+  "token_count": 257,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "annexure_j1_teri_wwd_2020_report_pdf",
+  "pdf_path": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
+  "parent_chunk_id": "74663cfa-7f55-5518-8050-a9289adb26b0",
+  "chunk_index": 36,
+  "page_number": 46,
+  "page_range": [
+    46,
     47
   ],
-  "created_at": "2026-06-29T10:53:44.828370+00:00",
-  "updated_at": "2026-06-29T10:53:44.828370+00:00"
+  "created_at": "2026-06-30T08:31:58.394423+00:00",
+  "updated_at": "2026-06-30T08:31:58.394423+00:00"
 }
 ```

@@ -170,7 +170,7 @@ Financial Cost of Power Generation
 | Agartala | 3.73 | 5.75 | 3.97 | 6.38 |
 | Nagpur | 3.52 | 5.35 | 3.63 | 6.28 |
 
-# Carbon Implications
+Carbon Implications
 
 Carbon Emissions and Power Generation 
 
@@ -291,7 +291,7 @@ Agartala)
 | Agartala | 5.75 | 6.27 | 7.30 | 6.38 | 6.62 | 7.11 |
 | Nagpur | 5.35 | 5.87 | 6.90 | 6.28 | 6.53 | 7.02 |
 
-## Domestic Coal and Gas Availability and Projected Requirements
+Domestic Coal and Gas Availability and Projected Requirements
 
 Domestic Fuel Availability in India - 
 Coal 
@@ -327,7 +327,7 @@ KG-D6 output which has decreased to nearly 16 mmscmd*
  
 * Lok Sabha Standing Committee Report, April 2013
 
-### International Fuel Markets
+International Fuel Markets
 
 Changing Trends in International Markets 
 
@@ -445,7 +445,7 @@ Reports of gas contracts being renegotiated in these regions
 
 Likelihood of excess gas availability and softening of prices in Asia?
 
-#### Conclusions
+Conclusions
 
 Conclusions   
 The difference between cost of power generated using LNG and imported coal 
@@ -462,7 +462,7 @@ LNG in addition to clean coal and domestic gas
 However, tariff rationalisation will be a sine qua non for such a multi fuel 
 strategy
 
-#### Suggestions - Policy Options
+Suggestions - Policy Options
 
 Infrastructure Requirements 
 Infrastructure capacity needs be increased in order to meet the 

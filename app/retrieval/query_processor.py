@@ -11,6 +11,10 @@ from app.generation.llm_client import get_structured_llm
 logger = logging.getLogger(__name__)
 
 Intent = Literal["qa", "structured", "chitchat"]
+# How the user wants the answer shaped. Detected from the turn; used downstream
+# to steer generation (and table-aware retrieval). 'default' = let the model
+# choose the natural shape.
+AnswerFormat = Literal["default", "list", "table", "summary", "detailed"]
 
 _ANALYSIS_SYSTEM = (
     "You are the query-understanding stage of a retrieval system over an "
@@ -23,6 +27,13 @@ _ANALYSIS_SYSTEM = (
     "- search_query: a standalone, self-contained rewrite of the latest turn with "
     "pronouns and references resolved from the history. Keep it faithful; do not "
     "add facts.\n"
+    "- answer_format: how the user wants the answer shaped. "
+    "'table' if they ask for a table / tabular data / columns / 'in a table' or "
+    "compare items across attributes; "
+    "'list' if they ask to list / enumerate / give bullet points / steps; "
+    "'summary' if they ask for a brief summary / overview / 'in short' / TL;DR; "
+    "'detailed' if they ask for an in-depth / comprehensive / thorough explanation; "
+    "otherwise 'default'.\n"
     "- source_type: 'pdf' or 'article' ONLY if the user explicitly restricts to "
     "documents/PDFs or to website articles/news; otherwise null.\n"
     "- language: a two-letter code ONLY if the user explicitly asks in/about a "
@@ -33,6 +44,7 @@ _ANALYSIS_SYSTEM = (
 class QueryAnalysis(BaseModel):
     intent: Intent = "qa"
     search_query: str = Field(description="Standalone, pronoun-resolved query.")
+    answer_format: AnswerFormat = "default"
     source_type: str | None = None
     language: str | None = None
 
@@ -42,6 +54,7 @@ class ProcessedQuery:
     original: str
     search_query: str
     intent: Intent = "qa"
+    answer_format: AnswerFormat = "default"
     source_type: str | None = None
     language: str | None = None
     filters: list[Any] = field(default_factory=list)
@@ -96,6 +109,7 @@ def process(question: str, history: Sequence[dict[str, str]] | None = None) -> P
         original=question,
         search_query=search_query,
         intent=analysis.intent,
+        answer_format=analysis.answer_format,
         source_type=analysis.source_type,
         language=analysis.language,
         filters=_facet_filters(analysis),

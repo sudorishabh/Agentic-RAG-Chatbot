@@ -1,6 +1,6 @@
 # Qdrant points — ICDL_Poster_2019_Full.pdf
 
-- points (rows upserted): **308**
+- points (rows upserted): **310**
 - embedded: **True** · model `text-embedding-3-large` · dim 3072
 
 Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Children carry their embedding; parents carry a zero vector and are reached through their children. Below, vectors are truncated and `chunk_text` is clipped — see `05_qdrant_points.json` for the full data.
@@ -35,14 +35,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     3
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
 ## Child · `486a7c39-826e-58a1-a059-fdaa74dd5074`
 
-- vector: dim=3072 · [-0.0022, 0.0417, -0.0175, -0.0044, -0.0032, 0.0028, 0.0186, 0.0340, …]
+- vector: dim=3072 · [-0.0023, 0.0417, -0.0175, -0.0043, -0.0031, 0.0028, 0.0187, 0.0339, …]
 
 ```json
 {
@@ -71,14 +71,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     2
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
 ## Child · `64ea2b28-7aba-5fae-b2dc-13643b9bdabc`
 
-- vector: dim=3072 · [0.0072, 0.0606, -0.0131, -0.0107, 0.0216, 0.0232, 0.0097, 0.0443, …]
+- vector: dim=3072 · [0.0072, 0.0604, -0.0131, -0.0107, 0.0216, 0.0233, 0.0100, 0.0443, …]
 
 ```json
 {
@@ -107,14 +107,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     2,
     3
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
 ## Child · `1f9dbf03-2240-540a-86e2-2df462fcbf2c`
 
-- vector: dim=3072 · [-0.0280, -0.0236, -0.0179, -0.0391, 0.0055, -0.0077, -0.0222, -0.0055, …]
+- vector: dim=3072 · [-0.0280, -0.0236, -0.0179, -0.0391, 0.0055, -0.0078, -0.0222, -0.0056, …]
 
 ```json
 {
@@ -142,14 +142,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     4,
     4
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
 ## Child · `b26ec507-5707-5042-b9a7-e9236fa77766`
 
-- vector: dim=3072 · [-0.0041, 0.0336, -0.0149, 0.0067, 0.0130, 0.0148, 0.0089, 0.0398, …]
+- vector: dim=3072 · [-0.0041, 0.0336, -0.0149, 0.0067, 0.0130, 0.0148, 0.0088, 0.0398, …]
 
 ```json
 {
@@ -177,14 +177,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     5,
     6
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
 ## Child · `25f958b8-b9b2-5d61-a2aa-aa0629870f10`
 
-- vector: dim=3072 · [-0.0081, 0.0240, -0.0169, 0.0060, 0.0076, -0.0101, 0.0085, 0.0267, …]
+- vector: dim=3072 · [-0.0079, 0.0237, -0.0170, 0.0062, 0.0073, -0.0098, 0.0084, 0.0267, …]
 
 ```json
 {
@@ -212,26 +212,26 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     8
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `cb27fef4-f575-555c-b99c-5462b05f1d49`
+## Parent · `1b5b047d-7ce3-5aa4-a0d5-a97532604b26`
 
-- vector: dim=3072 · [-0.0168, -0.0093, -0.0114, -0.0069, 0.0020, 0.0051, -0.0238, 0.0469, …]
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "cb27fef4-f575-555c-b99c-5462b05f1d49",
+  "chunk_id": "1b5b047d-7ce3-5aa4-a0d5-a97532604b26",
   "document_id": "icdl_poster_2019_full_pdf",
-  "is_parent": false,
+  "is_parent": true,
   "source_type": "pdf",
   "title": "ICDL_Poster_2019_Full.pdf",
   "section_heading": "CONTENTS IN DETAIL — Foreword ...ix — Nitin Desai",
-  "chunk_text": "Message from Director General ...xi \nAjay Mathur\nPreface ...xiii \nP K Bhattacharya and Shantanu Ganguly\nICDL 2019 Conference Committee ...xv\nKeynote Speech ...1\nNikhil Seth\nPosters\nDigital rights management and how it is solution to libraries ...11\nPriyanka Bose\nRole of librarian in promoting open access: Study of Indian librarians’ community ...18 \nVrushali Dandawate and M Dhanamajaya\nSecurity and Safety issues in Libraries with special reference to Disaster Management...28 \nJamal Anam and Ali Naushad P M\nIs science built on false claim: An analysis of citation dependency of scientific litera\n\n… [+1318 more chars]",
-  "content_hash": "d83d8a419e57f8f14fe93902cc69b265239afbabe9aa475e7f43c1813d89c115",
-  "token_count": 467,
+  "chunk_text": "CONTENTS IN DETAIL — Foreword ...ix — Nitin Desai\n\nMessage from Director General ...xi \nAjay Mathur\nPreface ...xiii \nP K Bhattacharya and Shantanu Ganguly\nICDL 2019 Conference Committee ...xv\nKeynote Speech ...1\nNikhil Seth\nPosters\nDigital rights management and how it is solution to libraries ...11\nPriyanka Bose\nRole of librarian in promoting open access: Study of Indian librarians’ community ...18 \nVrushali Dandawate and M Dhanamajaya\nSecurity and Safety issues in Libraries with special reference to Disaster Management...28 \nJamal Anam and Ali Naushad P M\nIs science built on false claim: An a\n\n… [+1360 more chars]",
+  "content_hash": "2627d1baac5c095379085aa118512ce3e4c448fc7f705455db65c4b4f6b30974",
+  "token_count": 470,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -241,24 +241,94 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 5,
-  "page_number": 9,
   "page_range": [
     9,
     10
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
+}
+```
+
+## Child · `cb27fef4-f575-555c-b99c-5462b05f1d49`
+
+- vector: dim=3072 · [-0.0218, -0.0253, -0.0111, -0.0150, -0.0049, -0.0042, -0.0184, 0.0483, …]
+
+```json
+{
+  "chunk_id": "cb27fef4-f575-555c-b99c-5462b05f1d49",
+  "document_id": "icdl_poster_2019_full_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "ICDL_Poster_2019_Full.pdf",
+  "section_heading": "CONTENTS IN DETAIL — Foreword ...ix — Nitin Desai",
+  "chunk_text": "Message from Director General ...xi \nAjay Mathur\nPreface ...xiii \nP K Bhattacharya and Shantanu Ganguly\nICDL 2019 Conference Committee ...xv\nKeynote Speech ...1\nNikhil Seth\nPosters\nDigital rights management and how it is solution to libraries ...11\nPriyanka Bose\nRole of librarian in promoting open access: Study of Indian librarians’ community ...18 \nVrushali Dandawate and M Dhanamajaya\nSecurity and Safety issues in Libraries with special reference to Disaster Management...28 \nJamal Anam and Ali Naushad P M\nIs science built on false claim: An analysis of citation dependency of scientific litera\n\n… [+267 more chars]",
+  "content_hash": "754cc1bfcbb289d79c10ebd05b6239461cbc63b7ec8633e499afcdac628be108",
+  "token_count": 218,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "icdl_poster_2019_full_pdf",
+  "pdf_path": "ICDL_Poster_2019_Full.pdf",
+  "parent_chunk_id": "1b5b047d-7ce3-5aa4-a0d5-a97532604b26",
+  "chunk_index": 5,
+  "page_number": 9,
+  "page_range": [
+    9,
+    9
+  ],
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
 ## Child · `0947ab55-c1a7-508b-80c6-ecfbef64f1ea`
 
-- vector: dim=3072 · [-0.0060, 0.0488, -0.0101, -0.0075, 0.0247, 0.0195, -0.0048, 0.0440, …]
+- vector: dim=3072 · [-0.0447, -0.0086, -0.0165, -0.0165, 0.0158, -0.0013, -0.0312, 0.0135, …]
 
 ```json
 {
   "chunk_id": "0947ab55-c1a7-508b-80c6-ecfbef64f1ea",
+  "document_id": "icdl_poster_2019_full_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "ICDL_Poster_2019_Full.pdf",
+  "section_heading": "CONTENTS IN DETAIL — Foreword ...ix — Nitin Desai",
+  "chunk_text": "Jan, Sabha Ali and Irfan ul haq\nWas Beall’s list of predatory journals worth disappearing?  ...39\nRosy Jan and Sumeer Gul\nPredatory publishing or quality research: Which is bigger challenge for India ...40\nRosy Jan and Sumeer Gul Information literacy skills among faculty members of Central Universities in India: A survey ... 48 Haleema Khatoon\nDigital Avatar: Is e-publishing future of publishing ... 64 Anuradha Maurya\nInformation e-resources for Generation Alpha: MRIS library as an information resource centre ... 82 Monika Mukh\nChildren's right to read: community participation in improving rea\n\n… [+670 more chars]",
+  "content_hash": "ef1cf151e19d5fbb599dadabaac4cd2e98330177ab702a470ba56a1c3234e417",
+  "token_count": 295,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "icdl_poster_2019_full_pdf",
+  "pdf_path": "ICDL_Poster_2019_Full.pdf",
+  "parent_chunk_id": "1b5b047d-7ce3-5aa4-a0d5-a97532604b26",
+  "chunk_index": 6,
+  "page_number": 10,
+  "page_range": [
+    10,
+    10
+  ],
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
+}
+```
+
+## Child · `e9edbfcf-9571-5a2f-949c-5387e44693ae`
+
+- vector: dim=3072 · [-0.0059, 0.0491, -0.0103, -0.0074, 0.0246, 0.0194, -0.0050, 0.0450, …]
+
+```json
+{
+  "chunk_id": "e9edbfcf-9571-5a2f-949c-5387e44693ae",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -276,14 +346,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 6,
+  "chunk_index": 7,
   "page_number": 11,
   "page_range": [
     11,
     11
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -315,18 +385,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     13,
     13
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `e9edbfcf-9571-5a2f-949c-5387e44693ae`
+## Child · `22511e78-11f4-5081-a4ca-cdec9b6f3ef0`
 
-- vector: dim=3072 · [-0.0177, 0.0494, -0.0131, -0.0094, 0.0038, -0.0054, -0.0011, 0.0278, …]
+- vector: dim=3072 · [-0.0178, 0.0493, -0.0132, -0.0094, 0.0038, -0.0053, -0.0010, 0.0278, …]
 
 ```json
 {
-  "chunk_id": "e9edbfcf-9571-5a2f-949c-5387e44693ae",
+  "chunk_id": "22511e78-11f4-5081-a4ca-cdec9b6f3ef0",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -345,24 +415,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "a130554d-9f39-5536-b473-964502254e91",
-  "chunk_index": 7,
+  "chunk_index": 8,
   "page_number": 13,
   "page_range": [
     13,
     13
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `22511e78-11f4-5081-a4ca-cdec9b6f3ef0`
+## Child · `407bd36b-cd41-5e76-af5c-0a328be47380`
 
-- vector: dim=3072 · [0.0070, 0.0425, -0.0131, -0.0224, 0.0109, 0.0183, -0.0071, 0.0486, …]
+- vector: dim=3072 · [0.0071, 0.0426, -0.0131, -0.0223, 0.0109, 0.0183, -0.0071, 0.0486, …]
 
 ```json
 {
-  "chunk_id": "22511e78-11f4-5081-a4ca-cdec9b6f3ef0",
+  "chunk_id": "407bd36b-cd41-5e76-af5c-0a328be47380",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -381,14 +451,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "a130554d-9f39-5536-b473-964502254e91",
-  "chunk_index": 8,
+  "chunk_index": 9,
   "page_number": 13,
   "page_range": [
     13,
     13
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -420,18 +490,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     15,
     16
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `407bd36b-cd41-5e76-af5c-0a328be47380`
+## Child · `7c6b3d97-5669-5b30-b7ff-fa7983161e34`
 
-- vector: dim=3072 · [-0.0221, 0.0209, -0.0142, -0.0047, -0.0065, 0.0312, 0.0052, 0.0204, …]
+- vector: dim=3072 · [-0.0217, 0.0210, -0.0144, -0.0049, -0.0065, 0.0311, 0.0051, 0.0204, …]
 
 ```json
 {
-  "chunk_id": "407bd36b-cd41-5e76-af5c-0a328be47380",
+  "chunk_id": "7c6b3d97-5669-5b30-b7ff-fa7983161e34",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -450,24 +520,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "370199a1-274e-5d74-955f-aec9e90047bf",
-  "chunk_index": 9,
+  "chunk_index": 10,
   "page_number": 15,
   "page_range": [
     15,
     15
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `7c6b3d97-5669-5b30-b7ff-fa7983161e34`
+## Child · `acf22d7c-3fc6-55fa-9147-0eab27e50089`
 
-- vector: dim=3072 · [-0.0005, 0.0513, -0.0157, -0.0050, 0.0161, 0.0229, -0.0019, 0.0384, …]
+- vector: dim=3072 · [-0.0004, 0.0516, -0.0157, -0.0052, 0.0161, 0.0227, -0.0021, 0.0384, …]
 
 ```json
 {
-  "chunk_id": "7c6b3d97-5669-5b30-b7ff-fa7983161e34",
+  "chunk_id": "acf22d7c-3fc6-55fa-9147-0eab27e50089",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -486,24 +556,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "370199a1-274e-5d74-955f-aec9e90047bf",
-  "chunk_index": 10,
+  "chunk_index": 11,
   "page_number": 15,
   "page_range": [
     15,
     15
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `acf22d7c-3fc6-55fa-9147-0eab27e50089`
+## Child · `91eabd0a-5ecd-53c7-8217-4968a8766922`
 
-- vector: dim=3072 · [-0.0033, 0.0504, -0.0173, -0.0103, 0.0191, 0.0188, 0.0026, 0.0428, …]
+- vector: dim=3072 · [-0.0034, 0.0503, -0.0173, -0.0101, 0.0193, 0.0188, 0.0025, 0.0428, …]
 
 ```json
 {
-  "chunk_id": "acf22d7c-3fc6-55fa-9147-0eab27e50089",
+  "chunk_id": "91eabd0a-5ecd-53c7-8217-4968a8766922",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -522,14 +592,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "370199a1-274e-5d74-955f-aec9e90047bf",
-  "chunk_index": 11,
+  "chunk_index": 12,
   "page_number": 16,
   "page_range": [
     16,
     16
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -561,18 +631,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     17,
     18
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `91eabd0a-5ecd-53c7-8217-4968a8766922`
+## Child · `408f6954-8398-59a0-8acb-62b076d6a14c`
 
-- vector: dim=3072 · [0.0135, 0.0208, -0.0218, -0.0172, 0.0179, 0.0388, -0.0072, 0.0424, …]
+- vector: dim=3072 · [0.0132, 0.0209, -0.0218, -0.0172, 0.0180, 0.0388, -0.0072, 0.0424, …]
 
 ```json
 {
-  "chunk_id": "91eabd0a-5ecd-53c7-8217-4968a8766922",
+  "chunk_id": "408f6954-8398-59a0-8acb-62b076d6a14c",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -591,24 +661,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "88cfcaf3-6c2b-537b-a4e5-abf2ecd331d7",
-  "chunk_index": 12,
+  "chunk_index": 13,
   "page_number": 17,
   "page_range": [
     17,
     17
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `408f6954-8398-59a0-8acb-62b076d6a14c`
+## Child · `48ae6f07-c96b-5d5f-9f04-093d7d7e4369`
 
-- vector: dim=3072 · [0.0090, 0.0191, -0.0189, 0.0072, 0.0338, 0.0278, -0.0173, 0.0323, …]
+- vector: dim=3072 · [0.0088, 0.0194, -0.0188, 0.0070, 0.0337, 0.0278, -0.0172, 0.0325, …]
 
 ```json
 {
-  "chunk_id": "408f6954-8398-59a0-8acb-62b076d6a14c",
+  "chunk_id": "48ae6f07-c96b-5d5f-9f04-093d7d7e4369",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -627,24 +697,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "88cfcaf3-6c2b-537b-a4e5-abf2ecd331d7",
-  "chunk_index": 13,
+  "chunk_index": 14,
   "page_number": 18,
   "page_range": [
     18,
     18
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `48ae6f07-c96b-5d5f-9f04-093d7d7e4369`
+## Child · `d7ff1f57-382f-5fe9-a254-6010df5b84ac`
 
-- vector: dim=3072 · [0.0141, 0.0057, -0.0193, 0.0094, -0.0145, 0.0064, -0.0272, 0.0378, …]
+- vector: dim=3072 · [0.0140, 0.0071, -0.0195, 0.0095, -0.0142, 0.0067, -0.0265, 0.0378, …]
 
 ```json
 {
-  "chunk_id": "48ae6f07-c96b-5d5f-9f04-093d7d7e4369",
+  "chunk_id": "d7ff1f57-382f-5fe9-a254-6010df5b84ac",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -663,14 +733,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "88cfcaf3-6c2b-537b-a4e5-abf2ecd331d7",
-  "chunk_index": 14,
+  "chunk_index": 15,
   "page_number": 18,
   "page_range": [
     18,
     18
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -702,18 +772,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     19,
     20
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `d7ff1f57-382f-5fe9-a254-6010df5b84ac`
+## Child · `74a0739b-7c32-5654-bb92-71e10e83c92f`
 
-- vector: dim=3072 · [0.0195, 0.0038, -0.0206, -0.0028, 0.0097, -0.0102, -0.0133, 0.0377, …]
+- vector: dim=3072 · [0.0196, 0.0038, -0.0206, -0.0027, 0.0098, -0.0101, -0.0134, 0.0377, …]
 
 ```json
 {
-  "chunk_id": "d7ff1f57-382f-5fe9-a254-6010df5b84ac",
+  "chunk_id": "74a0739b-7c32-5654-bb92-71e10e83c92f",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -732,24 +802,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "298a2e1d-3503-50c3-adfb-6cc415d4a614",
-  "chunk_index": 15,
+  "chunk_index": 16,
   "page_number": 19,
   "page_range": [
     19,
     19
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `74a0739b-7c32-5654-bb92-71e10e83c92f`
+## Child · `92c69a23-0ad9-5b76-8c59-d80567946d4d`
 
 - vector: dim=3072 · [-0.0037, 0.0234, -0.0170, -0.0164, 0.0065, 0.0038, -0.0116, 0.0101, …]
 
 ```json
 {
-  "chunk_id": "74a0739b-7c32-5654-bb92-71e10e83c92f",
+  "chunk_id": "92c69a23-0ad9-5b76-8c59-d80567946d4d",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -768,24 +838,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "298a2e1d-3503-50c3-adfb-6cc415d4a614",
-  "chunk_index": 16,
+  "chunk_index": 17,
   "page_number": 19,
   "page_range": [
     19,
     19
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `92c69a23-0ad9-5b76-8c59-d80567946d4d`
+## Child · `97d06f31-3b5d-52ea-a22e-e86106127f4b`
 
 - vector: dim=3072 · [-0.0079, 0.0122, -0.0158, -0.0101, -0.0064, -0.0152, -0.0026, 0.0121, …]
 
 ```json
 {
-  "chunk_id": "92c69a23-0ad9-5b76-8c59-d80567946d4d",
+  "chunk_id": "97d06f31-3b5d-52ea-a22e-e86106127f4b",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -804,24 +874,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "298a2e1d-3503-50c3-adfb-6cc415d4a614",
-  "chunk_index": 17,
+  "chunk_index": 18,
   "page_number": 19,
   "page_range": [
     19,
     20
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `97d06f31-3b5d-52ea-a22e-e86106127f4b`
+## Child · `0b7e0f46-6e54-5126-98ad-0d234a45b95e`
 
 - vector: dim=3072 · [0.0024, 0.0016, -0.0154, 0.0081, 0.0016, -0.0104, -0.0092, 0.0209, …]
 
 ```json
 {
-  "chunk_id": "97d06f31-3b5d-52ea-a22e-e86106127f4b",
+  "chunk_id": "0b7e0f46-6e54-5126-98ad-0d234a45b95e",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -840,14 +910,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "298a2e1d-3503-50c3-adfb-6cc415d4a614",
-  "chunk_index": 18,
+  "chunk_index": 19,
   "page_number": 20,
   "page_range": [
     20,
     20
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -879,18 +949,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     21,
     25
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `0b7e0f46-6e54-5126-98ad-0d234a45b95e`
+## Child · `091fd7b5-f46a-5575-b6a0-aca485a92912`
 
-- vector: dim=3072 · [-0.0023, 0.0008, -0.0097, -0.0117, -0.0039, 0.0154, -0.0206, 0.0323, …]
+- vector: dim=3072 · [-0.0025, 0.0008, -0.0097, -0.0115, -0.0037, 0.0154, -0.0207, 0.0321, …]
 
 ```json
 {
-  "chunk_id": "0b7e0f46-6e54-5126-98ad-0d234a45b95e",
+  "chunk_id": "091fd7b5-f46a-5575-b6a0-aca485a92912",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -909,24 +979,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "c6e1e964-f673-542d-83c7-4b73fc8d287e",
-  "chunk_index": 19,
+  "chunk_index": 20,
   "page_number": 21,
   "page_range": [
     21,
     21
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `091fd7b5-f46a-5575-b6a0-aca485a92912`
+## Child · `8da0e7ee-7174-5823-8900-1ece31811750`
 
-- vector: dim=3072 · [-0.0210, -0.0039, -0.0197, -0.0103, 0.0057, 0.0154, -0.0241, 0.0202, …]
+- vector: dim=3072 · [-0.0209, -0.0041, -0.0197, -0.0102, 0.0056, 0.0155, -0.0239, 0.0203, …]
 
 ```json
 {
-  "chunk_id": "091fd7b5-f46a-5575-b6a0-aca485a92912",
+  "chunk_id": "8da0e7ee-7174-5823-8900-1ece31811750",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -945,24 +1015,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "c6e1e964-f673-542d-83c7-4b73fc8d287e",
-  "chunk_index": 20,
+  "chunk_index": 21,
   "page_number": 21,
   "page_range": [
     21,
     21
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `8da0e7ee-7174-5823-8900-1ece31811750`
+## Child · `123f2314-7608-548d-af79-a6403b0dab6a`
 
 - vector: dim=3072 · [0.0245, -0.0076, -0.0168, -0.0111, 0.0128, 0.0145, -0.0210, 0.0305, …]
 
 ```json
 {
-  "chunk_id": "8da0e7ee-7174-5823-8900-1ece31811750",
+  "chunk_id": "123f2314-7608-548d-af79-a6403b0dab6a",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -981,24 +1051,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "c6e1e964-f673-542d-83c7-4b73fc8d287e",
-  "chunk_index": 21,
+  "chunk_index": 22,
   "page_number": 22,
   "page_range": [
     22,
     22
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `123f2314-7608-548d-af79-a6403b0dab6a`
+## Child · `2fd0607f-dd9e-5056-99f8-256ca9b2966b`
 
-- vector: dim=3072 · [0.0126, 0.0099, -0.0147, -0.0074, -0.0032, 0.0123, 0.0221, 0.0493, …]
+- vector: dim=3072 · [0.0129, 0.0099, -0.0146, -0.0079, -0.0039, 0.0130, 0.0211, 0.0484, …]
 
 ```json
 {
-  "chunk_id": "123f2314-7608-548d-af79-a6403b0dab6a",
+  "chunk_id": "2fd0607f-dd9e-5056-99f8-256ca9b2966b",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1017,24 +1087,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "c6e1e964-f673-542d-83c7-4b73fc8d287e",
-  "chunk_index": 22,
+  "chunk_index": 23,
   "page_number": 22,
   "page_range": [
     22,
     25
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `2fd0607f-dd9e-5056-99f8-256ca9b2966b`
+## Child · `e9c9fac3-8155-5fe7-81e2-9cda74b7b94d`
 
-- vector: dim=3072 · [-0.0037, 0.0120, -0.0059, -0.0067, -0.0157, 0.0045, -0.0072, 0.0390, …]
+- vector: dim=3072 · [-0.0039, 0.0120, -0.0059, -0.0066, -0.0159, 0.0048, -0.0072, 0.0390, …]
 
 ```json
 {
-  "chunk_id": "2fd0607f-dd9e-5056-99f8-256ca9b2966b",
+  "chunk_id": "e9c9fac3-8155-5fe7-81e2-9cda74b7b94d",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1052,24 +1122,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 23,
+  "chunk_index": 24,
   "page_number": 25,
   "page_range": [
     25,
     25
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `e9c9fac3-8155-5fe7-81e2-9cda74b7b94d`
+## Child · `2e94fbd1-3dbe-5086-b981-b5c19c0a6f27`
 
 - vector: dim=3072 · [-0.0250, 0.0313, -0.0075, -0.0233, -0.0094, -0.0224, 0.0138, 0.0290, …]
 
 ```json
 {
-  "chunk_id": "e9c9fac3-8155-5fe7-81e2-9cda74b7b94d",
+  "chunk_id": "2e94fbd1-3dbe-5086-b981-b5c19c0a6f27",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1087,24 +1157,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 24,
+  "chunk_index": 25,
   "page_number": 26,
   "page_range": [
     26,
     26
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `2e94fbd1-3dbe-5086-b981-b5c19c0a6f27`
+## Child · `d144d958-b3a6-5f69-8c24-91176a5de55e`
 
-- vector: dim=3072 · [0.0009, 0.0396, -0.0208, -0.0193, 0.0185, 0.0032, 0.0336, 0.0243, …]
+- vector: dim=3072 · [0.0010, 0.0399, -0.0208, -0.0190, 0.0184, 0.0035, 0.0339, 0.0240, …]
 
 ```json
 {
-  "chunk_id": "2e94fbd1-3dbe-5086-b981-b5c19c0a6f27",
+  "chunk_id": "d144d958-b3a6-5f69-8c24-91176a5de55e",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1122,24 +1192,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 25,
+  "chunk_index": 26,
   "page_number": 27,
   "page_range": [
     27,
     27
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `d144d958-b3a6-5f69-8c24-91176a5de55e`
+## Child · `f2acd136-c799-5eb4-97a4-614f95ce381f`
 
-- vector: dim=3072 · [-0.0288, 0.0380, -0.0180, -0.0099, 0.0069, 0.0057, 0.0096, 0.0267, …]
+- vector: dim=3072 · [-0.0287, 0.0379, -0.0179, -0.0099, 0.0073, 0.0057, 0.0098, 0.0267, …]
 
 ```json
 {
-  "chunk_id": "d144d958-b3a6-5f69-8c24-91176a5de55e",
+  "chunk_id": "f2acd136-c799-5eb4-97a4-614f95ce381f",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1157,14 +1227,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 26,
+  "chunk_index": 27,
   "page_number": 27,
   "page_range": [
     27,
     27
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -1196,18 +1266,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     27,
     28
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `f2acd136-c799-5eb4-97a4-614f95ce381f`
+## Child · `de84d325-fb09-5752-a0a3-0182607a6d5b`
 
-- vector: dim=3072 · [-0.0295, 0.0447, -0.0195, -0.0215, 0.0127, -0.0109, 0.0266, 0.0436, …]
+- vector: dim=3072 · [-0.0296, 0.0447, -0.0195, -0.0216, 0.0127, -0.0109, 0.0267, 0.0436, …]
 
 ```json
 {
-  "chunk_id": "f2acd136-c799-5eb4-97a4-614f95ce381f",
+  "chunk_id": "de84d325-fb09-5752-a0a3-0182607a6d5b",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1226,24 +1296,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "edd1c991-837f-528b-9da2-cb1379d5eb7a",
-  "chunk_index": 27,
+  "chunk_index": 28,
   "page_number": 27,
   "page_range": [
     27,
     28
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `de84d325-fb09-5752-a0a3-0182607a6d5b`
+## Child · `21c5a037-63e5-52a6-b9f6-19eadc513408`
 
-- vector: dim=3072 · [-0.0077, 0.0337, -0.0262, -0.0092, 0.0088, 0.0150, 0.0048, 0.0323, …]
+- vector: dim=3072 · [-0.0078, 0.0337, -0.0262, -0.0091, 0.0089, 0.0151, 0.0052, 0.0324, …]
 
 ```json
 {
-  "chunk_id": "de84d325-fb09-5752-a0a3-0182607a6d5b",
+  "chunk_id": "21c5a037-63e5-52a6-b9f6-19eadc513408",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1262,24 +1332,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "edd1c991-837f-528b-9da2-cb1379d5eb7a",
-  "chunk_index": 28,
+  "chunk_index": 29,
   "page_number": 28,
   "page_range": [
     28,
     28
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `21c5a037-63e5-52a6-b9f6-19eadc513408`
+## Child · `2c470bae-9c4a-549e-9a68-4e1146598666`
 
-- vector: dim=3072 · [-0.0126, 0.0222, -0.0250, -0.0004, 0.0202, 0.0118, -0.0192, 0.0332, …]
+- vector: dim=3072 · [-0.0130, 0.0223, -0.0250, -0.0000, 0.0203, 0.0120, -0.0194, 0.0329, …]
 
 ```json
 {
-  "chunk_id": "21c5a037-63e5-52a6-b9f6-19eadc513408",
+  "chunk_id": "2c470bae-9c4a-549e-9a68-4e1146598666",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1297,24 +1367,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 29,
+  "chunk_index": 30,
   "page_number": 28,
   "page_range": [
     28,
     29
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `2c470bae-9c4a-549e-9a68-4e1146598666`
+## Child · `1505847c-2b8e-5bf6-88e3-2d3a9346ff37`
 
-- vector: dim=3072 · [-0.0566, 0.0360, -0.0201, -0.0100, -0.0100, -0.0077, -0.0186, 0.0517, …]
+- vector: dim=3072 · [-0.0566, 0.0360, -0.0201, -0.0100, -0.0101, -0.0077, -0.0185, 0.0517, …]
 
 ```json
 {
-  "chunk_id": "2c470bae-9c4a-549e-9a68-4e1146598666",
+  "chunk_id": "1505847c-2b8e-5bf6-88e3-2d3a9346ff37",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1332,14 +1402,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 30,
+  "chunk_index": 31,
   "page_number": 29,
   "page_range": [
     29,
     29
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -1371,18 +1441,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     31,
     36
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `1505847c-2b8e-5bf6-88e3-2d3a9346ff37`
+## Child · `1c2bdd1f-29cf-5042-8688-4b6dc0f9bfd8`
 
-- vector: dim=3072 · [-0.0182, 0.0071, -0.0138, 0.0034, 0.0035, 0.0079, -0.0220, 0.0264, …]
+- vector: dim=3072 · [-0.0184, 0.0069, -0.0139, 0.0033, 0.0032, 0.0084, -0.0220, 0.0265, …]
 
 ```json
 {
-  "chunk_id": "1505847c-2b8e-5bf6-88e3-2d3a9346ff37",
+  "chunk_id": "1c2bdd1f-29cf-5042-8688-4b6dc0f9bfd8",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1401,24 +1471,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "bade4e56-e957-5a79-ab08-f96911e2dad6",
-  "chunk_index": 31,
+  "chunk_index": 32,
   "page_number": 31,
   "page_range": [
     31,
     33
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `1c2bdd1f-29cf-5042-8688-4b6dc0f9bfd8`
+## Child · `ed87aba3-0f0e-5156-ba0f-86e91826b81f`
 
-- vector: dim=3072 · [-0.0451, -0.0004, -0.0189, -0.0061, -0.0121, -0.0075, -0.0250, 0.0257, …]
+- vector: dim=3072 · [-0.0452, -0.0005, -0.0188, -0.0060, -0.0121, -0.0074, -0.0250, 0.0256, …]
 
 ```json
 {
-  "chunk_id": "1c2bdd1f-29cf-5042-8688-4b6dc0f9bfd8",
+  "chunk_id": "ed87aba3-0f0e-5156-ba0f-86e91826b81f",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1437,24 +1507,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "bade4e56-e957-5a79-ab08-f96911e2dad6",
-  "chunk_index": 32,
+  "chunk_index": 33,
   "page_number": 33,
   "page_range": [
     33,
     34
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `ed87aba3-0f0e-5156-ba0f-86e91826b81f`
+## Child · `9ca4ffbd-315e-5d63-9dd1-bae166e65c54`
 
-- vector: dim=3072 · [-0.0276, -0.0072, -0.0157, 0.0156, 0.0023, 0.0228, -0.0074, 0.0060, …]
+- vector: dim=3072 · [-0.0272, -0.0073, -0.0157, 0.0157, 0.0022, 0.0227, -0.0076, 0.0056, …]
 
 ```json
 {
-  "chunk_id": "ed87aba3-0f0e-5156-ba0f-86e91826b81f",
+  "chunk_id": "9ca4ffbd-315e-5d63-9dd1-bae166e65c54",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1473,24 +1543,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "bade4e56-e957-5a79-ab08-f96911e2dad6",
-  "chunk_index": 33,
+  "chunk_index": 34,
   "page_number": 35,
   "page_range": [
     35,
     35
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `9ca4ffbd-315e-5d63-9dd1-bae166e65c54`
+## Child · `21b4c4ba-cd1d-5268-96ef-aece960eceeb`
 
-- vector: dim=3072 · [-0.0179, -0.0054, -0.0189, 0.0295, -0.0139, 0.0040, -0.0267, 0.0188, …]
+- vector: dim=3072 · [-0.0179, -0.0054, -0.0188, 0.0294, -0.0141, 0.0041, -0.0266, 0.0189, …]
 
 ```json
 {
-  "chunk_id": "9ca4ffbd-315e-5d63-9dd1-bae166e65c54",
+  "chunk_id": "21b4c4ba-cd1d-5268-96ef-aece960eceeb",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1509,14 +1579,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "bade4e56-e957-5a79-ab08-f96911e2dad6",
-  "chunk_index": 34,
+  "chunk_index": 35,
   "page_number": 35,
   "page_range": [
     35,
     36
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -1548,18 +1618,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     37,
     40
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `21b4c4ba-cd1d-5268-96ef-aece960eceeb`
+## Child · `7f7c9bb5-bde6-5499-8bea-563c852ed18b`
 
-- vector: dim=3072 · [-0.0261, -0.0023, -0.0161, 0.0070, 0.0037, -0.0031, -0.0218, 0.0235, …]
+- vector: dim=3072 · [-0.0262, -0.0024, -0.0161, 0.0069, 0.0035, -0.0029, -0.0218, 0.0235, …]
 
 ```json
 {
-  "chunk_id": "21b4c4ba-cd1d-5268-96ef-aece960eceeb",
+  "chunk_id": "7f7c9bb5-bde6-5499-8bea-563c852ed18b",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1578,24 +1648,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "ca5cba69-1717-5c9a-b04c-5e3a1f29c81b",
-  "chunk_index": 35,
+  "chunk_index": 36,
   "page_number": 37,
   "page_range": [
     37,
     37
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `7f7c9bb5-bde6-5499-8bea-563c852ed18b`
+## Child · `4c13b2aa-be04-5e28-805c-21cb5616233e`
 
-- vector: dim=3072 · [-0.0254, 0.0122, -0.0162, -0.0084, -0.0167, 0.0111, -0.0203, 0.0172, …]
+- vector: dim=3072 · [-0.0254, 0.0121, -0.0161, -0.0083, -0.0168, 0.0111, -0.0202, 0.0172, …]
 
 ```json
 {
-  "chunk_id": "7f7c9bb5-bde6-5499-8bea-563c852ed18b",
+  "chunk_id": "4c13b2aa-be04-5e28-805c-21cb5616233e",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1614,24 +1684,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "ca5cba69-1717-5c9a-b04c-5e3a1f29c81b",
-  "chunk_index": 36,
+  "chunk_index": 37,
   "page_number": 37,
   "page_range": [
     37,
     38
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `4c13b2aa-be04-5e28-805c-21cb5616233e`
+## Child · `ecb3d2df-7cbf-5143-b417-2281bcfa9cc8`
 
-- vector: dim=3072 · [-0.0199, -0.0024, -0.0171, 0.0100, -0.0203, -0.0037, -0.0214, 0.0284, …]
+- vector: dim=3072 · [-0.0200, -0.0024, -0.0170, 0.0101, -0.0202, -0.0042, -0.0211, 0.0284, …]
 
 ```json
 {
-  "chunk_id": "4c13b2aa-be04-5e28-805c-21cb5616233e",
+  "chunk_id": "ecb3d2df-7cbf-5143-b417-2281bcfa9cc8",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1650,24 +1720,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "ca5cba69-1717-5c9a-b04c-5e3a1f29c81b",
-  "chunk_index": 37,
+  "chunk_index": 38,
   "page_number": 38,
   "page_range": [
     38,
     39
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `ecb3d2df-7cbf-5143-b417-2281bcfa9cc8`
+## Child · `04a6260f-32dc-54e3-84e1-861db19ebd86`
 
-- vector: dim=3072 · [-0.0560, 0.0110, -0.0090, -0.0069, -0.0277, 0.0211, -0.0222, 0.0166, …]
+- vector: dim=3072 · [-0.0561, 0.0110, -0.0090, -0.0070, -0.0280, 0.0207, -0.0220, 0.0165, …]
 
 ```json
 {
-  "chunk_id": "ecb3d2df-7cbf-5143-b417-2281bcfa9cc8",
+  "chunk_id": "04a6260f-32dc-54e3-84e1-861db19ebd86",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1686,24 +1756,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "ca5cba69-1717-5c9a-b04c-5e3a1f29c81b",
-  "chunk_index": 38,
+  "chunk_index": 39,
   "page_number": 40,
   "page_range": [
     40,
     40
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `04a6260f-32dc-54e3-84e1-861db19ebd86`
+## Child · `ab096762-694f-54b3-be46-d75421de8237`
 
-- vector: dim=3072 · [-0.0446, 0.0310, -0.0031, -0.0155, -0.0034, 0.0073, -0.0053, 0.0254, …]
+- vector: dim=3072 · [-0.0445, 0.0310, -0.0032, -0.0155, -0.0034, 0.0073, -0.0054, 0.0254, …]
 
 ```json
 {
-  "chunk_id": "04a6260f-32dc-54e3-84e1-861db19ebd86",
+  "chunk_id": "ab096762-694f-54b3-be46-d75421de8237",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1721,14 +1791,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 39,
+  "chunk_index": 40,
   "page_number": 40,
   "page_range": [
     40,
     41
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -1760,18 +1830,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     41,
     42
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `ab096762-694f-54b3-be46-d75421de8237`
+## Child · `0a5fa64c-4edd-5da6-a344-09c37927faf5`
 
-- vector: dim=3072 · [-0.0449, 0.0187, -0.0062, -0.0306, -0.0113, -0.0011, 0.0111, 0.0259, …]
+- vector: dim=3072 · [-0.0449, 0.0187, -0.0062, -0.0305, -0.0113, -0.0012, 0.0111, 0.0258, …]
 
 ```json
 {
-  "chunk_id": "ab096762-694f-54b3-be46-d75421de8237",
+  "chunk_id": "0a5fa64c-4edd-5da6-a344-09c37927faf5",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1790,24 +1860,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "06e8839b-48d5-56ee-bccc-9b56601898a1",
-  "chunk_index": 40,
+  "chunk_index": 41,
   "page_number": 41,
   "page_range": [
     41,
     41
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `0a5fa64c-4edd-5da6-a344-09c37927faf5`
+## Child · `7b9a1fe7-d956-5ac4-84e6-0bb1ac5c4073`
 
-- vector: dim=3072 · [-0.0298, 0.0227, -0.0067, -0.0573, 0.0100, 0.0066, 0.0033, 0.0395, …]
+- vector: dim=3072 · [-0.0295, 0.0224, -0.0068, -0.0572, 0.0098, 0.0068, 0.0030, 0.0395, …]
 
 ```json
 {
-  "chunk_id": "0a5fa64c-4edd-5da6-a344-09c37927faf5",
+  "chunk_id": "7b9a1fe7-d956-5ac4-84e6-0bb1ac5c4073",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1826,24 +1896,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "06e8839b-48d5-56ee-bccc-9b56601898a1",
-  "chunk_index": 41,
+  "chunk_index": 42,
   "page_number": 41,
   "page_range": [
     41,
     42
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `7b9a1fe7-d956-5ac4-84e6-0bb1ac5c4073`
+## Child · `a7b9bf87-a354-5d3a-af66-cc23c7a3dc32`
 
-- vector: dim=3072 · [-0.0482, 0.0160, -0.0147, 0.0002, -0.0377, -0.0061, 0.0017, 0.0118, …]
+- vector: dim=3072 · [-0.0482, 0.0159, -0.0146, 0.0001, -0.0377, -0.0061, 0.0017, 0.0117, …]
 
 ```json
 {
-  "chunk_id": "7b9a1fe7-d956-5ac4-84e6-0bb1ac5c4073",
+  "chunk_id": "a7b9bf87-a354-5d3a-af66-cc23c7a3dc32",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1861,14 +1931,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 42,
+  "chunk_index": 43,
   "page_number": 42,
   "page_range": [
     42,
     42
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -1900,18 +1970,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     42,
     43
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `a7b9bf87-a354-5d3a-af66-cc23c7a3dc32`
+## Child · `7e3554eb-267e-5af8-a505-b136c970493e`
 
-- vector: dim=3072 · [-0.0409, 0.0201, -0.0079, -0.0332, -0.0076, -0.0080, 0.0201, 0.0362, …]
+- vector: dim=3072 · [-0.0410, 0.0201, -0.0079, -0.0331, -0.0076, -0.0082, 0.0201, 0.0361, …]
 
 ```json
 {
-  "chunk_id": "a7b9bf87-a354-5d3a-af66-cc23c7a3dc32",
+  "chunk_id": "7e3554eb-267e-5af8-a505-b136c970493e",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1930,24 +2000,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "2102841c-6ca3-557c-a11c-a0312fc35009",
-  "chunk_index": 43,
+  "chunk_index": 44,
   "page_number": 42,
   "page_range": [
     42,
     42
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `7e3554eb-267e-5af8-a505-b136c970493e`
+## Child · `8f9c13cb-4314-548d-9298-3bf93460ac8d`
 
-- vector: dim=3072 · [-0.0497, 0.0501, -0.0049, 0.0019, -0.0108, -0.0144, 0.0041, 0.0235, …]
+- vector: dim=3072 · [-0.0496, 0.0500, -0.0049, 0.0018, -0.0107, -0.0145, 0.0040, 0.0235, …]
 
 ```json
 {
-  "chunk_id": "7e3554eb-267e-5af8-a505-b136c970493e",
+  "chunk_id": "8f9c13cb-4314-548d-9298-3bf93460ac8d",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -1966,14 +2036,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "2102841c-6ca3-557c-a11c-a0312fc35009",
-  "chunk_index": 44,
+  "chunk_index": 45,
   "page_number": 43,
   "page_range": [
     43,
     43
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -2005,18 +2075,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     43,
     48
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `8f9c13cb-4314-548d-9298-3bf93460ac8d`
+## Child · `9af24452-c3ce-5df7-90b4-e93621c16df7`
 
-- vector: dim=3072 · [-0.0480, 0.0320, -0.0160, 0.0328, -0.0310, -0.0014, -0.0149, 0.0193, …]
+- vector: dim=3072 · [-0.0480, 0.0321, -0.0161, 0.0328, -0.0310, -0.0015, -0.0149, 0.0193, …]
 
 ```json
 {
-  "chunk_id": "8f9c13cb-4314-548d-9298-3bf93460ac8d",
+  "chunk_id": "9af24452-c3ce-5df7-90b4-e93621c16df7",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2036,24 +2106,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "8a9ccb5e-0240-5022-ac5c-2db40945800c",
-  "chunk_index": 45,
+  "chunk_index": 46,
   "page_number": 43,
   "page_range": [
     43,
     43
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `9af24452-c3ce-5df7-90b4-e93621c16df7`
+## Child · `bfcdcdfa-0172-50ec-baa4-efb14ca60c40`
 
-- vector: dim=3072 · [-0.0569, 0.0132, -0.0149, -0.0100, -0.0277, 0.0066, -0.0125, 0.0203, …]
+- vector: dim=3072 · [-0.0572, 0.0132, -0.0149, -0.0101, -0.0276, 0.0064, -0.0130, 0.0203, …]
 
 ```json
 {
-  "chunk_id": "9af24452-c3ce-5df7-90b4-e93621c16df7",
+  "chunk_id": "bfcdcdfa-0172-50ec-baa4-efb14ca60c40",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2072,24 +2142,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "8a9ccb5e-0240-5022-ac5c-2db40945800c",
-  "chunk_index": 46,
+  "chunk_index": 47,
   "page_number": 44,
   "page_range": [
     44,
     44
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `bfcdcdfa-0172-50ec-baa4-efb14ca60c40`
+## Child · `0d882efa-3289-5494-9696-ea01e9700909`
 
-- vector: dim=3072 · [-0.0328, 0.0370, -0.0209, -0.0014, -0.0214, -0.0033, 0.0157, 0.0329, …]
+- vector: dim=3072 · [-0.0328, 0.0367, -0.0208, -0.0016, -0.0214, -0.0032, 0.0157, 0.0328, …]
 
 ```json
 {
-  "chunk_id": "bfcdcdfa-0172-50ec-baa4-efb14ca60c40",
+  "chunk_id": "0d882efa-3289-5494-9696-ea01e9700909",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2108,24 +2178,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "8a9ccb5e-0240-5022-ac5c-2db40945800c",
-  "chunk_index": 47,
+  "chunk_index": 48,
   "page_number": 45,
   "page_range": [
     45,
     46
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `0d882efa-3289-5494-9696-ea01e9700909`
+## Child · `e4c7ea4d-9405-5fe5-99d5-b22571a0030e`
 
-- vector: dim=3072 · [-0.0552, 0.0323, -0.0066, 0.0136, -0.0329, 0.0051, -0.0117, 0.0278, …]
+- vector: dim=3072 · [-0.0555, 0.0322, -0.0068, 0.0140, -0.0327, 0.0048, -0.0118, 0.0278, …]
 
 ```json
 {
-  "chunk_id": "0d882efa-3289-5494-9696-ea01e9700909",
+  "chunk_id": "e4c7ea4d-9405-5fe5-99d5-b22571a0030e",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2144,14 +2214,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "8a9ccb5e-0240-5022-ac5c-2db40945800c",
-  "chunk_index": 48,
+  "chunk_index": 49,
   "page_number": 47,
   "page_range": [
     47,
     48
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -2183,18 +2253,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     48,
     51
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `e4c7ea4d-9405-5fe5-99d5-b22571a0030e`
+## Child · `4ad6c7fd-9728-58ad-84ce-7fa4915bfe2f`
 
-- vector: dim=3072 · [-0.0423, 0.0206, -0.0213, -0.0024, -0.0287, -0.0008, 0.0110, 0.0330, …]
+- vector: dim=3072 · [-0.0423, 0.0206, -0.0213, -0.0023, -0.0287, -0.0007, 0.0110, 0.0330, …]
 
 ```json
 {
-  "chunk_id": "e4c7ea4d-9405-5fe5-99d5-b22571a0030e",
+  "chunk_id": "4ad6c7fd-9728-58ad-84ce-7fa4915bfe2f",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2213,24 +2283,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e15ad54b-9c1b-51bc-af52-8eafaf883881",
-  "chunk_index": 49,
+  "chunk_index": 50,
   "page_number": 48,
   "page_range": [
     48,
     48
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `4ad6c7fd-9728-58ad-84ce-7fa4915bfe2f`
+## Child · `7d2ff532-b4b1-58c0-8ec9-4020d9816735`
 
-- vector: dim=3072 · [-0.0494, 0.0546, -0.0113, 0.0045, -0.0325, 0.0130, -0.0020, 0.0226, …]
+- vector: dim=3072 · [-0.0494, 0.0545, -0.0113, 0.0046, -0.0325, 0.0130, -0.0019, 0.0225, …]
 
 ```json
 {
-  "chunk_id": "4ad6c7fd-9728-58ad-84ce-7fa4915bfe2f",
+  "chunk_id": "7d2ff532-b4b1-58c0-8ec9-4020d9816735",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2250,24 +2320,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e15ad54b-9c1b-51bc-af52-8eafaf883881",
-  "chunk_index": 50,
+  "chunk_index": 51,
   "page_number": 49,
   "page_range": [
     49,
     49
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `7d2ff532-b4b1-58c0-8ec9-4020d9816735`
+## Child · `1ed0c484-8c76-54fb-afc2-5e69954a158d`
 
-- vector: dim=3072 · [-0.0164, 0.0192, -0.0020, 0.0029, 0.0048, 0.0149, -0.0257, -0.0123, …]
+- vector: dim=3072 · [-0.0164, 0.0192, -0.0021, 0.0029, 0.0048, 0.0151, -0.0258, -0.0123, …]
 
 ```json
 {
-  "chunk_id": "7d2ff532-b4b1-58c0-8ec9-4020d9816735",
+  "chunk_id": "1ed0c484-8c76-54fb-afc2-5e69954a158d",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2286,24 +2356,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e15ad54b-9c1b-51bc-af52-8eafaf883881",
-  "chunk_index": 51,
+  "chunk_index": 52,
   "page_number": 50,
   "page_range": [
     50,
     50
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `1ed0c484-8c76-54fb-afc2-5e69954a158d`
+## Child · `96e01d2c-99b3-58d5-bf3f-9e3d98b59620`
 
-- vector: dim=3072 · [-0.0054, -0.0002, -0.0091, 0.0061, 0.0334, -0.0064, -0.0341, -0.0049, …]
+- vector: dim=3072 · [-0.0054, -0.0002, -0.0091, 0.0061, 0.0333, -0.0064, -0.0341, -0.0049, …]
 
 ```json
 {
-  "chunk_id": "1ed0c484-8c76-54fb-afc2-5e69954a158d",
+  "chunk_id": "96e01d2c-99b3-58d5-bf3f-9e3d98b59620",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2322,24 +2392,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e15ad54b-9c1b-51bc-af52-8eafaf883881",
-  "chunk_index": 52,
+  "chunk_index": 53,
   "page_number": 50,
   "page_range": [
     50,
     50
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `96e01d2c-99b3-58d5-bf3f-9e3d98b59620`
+## Child · `107d1988-9fbd-549a-b6c7-524576b8f780`
 
-- vector: dim=3072 · [-0.0161, 0.0044, -0.0149, -0.0119, 0.0298, -0.0170, -0.0452, -0.0122, …]
+- vector: dim=3072 · [-0.0162, 0.0045, -0.0149, -0.0119, 0.0299, -0.0169, -0.0451, -0.0122, …]
 
 ```json
 {
-  "chunk_id": "96e01d2c-99b3-58d5-bf3f-9e3d98b59620",
+  "chunk_id": "107d1988-9fbd-549a-b6c7-524576b8f780",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2358,14 +2428,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e15ad54b-9c1b-51bc-af52-8eafaf883881",
-  "chunk_index": 53,
+  "chunk_index": 54,
   "page_number": 51,
   "page_range": [
     51,
     51
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -2397,18 +2467,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     52,
     54
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `107d1988-9fbd-549a-b6c7-524576b8f780`
+## Child · `cd8ce2d9-3f09-5e69-b08a-6afdc52e8514`
 
-- vector: dim=3072 · [-0.0199, -0.0008, -0.0170, -0.0342, 0.0473, -0.0072, -0.0450, -0.0012, …]
+- vector: dim=3072 · [-0.0198, -0.0010, -0.0170, -0.0341, 0.0473, -0.0073, -0.0450, -0.0014, …]
 
 ```json
 {
-  "chunk_id": "107d1988-9fbd-549a-b6c7-524576b8f780",
+  "chunk_id": "cd8ce2d9-3f09-5e69-b08a-6afdc52e8514",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2427,24 +2497,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "08efc458-bcf0-5dba-bdc3-419033c91188",
-  "chunk_index": 54,
+  "chunk_index": 55,
   "page_number": 52,
   "page_range": [
     52,
     52
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `cd8ce2d9-3f09-5e69-b08a-6afdc52e8514`
+## Child · `7ff701b8-a443-57b6-ac61-ba64c756ca34`
 
-- vector: dim=3072 · [-0.0226, 0.0237, -0.0168, -0.0105, 0.0659, -0.0206, -0.0152, -0.0065, …]
+- vector: dim=3072 · [-0.0225, 0.0237, -0.0168, -0.0104, 0.0659, -0.0204, -0.0153, -0.0066, …]
 
 ```json
 {
-  "chunk_id": "cd8ce2d9-3f09-5e69-b08a-6afdc52e8514",
+  "chunk_id": "7ff701b8-a443-57b6-ac61-ba64c756ca34",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2463,24 +2533,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "08efc458-bcf0-5dba-bdc3-419033c91188",
-  "chunk_index": 55,
+  "chunk_index": 56,
   "page_number": 52,
   "page_range": [
     52,
     52
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `7ff701b8-a443-57b6-ac61-ba64c756ca34`
+## Child · `2eb06059-643e-5f1c-bde4-418b5390425b`
 
-- vector: dim=3072 · [-0.0027, 0.0348, -0.0197, -0.0112, 0.0536, -0.0228, 0.0050, -0.0073, …]
+- vector: dim=3072 · [-0.0028, 0.0348, -0.0197, -0.0112, 0.0536, -0.0227, 0.0051, -0.0072, …]
 
 ```json
 {
-  "chunk_id": "7ff701b8-a443-57b6-ac61-ba64c756ca34",
+  "chunk_id": "2eb06059-643e-5f1c-bde4-418b5390425b",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2499,24 +2569,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "08efc458-bcf0-5dba-bdc3-419033c91188",
-  "chunk_index": 56,
+  "chunk_index": 57,
   "page_number": 53,
   "page_range": [
     53,
     53
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `2eb06059-643e-5f1c-bde4-418b5390425b`
+## Child · `b7099f77-88dc-57c5-b8bb-7cd32c61a245`
 
-- vector: dim=3072 · [-0.0150, 0.0334, -0.0130, -0.0041, 0.0410, -0.0161, 0.0054, -0.0010, …]
+- vector: dim=3072 · [-0.0154, 0.0337, -0.0130, -0.0040, 0.0412, -0.0158, 0.0056, -0.0012, …]
 
 ```json
 {
-  "chunk_id": "2eb06059-643e-5f1c-bde4-418b5390425b",
+  "chunk_id": "b7099f77-88dc-57c5-b8bb-7cd32c61a245",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2535,24 +2605,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "08efc458-bcf0-5dba-bdc3-419033c91188",
-  "chunk_index": 57,
+  "chunk_index": 58,
   "page_number": 53,
   "page_range": [
     53,
     53
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `b7099f77-88dc-57c5-b8bb-7cd32c61a245`
+## Child · `f5653f73-f858-5f9b-b367-01eeecfc02e2`
 
-- vector: dim=3072 · [-0.0061, -0.0069, -0.0139, -0.0024, 0.0142, -0.0076, -0.0040, 0.0008, …]
+- vector: dim=3072 · [-0.0060, -0.0069, -0.0139, -0.0023, 0.0142, -0.0076, -0.0040, 0.0009, …]
 
 ```json
 {
-  "chunk_id": "b7099f77-88dc-57c5-b8bb-7cd32c61a245",
+  "chunk_id": "f5653f73-f858-5f9b-b367-01eeecfc02e2",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2571,14 +2641,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "08efc458-bcf0-5dba-bdc3-419033c91188",
-  "chunk_index": 58,
+  "chunk_index": 59,
   "page_number": 54,
   "page_range": [
     54,
     54
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -2610,18 +2680,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     54,
     59
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `f5653f73-f858-5f9b-b367-01eeecfc02e2`
+## Child · `cbd07bb2-1522-52d2-adec-07b7ab914144`
 
-- vector: dim=3072 · [0.0201, 0.0157, -0.0118, -0.0124, 0.0526, -0.0135, -0.0032, 0.0032, …]
+- vector: dim=3072 · [0.0198, 0.0157, -0.0119, -0.0124, 0.0526, -0.0131, -0.0032, 0.0036, …]
 
 ```json
 {
-  "chunk_id": "f5653f73-f858-5f9b-b367-01eeecfc02e2",
+  "chunk_id": "cbd07bb2-1522-52d2-adec-07b7ab914144",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2640,24 +2710,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "ba5fb477-e62a-5766-85f0-d842b472d322",
-  "chunk_index": 59,
+  "chunk_index": 60,
   "page_number": 54,
   "page_range": [
     54,
     55
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `cbd07bb2-1522-52d2-adec-07b7ab914144`
+## Child · `683ce385-8b66-5f46-9d02-7ab8384e07b4`
 
-- vector: dim=3072 · [0.0155, 0.0086, -0.0142, 0.0119, 0.0443, -0.0506, -0.0162, 0.0042, …]
+- vector: dim=3072 · [0.0159, 0.0085, -0.0143, 0.0116, 0.0442, -0.0503, -0.0162, 0.0045, …]
 
 ```json
 {
-  "chunk_id": "cbd07bb2-1522-52d2-adec-07b7ab914144",
+  "chunk_id": "683ce385-8b66-5f46-9d02-7ab8384e07b4",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2676,24 +2746,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "ba5fb477-e62a-5766-85f0-d842b472d322",
-  "chunk_index": 60,
+  "chunk_index": 61,
   "page_number": 56,
   "page_range": [
     56,
     56
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `683ce385-8b66-5f46-9d02-7ab8384e07b4`
+## Child · `c7baa8d5-aa0d-55db-acb9-ec148c664192`
 
-- vector: dim=3072 · [-0.0021, 0.0275, -0.0190, -0.0143, 0.0505, -0.0445, -0.0173, 0.0091, …]
+- vector: dim=3072 · [-0.0020, 0.0275, -0.0190, -0.0142, 0.0505, -0.0445, -0.0172, 0.0089, …]
 
 ```json
 {
-  "chunk_id": "683ce385-8b66-5f46-9d02-7ab8384e07b4",
+  "chunk_id": "c7baa8d5-aa0d-55db-acb9-ec148c664192",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2712,24 +2782,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "ba5fb477-e62a-5766-85f0-d842b472d322",
-  "chunk_index": 61,
+  "chunk_index": 62,
   "page_number": 57,
   "page_range": [
     57,
     58
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `c7baa8d5-aa0d-55db-acb9-ec148c664192`
+## Child · `9218328b-33c5-5121-8b97-dd553df39ffa`
 
-- vector: dim=3072 · [0.0072, -0.0098, -0.0193, -0.0092, 0.0471, -0.0231, -0.0259, -0.0065, …]
+- vector: dim=3072 · [0.0071, -0.0097, -0.0193, -0.0091, 0.0471, -0.0231, -0.0259, -0.0066, …]
 
 ```json
 {
-  "chunk_id": "c7baa8d5-aa0d-55db-acb9-ec148c664192",
+  "chunk_id": "9218328b-33c5-5121-8b97-dd553df39ffa",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2748,24 +2818,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "ba5fb477-e62a-5766-85f0-d842b472d322",
-  "chunk_index": 62,
+  "chunk_index": 63,
   "page_number": 59,
   "page_range": [
     59,
     59
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `9218328b-33c5-5121-8b97-dd553df39ffa`
+## Child · `89f2e87b-59ff-5663-aa54-04dfa9fc8ed0`
 
-- vector: dim=3072 · [-0.0072, -0.0165, -0.0217, 0.0054, 0.0306, -0.0273, -0.0196, 0.0103, …]
+- vector: dim=3072 · [-0.0073, -0.0161, -0.0217, 0.0052, 0.0303, -0.0272, -0.0198, 0.0105, …]
 
 ```json
 {
-  "chunk_id": "9218328b-33c5-5121-8b97-dd553df39ffa",
+  "chunk_id": "89f2e87b-59ff-5663-aa54-04dfa9fc8ed0",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2784,14 +2854,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "ba5fb477-e62a-5766-85f0-d842b472d322",
-  "chunk_index": 63,
+  "chunk_index": 64,
   "page_number": 59,
   "page_range": [
     59,
     59
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -2824,18 +2894,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     59,
     60
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `89f2e87b-59ff-5663-aa54-04dfa9fc8ed0`
+## Child · `524383ec-9662-56b8-845d-e97868f8a770`
 
 - vector: dim=3072 · [0.0142, -0.0022, -0.0208, 0.0118, 0.0390, -0.0342, -0.0010, 0.0057, …]
 
 ```json
 {
-  "chunk_id": "89f2e87b-59ff-5663-aa54-04dfa9fc8ed0",
+  "chunk_id": "524383ec-9662-56b8-845d-e97868f8a770",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2854,24 +2924,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "159171ad-d48e-51dd-827b-2458382c8261",
-  "chunk_index": 64,
+  "chunk_index": 65,
   "page_number": 59,
   "page_range": [
     59,
     59
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `524383ec-9662-56b8-845d-e97868f8a770`
+## Child · `d9c66573-6f9a-5c8b-86ba-d38d766545a3`
 
 - vector: dim=3072 · [-0.0227, 0.0118, -0.0203, 0.0017, 0.0131, -0.0209, -0.0230, 0.0261, …]
 
 ```json
 {
-  "chunk_id": "524383ec-9662-56b8-845d-e97868f8a770",
+  "chunk_id": "d9c66573-6f9a-5c8b-86ba-d38d766545a3",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2891,24 +2961,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "159171ad-d48e-51dd-827b-2458382c8261",
-  "chunk_index": 65,
+  "chunk_index": 66,
   "page_number": 59,
   "page_range": [
     59,
     60
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `d9c66573-6f9a-5c8b-86ba-d38d766545a3`
+## Child · `c0ff9b74-88f6-5277-a8c6-55bb92f76f7c`
 
 - vector: dim=3072 · [-0.0060, -0.0111, -0.0235, 0.0025, 0.0310, 0.0046, -0.0316, 0.0102, …]
 
 ```json
 {
-  "chunk_id": "d9c66573-6f9a-5c8b-86ba-d38d766545a3",
+  "chunk_id": "c0ff9b74-88f6-5277-a8c6-55bb92f76f7c",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2928,24 +2998,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "159171ad-d48e-51dd-827b-2458382c8261",
-  "chunk_index": 66,
+  "chunk_index": 67,
   "page_number": 60,
   "page_range": [
     60,
     60
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `c0ff9b74-88f6-5277-a8c6-55bb92f76f7c`
+## Child · `ce26214d-9deb-5838-aa1c-ba5881b884a2`
 
-- vector: dim=3072 · [-0.0051, -0.0048, -0.0302, -0.0006, -0.0009, 0.0018, 0.0155, 0.0282, …]
+- vector: dim=3072 · [-0.0050, -0.0048, -0.0302, -0.0006, -0.0009, 0.0019, 0.0155, 0.0282, …]
 
 ```json
 {
-  "chunk_id": "c0ff9b74-88f6-5277-a8c6-55bb92f76f7c",
+  "chunk_id": "ce26214d-9deb-5838-aa1c-ba5881b884a2",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -2965,14 +3035,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "159171ad-d48e-51dd-827b-2458382c8261",
-  "chunk_index": 67,
+  "chunk_index": 68,
   "page_number": 60,
   "page_range": [
     60,
     60
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -3004,18 +3074,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     60,
     62
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `ce26214d-9deb-5838-aa1c-ba5881b884a2`
+## Child · `37f32570-77e4-5750-b7dd-31e756364b40`
 
 - vector: dim=3072 · [0.0005, -0.0130, -0.0104, -0.0086, 0.0222, -0.0374, -0.0212, 0.0217, …]
 
 ```json
 {
-  "chunk_id": "ce26214d-9deb-5838-aa1c-ba5881b884a2",
+  "chunk_id": "37f32570-77e4-5750-b7dd-31e756364b40",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3035,24 +3105,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "4dcaf92c-02bf-50e9-a8ea-fd9df8c52fc2",
-  "chunk_index": 68,
+  "chunk_index": 69,
   "page_number": 60,
   "page_range": [
     60,
     60
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `37f32570-77e4-5750-b7dd-31e756364b40`
+## Child · `6044d05d-3243-5f4e-b32d-15e17c01c02f`
 
 - vector: dim=3072 · [0.0010, -0.0031, -0.0156, -0.0041, 0.0358, -0.0159, -0.0266, 0.0188, …]
 
 ```json
 {
-  "chunk_id": "37f32570-77e4-5750-b7dd-31e756364b40",
+  "chunk_id": "6044d05d-3243-5f4e-b32d-15e17c01c02f",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3072,24 +3142,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "4dcaf92c-02bf-50e9-a8ea-fd9df8c52fc2",
-  "chunk_index": 69,
+  "chunk_index": 70,
   "page_number": 60,
   "page_range": [
     60,
     60
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `6044d05d-3243-5f4e-b32d-15e17c01c02f`
+## Child · `f3dcd3d3-e5e1-57ca-bcd2-fa1bdc0297a3`
 
-- vector: dim=3072 · [-0.0155, -0.0036, -0.0112, -0.0130, 0.0344, -0.0246, -0.0219, 0.0182, …]
+- vector: dim=3072 · [-0.0155, -0.0037, -0.0112, -0.0130, 0.0345, -0.0246, -0.0217, 0.0181, …]
 
 ```json
 {
-  "chunk_id": "6044d05d-3243-5f4e-b32d-15e17c01c02f",
+  "chunk_id": "f3dcd3d3-e5e1-57ca-bcd2-fa1bdc0297a3",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3108,24 +3178,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "4dcaf92c-02bf-50e9-a8ea-fd9df8c52fc2",
-  "chunk_index": 70,
+  "chunk_index": 71,
   "page_number": 60,
   "page_range": [
     60,
     61
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `f3dcd3d3-e5e1-57ca-bcd2-fa1bdc0297a3`
+## Child · `dd7632f7-4b67-5c76-8446-672331e35163`
 
 - vector: dim=3072 · [-0.0337, -0.0127, -0.0126, -0.0351, 0.0247, -0.0245, -0.0215, -0.0061, …]
 
 ```json
 {
-  "chunk_id": "f3dcd3d3-e5e1-57ca-bcd2-fa1bdc0297a3",
+  "chunk_id": "dd7632f7-4b67-5c76-8446-672331e35163",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3144,14 +3214,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "4dcaf92c-02bf-50e9-a8ea-fd9df8c52fc2",
-  "chunk_index": 71,
+  "chunk_index": 72,
   "page_number": 62,
   "page_range": [
     62,
     62
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -3183,18 +3253,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     63,
     64
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `dd7632f7-4b67-5c76-8446-672331e35163`
+## Child · `bf053c24-39e1-538e-bc3c-a7b42508d63f`
 
 - vector: dim=3072 · [-0.0144, 0.0133, -0.0259, -0.0425, 0.0355, 0.0017, -0.0109, -0.0050, …]
 
 ```json
 {
-  "chunk_id": "dd7632f7-4b67-5c76-8446-672331e35163",
+  "chunk_id": "bf053c24-39e1-538e-bc3c-a7b42508d63f",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3213,24 +3283,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "975f042b-78df-519c-8356-d51680a17812",
-  "chunk_index": 72,
+  "chunk_index": 73,
   "page_number": 63,
   "page_range": [
     63,
     63
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `bf053c24-39e1-538e-bc3c-a7b42508d63f`
+## Child · `46f644b6-4edf-515b-b355-ee2a301236a6`
 
-- vector: dim=3072 · [-0.0556, -0.0142, -0.0133, -0.0517, 0.0233, 0.0167, 0.0035, -0.0275, …]
+- vector: dim=3072 · [-0.0556, -0.0141, -0.0133, -0.0517, 0.0233, 0.0166, 0.0035, -0.0276, …]
 
 ```json
 {
-  "chunk_id": "bf053c24-39e1-538e-bc3c-a7b42508d63f",
+  "chunk_id": "46f644b6-4edf-515b-b355-ee2a301236a6",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3249,24 +3319,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "975f042b-78df-519c-8356-d51680a17812",
-  "chunk_index": 73,
+  "chunk_index": 74,
   "page_number": 63,
   "page_range": [
     63,
     63
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `46f644b6-4edf-515b-b355-ee2a301236a6`
+## Child · `6d197e72-58da-5cba-8b62-63a474d6b84d`
 
-- vector: dim=3072 · [-0.0353, -0.0129, -0.0116, -0.0468, 0.0261, 0.0172, -0.0108, 0.0071, …]
+- vector: dim=3072 · [-0.0355, -0.0126, -0.0115, -0.0471, 0.0260, 0.0166, -0.0105, 0.0068, …]
 
 ```json
 {
-  "chunk_id": "46f644b6-4edf-515b-b355-ee2a301236a6",
+  "chunk_id": "6d197e72-58da-5cba-8b62-63a474d6b84d",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3285,24 +3355,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "975f042b-78df-519c-8356-d51680a17812",
-  "chunk_index": 74,
+  "chunk_index": 75,
   "page_number": 64,
   "page_range": [
     64,
     64
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `6d197e72-58da-5cba-8b62-63a474d6b84d`
+## Child · `13614ced-2b40-51f2-9efd-696e13091f85`
 
 - vector: dim=3072 · [-0.0196, -0.0049, -0.0160, -0.0408, 0.0217, -0.0149, -0.0025, -0.0125, …]
 
 ```json
 {
-  "chunk_id": "6d197e72-58da-5cba-8b62-63a474d6b84d",
+  "chunk_id": "13614ced-2b40-51f2-9efd-696e13091f85",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3321,14 +3391,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "975f042b-78df-519c-8356-d51680a17812",
-  "chunk_index": 75,
+  "chunk_index": 76,
   "page_number": 64,
   "page_range": [
     64,
     64
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -3360,18 +3430,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     65,
     66
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `13614ced-2b40-51f2-9efd-696e13091f85`
+## Child · `dcd4b4d2-dc08-5d29-9af7-fbd00333a2ae`
 
-- vector: dim=3072 · [-0.0224, 0.0030, -0.0178, -0.0338, 0.0056, 0.0006, 0.0101, -0.0090, …]
+- vector: dim=3072 · [-0.0224, 0.0030, -0.0178, -0.0338, 0.0055, 0.0003, 0.0102, -0.0089, …]
 
 ```json
 {
-  "chunk_id": "13614ced-2b40-51f2-9efd-696e13091f85",
+  "chunk_id": "dcd4b4d2-dc08-5d29-9af7-fbd00333a2ae",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3390,24 +3460,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "53a8c539-840a-5737-ad9b-51e0b45e4204",
-  "chunk_index": 76,
+  "chunk_index": 77,
   "page_number": 65,
   "page_range": [
     65,
     65
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `dcd4b4d2-dc08-5d29-9af7-fbd00333a2ae`
+## Child · `533829fc-056b-5463-8974-50ae892f09bc`
 
-- vector: dim=3072 · [-0.0406, 0.0255, -0.0183, -0.0011, -0.0054, -0.0113, 0.0471, -0.0134, …]
+- vector: dim=3072 · [-0.0403, 0.0257, -0.0183, -0.0014, -0.0054, -0.0112, 0.0469, -0.0135, …]
 
 ```json
 {
-  "chunk_id": "dcd4b4d2-dc08-5d29-9af7-fbd00333a2ae",
+  "chunk_id": "533829fc-056b-5463-8974-50ae892f09bc",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3426,24 +3496,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "53a8c539-840a-5737-ad9b-51e0b45e4204",
-  "chunk_index": 77,
+  "chunk_index": 78,
   "page_number": 65,
   "page_range": [
     65,
     65
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `533829fc-056b-5463-8974-50ae892f09bc`
+## Child · `752ac71b-da11-5056-ac63-edd7f2bfacd7`
 
-- vector: dim=3072 · [-0.0347, 0.0142, -0.0113, 0.0046, 0.0020, -0.0079, 0.0062, -0.0119, …]
+- vector: dim=3072 · [-0.0347, 0.0143, -0.0113, 0.0046, 0.0020, -0.0078, 0.0062, -0.0118, …]
 
 ```json
 {
-  "chunk_id": "533829fc-056b-5463-8974-50ae892f09bc",
+  "chunk_id": "752ac71b-da11-5056-ac63-edd7f2bfacd7",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3462,24 +3532,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "53a8c539-840a-5737-ad9b-51e0b45e4204",
-  "chunk_index": 78,
+  "chunk_index": 79,
   "page_number": 66,
   "page_range": [
     66,
     66
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `752ac71b-da11-5056-ac63-edd7f2bfacd7`
+## Child · `53d544fb-2115-5e23-b8f0-d02c0a28dd8a`
 
-- vector: dim=3072 · [-0.0373, -0.0223, -0.0090, -0.0175, -0.0041, -0.0328, 0.0061, -0.0103, …]
+- vector: dim=3072 · [-0.0374, -0.0222, -0.0091, -0.0174, -0.0040, -0.0328, 0.0062, -0.0103, …]
 
 ```json
 {
-  "chunk_id": "752ac71b-da11-5056-ac63-edd7f2bfacd7",
+  "chunk_id": "53d544fb-2115-5e23-b8f0-d02c0a28dd8a",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3498,14 +3568,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "53a8c539-840a-5737-ad9b-51e0b45e4204",
-  "chunk_index": 79,
+  "chunk_index": 80,
   "page_number": 66,
   "page_range": [
     66,
     66
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -3537,18 +3607,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     67,
     68
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `53d544fb-2115-5e23-b8f0-d02c0a28dd8a`
+## Child · `110e9342-082a-5cad-b87b-affab80f2d95`
 
-- vector: dim=3072 · [-0.0492, 0.0146, -0.0231, -0.0128, 0.0028, 0.0018, -0.0058, 0.0043, …]
+- vector: dim=3072 · [-0.0491, 0.0149, -0.0230, -0.0129, 0.0029, 0.0017, -0.0059, 0.0043, …]
 
 ```json
 {
-  "chunk_id": "53d544fb-2115-5e23-b8f0-d02c0a28dd8a",
+  "chunk_id": "110e9342-082a-5cad-b87b-affab80f2d95",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3567,24 +3637,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "0d0f3610-f1ec-527b-a8ce-487707e1f300",
-  "chunk_index": 80,
+  "chunk_index": 81,
   "page_number": 67,
   "page_range": [
     67,
     67
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `110e9342-082a-5cad-b87b-affab80f2d95`
+## Child · `7cc567b6-0bdf-55c1-8647-d4d1359e4217`
 
-- vector: dim=3072 · [-0.0243, -0.0096, -0.0159, -0.0109, -0.0024, 0.0016, -0.0039, -0.0038, …]
+- vector: dim=3072 · [-0.0243, -0.0097, -0.0159, -0.0109, -0.0022, 0.0016, -0.0038, -0.0038, …]
 
 ```json
 {
-  "chunk_id": "110e9342-082a-5cad-b87b-affab80f2d95",
+  "chunk_id": "7cc567b6-0bdf-55c1-8647-d4d1359e4217",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3603,24 +3673,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "0d0f3610-f1ec-527b-a8ce-487707e1f300",
-  "chunk_index": 81,
+  "chunk_index": 82,
   "page_number": 67,
   "page_range": [
     67,
     67
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `7cc567b6-0bdf-55c1-8647-d4d1359e4217`
+## Child · `568a586f-71a5-54ab-8373-f0acc59e45db`
 
-- vector: dim=3072 · [-0.0203, -0.0201, -0.0186, -0.0131, 0.0061, -0.0032, -0.0225, -0.0025, …]
+- vector: dim=3072 · [-0.0203, -0.0198, -0.0186, -0.0132, 0.0062, -0.0033, -0.0225, -0.0024, …]
 
 ```json
 {
-  "chunk_id": "7cc567b6-0bdf-55c1-8647-d4d1359e4217",
+  "chunk_id": "568a586f-71a5-54ab-8373-f0acc59e45db",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3639,24 +3709,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "0d0f3610-f1ec-527b-a8ce-487707e1f300",
-  "chunk_index": 82,
+  "chunk_index": 83,
   "page_number": 68,
   "page_range": [
     68,
     68
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `568a586f-71a5-54ab-8373-f0acc59e45db`
+## Child · `0405e975-37a3-5bb3-af47-6b1cb78ae744`
 
-- vector: dim=3072 · [-0.0183, -0.0205, -0.0173, -0.0325, 0.0171, -0.0060, 0.0044, 0.0122, …]
+- vector: dim=3072 · [-0.0184, -0.0204, -0.0173, -0.0324, 0.0171, -0.0061, 0.0042, 0.0122, …]
 
 ```json
 {
-  "chunk_id": "568a586f-71a5-54ab-8373-f0acc59e45db",
+  "chunk_id": "0405e975-37a3-5bb3-af47-6b1cb78ae744",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3676,14 +3746,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "0d0f3610-f1ec-527b-a8ce-487707e1f300",
-  "chunk_index": 83,
+  "chunk_index": 84,
   "page_number": 68,
   "page_range": [
     68,
     68
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -3715,18 +3785,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     69,
     70
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `0405e975-37a3-5bb3-af47-6b1cb78ae744`
+## Child · `22ee3319-b83f-55c8-89b3-4401d4a6d735`
 
-- vector: dim=3072 · [-0.0057, 0.0150, -0.0146, -0.0044, 0.0085, 0.0024, -0.0020, 0.0135, …]
+- vector: dim=3072 · [-0.0057, 0.0150, -0.0146, -0.0043, 0.0086, 0.0025, -0.0019, 0.0136, …]
 
 ```json
 {
-  "chunk_id": "0405e975-37a3-5bb3-af47-6b1cb78ae744",
+  "chunk_id": "22ee3319-b83f-55c8-89b3-4401d4a6d735",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3746,24 +3816,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "1490974a-a7bd-5b97-baed-474f6dd001f7",
-  "chunk_index": 84,
+  "chunk_index": 85,
   "page_number": 69,
   "page_range": [
     69,
     69
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `22ee3319-b83f-55c8-89b3-4401d4a6d735`
+## Child · `449285a8-10df-54db-ac00-db72930a8a8e`
 
-- vector: dim=3072 · [-0.0316, -0.0198, -0.0152, -0.0219, 0.0041, 0.0069, -0.0065, 0.0136, …]
+- vector: dim=3072 · [-0.0314, -0.0196, -0.0152, -0.0221, 0.0042, 0.0071, -0.0064, 0.0137, …]
 
 ```json
 {
-  "chunk_id": "22ee3319-b83f-55c8-89b3-4401d4a6d735",
+  "chunk_id": "449285a8-10df-54db-ac00-db72930a8a8e",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3783,24 +3853,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "1490974a-a7bd-5b97-baed-474f6dd001f7",
-  "chunk_index": 85,
+  "chunk_index": 86,
   "page_number": 69,
   "page_range": [
     69,
     69
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `449285a8-10df-54db-ac00-db72930a8a8e`
+## Child · `f290a5ee-c983-586d-8184-a49f30146ba8`
 
 - vector: dim=3072 · [-0.0223, -0.0174, -0.0190, -0.0059, 0.0183, -0.0143, -0.0156, 0.0456, …]
 
 ```json
 {
-  "chunk_id": "449285a8-10df-54db-ac00-db72930a8a8e",
+  "chunk_id": "f290a5ee-c983-586d-8184-a49f30146ba8",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3820,24 +3890,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "1490974a-a7bd-5b97-baed-474f6dd001f7",
-  "chunk_index": 86,
+  "chunk_index": 87,
   "page_number": 69,
   "page_range": [
     69,
     69
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `f290a5ee-c983-586d-8184-a49f30146ba8`
+## Child · `de7b133d-9f72-57e8-9d71-a8620a6b7b89`
 
-- vector: dim=3072 · [-0.0260, 0.0240, -0.0142, -0.0168, 0.0316, -0.0167, -0.0150, 0.0079, …]
+- vector: dim=3072 · [-0.0259, 0.0239, -0.0142, -0.0170, 0.0316, -0.0165, -0.0150, 0.0080, …]
 
 ```json
 {
-  "chunk_id": "f290a5ee-c983-586d-8184-a49f30146ba8",
+  "chunk_id": "de7b133d-9f72-57e8-9d71-a8620a6b7b89",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3856,14 +3926,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "1490974a-a7bd-5b97-baed-474f6dd001f7",
-  "chunk_index": 87,
+  "chunk_index": 88,
   "page_number": 70,
   "page_range": [
     70,
     70
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -3895,18 +3965,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     71,
     73
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `de7b133d-9f72-57e8-9d71-a8620a6b7b89`
+## Child · `b47dc524-8be1-5fbb-91ea-c620ce2ac744`
 
 - vector: dim=3072 · [-0.0180, 0.0605, -0.0062, -0.0035, 0.0398, -0.0143, -0.0171, 0.0049, …]
 
 ```json
 {
-  "chunk_id": "de7b133d-9f72-57e8-9d71-a8620a6b7b89",
+  "chunk_id": "b47dc524-8be1-5fbb-91ea-c620ce2ac744",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3925,24 +3995,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "4b017013-59c1-56dc-91f7-22b68c87a52e",
-  "chunk_index": 88,
+  "chunk_index": 89,
   "page_number": 71,
   "page_range": [
     71,
     71
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `b47dc524-8be1-5fbb-91ea-c620ce2ac744`
+## Child · `c7da91e2-1fbd-552e-bbb4-bfe4432942fa`
 
-- vector: dim=3072 · [-0.0306, 0.0656, -0.0091, -0.0132, 0.0200, -0.0217, -0.0153, -0.0023, …]
+- vector: dim=3072 · [-0.0306, 0.0654, -0.0091, -0.0131, 0.0201, -0.0219, -0.0153, -0.0025, …]
 
 ```json
 {
-  "chunk_id": "b47dc524-8be1-5fbb-91ea-c620ce2ac744",
+  "chunk_id": "c7da91e2-1fbd-552e-bbb4-bfe4432942fa",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3961,24 +4031,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "4b017013-59c1-56dc-91f7-22b68c87a52e",
-  "chunk_index": 89,
+  "chunk_index": 90,
   "page_number": 71,
   "page_range": [
     71,
     72
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `c7da91e2-1fbd-552e-bbb4-bfe4432942fa`
+## Child · `a2c2ef93-1025-5468-932e-5dd3daeaee77`
 
-- vector: dim=3072 · [-0.0330, 0.0557, -0.0114, -0.0192, 0.0220, -0.0034, -0.0299, 0.0131, …]
+- vector: dim=3072 · [-0.0326, 0.0549, -0.0112, -0.0191, 0.0231, -0.0043, -0.0303, 0.0136, …]
 
 ```json
 {
-  "chunk_id": "c7da91e2-1fbd-552e-bbb4-bfe4432942fa",
+  "chunk_id": "a2c2ef93-1025-5468-932e-5dd3daeaee77",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -3997,14 +4067,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "4b017013-59c1-56dc-91f7-22b68c87a52e",
-  "chunk_index": 90,
+  "chunk_index": 91,
   "page_number": 72,
   "page_range": [
     72,
     73
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -4036,18 +4106,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     74,
     78
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `a2c2ef93-1025-5468-932e-5dd3daeaee77`
+## Child · `515dcd2d-1650-50de-a70b-1a47904f2654`
 
 - vector: dim=3072 · [-0.0293, 0.0438, -0.0170, 0.0032, 0.0174, 0.0120, -0.0039, 0.0165, …]
 
 ```json
 {
-  "chunk_id": "a2c2ef93-1025-5468-932e-5dd3daeaee77",
+  "chunk_id": "515dcd2d-1650-50de-a70b-1a47904f2654",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4066,24 +4136,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e77934a1-bd02-519b-b672-c9caf3149277",
-  "chunk_index": 91,
+  "chunk_index": 92,
   "page_number": 74,
   "page_range": [
     74,
     74
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `515dcd2d-1650-50de-a70b-1a47904f2654`
+## Child · `5fcea6ab-d074-5d79-a738-92d644c53a98`
 
-- vector: dim=3072 · [-0.0489, 0.0441, -0.0105, -0.0000, 0.0107, -0.0072, -0.0182, 0.0003, …]
+- vector: dim=3072 · [-0.0492, 0.0440, -0.0107, -0.0007, 0.0100, -0.0081, -0.0181, -0.0000, …]
 
 ```json
 {
-  "chunk_id": "515dcd2d-1650-50de-a70b-1a47904f2654",
+  "chunk_id": "5fcea6ab-d074-5d79-a738-92d644c53a98",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4102,24 +4172,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e77934a1-bd02-519b-b672-c9caf3149277",
-  "chunk_index": 92,
+  "chunk_index": 93,
   "page_number": 74,
   "page_range": [
     74,
     74
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `5fcea6ab-d074-5d79-a738-92d644c53a98`
+## Child · `c598165f-f886-5423-bf49-c1dfa5ac1103`
 
 - vector: dim=3072 · [-0.0265, 0.0237, -0.0140, -0.0098, 0.0156, 0.0088, -0.0082, 0.0242, …]
 
 ```json
 {
-  "chunk_id": "5fcea6ab-d074-5d79-a738-92d644c53a98",
+  "chunk_id": "c598165f-f886-5423-bf49-c1dfa5ac1103",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4138,24 +4208,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e77934a1-bd02-519b-b672-c9caf3149277",
-  "chunk_index": 93,
+  "chunk_index": 94,
   "page_number": 75,
   "page_range": [
     75,
     76
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `c598165f-f886-5423-bf49-c1dfa5ac1103`
+## Child · `d10c067d-be8a-50ef-bfdf-d75ccea35a4c`
 
 - vector: dim=3072 · [-0.0031, 0.0103, -0.0169, -0.0091, 0.0272, -0.0040, -0.0145, 0.0456, …]
 
 ```json
 {
-  "chunk_id": "c598165f-f886-5423-bf49-c1dfa5ac1103",
+  "chunk_id": "d10c067d-be8a-50ef-bfdf-d75ccea35a4c",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4174,24 +4244,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e77934a1-bd02-519b-b672-c9caf3149277",
-  "chunk_index": 94,
+  "chunk_index": 95,
   "page_number": 76,
   "page_range": [
     76,
     77
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `d10c067d-be8a-50ef-bfdf-d75ccea35a4c`
+## Child · `863a7d77-0a7a-5f1d-a801-356fa9e899f4`
 
-- vector: dim=3072 · [-0.0096, 0.0082, -0.0221, -0.0076, 0.0119, 0.0261, -0.0062, 0.0239, …]
+- vector: dim=3072 · [-0.0096, 0.0081, -0.0222, -0.0076, 0.0121, 0.0263, -0.0061, 0.0239, …]
 
 ```json
 {
-  "chunk_id": "d10c067d-be8a-50ef-bfdf-d75ccea35a4c",
+  "chunk_id": "863a7d77-0a7a-5f1d-a801-356fa9e899f4",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4210,14 +4280,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e77934a1-bd02-519b-b672-c9caf3149277",
-  "chunk_index": 95,
+  "chunk_index": 96,
   "page_number": 78,
   "page_range": [
     78,
     78
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -4249,18 +4319,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     79,
     83
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `863a7d77-0a7a-5f1d-a801-356fa9e899f4`
+## Child · `7cd3b865-d408-51c7-87b0-80d74a5fce51`
 
-- vector: dim=3072 · [0.0041, 0.0243, -0.0221, 0.0154, 0.0310, -0.0016, 0.0034, 0.0517, …]
+- vector: dim=3072 · [0.0043, 0.0247, -0.0222, 0.0151, 0.0311, -0.0012, 0.0033, 0.0520, …]
 
 ```json
 {
-  "chunk_id": "863a7d77-0a7a-5f1d-a801-356fa9e899f4",
+  "chunk_id": "7cd3b865-d408-51c7-87b0-80d74a5fce51",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4279,24 +4349,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "20ffec9b-2313-5f05-9560-b6eca580bbfb",
-  "chunk_index": 96,
+  "chunk_index": 97,
   "page_number": 79,
   "page_range": [
     79,
     80
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `7cd3b865-d408-51c7-87b0-80d74a5fce51`
+## Child · `2cc30ed1-1afb-558a-859c-91adb38488c9`
 
-- vector: dim=3072 · [0.0051, 0.0350, -0.0069, 0.0098, 0.0201, -0.0094, 0.0018, 0.0320, …]
+- vector: dim=3072 · [0.0053, 0.0353, -0.0068, 0.0099, 0.0197, -0.0091, 0.0021, 0.0321, …]
 
 ```json
 {
-  "chunk_id": "7cd3b865-d408-51c7-87b0-80d74a5fce51",
+  "chunk_id": "2cc30ed1-1afb-558a-859c-91adb38488c9",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4315,24 +4385,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "20ffec9b-2313-5f05-9560-b6eca580bbfb",
-  "chunk_index": 97,
+  "chunk_index": 98,
   "page_number": 81,
   "page_range": [
     81,
     81
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `2cc30ed1-1afb-558a-859c-91adb38488c9`
+## Child · `ce9a0750-78bf-5a8f-a45a-c2cf2888fb8d`
 
-- vector: dim=3072 · [0.0035, 0.0152, -0.0038, 0.0168, 0.0200, -0.0314, 0.0038, 0.0209, …]
+- vector: dim=3072 · [0.0031, 0.0149, -0.0043, 0.0176, 0.0203, -0.0315, 0.0035, 0.0208, …]
 
 ```json
 {
-  "chunk_id": "2cc30ed1-1afb-558a-859c-91adb38488c9",
+  "chunk_id": "ce9a0750-78bf-5a8f-a45a-c2cf2888fb8d",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4351,24 +4421,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "20ffec9b-2313-5f05-9560-b6eca580bbfb",
-  "chunk_index": 98,
+  "chunk_index": 99,
   "page_number": 81,
   "page_range": [
     81,
     81
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `ce9a0750-78bf-5a8f-a45a-c2cf2888fb8d`
+## Child · `6c4288ae-8ec1-5f89-bb32-340d2144fe58`
 
-- vector: dim=3072 · [-0.0083, 0.0160, -0.0012, 0.0078, 0.0088, -0.0158, 0.0133, 0.0193, …]
+- vector: dim=3072 · [-0.0082, 0.0161, -0.0013, 0.0078, 0.0089, -0.0157, 0.0133, 0.0194, …]
 
 ```json
 {
-  "chunk_id": "ce9a0750-78bf-5a8f-a45a-c2cf2888fb8d",
+  "chunk_id": "6c4288ae-8ec1-5f89-bb32-340d2144fe58",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4387,24 +4457,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "20ffec9b-2313-5f05-9560-b6eca580bbfb",
-  "chunk_index": 99,
+  "chunk_index": 100,
   "page_number": 82,
   "page_range": [
     82,
     83
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `6c4288ae-8ec1-5f89-bb32-340d2144fe58`
+## Child · `1e454dfb-3274-5d85-b874-b894952c8330`
 
-- vector: dim=3072 · [-0.0072, 0.0157, -0.0151, -0.0002, 0.0137, 0.0049, -0.0100, 0.0318, …]
+- vector: dim=3072 · [-0.0074, 0.0157, -0.0151, 0.0000, 0.0137, 0.0049, -0.0098, 0.0319, …]
 
 ```json
 {
-  "chunk_id": "6c4288ae-8ec1-5f89-bb32-340d2144fe58",
+  "chunk_id": "1e454dfb-3274-5d85-b874-b894952c8330",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4423,14 +4493,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "20ffec9b-2313-5f05-9560-b6eca580bbfb",
-  "chunk_index": 100,
+  "chunk_index": 101,
   "page_number": 83,
   "page_range": [
     83,
     83
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -4462,18 +4532,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     83,
     88
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `1e454dfb-3274-5d85-b874-b894952c8330`
+## Child · `dc622bfb-10ca-5388-8ec1-572e2f99c862`
 
-- vector: dim=3072 · [-0.0340, 0.0245, -0.0218, -0.0047, -0.0126, 0.0037, 0.0071, 0.0218, …]
+- vector: dim=3072 · [-0.0340, 0.0245, -0.0217, -0.0047, -0.0127, 0.0037, 0.0071, 0.0218, …]
 
 ```json
 {
-  "chunk_id": "1e454dfb-3274-5d85-b874-b894952c8330",
+  "chunk_id": "dc622bfb-10ca-5388-8ec1-572e2f99c862",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4492,24 +4562,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "c7a6f079-a18d-5dc7-abb2-83e8b0e42c13",
-  "chunk_index": 101,
+  "chunk_index": 102,
   "page_number": 83,
   "page_range": [
     83,
     83
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `dc622bfb-10ca-5388-8ec1-572e2f99c862`
+## Child · `92522b2a-cb4c-5eae-8a37-6653329893c7`
 
-- vector: dim=3072 · [-0.0352, 0.0312, -0.0178, -0.0046, 0.0152, 0.0019, -0.0098, 0.0240, …]
+- vector: dim=3072 · [-0.0351, 0.0312, -0.0178, -0.0045, 0.0150, 0.0018, -0.0097, 0.0241, …]
 
 ```json
 {
-  "chunk_id": "dc622bfb-10ca-5388-8ec1-572e2f99c862",
+  "chunk_id": "92522b2a-cb4c-5eae-8a37-6653329893c7",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4528,24 +4598,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "c7a6f079-a18d-5dc7-abb2-83e8b0e42c13",
-  "chunk_index": 102,
+  "chunk_index": 103,
   "page_number": 84,
   "page_range": [
     84,
     84
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `92522b2a-cb4c-5eae-8a37-6653329893c7`
+## Child · `0a874879-fab0-5e13-beb5-975dc1af82fd`
 
-- vector: dim=3072 · [-0.0191, 0.0454, -0.0142, 0.0074, 0.0111, 0.0000, -0.0064, 0.0147, …]
+- vector: dim=3072 · [-0.0193, 0.0455, -0.0142, 0.0075, 0.0110, 0.0000, -0.0064, 0.0148, …]
 
 ```json
 {
-  "chunk_id": "92522b2a-cb4c-5eae-8a37-6653329893c7",
+  "chunk_id": "0a874879-fab0-5e13-beb5-975dc1af82fd",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4564,24 +4634,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "c7a6f079-a18d-5dc7-abb2-83e8b0e42c13",
-  "chunk_index": 103,
+  "chunk_index": 104,
   "page_number": 84,
   "page_range": [
     84,
     85
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `0a874879-fab0-5e13-beb5-975dc1af82fd`
+## Child · `eab925c6-d9b4-5f26-bb11-0c0922a65937`
 
-- vector: dim=3072 · [-0.0373, 0.0188, -0.0137, 0.0120, 0.0122, 0.0023, -0.0151, 0.0100, …]
+- vector: dim=3072 · [-0.0373, 0.0188, -0.0137, 0.0120, 0.0122, 0.0023, -0.0150, 0.0100, …]
 
 ```json
 {
-  "chunk_id": "0a874879-fab0-5e13-beb5-975dc1af82fd",
+  "chunk_id": "eab925c6-d9b4-5f26-bb11-0c0922a65937",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4601,24 +4671,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "c7a6f079-a18d-5dc7-abb2-83e8b0e42c13",
-  "chunk_index": 104,
+  "chunk_index": 105,
   "page_number": 85,
   "page_range": [
     85,
     85
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `eab925c6-d9b4-5f26-bb11-0c0922a65937`
+## Child · `c1bc2244-fe44-5724-89f3-06ceaafc7f36`
 
-- vector: dim=3072 · [-0.0351, 0.0092, -0.0174, -0.0267, 0.0196, 0.0007, -0.0249, 0.0051, …]
+- vector: dim=3072 · [-0.0351, 0.0093, -0.0173, -0.0267, 0.0196, 0.0006, -0.0249, 0.0050, …]
 
 ```json
 {
-  "chunk_id": "eab925c6-d9b4-5f26-bb11-0c0922a65937",
+  "chunk_id": "c1bc2244-fe44-5724-89f3-06ceaafc7f36",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4637,24 +4707,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "c7a6f079-a18d-5dc7-abb2-83e8b0e42c13",
-  "chunk_index": 105,
+  "chunk_index": 106,
   "page_number": 86,
   "page_range": [
     86,
     86
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `c1bc2244-fe44-5724-89f3-06ceaafc7f36`
+## Child · `32005116-39ce-56e4-bcfe-0926c077a506`
 
-- vector: dim=3072 · [-0.0306, 0.0150, -0.0210, -0.0128, 0.0172, 0.0152, -0.0179, 0.0146, …]
+- vector: dim=3072 · [-0.0306, 0.0150, -0.0209, -0.0128, 0.0172, 0.0153, -0.0179, 0.0146, …]
 
 ```json
 {
-  "chunk_id": "c1bc2244-fe44-5724-89f3-06ceaafc7f36",
+  "chunk_id": "32005116-39ce-56e4-bcfe-0926c077a506",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4673,14 +4743,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "c7a6f079-a18d-5dc7-abb2-83e8b0e42c13",
-  "chunk_index": 106,
+  "chunk_index": 107,
   "page_number": 86,
   "page_range": [
     86,
     88
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -4712,18 +4782,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     88,
     90
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `32005116-39ce-56e4-bcfe-0926c077a506`
+## Child · `cf3e8638-ec03-595d-8d7f-a499e3d4a603`
 
-- vector: dim=3072 · [-0.0056, -0.0160, -0.0133, -0.0203, 0.0085, -0.0073, -0.0192, 0.0002, …]
+- vector: dim=3072 · [-0.0056, -0.0159, -0.0133, -0.0203, 0.0085, -0.0073, -0.0192, 0.0002, …]
 
 ```json
 {
-  "chunk_id": "32005116-39ce-56e4-bcfe-0926c077a506",
+  "chunk_id": "cf3e8638-ec03-595d-8d7f-a499e3d4a603",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4742,24 +4812,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "87704fea-a03e-5fcb-ac36-8f2f13a400cf",
-  "chunk_index": 107,
+  "chunk_index": 108,
   "page_number": 88,
   "page_range": [
     88,
     88
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `cf3e8638-ec03-595d-8d7f-a499e3d4a603`
+## Child · `97b91d91-fec6-56ff-87d4-1f89a56c0831`
 
-- vector: dim=3072 · [-0.0023, -0.0115, -0.0158, -0.0143, 0.0146, -0.0050, -0.0136, 0.0108, …]
+- vector: dim=3072 · [-0.0023, -0.0114, -0.0158, -0.0144, 0.0146, -0.0051, -0.0136, 0.0108, …]
 
 ```json
 {
-  "chunk_id": "cf3e8638-ec03-595d-8d7f-a499e3d4a603",
+  "chunk_id": "97b91d91-fec6-56ff-87d4-1f89a56c0831",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4778,14 +4848,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "87704fea-a03e-5fcb-ac36-8f2f13a400cf",
-  "chunk_index": 108,
+  "chunk_index": 109,
   "page_number": 88,
   "page_range": [
     88,
     90
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -4817,18 +4887,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     90,
     93
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `97b91d91-fec6-56ff-87d4-1f89a56c0831`
+## Child · `2a19d48e-203f-539a-a664-2873fde376c0`
 
-- vector: dim=3072 · [-0.0154, -0.0382, -0.0092, -0.0023, 0.0027, -0.0274, 0.0056, 0.0137, …]
+- vector: dim=3072 · [-0.0154, -0.0382, -0.0092, -0.0023, 0.0027, -0.0273, 0.0056, 0.0137, …]
 
 ```json
 {
-  "chunk_id": "97b91d91-fec6-56ff-87d4-1f89a56c0831",
+  "chunk_id": "2a19d48e-203f-539a-a664-2873fde376c0",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4847,24 +4917,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "23303ce6-581c-51a4-8f7d-127c9f77de66",
-  "chunk_index": 109,
+  "chunk_index": 110,
   "page_number": 90,
   "page_range": [
     90,
     90
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `2a19d48e-203f-539a-a664-2873fde376c0`
+## Child · `2765f77a-fdfa-5c19-a76a-43b918115434`
 
-- vector: dim=3072 · [-0.0058, -0.0226, -0.0113, -0.0157, -0.0093, -0.0484, -0.0199, -0.0025, …]
+- vector: dim=3072 · [-0.0057, -0.0225, -0.0113, -0.0157, -0.0092, -0.0484, -0.0199, -0.0025, …]
 
 ```json
 {
-  "chunk_id": "2a19d48e-203f-539a-a664-2873fde376c0",
+  "chunk_id": "2765f77a-fdfa-5c19-a76a-43b918115434",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4883,24 +4953,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "23303ce6-581c-51a4-8f7d-127c9f77de66",
-  "chunk_index": 110,
+  "chunk_index": 111,
   "page_number": 90,
   "page_range": [
     90,
     91
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `2765f77a-fdfa-5c19-a76a-43b918115434`
+## Child · `c03bab26-dbd1-553a-bb75-230db0f408c4`
 
-- vector: dim=3072 · [-0.0142, -0.0287, -0.0101, -0.0368, 0.0073, -0.0327, 0.0111, 0.0280, …]
+- vector: dim=3072 · [-0.0141, -0.0288, -0.0101, -0.0367, 0.0072, -0.0326, 0.0111, 0.0280, …]
 
 ```json
 {
-  "chunk_id": "2765f77a-fdfa-5c19-a76a-43b918115434",
+  "chunk_id": "c03bab26-dbd1-553a-bb75-230db0f408c4",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4919,24 +4989,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "23303ce6-581c-51a4-8f7d-127c9f77de66",
-  "chunk_index": 111,
+  "chunk_index": 112,
   "page_number": 91,
   "page_range": [
     91,
     91
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `c03bab26-dbd1-553a-bb75-230db0f408c4`
+## Child · `8d35c2b8-2c03-5297-af8d-f45963f240f9`
 
-- vector: dim=3072 · [-0.0110, -0.0199, -0.0185, -0.0224, 0.0171, 0.0015, -0.0008, 0.0089, …]
+- vector: dim=3072 · [-0.0110, -0.0199, -0.0185, -0.0224, 0.0170, 0.0014, -0.0007, 0.0088, …]
 
 ```json
 {
-  "chunk_id": "c03bab26-dbd1-553a-bb75-230db0f408c4",
+  "chunk_id": "8d35c2b8-2c03-5297-af8d-f45963f240f9",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4955,24 +5025,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "23303ce6-581c-51a4-8f7d-127c9f77de66",
-  "chunk_index": 112,
+  "chunk_index": 113,
   "page_number": 92,
   "page_range": [
     92,
     92
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `8d35c2b8-2c03-5297-af8d-f45963f240f9`
+## Child · `5426f8bb-8855-5aba-b19d-b2dc02e3298b`
 
-- vector: dim=3072 · [-0.0442, 0.0176, -0.0181, -0.0199, -0.0018, -0.0116, -0.0022, 0.0103, …]
+- vector: dim=3072 · [-0.0444, 0.0169, -0.0182, -0.0203, -0.0021, -0.0119, -0.0021, 0.0104, …]
 
 ```json
 {
-  "chunk_id": "8d35c2b8-2c03-5297-af8d-f45963f240f9",
+  "chunk_id": "5426f8bb-8855-5aba-b19d-b2dc02e3298b",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -4991,14 +5061,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "23303ce6-581c-51a4-8f7d-127c9f77de66",
-  "chunk_index": 113,
+  "chunk_index": 114,
   "page_number": 93,
   "page_range": [
     93,
     93
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -5030,18 +5100,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     94,
     97
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `5426f8bb-8855-5aba-b19d-b2dc02e3298b`
+## Child · `972bf240-a292-5f63-83cd-844c006bb5cf`
 
-- vector: dim=3072 · [-0.0328, 0.0140, -0.0271, -0.0128, 0.0128, -0.0190, -0.0035, 0.0220, …]
+- vector: dim=3072 · [-0.0325, 0.0137, -0.0271, -0.0124, 0.0127, -0.0195, -0.0030, 0.0224, …]
 
 ```json
 {
-  "chunk_id": "5426f8bb-8855-5aba-b19d-b2dc02e3298b",
+  "chunk_id": "972bf240-a292-5f63-83cd-844c006bb5cf",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5060,24 +5130,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "26b8664d-9caa-5d4b-be0e-328c1ec31551",
-  "chunk_index": 114,
+  "chunk_index": 115,
   "page_number": 94,
   "page_range": [
     94,
     94
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `972bf240-a292-5f63-83cd-844c006bb5cf`
+## Child · `3339fdb8-9d2b-544c-8230-aada4a894ae7`
 
 - vector: dim=3072 · [-0.0452, 0.0049, -0.0192, -0.0120, -0.0164, -0.0242, -0.0099, -0.0164, …]
 
 ```json
 {
-  "chunk_id": "972bf240-a292-5f63-83cd-844c006bb5cf",
+  "chunk_id": "3339fdb8-9d2b-544c-8230-aada4a894ae7",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5096,24 +5166,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "26b8664d-9caa-5d4b-be0e-328c1ec31551",
-  "chunk_index": 115,
+  "chunk_index": 116,
   "page_number": 95,
   "page_range": [
     95,
     95
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `3339fdb8-9d2b-544c-8230-aada4a894ae7`
+## Child · `0d67dd1f-71dd-52bd-b789-5d09b04c7dc1`
 
 - vector: dim=3072 · [-0.0205, 0.0111, -0.0163, -0.0090, -0.0098, -0.0116, 0.0092, 0.0128, …]
 
 ```json
 {
-  "chunk_id": "3339fdb8-9d2b-544c-8230-aada4a894ae7",
+  "chunk_id": "0d67dd1f-71dd-52bd-b789-5d09b04c7dc1",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5132,24 +5202,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "26b8664d-9caa-5d4b-be0e-328c1ec31551",
-  "chunk_index": 116,
+  "chunk_index": 117,
   "page_number": 95,
   "page_range": [
     95,
     96
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `0d67dd1f-71dd-52bd-b789-5d09b04c7dc1`
+## Child · `cca5f0f7-9721-5d1f-aed7-c4aef346e5e3`
 
-- vector: dim=3072 · [-0.0325, -0.0034, -0.0192, -0.0165, 0.0129, -0.0192, 0.0076, 0.0199, …]
+- vector: dim=3072 · [-0.0327, -0.0032, -0.0194, -0.0166, 0.0129, -0.0192, 0.0072, 0.0198, …]
 
 ```json
 {
-  "chunk_id": "0d67dd1f-71dd-52bd-b789-5d09b04c7dc1",
+  "chunk_id": "cca5f0f7-9721-5d1f-aed7-c4aef346e5e3",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5168,14 +5238,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "26b8664d-9caa-5d4b-be0e-328c1ec31551",
-  "chunk_index": 117,
+  "chunk_index": 118,
   "page_number": 97,
   "page_range": [
     97,
     97
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -5207,18 +5277,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     98,
     100
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `cca5f0f7-9721-5d1f-aed7-c4aef346e5e3`
+## Child · `72e8ef49-1495-5a69-9544-4df7a5224816`
 
 - vector: dim=3072 · [-0.0320, 0.0124, -0.0155, -0.0131, 0.0038, 0.0062, -0.0021, 0.0156, …]
 
 ```json
 {
-  "chunk_id": "cca5f0f7-9721-5d1f-aed7-c4aef346e5e3",
+  "chunk_id": "72e8ef49-1495-5a69-9544-4df7a5224816",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5237,24 +5307,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "1604c935-e29f-53be-9264-55fff032647c",
-  "chunk_index": 118,
+  "chunk_index": 119,
   "page_number": 98,
   "page_range": [
     98,
     98
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `72e8ef49-1495-5a69-9544-4df7a5224816`
+## Child · `4d8a6b2f-db34-58d0-8c70-27f1b2f45acb`
 
 - vector: dim=3072 · [-0.0330, 0.0005, -0.0158, 0.0016, -0.0177, -0.0055, -0.0085, 0.0209, …]
 
 ```json
 {
-  "chunk_id": "72e8ef49-1495-5a69-9544-4df7a5224816",
+  "chunk_id": "4d8a6b2f-db34-58d0-8c70-27f1b2f45acb",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5273,24 +5343,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "1604c935-e29f-53be-9264-55fff032647c",
-  "chunk_index": 119,
+  "chunk_index": 120,
   "page_number": 99,
   "page_range": [
     99,
     99
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `4d8a6b2f-db34-58d0-8c70-27f1b2f45acb`
+## Child · `4a301b86-4c63-588b-b5c5-9cfcc0ff5481`
 
-- vector: dim=3072 · [-0.0239, -0.0069, -0.0211, 0.0052, 0.0047, 0.0141, -0.0188, 0.0232, …]
+- vector: dim=3072 · [-0.0238, -0.0071, -0.0211, 0.0052, 0.0045, 0.0142, -0.0189, 0.0231, …]
 
 ```json
 {
-  "chunk_id": "4d8a6b2f-db34-58d0-8c70-27f1b2f45acb",
+  "chunk_id": "4a301b86-4c63-588b-b5c5-9cfcc0ff5481",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5309,24 +5379,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "1604c935-e29f-53be-9264-55fff032647c",
-  "chunk_index": 120,
+  "chunk_index": 121,
   "page_number": 99,
   "page_range": [
     99,
     100
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `4a301b86-4c63-588b-b5c5-9cfcc0ff5481`
+## Child · `2297ff59-030d-52c8-b500-694f79480351`
 
 - vector: dim=3072 · [-0.0233, -0.0203, -0.0091, -0.0007, 0.0092, -0.0266, 0.0147, 0.0158, …]
 
 ```json
 {
-  "chunk_id": "4a301b86-4c63-588b-b5c5-9cfcc0ff5481",
+  "chunk_id": "2297ff59-030d-52c8-b500-694f79480351",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5346,14 +5416,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "1604c935-e29f-53be-9264-55fff032647c",
-  "chunk_index": 121,
+  "chunk_index": 122,
   "page_number": 100,
   "page_range": [
     100,
     100
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -5386,18 +5456,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     101,
     101
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `2297ff59-030d-52c8-b500-694f79480351`
+## Child · `53598cd5-be16-5a55-8958-3162158d5638`
 
 - vector: dim=3072 · [-0.0155, 0.0228, -0.0130, -0.0177, -0.0002, 0.0012, -0.0064, 0.0244, …]
 
 ```json
 {
-  "chunk_id": "2297ff59-030d-52c8-b500-694f79480351",
+  "chunk_id": "53598cd5-be16-5a55-8958-3162158d5638",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5417,24 +5487,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "712ed9cb-6e54-5a91-bd03-60dbd0103fed",
-  "chunk_index": 122,
+  "chunk_index": 123,
   "page_number": 101,
   "page_range": [
     101,
     101
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `53598cd5-be16-5a55-8958-3162158d5638`
+## Child · `739205cc-e5e8-58ed-8619-87be9ea2ce18`
 
-- vector: dim=3072 · [-0.0083, 0.0074, -0.0139, 0.0061, -0.0113, -0.0230, -0.0032, 0.0102, …]
+- vector: dim=3072 · [-0.0082, 0.0074, -0.0139, 0.0060, -0.0114, -0.0230, -0.0032, 0.0101, …]
 
 ```json
 {
-  "chunk_id": "53598cd5-be16-5a55-8958-3162158d5638",
+  "chunk_id": "739205cc-e5e8-58ed-8619-87be9ea2ce18",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5454,24 +5524,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "712ed9cb-6e54-5a91-bd03-60dbd0103fed",
-  "chunk_index": 123,
+  "chunk_index": 124,
   "page_number": 101,
   "page_range": [
     101,
     101
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `739205cc-e5e8-58ed-8619-87be9ea2ce18`
+## Child · `1f8d129f-fa9f-5177-adc4-af9b8ab8c73c`
 
-- vector: dim=3072 · [0.0005, 0.0089, -0.0115, -0.0050, -0.0087, -0.0107, 0.0070, 0.0163, …]
+- vector: dim=3072 · [0.0005, 0.0090, -0.0114, -0.0049, -0.0085, -0.0106, 0.0069, 0.0164, …]
 
 ```json
 {
-  "chunk_id": "739205cc-e5e8-58ed-8619-87be9ea2ce18",
+  "chunk_id": "1f8d129f-fa9f-5177-adc4-af9b8ab8c73c",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5491,14 +5561,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "712ed9cb-6e54-5a91-bd03-60dbd0103fed",
-  "chunk_index": 124,
+  "chunk_index": 125,
   "page_number": 101,
   "page_range": [
     101,
     101
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -5531,18 +5601,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     101,
     101
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `1f8d129f-fa9f-5177-adc4-af9b8ab8c73c`
+## Child · `12ac2662-f10d-53e1-9fbb-af6bcda9f411`
 
-- vector: dim=3072 · [-0.0043, 0.0125, -0.0087, -0.0134, -0.0129, -0.0254, 0.0086, 0.0226, …]
+- vector: dim=3072 · [-0.0042, 0.0127, -0.0087, -0.0133, -0.0129, -0.0253, 0.0088, 0.0226, …]
 
 ```json
 {
-  "chunk_id": "1f8d129f-fa9f-5177-adc4-af9b8ab8c73c",
+  "chunk_id": "12ac2662-f10d-53e1-9fbb-af6bcda9f411",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5562,24 +5632,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "f3a24c74-60ea-52df-be7c-8984a2c0ea3d",
-  "chunk_index": 125,
+  "chunk_index": 126,
   "page_number": 101,
   "page_range": [
     101,
     101
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `12ac2662-f10d-53e1-9fbb-af6bcda9f411`
+## Child · `598f69f4-3aab-5373-8fa3-cc7b03ea252e`
 
-- vector: dim=3072 · [-0.0104, -0.0029, -0.0107, 0.0021, -0.0004, -0.0240, 0.0057, 0.0168, …]
+- vector: dim=3072 · [-0.0108, -0.0030, -0.0107, 0.0018, -0.0007, -0.0234, 0.0050, 0.0166, …]
 
 ```json
 {
-  "chunk_id": "12ac2662-f10d-53e1-9fbb-af6bcda9f411",
+  "chunk_id": "598f69f4-3aab-5373-8fa3-cc7b03ea252e",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5599,24 +5669,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "f3a24c74-60ea-52df-be7c-8984a2c0ea3d",
-  "chunk_index": 126,
+  "chunk_index": 127,
   "page_number": 101,
   "page_range": [
     101,
     101
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `598f69f4-3aab-5373-8fa3-cc7b03ea252e`
+## Child · `40e50f30-5d71-5c14-a772-c080e83132fa`
 
-- vector: dim=3072 · [-0.0010, 0.0089, -0.0115, 0.0003, -0.0014, -0.0181, 0.0062, 0.0327, …]
+- vector: dim=3072 · [-0.0010, 0.0087, -0.0114, -0.0001, -0.0012, -0.0182, 0.0061, 0.0325, …]
 
 ```json
 {
-  "chunk_id": "598f69f4-3aab-5373-8fa3-cc7b03ea252e",
+  "chunk_id": "40e50f30-5d71-5c14-a772-c080e83132fa",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5636,14 +5706,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "f3a24c74-60ea-52df-be7c-8984a2c0ea3d",
-  "chunk_index": 127,
+  "chunk_index": 128,
   "page_number": 101,
   "page_range": [
     101,
     101
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -5676,18 +5746,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     102,
     103
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `40e50f30-5d71-5c14-a772-c080e83132fa`
+## Child · `9be3da63-0138-5da1-b880-0811a9dc3289`
 
 - vector: dim=3072 · [-0.0140, 0.0119, -0.0149, -0.0066, -0.0037, 0.0062, -0.0065, 0.0322, …]
 
 ```json
 {
-  "chunk_id": "40e50f30-5d71-5c14-a772-c080e83132fa",
+  "chunk_id": "9be3da63-0138-5da1-b880-0811a9dc3289",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5707,24 +5777,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e3a1019d-13b6-52f2-96c3-e02ad3d69dc8",
-  "chunk_index": 128,
+  "chunk_index": 129,
   "page_number": 102,
   "page_range": [
     102,
     102
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `9be3da63-0138-5da1-b880-0811a9dc3289`
+## Child · `a81cdd06-a98b-573b-bdc8-05e68a44b762`
 
-- vector: dim=3072 · [-0.0132, 0.0066, -0.0093, -0.0011, -0.0126, -0.0045, 0.0155, 0.0311, …]
+- vector: dim=3072 · [-0.0134, 0.0068, -0.0093, -0.0011, -0.0125, -0.0044, 0.0155, 0.0311, …]
 
 ```json
 {
-  "chunk_id": "9be3da63-0138-5da1-b880-0811a9dc3289",
+  "chunk_id": "a81cdd06-a98b-573b-bdc8-05e68a44b762",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5744,24 +5814,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e3a1019d-13b6-52f2-96c3-e02ad3d69dc8",
-  "chunk_index": 129,
+  "chunk_index": 130,
   "page_number": 102,
   "page_range": [
     102,
     102
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `a81cdd06-a98b-573b-bdc8-05e68a44b762`
+## Child · `785d57cc-d153-5cad-9852-4e20c7a5cc6e`
 
-- vector: dim=3072 · [-0.0170, 0.0036, -0.0107, 0.0181, -0.0108, -0.0037, 0.0055, 0.0242, …]
+- vector: dim=3072 · [-0.0170, 0.0036, -0.0107, 0.0181, -0.0108, -0.0036, 0.0056, 0.0242, …]
 
 ```json
 {
-  "chunk_id": "a81cdd06-a98b-573b-bdc8-05e68a44b762",
+  "chunk_id": "785d57cc-d153-5cad-9852-4e20c7a5cc6e",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5781,24 +5851,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e3a1019d-13b6-52f2-96c3-e02ad3d69dc8",
-  "chunk_index": 130,
+  "chunk_index": 131,
   "page_number": 102,
   "page_range": [
     102,
     102
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `785d57cc-d153-5cad-9852-4e20c7a5cc6e`
+## Child · `56dbe273-6441-586f-9acf-1f7941341cee`
 
-- vector: dim=3072 · [-0.0095, 0.0188, -0.0145, 0.0014, 0.0150, -0.0038, -0.0051, 0.0355, …]
+- vector: dim=3072 · [-0.0094, 0.0188, -0.0145, 0.0011, 0.0151, -0.0038, -0.0052, 0.0356, …]
 
 ```json
 {
-  "chunk_id": "785d57cc-d153-5cad-9852-4e20c7a5cc6e",
+  "chunk_id": "56dbe273-6441-586f-9acf-1f7941341cee",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5818,14 +5888,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "e3a1019d-13b6-52f2-96c3-e02ad3d69dc8",
-  "chunk_index": 131,
+  "chunk_index": 132,
   "page_number": 103,
   "page_range": [
     103,
     103
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -5857,18 +5927,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     104,
     105
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `56dbe273-6441-586f-9acf-1f7941341cee`
+## Child · `cc42e7fb-8f79-5ca9-b9b1-7094a5eb8660`
 
 - vector: dim=3072 · [-0.0274, 0.0177, -0.0213, -0.0010, 0.0197, 0.0134, -0.0072, 0.0164, …]
 
 ```json
 {
-  "chunk_id": "56dbe273-6441-586f-9acf-1f7941341cee",
+  "chunk_id": "cc42e7fb-8f79-5ca9-b9b1-7094a5eb8660",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5887,24 +5957,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "42871c3c-3434-5af0-a882-5ff4969ddbda",
-  "chunk_index": 132,
+  "chunk_index": 133,
   "page_number": 104,
   "page_range": [
     104,
     104
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `cc42e7fb-8f79-5ca9-b9b1-7094a5eb8660`
+## Child · `09763510-b161-5962-904b-580b9369f12a`
 
 - vector: dim=3072 · [-0.0290, 0.0530, -0.0184, 0.0251, 0.0144, 0.0304, -0.0060, 0.0109, …]
 
 ```json
 {
-  "chunk_id": "cc42e7fb-8f79-5ca9-b9b1-7094a5eb8660",
+  "chunk_id": "09763510-b161-5962-904b-580b9369f12a",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5923,24 +5993,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "42871c3c-3434-5af0-a882-5ff4969ddbda",
-  "chunk_index": 133,
+  "chunk_index": 134,
   "page_number": 104,
   "page_range": [
     104,
     105
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `09763510-b161-5962-904b-580b9369f12a`
+## Child · `152f051a-3713-51b5-befe-ddc77b9635be`
 
 - vector: dim=3072 · [-0.0526, 0.0365, -0.0148, 0.0239, 0.0166, 0.0362, -0.0032, 0.0251, …]
 
 ```json
 {
-  "chunk_id": "09763510-b161-5962-904b-580b9369f12a",
+  "chunk_id": "152f051a-3713-51b5-befe-ddc77b9635be",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -5958,14 +6028,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 134,
+  "chunk_index": 135,
   "page_number": 105,
   "page_range": [
     105,
     105
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -5997,18 +6067,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     105,
     107
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `152f051a-3713-51b5-befe-ddc77b9635be`
+## Child · `bf7cf7d7-f7de-5d57-b511-23b8e0c74379`
 
 - vector: dim=3072 · [-0.0437, 0.0212, -0.0150, 0.0089, 0.0181, 0.0036, -0.0321, 0.0270, …]
 
 ```json
 {
-  "chunk_id": "152f051a-3713-51b5-befe-ddc77b9635be",
+  "chunk_id": "bf7cf7d7-f7de-5d57-b511-23b8e0c74379",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6027,24 +6097,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "5e0e29fb-3ef4-546e-b8c9-7fc837226d22",
-  "chunk_index": 135,
+  "chunk_index": 136,
   "page_number": 105,
   "page_range": [
     105,
     105
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `bf7cf7d7-f7de-5d57-b511-23b8e0c74379`
+## Child · `f7ccfdb5-113c-5869-be2a-8ba37d8267e8`
 
 - vector: dim=3072 · [-0.0529, 0.0377, -0.0151, -0.0034, 0.0177, -0.0109, -0.0173, 0.0252, …]
 
 ```json
 {
-  "chunk_id": "bf7cf7d7-f7de-5d57-b511-23b8e0c74379",
+  "chunk_id": "f7ccfdb5-113c-5869-be2a-8ba37d8267e8",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6063,24 +6133,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "5e0e29fb-3ef4-546e-b8c9-7fc837226d22",
-  "chunk_index": 136,
+  "chunk_index": 137,
   "page_number": 106,
   "page_range": [
     106,
     107
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `f7ccfdb5-113c-5869-be2a-8ba37d8267e8`
+## Child · `5b575b62-2e94-527c-8033-a431f4f4c92c`
 
-- vector: dim=3072 · [-0.0276, 0.0596, -0.0097, -0.0014, -0.0079, -0.0187, 0.0176, 0.0283, …]
+- vector: dim=3072 · [-0.0271, 0.0589, -0.0094, -0.0026, -0.0079, -0.0184, 0.0166, 0.0286, …]
 
 ```json
 {
-  "chunk_id": "f7ccfdb5-113c-5869-be2a-8ba37d8267e8",
+  "chunk_id": "5b575b62-2e94-527c-8033-a431f4f4c92c",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6098,14 +6168,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 137,
+  "chunk_index": 138,
   "page_number": 107,
   "page_range": [
     107,
     107
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -6137,18 +6207,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     107,
     111
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `5b575b62-2e94-527c-8033-a431f4f4c92c`
+## Child · `f0fc66d1-f26c-5ee8-8634-c1196e806a6f`
 
-- vector: dim=3072 · [-0.0161, 0.0325, -0.0230, 0.0227, -0.0089, -0.0016, 0.0202, 0.0135, …]
+- vector: dim=3072 · [-0.0160, 0.0324, -0.0230, 0.0228, -0.0088, -0.0015, 0.0201, 0.0135, …]
 
 ```json
 {
-  "chunk_id": "5b575b62-2e94-527c-8033-a431f4f4c92c",
+  "chunk_id": "f0fc66d1-f26c-5ee8-8634-c1196e806a6f",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6167,24 +6237,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "567e46bd-7fa8-53f2-9723-f2d71af5e1e6",
-  "chunk_index": 138,
+  "chunk_index": 139,
   "page_number": 107,
   "page_range": [
     107,
     107
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `f0fc66d1-f26c-5ee8-8634-c1196e806a6f`
+## Child · `7f902d84-2ac2-5793-bd4c-15c8bd0ffe79`
 
 - vector: dim=3072 · [0.0053, 0.0547, -0.0215, 0.0136, 0.0014, 0.0043, -0.0149, 0.0145, …]
 
 ```json
 {
-  "chunk_id": "f0fc66d1-f26c-5ee8-8634-c1196e806a6f",
+  "chunk_id": "7f902d84-2ac2-5793-bd4c-15c8bd0ffe79",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6203,24 +6273,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "567e46bd-7fa8-53f2-9723-f2d71af5e1e6",
-  "chunk_index": 139,
+  "chunk_index": 140,
   "page_number": 108,
   "page_range": [
     108,
     109
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `7f902d84-2ac2-5793-bd4c-15c8bd0ffe79`
+## Child · `053ed831-cde7-58e9-81bb-dfe36ba4e841`
 
 - vector: dim=3072 · [-0.0176, 0.0069, -0.0112, -0.0044, 0.0118, -0.0038, -0.0049, 0.0104, …]
 
 ```json
 {
-  "chunk_id": "7f902d84-2ac2-5793-bd4c-15c8bd0ffe79",
+  "chunk_id": "053ed831-cde7-58e9-81bb-dfe36ba4e841",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6239,24 +6309,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "567e46bd-7fa8-53f2-9723-f2d71af5e1e6",
-  "chunk_index": 140,
+  "chunk_index": 141,
   "page_number": 110,
   "page_range": [
     110,
     111
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `053ed831-cde7-58e9-81bb-dfe36ba4e841`
+## Child · `4c014e4c-fda4-570f-a13d-b01271c60c7c`
 
 - vector: dim=3072 · [0.0008, 0.0223, -0.0170, -0.0051, 0.0003, -0.0144, -0.0120, -0.0258, …]
 
 ```json
 {
-  "chunk_id": "053ed831-cde7-58e9-81bb-dfe36ba4e841",
+  "chunk_id": "4c014e4c-fda4-570f-a13d-b01271c60c7c",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6274,14 +6344,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 141,
+  "chunk_index": 142,
   "page_number": 111,
   "page_range": [
     111,
     111
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -6313,18 +6383,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     111,
     114
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `4c014e4c-fda4-570f-a13d-b01271c60c7c`
+## Child · `5fc46feb-672c-566d-b023-b1c3a1566fa1`
 
-- vector: dim=3072 · [-0.0241, 0.0110, -0.0150, 0.0199, -0.0257, -0.0298, -0.0031, 0.0025, …]
+- vector: dim=3072 · [-0.0241, 0.0108, -0.0150, 0.0198, -0.0257, -0.0302, -0.0028, 0.0027, …]
 
 ```json
 {
-  "chunk_id": "4c014e4c-fda4-570f-a13d-b01271c60c7c",
+  "chunk_id": "5fc46feb-672c-566d-b023-b1c3a1566fa1",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6343,24 +6413,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "fa7647b9-53f9-5cb0-834c-0337ab01e17f",
-  "chunk_index": 142,
+  "chunk_index": 143,
   "page_number": 111,
   "page_range": [
     111,
     111
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `5fc46feb-672c-566d-b023-b1c3a1566fa1`
+## Child · `df4f3fac-25ff-5eab-847d-99a09c437720`
 
-- vector: dim=3072 · [-0.0251, 0.0464, -0.0085, 0.0071, -0.0179, -0.0326, -0.0025, -0.0046, …]
+- vector: dim=3072 · [-0.0251, 0.0467, -0.0086, 0.0072, -0.0182, -0.0324, -0.0027, -0.0046, …]
 
 ```json
 {
-  "chunk_id": "5fc46feb-672c-566d-b023-b1c3a1566fa1",
+  "chunk_id": "df4f3fac-25ff-5eab-847d-99a09c437720",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6379,24 +6449,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "fa7647b9-53f9-5cb0-834c-0337ab01e17f",
-  "chunk_index": 143,
+  "chunk_index": 144,
   "page_number": 112,
   "page_range": [
     112,
     112
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `df4f3fac-25ff-5eab-847d-99a09c437720`
+## Child · `4e7f9a64-6fb3-509c-ac42-aeea01114f31`
 
-- vector: dim=3072 · [-0.0106, 0.0492, -0.0083, 0.0021, -0.0071, -0.0219, -0.0051, -0.0144, …]
+- vector: dim=3072 · [-0.0107, 0.0492, -0.0083, 0.0022, -0.0070, -0.0220, -0.0051, -0.0144, …]
 
 ```json
 {
-  "chunk_id": "df4f3fac-25ff-5eab-847d-99a09c437720",
+  "chunk_id": "4e7f9a64-6fb3-509c-ac42-aeea01114f31",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6415,24 +6485,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "fa7647b9-53f9-5cb0-834c-0337ab01e17f",
-  "chunk_index": 144,
+  "chunk_index": 145,
   "page_number": 112,
   "page_range": [
     112,
     112
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `4e7f9a64-6fb3-509c-ac42-aeea01114f31`
+## Child · `405b7adb-dfa6-5bb3-a2ad-01ca87411ae9`
 
-- vector: dim=3072 · [-0.0136, 0.0403, -0.0085, -0.0177, -0.0079, -0.0014, -0.0086, -0.0105, …]
+- vector: dim=3072 · [-0.0134, 0.0406, -0.0083, -0.0176, -0.0079, -0.0009, -0.0085, -0.0103, …]
 
 ```json
 {
-  "chunk_id": "4e7f9a64-6fb3-509c-ac42-aeea01114f31",
+  "chunk_id": "405b7adb-dfa6-5bb3-a2ad-01ca87411ae9",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6451,24 +6521,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "fa7647b9-53f9-5cb0-834c-0337ab01e17f",
-  "chunk_index": 145,
+  "chunk_index": 146,
   "page_number": 113,
   "page_range": [
     113,
     113
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `405b7adb-dfa6-5bb3-a2ad-01ca87411ae9`
+## Child · `8bd007b1-2387-58e9-881a-1eddf1a4cf7b`
 
-- vector: dim=3072 · [-0.0145, 0.0302, -0.0119, -0.0124, -0.0027, -0.0182, -0.0147, -0.0184, …]
+- vector: dim=3072 · [-0.0145, 0.0298, -0.0118, -0.0126, -0.0025, -0.0180, -0.0150, -0.0183, …]
 
 ```json
 {
-  "chunk_id": "405b7adb-dfa6-5bb3-a2ad-01ca87411ae9",
+  "chunk_id": "8bd007b1-2387-58e9-881a-1eddf1a4cf7b",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6487,24 +6557,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "fa7647b9-53f9-5cb0-834c-0337ab01e17f",
-  "chunk_index": 146,
+  "chunk_index": 147,
   "page_number": 113,
   "page_range": [
     113,
     114
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `8bd007b1-2387-58e9-881a-1eddf1a4cf7b`
+## Child · `40ca67cf-c12d-5f5f-94b8-c04d1c81e9b8`
 
-- vector: dim=3072 · [-0.0041, 0.0033, -0.0213, 0.0028, 0.0029, -0.0022, 0.0362, 0.0046, …]
+- vector: dim=3072 · [-0.0041, 0.0034, -0.0215, 0.0023, 0.0028, -0.0020, 0.0360, 0.0047, …]
 
 ```json
 {
-  "chunk_id": "8bd007b1-2387-58e9-881a-1eddf1a4cf7b",
+  "chunk_id": "40ca67cf-c12d-5f5f-94b8-c04d1c81e9b8",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6522,24 +6592,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 147,
+  "chunk_index": 148,
   "page_number": 114,
   "page_range": [
     114,
     114
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `40ca67cf-c12d-5f5f-94b8-c04d1c81e9b8`
+## Child · `6ff3b7d5-9393-53e3-8906-8ec3b9288610`
 
-- vector: dim=3072 · [-0.0197, 0.0169, -0.0211, 0.0052, 0.0204, 0.0031, 0.0193, -0.0048, …]
+- vector: dim=3072 · [-0.0196, 0.0168, -0.0212, 0.0052, 0.0203, 0.0030, 0.0193, -0.0048, …]
 
 ```json
 {
-  "chunk_id": "40ca67cf-c12d-5f5f-94b8-c04d1c81e9b8",
+  "chunk_id": "6ff3b7d5-9393-53e3-8906-8ec3b9288610",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6557,14 +6627,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 148,
+  "chunk_index": 149,
   "page_number": 114,
   "page_range": [
     114,
     115
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -6596,18 +6666,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     115,
     117
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `6ff3b7d5-9393-53e3-8906-8ec3b9288610`
+## Child · `6ddc8b48-22b8-5958-aa1d-93be08831fd5`
 
-- vector: dim=3072 · [-0.0002, 0.0076, -0.0007, -0.0087, 0.0267, -0.0170, 0.0239, 0.0001, …]
+- vector: dim=3072 · [-0.0002, 0.0076, -0.0007, -0.0088, 0.0267, -0.0170, 0.0239, 0.0001, …]
 
 ```json
 {
-  "chunk_id": "6ff3b7d5-9393-53e3-8906-8ec3b9288610",
+  "chunk_id": "6ddc8b48-22b8-5958-aa1d-93be08831fd5",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6626,24 +6696,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "724a3db5-4fae-5f70-bdc7-dffd590b09a7",
-  "chunk_index": 149,
+  "chunk_index": 150,
   "page_number": 115,
   "page_range": [
     115,
     116
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `6ddc8b48-22b8-5958-aa1d-93be08831fd5`
+## Child · `c14a0a5a-288b-587e-9f1a-e34c3588d593`
 
 - vector: dim=3072 · [0.0098, 0.0228, -0.0118, -0.0172, 0.0095, -0.0156, 0.0065, -0.0133, …]
 
 ```json
 {
-  "chunk_id": "6ddc8b48-22b8-5958-aa1d-93be08831fd5",
+  "chunk_id": "c14a0a5a-288b-587e-9f1a-e34c3588d593",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6662,14 +6732,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "724a3db5-4fae-5f70-bdc7-dffd590b09a7",
-  "chunk_index": 150,
+  "chunk_index": 151,
   "page_number": 116,
   "page_range": [
     116,
     117
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -6701,18 +6771,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     117,
     119
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `c14a0a5a-288b-587e-9f1a-e34c3588d593`
+## Child · `bfd775e1-e378-54b1-89f9-f562ecb79e10`
 
-- vector: dim=3072 · [0.0284, -0.0062, -0.0174, 0.0110, -0.0080, -0.0057, 0.0051, -0.0190, …]
+- vector: dim=3072 · [0.0284, -0.0063, -0.0174, 0.0110, -0.0080, -0.0058, 0.0050, -0.0190, …]
 
 ```json
 {
-  "chunk_id": "c14a0a5a-288b-587e-9f1a-e34c3588d593",
+  "chunk_id": "bfd775e1-e378-54b1-89f9-f562ecb79e10",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6731,24 +6801,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "c3d7ae5f-02f1-53e2-bafb-20877b6ddb15",
-  "chunk_index": 151,
+  "chunk_index": 152,
   "page_number": 117,
   "page_range": [
     117,
     117
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `bfd775e1-e378-54b1-89f9-f562ecb79e10`
+## Child · `89e26c9d-7079-5edf-a784-f22d1d91951b`
 
 - vector: dim=3072 · [0.0054, 0.0270, -0.0173, 0.0034, 0.0196, -0.0007, -0.0304, -0.0294, …]
 
 ```json
 {
-  "chunk_id": "bfd775e1-e378-54b1-89f9-f562ecb79e10",
+  "chunk_id": "89e26c9d-7079-5edf-a784-f22d1d91951b",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6767,24 +6837,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "c3d7ae5f-02f1-53e2-bafb-20877b6ddb15",
-  "chunk_index": 152,
+  "chunk_index": 153,
   "page_number": 117,
   "page_range": [
     117,
     119
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `89e26c9d-7079-5edf-a784-f22d1d91951b`
+## Child · `5f89c634-dd14-5244-9e22-df7412c422e0`
 
-- vector: dim=3072 · [-0.0041, 0.0157, -0.0218, 0.0028, 0.0040, -0.0160, -0.0179, -0.0047, …]
+- vector: dim=3072 · [-0.0034, 0.0167, -0.0215, 0.0040, 0.0039, -0.0171, -0.0165, -0.0048, …]
 
 ```json
 {
-  "chunk_id": "89e26c9d-7079-5edf-a784-f22d1d91951b",
+  "chunk_id": "5f89c634-dd14-5244-9e22-df7412c422e0",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6803,14 +6873,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "c3d7ae5f-02f1-53e2-bafb-20877b6ddb15",
-  "chunk_index": 153,
+  "chunk_index": 154,
   "page_number": 119,
   "page_range": [
     119,
     119
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -6842,18 +6912,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     119,
     123
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `5f89c634-dd14-5244-9e22-df7412c422e0`
+## Child · `97f1172c-4d9e-506c-beca-ff47790dba9f`
 
-- vector: dim=3072 · [0.0098, 0.0297, -0.0280, 0.0124, -0.0043, -0.0073, -0.0238, -0.0226, …]
+- vector: dim=3072 · [0.0099, 0.0295, -0.0281, 0.0127, -0.0043, -0.0073, -0.0234, -0.0232, …]
 
 ```json
 {
-  "chunk_id": "5f89c634-dd14-5244-9e22-df7412c422e0",
+  "chunk_id": "97f1172c-4d9e-506c-beca-ff47790dba9f",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6872,24 +6942,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "0049965f-4b17-5879-8ad6-226ad078f80b",
-  "chunk_index": 154,
+  "chunk_index": 155,
   "page_number": 119,
   "page_range": [
     119,
     120
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `97f1172c-4d9e-506c-beca-ff47790dba9f`
+## Child · `02d97934-bd1c-5a4a-ae82-a67bc82d2a57`
 
 - vector: dim=3072 · [0.0076, 0.0212, -0.0212, -0.0046, -0.0002, -0.0012, -0.0210, -0.0257, …]
 
 ```json
 {
-  "chunk_id": "97f1172c-4d9e-506c-beca-ff47790dba9f",
+  "chunk_id": "02d97934-bd1c-5a4a-ae82-a67bc82d2a57",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6908,24 +6978,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "0049965f-4b17-5879-8ad6-226ad078f80b",
-  "chunk_index": 155,
+  "chunk_index": 156,
   "page_number": 120,
   "page_range": [
     120,
     121
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `02d97934-bd1c-5a4a-ae82-a67bc82d2a57`
+## Child · `a3801848-9790-51d7-a20c-dd70a273bacb`
 
-- vector: dim=3072 · [0.0128, 0.0347, -0.0140, 0.0105, 0.0076, -0.0053, -0.0069, -0.0388, …]
+- vector: dim=3072 · [0.0129, 0.0347, -0.0140, 0.0106, 0.0075, -0.0053, -0.0069, -0.0389, …]
 
 ```json
 {
-  "chunk_id": "02d97934-bd1c-5a4a-ae82-a67bc82d2a57",
+  "chunk_id": "a3801848-9790-51d7-a20c-dd70a273bacb",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6944,24 +7014,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "0049965f-4b17-5879-8ad6-226ad078f80b",
-  "chunk_index": 156,
+  "chunk_index": 157,
   "page_number": 121,
   "page_range": [
     121,
     122
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `a3801848-9790-51d7-a20c-dd70a273bacb`
+## Child · `de576dd0-be39-5afc-b517-e00511e222a2`
 
-- vector: dim=3072 · [0.0397, 0.0527, -0.0142, 0.0448, 0.0019, -0.0166, 0.0017, -0.0310, …]
+- vector: dim=3072 · [0.0397, 0.0525, -0.0142, 0.0447, 0.0019, -0.0166, 0.0017, -0.0309, …]
 
 ```json
 {
-  "chunk_id": "a3801848-9790-51d7-a20c-dd70a273bacb",
+  "chunk_id": "de576dd0-be39-5afc-b517-e00511e222a2",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -6980,24 +7050,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "0049965f-4b17-5879-8ad6-226ad078f80b",
-  "chunk_index": 157,
+  "chunk_index": 158,
   "page_number": 122,
   "page_range": [
     122,
     122
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `de576dd0-be39-5afc-b517-e00511e222a2`
+## Child · `909b1a5d-d4a8-5d44-8a24-e29e866d21d8`
 
 - vector: dim=3072 · [0.0143, 0.0436, -0.0149, 0.0140, -0.0016, -0.0064, 0.0008, -0.0154, …]
 
 ```json
 {
-  "chunk_id": "de576dd0-be39-5afc-b517-e00511e222a2",
+  "chunk_id": "909b1a5d-d4a8-5d44-8a24-e29e866d21d8",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7016,14 +7086,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "0049965f-4b17-5879-8ad6-226ad078f80b",
-  "chunk_index": 158,
+  "chunk_index": 159,
   "page_number": 122,
   "page_range": [
     122,
     123
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -7055,18 +7125,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     123,
     126
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `909b1a5d-d4a8-5d44-8a24-e29e866d21d8`
+## Child · `cccd0ce8-299a-57e5-bcf6-9d131e902e1a`
 
-- vector: dim=3072 · [0.0037, 0.0560, -0.0143, 0.0146, -0.0114, -0.0048, 0.0128, -0.0157, …]
+- vector: dim=3072 · [0.0035, 0.0560, -0.0143, 0.0146, -0.0114, -0.0048, 0.0129, -0.0157, …]
 
 ```json
 {
-  "chunk_id": "909b1a5d-d4a8-5d44-8a24-e29e866d21d8",
+  "chunk_id": "cccd0ce8-299a-57e5-bcf6-9d131e902e1a",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7085,24 +7155,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "09c88752-0366-5067-a526-10e8c0d88f33",
-  "chunk_index": 159,
+  "chunk_index": 160,
   "page_number": 123,
   "page_range": [
     123,
     124
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `cccd0ce8-299a-57e5-bcf6-9d131e902e1a`
+## Child · `d3397860-1587-5fdf-a6c8-12535d7dc095`
 
-- vector: dim=3072 · [-0.0068, 0.0328, -0.0108, 0.0185, -0.0112, 0.0045, -0.0010, -0.0004, …]
+- vector: dim=3072 · [-0.0069, 0.0328, -0.0108, 0.0187, -0.0111, 0.0044, -0.0012, -0.0005, …]
 
 ```json
 {
-  "chunk_id": "cccd0ce8-299a-57e5-bcf6-9d131e902e1a",
+  "chunk_id": "d3397860-1587-5fdf-a6c8-12535d7dc095",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7121,24 +7191,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "09c88752-0366-5067-a526-10e8c0d88f33",
-  "chunk_index": 160,
+  "chunk_index": 161,
   "page_number": 124,
   "page_range": [
     124,
     125
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `d3397860-1587-5fdf-a6c8-12535d7dc095`
+## Child · `ae2e4a3c-f5e8-5264-9465-ee36a2869993`
 
-- vector: dim=3072 · [0.0034, 0.0064, -0.0053, -0.0118, 0.0003, -0.0241, -0.0033, -0.0241, …]
+- vector: dim=3072 · [0.0034, 0.0063, -0.0053, -0.0117, 0.0004, -0.0240, -0.0034, -0.0240, …]
 
 ```json
 {
-  "chunk_id": "d3397860-1587-5fdf-a6c8-12535d7dc095",
+  "chunk_id": "ae2e4a3c-f5e8-5264-9465-ee36a2869993",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7157,24 +7227,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "09c88752-0366-5067-a526-10e8c0d88f33",
-  "chunk_index": 161,
+  "chunk_index": 162,
   "page_number": 125,
   "page_range": [
     125,
     126
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `ae2e4a3c-f5e8-5264-9465-ee36a2869993`
+## Child · `64ccc07f-3305-588f-b9dc-0d0a46bfabe0`
 
-- vector: dim=3072 · [-0.0092, 0.0288, -0.0158, -0.0138, 0.0030, 0.0245, 0.0191, -0.0286, …]
+- vector: dim=3072 · [-0.0091, 0.0288, -0.0158, -0.0133, 0.0033, 0.0248, 0.0191, -0.0284, …]
 
 ```json
 {
-  "chunk_id": "ae2e4a3c-f5e8-5264-9465-ee36a2869993",
+  "chunk_id": "64ccc07f-3305-588f-b9dc-0d0a46bfabe0",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7192,14 +7262,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 162,
+  "chunk_index": 163,
   "page_number": 126,
   "page_range": [
     126,
     126
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -7231,18 +7301,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     126,
     130
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `64ccc07f-3305-588f-b9dc-0d0a46bfabe0`
+## Child · `74dfcf5b-4a11-5d59-af24-ca4405a13eca`
 
-- vector: dim=3072 · [0.0142, 0.0195, -0.0190, -0.0079, 0.0033, 0.0186, -0.0008, -0.0305, …]
+- vector: dim=3072 · [0.0143, 0.0196, -0.0190, -0.0078, 0.0032, 0.0186, -0.0009, -0.0306, …]
 
 ```json
 {
-  "chunk_id": "64ccc07f-3305-588f-b9dc-0d0a46bfabe0",
+  "chunk_id": "74dfcf5b-4a11-5d59-af24-ca4405a13eca",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7261,24 +7331,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "53a1e3d9-4d94-5f44-933a-900204b1e1e3",
-  "chunk_index": 163,
+  "chunk_index": 164,
   "page_number": 126,
   "page_range": [
     126,
     127
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `74dfcf5b-4a11-5d59-af24-ca4405a13eca`
+## Child · `00bae8f3-cb63-5254-a830-962e801d479b`
 
-- vector: dim=3072 · [0.0038, 0.0076, -0.0237, -0.0225, 0.0072, -0.0117, -0.0374, 0.0002, …]
+- vector: dim=3072 · [0.0037, 0.0076, -0.0237, -0.0225, 0.0071, -0.0117, -0.0373, 0.0002, …]
 
 ```json
 {
-  "chunk_id": "74dfcf5b-4a11-5d59-af24-ca4405a13eca",
+  "chunk_id": "00bae8f3-cb63-5254-a830-962e801d479b",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7297,24 +7367,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "53a1e3d9-4d94-5f44-933a-900204b1e1e3",
-  "chunk_index": 164,
+  "chunk_index": 165,
   "page_number": 127,
   "page_range": [
     127,
     128
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `00bae8f3-cb63-5254-a830-962e801d479b`
+## Child · `1f886215-e847-5aa4-94e4-53a989b33512`
 
-- vector: dim=3072 · [0.0090, 0.0150, -0.0186, -0.0005, 0.0167, 0.0013, -0.0320, -0.0058, …]
+- vector: dim=3072 · [0.0089, 0.0149, -0.0186, -0.0005, 0.0166, 0.0013, -0.0321, -0.0058, …]
 
 ```json
 {
-  "chunk_id": "00bae8f3-cb63-5254-a830-962e801d479b",
+  "chunk_id": "1f886215-e847-5aa4-94e4-53a989b33512",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7333,24 +7403,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "53a1e3d9-4d94-5f44-933a-900204b1e1e3",
-  "chunk_index": 165,
+  "chunk_index": 166,
   "page_number": 128,
   "page_range": [
     128,
     129
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `1f886215-e847-5aa4-94e4-53a989b33512`
+## Child · `e567153c-3026-547b-a09b-56944c0652b3`
 
-- vector: dim=3072 · [0.0020, 0.0257, -0.0119, -0.0075, 0.0028, 0.0030, -0.0286, -0.0069, …]
+- vector: dim=3072 · [0.0023, 0.0261, -0.0119, -0.0070, 0.0032, 0.0032, -0.0287, -0.0071, …]
 
 ```json
 {
-  "chunk_id": "1f886215-e847-5aa4-94e4-53a989b33512",
+  "chunk_id": "e567153c-3026-547b-a09b-56944c0652b3",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7369,24 +7439,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "53a1e3d9-4d94-5f44-933a-900204b1e1e3",
-  "chunk_index": 166,
+  "chunk_index": 167,
   "page_number": 129,
   "page_range": [
     129,
     130
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `e567153c-3026-547b-a09b-56944c0652b3`
+## Child · `57dd07e6-5646-5e7e-a67e-7b2cb9438f01`
 
-- vector: dim=3072 · [-0.0059, 0.0310, -0.0118, 0.0031, -0.0002, -0.0073, -0.0035, -0.0241, …]
+- vector: dim=3072 · [-0.0056, 0.0307, -0.0117, 0.0033, -0.0002, -0.0072, -0.0034, -0.0241, …]
 
 ```json
 {
-  "chunk_id": "e567153c-3026-547b-a09b-56944c0652b3",
+  "chunk_id": "57dd07e6-5646-5e7e-a67e-7b2cb9438f01",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7405,14 +7475,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "53a1e3d9-4d94-5f44-933a-900204b1e1e3",
-  "chunk_index": 167,
+  "chunk_index": 168,
   "page_number": 130,
   "page_range": [
     130,
     130
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -7444,18 +7514,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     130,
     134
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `57dd07e6-5646-5e7e-a67e-7b2cb9438f01`
+## Child · `11c76898-4aae-5035-bc4d-f1907f122b88`
 
-- vector: dim=3072 · [-0.0173, 0.0092, -0.0161, 0.0033, -0.0151, -0.0002, -0.0023, -0.0022, …]
+- vector: dim=3072 · [-0.0173, 0.0092, -0.0161, 0.0033, -0.0152, -0.0003, -0.0023, -0.0022, …]
 
 ```json
 {
-  "chunk_id": "57dd07e6-5646-5e7e-a67e-7b2cb9438f01",
+  "chunk_id": "11c76898-4aae-5035-bc4d-f1907f122b88",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7474,24 +7544,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "9609a225-9af5-5530-a97a-e3805ed9fc72",
-  "chunk_index": 168,
+  "chunk_index": 169,
   "page_number": 130,
   "page_range": [
     130,
     131
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `11c76898-4aae-5035-bc4d-f1907f122b88`
+## Child · `0ab6f89b-b379-5c90-8804-b6b96a342f21`
 
-- vector: dim=3072 · [0.0029, 0.0240, -0.0095, -0.0073, 0.0088, -0.0013, 0.0036, -0.0025, …]
+- vector: dim=3072 · [0.0031, 0.0243, -0.0095, -0.0074, 0.0093, -0.0012, 0.0041, -0.0023, …]
 
 ```json
 {
-  "chunk_id": "11c76898-4aae-5035-bc4d-f1907f122b88",
+  "chunk_id": "0ab6f89b-b379-5c90-8804-b6b96a342f21",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7510,24 +7580,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "9609a225-9af5-5530-a97a-e3805ed9fc72",
-  "chunk_index": 169,
+  "chunk_index": 170,
   "page_number": 131,
   "page_range": [
     131,
     132
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `0ab6f89b-b379-5c90-8804-b6b96a342f21`
+## Child · `4ad00f71-fc93-5925-9a8a-9291994e0f53`
 
-- vector: dim=3072 · [-0.0067, 0.0213, -0.0204, -0.0118, 0.0153, 0.0049, -0.0062, -0.0261, …]
+- vector: dim=3072 · [-0.0066, 0.0215, -0.0204, -0.0117, 0.0152, 0.0049, -0.0062, -0.0260, …]
 
 ```json
 {
-  "chunk_id": "0ab6f89b-b379-5c90-8804-b6b96a342f21",
+  "chunk_id": "4ad00f71-fc93-5925-9a8a-9291994e0f53",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7546,24 +7616,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "9609a225-9af5-5530-a97a-e3805ed9fc72",
-  "chunk_index": 170,
+  "chunk_index": 171,
   "page_number": 132,
   "page_range": [
     132,
     133
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `4ad00f71-fc93-5925-9a8a-9291994e0f53`
+## Child · `ebeca47f-db3a-540c-8bc2-9bf3fb094d02`
 
-- vector: dim=3072 · [-0.0045, 0.0140, -0.0107, 0.0147, 0.0205, 0.0038, -0.0096, -0.0038, …]
+- vector: dim=3072 · [-0.0045, 0.0140, -0.0107, 0.0147, 0.0205, 0.0038, -0.0095, -0.0038, …]
 
 ```json
 {
-  "chunk_id": "4ad00f71-fc93-5925-9a8a-9291994e0f53",
+  "chunk_id": "ebeca47f-db3a-540c-8bc2-9bf3fb094d02",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7582,24 +7652,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "9609a225-9af5-5530-a97a-e3805ed9fc72",
-  "chunk_index": 171,
+  "chunk_index": 172,
   "page_number": 133,
   "page_range": [
     133,
     133
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `ebeca47f-db3a-540c-8bc2-9bf3fb094d02`
+## Child · `b4b4f070-31ba-517b-af2f-80f8a8901b24`
 
-- vector: dim=3072 · [-0.0054, 0.0357, -0.0161, -0.0168, 0.0178, -0.0199, 0.0044, -0.0155, …]
+- vector: dim=3072 · [-0.0054, 0.0355, -0.0161, -0.0168, 0.0177, -0.0198, 0.0045, -0.0154, …]
 
 ```json
 {
-  "chunk_id": "ebeca47f-db3a-540c-8bc2-9bf3fb094d02",
+  "chunk_id": "b4b4f070-31ba-517b-af2f-80f8a8901b24",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7618,14 +7688,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "9609a225-9af5-5530-a97a-e3805ed9fc72",
-  "chunk_index": 172,
+  "chunk_index": 173,
   "page_number": 133,
   "page_range": [
     133,
     134
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -7657,18 +7727,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     134,
     139
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `b4b4f070-31ba-517b-af2f-80f8a8901b24`
+## Child · `e10349a8-58a7-53d0-9298-a7904af61875`
 
-- vector: dim=3072 · [0.0199, 0.0338, -0.0098, -0.0060, 0.0108, -0.0005, 0.0073, 0.0058, …]
+- vector: dim=3072 · [0.0196, 0.0337, -0.0099, -0.0060, 0.0111, -0.0007, 0.0073, 0.0057, …]
 
 ```json
 {
-  "chunk_id": "b4b4f070-31ba-517b-af2f-80f8a8901b24",
+  "chunk_id": "e10349a8-58a7-53d0-9298-a7904af61875",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7687,24 +7757,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "b67e1a70-58c5-53e7-abec-a634b41ecfff",
-  "chunk_index": 173,
+  "chunk_index": 174,
   "page_number": 134,
   "page_range": [
     134,
     135
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `e10349a8-58a7-53d0-9298-a7904af61875`
+## Child · `682d83af-b02f-5eb4-97ab-1e891fc456d0`
 
-- vector: dim=3072 · [0.0194, 0.0211, -0.0186, 0.0009, 0.0042, 0.0292, -0.0005, -0.0004, …]
+- vector: dim=3072 · [0.0195, 0.0211, -0.0186, 0.0010, 0.0042, 0.0291, -0.0004, -0.0003, …]
 
 ```json
 {
-  "chunk_id": "e10349a8-58a7-53d0-9298-a7904af61875",
+  "chunk_id": "682d83af-b02f-5eb4-97ab-1e891fc456d0",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7723,24 +7793,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "b67e1a70-58c5-53e7-abec-a634b41ecfff",
-  "chunk_index": 174,
+  "chunk_index": 175,
   "page_number": 135,
   "page_range": [
     135,
     136
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `682d83af-b02f-5eb4-97ab-1e891fc456d0`
+## Child · `97f1144b-436c-50f1-b938-7494c5f900c8`
 
-- vector: dim=3072 · [0.0182, 0.0097, -0.0109, -0.0165, 0.0091, 0.0104, -0.0006, 0.0061, …]
+- vector: dim=3072 · [0.0183, 0.0098, -0.0109, -0.0164, 0.0091, 0.0105, -0.0007, 0.0061, …]
 
 ```json
 {
-  "chunk_id": "682d83af-b02f-5eb4-97ab-1e891fc456d0",
+  "chunk_id": "97f1144b-436c-50f1-b938-7494c5f900c8",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7759,24 +7829,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "b67e1a70-58c5-53e7-abec-a634b41ecfff",
-  "chunk_index": 175,
+  "chunk_index": 176,
   "page_number": 136,
   "page_range": [
     136,
     137
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `97f1144b-436c-50f1-b938-7494c5f900c8`
+## Child · `a23152dc-f903-5582-92a0-8d9a00024552`
 
-- vector: dim=3072 · [-0.0030, 0.0257, -0.0161, -0.0188, 0.0064, -0.0049, -0.0060, -0.0130, …]
+- vector: dim=3072 · [-0.0032, 0.0255, -0.0161, -0.0185, 0.0067, -0.0051, -0.0062, -0.0127, …]
 
 ```json
 {
-  "chunk_id": "97f1144b-436c-50f1-b938-7494c5f900c8",
+  "chunk_id": "a23152dc-f903-5582-92a0-8d9a00024552",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7795,24 +7865,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "b67e1a70-58c5-53e7-abec-a634b41ecfff",
-  "chunk_index": 176,
+  "chunk_index": 177,
   "page_number": 137,
   "page_range": [
     137,
     138
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `a23152dc-f903-5582-92a0-8d9a00024552`
+## Child · `9c313855-4cbe-57c7-8499-e40dde05a71d`
 
-- vector: dim=3072 · [-0.0098, 0.0207, -0.0193, -0.0097, 0.0090, -0.0217, -0.0158, -0.0047, …]
+- vector: dim=3072 · [-0.0098, 0.0206, -0.0193, -0.0097, 0.0091, -0.0217, -0.0158, -0.0048, …]
 
 ```json
 {
-  "chunk_id": "a23152dc-f903-5582-92a0-8d9a00024552",
+  "chunk_id": "9c313855-4cbe-57c7-8499-e40dde05a71d",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7831,24 +7901,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "b67e1a70-58c5-53e7-abec-a634b41ecfff",
-  "chunk_index": 177,
+  "chunk_index": 178,
   "page_number": 138,
   "page_range": [
     138,
     139
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `9c313855-4cbe-57c7-8499-e40dde05a71d`
+## Child · `4c5a58fe-ae03-5f07-bcd0-57ed89a9ad76`
 
-- vector: dim=3072 · [-0.0089, 0.0147, -0.0168, -0.0097, 0.0262, 0.0060, -0.0168, 0.0190, …]
+- vector: dim=3072 · [-0.0088, 0.0147, -0.0168, -0.0098, 0.0261, 0.0061, -0.0166, 0.0190, …]
 
 ```json
 {
-  "chunk_id": "9c313855-4cbe-57c7-8499-e40dde05a71d",
+  "chunk_id": "4c5a58fe-ae03-5f07-bcd0-57ed89a9ad76",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7866,24 +7936,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 178,
+  "chunk_index": 179,
   "page_number": 139,
   "page_range": [
     139,
     141
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `4c5a58fe-ae03-5f07-bcd0-57ed89a9ad76`
+## Child · `b020ccb5-16a0-5eaf-bf64-f2526e924a89`
 
-- vector: dim=3072 · [-0.0193, 0.0191, -0.0285, -0.0269, 0.0044, -0.0004, 0.0015, -0.0010, …]
+- vector: dim=3072 · [-0.0193, 0.0191, -0.0285, -0.0269, 0.0044, -0.0005, 0.0015, -0.0009, …]
 
 ```json
 {
-  "chunk_id": "4c5a58fe-ae03-5f07-bcd0-57ed89a9ad76",
+  "chunk_id": "b020ccb5-16a0-5eaf-bf64-f2526e924a89",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7901,14 +7971,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 179,
+  "chunk_index": 180,
   "page_number": 141,
   "page_range": [
     141,
     141
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -7940,18 +8010,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     141,
     142
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `b020ccb5-16a0-5eaf-bf64-f2526e924a89`
+## Child · `c4e63402-c596-5bbd-98e9-520c2926cddd`
 
-- vector: dim=3072 · [-0.0283, 0.0285, -0.0231, -0.0077, 0.0134, 0.0009, -0.0153, 0.0039, …]
+- vector: dim=3072 · [-0.0284, 0.0284, -0.0232, -0.0079, 0.0133, 0.0009, -0.0154, 0.0037, …]
 
 ```json
 {
-  "chunk_id": "b020ccb5-16a0-5eaf-bf64-f2526e924a89",
+  "chunk_id": "c4e63402-c596-5bbd-98e9-520c2926cddd",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -7970,24 +8040,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "5816f114-2fed-5a45-892b-8c1a17c0f0b9",
-  "chunk_index": 180,
+  "chunk_index": 181,
   "page_number": 141,
   "page_range": [
     141,
     142
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `c4e63402-c596-5bbd-98e9-520c2926cddd`
+## Child · `472473c7-3aa1-5239-888f-3ccb47859f7f`
 
-- vector: dim=3072 · [-0.0161, 0.0194, -0.0376, -0.0021, 0.0200, -0.0043, -0.0320, -0.0166, …]
+- vector: dim=3072 · [-0.0161, 0.0195, -0.0376, -0.0021, 0.0200, -0.0044, -0.0320, -0.0167, …]
 
 ```json
 {
-  "chunk_id": "c4e63402-c596-5bbd-98e9-520c2926cddd",
+  "chunk_id": "472473c7-3aa1-5239-888f-3ccb47859f7f",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8006,24 +8076,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "5816f114-2fed-5a45-892b-8c1a17c0f0b9",
-  "chunk_index": 181,
+  "chunk_index": 182,
   "page_number": 142,
   "page_range": [
     142,
     142
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `472473c7-3aa1-5239-888f-3ccb47859f7f`
+## Child · `6f10acf5-f2ae-56c2-9a1b-9413d86f0759`
 
-- vector: dim=3072 · [-0.0255, 0.0273, -0.0194, -0.0350, 0.0012, -0.0004, -0.0058, 0.0215, …]
+- vector: dim=3072 · [-0.0255, 0.0273, -0.0194, -0.0350, 0.0012, -0.0005, -0.0059, 0.0215, …]
 
 ```json
 {
-  "chunk_id": "472473c7-3aa1-5239-888f-3ccb47859f7f",
+  "chunk_id": "6f10acf5-f2ae-56c2-9a1b-9413d86f0759",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8041,14 +8111,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 182,
+  "chunk_index": 183,
   "page_number": 142,
   "page_range": [
     142,
     143
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -8080,18 +8150,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     143,
     145
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `6f10acf5-f2ae-56c2-9a1b-9413d86f0759`
+## Child · `5ea58b9c-e39f-54f9-88de-3f06750635f2`
 
-- vector: dim=3072 · [0.0048, 0.0539, -0.0241, -0.0149, 0.0064, 0.0071, 0.0129, 0.0253, …]
+- vector: dim=3072 · [0.0048, 0.0540, -0.0241, -0.0149, 0.0064, 0.0069, 0.0129, 0.0253, …]
 
 ```json
 {
-  "chunk_id": "6f10acf5-f2ae-56c2-9a1b-9413d86f0759",
+  "chunk_id": "5ea58b9c-e39f-54f9-88de-3f06750635f2",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8110,24 +8180,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "1dee6533-a05d-51cb-bf68-260821e4f735",
-  "chunk_index": 183,
+  "chunk_index": 184,
   "page_number": 143,
   "page_range": [
     143,
     144
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `5ea58b9c-e39f-54f9-88de-3f06750635f2`
+## Child · `2264ec43-03d0-531c-b4d9-b1f3168a619b`
 
-- vector: dim=3072 · [-0.0014, 0.0126, -0.0261, -0.0280, -0.0116, 0.0145, 0.0081, 0.0223, …]
+- vector: dim=3072 · [-0.0018, 0.0119, -0.0255, -0.0280, -0.0117, 0.0137, 0.0078, 0.0211, …]
 
 ```json
 {
-  "chunk_id": "5ea58b9c-e39f-54f9-88de-3f06750635f2",
+  "chunk_id": "2264ec43-03d0-531c-b4d9-b1f3168a619b",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8146,24 +8216,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "1dee6533-a05d-51cb-bf68-260821e4f735",
-  "chunk_index": 184,
+  "chunk_index": 185,
   "page_number": 144,
   "page_range": [
     144,
     144
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `2264ec43-03d0-531c-b4d9-b1f3168a619b`
+## Child · `c5382c67-08be-51aa-bc25-34705c146612`
 
-- vector: dim=3072 · [0.0076, 0.0238, -0.0247, -0.0225, -0.0245, 0.0038, -0.0063, 0.0160, …]
+- vector: dim=3072 · [0.0077, 0.0239, -0.0247, -0.0225, -0.0245, 0.0038, -0.0063, 0.0158, …]
 
 ```json
 {
-  "chunk_id": "2264ec43-03d0-531c-b4d9-b1f3168a619b",
+  "chunk_id": "c5382c67-08be-51aa-bc25-34705c146612",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8182,24 +8252,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "1dee6533-a05d-51cb-bf68-260821e4f735",
-  "chunk_index": 185,
+  "chunk_index": 186,
   "page_number": 144,
   "page_range": [
     144,
     145
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `c5382c67-08be-51aa-bc25-34705c146612`
+## Child · `90ce71ff-29ad-58d0-8295-05e8fdc00a78`
 
-- vector: dim=3072 · [-0.0091, 0.0239, -0.0371, -0.0114, 0.0040, 0.0110, -0.0097, 0.0233, …]
+- vector: dim=3072 · [-0.0093, 0.0241, -0.0371, -0.0115, 0.0041, 0.0113, -0.0099, 0.0233, …]
 
 ```json
 {
-  "chunk_id": "c5382c67-08be-51aa-bc25-34705c146612",
+  "chunk_id": "90ce71ff-29ad-58d0-8295-05e8fdc00a78",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8218,14 +8288,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "1dee6533-a05d-51cb-bf68-260821e4f735",
-  "chunk_index": 186,
+  "chunk_index": 187,
   "page_number": 145,
   "page_range": [
     145,
     145
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -8257,18 +8327,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     145,
     147
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `90ce71ff-29ad-58d0-8295-05e8fdc00a78`
+## Child · `261a037c-117c-52d0-b8b1-5f71753abbc8`
 
-- vector: dim=3072 · [-0.0199, -0.0027, -0.0266, -0.0237, 0.0087, -0.0016, 0.0120, 0.0232, …]
+- vector: dim=3072 · [-0.0199, -0.0027, -0.0266, -0.0238, 0.0086, -0.0017, 0.0120, 0.0233, …]
 
 ```json
 {
-  "chunk_id": "90ce71ff-29ad-58d0-8295-05e8fdc00a78",
+  "chunk_id": "261a037c-117c-52d0-b8b1-5f71753abbc8",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8287,24 +8357,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "dc1a6010-02c0-56df-9552-a8ee31685aaf",
-  "chunk_index": 187,
+  "chunk_index": 188,
   "page_number": 145,
   "page_range": [
     145,
     146
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `261a037c-117c-52d0-b8b1-5f71753abbc8`
+## Child · `a665c2ae-5e3d-535d-8c67-b0cf2e1e80eb`
 
-- vector: dim=3072 · [-0.0257, 0.0063, -0.0236, -0.0188, -0.0049, 0.0001, -0.0180, 0.0129, …]
+- vector: dim=3072 · [-0.0259, 0.0062, -0.0237, -0.0188, -0.0049, -0.0002, -0.0180, 0.0128, …]
 
 ```json
 {
-  "chunk_id": "261a037c-117c-52d0-b8b1-5f71753abbc8",
+  "chunk_id": "a665c2ae-5e3d-535d-8c67-b0cf2e1e80eb",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8323,24 +8393,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "dc1a6010-02c0-56df-9552-a8ee31685aaf",
-  "chunk_index": 188,
+  "chunk_index": 189,
   "page_number": 146,
   "page_range": [
     146,
     147
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `a665c2ae-5e3d-535d-8c67-b0cf2e1e80eb`
+## Child · `86dd5c56-646c-5ea9-9d14-63e5301eefd3`
 
 - vector: dim=3072 · [-0.0204, 0.0121, -0.0309, -0.0201, 0.0021, -0.0008, -0.0011, 0.0048, …]
 
 ```json
 {
-  "chunk_id": "a665c2ae-5e3d-535d-8c67-b0cf2e1e80eb",
+  "chunk_id": "86dd5c56-646c-5ea9-9d14-63e5301eefd3",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8358,24 +8428,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 189,
+  "chunk_index": 190,
   "page_number": 147,
   "page_range": [
     147,
     148
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `86dd5c56-646c-5ea9-9d14-63e5301eefd3`
+## Child · `131dbe30-6454-5398-9cd5-50fda82b70e3`
 
-- vector: dim=3072 · [-0.0097, 0.0056, -0.0253, -0.0324, 0.0054, 0.0076, -0.0183, 0.0046, …]
+- vector: dim=3072 · [-0.0097, 0.0055, -0.0252, -0.0324, 0.0054, 0.0075, -0.0182, 0.0046, …]
 
 ```json
 {
-  "chunk_id": "86dd5c56-646c-5ea9-9d14-63e5301eefd3",
+  "chunk_id": "131dbe30-6454-5398-9cd5-50fda82b70e3",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8393,24 +8463,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 190,
+  "chunk_index": 191,
   "page_number": 148,
   "page_range": [
     148,
     148
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `131dbe30-6454-5398-9cd5-50fda82b70e3`
+## Child · `489616a9-0b76-5a0d-93b1-ccd423940aa3`
 
-- vector: dim=3072 · [-0.0268, 0.0418, -0.0368, -0.0169, 0.0149, 0.0047, -0.0080, 0.0121, …]
+- vector: dim=3072 · [-0.0268, 0.0418, -0.0367, -0.0168, 0.0148, 0.0048, -0.0081, 0.0120, …]
 
 ```json
 {
-  "chunk_id": "131dbe30-6454-5398-9cd5-50fda82b70e3",
+  "chunk_id": "489616a9-0b76-5a0d-93b1-ccd423940aa3",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8428,24 +8498,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 191,
+  "chunk_index": 192,
   "page_number": 148,
   "page_range": [
     148,
     149
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `489616a9-0b76-5a0d-93b1-ccd423940aa3`
+## Child · `d75bba92-3b78-5961-97e9-448cada6f25e`
 
 - vector: dim=3072 · [-0.0166, 0.0127, -0.0275, -0.0008, 0.0206, -0.0159, -0.0062, -0.0034, …]
 
 ```json
 {
-  "chunk_id": "489616a9-0b76-5a0d-93b1-ccd423940aa3",
+  "chunk_id": "d75bba92-3b78-5961-97e9-448cada6f25e",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8463,24 +8533,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 192,
+  "chunk_index": 193,
   "page_number": 149,
   "page_range": [
     149,
     149
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `d75bba92-3b78-5961-97e9-448cada6f25e`
+## Child · `dc1832f2-dd86-5d98-ad41-379e73cb9854`
 
-- vector: dim=3072 · [-0.0500, -0.0096, -0.0321, 0.0013, -0.0218, -0.0212, 0.0068, 0.0092, …]
+- vector: dim=3072 · [-0.0500, -0.0096, -0.0321, 0.0012, -0.0217, -0.0212, 0.0068, 0.0092, …]
 
 ```json
 {
-  "chunk_id": "d75bba92-3b78-5961-97e9-448cada6f25e",
+  "chunk_id": "dc1832f2-dd86-5d98-ad41-379e73cb9854",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8498,24 +8568,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 193,
+  "chunk_index": 194,
   "page_number": 149,
   "page_range": [
     149,
     149
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `dc1832f2-dd86-5d98-ad41-379e73cb9854`
+## Child · `b4c55b9f-5161-5baa-9b61-e4d17f053e13`
 
-- vector: dim=3072 · [-0.0153, 0.0224, -0.0268, -0.0169, 0.0033, 0.0114, 0.0163, -0.0006, …]
+- vector: dim=3072 · [-0.0153, 0.0222, -0.0268, -0.0171, 0.0034, 0.0113, 0.0163, -0.0004, …]
 
 ```json
 {
-  "chunk_id": "dc1832f2-dd86-5d98-ad41-379e73cb9854",
+  "chunk_id": "b4c55b9f-5161-5baa-9b61-e4d17f053e13",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8533,24 +8603,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 194,
+  "chunk_index": 195,
   "page_number": 149,
   "page_range": [
     149,
     150
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `b4c55b9f-5161-5baa-9b61-e4d17f053e13`
+## Child · `5921e81e-25b1-5e4d-971e-ffe88c9bf468`
 
-- vector: dim=3072 · [-0.0149, -0.0102, -0.0301, -0.0360, 0.0193, 0.0056, -0.0051, 0.0099, …]
+- vector: dim=3072 · [-0.0152, -0.0099, -0.0302, -0.0360, 0.0192, 0.0058, -0.0056, 0.0098, …]
 
 ```json
 {
-  "chunk_id": "b4c55b9f-5161-5baa-9b61-e4d17f053e13",
+  "chunk_id": "5921e81e-25b1-5e4d-971e-ffe88c9bf468",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8568,14 +8638,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 195,
+  "chunk_index": 196,
   "page_number": 150,
   "page_range": [
     150,
     150
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -8607,18 +8677,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     150,
     152
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `5921e81e-25b1-5e4d-971e-ffe88c9bf468`
+## Child · `94f56575-965d-56bd-8226-964406e2eb26`
 
-- vector: dim=3072 · [-0.0358, 0.0341, -0.0248, -0.0082, 0.0139, 0.0106, 0.0142, 0.0019, …]
+- vector: dim=3072 · [-0.0359, 0.0341, -0.0248, -0.0082, 0.0139, 0.0106, 0.0142, 0.0019, …]
 
 ```json
 {
-  "chunk_id": "5921e81e-25b1-5e4d-971e-ffe88c9bf468",
+  "chunk_id": "94f56575-965d-56bd-8226-964406e2eb26",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8637,24 +8707,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "7c153c03-dc68-5d08-a5c2-e31a64094c7b",
-  "chunk_index": 196,
+  "chunk_index": 197,
   "page_number": 150,
   "page_range": [
     150,
     151
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `94f56575-965d-56bd-8226-964406e2eb26`
+## Child · `a4a8e10c-73c0-598a-9b19-e27479076cf1`
 
-- vector: dim=3072 · [-0.0299, 0.0233, -0.0199, -0.0155, -0.0114, 0.0029, 0.0131, -0.0013, …]
+- vector: dim=3072 · [-0.0298, 0.0235, -0.0200, -0.0157, -0.0113, 0.0031, 0.0133, -0.0013, …]
 
 ```json
 {
-  "chunk_id": "94f56575-965d-56bd-8226-964406e2eb26",
+  "chunk_id": "a4a8e10c-73c0-598a-9b19-e27479076cf1",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8673,24 +8743,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "7c153c03-dc68-5d08-a5c2-e31a64094c7b",
-  "chunk_index": 197,
+  "chunk_index": 198,
   "page_number": 151,
   "page_range": [
     151,
     152
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `a4a8e10c-73c0-598a-9b19-e27479076cf1`
+## Child · `9c182346-8859-541d-9d35-7e6f40429383`
 
-- vector: dim=3072 · [-0.0427, 0.0214, -0.0332, -0.0072, -0.0240, -0.0069, 0.0259, -0.0084, …]
+- vector: dim=3072 · [-0.0427, 0.0215, -0.0332, -0.0072, -0.0240, -0.0069, 0.0259, -0.0084, …]
 
 ```json
 {
-  "chunk_id": "a4a8e10c-73c0-598a-9b19-e27479076cf1",
+  "chunk_id": "9c182346-8859-541d-9d35-7e6f40429383",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8709,24 +8779,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "7c153c03-dc68-5d08-a5c2-e31a64094c7b",
-  "chunk_index": 198,
+  "chunk_index": 199,
   "page_number": 152,
   "page_range": [
     152,
     152
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `9c182346-8859-541d-9d35-7e6f40429383`
+## Child · `847ecd54-a613-5457-b9b3-4ec8028d4027`
 
 - vector: dim=3072 · [-0.0234, 0.0103, -0.0253, -0.0321, -0.0008, -0.0047, -0.0104, 0.0166, …]
 
 ```json
 {
-  "chunk_id": "9c182346-8859-541d-9d35-7e6f40429383",
+  "chunk_id": "847ecd54-a613-5457-b9b3-4ec8028d4027",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8744,14 +8814,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 199,
+  "chunk_index": 200,
   "page_number": 152,
   "page_range": [
     152,
     152
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -8783,18 +8853,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     152,
     155
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `847ecd54-a613-5457-b9b3-4ec8028d4027`
+## Child · `54e80340-6fc3-5d5f-a153-b305773e9b18`
 
 - vector: dim=3072 · [-0.0248, 0.0260, -0.0156, 0.0127, -0.0015, -0.0054, -0.0041, 0.0256, …]
 
 ```json
 {
-  "chunk_id": "847ecd54-a613-5457-b9b3-4ec8028d4027",
+  "chunk_id": "54e80340-6fc3-5d5f-a153-b305773e9b18",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8813,24 +8883,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "5b7d4c4b-57fa-55fa-a4dc-41db47f9cd4e",
-  "chunk_index": 200,
+  "chunk_index": 201,
   "page_number": 152,
   "page_range": [
     152,
     153
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `54e80340-6fc3-5d5f-a153-b305773e9b18`
+## Child · `d1b6b291-000f-50c6-b475-dc40e23bcc23`
 
-- vector: dim=3072 · [-0.0162, 0.0202, -0.0107, 0.0029, 0.0031, 0.0178, 0.0024, 0.0268, …]
+- vector: dim=3072 · [-0.0162, 0.0202, -0.0107, 0.0029, 0.0032, 0.0178, 0.0023, 0.0268, …]
 
 ```json
 {
-  "chunk_id": "54e80340-6fc3-5d5f-a153-b305773e9b18",
+  "chunk_id": "d1b6b291-000f-50c6-b475-dc40e23bcc23",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8849,24 +8919,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "5b7d4c4b-57fa-55fa-a4dc-41db47f9cd4e",
-  "chunk_index": 201,
+  "chunk_index": 202,
   "page_number": 153,
   "page_range": [
     153,
     154
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `d1b6b291-000f-50c6-b475-dc40e23bcc23`
+## Child · `55a9648b-9f21-5d4a-957e-6da280fad190`
 
-- vector: dim=3072 · [0.0016, 0.0294, -0.0193, 0.0240, -0.0063, 0.0369, -0.0074, 0.0293, …]
+- vector: dim=3072 · [0.0016, 0.0295, -0.0192, 0.0242, -0.0063, 0.0368, -0.0073, 0.0292, …]
 
 ```json
 {
-  "chunk_id": "d1b6b291-000f-50c6-b475-dc40e23bcc23",
+  "chunk_id": "55a9648b-9f21-5d4a-957e-6da280fad190",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8885,24 +8955,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "5b7d4c4b-57fa-55fa-a4dc-41db47f9cd4e",
-  "chunk_index": 202,
+  "chunk_index": 203,
   "page_number": 154,
   "page_range": [
     154,
     155
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `55a9648b-9f21-5d4a-957e-6da280fad190`
+## Child · `34f88fcc-b867-57cb-b65a-b71759ca38b8`
 
 - vector: dim=3072 · [-0.0278, 0.0446, -0.0177, 0.0027, 0.0122, 0.0079, -0.0130, 0.0169, …]
 
 ```json
 {
-  "chunk_id": "55a9648b-9f21-5d4a-957e-6da280fad190",
+  "chunk_id": "34f88fcc-b867-57cb-b65a-b71759ca38b8",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8920,24 +8990,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 203,
+  "chunk_index": 204,
   "page_number": 155,
   "page_range": [
     155,
     156
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `34f88fcc-b867-57cb-b65a-b71759ca38b8`
+## Child · `dac57561-6ea0-53fe-9468-d96b7a49dbba`
 
-- vector: dim=3072 · [-0.0270, 0.0573, -0.0134, -0.0220, 0.0148, -0.0057, -0.0091, 0.0101, …]
+- vector: dim=3072 · [-0.0272, 0.0575, -0.0137, -0.0224, 0.0152, -0.0050, -0.0099, 0.0105, …]
 
 ```json
 {
-  "chunk_id": "34f88fcc-b867-57cb-b65a-b71759ca38b8",
+  "chunk_id": "dac57561-6ea0-53fe-9468-d96b7a49dbba",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -8955,14 +9025,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 204,
+  "chunk_index": 205,
   "page_number": 156,
   "page_range": [
     156,
     157
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -8994,18 +9064,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     157,
     159
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `dac57561-6ea0-53fe-9468-d96b7a49dbba`
+## Child · `3f66c196-7932-56b8-81a8-061760b0e0af`
 
 - vector: dim=3072 · [-0.0520, 0.0192, 0.0050, 0.0024, 0.0338, 0.0057, -0.0150, 0.0061, …]
 
 ```json
 {
-  "chunk_id": "dac57561-6ea0-53fe-9468-d96b7a49dbba",
+  "chunk_id": "3f66c196-7932-56b8-81a8-061760b0e0af",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9024,24 +9094,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "ea2f7490-1276-5027-b619-89ab980707ca",
-  "chunk_index": 205,
+  "chunk_index": 206,
   "page_number": 157,
   "page_range": [
     157,
     157
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `3f66c196-7932-56b8-81a8-061760b0e0af`
+## Child · `414f70ca-b95a-56fe-8938-db5322a93b0a`
 
 - vector: dim=3072 · [-0.0324, 0.0276, 0.0047, 0.0029, 0.0231, -0.0079, -0.0047, 0.0189, …]
 
 ```json
 {
-  "chunk_id": "3f66c196-7932-56b8-81a8-061760b0e0af",
+  "chunk_id": "414f70ca-b95a-56fe-8938-db5322a93b0a",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9060,24 +9130,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "ea2f7490-1276-5027-b619-89ab980707ca",
-  "chunk_index": 206,
+  "chunk_index": 207,
   "page_number": 157,
   "page_range": [
     157,
     158
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `414f70ca-b95a-56fe-8938-db5322a93b0a`
+## Child · `4182407c-66a9-5edf-b779-ba9a922e8257`
 
-- vector: dim=3072 · [-0.0385, 0.0283, -0.0165, -0.0126, 0.0131, -0.0106, 0.0108, -0.0208, …]
+- vector: dim=3072 · [-0.0387, 0.0284, -0.0166, -0.0128, 0.0130, -0.0107, 0.0110, -0.0208, …]
 
 ```json
 {
-  "chunk_id": "414f70ca-b95a-56fe-8938-db5322a93b0a",
+  "chunk_id": "4182407c-66a9-5edf-b779-ba9a922e8257",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9096,24 +9166,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "ea2f7490-1276-5027-b619-89ab980707ca",
-  "chunk_index": 207,
+  "chunk_index": 208,
   "page_number": 158,
   "page_range": [
     158,
     158
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `4182407c-66a9-5edf-b779-ba9a922e8257`
+## Child · `68e76712-b4a2-50d1-8dcc-acd974149294`
 
 - vector: dim=3072 · [-0.0204, 0.0236, -0.0149, 0.0140, 0.0260, 0.0011, 0.0045, 0.0020, …]
 
 ```json
 {
-  "chunk_id": "4182407c-66a9-5edf-b779-ba9a922e8257",
+  "chunk_id": "68e76712-b4a2-50d1-8dcc-acd974149294",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9132,24 +9202,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "ea2f7490-1276-5027-b619-89ab980707ca",
-  "chunk_index": 208,
+  "chunk_index": 209,
   "page_number": 158,
   "page_range": [
     158,
     159
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `68e76712-b4a2-50d1-8dcc-acd974149294`
+## Child · `18ae9647-28df-5217-9265-c299d1fead10`
 
-- vector: dim=3072 · [-0.0291, 0.0423, -0.0199, -0.0422, 0.0262, 0.0107, 0.0100, -0.0158, …]
+- vector: dim=3072 · [-0.0289, 0.0421, -0.0200, -0.0415, 0.0261, 0.0107, 0.0099, -0.0155, …]
 
 ```json
 {
-  "chunk_id": "68e76712-b4a2-50d1-8dcc-acd974149294",
+  "chunk_id": "18ae9647-28df-5217-9265-c299d1fead10",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9167,24 +9237,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 209,
+  "chunk_index": 210,
   "page_number": 159,
   "page_range": [
     159,
     160
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `18ae9647-28df-5217-9265-c299d1fead10`
+## Child · `a2c8c32a-b06c-51db-b016-9019a344a880`
 
 - vector: dim=3072 · [-0.0131, 0.0395, -0.0190, -0.0153, 0.0298, 0.0231, 0.0195, 0.0238, …]
 
 ```json
 {
-  "chunk_id": "18ae9647-28df-5217-9265-c299d1fead10",
+  "chunk_id": "a2c8c32a-b06c-51db-b016-9019a344a880",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9202,24 +9272,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 210,
+  "chunk_index": 211,
   "page_number": 160,
   "page_range": [
     160,
     163
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `a2c8c32a-b06c-51db-b016-9019a344a880`
+## Child · `aabe281e-5181-50c0-9ecd-331f591330a3`
 
-- vector: dim=3072 · [-0.0483, 0.0498, -0.0211, -0.0114, -0.0041, 0.0169, -0.0033, -0.0018, …]
+- vector: dim=3072 · [-0.0485, 0.0499, -0.0211, -0.0112, -0.0038, 0.0169, -0.0031, -0.0017, …]
 
 ```json
 {
-  "chunk_id": "a2c8c32a-b06c-51db-b016-9019a344a880",
+  "chunk_id": "aabe281e-5181-50c0-9ecd-331f591330a3",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9237,14 +9307,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 211,
+  "chunk_index": 212,
   "page_number": 163,
   "page_range": [
     163,
     164
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -9277,18 +9347,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     164,
     166
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `aabe281e-5181-50c0-9ecd-331f591330a3`
+## Child · `c92fa952-9002-5cf7-85f7-311f013a648c`
 
-- vector: dim=3072 · [-0.0328, 0.0367, -0.0095, 0.0109, -0.0018, 0.0012, -0.0056, 0.0147, …]
+- vector: dim=3072 · [-0.0327, 0.0367, -0.0095, 0.0108, -0.0018, 0.0012, -0.0056, 0.0147, …]
 
 ```json
 {
-  "chunk_id": "aabe281e-5181-50c0-9ecd-331f591330a3",
+  "chunk_id": "c92fa952-9002-5cf7-85f7-311f013a648c",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9308,24 +9378,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "f4bb0a69-fc5b-51f3-b0dd-00dbbff96c40",
-  "chunk_index": 212,
+  "chunk_index": 213,
   "page_number": 164,
   "page_range": [
     164,
     164
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `c92fa952-9002-5cf7-85f7-311f013a648c`
+## Child · `8805a3ea-8545-5b0c-a120-abaacf1a911f`
 
-- vector: dim=3072 · [-0.0283, 0.0303, -0.0076, 0.0079, 0.0219, -0.0001, -0.0222, 0.0345, …]
+- vector: dim=3072 · [-0.0284, 0.0304, -0.0077, 0.0079, 0.0220, -0.0003, -0.0223, 0.0346, …]
 
 ```json
 {
-  "chunk_id": "c92fa952-9002-5cf7-85f7-311f013a648c",
+  "chunk_id": "8805a3ea-8545-5b0c-a120-abaacf1a911f",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9345,24 +9415,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "f4bb0a69-fc5b-51f3-b0dd-00dbbff96c40",
-  "chunk_index": 213,
+  "chunk_index": 214,
   "page_number": 164,
   "page_range": [
     164,
     166
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `8805a3ea-8545-5b0c-a120-abaacf1a911f`
+## Child · `6882bb91-1c29-5981-a000-7b3c6c5e816f`
 
-- vector: dim=3072 · [-0.0280, 0.0044, -0.0299, 0.0372, -0.0066, 0.0031, -0.0250, 0.0067, …]
+- vector: dim=3072 · [-0.0280, 0.0043, -0.0299, 0.0372, -0.0066, 0.0032, -0.0251, 0.0066, …]
 
 ```json
 {
-  "chunk_id": "8805a3ea-8545-5b0c-a120-abaacf1a911f",
+  "chunk_id": "6882bb91-1c29-5981-a000-7b3c6c5e816f",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9380,14 +9450,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 214,
+  "chunk_index": 215,
   "page_number": 166,
   "page_range": [
     166,
     166
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -9419,18 +9489,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     166,
     167
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `6882bb91-1c29-5981-a000-7b3c6c5e816f`
+## Child · `395f031c-335e-50e2-983a-4153b46333f9`
 
 - vector: dim=3072 · [-0.0282, 0.0300, -0.0338, 0.0098, 0.0312, 0.0371, -0.0064, 0.0135, …]
 
 ```json
 {
-  "chunk_id": "6882bb91-1c29-5981-a000-7b3c6c5e816f",
+  "chunk_id": "395f031c-335e-50e2-983a-4153b46333f9",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9449,24 +9519,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "37b04188-ad14-5b74-9488-e710c3ba51d9",
-  "chunk_index": 215,
+  "chunk_index": 216,
   "page_number": 166,
   "page_range": [
     166,
     167
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `395f031c-335e-50e2-983a-4153b46333f9`
+## Child · `a20e21a4-8c25-5574-913e-9807b65f9d26`
 
-- vector: dim=3072 · [-0.0264, 0.0380, -0.0276, -0.0048, 0.0185, 0.0254, -0.0010, 0.0272, …]
+- vector: dim=3072 · [-0.0264, 0.0380, -0.0276, -0.0049, 0.0185, 0.0253, -0.0010, 0.0272, …]
 
 ```json
 {
-  "chunk_id": "395f031c-335e-50e2-983a-4153b46333f9",
+  "chunk_id": "a20e21a4-8c25-5574-913e-9807b65f9d26",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9485,14 +9555,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "37b04188-ad14-5b74-9488-e710c3ba51d9",
-  "chunk_index": 216,
+  "chunk_index": 217,
   "page_number": 167,
   "page_range": [
     167,
     167
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -9524,18 +9594,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     167,
     170
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `a20e21a4-8c25-5574-913e-9807b65f9d26`
+## Child · `d1805454-4004-5bc2-a9b2-930817466993`
 
 - vector: dim=3072 · [-0.0569, 0.0467, -0.0215, -0.0044, 0.0277, 0.0214, -0.0060, 0.0022, …]
 
 ```json
 {
-  "chunk_id": "a20e21a4-8c25-5574-913e-9807b65f9d26",
+  "chunk_id": "d1805454-4004-5bc2-a9b2-930817466993",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9554,24 +9624,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "7fb82bdf-ffdd-5857-8d70-f19263902aaa",
-  "chunk_index": 217,
+  "chunk_index": 218,
   "page_number": 167,
   "page_range": [
     167,
     168
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `d1805454-4004-5bc2-a9b2-930817466993`
+## Child · `767cc2bd-2c63-54a1-9a23-45b0f6745879`
 
 - vector: dim=3072 · [-0.0445, 0.0183, -0.0126, 0.0021, 0.0271, 0.0138, -0.0013, 0.0119, …]
 
 ```json
 {
-  "chunk_id": "d1805454-4004-5bc2-a9b2-930817466993",
+  "chunk_id": "767cc2bd-2c63-54a1-9a23-45b0f6745879",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9590,24 +9660,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "7fb82bdf-ffdd-5857-8d70-f19263902aaa",
-  "chunk_index": 218,
+  "chunk_index": 219,
   "page_number": 168,
   "page_range": [
     168,
     168
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `767cc2bd-2c63-54a1-9a23-45b0f6745879`
+## Child · `8ca55197-d983-5259-a4b7-3c6c12de90d4`
 
 - vector: dim=3072 · [-0.0174, 0.0129, -0.0259, 0.0143, 0.0204, 0.0203, -0.0117, 0.0152, …]
 
 ```json
 {
-  "chunk_id": "767cc2bd-2c63-54a1-9a23-45b0f6745879",
+  "chunk_id": "8ca55197-d983-5259-a4b7-3c6c12de90d4",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9626,24 +9696,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "7fb82bdf-ffdd-5857-8d70-f19263902aaa",
-  "chunk_index": 219,
+  "chunk_index": 220,
   "page_number": 168,
   "page_range": [
     168,
     169
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `8ca55197-d983-5259-a4b7-3c6c12de90d4`
+## Child · `a9863276-20b0-5aa6-a039-056e5a20d3a1`
 
-- vector: dim=3072 · [-0.0269, 0.0030, -0.0298, 0.0093, 0.0212, 0.0242, -0.0171, -0.0020, …]
+- vector: dim=3072 · [-0.0269, 0.0031, -0.0297, 0.0092, 0.0212, 0.0242, -0.0171, -0.0020, …]
 
 ```json
 {
-  "chunk_id": "8ca55197-d983-5259-a4b7-3c6c12de90d4",
+  "chunk_id": "a9863276-20b0-5aa6-a039-056e5a20d3a1",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9662,24 +9732,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "7fb82bdf-ffdd-5857-8d70-f19263902aaa",
-  "chunk_index": 220,
+  "chunk_index": 221,
   "page_number": 169,
   "page_range": [
     169,
     170
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `a9863276-20b0-5aa6-a039-056e5a20d3a1`
+## Child · `090fcf7d-9f5f-51c8-8764-4e63e19b77e7`
 
-- vector: dim=3072 · [-0.0341, 0.0418, -0.0302, 0.0042, 0.0104, 0.0286, -0.0200, 0.0058, …]
+- vector: dim=3072 · [-0.0341, 0.0418, -0.0302, 0.0042, 0.0104, 0.0286, -0.0200, 0.0057, …]
 
 ```json
 {
-  "chunk_id": "a9863276-20b0-5aa6-a039-056e5a20d3a1",
+  "chunk_id": "090fcf7d-9f5f-51c8-8764-4e63e19b77e7",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9697,14 +9767,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 221,
+  "chunk_index": 222,
   "page_number": 170,
   "page_range": [
     170,
     171
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -9736,18 +9806,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     171,
     172
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `090fcf7d-9f5f-51c8-8764-4e63e19b77e7`
+## Child · `360ccfb2-7875-553a-913f-1c678a967d5c`
 
 - vector: dim=3072 · [-0.0222, 0.0248, -0.0215, 0.0261, 0.0067, 0.0175, -0.0232, 0.0125, …]
 
 ```json
 {
-  "chunk_id": "090fcf7d-9f5f-51c8-8764-4e63e19b77e7",
+  "chunk_id": "360ccfb2-7875-553a-913f-1c678a967d5c",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9766,24 +9836,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "49b04bc3-c5cb-5439-8d01-efffad6482ca",
-  "chunk_index": 222,
+  "chunk_index": 223,
   "page_number": 171,
   "page_range": [
     171,
     172
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `360ccfb2-7875-553a-913f-1c678a967d5c`
+## Child · `ecf3aacc-d480-5414-8399-24f1da818e38`
 
-- vector: dim=3072 · [-0.0143, 0.0168, -0.0235, 0.0388, 0.0030, -0.0001, -0.0243, -0.0049, …]
+- vector: dim=3072 · [-0.0142, 0.0168, -0.0235, 0.0389, 0.0030, -0.0000, -0.0242, -0.0049, …]
 
 ```json
 {
-  "chunk_id": "360ccfb2-7875-553a-913f-1c678a967d5c",
+  "chunk_id": "ecf3aacc-d480-5414-8399-24f1da818e38",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9802,14 +9872,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "49b04bc3-c5cb-5439-8d01-efffad6482ca",
-  "chunk_index": 223,
+  "chunk_index": 224,
   "page_number": 172,
   "page_range": [
     172,
     172
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -9841,18 +9911,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     172,
     174
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `ecf3aacc-d480-5414-8399-24f1da818e38`
+## Child · `73108dfd-9afe-56f7-9ab9-ab80153efa4f`
 
-- vector: dim=3072 · [-0.0479, 0.0022, -0.0179, 0.0063, 0.0329, 0.0204, 0.0098, 0.0070, …]
+- vector: dim=3072 · [-0.0477, 0.0026, -0.0181, 0.0062, 0.0330, 0.0206, 0.0099, 0.0072, …]
 
 ```json
 {
-  "chunk_id": "ecf3aacc-d480-5414-8399-24f1da818e38",
+  "chunk_id": "73108dfd-9afe-56f7-9ab9-ab80153efa4f",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9871,24 +9941,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "90429ce9-5663-5093-9ac9-759b89351136",
-  "chunk_index": 224,
+  "chunk_index": 225,
   "page_number": 172,
   "page_range": [
     172,
     172
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `73108dfd-9afe-56f7-9ab9-ab80153efa4f`
+## Child · `fcbfe675-2068-5353-8807-4dbed0bbba27`
 
 - vector: dim=3072 · [-0.0218, 0.0201, -0.0118, 0.0343, 0.0286, 0.0018, -0.0196, 0.0234, …]
 
 ```json
 {
-  "chunk_id": "73108dfd-9afe-56f7-9ab9-ab80153efa4f",
+  "chunk_id": "fcbfe675-2068-5353-8807-4dbed0bbba27",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9907,24 +9977,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "90429ce9-5663-5093-9ac9-759b89351136",
-  "chunk_index": 225,
+  "chunk_index": 226,
   "page_number": 173,
   "page_range": [
     173,
     173
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `fcbfe675-2068-5353-8807-4dbed0bbba27`
+## Child · `3261aee4-806b-52ac-90f6-58009e4db4d9`
 
 - vector: dim=3072 · [-0.0287, 0.0059, -0.0130, 0.0032, 0.0131, 0.0106, -0.0102, 0.0270, …]
 
 ```json
 {
-  "chunk_id": "fcbfe675-2068-5353-8807-4dbed0bbba27",
+  "chunk_id": "3261aee4-806b-52ac-90f6-58009e4db4d9",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9943,24 +10013,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "90429ce9-5663-5093-9ac9-759b89351136",
-  "chunk_index": 226,
+  "chunk_index": 227,
   "page_number": 173,
   "page_range": [
     173,
     174
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `3261aee4-806b-52ac-90f6-58009e4db4d9`
+## Child · `d6294008-5e90-50bd-8f5b-997d789a4749`
 
-- vector: dim=3072 · [-0.0301, 0.0139, -0.0125, -0.0237, -0.0051, 0.0138, -0.0485, 0.0022, …]
+- vector: dim=3072 · [-0.0303, 0.0140, -0.0125, -0.0235, -0.0051, 0.0138, -0.0485, 0.0021, …]
 
 ```json
 {
-  "chunk_id": "3261aee4-806b-52ac-90f6-58009e4db4d9",
+  "chunk_id": "d6294008-5e90-50bd-8f5b-997d789a4749",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -9978,24 +10048,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 227,
+  "chunk_index": 228,
   "page_number": 174,
   "page_range": [
     174,
     175
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `d6294008-5e90-50bd-8f5b-997d789a4749`
+## Child · `21061546-9086-5dce-94fa-55ea614135c7`
 
-- vector: dim=3072 · [-0.0323, -0.0042, -0.0272, -0.0261, -0.0094, 0.0090, -0.0211, -0.0159, …]
+- vector: dim=3072 · [-0.0323, -0.0042, -0.0272, -0.0262, -0.0092, 0.0091, -0.0211, -0.0157, …]
 
 ```json
 {
-  "chunk_id": "d6294008-5e90-50bd-8f5b-997d789a4749",
+  "chunk_id": "21061546-9086-5dce-94fa-55ea614135c7",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10013,14 +10083,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 228,
+  "chunk_index": 229,
   "page_number": 175,
   "page_range": [
     175,
     175
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -10052,18 +10122,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     175,
     176
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `21061546-9086-5dce-94fa-55ea614135c7`
+## Child · `53e51bac-c853-55b1-ab23-5dd03cc8020a`
 
-- vector: dim=3072 · [-0.0264, -0.0046, -0.0083, 0.0215, -0.0074, 0.0008, -0.0398, 0.0262, …]
+- vector: dim=3072 · [-0.0262, -0.0046, -0.0083, 0.0216, -0.0072, 0.0008, -0.0396, 0.0261, …]
 
 ```json
 {
-  "chunk_id": "21061546-9086-5dce-94fa-55ea614135c7",
+  "chunk_id": "53e51bac-c853-55b1-ab23-5dd03cc8020a",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10082,24 +10152,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "f379521c-e7b3-5dab-a9cb-81e7098d9aa1",
-  "chunk_index": 229,
+  "chunk_index": 230,
   "page_number": 175,
   "page_range": [
     175,
     176
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `53e51bac-c853-55b1-ab23-5dd03cc8020a`
+## Child · `5633960b-3dab-5113-ab03-88f2c8cfd285`
 
-- vector: dim=3072 · [-0.0377, 0.0037, -0.0051, 0.0341, -0.0154, 0.0007, -0.0524, 0.0146, …]
+- vector: dim=3072 · [-0.0373, 0.0037, -0.0051, 0.0342, -0.0153, 0.0010, -0.0523, 0.0147, …]
 
 ```json
 {
-  "chunk_id": "53e51bac-c853-55b1-ab23-5dd03cc8020a",
+  "chunk_id": "5633960b-3dab-5113-ab03-88f2c8cfd285",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10118,14 +10188,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "f379521c-e7b3-5dab-a9cb-81e7098d9aa1",
-  "chunk_index": 230,
+  "chunk_index": 231,
   "page_number": 176,
   "page_range": [
     176,
     176
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -10157,18 +10227,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     176,
     179
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `5633960b-3dab-5113-ab03-88f2c8cfd285`
+## Child · `8acccb2d-f609-5e8f-9767-e70f6796378e`
 
-- vector: dim=3072 · [-0.0315, -0.0120, -0.0080, 0.0231, 0.0071, -0.0225, -0.0490, 0.0189, …]
+- vector: dim=3072 · [-0.0314, -0.0121, -0.0079, 0.0231, 0.0072, -0.0224, -0.0492, 0.0188, …]
 
 ```json
 {
-  "chunk_id": "5633960b-3dab-5113-ab03-88f2c8cfd285",
+  "chunk_id": "8acccb2d-f609-5e8f-9767-e70f6796378e",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10187,24 +10257,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "80a6a588-e11a-5bad-84d0-5de25266e618",
-  "chunk_index": 231,
+  "chunk_index": 232,
   "page_number": 176,
   "page_range": [
     176,
     176
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `8acccb2d-f609-5e8f-9767-e70f6796378e`
+## Child · `3372739d-b5de-5619-b4b1-41d336225cc0`
 
-- vector: dim=3072 · [-0.0113, 0.0049, -0.0092, 0.0411, -0.0171, -0.0164, -0.0324, 0.0216, …]
+- vector: dim=3072 · [-0.0112, 0.0043, -0.0091, 0.0411, -0.0169, -0.0166, -0.0322, 0.0215, …]
 
 ```json
 {
-  "chunk_id": "8acccb2d-f609-5e8f-9767-e70f6796378e",
+  "chunk_id": "3372739d-b5de-5619-b4b1-41d336225cc0",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10223,24 +10293,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "80a6a588-e11a-5bad-84d0-5de25266e618",
-  "chunk_index": 232,
+  "chunk_index": 233,
   "page_number": 177,
   "page_range": [
     177,
     177
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `3372739d-b5de-5619-b4b1-41d336225cc0`
+## Child · `46be20d1-4d58-592c-ab66-c0cfd470621c`
 
 - vector: dim=3072 · [-0.0242, -0.0132, -0.0123, -0.0028, -0.0049, 0.0056, -0.0179, 0.0309, …]
 
 ```json
 {
-  "chunk_id": "3372739d-b5de-5619-b4b1-41d336225cc0",
+  "chunk_id": "46be20d1-4d58-592c-ab66-c0cfd470621c",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10259,24 +10329,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "80a6a588-e11a-5bad-84d0-5de25266e618",
-  "chunk_index": 233,
+  "chunk_index": 234,
   "page_number": 177,
   "page_range": [
     177,
     178
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `46be20d1-4d58-592c-ab66-c0cfd470621c`
+## Child · `4da8d7b4-608e-5d5d-b2e1-c9efd090d927`
 
-- vector: dim=3072 · [-0.0416, 0.0058, -0.0186, 0.0005, 0.0382, 0.0048, -0.0251, 0.0248, …]
+- vector: dim=3072 · [-0.0418, 0.0061, -0.0185, 0.0002, 0.0374, 0.0047, -0.0250, 0.0249, …]
 
 ```json
 {
-  "chunk_id": "46be20d1-4d58-592c-ab66-c0cfd470621c",
+  "chunk_id": "4da8d7b4-608e-5d5d-b2e1-c9efd090d927",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10295,24 +10365,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "80a6a588-e11a-5bad-84d0-5de25266e618",
-  "chunk_index": 234,
+  "chunk_index": 235,
   "page_number": 178,
   "page_range": [
     178,
     179
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `4da8d7b4-608e-5d5d-b2e1-c9efd090d927`
+## Child · `d1a2d943-eda9-5741-8b38-7dd4092c126b`
 
-- vector: dim=3072 · [-0.0270, -0.0290, -0.0170, -0.0077, -0.0164, 0.0009, -0.0108, 0.0017, …]
+- vector: dim=3072 · [-0.0269, -0.0290, -0.0170, -0.0077, -0.0164, 0.0010, -0.0108, 0.0017, …]
 
 ```json
 {
-  "chunk_id": "4da8d7b4-608e-5d5d-b2e1-c9efd090d927",
+  "chunk_id": "d1a2d943-eda9-5741-8b38-7dd4092c126b",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10331,14 +10401,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "80a6a588-e11a-5bad-84d0-5de25266e618",
-  "chunk_index": 235,
+  "chunk_index": 236,
   "page_number": 179,
   "page_range": [
     179,
     179
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -10370,18 +10440,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     179,
     182
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `d1a2d943-eda9-5741-8b38-7dd4092c126b`
+## Child · `5e4c875e-4234-54f1-9e8c-ad02241251ed`
 
-- vector: dim=3072 · [-0.0435, 0.0038, -0.0137, 0.0017, 0.0025, -0.0114, -0.0109, 0.0420, …]
+- vector: dim=3072 · [-0.0436, 0.0041, -0.0142, 0.0014, 0.0020, -0.0107, -0.0106, 0.0423, …]
 
 ```json
 {
-  "chunk_id": "d1a2d943-eda9-5741-8b38-7dd4092c126b",
+  "chunk_id": "5e4c875e-4234-54f1-9e8c-ad02241251ed",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10400,24 +10470,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "97a3958e-4d41-59cf-b0e8-88b3a65797e0",
-  "chunk_index": 236,
+  "chunk_index": 237,
   "page_number": 179,
   "page_range": [
     179,
     180
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `5e4c875e-4234-54f1-9e8c-ad02241251ed`
+## Child · `5471f583-3465-5d37-b163-70a26ab748f9`
 
-- vector: dim=3072 · [-0.0375, -0.0006, -0.0089, 0.0000, -0.0082, -0.0094, -0.0261, 0.0247, …]
+- vector: dim=3072 · [-0.0376, -0.0010, -0.0088, 0.0001, -0.0082, -0.0096, -0.0260, 0.0251, …]
 
 ```json
 {
-  "chunk_id": "5e4c875e-4234-54f1-9e8c-ad02241251ed",
+  "chunk_id": "5471f583-3465-5d37-b163-70a26ab748f9",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10436,24 +10506,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "97a3958e-4d41-59cf-b0e8-88b3a65797e0",
-  "chunk_index": 237,
+  "chunk_index": 238,
   "page_number": 180,
   "page_range": [
     180,
     180
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `5471f583-3465-5d37-b163-70a26ab748f9`
+## Child · `e754454e-441b-5a84-a0f1-20736bb2a56e`
 
 - vector: dim=3072 · [-0.0284, -0.0036, -0.0126, -0.0097, -0.0156, 0.0033, -0.0539, 0.0156, …]
 
 ```json
 {
-  "chunk_id": "5471f583-3465-5d37-b163-70a26ab748f9",
+  "chunk_id": "e754454e-441b-5a84-a0f1-20736bb2a56e",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10472,24 +10542,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "97a3958e-4d41-59cf-b0e8-88b3a65797e0",
-  "chunk_index": 238,
+  "chunk_index": 239,
   "page_number": 181,
   "page_range": [
     181,
     181
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `e754454e-441b-5a84-a0f1-20736bb2a56e`
+## Child · `563f7f7a-1df7-59e1-a5db-47d45d9faf00`
 
-- vector: dim=3072 · [-0.0118, 0.0040, -0.0077, 0.0224, 0.0064, -0.0207, -0.0334, 0.0253, …]
+- vector: dim=3072 · [-0.0121, 0.0042, -0.0076, 0.0216, 0.0059, -0.0199, -0.0336, 0.0254, …]
 
 ```json
 {
-  "chunk_id": "e754454e-441b-5a84-a0f1-20736bb2a56e",
+  "chunk_id": "563f7f7a-1df7-59e1-a5db-47d45d9faf00",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10508,24 +10578,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "97a3958e-4d41-59cf-b0e8-88b3a65797e0",
-  "chunk_index": 239,
+  "chunk_index": 240,
   "page_number": 182,
   "page_range": [
     182,
     182
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `563f7f7a-1df7-59e1-a5db-47d45d9faf00`
+## Child · `60df3947-7cce-5836-af01-f42ce3cb51f5`
 
 - vector: dim=3072 · [-0.0454, -0.0134, -0.0168, 0.0681, -0.0521, -0.0007, -0.0294, 0.0079, …]
 
 ```json
 {
-  "chunk_id": "563f7f7a-1df7-59e1-a5db-47d45d9faf00",
+  "chunk_id": "60df3947-7cce-5836-af01-f42ce3cb51f5",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10544,14 +10614,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "97a3958e-4d41-59cf-b0e8-88b3a65797e0",
-  "chunk_index": 240,
+  "chunk_index": 241,
   "page_number": 182,
   "page_range": [
     182,
     182
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
@@ -10583,18 +10653,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     183,
     184
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `60df3947-7cce-5836-af01-f42ce3cb51f5`
+## Child · `68287cf8-0814-5076-9df3-2abcf4ea7254`
 
 - vector: dim=3072 · [-0.0238, 0.0237, -0.0062, 0.0182, -0.0019, 0.0011, -0.0276, 0.0044, …]
 
 ```json
 {
-  "chunk_id": "60df3947-7cce-5836-af01-f42ce3cb51f5",
+  "chunk_id": "68287cf8-0814-5076-9df3-2abcf4ea7254",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10613,24 +10683,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "4148dc7b-2915-553e-af07-749244ef1f4b",
-  "chunk_index": 241,
+  "chunk_index": 242,
   "page_number": 183,
   "page_range": [
     183,
     183
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `68287cf8-0814-5076-9df3-2abcf4ea7254`
+## Child · `84022c90-2e16-599c-a382-8db2374b00d0`
 
 - vector: dim=3072 · [0.0146, 0.0162, -0.0045, 0.0200, -0.0006, 0.0135, -0.0223, -0.0198, …]
 
 ```json
 {
-  "chunk_id": "68287cf8-0814-5076-9df3-2abcf4ea7254",
+  "chunk_id": "84022c90-2e16-599c-a382-8db2374b00d0",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10649,24 +10719,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "4148dc7b-2915-553e-af07-749244ef1f4b",
-  "chunk_index": 242,
+  "chunk_index": 243,
   "page_number": 183,
   "page_range": [
     183,
     183
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `84022c90-2e16-599c-a382-8db2374b00d0`
+## Child · `a79ed493-dc75-5005-80de-2227330faa4c`
 
-- vector: dim=3072 · [-0.0170, 0.0000, -0.0054, 0.0297, 0.0030, -0.0020, -0.0406, 0.0176, …]
+- vector: dim=3072 · [-0.0170, -0.0000, -0.0054, 0.0297, 0.0029, -0.0019, -0.0405, 0.0175, …]
 
 ```json
 {
-  "chunk_id": "84022c90-2e16-599c-a382-8db2374b00d0",
+  "chunk_id": "a79ed493-dc75-5005-80de-2227330faa4c",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10685,24 +10755,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "4148dc7b-2915-553e-af07-749244ef1f4b",
-  "chunk_index": 243,
+  "chunk_index": 244,
   "page_number": 184,
   "page_range": [
     184,
     184
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `a79ed493-dc75-5005-80de-2227330faa4c`
+## Child · `985ad744-0e46-587f-a28d-8107ac7912a2`
 
 - vector: dim=3072 · [-0.0461, -0.0151, -0.0029, 0.0089, -0.0106, -0.0077, -0.0067, 0.0290, …]
 
 ```json
 {
-  "chunk_id": "a79ed493-dc75-5005-80de-2227330faa4c",
+  "chunk_id": "985ad744-0e46-587f-a28d-8107ac7912a2",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -10721,67 +10791,32 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "parent_chunk_id": "4148dc7b-2915-553e-af07-749244ef1f4b",
-  "chunk_index": 244,
+  "chunk_index": 245,
   "page_number": 184,
   "page_range": [
     184,
     184
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `985ad744-0e46-587f-a28d-8107ac7912a2`
-
-- vector: dim=3072 · [-0.0072, 0.0302, -0.0120, -0.0030, -0.0002, 0.0414, -0.0077, 0.0452, …]
-
-```json
-{
-  "chunk_id": "985ad744-0e46-587f-a28d-8107ac7912a2",
-  "document_id": "icdl_poster_2019_full_pdf",
-  "is_parent": false,
-  "source_type": "pdf",
-  "title": "ICDL_Poster_2019_Full.pdf",
-  "section_heading": "Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18",
-  "chunk_text": "Gul Sumeer   39, 40\nJamal Anam  28\nJan Rosy  29, 39, 40\nKhan Khalid Nadeem  48\nKhatoon Haleema  48\nMaurya Anuradha  64\nMukh Monika  82\nNaushad Ali P M  28\nPareek Sarwesh  89\nRahman M A M Mominur   133\nRoychowdhury Priyanka   119\nSamadi Shafi qunnabee   133\nShee Payel   134\nShukla Archana  144\nSingh Vikas  144\nUl haq Irfan  29\nVerma O P  152\nInternational Conference on Digital Landscape\nDigital Transformation for an Agile Environment\nNovember 6-8, 2019 | New Delhi\nICDL2019\nCONFERENCE POSTERS\nAUTHOR INDEX\n163\n\nICDL 2019 WEBCASTING\n\nSupported by\nIndira Gandhi National Open University (IGNOU)\n\nter\n\n… [+276 more chars]",
-  "content_hash": "976ecadd3132f8521d2212a689d357aa1143efc6fa5b76f0d5c6de3973036a98",
-  "token_count": 317,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "icdl_poster_2019_full_pdf",
-  "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "chunk_index": 245,
-  "page_number": 185,
-  "page_range": [
-    185,
-    187
-  ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
-}
-```
-
-## Parent · `08d44b51-faf3-556a-871b-1cd5c58e0036`
+## Parent · `e50c70af-01ff-51f5-9bcb-dbae0b663a74`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "08d44b51-faf3-556a-871b-1cd5c58e0036",
+  "chunk_id": "e50c70af-01ff-51f5-9bcb-dbae0b663a74",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "ICDL_Poster_2019_Full.pdf",
-  "section_heading": "Agnou — R",
-  "chunk_text": "Agnou — R\n\n00 30 30:30\n\n6\nE\n\nEditor-in-Chief   Prof. \nEditor   Dr Partha Kalyan Bhattacharya\nAssociate Editor   Dr Shantanu Ganguly\nMichael Seadle\nWorld Digital Libraries is an international peer-reviewed biannual journal. The journal seeks \nquality research papers that present original theoretical approaches. It also seeks \nexperimental case studies related to digital library developments, maintenance and \ndissemination of digital information focussing on research and integration of knowledge at \nthe interface of resources and development. The journal will, therefore, keep readers \nabreast wi\n\n… [+4392 more chars]",
-  "content_hash": "7901acd50c75925237a8f7c4771cdfd0457d2cfebc293ef8ede2aeec7ab9a717",
-  "token_count": 1186,
+  "section_heading": "Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18",
+  "chunk_text": "Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18\n\nGul Sumeer   39, 40\nJamal Anam  28\nJan Rosy  29, 39, 40\nKhan Khalid Nadeem  48\nKhatoon Haleema  48\nMaurya Anuradha  64\nMukh Monika  82\nNaushad Ali P M  28\nPareek Sarwesh  89\nRahman M A M Mominur   133\nRoychowdhury Priyanka   119\nSamadi Shafi qunnabee   133\nShee Payel   134\nShukla Archana  144\nSingh Vikas  144\nUl haq Irfan  29\nVerma O P  152\nInternational Conference on Digital Landscape\nDigital Transformation for an Agile Environment\nNovember 6-8, 2019 | New Delhi\nI\n\n… [+5372 more chars]",
+  "content_hash": "efdd5199561537e8ccd4cbe971e7a54a0e69fa0b089933d610a01f7eb5ab9988",
+  "token_count": 1535,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -10792,17 +10827,17 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
   "page_range": [
-    187,
+    185,
     188
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
 ## Child · `da315e32-c63b-5f1a-8b52-847a9ac0558a`
 
-- vector: dim=3072 · [-0.0043, -0.0081, -0.0071, -0.0031, 0.0073, -0.0050, 0.0153, 0.0445, …]
+- vector: dim=3072 · [-0.0111, 0.0310, -0.0103, -0.0079, 0.0070, 0.0466, -0.0025, 0.0319, …]
 
 ```json
 {
@@ -10811,10 +10846,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "ICDL_Poster_2019_Full.pdf",
-  "section_heading": "Agnou — R",
-  "chunk_text": "00 30 30:30\n\n6\nE\n\nEditor-in-Chief   Prof. \nEditor   Dr Partha Kalyan Bhattacharya\nAssociate Editor   Dr Shantanu Ganguly\nMichael Seadle\nWorld Digital Libraries is an international peer-reviewed biannual journal. The journal seeks \nquality research papers that present original theoretical approaches. It also seeks \nexperimental case studies related to digital library developments, maintenance and \ndissemination of digital information focussing on research and integration of knowledge at \nthe interface of resources and development. The journal will, therefore, keep readers \nabreast with the curr\n\n… [+1446 more chars]",
-  "content_hash": "534aed59878cdeec70ab849a625f130a7bd54d00c007bbeec11e5804aaac1680",
-  "token_count": 437,
+  "section_heading": "Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18",
+  "chunk_text": "Gul Sumeer   39, 40\nJamal Anam  28\nJan Rosy  29, 39, 40\nKhan Khalid Nadeem  48\nKhatoon Haleema  48\nMaurya Anuradha  64\nMukh Monika  82\nNaushad Ali P M  28\nPareek Sarwesh  89\nRahman M A M Mominur   133\nRoychowdhury Priyanka   119\nSamadi Shafi qunnabee   133\nShee Payel   134\nShukla Archana  144\nSingh Vikas  144\nUl haq Irfan  29\nVerma O P  152\nInternational Conference on Digital Landscape\nDigital Transformation for an Agile Environment\nNovember 6-8, 2019 | New Delhi\nICDL2019\nCONFERENCE POSTERS\nAUTHOR INDEX\n163\n\nICDL 2019 WEBCASTING Supported by Indira Gandhi National Open University (IGNOU)\nTHE E\n\n… [+276 more chars]",
+  "content_hash": "2a94942ffb09f28eb2b2ed448c71448fefc9f6b5621027924819f4906e744523",
+  "token_count": 313,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -10824,21 +10859,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "parent_chunk_id": "08d44b51-faf3-556a-871b-1cd5c58e0036",
+  "parent_chunk_id": "e50c70af-01ff-51f5-9bcb-dbae0b663a74",
   "chunk_index": 246,
-  "page_number": 187,
+  "page_number": 185,
   "page_range": [
-    187,
-    188
+    185,
+    187
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
 ## Child · `09d34c5e-320f-5c27-97e6-62c70b8fad05`
 
-- vector: dim=3072 · [-0.0165, 0.0002, -0.0195, -0.0056, 0.0214, 0.0008, -0.0098, 0.0376, …]
+- vector: dim=3072 · [-0.0104, 0.0033, -0.0131, -0.0085, 0.0143, -0.0121, 0.0146, 0.0331, …]
 
 ```json
 {
@@ -10847,7 +10882,43 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "ICDL_Poster_2019_Full.pdf",
-  "section_heading": "Agnou — R",
+  "section_heading": "Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18",
+  "chunk_text": "All rights reserved. Editor-in-Chief   Prof. \nEditor   Dr Partha Kalyan Bhattacharya\nAssociate Editor   Dr Shantanu Ganguly\nMichael Seadle\nWorld Digital Libraries is an international peer-reviewed biannual journal. The journal seeks \nquality research papers that present original theoretical approaches. It also seeks \nexperimental case studies related to digital library developments, maintenance and \ndissemination of digital information focussing on research and integration of knowledge at \nthe interface of resources and development. The journal will, therefore, keep readers \nabreast with the c\n\n… [+1449 more chars]",
+  "content_hash": "7eb1ad7ed784e741304fab6022040d85cd85d5b8b71f7f94f2013d9716e5ea35",
+  "token_count": 429,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "icdl_poster_2019_full_pdf",
+  "pdf_path": "ICDL_Poster_2019_Full.pdf",
+  "parent_chunk_id": "e50c70af-01ff-51f5-9bcb-dbae0b663a74",
+  "chunk_index": 247,
+  "page_number": 188,
+  "page_range": [
+    188,
+    188
+  ],
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
+}
+```
+
+## Child · `75a534a6-92d0-5166-9fa0-fed2594c418c`
+
+- vector: dim=3072 · [-0.0165, 0.0002, -0.0195, -0.0056, 0.0214, 0.0008, -0.0098, 0.0376, …]
+
+```json
+{
+  "chunk_id": "75a534a6-92d0-5166-9fa0-fed2594c418c",
+  "document_id": "icdl_poster_2019_full_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "ICDL_Poster_2019_Full.pdf",
+  "section_heading": "Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18",
   "chunk_text": "Soft copy in English, in MS Word format \nshould be submitted to the editor: P K Bhattacharya at <pkbhatta@teri.res.in>. The length of the original article should not exceed a 8,000 words. The main text should be double-spaced, with headings and sub-headings clearly indicated and placed on the left-hand side of the text. \nAll tables, figures, and equations should be numbered with Arabic numerals and the measurements should be given in metric (SI) units.\nCall for papers\nDr Jagdish Arora,Director, INFLIBNET, \nProf. Gobinda Chowdhury, PhD,Professor, \nProf. Paul Nieuwenhuysen,Professor, Vrije \nDr M\n\n… [+1262 more chars]",
   "content_hash": "e62391dd4dd5bafd8931ce3b47654fe464087d1fff250ed0274d6dfe701d16a7",
   "token_count": 486,
@@ -10860,30 +10931,30 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "parent_chunk_id": "08d44b51-faf3-556a-871b-1cd5c58e0036",
-  "chunk_index": 247,
+  "parent_chunk_id": "e50c70af-01ff-51f5-9bcb-dbae0b663a74",
+  "chunk_index": 248,
   "page_number": 188,
   "page_range": [
     188,
     188
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```
 
-## Child · `75a534a6-92d0-5166-9fa0-fed2594c418c`
+## Child · `5a4eef66-dcdd-55ec-82c2-3087f956aca5`
 
 - vector: dim=3072 · [-0.0003, 0.0050, -0.0080, -0.0017, 0.0009, 0.0008, -0.0126, 0.0304, …]
 
 ```json
 {
-  "chunk_id": "75a534a6-92d0-5166-9fa0-fed2594c418c",
+  "chunk_id": "5a4eef66-dcdd-55ec-82c2-3087f956aca5",
   "document_id": "icdl_poster_2019_full_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "ICDL_Poster_2019_Full.pdf",
-  "section_heading": "Agnou — R",
+  "section_heading": "Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18",
   "chunk_text": "Professor, \nBangalore, India\nTampere, Finland\nINESC-ID/IST, Information Systems \nDr Debal Chandra Kar,Librarian, \nGroup Lisbon Technical University, \nAmbedkar University, New Delhi, India\nDr Ratna Sanyal,Professor, Computer Prof. Shalini R Urs,Executive Director, \nPortugal\nScience Engineering, School of \nInternational School of Information \nProf. Gary Marchionini,Professor, School of \nEngineering and Technology, BML Munjal \nManagement, University of Mysore, \nProf. Daniel Chandran, PhD,Professor, \nInformation and Library Science University \nUniversity, India\nMysore, India\nFaculty of Information\n\n… [+874 more chars]",
   "content_hash": "1741d9c129243a383f2d79d9455019cc77635a1ec56dbe776422daa655209253",
   "token_count": 363,
@@ -10896,14 +10967,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "icdl_poster_2019_full_pdf",
   "pdf_path": "ICDL_Poster_2019_Full.pdf",
-  "parent_chunk_id": "08d44b51-faf3-556a-871b-1cd5c58e0036",
-  "chunk_index": 248,
+  "parent_chunk_id": "e50c70af-01ff-51f5-9bcb-dbae0b663a74",
+  "chunk_index": 249,
   "page_number": 188,
   "page_range": [
     188,
     188
   ],
-  "created_at": "2026-06-29T10:55:45.440768+00:00",
-  "updated_at": "2026-06-29T10:55:45.440768+00:00"
+  "created_at": "2026-06-30T08:33:40.346800+00:00",
+  "updated_at": "2026-06-30T08:33:40.346800+00:00"
 }
 ```

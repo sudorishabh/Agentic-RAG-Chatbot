@@ -238,36 +238,15 @@ Rosy Jan and Sumeer Gul
 
 ## Page 10 · via `ocr` · 0 table(s)
 
-Information literacy skills among faculty members of Central Universities in India: A survey ... 48
-Haleema Khatoon
-
-Digital Avatar: Is e-publishing future of publishing ... 64
-Anuradha Maurya
-
-Information e-resources for Generation Alpha: MRIS library as an information resource centre ...
-82
-Monika Mukh
-
-Children's right to read: community participation in improving reading ... 89
-Sarwesh Pareek
-
-Electronic publishing: A simplified approach ... 119
-Priyanka Roychowdhury and Subarna Kumar Das
-
-Campus TV through digital library: A never-ending possibility for knowledge streaming ... 133
-Shafiqunnabee Samadi and M A M Mominur Rahman
-
-Reinforcing library resources access for different abled person through assistive and other
-technologies ... 134
-Payel Shee
-
-Preservation of digital assets in libraries for present generation and posterity ... 144
-Vikas Singh and Archana Shukla
-
-Digital rights management (DRM) in India: Threat or opportunity to intellectual property rights
-(IPR) ... 152
-O P Verma and Somen Chakraborty
-
+Information literacy skills among faculty members of Central Universities in India: A survey ... 48 Haleema Khatoon
+Digital Avatar: Is e-publishing future of publishing ... 64 Anuradha Maurya
+Information e-resources for Generation Alpha: MRIS library as an information resource centre ... 82 Monika Mukh
+Children's right to read: community participation in improving reading ... 89 Sarwesh Pareek
+Electronic publishing: A simplified approach ... 119 Priyanka Roychowdhury and Subarna Kumar Das
+Campus TV through digital library: A never-ending possibility for knowledge streaming ... 133 Shafiqunnabee Samadi and M A M Mominur Rahman
+Reinforcing library resources access for different abled person through assistive and other technologies ... 134 Payel Shee
+Preservation of digital assets in libraries for present generation and posterity ... 144 Vikas Singh and Archana Shukla
+Digital rights management (DRM) in India: Threat or opportunity to intellectual property rights (IPR) ... 152 O P Verma and Somen Chakraborty
 Author Index ... 163
 
 ## Page 11 · via `text` · 0 table(s)
@@ -307,7 +286,7 @@ Digital Transformation for an Agile Environment
 November 6-8, 2019 | New Delhi
 ICDL2019
 
-## Page 12 · via `ocr` · 0 table(s)
+## Page 12 · via `empty` · 0 table(s)
 
 _(no text on this page)_
 
@@ -358,7 +337,7 @@ Digital Transformation for an Agile Environment
 November 6-8, 2019 | New Delhi
 ICDL2019
 
-## Page 14 · via `ocr` · 0 table(s)
+## Page 14 · via `empty` · 0 table(s)
 
 _(no text on this page)_
 
@@ -929,7 +908,7 @@ ICDL2019
 KEYNOTE SPEECH
 The Energy and Resources Institute
 
-## Page 24 · via `ocr` · 0 table(s)
+## Page 24 · via `empty` · 0 table(s)
 
 _(no text on this page)_
 
@@ -1149,7 +1128,7 @@ developed.
 Thank you.
 7
 
-## Page 30 · via `ocr` · 0 table(s)
+## Page 30 · via `empty` · 0 table(s)
 
 _(no text on this page)_
 
@@ -1163,7 +1142,7 @@ ICDL2019
 POSTER PRESENTATION
 The Energy and Resources Institute
 
-## Page 32 · via `ocr` · 0 table(s)
+## Page 32 · via `empty` · 0 table(s)
 
 _(no text on this page)_
 
@@ -7943,57 +7922,24 @@ CONFERENCE POSTERS
 AUTHOR INDEX
 163
 
-## Page 186 · via `ocr` · 0 table(s)
+## Page 186 · via `empty` · 0 table(s)
 
 _(no text on this page)_
 
 ## Page 187 · via `ocr` · 0 table(s)
 
-ICDL 2019 WEBCASTING
-Supported by
-Indira Gandhi National Open University (IGNOU)
-
-teri
-
-ICDL
-2019
-INTERNATIONAL CONFERENCE ON DIGITAL LANDSCAPE
-DIGITAL TRANSFORMATION
-FOR AN AGILE ENVIRONMENT
-
+ICDL 2019 WEBCASTING Supported by Indira Gandhi National Open University (IGNOU)
 THE ENERGY AND RESOURCES INSTITUTE
-
-November 6-8, 2019 | New Delhi
-
+ICDL 2019 INTERNATIONAL CONFERENCE ON DIGITAL LANDSCAPE DIGITAL TRANSFORMATION FOR AN AGILE ENVIRONMENT
+November 6-8. 2019 | New Delhi
 Corporate Sponsor
-
 Partners
-
-Planinians
-
-B
-
-\-
-
 Associates
-
-5
-
-Knowledge Partoen
-
-C
-
-RAAML
-
-\-
-
-Agnou
-R
-
-00 30 30:30
-
-6
-E
+Đ
+50
+Knowledge Partoun
+0
+Copyright ( 2019 LIC,IGNOU. All rights reserved.
 
 ## Page 188 · via `text` · 1 table(s)
 

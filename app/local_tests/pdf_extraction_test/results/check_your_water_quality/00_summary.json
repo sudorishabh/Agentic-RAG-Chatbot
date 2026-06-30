@@ -1,9 +1,9 @@
 {
   "pdf": "check-your-water-quality.pdf",
-  "elapsed_seconds": 4.41,
+  "elapsed_seconds": 3.4,
   "page_count": 1,
-  "table_count": 2,
-  "char_count": 1880,
+  "table_count": 0,
+  "char_count": 1788,
   "route": "azure",
   "routes": {
     "ocr": 1
@@ -23,7 +23,7 @@
   "chunks_total": 1,
   "parent_chunks": 0,
   "child_chunks": 1,
-  "child_token_min": 507,
-  "child_token_max": 507,
-  "child_token_avg": 507
+  "child_token_min": 500,
+  "child_token_max": 500,
+  "child_token_avg": 500
 }

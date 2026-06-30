@@ -9,7 +9,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
 
 ## Child · `021607f7-4afe-58a0-81db-13cb022b38e3`
 
-- vector: dim=3072 · [-0.0178, 0.0040, -0.0044, -0.0206, -0.0176, -0.0222, -0.0092, 0.0458, …]
+- vector: dim=3072 · [-0.0179, 0.0213, -0.0123, -0.0222, -0.0127, -0.0066, -0.0016, 0.0415, …]
 
 ```json
 {
@@ -18,10 +18,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Annexure_O_Map-Plastic-Leakage-Points.pdf",
-  "section_heading": "UN@",
-  "chunk_text": "environment\nprogramme\n\nCounter — MEASURE — FOR PLASTIC FREE RIVERS\n\nteri\nRETHINK PLASTIC\n\nMicro Plastic Leakage Points — Legend — O Leakage points — Railroads — Drains and Rivers — MMR Boundary — Built Up — Water Bodies — Slums\n\n0 3.5 7\n\n14\n\n21\n\n28\n\nKilometers",
-  "content_hash": "cf14c5df641a0ea0fca72793a6027196beb91f2b71b723c9bc1812e6fafdf0ce",
-  "token_count": 77,
+  "chunk_text": "UNO environment programme\nCounter MEASURE FOR PLASTIC FREE RIVERS\n00\ntevi\nRETHINK PLASTIC\nMicro Plastic Leakage Points\nLegend\nO Leakage points\n+ + Railroads\nDrains and Rivers MMR Boundary\nBuilt Up\nWater Bodies\nSlums\n0 3.5 7\n14 21 28\nKilometers",
+  "content_hash": "b6fed97e4d8baf24f877fabff78730da07ba19c7805a0eb5122bbd42c0c35079",
+  "token_count": 78,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -37,7 +36,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     1
   ],
-  "created_at": "2026-06-29T10:53:49.641499+00:00",
-  "updated_at": "2026-06-29T10:53:49.641499+00:00"
+  "created_at": "2026-06-30T08:32:01.282501+00:00",
+  "updated_at": "2026-06-30T08:32:01.282501+00:00"
 }
 ```

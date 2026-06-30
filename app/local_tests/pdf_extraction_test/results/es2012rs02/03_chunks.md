@@ -7,7 +7,7 @@
 
 ## Parent chunks
 
-### Parent · section='Carbon Implications — Carbon Emissions and Power Generation' · pages=(11, 16) · 1558 tok
+### Parent · section='Carbon Implications — Carbon Emissions and Power Generation' · pages=(11, 19) · 1857 tok
 
 Carbon Implications — Carbon Emissions and Power Generation
 
@@ -63,7 +63,7 @@ Trading Scheme (ETS) have been affected by prevailing macroeconomic
 and market situation and have declined substantially in 2011-12 
 Prices of car
 
-… [+3094 more chars]
+… [+4321 more chars]
 
 ---
 
@@ -350,7 +350,7 @@ Adding the Cost of Carbon to Power Generation Cost (3)
 
 … [+195 more chars]
 
-### Child 10 · section='Carbon Implications — Carbon Emissions and Power Generation' · page=16 · 474 tok
+### Child 10 · section='Carbon Implications — Carbon Emissions and Power Generation' · page=16 · 484 tok
 
 Generation Cost (3) 
 When the costs of carbon are incorporated:
@@ -369,11 +369,14 @@ Agartala) | Plant Locations | Fuel Options |  |  |  |  |  |
 | Vadodara | 5.16 | 5.68 | 6.72 | 6.31 | 6.55 | 7.04 |
 | Vishakapatnam | 4.93 | 5.45 | 6.48 |
 
-… [+289 more chars]
+… [+352 more chars]
 
-### Child 11 · section='Domestic Coal and Gas Availability and Projected Requirements' · page=18 · 288 tok
+### Child 11 · section='Carbon Implications — Carbon Emissions and Power Generation' · page=18 · 347 tok
 
-Domestic Fuel Availability in India - 
+| 6.38 | 6.62 | 7.11 |
+| Nagpur | 5.35 | 5.87 | 6.90 | 6.28 | 6.53 | 7.02 |
+
+Domestic Coal and Gas Availability and Projected Requirements Domestic Fuel Availability in India - 
 Coal 
 Coal and gas shortages in the country are constraining the development of 
 power sector in the country
@@ -390,12 +393,8 @@ Mt in in 2021-22*
 
 *Planning Commission, Working Group Report for the 12th Five Year Plan
 
-Domestic Fuel Availability in India – 
-Natural Gas 
-Production of natural gas from domestic fields has declined – reduction in 
-KG-D6 out
 
-… [+362 more chars]
+… [+501 more chars]
 
 ### Child 12 · section='International Fuel Markets — Changing Trends in International Markets' · page=21 · 128 tok
 

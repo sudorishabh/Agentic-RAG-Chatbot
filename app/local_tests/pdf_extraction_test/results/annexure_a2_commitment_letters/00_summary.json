@@ -1,9 +1,9 @@
 {
   "pdf": "Annexure_A2_Commitment-letters.pdf",
-  "elapsed_seconds": 5.42,
+  "elapsed_seconds": 3.39,
   "page_count": 6,
   "table_count": 0,
-  "char_count": 7288,
+  "char_count": 7556,
   "route": "azure+local",
   "routes": {
     "text": 1,
@@ -25,10 +25,10 @@
     5,
     6
   ],
-  "chunks_total": 10,
-  "parent_chunks": 2,
-  "child_chunks": 8,
-  "child_token_min": 124,
-  "child_token_max": 407,
-  "child_token_avg": 253
+  "chunks_total": 7,
+  "parent_chunks": 1,
+  "child_chunks": 6,
+  "child_token_min": 232,
+  "child_token_max": 424,
+  "child_token_avg": 351
 }

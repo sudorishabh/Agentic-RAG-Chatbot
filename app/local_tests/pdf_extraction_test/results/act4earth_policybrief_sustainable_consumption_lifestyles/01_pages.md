@@ -46,7 +46,7 @@ References
 18
 CONTENTS
 
-## Page 4 · via `ocr` · 0 table(s)
+## Page 4 · via `empty` · 0 table(s)
 
 _(no text on this page)_
 
@@ -852,7 +852,8 @@ UNEP (United Nations Environment Programme). (2022). Global Strategy for Sustain
 
 ## Page 19 · via `ocr` · 0 table(s)
 
-_(no text on this page)_
+Internationalizing Lifestyles for Environment: Messages for G20
+19
 
 ## Page 20 · via `text` · 0 table(s)
 

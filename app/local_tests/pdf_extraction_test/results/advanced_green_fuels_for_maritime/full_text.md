@@ -51,74 +51,22 @@ Mr Deepu Surendran (Chief General Manager, C-SAS, BD-SB &BD, Cochin Shipyard Ltd
 •	
 Mr Anish S (Deputy General Manager, C-SAS, Cochin Shipyard Ltd)
 
-# Message from the Director General of Shipping
-
-श्याम जगन्नाथन, भा.प्र.से.
-नौवहन महानिदेशक
-एवं अपर सचिव, भारत सरकार
-Shyam Jagannathan, L.A.S.
-Director General of Shipping &
-Additional Secretary to the Govt. of India
-
-बलदेव बचने
-
-भारत सरकार
-Government of India
-पत्तन, पोत परिवहन और जलमार्ग मंत्रालय
-MINISTRY OF PORTS, SHIPPING AND WATERWAYS
-नौवहन महानिदेशालय
-Directorate General of Shipping
-
+Message from the Director General of Shipping
+श्याम जगन्नाथन, भा.प्र. से. नौवहन महानिदेशक एवं अपर सचिव, भारत सरकार Shyam Jagannathan, L.A.S. Director General of Shipping & Additional Secretary to the Govt. of India
+बलदेव बरतें
+भारत सरकार Government of India पत्तन, पोत परिवहन और जलमार्ग मंत्रालय MINISTRY OF PORTS, SHIPPING AND WATERWAYS नौवहन महानिदेशालय Directorate General of Shipping
 MESSAGE
-
-from
-THE DIRECTOR GENERAL OF SHIPPING
+from THE DIRECTOR GENERAL OF SHIPPING
 GREEN FUELS ROADMAP REPORT BY DR. PIYALI DAS
-
-It is a privilege to present the NCoEGPS Green Fuel Roadmap - Part A, which represents an important
-analytical milestone in India's transition towards a low-carbon and future-ready maritime sector. Developed
-under the National Centre of Excellence for Green Port and Shipping (NCoEGPS), this report reflects a
-structured and collaborative effort to assess viable green fuel pathways for Indian maritime applications, with
-active engagement from the Directorate General of Shipping and other key technical stakeholders.
-
-India's maritime sector is at a critical juncture, where decarbonisation imperatives must be pursued in a manner
-that is technically robust, operationally safe and economically viable. In this context, the present study provides
-a comprehensive and evidence-based assessment of a spectrum of low-carbon and alternative fuel pathways
-relevant to Indian maritime operations, examined through lifecycle and Greenhouse Gas Fuel Intensity (GFI)-
-based analytical parameters.
-
-The report adopts a systematic and data-driven framework and goes beyond conceptual discussions by analysing
-demand - supply dynamics, fuel mix scenarios, retrofitting and engine replacement pathways, as well as blend-
-fuel options that can be implemented without major engine modifications. Such granular assessment is essential
-for enabling a phased and realistic transition of the Indian fleet, while remaining aligned with evolving
-international regulatory developments and compliance trajectories.
-
-The Directorate General of Shipping has reviewed this study and considers it appropriate to recognise this report
-as Phase | / Part A of the Advanced Green Fuel Roadmap for the indian Maritime Sector. The findings and
-recommendations presented herein provide a strong technical foundation for the next stage of work, which must
-focus on translating analytical outcomes into clear, time-bound and implementable actions.
-
-The immediate priority going forward is the development of Phase II, encompassing a comprehensive
-implementation plan with defined short-, medium- and long-term action points for coastal vessels and foreign-
-going vessels. This phase will require close coordination among the Directorate General of Shipping, the
-NCoEGPS Green Fuel team and relevant technical and classification institutions, with due consideration of
-vessel typologies, size categories, fuel standards, certification frameworks and data-driven compliance
-mechanisms.
-
-I place on record my appreciation for the efforts of TERI and the NCoEGPS team in undertaking this
-comprehensive study and for their continued engagement with regulatory authorities during the review process.
-I am confident that this roadmap will serve as a valuable reference for policymakers, industry stakeholders and
-technical experts as India advances towards a structured. safe and sustainable transition to green fuels in
-maritime transport.
-
-Mumbai
-Date: 12.01.2026
-
-lyt
-
+It is a privilege to present the NCoEGPS Green Fuel Roadmap - Part A, which represents an important analytical milestone in India's transition towards a low-carbon and future-ready maritime sector. Developed under the National Centre of Excellence for Green Port and Shipping (NCoEGPS), this report reflects a structured and collaborative effort to assess viable green fuel pathways for Indian maritime applications, with active engagement from the Directorate General of Shipping and other key technical stakeholders.
+India's maritime sector is at a critical juncture, where decarbonisation imperatives must be pursued in a manner that is technically robust, operationally safe and economically viable. In this context, the present study provides a comprehensive and evidence-based assessment of a spectrum of low-carbon and alternative fuel pathways relevant to Indian maritime operations, examined through lifecycle and Greenhouse Gas Fuel Intensity (GFI)- based analytical parameters.
+The report adopts a systematic and data-driven framework and goes beyond conceptual discussions by analysing demand - supply dynamics, fuel mix scenarios, retrofitting and engine replacement pathways, as well as blend- fuel options that can be implemented without major engine modifications. Such granular assessment is essential for enabling a phased and realistic transition of the Indian fleet, while remaining aligned with evolving international regulatory developments and compliance trajectories.
+The Directorate General of Shipping has reviewed this study and considers it appropriate to recognise this report as Phase | / Part A of the Advanced Green Fuel Roadmap for the indian Maritime Sector. The findings and recommendations presented herein provide a strong technical foundation for the next stage of work, which must focus on translating analytical outcomes into clear, time-bound and implementable actions.
+The immediate priority going forward is the development of Phase II, encompassing a comprehensive implementation plan with defined short-, medium- and long-term action points for coastal vessels and foreign- going vessels. This phase will require close coordination among the Directorate General of Shipping, the NCoEGPS Green Fuel team and relevant technical and classification institutions, with due consideration of vessel typologies, size categories, fuel standards, certification frameworks and data-driven compliance mechanisms.
+I place on record my appreciation for the efforts of TERI and the NCoEGPS team in undertaking this comprehensive study and for their continued engagement with regulatory authorities during the review process. I am confident that this roadmap will serve as a valuable reference for policymakers, industry stakeholders and technical experts as India advances towards a structured. safe and sustainable transition to green fuels in maritime transport.
+Mumbai Date: 12.01.2026
 (Shyam Jagannathan)
-
-1-22 2575 2011 • ई-म
+9वीं मंज़िल, बीटा बिल्डींग, आई थिंक टेक्नो कैम्पस, कांजुर गाँव रोड, कांजुरमार्ग (पूर्व), मुंबई-400042 9th Floor, BETA Building, I-Think Techno Campus, Kanjur Village Road, Kanjurmarg (E), Mumbai-400042 दूरभाष/Tel:No .: +91-22-
 
 v
 Foreward
@@ -159,8 +107,6 @@ researchers, and investors as India charts its course towards a resilient, low-e
 Dr. Vibha Dhawan 
 Director General 
 The Energy and Resources Institute (TERI)
-
-ेल/Email : dg-dgs@go
 
 TERI is deeply grateful to Shri T.K. Ramachandran, Erstwhile Secretary of India’s Ministry of Ports, 
 Shipping and Waterways (MoPSW), Shri Vijay Kumar, Secretary, MoPSW, Shri Rajesh Kumar Sinha, 
@@ -1451,6 +1397,8 @@ Zero & Near Zero Emission Fuels
 | YSZ | Yttria-stabilized Zirconia |
 | ZNZ | Zero & Near Zero Emission Fuels |
 
+05/10• फैक्स/Fax: +
+
 In April 2025, during 83rd meeting of Marine Environment Protection Committee (MEPC 83), IMO 
 has introduced Net Zero Framework setting mandatory GHG Fuel Intensity (GFI) based target for 
 emission reduction from all global ships above 5000 GT. The GFI of a fuel sets a threshold on the 
@@ -1531,13 +1479,7 @@ coastal lines
 
 1
 
-Executive Sum
-
-mary
-
-5
-
-</
+22 2575 2011 • ई-मेल/Email : dg-dgs@go
 
 Presently there are stringent environmental standards and regulatory focus on maritime 
 decarbonization. IMO, the governing body of international shipping, has set an overall goal of net 
@@ -5284,16 +5226,13 @@ per-kg/
 18.	 https://www.pib.gov.in/PressReleasePage.aspx?PRID=2097307
 19.	 GCMD, April 14, 2025. Calculator - GCMD. https://gcformd.org/calculator/
 
-figure>
+in
 
-# Introduc
-
-tion and Objectives of Study
-
+1
+Executive Summary
 4
-
-Chapter 1
-Statistics
+5
+Introduction and Objectives of Stud
 
 Introduction 
 This section presents the Indian and Global vessel statistics covering all types of vessels along 
@@ -5517,13 +5456,7 @@ from Europe and North America, and highlights India’s significant contribution
 
 Figure 1.11: Top 25 Countries with Vessel Ownership
 
-: Global and
-Indian Vessels and
-Fuel Consumption
-
-4
-
-# Chapter
+Chapter 1 Statistics: Global and Indian Vessels and F
 
 Introduction 
 As the maritime industry speeding up its journey towards decarbonization, Alternative Fuels are 
@@ -6035,12 +5968,9 @@ In LPG vessel newbuild orders, South Korea is ahead with 75 vessels, followed
 For LNG vessels on order, China P.R. leads with 496 vessels, followed by South Korea with 331 and 
 Russia with 21 vessel.
 
-2 Alternative Fuel Transition in Marine Vessels
-
-4
-
-Chapter 3
-Alternative Fuel Powered
+el Consumption
+Chapter 2 Alternative Fuel Transition in Marine Vessels
+Chapter 3 A
 
 Introduction 
 India’s Net Zero ambitions needs its shipping industry to move towards adoption of alternative 
@@ -6973,14 +6903,7 @@ doi.org/10.1016/J.IJHYDENE.2024.01.065.
 admixture in the natural gas grid. In: Rostock large engine conference, Rostock, 2022(Cross 
 Reference)
 
-Marine Engines (ICE
-
-) for
-Decarbonizing Shipping
-
-4
-
-Chapt
+ernative Fuel Powered Marine Engines (ICE) for Decarb
 
 In this Chapter, the Section 4.1 provides a comparative assessment of the alternative fuels based 
 on their sustainability aspect like properties and production pathways (4.1.1), Cost (4.1.2) and LCA 
@@ -9384,16 +9307,10 @@ LNG as a Marine Fuel. International Council on Clean Transportation. Working Pap
 49.	 https://www.iea.org/data-and-statistics/data-product/hydrogen-production-and-infrastructure-
 projects-database)
 
-er 4
-Comparative
-Assessment of
-Alternative Fuels
+nizing Shipping
 
-4
-
-Chapter 5
-Fuel Cell for
-Decar
+Chapter 4 Comparative Assessment of Alternative Fuels
+Chapte
 
 Introduction
 IMO has set the ambitious target to cut down the GHG emissions from international shipping to reach 
@@ -11507,14 +11424,8 @@ jpowsour.2003.09.019
 History, Types, and Applications. International Journal of Energy Research, 2024(1). https://doi.
 org/10.1155/2024/7271748.
 
-bonizing Maritime
-Sector and Prospects
-for India
-
-4
-
-Chapter 6
-Shipping
+5 Fuel Cell for Decarbonizing Maritime Sector and Prospects for India
+.. . .
 
 Globally Marine sector is moving towards LNG (near and medium term though fossil-based but later 
 can be shifted to CBG), Methanol (immediate), and Hydrogen & Ammonia (long term) as dual fuel & 
@@ -12311,11 +12222,8 @@ IMO%20GHG%20Study%202020%20Executive-Summary.pdf
 29.	 Ahmed, Y. A., Lazakis, I., & Mallouppas, G. (2025c).   Marine Systems & Ocean Technology, 20(1). 
 https://doi.org/10.1007/s40868-024-00161-w
 
-Fuels and
-Possibility of On-Board
-Carbon Capture
-
-4
+..
+Chapter 6 Shipping Fuels and Possibility o
 
 Table7.1 presents the overview of the  IMO’s ongoing initiatives through the MEPC aimed at tackling 
 greenhouse gas (GHG) emissions from international shipping. It tracks tracks significant progress 
@@ -13173,13 +13081,7 @@ OurWork/Environment/Pages/IMO-Strategy-on-reduction-of-GHG-emissions-from-ships.
 MediaCentre/HotTopics/Pages/EEXI-CII-FAQ.aspx?ref=ctvc.co#:~:text=What%20is%20an%20
 Energy%20Efficiency,a%20minimum%20energy%20efficiency%20standard.
 
-Chapter 7
-Standar
-
-ds, Regulations
-and Policies
-
-<!-
+On-Board
 
 Annexure I
 IMO LCA Methodological Guidance 
@@ -16726,5 +16628,3 @@ plant.html
 15.	 Reuters. (2021, March 16) Times    https://economictimes.indiatimes.com/industry/energy/oil-
 gas/indias-state-run-refiner-indian-oil-corporation-aims-to-sell-two-hydrogen-units-this-year/
 articleshow/81529876.cms?from=mdr
-
-<f

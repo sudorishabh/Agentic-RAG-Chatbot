@@ -18,10 +18,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": true,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "ENERGY TRANSITIONS — COMMISSION INDIA — CHY",
-  "chunk_text": "ENERGY TRANSITIONS — COMMISSION INDIA — CHY\n\nteri\nTHE ENERGY AND\nRESOURCES INSTITUTE\nCreating Innovative Solutions for a Sustainable Future\n\n©2022 The Energy and Resources Institute\nAuthors\nWill Hall, Visiting Fellow, TERI (till June 2022)\nSachin Kumar, Senior Fellow, TERI (till Dec 2021)\nSneha Kashyap, Research Associate, TERI (till Mar 2022)\nShruti Dayal, Research Associate, TERI\nReviewer\nMr Girish Sethi, Senior Director, TERI\nDisclaimer\nThis report is an output of a research exercise undertaken by TERI supported by CIFF. It does not represent \nthe views of the supporting organisations or th\n\n… [+2807 more chars]",
-  "content_hash": "6ea4d4fa479846a4bdba3c19b84a1e25e1422014be84d78d8c3819315f8179e2",
-  "token_count": 815,
+  "chunk_text": "teri THE ENERGY AND RESOURCES INSTITUTE Creating Innovative Solutions for a Sustainable Future\nENERGY TRANSITIONS COMMISSION INDIA\n\n©2022 The Energy and Resources Institute\nAuthors\nWill Hall, Visiting Fellow, TERI (till June 2022)\nSachin Kumar, Senior Fellow, TERI (till Dec 2021)\nSneha Kashyap, Research Associate, TERI (till Mar 2022)\nShruti Dayal, Research Associate, TERI\nReviewer\nMr Girish Sethi, Senior Director, TERI\nDisclaimer\nThis report is an output of a research exercise undertaken by TERI supported by CIFF. It does not represent \nthe views of the supporting organisations or the acknowl\n\n… [+2798 more chars]",
+  "content_hash": "7881eca04c3185b68d2bd8cbe983d321d32c7826d01317de66cd16f7f12e46e3",
+  "token_count": 808,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -35,14 +34,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     5
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `7588344d-0b1b-5f91-a8ba-5adc03800e51`
 
-- vector: dim=3072 · [0.0116, -0.0065, -0.0166, -0.0220, -0.0247, 0.0100, 0.0029, 0.0088, …]
+- vector: dim=3072 · [0.0166, -0.0061, -0.0171, -0.0291, -0.0298, 0.0098, 0.0063, 0.0121, …]
 
 ```json
 {
@@ -51,10 +50,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "ENERGY TRANSITIONS — COMMISSION INDIA — CHY",
-  "chunk_text": "teri\nTHE ENERGY AND\nRESOURCES INSTITUTE\nCreating Innovative Solutions for a Sustainable Future\n\n©2022 The Energy and Resources Institute\nAuthors\nWill Hall, Visiting Fellow, TERI (till June 2022)\nSachin Kumar, Senior Fellow, TERI (till Dec 2021)\nSneha Kashyap, Research Associate, TERI (till Mar 2022)\nShruti Dayal, Research Associate, TERI\nReviewer\nMr Girish Sethi, Senior Director, TERI\nDisclaimer\nThis report is an output of a research exercise undertaken by TERI supported by CIFF. It does not represent \nthe views of the supporting organisations or the acknowledged individuals. While every effor\n\n… [+377 more chars]",
-  "content_hash": "d0972cd858f3102fd9c42cfdd10d60b31eca5d7bf8f0df0ce53eb6bd56212f04",
-  "token_count": 245,
+  "chunk_text": "teri THE ENERGY AND RESOURCES INSTITUTE Creating Innovative Solutions for a Sustainable Future\nENERGY TRANSITIONS COMMISSION INDIA\n\n©2022 The Energy and Resources Institute\nAuthors\nWill Hall, Visiting Fellow, TERI (till June 2022)\nSachin Kumar, Senior Fellow, TERI (till Dec 2021)\nSneha Kashyap, Research Associate, TERI (till Mar 2022)\nShruti Dayal, Research Associate, TERI\nReviewer\nMr Girish Sethi, Senior Director, TERI\nDisclaimer\nThis report is an output of a research exercise undertaken by TERI supported by CIFF. It does not represent \nthe views of the supporting organisations or the acknowl\n\n… [+413 more chars]",
+  "content_hash": "bec55602ca0cb4be6fba4c32d04ea99cbe7dd667c3f21665534cb2d638431183",
+  "token_count": 251,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -71,14 +69,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     2
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `358a363e-e752-5149-a03a-98a2055c2ade`
 
-- vector: dim=3072 · [0.0117, -0.0062, -0.0162, -0.0219, -0.0312, 0.0037, -0.0280, 0.0126, …]
+- vector: dim=3072 · [0.0117, -0.0062, -0.0163, -0.0219, -0.0312, 0.0037, -0.0280, 0.0126, …]
 
 ```json
 {
@@ -87,7 +85,6 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "ENERGY TRANSITIONS — COMMISSION INDIA — CHY",
   "chunk_text": "Suggested Citation\nWill Hall, Sachin Kumar, Sneha Kashyap, Shruti Dayal. 2022. Achieving Green Steel: Roadmap to a net zero \nsteel sector in India. New Delhi: The Energy and Resources Institute (TERI) Energy Transitions Commission (ETC) India is a research platform based in The Energy and \nResources Institute (TERI) in Delhi. ETC India is the Indian chapter of the global Energy \nTransitions Commission, which is chaired by Lord Adair Turner.\nIn 2018, ETC launched its ‘Mission Possible’ report, which detailed decarbonization \npathways for the ‘hard-to-abate’ sectors. This included a sectoral foc\n\n… [+489 more chars]",
   "content_hash": "6a9d37da6255af1ab0ffcffb0e80c2b6c9940faec597f2a8bf5ab7be4a7b79eb",
   "token_count": 266,
@@ -107,14 +104,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     3,
     3
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `5f049072-f979-58e9-a2ab-b832a7900270`
 
-- vector: dim=3072 · [0.0093, 0.0110, -0.0201, -0.0363, -0.0310, -0.0154, 0.0024, 0.0206, …]
+- vector: dim=3072 · [0.0092, 0.0110, -0.0202, -0.0364, -0.0312, -0.0154, 0.0024, 0.0207, …]
 
 ```json
 {
@@ -123,7 +120,6 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "ENERGY TRANSITIONS — COMMISSION INDIA — CHY",
   "chunk_text": "Learn more at: https://www.teriin.org/energy-transitions\nENERGY TRANSITIONS \nCOMMISSION INDIA We would like to extend our sincere thanks to the Children’s Investment Fund Foundation. \nThis work would not have been possible without their financial support. Their contribution \nwas vital in continuing the conversation on a low carbon transition for the Indian iron and \nsteel sector.  \nWe would also like to acknowledge the support of ETC, which has already done so much to \nadvance the conversation around decarbonising the heavy industry sectors. The comments \nand advice from Lord Adair Turner and \n\n… [+987 more chars]",
   "content_hash": "223c4e0700a8af346c08335a385dfaf4fcff6b081149cc80076e01b0d371e907",
   "token_count": 371,
@@ -143,8 +139,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     5,
     5
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -160,9 +156,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "FOREWORD",
-  "chunk_text": "FOREWORD\n\nThe Indian steel sector has been, and will remain an important pillar of India's economic growth and\ndevelopment. Steel demand is estimated to increase more than by twofold 2030-31, spurred by increased\nspending on infrastructure, automobiles and affordable housing. This increase in demand will provide\nboth challenges and opportunities, including the impact of the sector on the environment. There is a need\nto ensure that future pathways for growing steel demand are green with minimal environmental impacts.\n\nThe Energy and Resources Institute (TERI), as part of the Energy Transitions \n\n… [+2760 more chars]",
-  "content_hash": "0c808e9e357a180c02cac5747c389e6b560e7826f3e764ff63bfef7eff3ab52e",
-  "token_count": 589,
+  "chunk_text": "FOREWORD\n\nThe Indian steel sector has been, and will remain an important pillar of India's economic growth and development. Steel demand is estimated to increase more than by twofold 2030-31, spurred by increased spending on infrastructure, automobiles and affordable housing. This increase in demand will provide both challenges and opportunities, including the impact of the sector on the environment. There is a need to ensure that future pathways for growing steel demand are green with minimal environmental impacts.\nThe Energy and Resources Institute (TERI), as part of the Energy Transitions C\n\n… [+2755 more chars]",
+  "content_hash": "8af608cd5d3322328d79f5bfc28dfd57462fe2255de444a7809437ec37992cd9",
+  "token_count": 561,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -176,14 +172,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     9
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `58684db4-2513-5f62-85ad-68415c46e32d`
 
-- vector: dim=3072 · [0.0115, -0.0378, -0.0107, -0.0080, -0.0258, -0.0245, 0.0054, -0.0071, …]
+- vector: dim=3072 · [0.0068, -0.0331, -0.0112, -0.0077, -0.0255, -0.0240, 0.0098, -0.0107, …]
 
 ```json
 {
@@ -193,9 +189,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "FOREWORD",
-  "chunk_text": "The Indian steel sector has been, and will remain an important pillar of India's economic growth and\ndevelopment. Steel demand is estimated to increase more than by twofold 2030-31, spurred by increased\nspending on infrastructure, automobiles and affordable housing. This increase in demand will provide\nboth challenges and opportunities, including the impact of the sector on the environment. There is a need\nto ensure that future pathways for growing steel demand are green with minimal environmental impacts.\n\nThe Energy and Resources Institute (TERI), as part of the Energy Transitions Commission\n\n… [+1300 more chars]",
-  "content_hash": "84c722d06fe127052256df3c551d8aa10b57be1861c3f8c4eb86929e159c54e7",
-  "token_count": 352,
+  "chunk_text": "The Indian steel sector has been, and will remain an important pillar of India's economic growth and development. Steel demand is estimated to increase more than by twofold 2030-31, spurred by increased spending on infrastructure, automobiles and affordable housing. This increase in demand will provide both challenges and opportunities, including the impact of the sector on the environment. There is a need to ensure that future pathways for growing steel demand are green with minimal environmental impacts.\nThe Energy and Resources Institute (TERI), as part of the Energy Transitions Commission \n\n… [+1298 more chars]",
+  "content_hash": "b77a8375acd81c6804b10b01e9ee362e46b75626d8a2f1df289937b09c03f1c4",
+  "token_count": 332,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -212,14 +208,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     7
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `59f1eb07-3835-5a15-8ec9-0ebe172400e9`
 
-- vector: dim=3072 · [0.0297, -0.0302, -0.0079, -0.0107, -0.0208, -0.0234, 0.0069, 0.0163, …]
+- vector: dim=3072 · [0.0312, -0.0284, -0.0035, -0.0096, -0.0217, -0.0254, 0.0111, 0.0154, …]
 
 ```json
 {
@@ -229,9 +225,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "FOREWORD",
-  "chunk_text": "In the formulation of this Roadmap, TERI has carried out extensive\nconsultations with various stakeholders in the steel sector - producers, buyers, technology providers,\nfinanciers, government bodies and the research community. This comprehensive Roadmap provides an overview of the current state of the steel sector and details a\nrange of possible emissions mitigation strategies. In the near term, implementation of strategies such\nas maximizing energy efficiency, increasing utilization of scrap, introducing green product standards,\ncreating demand for green steel, setting up pilot demonstration\n\n… [+1076 more chars]",
-  "content_hash": "a2e45312a1e34154056be43ee88cb05bf4e8a9dd0131369f85228096ddc212c6",
-  "token_count": 277,
+  "chunk_text": "In the formulation of this Roadmap, TERI has carried out extensive consultations with various stakeholders in the steel sector - producers, buyers, technology providers, financiers, government bodies and the research community. This comprehensive Roadmap provides an overview of the current state of the steel sector and details a range of possible emissions mitigation strategies. In the near term, implementation of strategies such as maximizing energy efficiency, increasing utilization of scrap, introducing green product standards, creating demand for green steel, setting up pilot demonstration\n\n… [+1074 more chars]",
+  "content_hash": "074633530b9e5722721f0783e65ba2fbdacb57b3ad28bb6aecad3a19266b1fca",
+  "token_count": 266,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -248,14 +244,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     9
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `b17edf1f-3af1-5e56-811f-b2fdd1142fdf`
 
-- vector: dim=3072 · [0.0304, -0.0069, -0.0159, -0.0047, 0.0160, -0.0311, 0.0109, 0.0417, …]
+- vector: dim=3072 · [0.0303, -0.0069, -0.0159, -0.0047, 0.0161, -0.0311, 0.0110, 0.0417, …]
 
 ```json
 {
@@ -284,8 +280,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     9
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -318,14 +314,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     11
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `3da91747-884e-5226-ab20-712e4ebd5abf`
 
-- vector: dim=3072 · [0.0420, -0.0267, -0.0019, -0.0012, -0.0346, -0.0076, -0.0078, 0.0326, …]
+- vector: dim=3072 · [0.0419, -0.0267, -0.0019, -0.0011, -0.0345, -0.0077, -0.0080, 0.0325, …]
 
 ```json
 {
@@ -355,14 +351,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     9
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `ebce17fd-eca3-5605-ad95-53a0e5364d46`
 
-- vector: dim=3072 · [0.0326, -0.0262, -0.0100, 0.0213, -0.0156, -0.0198, -0.0180, 0.0373, …]
+- vector: dim=3072 · [0.0325, -0.0260, -0.0097, 0.0218, -0.0154, -0.0200, -0.0180, 0.0374, …]
 
 ```json
 {
@@ -392,14 +388,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     10,
     11
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `e7655ac3-96f6-53f5-88d4-b0c0e5bb12f8`
 
-- vector: dim=3072 · [0.0131, 0.0402, -0.0098, -0.0029, 0.0239, -0.0118, -0.0184, 0.0265, …]
+- vector: dim=3072 · [0.0131, 0.0401, -0.0097, -0.0029, 0.0239, -0.0118, -0.0184, 0.0265, …]
 
 ```json
 {
@@ -428,8 +424,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     12,
     12
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -445,9 +441,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "Steel Scrap Recycling",
-  "chunk_text": "Steel Scrap Recycling\n\nPolicy, 2019\nTowards a Low Carbon\nSteel Sector (TERI Consultation\nDocument), 2020\nR&D and\nDemonstration plants\nPublic procurement\ntargets\nGreen product\nstandards\nIncrease scrap\nutilisation\nMaximise energy\nefficiency\nNet zero iron and\nsteel sector\nNational Steel\nPolicy, 2017\nGreen steel vision \nCommercial-scale\nfacilities\nRapid scale-up of\nnew low-carbon\ntechnologies\nRetirement of high\nemission capacity\nTHE ENERGY AND\nRESOURCES INSTITUTE\nCreating Innovative Solutions for a Sustainable Future\nComprehensive\npolicy framework\n\nThe global steel sector is shifting rapidly. More\n\n… [+4986 more chars]",
-  "content_hash": "7fb3dcba1ece6ed35394cbe1c31480c335f162100fad2f50131da952e5879431",
-  "token_count": 1152,
+  "chunk_text": "Steel Scrap Recycling\n\nPolicy, 2019\nTowards a Low Carbon\nSteel Sector (TERI Consultation\nDocument), 2020\nR&D and\nDemonstration plants\nPublic procurement\ntargets\nGreen product\nstandards\nIncrease scrap\nutilisation\nMaximise energy\nefficiency\nNet zero iron and\nsteel sector\nNational Steel\nPolicy, 2017\nGreen steel vision \nCommercial-scale\nfacilities\nRapid scale-up of\nnew low-carbon\ntechnologies\nRetirement of high\nemission capacity\nTHE ENERGY AND\nRESOURCES INSTITUTE\nCreating Innovative Solutions for a Sustainable Future\nComprehensive\npolicy framework\n\nThe global steel sector is shifting rapidly. More\n\n… [+5002 more chars]",
+  "content_hash": "b6c50872d0e0fd40911d3c30146dd42887d612a299697456461f5123325d268e",
+  "token_count": 1157,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -459,16 +455,16 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "page_range": [
     13,
-    17
+    18
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `46964e2c-480b-5118-beb9-4475834cdecb`
 
-- vector: dim=3072 · [0.0230, -0.0132, -0.0048, 0.0045, -0.0320, 0.0028, 0.0005, 0.0156, …]
+- vector: dim=3072 · [0.0231, -0.0133, -0.0048, 0.0046, -0.0320, 0.0029, 0.0005, 0.0155, …]
 
 ```json
 {
@@ -497,14 +493,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     13,
     13
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `d9574072-ac9e-531a-968e-901f37082db4`
 
-- vector: dim=3072 · [0.0206, -0.0132, -0.0063, 0.0013, -0.0155, -0.0171, 0.0152, 0.0251, …]
+- vector: dim=3072 · [0.0204, -0.0125, -0.0063, 0.0017, -0.0156, -0.0169, 0.0154, 0.0255, …]
 
 ```json
 {
@@ -533,14 +529,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     15,
     15
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `2684799c-bdc3-56e1-b5e0-ee100d5297fc`
 
-- vector: dim=3072 · [0.0298, -0.0376, -0.0005, -0.0076, -0.0323, -0.0176, 0.0012, 0.0173, …]
+- vector: dim=3072 · [0.0298, -0.0377, -0.0006, -0.0075, -0.0323, -0.0177, 0.0012, 0.0174, …]
 
 ```json
 {
@@ -569,14 +565,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     17,
     17
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `65fef68a-bd8c-5a56-99ea-ebce6c7b6e68`
 
-- vector: dim=3072 · [0.0153, -0.0381, -0.0159, -0.0097, -0.0398, -0.0220, 0.0130, 0.0317, …]
+- vector: dim=3072 · [0.0169, -0.0418, -0.0156, -0.0107, -0.0352, -0.0243, 0.0130, 0.0334, …]
 
 ```json
 {
@@ -586,9 +582,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "Steel Scrap Recycling",
-  "chunk_text": "This roadmap is a follow-up to the consultation document published by TERI in 2020, “Towards a Low Carbon Steel Sector: An overview of the changing market, technology and policy context for Indian steel”. \nThe updated consultation document is available at our website as Tech Annex . The roadmap builds on this \npreceding work, along with other TERI and ETC publications on steel and hydrogen1, incorporating in the \ndetailed comments and feedback from discussions with international experts, steel sector representatives, \nand government officials.\nINTRODUCTION\n1\t The Potential Role of Hydrogen in \n\n… [+199 more chars]",
-  "content_hash": "630c8ecb0f829e0312aa3f2b1c52a9e9f7c0bb4735a34a25042bd69780fb555f",
-  "token_count": 176,
+  "chunk_text": "This roadmap is a follow-up to the consultation document published by TERI in 2020, “Towards a Low Carbon Steel Sector: An overview of the changing market, technology and policy context for Indian steel”. \nThe updated consultation document is available at our website as Tech Annex . The roadmap builds on this \npreceding work, along with other TERI and ETC publications on steel and hydrogen1, incorporating in the \ndetailed comments and feedback from discussions with international experts, steel sector representatives, \nand government officials.\nINTRODUCTION\n1\t The Potential Role of Hydrogen in \n\n… [+215 more chars]",
+  "content_hash": "d575daab9a11a491a970cd2866e83745c58b1b5bd9f8a16b30da3b219dcda98c",
+  "token_count": 181,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -603,10 +599,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "page_number": 17,
   "page_range": [
     17,
-    17
+    18
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -621,10 +617,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": true,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "1 BACKGROUND — 1.1\t Indian steel industry",
-  "chunk_text": "1 BACKGROUND — 1.1\t Indian steel industry\n\nIndia is currently the world’s second-largest steel producer, and second-largest steel consumer (WSA, \n2020a). The steel industry in India is relatively heterogeneous compared to other countries, with a wide \nrange of different sized facilities in the primary and secondary steelmaking sectors. There are also several \ndifferent technologies currently being used, including the Blast Furnace – Basic Oxygen Furnace (BF-BOF), \ncoal-based Direct Reduction (DR), gas-based DR, Electric Induction Furnace (EIF) and Electric Arc Furnace \n(EAF). BOF technology do\n\n… [+4017 more chars]",
-  "content_hash": "ac74ac99febc2220e3fc121b41f6b92b68843a6a8cb3a8c74a59696bf253f3b7",
-  "token_count": 1057,
+  "section_heading": "1.1\t Indian steel industry",
+  "chunk_text": "1.1\t Indian steel industry\n\nIndia is currently the world’s second-largest steel producer, and second-largest steel consumer (WSA, \n2020a). The steel industry in India is relatively heterogeneous compared to other countries, with a wide \nrange of different sized facilities in the primary and secondary steelmaking sectors. There are also several \ndifferent technologies currently being used, including the Blast Furnace – Basic Oxygen Furnace (BF-BOF), \ncoal-based Direct Reduction (DR), gas-based DR, Electric Induction Furnace (EIF) and Electric Arc Furnace \n(EAF). BOF technology dominates a growi\n\n… [+4002 more chars]",
+  "content_hash": "1a4fd49e82f20e466e03c1f38a3308f96971fcf8ea3b764493d7bc801a9019ee",
+  "token_count": 1053,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -638,14 +634,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     19,
     21
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `69b7c667-73cc-519e-9c11-0c69e6548f97`
 
-- vector: dim=3072 · [0.0297, 0.0127, -0.0108, -0.0065, -0.0081, -0.0145, 0.0011, -0.0171, …]
+- vector: dim=3072 · [0.0296, 0.0127, -0.0107, -0.0065, -0.0082, -0.0145, 0.0012, -0.0171, …]
 
 ```json
 {
@@ -654,7 +650,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "1 BACKGROUND — 1.1\t Indian steel industry",
+  "section_heading": "1.1\t Indian steel industry",
   "chunk_text": "India is currently the world’s second-largest steel producer, and second-largest steel consumer (WSA, \n2020a). The steel industry in India is relatively heterogeneous compared to other countries, with a wide \nrange of different sized facilities in the primary and secondary steelmaking sectors. There are also several \ndifferent technologies currently being used, including the Blast Furnace – Basic Oxygen Furnace (BF-BOF), \ncoal-based Direct Reduction (DR), gas-based DR, Electric Induction Furnace (EIF) and Electric Arc Furnace \n(EAF). BOF technology dominates a growing share of steel production\n\n… [+1170 more chars]",
   "content_hash": "06edba93bd3aefb37b858565f383d737c102986c10b98f3ff611e7dacdab34c5",
   "token_count": 382,
@@ -674,14 +670,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     19,
     19
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `aea94858-15b5-5a41-9fd2-098f1d473790`
 
-- vector: dim=3072 · [0.0072, -0.0001, 0.0013, -0.0039, -0.0233, -0.0122, -0.0208, 0.0160, …]
+- vector: dim=3072 · [0.0071, -0.0032, 0.0020, -0.0023, -0.0253, -0.0143, -0.0167, 0.0154, …]
 
 ```json
 {
@@ -690,7 +686,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "1 BACKGROUND — 1.1\t Indian steel industry",
+  "section_heading": "1.1\t Indian steel industry",
   "chunk_text": "Figure 1: Route-wise crude steel production share, 2020-21\nSource: (MoS, 2021a) \nBackground\n45%\n28%\n27%\nBOF\nEAF\nEIF Figure 2: Historical steel production and use\nSource: (MoS, 2021a; 2021b) \nAs with any industrializing economy, the steel sector is of vital importance to India, contributing around \n2% to the country’s GDP and employing around 2.5 million people in the steel and related sectors (MoS, \n2020a). Crude steel production in India grew from 89 Mt in 2014-15 to 111 Mt in 2019-20. It fell to just \nbelow 100 Mt in 2020-212 following the Covid-19 pandemic. However, the cumulative productio\n\n… [+1342 more chars]",
   "content_hash": "2483d90373a7c23773859596463fe1eb3f8df268feb242938f34364b6e90d592",
   "token_count": 491,
@@ -710,14 +706,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     20,
     20
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `687441d7-1545-5fd7-909d-c355cda58034`
 
-- vector: dim=3072 · [0.0069, -0.0110, -0.0015, 0.0188, -0.0209, 0.0053, -0.0172, 0.0093, …]
+- vector: dim=3072 · [0.0069, -0.0110, -0.0015, 0.0188, -0.0210, 0.0053, -0.0172, 0.0093, …]
 
 ```json
 {
@@ -726,7 +722,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "1 BACKGROUND — 1.1\t Indian steel industry",
+  "section_heading": "1.1\t Indian steel industry",
   "chunk_text": "In 2017, the Ministry of Steel (MoS) launched the National Steel Policy (NSP), which included an aim to increase India’s steelmaking capacity to 300 Mt by 2030. This policy also encompasses targets to reduce \nenergy consumption per tonne of steel, through adopting the latest energy efficiency measures. To support \nthe adoption of energy efficiency measures across a number of sectors, the GoI has developed the Perform, \nAchieve and Trade (PAT) scheme, delivered through the Bureau of Energy Efficiency (BEE). The steel sector \nhas been covered under the PAT scheme since its inception in 2012. Unt\n\n… [+478 more chars]",
   "content_hash": "4e16fcd926d5bec7d8a315d9491ce520f40154bffb7efacdec0433f0303f70ee",
   "token_count": 241,
@@ -746,14 +742,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     20,
     21
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `03ce0500-0a6b-5cc2-8fca-cd515588433e`
 
-- vector: dim=3072 · [0.0209, 0.0050, -0.0136, 0.0087, -0.0147, -0.0209, 0.0012, -0.0146, …]
+- vector: dim=3072 · [0.0206, 0.0050, -0.0136, 0.0088, -0.0145, -0.0207, 0.0012, -0.0142, …]
 
 ```json
 {
@@ -781,14 +777,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     21,
     22
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `241d7bd7-74c0-5722-a48b-1669da1e1bb0`
 
-- vector: dim=3072 · [-0.0018, -0.0108, -0.0127, -0.0022, 0.0068, -0.0013, -0.0041, -0.0177, …]
+- vector: dim=3072 · [-0.0012, -0.0105, -0.0125, -0.0015, 0.0073, -0.0022, -0.0049, -0.0181, …]
 
 ```json
 {
@@ -816,8 +812,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     22,
     22
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -851,8 +847,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     22,
     24
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -884,14 +880,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     24,
     25
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `106c1561-5c4a-5559-a953-315cedd22e4b`
 
-- vector: dim=3072 · [0.0251, 0.0317, -0.0173, 0.0093, 0.0063, 0.0104, 0.0086, -0.0003, …]
+- vector: dim=3072 · [0.0250, 0.0318, -0.0173, 0.0093, 0.0063, 0.0102, 0.0086, -0.0002, …]
 
 ```json
 {
@@ -920,14 +916,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     24,
     24
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `b8a4fdc1-b3ea-596f-981f-5a4cab66dfce`
 
-- vector: dim=3072 · [0.0170, 0.0061, -0.0114, 0.0057, -0.0084, 0.0039, 0.0055, -0.0123, …]
+- vector: dim=3072 · [0.0171, 0.0062, -0.0114, 0.0059, -0.0085, 0.0040, 0.0055, -0.0122, …]
 
 ```json
 {
@@ -956,8 +952,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     25,
     25
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -973,9 +969,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "1.3.3\t Decarbonisation",
-  "chunk_text": "1.3.3\t Decarbonisation\n\nThe third macro-trend, and arguably \nthe trend driving the most significant \ndisruption in the iron and steel \nsector, is the growing imperative for \ndecarbonisation. The iron and steel \nsector is currently both highly energy \nand emissions-intensive, accounting \nfor 8% of global final energy use and \n7% of global direct energy-related \nCO2 emissions (including industrial \nprocess emissions) (IEA, 2020). As \nprogress to decarbonize the power \nand transport sectors accelerates, \nwe are starting to see greater focus \non the heavy industry sectors, \nsuch as iron & steel, c\n\n… [+2633 more chars]",
-  "content_hash": "0cff17b494242cf445013c948b9a21c42a93128e76119505cfdd8707e0bc7eee",
-  "token_count": 938,
+  "chunk_text": "1.3.3\t Decarbonisation\n\nThe third macro-trend, and arguably \nthe trend driving the most significant \ndisruption in the iron and steel \nsector, is the growing imperative for \ndecarbonisation. The iron and steel \nsector is currently both highly energy \nand emissions-intensive, accounting \nfor 8% of global final energy use and \n7% of global direct energy-related \nCO2 emissions (including industrial \nprocess emissions) (IEA, 2020). As \nprogress to decarbonize the power \nand transport sectors accelerates, \nwe are starting to see greater focus \non the heavy industry sectors, \nsuch as iron & steel, c\n\n… [+2658 more chars]",
+  "content_hash": "5f428cbf5919475e1783b9389bc71b17d826e20f3aadb866aa4f4265d2a73474",
+  "token_count": 948,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -987,16 +983,16 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_path": "Achieving_Green_Steel_Roadmap.pdf",
   "page_range": [
     25,
-    26
+    27
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `2016fa91-aa35-5177-a341-2634b8dfbac8`
 
-- vector: dim=3072 · [0.0139, -0.0125, -0.0181, 0.0041, -0.0273, -0.0261, 0.0058, 0.0036, …]
+- vector: dim=3072 · [0.0135, -0.0125, -0.0182, 0.0040, -0.0275, -0.0259, 0.0060, 0.0039, …]
 
 ```json
 {
@@ -1025,14 +1021,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     25,
     25
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `e69fa337-3862-5a53-a466-66d5f6b75657`
 
-- vector: dim=3072 · [0.0321, 0.0226, -0.0210, -0.0017, -0.0136, -0.0174, 0.0138, 0.0388, …]
+- vector: dim=3072 · [0.0322, 0.0225, -0.0212, -0.0018, -0.0135, -0.0173, 0.0140, 0.0392, …]
 
 ```json
 {
@@ -1061,14 +1057,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     25,
     25
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `4731a355-4f0a-5cae-93eb-9d68ce161448`
 
-- vector: dim=3072 · [0.0302, -0.0084, -0.0078, 0.0200, -0.0086, -0.0191, 0.0039, 0.0085, …]
+- vector: dim=3072 · [0.0252, -0.0049, -0.0062, 0.0182, 0.0083, -0.0303, 0.0097, 0.0107, …]
 
 ```json
 {
@@ -1078,9 +1074,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "1.3.3\t Decarbonisation",
-  "chunk_text": "7 |\n|  |  |  | JFE TBC |\n|  |  |  | US Steel TBC |\n|  |  |  | Thyssen Krupp 2025 2025 2027 |\n|  |  |  | Tenaris TBC | For further emissions reduction, the introduction of new, low carbon technologies will be required, such \nas the use of low carbon hydrogen or carbon, capture, utilisation and storage (CCUS). Initially, these \nnew processes will increase the costs of steel production, and will require the introduction of supportive \npolicies by the government to help the industry through the transition, as we have seen in other sectors, \nsuch as power and transport.\nWhilst it is true that some \n\n… [+522 more chars]",
-  "content_hash": "fda803d27782776dafba3ffaf4566ff601bbb6c354f38a338dd24fe62da3adc2",
-  "token_count": 257,
+  "chunk_text": "7 |\n|  |  |  | JFE TBC |\n|  |  |  | US Steel TBC |\n|  |  |  | Thyssen Krupp 2025 2025 2027 |\n|  |  |  | Tenaris TBC | For further emissions reduction, the introduction of new, low carbon technologies will be required, such \nas the use of low carbon hydrogen or carbon, capture, utilisation and storage (CCUS). Initially, these \nnew processes will increase the costs of steel production, and will require the introduction of supportive \npolicies by the government to help the industry through the transition, as we have seen in other sectors, \nsuch as power and transport.\nWhilst it is true that some \n\n… [+547 more chars]",
+  "content_hash": "1f7322e06bb633fb264ca120828945e30ca1df1d9893b25f9a07ac94cfcc2a3e",
+  "token_count": 267,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1095,16 +1091,16 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "page_number": 26,
   "page_range": [
     26,
-    26
+    27
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `004f77c3-23e1-5d46-b4c5-5a53460f780f`
 
-- vector: dim=3072 · [0.0148, 0.0130, -0.0050, -0.0187, 0.0256, -0.0244, 0.0101, 0.0068, …]
+- vector: dim=3072 · [0.0148, 0.0129, -0.0050, -0.0187, 0.0257, -0.0245, 0.0102, 0.0068, …]
 
 ```json
 {
@@ -1113,7 +1109,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "2 MACROECONOMIC IMPACTS — ZA — 2.1\t Overview",
+  "section_heading": "2.1\t Overview",
   "chunk_text": "The steel sector contributes around 2% of India’s GDP (MoS, 2020a) and is valued at well over $100bn (Niti \nAayog, 2016). The indirect contribution of the sector is significantly higher, given its enabling role in several \nend-use sectors including construction, infrastructure, industrial machinery and consumer products. For \nthis reason, it is estimated that the investment in the Indian steel sector has an output multiplier effect of \nnearly 4 times on GDP and employment multiplier factor of 6.8 times (NSP, 2017), signalling its importance \nfor India’s future growth story.",
   "content_hash": "04904373789c90c1de890d76290f231bd34091544cbcf79f9fcbf15b8ce1af2f",
   "token_count": 132,
@@ -1132,14 +1128,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     28,
     28
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `0c7a15af-0cc7-5d8f-a638-fcf3fbf3e115`
 
-- vector: dim=3072 · [0.0162, 0.0185, -0.0120, 0.0040, 0.0220, -0.0272, -0.0227, -0.0199, …]
+- vector: dim=3072 · [0.0162, 0.0185, -0.0120, 0.0040, 0.0219, -0.0270, -0.0229, -0.0199, …]
 
 ```json
 {
@@ -1167,14 +1163,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     28,
     28
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `9820d55d-49ab-5d0c-89a5-b39eaa5dfa03`
 
-- vector: dim=3072 · [0.0150, 0.0209, 0.0009, 0.0029, -0.0345, -0.0211, 0.0020, -0.0202, …]
+- vector: dim=3072 · [0.0153, 0.0209, 0.0007, 0.0031, -0.0348, -0.0215, 0.0020, -0.0202, …]
 
 ```json
 {
@@ -1202,14 +1198,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     28,
     29
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `9f95be06-4b5e-5bd4-90c0-e7e0a15f8708`
 
-- vector: dim=3072 · [0.0128, -0.0075, -0.0028, 0.0008, -0.0218, -0.0244, -0.0167, -0.0116, …]
+- vector: dim=3072 · [0.0129, -0.0074, -0.0022, 0.0025, -0.0204, -0.0254, -0.0184, -0.0110, …]
 
 ```json
 {
@@ -1220,8 +1216,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "2.4 Employment",
   "chunk_text": "The Indian steel sector currently employs approximately 2.5 million people throughout the supply chain \n(MoS, 2020a). This is estimated to increase to around 3.5 million by 2030, depending on the degree of \nautomation (NSP, 2017). The highest-skilled jobs include engineers and metallurgists, which are vital for \nthe efficient operation of the plants and timely adoption of new technologies. \nHowever, the sector is currently facing a significant skills shortage, which is being exacerbated by skilled \ngraduates moving away from the manufacturing sectors to the service sectors. This is being drive\n\n… [+1407 more chars]",
-  "content_hash": "4e100d7a39c2fb1429976ca26a047ff4d683a62a765780320ebb9c461ad94e32",
-  "token_count": 415,
+  "content_hash": "4654d2a0885fa31f2613b2cb4df6b9c92e640612eee03c55d70ba63f5340b225",
+  "token_count": 416,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1237,8 +1233,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     30,
     32
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -1270,14 +1266,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     32,
     33
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `acdddbc7-8827-59f4-84c0-a5f16c70a126`
 
-- vector: dim=3072 · [0.0058, 0.0131, -0.0017, 0.0157, -0.0172, -0.0254, -0.0163, -0.0032, …]
+- vector: dim=3072 · [0.0052, 0.0135, -0.0020, 0.0159, -0.0183, -0.0261, -0.0160, -0.0023, …]
 
 ```json
 {
@@ -1306,14 +1302,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     32,
     32
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `53440e1e-175f-5063-a8af-71aae63bac96`
 
-- vector: dim=3072 · [-0.0100, 0.0241, -0.0054, 0.0035, -0.0119, -0.0335, -0.0164, 0.0128, …]
+- vector: dim=3072 · [-0.0100, 0.0241, -0.0054, 0.0035, -0.0120, -0.0336, -0.0162, 0.0129, …]
 
 ```json
 {
@@ -1342,14 +1338,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     32,
     33
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `580b0363-c934-5ea2-876f-b7615995eaae`
 
-- vector: dim=3072 · [-0.0134, 0.0017, -0.0045, -0.0025, -0.0147, -0.0253, -0.0000, -0.0103, …]
+- vector: dim=3072 · [-0.0134, 0.0015, -0.0046, -0.0026, -0.0147, -0.0255, 0.0000, -0.0103, …]
 
 ```json
 {
@@ -1377,14 +1373,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     33,
     34
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `452f5453-f766-5889-8b03-ea64ba4fadae`
 
-- vector: dim=3072 · [0.0239, -0.0097, -0.0106, 0.0106, -0.0318, -0.0244, -0.0084, 0.0039, …]
+- vector: dim=3072 · [0.0238, -0.0098, -0.0105, 0.0102, -0.0317, -0.0240, -0.0087, 0.0038, …]
 
 ```json
 {
@@ -1412,8 +1408,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     34,
     34
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -1445,14 +1441,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     35,
     36
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `345c8e44-03e4-5c99-972b-fe3fde487ad1`
 
-- vector: dim=3072 · [0.0098, 0.0225, -0.0139, 0.0134, -0.0147, -0.0145, -0.0109, 0.0057, …]
+- vector: dim=3072 · [0.0099, 0.0224, -0.0139, 0.0133, -0.0148, -0.0145, -0.0109, 0.0057, …]
 
 ```json
 {
@@ -1481,14 +1477,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     35,
     35
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `4572236d-ca35-52ee-9063-3648b85c059c`
 
-- vector: dim=3072 · [0.0088, 0.0132, -0.0157, 0.0142, -0.0256, -0.0060, 0.0045, -0.0005, …]
+- vector: dim=3072 · [0.0087, 0.0132, -0.0157, 0.0142, -0.0257, -0.0062, 0.0044, -0.0006, …]
 
 ```json
 {
@@ -1517,14 +1513,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     35,
     35
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `0ec0cc77-7e2b-5815-b705-fd2551d61ef1`
 
-- vector: dim=3072 · [0.0221, 0.0092, -0.0174, 0.0077, -0.0365, -0.0177, 0.0072, 0.0012, …]
+- vector: dim=3072 · [0.0215, 0.0090, -0.0172, 0.0078, -0.0363, -0.0177, 0.0070, 0.0012, …]
 
 ```json
 {
@@ -1553,14 +1549,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     35,
     35
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `5a971ca9-e29a-5685-a930-76fc9e31b300`
 
-- vector: dim=3072 · [0.0301, 0.0052, -0.0190, 0.0008, -0.0178, -0.0053, 0.0093, 0.0030, …]
+- vector: dim=3072 · [0.0300, 0.0053, -0.0191, 0.0006, -0.0179, -0.0055, 0.0093, 0.0031, …]
 
 ```json
 {
@@ -1589,14 +1585,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     35,
     36
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `c578deaa-fdae-5ac6-8324-76e9f58c87a4`
 
-- vector: dim=3072 · [0.0092, 0.0157, -0.0081, -0.0041, -0.0126, -0.0289, 0.0210, 0.0048, …]
+- vector: dim=3072 · [0.0133, 0.0166, -0.0059, -0.0002, -0.0178, -0.0287, 0.0190, 0.0128, …]
 
 ```json
 {
@@ -1606,9 +1602,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "3.4 Capital requirements",
-  "chunk_text": "The transition towards a net-zero steel sector will be highly capital-intensive, as new steel facilities will \nneed to be built, alongside supporting infrastructure (such as electricity, hydrogen and CCUS networks). \nThe Indian steel sector relies heavily on FDI, which was estimated to be over $14 billion between April \n2000 and June 2020 (IBEF, 2021), representing 2.01% of total FDI (DIPP, 2020). This funding is increasingly \nlooking to align itself with a net zero target, meaning only near zero emission steelmaking technologies \nwill attract finance in future (see Glasgow Financial Alliance \n\n… [+561 more chars]",
-  "content_hash": "08dfd93ed5c6f9ef3f28fe329f32c3b78dd44204cf46bf09285d6a6703f7142b",
-  "token_count": 236,
+  "chunk_text": "The transition towards a net-zero steel sector will be highly capital-intensive, as new steel facilities will \nneed to be built, alongside supporting infrastructure (such as electricity, hydrogen and CCUS networks). \nThe Indian steel sector relies heavily on FDI, which was estimated to be over $14 billion between April \n2000 and June 2020 (IBEF, 2021), representing 2.01% of total FDI (DIPP, 2020). This funding is increasingly \nlooking to align itself with a net zero target, meaning only near zero emission steelmaking technologies \nwill attract finance in future (see Glasgow Financial Alliance \n\n… [+583 more chars]",
+  "content_hash": "1dcb02da3ac81aba939b57c19a35c268c9e69ab3e85223b4fa2f0304a9118604",
+  "token_count": 242,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1622,10 +1618,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "page_number": 36,
   "page_range": [
     36,
-    36
+    37
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -1640,10 +1636,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": true,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "4 TRANSITION PATHWAY — Transition Pathway — 4.1 Structure of Indian steel assets",
-  "chunk_text": "4 TRANSITION PATHWAY — Transition Pathway — 4.1 Structure of Indian steel assets\n\nBefore exploring future pathways for the Indian steel sector, it is worth outlining the structure of existing \nassets. Principally, we are concerned with (a) the technological make-up and (b) lifetime of the existing \nassets, as these two factors will be most influential in setting the future direction of the Indian steel sector.\nThe current make-up of India’s iron and steelmaking facilities shows an accelerating trend towards larger, \nintegrated steel plants using blast furnace, basic oxygen furnace and electric\n\n… [+2781 more chars]",
-  "content_hash": "652c1255877c80ec432f920a3465b19621ab67b21ca5730ecadadf5f0303e501",
-  "token_count": 717,
+  "section_heading": "Transition Pathway — 4.1 Structure of Indian steel assets",
+  "chunk_text": "Transition Pathway — 4.1 Structure of Indian steel assets\n\nBefore exploring future pathways for the Indian steel sector, it is worth outlining the structure of existing \nassets. Principally, we are concerned with (a) the technological make-up and (b) lifetime of the existing \nassets, as these two factors will be most influential in setting the future direction of the Indian steel sector.\nThe current make-up of India’s iron and steelmaking facilities shows an accelerating trend towards larger, \nintegrated steel plants using blast furnace, basic oxygen furnace and electric arc furnace technologi\n\n… [+2758 more chars]",
+  "content_hash": "5281be7e262b14ab5e01700ee68bfca971fab63f6050a7dc6c0bca103bdf9499",
+  "token_count": 711,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1657,14 +1653,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     38,
     40
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `922301fa-18fd-585c-97f4-5dbf7f040360`
 
-- vector: dim=3072 · [0.0185, 0.0005, -0.0118, 0.0028, -0.0201, -0.0181, -0.0225, 0.0061, …]
+- vector: dim=3072 · [0.0185, 0.0004, -0.0118, 0.0028, -0.0200, -0.0180, -0.0225, 0.0060, …]
 
 ```json
 {
@@ -1673,7 +1669,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "4 TRANSITION PATHWAY — Transition Pathway — 4.1 Structure of Indian steel assets",
+  "section_heading": "Transition Pathway — 4.1 Structure of Indian steel assets",
   "chunk_text": "Before exploring future pathways for the Indian steel sector, it is worth outlining the structure of existing \nassets. Principally, we are concerned with (a) the technological make-up and (b) lifetime of the existing \nassets, as these two factors will be most influential in setting the future direction of the Indian steel sector.\nThe current make-up of India’s iron and steelmaking facilities shows an accelerating trend towards larger, \nintegrated steel plants using blast furnace, basic oxygen furnace and electric arc furnace technologies, as \nper global trends. There is still a relatively sign\n\n… [+1030 more chars]",
   "content_hash": "8705bca16e4382c9e03193b80793008678ec985e9e248dae6d9128426b543e26",
   "token_count": 319,
@@ -1693,14 +1689,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     38,
     38
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `cb53d3e7-4a87-5102-aab3-7b787a9cd004`
 
-- vector: dim=3072 · [-0.0128, 0.0095, -0.0128, -0.0164, -0.0382, -0.0154, -0.0340, 0.0190, …]
+- vector: dim=3072 · [-0.0128, 0.0097, -0.0129, -0.0164, -0.0383, -0.0154, -0.0338, 0.0190, …]
 
 ```json
 {
@@ -1709,7 +1705,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
-  "section_heading": "4 TRANSITION PATHWAY — Transition Pathway — 4.1 Structure of Indian steel assets",
+  "section_heading": "Transition Pathway — 4.1 Structure of Indian steel assets",
   "chunk_text": "India has seen a relatively steady growth in blast \nfurnace technology since the 1960s, with a marked acceleration in deployment since 2000 from which \npoint two-thirds of blast furnace capacity was added. \nFigure 12: Ironmaking and steelmaking production routes, Mt Based on the largest assessment of blast furnace capacity done to date (Vogl, Olsson & Nykvist, 2021), we \ncan understand in more detail about the lifetime of this technology and timescales for reinvestment. The \naverage blast furnace can last around 45 to 50 years, with between 2 and 3 relining campaigns occurring \nover that timef\n\n… [+1334 more chars]",
   "content_hash": "7c3157136d4257c050f37bfbdf74edfeb4093b62cc3099dfd890fc2d88a93e91",
   "token_count": 435,
@@ -1729,8 +1725,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     39,
     40
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -1762,8 +1758,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     40,
     43
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -1798,14 +1794,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     40,
     40
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `3eddf45e-793a-59d4-a15d-3baedfe3dcc8`
 
-- vector: dim=3072 · [0.0155, -0.0259, -0.0154, 0.0236, -0.0330, -0.0344, -0.0053, 0.0001, …]
+- vector: dim=3072 · [0.0152, -0.0260, -0.0154, 0.0238, -0.0329, -0.0343, -0.0056, 0.0000, …]
 
 ```json
 {
@@ -1834,14 +1830,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     41,
     41
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `f59ea535-f03f-55f6-b659-02ef03481ecf`
 
-- vector: dim=3072 · [0.0070, -0.0162, -0.0117, 0.0216, -0.0283, -0.0309, -0.0216, 0.0273, …]
+- vector: dim=3072 · [0.0069, -0.0162, -0.0117, 0.0214, -0.0285, -0.0308, -0.0219, 0.0273, …]
 
 ```json
 {
@@ -1870,14 +1866,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     41,
     41
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `7639440e-35ef-5f4e-80e9-7b798dc70567`
 
-- vector: dim=3072 · [0.0299, -0.0158, -0.0115, 0.0256, -0.0378, -0.0473, 0.0068, 0.0166, …]
+- vector: dim=3072 · [0.0299, -0.0159, -0.0114, 0.0258, -0.0378, -0.0473, 0.0068, 0.0165, …]
 
 ```json
 {
@@ -1906,14 +1902,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     42,
     42
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `478beb0a-08a6-5fbf-8374-5fa74ac5679a`
 
-- vector: dim=3072 · [0.0170, -0.0117, -0.0128, 0.0187, -0.0395, -0.0562, 0.0051, 0.0250, …]
+- vector: dim=3072 · [0.0167, -0.0116, -0.0128, 0.0189, -0.0392, -0.0563, 0.0051, 0.0249, …]
 
 ```json
 {
@@ -1942,8 +1938,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     42,
     43
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -1975,14 +1971,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     43,
     48
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `d131021e-32cc-54a3-a56e-0023754ea85d`
 
-- vector: dim=3072 · [0.0173, -0.0073, -0.0155, -0.0025, -0.0481, -0.0124, 0.0030, 0.0254, …]
+- vector: dim=3072 · [0.0173, -0.0073, -0.0155, -0.0025, -0.0480, -0.0124, 0.0030, 0.0253, …]
 
 ```json
 {
@@ -2011,14 +2007,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     43,
     43
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `0c93286e-0250-566d-8c19-ab29b02e332c`
 
-- vector: dim=3072 · [-0.0002, -0.0038, -0.0151, 0.0019, -0.0362, -0.0074, 0.0022, 0.0275, …]
+- vector: dim=3072 · [-0.0002, -0.0037, -0.0151, 0.0020, -0.0363, -0.0073, 0.0021, 0.0274, …]
 
 ```json
 {
@@ -2047,14 +2043,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     44,
     44
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `051bfdc0-b1b0-542d-8801-25380dd83cd1`
 
-- vector: dim=3072 · [0.0105, -0.0090, -0.0134, 0.0045, -0.0415, -0.0177, 0.0025, 0.0105, …]
+- vector: dim=3072 · [0.0105, -0.0090, -0.0134, 0.0045, -0.0415, -0.0177, 0.0025, 0.0104, …]
 
 ```json
 {
@@ -2083,14 +2079,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     45,
     45
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `8537da82-5b00-52e1-a060-fabb8d14a1b1`
 
-- vector: dim=3072 · [0.0195, -0.0074, -0.0066, 0.0253, -0.0448, -0.0043, -0.0016, 0.0411, …]
+- vector: dim=3072 · [0.0195, -0.0074, -0.0066, 0.0253, -0.0449, -0.0043, -0.0016, 0.0411, …]
 
 ```json
 {
@@ -2119,8 +2115,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     45,
     48
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2154,8 +2150,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     48,
     49
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2189,8 +2185,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     49,
     49
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2224,14 +2220,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     50,
     50
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `4c913f94-b6f1-5aab-864c-78be629b895c`
 
-- vector: dim=3072 · [0.0265, 0.0028, -0.0215, 0.0183, -0.0010, -0.0021, 0.0086, -0.0031, …]
+- vector: dim=3072 · [0.0271, 0.0028, -0.0214, 0.0197, -0.0014, -0.0016, 0.0086, -0.0036, …]
 
 ```json
 {
@@ -2259,14 +2255,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     50,
     50
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `95e1bd9a-5eaf-5d4e-afbb-a99e7dfa3b35`
 
-- vector: dim=3072 · [0.0118, 0.0273, -0.0180, -0.0079, -0.0132, -0.0229, 0.0032, 0.0075, …]
+- vector: dim=3072 · [0.0118, 0.0279, -0.0180, -0.0079, -0.0129, -0.0230, 0.0033, 0.0076, …]
 
 ```json
 {
@@ -2294,8 +2290,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     51,
     51
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2329,14 +2325,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     51,
     51
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `4af5dae5-3e9a-5f3e-a997-d7bd7fcce5af`
 
-- vector: dim=3072 · [0.0032, -0.0096, -0.0092, 0.0047, -0.0414, -0.0024, -0.0404, 0.0131, …]
+- vector: dim=3072 · [0.0042, -0.0106, -0.0092, 0.0058, -0.0414, -0.0029, -0.0394, 0.0130, …]
 
 ```json
 {
@@ -2364,8 +2360,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     52,
     52
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2397,14 +2393,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     52,
     53
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `794200f4-54f2-5b05-a50b-185635f3f244`
 
-- vector: dim=3072 · [0.0230, -0.0030, -0.0136, -0.0020, -0.0487, -0.0190, 0.0113, 0.0200, …]
+- vector: dim=3072 · [0.0233, -0.0030, -0.0137, -0.0018, -0.0490, -0.0192, 0.0114, 0.0201, …]
 
 ```json
 {
@@ -2433,8 +2429,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     52,
     52
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2469,8 +2465,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     52,
     52
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2505,14 +2501,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     53,
     53
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `aec6a648-0987-5e58-828a-b8d5fe9c0a40`
 
-- vector: dim=3072 · [-0.0027, -0.0211, -0.0004, -0.0006, -0.0084, -0.0137, -0.0473, 0.0143, …]
+- vector: dim=3072 · [0.0014, -0.0242, -0.0032, 0.0026, -0.0121, -0.0177, -0.0433, 0.0076, …]
 
 ```json
 {
@@ -2522,9 +2518,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "5.9\t Implement a carbon border tariff",
-  "chunk_text": "Steel, a carbon intensive product which is also heavily traded globally, has found a lot of attention in \nrecent years in the trade environment policy discourses. For example, the EU green deal mentions \nimposition of Carbon Border Adjustment Mechanism (CBAM), to prevent carbon leakage while creating \nlevel playing field in the EU where steel is one of the few sectors that will come under this measure. It may \nbe worth exploring similar import restrictions on steel imports to India originating from countries having \nFigure 26: Carbon border adjustment\ndomestic industry during transition\n250\n0\n\n\n… [+2155 more chars]",
-  "content_hash": "5625e2874e1140fdcb0998651492a927172f82dc8f95872541afece224474971",
-  "token_count": 572,
+  "chunk_text": "Steel, a carbon intensive product which is also heavily traded globally, has found a lot of attention in \nrecent years in the trade environment policy discourses. For example, the EU green deal mentions \nimposition of Carbon Border Adjustment Mechanism (CBAM), to prevent carbon leakage while creating \nlevel playing field in the EU where steel is one of the few sectors that will come under this measure. It may \nbe worth exploring similar import restrictions on steel imports to India originating from countries having \nFigure 26: Carbon border adjustment\ndomestic industry during transition\n250\n0\n\n\n… [+2157 more chars]",
+  "content_hash": "5ea15cd073e1d7aca7009230595e6e12f6d0b634b8f661078272516855245184",
+  "token_count": 576,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -2540,8 +2536,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     53,
     55
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2574,8 +2570,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     56,
     58
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2610,8 +2606,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     56,
     56
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2647,8 +2643,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     57,
     57
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2684,8 +2680,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     57,
     57
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2721,8 +2717,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     57,
     58
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2758,8 +2754,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     58,
     58
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
@@ -2776,9 +2772,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "Conclusions",
   "section_type": "references",
-  "chunk_text": "Conclusions (cont.)\n\nOECD. (2018). Economic Outlook No 103 - July 2018 - Long-term baseline projections. (Organisation for Economic Co-\noperation and Development) Retrieved from Stat: https://stats.oecd.org/Index.aspx?DataSetCode=EO103_LTB\nPHDCCI. (2019). Retrieved from https://www.phdcci.in/wp-content/uploads/2019/01/Rising-Jharkhand-Economic-\nProfile-_final-for-Print-Low-size-updated.pdf\nPIB. (2021). Production Linked Incentive (PLI) Scheme for Specialty Steel Approved by Union Cabinet. Retrieved from \nhttps://pib.gov.in/PressReleasePage.aspx?PRID=1738126\nPrimetals Technologies. (2019). Prim\n\n… [+3171 more chars]",
-  "content_hash": "8a0075d788a654f44b2b9c051557bd591797b0d2cf8dc692e24f21cd3b26dd45",
-  "token_count": 1072,
+  "chunk_text": "Conclusions (cont.)\n\nOECD. (2018). Economic Outlook No 103 - July 2018 - Long-term baseline projections. (Organisation for Economic Co-\noperation and Development) Retrieved from Stat: https://stats.oecd.org/Index.aspx?DataSetCode=EO103_LTB\nPHDCCI. (2019). Retrieved from https://www.phdcci.in/wp-content/uploads/2019/01/Rising-Jharkhand-Economic-\nProfile-_final-for-Print-Low-size-updated.pdf\nPIB. (2021). Production Linked Incentive (PLI) Scheme for Specialty Steel Approved by Union Cabinet. Retrieved from \nhttps://pib.gov.in/PressReleasePage.aspx?PRID=1738126\nPrimetals Technologies. (2019). Prim\n\n… [+3168 more chars]",
+  "content_hash": "1ac27d190be99480001d35d68e05fcfc72eb8b5536b36de00824da07701bd2e4",
+  "token_count": 1069,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -2792,14 +2788,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     59,
     60
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `dfc71df6-7e4d-5875-b1cf-7fcbcfa55f59`
 
-- vector: dim=3072 · [0.0284, 0.0238, -0.0107, 0.0295, 0.0069, -0.0076, 0.0079, 0.0116, …]
+- vector: dim=3072 · [0.0284, 0.0238, -0.0107, 0.0295, 0.0068, -0.0076, 0.0079, 0.0115, …]
 
 ```json
 {
@@ -2829,14 +2825,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     59,
     59
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `8380484e-96e8-512a-bf1a-db990c643dd2`
 
-- vector: dim=3072 · [0.0424, 0.0219, -0.0050, 0.0089, -0.0079, 0.0029, 0.0077, 0.0053, …]
+- vector: dim=3072 · [0.0424, 0.0220, -0.0051, 0.0089, -0.0080, 0.0028, 0.0076, 0.0053, …]
 
 ```json
 {
@@ -2866,14 +2862,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     59,
     59
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```
 
 ## Child · `9fca97af-dd37-5ee3-ad6e-93942d1c80c2`
 
-- vector: dim=3072 · [0.0293, 0.0226, -0.0111, -0.0125, 0.0037, -0.0148, 0.0106, 0.0046, …]
+- vector: dim=3072 · [0.0287, 0.0234, -0.0102, -0.0137, 0.0046, -0.0092, 0.0110, 0.0057, …]
 
 ```json
 {
@@ -2884,9 +2880,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "title": "Achieving_Green_Steel_Roadmap.pdf",
   "section_heading": "Conclusions",
   "section_type": "references",
-  "chunk_text": "(2017). World Development Indicators. \nWSA. (2018). Steel Statistical Yearbook 2018. \nWSA. (2019). Towards a net-zero emissions steel industry. Retrieved from https://iea-industry.org/app/uploads/5- Ekdahl-Towrds-a-net-zero-emissions-steel-industry.pdf\nWSA. (2020a). World Steel in figures. Retrieved 2020, from World Steel Association: https://www.worldsteel.org/en/\ndam/jcr:f7982217-cfde-4fdc-8ba0-795ed807f513/World%2520Steel%2520in%2520Figures%25202020i.pdf\nWSA. (2020b). Steel Statistical Yearbook 2020 Concise Version. Retrieved from https://www.worldsteel.org/en/dam/\njcr:5001dac8-0083-46f3-aa\n\n… [+187 more chars]",
-  "content_hash": "5effa822ee4ac0c35e4344d989baad603f562b0cee80b166be327eeea0bb169c",
-  "token_count": 247,
+  "chunk_text": "(2017). World Development Indicators. \nWSA. (2018). Steel Statistical Yearbook 2018. \nWSA. (2019). Towards a net-zero emissions steel industry. Retrieved from https://iea-industry.org/app/uploads/5- Ekdahl-Towrds-a-net-zero-emissions-steel-industry.pdf\nWSA. (2020a). World Steel in figures. Retrieved 2020, from World Steel Association: https://www.worldsteel.org/en/\ndam/jcr:f7982217-cfde-4fdc-8ba0-795ed807f513/World%2520Steel%2520in%2520Figures%25202020i.pdf\nWSA. (2020b). Steel Statistical Yearbook 2020 Concise Version. Retrieved from https://www.worldsteel.org/en/dam/\njcr:5001dac8-0083-46f3-aa\n\n… [+184 more chars]",
+  "content_hash": "71c0ab3eda70ed446ed204c467fc85ea53bffd9eab89942346706026ec73eef0",
+  "token_count": 244,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -2903,7 +2899,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     59,
     60
   ],
-  "created_at": "2026-06-29T10:47:48.376226+00:00",
-  "updated_at": "2026-06-29T10:47:48.376226+00:00"
+  "created_at": "2026-06-30T08:25:25.928884+00:00",
+  "updated_at": "2026-06-30T08:25:25.928884+00:00"
 }
 ```

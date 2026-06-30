@@ -1,14 +1,7 @@
 # Full extracted text — Achieving_Green_Steel_Roadmap.pdf
 
-teri
-THE ENERGY AND
-RESOURCES INSTITUTE
-Creating Innovative Solutions for a Sustainable Future
-
-ENERGY TRANSITIONS
-COMMISSION INDIA
-
-CHY
+teri THE ENERGY AND RESOURCES INSTITUTE Creating Innovative Solutions for a Sustainable Future
+ENERGY TRANSITIONS COMMISSION INDIA
 
 ©2022 The Energy and Resources Institute
 Authors
@@ -62,46 +55,13 @@ We would also like to acknowledge the support of Mr. R R Rashmi (TERI) for revie
 providing valuable remarks on this document.
 ACKNOWLEDGEMENTS
 
-## FOREWORD
-
-The Indian steel sector has been, and will remain an important pillar of India's economic growth and
-development. Steel demand is estimated to increase more than by twofold 2030-31, spurred by increased
-spending on infrastructure, automobiles and affordable housing. This increase in demand will provide
-both challenges and opportunities, including the impact of the sector on the environment. There is a need
-to ensure that future pathways for growing steel demand are green with minimal environmental impacts.
-
-The Energy and Resources Institute (TERI), as part of the Energy Transitions Commission India work
-program, is examining various economic and technological developments across sectors to further our
-understanding of possible routes for decarbonizing India's energy system and key industry sectors. It
-has included detailed modelling of the Indian power system, technology pathways for the heavy industry
-sectors such as iron and steel and an assessment of the sector-wise potential for hydrogen in India.
-
-In 2020, we published a consultation document on the iron and steel sector - Towards a Low Carbon
-Steel Sector - an in-depth study outlining various options for reducing emissions from the steel sector.
-Our analysis clearly highlighted that significant emission reductions can be achieved through technology
-and measures that are available today, including energy efficiency and resource efficiency. Beyond
-these measures, India will also need to start deploying deep decarbonisation alternatives including
-electrification, hydrogen and carbon, capture and storage. Achieving Green Steel: Roadmap to a Net Zero
-Steel Sector in India builds on this work. In the formulation of this Roadmap, TERI has carried out extensive
-consultations with various stakeholders in the steel sector - producers, buyers, technology providers,
-financiers, government bodies and the research community.
-
-This comprehensive Roadmap provides an overview of the current state of the steel sector and details a
-range of possible emissions mitigation strategies. In the near term, implementation of strategies such
-as maximizing energy efficiency, increasing utilization of scrap, introducing green product standards,
-creating demand for green steel, setting up pilot demonstration plants based on low carbon technologies,
-and initiatives to develop a domestic carbon market may be necessary to ensure that the Indian steel
-sector is in a better position to move towards rapid decarbonization post-2030. International support in
-terms of technology and finance will be crucial for this sector. These measures could incentivize a large-
-scale switch that will put the entire sector on a net-zero trajectory.
-
-We hope that the Roadmap will be a valuable source of information for the Indian Steel industry - providing
-insights into the possible options for meeting future steel demand growth sustainably. We at TERI look
-forward to working hand-in-hand with partners to accelerate this transition to green steel.
-
-Lubla Dhawan.
-Dr Vibha Dhawan
-Director General, TERI
+FOREWORD
+The Indian steel sector has been, and will remain an important pillar of India's economic growth and development. Steel demand is estimated to increase more than by twofold 2030-31, spurred by increased spending on infrastructure, automobiles and affordable housing. This increase in demand will provide both challenges and opportunities, including the impact of the sector on the environment. There is a need to ensure that future pathways for growing steel demand are green with minimal environmental impacts.
+The Energy and Resources Institute (TERI), as part of the Energy Transitions Commission India work program, is examining various economic and technological developments across sectors to further our understanding of possible routes for decarbonizing India's energy system and key industry sectors. It has included detailed modelling of the Indian power system, technology pathways for the heavy industry sectors such as iron and steel and an assessment of the sector-wise potential for hydrogen in India.
+In 2020, we published a consultation document on the iron and steel sector - Towards a Low Carbon Steel Sector - an in-depth study outlining various options for reducing emissions from the steel sector. Our analysis clearly highlighted that significant emission reductions can be achieved through technology and measures that are available today, including energy efficiency and resource efficiency. Beyond these measures, India will also need to start deploying deep decarbonisation alternatives including electrification, hydrogen and carbon, capture and storage. Achieving Green Steel: Roadmap to a Net Zero Steel Sector in India builds on this work. In the formulation of this Roadmap, TERI has carried out extensive consultations with various stakeholders in the steel sector - producers, buyers, technology providers, financiers, government bodies and the research community.
+This comprehensive Roadmap provides an overview of the current state of the steel sector and details a range of possible emissions mitigation strategies. In the near term, implementation of strategies such as maximizing energy efficiency, increasing utilization of scrap, introducing green product standards, creating demand for green steel, setting up pilot demonstration plants based on low carbon technologies, and initiatives to develop a domestic carbon market may be necessary to ensure that the Indian steel sector is in a better position to move towards rapid decarbonization post-2030. International support in terms of technology and finance will be crucial for this sector. These measures could incentivize a large- scale switch that will put the entire sector on a net-zero trajectory.
+We hope that the Roadmap will be a valuable source of information for the Indian Steel industry - providing insights into the possible options for meeting future steel demand growth sustainably. We at TERI look forward to working hand-in-hand with partners to accelerate this transition to green steel.
+Lubla Theman. Dr Vibha Dhawan Director General, TERI
 
 Executive Summary . ........................................................................................................................... 3
 Introduction	
@@ -349,7 +309,9 @@ INTRODUCTION
 1	 The Potential Role of Hydrogen in India (Hall et. al, 2020); Green steel through hydrogen direct reduction (Hall et. al, 2021); Making the Hydrogen 
 Economy Possible (ETC, 2021); Net-Zero Steel: Sector Transition Strategy (MPP, 2021)
 
-## 1 BACKGROUND
+1
+BACKGROUND
+t
 
 1.1	 Indian steel industry
 India is currently the world’s second-largest steel producer, and second-largest steel consumer (WSA, 
@@ -634,9 +596,8 @@ traded product, although strict emissions reduction policies and associated ‘c
 will drastically reduce the size of the market for steel producers not investing in deep decarbonisation 
 strategies today.
 
-# 2 MACROECONOMIC IMPACTS
-
-ZA
+2
+MACROECONOMIC IMPACTS
 
 2.1	 Overview
 The steel sector contributes around 2% of India’s GDP (MoS, 2020a) and is valued at well over $100bn (Niti 
@@ -700,7 +661,8 @@ Indian steel sector at present, coming out with an ambitious strategy for decarb
 supporting the transition to net zero might help the steel industry in motivating best talent to work in this 
 sector.
 
-# 3 CHALLENGES
+3
+CHALLENGES
 
 This section covers some of the key challenges that are being faced by the Indian iron and steel sector for 
 decarbonisation. These include cost-competitiveness of production, rapid growth of domestic demand, 
@@ -1041,7 +1003,8 @@ required, as mentioned above. Introducing blended finance options that can lower
 supported by public loans domestically, or from international finance via multi-lateral development banks 
 will be vital to accelerate the deployment of new near zero emission plants.
 
-## 4 TRANSITION PATHWAY
+4
+TRANSITION PATHWAY
 
 Transition Pathway
 4.1 Structure of Indian steel assets
@@ -1256,7 +1219,7 @@ Figure 21: Natural gas demand in Net Zero scenarios
 Figure 22: Electricity demand for Net Zero scenarios
 Source: TERI analysis
 
-## 5 ACHIEVING GREEN STEEL: ACTION PLAN
+5 ACHIEVING GREEN STEEL: ACTION PLAN
 
 In exploring illustrative scenarios for the steel sector’s transition, it is clear that early action is required to 
 ensure that the sector remains competitive as countries ramp up emissions reduction policies.  
@@ -1480,13 +1443,13 @@ fitted with carbon capture technology. Coal-based direct reduction units have a 
 emissions versus blast furnaces and so these units would need to be phased out before 2050, with natural 
 gas and hydrogen based direct reduction units being deployed in their place.
 
-## 7 CONCLUSIONS
-
-H2
-
+7
+CONCLUSIONS
+F
+2
+Hydrogen H2
 drog
-
-22 60155/08
+Hoe
 
 Conclusions
 The Indian steel sector is on the cusp of a significant transformation. As explored in this report, India is 
@@ -1619,9 +1582,5 @@ WSA. (2020b). Steel Statistical Yearbook 2020 Concise Version. Retrieved from ht
 jcr:5001dac8-0083-46f3-aadd-35aa357acbcc/SSY%25202020_concise%2520version.pdf
 
 teri
-THE ENERGY AND
-RESOURCES INSTITUTE
-Creating Innovative Solutions for a Sustainable Future
-
-ENERGY TRANSITIONS
-COMMISSION INDIA
+THE ENERGY AND RESOURCES INSTITUTE Creating Innovative Solutions for a Sustainable Future
+ENERGY TRANSITIONS COMMISSION INDIA

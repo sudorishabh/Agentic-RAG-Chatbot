@@ -1,9 +1,9 @@
 PDF EXTRACTION SUMMARY — check-your-water-quality.pdf
 ==============================================================================
-  elapsed            : 4.41s
+  elapsed            : 3.4s
   pages              : 1
-  tables             : 2
-  extracted chars    : 1,880
+  tables             : 0
+  extracted chars    : 1,788
 
   extraction route   : azure
   pages by extractor : azure=1 camelot=0 local=0
@@ -14,4 +14,4 @@ PDF EXTRACTION SUMMARY — check-your-water-quality.pdf
   chunks (total)     : 1
   parent chunks      : 0
   child chunks       : 1
-  child tokens       : min=507 max=507 avg=507
+  child tokens       : min=500 max=500 avg=500

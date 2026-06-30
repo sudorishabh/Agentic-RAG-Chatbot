@@ -1,9 +1,9 @@
 {
   "pdf": "managing-water.pdf",
-  "elapsed_seconds": 4.39,
+  "elapsed_seconds": 2.29,
   "page_count": 1,
   "table_count": 0,
-  "char_count": 5514,
+  "char_count": 5511,
   "route": "azure",
   "routes": {
     "ocr": 1
@@ -20,10 +20,10 @@
   "ocr_page_numbers": [
     1
   ],
-  "chunks_total": 5,
+  "chunks_total": 4,
   "parent_chunks": 1,
-  "child_chunks": 4,
-  "child_token_min": 310,
-  "child_token_max": 366,
-  "child_token_avg": 331
+  "child_chunks": 3,
+  "child_token_min": 375,
+  "child_token_max": 423,
+  "child_token_avg": 393
 }

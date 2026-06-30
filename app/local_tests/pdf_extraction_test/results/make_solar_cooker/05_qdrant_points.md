@@ -9,7 +9,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
 
 ## Child · `fd87c043-52e1-5b27-be15-7896aa18ea12`
 
-- vector: dim=3072 · [0.0147, -0.0142, 0.0044, 0.0081, 0.0164, -0.0345, 0.0099, 0.0106, …]
+- vector: dim=3072 · [0.0149, -0.0283, -0.0014, 0.0156, 0.0103, -0.0240, 0.0007, -0.0039, …]
 
 ```json
 {
@@ -18,10 +18,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "make-solar-cooker.pdf",
-  "section_heading": "Let's Make a Solar Cooker! — YOU WILL NEED",
-  "chunk_text": ". a large cardboard box . thermocol . aluminium foil . clear plastic wrap\n. a sheet of black paper . ruler . pair of scissors . glue . tape\n\n1\nStart by taking a cardboard box.\nLeaving an even margin of 2 cm on\neach side, draw a square on its lid.\n\n2\nMake a flap on the lid by cutting\nthree sides of the square. Fold this\nflap out so that it stands up when\nthe lid is closed.\n\n3\nTake five one-inch thick pieces\nof thermocol and stick them to\nthe base and walls of the box so\nthat they provide insulation.\n\n4\nGlue aluminium foil to all\nthe thermocol pieces. The\nwalls and base of the box\nshould now hav\n\n… [+561 more chars]",
-  "content_hash": "626c34980e10d04b79eb3df42df3d9a934807b2af160e9f03e352fb1f91ceaca",
-  "token_count": 302,
+  "chunk_text": "Let's Make a Solar Cooker!\nYOU WILL NEED\n. a large cardboard box . thermocol . aluminium foil . clear plastic wrap . a sheet of black paper . ruler . pair of scissors . glue . tape\n1 Start by taking a cardboard box. Leaving an even margin of 2 cm on each side, draw a square on its lid.\n2 Make a flap on the lid by cutting three sides of the square. Fold this flap out so that it stands up when the lid is closed.\n3 Take five one-inch thick pieces of thermocol and stick them to the base and walls of the box so that they provide insulation.\n4 Glue aluminium foil to all the thermocol pieces. The wal\n\n… [+594 more chars]",
+  "content_hash": "51add8452b26f0f7d02d4598d907990ee9ab9e3af871de0a4c773164fc40e999",
+  "token_count": 277,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -37,7 +36,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     1
   ],
-  "created_at": "2026-06-29T10:55:53.814732+00:00",
-  "updated_at": "2026-06-29T10:55:53.814732+00:00"
+  "created_at": "2026-06-30T08:33:47.084948+00:00",
+  "updated_at": "2026-06-30T08:33:47.084948+00:00"
 }
 ```

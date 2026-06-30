@@ -1,9 +1,9 @@
 {
   "pdf": "ES2012RS02.pdf",
-  "elapsed_seconds": 8.28,
+  "elapsed_seconds": 5.42,
   "page_count": 31,
   "table_count": 8,
-  "char_count": 15962,
+  "char_count": 15943,
   "route": "azure+camelot+local",
   "routes": {
     "text": 25,
@@ -30,6 +30,6 @@
   "parent_chunks": 1,
   "child_chunks": 17,
   "child_token_min": 128,
-  "child_token_max": 474,
-  "child_token_avg": 275
+  "child_token_max": 484,
+  "child_token_avg": 279
 }

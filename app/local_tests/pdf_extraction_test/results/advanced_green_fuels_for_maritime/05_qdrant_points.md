@@ -1,15 +1,47 @@
 # Qdrant points — Advanced-Green-fuels-for-Maritime.pdf
 
-- points (rows upserted): **653**
+- points (rows upserted): **655**
 - embedded: **True** · model `text-embedding-3-large` · dim 3072
 
 Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Children carry their embedding; parents carry a zero vector and are reached through their children. Below, vectors are truncated and `chunk_text` is clipped — see `05_qdrant_points.json` for the full data.
 
 ---
 
+## Parent · `75acd746-94e1-5b95-b804-ece9cc482f13`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "75acd746-94e1-5b95-b804-ece9cc482f13",
+  "document_id": "advanced_green_fuels_for_maritime_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime.pdf",
+  "chunk_text": "National Centre of Excellence in Green Port and \nShipping (NCoEGPS)\n\nii\n©TERI All Rights Reserved, 2026\nNo part of this Publication may be reproduced, stored in a retrieval system or transmitted in any \nform or by any means, electronic, mechanical, photocopying, recording or otherwise, without prior \npermission of the copyright owner.\nSuggested citation:\nDas, P., Soodesh, Y.C., Upadhyay, P., Valera, H. A., (2026), “Advanced Green fuels for Maritime \nApplication-Road Map for India (Part A)” NCoEGPS, TERI, New Delhi, India\nTHE TEAM\nPrincipal Investigator (PI) and Author\nDr. Piyali Das  (Associat\n\n… [+4942 more chars]",
+  "content_hash": "26de338da40320ee3ae91a14df73ab0e9275ac358c695ca27155b6e19ca702e1",
+  "token_count": 1425,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
+  "page_range": [
+    1,
+    3
+  ],
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
+}
+```
+
 ## Child · `6c3a7914-fa77-5fca-8105-d635f2068aaf`
 
-- vector: dim=3072 · [-0.0142, 0.0173, -0.0125, -0.0362, -0.0135, 0.0067, -0.0175, 0.0145, …]
+- vector: dim=3072 · [-0.0154, 0.0169, -0.0119, -0.0377, -0.0151, 0.0086, -0.0182, 0.0194, …]
 
 ```json
 {
@@ -18,9 +50,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_text": "National Centre of Excellence in Green Port and \nShipping (NCoEGPS)\n\nii\n©TERI All Rights Reserved, 2026\nNo part of this Publication may be reproduced, stored in a retrieval system or transmitted in any \nform or by any means, electronic, mechanical, photocopying, recording or otherwise, without prior \npermission of the copyright owner.\nSuggested citation:\nDas, P., Soodesh, Y.C., Upadhyay, P., Valera, H. A., (2026), “Advanced Green fuels for Maritime \nApplication-Road Map for India (Part A)” NCoEGPS, TERI, New Delhi, India\nTHE TEAM\nPrincipal Investigator (PI) and Author\nDr. Piyali Das  (Associat\n\n… [+1297 more chars]",
-  "content_hash": "db17509e0bc8cdf76e0f361317339b103ff1b940303b2d0d587deda9adb64e9a",
-  "token_count": 533,
+  "chunk_text": "National Centre of Excellence in Green Port and \nShipping (NCoEGPS)\n\nii\n©TERI All Rights Reserved, 2026\nNo part of this Publication may be reproduced, stored in a retrieval system or transmitted in any \nform or by any means, electronic, mechanical, photocopying, recording or otherwise, without prior \npermission of the copyright owner.\nSuggested citation:\nDas, P., Soodesh, Y.C., Upadhyay, P., Valera, H. A., (2026), “Advanced Green fuels for Maritime \nApplication-Road Map for India (Part A)” NCoEGPS, TERI, New Delhi, India\nTHE TEAM\nPrincipal Investigator (PI) and Author\nDr. Piyali Das  (Associat\n\n… [+1058 more chars]",
+  "content_hash": "545c1713eb3ccc0a7f78c9981956a4251c8745ed6c9e3422a2a1c8d17bf6624f",
+  "token_count": 457,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -30,20 +62,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
+  "parent_chunk_id": "75acd746-94e1-5b95-b804-ece9cc482f13",
   "chunk_index": 0,
   "page_number": 1,
   "page_range": [
     1,
     2
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `7a686084-9922-505b-9211-c736ba5503d0`
 
-- vector: dim=3072 · [-0.0214, -0.0022, -0.0041, 0.0033, 0.0253, 0.0284, -0.0001, 0.0167, …]
+- vector: dim=3072 · [-0.0070, 0.0090, -0.0106, -0.0293, 0.0033, -0.0030, -0.0148, 0.0340, …]
 
 ```json
 {
@@ -52,10 +85,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Message from the Director General of Shipping",
-  "chunk_text": "श्याम जगन्नाथन, भा.प्र.से.\nनौवहन महानिदेशक\nएवं अपर सचिव, भारत सरकार\nShyam Jagannathan, L.A.S.\nDirector General of Shipping &\nAdditional Secretary to the Govt. of India\n\nबलदेव बचने\n\nभारत सरकार\nGovernment of India\nपत्तन, पोत परिवहन और जलमार्ग मंत्रालय\nMINISTRY OF PORTS, SHIPPING AND WATERWAYS\nनौवहन महानिदेशालय\nDirectorate General of Shipping",
-  "content_hash": "e17378122a97d6e39b1675e7d5ab2f2f4e47e43899887423c9efe5e083dc4f86",
-  "token_count": 196,
+  "chunk_text": "-NCoEGPS, Resource \nEfficiency and Governance Division, TERI)\nExternal Reviewers\n•\t\nShri Vikrant Rai (Principal Officer cum Joint DG Tech MMD Kolkata)\n•\t\nShri Satish Kamath (Deputy Chief Surveyor cum DDG, DG Shipping)\n• Shri Pravin Kumar Roy (Engineer and Ship Surveyor cum Dep DG, Tech, DG Shipping) CSL\n•\t\nMr Deepu Surendran (Chief General Manager, C-SAS, BD-SB &BD, Cochin Shipyard Ltd)\n•\t\nMr Anish S (Deputy General Manager, C-SAS, Cochin Shipyard Ltd)\n\nMessage from the Director General of Shipping\nश्याम जगन्नाथन, भा.प्र. से. नौवहन महानिदेशक एवं अपर सचिव, भारत सरकार Shyam Jagannathan, L.A.S. D\n\n… [+1325 more chars]",
+  "content_hash": "09aa5321a268e22563f5d727f62fa52de565501369bd2ffe3cb9a2292e01d368",
+  "token_count": 538,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -65,53 +97,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
+  "parent_chunk_id": "75acd746-94e1-5b95-b804-ece9cc482f13",
   "chunk_index": 1,
-  "page_number": 3,
+  "page_number": 2,
   "page_range": [
-    3,
+    2,
     3
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
-}
-```
-
-## Parent · `c1a77e33-7b28-54a6-b56f-59faa7e09e3f`
-
-- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
-
-```json
-{
-  "chunk_id": "c1a77e33-7b28-54a6-b56f-59faa7e09e3f",
-  "document_id": "advanced_green_fuels_for_maritime_pdf",
-  "is_parent": true,
-  "source_type": "pdf",
-  "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "MESSAGE",
-  "chunk_text": "MESSAGE\n\nfrom\nTHE DIRECTOR GENERAL OF SHIPPING\nGREEN FUELS ROADMAP REPORT BY DR. PIYALI DAS\n\nIt is a privilege to present the NCoEGPS Green Fuel Roadmap - Part A, which represents an important\nanalytical milestone in India's transition towards a low-carbon and future-ready maritime sector. Developed\nunder the National Centre of Excellence for Green Port and Shipping (NCoEGPS), this report reflects a\nstructured and collaborative effort to assess viable green fuel pathways for Indian maritime applications, with\nactive engagement from the Directorate General of Shipping and other key technical st\n\n… [+2423 more chars]",
-  "content_hash": "14f53fbcb4d31d9a097468f282eda53528bfd0f517337293a298be974a054e76",
-  "token_count": 561,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "advanced_green_fuels_for_maritime_pdf",
-  "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "page_range": [
-    3,
-    3
-  ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0ac6a8d0-5c81-5795-8181-69ebb956ee63`
 
-- vector: dim=3072 · [-0.0042, 0.0015, -0.0072, -0.0338, -0.0146, -0.0092, -0.0068, 0.0324, …]
+- vector: dim=3072 · [-0.0142, 0.0025, -0.0081, -0.0396, -0.0149, -0.0093, -0.0214, 0.0477, …]
 
 ```json
 {
@@ -120,10 +120,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "MESSAGE",
-  "chunk_text": "from\nTHE DIRECTOR GENERAL OF SHIPPING\nGREEN FUELS ROADMAP REPORT BY DR. PIYALI DAS\n\nIt is a privilege to present the NCoEGPS Green Fuel Roadmap - Part A, which represents an important\nanalytical milestone in India's transition towards a low-carbon and future-ready maritime sector. Developed\nunder the National Centre of Excellence for Green Port and Shipping (NCoEGPS), this report reflects a\nstructured and collaborative effort to assess viable green fuel pathways for Indian maritime applications, with\nactive engagement from the Directorate General of Shipping and other key technical stakeholder\n\n… [+1397 more chars]",
-  "content_hash": "cc49f376e6762681007beb13476310c3c7d462a44152be1b399371694cdfe79a",
-  "token_count": 369,
+  "chunk_text": "In this context, the present study provides a comprehensive and evidence-based assessment of a spectrum of low-carbon and alternative fuel pathways relevant to Indian maritime operations, examined through lifecycle and Greenhouse Gas Fuel Intensity (GFI)- based analytical parameters. The report adopts a systematic and data-driven framework and goes beyond conceptual discussions by analysing demand - supply dynamics, fuel mix scenarios, retrofitting and engine replacement pathways, as well as blend- fuel options that can be implemented without major engine modifications. Such granular assessmen\n\n… [+1634 more chars]",
+  "content_hash": "47beb2a84dce4530e2cd02490b36e31dbb57c5814c86bbeb73974b762cb45917",
+  "token_count": 382,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -133,21 +132,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c1a77e33-7b28-54a6-b56f-59faa7e09e3f",
+  "parent_chunk_id": "75acd746-94e1-5b95-b804-ece9cc482f13",
   "chunk_index": 2,
   "page_number": 3,
   "page_range": [
     3,
     3
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `c6a097ba-88e2-5a08-be97-0e76aedf062b`
 
-- vector: dim=3072 · [-0.0056, 0.0037, -0.0062, -0.0428, -0.0149, -0.0174, -0.0204, 0.0559, …]
+- vector: dim=3072 · [0.0024, -0.0036, -0.0142, -0.0374, -0.0071, 0.0079, -0.0341, 0.0524, …]
 
 ```json
 {
@@ -156,10 +155,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "MESSAGE",
-  "chunk_text": "The findings and\nrecommendations presented herein provide a strong technical foundation for the next stage of work, which must\nfocus on translating analytical outcomes into clear, time-bound and implementable actions. The immediate priority going forward is the development of Phase II, encompassing a comprehensive\nimplementation plan with defined short-, medium- and long-term action points for coastal vessels and foreign-\ngoing vessels. This phase will require close coordination among the Directorate General of Shipping, the\nNCoEGPS Green Fuel team and relevant technical and classification ins\n\n… [+633 more chars]",
-  "content_hash": "9634867b3dac04c81427170d3598de5a9dadffc2471a5a80b796623fc4289344",
-  "token_count": 228,
+  "chunk_text": "I am confident that this roadmap will serve as a valuable reference for policymakers, industry stakeholders and technical experts as India advances towards a structured. safe and sustainable transition to green fuels in maritime transport.\nMumbai Date: 12.01.2026\n(Shyam Jagannathan) 9वीं मंज़िल, बीटा बिल्डींग, आई थिंक टेक्नो कैम्पस, कांजुर गाँव रोड, कांजुरमार्ग (पूर्व), मुंबई-400042 9th Floor, BETA Building, I-Think Techno Campus, Kanjur Village Road, Kanjurmarg (E), Mumbai-400042 दूरभाष/Tel:No .: +91-22-",
+  "content_hash": "f8a7b23e61355fae0e7377ea422691579c7102d6a841db480cb3a8e1aec2e57d",
+  "token_count": 215,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -169,33 +167,32 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c1a77e33-7b28-54a6-b56f-59faa7e09e3f",
+  "parent_chunk_id": "75acd746-94e1-5b95-b804-ece9cc482f13",
   "chunk_index": 3,
   "page_number": 3,
   "page_range": [
     3,
     3
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `74c98401-47e3-521a-bf0f-2916dbcd6376`
+## Parent · `80921aa6-617e-5232-b7a2-2943e40853ce`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "74c98401-47e3-521a-bf0f-2916dbcd6376",
+  "chunk_id": "80921aa6-617e-5232-b7a2-2943e40853ce",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "(Shyam Jagannathan)",
-  "chunk_text": "(Shyam Jagannathan)\n\n1-22 2575 2011 • ई-म\n\nv\nForeward\nAs the Director General of The Energy and Resources Institute (TERI) \nI am delighted to present this Report which includes the key findings \nof the NCoEGPS Project entitled” Advanced Green fuels for Maritime \nApplication (Mono Fuel, Dual Fuel/Hybrid, Multi-Fuel Blending) \nRoad Map for India”. This project was undertaken by NCoEGPS with \nfinancial support from Cochin Shipyard Ltd. (CSL), V. O. Chidambaranar \nPort, Paradip Port, and Deendayal Port under overarching guidance \nand vision of Ministry of Port, Shipping and Waterways (MoPSW), \nGov\n\n… [+6845 more chars]",
-  "content_hash": "d113d62ae4767375438c29201598adce81280b85b9f77d055838faa95594e5b4",
-  "token_count": 1446,
+  "chunk_text": "v\nForeward\nAs the Director General of The Energy and Resources Institute (TERI) \nI am delighted to present this Report which includes the key findings \nof the NCoEGPS Project entitled” Advanced Green fuels for Maritime \nApplication (Mono Fuel, Dual Fuel/Hybrid, Multi-Fuel Blending) \nRoad Map for India”. This project was undertaken by NCoEGPS with \nfinancial support from Cochin Shipyard Ltd. (CSL), V. O. Chidambaranar \nPort, Paradip Port, and Deendayal Port under overarching guidance \nand vision of Ministry of Port, Shipping and Waterways (MoPSW), \nGovernment of India. \nThe proposed adoption of\n\n… [+6780 more chars]",
+  "content_hash": "533a5275fd82600361bd6855f9c0a62f2d192f3bb8b0b80aa5673365f64d489b",
+  "token_count": 1412,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -206,17 +203,17 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
   "page_range": [
-    4,
+    5,
     9
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `53b03693-3472-5961-a3bf-47d2fdca444a`
 
-- vector: dim=3072 · [-0.0052, 0.0006, -0.0108, -0.0396, -0.0167, -0.0161, -0.0125, 0.0394, …]
+- vector: dim=3072 · [-0.0026, 0.0053, -0.0138, -0.0409, -0.0171, -0.0200, -0.0091, 0.0324, …]
 
 ```json
 {
@@ -225,10 +222,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "(Shyam Jagannathan)",
-  "chunk_text": "1-22 2575 2011 • ई-म\n\nv\nForeward\nAs the Director General of The Energy and Resources Institute (TERI) \nI am delighted to present this Report which includes the key findings \nof the NCoEGPS Project entitled” Advanced Green fuels for Maritime \nApplication (Mono Fuel, Dual Fuel/Hybrid, Multi-Fuel Blending) \nRoad Map for India”. This project was undertaken by NCoEGPS with \nfinancial support from Cochin Shipyard Ltd. (CSL), V. O. Chidambaranar \nPort, Paradip Port, and Deendayal Port under overarching guidance \nand vision of Ministry of Port, Shipping and Waterways (MoPSW), \nGovernment of India. \nTh\n\n… [+1418 more chars]",
-  "content_hash": "20a01159082a50cf0dee20de08cad67db09bf1f376af78668dd2b4610fe3d745",
-  "token_count": 455,
+  "chunk_text": "v\nForeward\nAs the Director General of The Energy and Resources Institute (TERI) \nI am delighted to present this Report which includes the key findings \nof the NCoEGPS Project entitled” Advanced Green fuels for Maritime \nApplication (Mono Fuel, Dual Fuel/Hybrid, Multi-Fuel Blending) \nRoad Map for India”. This project was undertaken by NCoEGPS with \nfinancial support from Cochin Shipyard Ltd. (CSL), V. O. Chidambaranar \nPort, Paradip Port, and Deendayal Port under overarching guidance \nand vision of Ministry of Port, Shipping and Waterways (MoPSW), \nGovernment of India. \nThe proposed adoption of\n\n… [+1396 more chars]",
+  "content_hash": "3d8b6252d41728fbbda911f599021fe46a9354d530c9d8dfb91dbc618b433c4c",
+  "token_count": 440,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -238,21 +234,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "74c98401-47e3-521a-bf0f-2916dbcd6376",
+  "parent_chunk_id": "80921aa6-617e-5232-b7a2-2943e40853ce",
   "chunk_index": 4,
-  "page_number": 4,
+  "page_number": 5,
   "page_range": [
-    4,
+    5,
     5
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `6960d7c5-fa7b-54d0-9000-536cd7d09d56`
 
-- vector: dim=3072 · [-0.0143, 0.0111, -0.0105, -0.0269, -0.0175, -0.0025, -0.0108, 0.0217, …]
+- vector: dim=3072 · [-0.0119, 0.0085, -0.0147, -0.0288, -0.0242, -0.0085, -0.0076, 0.0219, …]
 
 ```json
 {
@@ -261,10 +257,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "(Shyam Jagannathan)",
-  "chunk_text": "Additionally, alternative fuel \ndemand is also estimated for Coastal vessels < 5000GT. This report also covers alternative fuel marine \nengines development trajectory, Global Fuel Cells and Onboard Carbon Capture projects highlighting \nthe prospect for Indian maritime sector. In the next phase of Advanced Green Fuel Roadmap for Maritime Application-Part B study, the DG \nShipping and NCoEGPS Green Fuel team are committed to work together with other collaborating \npartners in developing the Fuel Transition Roadmap Implementation Plan for Indian vessels based \non their types and size categories. \n\n… [+704 more chars]",
-  "content_hash": "1c8f8330456f3e53ce00e0a8a1cd40963f6f2df08b3816a33df80d5d81101ab4",
-  "token_count": 247,
+  "chunk_text": "Additionally, alternative fuel \ndemand is also estimated for Coastal vessels < 5000GT. This report also covers alternative fuel marine \nengines development trajectory, Global Fuel Cells and Onboard Carbon Capture projects highlighting \nthe prospect for Indian maritime sector. In the next phase of Advanced Green Fuel Roadmap for Maritime Application-Part B study, the DG \nShipping and NCoEGPS Green Fuel team are committed to work together with other collaborating \npartners in developing the Fuel Transition Roadmap Implementation Plan for Indian vessels based \non their types and size categories. \n\n… [+682 more chars]",
+  "content_hash": "bcd8b89032eddd8a6a56fed41ec0e127653401674fe767a89d14b322cb218088",
+  "token_count": 237,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -274,21 +269,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "74c98401-47e3-521a-bf0f-2916dbcd6376",
+  "parent_chunk_id": "80921aa6-617e-5232-b7a2-2943e40853ce",
   "chunk_index": 5,
   "page_number": 5,
   "page_range": [
     5,
-    6
+    5
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `79f79149-f7ec-5378-b6f5-9fb0458baf77`
 
-- vector: dim=3072 · [-0.0238, -0.0015, -0.0116, -0.0353, 0.0208, -0.0070, 0.0033, 0.0163, …]
+- vector: dim=3072 · [-0.0126, 0.0073, -0.0121, -0.0581, 0.0078, -0.0147, -0.0033, 0.0120, …]
 
 ```json
 {
@@ -297,10 +292,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "(Shyam Jagannathan)",
-  "chunk_text": "Dr. Vibha Dhawan \nDirector General \nThe Energy and Resources Institute (TERI)\n\nेल/Email : dg-dgs@go TERI is deeply grateful to Shri T.K. Ramachandran, Erstwhile Secretary of India’s Ministry of Ports, \nShipping and Waterways (MoPSW), Shri Vijay Kumar, Secretary, MoPSW, Shri Rajesh Kumar Sinha, \nSpecial Secretary, MoPSW & Shri Mandeep Singh Randhawa, Director, MoPSW for their constant \nguidance, support and directions given to team during review meetings. \nThe project team would like to acknowledge the invaluable contributions of External Review \nCommittee members especially from Director Gener\n\n… [+1270 more chars]",
-  "content_hash": "b34805e5d502d49f4631665862345c68aa0ec8b6526c0ced1848605fac09c5d2",
-  "token_count": 470,
+  "chunk_text": "I believe this report will serve as a valuable resource for policymakers, industries, \nresearchers, and investors as India charts its course towards a resilient, low-emission maritime sector. \nDr. Vibha Dhawan \nDirector General \nThe Energy and Resources Institute (TERI) TERI is deeply grateful to Shri T.K. Ramachandran, Erstwhile Secretary of India’s Ministry of Ports, \nShipping and Waterways (MoPSW), Shri Vijay Kumar, Secretary, MoPSW, Shri Rajesh Kumar Sinha, \nSpecial Secretary, MoPSW & Shri Mandeep Singh Randhawa, Director, MoPSW for their constant \nguidance, support and directions given to\n\n… [+1441 more chars]",
+  "content_hash": "cf8a559b9a68802c7a9d3fac85d04e30daaaf2b62c649c1415ff0740d1fee3d6",
+  "token_count": 497,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -310,21 +304,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "74c98401-47e3-521a-bf0f-2916dbcd6376",
+  "parent_chunk_id": "80921aa6-617e-5232-b7a2-2943e40853ce",
   "chunk_index": 6,
   "page_number": 7,
   "page_range": [
     7,
     7
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `ec2c7b7d-752d-5849-8123-5a50f99adb59`
 
-- vector: dim=3072 · [-0.0206, 0.0098, -0.0075, -0.0187, -0.0171, -0.0243, -0.0332, 0.0423, …]
+- vector: dim=3072 · [-0.0205, 0.0098, -0.0075, -0.0185, -0.0172, -0.0244, -0.0332, 0.0422, …]
 
 ```json
 {
@@ -333,7 +327,6 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "(Shyam Jagannathan)",
   "section_type": "toc",
   "chunk_text": "Special appreciation goes to TERI green fuel research \nteam for their dedication and the team of TERI Press which includes Ms Anupama Jauhry, Mr Abhaas Mukherjee, Mr Sudeep Pawar and Mr Aman Sachdeva for carrying out editing and designing of the \nreport in a short time.\nAcknowledgements\n\nix\nTable of Contents\nExecutive Summary\t ........................................................................................................................................... 1\nIntroduction and Objectives of Study.............................................................................................\n\n… [+2156 more chars]",
   "content_hash": "a59a936e09a5b92c11642468408d9070bb8b351b2bbd622834b6e18740313b2f",
@@ -347,25 +340,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "74c98401-47e3-521a-bf0f-2916dbcd6376",
+  "parent_chunk_id": "80921aa6-617e-5232-b7a2-2943e40853ce",
   "chunk_index": 7,
   "page_number": 7,
   "page_range": [
     7,
     9
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `56e2949e-7c0d-5623-8a27-5cf55a2f7967`
+## Parent · `c7790d48-a33a-56c8-984c-496f4d0be27e`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "56e2949e-7c0d-5623-8a27-5cf55a2f7967",
+  "chunk_id": "c7790d48-a33a-56c8-984c-496f4d0be27e",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -388,14 +381,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     10
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `cd4807d5-de21-55c4-8b1e-a37421f50a35`
 
-- vector: dim=3072 · [-0.0094, 0.0012, -0.0121, -0.0235, -0.0111, -0.0283, -0.0339, 0.0370, …]
+- vector: dim=3072 · [-0.0095, 0.0013, -0.0121, -0.0233, -0.0110, -0.0281, -0.0339, 0.0370, …]
 
 ```json
 {
@@ -418,21 +411,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "56e2949e-7c0d-5623-8a27-5cf55a2f7967",
+  "parent_chunk_id": "c7790d48-a33a-56c8-984c-496f4d0be27e",
   "chunk_index": 8,
   "page_number": 9,
   "page_range": [
     9,
     10
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `f5b121bf-0e60-5f47-bfa4-853514a3aa46`
 
-- vector: dim=3072 · [-0.0195, 0.0081, -0.0079, 0.0061, -0.0266, -0.0301, -0.0469, 0.0264, …]
+- vector: dim=3072 · [-0.0195, 0.0081, -0.0079, 0.0061, -0.0266, -0.0300, -0.0469, 0.0264, …]
 
 ```json
 {
@@ -455,25 +448,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "56e2949e-7c0d-5623-8a27-5cf55a2f7967",
+  "parent_chunk_id": "c7790d48-a33a-56c8-984c-496f4d0be27e",
   "chunk_index": 9,
   "page_number": 10,
   "page_range": [
     10,
     10
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `a279ce70-ddd4-576f-976e-8561ebecd9c2`
+## Parent · `c1a77e33-7b28-54a6-b56f-59faa7e09e3f`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "a279ce70-ddd4-576f-976e-8561ebecd9c2",
+  "chunk_id": "c1a77e33-7b28-54a6-b56f-59faa7e09e3f",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -496,14 +489,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     10,
     14
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `2cffde30-c7cf-51d0-835c-d2ea7bcf8fe1`
 
-- vector: dim=3072 · [-0.0026, 0.0136, -0.0106, -0.0052, -0.0155, -0.0343, -0.0410, 0.0267, …]
+- vector: dim=3072 · [-0.0028, 0.0136, -0.0106, -0.0052, -0.0152, -0.0345, -0.0410, 0.0268, …]
 
 ```json
 {
@@ -526,21 +519,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a279ce70-ddd4-576f-976e-8561ebecd9c2",
+  "parent_chunk_id": "c1a77e33-7b28-54a6-b56f-59faa7e09e3f",
   "chunk_index": 10,
   "page_number": 10,
   "page_range": [
     10,
     11
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `cf0435cd-3505-5faa-9a32-2626e5beb55c`
 
-- vector: dim=3072 · [0.0006, 0.0296, -0.0099, 0.0017, -0.0098, -0.0301, -0.0247, 0.0400, …]
+- vector: dim=3072 · [0.0006, 0.0297, -0.0100, 0.0017, -0.0098, -0.0299, -0.0247, 0.0400, …]
 
 ```json
 {
@@ -563,21 +556,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a279ce70-ddd4-576f-976e-8561ebecd9c2",
+  "parent_chunk_id": "c1a77e33-7b28-54a6-b56f-59faa7e09e3f",
   "chunk_index": 11,
   "page_number": 11,
   "page_range": [
     11,
     13
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `8ab7ac6d-db65-58b6-b1e7-5e3e812a3b24`
 
-- vector: dim=3072 · [-0.0199, 0.0283, -0.0148, 0.0147, -0.0237, -0.0226, -0.0259, 0.0436, …]
+- vector: dim=3072 · [-0.0201, 0.0282, -0.0147, 0.0146, -0.0235, -0.0228, -0.0258, 0.0437, …]
 
 ```json
 {
@@ -599,21 +592,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a279ce70-ddd4-576f-976e-8561ebecd9c2",
+  "parent_chunk_id": "c1a77e33-7b28-54a6-b56f-59faa7e09e3f",
   "chunk_index": 12,
   "page_number": 13,
   "page_range": [
     13,
     13
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0bdb3fd3-e9c6-578d-8467-be1471626e67`
 
-- vector: dim=3072 · [-0.0103, 0.0108, -0.0145, 0.0158, -0.0259, -0.0185, -0.0208, 0.0476, …]
+- vector: dim=3072 · [-0.0103, 0.0109, -0.0145, 0.0157, -0.0257, -0.0187, -0.0208, 0.0477, …]
 
 ```json
 {
@@ -636,21 +629,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a279ce70-ddd4-576f-976e-8561ebecd9c2",
+  "parent_chunk_id": "c1a77e33-7b28-54a6-b56f-59faa7e09e3f",
   "chunk_index": 13,
   "page_number": 13,
   "page_range": [
     13,
     14
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `2fd42737-0ebc-5110-8c94-da7c5c5d8799`
 
-- vector: dim=3072 · [0.0074, -0.0032, -0.0127, 0.0218, -0.0221, -0.0292, -0.0409, 0.0427, …]
+- vector: dim=3072 · [0.0074, -0.0031, -0.0127, 0.0219, -0.0223, -0.0291, -0.0410, 0.0428, …]
 
 ```json
 {
@@ -672,25 +665,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a279ce70-ddd4-576f-976e-8561ebecd9c2",
+  "parent_chunk_id": "c1a77e33-7b28-54a6-b56f-59faa7e09e3f",
   "chunk_index": 14,
   "page_number": 14,
   "page_range": [
     14,
     14
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `83838c7a-ec78-50f3-bee6-b3e0c6f7957b`
+## Parent · `7bcac8cc-2b7f-52cc-88e9-9e51c533546f`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "83838c7a-ec78-50f3-bee6-b3e0c6f7957b",
+  "chunk_id": "7bcac8cc-2b7f-52cc-88e9-9e51c533546f",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -713,14 +706,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     14,
     16
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `73ed8a02-83bf-5649-929b-a85fb506709b`
 
-- vector: dim=3072 · [0.0045, 0.0043, -0.0136, 0.0078, -0.0324, -0.0347, -0.0423, 0.0429, …]
+- vector: dim=3072 · [0.0042, 0.0044, -0.0144, 0.0090, -0.0327, -0.0346, -0.0413, 0.0429, …]
 
 ```json
 {
@@ -743,21 +736,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "83838c7a-ec78-50f3-bee6-b3e0c6f7957b",
+  "parent_chunk_id": "7bcac8cc-2b7f-52cc-88e9-9e51c533546f",
   "chunk_index": 15,
   "page_number": 14,
   "page_range": [
     14,
     14
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `70ca4ce6-cee9-571e-98cf-05bd3e2ce251`
 
-- vector: dim=3072 · [-0.0079, 0.0268, -0.0083, 0.0088, -0.0226, -0.0361, -0.0552, 0.0529, …]
+- vector: dim=3072 · [-0.0079, 0.0266, -0.0083, 0.0089, -0.0225, -0.0362, -0.0552, 0.0529, …]
 
 ```json
 {
@@ -780,21 +773,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "83838c7a-ec78-50f3-bee6-b3e0c6f7957b",
+  "parent_chunk_id": "7bcac8cc-2b7f-52cc-88e9-9e51c533546f",
   "chunk_index": 16,
   "page_number": 14,
   "page_range": [
     14,
     14
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `9209e019-6cdf-5a4a-bceb-064dd88fb28f`
 
-- vector: dim=3072 · [-0.0020, 0.0226, -0.0209, 0.0045, -0.0018, -0.0494, -0.0239, 0.0458, …]
+- vector: dim=3072 · [-0.0031, 0.0219, -0.0211, 0.0044, -0.0012, -0.0484, -0.0246, 0.0455, …]
 
 ```json
 {
@@ -817,21 +810,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "83838c7a-ec78-50f3-bee6-b3e0c6f7957b",
+  "parent_chunk_id": "7bcac8cc-2b7f-52cc-88e9-9e51c533546f",
   "chunk_index": 17,
   "page_number": 14,
   "page_range": [
     14,
     15
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `9d3dd228-fceb-570c-9649-4447768f9f58`
 
-- vector: dim=3072 · [-0.0019, 0.0215, -0.0276, 0.0010, -0.0109, -0.0285, -0.0206, 0.0292, …]
+- vector: dim=3072 · [-0.0018, 0.0214, -0.0277, 0.0009, -0.0109, -0.0285, -0.0210, 0.0292, …]
 
 ```json
 {
@@ -854,21 +847,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "83838c7a-ec78-50f3-bee6-b3e0c6f7957b",
+  "parent_chunk_id": "7bcac8cc-2b7f-52cc-88e9-9e51c533546f",
   "chunk_index": 18,
   "page_number": 15,
   "page_range": [
     15,
     16
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `1e52aa16-0142-5250-84b7-246a165aa89f`
 
-- vector: dim=3072 · [-0.0074, 0.0179, -0.0239, -0.0239, -0.0214, -0.0290, -0.0158, 0.0349, …]
+- vector: dim=3072 · [-0.0075, 0.0179, -0.0240, -0.0240, -0.0214, -0.0289, -0.0158, 0.0350, …]
 
 ```json
 {
@@ -891,25 +884,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "83838c7a-ec78-50f3-bee6-b3e0c6f7957b",
+  "parent_chunk_id": "7bcac8cc-2b7f-52cc-88e9-9e51c533546f",
   "chunk_index": 19,
   "page_number": 16,
   "page_range": [
     16,
     16
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `816582cf-c9f5-5f45-8f9c-5a1ecde38fe6`
+## Parent · `3ade54ab-a853-597a-8ee9-d2428d28f128`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "816582cf-c9f5-5f45-8f9c-5a1ecde38fe6",
+  "chunk_id": "3ade54ab-a853-597a-8ee9-d2428d28f128",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -932,14 +925,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     16,
     18
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `6a177314-26e3-5188-b0bb-650a41aa6f1e`
 
-- vector: dim=3072 · [0.0045, 0.0230, -0.0066, 0.0010, -0.0345, -0.0156, -0.0247, 0.0398, …]
+- vector: dim=3072 · [0.0044, 0.0228, -0.0066, 0.0007, -0.0341, -0.0155, -0.0247, 0.0399, …]
 
 ```json
 {
@@ -962,21 +955,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "816582cf-c9f5-5f45-8f9c-5a1ecde38fe6",
+  "parent_chunk_id": "3ade54ab-a853-597a-8ee9-d2428d28f128",
   "chunk_index": 20,
   "page_number": 16,
   "page_range": [
     16,
     16
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e4d5cb48-d645-5196-8962-a4e64d623db8`
 
-- vector: dim=3072 · [-0.0212, 0.0293, -0.0077, 0.0024, -0.0158, -0.0445, -0.0129, 0.0516, …]
+- vector: dim=3072 · [-0.0212, 0.0292, -0.0078, 0.0025, -0.0163, -0.0443, -0.0129, 0.0515, …]
 
 ```json
 {
@@ -999,15 +992,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "816582cf-c9f5-5f45-8f9c-5a1ecde38fe6",
+  "parent_chunk_id": "3ade54ab-a853-597a-8ee9-d2428d28f128",
   "chunk_index": 21,
   "page_number": 16,
   "page_range": [
     16,
     17
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -1036,15 +1029,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "816582cf-c9f5-5f45-8f9c-5a1ecde38fe6",
+  "parent_chunk_id": "3ade54ab-a853-597a-8ee9-d2428d28f128",
   "chunk_index": 22,
   "page_number": 17,
   "page_range": [
     17,
     17
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -1073,15 +1066,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "816582cf-c9f5-5f45-8f9c-5a1ecde38fe6",
+  "parent_chunk_id": "3ade54ab-a853-597a-8ee9-d2428d28f128",
   "chunk_index": 23,
   "page_number": 17,
   "page_range": [
     17,
     17
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -1110,25 +1103,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "816582cf-c9f5-5f45-8f9c-5a1ecde38fe6",
+  "parent_chunk_id": "3ade54ab-a853-597a-8ee9-d2428d28f128",
   "chunk_index": 24,
   "page_number": 18,
   "page_range": [
     18,
     18
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `7f0bd4c5-daa0-5ec3-a0f1-660d5ac6b8b6`
+## Parent · `1a8a863f-aa2f-5675-b8f7-3d9de1f90637`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "7f0bd4c5-daa0-5ec3-a0f1-660d5ac6b8b6",
+  "chunk_id": "1a8a863f-aa2f-5675-b8f7-3d9de1f90637",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -1151,14 +1144,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     18,
     21
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b8cdd785-c225-5c12-86df-51f11f4abc5e`
 
-- vector: dim=3072 · [-0.0182, 0.0297, -0.0139, 0.0173, -0.0239, -0.0247, -0.0381, 0.0421, …]
+- vector: dim=3072 · [-0.0180, 0.0298, -0.0140, 0.0173, -0.0239, -0.0247, -0.0381, 0.0421, …]
 
 ```json
 {
@@ -1181,15 +1174,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "7f0bd4c5-daa0-5ec3-a0f1-660d5ac6b8b6",
+  "parent_chunk_id": "1a8a863f-aa2f-5675-b8f7-3d9de1f90637",
   "chunk_index": 25,
   "page_number": 18,
   "page_range": [
     18,
     18
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -1218,15 +1211,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "7f0bd4c5-daa0-5ec3-a0f1-660d5ac6b8b6",
+  "parent_chunk_id": "1a8a863f-aa2f-5675-b8f7-3d9de1f90637",
   "chunk_index": 26,
   "page_number": 19,
   "page_range": [
     19,
     19
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -1255,15 +1248,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "7f0bd4c5-daa0-5ec3-a0f1-660d5ac6b8b6",
+  "parent_chunk_id": "1a8a863f-aa2f-5675-b8f7-3d9de1f90637",
   "chunk_index": 27,
   "page_number": 19,
   "page_range": [
     19,
     21
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -1292,21 +1285,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "7f0bd4c5-daa0-5ec3-a0f1-660d5ac6b8b6",
+  "parent_chunk_id": "1a8a863f-aa2f-5675-b8f7-3d9de1f90637",
   "chunk_index": 28,
   "page_number": 21,
   "page_range": [
     21,
     21
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `3e2640fd-a7be-5444-a04a-00aea8e62f8c`
 
-- vector: dim=3072 · [0.0088, -0.0192, -0.0151, 0.0319, -0.0267, -0.0303, -0.0349, 0.0415, …]
+- vector: dim=3072 · [0.0088, -0.0191, -0.0151, 0.0319, -0.0267, -0.0303, -0.0349, 0.0414, …]
 
 ```json
 {
@@ -1329,25 +1322,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "7f0bd4c5-daa0-5ec3-a0f1-660d5ac6b8b6",
+  "parent_chunk_id": "1a8a863f-aa2f-5675-b8f7-3d9de1f90637",
   "chunk_index": 29,
   "page_number": 21,
   "page_range": [
     21,
     21
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `26599d1c-a033-597a-b229-65d5ef2d0d4b`
+## Parent · `403be3c0-7c01-5308-bace-cec73ec8c1ea`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "26599d1c-a033-597a-b229-65d5ef2d0d4b",
+  "chunk_id": "403be3c0-7c01-5308-bace-cec73ec8c1ea",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -1369,8 +1362,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     21,
     25
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -1398,21 +1391,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "26599d1c-a033-597a-b229-65d5ef2d0d4b",
+  "parent_chunk_id": "403be3c0-7c01-5308-bace-cec73ec8c1ea",
   "chunk_index": 30,
   "page_number": 21,
   "page_range": [
     21,
     22
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `862b7138-0652-53bf-a33c-c864ff9e35e2`
 
-- vector: dim=3072 · [-0.0077, 0.0224, -0.0070, 0.0165, -0.0086, -0.0220, -0.0562, 0.0421, …]
+- vector: dim=3072 · [-0.0079, 0.0224, -0.0070, 0.0165, -0.0087, -0.0221, -0.0562, 0.0422, …]
 
 ```json
 {
@@ -1435,21 +1428,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "26599d1c-a033-597a-b229-65d5ef2d0d4b",
+  "parent_chunk_id": "403be3c0-7c01-5308-bace-cec73ec8c1ea",
   "chunk_index": 31,
   "page_number": 22,
   "page_range": [
     22,
     22
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `f1984270-6ee2-5f96-879e-075ece9c9601`
 
-- vector: dim=3072 · [-0.0033, 0.0205, -0.0117, 0.0052, -0.0218, -0.0265, -0.0502, 0.0387, …]
+- vector: dim=3072 · [-0.0035, 0.0206, -0.0116, 0.0052, -0.0217, -0.0267, -0.0500, 0.0388, …]
 
 ```json
 {
@@ -1472,21 +1465,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "26599d1c-a033-597a-b229-65d5ef2d0d4b",
+  "parent_chunk_id": "403be3c0-7c01-5308-bace-cec73ec8c1ea",
   "chunk_index": 32,
   "page_number": 22,
   "page_range": [
     22,
     22
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `18fbcd9c-d076-55d9-9c39-6f05d5de13c4`
 
-- vector: dim=3072 · [0.0115, 0.0274, -0.0159, 0.0004, -0.0247, -0.0551, -0.0168, 0.0372, …]
+- vector: dim=3072 · [0.0125, 0.0275, -0.0159, 0.0001, -0.0242, -0.0553, -0.0184, 0.0369, …]
 
 ```json
 {
@@ -1509,21 +1502,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "26599d1c-a033-597a-b229-65d5ef2d0d4b",
+  "parent_chunk_id": "403be3c0-7c01-5308-bace-cec73ec8c1ea",
   "chunk_index": 33,
   "page_number": 23,
   "page_range": [
     23,
     23
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b7233f9f-7937-5631-a036-a359a65d2961`
 
-- vector: dim=3072 · [-0.0300, 0.0332, -0.0157, -0.0153, 0.0037, -0.0236, -0.0403, 0.0329, …]
+- vector: dim=3072 · [-0.0298, 0.0332, -0.0157, -0.0154, 0.0036, -0.0237, -0.0403, 0.0329, …]
 
 ```json
 {
@@ -1545,25 +1538,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "26599d1c-a033-597a-b229-65d5ef2d0d4b",
+  "parent_chunk_id": "403be3c0-7c01-5308-bace-cec73ec8c1ea",
   "chunk_index": 34,
   "page_number": 25,
   "page_range": [
     25,
     25
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `a868b461-b1ee-5ab8-855c-8a01a0e28481`
+## Parent · `d0c4654a-6d7b-5c00-b365-d45e0404177d`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "a868b461-b1ee-5ab8-855c-8a01a0e28481",
+  "chunk_id": "d0c4654a-6d7b-5c00-b365-d45e0404177d",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -1585,14 +1578,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     25,
     28
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e374601b-f5b1-5d33-820a-e0435770b062`
 
-- vector: dim=3072 · [-0.0129, 0.0428, -0.0204, -0.0345, -0.0186, -0.0205, -0.0253, 0.0170, …]
+- vector: dim=3072 · [-0.0131, 0.0432, -0.0203, -0.0346, -0.0185, -0.0206, -0.0253, 0.0170, …]
 
 ```json
 {
@@ -1614,21 +1607,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a868b461-b1ee-5ab8-855c-8a01a0e28481",
+  "parent_chunk_id": "d0c4654a-6d7b-5c00-b365-d45e0404177d",
   "chunk_index": 35,
   "page_number": 25,
   "page_range": [
     25,
     25
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `826a5acd-4234-5937-bd96-723d0936a784`
 
-- vector: dim=3072 · [-0.0182, 0.0281, -0.0154, -0.0100, -0.0195, -0.0253, 0.0007, 0.0322, …]
+- vector: dim=3072 · [-0.0184, 0.0281, -0.0155, -0.0100, -0.0194, -0.0253, 0.0006, 0.0323, …]
 
 ```json
 {
@@ -1650,21 +1643,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a868b461-b1ee-5ab8-855c-8a01a0e28481",
+  "parent_chunk_id": "d0c4654a-6d7b-5c00-b365-d45e0404177d",
   "chunk_index": 36,
   "page_number": 26,
   "page_range": [
     26,
     26
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0e746c8b-0ceb-558c-8937-b0880b6a3f50`
 
-- vector: dim=3072 · [-0.0263, 0.0287, -0.0186, -0.0068, -0.0251, -0.0244, 0.0045, 0.0289, …]
+- vector: dim=3072 · [-0.0260, 0.0289, -0.0186, -0.0066, -0.0254, -0.0246, 0.0042, 0.0289, …]
 
 ```json
 {
@@ -1686,21 +1679,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a868b461-b1ee-5ab8-855c-8a01a0e28481",
+  "parent_chunk_id": "d0c4654a-6d7b-5c00-b365-d45e0404177d",
   "chunk_index": 37,
   "page_number": 26,
   "page_range": [
     26,
     26
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `dd650a9f-2d1d-5a7f-9396-7d39e8e9a5e7`
 
-- vector: dim=3072 · [-0.0110, 0.0256, -0.0193, -0.0047, -0.0205, -0.0322, -0.0165, 0.0292, …]
+- vector: dim=3072 · [-0.0112, 0.0256, -0.0193, -0.0047, -0.0204, -0.0322, -0.0165, 0.0293, …]
 
 ```json
 {
@@ -1722,21 +1715,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a868b461-b1ee-5ab8-855c-8a01a0e28481",
+  "parent_chunk_id": "d0c4654a-6d7b-5c00-b365-d45e0404177d",
   "chunk_index": 38,
   "page_number": 27,
   "page_range": [
     27,
     27
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `cd56962b-6d7e-55e2-af6f-33c763073575`
 
-- vector: dim=3072 · [-0.0162, 0.0324, -0.0240, 0.0013, -0.0019, -0.0216, -0.0019, 0.0203, …]
+- vector: dim=3072 · [-0.0164, 0.0325, -0.0239, 0.0014, -0.0017, -0.0217, -0.0020, 0.0204, …]
 
 ```json
 {
@@ -1758,21 +1751,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a868b461-b1ee-5ab8-855c-8a01a0e28481",
+  "parent_chunk_id": "d0c4654a-6d7b-5c00-b365-d45e0404177d",
   "chunk_index": 39,
   "page_number": 27,
   "page_range": [
     27,
     27
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `20e56de9-4a7f-57c1-90ec-4d9f5ed89fed`
 
-- vector: dim=3072 · [0.0084, 0.0347, -0.0204, -0.0250, -0.0079, -0.0430, -0.0027, 0.0297, …]
+- vector: dim=3072 · [0.0083, 0.0348, -0.0205, -0.0249, -0.0079, -0.0430, -0.0028, 0.0297, …]
 
 ```json
 {
@@ -1794,33 +1787,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a868b461-b1ee-5ab8-855c-8a01a0e28481",
+  "parent_chunk_id": "d0c4654a-6d7b-5c00-b365-d45e0404177d",
   "chunk_index": 40,
   "page_number": 28,
   "page_range": [
     28,
     28
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `d7276a3e-2e38-597c-9b2a-30ddbe948715`
+## Parent · `add9399f-4ca1-577d-9fe9-f1566146a724`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "d7276a3e-2e38-597c-9b2a-30ddbe948715",
+  "chunk_id": "add9399f-4ca1-577d-9fe9-f1566146a724",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "(India Status)",
-  "chunk_text": "(India Status) (cont.)\n\n| Abbreviations | Definitions |\n| --- | --- |\n| SIDS | Small Island Developing States |\n| SMR | Steam Methane Reforming |\n| SNCR | Selective Non-Catalytic Reduction |\n| SO₂ | Sulphur Dioxide |\n| SOFC | Solid Oxide Fuel Cells |\n| SOLAS | Safety of Life at Sea |\n| STASHH | Standard Sized FC Module for Heavy Duty Applications |\n| STS | Ship-to-Ship |\n| SU | Surplus Units |\n| SVO | Straight Vegetable Oil |\n| TCO | Total Cost of Ownership |\n| TEU | Twenty-foot Equivalent Unit |\n| THC | Low Total Hydrocarbon |\n| TRL | Technological Readiness Level |\n| TTS | Truck-to-Ship oper\n\n… [+7471 more chars]",
-  "content_hash": "c1d65ae24e5af639e3aa25d94158c611736bde9fbfcac2cbf1a891e73e56b179",
-  "token_count": 1844,
+  "chunk_text": "(India Status) (cont.)\n\n| Abbreviations | Definitions |\n| --- | --- |\n| SIDS | Small Island Developing States |\n| SMR | Steam Methane Reforming |\n| SNCR | Selective Non-Catalytic Reduction |\n| SO₂ | Sulphur Dioxide |\n| SOFC | Solid Oxide Fuel Cells |\n| SOLAS | Safety of Life at Sea |\n| STASHH | Standard Sized FC Module for Heavy Duty Applications |\n| STS | Ship-to-Ship |\n| SU | Surplus Units |\n| SVO | Straight Vegetable Oil |\n| TCO | Total Cost of Ownership |\n| TEU | Twenty-foot Equivalent Unit |\n| THC | Low Total Hydrocarbon |\n| TRL | Technological Readiness Level |\n| TTS | Truck-to-Ship oper\n\n… [+7532 more chars]",
+  "content_hash": "1736e596ab7247a373c9b6e0e261a08cc4c7fe51afed9bdb209ac3716466e936",
+  "token_count": 1882,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1832,16 +1825,16 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
   "page_range": [
     28,
-    32
+    33
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `5add4145-0fe1-51e7-98bc-75de8d09fbec`
 
-- vector: dim=3072 · [0.0186, 0.0289, -0.0226, -0.0424, -0.0217, -0.0463, 0.0037, 0.0263, …]
+- vector: dim=3072 · [0.0100, 0.0198, -0.0109, -0.0310, -0.0113, -0.0354, -0.0114, 0.0376, …]
 
 ```json
 {
@@ -1851,9 +1844,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "(India Status)",
-  "chunk_text": "| Abbreviations | Definitions |\n| --- | --- |\n| SIDS | Small Island Developing States |\n| SMR | Steam Methane Reforming |\n| SNCR | Selective Non-Catalytic Reduction |\n| SO₂ | Sulphur Dioxide |\n| SOFC | Solid Oxide Fuel Cells |\n| SOLAS | Safety of Life at Sea |\n| STASHH | Standard Sized FC Module for Heavy Duty Applications |\n| STS | Ship-to-Ship |\n| SU | Surplus Units |\n| SVO | Straight Vegetable Oil |\n| TCO | Total Cost of Ownership |\n| TEU | Twenty-foot Equivalent Unit |\n| THC | Low Total Hydrocarbon |\n| TRL | Technological Readiness Level |\n| TTS | Truck-to-Ship operations |\n| TTW | Tank to\n\n… [+259 more chars]",
-  "content_hash": "f15f7c6225184bcd6457be0d5ccbba41e315e5689ee39ed72dcb1c9ef7940fdd",
-  "token_count": 247,
+  "chunk_text": "| Abbreviations | Definitions |\n| --- | --- |\n| SIDS | Small Island Developing States |\n| SMR | Steam Methane Reforming |\n| SNCR | Selective Non-Catalytic Reduction |\n| SO₂ | Sulphur Dioxide |\n| SOFC | Solid Oxide Fuel Cells |\n| SOLAS | Safety of Life at Sea |\n| STASHH | Standard Sized FC Module for Heavy Duty Applications |\n| STS | Ship-to-Ship |\n| SU | Surplus Units |\n| SVO | Straight Vegetable Oil |\n| TCO | Total Cost of Ownership |\n| TEU | Twenty-foot Equivalent Unit |\n| THC | Low Total Hydrocarbon |\n| TRL | Technological Readiness Level |\n| TTS | Truck-to-Ship operations |\n| TTW | Tank to\n\n… [+280 more chars]",
+  "content_hash": "a15858c45f584921f00ce1a32751f5c5eaae0fe0a406b66b458820f05760d296",
+  "token_count": 262,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1863,21 +1856,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d7276a3e-2e38-597c-9b2a-30ddbe948715",
+  "parent_chunk_id": "add9399f-4ca1-577d-9fe9-f1566146a724",
   "chunk_index": 41,
   "page_number": 28,
   "page_range": [
     28,
-    28
+    29
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `30e143f1-cc81-570f-acd2-8b6fd14005c9`
 
-- vector: dim=3072 · [0.0014, 0.0117, -0.0134, -0.0176, -0.0111, -0.0381, -0.0077, 0.0345, …]
+- vector: dim=3072 · [-0.0024, 0.0096, -0.0127, -0.0175, -0.0084, -0.0208, -0.0049, 0.0350, …]
 
 ```json
 {
@@ -1887,8 +1880,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "(India Status)",
-  "chunk_text": "States Dollars/Ton |\n| v/v | Volume%/Volume % |\n| VLS | Very Low Sulfur |\n| WTW | Well To Wake |\n| YSZ | Yttria-stabilized Zirconia |\n| ZNZ | Zero & Near Zero Emission Fuels | In April 2025, during 83rd meeting of Marine Environment Protection Committee (MEPC 83), IMO \nhas introduced Net Zero Framework setting mandatory GHG Fuel Intensity (GFI) based target for \nemission reduction from all global ships above 5000 GT. The GFI of a fuel sets a threshold on the \nannual well to wake GHG emission expressed per unit of energy used (gCO₂eq/MJ) and it is extremely \ncritical for accurate assessment of \n\n… [+1446 more chars]",
-  "content_hash": "258cd8c4b3d4f4585ac23effa029086f06a96fa9cf047b1668e298eb94abe79e",
+  "chunk_text": "VLS | Very Low Sulfur |\n| WTW | Well To Wake |\n| YSZ | Yttria-stabilized Zirconia |\n| ZNZ | Zero & Near Zero Emission Fuels |\n\n05/10• फैक्स/Fax: + In April 2025, during 83rd meeting of Marine Environment Protection Committee (MEPC 83), IMO \nhas introduced Net Zero Framework setting mandatory GHG Fuel Intensity (GFI) based target for \nemission reduction from all global ships above 5000 GT. The GFI of a fuel sets a threshold on the \nannual well to wake GHG emission expressed per unit of energy used (gCO₂eq/MJ) and it is extremely \ncritical for accurate assessment of the true environmental benefi\n\n… [+1417 more chars]",
+  "content_hash": "c6919d98bfc9ad1d7836758221e7f5bd6f638d73036e6c8c929f389f3c1a5af0",
   "token_count": 494,
   "doc_version": 1,
   "is_current": true,
@@ -1899,21 +1892,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d7276a3e-2e38-597c-9b2a-30ddbe948715",
+  "parent_chunk_id": "add9399f-4ca1-577d-9fe9-f1566146a724",
   "chunk_index": 42,
   "page_number": 30,
   "page_range": [
     30,
     30
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `4417357b-32e2-5761-a3e2-e002f0078b12`
 
-- vector: dim=3072 · [-0.0125, 0.0085, -0.0066, -0.0133, -0.0273, 0.0024, -0.0098, 0.0237, …]
+- vector: dim=3072 · [-0.0126, 0.0086, -0.0066, -0.0132, -0.0273, 0.0022, -0.0097, 0.0236, …]
 
 ```json
 {
@@ -1935,21 +1928,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d7276a3e-2e38-597c-9b2a-30ddbe948715",
+  "parent_chunk_id": "add9399f-4ca1-577d-9fe9-f1566146a724",
   "chunk_index": 43,
   "page_number": 30,
   "page_range": [
     30,
     30
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `d7b9a9cf-7a74-50a8-a1bd-e1d3dfa9041c`
 
-- vector: dim=3072 · [-0.0123, 0.0172, -0.0114, -0.0141, -0.0250, 0.0007, -0.0528, 0.0157, …]
+- vector: dim=3072 · [-0.0123, 0.0171, -0.0114, -0.0142, -0.0249, 0.0006, -0.0528, 0.0157, …]
 
 ```json
 {
@@ -1971,21 +1964,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d7276a3e-2e38-597c-9b2a-30ddbe948715",
+  "parent_chunk_id": "add9399f-4ca1-577d-9fe9-f1566146a724",
   "chunk_index": 44,
   "page_number": 31,
   "page_range": [
     31,
     31
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `3f9e0a83-8509-51b7-835c-babc8223fdaf`
 
-- vector: dim=3072 · [-0.0135, 0.0068, -0.0072, -0.0096, -0.0320, -0.0075, -0.0416, 0.0144, …]
+- vector: dim=3072 · [-0.0118, 0.0063, 0.0004, -0.0084, -0.0228, 0.0033, -0.0425, 0.0297, …]
 
 ```json
 {
@@ -1995,9 +1988,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "(India Status)",
-  "chunk_text": "There is a heightened need to increasingly implement CO2 capture on-board and switching over to bio/ synthetic e-fuels from HFO with the advancement of alternate fuel engines. Immediate implementation \nstrategy needs to be developed to pilot dual-fuel and multifuel blend in existing engines with OCC in \nfew pilots for generating data to assess energy and economic viability. Domestic green corridor can be \nset up for with pilot demonstration. There is an urgent need of larger number of pilot demonstration \nof CCUS projects through valorisation of adsorbed CO2 especially for India with lack of g\n\n… [+777 more chars]",
-  "content_hash": "f958222da0cea06638e9490ffaafec0016dac086fdfd920e063cdb2e4ca3e7b4",
-  "token_count": 295,
+  "chunk_text": "There is a heightened need to increasingly implement CO2 capture on-board and switching over to bio/ synthetic e-fuels from HFO with the advancement of alternate fuel engines. Immediate implementation \nstrategy needs to be developed to pilot dual-fuel and multifuel blend in existing engines with OCC in \nfew pilots for generating data to assess energy and economic viability. Domestic green corridor can be \nset up for with pilot demonstration. There is an urgent need of larger number of pilot demonstration \nof CCUS projects through valorisation of adsorbed CO2 especially for India with lack of g\n\n… [+817 more chars]",
+  "content_hash": "2d0f2f5d3c86041b1d7df88e93eca10a6ca0b68aaba03257d4b6a570a9fb01fc",
+  "token_count": 318,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -2007,33 +2000,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d7276a3e-2e38-597c-9b2a-30ddbe948715",
+  "parent_chunk_id": "add9399f-4ca1-577d-9fe9-f1566146a724",
   "chunk_index": 45,
   "page_number": 31,
   "page_range": [
     31,
-    32
+    33
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `b3af856e-b672-5231-9e69-639b24bd77b0`
+## Parent · `99c2ef01-16b4-5f70-8a0a-d8bb8dd5fd4e`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "b3af856e-b672-5231-9e69-639b24bd77b0",
+  "chunk_id": "99c2ef01-16b4-5f70-8a0a-d8bb8dd5fd4e",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Executive Sum",
-  "chunk_text": "Executive Sum\n\nmary\n\n5\n\n</\n\nPresently there are stringent environmental standards and regulatory focus on maritime \ndecarbonization. IMO, the governing body of international shipping, has set an overall goal of net \nzero GHG emissions from international shipping by or around 2050, relative to 2008 levels and is \npursuing efforts to phase out the emissions. Earlier in 2020, IMO also placed regulations limiting \nmarine fuel sulfur content to 0.5% by weight and issued a carriage ban on all non-compliant fuel. \nFuel sulfur regulations are further restricted to 0.1% sulfur by weight (S) especially \n\n… [+5528 more chars]",
-  "content_hash": "3b536938d4081f782761623a56e7da343886ad0012c3f6a1e93b69aa7b2dd7fb",
-  "token_count": 1280,
+  "section_heading": "(India Status)",
+  "chunk_text": "(India Status) (cont.)\n\nPresently there are stringent environmental standards and regulatory focus on maritime \ndecarbonization. IMO, the governing body of international shipping, has set an overall goal of net \nzero GHG emissions from international shipping by or around 2050, relative to 2008 levels and is \npursuing efforts to phase out the emissions. Earlier in 2020, IMO also placed regulations limiting \nmarine fuel sulfur content to 0.5% by weight and issued a carriage ban on all non-compliant fuel. \nFuel sulfur regulations are further restricted to 0.1% sulfur by weight (S) especially for \n\n… [+5524 more chars]",
+  "content_hash": "c7fd0e5c5cb20a1f77196a606a5e669372710b2e689271379feadbad21539066",
+  "token_count": 1278,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -2044,17 +2037,17 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
   "page_range": [
-    33,
+    34,
     35
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e8b35036-1bcb-5450-a789-ec42537a70aa`
 
-- vector: dim=3072 · [-0.0102, 0.0268, -0.0030, -0.0092, -0.0020, -0.0207, -0.0201, 0.0218, …]
+- vector: dim=3072 · [-0.0121, 0.0264, -0.0114, -0.0172, -0.0043, -0.0195, -0.0249, 0.0126, …]
 
 ```json
 {
@@ -2063,10 +2056,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Executive Sum",
-  "chunk_text": "mary\n\n5\n\n</\n\nPresently there are stringent environmental standards and regulatory focus on maritime \ndecarbonization. IMO, the governing body of international shipping, has set an overall goal of net \nzero GHG emissions from international shipping by or around 2050, relative to 2008 levels and is \npursuing efforts to phase out the emissions. Earlier in 2020, IMO also placed regulations limiting \nmarine fuel sulfur content to 0.5% by weight and issued a carriage ban on all non-compliant fuel. \nFuel sulfur regulations are further restricted to 0.1% sulfur by weight (S) especially for vessel \nmov\n\n… [+1650 more chars]",
-  "content_hash": "5b87ec2badab3c4a1ca8d46fe0e3eb2db561dd255090e407375d9b4a6139ca6d",
-  "token_count": 447,
+  "section_heading": "(India Status)",
+  "chunk_text": "Presently there are stringent environmental standards and regulatory focus on maritime \ndecarbonization. IMO, the governing body of international shipping, has set an overall goal of net \nzero GHG emissions from international shipping by or around 2050, relative to 2008 levels and is \npursuing efforts to phase out the emissions. Earlier in 2020, IMO also placed regulations limiting \nmarine fuel sulfur content to 0.5% by weight and issued a carriage ban on all non-compliant fuel. \nFuel sulfur regulations are further restricted to 0.1% sulfur by weight (S) especially for vessel \nmovement in emis\n\n… [+1637 more chars]",
+  "content_hash": "08e3c70608310a500170a77b0b3a503e273fa0658f6b3d0de71ac6ce2f3ed82a",
+  "token_count": 441,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -2076,21 +2069,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b3af856e-b672-5231-9e69-639b24bd77b0",
+  "parent_chunk_id": "99c2ef01-16b4-5f70-8a0a-d8bb8dd5fd4e",
   "chunk_index": 46,
-  "page_number": 33,
+  "page_number": 34,
   "page_range": [
-    33,
+    34,
     34
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `2cdda307-fd11-526b-a9d1-664d96e03177`
 
-- vector: dim=3072 · [-0.0341, 0.0027, -0.0127, -0.0209, -0.0249, -0.0013, -0.0303, 0.0087, …]
+- vector: dim=3072 · [-0.0341, 0.0026, -0.0128, -0.0208, -0.0249, -0.0013, -0.0301, 0.0087, …]
 
 ```json
 {
@@ -2099,7 +2092,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Executive Sum",
+  "section_heading": "(India Status)",
   "chunk_text": "It is being argued \nto adopt well to wake life cycle perspective of alternative fuels which can effectively capture \nenvironmental externalities beyond the purview of traditional metrics (such as EEDI) and thus support mitigating unintended environmental consequences of marine fuel consumption, such as \nshifting environmental burdens across segments of the supply chain or across pollutant categories \n(e.g., emissions to land, water, and air) Additionally, it is also advocated that IMO consider a full \nlife cycle perspective when accounting for the emissions from shipping and suggests exploitin\n\n… [+1370 more chars]",
   "content_hash": "ca42847f6b29741df1b987ab903926bc377c952a390226e7ffcd0c2547f85f9d",
   "token_count": 412,
@@ -2112,15 +2105,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b3af856e-b672-5231-9e69-639b24bd77b0",
+  "parent_chunk_id": "99c2ef01-16b4-5f70-8a0a-d8bb8dd5fd4e",
   "chunk_index": 47,
   "page_number": 34,
   "page_range": [
     34,
     34
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -2135,7 +2128,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Executive Sum",
+  "section_heading": "(India Status)",
   "chunk_text": "Overall activities require \nalignment with global developments. Towards this, it is of paramount importance to understand \nprogress in fuel and engine development, policy, economics and regulations, and global perspectives. With this as a background, the major objective of this study was initially set to outline the green fuel \nroadmap (especially the Hydrogen derived fuels like Hydrogen, Methanol and Ammonia with fossil \nfuels as reference) ensuring IMO Compliance in Indian maritime sector. \nHowever, with the evolving regulatory guidelines from IMO’s Marine environment Protection \nCommittee (\n\n… [+1725 more chars]",
   "content_hash": "eb8442942711b7d0a1dc2170baf4abf87edac89a6b61915aba6c7ad8dc3543fd",
   "token_count": 494,
@@ -2148,25 +2141,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b3af856e-b672-5231-9e69-639b24bd77b0",
+  "parent_chunk_id": "99c2ef01-16b4-5f70-8a0a-d8bb8dd5fd4e",
   "chunk_index": 48,
   "page_number": 35,
   "page_range": [
     35,
     35
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `690e5b5c-19d3-585f-99ee-0c7e4b9d871c`
+## Parent · `74c98401-47e3-521a-bf0f-2916dbcd6376`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "690e5b5c-19d3-585f-99ee-0c7e4b9d871c",
+  "chunk_id": "74c98401-47e3-521a-bf0f-2916dbcd6376",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -2188,8 +2181,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     35,
     39
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -2217,15 +2210,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "690e5b5c-19d3-585f-99ee-0c7e4b9d871c",
+  "parent_chunk_id": "74c98401-47e3-521a-bf0f-2916dbcd6376",
   "chunk_index": 49,
   "page_number": 35,
   "page_range": [
     35,
     36
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -2253,15 +2246,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "690e5b5c-19d3-585f-99ee-0c7e4b9d871c",
+  "parent_chunk_id": "74c98401-47e3-521a-bf0f-2916dbcd6376",
   "chunk_index": 50,
   "page_number": 37,
   "page_range": [
     37,
     37
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -2289,21 +2282,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "690e5b5c-19d3-585f-99ee-0c7e4b9d871c",
+  "parent_chunk_id": "74c98401-47e3-521a-bf0f-2916dbcd6376",
   "chunk_index": 51,
   "page_number": 37,
   "page_range": [
     37,
     37
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0c025c0a-93e3-54fa-ae87-0d9144c09172`
 
-- vector: dim=3072 · [-0.0337, -0.0043, 0.0000, -0.0288, -0.0191, -0.0334, -0.0039, 0.0636, …]
+- vector: dim=3072 · [-0.0339, -0.0039, 0.0000, -0.0288, -0.0193, -0.0332, -0.0040, 0.0640, …]
 
 ```json
 {
@@ -2325,21 +2318,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "690e5b5c-19d3-585f-99ee-0c7e4b9d871c",
+  "parent_chunk_id": "74c98401-47e3-521a-bf0f-2916dbcd6376",
   "chunk_index": 52,
   "page_number": 38,
   "page_range": [
     38,
     38
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0b970587-bed9-5205-a2ba-d7c7e2692708`
 
-- vector: dim=3072 · [-0.0407, 0.0166, -0.0113, -0.0311, -0.0011, -0.0440, -0.0099, 0.0569, …]
+- vector: dim=3072 · [-0.0406, 0.0166, -0.0112, -0.0312, -0.0009, -0.0437, -0.0098, 0.0568, …]
 
 ```json
 {
@@ -2361,15 +2354,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "690e5b5c-19d3-585f-99ee-0c7e4b9d871c",
+  "parent_chunk_id": "74c98401-47e3-521a-bf0f-2916dbcd6376",
   "chunk_index": 53,
   "page_number": 38,
   "page_range": [
     38,
     38
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -2397,25 +2390,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "690e5b5c-19d3-585f-99ee-0c7e4b9d871c",
+  "parent_chunk_id": "74c98401-47e3-521a-bf0f-2916dbcd6376",
   "chunk_index": 54,
   "page_number": 39,
   "page_range": [
     39,
     39
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `09d2f04d-2bad-5def-bcb7-3865fc131f45`
+## Parent · `56e2949e-7c0d-5623-8a27-5cf55a2f7967`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "09d2f04d-2bad-5def-bcb7-3865fc131f45",
+  "chunk_id": "56e2949e-7c0d-5623-8a27-5cf55a2f7967",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -2437,14 +2430,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     39,
     40
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e7ac812c-5ff2-5969-bff9-9ca3334fa270`
 
-- vector: dim=3072 · [-0.0038, 0.0000, -0.0219, -0.0172, -0.0186, -0.0445, -0.0095, 0.0513, …]
+- vector: dim=3072 · [-0.0038, -0.0002, -0.0218, -0.0174, -0.0185, -0.0444, -0.0099, 0.0515, …]
 
 ```json
 {
@@ -2466,15 +2459,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "09d2f04d-2bad-5def-bcb7-3865fc131f45",
+  "parent_chunk_id": "56e2949e-7c0d-5623-8a27-5cf55a2f7967",
   "chunk_index": 55,
   "page_number": 39,
   "page_range": [
     39,
     39
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -2502,21 +2495,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "09d2f04d-2bad-5def-bcb7-3865fc131f45",
+  "parent_chunk_id": "56e2949e-7c0d-5623-8a27-5cf55a2f7967",
   "chunk_index": 56,
   "page_number": 40,
   "page_range": [
     40,
     40
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `956a4790-2ad5-5624-ade1-6dbf5a4d2b09`
 
-- vector: dim=3072 · [-0.0054, 0.0037, -0.0139, -0.0251, -0.0180, -0.0391, 0.0173, 0.0157, …]
+- vector: dim=3072 · [-0.0053, 0.0037, -0.0138, -0.0254, -0.0177, -0.0388, 0.0172, 0.0157, …]
 
 ```json
 {
@@ -2538,21 +2531,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "09d2f04d-2bad-5def-bcb7-3865fc131f45",
+  "parent_chunk_id": "56e2949e-7c0d-5623-8a27-5cf55a2f7967",
   "chunk_index": 57,
   "page_number": 40,
   "page_range": [
     40,
     40
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `28bd5b83-620a-51e4-be24-6b32d1aaa177`
 
-- vector: dim=3072 · [-0.0027, -0.0007, -0.0266, -0.0197, -0.0290, -0.0271, 0.0070, 0.0278, …]
+- vector: dim=3072 · [-0.0027, -0.0007, -0.0266, -0.0197, -0.0291, -0.0271, 0.0070, 0.0278, …]
 
 ```json
 {
@@ -2574,25 +2567,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "09d2f04d-2bad-5def-bcb7-3865fc131f45",
+  "parent_chunk_id": "56e2949e-7c0d-5623-8a27-5cf55a2f7967",
   "chunk_index": 58,
   "page_number": 40,
   "page_range": [
     40,
     40
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `ebc970fb-f961-539b-9522-9aebff23fa15`
+## Parent · `853b8543-df9e-5690-a144-04105e836f25`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "ebc970fb-f961-539b-9522-9aebff23fa15",
+  "chunk_id": "853b8543-df9e-5690-a144-04105e836f25",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -2614,8 +2607,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     41,
     42
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -2643,21 +2636,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "ebc970fb-f961-539b-9522-9aebff23fa15",
+  "parent_chunk_id": "853b8543-df9e-5690-a144-04105e836f25",
   "chunk_index": 59,
   "page_number": 41,
   "page_range": [
     41,
     41
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `f20f9ebc-aca2-5a83-bb9b-88157f0f729d`
 
-- vector: dim=3072 · [-0.0300, 0.0342, -0.0236, -0.0219, -0.0119, -0.0323, -0.0110, 0.0075, …]
+- vector: dim=3072 · [-0.0301, 0.0342, -0.0236, -0.0219, -0.0118, -0.0321, -0.0108, 0.0075, …]
 
 ```json
 {
@@ -2679,21 +2672,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "ebc970fb-f961-539b-9522-9aebff23fa15",
+  "parent_chunk_id": "853b8543-df9e-5690-a144-04105e836f25",
   "chunk_index": 60,
   "page_number": 41,
   "page_range": [
     41,
     41
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `f4bb929a-a7ac-5ccc-b309-69da13076b4f`
 
-- vector: dim=3072 · [-0.0165, 0.0220, -0.0213, -0.0244, -0.0107, -0.0403, -0.0121, 0.0101, …]
+- vector: dim=3072 · [-0.0172, 0.0218, -0.0207, -0.0242, -0.0111, -0.0404, -0.0122, 0.0102, …]
 
 ```json
 {
@@ -2715,15 +2708,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "ebc970fb-f961-539b-9522-9aebff23fa15",
+  "parent_chunk_id": "853b8543-df9e-5690-a144-04105e836f25",
   "chunk_index": 61,
   "page_number": 42,
   "page_range": [
     42,
     42
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -2751,25 +2744,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "ebc970fb-f961-539b-9522-9aebff23fa15",
+  "parent_chunk_id": "853b8543-df9e-5690-a144-04105e836f25",
   "chunk_index": 62,
   "page_number": 42,
   "page_range": [
     42,
     42
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `4ffa5961-7a5f-5510-9e48-02a52866d8a2`
+## Parent · `a21c501d-22e8-5836-a1b7-0a2622dba526`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "4ffa5961-7a5f-5510-9e48-02a52866d8a2",
+  "chunk_id": "a21c501d-22e8-5836-a1b7-0a2622dba526",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -2791,14 +2784,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     42,
     45
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e3fcfa4d-2272-5ebe-a119-26093cf4a749`
 
-- vector: dim=3072 · [-0.0054, 0.0257, -0.0240, -0.0292, -0.0097, -0.0294, -0.0107, 0.0300, …]
+- vector: dim=3072 · [-0.0053, 0.0256, -0.0240, -0.0291, -0.0097, -0.0295, -0.0108, 0.0300, …]
 
 ```json
 {
@@ -2820,21 +2813,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "4ffa5961-7a5f-5510-9e48-02a52866d8a2",
+  "parent_chunk_id": "a21c501d-22e8-5836-a1b7-0a2622dba526",
   "chunk_index": 63,
   "page_number": 42,
   "page_range": [
     42,
     42
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `17bc3f86-fff0-5461-b72e-fe8b4efa034c`
 
-- vector: dim=3072 · [-0.0169, 0.0068, -0.0037, -0.0147, -0.0323, -0.0055, -0.0222, 0.0089, …]
+- vector: dim=3072 · [-0.0169, 0.0068, -0.0037, -0.0147, -0.0323, -0.0056, -0.0222, 0.0089, …]
 
 ```json
 {
@@ -2856,21 +2849,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "4ffa5961-7a5f-5510-9e48-02a52866d8a2",
+  "parent_chunk_id": "a21c501d-22e8-5836-a1b7-0a2622dba526",
   "chunk_index": 64,
   "page_number": 42,
   "page_range": [
     42,
     43
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `c03b9bf8-800e-5a86-baf6-ef9bd057248a`
 
-- vector: dim=3072 · [-0.0374, -0.0124, -0.0174, -0.0037, -0.0231, 0.0020, -0.0325, 0.0050, …]
+- vector: dim=3072 · [-0.0372, -0.0120, -0.0171, -0.0032, -0.0236, 0.0019, -0.0328, 0.0046, …]
 
 ```json
 {
@@ -2892,25 +2885,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "4ffa5961-7a5f-5510-9e48-02a52866d8a2",
+  "parent_chunk_id": "a21c501d-22e8-5836-a1b7-0a2622dba526",
   "chunk_index": 65,
   "page_number": 43,
   "page_range": [
     43,
     45
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `744309a7-19ed-58a8-924f-5bf9e8c8667e`
+## Parent · `56de276c-6419-55e2-940a-253f5352372c`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "744309a7-19ed-58a8-924f-5bf9e8c8667e",
+  "chunk_id": "56de276c-6419-55e2-940a-253f5352372c",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -2932,14 +2925,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     46,
     49
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `19294349-ee1b-56b7-acb2-0ee9d1964fd5`
 
-- vector: dim=3072 · [-0.0312, 0.0078, -0.0180, -0.0020, -0.0292, 0.0051, -0.0253, 0.0104, …]
+- vector: dim=3072 · [-0.0313, 0.0079, -0.0179, -0.0020, -0.0292, 0.0052, -0.0251, 0.0104, …]
 
 ```json
 {
@@ -2961,21 +2954,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "744309a7-19ed-58a8-924f-5bf9e8c8667e",
+  "parent_chunk_id": "56de276c-6419-55e2-940a-253f5352372c",
   "chunk_index": 66,
   "page_number": 46,
   "page_range": [
     46,
     46
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `c88ca760-60d5-50ca-9b5a-7f0b0b39df36`
 
-- vector: dim=3072 · [-0.0276, 0.0160, -0.0183, -0.0133, -0.0173, -0.0012, -0.0444, 0.0163, …]
+- vector: dim=3072 · [-0.0276, 0.0160, -0.0183, -0.0133, -0.0170, -0.0013, -0.0444, 0.0162, …]
 
 ```json
 {
@@ -2997,21 +2990,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "744309a7-19ed-58a8-924f-5bf9e8c8667e",
+  "parent_chunk_id": "56de276c-6419-55e2-940a-253f5352372c",
   "chunk_index": 67,
   "page_number": 46,
   "page_range": [
     46,
     46
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `482df0ff-baf9-5b36-b4f9-f82e9299cd97`
 
-- vector: dim=3072 · [-0.0239, 0.0115, -0.0189, 0.0170, -0.0161, 0.0108, -0.0345, 0.0209, …]
+- vector: dim=3072 · [-0.0239, 0.0115, -0.0189, 0.0171, -0.0160, 0.0108, -0.0345, 0.0209, …]
 
 ```json
 {
@@ -3033,21 +3026,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "744309a7-19ed-58a8-924f-5bf9e8c8667e",
+  "parent_chunk_id": "56de276c-6419-55e2-940a-253f5352372c",
   "chunk_index": 68,
   "page_number": 47,
   "page_range": [
     47,
     47
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `148f2441-4b6d-5489-9094-38e1fc06d752`
 
-- vector: dim=3072 · [-0.0231, 0.0309, -0.0258, 0.0254, -0.0220, -0.0144, -0.0360, 0.0219, …]
+- vector: dim=3072 · [-0.0231, 0.0309, -0.0259, 0.0255, -0.0220, -0.0145, -0.0361, 0.0219, …]
 
 ```json
 {
@@ -3069,25 +3062,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "744309a7-19ed-58a8-924f-5bf9e8c8667e",
+  "parent_chunk_id": "56de276c-6419-55e2-940a-253f5352372c",
   "chunk_index": 69,
   "page_number": 48,
   "page_range": [
     48,
     49
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `2783b954-9fc9-5513-95a4-5dbe0d70df26`
+## Parent · `a279ce70-ddd4-576f-976e-8561ebecd9c2`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "2783b954-9fc9-5513-95a4-5dbe0d70df26",
+  "chunk_id": "a279ce70-ddd4-576f-976e-8561ebecd9c2",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -3109,14 +3102,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     50,
     52
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `fc830526-36a9-5d2b-8c6c-7576d6cc96ce`
 
-- vector: dim=3072 · [-0.0384, 0.0112, -0.0144, 0.0017, -0.0252, -0.0202, -0.0257, 0.0105, …]
+- vector: dim=3072 · [-0.0385, 0.0112, -0.0144, 0.0016, -0.0252, -0.0203, -0.0257, 0.0104, …]
 
 ```json
 {
@@ -3138,21 +3131,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2783b954-9fc9-5513-95a4-5dbe0d70df26",
+  "parent_chunk_id": "a279ce70-ddd4-576f-976e-8561ebecd9c2",
   "chunk_index": 70,
   "page_number": 50,
   "page_range": [
     50,
     50
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0db8d6bc-3bea-53c2-a351-9b6c17851bda`
 
-- vector: dim=3072 · [-0.0359, 0.0087, -0.0111, 0.0105, -0.0177, -0.0399, -0.0263, 0.0311, …]
+- vector: dim=3072 · [-0.0356, 0.0088, -0.0112, 0.0104, -0.0180, -0.0399, -0.0265, 0.0308, …]
 
 ```json
 {
@@ -3174,21 +3167,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2783b954-9fc9-5513-95a4-5dbe0d70df26",
+  "parent_chunk_id": "a279ce70-ddd4-576f-976e-8561ebecd9c2",
   "chunk_index": 71,
   "page_number": 50,
   "page_range": [
     50,
     51
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `871d2c58-8250-5cfb-9447-2b90cf698173`
 
-- vector: dim=3072 · [-0.0314, 0.0075, -0.0187, 0.0047, -0.0277, -0.0287, -0.0079, 0.0389, …]
+- vector: dim=3072 · [-0.0317, 0.0077, -0.0188, 0.0055, -0.0279, -0.0290, -0.0079, 0.0385, …]
 
 ```json
 {
@@ -3210,21 +3203,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2783b954-9fc9-5513-95a4-5dbe0d70df26",
+  "parent_chunk_id": "a279ce70-ddd4-576f-976e-8561ebecd9c2",
   "chunk_index": 72,
   "page_number": 51,
   "page_range": [
     51,
     51
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `881d0217-5ad6-5ab1-b580-a5c6d45a477e`
 
-- vector: dim=3072 · [-0.0391, -0.0073, -0.0117, 0.0142, -0.0275, -0.0371, -0.0071, 0.0236, …]
+- vector: dim=3072 · [-0.0392, -0.0072, -0.0117, 0.0140, -0.0274, -0.0369, -0.0072, 0.0237, …]
 
 ```json
 {
@@ -3246,25 +3239,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2783b954-9fc9-5513-95a4-5dbe0d70df26",
+  "parent_chunk_id": "a279ce70-ddd4-576f-976e-8561ebecd9c2",
   "chunk_index": 73,
   "page_number": 52,
   "page_range": [
     52,
     52
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `e2d9cfc3-a8b6-5e6d-87d2-9373088458ea`
+## Parent · `83838c7a-ec78-50f3-bee6-b3e0c6f7957b`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "e2d9cfc3-a8b6-5e6d-87d2-9373088458ea",
+  "chunk_id": "83838c7a-ec78-50f3-bee6-b3e0c6f7957b",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -3286,14 +3279,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     52,
     53
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `742b6eac-bea2-5910-b629-02b3f0a274d7`
 
-- vector: dim=3072 · [-0.0403, -0.0182, -0.0154, 0.0208, -0.0097, -0.0374, 0.0044, 0.0518, …]
+- vector: dim=3072 · [-0.0402, -0.0183, -0.0155, 0.0212, -0.0102, -0.0380, 0.0050, 0.0517, …]
 
 ```json
 {
@@ -3315,21 +3308,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "e2d9cfc3-a8b6-5e6d-87d2-9373088458ea",
+  "parent_chunk_id": "83838c7a-ec78-50f3-bee6-b3e0c6f7957b",
   "chunk_index": 74,
   "page_number": 52,
   "page_range": [
     52,
     52
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `bff2d480-99da-5a23-91f1-019cd8922235`
 
-- vector: dim=3072 · [-0.0157, -0.0190, -0.0068, 0.0001, -0.0163, -0.0273, -0.0230, 0.0338, …]
+- vector: dim=3072 · [-0.0156, -0.0190, -0.0067, 0.0004, -0.0161, -0.0273, -0.0232, 0.0337, …]
 
 ```json
 {
@@ -3351,21 +3344,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "e2d9cfc3-a8b6-5e6d-87d2-9373088458ea",
+  "parent_chunk_id": "83838c7a-ec78-50f3-bee6-b3e0c6f7957b",
   "chunk_index": 75,
   "page_number": 52,
   "page_range": [
     52,
     52
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `c8c551c3-87ff-53e7-94a4-4a5fece86c9c`
 
-- vector: dim=3072 · [-0.0213, -0.0113, -0.0081, -0.0006, -0.0364, -0.0619, -0.0257, 0.0282, …]
+- vector: dim=3072 · [-0.0213, -0.0116, -0.0081, -0.0004, -0.0366, -0.0621, -0.0257, 0.0282, …]
 
 ```json
 {
@@ -3387,21 +3380,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "e2d9cfc3-a8b6-5e6d-87d2-9373088458ea",
+  "parent_chunk_id": "83838c7a-ec78-50f3-bee6-b3e0c6f7957b",
   "chunk_index": 76,
   "page_number": 53,
   "page_range": [
     53,
     53
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e8b4a4b6-92f1-5b8d-98ec-ee20886264c3`
 
-- vector: dim=3072 · [-0.0360, 0.0177, -0.0076, -0.0045, -0.0178, -0.0246, -0.0333, 0.0206, …]
+- vector: dim=3072 · [-0.0361, 0.0173, -0.0076, -0.0046, -0.0175, -0.0246, -0.0331, 0.0204, …]
 
 ```json
 {
@@ -3423,25 +3416,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "e2d9cfc3-a8b6-5e6d-87d2-9373088458ea",
+  "parent_chunk_id": "83838c7a-ec78-50f3-bee6-b3e0c6f7957b",
   "chunk_index": 77,
   "page_number": 53,
   "page_range": [
     53,
     53
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `141658be-7b21-5ee7-9bdb-44f1c36d9490`
+## Parent · `816582cf-c9f5-5f45-8f9c-5a1ecde38fe6`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "141658be-7b21-5ee7-9bdb-44f1c36d9490",
+  "chunk_id": "816582cf-c9f5-5f45-8f9c-5a1ecde38fe6",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -3463,14 +3456,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     53,
     55
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `016617d0-d7c9-5e18-8e41-0dfd061ce411`
 
-- vector: dim=3072 · [-0.0352, -0.0027, -0.0089, 0.0001, -0.0134, -0.0400, -0.0294, 0.0443, …]
+- vector: dim=3072 · [-0.0345, -0.0024, -0.0088, 0.0003, -0.0136, -0.0400, -0.0298, 0.0444, …]
 
 ```json
 {
@@ -3492,21 +3485,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "141658be-7b21-5ee7-9bdb-44f1c36d9490",
+  "parent_chunk_id": "816582cf-c9f5-5f45-8f9c-5a1ecde38fe6",
   "chunk_index": 78,
   "page_number": 53,
   "page_range": [
     53,
     54
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `7afc5349-f09a-5923-b114-fb32de63deca`
 
-- vector: dim=3072 · [-0.0441, -0.0096, -0.0131, 0.0053, -0.0069, -0.0413, -0.0052, 0.0441, …]
+- vector: dim=3072 · [-0.0442, -0.0094, -0.0132, 0.0054, -0.0072, -0.0413, -0.0055, 0.0437, …]
 
 ```json
 {
@@ -3528,21 +3521,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "141658be-7b21-5ee7-9bdb-44f1c36d9490",
+  "parent_chunk_id": "816582cf-c9f5-5f45-8f9c-5a1ecde38fe6",
   "chunk_index": 79,
   "page_number": 54,
   "page_range": [
     54,
     54
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e497cda4-f8d7-5431-992a-980ea202e839`
 
-- vector: dim=3072 · [-0.0042, -0.0140, -0.0125, 0.0154, -0.0041, -0.0124, -0.0388, 0.0465, …]
+- vector: dim=3072 · [-0.0038, -0.0138, -0.0124, 0.0155, -0.0040, -0.0124, -0.0386, 0.0468, …]
 
 ```json
 {
@@ -3564,21 +3557,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "141658be-7b21-5ee7-9bdb-44f1c36d9490",
+  "parent_chunk_id": "816582cf-c9f5-5f45-8f9c-5a1ecde38fe6",
   "chunk_index": 80,
   "page_number": 54,
   "page_range": [
     54,
     54
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b4887e02-c52f-5e98-95d4-38bb03cea24c`
 
-- vector: dim=3072 · [-0.0270, -0.0063, -0.0108, 0.0162, -0.0107, -0.0226, -0.0258, 0.0438, …]
+- vector: dim=3072 · [-0.0268, -0.0064, -0.0108, 0.0164, -0.0107, -0.0221, -0.0257, 0.0440, …]
 
 ```json
 {
@@ -3600,21 +3593,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "141658be-7b21-5ee7-9bdb-44f1c36d9490",
+  "parent_chunk_id": "816582cf-c9f5-5f45-8f9c-5a1ecde38fe6",
   "chunk_index": 81,
   "page_number": 55,
   "page_range": [
     55,
     55
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `81f5bc7a-b5ae-5a43-a46f-3717904ff3e2`
 
-- vector: dim=3072 · [-0.0097, 0.0116, -0.0080, 0.0134, -0.0125, -0.0300, -0.0280, 0.0426, …]
+- vector: dim=3072 · [-0.0099, 0.0118, -0.0080, 0.0135, -0.0127, -0.0302, -0.0279, 0.0428, …]
 
 ```json
 {
@@ -3636,21 +3629,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "141658be-7b21-5ee7-9bdb-44f1c36d9490",
+  "parent_chunk_id": "816582cf-c9f5-5f45-8f9c-5a1ecde38fe6",
   "chunk_index": 82,
   "page_number": 55,
   "page_range": [
     55,
     55
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `9f15f438-d391-552f-bdc1-c7a56c78a2fe`
 
-- vector: dim=3072 · [-0.0322, -0.0093, -0.0126, 0.0116, -0.0085, -0.0319, -0.0067, 0.0513, …]
+- vector: dim=3072 · [-0.0322, -0.0088, -0.0124, 0.0114, -0.0086, -0.0321, -0.0067, 0.0513, …]
 
 ```json
 {
@@ -3678,8 +3671,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     55,
     55
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -3713,18 +3706,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     56,
     57
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `fe067ab9-754c-55eb-aedd-31beadb3d3d2`
+## Parent · `690e5b5c-19d3-585f-99ee-0c7e4b9d871c`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "fe067ab9-754c-55eb-aedd-31beadb3d3d2",
+  "chunk_id": "690e5b5c-19d3-585f-99ee-0c7e4b9d871c",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -3746,14 +3739,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     58,
     59
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `4e4ac1c7-fa70-5fe1-9a2f-a81fbdb39424`
 
-- vector: dim=3072 · [-0.0164, 0.0092, -0.0119, -0.0138, -0.0217, -0.0140, -0.0130, 0.0247, …]
+- vector: dim=3072 · [-0.0165, 0.0090, -0.0120, -0.0137, -0.0217, -0.0141, -0.0127, 0.0246, …]
 
 ```json
 {
@@ -3775,21 +3768,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "fe067ab9-754c-55eb-aedd-31beadb3d3d2",
+  "parent_chunk_id": "690e5b5c-19d3-585f-99ee-0c7e4b9d871c",
   "chunk_index": 85,
   "page_number": 58,
   "page_range": [
     58,
     58
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `38a4c74d-634f-5520-88aa-409764071ba6`
 
-- vector: dim=3072 · [-0.0103, 0.0305, -0.0115, -0.0007, -0.0372, -0.0400, -0.0012, 0.0474, …]
+- vector: dim=3072 · [-0.0104, 0.0310, -0.0115, -0.0012, -0.0370, -0.0396, -0.0009, 0.0477, …]
 
 ```json
 {
@@ -3811,15 +3804,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "fe067ab9-754c-55eb-aedd-31beadb3d3d2",
+  "parent_chunk_id": "690e5b5c-19d3-585f-99ee-0c7e4b9d871c",
   "chunk_index": 86,
   "page_number": 58,
   "page_range": [
     58,
     58
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -3847,25 +3840,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "fe067ab9-754c-55eb-aedd-31beadb3d3d2",
+  "parent_chunk_id": "690e5b5c-19d3-585f-99ee-0c7e4b9d871c",
   "chunk_index": 87,
   "page_number": 58,
   "page_range": [
     58,
     59
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `2d37f25c-d303-5889-b967-63cedb60c66a`
+## Parent · `09d2f04d-2bad-5def-bcb7-3865fc131f45`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "2d37f25c-d303-5889-b967-63cedb60c66a",
+  "chunk_id": "09d2f04d-2bad-5def-bcb7-3865fc131f45",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -3887,8 +3880,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     59,
     59
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -3916,15 +3909,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2d37f25c-d303-5889-b967-63cedb60c66a",
+  "parent_chunk_id": "09d2f04d-2bad-5def-bcb7-3865fc131f45",
   "chunk_index": 88,
   "page_number": 59,
   "page_range": [
     59,
     59
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -3952,21 +3945,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2d37f25c-d303-5889-b967-63cedb60c66a",
+  "parent_chunk_id": "09d2f04d-2bad-5def-bcb7-3865fc131f45",
   "chunk_index": 89,
   "page_number": 59,
   "page_range": [
     59,
     59
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `4860d448-9e4d-56be-a2b0-13095e0d8b7f`
 
-- vector: dim=3072 · [-0.0050, -0.0067, -0.0080, -0.0027, -0.0230, -0.0449, -0.0079, 0.0321, …]
+- vector: dim=3072 · [-0.0060, -0.0072, -0.0079, -0.0028, -0.0236, -0.0447, -0.0084, 0.0315, …]
 
 ```json
 {
@@ -3988,25 +3981,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2d37f25c-d303-5889-b967-63cedb60c66a",
+  "parent_chunk_id": "09d2f04d-2bad-5def-bcb7-3865fc131f45",
   "chunk_index": 90,
   "page_number": 59,
   "page_range": [
     59,
     59
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `815ab0a1-4724-5f41-a793-612c95f31b00`
+## Parent · `2783b954-9fc9-5513-95a4-5dbe0d70df26`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "815ab0a1-4724-5f41-a793-612c95f31b00",
+  "chunk_id": "2783b954-9fc9-5513-95a4-5dbe0d70df26",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -4028,8 +4021,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     60,
     62
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -4057,21 +4050,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "815ab0a1-4724-5f41-a793-612c95f31b00",
+  "parent_chunk_id": "2783b954-9fc9-5513-95a4-5dbe0d70df26",
   "chunk_index": 91,
   "page_number": 60,
   "page_range": [
     60,
     60
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `2e5c0532-6310-5b5a-a7ae-8a174eeae3fd`
 
-- vector: dim=3072 · [-0.0231, 0.0199, -0.0141, -0.0178, -0.0381, -0.0143, -0.0274, -0.0035, …]
+- vector: dim=3072 · [-0.0230, 0.0194, -0.0141, -0.0182, -0.0381, -0.0140, -0.0276, -0.0034, …]
 
 ```json
 {
@@ -4093,21 +4086,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "815ab0a1-4724-5f41-a793-612c95f31b00",
+  "parent_chunk_id": "2783b954-9fc9-5513-95a4-5dbe0d70df26",
   "chunk_index": 92,
   "page_number": 60,
   "page_range": [
     60,
     60
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `4388b067-5ba9-5516-8e83-b5b914da78fd`
 
-- vector: dim=3072 · [-0.0184, 0.0103, -0.0108, -0.0089, -0.0494, -0.0178, -0.0409, 0.0109, …]
+- vector: dim=3072 · [-0.0183, 0.0104, -0.0108, -0.0088, -0.0494, -0.0179, -0.0407, 0.0110, …]
 
 ```json
 {
@@ -4129,15 +4122,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "815ab0a1-4724-5f41-a793-612c95f31b00",
+  "parent_chunk_id": "2783b954-9fc9-5513-95a4-5dbe0d70df26",
   "chunk_index": 93,
   "page_number": 61,
   "page_range": [
     61,
     61
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -4165,21 +4158,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "815ab0a1-4724-5f41-a793-612c95f31b00",
+  "parent_chunk_id": "2783b954-9fc9-5513-95a4-5dbe0d70df26",
   "chunk_index": 94,
   "page_number": 61,
   "page_range": [
     61,
     61
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `7b42c542-47b6-599f-aa70-39ddd5ffcfa6`
 
-- vector: dim=3072 · [-0.0272, 0.0253, -0.0109, 0.0111, -0.0128, 0.0071, -0.0557, 0.0150, …]
+- vector: dim=3072 · [-0.0271, 0.0253, -0.0109, 0.0112, -0.0128, 0.0071, -0.0559, 0.0150, …]
 
 ```json
 {
@@ -4201,25 +4194,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "815ab0a1-4724-5f41-a793-612c95f31b00",
+  "parent_chunk_id": "2783b954-9fc9-5513-95a4-5dbe0d70df26",
   "chunk_index": 95,
   "page_number": 62,
   "page_range": [
     62,
     62
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `1b287b50-babe-579d-8827-ad41a2cf82ea`
+## Parent · `e2d9cfc3-a8b6-5e6d-87d2-9373088458ea`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "1b287b50-babe-579d-8827-ad41a2cf82ea",
+  "chunk_id": "e2d9cfc3-a8b6-5e6d-87d2-9373088458ea",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -4241,8 +4234,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     63,
     64
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -4270,15 +4263,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1b287b50-babe-579d-8827-ad41a2cf82ea",
+  "parent_chunk_id": "e2d9cfc3-a8b6-5e6d-87d2-9373088458ea",
   "chunk_index": 96,
   "page_number": 63,
   "page_range": [
     63,
     63
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -4306,15 +4299,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1b287b50-babe-579d-8827-ad41a2cf82ea",
+  "parent_chunk_id": "e2d9cfc3-a8b6-5e6d-87d2-9373088458ea",
   "chunk_index": 97,
   "page_number": 63,
   "page_range": [
     63,
     63
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -4342,15 +4335,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1b287b50-babe-579d-8827-ad41a2cf82ea",
+  "parent_chunk_id": "e2d9cfc3-a8b6-5e6d-87d2-9373088458ea",
   "chunk_index": 98,
   "page_number": 63,
   "page_range": [
     63,
     63
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -4378,21 +4371,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1b287b50-babe-579d-8827-ad41a2cf82ea",
+  "parent_chunk_id": "e2d9cfc3-a8b6-5e6d-87d2-9373088458ea",
   "chunk_index": 99,
   "page_number": 64,
   "page_range": [
     64,
     64
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `202d5e38-18c9-5131-9ad5-856a370d7b23`
 
-- vector: dim=3072 · [-0.0258, 0.0006, -0.0074, 0.0049, -0.0234, 0.0003, -0.0685, 0.0308, …]
+- vector: dim=3072 · [-0.0257, 0.0006, -0.0074, 0.0048, -0.0233, 0.0004, -0.0686, 0.0307, …]
 
 ```json
 {
@@ -4414,25 +4407,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1b287b50-babe-579d-8827-ad41a2cf82ea",
+  "parent_chunk_id": "e2d9cfc3-a8b6-5e6d-87d2-9373088458ea",
   "chunk_index": 100,
   "page_number": 64,
   "page_range": [
     64,
     64
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `493e09b2-f737-5858-8ec7-1309b6264f6f`
+## Parent · `141658be-7b21-5ee7-9bdb-44f1c36d9490`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "493e09b2-f737-5858-8ec7-1309b6264f6f",
+  "chunk_id": "141658be-7b21-5ee7-9bdb-44f1c36d9490",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -4454,8 +4447,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     64,
     65
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -4483,15 +4476,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "493e09b2-f737-5858-8ec7-1309b6264f6f",
+  "parent_chunk_id": "141658be-7b21-5ee7-9bdb-44f1c36d9490",
   "chunk_index": 101,
   "page_number": 64,
   "page_range": [
     64,
     64
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -4519,21 +4512,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "493e09b2-f737-5858-8ec7-1309b6264f6f",
+  "parent_chunk_id": "141658be-7b21-5ee7-9bdb-44f1c36d9490",
   "chunk_index": 102,
   "page_number": 65,
   "page_range": [
     65,
     65
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `71341ebc-f2ee-5436-9fd3-b31345156333`
 
-- vector: dim=3072 · [-0.0219, -0.0037, -0.0111, -0.0137, -0.0345, -0.0486, -0.0141, 0.0539, …]
+- vector: dim=3072 · [-0.0223, -0.0033, -0.0111, -0.0141, -0.0345, -0.0486, -0.0146, 0.0536, …]
 
 ```json
 {
@@ -4555,15 +4548,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "493e09b2-f737-5858-8ec7-1309b6264f6f",
+  "parent_chunk_id": "141658be-7b21-5ee7-9bdb-44f1c36d9490",
   "chunk_index": 103,
   "page_number": 65,
   "page_range": [
     65,
     65
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -4591,25 +4584,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "493e09b2-f737-5858-8ec7-1309b6264f6f",
+  "parent_chunk_id": "141658be-7b21-5ee7-9bdb-44f1c36d9490",
   "chunk_index": 104,
   "page_number": 65,
   "page_range": [
     65,
     65
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `9a18d8cd-9c22-5f2b-991f-5b328379371d`
+## Parent · `155c720c-e2ae-5b5b-9e3b-f4810014f10b`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "9a18d8cd-9c22-5f2b-991f-5b328379371d",
+  "chunk_id": "155c720c-e2ae-5b5b-9e3b-f4810014f10b",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -4631,14 +4624,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     66,
     68
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `dbefcf8b-de4d-5d1d-aaf0-79bac3890ca7`
 
-- vector: dim=3072 · [-0.0327, -0.0003, -0.0127, -0.0102, -0.0425, -0.0587, -0.0230, 0.0593, …]
+- vector: dim=3072 · [-0.0326, 0.0000, -0.0127, -0.0100, -0.0424, -0.0585, -0.0234, 0.0594, …]
 
 ```json
 {
@@ -4660,15 +4653,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9a18d8cd-9c22-5f2b-991f-5b328379371d",
+  "parent_chunk_id": "155c720c-e2ae-5b5b-9e3b-f4810014f10b",
   "chunk_index": 105,
   "page_number": 66,
   "page_range": [
     66,
     66
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -4696,21 +4689,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9a18d8cd-9c22-5f2b-991f-5b328379371d",
+  "parent_chunk_id": "155c720c-e2ae-5b5b-9e3b-f4810014f10b",
   "chunk_index": 106,
   "page_number": 66,
   "page_range": [
     66,
     66
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `8c0370ad-97ec-5356-b880-57f34de1dc0c`
 
-- vector: dim=3072 · [-0.0260, 0.0049, -0.0182, -0.0148, -0.0403, -0.0712, -0.0064, 0.0477, …]
+- vector: dim=3072 · [-0.0260, 0.0048, -0.0182, -0.0148, -0.0403, -0.0712, -0.0064, 0.0478, …]
 
 ```json
 {
@@ -4732,21 +4725,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9a18d8cd-9c22-5f2b-991f-5b328379371d",
+  "parent_chunk_id": "155c720c-e2ae-5b5b-9e3b-f4810014f10b",
   "chunk_index": 107,
   "page_number": 67,
   "page_range": [
     67,
     67
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `18a85ae0-bfcd-5c07-aff8-497ab7b7be91`
 
-- vector: dim=3072 · [-0.0245, 0.0036, -0.0179, -0.0203, -0.0417, -0.0661, -0.0034, 0.0466, …]
+- vector: dim=3072 · [-0.0248, 0.0034, -0.0178, -0.0205, -0.0420, -0.0660, -0.0034, 0.0465, …]
 
 ```json
 {
@@ -4768,21 +4761,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9a18d8cd-9c22-5f2b-991f-5b328379371d",
+  "parent_chunk_id": "155c720c-e2ae-5b5b-9e3b-f4810014f10b",
   "chunk_index": 108,
   "page_number": 67,
   "page_range": [
     67,
     67
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `524c34cf-1d68-5368-8d0a-67047f5a2b9a`
 
-- vector: dim=3072 · [-0.0074, 0.0073, -0.0099, -0.0112, -0.0435, -0.0510, -0.0306, 0.0551, …]
+- vector: dim=3072 · [-0.0072, 0.0074, -0.0100, -0.0113, -0.0432, -0.0513, -0.0308, 0.0553, …]
 
 ```json
 {
@@ -4804,25 +4797,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9a18d8cd-9c22-5f2b-991f-5b328379371d",
+  "parent_chunk_id": "155c720c-e2ae-5b5b-9e3b-f4810014f10b",
   "chunk_index": 109,
   "page_number": 68,
   "page_range": [
     68,
     68
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `ad0abf43-0fed-5214-b503-28098345f769`
+## Parent · `bec7e630-1493-504d-9471-510e9eb9623a`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "ad0abf43-0fed-5214-b503-28098345f769",
+  "chunk_id": "bec7e630-1493-504d-9471-510e9eb9623a",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -4844,14 +4837,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     68,
     69
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0ce3e4f8-9682-51c3-832d-0abff85c8779`
 
-- vector: dim=3072 · [-0.0144, -0.0077, -0.0143, -0.0031, -0.0388, -0.0363, -0.0251, 0.0500, …]
+- vector: dim=3072 · [-0.0148, -0.0065, -0.0141, -0.0029, -0.0379, -0.0365, -0.0247, 0.0496, …]
 
 ```json
 {
@@ -4873,15 +4866,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "ad0abf43-0fed-5214-b503-28098345f769",
+  "parent_chunk_id": "bec7e630-1493-504d-9471-510e9eb9623a",
   "chunk_index": 110,
   "page_number": 68,
   "page_range": [
     68,
     68
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -4909,21 +4902,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "ad0abf43-0fed-5214-b503-28098345f769",
+  "parent_chunk_id": "bec7e630-1493-504d-9471-510e9eb9623a",
   "chunk_index": 111,
   "page_number": 69,
   "page_range": [
     69,
     69
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `7b6c1bd1-d157-5e56-8dfc-8c9817ff9152`
 
-- vector: dim=3072 · [-0.0096, -0.0047, -0.0145, 0.0034, -0.0437, -0.0389, -0.0415, 0.0500, …]
+- vector: dim=3072 · [-0.0096, -0.0049, -0.0145, 0.0038, -0.0434, -0.0392, -0.0415, 0.0505, …]
 
 ```json
 {
@@ -4945,25 +4938,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "ad0abf43-0fed-5214-b503-28098345f769",
+  "parent_chunk_id": "bec7e630-1493-504d-9471-510e9eb9623a",
   "chunk_index": 112,
   "page_number": 69,
   "page_range": [
     69,
     69
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `af1d5459-c1b1-5eda-aacf-145e0fe0ae41`
+## Parent · `6cb59564-5fe4-5470-9f5d-ca1301b301d2`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "af1d5459-c1b1-5eda-aacf-145e0fe0ae41",
+  "chunk_id": "6cb59564-5fe4-5470-9f5d-ca1301b301d2",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -4985,14 +4978,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     70,
     71
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b3c9840e-df35-55d3-abe1-365fc9688707`
 
-- vector: dim=3072 · [-0.0020, -0.0059, -0.0154, 0.0075, -0.0435, -0.0619, -0.0501, 0.0557, …]
+- vector: dim=3072 · [-0.0023, -0.0064, -0.0154, 0.0071, -0.0436, -0.0621, -0.0502, 0.0557, …]
 
 ```json
 {
@@ -5014,21 +5007,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "af1d5459-c1b1-5eda-aacf-145e0fe0ae41",
+  "parent_chunk_id": "6cb59564-5fe4-5470-9f5d-ca1301b301d2",
   "chunk_index": 113,
   "page_number": 70,
   "page_range": [
     70,
     70
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `fd7b9517-7e48-5fec-8e37-6bf0364b1a0c`
 
-- vector: dim=3072 · [-0.0071, -0.0127, -0.0149, 0.0018, -0.0431, -0.0566, -0.0495, 0.0562, …]
+- vector: dim=3072 · [-0.0079, -0.0132, -0.0150, 0.0015, -0.0431, -0.0574, -0.0498, 0.0566, …]
 
 ```json
 {
@@ -5050,21 +5043,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "af1d5459-c1b1-5eda-aacf-145e0fe0ae41",
+  "parent_chunk_id": "6cb59564-5fe4-5470-9f5d-ca1301b301d2",
   "chunk_index": 114,
   "page_number": 70,
   "page_range": [
     70,
     70
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `07d666ec-63ac-5618-9716-ad9b5328bac2`
 
-- vector: dim=3072 · [0.0033, 0.0009, -0.0125, 0.0143, -0.0406, -0.0729, -0.0606, 0.0560, …]
+- vector: dim=3072 · [0.0030, 0.0011, -0.0125, 0.0142, -0.0404, -0.0726, -0.0604, 0.0560, …]
 
 ```json
 {
@@ -5086,21 +5079,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "af1d5459-c1b1-5eda-aacf-145e0fe0ae41",
+  "parent_chunk_id": "6cb59564-5fe4-5470-9f5d-ca1301b301d2",
   "chunk_index": 115,
   "page_number": 71,
   "page_range": [
     71,
     71
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `67186864-dd6a-5d46-a7dd-80b51ddb0c81`
 
-- vector: dim=3072 · [-0.0022, -0.0058, -0.0176, 0.0099, -0.0508, -0.0483, -0.0662, 0.0498, …]
+- vector: dim=3072 · [-0.0023, -0.0060, -0.0176, 0.0099, -0.0507, -0.0483, -0.0663, 0.0498, …]
 
 ```json
 {
@@ -5122,25 +5115,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "af1d5459-c1b1-5eda-aacf-145e0fe0ae41",
+  "parent_chunk_id": "6cb59564-5fe4-5470-9f5d-ca1301b301d2",
   "chunk_index": 116,
   "page_number": 71,
   "page_range": [
     71,
     71
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `b7c05f09-071d-5c77-999a-e7302ceabdd1`
+## Parent · `11eb0ec0-1c1e-584c-9668-7f85e30dfa7d`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "b7c05f09-071d-5c77-999a-e7302ceabdd1",
+  "chunk_id": "11eb0ec0-1c1e-584c-9668-7f85e30dfa7d",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -5162,14 +5155,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     72,
     73
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `57a3c892-2f75-5fbe-b330-b24ffa2f87c3`
 
-- vector: dim=3072 · [0.0083, -0.0126, -0.0119, 0.0111, -0.0313, -0.0551, -0.0409, 0.0464, …]
+- vector: dim=3072 · [0.0080, -0.0130, -0.0119, 0.0107, -0.0316, -0.0552, -0.0409, 0.0465, …]
 
 ```json
 {
@@ -5191,21 +5184,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b7c05f09-071d-5c77-999a-e7302ceabdd1",
+  "parent_chunk_id": "11eb0ec0-1c1e-584c-9668-7f85e30dfa7d",
   "chunk_index": 117,
   "page_number": 72,
   "page_range": [
     72,
     72
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `702cd7fb-55d1-5664-8e45-3347fc020787`
 
-- vector: dim=3072 · [-0.0269, -0.0259, -0.0113, 0.0033, -0.0207, -0.0661, -0.0304, 0.0686, …]
+- vector: dim=3072 · [-0.0268, -0.0257, -0.0114, 0.0032, -0.0210, -0.0669, -0.0305, 0.0690, …]
 
 ```json
 {
@@ -5227,21 +5220,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b7c05f09-071d-5c77-999a-e7302ceabdd1",
+  "parent_chunk_id": "11eb0ec0-1c1e-584c-9668-7f85e30dfa7d",
   "chunk_index": 118,
   "page_number": 72,
   "page_range": [
     72,
     72
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0b0882af-42bc-504c-8d91-441520239507`
 
-- vector: dim=3072 · [0.0024, -0.0095, -0.0179, 0.0010, -0.0266, -0.0515, -0.0280, 0.0545, …]
+- vector: dim=3072 · [0.0026, -0.0095, -0.0182, -0.0001, -0.0268, -0.0521, -0.0281, 0.0545, …]
 
 ```json
 {
@@ -5263,21 +5256,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b7c05f09-071d-5c77-999a-e7302ceabdd1",
+  "parent_chunk_id": "11eb0ec0-1c1e-584c-9668-7f85e30dfa7d",
   "chunk_index": 119,
   "page_number": 72,
   "page_range": [
     72,
     72
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e33a581c-7202-5b61-b7d6-fe2cb55ca320`
 
-- vector: dim=3072 · [-0.0035, 0.0031, -0.0073, -0.0017, -0.0318, -0.0537, -0.0163, 0.0514, …]
+- vector: dim=3072 · [-0.0034, 0.0033, -0.0072, -0.0019, -0.0315, -0.0533, -0.0163, 0.0515, …]
 
 ```json
 {
@@ -5299,21 +5292,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b7c05f09-071d-5c77-999a-e7302ceabdd1",
+  "parent_chunk_id": "11eb0ec0-1c1e-584c-9668-7f85e30dfa7d",
   "chunk_index": 120,
   "page_number": 73,
   "page_range": [
     73,
     73
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `fb038c18-2ddf-5349-b5f7-bb08c82aab0a`
 
-- vector: dim=3072 · [-0.0066, -0.0027, -0.0046, 0.0108, -0.0269, -0.0655, -0.0455, 0.0537, …]
+- vector: dim=3072 · [-0.0073, -0.0033, -0.0045, 0.0104, -0.0266, -0.0655, -0.0455, 0.0534, …]
 
 ```json
 {
@@ -5335,25 +5328,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b7c05f09-071d-5c77-999a-e7302ceabdd1",
+  "parent_chunk_id": "11eb0ec0-1c1e-584c-9668-7f85e30dfa7d",
   "chunk_index": 121,
   "page_number": 73,
   "page_range": [
     73,
     73
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `c44cf2bb-72c2-5a51-8413-dd9029c40ecd`
+## Parent · `3babc3d6-ba17-5652-9a65-9946b4ddcb47`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "c44cf2bb-72c2-5a51-8413-dd9029c40ecd",
+  "chunk_id": "3babc3d6-ba17-5652-9a65-9946b4ddcb47",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -5375,14 +5368,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     73,
     74
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `652e4396-d331-5416-8e32-178f057d0743`
 
-- vector: dim=3072 · [0.0040, -0.0044, -0.0128, 0.0009, -0.0174, -0.0511, -0.0155, 0.0527, …]
+- vector: dim=3072 · [0.0042, -0.0044, -0.0129, 0.0010, -0.0174, -0.0509, -0.0156, 0.0530, …]
 
 ```json
 {
@@ -5404,21 +5397,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c44cf2bb-72c2-5a51-8413-dd9029c40ecd",
+  "parent_chunk_id": "3babc3d6-ba17-5652-9a65-9946b4ddcb47",
   "chunk_index": 122,
   "page_number": 73,
   "page_range": [
     73,
     73
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `34fc1dca-0537-5674-b7a7-2dd59f7863eb`
 
-- vector: dim=3072 · [-0.0107, -0.0084, -0.0154, 0.0092, -0.0247, -0.0351, -0.0360, 0.0380, …]
+- vector: dim=3072 · [-0.0105, -0.0083, -0.0153, 0.0091, -0.0250, -0.0345, -0.0360, 0.0379, …]
 
 ```json
 {
@@ -5440,21 +5433,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c44cf2bb-72c2-5a51-8413-dd9029c40ecd",
+  "parent_chunk_id": "3babc3d6-ba17-5652-9a65-9946b4ddcb47",
   "chunk_index": 123,
   "page_number": 73,
   "page_range": [
     73,
     74
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `822bf44f-8c6c-5ffc-a813-06431791e29e`
 
-- vector: dim=3072 · [-0.0004, -0.0033, -0.0156, 0.0056, -0.0242, -0.0389, -0.0168, 0.0510, …]
+- vector: dim=3072 · [-0.0006, -0.0032, -0.0159, 0.0061, -0.0241, -0.0388, -0.0168, 0.0508, …]
 
 ```json
 {
@@ -5476,25 +5469,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c44cf2bb-72c2-5a51-8413-dd9029c40ecd",
+  "parent_chunk_id": "3babc3d6-ba17-5652-9a65-9946b4ddcb47",
   "chunk_index": 124,
   "page_number": 74,
   "page_range": [
     74,
     74
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `707ae8e2-e204-543d-bddf-93a630dfa7d4`
+## Parent · `43ebb3a4-79e0-5832-ae3c-ce6ab3cec8a8`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "707ae8e2-e204-543d-bddf-93a630dfa7d4",
+  "chunk_id": "43ebb3a4-79e0-5832-ae3c-ce6ab3cec8a8",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -5516,14 +5509,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     75,
     76
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `8ab94d29-ddbe-5526-b7ca-af46159eb6d5`
 
-- vector: dim=3072 · [-0.0123, 0.0090, -0.0121, 0.0096, -0.0208, -0.0478, -0.0439, 0.0580, …]
+- vector: dim=3072 · [-0.0117, 0.0096, -0.0118, 0.0099, -0.0204, -0.0471, -0.0436, 0.0580, …]
 
 ```json
 {
@@ -5545,21 +5538,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "707ae8e2-e204-543d-bddf-93a630dfa7d4",
+  "parent_chunk_id": "43ebb3a4-79e0-5832-ae3c-ce6ab3cec8a8",
   "chunk_index": 125,
   "page_number": 75,
   "page_range": [
     75,
     75
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `312165ed-bae5-5033-ab12-186d73416700`
 
-- vector: dim=3072 · [-0.0217, 0.0045, -0.0157, 0.0091, -0.0240, -0.0483, -0.0216, 0.0547, …]
+- vector: dim=3072 · [-0.0224, 0.0042, -0.0156, 0.0090, -0.0240, -0.0471, -0.0219, 0.0546, …]
 
 ```json
 {
@@ -5581,21 +5574,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "707ae8e2-e204-543d-bddf-93a630dfa7d4",
+  "parent_chunk_id": "43ebb3a4-79e0-5832-ae3c-ce6ab3cec8a8",
   "chunk_index": 126,
   "page_number": 75,
   "page_range": [
     75,
     75
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `6dd0cb00-04b3-5f2d-81fd-c579a754b0e7`
 
-- vector: dim=3072 · [-0.0147, 0.0031, -0.0113, 0.0064, -0.0225, -0.0554, -0.0322, 0.0388, …]
+- vector: dim=3072 · [-0.0147, 0.0037, -0.0114, 0.0065, -0.0227, -0.0551, -0.0320, 0.0387, …]
 
 ```json
 {
@@ -5617,25 +5610,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "707ae8e2-e204-543d-bddf-93a630dfa7d4",
+  "parent_chunk_id": "43ebb3a4-79e0-5832-ae3c-ce6ab3cec8a8",
   "chunk_index": 127,
   "page_number": 76,
   "page_range": [
     76,
     76
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `acac75f6-3f04-57b1-885d-2e561c26c7ce`
+## Parent · `a506e259-f775-51bf-be94-9d3a4498d237`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "acac75f6-3f04-57b1-885d-2e561c26c7ce",
+  "chunk_id": "a506e259-f775-51bf-be94-9d3a4498d237",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -5657,14 +5650,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     76,
     77
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `5d8349fe-b2e4-516c-87e3-d8a21843386c`
 
-- vector: dim=3072 · [-0.0012, -0.0104, -0.0146, 0.0104, -0.0195, -0.0485, -0.0267, 0.0552, …]
+- vector: dim=3072 · [-0.0013, -0.0103, -0.0144, 0.0101, -0.0200, -0.0482, -0.0266, 0.0554, …]
 
 ```json
 {
@@ -5686,21 +5679,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "acac75f6-3f04-57b1-885d-2e561c26c7ce",
+  "parent_chunk_id": "a506e259-f775-51bf-be94-9d3a4498d237",
   "chunk_index": 128,
   "page_number": 76,
   "page_range": [
     76,
     76
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `06089227-146a-5f8e-b3f3-222beb9ffaaf`
 
-- vector: dim=3072 · [-0.0188, 0.0251, -0.0093, -0.0071, -0.0406, -0.0478, -0.0314, 0.0496, …]
+- vector: dim=3072 · [-0.0189, 0.0247, -0.0094, -0.0068, -0.0418, -0.0486, -0.0312, 0.0502, …]
 
 ```json
 {
@@ -5722,21 +5715,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "acac75f6-3f04-57b1-885d-2e561c26c7ce",
+  "parent_chunk_id": "a506e259-f775-51bf-be94-9d3a4498d237",
   "chunk_index": 129,
   "page_number": 77,
   "page_range": [
     77,
     77
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e5b094b0-e18a-5d3c-b2df-551a5cc840b6`
 
-- vector: dim=3072 · [-0.0140, 0.0253, -0.0023, 0.0034, -0.0305, -0.0480, -0.0494, 0.0577, …]
+- vector: dim=3072 · [-0.0139, 0.0251, -0.0024, 0.0032, -0.0305, -0.0482, -0.0493, 0.0575, …]
 
 ```json
 {
@@ -5758,21 +5751,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "acac75f6-3f04-57b1-885d-2e561c26c7ce",
+  "parent_chunk_id": "a506e259-f775-51bf-be94-9d3a4498d237",
   "chunk_index": 130,
   "page_number": 77,
   "page_range": [
     77,
     77
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `810ece4a-1621-5895-9528-a36a517b220a`
 
-- vector: dim=3072 · [-0.0233, 0.0083, -0.0155, -0.0021, -0.0289, -0.0416, -0.0334, 0.0516, …]
+- vector: dim=3072 · [-0.0227, 0.0077, -0.0154, -0.0030, -0.0292, -0.0413, -0.0341, 0.0510, …]
 
 ```json
 {
@@ -5794,25 +5787,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "acac75f6-3f04-57b1-885d-2e561c26c7ce",
+  "parent_chunk_id": "a506e259-f775-51bf-be94-9d3a4498d237",
   "chunk_index": 131,
   "page_number": 77,
   "page_range": [
     77,
     77
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `a863a9df-1387-568e-a3a6-d24b7b3bc356`
+## Parent · `f576dc30-c649-5557-aa17-93436741a0e5`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "a863a9df-1387-568e-a3a6-d24b7b3bc356",
+  "chunk_id": "f576dc30-c649-5557-aa17-93436741a0e5",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -5834,14 +5827,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     78,
     79
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `739730d6-9738-540e-8873-b2947f524651`
 
-- vector: dim=3072 · [-0.0211, 0.0053, -0.0077, 0.0054, -0.0228, -0.0451, -0.0440, 0.0547, …]
+- vector: dim=3072 · [-0.0206, 0.0052, -0.0077, 0.0054, -0.0226, -0.0450, -0.0438, 0.0548, …]
 
 ```json
 {
@@ -5863,21 +5856,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a863a9df-1387-568e-a3a6-d24b7b3bc356",
+  "parent_chunk_id": "f576dc30-c649-5557-aa17-93436741a0e5",
   "chunk_index": 132,
   "page_number": 78,
   "page_range": [
     78,
     78
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b1eb500e-3c2d-592d-a767-5b5e10a9856d`
 
-- vector: dim=3072 · [-0.0192, 0.0062, -0.0197, 0.0039, -0.0307, -0.0453, -0.0484, 0.0383, …]
+- vector: dim=3072 · [-0.0197, 0.0067, -0.0195, 0.0037, -0.0311, -0.0448, -0.0478, 0.0385, …]
 
 ```json
 {
@@ -5899,21 +5892,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a863a9df-1387-568e-a3a6-d24b7b3bc356",
+  "parent_chunk_id": "f576dc30-c649-5557-aa17-93436741a0e5",
   "chunk_index": 133,
   "page_number": 78,
   "page_range": [
     78,
     78
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `94e5c8a8-4f1d-5e2f-a2a4-d8c920644176`
 
-- vector: dim=3072 · [-0.0198, 0.0205, -0.0110, -0.0107, -0.0277, -0.0458, -0.0384, 0.0418, …]
+- vector: dim=3072 · [-0.0199, 0.0202, -0.0109, -0.0106, -0.0279, -0.0458, -0.0380, 0.0418, …]
 
 ```json
 {
@@ -5935,21 +5928,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a863a9df-1387-568e-a3a6-d24b7b3bc356",
+  "parent_chunk_id": "f576dc30-c649-5557-aa17-93436741a0e5",
   "chunk_index": 134,
   "page_number": 78,
   "page_range": [
     78,
     79
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `1d014815-cc5e-5322-99c7-7aded3c2411b`
 
-- vector: dim=3072 · [-0.0126, 0.0199, -0.0041, 0.0027, -0.0428, -0.0538, -0.0564, 0.0637, …]
+- vector: dim=3072 · [-0.0127, 0.0201, -0.0044, 0.0033, -0.0424, -0.0536, -0.0565, 0.0632, …]
 
 ```json
 {
@@ -5971,25 +5964,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a863a9df-1387-568e-a3a6-d24b7b3bc356",
+  "parent_chunk_id": "f576dc30-c649-5557-aa17-93436741a0e5",
   "chunk_index": 135,
   "page_number": 79,
   "page_range": [
     79,
     79
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `b35b8a15-cf9e-55a7-b5e5-8aaafebdcf80`
+## Parent · `55b50fd3-3468-5171-a8e5-d7e1939716b7`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "b35b8a15-cf9e-55a7-b5e5-8aaafebdcf80",
+  "chunk_id": "55b50fd3-3468-5171-a8e5-d7e1939716b7",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -6011,14 +6004,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     79,
     80
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b8db5f1e-fbb0-5bfd-8dc4-b8dc055da017`
 
-- vector: dim=3072 · [-0.0166, 0.0050, -0.0149, -0.0012, -0.0323, -0.0522, -0.0301, 0.0601, …]
+- vector: dim=3072 · [-0.0162, 0.0047, -0.0147, -0.0012, -0.0321, -0.0526, -0.0304, 0.0602, …]
 
 ```json
 {
@@ -6040,21 +6033,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b35b8a15-cf9e-55a7-b5e5-8aaafebdcf80",
+  "parent_chunk_id": "55b50fd3-3468-5171-a8e5-d7e1939716b7",
   "chunk_index": 136,
   "page_number": 79,
   "page_range": [
     79,
     79
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `77b08676-fb26-5cb0-a436-948642f84ed8`
 
-- vector: dim=3072 · [-0.0145, 0.0152, -0.0112, -0.0004, -0.0366, -0.0367, -0.0453, 0.0486, …]
+- vector: dim=3072 · [-0.0145, 0.0152, -0.0112, -0.0003, -0.0367, -0.0369, -0.0452, 0.0486, …]
 
 ```json
 {
@@ -6076,21 +6069,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b35b8a15-cf9e-55a7-b5e5-8aaafebdcf80",
+  "parent_chunk_id": "55b50fd3-3468-5171-a8e5-d7e1939716b7",
   "chunk_index": 137,
   "page_number": 79,
   "page_range": [
     79,
     80
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `24efa0c7-73de-5adb-aa1c-300c856a5bad`
 
-- vector: dim=3072 · [-0.0257, -0.0039, -0.0087, 0.0027, -0.0078, -0.0642, -0.0084, 0.0703, …]
+- vector: dim=3072 · [-0.0252, -0.0043, -0.0088, 0.0029, -0.0080, -0.0640, -0.0082, 0.0705, …]
 
 ```json
 {
@@ -6112,21 +6105,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b35b8a15-cf9e-55a7-b5e5-8aaafebdcf80",
+  "parent_chunk_id": "55b50fd3-3468-5171-a8e5-d7e1939716b7",
   "chunk_index": 138,
   "page_number": 80,
   "page_range": [
     80,
     80
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `842da6e4-9f47-5a82-8750-dfb198c7960b`
 
-- vector: dim=3072 · [-0.0226, 0.0103, -0.0090, -0.0088, -0.0354, -0.0461, -0.0311, 0.0594, …]
+- vector: dim=3072 · [-0.0228, 0.0105, -0.0087, -0.0084, -0.0351, -0.0467, -0.0311, 0.0593, …]
 
 ```json
 {
@@ -6148,25 +6141,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b35b8a15-cf9e-55a7-b5e5-8aaafebdcf80",
+  "parent_chunk_id": "55b50fd3-3468-5171-a8e5-d7e1939716b7",
   "chunk_index": 139,
   "page_number": 80,
   "page_range": [
     80,
     80
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `648c75e5-6025-5390-8396-a8fa65738e26`
+## Parent · `0cf74324-12db-5a3d-ad7f-696e6befc87b`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "648c75e5-6025-5390-8396-a8fa65738e26",
+  "chunk_id": "0cf74324-12db-5a3d-ad7f-696e6befc87b",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -6188,14 +6181,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     81,
     82
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `c48b0aee-1781-510a-8695-95b38bedb95f`
 
-- vector: dim=3072 · [-0.0198, 0.0125, -0.0137, -0.0026, -0.0337, -0.0477, -0.0318, 0.0614, …]
+- vector: dim=3072 · [-0.0193, 0.0123, -0.0138, -0.0031, -0.0340, -0.0475, -0.0314, 0.0613, …]
 
 ```json
 {
@@ -6217,21 +6210,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "648c75e5-6025-5390-8396-a8fa65738e26",
+  "parent_chunk_id": "0cf74324-12db-5a3d-ad7f-696e6befc87b",
   "chunk_index": 140,
   "page_number": 81,
   "page_range": [
     81,
     81
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0e67e50a-41ad-570b-8b00-0a841eb5ba01`
 
-- vector: dim=3072 · [-0.0075, 0.0247, -0.0046, 0.0042, -0.0408, -0.0474, -0.0538, 0.0652, …]
+- vector: dim=3072 · [-0.0080, 0.0249, -0.0045, 0.0045, -0.0408, -0.0475, -0.0537, 0.0652, …]
 
 ```json
 {
@@ -6253,21 +6246,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "648c75e5-6025-5390-8396-a8fa65738e26",
+  "parent_chunk_id": "0cf74324-12db-5a3d-ad7f-696e6befc87b",
   "chunk_index": 141,
   "page_number": 81,
   "page_range": [
     81,
     81
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `f41cc72c-c1bf-5c8e-94e3-f01df27bb04d`
 
-- vector: dim=3072 · [-0.0201, 0.0137, -0.0186, -0.0078, -0.0417, -0.0352, -0.0328, 0.0505, …]
+- vector: dim=3072 · [-0.0200, 0.0137, -0.0187, -0.0080, -0.0416, -0.0353, -0.0327, 0.0506, …]
 
 ```json
 {
@@ -6289,21 +6282,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "648c75e5-6025-5390-8396-a8fa65738e26",
+  "parent_chunk_id": "0cf74324-12db-5a3d-ad7f-696e6befc87b",
   "chunk_index": 142,
   "page_number": 81,
   "page_range": [
     81,
     81
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `d856b610-e64f-5867-ac55-b0d82a8d3bda`
 
-- vector: dim=3072 · [-0.0098, 0.0170, -0.0126, 0.0061, -0.0432, -0.0245, -0.0488, 0.0439, …]
+- vector: dim=3072 · [-0.0094, 0.0176, -0.0127, 0.0066, -0.0429, -0.0233, -0.0490, 0.0425, …]
 
 ```json
 {
@@ -6325,15 +6318,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "648c75e5-6025-5390-8396-a8fa65738e26",
+  "parent_chunk_id": "0cf74324-12db-5a3d-ad7f-696e6befc87b",
   "chunk_index": 143,
   "page_number": 81,
   "page_range": [
     81,
     82
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -6361,25 +6354,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "648c75e5-6025-5390-8396-a8fa65738e26",
+  "parent_chunk_id": "0cf74324-12db-5a3d-ad7f-696e6befc87b",
   "chunk_index": 144,
   "page_number": 82,
   "page_range": [
     82,
     82
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `dd615b98-73d7-5e3a-9bc3-2da85d53dde3`
+## Parent · `696ab526-464b-501f-a612-6b73f6ea75a8`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "dd615b98-73d7-5e3a-9bc3-2da85d53dde3",
+  "chunk_id": "696ab526-464b-501f-a612-6b73f6ea75a8",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -6401,8 +6394,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     82,
     83
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -6430,15 +6423,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "dd615b98-73d7-5e3a-9bc3-2da85d53dde3",
+  "parent_chunk_id": "696ab526-464b-501f-a612-6b73f6ea75a8",
   "chunk_index": 145,
   "page_number": 82,
   "page_range": [
     82,
     82
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -6466,15 +6459,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "dd615b98-73d7-5e3a-9bc3-2da85d53dde3",
+  "parent_chunk_id": "696ab526-464b-501f-a612-6b73f6ea75a8",
   "chunk_index": 146,
   "page_number": 82,
   "page_range": [
     82,
     82
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -6502,15 +6495,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "dd615b98-73d7-5e3a-9bc3-2da85d53dde3",
+  "parent_chunk_id": "696ab526-464b-501f-a612-6b73f6ea75a8",
   "chunk_index": 147,
   "page_number": 83,
   "page_range": [
     83,
     83
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -6538,15 +6531,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "dd615b98-73d7-5e3a-9bc3-2da85d53dde3",
+  "parent_chunk_id": "696ab526-464b-501f-a612-6b73f6ea75a8",
   "chunk_index": 148,
   "page_number": 83,
   "page_range": [
     83,
     83
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -6574,25 +6567,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "dd615b98-73d7-5e3a-9bc3-2da85d53dde3",
+  "parent_chunk_id": "696ab526-464b-501f-a612-6b73f6ea75a8",
   "chunk_index": 149,
   "page_number": 83,
   "page_range": [
     83,
     83
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `ac603121-2035-50e5-89bf-e28a63e1ce39`
+## Parent · `14d5cc17-00cf-55d5-a25c-6c4bbcf46322`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "ac603121-2035-50e5-89bf-e28a63e1ce39",
+  "chunk_id": "14d5cc17-00cf-55d5-a25c-6c4bbcf46322",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -6614,14 +6607,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     84,
     85
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `6b13a8ca-dd42-5dab-ae1c-76b23afcdb00`
 
-- vector: dim=3072 · [-0.0114, 0.0169, -0.0142, 0.0094, -0.0350, -0.0376, -0.0520, 0.0491, …]
+- vector: dim=3072 · [-0.0109, 0.0163, -0.0141, 0.0091, -0.0347, -0.0372, -0.0520, 0.0488, …]
 
 ```json
 {
@@ -6643,21 +6636,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "ac603121-2035-50e5-89bf-e28a63e1ce39",
+  "parent_chunk_id": "14d5cc17-00cf-55d5-a25c-6c4bbcf46322",
   "chunk_index": 150,
   "page_number": 84,
   "page_range": [
     84,
     84
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `519e13e0-67b6-5c94-aab6-1b53755a204c`
 
-- vector: dim=3072 · [-0.0176, -0.0062, -0.0056, -0.0058, -0.0159, -0.0816, -0.0239, 0.0603, …]
+- vector: dim=3072 · [-0.0173, -0.0064, -0.0056, -0.0058, -0.0155, -0.0822, -0.0236, 0.0604, …]
 
 ```json
 {
@@ -6679,15 +6672,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "ac603121-2035-50e5-89bf-e28a63e1ce39",
+  "parent_chunk_id": "14d5cc17-00cf-55d5-a25c-6c4bbcf46322",
   "chunk_index": 151,
   "page_number": 84,
   "page_range": [
     84,
     84
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -6715,15 +6708,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "ac603121-2035-50e5-89bf-e28a63e1ce39",
+  "parent_chunk_id": "14d5cc17-00cf-55d5-a25c-6c4bbcf46322",
   "chunk_index": 152,
   "page_number": 84,
   "page_range": [
     84,
     84
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -6751,21 +6744,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "ac603121-2035-50e5-89bf-e28a63e1ce39",
+  "parent_chunk_id": "14d5cc17-00cf-55d5-a25c-6c4bbcf46322",
   "chunk_index": 153,
   "page_number": 84,
   "page_range": [
     84,
     85
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `00a7cc86-a3fd-530d-81f0-1d36fefcc605`
 
-- vector: dim=3072 · [-0.0122, 0.0132, -0.0068, 0.0037, -0.0456, -0.0402, -0.0834, 0.0631, …]
+- vector: dim=3072 · [-0.0121, 0.0130, -0.0067, 0.0037, -0.0457, -0.0397, -0.0839, 0.0629, …]
 
 ```json
 {
@@ -6787,25 +6780,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "ac603121-2035-50e5-89bf-e28a63e1ce39",
+  "parent_chunk_id": "14d5cc17-00cf-55d5-a25c-6c4bbcf46322",
   "chunk_index": 154,
   "page_number": 85,
   "page_range": [
     85,
     85
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `f4da8e9c-8051-5acf-9eeb-0c101263bb74`
+## Parent · `7d4533fc-98ed-586e-8630-419bf10670bf`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "f4da8e9c-8051-5acf-9eeb-0c101263bb74",
+  "chunk_id": "7d4533fc-98ed-586e-8630-419bf10670bf",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -6827,8 +6820,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     85,
     86
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -6856,15 +6849,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f4da8e9c-8051-5acf-9eeb-0c101263bb74",
+  "parent_chunk_id": "7d4533fc-98ed-586e-8630-419bf10670bf",
   "chunk_index": 155,
   "page_number": 85,
   "page_range": [
     85,
     85
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -6892,21 +6885,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f4da8e9c-8051-5acf-9eeb-0c101263bb74",
+  "parent_chunk_id": "7d4533fc-98ed-586e-8630-419bf10670bf",
   "chunk_index": 156,
   "page_number": 85,
   "page_range": [
     85,
     86
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `bb95e7be-4d3d-5700-8fb8-8891d7c82d1c`
 
-- vector: dim=3072 · [-0.0251, -0.0077, -0.0065, 0.0179, -0.0084, -0.0679, -0.0103, 0.0679, …]
+- vector: dim=3072 · [-0.0252, -0.0077, -0.0065, 0.0181, -0.0085, -0.0677, -0.0098, 0.0681, …]
 
 ```json
 {
@@ -6928,15 +6921,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f4da8e9c-8051-5acf-9eeb-0c101263bb74",
+  "parent_chunk_id": "7d4533fc-98ed-586e-8630-419bf10670bf",
   "chunk_index": 157,
   "page_number": 86,
   "page_range": [
     86,
     86
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -6964,25 +6957,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f4da8e9c-8051-5acf-9eeb-0c101263bb74",
+  "parent_chunk_id": "7d4533fc-98ed-586e-8630-419bf10670bf",
   "chunk_index": 158,
   "page_number": 86,
   "page_range": [
     86,
     86
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `a1c37a4f-aea0-518c-ba2c-1f051e23f57e`
+## Parent · `aa6f5b86-2537-5a63-ac36-bd857ae07701`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "a1c37a4f-aea0-518c-ba2c-1f051e23f57e",
+  "chunk_id": "aa6f5b86-2537-5a63-ac36-bd857ae07701",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -7004,8 +6997,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     87,
     87
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -7033,21 +7026,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a1c37a4f-aea0-518c-ba2c-1f051e23f57e",
+  "parent_chunk_id": "aa6f5b86-2537-5a63-ac36-bd857ae07701",
   "chunk_index": 159,
   "page_number": 87,
   "page_range": [
     87,
     87
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `3734eaa8-ee29-5516-b55c-31fd0f5fd533`
 
-- vector: dim=3072 · [-0.0258, 0.0160, -0.0060, 0.0158, -0.0435, -0.0557, -0.0367, 0.0637, …]
+- vector: dim=3072 · [-0.0256, 0.0157, -0.0058, 0.0158, -0.0430, -0.0559, -0.0366, 0.0635, …]
 
 ```json
 {
@@ -7069,21 +7062,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a1c37a4f-aea0-518c-ba2c-1f051e23f57e",
+  "parent_chunk_id": "aa6f5b86-2537-5a63-ac36-bd857ae07701",
   "chunk_index": 160,
   "page_number": 87,
   "page_range": [
     87,
     87
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `ca03dd69-50e8-54e3-8c43-3ad4af845ea2`
 
-- vector: dim=3072 · [-0.0287, 0.0112, -0.0154, 0.0029, -0.0351, -0.0517, -0.0134, 0.0519, …]
+- vector: dim=3072 · [-0.0292, 0.0108, -0.0157, 0.0022, -0.0352, -0.0521, -0.0130, 0.0519, …]
 
 ```json
 {
@@ -7105,25 +7098,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a1c37a4f-aea0-518c-ba2c-1f051e23f57e",
+  "parent_chunk_id": "aa6f5b86-2537-5a63-ac36-bd857ae07701",
   "chunk_index": 161,
   "page_number": 87,
   "page_range": [
     87,
     87
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `2eab049d-0ea2-598c-899d-eb08658142ca`
+## Parent · `e9566443-01a6-5211-a523-9be57b17c2f9`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "2eab049d-0ea2-598c-899d-eb08658142ca",
+  "chunk_id": "e9566443-01a6-5211-a523-9be57b17c2f9",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -7145,14 +7138,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     88,
     89
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `2c2623f8-335a-5fa9-a38b-803ac056f6af`
 
-- vector: dim=3072 · [-0.0190, 0.0098, -0.0142, -0.0137, -0.0308, -0.0306, -0.0281, 0.0248, …]
+- vector: dim=3072 · [-0.0191, 0.0096, -0.0143, -0.0136, -0.0309, -0.0305, -0.0282, 0.0248, …]
 
 ```json
 {
@@ -7174,21 +7167,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2eab049d-0ea2-598c-899d-eb08658142ca",
+  "parent_chunk_id": "e9566443-01a6-5211-a523-9be57b17c2f9",
   "chunk_index": 162,
   "page_number": 88,
   "page_range": [
     88,
     88
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `af25f02f-8634-50bd-abd1-8cedacaa3774`
 
-- vector: dim=3072 · [-0.0083, 0.0184, -0.0121, -0.0183, -0.0295, -0.0362, -0.0193, 0.0356, …]
+- vector: dim=3072 · [-0.0083, 0.0183, -0.0120, -0.0182, -0.0296, -0.0362, -0.0192, 0.0356, …]
 
 ```json
 {
@@ -7210,21 +7203,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2eab049d-0ea2-598c-899d-eb08658142ca",
+  "parent_chunk_id": "e9566443-01a6-5211-a523-9be57b17c2f9",
   "chunk_index": 163,
   "page_number": 88,
   "page_range": [
     88,
     88
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `8f0b6fc6-448f-5bf5-89db-1362dbb5370b`
 
-- vector: dim=3072 · [-0.0223, 0.0131, -0.0094, -0.0175, -0.0397, -0.0094, -0.0229, 0.0200, …]
+- vector: dim=3072 · [-0.0222, 0.0132, -0.0094, -0.0173, -0.0396, -0.0094, -0.0229, 0.0200, …]
 
 ```json
 {
@@ -7246,21 +7239,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2eab049d-0ea2-598c-899d-eb08658142ca",
+  "parent_chunk_id": "e9566443-01a6-5211-a523-9be57b17c2f9",
   "chunk_index": 164,
   "page_number": 89,
   "page_range": [
     89,
     89
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `53070629-4e9f-5019-98af-5ac9ff2375d0`
 
-- vector: dim=3072 · [-0.0063, 0.0173, -0.0117, -0.0080, -0.0229, 0.0173, -0.0579, 0.0141, …]
+- vector: dim=3072 · [-0.0064, 0.0172, -0.0117, -0.0077, -0.0228, 0.0174, -0.0580, 0.0140, …]
 
 ```json
 {
@@ -7282,25 +7275,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2eab049d-0ea2-598c-899d-eb08658142ca",
+  "parent_chunk_id": "e9566443-01a6-5211-a523-9be57b17c2f9",
   "chunk_index": 165,
   "page_number": 89,
   "page_range": [
     89,
     89
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `107dd93a-f90d-588c-bf53-a1de3aa803aa`
+## Parent · `0588d42a-a602-54c8-8167-2a4b62bae323`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "107dd93a-f90d-588c-bf53-a1de3aa803aa",
+  "chunk_id": "0588d42a-a602-54c8-8167-2a4b62bae323",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -7322,14 +7315,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     90,
     91
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `3e386e87-a85e-5117-9a17-85a4c2f4f625`
 
-- vector: dim=3072 · [-0.0273, 0.0043, -0.0032, -0.0026, -0.0274, 0.0004, -0.0662, 0.0133, …]
+- vector: dim=3072 · [-0.0273, 0.0042, -0.0032, -0.0027, -0.0273, 0.0004, -0.0662, 0.0132, …]
 
 ```json
 {
@@ -7351,21 +7344,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "107dd93a-f90d-588c-bf53-a1de3aa803aa",
+  "parent_chunk_id": "0588d42a-a602-54c8-8167-2a4b62bae323",
   "chunk_index": 166,
   "page_number": 90,
   "page_range": [
     90,
     90
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `64a2d98b-1e6c-5385-99ea-432ff08d9f8a`
 
-- vector: dim=3072 · [-0.0123, 0.0009, -0.0116, 0.0009, -0.0518, 0.0103, -0.0488, 0.0040, …]
+- vector: dim=3072 · [-0.0123, 0.0008, -0.0117, 0.0009, -0.0518, 0.0103, -0.0488, 0.0039, …]
 
 ```json
 {
@@ -7387,21 +7380,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "107dd93a-f90d-588c-bf53-a1de3aa803aa",
+  "parent_chunk_id": "0588d42a-a602-54c8-8167-2a4b62bae323",
   "chunk_index": 167,
   "page_number": 90,
   "page_range": [
     90,
     90
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `aa51aaeb-1544-5493-9346-d92e5159a812`
 
-- vector: dim=3072 · [-0.0293, 0.0092, -0.0077, -0.0076, -0.0456, -0.0085, -0.0206, 0.0136, …]
+- vector: dim=3072 · [-0.0293, 0.0091, -0.0077, -0.0076, -0.0457, -0.0083, -0.0210, 0.0135, …]
 
 ```json
 {
@@ -7423,21 +7416,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "107dd93a-f90d-588c-bf53-a1de3aa803aa",
+  "parent_chunk_id": "0588d42a-a602-54c8-8167-2a4b62bae323",
   "chunk_index": 168,
   "page_number": 91,
   "page_range": [
     91,
     91
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `5919c348-0dba-5145-aa08-154dd3e02c69`
 
-- vector: dim=3072 · [-0.0234, 0.0130, -0.0133, -0.0198, -0.0359, -0.0289, -0.0145, 0.0099, …]
+- vector: dim=3072 · [-0.0234, 0.0131, -0.0133, -0.0199, -0.0359, -0.0289, -0.0142, 0.0100, …]
 
 ```json
 {
@@ -7459,21 +7452,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "107dd93a-f90d-588c-bf53-a1de3aa803aa",
+  "parent_chunk_id": "0588d42a-a602-54c8-8167-2a4b62bae323",
   "chunk_index": 169,
   "page_number": 91,
   "page_range": [
     91,
     91
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `20210919-9741-5854-9aac-e6d2a39274b0`
 
-- vector: dim=3072 · [-0.0269, 0.0210, -0.0166, -0.0128, -0.0116, -0.0125, -0.0375, -0.0017, …]
+- vector: dim=3072 · [-0.0268, 0.0209, -0.0166, -0.0129, -0.0118, -0.0126, -0.0377, -0.0018, …]
 
 ```json
 {
@@ -7501,14 +7494,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     92,
     92
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `6cd823d2-d6c6-5a62-9ead-a29bc1c7a3ae`
 
-- vector: dim=3072 · [-0.0342, -0.0116, -0.0129, 0.0219, -0.0086, -0.0468, -0.0236, 0.0417, …]
+- vector: dim=3072 · [-0.0265, -0.0107, -0.0097, 0.0102, -0.0021, -0.0506, -0.0213, 0.0423, …]
 
 ```json
 {
@@ -7518,9 +7511,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "7.\t https://www.netpas.net/bunker/bunkerprice.php?pname=Skaw — 8.\t https://shipandbunker.com/prices#MGO — 9.\t https://www.imarcgroup.com/liquefied-natural-gas-pricing-report — 10.\t https://www.methanex.com/wp-content/uploads/Mx-Price-Sheet-Janaury-28-2025.pdf — 11.\t https://energyforum.in/fileadmin/india/media_elements/publications/20230515_GNH3_ — Deloitte_Study/20230707_gs_GNH3_finalprint.pdf — 12.\t https://ptx-hub.org/wp-content/uploads/2025/02/h2uppp-ppp-result-india-rwe-en.pdf — 13.\t https://www.methanol.org/wp-content/uploads/2024/09/ECONOMIC-VALUE-OF-METHANOL- — FOR-SHIPPING-PAPER_final.pdf — 14.\t https://www.argusmedia.com/en/news-and-insights/latest-market-news/2569021-biomethanol-",
-  "chunk_text": "market-slows-but-shipowners-eye-offtakes\n\n15.\t https://petrobazaar.com/biodiesel-boiler-diesel-best-online-price-in-india/ — 16.\t https://gh2.org/publication/search-real-price-blue-hydrogen#:~:text=Summary,Download%20\n\nthe%20full%20report%20here.\n\n17.\t https://jmkresearch.com/iocl-concludes-indias-first-green-h2-end-user-offtake-auction-at-us4-6-\n\nper-kg/\n\n18.\t https://www.pib.gov.in/PressReleasePage.aspx?PRID=2097307\n\n19.\t GCMD, April 14, 2025. Calculator - GCMD. https://gcformd.org/calculator/\n\nfigure>\n\nIntroduc\n\ntion and Objectives of Study\n\n4",
-  "content_hash": "2f4606479ca8ac5d9972590ec83a1a11dce19901eece0e8e39336697ae8f89bf",
-  "token_count": 175,
+  "chunk_text": "market-slows-but-shipowners-eye-offtakes\n\n15.\t https://petrobazaar.com/biodiesel-boiler-diesel-best-online-price-in-india/ — 16.\t https://gh2.org/publication/search-real-price-blue-hydrogen#:~:text=Summary,Download%20\n\nthe%20full%20report%20here.\n\n17.\t https://jmkresearch.com/iocl-concludes-indias-first-green-h2-end-user-offtake-auction-at-us4-6-\n\nper-kg/\n\n18.\t https://www.pib.gov.in/PressReleasePage.aspx?PRID=2097307\n\n19.\t GCMD, April 14, 2025. Calculator - GCMD. https://gcformd.org/calculator/\n\nin\n\n1\nExecutive Summary\n4\n5\nIntroduction and Objectives of Stud",
+  "content_hash": "e544dfd9ef2350a5f00fb507166808cc253e316e9e4585bc43affa31039b5e28",
+  "token_count": 178,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -7536,26 +7529,26 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     92,
     95
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `93eb1b93-26a7-5013-b1c3-4fb4cd74032d`
+## Parent · `2d37f25c-d303-5889-b967-63cedb60c66a`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "93eb1b93-26a7-5013-b1c3-4fb4cd74032d",
+  "chunk_id": "2d37f25c-d303-5889-b967-63cedb60c66a",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 1 — Statistics — Introduction",
-  "chunk_text": "Chapter 1 — Statistics — Introduction\n\nThis section presents the Indian and Global vessel statistics covering all types of vessels along \nwith transition trend of alternative fuels vessels including green/sustainable fuels (Bio & E- \nfuels) in shipping across ship types and gross tonnage (GT). \nIt is worth mentioning that all ships < 5000 GT are considered under coastal ship category while \nthose >5000GT are marked as Ocean-Going Vessels (OGVs) or Vessels in International water. This \nis interesting to observe that non-withstanding the earlier trends of alternate green fuel adoption \nexclusive\n\n… [+2424 more chars]",
-  "content_hash": "545fd874b10c6088fea1d3943109a66261961f0a341c3529f48af0324ed3358f",
-  "token_count": 666,
+  "section_heading": "Introduction",
+  "chunk_text": "Introduction\n\nThis section presents the Indian and Global vessel statistics covering all types of vessels along \nwith transition trend of alternative fuels vessels including green/sustainable fuels (Bio & E- \nfuels) in shipping across ship types and gross tonnage (GT). \nIt is worth mentioning that all ships < 5000 GT are considered under coastal ship category while \nthose >5000GT are marked as Ocean-Going Vessels (OGVs) or Vessels in International water. This \nis interesting to observe that non-withstanding the earlier trends of alternate green fuel adoption \nexclusively in large category vess\n\n… [+2399 more chars]",
+  "content_hash": "a34359208f89407956ad64ae5f21a2237f33ebd6f81e4db5a03c9d919becca09",
+  "token_count": 660,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -7569,14 +7562,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     96,
     96
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `faadb8f4-8d91-5e82-8ae4-8b6551ad7536`
 
-- vector: dim=3072 · [-0.0249, 0.0198, -0.0165, -0.0114, -0.0074, -0.0315, -0.0115, 0.0193, …]
+- vector: dim=3072 · [-0.0250, 0.0197, -0.0165, -0.0116, -0.0075, -0.0313, -0.0117, 0.0193, …]
 
 ```json
 {
@@ -7585,7 +7578,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 1 — Statistics — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "This section presents the Indian and Global vessel statistics covering all types of vessels along \nwith transition trend of alternative fuels vessels including green/sustainable fuels (Bio & E- \nfuels) in shipping across ship types and gross tonnage (GT). \nIt is worth mentioning that all ships < 5000 GT are considered under coastal ship category while \nthose >5000GT are marked as Ocean-Going Vessels (OGVs) or Vessels in International water. This \nis interesting to observe that non-withstanding the earlier trends of alternate green fuel adoption \nexclusively in large category vessels i.e. OGVs,\n\n… [+1470 more chars]",
   "content_hash": "2d49db7f1711acdd9db658464eec0bdfa01dbf2df6c824c534e085362bc9015f",
   "token_count": 442,
@@ -7598,21 +7591,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "93eb1b93-26a7-5013-b1c3-4fb4cd74032d",
+  "parent_chunk_id": "2d37f25c-d303-5889-b967-63cedb60c66a",
   "chunk_index": 172,
   "page_number": 96,
   "page_range": [
     96,
     96
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `135a45f4-c4c8-591c-9545-baef73c170ac`
 
-- vector: dim=3072 · [-0.0258, 0.0529, -0.0160, -0.0344, 0.0076, -0.0214, -0.0166, 0.0261, …]
+- vector: dim=3072 · [-0.0260, 0.0529, -0.0160, -0.0346, 0.0077, -0.0217, -0.0166, 0.0261, …]
 
 ```json
 {
@@ -7621,7 +7614,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 1 — Statistics — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "After \nfiltering out abandoned, commissioned, damaged/not in-service, detained, idle, laid-up, under repair, \nin-storage, and hijacked vessels; around 100,708 in-service vessel data are used for final analysis. Among these vessels data, 66,244 belong to coastal vessels and 34,464 to OGVs.\nRegarding Indian fleets, Clarkson’s Research database indicates a cumulative 2,171 number for \ncoastal vessels and OGVs. After focusing only on in-service vessels, 2,008 vessel data are selected for \nanalysis which comprises of 1,558 coastal vessels and 450 OGVs. \nIn terms of alternative fuels and battery/hyb\n\n… [+524 more chars]",
   "content_hash": "61b73e563014592e153752de264e954bba0da4c00a3cf4ac682bd50925df1025",
   "token_count": 263,
@@ -7634,25 +7627,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "93eb1b93-26a7-5013-b1c3-4fb4cd74032d",
+  "parent_chunk_id": "2d37f25c-d303-5889-b967-63cedb60c66a",
   "chunk_index": 173,
   "page_number": 96,
   "page_range": [
     96,
     96
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `c01979bd-ae37-574d-bbfb-460a3621e9e6`
+## Parent · `815ab0a1-4724-5f41-a793-612c95f31b00`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "c01979bd-ae37-574d-bbfb-460a3621e9e6",
+  "chunk_id": "815ab0a1-4724-5f41-a793-612c95f31b00",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -7674,14 +7667,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     97,
     98
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `f6fd6a76-956e-576d-a908-c77a2dc15556`
 
-- vector: dim=3072 · [-0.0352, 0.0229, -0.0050, -0.0143, -0.0004, -0.0450, -0.0361, 0.0166, …]
+- vector: dim=3072 · [-0.0351, 0.0230, -0.0051, -0.0144, -0.0007, -0.0447, -0.0364, 0.0165, …]
 
 ```json
 {
@@ -7703,21 +7696,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c01979bd-ae37-574d-bbfb-460a3621e9e6",
+  "parent_chunk_id": "815ab0a1-4724-5f41-a793-612c95f31b00",
   "chunk_index": 174,
   "page_number": 97,
   "page_range": [
     97,
     97
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `d82a2f6d-55d9-5bb1-af21-83362a23f74e`
 
-- vector: dim=3072 · [-0.0055, 0.0202, -0.0106, -0.0249, 0.0113, -0.0489, -0.0243, 0.0225, …]
+- vector: dim=3072 · [-0.0052, 0.0202, -0.0106, -0.0247, 0.0113, -0.0490, -0.0242, 0.0225, …]
 
 ```json
 {
@@ -7739,25 +7732,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c01979bd-ae37-574d-bbfb-460a3621e9e6",
+  "parent_chunk_id": "815ab0a1-4724-5f41-a793-612c95f31b00",
   "chunk_index": 175,
   "page_number": 97,
   "page_range": [
     97,
     98
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `69e9aa98-189e-5f2e-bb64-8a58c6a6fe17`
+## Parent · `2eab049d-0ea2-598c-899d-eb08658142ca`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "69e9aa98-189e-5f2e-bb64-8a58c6a6fe17",
+  "chunk_id": "2eab049d-0ea2-598c-899d-eb08658142ca",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -7779,8 +7772,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     98,
     100
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -7808,15 +7801,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "69e9aa98-189e-5f2e-bb64-8a58c6a6fe17",
+  "parent_chunk_id": "2eab049d-0ea2-598c-899d-eb08658142ca",
   "chunk_index": 176,
   "page_number": 98,
   "page_range": [
     98,
     98
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -7844,15 +7837,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "69e9aa98-189e-5f2e-bb64-8a58c6a6fe17",
+  "parent_chunk_id": "2eab049d-0ea2-598c-899d-eb08658142ca",
   "chunk_index": 177,
   "page_number": 99,
   "page_range": [
     99,
     99
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -7880,25 +7873,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "69e9aa98-189e-5f2e-bb64-8a58c6a6fe17",
+  "parent_chunk_id": "2eab049d-0ea2-598c-899d-eb08658142ca",
   "chunk_index": 178,
   "page_number": 100,
   "page_range": [
     100,
     100
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `dddaa139-f26e-552f-84b0-ff6a37703edc`
+## Parent · `e45787de-7322-56fe-a10a-77da299fb37a`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "dddaa139-f26e-552f-84b0-ff6a37703edc",
+  "chunk_id": "e45787de-7322-56fe-a10a-77da299fb37a",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -7920,8 +7913,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     101,
     103
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -7949,21 +7942,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "dddaa139-f26e-552f-84b0-ff6a37703edc",
+  "parent_chunk_id": "e45787de-7322-56fe-a10a-77da299fb37a",
   "chunk_index": 179,
   "page_number": 101,
   "page_range": [
     101,
     102
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `1f749fdd-357f-5233-b885-9ca640dc6180`
 
-- vector: dim=3072 · [-0.0187, 0.0178, -0.0116, -0.0145, -0.0216, -0.0469, -0.0146, 0.0277, …]
+- vector: dim=3072 · [-0.0187, 0.0177, -0.0115, -0.0147, -0.0216, -0.0467, -0.0143, 0.0277, …]
 
 ```json
 {
@@ -7985,33 +7978,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "dddaa139-f26e-552f-84b0-ff6a37703edc",
+  "parent_chunk_id": "e45787de-7322-56fe-a10a-77da299fb37a",
   "chunk_index": 180,
   "page_number": 103,
   "page_range": [
     103,
     103
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `de009b5d-fe7f-5514-94ea-954e6cf081b3`
+## Parent · `93eb1b93-26a7-5013-b1c3-4fb4cd74032d`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "de009b5d-fe7f-5514-94ea-954e6cf081b3",
+  "chunk_id": "93eb1b93-26a7-5013-b1c3-4fb4cd74032d",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)",
-  "chunk_text": "1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)\n\nFigure 1.8 represents a comprehensive overview of fuel usage across various vessel sizes categorized \nby gross tonnage (GT) globally. The analysis highlights that Very Low Sulfur Fuel Oil (VLS IFO) is \nthe predominant fuel choice across all GT categories, indicating widespread industry compliance \nwith sulfur regulations. For vessels in the 5k-10k GT range, VLS IFO is used in 5863 vessels, \nfollowed by significant counts for VLS MDO (345 vessels), VLS MGO (179 vessels), and vessels \nwith unspecified fuel types (Blanks, 967 vessels). \nIn\n\n… [+5285 more chars]",
-  "content_hash": "2568d889b84e3251ba08192ebb1e1a98f451bfde9311092666fbcccdb1e06bc6",
-  "token_count": 1488,
+  "chunk_text": "1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)\n\nFigure 1.8 represents a comprehensive overview of fuel usage across various vessel sizes categorized \nby gross tonnage (GT) globally. The analysis highlights that Very Low Sulfur Fuel Oil (VLS IFO) is \nthe predominant fuel choice across all GT categories, indicating widespread industry compliance \nwith sulfur regulations. For vessels in the 5k-10k GT range, VLS IFO is used in 5863 vessels, \nfollowed by significant counts for VLS MDO (345 vessels), VLS MGO (179 vessels), and vessels \nwith unspecified fuel types (Blanks, 967 vessels). \nIn\n\n… [+5287 more chars]",
+  "content_hash": "25f1108531f144a381695ec98c08cf8fabac06bdc47530624d2288f55b2c2745",
+  "token_count": 1487,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -8025,14 +8018,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     103,
     107
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `93410cae-17ae-54ee-a27e-2b77a627b983`
 
-- vector: dim=3072 · [-0.0109, 0.0023, -0.0154, -0.0182, -0.0299, -0.0411, -0.0161, 0.0362, …]
+- vector: dim=3072 · [-0.0109, 0.0022, -0.0154, -0.0181, -0.0299, -0.0412, -0.0161, 0.0363, …]
 
 ```json
 {
@@ -8054,21 +8047,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "de009b5d-fe7f-5514-94ea-954e6cf081b3",
+  "parent_chunk_id": "93eb1b93-26a7-5013-b1c3-4fb4cd74032d",
   "chunk_index": 181,
   "page_number": 103,
   "page_range": [
     103,
     103
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `94320033-bff1-52bd-b6bc-cd8b8b3fc1c6`
 
-- vector: dim=3072 · [-0.0297, 0.0192, -0.0121, -0.0365, -0.0161, -0.0536, -0.0102, 0.0074, …]
+- vector: dim=3072 · [-0.0299, 0.0193, -0.0122, -0.0368, -0.0160, -0.0534, -0.0104, 0.0072, …]
 
 ```json
 {
@@ -8090,15 +8083,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "de009b5d-fe7f-5514-94ea-954e6cf081b3",
+  "parent_chunk_id": "93eb1b93-26a7-5013-b1c3-4fb4cd74032d",
   "chunk_index": 182,
   "page_number": 103,
   "page_range": [
     103,
     103
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -8126,21 +8119,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "de009b5d-fe7f-5514-94ea-954e6cf081b3",
+  "parent_chunk_id": "93eb1b93-26a7-5013-b1c3-4fb4cd74032d",
   "chunk_index": 183,
   "page_number": 104,
   "page_range": [
     104,
     105
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `59ddc379-20f1-5d12-ac82-99acf673efe9`
 
-- vector: dim=3072 · [-0.0282, 0.0327, -0.0088, -0.0468, 0.0161, -0.0350, -0.0249, 0.0083, …]
+- vector: dim=3072 · [-0.0320, 0.0321, -0.0098, -0.0469, 0.0135, -0.0445, -0.0182, 0.0095, …]
 
 ```json
 {
@@ -8150,9 +8143,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)",
-  "chunk_text": "The U.A.E. stands out \nin the Middle East with 2,608 vessels. Other notable countries are the Philippines (2,212 vessels) \nand Vietnam (2,151 vessels). Italy, Malaysia, the Netherlands, and Hong Kong contribute further with vessel counts ranging from 1,651 to 2,143. The list is rounded out by the United Kingdom, \nTaiwan, Denmark, Spain, and Canada, showcasing a diverse and widespread distribution of maritime \nownership across Asia, Europe, and North America. This chart illustrates the global distribution of \nvessel ownership, with a clear dominance by Asian countries, followed by strong repres\n\n… [+215 more chars]",
-  "content_hash": "98d1fac5d141a4eb4fbc15d4e1a7cda78ba2525f60bab1d0a3e216fda6335523",
-  "token_count": 180,
+  "chunk_text": "The U.A.E. stands out \nin the Middle East with 2,608 vessels. Other notable countries are the Philippines (2,212 vessels) \nand Vietnam (2,151 vessels). Italy, Malaysia, the Netherlands, and Hong Kong contribute further with vessel counts ranging from 1,651 to 2,143. The list is rounded out by the United Kingdom, \nTaiwan, Denmark, Spain, and Canada, showcasing a diverse and widespread distribution of maritime \nownership across Asia, Europe, and North America. This chart illustrates the global distribution of \nvessel ownership, with a clear dominance by Asian countries, followed by strong repres\n\n… [+217 more chars]",
+  "content_hash": "554a9b764b3e9889ec9018fc46233228dbe4fa5ab0ad5691ea0e1468126d9d01",
+  "token_count": 179,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -8162,33 +8155,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "de009b5d-fe7f-5514-94ea-954e6cf081b3",
+  "parent_chunk_id": "93eb1b93-26a7-5013-b1c3-4fb4cd74032d",
   "chunk_index": 184,
   "page_number": 105,
   "page_range": [
     105,
     107
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `37169484-647a-500e-b5b5-5305232bd05c`
+## Parent · `c01979bd-ae37-574d-bbfb-460a3621e9e6`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "37169484-647a-500e-b5b5-5305232bd05c",
+  "chunk_id": "c01979bd-ae37-574d-bbfb-460a3621e9e6",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
-  "chunk_text": "Chapter — Introduction\n\nAs the maritime industry speeding up its journey towards decarbonization, Alternative Fuels are \nbecoming essential for meeting global climate targets. This chapter takes a closer look at the \ncurrent state and trends in the use of alternative marine fuels, such as methanol, ethanol, ammonia, \nHydrogen, LNG, and biodiesel. While around 98% of vessels still depend on traditional fuels, an \nincreasing number of ships are now being fitted with alternative propulsion systems. This shift is \nlargely driven by IMO regulations and the growing demand for sustainable operations.\n\n… [+6308 more chars]",
-  "content_hash": "80bfd8a0c4f8078f4b106005758f465560593c31f7f6932d414d638a578465c7",
-  "token_count": 1881,
+  "section_heading": "Introduction",
+  "chunk_text": "Introduction\n\nAs the maritime industry speeding up its journey towards decarbonization, Alternative Fuels are \nbecoming essential for meeting global climate targets. This chapter takes a closer look at the \ncurrent state and trends in the use of alternative marine fuels, such as methanol, ethanol, ammonia, \nHydrogen, LNG, and biodiesel. While around 98% of vessels still depend on traditional fuels, an \nincreasing number of ships are now being fitted with alternative propulsion systems. This shift is \nlargely driven by IMO regulations and the growing demand for sustainable operations. By examin\n\n… [+6298 more chars]",
+  "content_hash": "ade622ea6f7bdcc1995dac40f00844aaf77f277007b4fc9b7c98e8af5c825f7c",
+  "token_count": 1879,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -8202,14 +8195,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     108,
     110
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b2d21d47-d158-571e-9f52-ff1b97a799c6`
 
-- vector: dim=3072 · [-0.0090, 0.0128, -0.0167, -0.0222, -0.0238, 0.0001, -0.0196, 0.0016, …]
+- vector: dim=3072 · [-0.0089, 0.0128, -0.0167, -0.0220, -0.0237, 0.0002, -0.0196, 0.0016, …]
 
 ```json
 {
@@ -8218,7 +8211,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "As the maritime industry speeding up its journey towards decarbonization, Alternative Fuels are \nbecoming essential for meeting global climate targets. This chapter takes a closer look at the \ncurrent state and trends in the use of alternative marine fuels, such as methanol, ethanol, ammonia, \nHydrogen, LNG, and biodiesel. While around 98% of vessels still depend on traditional fuels, an \nincreasing number of ships are now being fitted with alternative propulsion systems. This shift is \nlargely driven by IMO regulations and the growing demand for sustainable operations. By examining \ndata from\n\n… [+1357 more chars]",
   "content_hash": "21177e4de12b789f34ffb2a778adae1f2fcc8dc49e59abca5ca6776fa8f9cc86",
   "token_count": 446,
@@ -8231,15 +8224,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "37169484-647a-500e-b5b5-5305232bd05c",
+  "parent_chunk_id": "c01979bd-ae37-574d-bbfb-460a3621e9e6",
   "chunk_index": 185,
   "page_number": 108,
   "page_range": [
     108,
     108
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -8254,7 +8247,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "Surprisingly, in the order-book data, Methanol \nis visibly emerging as the front-runner with 251 vessels followed by Biofuel with 24 vessels, Hydrogen with 23 vessels and Ammonia 22 vessels.\nThese data reflect two important things: (i) Globally ship owners are increasingly moving towards \nalternative fueled ships to meet the IMO regulations, and (ii) Each country focusing on its maritime \nsectors to lower greenhouse gas (GHG) emissions and eventually, net-zero emissions. The selection \nof alternative fuel is very crucial which is ultimately influenced by critical parameters   such as (i) \nTech\n\n… [+1089 more chars]",
   "content_hash": "c36e62d86ba127b6438dca7bb2e7d60b4aea9a7b584d3abc6613cefc19f76efb",
   "token_count": 343,
@@ -8267,15 +8260,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "37169484-647a-500e-b5b5-5305232bd05c",
+  "parent_chunk_id": "c01979bd-ae37-574d-bbfb-460a3621e9e6",
   "chunk_index": 186,
   "page_number": 108,
   "page_range": [
     108,
     108
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -8290,7 +8283,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "These datasets also shed light on the diversity of propulsion technologies being \nemployed to drive the industry towards a greener future using 8 alternative fuels mainly Biodiesel, \nMethanol, Ammonia, Hydrogen, Ethane, LNG and LPG and Nuclear. The global status of green fuels powered vessels currently in-service is shown in Table 2.1. Figure 2.1 \na represents global share of all 8 selected alternative fuels whereas Figure 2.1 b represents only the \nglobal share of H2 derived fuels\nTable 2.1: Alternative Fuel Vessels (Global in-service as on August 2024)\nS. No. \nAlternative \nFuel Type \nMono/ D\n\n… [+1164 more chars]",
   "content_hash": "7112f227ec9d84f451b84e3750586743fd8e203dca0b75e95943a5007f1eb6ab",
   "token_count": 490,
@@ -8303,21 +8296,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "37169484-647a-500e-b5b5-5305232bd05c",
+  "parent_chunk_id": "c01979bd-ae37-574d-bbfb-460a3621e9e6",
   "chunk_index": 187,
   "page_number": 109,
   "page_range": [
     109,
     109
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `55459a29-5b1c-51ea-b6eb-f8aa17ed2765`
 
-- vector: dim=3072 · [-0.0053, 0.0285, -0.0204, -0.0255, -0.0095, -0.0173, -0.0305, 0.0137, …]
+- vector: dim=3072 · [-0.0053, 0.0288, -0.0204, -0.0254, -0.0092, -0.0176, -0.0304, 0.0137, …]
 
 ```json
 {
@@ -8326,7 +8319,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "Hydrogen and ethane hold smaller but noteworthy shares, with percentages of 1% (20 Nos) and 2% \n(24 Nos) respectively. Nuclear power, while less common, represents around <1% (10 Nos) of the total instances. These figures illustrate a diverse array of fuel types being explored in the maritime \nsector, with LNG leading the research landscape with 76% share for in-service vessel with Biofuel at \na distant 8% share, interestingly among Hydrogen derived fuels Methanol leading with 62% share \nfollowed by Hydrogen with 33% share.\n\n| S. No. | Alternative Fuel Type | Mono/ Dual fuel with | Number of v\n\n… [+781 more chars]",
   "content_hash": "e3b23a13793109e4f9a48075ae72b57b847ddf68845a3537170b102331b6649d",
   "token_count": 510,
@@ -8339,15 +8332,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "37169484-647a-500e-b5b5-5305232bd05c",
+  "parent_chunk_id": "c01979bd-ae37-574d-bbfb-460a3621e9e6",
   "chunk_index": 188,
   "page_number": 109,
   "page_range": [
     109,
     109
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -8362,7 +8355,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "00 |\n| 8 | Ammonia | LNG, VLS MGO,VLS MDO | 3 | 272- 5073 | 272- 5073 |\n| Total number of alternative fuel vessels: 1447 |  |  |  |  |  | Figure 2.1: Alternative Fuel Vessels Global (In-Service): Fuel Types v/s Total Number of Vessel (as \non August 2024) Number with Percentage (as on August 2024)  Figure 2.2(a): Relative Share Of All \nAlternative Fuels Figure 2.1 (b): Relative Share of only Hydrogen Derived Fuels\nTable 2.2: Alternative Fuel Vessels (Global Order Book as on August 2024)\nS. \nNo. \nAlternative \nfuel type \nMono/ dual fuel with \nNumber \nof \nvessels \nGT range \nMin-max\nDominated by\nGT\n\n… [+201 more chars]",
   "content_hash": "6a45daf9920fd2947e7c3a4954745adb968135ef8030f741ecc50de749ec8910",
   "token_count": 283,
@@ -8375,33 +8368,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "37169484-647a-500e-b5b5-5305232bd05c",
+  "parent_chunk_id": "c01979bd-ae37-574d-bbfb-460a3621e9e6",
   "chunk_index": 189,
   "page_number": 110,
   "page_range": [
     110,
     110
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `c3e75bfa-a6cc-5b83-9a49-95cac230604e`
+## Parent · `28158dca-d3c7-51a6-86df-e2b2d4e51ee6`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "c3e75bfa-a6cc-5b83-9a49-95cac230604e",
+  "chunk_id": "28158dca-d3c7-51a6-86df-e2b2d4e51ee6",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
-  "chunk_text": "Chapter — Introduction (cont.)\n\n| S. No. | Alternative fuel type | Mono/ dual fuel with | Number of vessels | GT range Min-max | Dominated by GT Range |\n| --- | --- | --- | --- | --- | --- |\n| 1. | Methanol | ULS MGO,ULS MDO, ULS IFO , IFO 380 , VLS IFO, VLS MDO, VLS MGO | 251 | 300- 236000 | >100000 |\n| 2. | LPG | VLS IFO | 114 | 6,249 - 55,460 | 50000-54000 |\n| 3. | LNG | VLS IFO, VLS MGO | 991 | 313 – 250,800 | 100000-200000 |\n| 4. | Ethane | VLS IFO | 45 | 18,965- 54,112 | 52100-54112 |\n| 5. | Biofuel | Hydrogen, Methanol | 24 | 179 - 20000 | 4000-7000 |\n| 6. | Hydrogen | IFO , LNG, VLS MD\n\n… [+5403 more chars]",
-  "content_hash": "d8e38f14c895ca3d84ed1cc9b95acc3611b810d3534b0b893e6f96937738d92f",
-  "token_count": 1856,
+  "section_heading": "Introduction",
+  "chunk_text": "Introduction (cont.)\n\n| S. No. | Alternative fuel type | Mono/ dual fuel with | Number of vessels | GT range Min-max | Dominated by GT Range |\n| --- | --- | --- | --- | --- | --- |\n| 1. | Methanol | ULS MGO,ULS MDO, ULS IFO , IFO 380 , VLS IFO, VLS MDO, VLS MGO | 251 | 300- 236000 | >100000 |\n| 2. | LPG | VLS IFO | 114 | 6,249 - 55,460 | 50000-54000 |\n| 3. | LNG | VLS IFO, VLS MGO | 991 | 313 – 250,800 | 100000-200000 |\n| 4. | Ethane | VLS IFO | 45 | 18,965- 54,112 | 52100-54112 |\n| 5. | Biofuel | Hydrogen, Methanol | 24 | 179 - 20000 | 4000-7000 |\n| 6. | Hydrogen | IFO , LNG, VLS MDO, VLS MGO\n\n… [+5393 more chars]",
+  "content_hash": "7beda974459a58ed73058d0b918c868c9ea76b189b37fc8f65566b74255c5a87",
+  "token_count": 1854,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -8415,8 +8408,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     110,
     113
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -8431,7 +8424,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "| S. No. | Alternative fuel type | Mono/ dual fuel with | Number of vessels | GT range Min-max | Dominated by GT Range |\n| --- | --- | --- | --- | --- | --- |\n| 1. | Methanol | ULS MGO,ULS MDO, ULS IFO , IFO 380 , VLS IFO, VLS MDO, VLS MGO | 251 | 300- 236000 | >100000 |\n| 2. | LPG | VLS IFO | 114 | 6,249 - 55,460 | 50000-54000 |\n| 3. | LNG | VLS IFO, VLS MGO | 991 | 313 – 250,800 | 100000-200000 |\n| 4. | Ethane | VLS IFO | 45 | 18,965- 54,112 | 52100-54112 |\n| 5. | Biofuel | Hydrogen, Methanol | 24 | 179 - 20000 | 4000-7000 |\n| 6. | Hydrogen | IFO , LNG, VLS MDO, VLS MGO | 23 | 100- 72,800 | \n\n… [+207 more chars]",
   "content_hash": "f5035e460eae34b7126bee16eedaf432b2dcb3310515fec72611ad58ff62725c",
   "token_count": 361,
@@ -8444,21 +8437,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c3e75bfa-a6cc-5b83-9a49-95cac230604e",
+  "parent_chunk_id": "28158dca-d3c7-51a6-86df-e2b2d4e51ee6",
   "chunk_index": 190,
   "page_number": 110,
   "page_range": [
     110,
     110
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `2e1d8a00-12db-5bf5-a5e1-e73f7aeef73f`
 
-- vector: dim=3072 · [-0.0159, 0.0258, -0.0186, -0.0267, -0.0079, -0.0333, -0.0155, 0.0210, …]
+- vector: dim=3072 · [-0.0158, 0.0257, -0.0185, -0.0268, -0.0078, -0.0333, -0.0155, 0.0210, …]
 
 ```json
 {
@@ -8467,7 +8460,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "000 | 15000-27000 |\n| 8. | Nuclear | VLS MDO | 7 | 30000-68000 | 30000-33000 |\n| Total number of alternative fuel vessels: 1477 |  |  |  |  |  | It is apparent from Figure 2.2 (order book data) that among all the alternative fuel considered, LNG \nstill dominates with 991 vessels (67%) followed by Methanol with 251 vessels ordered respectively, \nconstituting 17% of the total orders. Following closely, LPG accounts for 114 vessels (8%). Ethane \nfollows with 45 vessels (3%), while Ammonia, Biofuel, and Hydrogen occupy smaller but significant \nshares, with 22 vessels (1%), 24 vessels (2%), and 23 \n\n… [+1453 more chars]",
   "content_hash": "4d5cdcaa2a54c33ca5be8095504f5113595fcbf325d265843966c653e8c417c2",
   "token_count": 493,
@@ -8480,21 +8473,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c3e75bfa-a6cc-5b83-9a49-95cac230604e",
+  "parent_chunk_id": "28158dca-d3c7-51a6-86df-e2b2d4e51ee6",
   "chunk_index": 191,
   "page_number": 111,
   "page_range": [
     111,
     111
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `f300b50a-01ce-55ea-a5d4-37b879847918`
 
-- vector: dim=3072 · [0.0088, 0.0265, -0.0217, -0.0161, -0.0174, -0.0404, -0.0145, 0.0153, …]
+- vector: dim=3072 · [0.0087, 0.0265, -0.0217, -0.0161, -0.0172, -0.0403, -0.0146, 0.0151, …]
 
 ```json
 {
@@ -8503,7 +8496,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": ": Alternative Fuel Vessels Global Order Book: Fuel Types v/s Total Vessel Number with \nPercentage (as on August 2024) Figure 2.2(a): Relative Share of All Alternative Fuels Figure 2.2 \n(b): Relative Share of only Hydrogen Derived Fuels Figure 2.3: Alternative Fuel Vessels (in-service): Gross Tonnage Distribution with Total Number  \nof Vessels\n Table 2.3:  Alternative Fuel Vessels Statistics: Comparative Assessment (w.r.t Fuel Types)\nIn service \nOrderbook \nAll Alternative Fuels \nHydrogen Derived \nFuels \nAll Alternative Fuels Hydrogen Derived fuel \nFuels \nTotal \nNumber & \n% among all \nAlternativ\n\n… [+644 more chars]",
   "content_hash": "fb8a11961ce42382f87b0ad58ac421695c644df3fc3809a9bd7af397713f47d7",
   "token_count": 423,
@@ -8516,21 +8509,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c3e75bfa-a6cc-5b83-9a49-95cac230604e",
+  "parent_chunk_id": "28158dca-d3c7-51a6-86df-e2b2d4e51ee6",
   "chunk_index": 192,
   "page_number": 112,
   "page_range": [
     112,
     112
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0f51d573-8701-59a6-9604-cdf4b333ef70`
 
-- vector: dim=3072 · [0.0074, 0.0287, -0.0168, -0.0319, -0.0336, -0.0391, -0.0014, 0.0168, …]
+- vector: dim=3072 · [0.0072, 0.0283, -0.0169, -0.0321, -0.0332, -0.0390, -0.0014, 0.0164, …]
 
 ```json
 {
@@ -8539,7 +8532,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "This excludes Methanol | In service |  |  |  | Orderbook |  |  |  |\n| --- | --- | --- | --- | --- | --- | --- | --- |\n| All Alternative Fuels |  | Hydrogen Derived Fuels |  | All Alternative Fuels Hydrogen Derived fuel |  |  |  |\n| Fuels | Total Number & % among all Alternative Fuels | Fuels | Total Number & % among Hydrogen Derived Fuel | Fuels | Total Number & % among Alternative Fuels | Fuels | Total Number & % among Hydrogen Derived Fuel |\n| LNG | 1105(76 %) | Methanol | 37 (62%) | LNG | 991 (67 %) Methanol |  | 251 (85%) |\n| LPG | 125 (9 %) | Hydrogen 20 (33%) |  | Methanol | 251 (17%) | \n\n… [+373 more chars]",
   "content_hash": "ddacde8d6abdd77912d0a3189595067183036bbe93873457316cce1024928a62",
   "token_count": 380,
@@ -8552,21 +8545,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c3e75bfa-a6cc-5b83-9a49-95cac230604e",
+  "parent_chunk_id": "28158dca-d3c7-51a6-86df-e2b2d4e51ee6",
   "chunk_index": 193,
   "page_number": 112,
   "page_range": [
     112,
     112
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `9f0df29f-89bc-5aa9-9528-6d8c03f1a673`
 
-- vector: dim=3072 · [-0.0232, 0.0157, -0.0199, -0.0271, -0.0186, -0.0356, -0.0079, 0.0243, …]
+- vector: dim=3072 · [-0.0230, 0.0159, -0.0199, -0.0271, -0.0191, -0.0358, -0.0078, 0.0241, …]
 
 ```json
 {
@@ -8575,7 +8568,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "|  |  |\n| Nuclear | 10 (<1%) |  |  | Ammonia | 22(1%) |  |  |\n| Ammonia | 3 (<1%) |  |  | Nuclear | 7(<1%) |  |  | Analyses of Figures 2.2 & 2.3 show that \nIn-service \n\t»\nLNG (Liquefied Natural Gas) is used in 1105 vessels demonstrating broad adoption across all \nGT ranges, particularly in the 100000-150000 GT range (488 vessels). This significant presence \nunderscores LNG’s popularity which could be met through greener options likeE-LNG or bio \nbased CBG as a cleaner alternative to traditional LNG. \n\t»\nLPG (Liquefied Petroleum Gas), with 125 vessels, is predominantly used in the largest GT ra\n\n… [+805 more chars]",
   "content_hash": "f819f7ac16198237c58bc00fded6063819b9daf0b3c8297a4ee464b5e8e85377",
   "token_count": 374,
@@ -8588,33 +8581,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c3e75bfa-a6cc-5b83-9a49-95cac230604e",
+  "parent_chunk_id": "28158dca-d3c7-51a6-86df-e2b2d4e51ee6",
   "chunk_index": 194,
   "page_number": 113,
   "page_range": [
     113,
     113
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `47625c88-200a-528c-a7b5-1b66249e2cae`
+## Parent · `5fba3e9a-c81c-519e-b14f-76e2c4729ae9`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "47625c88-200a-528c-a7b5-1b66249e2cae",
+  "chunk_id": "5fba3e9a-c81c-519e-b14f-76e2c4729ae9",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
-  "chunk_text": "Chapter — Introduction (cont.)\n\nEthane is limited to 24 vessels, primarily used in larger vessels, especially in the >50000 GT \nrange (20 vessels). This niche application highlights its use in very large gas carriers and specialized \nships.\n\t»\nHydrogen, with 20 vessels spanning multiple GT ranges, shows growing interest across various \nvessel sizes. The highest number of Hydrogen-powered vessels is in the smallest GT range (0-500 \nGT).  \n\t»\nNuclear-powered vessels are the least common, with only 10 vessels, all in the 10000-50000 \nGT range. This reflects the specialized nature and stringent re\n\n… [+1770 more chars]",
-  "content_hash": "b67d0c5fc69940766a005a64828671b27b956c7556d499914f10645e0af6b65b",
-  "token_count": 602,
+  "section_heading": "Introduction",
+  "chunk_text": "Introduction (cont.)\n\nEthane is limited to 24 vessels, primarily used in larger vessels, especially in the >50000 GT \nrange (20 vessels). This niche application highlights its use in very large gas carriers and specialized \nships.\n\t»\nHydrogen, with 20 vessels spanning multiple GT ranges, shows growing interest across various \nvessel sizes. The highest number of Hydrogen-powered vessels is in the smallest GT range (0-500 \nGT).  \n\t»\nNuclear-powered vessels are the least common, with only 10 vessels, all in the 10000-50000 \nGT range. This reflects the specialized nature and stringent requirements\n\n… [+1760 more chars]",
+  "content_hash": "825550de56db309773acae354967d23123f9d50500d396093407505cacec28a4",
+  "token_count": 600,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -8628,14 +8621,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     114,
     114
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `d06980fa-8a86-5c3b-8c83-16ab18dc4b06`
 
-- vector: dim=3072 · [-0.0190, 0.0372, -0.0189, -0.0358, -0.0170, -0.0368, -0.0029, 0.0206, …]
+- vector: dim=3072 · [-0.0188, 0.0372, -0.0188, -0.0356, -0.0172, -0.0370, -0.0031, 0.0207, …]
 
 ```json
 {
@@ -8644,7 +8637,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "Ethane is limited to 24 vessels, primarily used in larger vessels, especially in the >50000 GT \nrange (20 vessels). This niche application highlights its use in very large gas carriers and specialized \nships.\n\t»\nHydrogen, with 20 vessels spanning multiple GT ranges, shows growing interest across various \nvessel sizes. The highest number of Hydrogen-powered vessels is in the smallest GT range (0-500 \nGT).  \n\t»\nNuclear-powered vessels are the least common, with only 10 vessels, all in the 10000-50000 \nGT range. This reflects the specialized nature and stringent requirements for nuclear propulsio\n\n… [+1145 more chars]",
   "content_hash": "9b9e541c9cfa77cf2c091c50fd0c210b4f178d31175f17993ba2b815f80bc8f9",
   "token_count": 428,
@@ -8657,21 +8650,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "47625c88-200a-528c-a7b5-1b66249e2cae",
+  "parent_chunk_id": "5fba3e9a-c81c-519e-b14f-76e2c4729ae9",
   "chunk_index": 195,
   "page_number": 114,
   "page_range": [
     114,
     114
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `959bf7bb-df62-55d9-af79-402c02cb3ada`
 
-- vector: dim=3072 · [-0.0116, 0.0230, -0.0113, -0.0227, -0.0031, -0.0547, 0.0011, 0.0109, …]
+- vector: dim=3072 · [-0.0116, 0.0230, -0.0113, -0.0227, -0.0032, -0.0547, 0.0011, 0.0109, …]
 
 ```json
 {
@@ -8680,7 +8673,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "K GT category 48 vessels specifically role in the larger gas carrier.\n\t»\nHydrogen is represented by 23 vessels across various size categories, with a notable presence \nin both the >50K GT and 5K–10K GT ranges (8 vessels each).  \n\t» Ethane appears in 45 vessels, predominantly large ones, especially in the >50K GT category (37 \nvessels), which aligns with its specialized role in large ethane carriers.\n\t»\nBiofuel-powered vessels totaling 24, fall within the smaller GT ranges, particularly the 3K–5K GT \ncategory.  \n\t»\nAmmonia is still in its early stages, with 22 vessels, mostly found in the 10K–5\n\n… [+224 more chars]",
   "content_hash": "c69bd4af715010bde2585b3b8dee0ab7012c7b866b865059a578758ebc34740a",
   "token_count": 227,
@@ -8693,21 +8686,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "47625c88-200a-528c-a7b5-1b66249e2cae",
+  "parent_chunk_id": "5fba3e9a-c81c-519e-b14f-76e2c4729ae9",
   "chunk_index": 196,
   "page_number": 114,
   "page_range": [
     114,
     114
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `95216af6-3ae3-56aa-9c29-8873ce08ffd3`
 
-- vector: dim=3072 · [0.0088, 0.0335, -0.0265, -0.0056, -0.0268, -0.0106, -0.0293, 0.0234, …]
+- vector: dim=3072 · [0.0088, 0.0334, -0.0265, -0.0056, -0.0268, -0.0107, -0.0292, 0.0233, …]
 
 ```json
 {
@@ -8735,14 +8728,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     114,
     115
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `d3424a53-f759-5a80-ac2d-d365d2c2967e`
 
-- vector: dim=3072 · [-0.0124, 0.0336, -0.0280, -0.0114, -0.0317, -0.0327, -0.0108, 0.0246, …]
+- vector: dim=3072 · [-0.0121, 0.0343, -0.0285, -0.0117, -0.0318, -0.0329, -0.0103, 0.0246, …]
 
 ```json
 {
@@ -8770,18 +8763,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     116,
     116
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `9f5f675a-f751-5836-802c-adf56039c387`
+## Parent · `de009b5d-fe7f-5514-94ea-954e6cf081b3`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "9f5f675a-f751-5836-802c-adf56039c387",
+  "chunk_id": "de009b5d-fe7f-5514-94ea-954e6cf081b3",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -8803,14 +8796,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     117,
     124
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `8f4c9113-4ab1-5b3c-9a48-8185c3fcad94`
 
-- vector: dim=3072 · [-0.0087, 0.0344, -0.0178, -0.0155, -0.0290, -0.0360, -0.0080, 0.0146, …]
+- vector: dim=3072 · [-0.0086, 0.0343, -0.0178, -0.0156, -0.0289, -0.0361, -0.0080, 0.0145, …]
 
 ```json
 {
@@ -8832,21 +8825,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9f5f675a-f751-5836-802c-adf56039c387",
+  "parent_chunk_id": "de009b5d-fe7f-5514-94ea-954e6cf081b3",
   "chunk_index": 199,
   "page_number": 117,
   "page_range": [
     117,
     117
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `27312fb8-d371-509a-b943-d87fd2fe63f3`
 
-- vector: dim=3072 · [-0.0170, 0.0302, -0.0229, -0.0405, -0.0172, -0.0406, -0.0066, 0.0107, …]
+- vector: dim=3072 · [-0.0168, 0.0303, -0.0229, -0.0403, -0.0172, -0.0403, -0.0068, 0.0106, …]
 
 ```json
 {
@@ -8868,21 +8861,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9f5f675a-f751-5836-802c-adf56039c387",
+  "parent_chunk_id": "de009b5d-fe7f-5514-94ea-954e6cf081b3",
   "chunk_index": 200,
   "page_number": 118,
   "page_range": [
     118,
     118
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e9dbc366-d221-522b-ade2-e47ec25a6014`
 
-- vector: dim=3072 · [0.0104, 0.0410, -0.0267, -0.0306, -0.0046, -0.0342, -0.0057, 0.0159, …]
+- vector: dim=3072 · [0.0104, 0.0414, -0.0267, -0.0305, -0.0050, -0.0343, -0.0056, 0.0159, …]
 
 ```json
 {
@@ -8904,33 +8897,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9f5f675a-f751-5836-802c-adf56039c387",
+  "parent_chunk_id": "de009b5d-fe7f-5514-94ea-954e6cf081b3",
   "chunk_index": 201,
   "page_number": 118,
   "page_range": [
     118,
     124
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `3defed5f-8fbe-5974-b051-eaa124c344a7`
+## Parent · `37169484-647a-500e-b5b5-5305232bd05c`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "3defed5f-8fbe-5974-b051-eaa124c344a7",
+  "chunk_id": "37169484-647a-500e-b5b5-5305232bd05c",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "Among the Alternative Fuel Shipbuilders",
-  "chunk_text": "Among the Alternative Fuel Shipbuilders\n\nAnalysis of in-service data shows\n\t»\nBiofuel (majorly Biodiesel): Zhejiang Yangfan as the leading shipbuilder, accounting for 4.88% \nshare in-service biofuel fleet, with  Zhejiang Ouhua  and  Wright Shipyard Co.  following with \n3.25% share each and many smaller plyers\n\t»\nMethanol: Hyundai Mipo dominates Methanol vessel construction, contributing 45.95% of the active \nfleet. GSI Nansha and Hyundai HI (Ulsan) also play key roles, holding 16.22% and 8.11% shares \nrespectively.\n\t»\nHydrogen: Meyer Werft leadsin hydrogen-fuel shipbuilding with a 10% share, w\n\n… [+3132 more chars]",
-  "content_hash": "77862018a6f76b9ec97e7e0bde791796e47655016bd00de08439a1f3b65fc582",
-  "token_count": 1227,
+  "chunk_text": "Among the Alternative Fuel Shipbuilders\n\nAnalysis of in-service data shows\n\t»\nBiofuel (majorly Biodiesel): Zhejiang Yangfan as the leading shipbuilder, accounting for 4.88% \nshare in-service biofuel fleet, with  Zhejiang Ouhua  and  Wright Shipyard Co.  following with \n3.25% share each and many smaller plyers\n\t»\nMethanol: Hyundai Mipo dominates Methanol vessel construction, contributing 45.95% of the active \nfleet. GSI Nansha and Hyundai HI (Ulsan) also play key roles, holding 16.22% and 8.11% shares \nrespectively.\n\t»\nHydrogen: Meyer Werft leadsin hydrogen-fuel shipbuilding with a 10% share, w\n\n… [+3167 more chars]",
+  "content_hash": "2a0493dc531819daa545cdf9cb81cb40975ed0a36497052dc825c2795789df24",
+  "token_count": 1235,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -8944,14 +8937,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     125,
     127
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e2894e4f-647f-5cab-a1ae-6476066b7cd2`
 
-- vector: dim=3072 · [0.0017, 0.0204, -0.0204, -0.0417, 0.0252, -0.0398, 0.0145, 0.0086, …]
+- vector: dim=3072 · [0.0018, 0.0206, -0.0204, -0.0418, 0.0254, -0.0399, 0.0148, 0.0087, …]
 
 ```json
 {
@@ -8973,21 +8966,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "3defed5f-8fbe-5974-b051-eaa124c344a7",
+  "parent_chunk_id": "37169484-647a-500e-b5b5-5305232bd05c",
   "chunk_index": 202,
   "page_number": 125,
   "page_range": [
     125,
     125
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `3dd838c1-8698-5fef-8f6f-8ebc0f90bfa1`
 
-- vector: dim=3072 · [0.0111, 0.0106, -0.0179, -0.0211, 0.0236, -0.0431, 0.0014, 0.0045, …]
+- vector: dim=3072 · [0.0111, 0.0105, -0.0179, -0.0212, 0.0235, -0.0431, 0.0015, 0.0045, …]
 
 ```json
 {
@@ -9009,21 +9002,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "3defed5f-8fbe-5974-b051-eaa124c344a7",
+  "parent_chunk_id": "37169484-647a-500e-b5b5-5305232bd05c",
   "chunk_index": 203,
   "page_number": 125,
   "page_range": [
     125,
     125
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `f665661a-3f34-5cb7-a38e-4da1a86c929c`
 
-- vector: dim=3072 · [0.0010, 0.0182, -0.0174, -0.0168, 0.0045, -0.0266, -0.0035, 0.0103, …]
+- vector: dim=3072 · [-0.0008, 0.0122, -0.0159, -0.0087, 0.0003, -0.0333, 0.0020, 0.0099, …]
 
 ```json
 {
@@ -9033,9 +9026,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "Among the Alternative Fuel Shipbuilders",
-  "chunk_text": "Korea China P.R. tops in Biofuel vessel construction with 17 builds, \nfollowed by Poland 10 and China PR 8 vessels. In Methanol propulsion, South Korea leads the yard count at 20 vessels, China P.R.  8 vessels \nand Japan 3 vessels.\n\t»\nGermany and the Netherlands have each delivered 4 Hydrogen vessels, while China P.R. yards \naccount for 2 vessels.\n\t»\nFor Ammonia, Japan, Norway, and Singapore shipyards have each made 1 vessel.\n\t»\nSouth Korean yards dominate LPG construction with 69 vessels, ahead of China P.R. (32) and \nJapan (13).\n\t»\nIn LNG shipbuilding, South Korea leads with  (539) vessels b\n\n… [+920 more chars]",
-  "content_hash": "a2c56614a5219a9fa9ce51296ee30e44d0a65950310b068d2e4c427791ac9b30",
-  "token_count": 489,
+  "chunk_text": "Korea China P.R. tops in Biofuel vessel construction with 17 builds, \nfollowed by Poland 10 and China PR 8 vessels. In Methanol propulsion, South Korea leads the yard count at 20 vessels, China P.R.  8 vessels \nand Japan 3 vessels.\n\t»\nGermany and the Netherlands have each delivered 4 Hydrogen vessels, while China P.R. yards \naccount for 2 vessels.\n\t»\nFor Ammonia, Japan, Norway, and Singapore shipyards have each made 1 vessel.\n\t»\nSouth Korean yards dominate LPG construction with 69 vessels, ahead of China P.R. (32) and \nJapan (13).\n\t»\nIn LNG shipbuilding, South Korea leads with  (539) vessels b\n\n… [+955 more chars]",
+  "content_hash": "fc367d725d34d570cd411ac3517fe511675bee5c6a964e3aa17732c2a0906d71",
+  "token_count": 497,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -9045,33 +9038,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "3defed5f-8fbe-5974-b051-eaa124c344a7",
+  "parent_chunk_id": "37169484-647a-500e-b5b5-5305232bd05c",
   "chunk_index": 204,
   "page_number": 126,
   "page_range": [
     126,
     127
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `d40484cd-a851-5b14-b954-a9f7b92aa23a`
+## Parent · `a7784dac-8ead-574e-aa5f-48534d6d8126`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "d40484cd-a851-5b14-b954-a9f7b92aa23a",
+  "chunk_id": "a7784dac-8ead-574e-aa5f-48534d6d8126",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 3 — Alternative Fuel Powered — Introduction",
-  "chunk_text": "Chapter 3 — Alternative Fuel Powered — Introduction\n\nIndia’s Net Zero ambitions needs its shipping industry to move towards adoption of alternative \nfuels-operated marine engines. The use of alternative fuels in marine engines will contribute to (i) \nthe promotion of “indigenous” fuels, thereby making Atmanirbhar Bharat (ii) lowering greenhouse \ngas emissions (GHG), supporting the country’s Net Zero Vision and (iii) Reducing fuel import \ndependency/bill. \nAlthough Fuel cell-based propulsion and battery pack-based systems will penetrate, nevertheless, \nadoption of alternate fueled ICEs will be \n\n… [+6135 more chars]",
-  "content_hash": "307bad6a68de256b831cd932811fde2db84e0ccb69942f3ef58ce4754be24914",
-  "token_count": 1534,
+  "section_heading": "Introduction",
+  "chunk_text": "Introduction\n\nIndia’s Net Zero ambitions needs its shipping industry to move towards adoption of alternative \nfuels-operated marine engines. The use of alternative fuels in marine engines will contribute to (i) \nthe promotion of “indigenous” fuels, thereby making Atmanirbhar Bharat (ii) lowering greenhouse \ngas emissions (GHG), supporting the country’s Net Zero Vision and (iii) Reducing fuel import \ndependency/bill. \nAlthough Fuel cell-based propulsion and battery pack-based systems will penetrate, nevertheless, \nadoption of alternate fueled ICEs will be of much larger dimension and thus pivot\n\n… [+6096 more chars]",
+  "content_hash": "a94bb4eca62eadd0b9a6047be2c5642ad8a5316bcdaa381c4a0060f49d109c86",
+  "token_count": 1526,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -9085,14 +9078,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     128,
     133
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b3eff65c-46ca-5647-95ce-aca6fabf7451`
 
-- vector: dim=3072 · [-0.0139, 0.0077, -0.0103, -0.0313, -0.0175, 0.0053, -0.0240, 0.0040, …]
+- vector: dim=3072 · [-0.0139, 0.0076, -0.0103, -0.0312, -0.0175, 0.0054, -0.0239, 0.0040, …]
 
 ```json
 {
@@ -9101,7 +9094,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 3 — Alternative Fuel Powered — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "India’s Net Zero ambitions needs its shipping industry to move towards adoption of alternative \nfuels-operated marine engines. The use of alternative fuels in marine engines will contribute to (i) \nthe promotion of “indigenous” fuels, thereby making Atmanirbhar Bharat (ii) lowering greenhouse \ngas emissions (GHG), supporting the country’s Net Zero Vision and (iii) Reducing fuel import \ndependency/bill. \nAlthough Fuel cell-based propulsion and battery pack-based systems will penetrate, nevertheless, \nadoption of alternate fueled ICEs will be of much larger dimension and thus pivotal. Globally, \n\n… [+1701 more chars]",
   "content_hash": "5502c3aa618e2d589321d679cd74b60d426061c3bd6e37796ff7960294cc5fc9",
   "token_count": 441,
@@ -9114,21 +9107,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d40484cd-a851-5b14-b954-a9f7b92aa23a",
+  "parent_chunk_id": "a7784dac-8ead-574e-aa5f-48534d6d8126",
   "chunk_index": 205,
   "page_number": 128,
   "page_range": [
     128,
     128
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `39d2d244-2626-5bd0-be17-1b5a46127349`
 
-- vector: dim=3072 · [0.0289, 0.0171, -0.0178, -0.0419, -0.0118, 0.0037, -0.0045, -0.0055, …]
+- vector: dim=3072 · [0.0288, 0.0170, -0.0179, -0.0419, -0.0118, 0.0038, -0.0046, -0.0056, …]
 
 ```json
 {
@@ -9137,7 +9130,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 3 — Alternative Fuel Powered — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "From an engine manufacturer’s perspective, MAN is the dominant player in several fuel categories: \ncommanding 86.1% of methanol-fueled in-service engines, 100% of ethane engines, and full market share in LPG-powered ships. Wärtsilä leads the LNG segment with 57% of in-service engines, while \nin the hydrogen segment, it holds 33.3% of the current fleet, followed by Scania and Caterpillar. For \nammonia-powered vessels, Cummins, Wärtsilä, and Niigata share the market equally (33.3% each) \none vessels of each in-service.\nLooking at order-book trends, Methanol leads with MAN maintaining a 79% share\n\n… [+403 more chars]",
   "content_hash": "2bdad52e704510eee852633e20c19c64368b719dd57ec0e0677c96ac129d2b6d",
   "token_count": 252,
@@ -9150,21 +9143,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d40484cd-a851-5b14-b954-a9f7b92aa23a",
+  "parent_chunk_id": "a7784dac-8ead-574e-aa5f-48534d6d8126",
   "chunk_index": 206,
   "page_number": 128,
   "page_range": [
     128,
     128
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `83f00014-406a-53bf-b429-b8a3b32e9705`
 
-- vector: dim=3072 · [0.0073, 0.0159, -0.0092, -0.0331, -0.0175, -0.0152, -0.0266, 0.0037, …]
+- vector: dim=3072 · [0.0073, 0.0161, -0.0092, -0.0332, -0.0174, -0.0155, -0.0266, 0.0037, …]
 
 ```json
 {
@@ -9173,7 +9166,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 3 — Alternative Fuel Powered — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "In biofuel orders, Yanmar is the \nfrontrunner with 64.3%, while MAN continues to hold influence in the broader market. In hydrogen-\nfueled vessels, MAN and ABC-MAN collectively account for over 78% of upcoming deployments. These data reflect two important things: (i) Ship owners are increasingly moving towards alternative \nfueled ships to meet the International Maritime Organization (IMO) regulations, and (ii) Each country \nfocusing on its maritime sectors to lower greenhouse gas (GHG) emissions and eventually, net-zero \nemissions.\nThe selection of alternative fuel is very crucial which is ult\n\n… [+1732 more chars]",
   "content_hash": "36f25828355b40f22dc9a9b95d92c99be49674d93eb011c896a16098da1074ea",
   "token_count": 504,
@@ -9186,15 +9179,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d40484cd-a851-5b14-b954-a9f7b92aa23a",
+  "parent_chunk_id": "a7784dac-8ead-574e-aa5f-48534d6d8126",
   "chunk_index": 207,
   "page_number": 129,
   "page_range": [
     129,
     129
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -9209,7 +9202,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 3 — Alternative Fuel Powered — Introduction",
+  "section_heading": "Introduction",
   "chunk_text": "Two-stroke engines has reported a 54.3 % share of the marine engine market in 2020 [9]. \nHowever, four stroke engines are expected to have higher growth up to 2028, due to lower noise \nlevels, higher speeds, and lower capital cost. Looking from the lens of engine manufacturing capacity and country wise ICE vessel ownership \nlead, Figures 3.1a, 3.1b, 3.1c, 3.1d, 3.1e, 3.1f  3.1g provide very significant insight for Methanol, \nAmmonia, Biofuel (Biodiesel), Hydrogen, Ethane, LNG, LPG fueled engine respectively in marine \napplication. Figure 3.1h is related to nuclear energy powered vessels. Simil\n\n… [+1091 more chars]",
   "content_hash": "fdd04130d4e530e0fefffd5fe1b40077f8e42065128f59ac4f5438cd89452d29",
   "token_count": 485,
@@ -9222,25 +9215,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d40484cd-a851-5b14-b954-a9f7b92aa23a",
+  "parent_chunk_id": "a7784dac-8ead-574e-aa5f-48534d6d8126",
   "chunk_index": 208,
   "page_number": 129,
   "page_range": [
     129,
     133
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `968badcc-401f-5ad0-be61-5c17ad36376a`
+## Parent · `0c19eb3d-134e-538c-86e6-aad20a9882c5`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "968badcc-401f-5ad0-be61-5c17ad36376a",
+  "chunk_id": "0c19eb3d-134e-538c-86e6-aad20a9882c5",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -9262,8 +9255,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     134,
     136
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -9291,21 +9284,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "968badcc-401f-5ad0-be61-5c17ad36376a",
+  "parent_chunk_id": "0c19eb3d-134e-538c-86e6-aad20a9882c5",
   "chunk_index": 209,
   "page_number": 134,
   "page_range": [
     134,
     134
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `3c10cef8-c353-5815-9dfe-bd40d59815f6`
 
-- vector: dim=3072 · [-0.0203, 0.0334, -0.0168, -0.0139, -0.0258, 0.0093, -0.0196, -0.0038, …]
+- vector: dim=3072 · [-0.0202, 0.0334, -0.0168, -0.0139, -0.0258, 0.0094, -0.0195, -0.0038, …]
 
 ```json
 {
@@ -9327,15 +9320,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "968badcc-401f-5ad0-be61-5c17ad36376a",
+  "parent_chunk_id": "0c19eb3d-134e-538c-86e6-aad20a9882c5",
   "chunk_index": 210,
   "page_number": 135,
   "page_range": [
     135,
     135
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -9363,15 +9356,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "968badcc-401f-5ad0-be61-5c17ad36376a",
+  "parent_chunk_id": "0c19eb3d-134e-538c-86e6-aad20a9882c5",
   "chunk_index": 211,
   "page_number": 135,
   "page_range": [
     135,
     135
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -9399,25 +9392,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "968badcc-401f-5ad0-be61-5c17ad36376a",
+  "parent_chunk_id": "0c19eb3d-134e-538c-86e6-aad20a9882c5",
   "chunk_index": 212,
   "page_number": 136,
   "page_range": [
     136,
     136
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `452dbafe-6577-58ce-b4cc-c0b40ec17b74`
+## Parent · `20715ce7-a59c-53a1-9127-445a32d91029`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "452dbafe-6577-58ce-b4cc-c0b40ec17b74",
+  "chunk_id": "20715ce7-a59c-53a1-9127-445a32d91029",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -9439,14 +9432,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     136,
     138
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `3ccde0f3-b4a4-5787-97b1-23dc1cbd2cb0`
 
-- vector: dim=3072 · [-0.0102, 0.0052, -0.0191, 0.0118, -0.0250, -0.0002, -0.0032, 0.0161, …]
+- vector: dim=3072 · [-0.0098, 0.0051, -0.0190, 0.0118, -0.0249, -0.0002, -0.0033, 0.0159, …]
 
 ```json
 {
@@ -9468,15 +9461,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "452dbafe-6577-58ce-b4cc-c0b40ec17b74",
+  "parent_chunk_id": "20715ce7-a59c-53a1-9127-445a32d91029",
   "chunk_index": 213,
   "page_number": 136,
   "page_range": [
     136,
     136
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -9504,21 +9497,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "452dbafe-6577-58ce-b4cc-c0b40ec17b74",
+  "parent_chunk_id": "20715ce7-a59c-53a1-9127-445a32d91029",
   "chunk_index": 214,
   "page_number": 136,
   "page_range": [
     136,
     136
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `38a4ede3-c982-53b7-997c-9d785e19afe0`
 
-- vector: dim=3072 · [-0.0303, 0.0255, -0.0149, -0.0077, -0.0401, -0.0176, -0.0215, 0.0266, …]
+- vector: dim=3072 · [-0.0301, 0.0255, -0.0149, -0.0073, -0.0403, -0.0173, -0.0212, 0.0264, …]
 
 ```json
 {
@@ -9540,21 +9533,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "452dbafe-6577-58ce-b4cc-c0b40ec17b74",
+  "parent_chunk_id": "20715ce7-a59c-53a1-9127-445a32d91029",
   "chunk_index": 215,
   "page_number": 137,
   "page_range": [
     137,
     137
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `68f90ce4-366e-59cc-b9eb-32c1ea613eb0`
 
-- vector: dim=3072 · [-0.0211, 0.0153, -0.0229, 0.0023, -0.0313, -0.0305, -0.0088, 0.0171, …]
+- vector: dim=3072 · [-0.0205, 0.0153, -0.0229, 0.0020, -0.0314, -0.0299, -0.0092, 0.0170, …]
 
 ```json
 {
@@ -9576,21 +9569,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "452dbafe-6577-58ce-b4cc-c0b40ec17b74",
+  "parent_chunk_id": "20715ce7-a59c-53a1-9127-445a32d91029",
   "chunk_index": 216,
   "page_number": 137,
   "page_range": [
     137,
     137
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `2f7591fd-9476-5598-84cd-df18531f7242`
 
-- vector: dim=3072 · [-0.0094, 0.0464, -0.0181, -0.0155, -0.0323, -0.0104, -0.0056, 0.0267, …]
+- vector: dim=3072 · [-0.0097, 0.0474, -0.0179, -0.0155, -0.0328, -0.0116, -0.0047, 0.0276, …]
 
 ```json
 {
@@ -9612,25 +9605,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "452dbafe-6577-58ce-b4cc-c0b40ec17b74",
+  "parent_chunk_id": "20715ce7-a59c-53a1-9127-445a32d91029",
   "chunk_index": 217,
   "page_number": 138,
   "page_range": [
     138,
     138
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `8ff86c3a-5f95-5a0f-8142-2f9c7699ca21`
+## Parent · `75d39be6-d4a2-5a87-a645-7a4cd4b499c8`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "8ff86c3a-5f95-5a0f-8142-2f9c7699ca21",
+  "chunk_id": "75d39be6-d4a2-5a87-a645-7a4cd4b499c8",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -9652,14 +9645,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     138,
     140
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `cb773e1a-44fd-5983-9e71-3f6b436405b9`
 
-- vector: dim=3072 · [0.0024, 0.0241, -0.0251, -0.0179, -0.0410, -0.0224, 0.0188, 0.0326, …]
+- vector: dim=3072 · [0.0023, 0.0241, -0.0251, -0.0179, -0.0413, -0.0224, 0.0189, 0.0326, …]
 
 ```json
 {
@@ -9681,21 +9674,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "8ff86c3a-5f95-5a0f-8142-2f9c7699ca21",
+  "parent_chunk_id": "75d39be6-d4a2-5a87-a645-7a4cd4b499c8",
   "chunk_index": 218,
   "page_number": 138,
   "page_range": [
     138,
     138
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e2a5d847-b802-5a8f-aac8-54812a812201`
 
-- vector: dim=3072 · [-0.0046, 0.0128, -0.0171, -0.0063, -0.0339, 0.0043, -0.0204, 0.0009, …]
+- vector: dim=3072 · [-0.0046, 0.0130, -0.0170, -0.0065, -0.0338, 0.0045, -0.0203, 0.0010, …]
 
 ```json
 {
@@ -9717,21 +9710,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "8ff86c3a-5f95-5a0f-8142-2f9c7699ca21",
+  "parent_chunk_id": "75d39be6-d4a2-5a87-a645-7a4cd4b499c8",
   "chunk_index": 219,
   "page_number": 139,
   "page_range": [
     139,
     139
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `4ee30ccd-feeb-566d-9d54-eaf29472fb88`
 
-- vector: dim=3072 · [-0.0098, 0.0286, -0.0191, -0.0109, -0.0363, 0.0119, -0.0305, -0.0055, …]
+- vector: dim=3072 · [-0.0098, 0.0285, -0.0191, -0.0109, -0.0363, 0.0119, -0.0304, -0.0054, …]
 
 ```json
 {
@@ -9753,21 +9746,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "8ff86c3a-5f95-5a0f-8142-2f9c7699ca21",
+  "parent_chunk_id": "75d39be6-d4a2-5a87-a645-7a4cd4b499c8",
   "chunk_index": 220,
   "page_number": 139,
   "page_range": [
     139,
     139
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e351db2e-e4ec-579c-a020-e835ba54b210`
 
-- vector: dim=3072 · [0.0057, 0.0210, -0.0100, -0.0204, -0.0275, 0.0308, -0.0443, 0.0065, …]
+- vector: dim=3072 · [0.0057, 0.0210, -0.0100, -0.0205, -0.0274, 0.0309, -0.0444, 0.0065, …]
 
 ```json
 {
@@ -9789,25 +9782,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "8ff86c3a-5f95-5a0f-8142-2f9c7699ca21",
+  "parent_chunk_id": "75d39be6-d4a2-5a87-a645-7a4cd4b499c8",
   "chunk_index": 221,
   "page_number": 140,
   "page_range": [
     140,
     140
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `dc778e23-bc6d-59d0-9274-20adf85d75b0`
+## Parent · `9f5f675a-f751-5836-802c-adf56039c387`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "dc778e23-bc6d-59d0-9274-20adf85d75b0",
+  "chunk_id": "9f5f675a-f751-5836-802c-adf56039c387",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -9829,14 +9822,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     141,
     142
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `786f85ef-28ba-5611-aff1-c6003356c549`
 
-- vector: dim=3072 · [0.0204, 0.0304, -0.0170, -0.0426, -0.0100, 0.0206, -0.0227, 0.0000, …]
+- vector: dim=3072 · [0.0205, 0.0303, -0.0171, -0.0426, -0.0100, 0.0204, -0.0228, 0.0001, …]
 
 ```json
 {
@@ -9858,21 +9851,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "dc778e23-bc6d-59d0-9274-20adf85d75b0",
+  "parent_chunk_id": "9f5f675a-f751-5836-802c-adf56039c387",
   "chunk_index": 222,
   "page_number": 141,
   "page_range": [
     141,
     141
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b04fba0e-07d6-51c0-b97d-2e9d2867120a`
 
-- vector: dim=3072 · [0.0106, 0.0233, -0.0185, -0.0303, -0.0177, 0.0301, -0.0299, 0.0079, …]
+- vector: dim=3072 · [0.0104, 0.0231, -0.0185, -0.0301, -0.0177, 0.0301, -0.0302, 0.0078, …]
 
 ```json
 {
@@ -9894,15 +9887,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "dc778e23-bc6d-59d0-9274-20adf85d75b0",
+  "parent_chunk_id": "9f5f675a-f751-5836-802c-adf56039c387",
   "chunk_index": 223,
   "page_number": 142,
   "page_range": [
     142,
     142
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -9930,15 +9923,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "dc778e23-bc6d-59d0-9274-20adf85d75b0",
+  "parent_chunk_id": "9f5f675a-f751-5836-802c-adf56039c387",
   "chunk_index": 224,
   "page_number": 142,
   "page_range": [
     142,
     142
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -9966,25 +9959,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "dc778e23-bc6d-59d0-9274-20adf85d75b0",
+  "parent_chunk_id": "9f5f675a-f751-5836-802c-adf56039c387",
   "chunk_index": 225,
   "page_number": 142,
   "page_range": [
     142,
     142
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `0b8626a1-ed18-5133-ba48-9fe3167dd768`
+## Parent · `03ff92cd-98e6-58ab-a2d9-9256ff4af91d`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "0b8626a1-ed18-5133-ba48-9fe3167dd768",
+  "chunk_id": "03ff92cd-98e6-58ab-a2d9-9256ff4af91d",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -10006,8 +9999,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     143,
     144
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -10035,21 +10028,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "0b8626a1-ed18-5133-ba48-9fe3167dd768",
+  "parent_chunk_id": "03ff92cd-98e6-58ab-a2d9-9256ff4af91d",
   "chunk_index": 226,
   "page_number": 143,
   "page_range": [
     143,
     143
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `89cdc6d8-e68b-533f-a66d-44ca0fae5f18`
 
-- vector: dim=3072 · [-0.0108, 0.0147, -0.0088, -0.0183, -0.0325, 0.0275, -0.0284, -0.0104, …]
+- vector: dim=3072 · [-0.0110, 0.0147, -0.0089, -0.0183, -0.0325, 0.0274, -0.0284, -0.0105, …]
 
 ```json
 {
@@ -10071,15 +10064,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "0b8626a1-ed18-5133-ba48-9fe3167dd768",
+  "parent_chunk_id": "03ff92cd-98e6-58ab-a2d9-9256ff4af91d",
   "chunk_index": 227,
   "page_number": 143,
   "page_range": [
     143,
     143
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -10107,25 +10100,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "0b8626a1-ed18-5133-ba48-9fe3167dd768",
+  "parent_chunk_id": "03ff92cd-98e6-58ab-a2d9-9256ff4af91d",
   "chunk_index": 228,
   "page_number": 143,
   "page_range": [
     143,
     144
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `805ee403-9495-573e-86b8-7e92d1c18d58`
+## Parent · `3defed5f-8fbe-5974-b051-eaa124c344a7`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "805ee403-9495-573e-86b8-7e92d1c18d58",
+  "chunk_id": "3defed5f-8fbe-5974-b051-eaa124c344a7",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -10147,14 +10140,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     145,
     148
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `ddd93569-fa5e-5a29-b1a2-850401ee7675`
 
-- vector: dim=3072 · [-0.0177, 0.0160, -0.0017, -0.0213, -0.0265, 0.0105, -0.0311, -0.0157, …]
+- vector: dim=3072 · [-0.0177, 0.0161, -0.0017, -0.0215, -0.0265, 0.0105, -0.0311, -0.0158, …]
 
 ```json
 {
@@ -10176,15 +10169,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "805ee403-9495-573e-86b8-7e92d1c18d58",
+  "parent_chunk_id": "3defed5f-8fbe-5974-b051-eaa124c344a7",
   "chunk_index": 229,
   "page_number": 145,
   "page_range": [
     145,
     145
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -10212,21 +10205,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "805ee403-9495-573e-86b8-7e92d1c18d58",
+  "parent_chunk_id": "3defed5f-8fbe-5974-b051-eaa124c344a7",
   "chunk_index": 230,
   "page_number": 145,
   "page_range": [
     145,
     145
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `308b3f90-a4d8-561e-8ee2-b9aec8163ca2`
 
-- vector: dim=3072 · [-0.0010, -0.0037, -0.0127, -0.0157, -0.0053, -0.0218, -0.0259, -0.0184, …]
+- vector: dim=3072 · [-0.0009, -0.0038, -0.0127, -0.0155, -0.0053, -0.0218, -0.0260, -0.0187, …]
 
 ```json
 {
@@ -10248,21 +10241,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "805ee403-9495-573e-86b8-7e92d1c18d58",
+  "parent_chunk_id": "3defed5f-8fbe-5974-b051-eaa124c344a7",
   "chunk_index": 231,
   "page_number": 146,
   "page_range": [
     146,
     146
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `062665ff-70bf-5f2a-a81d-2d7ef01ac7d2`
 
-- vector: dim=3072 · [0.0098, -0.0248, -0.0127, -0.0153, -0.0028, -0.0057, -0.0335, -0.0216, …]
+- vector: dim=3072 · [0.0097, -0.0248, -0.0127, -0.0153, -0.0027, -0.0057, -0.0335, -0.0217, …]
 
 ```json
 {
@@ -10284,25 +10277,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "805ee403-9495-573e-86b8-7e92d1c18d58",
+  "parent_chunk_id": "3defed5f-8fbe-5974-b051-eaa124c344a7",
   "chunk_index": 232,
   "page_number": 147,
   "page_range": [
     147,
     148
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `9c5a586e-e65f-5d6b-96c3-55718386bd03`
+## Parent · `d40484cd-a851-5b14-b954-a9f7b92aa23a`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "9c5a586e-e65f-5d6b-96c3-55718386bd03",
+  "chunk_id": "d40484cd-a851-5b14-b954-a9f7b92aa23a",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -10324,8 +10317,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     148,
     150
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -10353,21 +10346,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9c5a586e-e65f-5d6b-96c3-55718386bd03",
+  "parent_chunk_id": "d40484cd-a851-5b14-b954-a9f7b92aa23a",
   "chunk_index": 233,
   "page_number": 148,
   "page_range": [
     148,
     148
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `7cfc78db-8a4f-56f8-a8a4-e7dcdffb4396`
 
-- vector: dim=3072 · [-0.0337, 0.0125, -0.0108, -0.0281, -0.0299, 0.0080, -0.0189, 0.0115, …]
+- vector: dim=3072 · [-0.0336, 0.0126, -0.0108, -0.0281, -0.0300, 0.0079, -0.0189, 0.0114, …]
 
 ```json
 {
@@ -10389,21 +10382,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9c5a586e-e65f-5d6b-96c3-55718386bd03",
+  "parent_chunk_id": "d40484cd-a851-5b14-b954-a9f7b92aa23a",
   "chunk_index": 234,
   "page_number": 149,
   "page_range": [
     149,
     149
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `22b328d0-7d0c-50e7-adb7-a817c986dc41`
 
-- vector: dim=3072 · [-0.0261, -0.0044, -0.0096, -0.0269, -0.0368, 0.0039, -0.0288, -0.0024, …]
+- vector: dim=3072 · [-0.0261, -0.0045, -0.0096, -0.0267, -0.0365, 0.0036, -0.0294, -0.0025, …]
 
 ```json
 {
@@ -10425,21 +10418,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9c5a586e-e65f-5d6b-96c3-55718386bd03",
+  "parent_chunk_id": "d40484cd-a851-5b14-b954-a9f7b92aa23a",
   "chunk_index": 235,
   "page_number": 149,
   "page_range": [
     149,
     149
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `e30faed0-ae84-570b-ae63-9973a987434c`
 
-- vector: dim=3072 · [0.0021, 0.0150, -0.0210, -0.0228, 0.0021, 0.0020, -0.0269, 0.0162, …]
+- vector: dim=3072 · [0.0023, 0.0151, -0.0211, -0.0227, 0.0020, 0.0020, -0.0269, 0.0164, …]
 
 ```json
 {
@@ -10461,15 +10454,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9c5a586e-e65f-5d6b-96c3-55718386bd03",
+  "parent_chunk_id": "d40484cd-a851-5b14-b954-a9f7b92aa23a",
   "chunk_index": 236,
   "page_number": 150,
   "page_range": [
     150,
     150
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -10497,25 +10490,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9c5a586e-e65f-5d6b-96c3-55718386bd03",
+  "parent_chunk_id": "d40484cd-a851-5b14-b954-a9f7b92aa23a",
   "chunk_index": 237,
   "page_number": 150,
   "page_range": [
     150,
     150
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `86292541-7f15-561e-a9a3-b02d748dff77`
+## Parent · `4c38f4ed-6e9b-5452-bf55-a1bf9205bbaf`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "86292541-7f15-561e-a9a3-b02d748dff77",
+  "chunk_id": "4c38f4ed-6e9b-5452-bf55-a1bf9205bbaf",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -10537,14 +10530,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     151,
     152
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `ed656195-4233-5813-ba89-07c8726123f7`
 
-- vector: dim=3072 · [0.0022, 0.0151, -0.0078, -0.0136, -0.0069, 0.0094, -0.0218, 0.0162, …]
+- vector: dim=3072 · [0.0023, 0.0154, -0.0078, -0.0136, -0.0062, 0.0097, -0.0216, 0.0159, …]
 
 ```json
 {
@@ -10566,21 +10559,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "86292541-7f15-561e-a9a3-b02d748dff77",
+  "parent_chunk_id": "4c38f4ed-6e9b-5452-bf55-a1bf9205bbaf",
   "chunk_index": 238,
   "page_number": 151,
   "page_range": [
     151,
     151
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `212ec0e1-9724-5583-9112-269d2c6a5cc4`
 
-- vector: dim=3072 · [0.0067, 0.0101, -0.0098, -0.0226, -0.0185, 0.0053, -0.0126, 0.0117, …]
+- vector: dim=3072 · [0.0067, 0.0103, -0.0098, -0.0226, -0.0184, 0.0053, -0.0126, 0.0115, …]
 
 ```json
 {
@@ -10602,21 +10595,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "86292541-7f15-561e-a9a3-b02d748dff77",
+  "parent_chunk_id": "4c38f4ed-6e9b-5452-bf55-a1bf9205bbaf",
   "chunk_index": 239,
   "page_number": 151,
   "page_range": [
     151,
     151
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `76d569c7-dcef-5ea0-b569-7102e6fc90a9`
 
-- vector: dim=3072 · [0.0033, 0.0058, -0.0098, -0.0157, -0.0011, 0.0197, -0.0448, 0.0186, …]
+- vector: dim=3072 · [0.0036, 0.0058, -0.0098, -0.0154, -0.0013, 0.0197, -0.0448, 0.0188, …]
 
 ```json
 {
@@ -10638,15 +10631,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "86292541-7f15-561e-a9a3-b02d748dff77",
+  "parent_chunk_id": "4c38f4ed-6e9b-5452-bf55-a1bf9205bbaf",
   "chunk_index": 240,
   "page_number": 152,
   "page_range": [
     152,
     152
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -10674,21 +10667,54 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "86292541-7f15-561e-a9a3-b02d748dff77",
+  "parent_chunk_id": "4c38f4ed-6e9b-5452-bf55-a1bf9205bbaf",
   "chunk_index": 241,
   "page_number": 152,
   "page_range": [
     152,
     152
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
+}
+```
+
+## Parent · `af339607-fb95-5cb5-95f1-dd3d7b40bc6a`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "af339607-fb95-5cb5-95f1-dd3d7b40bc6a",
+  "document_id": "advanced_green_fuels_for_maritime_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime.pdf",
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "3.4.1\t Commercial Hydrogen Fueled Marine Engines (cont.)\n\n38.\t Dai P, Chen Z, Gan X, Liberman MA. Autoignition and detonation development from a hot spot \ninside a closed chamber: Effects of end wall reflection. Proc Combust Inst 2021;38(4):5905–13. \nhttps://doi.org/10.1016/J.PROCI.2020.09.025.\n39.\t Khalid AH, Muhamad Said MF, Veza I, Abas MA, Roslan MF, Abubakar S, et al. Hydrogen port fuel \ninjection: Review of fuel injection control strategies to mitigate backfire in internal combustion \nengine fuelled with Hydrogen. Int J Hydrogen Energy 2024;66:571–81. https://doi.org/10.1016/J.\nIJHYDENE.\n\n… [+2557 more chars]",
+  "content_hash": "a8150a11e8a442d556b467accfe579d43d1ef3fb2d3d3c602facef50271b8748",
+  "token_count": 800,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
+  "page_range": [
+    153,
+    156
+  ],
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0ca223ad-4514-5db6-bde4-74b9ff00a3fe`
 
-- vector: dim=3072 · [0.0137, 0.0084, -0.0149, -0.0080, -0.0095, 0.0132, -0.0284, 0.0279, …]
+- vector: dim=3072 · [0.0128, 0.0117, -0.0150, -0.0156, -0.0180, 0.0198, -0.0317, 0.0192, …]
 
 ```json
 {
@@ -10698,9 +10724,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
-  "chunk_text": "38.\t Dai P, Chen Z, Gan X, Liberman MA. Autoignition and detonation development from a hot spot \ninside a closed chamber: Effects of end wall reflection. Proc Combust Inst 2021;38(4):5905–13. \nhttps://doi.org/10.1016/J.PROCI.2020.09.025.\n39.\t Khalid AH, Muhamad Said MF, Veza I, Abas MA, Roslan MF, Abubakar S, et al. Hydrogen port fuel \ninjection: Review of fuel injection control strategies to mitigate backfire in internal combustion \nengine fuelled with Hydrogen. Int J Hydrogen Energy 2024;66:571–81. https://doi.org/10.1016/J.\nIJHYDENE.2024.04.087.\n40.\t Liu X, Yang L, Chan QN, Kook S. Split in\n\n… [+446 more chars]",
-  "content_hash": "d4f910b397477b65e99290eb1a171820f7127a2f567961340f17320853a9f885",
-  "token_count": 329,
+  "chunk_text": "38.\t Dai P, Chen Z, Gan X, Liberman MA. Autoignition and detonation development from a hot spot \ninside a closed chamber: Effects of end wall reflection. Proc Combust Inst 2021;38(4):5905–13. \nhttps://doi.org/10.1016/J.PROCI.2020.09.025.\n39.\t Khalid AH, Muhamad Said MF, Veza I, Abas MA, Roslan MF, Abubakar S, et al. Hydrogen port fuel \ninjection: Review of fuel injection control strategies to mitigate backfire in internal combustion \nengine fuelled with Hydrogen. Int J Hydrogen Energy 2024;66:571–81. https://doi.org/10.1016/J.\nIJHYDENE.2024.04.087.\n40.\t Liu X, Yang L, Chan QN, Kook S. Split in\n\n… [+447 more chars]",
+  "content_hash": "5d389a64e072ffa81c85160210669e219bf4c7aff95f52ee62169e5081347322",
+  "token_count": 326,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -10710,20 +10736,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
+  "parent_chunk_id": "af339607-fb95-5cb5-95f1-dd3d7b40bc6a",
   "chunk_index": 242,
   "page_number": 153,
   "page_range": [
     153,
     155
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `df17e0c3-0b59-5388-9c36-3290c0782c7c`
 
-- vector: dim=3072 · [-0.0220, 0.0072, -0.0128, 0.0040, -0.0146, -0.0279, -0.0287, 0.0222, …]
+- vector: dim=3072 · [-0.0206, 0.0059, -0.0158, 0.0017, -0.0160, 0.0037, -0.0300, 0.0071, …]
 
 ```json
 {
@@ -10732,10 +10759,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapt",
-  "chunk_text": "In this Chapter, the Section 4.1 provides a comparative assessment of the alternative fuels based \non their sustainability aspect like properties and production pathways (4.1.1), Cost (4.1.2) and LCA \nperformance (4.1.3). \nIn Section 4.2 alternative fuel and fuel-mix demand scenarios are built to estimate the fuel \nrequired for India in meeting IMO’s revised emission targets as per MEPC 83 revised guidelines \n[1]. Three Scenarios are built where the Scenario-1 estimates fuel/fuel-mix demand for meeting \nGFI based emission targets by year 2030 and 2035. Scenarios-2 is built for replacing fossil\n\n… [+1451 more chars]",
-  "content_hash": "936e7fe338b4d4957ba49215740b708c595e33f22f6d756db37c03388f1e2d80",
-  "token_count": 456,
+  "section_heading": "3.4.1\t Commercial Hydrogen Fueled Marine Engines",
+  "chunk_text": "Upgrade of lean-burn gas engines to the future hydrogen \nadmixture in the natural gas grid. In: Rostock large engine conference, Rostock, 2022(Cross \nReference)\n\nernative Fuel Powered Marine Engines (ICE) for Decarb In this Chapter, the Section 4.1 provides a comparative assessment of the alternative fuels based \non their sustainability aspect like properties and production pathways (4.1.1), Cost (4.1.2) and LCA \nperformance (4.1.3). \nIn Section 4.2 alternative fuel and fuel-mix demand scenarios are built to estimate the fuel \nrequired for India in meeting IMO’s revised emission targets as per\n\n… [+1667 more chars]",
+  "content_hash": "e8f678abfeb6a6aca7ddbc16c3a44c2317df3d72c5482ee7d933a04ed3c3fb8f",
+  "token_count": 509,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -10745,20 +10772,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
+  "parent_chunk_id": "af339607-fb95-5cb5-95f1-dd3d7b40bc6a",
   "chunk_index": 243,
   "page_number": 156,
   "page_range": [
     156,
     156
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `db2df68d-57ce-532b-9011-fc9701b5ce74`
 
-- vector: dim=3072 · [-0.0266, 0.0181, -0.0167, -0.0018, -0.0310, 0.0104, -0.0306, -0.0072, …]
+- vector: dim=3072 · [-0.0265, 0.0182, -0.0167, -0.0017, -0.0309, 0.0103, -0.0307, -0.0072, …]
 
 ```json
 {
@@ -10786,8 +10814,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     156,
     157
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -10821,18 +10849,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     157,
     158
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `d5f98ebb-41b4-5891-bf8b-3eed416c69c4`
+## Parent · `805ee403-9495-573e-86b8-7e92d1c18d58`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "d5f98ebb-41b4-5891-bf8b-3eed416c69c4",
+  "chunk_id": "805ee403-9495-573e-86b8-7e92d1c18d58",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -10854,14 +10882,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     158,
     159
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `8856491f-0145-524b-b381-7fa025d1b1f6`
 
-- vector: dim=3072 · [0.0028, -0.0017, -0.0103, -0.0096, 0.0012, 0.0025, -0.0461, -0.0004, …]
+- vector: dim=3072 · [0.0028, -0.0016, -0.0103, -0.0095, 0.0013, 0.0026, -0.0461, -0.0004, …]
 
 ```json
 {
@@ -10883,21 +10911,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d5f98ebb-41b4-5891-bf8b-3eed416c69c4",
+  "parent_chunk_id": "805ee403-9495-573e-86b8-7e92d1c18d58",
   "chunk_index": 246,
   "page_number": 158,
   "page_range": [
     158,
     158
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `4b80bcd7-3c2e-53b7-81d6-52c800fb7602`
 
-- vector: dim=3072 · [-0.0059, 0.0086, -0.0138, 0.0034, -0.0126, 0.0035, -0.0076, 0.0070, …]
+- vector: dim=3072 · [-0.0060, 0.0085, -0.0138, 0.0034, -0.0124, 0.0035, -0.0076, 0.0070, …]
 
 ```json
 {
@@ -10919,15 +10947,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d5f98ebb-41b4-5891-bf8b-3eed416c69c4",
+  "parent_chunk_id": "805ee403-9495-573e-86b8-7e92d1c18d58",
   "chunk_index": 247,
   "page_number": 158,
   "page_range": [
     158,
     158
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -10955,15 +10983,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d5f98ebb-41b4-5891-bf8b-3eed416c69c4",
+  "parent_chunk_id": "805ee403-9495-573e-86b8-7e92d1c18d58",
   "chunk_index": 248,
   "page_number": 159,
   "page_range": [
     159,
     159
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -10991,25 +11019,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d5f98ebb-41b4-5891-bf8b-3eed416c69c4",
+  "parent_chunk_id": "805ee403-9495-573e-86b8-7e92d1c18d58",
   "chunk_index": 249,
   "page_number": 159,
   "page_range": [
     159,
     159
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `da829754-856d-5e4c-b9c9-d54a217851de`
+## Parent · `0de7aca7-6c26-57aa-adc8-b49fd5096d98`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "da829754-856d-5e4c-b9c9-d54a217851de",
+  "chunk_id": "0de7aca7-6c26-57aa-adc8-b49fd5096d98",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -11031,14 +11059,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     160,
     163
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `97591886-aaaa-5f59-aace-a92cbf551997`
 
-- vector: dim=3072 · [-0.0322, -0.0041, -0.0169, -0.0004, -0.0233, -0.0074, -0.0199, -0.0104, …]
+- vector: dim=3072 · [-0.0321, -0.0039, -0.0168, -0.0002, -0.0231, -0.0071, -0.0202, -0.0103, …]
 
 ```json
 {
@@ -11060,15 +11088,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "da829754-856d-5e4c-b9c9-d54a217851de",
+  "parent_chunk_id": "0de7aca7-6c26-57aa-adc8-b49fd5096d98",
   "chunk_index": 250,
   "page_number": 160,
   "page_range": [
     160,
     160
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -11096,15 +11124,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "da829754-856d-5e4c-b9c9-d54a217851de",
+  "parent_chunk_id": "0de7aca7-6c26-57aa-adc8-b49fd5096d98",
   "chunk_index": 251,
   "page_number": 160,
   "page_range": [
     160,
     160
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -11132,15 +11160,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "da829754-856d-5e4c-b9c9-d54a217851de",
+  "parent_chunk_id": "0de7aca7-6c26-57aa-adc8-b49fd5096d98",
   "chunk_index": 252,
   "page_number": 161,
   "page_range": [
     161,
     161
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -11168,21 +11196,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "da829754-856d-5e4c-b9c9-d54a217851de",
+  "parent_chunk_id": "0de7aca7-6c26-57aa-adc8-b49fd5096d98",
   "chunk_index": 253,
   "page_number": 161,
   "page_range": [
     161,
     162
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `9cc719ce-982f-53f4-8607-d48d7ca647e3`
 
-- vector: dim=3072 · [-0.0220, -0.0190, -0.0129, 0.0091, -0.0404, -0.0254, -0.0102, -0.0196, …]
+- vector: dim=3072 · [-0.0220, -0.0193, -0.0129, 0.0095, -0.0403, -0.0252, -0.0100, -0.0195, …]
 
 ```json
 {
@@ -11204,15 +11232,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "da829754-856d-5e4c-b9c9-d54a217851de",
+  "parent_chunk_id": "0de7aca7-6c26-57aa-adc8-b49fd5096d98",
   "chunk_index": 254,
   "page_number": 163,
   "page_range": [
     163,
     163
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -11240,25 +11268,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "da829754-856d-5e4c-b9c9-d54a217851de",
+  "parent_chunk_id": "0de7aca7-6c26-57aa-adc8-b49fd5096d98",
   "chunk_index": 255,
   "page_number": 163,
   "page_range": [
     163,
     163
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `804c93ae-eca4-5e54-bfab-a370d399adff`
+## Parent · `cb7989db-6934-5610-9605-1fe44496b339`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "804c93ae-eca4-5e54-bfab-a370d399adff",
+  "chunk_id": "cb7989db-6934-5610-9605-1fe44496b339",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -11280,14 +11308,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     164,
     165
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `9e34cef0-4ae9-53a5-8012-8d49becc1fae`
 
-- vector: dim=3072 · [0.0010, -0.0174, -0.0144, 0.0037, -0.0160, -0.0210, -0.0317, -0.0122, …]
+- vector: dim=3072 · [0.0013, -0.0171, -0.0144, 0.0040, -0.0160, -0.0211, -0.0319, -0.0122, …]
 
 ```json
 {
@@ -11309,21 +11337,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "804c93ae-eca4-5e54-bfab-a370d399adff",
+  "parent_chunk_id": "cb7989db-6934-5610-9605-1fe44496b339",
   "chunk_index": 256,
   "page_number": 164,
   "page_range": [
     164,
     164
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `36766f39-d8ab-550c-9e46-11b298ec9207`
 
-- vector: dim=3072 · [-0.0034, 0.0007, 0.0041, -0.0068, -0.0275, -0.0484, 0.0019, -0.0026, …]
+- vector: dim=3072 · [-0.0032, 0.0008, 0.0041, -0.0067, -0.0273, -0.0483, 0.0020, -0.0026, …]
 
 ```json
 {
@@ -11345,15 +11373,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "804c93ae-eca4-5e54-bfab-a370d399adff",
+  "parent_chunk_id": "cb7989db-6934-5610-9605-1fe44496b339",
   "chunk_index": 257,
   "page_number": 165,
   "page_range": [
     165,
     165
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -11381,21 +11409,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "804c93ae-eca4-5e54-bfab-a370d399adff",
+  "parent_chunk_id": "cb7989db-6934-5610-9605-1fe44496b339",
   "chunk_index": 258,
   "page_number": 165,
   "page_range": [
     165,
     165
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `9d0ab2b4-ec07-52c9-9e3d-e48cc7b6bd91`
 
-- vector: dim=3072 · [0.0075, -0.0271, -0.0116, -0.0160, -0.0331, -0.0413, 0.0183, -0.0041, …]
+- vector: dim=3072 · [0.0076, -0.0268, -0.0113, -0.0162, -0.0337, -0.0417, 0.0177, -0.0046, …]
 
 ```json
 {
@@ -11423,18 +11451,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     166,
     166
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `4fb7ec0e-30b3-5d14-bbb1-a58f3b516867`
+## Parent · `316d398c-3d6b-5b1b-8a33-61c864e7de64`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "4fb7ec0e-30b3-5d14-bbb1-a58f3b516867",
+  "chunk_id": "316d398c-3d6b-5b1b-8a33-61c864e7de64",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -11456,14 +11484,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     166,
     167
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `09690d69-d299-5b9c-aea5-613a796d07c1`
 
-- vector: dim=3072 · [-0.0003, -0.0206, -0.0093, 0.0054, -0.0539, -0.0665, 0.0021, -0.0034, …]
+- vector: dim=3072 · [-0.0003, -0.0208, -0.0092, 0.0056, -0.0540, -0.0665, 0.0020, -0.0035, …]
 
 ```json
 {
@@ -11485,21 +11513,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "4fb7ec0e-30b3-5d14-bbb1-a58f3b516867",
+  "parent_chunk_id": "316d398c-3d6b-5b1b-8a33-61c864e7de64",
   "chunk_index": 260,
   "page_number": 166,
   "page_range": [
     166,
     166
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `9a840cf6-66b4-5308-bfa8-f6bac678e899`
 
-- vector: dim=3072 · [0.0104, -0.0377, -0.0113, -0.0099, -0.0475, -0.0487, 0.0229, 0.0033, …]
+- vector: dim=3072 · [0.0105, -0.0377, -0.0114, -0.0100, -0.0474, -0.0487, 0.0229, 0.0033, …]
 
 ```json
 {
@@ -11521,15 +11549,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "4fb7ec0e-30b3-5d14-bbb1-a58f3b516867",
+  "parent_chunk_id": "316d398c-3d6b-5b1b-8a33-61c864e7de64",
   "chunk_index": 261,
   "page_number": 166,
   "page_range": [
     166,
     166
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -11557,15 +11585,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "4fb7ec0e-30b3-5d14-bbb1-a58f3b516867",
+  "parent_chunk_id": "316d398c-3d6b-5b1b-8a33-61c864e7de64",
   "chunk_index": 262,
   "page_number": 166,
   "page_range": [
     166,
     167
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -11593,25 +11621,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "4fb7ec0e-30b3-5d14-bbb1-a58f3b516867",
+  "parent_chunk_id": "316d398c-3d6b-5b1b-8a33-61c864e7de64",
   "chunk_index": 263,
   "page_number": 167,
   "page_range": [
     167,
     167
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `7dff75de-e0e1-5b30-a15d-81a870bca79f`
+## Parent · `d7851ceb-f00d-595d-b9f7-e0ca5f20cd0c`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "7dff75de-e0e1-5b30-a15d-81a870bca79f",
+  "chunk_id": "d7851ceb-f00d-595d-b9f7-e0ca5f20cd0c",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -11633,14 +11661,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     168,
     169
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0424f2d8-c77b-5b1b-9b40-db6f65d9505f`
 
-- vector: dim=3072 · [-0.0118, 0.0158, -0.0159, 0.0053, -0.0232, -0.0111, -0.0356, 0.0023, …]
+- vector: dim=3072 · [-0.0116, 0.0160, -0.0159, 0.0053, -0.0231, -0.0109, -0.0356, 0.0022, …]
 
 ```json
 {
@@ -11662,15 +11690,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "7dff75de-e0e1-5b30-a15d-81a870bca79f",
+  "parent_chunk_id": "d7851ceb-f00d-595d-b9f7-e0ca5f20cd0c",
   "chunk_index": 264,
   "page_number": 168,
   "page_range": [
     168,
     168
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -11698,21 +11726,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "7dff75de-e0e1-5b30-a15d-81a870bca79f",
+  "parent_chunk_id": "d7851ceb-f00d-595d-b9f7-e0ca5f20cd0c",
   "chunk_index": 265,
   "page_number": 168,
   "page_range": [
     168,
     168
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `74f00cbc-1b10-5522-a512-408cbe9d2253`
 
-- vector: dim=3072 · [-0.0230, 0.0228, -0.0071, -0.0100, -0.0135, 0.0078, -0.0668, -0.0255, …]
+- vector: dim=3072 · [-0.0230, 0.0228, -0.0071, -0.0100, -0.0135, 0.0078, -0.0668, -0.0256, …]
 
 ```json
 {
@@ -11734,25 +11762,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "7dff75de-e0e1-5b30-a15d-81a870bca79f",
+  "parent_chunk_id": "d7851ceb-f00d-595d-b9f7-e0ca5f20cd0c",
   "chunk_index": 266,
   "page_number": 169,
   "page_range": [
     169,
     169
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `0b8bef39-2f0c-5096-92ce-4b32ce468cac`
+## Parent · `397c9562-038d-5f88-a7a7-6372e03fea09`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "0b8bef39-2f0c-5096-92ce-4b32ce468cac",
+  "chunk_id": "397c9562-038d-5f88-a7a7-6372e03fea09",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -11774,14 +11802,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     169,
     172
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `fa6f5482-f399-5733-a80a-f504abb420fd`
 
-- vector: dim=3072 · [-0.0337, 0.0111, -0.0218, 0.0211, -0.0188, -0.0109, -0.0502, 0.0303, …]
+- vector: dim=3072 · [-0.0337, 0.0111, -0.0218, 0.0211, -0.0188, -0.0109, -0.0502, 0.0304, …]
 
 ```json
 {
@@ -11803,15 +11831,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "0b8bef39-2f0c-5096-92ce-4b32ce468cac",
+  "parent_chunk_id": "397c9562-038d-5f88-a7a7-6372e03fea09",
   "chunk_index": 267,
   "page_number": 169,
   "page_range": [
     169,
     169
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -11839,15 +11867,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "0b8bef39-2f0c-5096-92ce-4b32ce468cac",
+  "parent_chunk_id": "397c9562-038d-5f88-a7a7-6372e03fea09",
   "chunk_index": 268,
   "page_number": 170,
   "page_range": [
     170,
     170
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -11875,15 +11903,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "0b8bef39-2f0c-5096-92ce-4b32ce468cac",
+  "parent_chunk_id": "397c9562-038d-5f88-a7a7-6372e03fea09",
   "chunk_index": 269,
   "page_number": 171,
   "page_range": [
     171,
     172
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -11911,25 +11939,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "0b8bef39-2f0c-5096-92ce-4b32ce468cac",
+  "parent_chunk_id": "397c9562-038d-5f88-a7a7-6372e03fea09",
   "chunk_index": 270,
   "page_number": 172,
   "page_range": [
     172,
     172
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `d5d364c8-e3fa-52e5-8597-0ec66184e88f`
+## Parent · `fe7ebbad-1c44-5b8c-80d4-2814b98f5dbf`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "d5d364c8-e3fa-52e5-8597-0ec66184e88f",
+  "chunk_id": "fe7ebbad-1c44-5b8c-80d4-2814b98f5dbf",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -11951,14 +11979,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     172,
     173
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b06b7424-3bc5-5a0a-9b0d-84a12e4664a2`
 
-- vector: dim=3072 · [-0.0037, -0.0147, -0.0171, -0.0082, -0.0414, -0.0157, -0.0025, 0.0496, …]
+- vector: dim=3072 · [-0.0031, -0.0146, -0.0172, -0.0085, -0.0418, -0.0155, -0.0015, 0.0493, …]
 
 ```json
 {
@@ -11980,21 +12008,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d5d364c8-e3fa-52e5-8597-0ec66184e88f",
+  "parent_chunk_id": "fe7ebbad-1c44-5b8c-80d4-2814b98f5dbf",
   "chunk_index": 271,
   "page_number": 172,
   "page_range": [
     172,
     172
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `da90ffdc-feb4-584f-9a0f-b1db09adbebb`
 
-- vector: dim=3072 · [-0.0101, 0.0029, -0.0153, 0.0014, -0.0313, -0.0417, -0.0052, 0.0550, …]
+- vector: dim=3072 · [-0.0099, 0.0028, -0.0159, 0.0011, -0.0319, -0.0414, -0.0051, 0.0551, …]
 
 ```json
 {
@@ -12016,21 +12044,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d5d364c8-e3fa-52e5-8597-0ec66184e88f",
+  "parent_chunk_id": "fe7ebbad-1c44-5b8c-80d4-2814b98f5dbf",
   "chunk_index": 272,
   "page_number": 172,
   "page_range": [
     172,
     172
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `90addfe7-e775-5e23-acd5-86079fc13658`
 
-- vector: dim=3072 · [-0.0274, 0.0047, -0.0167, 0.0133, -0.0534, -0.0508, -0.0015, 0.0424, …]
+- vector: dim=3072 · [-0.0276, 0.0047, -0.0167, 0.0133, -0.0534, -0.0509, -0.0018, 0.0424, …]
 
 ```json
 {
@@ -12052,25 +12080,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d5d364c8-e3fa-52e5-8597-0ec66184e88f",
+  "parent_chunk_id": "fe7ebbad-1c44-5b8c-80d4-2814b98f5dbf",
   "chunk_index": 273,
   "page_number": 172,
   "page_range": [
     172,
     173
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `f3e9333a-e030-5407-b413-74bd07502390`
+## Parent · `d5f98ebb-41b4-5891-bf8b-3eed416c69c4`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "f3e9333a-e030-5407-b413-74bd07502390",
+  "chunk_id": "d5f98ebb-41b4-5891-bf8b-3eed416c69c4",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -12092,14 +12120,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     173,
     174
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `dab6ae31-f3ed-587b-9756-89f5c0546291`
 
-- vector: dim=3072 · [-0.0056, 0.0026, -0.0062, -0.0185, -0.0329, -0.0051, -0.0441, 0.0420, …]
+- vector: dim=3072 · [-0.0055, 0.0024, -0.0062, -0.0183, -0.0331, -0.0052, -0.0442, 0.0421, …]
 
 ```json
 {
@@ -12121,21 +12149,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f3e9333a-e030-5407-b413-74bd07502390",
+  "parent_chunk_id": "d5f98ebb-41b4-5891-bf8b-3eed416c69c4",
   "chunk_index": 274,
   "page_number": 173,
   "page_range": [
     173,
     173
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `624c3f65-3d01-58bc-a9d4-b27a62f13dba`
 
-- vector: dim=3072 · [-0.0224, -0.0082, -0.0083, -0.0112, -0.0205, -0.0350, -0.0249, 0.0224, …]
+- vector: dim=3072 · [-0.0227, -0.0088, -0.0083, -0.0109, -0.0206, -0.0351, -0.0250, 0.0220, …]
 
 ```json
 {
@@ -12157,21 +12185,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f3e9333a-e030-5407-b413-74bd07502390",
+  "parent_chunk_id": "d5f98ebb-41b4-5891-bf8b-3eed416c69c4",
   "chunk_index": 275,
   "page_number": 173,
   "page_range": [
     173,
     173
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `ecfaf844-a371-55d1-bc48-9904a928eebd`
 
-- vector: dim=3072 · [-0.0083, 0.0001, -0.0180, -0.0011, -0.0321, -0.0517, -0.0055, 0.0565, …]
+- vector: dim=3072 · [-0.0083, 0.0001, -0.0180, -0.0010, -0.0320, -0.0516, -0.0056, 0.0565, …]
 
 ```json
 {
@@ -12193,21 +12221,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f3e9333a-e030-5407-b413-74bd07502390",
+  "parent_chunk_id": "d5f98ebb-41b4-5891-bf8b-3eed416c69c4",
   "chunk_index": 276,
   "page_number": 173,
   "page_range": [
     173,
     173
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `6584e5aa-8673-5655-a7d4-a1d4ada7924a`
 
-- vector: dim=3072 · [-0.0290, 0.0009, -0.0009, 0.0110, -0.0132, -0.0410, -0.0259, 0.0146, …]
+- vector: dim=3072 · [-0.0289, 0.0011, -0.0008, 0.0109, -0.0130, -0.0409, -0.0260, 0.0146, …]
 
 ```json
 {
@@ -12229,21 +12257,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f3e9333a-e030-5407-b413-74bd07502390",
+  "parent_chunk_id": "d5f98ebb-41b4-5891-bf8b-3eed416c69c4",
   "chunk_index": 277,
   "page_number": 173,
   "page_range": [
     173,
     174
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `a951500d-227d-5fe4-a847-271379907eb0`
 
-- vector: dim=3072 · [-0.0137, 0.0087, -0.0016, 0.0009, -0.0036, -0.0432, -0.0202, 0.0323, …]
+- vector: dim=3072 · [-0.0138, 0.0088, -0.0020, -0.0004, -0.0028, -0.0426, -0.0204, 0.0312, …]
 
 ```json
 {
@@ -12265,21 +12293,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f3e9333a-e030-5407-b413-74bd07502390",
+  "parent_chunk_id": "d5f98ebb-41b4-5891-bf8b-3eed416c69c4",
   "chunk_index": 278,
   "page_number": 174,
   "page_range": [
     174,
     174
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `54a80617-c0c6-53fc-a519-dd48ef2ad3ef`
 
-- vector: dim=3072 · [0.0070, 0.0410, -0.0104, -0.0242, -0.0031, 0.0333, -0.0061, 0.0224, …]
+- vector: dim=3072 · [0.0075, 0.0409, -0.0103, -0.0241, -0.0035, 0.0335, -0.0069, 0.0220, …]
 
 ```json
 {
@@ -12307,18 +12335,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     175,
     175
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `48fee6d2-2fea-58a7-bcd0-f383c50408d7`
+## Parent · `4fb7ec0e-30b3-5d14-bbb1-a58f3b516867`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "48fee6d2-2fea-58a7-bcd0-f383c50408d7",
+  "chunk_id": "4fb7ec0e-30b3-5d14-bbb1-a58f3b516867",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -12340,14 +12368,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     175,
     177
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `d3af16de-8d84-5c6f-8cb6-b76707639672`
 
-- vector: dim=3072 · [-0.0366, -0.0068, -0.0103, -0.0263, -0.0220, -0.0208, -0.0087, 0.0055, …]
+- vector: dim=3072 · [-0.0366, -0.0069, -0.0103, -0.0263, -0.0220, -0.0208, -0.0087, 0.0055, …]
 
 ```json
 {
@@ -12369,21 +12397,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "48fee6d2-2fea-58a7-bcd0-f383c50408d7",
+  "parent_chunk_id": "4fb7ec0e-30b3-5d14-bbb1-a58f3b516867",
   "chunk_index": 280,
   "page_number": 175,
   "page_range": [
     175,
     175
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `efe143db-f4e4-58e6-b7a2-1562deb3901d`
 
-- vector: dim=3072 · [-0.0107, 0.0115, -0.0185, -0.0180, 0.0080, 0.0024, -0.0133, 0.0294, …]
+- vector: dim=3072 · [-0.0103, 0.0115, -0.0185, -0.0183, 0.0079, 0.0027, -0.0127, 0.0296, …]
 
 ```json
 {
@@ -12405,21 +12433,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "48fee6d2-2fea-58a7-bcd0-f383c50408d7",
+  "parent_chunk_id": "4fb7ec0e-30b3-5d14-bbb1-a58f3b516867",
   "chunk_index": 281,
   "page_number": 175,
   "page_range": [
     175,
     175
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `201ff45f-bca3-5d2a-92da-2723ce17dff0`
 
-- vector: dim=3072 · [-0.0161, 0.0111, -0.0070, -0.0041, -0.0224, -0.0244, -0.0154, 0.0373, …]
+- vector: dim=3072 · [-0.0162, 0.0110, -0.0068, -0.0042, -0.0224, -0.0249, -0.0153, 0.0372, …]
 
 ```json
 {
@@ -12441,21 +12469,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "48fee6d2-2fea-58a7-bcd0-f383c50408d7",
+  "parent_chunk_id": "4fb7ec0e-30b3-5d14-bbb1-a58f3b516867",
   "chunk_index": 282,
   "page_number": 175,
   "page_range": [
     175,
     176
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `a88a169b-fb0e-50a0-be40-a1bbc8c814b0`
 
-- vector: dim=3072 · [-0.0489, -0.0063, -0.0182, -0.0048, -0.0257, -0.0236, -0.0116, 0.0172, …]
+- vector: dim=3072 · [-0.0486, -0.0064, -0.0184, -0.0042, -0.0257, -0.0238, -0.0111, 0.0176, …]
 
 ```json
 {
@@ -12477,21 +12505,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "48fee6d2-2fea-58a7-bcd0-f383c50408d7",
+  "parent_chunk_id": "4fb7ec0e-30b3-5d14-bbb1-a58f3b516867",
   "chunk_index": 283,
   "page_number": 177,
   "page_range": [
     177,
     177
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `7cef506a-e38f-5f36-b46d-9fe556f40ecb`
 
-- vector: dim=3072 · [-0.0384, 0.0118, -0.0143, -0.0054, -0.0139, -0.0005, -0.0192, 0.0212, …]
+- vector: dim=3072 · [-0.0384, 0.0117, -0.0143, -0.0054, -0.0139, -0.0005, -0.0192, 0.0212, …]
 
 ```json
 {
@@ -12513,25 +12541,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "48fee6d2-2fea-58a7-bcd0-f383c50408d7",
+  "parent_chunk_id": "4fb7ec0e-30b3-5d14-bbb1-a58f3b516867",
   "chunk_index": 284,
   "page_number": 177,
   "page_range": [
     177,
     177
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `1be7b868-02fd-553e-907f-67c24be4f0c0`
+## Parent · `7dff75de-e0e1-5b30-a15d-81a870bca79f`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "1be7b868-02fd-553e-907f-67c24be4f0c0",
+  "chunk_id": "7dff75de-e0e1-5b30-a15d-81a870bca79f",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -12553,14 +12581,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     178,
     181
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `3edbd872-ac4d-5722-98e0-66beb0ef3ee7`
 
-- vector: dim=3072 · [-0.0374, 0.0070, -0.0139, -0.0089, -0.0231, -0.0124, -0.0215, -0.0021, …]
+- vector: dim=3072 · [-0.0384, 0.0078, -0.0132, -0.0090, -0.0233, -0.0133, -0.0213, -0.0025, …]
 
 ```json
 {
@@ -12582,21 +12610,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1be7b868-02fd-553e-907f-67c24be4f0c0",
+  "parent_chunk_id": "7dff75de-e0e1-5b30-a15d-81a870bca79f",
   "chunk_index": 285,
   "page_number": 178,
   "page_range": [
     178,
     178
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `27be156a-1b3c-57f6-b3dd-4991adfa190f`
 
-- vector: dim=3072 · [-0.0216, 0.0104, -0.0061, 0.0169, -0.0293, -0.0389, -0.0148, 0.0094, …]
+- vector: dim=3072 · [-0.0214, 0.0105, -0.0061, 0.0168, -0.0292, -0.0386, -0.0149, 0.0095, …]
 
 ```json
 {
@@ -12618,21 +12646,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1be7b868-02fd-553e-907f-67c24be4f0c0",
+  "parent_chunk_id": "7dff75de-e0e1-5b30-a15d-81a870bca79f",
   "chunk_index": 286,
   "page_number": 178,
   "page_range": [
     178,
     179
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `f45b61a1-4cdf-5559-bd6f-5239f3f8e710`
 
-- vector: dim=3072 · [-0.0329, 0.0199, -0.0088, 0.0165, -0.0384, -0.0439, -0.0354, 0.0203, …]
+- vector: dim=3072 · [-0.0332, 0.0198, -0.0089, 0.0164, -0.0386, -0.0436, -0.0356, 0.0202, …]
 
 ```json
 {
@@ -12654,21 +12682,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1be7b868-02fd-553e-907f-67c24be4f0c0",
+  "parent_chunk_id": "7dff75de-e0e1-5b30-a15d-81a870bca79f",
   "chunk_index": 287,
   "page_number": 179,
   "page_range": [
     179,
     180
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `2646f064-83d2-5b03-9ac0-a231a054fae5`
 
-- vector: dim=3072 · [-0.0383, 0.0132, -0.0144, 0.0004, -0.0541, -0.0158, -0.0110, 0.0056, …]
+- vector: dim=3072 · [-0.0383, 0.0129, -0.0143, 0.0002, -0.0543, -0.0153, -0.0114, 0.0055, …]
 
 ```json
 {
@@ -12690,25 +12718,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1be7b868-02fd-553e-907f-67c24be4f0c0",
+  "parent_chunk_id": "7dff75de-e0e1-5b30-a15d-81a870bca79f",
   "chunk_index": 288,
   "page_number": 180,
   "page_range": [
     180,
     181
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `c73cde97-5a24-5bd3-a942-8ca5c1351084`
+## Parent · `8b9b3efc-d4ba-5044-af8c-4f9e57dc50ba`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "c73cde97-5a24-5bd3-a942-8ca5c1351084",
+  "chunk_id": "8b9b3efc-d4ba-5044-af8c-4f9e57dc50ba",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -12730,14 +12758,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     182,
     184
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `1e5a5815-dc85-54fc-83ef-a56198a8e433`
 
-- vector: dim=3072 · [-0.0211, 0.0174, -0.0098, -0.0003, -0.0265, -0.0064, -0.0369, 0.0192, …]
+- vector: dim=3072 · [-0.0211, 0.0175, -0.0097, -0.0004, -0.0266, -0.0062, -0.0367, 0.0192, …]
 
 ```json
 {
@@ -12759,21 +12787,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c73cde97-5a24-5bd3-a942-8ca5c1351084",
+  "parent_chunk_id": "8b9b3efc-d4ba-5044-af8c-4f9e57dc50ba",
   "chunk_index": 289,
   "page_number": 182,
   "page_range": [
     182,
     183
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `023328a1-7dd5-5e26-bd1f-434332d1454a`
 
-- vector: dim=3072 · [-0.0159, 0.0073, -0.0175, 0.0040, -0.0084, -0.0341, -0.0163, 0.0245, …]
+- vector: dim=3072 · [-0.0159, 0.0076, -0.0175, 0.0040, -0.0085, -0.0342, -0.0163, 0.0247, …]
 
 ```json
 {
@@ -12795,21 +12823,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c73cde97-5a24-5bd3-a942-8ca5c1351084",
+  "parent_chunk_id": "8b9b3efc-d4ba-5044-af8c-4f9e57dc50ba",
   "chunk_index": 290,
   "page_number": 183,
   "page_range": [
     183,
     183
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `c0d5dbce-ba43-5257-8abe-91e7ed587909`
 
-- vector: dim=3072 · [-0.0183, 0.0086, -0.0110, -0.0016, -0.0218, -0.0340, -0.0493, 0.0110, …]
+- vector: dim=3072 · [-0.0186, 0.0084, -0.0110, -0.0015, -0.0216, -0.0341, -0.0493, 0.0113, …]
 
 ```json
 {
@@ -12831,21 +12859,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c73cde97-5a24-5bd3-a942-8ca5c1351084",
+  "parent_chunk_id": "8b9b3efc-d4ba-5044-af8c-4f9e57dc50ba",
   "chunk_index": 291,
   "page_number": 183,
   "page_range": [
     183,
     184
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `c9f27637-a1bf-541d-ba99-316beb76640d`
 
-- vector: dim=3072 · [-0.0170, -0.0018, -0.0135, 0.0045, -0.0213, -0.0224, -0.0347, 0.0054, …]
+- vector: dim=3072 · [-0.0163, -0.0011, -0.0134, 0.0043, -0.0205, -0.0238, -0.0345, 0.0056, …]
 
 ```json
 {
@@ -12867,21 +12895,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c73cde97-5a24-5bd3-a942-8ca5c1351084",
+  "parent_chunk_id": "8b9b3efc-d4ba-5044-af8c-4f9e57dc50ba",
   "chunk_index": 292,
   "page_number": 184,
   "page_range": [
     184,
     184
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `794d5320-d673-567c-9622-c65ab87035d0`
 
-- vector: dim=3072 · [-0.0044, 0.0096, -0.0139, -0.0133, -0.0294, -0.0501, -0.0213, 0.0427, …]
+- vector: dim=3072 · [-0.0044, 0.0097, -0.0139, -0.0133, -0.0294, -0.0502, -0.0213, 0.0427, …]
 
 ```json
 {
@@ -12903,25 +12931,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c73cde97-5a24-5bd3-a942-8ca5c1351084",
+  "parent_chunk_id": "8b9b3efc-d4ba-5044-af8c-4f9e57dc50ba",
   "chunk_index": 293,
   "page_number": 184,
   "page_range": [
     184,
     184
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `a5cc57ba-fbb9-5215-88bb-af38b515100f`
+## Parent · `1666b394-3c80-59f1-981a-200473020dca`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "a5cc57ba-fbb9-5215-88bb-af38b515100f",
+  "chunk_id": "1666b394-3c80-59f1-981a-200473020dca",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -12943,14 +12971,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     185,
     190
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `12b93386-e419-58eb-aca1-73720f27f6d7`
 
-- vector: dim=3072 · [-0.0239, 0.0055, -0.0116, -0.0061, -0.0162, -0.0035, -0.0310, -0.0002, …]
+- vector: dim=3072 · [-0.0240, 0.0054, -0.0116, -0.0061, -0.0162, -0.0035, -0.0309, -0.0002, …]
 
 ```json
 {
@@ -12972,21 +13000,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a5cc57ba-fbb9-5215-88bb-af38b515100f",
+  "parent_chunk_id": "1666b394-3c80-59f1-981a-200473020dca",
   "chunk_index": 294,
   "page_number": 185,
   "page_range": [
     185,
     185
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `6b8bb340-2dd4-5e8f-b8eb-ce8747ddc720`
 
-- vector: dim=3072 · [-0.0174, -0.0029, -0.0042, -0.0056, -0.0334, -0.0345, 0.0019, 0.0151, …]
+- vector: dim=3072 · [-0.0174, -0.0028, -0.0042, -0.0056, -0.0335, -0.0346, 0.0023, 0.0151, …]
 
 ```json
 {
@@ -13008,21 +13036,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a5cc57ba-fbb9-5215-88bb-af38b515100f",
+  "parent_chunk_id": "1666b394-3c80-59f1-981a-200473020dca",
   "chunk_index": 295,
   "page_number": 185,
   "page_range": [
     185,
     185
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `3217b79a-38bc-59b9-94c4-d78a042a3069`
 
-- vector: dim=3072 · [-0.0158, 0.0030, -0.0094, -0.0098, -0.0309, -0.0016, -0.0332, 0.0116, …]
+- vector: dim=3072 · [-0.0158, 0.0029, -0.0095, -0.0098, -0.0309, -0.0015, -0.0332, 0.0116, …]
 
 ```json
 {
@@ -13044,21 +13072,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a5cc57ba-fbb9-5215-88bb-af38b515100f",
+  "parent_chunk_id": "1666b394-3c80-59f1-981a-200473020dca",
   "chunk_index": 296,
   "page_number": 186,
   "page_range": [
     186,
     187
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `78ab09ca-c57f-54a9-9189-62b22fa10748`
 
-- vector: dim=3072 · [-0.0249, -0.0044, -0.0208, 0.0094, -0.0408, -0.0001, -0.0050, 0.0435, …]
+- vector: dim=3072 · [-0.0249, -0.0045, -0.0208, 0.0093, -0.0405, -0.0006, -0.0050, 0.0438, …]
 
 ```json
 {
@@ -13080,21 +13108,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a5cc57ba-fbb9-5215-88bb-af38b515100f",
+  "parent_chunk_id": "1666b394-3c80-59f1-981a-200473020dca",
   "chunk_index": 297,
   "page_number": 187,
   "page_range": [
     187,
     187
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `8091bcad-7a22-589c-9fb9-962a34a40abf`
 
-- vector: dim=3072 · [-0.0286, 0.0149, -0.0176, 0.0249, -0.0438, -0.0203, -0.0194, 0.0467, …]
+- vector: dim=3072 · [-0.0286, 0.0150, -0.0176, 0.0250, -0.0438, -0.0202, -0.0194, 0.0468, …]
 
 ```json
 {
@@ -13116,25 +13144,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a5cc57ba-fbb9-5215-88bb-af38b515100f",
+  "parent_chunk_id": "1666b394-3c80-59f1-981a-200473020dca",
   "chunk_index": 298,
   "page_number": 187,
   "page_range": [
     187,
     190
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `e44af846-7503-59d4-b85d-d8a3cc5339c4`
+## Parent · `9e49e822-b458-505d-9224-93c8687aef83`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "e44af846-7503-59d4-b85d-d8a3cc5339c4",
+  "chunk_id": "9e49e822-b458-505d-9224-93c8687aef83",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -13156,14 +13184,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     190,
     196
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `fc31aba0-fe7c-5a6e-aea0-db67efd21dd9`
 
-- vector: dim=3072 · [-0.0164, -0.0084, -0.0199, 0.0035, -0.0380, -0.0230, -0.0082, 0.0359, …]
+- vector: dim=3072 · [-0.0159, -0.0088, -0.0200, 0.0036, -0.0375, -0.0235, -0.0083, 0.0363, …]
 
 ```json
 {
@@ -13185,21 +13213,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "e44af846-7503-59d4-b85d-d8a3cc5339c4",
+  "parent_chunk_id": "9e49e822-b458-505d-9224-93c8687aef83",
   "chunk_index": 299,
   "page_number": 190,
   "page_range": [
     190,
     190
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `6ed97919-b0fb-5166-9d61-06a0691c6ee2`
 
-- vector: dim=3072 · [-0.0156, 0.0136, -0.0141, 0.0238, -0.0324, -0.0182, -0.0360, 0.0313, …]
+- vector: dim=3072 · [-0.0158, 0.0134, -0.0141, 0.0235, -0.0321, -0.0183, -0.0363, 0.0313, …]
 
 ```json
 {
@@ -13221,21 +13249,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "e44af846-7503-59d4-b85d-d8a3cc5339c4",
+  "parent_chunk_id": "9e49e822-b458-505d-9224-93c8687aef83",
   "chunk_index": 300,
   "page_number": 190,
   "page_range": [
     190,
     193
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `9b7668d4-c827-5559-99b4-5f037938a46d`
 
-- vector: dim=3072 · [-0.0333, -0.0050, -0.0213, 0.0142, -0.0376, 0.0035, -0.0162, 0.0389, …]
+- vector: dim=3072 · [-0.0334, -0.0046, -0.0215, 0.0133, -0.0374, 0.0044, -0.0155, 0.0381, …]
 
 ```json
 {
@@ -13257,21 +13285,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "e44af846-7503-59d4-b85d-d8a3cc5339c4",
+  "parent_chunk_id": "9e49e822-b458-505d-9224-93c8687aef83",
   "chunk_index": 301,
   "page_number": 193,
   "page_range": [
     193,
     193
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `ff463a89-b8b4-530a-805c-d51d79886d6b`
 
-- vector: dim=3072 · [-0.0163, 0.0046, -0.0169, 0.0110, -0.0363, -0.0238, -0.0272, 0.0448, …]
+- vector: dim=3072 · [-0.0163, 0.0048, -0.0169, 0.0107, -0.0362, -0.0239, -0.0272, 0.0446, …]
 
 ```json
 {
@@ -13293,21 +13321,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "e44af846-7503-59d4-b85d-d8a3cc5339c4",
+  "parent_chunk_id": "9e49e822-b458-505d-9224-93c8687aef83",
   "chunk_index": 302,
   "page_number": 193,
   "page_range": [
     193,
     194
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `065cb0ae-2adb-5b11-981b-ce03c819259e`
 
-- vector: dim=3072 · [-0.0212, 0.0099, -0.0153, 0.0191, -0.0365, -0.0058, -0.0332, 0.0459, …]
+- vector: dim=3072 · [-0.0212, 0.0099, -0.0153, 0.0191, -0.0365, -0.0058, -0.0331, 0.0459, …]
 
 ```json
 {
@@ -13329,25 +13357,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "e44af846-7503-59d4-b85d-d8a3cc5339c4",
+  "parent_chunk_id": "9e49e822-b458-505d-9224-93c8687aef83",
   "chunk_index": 303,
   "page_number": 195,
   "page_range": [
     195,
     196
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `b5a58e34-4e12-5b80-b2d2-dc2bfae8e84c`
+## Parent · `0729b877-484f-576b-b3a8-8697ea6dd53a`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "b5a58e34-4e12-5b80-b2d2-dc2bfae8e84c",
+  "chunk_id": "0729b877-484f-576b-b3a8-8697ea6dd53a",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -13369,8 +13397,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     196,
     198
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -13398,21 +13426,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b5a58e34-4e12-5b80-b2d2-dc2bfae8e84c",
+  "parent_chunk_id": "0729b877-484f-576b-b3a8-8697ea6dd53a",
   "chunk_index": 304,
   "page_number": 196,
   "page_range": [
     196,
     196
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `7c6a4164-360a-5a9f-94a4-d32cd3b4b553`
 
-- vector: dim=3072 · [-0.0170, 0.0146, -0.0182, 0.0200, -0.0367, -0.0126, -0.0255, 0.0362, …]
+- vector: dim=3072 · [-0.0170, 0.0144, -0.0184, 0.0204, -0.0377, -0.0120, -0.0251, 0.0362, …]
 
 ```json
 {
@@ -13434,21 +13462,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b5a58e34-4e12-5b80-b2d2-dc2bfae8e84c",
+  "parent_chunk_id": "0729b877-484f-576b-b3a8-8697ea6dd53a",
   "chunk_index": 305,
   "page_number": 196,
   "page_range": [
     196,
     198
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `3e73dcc2-a5cb-5173-ae09-93e40261421e`
 
-- vector: dim=3072 · [-0.0192, 0.0206, -0.0157, 0.0282, -0.0401, -0.0235, -0.0101, 0.0244, …]
+- vector: dim=3072 · [-0.0192, 0.0206, -0.0157, 0.0282, -0.0402, -0.0234, -0.0100, 0.0244, …]
 
 ```json
 {
@@ -13476,18 +13504,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     199,
     199
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `aec4cf82-1d59-51bc-a310-46b88add30b7`
+## Parent · `d5d364c8-e3fa-52e5-8597-0ec66184e88f`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "aec4cf82-1d59-51bc-a310-46b88add30b7",
+  "chunk_id": "d5d364c8-e3fa-52e5-8597-0ec66184e88f",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -13509,8 +13537,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     199,
     208
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -13538,21 +13566,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "aec4cf82-1d59-51bc-a310-46b88add30b7",
+  "parent_chunk_id": "d5d364c8-e3fa-52e5-8597-0ec66184e88f",
   "chunk_index": 307,
   "page_number": 199,
   "page_range": [
     199,
     199
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `63117335-3b6b-5d10-8764-c61448dabb3d`
 
-- vector: dim=3072 · [-0.0185, 0.0118, -0.0148, 0.0340, -0.0504, -0.0199, -0.0104, 0.0367, …]
+- vector: dim=3072 · [-0.0185, 0.0118, -0.0148, 0.0340, -0.0503, -0.0199, -0.0104, 0.0367, …]
 
 ```json
 {
@@ -13574,21 +13602,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "aec4cf82-1d59-51bc-a310-46b88add30b7",
+  "parent_chunk_id": "d5d364c8-e3fa-52e5-8597-0ec66184e88f",
   "chunk_index": 308,
   "page_number": 200,
   "page_range": [
     200,
     201
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `c69e9340-e7c5-5f5c-bac5-3853107e2f8a`
 
-- vector: dim=3072 · [-0.0262, 0.0003, -0.0186, 0.0258, -0.0365, -0.0133, -0.0071, 0.0302, …]
+- vector: dim=3072 · [-0.0266, 0.0006, -0.0183, 0.0252, -0.0366, -0.0139, -0.0070, 0.0310, …]
 
 ```json
 {
@@ -13610,21 +13638,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "aec4cf82-1d59-51bc-a310-46b88add30b7",
+  "parent_chunk_id": "d5d364c8-e3fa-52e5-8597-0ec66184e88f",
   "chunk_index": 309,
   "page_number": 201,
   "page_range": [
     201,
     201
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b300d1d4-085a-5315-bc9b-38e30ea6f4e1`
 
-- vector: dim=3072 · [-0.0294, 0.0171, -0.0148, 0.0156, -0.0229, -0.0128, -0.0215, 0.0296, …]
+- vector: dim=3072 · [-0.0291, 0.0170, -0.0147, 0.0157, -0.0229, -0.0127, -0.0215, 0.0300, …]
 
 ```json
 {
@@ -13646,21 +13674,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "aec4cf82-1d59-51bc-a310-46b88add30b7",
+  "parent_chunk_id": "d5d364c8-e3fa-52e5-8597-0ec66184e88f",
   "chunk_index": 310,
   "page_number": 202,
   "page_range": [
     202,
     202
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `711e3d20-a00f-521f-93da-f0b529e79185`
 
-- vector: dim=3072 · [-0.0234, 0.0198, -0.0224, 0.0292, -0.0350, 0.0003, -0.0251, 0.0299, …]
+- vector: dim=3072 · [-0.0234, 0.0199, -0.0224, 0.0293, -0.0349, 0.0004, -0.0252, 0.0299, …]
 
 ```json
 {
@@ -13682,21 +13710,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "aec4cf82-1d59-51bc-a310-46b88add30b7",
+  "parent_chunk_id": "d5d364c8-e3fa-52e5-8597-0ec66184e88f",
   "chunk_index": 311,
   "page_number": 203,
   "page_range": [
     203,
     204
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0bae4bdc-b59c-580a-a400-8462f6282247`
 
-- vector: dim=3072 · [-0.0186, 0.0145, -0.0232, 0.0188, -0.0279, -0.0090, -0.0206, 0.0289, …]
+- vector: dim=3072 · [-0.0185, 0.0141, -0.0231, 0.0188, -0.0278, -0.0089, -0.0210, 0.0290, …]
 
 ```json
 {
@@ -13718,21 +13746,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "aec4cf82-1d59-51bc-a310-46b88add30b7",
+  "parent_chunk_id": "d5d364c8-e3fa-52e5-8597-0ec66184e88f",
   "chunk_index": 312,
   "page_number": 205,
   "page_range": [
     205,
     207
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `fd74dec6-b47d-55b6-8876-2c988bc265bd`
 
-- vector: dim=3072 · [-0.0081, 0.0162, -0.0227, 0.0186, -0.0249, -0.0104, -0.0344, 0.0372, …]
+- vector: dim=3072 · [-0.0081, 0.0163, -0.0227, 0.0187, -0.0248, -0.0103, -0.0345, 0.0372, …]
 
 ```json
 {
@@ -13755,25 +13783,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "aec4cf82-1d59-51bc-a310-46b88add30b7",
+  "parent_chunk_id": "d5d364c8-e3fa-52e5-8597-0ec66184e88f",
   "chunk_index": 313,
   "page_number": 208,
   "page_range": [
     208,
     208
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `910feb35-7c9e-5148-9939-b4a463cecea9`
+## Parent · `f3e9333a-e030-5407-b413-74bd07502390`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "910feb35-7c9e-5148-9939-b4a463cecea9",
+  "chunk_id": "f3e9333a-e030-5407-b413-74bd07502390",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -13795,8 +13823,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     209,
     210
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -13824,21 +13852,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "910feb35-7c9e-5148-9939-b4a463cecea9",
+  "parent_chunk_id": "f3e9333a-e030-5407-b413-74bd07502390",
   "chunk_index": 314,
   "page_number": 209,
   "page_range": [
     209,
     209
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `83cdef4b-1235-554d-ab32-8120ea86d856`
 
-- vector: dim=3072 · [-0.0310, 0.0122, -0.0042, 0.0129, -0.0294, -0.0040, -0.0404, 0.0114, …]
+- vector: dim=3072 · [-0.0309, 0.0122, -0.0045, 0.0131, -0.0296, -0.0032, -0.0402, 0.0109, …]
 
 ```json
 {
@@ -13860,25 +13888,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "910feb35-7c9e-5148-9939-b4a463cecea9",
+  "parent_chunk_id": "f3e9333a-e030-5407-b413-74bd07502390",
   "chunk_index": 315,
   "page_number": 209,
   "page_range": [
     209,
     210
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `21dd96a6-d71d-51fa-9c17-a3b35b6f953b`
+## Parent · `a0894eb0-ed8e-5e52-b973-7bfa0ba5f9a3`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "21dd96a6-d71d-51fa-9c17-a3b35b6f953b",
+  "chunk_id": "a0894eb0-ed8e-5e52-b973-7bfa0ba5f9a3",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -13900,14 +13928,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     210,
     215
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `716fbfce-25df-512a-8dea-7e629f234ab5`
 
-- vector: dim=3072 · [-0.0217, 0.0238, -0.0098, 0.0149, -0.0335, -0.0346, -0.0278, 0.0255, …]
+- vector: dim=3072 · [-0.0217, 0.0237, -0.0098, 0.0149, -0.0335, -0.0348, -0.0278, 0.0254, …]
 
 ```json
 {
@@ -13929,15 +13957,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "21dd96a6-d71d-51fa-9c17-a3b35b6f953b",
+  "parent_chunk_id": "a0894eb0-ed8e-5e52-b973-7bfa0ba5f9a3",
   "chunk_index": 316,
   "page_number": 210,
   "page_range": [
     210,
     210
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -13965,21 +13993,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "21dd96a6-d71d-51fa-9c17-a3b35b6f953b",
+  "parent_chunk_id": "a0894eb0-ed8e-5e52-b973-7bfa0ba5f9a3",
   "chunk_index": 317,
   "page_number": 210,
   "page_range": [
     210,
     212
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `f47030dd-c42d-59e0-b1d8-31c83908e35e`
 
-- vector: dim=3072 · [-0.0234, 0.0084, -0.0065, 0.0114, -0.0629, -0.0168, -0.0195, 0.0204, …]
+- vector: dim=3072 · [-0.0234, 0.0087, -0.0065, 0.0116, -0.0632, -0.0169, -0.0195, 0.0203, …]
 
 ```json
 {
@@ -14001,21 +14029,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "21dd96a6-d71d-51fa-9c17-a3b35b6f953b",
+  "parent_chunk_id": "a0894eb0-ed8e-5e52-b973-7bfa0ba5f9a3",
   "chunk_index": 318,
   "page_number": 213,
   "page_range": [
     213,
     214
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `24e63959-7204-575b-bdec-9204d09a4ee4`
 
-- vector: dim=3072 · [-0.0162, -0.0065, -0.0047, -0.0032, -0.0604, -0.0006, 0.0163, 0.0152, …]
+- vector: dim=3072 · [-0.0161, -0.0064, -0.0045, -0.0031, -0.0604, -0.0014, 0.0162, 0.0151, …]
 
 ```json
 {
@@ -14037,15 +14065,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "21dd96a6-d71d-51fa-9c17-a3b35b6f953b",
+  "parent_chunk_id": "a0894eb0-ed8e-5e52-b973-7bfa0ba5f9a3",
   "chunk_index": 319,
   "page_number": 214,
   "page_range": [
     214,
     214
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -14073,25 +14101,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "21dd96a6-d71d-51fa-9c17-a3b35b6f953b",
+  "parent_chunk_id": "a0894eb0-ed8e-5e52-b973-7bfa0ba5f9a3",
   "chunk_index": 320,
   "page_number": 215,
   "page_range": [
     215,
     215
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `8d17ca6d-30ac-539e-b387-3d9c07eb21da`
+## Parent · `e70814cf-185a-5b63-94de-275f35b33a29`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "8d17ca6d-30ac-539e-b387-3d9c07eb21da",
+  "chunk_id": "e70814cf-185a-5b63-94de-275f35b33a29",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -14113,8 +14141,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     215,
     219
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -14142,15 +14170,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "8d17ca6d-30ac-539e-b387-3d9c07eb21da",
+  "parent_chunk_id": "e70814cf-185a-5b63-94de-275f35b33a29",
   "chunk_index": 321,
   "page_number": 215,
   "page_range": [
     215,
     215
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -14178,15 +14206,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "8d17ca6d-30ac-539e-b387-3d9c07eb21da",
+  "parent_chunk_id": "e70814cf-185a-5b63-94de-275f35b33a29",
   "chunk_index": 322,
   "page_number": 215,
   "page_range": [
     215,
     216
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -14214,21 +14242,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "8d17ca6d-30ac-539e-b387-3d9c07eb21da",
+  "parent_chunk_id": "e70814cf-185a-5b63-94de-275f35b33a29",
   "chunk_index": 323,
   "page_number": 216,
   "page_range": [
     216,
     219
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `389efd32-d6e9-5cab-8044-02b259ca4812`
 
-- vector: dim=3072 · [-0.0059, 0.0177, -0.0185, -0.0315, -0.0070, -0.0035, -0.0031, 0.0169, …]
+- vector: dim=3072 · [-0.0059, 0.0178, -0.0185, -0.0313, -0.0074, -0.0032, -0.0031, 0.0171, …]
 
 ```json
 {
@@ -14256,18 +14284,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     220,
     220
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `d0728386-d8f2-5c97-845c-b8b099faf735`
+## Parent · `da710457-5ef3-5101-9cad-6aa4a97d3eef`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "d0728386-d8f2-5c97-845c-b8b099faf735",
+  "chunk_id": "da710457-5ef3-5101-9cad-6aa4a97d3eef",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -14289,14 +14317,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     220,
     222
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `a9999fbf-ed26-57a3-aa36-a8a444f3911d`
 
-- vector: dim=3072 · [-0.0237, 0.0334, -0.0122, -0.0012, -0.0172, -0.0144, -0.0143, 0.0277, …]
+- vector: dim=3072 · [-0.0236, 0.0334, -0.0122, -0.0015, -0.0171, -0.0144, -0.0144, 0.0277, …]
 
 ```json
 {
@@ -14318,15 +14346,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d0728386-d8f2-5c97-845c-b8b099faf735",
+  "parent_chunk_id": "da710457-5ef3-5101-9cad-6aa4a97d3eef",
   "chunk_index": 325,
   "page_number": 220,
   "page_range": [
     220,
     221
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -14354,15 +14382,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "d0728386-d8f2-5c97-845c-b8b099faf735",
+  "parent_chunk_id": "da710457-5ef3-5101-9cad-6aa4a97d3eef",
   "chunk_index": 326,
   "page_number": 221,
   "page_range": [
     221,
     222
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -14396,18 +14424,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     223,
     225
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `2eb47a93-0bdf-5148-8268-2452b685b45b`
+## Parent · `910feb35-7c9e-5148-9939-b4a463cecea9`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "2eb47a93-0bdf-5148-8268-2452b685b45b",
+  "chunk_id": "910feb35-7c9e-5148-9939-b4a463cecea9",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -14429,14 +14457,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     226,
     227
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `4b74e609-6e09-5275-b1e0-ae632e7d4c8a`
 
-- vector: dim=3072 · [-0.0249, 0.0029, -0.0153, -0.0139, -0.0190, -0.0070, -0.0145, 0.0282, …]
+- vector: dim=3072 · [-0.0247, 0.0026, -0.0154, -0.0136, -0.0189, -0.0068, -0.0146, 0.0282, …]
 
 ```json
 {
@@ -14458,15 +14486,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2eb47a93-0bdf-5148-8268-2452b685b45b",
+  "parent_chunk_id": "910feb35-7c9e-5148-9939-b4a463cecea9",
   "chunk_index": 328,
   "page_number": 226,
   "page_range": [
     226,
     226
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -14494,15 +14522,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2eb47a93-0bdf-5148-8268-2452b685b45b",
+  "parent_chunk_id": "910feb35-7c9e-5148-9939-b4a463cecea9",
   "chunk_index": 329,
   "page_number": 226,
   "page_range": [
     226,
     226
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -14530,21 +14558,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2eb47a93-0bdf-5148-8268-2452b685b45b",
+  "parent_chunk_id": "910feb35-7c9e-5148-9939-b4a463cecea9",
   "chunk_index": 330,
   "page_number": 226,
   "page_range": [
     226,
     226
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b01e2cb1-bda7-5a2e-ab23-5134ca1c04d2`
 
-- vector: dim=3072 · [-0.0259, 0.0148, -0.0068, -0.0015, -0.0293, -0.0298, -0.0085, 0.0265, …]
+- vector: dim=3072 · [-0.0261, 0.0147, -0.0068, -0.0017, -0.0294, -0.0300, -0.0084, 0.0265, …]
 
 ```json
 {
@@ -14566,15 +14594,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2eb47a93-0bdf-5148-8268-2452b685b45b",
+  "parent_chunk_id": "910feb35-7c9e-5148-9939-b4a463cecea9",
   "chunk_index": 331,
   "page_number": 227,
   "page_range": [
     227,
     227
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -14602,25 +14630,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "2eb47a93-0bdf-5148-8268-2452b685b45b",
+  "parent_chunk_id": "910feb35-7c9e-5148-9939-b4a463cecea9",
   "chunk_index": 332,
   "page_number": 227,
   "page_range": [
     227,
     227
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `9fba976b-3649-5729-9959-55f2cd4cc067`
+## Parent · `ecb0e665-ea65-5ac8-8bb7-37116fca5dc0`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "9fba976b-3649-5729-9959-55f2cd4cc067",
+  "chunk_id": "ecb0e665-ea65-5ac8-8bb7-37116fca5dc0",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -14642,14 +14670,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     228,
     228
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `1fecb68c-b24e-5758-9e11-8288b82cf1ae`
 
-- vector: dim=3072 · [-0.0235, 0.0130, -0.0118, -0.0086, 0.0066, -0.0059, -0.0141, 0.0180, …]
+- vector: dim=3072 · [-0.0232, 0.0132, -0.0118, -0.0086, 0.0063, -0.0059, -0.0141, 0.0181, …]
 
 ```json
 {
@@ -14671,21 +14699,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9fba976b-3649-5729-9959-55f2cd4cc067",
+  "parent_chunk_id": "ecb0e665-ea65-5ac8-8bb7-37116fca5dc0",
   "chunk_index": 333,
   "page_number": 228,
   "page_range": [
     228,
     228
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `42d125c1-8c86-5f2f-8ff8-bd869484d5ff`
 
-- vector: dim=3072 · [-0.0280, 0.0145, -0.0133, -0.0131, -0.0108, -0.0120, -0.0117, 0.0157, …]
+- vector: dim=3072 · [-0.0276, 0.0145, -0.0133, -0.0130, -0.0109, -0.0119, -0.0117, 0.0155, …]
 
 ```json
 {
@@ -14707,21 +14735,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9fba976b-3649-5729-9959-55f2cd4cc067",
+  "parent_chunk_id": "ecb0e665-ea65-5ac8-8bb7-37116fca5dc0",
   "chunk_index": 334,
   "page_number": 228,
   "page_range": [
     228,
     228
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `70657403-5a54-581a-8427-56d160d71f77`
 
-- vector: dim=3072 · [-0.0079, 0.0054, -0.0160, -0.0136, -0.0275, -0.0223, -0.0017, 0.0227, …]
+- vector: dim=3072 · [-0.0005, 0.0109, -0.0200, -0.0318, -0.0217, -0.0233, 0.0078, 0.0172, …]
 
 ```json
 {
@@ -14731,9 +14759,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "46.\t https://doi.org/10.1016/j.ijhydene.2021.06.066https://www.genasolutions.com/analysis_and_",
-  "chunk_text": "insights)\n47.\t Foretich, A., Zaimes, G. G. Hawkins, R . T., Newes, E., “Challenges and opportunities for alternative \nfuels in the maritime sector’, Maritime Transport Research, 2,  2021, 100033, https://doi.\norg/10.1016/j.martra.2021.100033).\n48.\t Pavlenko, N., Comer, B., Zhou, Y., Clark, N., Rutherford, D., 2020. The Climate Implications of Using \nLNG as a Marine Fuel. International Council on Clean Transportation. Working Paper.\n\n49.\t https://www.iea.org/data-and-statistics/data-product/hydrogen-production-and-infrastructure-\n\nprojects-database)\n\ner 4\nComparative\nAssessment of\nAlternative F\n\n… [+39 more chars]",
-  "content_hash": "56aab3b145a22f6485fefebb5a936e85b99af00e7316e49dcbddd51cdbb64e9d",
-  "token_count": 189,
+  "chunk_text": "insights)\n47.\t Foretich, A., Zaimes, G. G. Hawkins, R . T., Newes, E., “Challenges and opportunities for alternative \nfuels in the maritime sector’, Maritime Transport Research, 2,  2021, 100033, https://doi.\norg/10.1016/j.martra.2021.100033).\n48.\t Pavlenko, N., Comer, B., Zhou, Y., Clark, N., Rutherford, D., 2020. The Climate Implications of Using \nLNG as a Marine Fuel. International Council on Clean Transportation. Working Paper.\n\n49.\t https://www.iea.org/data-and-statistics/data-product/hydrogen-production-and-infrastructure-\n\nprojects-database)",
+  "content_hash": "3401c7cbd5f6a87b0de561265ab621f3b1d8d2933facb3b8638a77c8014ad1e0",
+  "token_count": 162,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -14747,28 +14775,28 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "page_number": 228,
   "page_range": [
     228,
-    229
+    228
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `0b49b611-37f6-5f0b-88cc-1fc77a52ec70`
+## Parent · `c5ca0f7c-bd52-5996-a51a-75740de1e45d`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "0b49b611-37f6-5f0b-88cc-1fc77a52ec70",
+  "chunk_id": "c5ca0f7c-bd52-5996-a51a-75740de1e45d",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Introduction",
-  "chunk_text": "Introduction\n\nIMO has set the ambitious target to cut down the GHG emissions from international shipping to reach \nnet zero by or around, i.e. close to, 2050. Fuel cells stand out to be one of the promising options \nwith potential for both emission reduction and efficient energy use. By assessing the available Fuel \nCell  technologies, it is possible to identify the most viable path forward which will ensure that each \ncheckpoint is meeting with the best approach. Although Fuel cells offer transformative technology \nfor the reduction in the GHG emissions creating a shift from traditional fuel \n\n… [+3203 more chars]",
-  "content_hash": "c5108c650ae3070118ce63b710a6546423d03c9c6e69f72d41f55736732e3d2b",
-  "token_count": 736,
+  "section_heading": "nizing Shipping — Chapter 4 Comparative Assessment of Alternative Fuels — Chapte — Introduction",
+  "chunk_text": "nizing Shipping — Chapter 4 Comparative Assessment of Alternative Fuels — Chapte — Introduction\n\nIMO has set the ambitious target to cut down the GHG emissions from international shipping to reach \nnet zero by or around, i.e. close to, 2050. Fuel cells stand out to be one of the promising options \nwith potential for both emission reduction and efficient energy use. By assessing the available Fuel \nCell  technologies, it is possible to identify the most viable path forward which will ensure that each \ncheckpoint is meeting with the best approach. Although Fuel cells offer transformative technol\n\n… [+3286 more chars]",
+  "content_hash": "86684c79f01d0f02120f488184b497c161966caddf53df529499aaa720c6b38e",
+  "token_count": 753,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -14782,8 +14810,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     230,
     231
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -14798,7 +14826,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Introduction",
+  "section_heading": "nizing Shipping — Chapter 4 Comparative Assessment of Alternative Fuels — Chapte — Introduction",
   "chunk_text": "IMO has set the ambitious target to cut down the GHG emissions from international shipping to reach \nnet zero by or around, i.e. close to, 2050. Fuel cells stand out to be one of the promising options \nwith potential for both emission reduction and efficient energy use. By assessing the available Fuel \nCell  technologies, it is possible to identify the most viable path forward which will ensure that each \ncheckpoint is meeting with the best approach. Although Fuel cells offer transformative technology \nfor the reduction in the GHG emissions creating a shift from traditional fuel sources to gre\n\n… [+1764 more chars]",
   "content_hash": "7b03904431514c02a6eabe0d7501b936f2b6979f60288ddb21d17c529e767e34",
   "token_count": 443,
@@ -14811,15 +14839,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "0b49b611-37f6-5f0b-88cc-1fc77a52ec70",
+  "parent_chunk_id": "c5ca0f7c-bd52-5996-a51a-75740de1e45d",
   "chunk_index": 336,
   "page_number": 230,
   "page_range": [
     230,
     230
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -14834,7 +14862,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Introduction",
+  "section_heading": "nizing Shipping — Chapter 4 Comparative Assessment of Alternative Fuels — Chapte — Introduction",
   "chunk_text": "Despite being more widely \navailable and simpler to carry, Ammonia is dangerous and needs to be handled carefully. This chapter \nalso illustrates the case studies and the progress of Fuel cell in the pilot/ demonstration projects which are currently operational and also in pipelines.\nAlthough Fuel Cell s show great promise for use in marine applications, a number of issues still need \nto be resolved. Future research should focus on creating Fuel Cell  stacks that are more affordable, \nextending stack life, and increasing efficiency. Therefore, by understanding these elements will help \nthe mar\n\n… [+1053 more chars]",
   "content_hash": "c465dca9f5dd62ce5c530a1382369b2331ca27f0ade4975e7817c23b52a46857",
   "token_count": 333,
@@ -14847,15 +14875,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "0b49b611-37f6-5f0b-88cc-1fc77a52ec70",
+  "parent_chunk_id": "c5ca0f7c-bd52-5996-a51a-75740de1e45d",
   "chunk_index": 337,
   "page_number": 230,
   "page_range": [
     230,
     231
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -14889,18 +14917,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     231,
     231
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `0efc8793-ec62-5684-8788-3edf58f6072c`
+## Parent · `eee5add9-0362-57db-aee6-503f444b7cd8`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "0efc8793-ec62-5684-8788-3edf58f6072c",
+  "chunk_id": "eee5add9-0362-57db-aee6-503f444b7cd8",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -14922,14 +14950,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     231,
     235
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `ec5ec6c7-b18c-59df-8df5-68bff8c7434e`
 
-- vector: dim=3072 · [0.0072, 0.0180, -0.0257, -0.0151, -0.0169, -0.0344, -0.0126, -0.0174, …]
+- vector: dim=3072 · [0.0074, 0.0177, -0.0257, -0.0149, -0.0170, -0.0345, -0.0126, -0.0174, …]
 
 ```json
 {
@@ -14951,21 +14979,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "0efc8793-ec62-5684-8788-3edf58f6072c",
+  "parent_chunk_id": "eee5add9-0362-57db-aee6-503f444b7cd8",
   "chunk_index": 339,
   "page_number": 231,
   "page_range": [
     231,
     232
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `04974521-7ab9-51ac-8d83-35ef5010765b`
 
-- vector: dim=3072 · [0.0004, 0.0028, -0.0199, -0.0211, -0.0339, -0.0141, -0.0209, -0.0280, …]
+- vector: dim=3072 · [0.0005, 0.0027, -0.0199, -0.0210, -0.0340, -0.0143, -0.0207, -0.0278, …]
 
 ```json
 {
@@ -14987,25 +15015,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "0efc8793-ec62-5684-8788-3edf58f6072c",
+  "parent_chunk_id": "eee5add9-0362-57db-aee6-503f444b7cd8",
   "chunk_index": 340,
   "page_number": 233,
   "page_range": [
     233,
     235
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `427042b0-c303-5744-9cb8-ddd81b520dd5`
+## Parent · `2eb47a93-0bdf-5148-8268-2452b685b45b`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "427042b0-c303-5744-9cb8-ddd81b520dd5",
+  "chunk_id": "2eb47a93-0bdf-5148-8268-2452b685b45b",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -15027,8 +15055,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     235,
     236
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -15056,15 +15084,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "427042b0-c303-5744-9cb8-ddd81b520dd5",
+  "parent_chunk_id": "2eb47a93-0bdf-5148-8268-2452b685b45b",
   "chunk_index": 341,
   "page_number": 235,
   "page_range": [
     235,
     235
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -15092,15 +15120,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "427042b0-c303-5744-9cb8-ddd81b520dd5",
+  "parent_chunk_id": "2eb47a93-0bdf-5148-8268-2452b685b45b",
   "chunk_index": 342,
   "page_number": 235,
   "page_range": [
     235,
     235
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -15128,25 +15156,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "427042b0-c303-5744-9cb8-ddd81b520dd5",
+  "parent_chunk_id": "2eb47a93-0bdf-5148-8268-2452b685b45b",
   "chunk_index": 343,
   "page_number": 235,
   "page_range": [
     235,
     236
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `c05c739b-6db2-584f-ae99-91545e62eeed`
+## Parent · `0817d2c3-48d3-55ba-9cf5-8761de8bb58e`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "c05c739b-6db2-584f-ae99-91545e62eeed",
+  "chunk_id": "0817d2c3-48d3-55ba-9cf5-8761de8bb58e",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -15168,14 +15196,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     236,
     237
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `61d12e02-4d0d-5f90-8cde-c4e42fb0ae1b`
 
-- vector: dim=3072 · [-0.0167, 0.0016, -0.0116, 0.0040, -0.0358, 0.0034, -0.0486, 0.0030, …]
+- vector: dim=3072 · [-0.0168, 0.0016, -0.0116, 0.0040, -0.0358, 0.0033, -0.0487, 0.0029, …]
 
 ```json
 {
@@ -15197,15 +15225,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c05c739b-6db2-584f-ae99-91545e62eeed",
+  "parent_chunk_id": "0817d2c3-48d3-55ba-9cf5-8761de8bb58e",
   "chunk_index": 344,
   "page_number": 236,
   "page_range": [
     236,
     236
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -15233,21 +15261,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c05c739b-6db2-584f-ae99-91545e62eeed",
+  "parent_chunk_id": "0817d2c3-48d3-55ba-9cf5-8761de8bb58e",
   "chunk_index": 345,
   "page_number": 236,
   "page_range": [
     236,
     237
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `fb35c834-341c-5957-b49e-e4b93661b123`
 
-- vector: dim=3072 · [-0.0170, 0.0196, -0.0118, -0.0089, -0.0353, -0.0550, -0.0088, 0.0065, …]
+- vector: dim=3072 · [-0.0169, 0.0197, -0.0118, -0.0090, -0.0352, -0.0551, -0.0087, 0.0065, …]
 
 ```json
 {
@@ -15275,14 +15303,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     237,
     238
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b822ed3c-ca13-52c1-9cbc-cbc7cacacd40`
 
-- vector: dim=3072 · [-0.0012, 0.0343, -0.0243, -0.0324, -0.0102, -0.0440, 0.0047, -0.0026, …]
+- vector: dim=3072 · [-0.0012, 0.0343, -0.0243, -0.0325, -0.0103, -0.0439, 0.0046, -0.0026, …]
 
 ```json
 {
@@ -15310,14 +15338,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     238,
     238
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `9a358a28-8824-5526-8514-605b9376b659`
 
-- vector: dim=3072 · [-0.0038, 0.0295, -0.0168, -0.0204, -0.0119, -0.0397, 0.0034, -0.0044, …]
+- vector: dim=3072 · [-0.0038, 0.0295, -0.0169, -0.0203, -0.0121, -0.0399, 0.0036, -0.0044, …]
 
 ```json
 {
@@ -15345,18 +15373,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     238,
     239
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `730ff8eb-2d44-598c-882e-394701be2e3e`
+## Parent · `427042b0-c303-5744-9cb8-ddd81b520dd5`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "730ff8eb-2d44-598c-882e-394701be2e3e",
+  "chunk_id": "427042b0-c303-5744-9cb8-ddd81b520dd5",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -15378,14 +15406,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     239,
     240
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `66b7a3d3-7aaa-5196-9afe-2fa4081e26a2`
 
-- vector: dim=3072 · [-0.0075, 0.0519, -0.0139, -0.0086, -0.0137, -0.0247, 0.0120, 0.0072, …]
+- vector: dim=3072 · [-0.0074, 0.0514, -0.0139, -0.0087, -0.0138, -0.0245, 0.0120, 0.0070, …]
 
 ```json
 {
@@ -15407,15 +15435,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "730ff8eb-2d44-598c-882e-394701be2e3e",
+  "parent_chunk_id": "427042b0-c303-5744-9cb8-ddd81b520dd5",
   "chunk_index": 349,
   "page_number": 239,
   "page_range": [
     239,
     239
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -15443,21 +15471,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "730ff8eb-2d44-598c-882e-394701be2e3e",
+  "parent_chunk_id": "427042b0-c303-5744-9cb8-ddd81b520dd5",
   "chunk_index": 350,
   "page_number": 239,
   "page_range": [
     239,
     239
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `996d04f8-aa2d-5c21-8630-987f99f4f969`
 
-- vector: dim=3072 · [-0.0029, 0.0568, -0.0210, -0.0133, -0.0320, -0.0387, 0.0165, 0.0059, …]
+- vector: dim=3072 · [-0.0031, 0.0566, -0.0209, -0.0132, -0.0323, -0.0388, 0.0166, 0.0055, …]
 
 ```json
 {
@@ -15479,21 +15507,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "730ff8eb-2d44-598c-882e-394701be2e3e",
+  "parent_chunk_id": "427042b0-c303-5744-9cb8-ddd81b520dd5",
   "chunk_index": 351,
   "page_number": 239,
   "page_range": [
     239,
     240
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `cff63899-0af5-534f-8af1-be150df97efb`
 
-- vector: dim=3072 · [-0.0034, 0.0418, -0.0139, -0.0163, -0.0153, -0.0224, 0.0117, 0.0171, …]
+- vector: dim=3072 · [-0.0034, 0.0417, -0.0139, -0.0163, -0.0153, -0.0224, 0.0117, 0.0171, …]
 
 ```json
 {
@@ -15521,18 +15549,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     240,
     240
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `20c41f0a-2b5a-5a05-bfc9-0996fcffe1ff`
+## Parent · `050d4098-7539-5262-9743-553e6df87551`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "20c41f0a-2b5a-5a05-bfc9-0996fcffe1ff",
+  "chunk_id": "050d4098-7539-5262-9743-553e6df87551",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -15554,14 +15582,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     240,
     241
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `5e94867d-1b4d-5c4a-b0d0-eecbbc580b43`
 
-- vector: dim=3072 · [0.0017, 0.0395, -0.0195, -0.0054, -0.0160, -0.0417, 0.0087, 0.0126, …]
+- vector: dim=3072 · [0.0016, 0.0395, -0.0195, -0.0054, -0.0160, -0.0416, 0.0088, 0.0126, …]
 
 ```json
 {
@@ -15583,21 +15611,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "20c41f0a-2b5a-5a05-bfc9-0996fcffe1ff",
+  "parent_chunk_id": "050d4098-7539-5262-9743-553e6df87551",
   "chunk_index": 353,
   "page_number": 240,
   "page_range": [
     240,
     240
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `22eb68d8-8bf6-5bfd-8b93-a3b761fe91cd`
 
-- vector: dim=3072 · [0.0099, 0.0335, -0.0195, 0.0020, -0.0140, -0.0388, -0.0004, 0.0041, …]
+- vector: dim=3072 · [0.0099, 0.0333, -0.0196, 0.0018, -0.0139, -0.0389, -0.0005, 0.0042, …]
 
 ```json
 {
@@ -15619,25 +15647,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "20c41f0a-2b5a-5a05-bfc9-0996fcffe1ff",
+  "parent_chunk_id": "050d4098-7539-5262-9743-553e6df87551",
   "chunk_index": 354,
   "page_number": 241,
   "page_range": [
     241,
     241
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `1818bf3b-faf9-564a-a15d-1da7074f91e6`
+## Parent · `b0fdc150-d583-5a7d-be9b-711ea0cf3deb`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "1818bf3b-faf9-564a-a15d-1da7074f91e6",
+  "chunk_id": "b0fdc150-d583-5a7d-be9b-711ea0cf3deb",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -15659,14 +15687,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     241,
     242
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `712ad515-285c-5655-9e0f-639416a1b506`
 
-- vector: dim=3072 · [-0.0019, 0.0360, -0.0224, -0.0070, -0.0074, -0.0372, 0.0074, 0.0226, …]
+- vector: dim=3072 · [-0.0025, 0.0356, -0.0224, -0.0076, -0.0067, -0.0374, 0.0068, 0.0220, …]
 
 ```json
 {
@@ -15688,21 +15716,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1818bf3b-faf9-564a-a15d-1da7074f91e6",
+  "parent_chunk_id": "b0fdc150-d583-5a7d-be9b-711ea0cf3deb",
   "chunk_index": 355,
   "page_number": 241,
   "page_range": [
     241,
     241
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `57a6eb01-fac1-5f2d-9bf2-02e6e93b126b`
 
-- vector: dim=3072 · [-0.0036, 0.0499, -0.0225, -0.0000, -0.0126, -0.0400, -0.0004, 0.0051, …]
+- vector: dim=3072 · [-0.0035, 0.0498, -0.0226, -0.0002, -0.0128, -0.0399, -0.0005, 0.0051, …]
 
 ```json
 {
@@ -15724,21 +15752,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1818bf3b-faf9-564a-a15d-1da7074f91e6",
+  "parent_chunk_id": "b0fdc150-d583-5a7d-be9b-711ea0cf3deb",
   "chunk_index": 356,
   "page_number": 242,
   "page_range": [
     242,
     242
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b4385dd5-a2f3-5a4d-8334-6c441e7fe330`
 
-- vector: dim=3072 · [-0.0177, 0.0374, -0.0177, -0.0129, -0.0066, -0.0507, 0.0035, 0.0216, …]
+- vector: dim=3072 · [-0.0178, 0.0374, -0.0177, -0.0130, -0.0066, -0.0507, 0.0035, 0.0216, …]
 
 ```json
 {
@@ -15766,18 +15794,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     242,
     243
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `8f803486-01e5-5fdc-8c47-06f68a37e6d4`
+## Parent · `730ff8eb-2d44-598c-882e-394701be2e3e`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "8f803486-01e5-5fdc-8c47-06f68a37e6d4",
+  "chunk_id": "730ff8eb-2d44-598c-882e-394701be2e3e",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -15799,14 +15827,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     243,
     244
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `870dcd7d-a87e-5cdd-8b73-2261994acf61`
 
-- vector: dim=3072 · [-0.0071, 0.0617, -0.0226, -0.0175, -0.0032, -0.0236, 0.0018, 0.0140, …]
+- vector: dim=3072 · [-0.0064, 0.0613, -0.0224, -0.0179, -0.0034, -0.0239, 0.0022, 0.0144, …]
 
 ```json
 {
@@ -15828,21 +15856,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "8f803486-01e5-5fdc-8c47-06f68a37e6d4",
+  "parent_chunk_id": "730ff8eb-2d44-598c-882e-394701be2e3e",
   "chunk_index": 358,
   "page_number": 243,
   "page_range": [
     243,
     243
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `b734ab6e-a436-5215-a6ad-fe750be441e5`
 
-- vector: dim=3072 · [-0.0172, 0.0601, -0.0179, -0.0070, -0.0170, -0.0303, 0.0118, 0.0099, …]
+- vector: dim=3072 · [-0.0168, 0.0591, -0.0178, -0.0085, -0.0166, -0.0317, 0.0119, 0.0103, …]
 
 ```json
 {
@@ -15864,21 +15892,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "8f803486-01e5-5fdc-8c47-06f68a37e6d4",
+  "parent_chunk_id": "730ff8eb-2d44-598c-882e-394701be2e3e",
   "chunk_index": 359,
   "page_number": 243,
   "page_range": [
     243,
     243
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `f8a9d07f-9e71-59d9-84d1-342af02a5c2f`
 
-- vector: dim=3072 · [-0.0121, 0.0575, -0.0174, -0.0119, -0.0232, -0.0350, 0.0150, 0.0094, …]
+- vector: dim=3072 · [-0.0120, 0.0576, -0.0174, -0.0117, -0.0232, -0.0350, 0.0150, 0.0094, …]
 
 ```json
 {
@@ -15900,21 +15928,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "8f803486-01e5-5fdc-8c47-06f68a37e6d4",
+  "parent_chunk_id": "730ff8eb-2d44-598c-882e-394701be2e3e",
   "chunk_index": 360,
   "page_number": 244,
   "page_range": [
     244,
     244
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `04b38e68-d44d-54ca-9dc7-84ad91dba106`
 
-- vector: dim=3072 · [-0.0067, 0.0424, -0.0172, -0.0070, -0.0167, -0.0447, 0.0212, 0.0248, …]
+- vector: dim=3072 · [-0.0065, 0.0422, -0.0172, -0.0070, -0.0165, -0.0447, 0.0208, 0.0246, …]
 
 ```json
 {
@@ -15936,25 +15964,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "8f803486-01e5-5fdc-8c47-06f68a37e6d4",
+  "parent_chunk_id": "730ff8eb-2d44-598c-882e-394701be2e3e",
   "chunk_index": 361,
   "page_number": 244,
   "page_range": [
     244,
     244
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `5491f3da-5270-57d0-9abd-56352d28e1b6`
+## Parent · `740e6b01-f893-5810-b810-3215f53569d5`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "5491f3da-5270-57d0-9abd-56352d28e1b6",
+  "chunk_id": "740e6b01-f893-5810-b810-3215f53569d5",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -15976,14 +16004,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     245,
     246
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `7de0bc7d-830a-5cbe-8298-1f7bd4e960ec`
 
-- vector: dim=3072 · [-0.0050, 0.0347, -0.0224, -0.0166, -0.0040, -0.0358, 0.0075, 0.0212, …]
+- vector: dim=3072 · [-0.0044, 0.0343, -0.0224, -0.0168, -0.0043, -0.0360, 0.0079, 0.0214, …]
 
 ```json
 {
@@ -16005,21 +16033,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "5491f3da-5270-57d0-9abd-56352d28e1b6",
+  "parent_chunk_id": "740e6b01-f893-5810-b810-3215f53569d5",
   "chunk_index": 362,
   "page_number": 245,
   "page_range": [
     245,
     245
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `24cd03a1-45d7-5535-a28d-21739a9f0492`
 
-- vector: dim=3072 · [-0.0045, 0.0477, -0.0185, -0.0026, 0.0024, -0.0307, 0.0076, 0.0092, …]
+- vector: dim=3072 · [-0.0041, 0.0476, -0.0187, -0.0022, 0.0025, -0.0310, 0.0071, 0.0090, …]
 
 ```json
 {
@@ -16041,21 +16069,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "5491f3da-5270-57d0-9abd-56352d28e1b6",
+  "parent_chunk_id": "740e6b01-f893-5810-b810-3215f53569d5",
   "chunk_index": 363,
   "page_number": 245,
   "page_range": [
     245,
     245
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `19ad7aba-6115-5040-a29d-256de8d5d3c5`
 
-- vector: dim=3072 · [-0.0074, 0.0496, -0.0264, -0.0005, -0.0069, -0.0355, 0.0032, 0.0085, …]
+- vector: dim=3072 · [-0.0078, 0.0496, -0.0261, -0.0006, -0.0064, -0.0357, 0.0030, 0.0084, …]
 
 ```json
 {
@@ -16077,21 +16105,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "5491f3da-5270-57d0-9abd-56352d28e1b6",
+  "parent_chunk_id": "740e6b01-f893-5810-b810-3215f53569d5",
   "chunk_index": 364,
   "page_number": 246,
   "page_range": [
     246,
     246
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `20a2f441-ee4c-5750-a8cb-0313df39b760`
 
-- vector: dim=3072 · [-0.0198, 0.0670, -0.0194, -0.0067, -0.0071, -0.0240, -0.0035, 0.0095, …]
+- vector: dim=3072 · [-0.0200, 0.0668, -0.0196, -0.0057, -0.0076, -0.0241, -0.0040, 0.0097, …]
 
 ```json
 {
@@ -16113,21 +16141,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "5491f3da-5270-57d0-9abd-56352d28e1b6",
+  "parent_chunk_id": "740e6b01-f893-5810-b810-3215f53569d5",
   "chunk_index": 365,
   "page_number": 246,
   "page_range": [
     246,
     246
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `d068a598-f64f-5156-85b8-b3a726049e6d`
 
-- vector: dim=3072 · [-0.0267, 0.0456, -0.0165, -0.0061, -0.0131, -0.0347, -0.0109, 0.0164, …]
+- vector: dim=3072 · [-0.0266, 0.0455, -0.0164, -0.0060, -0.0130, -0.0346, -0.0109, 0.0164, …]
 
 ```json
 {
@@ -16155,18 +16183,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     247,
     247
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `f5fb7e24-06d5-58a2-882d-e147b11d70cc`
+## Parent · `20c41f0a-2b5a-5a05-bfc9-0996fcffe1ff`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "f5fb7e24-06d5-58a2-882d-e147b11d70cc",
+  "chunk_id": "20c41f0a-2b5a-5a05-bfc9-0996fcffe1ff",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -16188,14 +16216,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     247,
     250
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `cbbb3072-7ffe-5c53-99a8-538d20de288e`
 
-- vector: dim=3072 · [-0.0247, 0.0251, -0.0238, -0.0132, -0.0482, -0.0055, 0.0182, 0.0076, …]
+- vector: dim=3072 · [-0.0247, 0.0251, -0.0238, -0.0131, -0.0484, -0.0055, 0.0181, 0.0077, …]
 
 ```json
 {
@@ -16217,15 +16245,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f5fb7e24-06d5-58a2-882d-e147b11d70cc",
+  "parent_chunk_id": "20c41f0a-2b5a-5a05-bfc9-0996fcffe1ff",
   "chunk_index": 367,
   "page_number": 247,
   "page_range": [
     247,
     247
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -16253,15 +16281,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f5fb7e24-06d5-58a2-882d-e147b11d70cc",
+  "parent_chunk_id": "20c41f0a-2b5a-5a05-bfc9-0996fcffe1ff",
   "chunk_index": 368,
   "page_number": 247,
   "page_range": [
     247,
     247
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -16289,15 +16317,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f5fb7e24-06d5-58a2-882d-e147b11d70cc",
+  "parent_chunk_id": "20c41f0a-2b5a-5a05-bfc9-0996fcffe1ff",
   "chunk_index": 369,
   "page_number": 248,
   "page_range": [
     248,
     248
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -16325,15 +16353,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f5fb7e24-06d5-58a2-882d-e147b11d70cc",
+  "parent_chunk_id": "20c41f0a-2b5a-5a05-bfc9-0996fcffe1ff",
   "chunk_index": 370,
   "page_number": 249,
   "page_range": [
     249,
     249
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -16361,25 +16389,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f5fb7e24-06d5-58a2-882d-e147b11d70cc",
+  "parent_chunk_id": "20c41f0a-2b5a-5a05-bfc9-0996fcffe1ff",
   "chunk_index": 371,
   "page_number": 249,
   "page_range": [
     249,
     250
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `22f66ba5-1e0f-55e9-a774-6570c7ed02d0`
+## Parent · `3a7b0efe-7c31-5551-9add-16f47f7dcc01`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "22f66ba5-1e0f-55e9-a774-6570c7ed02d0",
+  "chunk_id": "3a7b0efe-7c31-5551-9add-16f47f7dcc01",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -16401,14 +16429,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     251,
     252
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `31ae3690-3743-5487-b3ec-56c88609e950`
 
-- vector: dim=3072 · [0.0050, 0.0108, -0.0084, 0.0024, -0.0103, -0.0183, -0.0184, 0.0035, …]
+- vector: dim=3072 · [0.0049, 0.0108, -0.0083, 0.0025, -0.0103, -0.0183, -0.0183, 0.0035, …]
 
 ```json
 {
@@ -16430,21 +16458,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "22f66ba5-1e0f-55e9-a774-6570c7ed02d0",
+  "parent_chunk_id": "3a7b0efe-7c31-5551-9add-16f47f7dcc01",
   "chunk_index": 372,
   "page_number": 251,
   "page_range": [
     251,
     251
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `93d97c56-3653-55f6-9750-94486069cc15`
 
-- vector: dim=3072 · [0.0052, 0.0231, -0.0120, 0.0077, -0.0000, -0.0119, -0.0159, -0.0012, …]
+- vector: dim=3072 · [0.0052, 0.0231, -0.0120, 0.0077, 0.0000, -0.0119, -0.0159, -0.0012, …]
 
 ```json
 {
@@ -16466,15 +16494,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "22f66ba5-1e0f-55e9-a774-6570c7ed02d0",
+  "parent_chunk_id": "3a7b0efe-7c31-5551-9add-16f47f7dcc01",
   "chunk_index": 373,
   "page_number": 251,
   "page_range": [
     251,
     251
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -16502,25 +16530,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "22f66ba5-1e0f-55e9-a774-6570c7ed02d0",
+  "parent_chunk_id": "3a7b0efe-7c31-5551-9add-16f47f7dcc01",
   "chunk_index": 374,
   "page_number": 252,
   "page_range": [
     252,
     252
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `38ab56af-0f17-5668-bc4e-7ceed7c9da02`
+## Parent · `1818bf3b-faf9-564a-a15d-1da7074f91e6`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "38ab56af-0f17-5668-bc4e-7ceed7c9da02",
+  "chunk_id": "1818bf3b-faf9-564a-a15d-1da7074f91e6",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -16542,14 +16570,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     252,
     254
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `256becd2-0789-5808-9225-aa759764272c`
 
-- vector: dim=3072 · [-0.0198, -0.0014, -0.0138, -0.0191, -0.0161, 0.0090, -0.0195, 0.0313, …]
+- vector: dim=3072 · [-0.0197, -0.0013, -0.0138, -0.0192, -0.0161, 0.0091, -0.0194, 0.0312, …]
 
 ```json
 {
@@ -16571,15 +16599,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "38ab56af-0f17-5668-bc4e-7ceed7c9da02",
+  "parent_chunk_id": "1818bf3b-faf9-564a-a15d-1da7074f91e6",
   "chunk_index": 375,
   "page_number": 252,
   "page_range": [
     252,
     252
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -16607,21 +16635,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "38ab56af-0f17-5668-bc4e-7ceed7c9da02",
+  "parent_chunk_id": "1818bf3b-faf9-564a-a15d-1da7074f91e6",
   "chunk_index": 376,
   "page_number": 252,
   "page_range": [
     252,
     252
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `9cb6c8db-31a0-5c8c-94d6-9efefef5bcea`
 
-- vector: dim=3072 · [0.0009, 0.0045, -0.0075, 0.0305, 0.0001, 0.0133, -0.0131, 0.0112, …]
+- vector: dim=3072 · [0.0012, 0.0045, -0.0076, 0.0305, 0.0001, 0.0135, -0.0127, 0.0113, …]
 
 ```json
 {
@@ -16643,21 +16671,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "38ab56af-0f17-5668-bc4e-7ceed7c9da02",
+  "parent_chunk_id": "1818bf3b-faf9-564a-a15d-1da7074f91e6",
   "chunk_index": 377,
   "page_number": 253,
   "page_range": [
     253,
     253
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `c25871d1-3538-5cc7-9fbb-f3bf1580d198`
 
-- vector: dim=3072 · [0.0019, 0.0219, -0.0126, 0.0276, -0.0218, -0.0050, -0.0081, 0.0094, …]
+- vector: dim=3072 · [0.0019, 0.0219, -0.0126, 0.0274, -0.0218, -0.0050, -0.0080, 0.0094, …]
 
 ```json
 {
@@ -16679,21 +16707,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "38ab56af-0f17-5668-bc4e-7ceed7c9da02",
+  "parent_chunk_id": "1818bf3b-faf9-564a-a15d-1da7074f91e6",
   "chunk_index": 378,
   "page_number": 253,
   "page_range": [
     253,
     253
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `c29c4964-8f05-5843-90e1-3bfd9f3f9d34`
 
-- vector: dim=3072 · [-0.0024, 0.0255, -0.0085, 0.0233, -0.0155, -0.0165, -0.0037, 0.0118, …]
+- vector: dim=3072 · [-0.0025, 0.0255, -0.0081, 0.0216, -0.0156, -0.0158, -0.0049, 0.0125, …]
 
 ```json
 {
@@ -16715,25 +16743,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "38ab56af-0f17-5668-bc4e-7ceed7c9da02",
+  "parent_chunk_id": "1818bf3b-faf9-564a-a15d-1da7074f91e6",
   "chunk_index": 379,
   "page_number": 254,
   "page_range": [
     254,
     254
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `c5254547-6b8a-5867-9918-3fa57029c638`
+## Parent · `01c28046-a2e9-5902-9965-f03274fcf2da`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "c5254547-6b8a-5867-9918-3fa57029c638",
+  "chunk_id": "01c28046-a2e9-5902-9965-f03274fcf2da",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -16755,14 +16783,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     254,
     254
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `1c0fcf96-e757-5cb8-af7a-0c72fc9a37e6`
 
-- vector: dim=3072 · [0.0011, 0.0338, -0.0112, -0.0007, -0.0306, -0.0069, -0.0090, 0.0022, …]
+- vector: dim=3072 · [0.0009, 0.0337, -0.0112, -0.0006, -0.0306, -0.0070, -0.0090, 0.0021, …]
 
 ```json
 {
@@ -16784,21 +16812,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c5254547-6b8a-5867-9918-3fa57029c638",
+  "parent_chunk_id": "01c28046-a2e9-5902-9965-f03274fcf2da",
   "chunk_index": 380,
   "page_number": 254,
   "page_range": [
     254,
     254
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `49b504f6-860c-57c5-9e8c-2a0c54c35a23`
 
-- vector: dim=3072 · [0.0086, 0.0291, -0.0176, 0.0139, -0.0246, -0.0172, -0.0164, 0.0143, …]
+- vector: dim=3072 · [0.0087, 0.0292, -0.0176, 0.0141, -0.0246, -0.0171, -0.0164, 0.0142, …]
 
 ```json
 {
@@ -16820,25 +16848,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "c5254547-6b8a-5867-9918-3fa57029c638",
+  "parent_chunk_id": "01c28046-a2e9-5902-9965-f03274fcf2da",
   "chunk_index": 381,
   "page_number": 254,
   "page_range": [
     254,
     254
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `b94e9fca-4762-5f16-8d46-eb2b532f4f4a`
+## Parent · `8f803486-01e5-5fdc-8c47-06f68a37e6d4`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "b94e9fca-4762-5f16-8d46-eb2b532f4f4a",
+  "chunk_id": "8f803486-01e5-5fdc-8c47-06f68a37e6d4",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -16860,8 +16888,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     255,
     255
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -16889,15 +16917,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b94e9fca-4762-5f16-8d46-eb2b532f4f4a",
+  "parent_chunk_id": "8f803486-01e5-5fdc-8c47-06f68a37e6d4",
   "chunk_index": 382,
   "page_number": 255,
   "page_range": [
     255,
     255
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -16925,33 +16953,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b94e9fca-4762-5f16-8d46-eb2b532f4f4a",
+  "parent_chunk_id": "8f803486-01e5-5fdc-8c47-06f68a37e6d4",
   "chunk_index": 383,
   "page_number": 255,
   "page_range": [
     255,
     255
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `773a58cd-bd9d-510f-b28c-7e7303d7909c`
+## Parent · `89bd07f4-0a6a-5c76-aa24-5d90d34d7b51`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "773a58cd-bd9d-510f-b28c-7e7303d7909c",
+  "chunk_id": "89bd07f4-0a6a-5c76-aa24-5d90d34d7b51",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "Recommendations for India",
-  "chunk_text": "Recommendations for India\n\n»\nInstead of targeting C-free operation, use of renewable/e-/green fuels with high efficiency over \nwhole life cycle should be the focus for ship operation using Fuel Cell s\n\t»\nTowards zero emission, Fuel Cell should be considered a promising option for Inland water and \nshortsea/coastal shipping\n\t»\nFor very small vessel <100eKW (Inland water) DMFC could be worth investing for India. However, \nas DMFC relies on Methanol which produces CO2  as a byproduct, this technology will be \nconsidered carbon neutral/green only when Methanol is sourced from greener means. Thus, \n\n… [+5470 more chars]",
-  "content_hash": "a2fdb3608f85dc27b6abb2575a4685ed8818213a02c177e51c6f0b920c577c30",
-  "token_count": 1775,
+  "chunk_text": "Recommendations for India\n\n»\nInstead of targeting C-free operation, use of renewable/e-/green fuels with high efficiency over \nwhole life cycle should be the focus for ship operation using Fuel Cell s\n\t»\nTowards zero emission, Fuel Cell should be considered a promising option for Inland water and \nshortsea/coastal shipping\n\t»\nFor very small vessel <100eKW (Inland water) DMFC could be worth investing for India. However, \nas DMFC relies on Methanol which produces CO2  as a byproduct, this technology will be \nconsidered carbon neutral/green only when Methanol is sourced from greener means. Thus, \n\n… [+5491 more chars]",
+  "content_hash": "f34350dc7e6ae4ff399ddea9a29e0527a1a9c6eb15ed0a9dd77e3605889d7d54",
+  "token_count": 1780,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -16965,8 +16993,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     256,
     259
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -16994,15 +17022,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "773a58cd-bd9d-510f-b28c-7e7303d7909c",
+  "parent_chunk_id": "89bd07f4-0a6a-5c76-aa24-5d90d34d7b51",
   "chunk_index": 384,
   "page_number": 256,
   "page_range": [
     256,
     256
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -17030,21 +17058,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "773a58cd-bd9d-510f-b28c-7e7303d7909c",
+  "parent_chunk_id": "89bd07f4-0a6a-5c76-aa24-5d90d34d7b51",
   "chunk_index": 385,
   "page_number": 256,
   "page_range": [
     256,
     256
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `a17613a3-3cd8-51e1-95a3-2f30f4d44f21`
 
-- vector: dim=3072 · [0.0031, 0.0271, -0.0087, -0.0290, -0.0336, -0.0129, 0.0059, 0.0115, …]
+- vector: dim=3072 · [0.0010, 0.0267, -0.0092, -0.0302, -0.0339, -0.0130, 0.0067, 0.0113, …]
 
 ```json
 {
@@ -17066,15 +17094,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "773a58cd-bd9d-510f-b28c-7e7303d7909c",
+  "parent_chunk_id": "89bd07f4-0a6a-5c76-aa24-5d90d34d7b51",
   "chunk_index": 386,
   "page_number": 257,
   "page_range": [
     257,
     257
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -17102,21 +17130,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "773a58cd-bd9d-510f-b28c-7e7303d7909c",
+  "parent_chunk_id": "89bd07f4-0a6a-5c76-aa24-5d90d34d7b51",
   "chunk_index": 387,
   "page_number": 257,
   "page_range": [
     257,
     257
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0521b62e-b9b3-5387-b3f4-e65158d7ea21`
 
-- vector: dim=3072 · [-0.0189, 0.0474, -0.0118, 0.0020, 0.0117, -0.0177, -0.0415, 0.0138, …]
+- vector: dim=3072 · [-0.0192, 0.0462, -0.0077, 0.0074, 0.0144, -0.0151, -0.0300, 0.0096, …]
 
 ```json
 {
@@ -17127,9 +17155,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "Recommendations for India",
   "section_type": "references",
-  "chunk_text": "306130451461092#:~:text=CCS%20has%20carried%20out%20\nresearch%20on%20epidemic%20prevention%20safety%20for,quality%20development%20\nof%20the%20industry 11.\t Elkafas, A. G., Rivarolo, M., Gadducci, E., Magistri, L., & Massardo, A. F. (2022). Fuel Cell Systems \nfor Maritime: A review of research development, commercial products, applications, and \nperspectives. Processes, 11(1), 97. https://doi.org/10.3390/pr11010097\n12.\t Van Veldhuizen, B., Van Biert, L., Aravind, P. V., & Visser, K. (2023). Solid Oxide Fuel Cells for \nMarine Applications. International Journal of Energy Research, 2023, 1–35. ht\n\n… [+529 more chars]",
-  "content_hash": "681c3883ceadebd4dcfef75c5a7a2a5faf84f121367210f50ae9645c067957c9",
-  "token_count": 392,
+  "chunk_text": "306130451461092#:~:text=CCS%20has%20carried%20out%20\nresearch%20on%20epidemic%20prevention%20safety%20for,quality%20development%20\nof%20the%20industry 11.\t Elkafas, A. G., Rivarolo, M., Gadducci, E., Magistri, L., & Massardo, A. F. (2022). Fuel Cell Systems \nfor Maritime: A review of research development, commercial products, applications, and \nperspectives. Processes, 11(1), 97. https://doi.org/10.3390/pr11010097\n12.\t Van Veldhuizen, B., Van Biert, L., Aravind, P. V., & Visser, K. (2023). Solid Oxide Fuel Cells for \nMarine Applications. International Journal of Energy Research, 2023, 1–35. ht\n\n… [+550 more chars]",
+  "content_hash": "253a5a447c133539d77f228ac037f5c12a49ab458bd7a431abe42d9633feff90",
+  "token_count": 397,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -17139,33 +17167,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "773a58cd-bd9d-510f-b28c-7e7303d7909c",
+  "parent_chunk_id": "89bd07f4-0a6a-5c76-aa24-5d90d34d7b51",
   "chunk_index": 388,
   "page_number": 258,
   "page_range": [
     258,
     259
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `13063585-20ab-54e0-b40a-e7dfffd7489a`
+## Parent · `c150ecee-d9e6-5d65-a5f5-0fb642c11aeb`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "13063585-20ab-54e0-b40a-e7dfffd7489a",
+  "chunk_id": "c150ecee-d9e6-5d65-a5f5-0fb642c11aeb",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 6 — Shipping",
-  "chunk_text": "Chapter 6 — Shipping\n\nGlobally Marine sector is moving towards LNG (near and medium term though fossil-based but later \ncan be shifted to CBG), Methanol (immediate), and Hydrogen & Ammonia (long term) as dual fuel & \nretrofitting options for marine engines. From medium term perspective in the timeline between2027 to \n2035 [1], among the various bio/green fuel options, bio/e-methanol, bio-DME, bio/e-LNG, and pyrolysis \nbio-oil appears well suited for the marine sector owing to their potential for scale-up, global advanced \nproduction status, and low costs. These options are close to each other \n\n… [+5756 more chars]",
-  "content_hash": "40590bcccc631ec4903ffd3afbbcd19a6d4f5b1c4eed12315d85918dc960d1df",
-  "token_count": 1756,
+  "section_heading": "Recommendations for India",
+  "chunk_text": "Recommendations for India (cont.)\n\nGlobally Marine sector is moving towards LNG (near and medium term though fossil-based but later \ncan be shifted to CBG), Methanol (immediate), and Hydrogen & Ammonia (long term) as dual fuel & \nretrofitting options for marine engines. From medium term perspective in the timeline between2027 to \n2035 [1], among the various bio/green fuel options, bio/e-methanol, bio-DME, bio/e-LNG, and pyrolysis \nbio-oil appears well suited for the marine sector owing to their potential for scale-up, global advanced \nproduction status, and low costs. These options are close t\n\n… [+5769 more chars]",
+  "content_hash": "992ffcbf174e5e87cb80dc137b47c8ee5e93766484258516e74e98b89b304024",
+  "token_count": 1757,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -17179,14 +17207,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     260,
     261
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `a6437312-fa33-5209-9615-dab840293805`
 
-- vector: dim=3072 · [-0.0064, 0.0120, -0.0123, -0.0144, -0.0090, -0.0070, -0.0429, -0.0083, …]
+- vector: dim=3072 · [-0.0064, 0.0121, -0.0121, -0.0147, -0.0090, -0.0072, -0.0430, -0.0083, …]
 
 ```json
 {
@@ -17195,7 +17223,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 6 — Shipping",
+  "section_heading": "Recommendations for India",
   "chunk_text": "Globally Marine sector is moving towards LNG (near and medium term though fossil-based but later \ncan be shifted to CBG), Methanol (immediate), and Hydrogen & Ammonia (long term) as dual fuel & \nretrofitting options for marine engines. From medium term perspective in the timeline between2027 to \n2035 [1], among the various bio/green fuel options, bio/e-methanol, bio-DME, bio/e-LNG, and pyrolysis \nbio-oil appears well suited for the marine sector owing to their potential for scale-up, global advanced \nproduction status, and low costs. These options are close to each other in their overall fitne\n\n… [+1624 more chars]",
   "content_hash": "ca07c74a083748919f39380ca0bbe62de1ffd07962b1d2f1168eb6f2bb970197",
   "token_count": 492,
@@ -17208,15 +17236,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "13063585-20ab-54e0-b40a-e7dfffd7489a",
+  "parent_chunk_id": "c150ecee-d9e6-5d65-a5f5-0fb642c11aeb",
   "chunk_index": 389,
   "page_number": 260,
   "page_range": [
     260,
     260
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -17231,7 +17259,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 6 — Shipping",
+  "section_heading": "Recommendations for India",
   "chunk_text": "Nevertheless, the simplicity, maturity, \napplicability for dry wastes and low cost of pyrolysis bio-oil production could be balanced against | Table 6.1: Scores for the fuels [2] |  |  |  |  |  |  |  |  |  |  |  |  |  |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  |  | Weight Bio-Methanol |  |  | Bio-DME |  |  | Bio-LNG |  |  | Bio-oil |  |  |\n|  |  | A | B | C | A | B | C | A | B | C | A | B | C |\n| Present technology status | 0.08 | 3.5 | 3.8 | 1.8 | 3 | 3.2 | 1.5 | 4 | 3.7 | 1.8 | 3.5 | 3.3 | 1.6 |\n| Potential availability (EJ/y) | 0.2 | 3 | 3.3 |\n\n… [+451 more chars]",
   "content_hash": "4853d4f963c1dc4e619f2e8719bc4b7f494a86dbe608bd19aee278bfe55924bc",
   "token_count": 562,
@@ -17244,15 +17272,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "13063585-20ab-54e0-b40a-e7dfffd7489a",
+  "parent_chunk_id": "c150ecee-d9e6-5d65-a5f5-0fb642c11aeb",
   "chunk_index": 390,
   "page_number": 260,
   "page_range": [
     260,
     260
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -17267,7 +17295,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 6 — Shipping",
+  "section_heading": "Recommendations for India",
   "chunk_text": "CCS compatibility | 0.05 | 3 | 3.2 | 1.0 | 3 | 2.9 | 0.9 | 4 | 2.7 | 0.8 | 2 | 2.7 | 0.8 | | Sum |  | 20.0 |  | 21.2 | 20.0 |  | 19.4 | 19.5 |  | 18.8 | 18.5 |  | 20.6 |\n| * A: Score allotted to fuel for criterion based on literature study; B: Score allotted to fuel criterion by stakeholders; C: Weighted score of fuel for criterion (C=Weight*B*6, as 6 criteria used; rounded to one decimal place) |  |  |  |  |  |  |  |  |  |  |  |  |  |",
   "content_hash": "b539cb0489eeccd3e661389d0ed0bf56c3cba8456b265c4c7e92383930ce16ab",
   "token_count": 195,
@@ -17280,21 +17308,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "13063585-20ab-54e0-b40a-e7dfffd7489a",
+  "parent_chunk_id": "c150ecee-d9e6-5d65-a5f5-0fb642c11aeb",
   "chunk_index": 391,
   "page_number": 260,
   "page_range": [
     260,
     260
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `de43fafc-75fe-57c9-9733-97605a4c6c1d`
 
-- vector: dim=3072 · [0.0024, 0.0092, -0.0050, -0.0046, -0.0221, -0.0303, -0.0379, 0.0168, …]
+- vector: dim=3072 · [0.0024, 0.0093, -0.0050, -0.0047, -0.0220, -0.0303, -0.0378, 0.0168, …]
 
 ```json
 {
@@ -17303,7 +17331,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 6 — Shipping",
+  "section_heading": "Recommendations for India",
   "chunk_text": "criterion by stakeholders; C: Weighted score of fuel for criterion (C=Weight*B*6, as 6 criteria used; rounded to one decimal place) |  |  |  |  |  |  |  |  |  |  |  |  |  | the present cost of its downstream upgrading. Another critical study is conducted on OCC as part of \nthe Green Fuels Optionality Project (GFOP) at the Mærsk McKinney Møller Centre for Zero Carbon \nShipping (MMMCZCS). To gain a better understanding of the role of OCC in maritime decarbonization \nand assess OCC’s business case for different vessel types and sizes, the applicability of OCC to the \nlargest shipping segments (co\n\n… [+1729 more chars]",
   "content_hash": "bd446859a67dd40eab58763dc12020258d3ce1ca7375472809b77d0f2bfa1b1f",
   "token_count": 498,
@@ -17316,21 +17344,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "13063585-20ab-54e0-b40a-e7dfffd7489a",
+  "parent_chunk_id": "c150ecee-d9e6-5d65-a5f5-0fb642c11aeb",
   "chunk_index": 392,
   "page_number": 261,
   "page_range": [
     261,
     261
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `cf098219-9439-5d14-af5e-56a761c6e9fb`
 
-- vector: dim=3072 · [-0.0054, 0.0183, -0.0107, -0.0086, -0.0222, -0.0252, -0.0412, 0.0095, …]
+- vector: dim=3072 · [-0.0055, 0.0183, -0.0107, -0.0086, -0.0222, -0.0251, -0.0414, 0.0094, …]
 
 ```json
 {
@@ -17339,7 +17367,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Chapter 6 — Shipping",
+  "section_heading": "Recommendations for India",
   "chunk_text": "ization of adsorbed CO2 especially for the \ncountries like India with lack of geological CO2 storage sites along with innovation in sustainable \nCO2 adsorption material production. \n6.1\t\nOnboard Carbon Capture Technologies\nThe IMO has initiated discussions towards creating a regulatory framework for Onboard Carbon Capture and Storage (OCCS), with the Marine Environment Protection Committee (MEPC) planning to \nreview progress this year in 2025. Meanwhile, the European Union (EU) has woven shipping emissions \ninto its climate policy, which includes the EU Emissions Trading System (EU ETS) and th\n\n… [+406 more chars]",
   "content_hash": "9362de11b8b099ad0fd19fc795d3609483e99652d71724dc0d8368e4cc99bbb7",
   "token_count": 213,
@@ -17352,15 +17380,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "13063585-20ab-54e0-b40a-e7dfffd7489a",
+  "parent_chunk_id": "c150ecee-d9e6-5d65-a5f5-0fb642c11aeb",
   "chunk_index": 393,
   "page_number": 261,
   "page_range": [
     261,
     261
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -17394,18 +17422,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     261,
     262
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `a4fe23d9-503e-5369-826b-054fdb2735b9`
+## Parent · `38ab56af-0f17-5668-bc4e-7ceed7c9da02`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "a4fe23d9-503e-5369-826b-054fdb2735b9",
+  "chunk_id": "38ab56af-0f17-5668-bc4e-7ceed7c9da02",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -17427,8 +17455,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     263,
     265
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -17456,21 +17484,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a4fe23d9-503e-5369-826b-054fdb2735b9",
+  "parent_chunk_id": "38ab56af-0f17-5668-bc4e-7ceed7c9da02",
   "chunk_index": 395,
   "page_number": 263,
   "page_range": [
     263,
     263
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `3734d160-eeeb-5dc3-b5b1-2c3a5092b2da`
 
-- vector: dim=3072 · [-0.0035, -0.0007, -0.0052, -0.0137, 0.0056, -0.0359, -0.0342, -0.0083, …]
+- vector: dim=3072 · [-0.0035, -0.0007, -0.0051, -0.0137, 0.0056, -0.0358, -0.0338, -0.0081, …]
 
 ```json
 {
@@ -17492,21 +17520,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a4fe23d9-503e-5369-826b-054fdb2735b9",
+  "parent_chunk_id": "38ab56af-0f17-5668-bc4e-7ceed7c9da02",
   "chunk_index": 396,
   "page_number": 263,
   "page_range": [
     263,
     263
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `921762e7-fb39-5e29-8edd-933318f9b522`
 
-- vector: dim=3072 · [0.0098, 0.0327, -0.0098, -0.0048, -0.0112, -0.0180, -0.0001, 0.0108, …]
+- vector: dim=3072 · [0.0098, 0.0327, -0.0098, -0.0049, -0.0111, -0.0181, -0.0001, 0.0108, …]
 
 ```json
 {
@@ -17528,15 +17556,15 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a4fe23d9-503e-5369-826b-054fdb2735b9",
+  "parent_chunk_id": "38ab56af-0f17-5668-bc4e-7ceed7c9da02",
   "chunk_index": 397,
   "page_number": 264,
   "page_range": [
     264,
     264
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -17564,25 +17592,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "a4fe23d9-503e-5369-826b-054fdb2735b9",
+  "parent_chunk_id": "38ab56af-0f17-5668-bc4e-7ceed7c9da02",
   "chunk_index": 398,
   "page_number": 265,
   "page_range": [
     265,
     265
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `27e10356-07ed-53e3-a331-1b6f5f09f64d`
+## Parent · `c5254547-6b8a-5867-9918-3fa57029c638`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "27e10356-07ed-53e3-a331-1b6f5f09f64d",
+  "chunk_id": "c5254547-6b8a-5867-9918-3fa57029c638",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -17604,8 +17632,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     265,
     266
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -17633,21 +17661,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "27e10356-07ed-53e3-a331-1b6f5f09f64d",
+  "parent_chunk_id": "c5254547-6b8a-5867-9918-3fa57029c638",
   "chunk_index": 399,
   "page_number": 265,
   "page_range": [
     265,
     265
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `82f777af-ccc3-5c26-ae97-d5c839a1b324`
 
-- vector: dim=3072 · [0.0087, 0.0258, -0.0181, 0.0003, -0.0001, -0.0320, 0.0164, -0.0020, …]
+- vector: dim=3072 · [0.0084, 0.0255, -0.0181, 0.0004, 0.0000, -0.0318, 0.0164, -0.0017, …]
 
 ```json
 {
@@ -17669,25 +17697,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "27e10356-07ed-53e3-a331-1b6f5f09f64d",
+  "parent_chunk_id": "c5254547-6b8a-5867-9918-3fa57029c638",
   "chunk_index": 400,
   "page_number": 266,
   "page_range": [
     266,
     266
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `9a8393e2-daee-57d9-bcb5-ec1e2c057f25`
+## Parent · `b94e9fca-4762-5f16-8d46-eb2b532f4f4a`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "9a8393e2-daee-57d9-bcb5-ec1e2c057f25",
+  "chunk_id": "b94e9fca-4762-5f16-8d46-eb2b532f4f4a",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -17709,14 +17737,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     266,
     268
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `5a82d474-923c-5de8-bb3a-1e5dfdbf63f2`
 
-- vector: dim=3072 · [0.0077, 0.0361, -0.0266, 0.0010, -0.0182, -0.0139, 0.0285, 0.0142, …]
+- vector: dim=3072 · [0.0074, 0.0361, -0.0267, 0.0011, -0.0177, -0.0143, 0.0283, 0.0143, …]
 
 ```json
 {
@@ -17738,21 +17766,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9a8393e2-daee-57d9-bcb5-ec1e2c057f25",
+  "parent_chunk_id": "b94e9fca-4762-5f16-8d46-eb2b532f4f4a",
   "chunk_index": 401,
   "page_number": 266,
   "page_range": [
     266,
     266
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `50e2f911-3262-5ca0-bd84-0872b1e35f4c`
 
-- vector: dim=3072 · [0.0049, 0.0475, -0.0238, -0.0029, -0.0186, -0.0106, 0.0144, 0.0159, …]
+- vector: dim=3072 · [0.0056, 0.0481, -0.0237, -0.0034, -0.0183, -0.0098, 0.0136, 0.0162, …]
 
 ```json
 {
@@ -17774,21 +17802,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9a8393e2-daee-57d9-bcb5-ec1e2c057f25",
+  "parent_chunk_id": "b94e9fca-4762-5f16-8d46-eb2b532f4f4a",
   "chunk_index": 402,
   "page_number": 267,
   "page_range": [
     267,
     267
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `0177d723-a2dc-5d22-a786-737d0b96d346`
 
-- vector: dim=3072 · [0.0045, 0.0460, -0.0244, -0.0131, -0.0172, -0.0369, -0.0123, 0.0138, …]
+- vector: dim=3072 · [0.0045, 0.0460, -0.0247, -0.0136, -0.0179, -0.0366, -0.0126, 0.0135, …]
 
 ```json
 {
@@ -17810,21 +17838,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9a8393e2-daee-57d9-bcb5-ec1e2c057f25",
+  "parent_chunk_id": "b94e9fca-4762-5f16-8d46-eb2b532f4f4a",
   "chunk_index": 403,
   "page_number": 267,
   "page_range": [
     267,
     267
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `db28da51-895f-5ae7-9325-3aa75c950aa2`
 
-- vector: dim=3072 · [0.0088, 0.0506, -0.0207, -0.0089, -0.0081, -0.0426, 0.0041, 0.0187, …]
+- vector: dim=3072 · [0.0088, 0.0508, -0.0207, -0.0090, -0.0081, -0.0425, 0.0041, 0.0186, …]
 
 ```json
 {
@@ -17846,21 +17874,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9a8393e2-daee-57d9-bcb5-ec1e2c057f25",
+  "parent_chunk_id": "b94e9fca-4762-5f16-8d46-eb2b532f4f4a",
   "chunk_index": 404,
   "page_number": 268,
   "page_range": [
     268,
     268
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `42eaa3d3-d159-5072-8348-5a93b3866217`
 
-- vector: dim=3072 · [-0.0011, 0.0437, -0.0259, -0.0043, 0.0086, -0.0344, 0.0130, 0.0229, …]
+- vector: dim=3072 · [-0.0012, 0.0435, -0.0259, -0.0044, 0.0083, -0.0345, 0.0128, 0.0227, …]
 
 ```json
 {
@@ -17882,21 +17910,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9a8393e2-daee-57d9-bcb5-ec1e2c057f25",
+  "parent_chunk_id": "b94e9fca-4762-5f16-8d46-eb2b532f4f4a",
   "chunk_index": 405,
   "page_number": 268,
   "page_range": [
     268,
     268
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `8a342604-ca27-56d7-b733-35a5e213873c`
 
-- vector: dim=3072 · [-0.0135, 0.0272, -0.0095, -0.0238, -0.0208, -0.0352, -0.0136, 0.0125, …]
+- vector: dim=3072 · [-0.0136, 0.0272, -0.0095, -0.0237, -0.0207, -0.0350, -0.0135, 0.0125, …]
 
 ```json
 {
@@ -17924,8 +17952,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     269,
     269
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
@@ -17959,14 +17987,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     269,
     271
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `6a23ae7f-77e8-5f15-9a22-93242cd9111e`
 
-- vector: dim=3072 · [0.0112, 0.0209, -0.0123, -0.0182, -0.0084, -0.0410, -0.0364, 0.0052, …]
+- vector: dim=3072 · [0.0112, 0.0208, -0.0123, -0.0182, -0.0085, -0.0410, -0.0364, 0.0052, …]
 
 ```json
 {
@@ -17994,18 +18022,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     272,
     272
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `57794aa9-e0d5-5b30-8105-57946f42ea02`
+## Parent · `a4fe23d9-503e-5369-826b-054fdb2735b9`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "57794aa9-e0d5-5b30-8105-57946f42ea02",
+  "chunk_id": "a4fe23d9-503e-5369-826b-054fdb2735b9",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -18027,14 +18055,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     273,
     274
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `6004b10e-6a45-5f12-8dd9-a3c94097fc7b`
 
-- vector: dim=3072 · [-0.0093, 0.0291, -0.0101, -0.0216, -0.0039, -0.0572, -0.0215, 0.0080, …]
+- vector: dim=3072 · [-0.0085, 0.0287, -0.0100, -0.0213, -0.0041, -0.0574, -0.0211, 0.0081, …]
 
 ```json
 {
@@ -18056,21 +18084,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "57794aa9-e0d5-5b30-8105-57946f42ea02",
+  "parent_chunk_id": "a4fe23d9-503e-5369-826b-054fdb2735b9",
   "chunk_index": 409,
   "page_number": 273,
   "page_range": [
     273,
     273
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `ee87868a-e324-5b94-9598-29e35d5de161`
 
-- vector: dim=3072 · [-0.0102, 0.0192, -0.0085, -0.0142, -0.0276, -0.0193, -0.0359, -0.0014, …]
+- vector: dim=3072 · [-0.0102, 0.0193, -0.0085, -0.0142, -0.0277, -0.0193, -0.0359, -0.0013, …]
 
 ```json
 {
@@ -18092,21 +18120,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "57794aa9-e0d5-5b30-8105-57946f42ea02",
+  "parent_chunk_id": "a4fe23d9-503e-5369-826b-054fdb2735b9",
   "chunk_index": 410,
   "page_number": 273,
   "page_range": [
     273,
     273
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `72a3c1da-c273-5a36-a81c-9a5bbb8b478e`
 
-- vector: dim=3072 · [-0.0074, 0.0224, -0.0120, -0.0078, -0.0033, -0.0214, -0.0371, 0.0038, …]
+- vector: dim=3072 · [-0.0072, 0.0225, -0.0120, -0.0080, -0.0031, -0.0212, -0.0372, 0.0039, …]
 
 ```json
 {
@@ -18128,21 +18156,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "57794aa9-e0d5-5b30-8105-57946f42ea02",
+  "parent_chunk_id": "a4fe23d9-503e-5369-826b-054fdb2735b9",
   "chunk_index": 411,
   "page_number": 274,
   "page_range": [
     274,
     274
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `673399f9-02a5-52fe-882c-85699cc2af0d`
 
-- vector: dim=3072 · [0.0079, 0.0182, -0.0091, -0.0029, 0.0135, -0.0185, -0.0302, -0.0027, …]
+- vector: dim=3072 · [0.0081, 0.0182, -0.0092, -0.0027, 0.0137, -0.0181, -0.0302, -0.0026, …]
 
 ```json
 {
@@ -18165,34 +18193,34 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "57794aa9-e0d5-5b30-8105-57946f42ea02",
+  "parent_chunk_id": "a4fe23d9-503e-5369-826b-054fdb2735b9",
   "chunk_index": 412,
   "page_number": 274,
   "page_range": [
     274,
     274
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `7ea8af8d-4cf4-5b88-b34d-37663a1e29bd`
+## Parent · `f95f00c6-0d93-5111-a493-db2f2c546543`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "7ea8af8d-4cf4-5b88-b34d-37663a1e29bd",
+  "chunk_id": "f95f00c6-0d93-5111-a493-db2f2c546543",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "Conclusions",
   "section_type": "references",
-  "chunk_text": "Conclusions (cont.)\n\n8.\t Wang, H., Zhou, P., & Wang, Z. (2017). Reviews on current carbon emission reduction technologies \nand projects and their feasibilities on ships. Journal of Marine Science and Application, 16(2), \n129–136. https://doi.org/10.1007/s11804-017-1413-y\n9.\t Onboard Carbon Capture Utilisation and Storage: A Promising Solution for Maritime \nDecarbonisation. (2024, August 14).  https://www.westpandi.com/news-and-resources/news/\naugust-2024/august-test-article/\n10.\t Baroudi, H. A., Awoyomi, A., Patchigolla, K., Jonnalagadda, K., & Anthony, E. (2021). A Review of \nLarge-Scale CO2 \n\n… [+3932 more chars]",
-  "content_hash": "9f0462f771e508ea4c1608fee42eca02a70b7b9fae245d9e463cbdc7415a6599",
-  "token_count": 1314,
+  "chunk_text": "Conclusions (cont.)\n\n8.\t Wang, H., Zhou, P., & Wang, Z. (2017). Reviews on current carbon emission reduction technologies \nand projects and their feasibilities on ships. Journal of Marine Science and Application, 16(2), \n129–136. https://doi.org/10.1007/s11804-017-1413-y\n9.\t Onboard Carbon Capture Utilisation and Storage: A Promising Solution for Maritime \nDecarbonisation. (2024, August 14).  https://www.westpandi.com/news-and-resources/news/\naugust-2024/august-test-article/\n10.\t Baroudi, H. A., Awoyomi, A., Patchigolla, K., Jonnalagadda, K., & Anthony, E. (2021). A Review of \nLarge-Scale CO2 \n\n… [+4221 more chars]",
+  "content_hash": "d5c22f1ac6758dae386155e64d0ec1a987c320d5f2d293438f515fffc4a1cb04",
+  "token_count": 1419,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -18204,16 +18232,16 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
   "page_range": [
     275,
-    276
+    277
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `ef2e5aa9-832d-556f-b6d7-98cf10aa90a9`
 
-- vector: dim=3072 · [-0.0046, 0.0497, -0.0103, -0.0095, -0.0128, -0.0158, -0.0231, 0.0219, …]
+- vector: dim=3072 · [-0.0043, 0.0496, -0.0103, -0.0096, -0.0128, -0.0162, -0.0226, 0.0220, …]
 
 ```json
 {
@@ -18236,21 +18264,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "7ea8af8d-4cf4-5b88-b34d-37663a1e29bd",
+  "parent_chunk_id": "f95f00c6-0d93-5111-a493-db2f2c546543",
   "chunk_index": 413,
   "page_number": 275,
   "page_range": [
     275,
     275
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `6aaeece3-552e-51bd-bde9-2c4d132ea604`
 
-- vector: dim=3072 · [-0.0108, 0.0444, -0.0128, 0.0054, -0.0233, -0.0140, -0.0197, 0.0213, …]
+- vector: dim=3072 · [-0.0108, 0.0445, -0.0128, 0.0055, -0.0232, -0.0140, -0.0195, 0.0214, …]
 
 ```json
 {
@@ -18273,21 +18301,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "7ea8af8d-4cf4-5b88-b34d-37663a1e29bd",
+  "parent_chunk_id": "f95f00c6-0d93-5111-a493-db2f2c546543",
   "chunk_index": 414,
   "page_number": 275,
   "page_range": [
     275,
     275
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `86016768-a01d-5b83-9c0e-ea46bbd046d2`
 
-- vector: dim=3072 · [0.0033, 0.0387, -0.0061, 0.0021, -0.0185, -0.0257, -0.0140, 0.0119, …]
+- vector: dim=3072 · [0.0035, 0.0400, -0.0049, -0.0033, -0.0191, -0.0238, -0.0147, 0.0172, …]
 
 ```json
 {
@@ -18298,9 +18326,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "Conclusions",
   "section_type": "references",
-  "chunk_text": "Carbon Capture – Case Study for a Ropax Ship - Deltamarin. (2024, September 19). \nDeltamarin. \nhttps://deltamarin.com/news/blog/article/carbon-capture-case-study-for-a-ropax-\nship/ 22.\t Kelleher, J. (2025, March 25). Value Maritime and MOL Complete Carbon Capture First. Value \nMaritime.  https://valuemaritime.com/news/value-maritime-and-mol-complete-carbon-capture-\nfirst/\n23.\t Monteiro, J. (2020). CO2ASTS – Carbon Capture, Storage and Transfer in Shipping: A Technical \nand Economic Feasibility Study: Public Concise Report (J. Van Den Akker & FME, Eds.). https://\nconoship.com/wp-content/uploads\n\n… [+1173 more chars]",
-  "content_hash": "e45697eacd661aa2e4b1baa6e62e03af27a8d283485144bd1055cba739b483ef",
-  "token_count": 523,
+  "chunk_text": "Carbon Capture – Case Study for a Ropax Ship - Deltamarin. (2024, September 19). \nDeltamarin. \nhttps://deltamarin.com/news/blog/article/carbon-capture-case-study-for-a-ropax-\nship/ 22.\t Kelleher, J. (2025, March 25). Value Maritime and MOL Complete Carbon Capture First. Value \nMaritime.  https://valuemaritime.com/news/value-maritime-and-mol-complete-carbon-capture-\nfirst/\n23.\t Monteiro, J. (2020). CO2ASTS – Carbon Capture, Storage and Transfer in Shipping: A Technical \nand Economic Feasibility Study: Public Concise Report (J. Van Den Akker & FME, Eds.). https://\nconoship.com/wp-content/uploads\n\n… [+1098 more chars]",
+  "content_hash": "a43111eca107724615883e9834912ff24360ec6431137ea44722f98f1baa2c04",
+  "token_count": 500,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -18310,54 +18338,21 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "7ea8af8d-4cf4-5b88-b34d-37663a1e29bd",
+  "parent_chunk_id": "f95f00c6-0d93-5111-a493-db2f2c546543",
   "chunk_index": 415,
   "page_number": 276,
   "page_range": [
     276,
     276
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
-}
-```
-
-## Parent · `62833242-febd-5e5a-a319-ceda4f0f56e1`
-
-- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
-
-```json
-{
-  "chunk_id": "62833242-febd-5e5a-a319-ceda4f0f56e1",
-  "document_id": "advanced_green_fuels_for_maritime_pdf",
-  "is_parent": true,
-  "source_type": "pdf",
-  "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf",
-  "chunk_text": "28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf\n\n29.\t Ahmed, Y. A., Lazakis, I., & Mallouppas, G. (2025c).   Marine Systems & Ocean Technology, 20(1). \nhttps://doi.org/10.1007/s40868-024-00161-w\n\nFuels and\nPossibility of On-Board\nCarbon Capture\n\n4\n\nTable7.1 presents the overview of the  IMO’s ongoing initiatives through the MEPC aimed at tackling \ngreenhouse gas (GHG) emissions from international shipping. It tracks tracks significant progress \nfrom MEPC 76 up to the anticipated adoption of new amendments \n\n… [+9049 more chars]",
-  "content_hash": "4bc7fa12577acff8592b5626dcd17969d0456cf9d2f89cd09dee03d53d6e1d4e",
-  "token_count": 2599,
-  "doc_version": 1,
-  "is_current": true,
-  "tenant_id": "default",
-  "acl": [
-    "public"
-  ],
-  "language": "en",
-  "pdf_id": "advanced_green_fuels_for_maritime_pdf",
-  "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "page_range": [
-    276,
-    280
-  ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `6584bcad-475b-5363-b9c8-65c11deb65db`
 
-- vector: dim=3072 · [-0.0335, 0.0385, -0.0118, -0.0128, -0.0215, -0.0209, -0.0312, 0.0331, …]
+- vector: dim=3072 · [-0.0046, 0.0415, -0.0146, -0.0063, 0.0041, 0.0032, -0.0293, 0.0262, …]
 
 ```json
 {
@@ -18366,10 +18361,11 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf",
-  "chunk_text": "29.\t Ahmed, Y. A., Lazakis, I., & Mallouppas, G. (2025c).   Marine Systems & Ocean Technology, 20(1). \nhttps://doi.org/10.1007/s40868-024-00161-w\n\nFuels and\nPossibility of On-Board\nCarbon Capture\n\n4\n\nTable7.1 presents the overview of the  IMO’s ongoing initiatives through the MEPC aimed at tackling \ngreenhouse gas (GHG) emissions from international shipping. It tracks tracks significant progress \nfrom MEPC 76 up to the anticipated adoption of new amendments at MEPC 83 in 2025. More detailed \nAmendments and Measurses of MEPC can be asscessed through [1-3].\nTable 7.1: Timeline and Key Milestones\n\n… [+1209 more chars]",
-  "content_hash": "64418ee1a202ea57a92cbf9b216b36516dd03c0c00ad72b92ee354d6bf2eb341",
-  "token_count": 518,
+  "section_heading": "Conclusions",
+  "section_type": "references",
+  "chunk_text": "The Lloyd’s Register Maritime Decarbonisation Hub. (2023). Onboard Carbon Capture Utilisation \nand Storage. In A Readiness Assessment for the Shipping Industry. https://safety4sea.com/wp- content/uploads/2023/04/LR-Onboard-carbon-capture-and-storage-2023_04.pdf\n\n28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf\n\n29.\t Ahmed, Y. A., Lazakis, I., & Mallouppas, G. (2025c).   Marine Systems & Ocean Technology, 20(1). \nhttps://doi.org/10.1007/s40868-024-00161-w\n\n..",
+  "content_hash": "400fb2b055587a1a70f17924cfb4f275572bfa7b06bb6910d34338751ea2d38c",
+  "token_count": 171,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -18379,21 +18375,54 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "62833242-febd-5e5a-a319-ceda4f0f56e1",
+  "parent_chunk_id": "f95f00c6-0d93-5111-a493-db2f2c546543",
   "chunk_index": 416,
   "page_number": 276,
   "page_range": [
     276,
-    278
+    277
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
+}
+```
+
+## Parent · `27e10356-07ed-53e3-a331-1b6f5f09f64d`
+
+- vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
+
+```json
+{
+  "chunk_id": "27e10356-07ed-53e3-a331-1b6f5f09f64d",
+  "document_id": "advanced_green_fuels_for_maritime_pdf",
+  "is_parent": true,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime.pdf",
+  "section_heading": "Chapter 6 Shipping Fuels and Possibility o",
+  "chunk_text": "Chapter 6 Shipping Fuels and Possibility o\n\nTable7.1 presents the overview of the  IMO’s ongoing initiatives through the MEPC aimed at tackling \ngreenhouse gas (GHG) emissions from international shipping. It tracks tracks significant progress \nfrom MEPC 76 up to the anticipated adoption of new amendments at MEPC 83 in 2025. More detailed \nAmendments and Measurses of MEPC can be asscessed through [1-3].\nTable 7.1: Timeline and Key Milestones of IMO MEPC Actions Toward Maritime Decarbonization\nTimeline / Meeting Event / Measure\nKey Actions / Outcomes\nMEPC 76 (2021)\nAdoption of short-\nterm measur\n\n… [+8755 more chars]",
+  "content_hash": "ff631ce475c79d71e9f45d6156fdb6b2297a83aaa262a82d50f29b1be834bd3d",
+  "token_count": 2491,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
+  "page_range": [
+    278,
+    280
+  ],
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
 ## Child · `ec9f6801-e274-5c70-9145-7e7db86b7931`
 
-- vector: dim=3072 · [-0.0327, 0.0002, -0.0216, -0.0103, -0.0436, -0.0312, -0.0251, 0.0565, …]
+- vector: dim=3072 · [-0.0307, 0.0084, -0.0155, -0.0147, -0.0268, -0.0327, -0.0092, 0.0491, …]
 
 ```json
 {
@@ -18402,7 +18431,43 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf",
+  "section_heading": "Chapter 6 Shipping Fuels and Possibility o",
+  "chunk_text": "Table7.1 presents the overview of the  IMO’s ongoing initiatives through the MEPC aimed at tackling \ngreenhouse gas (GHG) emissions from international shipping. It tracks tracks significant progress \nfrom MEPC 76 up to the anticipated adoption of new amendments at MEPC 83 in 2025. More detailed \nAmendments and Measurses of MEPC can be asscessed through [1-3].\nTable 7.1: Timeline and Key Milestones of IMO MEPC Actions Toward Maritime Decarbonization\nTimeline / Meeting Event / Measure\nKey Actions / Outcomes\nMEPC 76 (2021)\nAdoption of short-\nterm measures\n- Amendments to MARPOL Annex VI\n- Target:\n\n… [+1009 more chars]",
+  "content_hash": "8d05037bfc3d9a9be4542c8388011b83ead9e20874800fc290614f2f76f5f235",
+  "token_count": 443,
+  "doc_version": 1,
+  "is_current": true,
+  "tenant_id": "default",
+  "acl": [
+    "public"
+  ],
+  "language": "en",
+  "pdf_id": "advanced_green_fuels_for_maritime_pdf",
+  "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
+  "parent_chunk_id": "27e10356-07ed-53e3-a331-1b6f5f09f64d",
+  "chunk_index": 417,
+  "page_number": 278,
+  "page_range": [
+    278,
+    278
+  ],
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
+}
+```
+
+## Child · `48440563-5bbb-5ea5-8a09-5310e3b6475d`
+
+- vector: dim=3072 · [-0.0328, 0.0003, -0.0217, -0.0102, -0.0435, -0.0311, -0.0251, 0.0565, …]
+
+```json
+{
+  "chunk_id": "48440563-5bbb-5ea5-8a09-5310e3b6475d",
+  "document_id": "advanced_green_fuels_for_maritime_pdf",
+  "is_parent": false,
+  "source_type": "pdf",
+  "title": "Advanced-Green-fuels-for-Maritime.pdf",
+  "section_heading": "Chapter 6 Shipping Fuels and Possibility o",
   "chunk_text": "scientific/technical LCA issues\nMEPC 82 (2024)\nProgress review\n- Assessment of mid-term measures\n- Consideration of:\n• IMO GHG intensity registry\n• IMO GHG reduction fund\nMEPC 83 (Scheduled \nApr 2025)**\nFinalization phase - Review and refine the IMO Net-Zero Framework draft\n- Based on inputs from 107 parties (97.3% of world \nmerchant fleet)\n- Aim: Approval of MARPOL amendments\nAutumn 2025\nAdoption of \namendments\n- Special MEPC session to adopt approved measures\n2027 (Expected \nEntry into Force)\nImplementation\n- Mid-term measures from 2025 enter into force\nThe maritime industry is leading the c\n\n… [+426 more chars]",
   "content_hash": "717c56b256058a07940a4e6f1d27909aff016233cc74ad2e0711a63bcd607e29",
   "token_count": 232,
@@ -18415,30 +18480,30 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "62833242-febd-5e5a-a319-ceda4f0f56e1",
-  "chunk_index": 417,
+  "parent_chunk_id": "27e10356-07ed-53e3-a331-1b6f5f09f64d",
+  "chunk_index": 418,
   "page_number": 278,
   "page_range": [
     278,
     278
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `48440563-5bbb-5ea5-8a09-5310e3b6475d`
+## Child · `e61072d4-d3e2-5287-8909-20d946688437`
 
 - vector: dim=3072 · [-0.0103, -0.0191, -0.0156, -0.0144, -0.0371, -0.0357, -0.0078, 0.0424, …]
 
 ```json
 {
-  "chunk_id": "48440563-5bbb-5ea5-8a09-5310e3b6475d",
+  "chunk_id": "e61072d4-d3e2-5287-8909-20d946688437",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf",
+  "section_heading": "Chapter 6 Shipping Fuels and Possibility o",
   "chunk_text": "Key players, including international organizations like the International Maritime Organization (IMO) \nand regional authorities such as the European Union (EU), are implementing ambitious policies aimed \nat reaching net-zero greenhouse gas (GHG) emissions by 2050. | Table 7.1: Timeline and Key Milestones of IMO MEPC Actions Toward Maritime Decarbonization |  |  |\n| --- | --- | --- |\n| Timeline / Meeting | Event / Measure | Key Actions / Outcomes |\n| MEPC 76 (2021) | Adoption of short- term measures | - Amendments to MARPOL Annex VI |\n|  |  | - Target: ≥40% carbon intensity reduction by 2030 |\n\n\n… [+1511 more chars]",
   "content_hash": "6f8634393637bfe202321a01406a71686b21e039f44025cb4079bae869e7ef82",
   "token_count": 587,
@@ -18451,30 +18516,30 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "62833242-febd-5e5a-a319-ceda4f0f56e1",
-  "chunk_index": 418,
+  "parent_chunk_id": "27e10356-07ed-53e3-a331-1b6f5f09f64d",
+  "chunk_index": 419,
   "page_number": 278,
   "page_range": [
     278,
     278
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `e61072d4-d3e2-5287-8909-20d946688437`
+## Child · `0b890fd4-7d8f-5fb1-a3de-7ea59ecb92ee`
 
-- vector: dim=3072 · [-0.0275, -0.0017, -0.0072, 0.0022, -0.0351, -0.0167, -0.0097, 0.0287, …]
+- vector: dim=3072 · [-0.0276, -0.0017, -0.0071, 0.0020, -0.0350, -0.0166, -0.0095, 0.0288, …]
 
 ```json
 {
-  "chunk_id": "e61072d4-d3e2-5287-8909-20d946688437",
+  "chunk_id": "0b890fd4-7d8f-5fb1-a3de-7ea59ecb92ee",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf",
+  "section_heading": "Chapter 6 Shipping Fuels and Possibility o",
   "chunk_text": "|\n|  |  | - Aim: Approval of MARPOL amendments |\n| Autumn 2025 | Adoption of amendments | - Special MEPC session to adopt approved measures |\n| 2027 (Expected Entry into Force) | Implementation | - Mid-term measures from 2025 enter into force | In this chapter, a closer look is taken at the main regulatory tools that are currently shaping the \nmaritime decarbonization agenda. The global initiatives are led by the IMO—like efficiency indices \nand lifecycle GHG emission targets—as well as regional EU strategies, including the EU Emissions \nTrading System (EU ETS), FuelEU Maritime, and Renewable \n\n… [+1789 more chars]",
   "content_hash": "cfaacecc22c94cadf90981ddc0f036c38f308b042e0a3831c709e2add6a43acf",
   "token_count": 501,
@@ -18487,30 +18552,30 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "62833242-febd-5e5a-a319-ceda4f0f56e1",
-  "chunk_index": 419,
+  "parent_chunk_id": "27e10356-07ed-53e3-a331-1b6f5f09f64d",
+  "chunk_index": 420,
   "page_number": 279,
   "page_range": [
     279,
     279
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `0b890fd4-7d8f-5fb1-a3de-7ea59ecb92ee`
+## Child · `a1978a78-96bc-5154-ae21-23d27c12fc82`
 
-- vector: dim=3072 · [-0.0305, 0.0193, -0.0134, 0.0311, -0.0244, -0.0404, 0.0001, 0.0334, …]
+- vector: dim=3072 · [-0.0316, 0.0199, -0.0139, 0.0311, -0.0249, -0.0406, 0.0001, 0.0326, …]
 
 ```json
 {
-  "chunk_id": "0b890fd4-7d8f-5fb1-a3de-7ea59ecb92ee",
+  "chunk_id": "a1978a78-96bc-5154-ae21-23d27c12fc82",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf",
+  "section_heading": "Chapter 6 Shipping Fuels and Possibility o",
   "chunk_text": "irective\nScope\nTargets and Main Requirements\nSustainability and \nGHG Savings Criteria\nEU GHG regulatory framework\nEU Renewable Energy \nDirective (REDIII) \nDIRECTIVE (EU) \n2023/2413\nWtT\n•\t\nOverall binding RES target: at least 42.5% by 2030 in\n•\t\nAdvanced biofuels (AB) and \nRFNBOs: Combined 5.5% Advanced \nbiofuels and RFNBO (min. 1%) \ntarget in 2030. Incentive for AB \nand RFNBOs (double counting) and \ntheir use in aviation and maritime \n(1,2 x for AB and x1,5 for RFNBOs). \nIndicative target of 1.2% for RFNBOs \nin shipping\n•\t\nWaste G Residues: Capped to 1.7%\n•\t\nFood and feed crops: capped to 7% \n\n\n… [+422 more chars]",
   "content_hash": "29a3c1c15efeb44c4b802ebca39dbacc4cd54ad728d62eb91577f0c31d18062c",
   "token_count": 328,
@@ -18523,30 +18588,30 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "62833242-febd-5e5a-a319-ceda4f0f56e1",
-  "chunk_index": 420,
+  "parent_chunk_id": "27e10356-07ed-53e3-a331-1b6f5f09f64d",
+  "chunk_index": 421,
   "page_number": 279,
   "page_range": [
     279,
     279
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `a1978a78-96bc-5154-ae21-23d27c12fc82`
+## Child · `5527d201-7c74-56c4-9256-0e48839a77c7`
 
-- vector: dim=3072 · [-0.0031, 0.0049, -0.0148, 0.0164, -0.0397, -0.0402, 0.0095, 0.0254, …]
+- vector: dim=3072 · [-0.0036, 0.0047, -0.0149, 0.0163, -0.0403, -0.0399, 0.0099, 0.0256, …]
 
 ```json
 {
-  "chunk_id": "a1978a78-96bc-5154-ae21-23d27c12fc82",
+  "chunk_id": "5527d201-7c74-56c4-9256-0e48839a77c7",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf",
+  "section_heading": "Chapter 6 Shipping Fuels and Possibility o",
   "chunk_text": "issions reduction \nthreshold compared \nto reference fossil (94 \ngCO2eq/MJ): \n· biofuels requiring \nat least 50- 65% \n(depending on the date \nof facility installation) \n· RFNBO and RCFs at \nleast 70% | Table 7.2: EU-level Regulations and Directives [4,5,6] |  |  |  |\n| --- | --- | --- | --- |\n| Regulation/Directive | Scope | Targets and Main Requirements | Sustainability and GHG Savings Criteria |\n| EU GHG regulatory framework |  |  |  |\n| EU Renewable Energy Directive (REDIII) DIRECTIVE (EU) 2023/2413 | WtT | • Overall binding RES target: at least 42.5% by 2030 in • Advanced biofuels (AB) and \n\n… [+726 more chars]",
   "content_hash": "c9783291ec548af3717ec9da45b3ebd4fb25f022301f4ce21f4eafbc59d798a0",
   "token_count": 395,
@@ -18559,30 +18624,30 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "62833242-febd-5e5a-a319-ceda4f0f56e1",
-  "chunk_index": 421,
+  "parent_chunk_id": "27e10356-07ed-53e3-a331-1b6f5f09f64d",
+  "chunk_index": 422,
   "page_number": 279,
   "page_range": [
     279,
     279
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `5527d201-7c74-56c4-9256-0e48839a77c7`
+## Child · `c171883a-2343-576e-9357-1608137ed571`
 
-- vector: dim=3072 · [-0.0170, 0.0021, -0.0044, 0.0253, -0.0405, -0.0325, 0.0138, 0.0103, …]
+- vector: dim=3072 · [-0.0168, 0.0022, -0.0044, 0.0252, -0.0406, -0.0325, 0.0137, 0.0103, …]
 
 ```json
 {
-  "chunk_id": "5527d201-7c74-56c4-9256-0e48839a77c7",
+  "chunk_id": "c171883a-2343-576e-9357-1608137ed571",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf",
+  "section_heading": "Chapter 6 Shipping Fuels and Possibility o",
   "chunk_text": "to EU market and sets a GHG emissions reduction threshold compared to reference fossil (94 gCO2eq/MJ): · biofuels requiring at least 50- 65% (depending on the date of facility installation) · RFNBO and RCFs at least 70% | Table 7.2: EU-level Regulations and Directives [4,5,6]\nRegulation/Directive\nScope\nTargets and Main Requirements\nSustainability and \nGHG Savings Criteria\nRFNBO Delegated \nact under Art.27(3) \nof the 2018/2001 \ndirective (REDII) \n- (EU) 2023/1184 \nRFNBO Delegated \nact under Art.28(5) \nof the 2018/2001 \ndirective (REDII) - (EU) \n2023/1185\n•\t\nRequirements have been set out \nfor w\n\n… [+595 more chars]",
   "content_hash": "f1d8f156481ffd06b8ffe7eec92e2e15b8d31aed1f1e033d2b19c0d30014f92e",
   "token_count": 341,
@@ -18595,25 +18660,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "62833242-febd-5e5a-a319-ceda4f0f56e1",
-  "chunk_index": 422,
+  "parent_chunk_id": "27e10356-07ed-53e3-a331-1b6f5f09f64d",
+  "chunk_index": 423,
   "page_number": 280,
   "page_range": [
     280,
     280
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `311356b5-bd9f-59d2-8cd6-7a6479b5dfea`
+## Parent · `9a8393e2-daee-57d9-bcb5-ec1e2c057f25`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "311356b5-bd9f-59d2-8cd6-7a6479b5dfea",
+  "chunk_id": "9a8393e2-daee-57d9-bcb5-ec1e2c057f25",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -18635,18 +18700,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     280,
     281
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `c171883a-2343-576e-9357-1608137ed571`
+## Child · `82c68982-e52c-5210-bb93-c6e6000b73fc`
 
 - vector: dim=3072 · [-0.0400, 0.0322, -0.0075, 0.0010, -0.0339, -0.0274, -0.0156, 0.0333, …]
 
 ```json
 {
-  "chunk_id": "c171883a-2343-576e-9357-1608137ed571",
+  "chunk_id": "82c68982-e52c-5210-bb93-c6e6000b73fc",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -18664,25 +18729,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "311356b5-bd9f-59d2-8cd6-7a6479b5dfea",
-  "chunk_index": 423,
+  "parent_chunk_id": "9a8393e2-daee-57d9-bcb5-ec1e2c057f25",
+  "chunk_index": 424,
   "page_number": 280,
   "page_range": [
     280,
     280
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `82c68982-e52c-5210-bb93-c6e6000b73fc`
+## Child · `2e24cf66-e8de-531e-9009-c40c82553a7a`
 
-- vector: dim=3072 · [-0.0250, 0.0217, -0.0044, 0.0031, -0.0234, -0.0273, 0.0042, 0.0238, …]
+- vector: dim=3072 · [-0.0251, 0.0216, -0.0044, 0.0029, -0.0235, -0.0274, 0.0042, 0.0239, …]
 
 ```json
 {
-  "chunk_id": "82c68982-e52c-5210-bb93-c6e6000b73fc",
+  "chunk_id": "2e24cf66-e8de-531e-9009-c40c82553a7a",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -18700,25 +18765,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "311356b5-bd9f-59d2-8cd6-7a6479b5dfea",
-  "chunk_index": 424,
+  "parent_chunk_id": "9a8393e2-daee-57d9-bcb5-ec1e2c057f25",
+  "chunk_index": 425,
   "page_number": 280,
   "page_range": [
     280,
     280
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `2e24cf66-e8de-531e-9009-c40c82553a7a`
+## Child · `b55187ae-5fa7-5195-b0e6-5a336a921ee5`
 
-- vector: dim=3072 · [-0.0316, 0.0182, -0.0081, -0.0070, -0.0310, -0.0150, -0.0235, 0.0254, …]
+- vector: dim=3072 · [-0.0313, 0.0185, -0.0081, -0.0075, -0.0313, -0.0150, -0.0238, 0.0249, …]
 
 ```json
 {
-  "chunk_id": "2e24cf66-e8de-531e-9009-c40c82553a7a",
+  "chunk_id": "b55187ae-5fa7-5195-b0e6-5a336a921ee5",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -18736,25 +18801,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "311356b5-bd9f-59d2-8cd6-7a6479b5dfea",
-  "chunk_index": 425,
+  "parent_chunk_id": "9a8393e2-daee-57d9-bcb5-ec1e2c057f25",
+  "chunk_index": 426,
   "page_number": 280,
   "page_range": [
     280,
     281
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `b55187ae-5fa7-5195-b0e6-5a336a921ee5`
+## Child · `0bc7b435-216f-59f2-93ba-1a72192921f7`
 
-- vector: dim=3072 · [-0.0237, 0.0125, -0.0116, -0.0080, -0.0389, 0.0025, -0.0136, 0.0194, …]
+- vector: dim=3072 · [-0.0243, 0.0134, -0.0117, -0.0079, -0.0388, 0.0025, -0.0140, 0.0193, …]
 
 ```json
 {
-  "chunk_id": "b55187ae-5fa7-5195-b0e6-5a336a921ee5",
+  "chunk_id": "0bc7b435-216f-59f2-93ba-1a72192921f7",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -18772,25 +18837,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "311356b5-bd9f-59d2-8cd6-7a6479b5dfea",
-  "chunk_index": 426,
+  "parent_chunk_id": "9a8393e2-daee-57d9-bcb5-ec1e2c057f25",
+  "chunk_index": 427,
   "page_number": 281,
   "page_range": [
     281,
     281
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `0bc7b435-216f-59f2-93ba-1a72192921f7`
+## Child · `1c536f62-c2d0-598a-b172-05b49f4058c7`
 
 - vector: dim=3072 · [-0.0487, 0.0212, -0.0120, -0.0105, -0.0169, 0.0030, -0.0110, 0.0123, …]
 
 ```json
 {
-  "chunk_id": "0bc7b435-216f-59f2-93ba-1a72192921f7",
+  "chunk_id": "1c536f62-c2d0-598a-b172-05b49f4058c7",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -18808,25 +18873,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "311356b5-bd9f-59d2-8cd6-7a6479b5dfea",
-  "chunk_index": 427,
+  "parent_chunk_id": "9a8393e2-daee-57d9-bcb5-ec1e2c057f25",
+  "chunk_index": 428,
   "page_number": 281,
   "page_range": [
     281,
     281
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `1c536f62-c2d0-598a-b172-05b49f4058c7`
+## Child · `d37e0eca-3936-5aca-a126-b03feabaf6e9`
 
 - vector: dim=3072 · [-0.0208, 0.0095, -0.0118, -0.0110, -0.0334, -0.0086, -0.0078, 0.0192, …]
 
 ```json
 {
-  "chunk_id": "1c536f62-c2d0-598a-b172-05b49f4058c7",
+  "chunk_id": "d37e0eca-3936-5aca-a126-b03feabaf6e9",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -18844,25 +18909,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "311356b5-bd9f-59d2-8cd6-7a6479b5dfea",
-  "chunk_index": 428,
+  "parent_chunk_id": "9a8393e2-daee-57d9-bcb5-ec1e2c057f25",
+  "chunk_index": 429,
   "page_number": 281,
   "page_range": [
     281,
     281
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `b77019f4-b74c-5c33-8e11-680aff267dc5`
+## Parent · `9f2c754f-c87b-57b2-a107-a128e0bbe97e`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "b77019f4-b74c-5c33-8e11-680aff267dc5",
+  "chunk_id": "9f2c754f-c87b-57b2-a107-a128e0bbe97e",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -18884,18 +18949,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     282,
     283
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `d37e0eca-3936-5aca-a126-b03feabaf6e9`
+## Child · `0acc3e02-e80f-5eb5-970c-342de166a980`
 
-- vector: dim=3072 · [-0.0134, 0.0139, -0.0119, -0.0124, -0.0319, 0.0058, -0.0114, 0.0009, …]
+- vector: dim=3072 · [-0.0133, 0.0137, -0.0119, -0.0123, -0.0319, 0.0056, -0.0115, 0.0010, …]
 
 ```json
 {
-  "chunk_id": "d37e0eca-3936-5aca-a126-b03feabaf6e9",
+  "chunk_id": "0acc3e02-e80f-5eb5-970c-342de166a980",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -18913,25 +18978,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b77019f4-b74c-5c33-8e11-680aff267dc5",
-  "chunk_index": 429,
+  "parent_chunk_id": "9f2c754f-c87b-57b2-a107-a128e0bbe97e",
+  "chunk_index": 430,
   "page_number": 282,
   "page_range": [
     282,
     282
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `0acc3e02-e80f-5eb5-970c-342de166a980`
+## Child · `d4088bf8-e4c5-5686-91ba-848a37d33d1d`
 
-- vector: dim=3072 · [-0.0210, 0.0051, -0.0075, 0.0006, -0.0158, 0.0129, -0.0325, -0.0065, …]
+- vector: dim=3072 · [-0.0210, 0.0051, -0.0075, 0.0007, -0.0157, 0.0129, -0.0325, -0.0064, …]
 
 ```json
 {
-  "chunk_id": "0acc3e02-e80f-5eb5-970c-342de166a980",
+  "chunk_id": "d4088bf8-e4c5-5686-91ba-848a37d33d1d",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -18949,25 +19014,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b77019f4-b74c-5c33-8e11-680aff267dc5",
-  "chunk_index": 430,
+  "parent_chunk_id": "9f2c754f-c87b-57b2-a107-a128e0bbe97e",
+  "chunk_index": 431,
   "page_number": 282,
   "page_range": [
     282,
     283
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `d4088bf8-e4c5-5686-91ba-848a37d33d1d`
+## Child · `8401585e-9da7-5369-9296-06607dd8c798`
 
-- vector: dim=3072 · [-0.0143, 0.0323, -0.0067, 0.0251, -0.0041, 0.0061, -0.0328, -0.0079, …]
+- vector: dim=3072 · [-0.0140, 0.0322, -0.0068, 0.0251, -0.0041, 0.0065, -0.0332, -0.0077, …]
 
 ```json
 {
-  "chunk_id": "d4088bf8-e4c5-5686-91ba-848a37d33d1d",
+  "chunk_id": "8401585e-9da7-5369-9296-06607dd8c798",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -18985,25 +19050,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b77019f4-b74c-5c33-8e11-680aff267dc5",
-  "chunk_index": 431,
+  "parent_chunk_id": "9f2c754f-c87b-57b2-a107-a128e0bbe97e",
+  "chunk_index": 432,
   "page_number": 283,
   "page_range": [
     283,
     283
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `8401585e-9da7-5369-9296-06607dd8c798`
+## Child · `ba30abfa-2a93-5368-9619-cd8d205700e6`
 
-- vector: dim=3072 · [0.0043, 0.0244, -0.0098, -0.0044, -0.0092, 0.0291, -0.0467, 0.0103, …]
+- vector: dim=3072 · [0.0043, 0.0244, -0.0098, -0.0044, -0.0092, 0.0291, -0.0466, 0.0103, …]
 
 ```json
 {
-  "chunk_id": "8401585e-9da7-5369-9296-06607dd8c798",
+  "chunk_id": "ba30abfa-2a93-5368-9619-cd8d205700e6",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19021,24 +19086,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 432,
+  "chunk_index": 433,
   "page_number": 283,
   "page_range": [
     283,
     283
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `4c84a267-c10b-5be0-b702-19693adcc32a`
+## Parent · `8aeda6f2-49d8-5681-94a4-b5bf2293ff25`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "4c84a267-c10b-5be0-b702-19693adcc32a",
+  "chunk_id": "8aeda6f2-49d8-5681-94a4-b5bf2293ff25",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -19060,18 +19125,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     283,
     284
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `ba30abfa-2a93-5368-9619-cd8d205700e6`
+## Child · `a3e1a852-ffd5-58a9-893f-3d99f5de9c1f`
 
-- vector: dim=3072 · [0.0063, 0.0097, -0.0134, 0.0132, 0.0010, 0.0203, -0.0284, 0.0171, …]
+- vector: dim=3072 · [0.0065, 0.0097, -0.0134, 0.0129, 0.0009, 0.0201, -0.0282, 0.0173, …]
 
 ```json
 {
-  "chunk_id": "ba30abfa-2a93-5368-9619-cd8d205700e6",
+  "chunk_id": "a3e1a852-ffd5-58a9-893f-3d99f5de9c1f",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19089,25 +19154,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "4c84a267-c10b-5be0-b702-19693adcc32a",
-  "chunk_index": 433,
+  "parent_chunk_id": "8aeda6f2-49d8-5681-94a4-b5bf2293ff25",
+  "chunk_index": 434,
   "page_number": 283,
   "page_range": [
     283,
     283
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `a3e1a852-ffd5-58a9-893f-3d99f5de9c1f`
+## Child · `5a51acd4-3ce5-51b8-93bb-e0dcedff1be0`
 
-- vector: dim=3072 · [0.0007, 0.0316, -0.0125, 0.0121, -0.0144, 0.0112, -0.0375, -0.0036, …]
+- vector: dim=3072 · [0.0008, 0.0314, -0.0125, 0.0122, -0.0142, 0.0114, -0.0375, -0.0035, …]
 
 ```json
 {
-  "chunk_id": "a3e1a852-ffd5-58a9-893f-3d99f5de9c1f",
+  "chunk_id": "5a51acd4-3ce5-51b8-93bb-e0dcedff1be0",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19125,25 +19190,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "4c84a267-c10b-5be0-b702-19693adcc32a",
-  "chunk_index": 434,
+  "parent_chunk_id": "8aeda6f2-49d8-5681-94a4-b5bf2293ff25",
+  "chunk_index": 435,
   "page_number": 283,
   "page_range": [
     283,
     283
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `5a51acd4-3ce5-51b8-93bb-e0dcedff1be0`
+## Child · `3017dc3c-bcdf-58d3-85d7-2e00db8f34db`
 
-- vector: dim=3072 · [-0.0106, 0.0194, -0.0132, 0.0197, -0.0028, 0.0218, -0.0407, -0.0049, …]
+- vector: dim=3072 · [-0.0101, 0.0185, -0.0135, 0.0196, -0.0046, 0.0208, -0.0402, -0.0042, …]
 
 ```json
 {
-  "chunk_id": "5a51acd4-3ce5-51b8-93bb-e0dcedff1be0",
+  "chunk_id": "3017dc3c-bcdf-58d3-85d7-2e00db8f34db",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19161,25 +19226,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "4c84a267-c10b-5be0-b702-19693adcc32a",
-  "chunk_index": 435,
+  "parent_chunk_id": "8aeda6f2-49d8-5681-94a4-b5bf2293ff25",
+  "chunk_index": 436,
   "page_number": 284,
   "page_range": [
     284,
     284
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `3017dc3c-bcdf-58d3-85d7-2e00db8f34db`
+## Child · `5d531161-cabb-5655-8fb9-a4a392bbda4c`
 
-- vector: dim=3072 · [-0.0058, 0.0281, -0.0132, 0.0105, -0.0177, 0.0193, -0.0629, -0.0101, …]
+- vector: dim=3072 · [-0.0059, 0.0282, -0.0130, 0.0108, -0.0178, 0.0190, -0.0628, -0.0103, …]
 
 ```json
 {
-  "chunk_id": "3017dc3c-bcdf-58d3-85d7-2e00db8f34db",
+  "chunk_id": "5d531161-cabb-5655-8fb9-a4a392bbda4c",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19197,25 +19262,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "4c84a267-c10b-5be0-b702-19693adcc32a",
-  "chunk_index": 436,
+  "parent_chunk_id": "8aeda6f2-49d8-5681-94a4-b5bf2293ff25",
+  "chunk_index": 437,
   "page_number": 284,
   "page_range": [
     284,
     284
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `5d531161-cabb-5655-8fb9-a4a392bbda4c`
+## Child · `701ab5a8-3919-5376-9127-4717afe581c4`
 
-- vector: dim=3072 · [-0.0171, 0.0192, -0.0070, 0.0205, -0.0150, 0.0029, -0.0568, -0.0186, …]
+- vector: dim=3072 · [-0.0170, 0.0192, -0.0070, 0.0205, -0.0150, 0.0030, -0.0568, -0.0185, …]
 
 ```json
 {
-  "chunk_id": "5d531161-cabb-5655-8fb9-a4a392bbda4c",
+  "chunk_id": "701ab5a8-3919-5376-9127-4717afe581c4",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19233,25 +19298,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "4c84a267-c10b-5be0-b702-19693adcc32a",
-  "chunk_index": 437,
+  "parent_chunk_id": "8aeda6f2-49d8-5681-94a4-b5bf2293ff25",
+  "chunk_index": 438,
   "page_number": 284,
   "page_range": [
     284,
     284
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `b532f2ba-ccb5-55c3-8148-9782198f9678`
+## Parent · `32388b72-6838-5ef3-b5d1-70b7043566a6`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "b532f2ba-ccb5-55c3-8148-9782198f9678",
+  "chunk_id": "32388b72-6838-5ef3-b5d1-70b7043566a6",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -19273,18 +19338,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     285,
     286
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `701ab5a8-3919-5376-9127-4717afe581c4`
+## Child · `40b50269-767c-5073-9ae5-26d7b1332cb2`
 
-- vector: dim=3072 · [-0.0045, 0.0049, -0.0123, 0.0099, -0.0209, 0.0101, -0.0454, -0.0023, …]
+- vector: dim=3072 · [-0.0048, 0.0048, -0.0123, 0.0101, -0.0211, 0.0097, -0.0455, -0.0023, …]
 
 ```json
 {
-  "chunk_id": "701ab5a8-3919-5376-9127-4717afe581c4",
+  "chunk_id": "40b50269-767c-5073-9ae5-26d7b1332cb2",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19302,25 +19367,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b532f2ba-ccb5-55c3-8148-9782198f9678",
-  "chunk_index": 438,
+  "parent_chunk_id": "32388b72-6838-5ef3-b5d1-70b7043566a6",
+  "chunk_index": 439,
   "page_number": 285,
   "page_range": [
     285,
     285
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `40b50269-767c-5073-9ae5-26d7b1332cb2`
+## Child · `5ab8477b-4e9d-54f5-8547-3b0f9c0bc34a`
 
-- vector: dim=3072 · [-0.0032, 0.0079, -0.0151, 0.0128, -0.0213, 0.0020, -0.0519, -0.0012, …]
+- vector: dim=3072 · [-0.0032, 0.0081, -0.0150, 0.0126, -0.0211, 0.0023, -0.0513, -0.0009, …]
 
 ```json
 {
-  "chunk_id": "40b50269-767c-5073-9ae5-26d7b1332cb2",
+  "chunk_id": "5ab8477b-4e9d-54f5-8547-3b0f9c0bc34a",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19338,25 +19403,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b532f2ba-ccb5-55c3-8148-9782198f9678",
-  "chunk_index": 439,
+  "parent_chunk_id": "32388b72-6838-5ef3-b5d1-70b7043566a6",
+  "chunk_index": 440,
   "page_number": 285,
   "page_range": [
     285,
     285
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `5ab8477b-4e9d-54f5-8547-3b0f9c0bc34a`
+## Child · `3fafb4d3-d6c2-58b4-b9f9-d28748203ecd`
 
-- vector: dim=3072 · [-0.0199, 0.0116, -0.0118, 0.0257, -0.0148, 0.0095, -0.0503, -0.0071, …]
+- vector: dim=3072 · [-0.0199, 0.0120, -0.0121, 0.0253, -0.0150, 0.0099, -0.0508, -0.0071, …]
 
 ```json
 {
-  "chunk_id": "5ab8477b-4e9d-54f5-8547-3b0f9c0bc34a",
+  "chunk_id": "3fafb4d3-d6c2-58b4-b9f9-d28748203ecd",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19374,25 +19439,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b532f2ba-ccb5-55c3-8148-9782198f9678",
-  "chunk_index": 440,
+  "parent_chunk_id": "32388b72-6838-5ef3-b5d1-70b7043566a6",
+  "chunk_index": 441,
   "page_number": 286,
   "page_range": [
     286,
     286
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `3fafb4d3-d6c2-58b4-b9f9-d28748203ecd`
+## Child · `c978a27d-2422-59d8-b978-e690a72df757`
 
-- vector: dim=3072 · [-0.0111, 0.0031, -0.0153, 0.0173, -0.0004, -0.0012, -0.0391, 0.0089, …]
+- vector: dim=3072 · [-0.0101, 0.0044, -0.0155, 0.0174, -0.0001, -0.0000, -0.0380, 0.0097, …]
 
 ```json
 {
-  "chunk_id": "3fafb4d3-d6c2-58b4-b9f9-d28748203ecd",
+  "chunk_id": "c978a27d-2422-59d8-b978-e690a72df757",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19410,25 +19475,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b532f2ba-ccb5-55c3-8148-9782198f9678",
-  "chunk_index": 441,
+  "parent_chunk_id": "32388b72-6838-5ef3-b5d1-70b7043566a6",
+  "chunk_index": 442,
   "page_number": 286,
   "page_range": [
     286,
     286
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `b6a718a3-af77-5a2b-86b2-34339c7c0e5b`
+## Parent · `413223c3-0719-54fa-b36c-a6f2baf2ba7f`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "b6a718a3-af77-5a2b-86b2-34339c7c0e5b",
+  "chunk_id": "413223c3-0719-54fa-b36c-a6f2baf2ba7f",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -19450,18 +19515,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     287,
     288
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `c978a27d-2422-59d8-b978-e690a72df757`
+## Child · `d77a71a7-8890-5128-b1e7-05ad4f114964`
 
-- vector: dim=3072 · [-0.0029, 0.0138, -0.0155, -0.0001, -0.0098, 0.0130, -0.0307, 0.0026, …]
+- vector: dim=3072 · [-0.0030, 0.0139, -0.0155, -0.0001, -0.0098, 0.0130, -0.0307, 0.0026, …]
 
 ```json
 {
-  "chunk_id": "c978a27d-2422-59d8-b978-e690a72df757",
+  "chunk_id": "d77a71a7-8890-5128-b1e7-05ad4f114964",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19479,25 +19544,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b6a718a3-af77-5a2b-86b2-34339c7c0e5b",
-  "chunk_index": 442,
+  "parent_chunk_id": "413223c3-0719-54fa-b36c-a6f2baf2ba7f",
+  "chunk_index": 443,
   "page_number": 287,
   "page_range": [
     287,
     287
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `d77a71a7-8890-5128-b1e7-05ad4f114964`
+## Child · `60f86ab6-070f-543f-8fcd-e23c12a79de1`
 
-- vector: dim=3072 · [-0.0037, 0.0137, -0.0126, -0.0072, -0.0029, 0.0083, -0.0425, 0.0005, …]
+- vector: dim=3072 · [-0.0038, 0.0137, -0.0126, -0.0073, -0.0028, 0.0083, -0.0425, 0.0005, …]
 
 ```json
 {
-  "chunk_id": "d77a71a7-8890-5128-b1e7-05ad4f114964",
+  "chunk_id": "60f86ab6-070f-543f-8fcd-e23c12a79de1",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19515,25 +19580,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b6a718a3-af77-5a2b-86b2-34339c7c0e5b",
-  "chunk_index": 443,
+  "parent_chunk_id": "413223c3-0719-54fa-b36c-a6f2baf2ba7f",
+  "chunk_index": 444,
   "page_number": 287,
   "page_range": [
     287,
     287
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `60f86ab6-070f-543f-8fcd-e23c12a79de1`
+## Child · `7e564179-bff2-5823-b4d4-777cfc9343a3`
 
-- vector: dim=3072 · [-0.0221, 0.0081, -0.0053, 0.0020, -0.0049, 0.0010, -0.0432, -0.0189, …]
+- vector: dim=3072 · [-0.0222, 0.0081, -0.0053, 0.0020, -0.0049, 0.0009, -0.0431, -0.0190, …]
 
 ```json
 {
-  "chunk_id": "60f86ab6-070f-543f-8fcd-e23c12a79de1",
+  "chunk_id": "7e564179-bff2-5823-b4d4-777cfc9343a3",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19551,25 +19616,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b6a718a3-af77-5a2b-86b2-34339c7c0e5b",
-  "chunk_index": 444,
+  "parent_chunk_id": "413223c3-0719-54fa-b36c-a6f2baf2ba7f",
+  "chunk_index": 445,
   "page_number": 288,
   "page_range": [
     288,
     288
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `7e564179-bff2-5823-b4d4-777cfc9343a3`
+## Child · `f8bb15f6-c369-50dd-adbb-509c33d1bbea`
 
-- vector: dim=3072 · [-0.0100, -0.0028, -0.0098, 0.0045, 0.0140, -0.0194, -0.0280, -0.0162, …]
+- vector: dim=3072 · [-0.0102, -0.0025, -0.0098, 0.0045, 0.0139, -0.0195, -0.0279, -0.0159, …]
 
 ```json
 {
-  "chunk_id": "7e564179-bff2-5823-b4d4-777cfc9343a3",
+  "chunk_id": "f8bb15f6-c369-50dd-adbb-509c33d1bbea",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19587,25 +19652,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b6a718a3-af77-5a2b-86b2-34339c7c0e5b",
-  "chunk_index": 445,
+  "parent_chunk_id": "413223c3-0719-54fa-b36c-a6f2baf2ba7f",
+  "chunk_index": 446,
   "page_number": 288,
   "page_range": [
     288,
     288
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `f8bb15f6-c369-50dd-adbb-509c33d1bbea`
+## Child · `b7136c53-fc37-50e4-a55c-8f42d9c5a266`
 
-- vector: dim=3072 · [-0.0172, 0.0131, -0.0151, -0.0032, -0.0294, 0.0014, -0.0191, 0.0211, …]
+- vector: dim=3072 · [-0.0173, 0.0132, -0.0152, -0.0035, -0.0293, 0.0016, -0.0193, 0.0210, …]
 
 ```json
 {
-  "chunk_id": "f8bb15f6-c369-50dd-adbb-509c33d1bbea",
+  "chunk_id": "b7136c53-fc37-50e4-a55c-8f42d9c5a266",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -19624,32 +19689,32 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 446,
+  "chunk_index": 447,
   "page_number": 289,
   "page_range": [
     289,
     289
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `b7136c53-fc37-50e4-a55c-8f42d9c5a266`
+## Child · `9b8306e7-3315-58a2-aabd-00a7eee923cd`
 
-- vector: dim=3072 · [-0.0236, 0.0229, -0.0100, 0.0013, -0.0028, -0.0080, -0.0041, 0.0265, …]
+- vector: dim=3072 · [-0.0285, 0.0331, -0.0146, -0.0131, 0.0018, 0.0036, 0.0026, 0.0209, …]
 
 ```json
 {
-  "chunk_id": "b7136c53-fc37-50e4-a55c-8f42d9c5a266",
+  "chunk_id": "9b8306e7-3315-58a2-aabd-00a7eee923cd",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "7.\t Alternative",
-  "chunk_text": "marine \nfuels: \nRegulatory \nmapping: \nGreenVoyage2050. \n(2022). \nhttps://\ngreenvoyage2050.imo.org/alternative-marine-fuels-regulatory-mapping/\n8.\t IMO Strategy on reduction of GHG emissions from ships. (2023). https://www.imo.org/en/\nOurWork/Environment/Pages/IMO-Strategy-on-reduction-of-GHG-emissions-from-ships.aspx\n9.\t EEXI and CII - ship carbon intensity and rating system. (2022). https://www.imo.org/en/\nMediaCentre/HotTopics/Pages/EEXI-CII-FAQ.aspx?ref=ctvc.co#:~:text=What%20is%20an%20\nEnergy%20Efficiency,a%20minimum%20energy%20efficiency%20standard.\n\nChapter 7 — Standar\n\nds, Regulations\na\n\n… [+16 more chars]",
-  "content_hash": "d94485abb3b1221476748d3e416d7bc0186131c7229d673126626392a8deab66",
-  "token_count": 198,
+  "chunk_text": "marine \nfuels: \nRegulatory \nmapping: \nGreenVoyage2050. \n(2022). \nhttps://\ngreenvoyage2050.imo.org/alternative-marine-fuels-regulatory-mapping/\n8.\t IMO Strategy on reduction of GHG emissions from ships. (2023). https://www.imo.org/en/\nOurWork/Environment/Pages/IMO-Strategy-on-reduction-of-GHG-emissions-from-ships.aspx\n9.\t EEXI and CII - ship carbon intensity and rating system. (2022). https://www.imo.org/en/\nMediaCentre/HotTopics/Pages/EEXI-CII-FAQ.aspx?ref=ctvc.co#:~:text=What%20is%20an%20\nEnergy%20Efficiency,a%20minimum%20energy%20efficiency%20standard.",
+  "content_hash": "aa0dff4586a1e8e18a27ae6de174157fb6921e704a6506edb8c31fe4a442de7d",
+  "token_count": 182,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -19659,32 +19724,32 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 447,
+  "chunk_index": 448,
   "page_number": 289,
   "page_range": [
     289,
-    291
+    289
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `f3135969-2496-5db1-aafb-dce74782c4d9`
+## Parent · `62833242-febd-5e5a-a319-ceda4f0f56e1`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "f3135969-2496-5db1-aafb-dce74782c4d9",
+  "chunk_id": "62833242-febd-5e5a-a319-ceda4f0f56e1",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
-  "chunk_text": "Annexure I — IMO LCA Methodological Guidance\n\nThe Life Cycle Assessment (LCA) is considered by the IMO as the methodological approach to \ncomprehensively assess the environmental impact of an energy carrier for maritime transport, from \nits production phase to its end of-life/combustion phase. This methodology is based on rigorous \nprinciples aimed at quantifying greenhouse gas emissions, resource and energy consumption, as \nwell as other environmental impacts. According to the recommendations adopted in July 2023 \n(MEPC.376(80)) by the IMO, the calculation of GHG emissions from marine fuels i\n\n… [+4415 more chars]",
-  "content_hash": "00d610da8f714a7301cd10f0d98f9e5a741b298af493686bd489b0d17a6e376e",
-  "token_count": 1490,
+  "section_heading": "On-Board — Annexure I — IMO LCA Methodological Guidance",
+  "chunk_text": "On-Board — Annexure I — IMO LCA Methodological Guidance\n\nThe Life Cycle Assessment (LCA) is considered by the IMO as the methodological approach to \ncomprehensively assess the environmental impact of an energy carrier for maritime transport, from \nits production phase to its end of-life/combustion phase. This methodology is based on rigorous \nprinciples aimed at quantifying greenhouse gas emissions, resource and energy consumption, as \nwell as other environmental impacts. According to the recommendations adopted in July 2023 \n(MEPC.376(80)) by the IMO, the calculation of GHG emissions from mar\n\n… [+4426 more chars]",
+  "content_hash": "8cd915615413da26ba6b00aba99d507e8b12c2b47c824c98a3f69a25c2e2cee8",
+  "token_count": 1493,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -19698,23 +19763,23 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     292,
     293
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `9b8306e7-3315-58a2-aabd-00a7eee923cd`
+## Child · `2e454a1a-517c-5184-a773-db508cda119a`
 
-- vector: dim=3072 · [-0.0266, 0.0008, -0.0151, -0.0265, -0.0306, -0.0271, 0.0043, 0.0238, …]
+- vector: dim=3072 · [-0.0268, 0.0009, -0.0150, -0.0264, -0.0303, -0.0275, 0.0043, 0.0239, …]
 
 ```json
 {
-  "chunk_id": "9b8306e7-3315-58a2-aabd-00a7eee923cd",
+  "chunk_id": "2e454a1a-517c-5184-a773-db508cda119a",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
+  "section_heading": "On-Board — Annexure I — IMO LCA Methodological Guidance",
   "chunk_text": "The Life Cycle Assessment (LCA) is considered by the IMO as the methodological approach to \ncomprehensively assess the environmental impact of an energy carrier for maritime transport, from \nits production phase to its end of-life/combustion phase. This methodology is based on rigorous \nprinciples aimed at quantifying greenhouse gas emissions, resource and energy consumption, as \nwell as other environmental impacts. According to the recommendations adopted in July 2023 \n(MEPC.376(80)) by the IMO, the calculation of GHG emissions from marine fuels is detailed below.\nScope\nThe scope of these gui\n\n… [+1413 more chars]",
   "content_hash": "87778053b802de51f0cb73cccd5da00357ffc89c5ff7b6223dc92e562cc18f4f",
   "token_count": 442,
@@ -19727,30 +19792,30 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f3135969-2496-5db1-aafb-dce74782c4d9",
-  "chunk_index": 448,
+  "parent_chunk_id": "62833242-febd-5e5a-a319-ceda4f0f56e1",
+  "chunk_index": 449,
   "page_number": 292,
   "page_range": [
     292,
     292
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `2e454a1a-517c-5184-a773-db508cda119a`
+## Child · `8af22859-7866-5f07-b709-76cfc3aa140e`
 
-- vector: dim=3072 · [-0.0126, 0.0191, -0.0060, -0.0365, -0.0257, -0.0454, 0.0200, 0.0182, …]
+- vector: dim=3072 · [-0.0125, 0.0191, -0.0059, -0.0365, -0.0256, -0.0457, 0.0201, 0.0181, …]
 
 ```json
 {
-  "chunk_id": "2e454a1a-517c-5184-a773-db508cda119a",
+  "chunk_id": "8af22859-7866-5f07-b709-76cfc3aa140e",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
+  "section_heading": "On-Board — Annexure I — IMO LCA Methodological Guidance",
   "chunk_text": "1 The possibility to expand \nthe system boundaries for specific pathways in which the feedstock is displaced from present use(s) \nwill be assessed on a case-by-case basis.2 As such, emissions associated with the following life cycle \nstages of the fuel life cycle chain will be accounted for: 1.\t feedstock extraction/cultivation/acquisition/recovery;\n2.\t feedstock (early) processing/ transformation at source;\n3.\t feedstock transport to conversion site;\n4.\t feedstock conversion to product fuel;\n5.\t product fuel transport/storage/delivery/retail storage/bunkering; and\n6.\t fuel utilization on boar\n\n… [+511 more chars]",
   "content_hash": "24647645227f680d5ab31533cc3a9736f7f9d2f076cda4f197043d8bbe49f69c",
   "token_count": 242,
@@ -19763,30 +19828,30 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f3135969-2496-5db1-aafb-dce74782c4d9",
-  "chunk_index": 449,
+  "parent_chunk_id": "62833242-febd-5e5a-a319-ceda4f0f56e1",
+  "chunk_index": 450,
   "page_number": 292,
   "page_range": [
     292,
     292
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `8af22859-7866-5f07-b709-76cfc3aa140e`
+## Child · `9bbeffd6-14a7-5def-9b95-5141b6381cfa`
 
-- vector: dim=3072 · [-0.0069, -0.0144, -0.0109, -0.0200, -0.0062, 0.0085, 0.0027, 0.0273, …]
+- vector: dim=3072 · [-0.0071, -0.0147, -0.0109, -0.0199, -0.0062, 0.0085, 0.0026, 0.0274, …]
 
 ```json
 {
-  "chunk_id": "8af22859-7866-5f07-b709-76cfc3aa140e",
+  "chunk_id": "9bbeffd6-14a7-5def-9b95-5141b6381cfa",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
+  "section_heading": "On-Board — Annexure I — IMO LCA Methodological Guidance",
   "chunk_text": "WtW emissions are given by the sum of the two parts, providing the full emission performance associated with the fuel production \nand use of a certain fuel/energy in a specific converter onboard.\nThe GHG emissions are calculated as CO2-equivalent (CO2eq), using the Global Warming Potential \nover a 100-year time-horizon (GWP100) to convert emissions of other gases than CO2, as given in the \nfifth IPCC Assessment Report,3 for CO2, CH4 and N2O, as follows:\n\t»\n𝑔𝐶𝑂2𝑒𝚐(100𝑦) = 𝐺𝑊𝑃𝐶𝑂2(100𝑦) × 𝑔𝐶𝑂2 + 𝐺𝑊𝑃𝐶𝐻4(100𝑦) × 𝑔𝐶𝐻4 + 𝐺𝑊𝑃𝑁2𝑂 (100𝑦) ×𝑔𝑁2𝑂\n(CO2 1; CH4 28; N2O 265), this would read as:\n\t»\n𝑔𝐶𝑂2𝑒𝚐(100𝑦\n\n… [+311 more chars]",
   "content_hash": "5da5485861d0b405d5ffbefd7543eba601bb67d1fba029668634f649e8db75b0",
   "token_count": 389,
@@ -19799,30 +19864,30 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f3135969-2496-5db1-aafb-dce74782c4d9",
-  "chunk_index": 450,
+  "parent_chunk_id": "62833242-febd-5e5a-a319-ceda4f0f56e1",
+  "chunk_index": 451,
   "page_number": 293,
   "page_range": [
     293,
     293
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `9bbeffd6-14a7-5def-9b95-5141b6381cfa`
+## Child · `b64dc63f-ecf4-57e9-bfcb-4d2b477bf51d`
 
-- vector: dim=3072 · [-0.0145, -0.0192, -0.0043, -0.0215, -0.0086, -0.0029, -0.0102, 0.0262, …]
+- vector: dim=3072 · [-0.0148, -0.0191, -0.0044, -0.0215, -0.0088, -0.0030, -0.0102, 0.0260, …]
 
 ```json
 {
-  "chunk_id": "9bbeffd6-14a7-5def-9b95-5141b6381cfa",
+  "chunk_id": "b64dc63f-ecf4-57e9-bfcb-4d2b477bf51d",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
+  "section_heading": "On-Board — Annexure I — IMO LCA Methodological Guidance",
   "chunk_text": "A calculation using a Global Warming Potential over a 20-year horizon (GWP20) may be provided as \ninformation for comparative purposes, as follows:\n\t» 𝑔𝐶𝑂2𝑒𝚐(20𝑦) = 𝐺𝑊𝑃𝐶𝑂2(20𝑦) × 𝑔𝐶𝑂2 + 𝐺𝑊𝑃𝐶𝐻4(20𝑦) × 𝑔𝐶𝐻4 + 𝐺𝑊𝑃𝑁2𝑂 (20𝑦) × 𝑔𝑁2𝑂\n(CO2 1; CH4 84; N2O 264), this would read as:\n\t»\n𝑔𝐶𝑂2𝑒𝚐(20𝑦) = 1 × 𝑔𝐶𝑂2 + 84 × 𝑔𝐶𝐻4 + 264 × 𝑔𝑁2𝑂\nThese guidelines provide:\n\t»\nWtW GHG emission factors based on a life cycle attributional methodology, expressing the GHG \nprofile of each representative fuel using on Global Warming Potential (GWP) values over a 100-\nyear time-horizon of included GHG (CO2, CH4 and N2O);\n\t»\nW\n\n… [+806 more chars]",
   "content_hash": "a63d827c762a720074a0fc4178f61234765ba8d273dd3c9c0675c8e5c58d08e4",
   "token_count": 506,
@@ -19835,33 +19900,33 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "f3135969-2496-5db1-aafb-dce74782c4d9",
-  "chunk_index": 451,
+  "parent_chunk_id": "62833242-febd-5e5a-a319-ceda4f0f56e1",
+  "chunk_index": 452,
   "page_number": 293,
   "page_range": [
     293,
     293
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `5423eb65-eb7b-5cd3-894c-9f8d28dfbccf`
+## Parent · `9362cba2-c628-5b73-8b4d-49a3ec51ca04`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "5423eb65-eb7b-5cd3-894c-9f8d28dfbccf",
+  "chunk_id": "9362cba2-c628-5b73-8b4d-49a3ec51ca04",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
-  "chunk_text": "Annexure I — IMO LCA Methodological Guidance (cont.)\n\nThe WtT GHG emission factor (gCO2eq/MJ(LCV) fuel or electricity) is calculated according to  \nEquation (1).\nTable 1: Terms to consider according to IMO guidelines for calculating Well-to-Tank GHG \nemissions\nTerm\nUnits\nExplanation\n𝑒𝑓𝑒𝑐𝑢\ngCO2eq /MJ(LCV)\nEmissions associated with the feedstock extraction/ cultivation/ \nacquisition/ recovery\n𝑒𝑙\ngCO2eq /MJ(LCV)\nEmissions (annualized emissions (over 20 years) from carbon stock \nchanges caused by direct land-use change)5\n𝑒𝑝\ngCO2eq / MJ(LCV)\nEmissions associated with the feedstock processing and/or\n\n… [+4470 more chars]",
-  "content_hash": "2d00d998dd93128e0a8b4f0b609b57641286550e56605dc5fa45babdcd254dc0",
-  "token_count": 1620,
+  "section_heading": "On-Board — Annexure I — IMO LCA Methodological Guidance",
+  "chunk_text": "On-Board — Annexure I — IMO LCA Methodological Guidance (cont.)\n\nThe WtT GHG emission factor (gCO2eq/MJ(LCV) fuel or electricity) is calculated according to  \nEquation (1).\nTable 1: Terms to consider according to IMO guidelines for calculating Well-to-Tank GHG \nemissions\nTerm\nUnits\nExplanation\n𝑒𝑓𝑒𝑐𝑢\ngCO2eq /MJ(LCV)\nEmissions associated with the feedstock extraction/ cultivation/ \nacquisition/ recovery\n𝑒𝑙\ngCO2eq /MJ(LCV)\nEmissions (annualized emissions (over 20 years) from carbon stock \nchanges caused by direct land-use change)5\n𝑒𝑝\ngCO2eq / MJ(LCV)\nEmissions associated with the feedstock proces\n\n… [+4481 more chars]",
+  "content_hash": "84a4950edf959bde5ce974ff0b4d8f88d7b98b57c3355254be079a114616b15e",
+  "token_count": 1623,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -19875,23 +19940,23 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     294,
     294
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `b64dc63f-ecf4-57e9-bfcb-4d2b477bf51d`
+## Child · `a23e1fd0-8c9e-5105-8db7-b2318f775141`
 
-- vector: dim=3072 · [-0.0069, -0.0198, -0.0084, -0.0072, -0.0297, -0.0182, 0.0219, 0.0303, …]
+- vector: dim=3072 · [-0.0069, -0.0200, -0.0084, -0.0070, -0.0297, -0.0184, 0.0221, 0.0305, …]
 
 ```json
 {
-  "chunk_id": "b64dc63f-ecf4-57e9-bfcb-4d2b477bf51d",
+  "chunk_id": "a23e1fd0-8c9e-5105-8db7-b2318f775141",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
+  "section_heading": "On-Board — Annexure I — IMO LCA Methodological Guidance",
   "chunk_text": "The WtT GHG emission factor (gCO2eq/MJ(LCV) fuel or electricity) is calculated according to  \nEquation (1).\nTable 1: Terms to consider according to IMO guidelines for calculating Well-to-Tank GHG \nemissions\nTerm\nUnits\nExplanation\n𝑒𝑓𝑒𝑐𝑢\ngCO2eq /MJ(LCV)\nEmissions associated with the feedstock extraction/ cultivation/ \nacquisition/ recovery\n𝑒𝑙\ngCO2eq /MJ(LCV)\nEmissions (annualized emissions (over 20 years) from carbon stock \nchanges caused by direct land-use change)5\n𝑒𝑝\ngCO2eq / MJ(LCV)\nEmissions associated with the feedstock processing and/or \ntransformation at source and emissions associated wi\n\n… [+1030 more chars]",
   "content_hash": "296e704ff941f8921082764ad4477ae09ceed8cda2cca70ef0bb5c72bd6cdbe1",
   "token_count": 449,
@@ -19904,30 +19969,30 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "5423eb65-eb7b-5cd3-894c-9f8d28dfbccf",
-  "chunk_index": 452,
+  "parent_chunk_id": "9362cba2-c628-5b73-8b4d-49a3ec51ca04",
+  "chunk_index": 453,
   "page_number": 294,
   "page_range": [
     294,
     294
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `a23e1fd0-8c9e-5105-8db7-b2318f775141`
+## Child · `12f03aa1-a960-58fd-9621-7b887ff2ca8d`
 
 - vector: dim=3072 · [0.0161, 0.0095, -0.0074, 0.0134, -0.0009, -0.0377, -0.0260, 0.0399, …]
 
 ```json
 {
-  "chunk_id": "a23e1fd0-8c9e-5105-8db7-b2318f775141",
+  "chunk_id": "12f03aa1-a960-58fd-9621-7b887ff2ca8d",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
+  "section_heading": "On-Board — Annexure I — IMO LCA Methodological Guidance",
   "chunk_text": "From the above-mentioned emission \ncredit, all the emissions resulting from the process of capturing \n(ecc) and transporting (et) the CO2 up to the final storage (including \nthe emissions related to the injection, etc.) need to be deducted. This element should be calculated with the following formula:\n𝑒𝐶𝐶𝑆 = 𝑐𝑆𝐶 − 𝑒𝑐𝑐 − 𝑒𝑡 − 𝑒𝑠𝑡 − 𝑒𝑥\n𝑐𝑠𝑐\ng CO2 stored /\nMJ(LCV)\nEmissions credit equivalent to the net CO2 captured and stored \n(long-term: 100 years)\n𝑒𝑐𝑐\ngCO2eq /MJ(LCV)\nEmissions associated with the process of capturing, compression \nand/or cooling and temporary storage of the CO2\n𝑒𝑡\ngCO2eq /MJ(LCV\n\n… [+524 more chars]",
   "content_hash": "b1fcbfd979f0485810b18aa83f3ee5fbb539c3933e33df8a3345f6397ae317ad",
   "token_count": 421,
@@ -19940,30 +20005,30 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "5423eb65-eb7b-5cd3-894c-9f8d28dfbccf",
-  "chunk_index": 453,
+  "parent_chunk_id": "9362cba2-c628-5b73-8b4d-49a3ec51ca04",
+  "chunk_index": 454,
   "page_number": 294,
   "page_range": [
     294,
     294
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `12f03aa1-a960-58fd-9621-7b887ff2ca8d`
+## Child · `7abb48ff-b501-537c-8aa0-c76649c79af7`
 
-- vector: dim=3072 · [0.0090, 0.0095, -0.0112, -0.0026, -0.0218, -0.0339, 0.0062, 0.0250, …]
+- vector: dim=3072 · [0.0095, 0.0096, -0.0111, -0.0018, -0.0220, -0.0344, 0.0066, 0.0253, …]
 
 ```json
 {
-  "chunk_id": "12f03aa1-a960-58fd-9621-7b887ff2ca8d",
+  "chunk_id": "7abb48ff-b501-537c-8aa0-c76649c79af7",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
+  "section_heading": "On-Board — Annexure I — IMO LCA Methodological Guidance",
   "chunk_text": "��𝑐𝑢 + 𝑒𝑙 + 𝑒𝑝 + 𝑒𝑡𝑑 − 𝑒𝑠𝑐𝑎 – 𝑒𝑐𝑐𝑠  …….(1) | Table 1: Terms to consider according to IMO guidelines for calculating Well-to-Tank GHG 𝐺𝐻𝐺𝑊𝑡𝑇 𝑒𝑓𝑒𝑐𝑢 𝑒𝑙 𝑒𝑝 𝑒𝑡𝑑 𝑒𝑠𝑐𝑎 𝑒𝑐𝑐𝑠 emissions |  |  |\n| --- | --- | --- |\n| Term | Units | Explanation |\n|  | gCO2eq /MJ(LCV) | Emissions associated with the feedstock extraction/ cultivation/ acquisition/ recovery |\n| 𝑒𝑓𝑒𝑐𝑢 | gCO2eq /MJ(LCV) | Emissions (annualized emissions (over 20 years) from carbon stock changes caused by direct land-use change)5 |\n| 𝑒𝑙 𝑒𝑝 | gCO2eq / MJ(LCV) | Emissions associated with the feedstock processing and/or transformation at source an\n\n… [+1137 more chars]",
   "content_hash": "c282768d58176ad99621e33b2cb7ec6f033aeb7e901882813f37637ef51031c6",
   "token_count": 565,
@@ -19976,30 +20041,30 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "5423eb65-eb7b-5cd3-894c-9f8d28dfbccf",
-  "chunk_index": 454,
+  "parent_chunk_id": "9362cba2-c628-5b73-8b4d-49a3ec51ca04",
+  "chunk_index": 455,
   "page_number": 294,
   "page_range": [
     294,
     294
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `7abb48ff-b501-537c-8aa0-c76649c79af7`
+## Child · `f37434cc-ff11-5b62-9364-f6af1377442a`
 
-- vector: dim=3072 · [0.0191, 0.0071, -0.0065, 0.0167, -0.0126, -0.0476, -0.0036, 0.0408, …]
+- vector: dim=3072 · [0.0191, 0.0075, -0.0065, 0.0170, -0.0118, -0.0478, -0.0035, 0.0406, …]
 
 ```json
 {
-  "chunk_id": "7abb48ff-b501-537c-8aa0-c76649c79af7",
+  "chunk_id": "f37434cc-ff11-5b62-9364-f6af1377442a",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
-  "section_heading": "Annexure I — IMO LCA Methodological Guidance",
+  "section_heading": "On-Board — Annexure I — IMO LCA Methodological Guidance",
   "chunk_text": "This element should be calculated with the following formula: = − − − − | | 𝑐𝑠𝑐 | g CO2 stored / MJ(LCV) | Emissions credit equivalent to the net CO2 captured and stored 𝑒𝐶𝐶𝑆 𝑐𝑆𝐶 𝑒𝑐𝑐 𝑒𝑡 𝑒𝑠𝑡 𝑒𝑥 (long-term: 100 years) |\n|  | gCO2eq /MJ(LCV) | Emissions associated with the process of capturing, compression and/or cooling and temporary storage of the CO2 |\n| 𝑒𝑐𝑐 | gCO2eq /MJ(LCV) | Emissions associated with transport to a long-term storage site |\n| 𝑒𝑡 𝑒𝑠𝑡 | gCO2eq / MJ(LCV) | Any emissions associated with the process of storing (long- term: 100 years) the captured CO2 (including fugitive emissions\n\n… [+279 more chars]",
   "content_hash": "bc1707f480b611761cce59fea78325589d02b38d79f5bb430f5541d20ad83b7a",
   "token_count": 298,
@@ -20012,25 +20077,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "5423eb65-eb7b-5cd3-894c-9f8d28dfbccf",
-  "chunk_index": 455,
+  "parent_chunk_id": "9362cba2-c628-5b73-8b4d-49a3ec51ca04",
+  "chunk_index": 456,
   "page_number": 294,
   "page_range": [
     294,
     294
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `b20749d9-576d-5771-950f-66b1aa5770a0`
+## Parent · `311356b5-bd9f-59d2-8cd6-7a6479b5dfea`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "b20749d9-576d-5771-950f-66b1aa5770a0",
+  "chunk_id": "311356b5-bd9f-59d2-8cd6-7a6479b5dfea",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -20052,18 +20117,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     295,
     295
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `f37434cc-ff11-5b62-9364-f6af1377442a`
+## Child · `cb08682b-c765-5c4e-b877-4e0fac919efa`
 
 - vector: dim=3072 · [-0.0223, -0.0047, -0.0160, -0.0415, -0.0137, -0.0276, 0.0084, 0.0320, …]
 
 ```json
 {
-  "chunk_id": "f37434cc-ff11-5b62-9364-f6af1377442a",
+  "chunk_id": "cb08682b-c765-5c4e-b877-4e0fac919efa",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20081,25 +20146,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b20749d9-576d-5771-950f-66b1aa5770a0",
-  "chunk_index": 456,
+  "parent_chunk_id": "311356b5-bd9f-59d2-8cd6-7a6479b5dfea",
+  "chunk_index": 457,
   "page_number": 295,
   "page_range": [
     295,
     295
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `cb08682b-c765-5c4e-b877-4e0fac919efa`
+## Child · `624f7918-b2ea-58f4-bfd3-11d9d427b04d`
 
 - vector: dim=3072 · [-0.0114, 0.0134, -0.0119, -0.0051, 0.0015, -0.0108, -0.0027, 0.0310, …]
 
 ```json
 {
-  "chunk_id": "cb08682b-c765-5c4e-b877-4e0fac919efa",
+  "chunk_id": "624f7918-b2ea-58f4-bfd3-11d9d427b04d",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20117,25 +20182,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b20749d9-576d-5771-950f-66b1aa5770a0",
-  "chunk_index": 457,
+  "parent_chunk_id": "311356b5-bd9f-59d2-8cd6-7a6479b5dfea",
+  "chunk_index": 458,
   "page_number": 295,
   "page_range": [
     295,
     295
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `624f7918-b2ea-58f4-bfd3-11d9d427b04d`
+## Child · `2f8de3df-df91-5252-a4f4-53f25418ecae`
 
-- vector: dim=3072 · [-0.0222, 0.0038, -0.0174, -0.0181, -0.0002, -0.0272, 0.0027, 0.0267, …]
+- vector: dim=3072 · [-0.0222, 0.0038, -0.0175, -0.0182, -0.0003, -0.0271, 0.0028, 0.0270, …]
 
 ```json
 {
-  "chunk_id": "624f7918-b2ea-58f4-bfd3-11d9d427b04d",
+  "chunk_id": "2f8de3df-df91-5252-a4f4-53f25418ecae",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20153,25 +20218,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "b20749d9-576d-5771-950f-66b1aa5770a0",
-  "chunk_index": 458,
+  "parent_chunk_id": "311356b5-bd9f-59d2-8cd6-7a6479b5dfea",
+  "chunk_index": 459,
   "page_number": 295,
   "page_range": [
     295,
     295
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `3a7c3662-bc2f-5b59-96f1-075f8bbedc38`
+## Parent · `b77019f4-b74c-5c33-8e11-680aff267dc5`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "3a7c3662-bc2f-5b59-96f1-075f8bbedc38",
+  "chunk_id": "b77019f4-b74c-5c33-8e11-680aff267dc5",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -20193,18 +20258,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     296,
     296
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `2f8de3df-df91-5252-a4f4-53f25418ecae`
+## Child · `f91c6240-685f-5ae0-bfb1-5a086e14af41`
 
 - vector: dim=3072 · [-0.0266, 0.0067, -0.0195, -0.0365, -0.0031, -0.0266, -0.0114, 0.0213, …]
 
 ```json
 {
-  "chunk_id": "2f8de3df-df91-5252-a4f4-53f25418ecae",
+  "chunk_id": "f91c6240-685f-5ae0-bfb1-5a086e14af41",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20222,25 +20287,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "3a7c3662-bc2f-5b59-96f1-075f8bbedc38",
-  "chunk_index": 459,
+  "parent_chunk_id": "b77019f4-b74c-5c33-8e11-680aff267dc5",
+  "chunk_index": 460,
   "page_number": 296,
   "page_range": [
     296,
     296
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `f91c6240-685f-5ae0-bfb1-5a086e14af41`
+## Child · `8c69d532-bd52-5527-8158-4c2e5024c376`
 
 - vector: dim=3072 · [0.0124, 0.0404, -0.0098, 0.0141, -0.0216, -0.0257, -0.0022, 0.0312, …]
 
 ```json
 {
-  "chunk_id": "f91c6240-685f-5ae0-bfb1-5a086e14af41",
+  "chunk_id": "8c69d532-bd52-5527-8158-4c2e5024c376",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20258,25 +20323,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "3a7c3662-bc2f-5b59-96f1-075f8bbedc38",
-  "chunk_index": 460,
+  "parent_chunk_id": "b77019f4-b74c-5c33-8e11-680aff267dc5",
+  "chunk_index": 461,
   "page_number": 296,
   "page_range": [
     296,
     296
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `8c69d532-bd52-5527-8158-4c2e5024c376`
+## Child · `d9d5103b-ed0d-5326-bdf0-18e87c5b4e9c`
 
 - vector: dim=3072 · [-0.0145, 0.0164, -0.0132, -0.0168, -0.0069, -0.0163, -0.0003, 0.0240, …]
 
 ```json
 {
-  "chunk_id": "8c69d532-bd52-5527-8158-4c2e5024c376",
+  "chunk_id": "d9d5103b-ed0d-5326-bdf0-18e87c5b4e9c",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20294,25 +20359,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "3a7c3662-bc2f-5b59-96f1-075f8bbedc38",
-  "chunk_index": 461,
+  "parent_chunk_id": "b77019f4-b74c-5c33-8e11-680aff267dc5",
+  "chunk_index": 462,
   "page_number": 296,
   "page_range": [
     296,
     296
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `d9d5103b-ed0d-5326-bdf0-18e87c5b4e9c`
+## Child · `075ccf59-c525-5d39-8431-5adf2e917ca8`
 
-- vector: dim=3072 · [0.0188, 0.0276, -0.0118, 0.0227, -0.0170, -0.0364, 0.0086, 0.0347, …]
+- vector: dim=3072 · [0.0186, 0.0275, -0.0118, 0.0226, -0.0171, -0.0364, 0.0087, 0.0348, …]
 
 ```json
 {
-  "chunk_id": "d9d5103b-ed0d-5326-bdf0-18e87c5b4e9c",
+  "chunk_id": "075ccf59-c525-5d39-8431-5adf2e917ca8",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20330,25 +20395,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "3a7c3662-bc2f-5b59-96f1-075f8bbedc38",
-  "chunk_index": 462,
+  "parent_chunk_id": "b77019f4-b74c-5c33-8e11-680aff267dc5",
+  "chunk_index": 463,
   "page_number": 296,
   "page_range": [
     296,
     296
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `8707c8ac-8a41-5989-947b-4b1cedb122ec`
+## Parent · `ef853ef9-ccd5-50b7-a968-b939e02d8151`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "8707c8ac-8a41-5989-947b-4b1cedb122ec",
+  "chunk_id": "ef853ef9-ccd5-50b7-a968-b939e02d8151",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -20370,18 +20435,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     297,
     297
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `075ccf59-c525-5d39-8431-5adf2e917ca8`
+## Child · `c5a74e55-c5a0-5afa-874e-dc4d31f55e25`
 
-- vector: dim=3072 · [-0.0275, -0.0327, -0.0155, -0.0217, -0.0366, -0.0381, 0.0264, 0.0194, …]
+- vector: dim=3072 · [-0.0276, -0.0327, -0.0156, -0.0217, -0.0367, -0.0381, 0.0264, 0.0194, …]
 
 ```json
 {
-  "chunk_id": "075ccf59-c525-5d39-8431-5adf2e917ca8",
+  "chunk_id": "c5a74e55-c5a0-5afa-874e-dc4d31f55e25",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20399,25 +20464,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "8707c8ac-8a41-5989-947b-4b1cedb122ec",
-  "chunk_index": 463,
+  "parent_chunk_id": "ef853ef9-ccd5-50b7-a968-b939e02d8151",
+  "chunk_index": 464,
   "page_number": 297,
   "page_range": [
     297,
     297
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `c5a74e55-c5a0-5afa-874e-dc4d31f55e25`
+## Child · `1fe1410d-448d-5d32-b674-3c4c1a28a278`
 
-- vector: dim=3072 · [-0.0290, 0.0170, -0.0215, -0.0043, -0.0168, -0.0494, 0.0238, 0.0367, …]
+- vector: dim=3072 · [-0.0292, 0.0165, -0.0216, -0.0048, -0.0170, -0.0493, 0.0231, 0.0373, …]
 
 ```json
 {
-  "chunk_id": "c5a74e55-c5a0-5afa-874e-dc4d31f55e25",
+  "chunk_id": "1fe1410d-448d-5d32-b674-3c4c1a28a278",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20435,25 +20500,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "8707c8ac-8a41-5989-947b-4b1cedb122ec",
-  "chunk_index": 464,
+  "parent_chunk_id": "ef853ef9-ccd5-50b7-a968-b939e02d8151",
+  "chunk_index": 465,
   "page_number": 297,
   "page_range": [
     297,
     297
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `18ed0065-ffe2-5b85-9575-f53892aee399`
+## Parent · `4c84a267-c10b-5be0-b702-19693adcc32a`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "18ed0065-ffe2-5b85-9575-f53892aee399",
+  "chunk_id": "4c84a267-c10b-5be0-b702-19693adcc32a",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -20475,18 +20540,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     298,
     299
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `1fe1410d-448d-5d32-b674-3c4c1a28a278`
+## Child · `ff781ccb-d902-526c-afae-649b24117425`
 
-- vector: dim=3072 · [0.0004, 0.0332, -0.0106, -0.0120, -0.0192, -0.0202, -0.0133, 0.0176, …]
+- vector: dim=3072 · [0.0006, 0.0331, -0.0105, -0.0122, -0.0195, -0.0200, -0.0132, 0.0178, …]
 
 ```json
 {
-  "chunk_id": "1fe1410d-448d-5d32-b674-3c4c1a28a278",
+  "chunk_id": "ff781ccb-d902-526c-afae-649b24117425",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20504,25 +20569,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "18ed0065-ffe2-5b85-9575-f53892aee399",
-  "chunk_index": 465,
+  "parent_chunk_id": "4c84a267-c10b-5be0-b702-19693adcc32a",
+  "chunk_index": 466,
   "page_number": 298,
   "page_range": [
     298,
     298
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `ff781ccb-d902-526c-afae-649b24117425`
+## Child · `93566584-d921-582e-afca-f1474538c691`
 
-- vector: dim=3072 · [0.0083, 0.0393, -0.0130, -0.0211, -0.0284, -0.0239, -0.0109, 0.0148, …]
+- vector: dim=3072 · [0.0081, 0.0395, -0.0132, -0.0210, -0.0285, -0.0234, -0.0111, 0.0140, …]
 
 ```json
 {
-  "chunk_id": "ff781ccb-d902-526c-afae-649b24117425",
+  "chunk_id": "93566584-d921-582e-afca-f1474538c691",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20540,25 +20605,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "18ed0065-ffe2-5b85-9575-f53892aee399",
-  "chunk_index": 466,
+  "parent_chunk_id": "4c84a267-c10b-5be0-b702-19693adcc32a",
+  "chunk_index": 467,
   "page_number": 298,
   "page_range": [
     298,
     298
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `93566584-d921-582e-afca-f1474538c691`
+## Child · `47a8d83c-a05a-59bb-964f-686b312fb3d0`
 
-- vector: dim=3072 · [0.0123, 0.0272, -0.0129, -0.0097, -0.0314, -0.0185, -0.0201, 0.0043, …]
+- vector: dim=3072 · [0.0122, 0.0275, -0.0129, -0.0098, -0.0312, -0.0182, -0.0201, 0.0043, …]
 
 ```json
 {
-  "chunk_id": "93566584-d921-582e-afca-f1474538c691",
+  "chunk_id": "47a8d83c-a05a-59bb-964f-686b312fb3d0",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20576,25 +20641,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "18ed0065-ffe2-5b85-9575-f53892aee399",
-  "chunk_index": 467,
+  "parent_chunk_id": "4c84a267-c10b-5be0-b702-19693adcc32a",
+  "chunk_index": 468,
   "page_number": 299,
   "page_range": [
     299,
     299
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `47a8d83c-a05a-59bb-964f-686b312fb3d0`
+## Child · `14be2e0e-1ae5-54a8-846b-426f24b128a8`
 
-- vector: dim=3072 · [0.0005, 0.0388, -0.0173, -0.0034, -0.0231, -0.0150, -0.0057, 0.0196, …]
+- vector: dim=3072 · [0.0011, 0.0397, -0.0172, -0.0034, -0.0225, -0.0144, -0.0065, 0.0201, …]
 
 ```json
 {
-  "chunk_id": "47a8d83c-a05a-59bb-964f-686b312fb3d0",
+  "chunk_id": "14be2e0e-1ae5-54a8-846b-426f24b128a8",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20612,24 +20677,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 468,
+  "chunk_index": 469,
   "page_number": 299,
   "page_range": [
     299,
     299
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `1ec0f3de-56dc-5bfc-964d-52e5d927afa2`
+## Parent · `3ecae4e9-db35-5ec3-9d60-ae91d63bff2f`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "1ec0f3de-56dc-5bfc-964d-52e5d927afa2",
+  "chunk_id": "3ecae4e9-db35-5ec3-9d60-ae91d63bff2f",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -20651,18 +20716,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     299,
     300
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `14be2e0e-1ae5-54a8-846b-426f24b128a8`
+## Child · `dfce7194-5e4b-5c28-b87f-53ae86d5131d`
 
-- vector: dim=3072 · [0.0037, 0.0367, -0.0094, -0.0248, -0.0081, -0.0090, -0.0029, 0.0140, …]
+- vector: dim=3072 · [0.0034, 0.0367, -0.0095, -0.0247, -0.0084, -0.0089, -0.0029, 0.0144, …]
 
 ```json
 {
-  "chunk_id": "14be2e0e-1ae5-54a8-846b-426f24b128a8",
+  "chunk_id": "dfce7194-5e4b-5c28-b87f-53ae86d5131d",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20680,25 +20745,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1ec0f3de-56dc-5bfc-964d-52e5d927afa2",
-  "chunk_index": 469,
+  "parent_chunk_id": "3ecae4e9-db35-5ec3-9d60-ae91d63bff2f",
+  "chunk_index": 470,
   "page_number": 299,
   "page_range": [
     299,
     299
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `dfce7194-5e4b-5c28-b87f-53ae86d5131d`
+## Child · `aaa12465-f6ff-5092-b657-17314f3bb663`
 
-- vector: dim=3072 · [0.0120, 0.0239, -0.0147, -0.0200, -0.0040, -0.0259, -0.0032, 0.0279, …]
+- vector: dim=3072 · [0.0121, 0.0238, -0.0147, -0.0202, -0.0043, -0.0259, -0.0031, 0.0276, …]
 
 ```json
 {
-  "chunk_id": "dfce7194-5e4b-5c28-b87f-53ae86d5131d",
+  "chunk_id": "aaa12465-f6ff-5092-b657-17314f3bb663",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20716,25 +20781,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1ec0f3de-56dc-5bfc-964d-52e5d927afa2",
-  "chunk_index": 470,
+  "parent_chunk_id": "3ecae4e9-db35-5ec3-9d60-ae91d63bff2f",
+  "chunk_index": 471,
   "page_number": 299,
   "page_range": [
     299,
     299
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `aaa12465-f6ff-5092-b657-17314f3bb663`
+## Child · `ee4cf71b-a15a-5e70-973d-e7abbcbda9d7`
 
-- vector: dim=3072 · [0.0015, 0.0283, -0.0117, -0.0054, 0.0144, -0.0304, -0.0071, 0.0114, …]
+- vector: dim=3072 · [0.0018, 0.0278, -0.0119, -0.0055, 0.0135, -0.0307, -0.0072, 0.0112, …]
 
 ```json
 {
-  "chunk_id": "aaa12465-f6ff-5092-b657-17314f3bb663",
+  "chunk_id": "ee4cf71b-a15a-5e70-973d-e7abbcbda9d7",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20752,25 +20817,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "1ec0f3de-56dc-5bfc-964d-52e5d927afa2",
-  "chunk_index": 471,
+  "parent_chunk_id": "3ecae4e9-db35-5ec3-9d60-ae91d63bff2f",
+  "chunk_index": 472,
   "page_number": 300,
   "page_range": [
     300,
     300
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `6be1b5b3-15ff-5a46-923f-d82a99b400fb`
+## Parent · `f3135969-2496-5db1-aafb-dce74782c4d9`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "6be1b5b3-15ff-5a46-923f-d82a99b400fb",
+  "chunk_id": "f3135969-2496-5db1-aafb-dce74782c4d9",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -20792,18 +20857,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     300,
     301
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `ee4cf71b-a15a-5e70-973d-e7abbcbda9d7`
+## Child · `9d205b72-e73d-59d7-8252-ecd783b88098`
 
-- vector: dim=3072 · [0.0101, 0.0096, -0.0118, -0.0282, -0.0022, -0.0082, -0.0178, 0.0146, …]
+- vector: dim=3072 · [0.0097, 0.0089, -0.0119, -0.0275, -0.0023, -0.0085, -0.0178, 0.0147, …]
 
 ```json
 {
-  "chunk_id": "ee4cf71b-a15a-5e70-973d-e7abbcbda9d7",
+  "chunk_id": "9d205b72-e73d-59d7-8252-ecd783b88098",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20821,25 +20886,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "6be1b5b3-15ff-5a46-923f-d82a99b400fb",
-  "chunk_index": 472,
+  "parent_chunk_id": "f3135969-2496-5db1-aafb-dce74782c4d9",
+  "chunk_index": 473,
   "page_number": 300,
   "page_range": [
     300,
     300
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `9d205b72-e73d-59d7-8252-ecd783b88098`
+## Child · `3e710d79-e2f4-5d7f-917b-fc5358c8b2b7`
 
-- vector: dim=3072 · [0.0102, 0.0160, -0.0181, -0.0324, -0.0018, -0.0306, -0.0012, 0.0178, …]
+- vector: dim=3072 · [0.0099, 0.0160, -0.0177, -0.0320, -0.0022, -0.0311, -0.0013, 0.0177, …]
 
 ```json
 {
-  "chunk_id": "9d205b72-e73d-59d7-8252-ecd783b88098",
+  "chunk_id": "3e710d79-e2f4-5d7f-917b-fc5358c8b2b7",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20857,25 +20922,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "6be1b5b3-15ff-5a46-923f-d82a99b400fb",
-  "chunk_index": 473,
+  "parent_chunk_id": "f3135969-2496-5db1-aafb-dce74782c4d9",
+  "chunk_index": 474,
   "page_number": 300,
   "page_range": [
     300,
     300
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `3e710d79-e2f4-5d7f-917b-fc5358c8b2b7`
+## Child · `75e2eae8-1697-5dc4-9c3d-0c35579a7bdf`
 
-- vector: dim=3072 · [0.0156, 0.0309, -0.0149, -0.0180, -0.0001, -0.0265, 0.0138, 0.0237, …]
+- vector: dim=3072 · [0.0153, 0.0307, -0.0151, -0.0183, -0.0005, -0.0264, 0.0142, 0.0234, …]
 
 ```json
 {
-  "chunk_id": "3e710d79-e2f4-5d7f-917b-fc5358c8b2b7",
+  "chunk_id": "75e2eae8-1697-5dc4-9c3d-0c35579a7bdf",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20893,25 +20958,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "6be1b5b3-15ff-5a46-923f-d82a99b400fb",
-  "chunk_index": 474,
+  "parent_chunk_id": "f3135969-2496-5db1-aafb-dce74782c4d9",
+  "chunk_index": 475,
   "page_number": 301,
   "page_range": [
     301,
     301
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `786fc615-a7e7-5fd9-a5f1-f4c711fde57f`
+## Parent · `b20749d9-576d-5771-950f-66b1aa5770a0`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "786fc615-a7e7-5fd9-a5f1-f4c711fde57f",
+  "chunk_id": "b20749d9-576d-5771-950f-66b1aa5770a0",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -20933,18 +20998,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     301,
     302
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `75e2eae8-1697-5dc4-9c3d-0c35579a7bdf`
+## Child · `20edb904-2326-584e-9036-bebdb312c14b`
 
-- vector: dim=3072 · [0.0052, 0.0201, -0.0135, 0.0008, 0.0114, -0.0338, -0.0037, 0.0257, …]
+- vector: dim=3072 · [0.0055, 0.0198, -0.0135, 0.0006, 0.0117, -0.0338, -0.0046, 0.0256, …]
 
 ```json
 {
-  "chunk_id": "75e2eae8-1697-5dc4-9c3d-0c35579a7bdf",
+  "chunk_id": "20edb904-2326-584e-9036-bebdb312c14b",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20962,25 +21027,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "786fc615-a7e7-5fd9-a5f1-f4c711fde57f",
-  "chunk_index": 475,
+  "parent_chunk_id": "b20749d9-576d-5771-950f-66b1aa5770a0",
+  "chunk_index": 476,
   "page_number": 301,
   "page_range": [
     301,
     301
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `20edb904-2326-584e-9036-bebdb312c14b`
+## Child · `03cba53d-7bda-524d-9282-0e1d2be5673d`
 
-- vector: dim=3072 · [0.0039, 0.0285, -0.0205, -0.0190, 0.0095, -0.0228, -0.0001, 0.0289, …]
+- vector: dim=3072 · [0.0038, 0.0286, -0.0204, -0.0191, 0.0093, -0.0228, 0.0001, 0.0291, …]
 
 ```json
 {
-  "chunk_id": "20edb904-2326-584e-9036-bebdb312c14b",
+  "chunk_id": "03cba53d-7bda-524d-9282-0e1d2be5673d",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -20998,25 +21063,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "786fc615-a7e7-5fd9-a5f1-f4c711fde57f",
-  "chunk_index": 476,
+  "parent_chunk_id": "b20749d9-576d-5771-950f-66b1aa5770a0",
+  "chunk_index": 477,
   "page_number": 301,
   "page_range": [
     301,
     301
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `03cba53d-7bda-524d-9282-0e1d2be5673d`
+## Child · `65e90485-e428-5693-bd6b-916cd7902001`
 
-- vector: dim=3072 · [0.0019, 0.0407, -0.0086, 0.0055, 0.0065, -0.0450, 0.0003, 0.0132, …]
+- vector: dim=3072 · [0.0020, 0.0406, -0.0086, 0.0054, 0.0064, -0.0453, 0.0002, 0.0133, …]
 
 ```json
 {
-  "chunk_id": "03cba53d-7bda-524d-9282-0e1d2be5673d",
+  "chunk_id": "65e90485-e428-5693-bd6b-916cd7902001",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21034,25 +21099,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "786fc615-a7e7-5fd9-a5f1-f4c711fde57f",
-  "chunk_index": 477,
+  "parent_chunk_id": "b20749d9-576d-5771-950f-66b1aa5770a0",
+  "chunk_index": 478,
   "page_number": 302,
   "page_range": [
     302,
     302
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `65e90485-e428-5693-bd6b-916cd7902001`
+## Child · `cc0bc7d0-cb88-5ab5-8a61-6a7953ab3bc5`
 
-- vector: dim=3072 · [0.0050, 0.0290, -0.0080, 0.0010, -0.0018, -0.0265, -0.0086, 0.0238, …]
+- vector: dim=3072 · [0.0050, 0.0290, -0.0080, 0.0011, -0.0017, -0.0265, -0.0086, 0.0238, …]
 
 ```json
 {
-  "chunk_id": "65e90485-e428-5693-bd6b-916cd7902001",
+  "chunk_id": "cc0bc7d0-cb88-5ab5-8a61-6a7953ab3bc5",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21070,24 +21135,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 478,
+  "chunk_index": 479,
   "page_number": 302,
   "page_range": [
     302,
     303
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `cc0bc7d0-cb88-5ab5-8a61-6a7953ab3bc5`
+## Child · `9a40c027-6e96-5703-832d-efe3cd3369c9`
 
-- vector: dim=3072 · [-0.0159, 0.0243, -0.0178, 0.0052, -0.0216, -0.0319, 0.0082, 0.0289, …]
+- vector: dim=3072 · [-0.0159, 0.0243, -0.0178, 0.0052, -0.0216, -0.0319, 0.0082, 0.0288, …]
 
 ```json
 {
-  "chunk_id": "cc0bc7d0-cb88-5ab5-8a61-6a7953ab3bc5",
+  "chunk_id": "9a40c027-6e96-5703-832d-efe3cd3369c9",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21105,24 +21170,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 479,
+  "chunk_index": 480,
   "page_number": 303,
   "page_range": [
     303,
     303
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `64bcd265-41b1-5a17-93a2-ed067fe6c963`
+## Parent · `0dfeb3e1-2922-575f-83d6-22f00f459b17`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "64bcd265-41b1-5a17-93a2-ed067fe6c963",
+  "chunk_id": "0dfeb3e1-2922-575f-83d6-22f00f459b17",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -21144,18 +21209,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     303,
     304
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `9a40c027-6e96-5703-832d-efe3cd3369c9`
+## Child · `eac0492c-3cc1-522e-a165-a8092479a87e`
 
 - vector: dim=3072 · [0.0222, 0.0290, -0.0085, -0.0098, -0.0108, -0.0271, 0.0181, 0.0309, …]
 
 ```json
 {
-  "chunk_id": "9a40c027-6e96-5703-832d-efe3cd3369c9",
+  "chunk_id": "eac0492c-3cc1-522e-a165-a8092479a87e",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21173,25 +21238,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "64bcd265-41b1-5a17-93a2-ed067fe6c963",
-  "chunk_index": 480,
+  "parent_chunk_id": "0dfeb3e1-2922-575f-83d6-22f00f459b17",
+  "chunk_index": 481,
   "page_number": 303,
   "page_range": [
     303,
     303
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `eac0492c-3cc1-522e-a165-a8092479a87e`
+## Child · `2903da34-ff63-59e8-b38a-1f2d8c0aadb6`
 
 - vector: dim=3072 · [0.0160, 0.0285, -0.0131, -0.0097, -0.0129, -0.0270, 0.0163, 0.0259, …]
 
 ```json
 {
-  "chunk_id": "eac0492c-3cc1-522e-a165-a8092479a87e",
+  "chunk_id": "2903da34-ff63-59e8-b38a-1f2d8c0aadb6",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21209,25 +21274,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "64bcd265-41b1-5a17-93a2-ed067fe6c963",
-  "chunk_index": 481,
+  "parent_chunk_id": "0dfeb3e1-2922-575f-83d6-22f00f459b17",
+  "chunk_index": 482,
   "page_number": 304,
   "page_range": [
     304,
     304
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `2903da34-ff63-59e8-b38a-1f2d8c0aadb6`
+## Child · `d4815891-7a85-5b0d-8203-9584dee39ffa`
 
-- vector: dim=3072 · [0.0039, 0.0529, -0.0117, 0.0114, -0.0238, -0.0063, -0.0167, 0.0316, …]
+- vector: dim=3072 · [0.0036, 0.0528, -0.0116, 0.0111, -0.0240, -0.0063, -0.0165, 0.0316, …]
 
 ```json
 {
-  "chunk_id": "2903da34-ff63-59e8-b38a-1f2d8c0aadb6",
+  "chunk_id": "d4815891-7a85-5b0d-8203-9584dee39ffa",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21245,24 +21310,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 482,
+  "chunk_index": 483,
   "page_number": 304,
   "page_range": [
     304,
     304
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `9d9a3288-ad08-5eb9-9735-6f7bed3265ec`
+## Parent · `6be1b5b3-15ff-5a46-923f-d82a99b400fb`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "9d9a3288-ad08-5eb9-9735-6f7bed3265ec",
+  "chunk_id": "6be1b5b3-15ff-5a46-923f-d82a99b400fb",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -21284,18 +21349,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     304,
     305
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `d4815891-7a85-5b0d-8203-9584dee39ffa`
+## Child · `53381f75-711e-50ba-8c75-959a336aa4c8`
 
 - vector: dim=3072 · [0.0203, 0.0224, -0.0078, -0.0111, 0.0055, -0.0279, 0.0011, 0.0361, …]
 
 ```json
 {
-  "chunk_id": "d4815891-7a85-5b0d-8203-9584dee39ffa",
+  "chunk_id": "53381f75-711e-50ba-8c75-959a336aa4c8",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21313,25 +21378,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9d9a3288-ad08-5eb9-9735-6f7bed3265ec",
-  "chunk_index": 483,
+  "parent_chunk_id": "6be1b5b3-15ff-5a46-923f-d82a99b400fb",
+  "chunk_index": 484,
   "page_number": 304,
   "page_range": [
     304,
     304
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `53381f75-711e-50ba-8c75-959a336aa4c8`
+## Child · `aa213cb1-eeff-5cbc-a59f-29d61d791c7b`
 
-- vector: dim=3072 · [0.0297, 0.0226, -0.0155, 0.0014, -0.0089, -0.0376, -0.0126, 0.0065, …]
+- vector: dim=3072 · [0.0298, 0.0226, -0.0155, 0.0014, -0.0089, -0.0376, -0.0125, 0.0064, …]
 
 ```json
 {
-  "chunk_id": "53381f75-711e-50ba-8c75-959a336aa4c8",
+  "chunk_id": "aa213cb1-eeff-5cbc-a59f-29d61d791c7b",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21349,25 +21414,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9d9a3288-ad08-5eb9-9735-6f7bed3265ec",
-  "chunk_index": 484,
+  "parent_chunk_id": "6be1b5b3-15ff-5a46-923f-d82a99b400fb",
+  "chunk_index": 485,
   "page_number": 305,
   "page_range": [
     305,
     305
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `afeb06f7-1ac1-558c-9cca-8e9721c018b9`
+## Parent · `786fc615-a7e7-5fd9-a5f1-f4c711fde57f`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "afeb06f7-1ac1-558c-9cca-8e9721c018b9",
+  "chunk_id": "786fc615-a7e7-5fd9-a5f1-f4c711fde57f",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -21389,18 +21454,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     305,
     306
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `aa213cb1-eeff-5cbc-a59f-29d61d791c7b`
+## Child · `6a574cd8-58cc-5b7c-8f97-3dafe79e156f`
 
 - vector: dim=3072 · [0.0250, 0.0304, -0.0139, -0.0144, -0.0144, -0.0251, 0.0025, 0.0311, …]
 
 ```json
 {
-  "chunk_id": "aa213cb1-eeff-5cbc-a59f-29d61d791c7b",
+  "chunk_id": "6a574cd8-58cc-5b7c-8f97-3dafe79e156f",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21418,25 +21483,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "afeb06f7-1ac1-558c-9cca-8e9721c018b9",
-  "chunk_index": 485,
+  "parent_chunk_id": "786fc615-a7e7-5fd9-a5f1-f4c711fde57f",
+  "chunk_index": 486,
   "page_number": 305,
   "page_range": [
     305,
     305
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `6a574cd8-58cc-5b7c-8f97-3dafe79e156f`
+## Child · `bb2715a3-64e8-5eb7-8d55-b2111282cd70`
 
-- vector: dim=3072 · [0.0120, 0.0273, -0.0150, -0.0113, -0.0003, -0.0136, 0.0176, 0.0207, …]
+- vector: dim=3072 · [0.0112, 0.0266, -0.0151, -0.0121, 0.0003, -0.0136, 0.0184, 0.0213, …]
 
 ```json
 {
-  "chunk_id": "6a574cd8-58cc-5b7c-8f97-3dafe79e156f",
+  "chunk_id": "bb2715a3-64e8-5eb7-8d55-b2111282cd70",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21454,25 +21519,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "afeb06f7-1ac1-558c-9cca-8e9721c018b9",
-  "chunk_index": 486,
+  "parent_chunk_id": "786fc615-a7e7-5fd9-a5f1-f4c711fde57f",
+  "chunk_index": 487,
   "page_number": 306,
   "page_range": [
     306,
     306
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `bb2715a3-64e8-5eb7-8d55-b2111282cd70`
+## Child · `af87b281-add4-5dd1-91d0-3ec021b1e2bf`
 
 - vector: dim=3072 · [0.0073, 0.0278, -0.0214, 0.0148, -0.0128, -0.0330, 0.0033, 0.0228, …]
 
 ```json
 {
-  "chunk_id": "bb2715a3-64e8-5eb7-8d55-b2111282cd70",
+  "chunk_id": "af87b281-add4-5dd1-91d0-3ec021b1e2bf",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21490,24 +21555,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 487,
+  "chunk_index": 488,
   "page_number": 306,
   "page_range": [
     306,
     306
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `9f6e006f-f4ce-5646-8d79-26d96e0c38c7`
+## Parent · `9f302f83-b662-5611-b0f8-b10fab7c053b`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "9f6e006f-f4ce-5646-8d79-26d96e0c38c7",
+  "chunk_id": "9f302f83-b662-5611-b0f8-b10fab7c053b",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -21529,18 +21594,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     306,
     309
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `af87b281-add4-5dd1-91d0-3ec021b1e2bf`
+## Child · `3171ebfb-0417-5837-93c4-9b73c21cfdd0`
 
-- vector: dim=3072 · [0.0045, 0.0282, -0.0159, -0.0129, 0.0098, -0.0179, -0.0034, 0.0264, …]
+- vector: dim=3072 · [0.0044, 0.0283, -0.0160, -0.0129, 0.0099, -0.0179, -0.0035, 0.0262, …]
 
 ```json
 {
-  "chunk_id": "af87b281-add4-5dd1-91d0-3ec021b1e2bf",
+  "chunk_id": "3171ebfb-0417-5837-93c4-9b73c21cfdd0",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21558,25 +21623,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9f6e006f-f4ce-5646-8d79-26d96e0c38c7",
-  "chunk_index": 488,
+  "parent_chunk_id": "9f302f83-b662-5611-b0f8-b10fab7c053b",
+  "chunk_index": 489,
   "page_number": 306,
   "page_range": [
     306,
     306
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `3171ebfb-0417-5837-93c4-9b73c21cfdd0`
+## Child · `c77fab9b-d01f-5b66-a0b3-09b3c4a55568`
 
-- vector: dim=3072 · [0.0114, 0.0406, -0.0125, 0.0051, -0.0180, -0.0425, 0.0163, 0.0242, …]
+- vector: dim=3072 · [0.0115, 0.0406, -0.0125, 0.0051, -0.0179, -0.0426, 0.0164, 0.0244, …]
 
 ```json
 {
-  "chunk_id": "3171ebfb-0417-5837-93c4-9b73c21cfdd0",
+  "chunk_id": "c77fab9b-d01f-5b66-a0b3-09b3c4a55568",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21594,25 +21659,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9f6e006f-f4ce-5646-8d79-26d96e0c38c7",
-  "chunk_index": 489,
+  "parent_chunk_id": "9f302f83-b662-5611-b0f8-b10fab7c053b",
+  "chunk_index": 490,
   "page_number": 307,
   "page_range": [
     307,
     307
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `c77fab9b-d01f-5b66-a0b3-09b3c4a55568`
+## Child · `b66afde4-0144-5f15-bcbe-2309f7dd8abe`
 
-- vector: dim=3072 · [0.0217, 0.0428, -0.0131, -0.0039, -0.0400, -0.0367, 0.0175, 0.0207, …]
+- vector: dim=3072 · [0.0219, 0.0429, -0.0132, -0.0042, -0.0395, -0.0365, 0.0179, 0.0205, …]
 
 ```json
 {
-  "chunk_id": "c77fab9b-d01f-5b66-a0b3-09b3c4a55568",
+  "chunk_id": "b66afde4-0144-5f15-bcbe-2309f7dd8abe",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21630,25 +21695,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9f6e006f-f4ce-5646-8d79-26d96e0c38c7",
-  "chunk_index": 490,
+  "parent_chunk_id": "9f302f83-b662-5611-b0f8-b10fab7c053b",
+  "chunk_index": 491,
   "page_number": 307,
   "page_range": [
     307,
     307
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `b66afde4-0144-5f15-bcbe-2309f7dd8abe`
+## Child · `170357c7-4567-58a8-8177-e810a00b463e`
 
 - vector: dim=3072 · [0.0168, 0.0442, -0.0132, 0.0023, -0.0198, -0.0373, 0.0111, 0.0137, …]
 
 ```json
 {
-  "chunk_id": "b66afde4-0144-5f15-bcbe-2309f7dd8abe",
+  "chunk_id": "170357c7-4567-58a8-8177-e810a00b463e",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21666,25 +21731,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9f6e006f-f4ce-5646-8d79-26d96e0c38c7",
-  "chunk_index": 491,
+  "parent_chunk_id": "9f302f83-b662-5611-b0f8-b10fab7c053b",
+  "chunk_index": 492,
   "page_number": 308,
   "page_range": [
     308,
     308
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `170357c7-4567-58a8-8177-e810a00b463e`
+## Child · `89695afe-dcf7-55a0-89fe-be0d5059a53d`
 
-- vector: dim=3072 · [0.0120, 0.0314, -0.0002, 0.0110, 0.0064, -0.0184, -0.0233, 0.0135, …]
+- vector: dim=3072 · [0.0125, 0.0320, -0.0007, 0.0107, 0.0060, -0.0182, -0.0233, 0.0137, …]
 
 ```json
 {
-  "chunk_id": "170357c7-4567-58a8-8177-e810a00b463e",
+  "chunk_id": "89695afe-dcf7-55a0-89fe-be0d5059a53d",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21702,25 +21767,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "9f6e006f-f4ce-5646-8d79-26d96e0c38c7",
-  "chunk_index": 492,
+  "parent_chunk_id": "9f302f83-b662-5611-b0f8-b10fab7c053b",
+  "chunk_index": 493,
   "page_number": 308,
   "page_range": [
     308,
     309
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `7479f41e-ed83-54cb-88cf-9cc1e232c6c6`
+## Parent · `64bcd265-41b1-5a17-93a2-ed067fe6c963`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "7479f41e-ed83-54cb-88cf-9cc1e232c6c6",
+  "chunk_id": "64bcd265-41b1-5a17-93a2-ed067fe6c963",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -21742,18 +21807,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     309,
     310
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `89695afe-dcf7-55a0-89fe-be0d5059a53d`
+## Child · `58e29ed9-aa2e-510f-a7ac-f29a48e4b799`
 
-- vector: dim=3072 · [0.0140, 0.0235, -0.0142, 0.0026, -0.0021, -0.0178, -0.0267, 0.0211, …]
+- vector: dim=3072 · [0.0140, 0.0235, -0.0142, 0.0026, -0.0021, -0.0177, -0.0267, 0.0211, …]
 
 ```json
 {
-  "chunk_id": "89695afe-dcf7-55a0-89fe-be0d5059a53d",
+  "chunk_id": "58e29ed9-aa2e-510f-a7ac-f29a48e4b799",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21771,25 +21836,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "7479f41e-ed83-54cb-88cf-9cc1e232c6c6",
-  "chunk_index": 493,
+  "parent_chunk_id": "64bcd265-41b1-5a17-93a2-ed067fe6c963",
+  "chunk_index": 494,
   "page_number": 309,
   "page_range": [
     309,
     309
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `58e29ed9-aa2e-510f-a7ac-f29a48e4b799`
+## Child · `b8c54bff-c0e3-5a68-a475-725d8fff5730`
 
 - vector: dim=3072 · [0.0101, 0.0325, -0.0081, 0.0028, 0.0006, -0.0197, -0.0225, 0.0115, …]
 
 ```json
 {
-  "chunk_id": "58e29ed9-aa2e-510f-a7ac-f29a48e4b799",
+  "chunk_id": "b8c54bff-c0e3-5a68-a475-725d8fff5730",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21807,25 +21872,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "7479f41e-ed83-54cb-88cf-9cc1e232c6c6",
-  "chunk_index": 494,
+  "parent_chunk_id": "64bcd265-41b1-5a17-93a2-ed067fe6c963",
+  "chunk_index": 495,
   "page_number": 309,
   "page_range": [
     309,
     310
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `b8c54bff-c0e3-5a68-a475-725d8fff5730`
+## Child · `3a02abef-3316-5c9e-89bb-4da6fed338f2`
 
-- vector: dim=3072 · [-0.0224, 0.0331, 0.0001, -0.0057, -0.0372, -0.0068, -0.0329, 0.0181, …]
+- vector: dim=3072 · [-0.0226, 0.0331, 0.0001, -0.0057, -0.0372, -0.0070, -0.0329, 0.0182, …]
 
 ```json
 {
-  "chunk_id": "b8c54bff-c0e3-5a68-a475-725d8fff5730",
+  "chunk_id": "3a02abef-3316-5c9e-89bb-4da6fed338f2",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21843,24 +21908,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 495,
+  "chunk_index": 496,
   "page_number": 310,
   "page_range": [
     310,
     311
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `3a02abef-3316-5c9e-89bb-4da6fed338f2`
+## Child · `e9f52a7f-5ee2-5e9c-9d15-897176635a82`
 
 - vector: dim=3072 · [-0.0225, 0.0317, -0.0034, -0.0059, -0.0284, -0.0074, -0.0095, 0.0344, …]
 
 ```json
 {
-  "chunk_id": "3a02abef-3316-5c9e-89bb-4da6fed338f2",
+  "chunk_id": "e9f52a7f-5ee2-5e9c-9d15-897176635a82",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21878,24 +21943,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 496,
+  "chunk_index": 497,
   "page_number": 311,
   "page_range": [
     311,
     311
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `5c3271b7-3599-581d-b35d-9073b2b93ac6`
+## Parent · `afeb06f7-1ac1-558c-9cca-8e9721c018b9`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "5c3271b7-3599-581d-b35d-9073b2b93ac6",
+  "chunk_id": "afeb06f7-1ac1-558c-9cca-8e9721c018b9",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -21917,18 +21982,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     311,
     313
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `e9f52a7f-5ee2-5e9c-9d15-897176635a82`
+## Child · `822dbcd2-6ba4-5ed1-806a-01f4885fe303`
 
 - vector: dim=3072 · [-0.0235, 0.0274, -0.0059, -0.0098, -0.0321, -0.0087, -0.0043, 0.0215, …]
 
 ```json
 {
-  "chunk_id": "e9f52a7f-5ee2-5e9c-9d15-897176635a82",
+  "chunk_id": "822dbcd2-6ba4-5ed1-806a-01f4885fe303",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21946,25 +22011,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "5c3271b7-3599-581d-b35d-9073b2b93ac6",
-  "chunk_index": 497,
+  "parent_chunk_id": "afeb06f7-1ac1-558c-9cca-8e9721c018b9",
+  "chunk_index": 498,
   "page_number": 311,
   "page_range": [
     311,
     311
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `822dbcd2-6ba4-5ed1-806a-01f4885fe303`
+## Child · `714d3539-02e5-54d0-b3f4-7f01a5ad2572`
 
 - vector: dim=3072 · [-0.0200, 0.0263, -0.0076, 0.0012, -0.0249, -0.0126, -0.0071, 0.0181, …]
 
 ```json
 {
-  "chunk_id": "822dbcd2-6ba4-5ed1-806a-01f4885fe303",
+  "chunk_id": "714d3539-02e5-54d0-b3f4-7f01a5ad2572",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -21982,25 +22047,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "5c3271b7-3599-581d-b35d-9073b2b93ac6",
-  "chunk_index": 498,
+  "parent_chunk_id": "afeb06f7-1ac1-558c-9cca-8e9721c018b9",
+  "chunk_index": 499,
   "page_number": 312,
   "page_range": [
     312,
     312
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `714d3539-02e5-54d0-b3f4-7f01a5ad2572`
+## Child · `f80260d8-95da-533a-ad7f-67822775a3ee`
 
 - vector: dim=3072 · [-0.0101, 0.0275, -0.0060, -0.0044, -0.0379, -0.0111, 0.0121, 0.0163, …]
 
 ```json
 {
-  "chunk_id": "714d3539-02e5-54d0-b3f4-7f01a5ad2572",
+  "chunk_id": "f80260d8-95da-533a-ad7f-67822775a3ee",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22018,25 +22083,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "5c3271b7-3599-581d-b35d-9073b2b93ac6",
-  "chunk_index": 499,
+  "parent_chunk_id": "afeb06f7-1ac1-558c-9cca-8e9721c018b9",
+  "chunk_index": 500,
   "page_number": 312,
   "page_range": [
     312,
     312
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `f80260d8-95da-533a-ad7f-67822775a3ee`
+## Child · `4f279575-4140-55f1-bee0-ee18e7d49184`
 
 - vector: dim=3072 · [-0.0062, 0.0324, -0.0046, -0.0056, -0.0171, 0.0006, 0.0117, 0.0233, …]
 
 ```json
 {
-  "chunk_id": "f80260d8-95da-533a-ad7f-67822775a3ee",
+  "chunk_id": "4f279575-4140-55f1-bee0-ee18e7d49184",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22054,25 +22119,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "5c3271b7-3599-581d-b35d-9073b2b93ac6",
-  "chunk_index": 500,
+  "parent_chunk_id": "afeb06f7-1ac1-558c-9cca-8e9721c018b9",
+  "chunk_index": 501,
   "page_number": 312,
   "page_range": [
     312,
     313
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `59205727-c8c9-54ef-8d90-d275779b689b`
+## Parent · `1cfa497d-ca34-521f-93c5-51f3ebd707e8`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "59205727-c8c9-54ef-8d90-d275779b689b",
+  "chunk_id": "1cfa497d-ca34-521f-93c5-51f3ebd707e8",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -22094,18 +22159,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     313,
     314
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `4f279575-4140-55f1-bee0-ee18e7d49184`
+## Child · `d1909ef7-113b-5980-b391-b15583f93d4a`
 
-- vector: dim=3072 · [-0.0159, 0.0374, -0.0062, -0.0046, -0.0379, 0.0023, -0.0126, 0.0214, …]
+- vector: dim=3072 · [-0.0159, 0.0377, -0.0061, -0.0048, -0.0385, 0.0022, -0.0124, 0.0218, …]
 
 ```json
 {
-  "chunk_id": "4f279575-4140-55f1-bee0-ee18e7d49184",
+  "chunk_id": "d1909ef7-113b-5980-b391-b15583f93d4a",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22123,25 +22188,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "59205727-c8c9-54ef-8d90-d275779b689b",
-  "chunk_index": 501,
+  "parent_chunk_id": "1cfa497d-ca34-521f-93c5-51f3ebd707e8",
+  "chunk_index": 502,
   "page_number": 313,
   "page_range": [
     313,
     313
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `d1909ef7-113b-5980-b391-b15583f93d4a`
+## Child · `706b13d5-c221-5737-978f-cab98452e4a8`
 
 - vector: dim=3072 · [-0.0126, 0.0283, -0.0083, -0.0081, -0.0378, -0.0026, -0.0209, 0.0174, …]
 
 ```json
 {
-  "chunk_id": "d1909ef7-113b-5980-b391-b15583f93d4a",
+  "chunk_id": "706b13d5-c221-5737-978f-cab98452e4a8",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22159,25 +22224,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "59205727-c8c9-54ef-8d90-d275779b689b",
-  "chunk_index": 502,
+  "parent_chunk_id": "1cfa497d-ca34-521f-93c5-51f3ebd707e8",
+  "chunk_index": 503,
   "page_number": 313,
   "page_range": [
     313,
     314
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `25840cea-e45a-517f-84d5-87a6cbc1f4a8`
+## Parent · `9f6e006f-f4ce-5646-8d79-26d96e0c38c7`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "25840cea-e45a-517f-84d5-87a6cbc1f4a8",
+  "chunk_id": "9f6e006f-f4ce-5646-8d79-26d96e0c38c7",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -22199,18 +22264,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     314,
     315
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `706b13d5-c221-5737-978f-cab98452e4a8`
+## Child · `cd6d01a9-2e93-5718-a823-e929035b70ab`
 
-- vector: dim=3072 · [-0.0107, 0.0182, -0.0065, -0.0238, -0.0356, 0.0075, -0.0282, 0.0120, …]
+- vector: dim=3072 · [-0.0107, 0.0182, -0.0065, -0.0238, -0.0357, 0.0076, -0.0282, 0.0121, …]
 
 ```json
 {
-  "chunk_id": "706b13d5-c221-5737-978f-cab98452e4a8",
+  "chunk_id": "cd6d01a9-2e93-5718-a823-e929035b70ab",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22228,25 +22293,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "25840cea-e45a-517f-84d5-87a6cbc1f4a8",
-  "chunk_index": 503,
+  "parent_chunk_id": "9f6e006f-f4ce-5646-8d79-26d96e0c38c7",
+  "chunk_index": 504,
   "page_number": 314,
   "page_range": [
     314,
     314
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `cd6d01a9-2e93-5718-a823-e929035b70ab`
+## Child · `e746ed15-f504-56dc-85c2-bef58529ec51`
 
 - vector: dim=3072 · [-0.0168, 0.0243, -0.0016, -0.0020, -0.0424, -0.0219, -0.0170, 0.0118, …]
 
 ```json
 {
-  "chunk_id": "cd6d01a9-2e93-5718-a823-e929035b70ab",
+  "chunk_id": "e746ed15-f504-56dc-85c2-bef58529ec51",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22264,25 +22329,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "25840cea-e45a-517f-84d5-87a6cbc1f4a8",
-  "chunk_index": 504,
+  "parent_chunk_id": "9f6e006f-f4ce-5646-8d79-26d96e0c38c7",
+  "chunk_index": 505,
   "page_number": 314,
   "page_range": [
     314,
     315
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `e746ed15-f504-56dc-85c2-bef58529ec51`
+## Child · `12c74164-8298-53d4-ad79-0bfe4ad7ab54`
 
 - vector: dim=3072 · [0.0018, 0.0176, -0.0041, -0.0114, -0.0189, 0.0021, -0.0441, 0.0201, …]
 
 ```json
 {
-  "chunk_id": "e746ed15-f504-56dc-85c2-bef58529ec51",
+  "chunk_id": "12c74164-8298-53d4-ad79-0bfe4ad7ab54",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22300,24 +22365,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 505,
+  "chunk_index": 506,
   "page_number": 315,
   "page_range": [
     315,
     315
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `12c74164-8298-53d4-ad79-0bfe4ad7ab54`
+## Child · `189b4b50-974b-5fa3-8b80-4ac51ced5dd5`
 
-- vector: dim=3072 · [-0.0059, -0.0024, -0.0024, -0.0097, -0.0292, -0.0152, -0.0294, 0.0176, …]
+- vector: dim=3072 · [-0.0058, -0.0024, -0.0020, -0.0098, -0.0294, -0.0154, -0.0298, 0.0173, …]
 
 ```json
 {
-  "chunk_id": "12c74164-8298-53d4-ad79-0bfe4ad7ab54",
+  "chunk_id": "189b4b50-974b-5fa3-8b80-4ac51ced5dd5",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22335,24 +22400,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 506,
+  "chunk_index": 507,
   "page_number": 315,
   "page_range": [
     315,
     316
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `189b4b50-974b-5fa3-8b80-4ac51ced5dd5`
+## Child · `c4138129-979e-5c11-8599-5719ded06f9b`
 
 - vector: dim=3072 · [-0.0095, 0.0142, -0.0083, -0.0088, -0.0370, -0.0153, -0.0127, 0.0331, …]
 
 ```json
 {
-  "chunk_id": "189b4b50-974b-5fa3-8b80-4ac51ced5dd5",
+  "chunk_id": "c4138129-979e-5c11-8599-5719ded06f9b",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22370,24 +22435,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 507,
+  "chunk_index": 508,
   "page_number": 316,
   "page_range": [
     316,
     316
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `927fa708-d529-5d6b-b6eb-76c2503fc0c1`
+## Parent · `5c3271b7-3599-581d-b35d-9073b2b93ac6`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "927fa708-d529-5d6b-b6eb-76c2503fc0c1",
+  "chunk_id": "5c3271b7-3599-581d-b35d-9073b2b93ac6",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -22409,18 +22474,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     316,
     317
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `c4138129-979e-5c11-8599-5719ded06f9b`
+## Child · `2122e25e-75c0-5a72-bac2-d3d40afb6258`
 
-- vector: dim=3072 · [-0.0165, 0.0082, -0.0073, -0.0042, -0.0414, -0.0314, -0.0050, 0.0100, …]
+- vector: dim=3072 · [-0.0164, 0.0086, -0.0072, -0.0042, -0.0412, -0.0315, -0.0053, 0.0098, …]
 
 ```json
 {
-  "chunk_id": "c4138129-979e-5c11-8599-5719ded06f9b",
+  "chunk_id": "2122e25e-75c0-5a72-bac2-d3d40afb6258",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22438,25 +22503,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "927fa708-d529-5d6b-b6eb-76c2503fc0c1",
-  "chunk_index": 508,
+  "parent_chunk_id": "5c3271b7-3599-581d-b35d-9073b2b93ac6",
+  "chunk_index": 509,
   "page_number": 316,
   "page_range": [
     316,
     316
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `2122e25e-75c0-5a72-bac2-d3d40afb6258`
+## Child · `b19ba3b6-66be-5875-91f1-2bff5881af0e`
 
-- vector: dim=3072 · [-0.0167, 0.0195, -0.0002, -0.0127, -0.0401, -0.0278, 0.0018, 0.0278, …]
+- vector: dim=3072 · [-0.0167, 0.0195, -0.0001, -0.0127, -0.0400, -0.0277, 0.0017, 0.0277, …]
 
 ```json
 {
-  "chunk_id": "2122e25e-75c0-5a72-bac2-d3d40afb6258",
+  "chunk_id": "b19ba3b6-66be-5875-91f1-2bff5881af0e",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22474,25 +22539,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "927fa708-d529-5d6b-b6eb-76c2503fc0c1",
-  "chunk_index": 509,
+  "parent_chunk_id": "5c3271b7-3599-581d-b35d-9073b2b93ac6",
+  "chunk_index": 510,
   "page_number": 316,
   "page_range": [
     316,
     317
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `b19ba3b6-66be-5875-91f1-2bff5881af0e`
+## Child · `d3effd2b-0c34-57dd-aae0-947b2c185a43`
 
 - vector: dim=3072 · [-0.0289, 0.0207, 0.0007, -0.0013, -0.0229, -0.0163, 0.0123, 0.0342, …]
 
 ```json
 {
-  "chunk_id": "b19ba3b6-66be-5875-91f1-2bff5881af0e",
+  "chunk_id": "d3effd2b-0c34-57dd-aae0-947b2c185a43",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22510,24 +22575,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 510,
+  "chunk_index": 511,
   "page_number": 317,
   "page_range": [
     317,
     317
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `917602a8-b1cd-5aec-802f-525a3977f395`
+## Parent · `25840cea-e45a-517f-84d5-87a6cbc1f4a8`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "917602a8-b1cd-5aec-802f-525a3977f395",
+  "chunk_id": "25840cea-e45a-517f-84d5-87a6cbc1f4a8",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -22549,18 +22614,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     317,
     318
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `d3effd2b-0c34-57dd-aae0-947b2c185a43`
+## Child · `ae08179f-e7c1-51d2-abe2-f9431304911b`
 
-- vector: dim=3072 · [-0.0182, 0.0335, -0.0077, 0.0017, -0.0219, -0.0042, 0.0017, 0.0290, …]
+- vector: dim=3072 · [-0.0178, 0.0334, -0.0078, 0.0012, -0.0218, -0.0045, 0.0015, 0.0290, …]
 
 ```json
 {
-  "chunk_id": "d3effd2b-0c34-57dd-aae0-947b2c185a43",
+  "chunk_id": "ae08179f-e7c1-51d2-abe2-f9431304911b",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22578,25 +22643,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "917602a8-b1cd-5aec-802f-525a3977f395",
-  "chunk_index": 511,
+  "parent_chunk_id": "25840cea-e45a-517f-84d5-87a6cbc1f4a8",
+  "chunk_index": 512,
   "page_number": 317,
   "page_range": [
     317,
     317
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `ae08179f-e7c1-51d2-abe2-f9431304911b`
+## Child · `5fe8aa48-2628-5ce7-8d3f-618b805cdefc`
 
-- vector: dim=3072 · [-0.0176, 0.0186, -0.0017, -0.0085, -0.0303, -0.0098, 0.0160, 0.0200, …]
+- vector: dim=3072 · [-0.0173, 0.0187, -0.0018, -0.0083, -0.0309, -0.0098, 0.0162, 0.0205, …]
 
 ```json
 {
-  "chunk_id": "ae08179f-e7c1-51d2-abe2-f9431304911b",
+  "chunk_id": "5fe8aa48-2628-5ce7-8d3f-618b805cdefc",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22614,25 +22679,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "917602a8-b1cd-5aec-802f-525a3977f395",
-  "chunk_index": 512,
+  "parent_chunk_id": "25840cea-e45a-517f-84d5-87a6cbc1f4a8",
+  "chunk_index": 513,
   "page_number": 317,
   "page_range": [
     317,
     317
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `5fe8aa48-2628-5ce7-8d3f-618b805cdefc`
+## Child · `705bff03-68f3-5c32-91d5-21baa6d7fb9e`
 
-- vector: dim=3072 · [-0.0078, 0.0098, -0.0035, -0.0047, -0.0219, -0.0055, 0.0129, 0.0293, …]
+- vector: dim=3072 · [-0.0081, 0.0094, -0.0033, -0.0047, -0.0220, -0.0056, 0.0129, 0.0294, …]
 
 ```json
 {
-  "chunk_id": "5fe8aa48-2628-5ce7-8d3f-618b805cdefc",
+  "chunk_id": "705bff03-68f3-5c32-91d5-21baa6d7fb9e",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22650,25 +22715,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "917602a8-b1cd-5aec-802f-525a3977f395",
-  "chunk_index": 513,
+  "parent_chunk_id": "25840cea-e45a-517f-84d5-87a6cbc1f4a8",
+  "chunk_index": 514,
   "page_number": 317,
   "page_range": [
     317,
     318
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `705bff03-68f3-5c32-91d5-21baa6d7fb9e`
+## Child · `08eebf6e-c126-5491-abce-069e8268bf5f`
 
-- vector: dim=3072 · [-0.0291, 0.0181, -0.0010, -0.0030, -0.0136, -0.0101, 0.0177, 0.0279, …]
+- vector: dim=3072 · [-0.0273, 0.0180, -0.0014, -0.0022, -0.0142, -0.0105, 0.0176, 0.0293, …]
 
 ```json
 {
-  "chunk_id": "705bff03-68f3-5c32-91d5-21baa6d7fb9e",
+  "chunk_id": "08eebf6e-c126-5491-abce-069e8268bf5f",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22686,24 +22751,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 514,
+  "chunk_index": 515,
   "page_number": 318,
   "page_range": [
     318,
     318
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `e3592536-3a4c-536c-9fa4-cef031763d02`
+## Parent · `b8507ef9-9812-54cc-851a-578dee061206`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "e3592536-3a4c-536c-9fa4-cef031763d02",
+  "chunk_id": "b8507ef9-9812-54cc-851a-578dee061206",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -22725,18 +22790,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     318,
     319
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `08eebf6e-c126-5491-abce-069e8268bf5f`
+## Child · `281e8e68-75e2-5ff3-b15c-e0344c704093`
 
-- vector: dim=3072 · [-0.0063, 0.0183, -0.0045, -0.0124, -0.0238, -0.0171, 0.0099, 0.0342, …]
+- vector: dim=3072 · [-0.0061, 0.0181, -0.0045, -0.0129, -0.0240, -0.0176, 0.0099, 0.0339, …]
 
 ```json
 {
-  "chunk_id": "08eebf6e-c126-5491-abce-069e8268bf5f",
+  "chunk_id": "281e8e68-75e2-5ff3-b15c-e0344c704093",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22754,25 +22819,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "e3592536-3a4c-536c-9fa4-cef031763d02",
-  "chunk_index": 515,
+  "parent_chunk_id": "b8507ef9-9812-54cc-851a-578dee061206",
+  "chunk_index": 516,
   "page_number": 318,
   "page_range": [
     318,
     318
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `281e8e68-75e2-5ff3-b15c-e0344c704093`
+## Child · `31bc3cf9-d272-5583-bf71-053f01a463af`
 
-- vector: dim=3072 · [-0.0179, 0.0106, -0.0041, 0.0041, -0.0263, -0.0127, 0.0256, 0.0253, …]
+- vector: dim=3072 · [-0.0180, 0.0097, -0.0043, 0.0032, -0.0250, -0.0125, 0.0261, 0.0254, …]
 
 ```json
 {
-  "chunk_id": "281e8e68-75e2-5ff3-b15c-e0344c704093",
+  "chunk_id": "31bc3cf9-d272-5583-bf71-053f01a463af",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22790,25 +22855,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "e3592536-3a4c-536c-9fa4-cef031763d02",
-  "chunk_index": 516,
+  "parent_chunk_id": "b8507ef9-9812-54cc-851a-578dee061206",
+  "chunk_index": 517,
   "page_number": 318,
   "page_range": [
     318,
     318
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `31bc3cf9-d272-5583-bf71-053f01a463af`
+## Child · `19a64e8c-3adc-52fb-a05e-1984e8fa450b`
 
-- vector: dim=3072 · [-0.0005, 0.0019, -0.0005, 0.0007, -0.0309, -0.0058, 0.0240, 0.0294, …]
+- vector: dim=3072 · [-0.0006, 0.0019, -0.0005, 0.0007, -0.0309, -0.0060, 0.0242, 0.0293, …]
 
 ```json
 {
-  "chunk_id": "31bc3cf9-d272-5583-bf71-053f01a463af",
+  "chunk_id": "19a64e8c-3adc-52fb-a05e-1984e8fa450b",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22826,25 +22891,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "e3592536-3a4c-536c-9fa4-cef031763d02",
-  "chunk_index": 517,
+  "parent_chunk_id": "b8507ef9-9812-54cc-851a-578dee061206",
+  "chunk_index": 518,
   "page_number": 318,
   "page_range": [
     318,
     319
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `19a64e8c-3adc-52fb-a05e-1984e8fa450b`
+## Child · `6360a446-c908-5a7b-95b8-02d5aa69d669`
 
-- vector: dim=3072 · [-0.0149, 0.0210, -0.0043, -0.0164, -0.0201, -0.0118, -0.0064, 0.0365, …]
+- vector: dim=3072 · [-0.0150, 0.0210, -0.0043, -0.0163, -0.0201, -0.0116, -0.0064, 0.0366, …]
 
 ```json
 {
-  "chunk_id": "19a64e8c-3adc-52fb-a05e-1984e8fa450b",
+  "chunk_id": "6360a446-c908-5a7b-95b8-02d5aa69d669",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22862,24 +22927,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 518,
+  "chunk_index": 519,
   "page_number": 319,
   "page_range": [
     319,
     319
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Parent · `09738090-a6f5-5d2d-a2c2-b1f7eba496e1`
+## Parent · `927fa708-d529-5d6b-b6eb-76c2503fc0c1`
 
 - vector: dim=3072 · [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, …]
 
 ```json
 {
-  "chunk_id": "09738090-a6f5-5d2d-a2c2-b1f7eba496e1",
+  "chunk_id": "927fa708-d529-5d6b-b6eb-76c2503fc0c1",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": true,
   "source_type": "pdf",
@@ -22901,18 +22966,18 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     319,
     320
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `6360a446-c908-5a7b-95b8-02d5aa69d669`
+## Child · `64e24f6c-ba50-5724-83c4-8cc616a6c709`
 
-- vector: dim=3072 · [-0.0011, 0.0244, -0.0021, 0.0026, -0.0407, -0.0016, 0.0260, 0.0325, …]
+- vector: dim=3072 · [-0.0009, 0.0247, -0.0025, 0.0024, -0.0406, -0.0017, 0.0271, 0.0329, …]
 
 ```json
 {
-  "chunk_id": "6360a446-c908-5a7b-95b8-02d5aa69d669",
+  "chunk_id": "64e24f6c-ba50-5724-83c4-8cc616a6c709",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22930,25 +22995,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "09738090-a6f5-5d2d-a2c2-b1f7eba496e1",
-  "chunk_index": 519,
+  "parent_chunk_id": "927fa708-d529-5d6b-b6eb-76c2503fc0c1",
+  "chunk_index": 520,
   "page_number": 319,
   "page_range": [
     319,
     319
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `64e24f6c-ba50-5724-83c4-8cc616a6c709`
+## Child · `37d46543-672e-5b34-8606-30418791ac5b`
 
 - vector: dim=3072 · [-0.0101, 0.0316, 0.0021, -0.0100, -0.0328, -0.0224, 0.0065, 0.0298, …]
 
 ```json
 {
-  "chunk_id": "64e24f6c-ba50-5724-83c4-8cc616a6c709",
+  "chunk_id": "37d46543-672e-5b34-8606-30418791ac5b",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -22966,25 +23031,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "09738090-a6f5-5d2d-a2c2-b1f7eba496e1",
-  "chunk_index": 520,
+  "parent_chunk_id": "927fa708-d529-5d6b-b6eb-76c2503fc0c1",
+  "chunk_index": 521,
   "page_number": 319,
   "page_range": [
     319,
     320
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `37d46543-672e-5b34-8606-30418791ac5b`
+## Child · `fbff55f8-8049-584d-8d16-febcad6ed34e`
 
-- vector: dim=3072 · [-0.0165, 0.0322, -0.0028, 0.0121, -0.0158, -0.0149, 0.0078, 0.0314, …]
+- vector: dim=3072 · [-0.0164, 0.0323, -0.0027, 0.0121, -0.0157, -0.0148, 0.0076, 0.0317, …]
 
 ```json
 {
-  "chunk_id": "37d46543-672e-5b34-8606-30418791ac5b",
+  "chunk_id": "fbff55f8-8049-584d-8d16-febcad6ed34e",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -23002,25 +23067,25 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "parent_chunk_id": "09738090-a6f5-5d2d-a2c2-b1f7eba496e1",
-  "chunk_index": 521,
+  "parent_chunk_id": "927fa708-d529-5d6b-b6eb-76c2503fc0c1",
+  "chunk_index": 522,
   "page_number": 320,
   "page_range": [
     320,
     320
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `fbff55f8-8049-584d-8d16-febcad6ed34e`
+## Child · `36ad1b08-4793-5036-9101-98ea2d346f02`
 
-- vector: dim=3072 · [-0.0174, 0.0265, -0.0052, 0.0014, -0.0049, -0.0323, 0.0112, 0.0395, …]
+- vector: dim=3072 · [-0.0174, 0.0265, -0.0052, 0.0012, -0.0047, -0.0323, 0.0113, 0.0394, …]
 
 ```json
 {
-  "chunk_id": "fbff55f8-8049-584d-8d16-febcad6ed34e",
+  "chunk_id": "36ad1b08-4793-5036-9101-98ea2d346f02",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -23038,24 +23103,24 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 522,
+  "chunk_index": 523,
   "page_number": 320,
   "page_range": [
     320,
     320
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `36ad1b08-4793-5036-9101-98ea2d346f02`
+## Child · `43f9c451-1fbe-5031-9194-d6ccbba12d90`
 
 - vector: dim=3072 · [0.0033, -0.0021, -0.0092, 0.0026, -0.0247, -0.0137, 0.0094, 0.0067, …]
 
 ```json
 {
-  "chunk_id": "36ad1b08-4793-5036-9101-98ea2d346f02",
+  "chunk_id": "43f9c451-1fbe-5031-9194-d6ccbba12d90",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
@@ -23073,32 +23138,32 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 523,
+  "chunk_index": 524,
   "page_number": 321,
   "page_range": [
     321,
     321
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```
 
-## Child · `43f9c451-1fbe-5031-9194-d6ccbba12d90`
+## Child · `39fca670-bbf7-52d7-b09c-8ca1fb2794ad`
 
-- vector: dim=3072 · [-0.0223, 0.0077, -0.0046, 0.0176, -0.0308, -0.0107, -0.0020, 0.0137, …]
+- vector: dim=3072 · [-0.0215, 0.0073, -0.0056, 0.0177, -0.0304, -0.0096, -0.0022, 0.0116, …]
 
 ```json
 {
-  "chunk_id": "43f9c451-1fbe-5031-9194-d6ccbba12d90",
+  "chunk_id": "39fca670-bbf7-52d7-b09c-8ca1fb2794ad",
   "document_id": "advanced_green_fuels_for_maritime_pdf",
   "is_parent": false,
   "source_type": "pdf",
   "title": "Advanced-Green-fuels-for-Maritime.pdf",
   "section_heading": "8.\t https://www.livemint.com/industry/energy/posco-to-make-green-hydrogen-signs-mou-with-",
-  "chunk_text": "greenko-s-zeroc-11662039544742.html\n9.\t  Matalucci, U. G. a. S. (2024, February 19). The Hydrogen Stream: ReNew begins work on 1.2 \nmmtpa green ammonia plant in Odisha. Pv Magazine India. https://www.pv-magazine-india.\ncom/2024/02/19/the-hydrogen-stream-renew-begins-work-on-1-2-mmtpa-green-ammonia-\nplant-in-odisha/\n10.\t Methanol Institute. (2025, January 30). Renewable methanol | Methanol Institute. https://www.\nmethanol.org/renewable/\n11.\t Hydrogen Production and Infrastructure Projects Database - Data product  - IEA. (n.d.). IEA. https://\nwww.iea.org/data-and-statistics/data-product/hydrogen\n\n… [+881 more chars]",
-  "content_hash": "2d2f1ca1b7c05d714919f8022f13af90231c244487f0110b2a1657587740c77a",
-  "token_count": 460,
+  "chunk_text": "greenko-s-zeroc-11662039544742.html\n9.\t  Matalucci, U. G. a. S. (2024, February 19). The Hydrogen Stream: ReNew begins work on 1.2 \nmmtpa green ammonia plant in Odisha. Pv Magazine India. https://www.pv-magazine-india.\ncom/2024/02/19/the-hydrogen-stream-renew-begins-work-on-1-2-mmtpa-green-ammonia-\nplant-in-odisha/\n10.\t Methanol Institute. (2025, January 30). Renewable methanol | Methanol Institute. https://www.\nmethanol.org/renewable/\n11.\t Hydrogen Production and Infrastructure Projects Database - Data product  - IEA. (n.d.). IEA. https://\nwww.iea.org/data-and-statistics/data-product/hydrogen\n\n… [+877 more chars]",
+  "content_hash": "5705fa7fe5b5863c4e0c75989f86e08487b94fdf7727c6f265ea14c8cc8835c6",
+  "token_count": 458,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -23108,13 +23173,13 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "language": "en",
   "pdf_id": "advanced_green_fuels_for_maritime_pdf",
   "pdf_path": "Advanced-Green-fuels-for-Maritime.pdf",
-  "chunk_index": 524,
+  "chunk_index": 525,
   "page_number": 321,
   "page_range": [
     321,
-    323
+    322
   ],
-  "created_at": "2026-06-29T10:53:24.803509+00:00",
-  "updated_at": "2026-06-29T10:53:24.803509+00:00"
+  "created_at": "2026-06-30T08:31:42.797886+00:00",
+  "updated_at": "2026-06-30T08:31:42.797886+00:00"
 }
 ```

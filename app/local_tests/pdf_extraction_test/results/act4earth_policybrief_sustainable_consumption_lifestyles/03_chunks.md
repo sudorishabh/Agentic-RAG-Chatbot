@@ -225,7 +225,7 @@ General. Lifestyles could also be considered as a theme for the High-level Polit
 
 … [+6801 more chars]
 
-### Parent · section='Introduction' · pages=(18, 20) · 1104 tok
+### Parent · section='Introduction' · pages=(18, 20) · 1118 tok
 
 Introduction (cont.)
 
@@ -246,7 +246,7 @@ data-product/world-energy-statistics-and-balances (Last accessed on 25 October 2
 IPCC (Intergovernmental Panel on Climate Change). (2022). Summary for Policymakers. In: Climate Change 2022: 
 Mitigation of C
 
-… [+3224 more chars]
+… [+3292 more chars]
 
 ---
 
@@ -806,7 +806,7 @@ GOI (Government of India). (2022). India’s Updated First Nationally Determined
 
 … [+790 more chars]
 
-### Child 26 · section='Introduction' · page=18 · 303 tok
+### Child 26 · section='Introduction' · page=18 · 316 tok
 
 Hasija, G. Lisboa, S. Luz, J. Malley, (eds.)]. Cambridge University Press, 
 Cambridge, UK and New York, NY, USA. doi: 10.1017/9781009157926.001. Jambeck et al. (2015). Plastic waste inputs from land into the ocean. Science. 347(6223), 768-771 in Our World in Data. 
@@ -816,14 +816,17 @@ gov.in/press-releases.htm?dtl/35700/Indias_forthcoming_G20_Presidency (Last Acce
 NITI Aayog. (2022). Mission Document for LiFE (Lifestyle for Environment). New Delhi: NITI Aayog.
 TERI (The Energy and Resources Institute). (2022). Virtual Dialogue on Lifestyles and Sustainable Consumptio
 
-… [+279 more chars]
+… [+347 more chars]
 
-### Child 27 · section='Introduction' · page=20 · 456 tok
+### Child 27 · section='Introduction' · page=20 · 460 tok
 
-Act4Earth and World Sustainable Development Summit. New Delhi: The 
+New Delhi: The 
 Energy and Resources Institute.
 UNEP (United Nations Environment Programme). (2022). Global Strategy for Sustainable Consumption and Production 
-2023-2030. UNEP. 20	
+2023-2030. UNEP.
+
+Internationalizing Lifestyles for Environment: Messages for G20
+19 20	
 SDG Charter Policy Brief
 WORLD SUSTAINABLE 
 DEVELOPMENT SUMMIT
@@ -833,7 +836,6 @@ flagship Track II initiative organized by The Energy and Resources Institute
 decades for making ‘sustainable development’ a globally shared goal. 
 The only independently convened international Summit on sustainable 
 development and environment, based in the Global South, WSDS strives 
-to provide long-term solutions for the benefit of global communities by 
-assembli
+to provide long-term solutions for the benefit of global communit
 
-… [+1305 more chars]
+… [+1321 more chars]

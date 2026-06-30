@@ -218,36 +218,15 @@ Rosy Jan and Sumeer Gul
 Predatory publishing or quality research: Which is bigger challenge for India ...40
 Rosy Jan and Sumeer Gul
 
-Information literacy skills among faculty members of Central Universities in India: A survey ... 48
-Haleema Khatoon
-
-Digital Avatar: Is e-publishing future of publishing ... 64
-Anuradha Maurya
-
-Information e-resources for Generation Alpha: MRIS library as an information resource centre ...
-82
-Monika Mukh
-
-Children's right to read: community participation in improving reading ... 89
-Sarwesh Pareek
-
-Electronic publishing: A simplified approach ... 119
-Priyanka Roychowdhury and Subarna Kumar Das
-
-Campus TV through digital library: A never-ending possibility for knowledge streaming ... 133
-Shafiqunnabee Samadi and M A M Mominur Rahman
-
-Reinforcing library resources access for different abled person through assistive and other
-technologies ... 134
-Payel Shee
-
-Preservation of digital assets in libraries for present generation and posterity ... 144
-Vikas Singh and Archana Shukla
-
-Digital rights management (DRM) in India: Threat or opportunity to intellectual property rights
-(IPR) ... 152
-O P Verma and Somen Chakraborty
-
+Information literacy skills among faculty members of Central Universities in India: A survey ... 48 Haleema Khatoon
+Digital Avatar: Is e-publishing future of publishing ... 64 Anuradha Maurya
+Information e-resources for Generation Alpha: MRIS library as an information resource centre ... 82 Monika Mukh
+Children's right to read: community participation in improving reading ... 89 Sarwesh Pareek
+Electronic publishing: A simplified approach ... 119 Priyanka Roychowdhury and Subarna Kumar Das
+Campus TV through digital library: A never-ending possibility for knowledge streaming ... 133 Shafiqunnabee Samadi and M A M Mominur Rahman
+Reinforcing library resources access for different abled person through assistive and other technologies ... 134 Payel Shee
+Preservation of digital assets in libraries for present generation and posterity ... 144 Vikas Singh and Archana Shukla
+Digital rights management (DRM) in India: Threat or opportunity to intellectual property rights (IPR) ... 152 O P Verma and Somen Chakraborty
 Author Index ... 163
 
 Foreword
@@ -7563,51 +7542,18 @@ CONFERENCE POSTERS
 AUTHOR INDEX
 163
 
-ICDL 2019 WEBCASTING
-Supported by
-Indira Gandhi National Open University (IGNOU)
-
-teri
-
-ICDL
-2019
-INTERNATIONAL CONFERENCE ON DIGITAL LANDSCAPE
-DIGITAL TRANSFORMATION
-FOR AN AGILE ENVIRONMENT
-
+ICDL 2019 WEBCASTING Supported by Indira Gandhi National Open University (IGNOU)
 THE ENERGY AND RESOURCES INSTITUTE
-
-November 6-8, 2019 | New Delhi
-
+ICDL 2019 INTERNATIONAL CONFERENCE ON DIGITAL LANDSCAPE DIGITAL TRANSFORMATION FOR AN AGILE ENVIRONMENT
+November 6-8. 2019 | New Delhi
 Corporate Sponsor
-
 Partners
-
-Planinians
-
-B
-
-\-
-
 Associates
-
-5
-
-Knowledge Partoen
-
-C
-
-RAAML
-
-\-
-
-Agnou
-R
-
-00 30 30:30
-
-6
-E
+Đ
+50
+Knowledge Partoun
+0
+Copyright ( 2019 LIC,IGNOU. All rights reserved.
 
 Editor-in-Chief   Prof. 
 Editor   Dr Partha Kalyan Bhattacharya

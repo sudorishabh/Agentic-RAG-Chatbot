@@ -1,42 +1,51 @@
 # Chunking (chunk_pdf) — Advanced-Green-fuels-for-Maritime.pdf
 
-- parents: **128**
-- children: **525**
+- parents: **129**
+- children: **526**
 
 ---
 
 ## Parent chunks
 
-### Parent · section='MESSAGE' · pages=(3, 3) · 561 tok
+### Parent · section=None · pages=(1, 3) · 1425 tok
 
-MESSAGE
+National Centre of Excellence in Green Port and 
+Shipping (NCoEGPS)
 
-from
-THE DIRECTOR GENERAL OF SHIPPING
-GREEN FUELS ROADMAP REPORT BY DR. PIYALI DAS
+ii
+©TERI All Rights Reserved, 2026
+No part of this Publication may be reproduced, stored in a retrieval system or transmitted in any 
+form or by any means, electronic, mechanical, photocopying, recording or otherwise, without prior 
+permission of the copyright owner.
+Suggested citation:
+Das, P., Soodesh, Y.C., Upadhyay, P., Valera, H. A., (2026), “Advanced Green fuels for Maritime 
+Application-Road Map for India (Part A)” NCoEGPS, TERI, New Delhi, India
+THE TEAM
+Principal Investigator (PI) and Author
+Dr. Piyali Das  (Associate Director- Advance Biofuel Division & NCoEGPS, TERI)
+Team Members and Co-authors
+•	
+Er. Yogin Soodesh C (Research Associate, NCoEGPS, TERI )
+•	
+Dr. Praveenkumar Upadhyay (Associate Fellow, NCoEGPS, TERI)
+•	
+Er. Hardikkumar A Valera (Alternate Fuel Engine Consultant )
+Mentors 
+•	
+Dr Vibha Dhawan (Director General, TERI)
+•	
+Shri R R Rashmi (Distinguished Fellow & Green Shipping Program Director, TERI)
+Internal Reviewers
+•	
+Shri Ajay Shankar (Distinguished Fellow, DGO, TERI)
+•	
+Shri IV Rao (Distinguished Fellow, Transport and Urban Governance Division, TERI)
+•	
+Dr Manish Kumar Srivastava (Associ
 
-It is a privilege to present the NCoEGPS Green Fuel Roadmap - Part A, which represents an important
-analytical milestone in India's transition towards a low-carbon and future-ready maritime sector. Developed
-under the National Centre of Excellence for Green Port and Shipping (NCoEGPS), this report reflects a
-structured and collaborative effort to assess viable green fuel pathways for Indian maritime applications, with
-active engagement from the Directorate General of Shipping and other key technical stakeholders.
+… [+4342 more chars]
 
-India's maritime sector is at a critical juncture, where decarbonisation imperatives must be pursued in a manner
-that is technically robust, operationally safe and economically viable. In this context, the present study provides
-a comprehensive and evidence-based assessment of a spectrum of low-carbon and alternative fuel pathways
-relevant to Indian maritime operations, examined through lifecycle and Greenhouse Gas Fuel Intensity (GFI)-
-based analytical parameters.
-
-The report adopts a systematic and data-driven framework and goes beyond conceptual discussions by analysing
-demand 
-
-… [+1823 more chars]
-
-### Parent · section='(Shyam Jagannathan)' · pages=(4, 9) · 1446 tok
-
-(Shyam Jagannathan)
-
-1-22 2575 2011 • ई-म
+### Parent · section=None · pages=(5, 9) · 1412 tok
 
 v
 Foreward
@@ -55,9 +64,9 @@ through mandatory, Greenhouse Gas Fuel Intensity (GFI) based emission targets. B
 from Tank-to-Wake to Well-to-Wake emissions and introducing market-based mechanisms, such as, 
 Surplus and Remedial Units, the framework provides both regulatory certainty and economic signals 
 for accelerating the uptake of low-carbon and zero or near-zero (ZNZ) fuels.
-In this co
+In this context, NCoEGPS has conducted a comprehensiv
 
-… [+6245 more chars]
+… [+6180 more chars]
 
 ### Parent · section='References' · pages=(9, 10) · 801 tok
 
@@ -270,7 +279,7 @@ FAME
 
 … [+5687 more chars]
 
-### Parent · section='(India Status)' · pages=(28, 32) · 1844 tok
+### Parent · section='(India Status)' · pages=(28, 33) · 1882 tok
 
 (India Status) (cont.)
 
@@ -301,22 +310,18 @@ FAME
 | YSZ | Yttria-stabilized Zirconia |
 | ZNZ | Zero & Near Zero Emission Fuels |
 
+05/10• फैक्स/Fax: +
+
 In April 2025, during 83rd meeting of Marine Environment Protection Committee (MEPC 83), IMO 
 has introduced Net Zero Framework setting mandatory GHG Fuel Intensity (GFI) based target for 
 emission reduction from all global ships above 5000 GT. The GFI of a fuel sets a threshold on the 
-annual well to wake GHG emi
+annual
 
-… [+6871 more chars]
+… [+6932 more chars]
 
-### Parent · section='Executive Sum' · pages=(33, 35) · 1280 tok
+### Parent · section='(India Status)' · pages=(34, 35) · 1278 tok
 
-Executive Sum
-
-mary
-
-5
-
-</
+(India Status) (cont.)
 
 Presently there are stringent environmental standards and regulatory focus on maritime 
 decarbonization. IMO, the governing body of international shipping, has set an overall goal of net 
@@ -329,9 +334,10 @@ their fuel portfolio and increasingly seek low-sulfur, low-carbon and also zero 
 It is perceived that future use of maritime fuel will have multi fuel mix owing to present uncertainty 
 about which alternative fuel option will be able to support a future-proof asset and operation.
 Among global initiatives on GHG reduction from maritime ports and vessels; Getting to Zero 
-Coalition, International Collaboration on Ship Emissions Reductions Initiative, World Ports Clima
+Coalition, International Collaboration on Ship Emissions Reductions Initiative, World Ports Climate 
 
-… [+4928 more chars]
+
+… [+4924 more chars]
 
 ### Parent · section='Chapter 4' · pages=(35, 39) · 2062 tok
 
@@ -1540,9 +1546,9 @@ new builds or as retro fitment strategy for vess
 
 … [+5259 more chars]
 
-### Parent · section='Chapter 1 — Statistics — Introduction' · pages=(96, 96) · 666 tok
+### Parent · section='Introduction' · pages=(96, 96) · 660 tok
 
-Chapter 1 — Statistics — Introduction
+Introduction
 
 This section presents the Indian and Global vessel statistics covering all types of vessels along 
 with transition trend of alternative fuels vessels including green/sustainable fuels (Bio & E- 
@@ -1558,9 +1564,9 @@ and Methanol adoption followed by Biofuels (majorly Biodiesel) close contenders 
 (ICE). Hydrogen and Ammonia are largely seen transitioning into smaller inland water vessels 
 and Fuel Cell  powered ships respectively.
 Methodology
-All Data are collected from peer reviewed Internation
+All Data are collected from peer reviewed International and National research 
 
-… [+1824 more chars]
+… [+1799 more chars]
 
 ### Parent · section='Coastal Vessel Statistics — 1.1.1\t Vessels Details (Indian Coastal)' · pages=(97, 98) · 569 tok
 
@@ -1619,7 +1625,7 @@ in the 30k-50k GT
 
 … [+1156 more chars]
 
-### Parent · section='1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)' · pages=(103, 107) · 1488 tok
+### Parent · section='1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)' · pages=(103, 107) · 1487 tok
 
 1.2.2	 Vessel Details and Fuel Consumption (Global OGVs)
 
@@ -1636,11 +1642,11 @@ and Blanks (96 vessels). The 50k-100k GT category similarly shows VLS IFO as the
 3542 vessels, alongside IFO 380 (1620 vessels), LNG, VLS IFO (157 vessels), and Blanks (141 vessels). 
 For vessels over 100k GT, VLS IFO remains prevalent with 969 vessels, followed closely by
 
-… [+4685 more chars]
+… [+4687 more chars]
 
-### Parent · section='Chapter — Introduction' · pages=(108, 110) · 1881 tok
+### Parent · section='Introduction' · pages=(108, 110) · 1879 tok
 
-Chapter — Introduction
+Introduction
 
 As the maritime industry speeding up its journey towards decarbonization, Alternative Fuels are 
 becoming essential for meeting global climate targets. This chapter takes a closer look at the 
@@ -1654,13 +1660,13 @@ cost, safety, storage, and reductions in greenhouse gas emissions—that play a 
 choice and long-term viability.
 The alternative fuels considered here are Methanol, Ethanol, Ammonia, Hydrogen, Liquified Natural 
 Gas (LNG), and Biodiesel. As seen from in-service data procured from Clarckson Research Database [1] 
-in Section 2.1 today ~98% of ships operate on con
+in Section 2.1 today ~98% of ships operate on conventional 
 
-… [+5708 more chars]
+… [+5698 more chars]
 
-### Parent · section='Chapter — Introduction' · pages=(110, 113) · 1856 tok
+### Parent · section='Introduction' · pages=(110, 113) · 1854 tok
 
-Chapter — Introduction (cont.)
+Introduction (cont.)
 
 | S. No. | Alternative fuel type | Mono/ dual fuel with | Number of vessels | GT range Min-max | Dominated by GT Range |
 | --- | --- | --- | --- | --- | --- |
@@ -1677,13 +1683,13 @@ Chapter — Introduction (cont.)
 It is apparent from Figure 2.2 (order book data) that among all the alternative fuel considered, LNG 
 still dominates with 991 vessels (67%) followed by Methanol with 251 vessels ordered respectively, 
 constituting 17% of the total orders. Following closely, LPG accounts for 114 vessels (8%). Ethane 
-follows with 45 vessels (3%), while Ammonia, Biofuel, and
+follows with 45 vessels (3%), while Ammonia, Biofuel, and Hydrogen 
 
-… [+4803 more chars]
+… [+4793 more chars]
 
-### Parent · section='Chapter — Introduction' · pages=(114, 114) · 602 tok
+### Parent · section='Introduction' · pages=(114, 114) · 600 tok
 
-Chapter — Introduction (cont.)
+Introduction (cont.)
 
 Ethane is limited to 24 vessels, primarily used in larger vessels, especially in the >50000 GT 
 range (20 vessels). This niche application highlights its use in very large gas carriers and specialized 
@@ -1706,9 +1712,9 @@ Comparison of order book data against in-service data makes it evident that the 
 fuel adoption along the GT distribution is identical for both only with the exception for Ammonia, 
 Hydrogen and Biodiesel.
 	»
-In orderbook LNG is leading with 991 vessels, primarily in the >50K G
+In orderbook LNG is leading with 991 vessels, primarily in the >50K GT category
 
-… [+1170 more chars]
+… [+1160 more chars]
 
 ### Parent · section='Among Green/e-Fuel options' · pages=(117, 124) · 1032 tok
 
@@ -1739,7 +1745,7 @@ suggesting diverse strategies and regulatory fr
 
 … [+3062 more chars]
 
-### Parent · section='Among the Alternative Fuel Shipbuilders' · pages=(125, 127) · 1227 tok
+### Parent · section='Among the Alternative Fuel Shipbuilders' · pages=(125, 127) · 1235 tok
 
 Among the Alternative Fuel Shipbuilders
 
@@ -1768,11 +1774,11 @@ Orderbook analysis shows
 	»
 Biofuel 
 
-… [+2532 more chars]
+… [+2567 more chars]
 
-### Parent · section='Chapter 3 — Alternative Fuel Powered — Introduction' · pages=(128, 133) · 1534 tok
+### Parent · section='Introduction' · pages=(128, 133) · 1526 tok
 
-Chapter 3 — Alternative Fuel Powered — Introduction
+Introduction
 
 India’s Net Zero ambitions needs its shipping industry to move towards adoption of alternative 
 fuels-operated marine engines. The use of alternative fuels in marine engines will contribute to (i) 
@@ -1786,9 +1792,9 @@ distribution of gross tonnage vessels as well as different types of ships. It is
 the existing marine engines and fuel system components are compatible only with conventional fuels, 
 whereas most of the alternate fuels not only differ in their distinct physio-chemical properties, but 
 they also have distinct combustion characteristics and thus demand different material supply chains. 
-The respective bunkering sy
+The respective bunkering systems also need varying degrees of upgr
 
-… [+5535 more chars]
+… [+5496 more chars]
 
 ### Parent · section='3.1 Alternative Fuel Operated Large Bore Marine Engines — (Technology Status)' · pages=(134, 136) · 1472 tok
 
@@ -1969,6 +1975,30 @@ September 19, 2024).
 14.	 BMWK - AmmoniaMot - Ammonia as the ship fuel of t
 
 … [+4479 more chars]
+
+### Parent · section='3.4.1\t Commercial Hydrogen Fueled Marine Engines' · pages=(153, 156) · 800 tok
+
+3.4.1	 Commercial Hydrogen Fueled Marine Engines (cont.)
+
+38.	 Dai P, Chen Z, Gan X, Liberman MA. Autoignition and detonation development from a hot spot 
+inside a closed chamber: Effects of end wall reflection. Proc Combust Inst 2021;38(4):5905–13. 
+https://doi.org/10.1016/J.PROCI.2020.09.025.
+39.	 Khalid AH, Muhamad Said MF, Veza I, Abas MA, Roslan MF, Abubakar S, et al. Hydrogen port fuel 
+injection: Review of fuel injection control strategies to mitigate backfire in internal combustion 
+engine fuelled with Hydrogen. Int J Hydrogen Energy 2024;66:571–81. https://doi.org/10.1016/J.
+IJHYDENE.2024.04.087.
+40.	 Liu X, Yang L, Chan QN, Kook S. Split injection strategies for a high-pressure hydrogen direct 
+injection in a small-bore dual-fuel diesel engine. Int J Hydrogen Energy 2024;57:904–17. https://
+doi.org/10.1016/J.IJHYDENE.2024.01.065.
+41.	 Schultze M, Ohler S and Magar M. Upgrade of lean-burn gas engines to the future hydrogen 
+admixture in the natural gas grid. In: Rostock large engine conference, Rostock, 2022(Cross 
+Reference)
+
+ernative Fuel Powered Marine Engines (ICE) for Decarb
+
+In this Chapter, the Section 4.1 provides a comparative assessment of the alternative fuels b
+
+… [+1957 more chars]
 
 ### Parent · section='NOX — Methanol slip — Formaldehyde — NOX — Ammonia slip — N2O — NOX — Hydrogen slip — NOX — CO — PM' · pages=(158, 159) · 1519 tok
 
@@ -2587,9 +2617,9 @@ on existing containerships. In Proceedings of
 
 … [+1280 more chars]
 
-### Parent · section='Introduction' · pages=(230, 231) · 736 tok
+### Parent · section='nizing Shipping — Chapter 4 Comparative Assessment of Alternative Fuels — Chapte — Introduction' · pages=(230, 231) · 753 tok
 
-Introduction
+nizing Shipping — Chapter 4 Comparative Assessment of Alternative Fuels — Chapte — Introduction
 
 IMO has set the ambitious target to cut down the GHG emissions from international shipping to reach 
 net zero by or around, i.e. close to, 2050. Fuel cells stand out to be one of the promising options 
@@ -2602,9 +2632,9 @@ operational, economic and technical con that the shipping industry must address.
 This chapter offers a comprehensive overview of different types of Fuel cells in marine examining 
 their adaptability, their present status, suitability, operational profiles and the prospects it holds 
 for India. Each type of Fuel Cell  has its unique characteristics in terms of efficiency, power density, 
-durability and the operational temperatures. The infrastructure and logistics required 
+dura
 
-… [+2603 more chars]
+… [+2686 more chars]
 
 ### Parent · section='5.2 \t Comparison of Key Characteristics of Fuel Cells' · pages=(231, 235) · 937 tok
 
@@ -3382,7 +3412,7 @@ for Heavy Duty Applications) which is primarily aimed a
 
 … [+1640 more chars]
 
-### Parent · section='Recommendations for India' · pages=(256, 259) · 1775 tok
+### Parent · section='Recommendations for India' · pages=(256, 259) · 1780 tok
 
 Recommendations for India
 
@@ -3405,11 +3435,11 @@ be integrated too.
 	»
 India should develop small to mid-sized (100-500ekW) LTMFC Fuel Cell ships (PSV, Ferries, 
 
-… [+4870 more chars]
+… [+4891 more chars]
 
-### Parent · section='Chapter 6 — Shipping' · pages=(260, 261) · 1756 tok
+### Parent · section='Recommendations for India' · pages=(260, 261) · 1757 tok
 
-Chapter 6 — Shipping
+Recommendations for India (cont.)
 
 Globally Marine sector is moving towards LNG (near and medium term though fossil-based but later 
 can be shifted to CBG), Methanol (immediate), and Hydrogen & Ammonia (long term) as dual fuel & 
@@ -3422,9 +3452,9 @@ decarbonization option in synergy with broader green energy sector will accrue l
 Each of these fuels have intrinsic strengths and limitations that could favour that fuel under specific 
 circumstances. In a recent study as shown in Table 6.1, a critical assessment is also made on the 
 possibility of integrating deployment of these low carbon bio/green fuels in combination with CCS 
-for ambitious emission reduction in marine sector [2]. This awareness though pre
+for ambitious emission reduction in marine sector [2]. This awarene
 
-… [+5156 more chars]
+… [+5169 more chars]
 
 ### Parent · section='6.1.2\t Viable Options for Onboard CO₂ Storage' · pages=(263, 265) · 1510 tok
 
@@ -3534,7 +3564,7 @@ and energy resources. The feasible method for storing captured CO₂ onboard is 
 
 … [+4771 more chars]
 
-### Parent · section='Conclusions' · pages=(275, 276) · 1314 tok
+### Parent · section='Conclusions' · pages=(275, 277) · 1419 tok
 
 Conclusions (cont.)
 
@@ -3553,20 +3583,11 @@ Japan Government Initiative to Support Development of Marine Resource Technologi
 August 5). Mitsubishi Heavy Industries, Ltd. https://www.mhi.com/news/21080501.html
 12.	 Mitsubishi Heavy Industries | “CC-Ocean” Marine-based CO2 C
 
-… [+3332 more chars]
+… [+3621 more chars]
 
-### Parent · section='28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf' · pages=(276, 280) · 2599 tok
+### Parent · section='Chapter 6 Shipping Fuels and Possibility o' · pages=(278, 280) · 2491 tok
 
-28.	 https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf
-
-29.	 Ahmed, Y. A., Lazakis, I., & Mallouppas, G. (2025c).   Marine Systems & Ocean Technology, 20(1). 
-https://doi.org/10.1007/s40868-024-00161-w
-
-Fuels and
-Possibility of On-Board
-Carbon Capture
-
-4
+Chapter 6 Shipping Fuels and Possibility o
 
 Table7.1 presents the overview of the  IMO’s ongoing initiatives through the MEPC aimed at tackling 
 greenhouse gas (GHG) emissions from international shipping. It tracks tracks significant progress 
@@ -3589,9 +3610,21 @@ term strategy
 mid-term measures
 MEPC 78 (2022)
 Approval of mid-
-term 
+term measure 
+development
+- “Basket of candidate mid-term measures” approved
+Includes:
+• Fuel/energy standards
+• Carbon pricing/taxation
+MEPC 80 (2023)
+Comparative 
+analysis
+- Identified commonalities in proposed technical & 
+economic elements
+- Supported a goal-based fuel standard:
+• 20% GHG reduc
 
-… [+8449 more chars]
+… [+8155 more chars]
 
 ### Parent · section='91.16 g CO2eq/MJ) every 5 years' · pages=(280, 281) · 1871 tok
 
@@ -3787,9 +3820,9 @@ the International Code of Safety for Ships
 
 … [+6716 more chars]
 
-### Parent · section='Annexure I — IMO LCA Methodological Guidance' · pages=(292, 293) · 1490 tok
+### Parent · section='On-Board — Annexure I — IMO LCA Methodological Guidance' · pages=(292, 293) · 1493 tok
 
-Annexure I — IMO LCA Methodological Guidance
+On-Board — Annexure I — IMO LCA Methodological Guidance
 
 The Life Cycle Assessment (LCA) is considered by the IMO as the methodological approach to 
 comprehensively assess the environmental impact of an energy carrier for maritime transport, from 
@@ -3803,13 +3836,13 @@ wake (WtW) greenhouse gases (GHG) intensity and sustainability themes/aspects re
 fuels/energy carriers (e.g. electricity for shore power) used for ship propulsion and power generation 
 onboard. The relevant GHGs included are carbon dioxide (CO2), methane (CH4) and nitrous oxide 
 (N2O). These guidelines are not intended to provide guidance for a complete IMO GHG inventory 
-for international shipping. Emissions from cargo (e.g. volatile organic compounds (VOC))
+for international shipping. Emissions from cargo (e.g. volatile organic compo
 
-… [+3815 more chars]
+… [+3826 more chars]
 
-### Parent · section='Annexure I — IMO LCA Methodological Guidance' · pages=(294, 294) · 1620 tok
+### Parent · section='On-Board — Annexure I — IMO LCA Methodological Guidance' · pages=(294, 294) · 1623 tok
 
-Annexure I — IMO LCA Methodological Guidance (cont.)
+On-Board — Annexure I — IMO LCA Methodological Guidance (cont.)
 
 The WtT GHG emission factor (gCO2eq/MJ(LCV) fuel or electricity) is calculated according to  
 Equation (1).
@@ -3847,9 +3880,9 @@ a g r i c u l t u r a l
 management)6
 𝑒𝑐𝑐𝑠
 gCO2eq / MJ(LCV)
-Emissions credit from carbon capture and storage (e
+Emissions credit from carbon capture and
 
-… [+3870 more chars]
+… [+3881 more chars]
 
 ### Parent · section='b)\t TANK-TO-WAKE (TtW)' · pages=(295, 295) · 1401 tok
 
@@ -4797,7 +4830,7 @@ PEM
 
 ## Child chunks
 
-### Child 0 · section=None · page=1 · 533 tok
+### Child 0 · section=None · page=1 · 457 tok
 
 National Centre of Excellence in Green Port and 
 Shipping (NCoEGPS)
@@ -4819,61 +4852,44 @@ Er. Yogin Soodesh C (Research Associate, NCoEGPS, TERI )
 •	
 Dr. Praveenkumar Upadhyay (Associate Fellow, NCoEGPS, T
 
-… [+1097 more chars]
+… [+858 more chars]
 
-### Child 1 · section='Message from the Director General of Shipping' · page=3 · 196 tok
+### Child 1 · section=None · page=2 · 538 tok
 
-श्याम जगन्नाथन, भा.प्र.से.
-नौवहन महानिदेशक
-एवं अपर सचिव, भारत सरकार
-Shyam Jagannathan, L.A.S.
-Director General of Shipping &
-Additional Secretary to the Govt. of India
+-NCoEGPS, Resource 
+Efficiency and Governance Division, TERI)
+External Reviewers
+•	
+Shri Vikrant Rai (Principal Officer cum Joint DG Tech MMD Kolkata)
+•	
+Shri Satish Kamath (Deputy Chief Surveyor cum DDG, DG Shipping)
+• Shri Pravin Kumar Roy (Engineer and Ship Surveyor cum Dep DG, Tech, DG Shipping) CSL
+•	
+Mr Deepu Surendran (Chief General Manager, C-SAS, BD-SB &BD, Cochin Shipyard Ltd)
+•	
+Mr Anish S (Deputy General Manager, C-SAS, Cochin Shipyard Ltd)
 
-बलदेव बचने
+Message from the Director General of Shipping
+श्याम जगन्नाथन, भा.प्र. से. नौवहन महानिदेशक एवं अपर सचिव, भारत सरकार Shyam Jagannathan, L.A.S. Director General of Shipping & Additional Secretary to the Govt. of India
+बलदेव बरतें
+भारत सरकार Government of India पत्तन, पोत परिवहन और जलमार्ग मंत्रालय MINISTRY OF PORTS, SHIPPING AND WATERWAYS नौवह
 
-भारत सरकार
-Government of India
-पत्तन, पोत परिवहन और जलमार्ग मंत्रालय
-MINISTRY OF PORTS, SHIPPING AND WATERWAYS
-नौवहन महानिदेशालय
-Directorate General of Shipping
+… [+1125 more chars]
 
-### Child 2 · section='MESSAGE' · page=3 · 369 tok
+### Child 2 · section=None · page=3 · 382 tok
 
-from
-THE DIRECTOR GENERAL OF SHIPPING
-GREEN FUELS ROADMAP REPORT BY DR. PIYALI DAS
+In this context, the present study provides a comprehensive and evidence-based assessment of a spectrum of low-carbon and alternative fuel pathways relevant to Indian maritime operations, examined through lifecycle and Greenhouse Gas Fuel Intensity (GFI)- based analytical parameters. The report adopts a systematic and data-driven framework and goes beyond conceptual discussions by analysing demand - supply dynamics, fuel mix scenarios, retrofitting and engine replacement pathways, as well as blend- fuel options that can be implemented without major engine modifications. Such granular assessment is essential for enabling a phased and realistic transition of the Indian fleet, while remaining aligned with evolving international regulatory developments and compliance trajectories.
+The Director
 
-It is a privilege to present the NCoEGPS Green Fuel Roadmap - Part A, which represents an important
-analytical milestone in India's transition towards a low-carbon and future-ready maritime sector. Developed
-under the National Centre of Excellence for Green Port and Shipping (NCoEGPS), this report reflects a
-structured and collaborative effort to assess viable green fuel pathways for Indian maritime applications, with
-active engagement from the Directorate General of Shipping and other key technical stakeholders.
+… [+1434 more chars]
 
-India's maritime sector is at a critical juncture, where decarbonisation imperatives must be pursued in a manner
-that is technically robust, operationally safe and economically viable. In this con
+### Child 3 · section=None · page=3 · 215 tok
 
-… [+1197 more chars]
+I am confident that this roadmap will serve as a valuable reference for policymakers, industry stakeholders and technical experts as India advances towards a structured. safe and sustainable transition to green fuels in maritime transport.
+Mumbai Date: 12.01.2026
+(Shyam Jagannathan) 9वीं मंज़िल, बीटा बिल्डींग, आई थिंक टेक्नो कैम्पस, कांजुर गाँव रोड, कांजुरमार्ग (पूर्व), मुंबई-400042 9th Floor, BETA Building, I-Think Techno Campus, Kanjur Village Road, Kanjurmarg (E), Mumbai-400042 दूरभाष/Tel:No .: +91-22-
 
-### Child 3 · section='MESSAGE' · page=3 · 228 tok
-
-The findings and
-recommendations presented herein provide a strong technical foundation for the next stage of work, which must
-focus on translating analytical outcomes into clear, time-bound and implementable actions. The immediate priority going forward is the development of Phase II, encompassing a comprehensive
-implementation plan with defined short-, medium- and long-term action points for coastal vessels and foreign-
-going vessels. This phase will require close coordination among the Directorate General of Shipping, the
-NCoEGPS Green Fuel team and relevant technical and classification institutions, with due consideration of
-vessel typologies, size categories, fuel standards, certification frameworks and data-driven compliance
-mechanisms.
-
-I place on record my appreciation for the effo
-
-… [+433 more chars]
-
-### Child 4 · section='(Shyam Jagannathan)' · page=4 · 455 tok
-
-1-22 2575 2011 • ई-म
+### Child 4 · section=None · page=5 · 440 tok
 
 v
 Foreward
@@ -4888,11 +4904,11 @@ and vision of Ministry of Port, Shipping and Waterways (MoPSW),
 Government of India. 
 The proposed adoption of the IMO Net-Zero Framework at the 83rd meeting of the Marine Environment 
 Protection Committee (MEPC 83) marks a decisive step towards decarbonizing international shipping 
-thro
+through mandatory, Greenho
 
-… [+1218 more chars]
+… [+1196 more chars]
 
-### Child 5 · section='(Shyam Jagannathan)' · page=5 · 247 tok
+### Child 5 · section=None · page=5 · 237 tok
 
 Additionally, alternative fuel 
 demand is also estimated for Coastal vessels < 5000GT. This report also covers alternative fuel marine 
@@ -4905,26 +4921,24 @@ TERI believes that evidence-based research, pilot demonstrations, and enabling s
 play a crucial role in supporting India’s transition to sustainable maritime fuels. Equally important 
 i
 
-… [+504 more chars]
+… [+482 more chars]
 
-### Child 6 · section='(Shyam Jagannathan)' · page=7 · 470 tok
+### Child 6 · section=None · page=7 · 497 tok
 
+I believe this report will serve as a valuable resource for policymakers, industries, 
+researchers, and investors as India charts its course towards a resilient, low-emission maritime sector. 
 Dr. Vibha Dhawan 
 Director General 
-The Energy and Resources Institute (TERI)
-
-ेल/Email : dg-dgs@go TERI is deeply grateful to Shri T.K. Ramachandran, Erstwhile Secretary of India’s Ministry of Ports, 
+The Energy and Resources Institute (TERI) TERI is deeply grateful to Shri T.K. Ramachandran, Erstwhile Secretary of India’s Ministry of Ports, 
 Shipping and Waterways (MoPSW), Shri Vijay Kumar, Secretary, MoPSW, Shri Rajesh Kumar Sinha, 
 Special Secretary, MoPSW & Shri Mandeep Singh Randhawa, Director, MoPSW for their constant 
 guidance, support and directions given to team during review meetings. 
 The project team would like to acknowledge the invaluable contributions of External Review 
-Committee members especially from Director General of Shipping and Cochin Shipyard Ltd, namely, 
-Shri Vikrant Rai Principal Officer cum Joint DG Tech MMD Kolkata), Shri Satish Kamath (Deputy Chief 
-Surveyor cum DDG, DG Shipping), Shri Pravin Kumar 
+Committee members especially from Director General of Shipping and Cochin Shi
 
-… [+1070 more chars]
+… [+1241 more chars]
 
-### Child 7 · section='(Shyam Jagannathan)' · page=7 · 377 tok
+### Child 7 · section=None · page=7 · 377 tok
 
 Special appreciation goes to TERI green fuel research 
 team for their dedication and the team of TERI Press which includes Ms Anupama Jauhry, Mr Abhaas Mukherjee, Mr Sudeep Pawar and Mr Aman Sachdeva for carrying out editing and designing of the 
@@ -5693,7 +5707,7 @@ USD/t
 
 … [+153 more chars]
 
-### Child 41 · section='(India Status)' · page=28 · 247 tok
+### Child 41 · section='(India Status)' · page=28 · 262 tok
 
 | Abbreviations | Definitions |
 | --- | --- |
@@ -5721,24 +5735,24 @@ USD/t
 | WTW | Well To Wake |
 | YSZ | Yttria-stab
 
-… [+59 more chars]
+… [+80 more chars]
 
 ### Child 42 · section='(India Status)' · page=30 · 494 tok
 
-States Dollars/Ton |
-| v/v | Volume%/Volume % |
-| VLS | Very Low Sulfur |
+VLS | Very Low Sulfur |
 | WTW | Well To Wake |
 | YSZ | Yttria-stabilized Zirconia |
-| ZNZ | Zero & Near Zero Emission Fuels | In April 2025, during 83rd meeting of Marine Environment Protection Committee (MEPC 83), IMO 
+| ZNZ | Zero & Near Zero Emission Fuels |
+
+05/10• फैक्स/Fax: + In April 2025, during 83rd meeting of Marine Environment Protection Committee (MEPC 83), IMO 
 has introduced Net Zero Framework setting mandatory GHG Fuel Intensity (GFI) based target for 
 emission reduction from all global ships above 5000 GT. The GFI of a fuel sets a threshold on the 
 annual well to wake GHG emission expressed per unit of energy used (gCO₂eq/MJ) and it is extremely 
 critical for accurate assessment of the true environmental benefits and overall climate performance 
 of the alternative marine fuels. Under new framework, ships achieving emission targets are eligible to 
-earn Surplus Units (SUs) which 
+earn Surplus Units (SUs) which can be traded, saved, or canc
 
-… [+1246 more chars]
+… [+1217 more chars]
 
 ### Child 43 · section='(India Status)' · page=30 · 480 tok
 
@@ -5767,7 +5781,7 @@ As a long term decarboniza
 
 … [+1383 more chars]
 
-### Child 45 · section='(India Status)' · page=31 · 295 tok
+### Child 45 · section='(India Status)' · page=31 · 318 tok
 
 There is a heightened need to increasingly implement CO2 capture on-board and switching over to bio/ synthetic e-fuels from HFO with the advancement of alternate fuel engines. Immediate implementation 
 strategy needs to be developed to pilot dual-fuel and multifuel blend in existing engines with OCC in 
@@ -5777,15 +5791,9 @@ of CCUS projects through valorisation of adsorbed CO2 especially for India with 
 storage sites along with innovation in sustainable CO2 adsorption material production.
 In order to facilitate early transition to ZNZ fuels, India urgently needs to develop standards fo
 
-… [+577 more chars]
+… [+617 more chars]
 
-### Child 46 · section='Executive Sum' · page=33 · 447 tok
-
-mary
-
-5
-
-</
+### Child 46 · section='(India Status)' · page=34 · 441 tok
 
 Presently there are stringent environmental standards and regulatory focus on maritime 
 decarbonization. IMO, the governing body of international shipping, has set an overall goal of net 
@@ -5795,11 +5803,11 @@ marine fuel sulfur content to 0.5% by weight and issued a carriage ban on all no
 Fuel sulfur regulations are further restricted to 0.1% sulfur by weight (S) especially for vessel 
 movement in emissions control areas. These regulations are pushing maritime sector to diversify 
 their fuel portfolio and increasingly seek low-sulfur, low-carbon and also zero carbon alternatives. 
-It i
+It is perceived t
 
-… [+1450 more chars]
+… [+1437 more chars]
 
-### Child 47 · section='Executive Sum' · page=34 · 412 tok
+### Child 47 · section='(India Status)' · page=34 · 412 tok
 
 It is being argued 
 to adopt well to wake life cycle perspective of alternative fuels which can effectively capture 
@@ -5813,7 +5821,7 @@ India has recently set an ambitious target to be a
 
 … [+1170 more chars]
 
-### Child 48 · section='Executive Sum' · page=35 · 494 tok
+### Child 48 · section='(India Status)' · page=35 · 494 tok
 
 Overall activities require 
 alignment with global developments. Towards this, it is of paramount importance to understand 
@@ -9202,7 +9210,7 @@ References
 
 … [+1034 more chars]
 
-### Child 171 · section='7.\t https://www.netpas.net/bunker/bunkerprice.php?pname=Skaw — 8.\t https://shipandbunker.com/prices#MGO — 9.\t https://www.imarcgroup.com/liquefied-natural-gas-pricing-report — 10.\t https://www.methanex.com/wp-content/uploads/Mx-Price-Sheet-Janaury-28-2025.pdf — 11.\t https://energyforum.in/fileadmin/india/media_elements/publications/20230515_GNH3_ — Deloitte_Study/20230707_gs_GNH3_finalprint.pdf — 12.\t https://ptx-hub.org/wp-content/uploads/2025/02/h2uppp-ppp-result-india-rwe-en.pdf — 13.\t https://www.methanol.org/wp-content/uploads/2024/09/ECONOMIC-VALUE-OF-METHANOL- — FOR-SHIPPING-PAPER_final.pdf — 14.\t https://www.argusmedia.com/en/news-and-insights/latest-market-news/2569021-biomethanol-' · page=92 · 175 tok
+### Child 171 · section='7.\t https://www.netpas.net/bunker/bunkerprice.php?pname=Skaw — 8.\t https://shipandbunker.com/prices#MGO — 9.\t https://www.imarcgroup.com/liquefied-natural-gas-pricing-report — 10.\t https://www.methanex.com/wp-content/uploads/Mx-Price-Sheet-Janaury-28-2025.pdf — 11.\t https://energyforum.in/fileadmin/india/media_elements/publications/20230515_GNH3_ — Deloitte_Study/20230707_gs_GNH3_finalprint.pdf — 12.\t https://ptx-hub.org/wp-content/uploads/2025/02/h2uppp-ppp-result-india-rwe-en.pdf — 13.\t https://www.methanol.org/wp-content/uploads/2024/09/ECONOMIC-VALUE-OF-METHANOL- — FOR-SHIPPING-PAPER_final.pdf — 14.\t https://www.argusmedia.com/en/news-and-insights/latest-market-news/2569021-biomethanol-' · page=92 · 178 tok
 
 market-slows-but-shipowners-eye-offtakes
 
@@ -9218,15 +9226,15 @@ per-kg/
 
 19.	 GCMD, April 14, 2025. Calculator - GCMD. https://gcformd.org/calculator/
 
-figure>
+in
 
-Introduc
-
-tion and Objectives of Study
-
+1
+Executive Summary
 4
+5
+Introduction and Objectives of Stud
 
-### Child 172 · section='Chapter 1 — Statistics — Introduction' · page=96 · 442 tok
+### Child 172 · section='Introduction' · page=96 · 442 tok
 
 This section presents the Indian and Global vessel statistics covering all types of vessels along 
 with transition trend of alternative fuels vessels including green/sustainable fuels (Bio & E- 
@@ -9241,7 +9249,7 @@ Among all alternative fuels the
 
 … [+1270 more chars]
 
-### Child 173 · section='Chapter 1 — Statistics — Introduction' · page=96 · 263 tok
+### Child 173 · section='Introduction' · page=96 · 263 tok
 
 After 
 filtering out abandoned, commissioned, damaged/not in-service, detained, idle, laid-up, under repair, 
@@ -9395,7 +9403,7 @@ mid-sized
 
 … [+1464 more chars]
 
-### Child 184 · section='1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)' · page=105 · 180 tok
+### Child 184 · section='1.2.2\t Vessel Details and Fuel Consumption (Global OGVs)' · page=105 · 179 tok
 
 The U.A.E. stands out 
 in the Middle East with 2,608 vessels. Other notable countries are the Philippines (2,212 vessels) 
@@ -9407,13 +9415,11 @@ from Europe and North America, and highlights India’s significant contribution
 
 Figure 1.11: Top 25 Countries with Vessel Ownership
 
-: Global and
-Indian Vessels and
-Fuel
+Chapter 1 Statistics: Global and Ind
 
-… [+15 more chars]
+… [+17 more chars]
 
-### Child 185 · section='Chapter — Introduction' · page=108 · 446 tok
+### Child 185 · section='Introduction' · page=108 · 446 tok
 
 As the maritime industry speeding up its journey towards decarbonization, Alternative Fuels are 
 becoming essential for meeting global climate targets. This chapter takes a closer look at the 
@@ -9427,7 +9433,7 @@ cost,
 
 … [+1157 more chars]
 
-### Child 186 · section='Chapter — Introduction' · page=108 · 343 tok
+### Child 186 · section='Introduction' · page=108 · 343 tok
 
 Surprisingly, in the order-book data, Methanol 
 is visibly emerging as the front-runner with 251 vessels followed by Biofuel with 24 vessels, Hydrogen with 23 vessels and Ammonia 22 vessels.
@@ -9440,7 +9446,7 @@ Technological issues, (ii) Infrastructure and bunkering readiness at port/ships,
 
 … [+889 more chars]
 
-### Child 187 · section='Chapter — Introduction' · page=109 · 490 tok
+### Child 187 · section='Introduction' · page=109 · 490 tok
 
 These datasets also shed light on the diversity of propulsion technologies being 
 employed to drive the industry towards a greener future using 8 alternative fuels mainly Biodiesel, 
@@ -9472,7 +9478,7 @@ Total number of altern
 
 … [+964 more chars]
 
-### Child 188 · section='Chapter — Introduction' · page=109 · 510 tok
+### Child 188 · section='Introduction' · page=109 · 510 tok
 
 Hydrogen and ethane hold smaller but noteworthy shares, with percentages of 1% (20 Nos) and 2% 
 (24 Nos) respectively. Nuclear power, while less common, represents around <1% (10 Nos) of the total instances. These figures illustrate a diverse array of fuel types being explored in the maritime 
@@ -9487,7 +9493,7 @@ followed by Hydrogen with 33% share.
 
 … [+581 more chars]
 
-### Child 189 · section='Chapter — Introduction' · page=110 · 283 tok
+### Child 189 · section='Introduction' · page=110 · 283 tok
 
 00 |
 | 8 | Ammonia | LNG, VLS MGO,VLS MDO | 3 | 272- 5073 | 272- 5073 |
@@ -9524,7 +9530,7 @@ Nuclea
 
 … [+1 more chars]
 
-### Child 190 · section='Chapter — Introduction' · page=110 · 361 tok
+### Child 190 · section='Introduction' · page=110 · 361 tok
 
 | S. No. | Alternative fuel type | Mono/ dual fuel with | Number of vessels | GT range Min-max | Dominated by GT Range |
 | --- | --- | --- | --- | --- | --- |
@@ -9540,7 +9546,7 @@ Nuclea
 
 … [+7 more chars]
 
-### Child 191 · section='Chapter — Introduction' · page=111 · 493 tok
+### Child 191 · section='Introduction' · page=111 · 493 tok
 
 000 | 15000-27000 |
 | 8. | Nuclear | VLS MDO | 7 | 30000-68000 | 30000-33000 |
@@ -9554,7 +9560,7 @@ being explored in the maritime sector, with LNG leadin
 
 … [+1253 more chars]
 
-### Child 192 · section='Chapter — Introduction' · page=112 · 423 tok
+### Child 192 · section='Introduction' · page=112 · 423 tok
 
 : Alternative Fuel Vessels Global Order Book: Fuel Types v/s Total Vessel Number with 
 Percentage (as on August 2024) Figure 2.2(a): Relative Share of All Alternative Fuels Figure 2.2 
@@ -9598,7 +9604,7 @@ Methanol
 
 … [+444 more chars]
 
-### Child 193 · section='Chapter — Introduction' · page=112 · 380 tok
+### Child 193 · section='Introduction' · page=112 · 380 tok
 
 This excludes Methanol | In service |  |  |  | Orderbook |  |  |  |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -9612,7 +9618,7 @@ This excludes Methanol | In service |  |  |  | Orderbook |  |  |  |
 
 … [+173 more chars]
 
-### Child 194 · section='Chapter — Introduction' · page=113 · 374 tok
+### Child 194 · section='Introduction' · page=113 · 374 tok
 
 |  |  |
 | Nuclear | 10 (<1%) |  |  | Ammonia | 22(1%) |  |  |
@@ -9632,7 +9638,7 @@ Biofuel (Biodiesel) shows significant adoption w
 
 … [+605 more chars]
 
-### Child 195 · section='Chapter — Introduction' · page=114 · 428 tok
+### Child 195 · section='Introduction' · page=114 · 428 tok
 
 Ethane is limited to 24 vessels, primarily used in larger vessels, especially in the >50000 GT 
 range (20 vessels). This niche application highlights its use in very large gas carriers and specialized 
@@ -9651,7 +9657,7 @@ ranges, suggests that it is still an emerging fuel option, with ongoi
 
 … [+945 more chars]
 
-### Child 196 · section='Chapter — Introduction' · page=114 · 227 tok
+### Child 196 · section='Introduction' · page=114 · 227 tok
 
 K GT category 48 vessels specifically role in the larger gas carrier.
 	»
@@ -9799,7 +9805,7 @@ LNG shipbuilder Hanwha Ocean  leads w
 
 … [+317 more chars]
 
-### Child 204 · section='Among the Alternative Fuel Shipbuilders' · page=126 · 489 tok
+### Child 204 · section='Among the Alternative Fuel Shipbuilders' · page=126 · 497 tok
 
 Korea China P.R. tops in Biofuel vessel construction with 17 builds, 
 followed by Poland 10 and China PR 8 vessels. In Methanol propulsion, South Korea leads the yard count at 20 vessels, China P.R.  8 vessels 
@@ -9820,9 +9826,9 @@ Orderbook analysis shows
 Hong Kong leads the Biofuel (Biodiesel) orderbook with 11 vessels, followed by China P.R. with 
 4 and Turkey wit
 
-… [+720 more chars]
+… [+755 more chars]
 
-### Child 205 · section='Chapter 3 — Alternative Fuel Powered — Introduction' · page=128 · 441 tok
+### Child 205 · section='Introduction' · page=128 · 441 tok
 
 India’s Net Zero ambitions needs its shipping industry to move towards adoption of alternative 
 fuels-operated marine engines. The use of alternative fuels in marine engines will contribute to (i) 
@@ -9836,7 +9842,7 @@ distribution of gross tonnage vessels as well as different types of ships. It is
 
 … [+1501 more chars]
 
-### Child 206 · section='Chapter 3 — Alternative Fuel Powered — Introduction' · page=128 · 252 tok
+### Child 206 · section='Introduction' · page=128 · 252 tok
 
 From an engine manufacturer’s perspective, MAN is the dominant player in several fuel categories: 
 commanding 86.1% of methanol-fueled in-service engines, 100% of ethane engines, and full market share in LPG-powered ships. Wärtsilä leads the LNG segment with 57% of in-service engines, while 
@@ -9849,7 +9855,7 @@ industrial alignment toward this fuel. Ammonia engine developments are increasin
 
 … [+203 more chars]
 
-### Child 207 · section='Chapter 3 — Alternative Fuel Powered — Introduction' · page=129 · 504 tok
+### Child 207 · section='Introduction' · page=129 · 504 tok
 
 In biofuel orders, Yanmar is the 
 frontrunner with 64.3%, while MAN continues to hold influence in the broader market. In hydrogen-
@@ -9863,7 +9869,7 @@ Cost-effectiveness (iv) Safety aspects (
 
 … [+1532 more chars]
 
-### Child 208 · section='Chapter 3 — Alternative Fuel Powered — Introduction' · page=129 · 485 tok
+### Child 208 · section='Introduction' · page=129 · 485 tok
 
 Two-stroke engines has reported a 54.3 % share of the marine engine market in 2020 [9]. 
 However, four stroke engines are expected to have higher growth up to 2028, due to lower noise 
@@ -10482,7 +10488,7 @@ man-b-w-me-lgi-series.pdf
 
 … [+806 more chars]
 
-### Child 242 · section='3.4.1\t Commercial Hydrogen Fueled Marine Engines' · page=153 · 329 tok
+### Child 242 · section='3.4.1\t Commercial Hydrogen Fueled Marine Engines' · page=153 · 326 tok
 
 38.	 Dai P, Chen Z, Gan X, Liberman MA. Autoignition and detonation development from a hot spot 
 inside a closed chamber: Effects of end wall reflection. Proc Combust Inst 2021;38(4):5905–13. 
@@ -10496,22 +10502,23 @@ injection in a small-bore dual-fuel diesel engine. Int J Hydrogen Energy 2024;57
 doi.org/10.1016/J.IJHYDENE.2024.01.065.
 41.	 S
 
-… [+246 more chars]
+… [+247 more chars]
 
-### Child 243 · section='Chapt' · page=156 · 456 tok
+### Child 243 · section='3.4.1\t Commercial Hydrogen Fueled Marine Engines' · page=156 · 509 tok
 
-In this Chapter, the Section 4.1 provides a comparative assessment of the alternative fuels based 
+Upgrade of lean-burn gas engines to the future hydrogen 
+admixture in the natural gas grid. In: Rostock large engine conference, Rostock, 2022(Cross 
+Reference)
+
+ernative Fuel Powered Marine Engines (ICE) for Decarb In this Chapter, the Section 4.1 provides a comparative assessment of the alternative fuels based 
 on their sustainability aspect like properties and production pathways (4.1.1), Cost (4.1.2) and LCA 
 performance (4.1.3). 
 In Section 4.2 alternative fuel and fuel-mix demand scenarios are built to estimate the fuel 
 required for India in meeting IMO’s revised emission targets as per MEPC 83 revised guidelines 
 [1]. Three Scenarios are built where the Scenario-1 estimates fuel/fuel-mix demand for meeting 
-GFI based emission targets by year 2030 and 2035. Scenarios-2 is built for replacing fossil fuels’ 
-5% energy equivalence with alternative fuel by 2030 as per IMO’s earlier guidelines in MEPC 
-80. Scenarios-3 on the other hand is based on the blend fuels approach which considers dual 
-or mu
+GFI based emission targets by year 2030 and 2035. Scenarios-2 is built for 
 
-… [+1251 more chars]
+… [+1467 more chars]
 
 ### Child 244 · section='4.1.1 \t Alternative Fuels Properties-Comparative Assessment' · page=156 · 302 tok
 
@@ -12416,7 +12423,7 @@ Maritime” , Study Report, Conducted by IFP Energies Nouve
 
 … [+383 more chars]
 
-### Child 335 · section='46.\t https://doi.org/10.1016/j.ijhydene.2021.06.066https://www.genasolutions.com/analysis_and_' · page=228 · 189 tok
+### Child 335 · section='46.\t https://doi.org/10.1016/j.ijhydene.2021.06.066https://www.genasolutions.com/analysis_and_' · page=228 · 162 tok
 
 insights)
 47.	 Foretich, A., Zaimes, G. G. Hawkins, R . T., Newes, E., “Challenges and opportunities for alternative 
@@ -12429,19 +12436,7 @@ LNG as a Marine Fuel. International Council on Clean Transportation. Working Pap
 
 projects-database)
 
-er 4
-Comparative
-Assessment of
-Alternative Fuels
-
-4
-
-Chapter 5
-
-Fuel Cell for
-Decar
-
-### Child 336 · section='Introduction' · page=230 · 443 tok
+### Child 336 · section='nizing Shipping — Chapter 4 Comparative Assessment of Alternative Fuels — Chapte — Introduction' · page=230 · 443 tok
 
 IMO has set the ambitious target to cut down the GHG emissions from international shipping to reach 
 net zero by or around, i.e. close to, 2050. Fuel cells stand out to be one of the promising options 
@@ -12455,7 +12450,7 @@ This chapt
 
 … [+1564 more chars]
 
-### Child 337 · section='Introduction' · page=230 · 333 tok
+### Child 337 · section='nizing Shipping — Chapter 4 Comparative Assessment of Alternative Fuels — Chapte — Introduction' · page=230 · 333 tok
 
 Despite being more widely 
 available and simpler to carry, Ammonia is dangerous and needs to be handled carefully. This chapter 
@@ -14048,7 +14043,7 @@ industry. Brodogradnja, 75(2), 1–13. https://doi.org/10.21278/brod75205
 
 … [+461 more chars]
 
-### Child 388 · section='Recommendations for India' · page=258 · 392 tok
+### Child 388 · section='Recommendations for India' · page=258 · 397 tok
 
 306130451461092#:~:text=CCS%20has%20carried%20out%20
 research%20on%20epidemic%20prevention%20safety%20for,quality%20development%20
@@ -14061,9 +14056,9 @@ org/10.1155/2023/5163448
 13.	 Cifrain, M., & Kordesch, K. (2003). Advances, aging mechanism and lifetime in AFCs with 
 circulating electrolytes. Journal of Power Sources, 127(1–2), 234–242.
 
-… [+329 more chars]
+… [+350 more chars]
 
-### Child 389 · section='Chapter 6 — Shipping' · page=260 · 492 tok
+### Child 389 · section='Recommendations for India' · page=260 · 492 tok
 
 Globally Marine sector is moving towards LNG (near and medium term though fossil-based but later 
 can be shifted to CBG), Methanol (immediate), and Hydrogen & Ammonia (long term) as dual fuel & 
@@ -14077,7 +14072,7 @@ Each
 
 … [+1424 more chars]
 
-### Child 390 · section='Chapter 6 — Shipping' · page=260 · 562 tok
+### Child 390 · section='Recommendations for India' · page=260 · 562 tok
 
 Nevertheless, the simplicity, maturity, 
 applicability for dry wastes and low cost of pyrolysis bio-oil production could be balanced against | Table 6.1: Scores for the fuels [2] |  |  |  |  |  |  |  |  |  |  |  |  |  |
@@ -14091,12 +14086,12 @@ applicability for dry wastes and low cost of pyrolysis bio-oil production could 
 
 … [+251 more chars]
 
-### Child 391 · section='Chapter 6 — Shipping' · page=260 · 195 tok
+### Child 391 · section='Recommendations for India' · page=260 · 195 tok
 
 CCS compatibility | 0.05 | 3 | 3.2 | 1.0 | 3 | 2.9 | 0.9 | 4 | 2.7 | 0.8 | 2 | 2.7 | 0.8 | | Sum |  | 20.0 |  | 21.2 | 20.0 |  | 19.4 | 19.5 |  | 18.8 | 18.5 |  | 20.6 |
 | * A: Score allotted to fuel for criterion based on literature study; B: Score allotted to fuel criterion by stakeholders; C: Weighted score of fuel for criterion (C=Weight*B*6, as 6 criteria used; rounded to one decimal place) |  |  |  |  |  |  |  |  |  |  |  |  |  |
 
-### Child 392 · section='Chapter 6 — Shipping' · page=261 · 498 tok
+### Child 392 · section='Recommendations for India' · page=261 · 498 tok
 
 criterion by stakeholders; C: Weighted score of fuel for criterion (C=Weight*B*6, as 6 criteria used; rounded to one decimal place) |  |  |  |  |  |  |  |  |  |  |  |  |  | the present cost of its downstream upgrading. Another critical study is conducted on OCC as part of 
 the Green Fuels Optionality Project (GFOP) at the Mærsk McKinney Møller Centre for Zero Carbon 
@@ -14108,7 +14103,7 @@ is inferred that among OCC
 
 … [+1529 more chars]
 
-### Child 393 · section='Chapter 6 — Shipping' · page=261 · 213 tok
+### Child 393 · section='Recommendations for India' · page=261 · 213 tok
 
 ization of adsorbed CO2 especially for the 
 countries like India with lack of geological CO2 storage sites along with innovation in sustainable 
@@ -14605,7 +14600,7 @@ com/news/bv-grants-aip-bulk-carrier-carbon-capture-506004#:~:text=Bureau%20Verit
 
 … [+751 more chars]
 
-### Child 415 · section='Conclusions' · page=276 · 523 tok
+### Child 415 · section='Conclusions' · page=276 · 500 tok
 
 Carbon Capture – Case Study for a Ropax Ship - Deltamarin. (2024, September 19). 
 Deltamarin. 
@@ -14619,18 +14614,21 @@ conoship.com/wp-content/uploads/2020/06/200513-CO2ASTS-Public-Concise-Report.pdf
 24.	 BS, Daewoo Shipbuilding and Marine Engineering and GasLog Agree to Develop Carbon Capture 
 Onboard Technology. (n.d.). News Powered by Cision.  h
 
-… [+973 more chars]
+… [+898 more chars]
 
-### Child 416 · section='28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf' · page=276 · 518 tok
+### Child 416 · section='Conclusions' · page=276 · 171 tok
+
+The Lloyd’s Register Maritime Decarbonisation Hub. (2023). Onboard Carbon Capture Utilisation 
+and Storage. In A Readiness Assessment for the Shipping Industry. https://safety4sea.com/wp- content/uploads/2023/04/LR-Onboard-carbon-capture-and-storage-2023_04.pdf
+
+28.	 https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf
 
 29.	 Ahmed, Y. A., Lazakis, I., & Mallouppas, G. (2025c).   Marine Systems & Ocean Technology, 20(1). 
 https://doi.org/10.1007/s40868-024-00161-w
 
-Fuels and
-Possibility of On-Board
-Carbon Capture
+..
 
-4
+### Child 417 · section='Chapter 6 Shipping Fuels and Possibility o' · page=278 · 443 tok
 
 Table7.1 presents the overview of the  IMO’s ongoing initiatives through the MEPC aimed at tackling 
 greenhouse gas (GHG) emissions from international shipping. It tracks tracks significant progress 
@@ -14643,11 +14641,17 @@ MEPC 76 (2021)
 Adoption of short-
 term measures
 - Amendments to MARPOL Annex VI
-- Target:
+- Target: ≥40% carbon intensity reduction by 2030
+- Introduction of CII (operational) & EEXI (technical) 
+measures
+ISWG-GHG 10
+Start of mid-/long-
+term strategy
+- Initiation of discussions on technical and eco
 
-… [+1009 more chars]
+… [+809 more chars]
 
-### Child 417 · section='28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf' · page=278 · 232 tok
+### Child 418 · section='Chapter 6 Shipping Fuels and Possibility o' · page=278 · 232 tok
 
 scientific/technical LCA issues
 MEPC 82 (2024)
@@ -14676,7 +14680,7 @@ Key players, including international o
 
 … [+226 more chars]
 
-### Child 418 · section='28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf' · page=278 · 587 tok
+### Child 419 · section='Chapter 6 Shipping Fuels and Possibility o' · page=278 · 587 tok
 
 Key players, including international organizations like the International Maritime Organization (IMO) 
 and regional authorities such as the European Union (EU), are implementing ambitious policies aimed 
@@ -14691,7 +14695,7 @@ at reaching net-zero greenhouse gas (GHG) emissions by 2050. | Table 7.1: Timeli
 
 … [+1311 more chars]
 
-### Child 419 · section='28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf' · page=279 · 501 tok
+### Child 420 · section='Chapter 6 Shipping Fuels and Possibility o' · page=279 · 501 tok
 
 |
 |  |  | - Aim: Approval of MARPOL amendments |
@@ -14705,7 +14709,7 @@ incentives, such as double-counting for renewable fuels and
 
 … [+1589 more chars]
 
-### Child 420 · section='28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf' · page=279 · 328 tok
+### Child 421 · section='Chapter 6 Shipping Fuels and Possibility o' · page=279 · 328 tok
 
 irective
 Scope
@@ -14746,7 +14750,7 @@ brought to EU ma
 
 … [+222 more chars]
 
-### Child 421 · section='28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf' · page=279 · 395 tok
+### Child 422 · section='Chapter 6 Shipping Fuels and Possibility o' · page=279 · 395 tok
 
 issions reduction 
 threshold compared 
@@ -14765,7 +14769,7 @@ least 70% | Table 7.2: EU-level Regulations and Directives [4,5,6] |  |  |  |
 
 … [+526 more chars]
 
-### Child 422 · section='28.\t https://wwwcdn.imo.org/localresources/en/OurWork/Environment/Documents/Fourth%20 — IMO%20GHG%20Study%202020%20Executive-Summary.pdf' · page=280 · 341 tok
+### Child 423 · section='Chapter 6 Shipping Fuels and Possibility o' · page=280 · 341 tok
 
 to EU market and sets a GHG emissions reduction threshold compared to reference fossil (94 gCO2eq/MJ): · biofuels requiring at least 50- 65% (depending on the date of facility installation) · RFNBO and RCFs at least 70% | Table 7.2: EU-level Regulations and Directives [4,5,6]
 Regulation/Directive
@@ -14796,7 +14800,7 @@ Defines t
 
 … [+395 more chars]
 
-### Child 423 · section='91.16 g CO2eq/MJ) every 5 years' · page=280 · 359 tok
+### Child 424 · section='91.16 g CO2eq/MJ) every 5 years' · page=280 · 359 tok
 
 starting in 2025:   -2%; -6%; -14.5%; 
 -31%; -62%; -80%
@@ -14834,7 +14838,7 @@ EU-ETS allo
 
 … [+419 more chars]
 
-### Child 424 · section='91.16 g CO2eq/MJ) every 5 years' · page=280 · 542 tok
+### Child 425 · section='91.16 g CO2eq/MJ) every 5 years' · page=280 · 542 tok
 
 Mandates LNG 
 refuelling infrastructure at major ports 
@@ -14845,7 +14849,7 @@ by 2025. | Table 7.2: EU-level Regulations and Directives [4,5,6] |  |  |  |
 
 … [+1234 more chars]
 
-### Child 425 · section='91.16 g CO2eq/MJ) every 5 years' · page=280 · 282 tok
+### Child 426 · section='91.16 g CO2eq/MJ) every 5 years' · page=280 · 282 tok
 
 -EEA voyages and 50% of voyages to/from countries outside the EEA. | EU-ETS allows for a zero CO2 emissions factor for biofuels, RFNBOs and RCFs that meet specific sustainability and GHG savings criteria defined by the RED. | | Alternative Fuels Infrastructure Regulation (AFIR) (EU) 2023/1804 |  | Main EU ports are required to provide a minimum shore power supply for container ships and passenger ships over 5,000 GT by 2030. Mandates LNG refuelling infrastructure at major ports by 2025. |  |
 
@@ -14865,7 +14869,7 @@ a new str
 
 … [+285 more chars]
 
-### Child 426 · section='91.16 g CO2eq/MJ) every 5 years' · page=281 · 351 tok
+### Child 427 · section='91.16 g CO2eq/MJ) every 5 years' · page=281 · 351 tok
 
 Removes tax exemptions for 
 conventional maritime fuels; introduces 
@@ -14896,7 +14900,7 @@ energy sources that should represent at least 5
 
 … [+439 more chars]
 
-### Child 427 · section='91.16 g CO2eq/MJ) every 5 years' · page=281 · 221 tok
+### Child 428 · section='91.16 g CO2eq/MJ) every 5 years' · page=281 · 221 tok
 
 /EEXI (Energy 
 Efficiency Design/
@@ -14911,7 +14915,7 @@ existing ships, requiring compliance by 2023. | Table 7.2: EU-level Regulations 
 
 … [+62 more chars]
 
-### Child 428 · section='91.16 g CO2eq/MJ) every 5 years' · page=281 · 341 tok
+### Child 429 · section='91.16 g CO2eq/MJ) every 5 years' · page=281 · 341 tok
 
 Removes tax exemptions for conventional maritime fuels; introduces €10.75/GJ tax for fossil fuels while advanced biofuels, biogas, and RFNBOs have a reduced rate of €0.15/GJ. |  | | Table 7.3: Key Regulatory Mechanisms Introduced by the IMO [4,8,9] |  |  |
 | --- | --- | --- |
@@ -14920,7 +14924,7 @@ Removes tax exemptions for conventional maritime fuels; introduces €10.75/GJ t
 
 … [+475 more chars]
 
-### Child 429 · section='91.16 g CO2eq/MJ) every 5 years' · page=282 · 439 tok
+### Child 430 · section='91.16 g CO2eq/MJ) every 5 years' · page=282 · 439 tok
 
 Table 7.3: Key Regulatory Mechanisms Introduced by the IMO [4,8,9]
 Regulation/Directive
@@ -14959,7 +14963,7 @@ Table 7.4 provides  regulatory mapping and  insights into how fuel oil
 
 … [+1269 more chars]
 
-### Child 430 · section='91.16 g CO2eq/MJ) every 5 years' · page=282 · 464 tok
+### Child 431 · section='91.16 g CO2eq/MJ) every 5 years' · page=282 · 464 tok
 
 In 
 order to resolve this, the IMO is actively working on developing regulations for fuels like Ammonia, Hydrogen, and low-flashpoint Diesel.  This suggests there is a need to update regulations in  future 
@@ -14974,7 +14978,7 @@ with required
 
 … [+1245 more chars]
 
-### Child 431 · section='91.16 g CO2eq/MJ) every 5 years' · page=283 · 388 tok
+### Child 432 · section='91.16 g CO2eq/MJ) every 5 years' · page=283 · 388 tok
 
 ) – 
 Specifications of marine fuels”
@@ -15004,7 +15008,7 @@ specifications and standards, refle
 
 … [+690 more chars]
 
-### Child 432 · section='2.\t According to a Unified Interpretation' · page=283 · 124 tok
+### Child 433 · section='2.\t According to a Unified Interpretation' · page=283 · 124 tok
 
 (MEPC.1/Circ.795/Rev.6):
 •	
@@ -15025,7 +15029,7 @@ components or settings.
 Compliance is maintained with the 
 engine’s approved Technical File.
 
-### Child 433 · section='4.\t This interpretation facilitates the use' · page=283 · 176 tok
+### Child 434 · section='4.\t This interpretation facilitates the use' · page=283 · 176 tok
 
 of alternative fuels while ensuring 
 compliance with NOx emission 
@@ -15036,13 +15040,13 @@ standards.
 | Fuel | External Standards | IMO Safety-SOLAS | IMO Environment - MARPOL |
 | Conventional fuels (Diesel/ Gas Oil/Fuel Oil) | ISO 8217:2017 “Petroleum products – Fuels (class F) – Specifications of marine fuels” ISO PAS 23263:2019 “Considerations for fuel suppliers and users regarding marine fuel quality in view of the implementation of maximum 0.50 % sulfur in 2020” |  | MARPOL Annex I regulates spills and discharges MARPOL Annex VI regulates emissions of CO2, NOx, SOx and PM |
 
-### Child 434 · section='4.\t This interpretation facilitates the use' · page=283 · 466 tok
+### Child 435 · section='4.\t This interpretation facilitates the use' · page=283 · 466 tok
 
 “Considerations for fuel suppliers and users regarding marine fuel quality in view of the implementation of maximum 0.50 % sulfur in 2020” |  | MARPOL Annex I regulates spills and discharges MARPOL Annex VI regulates emissions of CO2, NOx, SOx and PM | | Bio/Synthetic Liquid Diesel Fuels | ISO is currently engaged in incorporating HVO (Hydrotreated Vegetable Oil) and FAME (Fatty Acid Methyl Ester) into the upcoming revision of ISO 8217, which specifies the requirements for marine fuels. Specifically, the revision allows for the inclusion of up to 7% FAME in distillate marine fuels of DF grade. This indicates a move towards accommodating alternative and renewable fuels in the marine industry’s specifications and standards, reflecting a broader trend towards sustainability and environmental 
 
 … [+1236 more chars]
 
-### Child 435 · section='4.\t This interpretation facilitates the use' · page=284 · 459 tok
+### Child 436 · section='4.\t This interpretation facilitates the use' · page=284 · 459 tok
 
 This interpretation facilitates the use of alternative fuels while ensuring compliance with NOx emission standards. | Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks
 Fuel
@@ -15070,7 +15074,7 @@ fuel for marin
 
 … [+1038 more chars]
 
-### Child 436 · section='4.\t This interpretation facilitates the use' · page=284 · 392 tok
+### Child 437 · section='4.\t This interpretation facilitates the use' · page=284 · 392 tok
 
 II-1 Part F and MSC.1/Circ.1212/
 Rev.1, MSC.1/Circ.1455: Alternatively, 
@@ -15095,14 +15099,14 @@ as a fuel differs from those outlined in
 
 … [+739 more chars]
 
-### Child 437 · section='4.\t This interpretation facilitates the use' · page=284 · 463 tok
+### Child 438 · section='4.\t This interpretation facilitates the use' · page=284 · 463 tok
 
 Paraffinic diesel fuel from synthesis or hydro treatment – Requirements and test methods” |  |  |
 |  | Both EN 14214:2012 and EN 15940:2016 are road transport standards, which have also been used in the marine industry. |  |  | | Methyl Alcohol (Methanol) | The development of ISO/AWI 6583, titled “Specification of methanol as a fuel for marine applications,” indicates an effort to establish specific standards for the use of methanol as a marine fuel. Currently, when specifying methanol quality for marine applications, industry stakeholders commonly refer to existing standards such as the IMPCA (International Methanol Producers and Consumers Association) Methanol reference specification and the ASTM (American Society for Testing and Materials) D1152 standard. | SOLAS Chapter II regulates lo
 
 … [+1291 more chars]
 
-### Child 438 · section='4.\t This interpretation facilitates the use' · page=285 · 389 tok
+### Child 439 · section='4.\t This interpretation facilitates the use' · page=285 · 389 tok
 
 Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks
 Fuel
@@ -15129,7 +15133,7 @@ the safety of ships u
 
 … [+1096 more chars]
 
-### Child 439 · section='4.\t This interpretation facilitates the use' · page=285 · 408 tok
+### Child 440 · section='4.\t This interpretation facilitates the use' · page=285 · 408 tok
 
 This forthcoming ISO 
 standard will likely provide more detailed 
@@ -15142,7 +15146,7 @@ methanol in marine propulsion systems. | Table 7.4: Comparative Overview of Fuel
 
 … [+1324 more chars]
 
-### Child 440 · section='4.\t This interpretation facilitates the use' · page=286 · 457 tok
+### Child 441 · section='4.\t This interpretation facilitates the use' · page=286 · 457 tok
 
 This forthcoming ISO standard will likely provide more detailed and comprehensive specifications to ensure the safe and efficient use of methanol in marine propulsion systems. |  |  | Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks
 Fuel
@@ -15166,7 +15170,7 @@ hazard, is subject
 
 … [+1063 more chars]
 
-### Child 441 · section='4.\t This interpretation facilitates the use' · page=286 · 442 tok
+### Child 442 · section='4.\t This interpretation facilitates the use' · page=286 · 442 tok
 
 Draft interim guidelines for the safety of 
 ships using LPG fuels have been finalized 
@@ -15179,7 +15183,7 @@ CO2 and NOx | Table 7.4: Comparative Overview of Fuel Regulations in External S
 
 … [+1108 more chars]
 
-### Child 442 · section='4.\t This interpretation facilitates the use' · page=287 · 432 tok
+### Child 443 · section='4.\t This interpretation facilitates the use' · page=287 · 432 tok
 
 Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks
 Fuel
@@ -15207,7 +15211,7 @@ and emergency response. Over
 
 … [+1146 more chars]
 
-### Child 443 · section='4.\t This interpretation facilitates the use' · page=287 · 562 tok
+### Child 444 · section='4.\t This interpretation facilitates the use' · page=287 · 562 tok
 
 available
 SOLAS Chapter II regulates low-flashpoint 
@@ -15228,7 +15232,7 @@ CO2 and NOx
 
 … [+1739 more chars]
 
-### Child 444 · section='4.\t This interpretation facilitates the use' · page=288 · 517 tok
+### Child 445 · section='4.\t This interpretation facilitates the use' · page=288 · 517 tok
 
 Ch II-1 Part F (Alternative design and arrangement) –MSC.1/Circ.1212/Rev.1 and MSC.1/Circ.1455 No specific requirements or guidelines available for ethane as fuel. | MARPOL Annex VI regulates emissions of CO2 and NOx | Table 7.4: Comparative Overview of Fuel Regulations in External Standards and IMO Frameworks
 Fuel
@@ -15253,7 +15257,7 @@ IGC Code identifies ammonia as a
 
 … [+1232 more chars]
 
-### Child 445 · section='4.\t This interpretation facilitates the use' · page=288 · 440 tok
+### Child 446 · section='4.\t This interpretation facilitates the use' · page=288 · 440 tok
 
 MARPOL Annex VI regulates emissions of 
 CO2 and NOx
@@ -15264,7 +15268,7 @@ Source: https://greenvoyage2050.imo.org/alternative-marine-fuels-regulatory-mapp
 
 … [+1103 more chars]
 
-### Child 446 · section='References' · page=289 · 371 tok
+### Child 447 · section='References' · page=289 · 371 tok
 
 1.	 2018 Initial IMO Strategy. https://www.imo.org/en/OurWork/Environment/Pages/Vision-and-
 level-of-ambition-of-the-Initial-IMO-Strategy.aspx
@@ -15280,7 +15284,7 @@ ifpen.fr/files/inline-images/2
 
 … [+303 more chars]
 
-### Child 447 · section='7.\t Alternative' · page=289 · 198 tok
+### Child 448 · section='7.\t Alternative' · page=289 · 182 tok
 
 marine 
 fuels: 
@@ -15296,14 +15300,7 @@ OurWork/Environment/Pages/IMO-Strategy-on-reduction-of-GHG-emissions-from-ships.
 MediaCentre/HotTopics/Pages/EEXI-CII-FAQ.aspx?ref=ctvc.co#:~:text=What%20is%20an%20
 Energy%20Efficiency,a%20minimum%20energy%20efficiency%20standard.
 
-Chapter 7 — Standar
-
-ds, Regulations
-and Policies
-
-<!-
-
-### Child 448 · section='Annexure I — IMO LCA Methodological Guidance' · page=292 · 442 tok
+### Child 449 · section='On-Board — Annexure I — IMO LCA Methodological Guidance' · page=292 · 442 tok
 
 The Life Cycle Assessment (LCA) is considered by the IMO as the methodological approach to 
 comprehensively assess the environmental impact of an energy carrier for maritime transport, from 
@@ -15318,7 +15315,7 @@ fuels/energy carriers (e.g.
 
 … [+1213 more chars]
 
-### Child 449 · section='Annexure I — IMO LCA Methodological Guidance' · page=292 · 242 tok
+### Child 450 · section='On-Board — Annexure I — IMO LCA Methodological Guidance' · page=292 · 242 tok
 
 1 The possibility to expand 
 the system boundaries for specific pathways in which the feedstock is displaced from present use(s) 
@@ -15334,7 +15331,7 @@ emissions calculations (i.e. emissions related to the fuel sourcing, production,
 
 … [+311 more chars]
 
-### Child 450 · section='Annexure I — IMO LCA Methodological Guidance' · page=293 · 389 tok
+### Child 451 · section='On-Board — Annexure I — IMO LCA Methodological Guidance' · page=293 · 389 tok
 
 WtW emissions are given by the sum of the two parts, providing the full emission performance associated with the fuel production 
 and use of a certain fuel/energy in a specific converter onboard.
@@ -15352,7 +15349,7 @@ A calculation using a Global Warming Po
 
 … [+111 more chars]
 
-### Child 451 · section='Annexure I — IMO LCA Methodological Guidance' · page=293 · 506 tok
+### Child 452 · section='On-Board — Annexure I — IMO LCA Methodological Guidance' · page=293 · 506 tok
 
 A calculation using a Global Warming Potential over a 20-year horizon (GWP20) may be provided as 
 information for comparative purposes, as follows:
@@ -15375,7 +15372,7 @@ sustainability themes/aspects for marine fue
 
 … [+606 more chars]
 
-### Child 452 · section='Annexure I — IMO LCA Methodological Guidance' · page=294 · 449 tok
+### Child 453 · section='On-Board — Annexure I — IMO LCA Methodological Guidance' · page=294 · 449 tok
 
 The WtT GHG emission factor (gCO2eq/MJ(LCV) fuel or electricity) is calculated according to  
 Equation (1).
@@ -15405,7 +15402,7 @@ plant, and the em
 
 … [+830 more chars]
 
-### Child 453 · section='Annexure I — IMO LCA Methodological Guidance' · page=294 · 421 tok
+### Child 454 · section='On-Board — Annexure I — IMO LCA Methodological Guidance' · page=294 · 421 tok
 
 From the above-mentioned emission 
 credit, all the emissions resulting from the process of capturing 
@@ -15431,7 +15428,7 @@ Any emissions associated with the process of storing (long- term:
 
 … [+324 more chars]
 
-### Child 454 · section='Annexure I — IMO LCA Methodological Guidance' · page=294 · 565 tok
+### Child 455 · section='On-Board — Annexure I — IMO LCA Methodological Guidance' · page=294 · 565 tok
 
 ��𝑐𝑢 + 𝑒𝑙 + 𝑒𝑝 + 𝑒𝑡𝑑 − 𝑒𝑠𝑐𝑎 – 𝑒𝑐𝑐𝑠  …….(1) | Table 1: Terms to consider according to IMO guidelines for calculating Well-to-Tank GHG 𝐺𝐻𝐺𝑊𝑡𝑇 𝑒𝑓𝑒𝑐𝑢 𝑒𝑙 𝑒𝑝 𝑒𝑡𝑑 𝑒𝑠𝑐𝑎 𝑒𝑐𝑐𝑠 emissions |  |  |
 | --- | --- | --- |
@@ -15443,7 +15440,7 @@ Any emissions associated with the process of storing (long- term:
 
 … [+937 more chars]
 
-### Child 455 · section='Annexure I — IMO LCA Methodological Guidance' · page=294 · 298 tok
+### Child 456 · section='On-Board — Annexure I — IMO LCA Methodological Guidance' · page=294 · 298 tok
 
 This element should be calculated with the following formula: = − − − − | | 𝑐𝑠𝑐 | g CO2 stored / MJ(LCV) | Emissions credit equivalent to the net CO2 captured and stored 𝑒𝐶𝐶𝑆 𝑐𝑆𝐶 𝑒𝑐𝑐 𝑒𝑡 𝑒𝑠𝑡 𝑒𝑥 (long-term: 100 years) |
 |  | gCO2eq /MJ(LCV) | Emissions associated with the process of capturing, compression and/or cooling and temporary storage of the CO2 |
@@ -15454,7 +15451,7 @@ This element should be calculated with the following formula: = − − − − 
 
 … [+79 more chars]
 
-### Child 456 · section='b)\t TANK-TO-WAKE (TtW)' · page=295 · 445 tok
+### Child 457 · section='b)\t TANK-TO-WAKE (TtW)' · page=295 · 445 tok
 
 The TtW GHG emission factors should be calculated using Equation (2):
 GHG TtW   =  1/LCV((1-1/100(C slip_ship +Cfug ))x (Cf CO2 x GWP CO2 + Cf CH4 x GWP CH4 + Cf N20 x 
@@ -15479,7 +15476,7 @@ Factor accounting for fuel (expressed in % of t
 
 … [+605 more chars]
 
-### Child 457 · section='b)\t TANK-TO-WAKE (TtW)' · page=295 · 374 tok
+### Child 458 · section='b)\t TANK-TO-WAKE (TtW)' · page=295 · 374 tok
 
 , vented or otherwise lost in the 
 system7
@@ -15507,7 +15504,7 @@ Global Warming Potential of CH4 over 100 years (based on the fif
 
 … [+426 more chars]
 
-### Child 458 · section='b)\t TANK-TO-WAKE (TtW)' · page=295 · 687 tok
+### Child 459 · section='b)\t TANK-TO-WAKE (TtW)' · page=295 · 687 tok
 
 �𝑊𝑃𝑓𝑢𝑒𝑙𝑥
 gCO2eq/g GHG
@@ -15521,7 +15518,7 @@ Report) | Table 2: Terms to consider according to IMO guidelines for calculating
 
 … [+1608 more chars]
 
-### Child 459 · section='b)\t TANK-TO-WAKE (TtW)' · page=296 · 446 tok
+### Child 460 · section='b)\t TANK-TO-WAKE (TtW)' · page=296 · 446 tok
 
 Table 2: Terms to consider according to IMO guidelines for calculating Tank-to-Wake GHG 
 emissions
@@ -15553,7 +15550,7 @@ gCO2eq / g fuel
 
 … [+664 more chars]
 
-### Child 460 · section='b)\t TANK-TO-WAKE (TtW)' · page=296 · 366 tok
+### Child 461 · section='b)\t TANK-TO-WAKE (TtW)' · page=296 · 366 tok
 
 �� − 𝑒𝑠𝑡 − 𝑒𝑥
 𝑐𝑠𝑐
@@ -15584,7 +15581,7 @@ Pending further methodological guidance to be developed by the Organ
 
 … [+349 more chars]
 
-### Child 461 · section='b)\t TANK-TO-WAKE (TtW)' · page=296 · 559 tok
+### Child 462 · section='b)\t TANK-TO-WAKE (TtW)' · page=296 · 559 tok
 
 𝑐𝑐𝑢 × 𝑒𝑐𝑐𝑢 should be set to zero.
 •	
@@ -15599,7 +15596,7 @@ set to zero. | Table 2: Terms to consider according to IMO guidelines for calcul
 
 … [+1106 more chars]
 
-### Child 462 · section='b)\t TANK-TO-WAKE (TtW)' · page=296 · 308 tok
+### Child 463 · section='b)\t TANK-TO-WAKE (TtW)' · page=296 · 308 tok
 
 ��𝑐 | gCO2eq / g fuel | Any emission associated with the process of capturing, compress and temporarily store on board the CO2 |
 | 𝑒𝑐𝑐 | gCO2eq / g fuel | Emissions associated with transport to long-term storage site | | 𝑒𝑡 𝑒𝑠𝑡 | gCO2eq / g fuel | Any emission associated with the process of storing (long- term: that 100 years) the captured CO2 (including fugitive emissions may happen during long-term storage and/or the injection of CO2 into the storage) |
@@ -15609,7 +15606,7 @@ set to zero. | Table 2: Terms to consider according to IMO guidelines for calcul
 
 … [+280 more chars]
 
-### Child 463 · section='c)\t WELL-TO-WAKE (WtW)' · page=297 · 432 tok
+### Child 464 · section='c)\t WELL-TO-WAKE (WtW)' · page=297 · 432 tok
 
 The aim of the WtW methodology is to integrate WtT and TtW parts, to quantify the full life cycle 
 emissions related to the production and use of a fuel.
@@ -15639,7 +15636,7 @@ Reference
 
 … [+431 more chars]
 
-### Child 464 · section='c)\t WELL-TO-WAKE (WtW)' · page=297 · 247 tok
+### Child 465 · section='c)\t WELL-TO-WAKE (WtW)' · page=297 · 247 tok
 
 In IFPEN. Conducted by 
 IFP Energies Nouvelles, commissioned by CMA CGM.https://www.ifpenergiesnouvelles.fr/sites/ ifpen.fr/files/inline-images/20250310_IFPEN_CMACGM_ok.pdf
@@ -15650,7 +15647,7 @@ IFP Energies Nouvelles, commissioned by CMA CGM.https://www.ifpenergiesnouvelles
 | GHGWtT | gCO2eq/ MJ(LCV) | Total well-to-tank GHG upstream emissions per energy unit of the fuel provided to the ship |
 | GHGTtW | gCO2eq/ MJ(LCV) | Total tank-to-wake GHG downstream emissions per energy unit from the use of fuel or electricity in a consumer on board the ship |
 
-### Child 465 · section='Annexure II — Alternative Fuel Bunkering Readiness At Global Ports — 1.\t Ammonia Bunkering — Active — Potential — Under construction' · page=298 · 275 tok
+### Child 466 · section='Annexure II — Alternative Fuel Bunkering Readiness At Global Ports — 1.\t Ammonia Bunkering — Active — Potential — Under construction' · page=298 · 275 tok
 
 S. No. 
 Port Name 
@@ -15725,7 +15722,7 @@ Jacksonvil
 
 … [+54 more chars]
 
-### Child 466 · section='Annexure II — Alternative Fuel Bunkering Readiness At Global Ports — 1.\t Ammonia Bunkering — Active — Potential — Under construction' · page=298 · 457 tok
+### Child 467 · section='Annexure II — Alternative Fuel Bunkering Readiness At Global Ports — 1.\t Ammonia Bunkering — Active — Potential — Under construction' · page=298 · 457 tok
 
 avannah
 United States
@@ -15761,7 +15758,7 @@ AMPORTS | S. No. |  | Port Name | Port Country | Port Operator |
 
 … [+663 more chars]
 
-### Child 467 · section='Annexure II — Alternative Fuel Bunkering Readiness At Global Ports — 1.\t Ammonia Bunkering — Active — Potential — Under construction' · page=299 · 183 tok
+### Child 468 · section='Annexure II — Alternative Fuel Bunkering Readiness At Global Ports — 1.\t Ammonia Bunkering — Active — Potential — Under construction' · page=299 · 183 tok
 
 | Pilbara Ports |
 |  | Oakland |  | United States | Port of Oakland |
@@ -15801,7 +15798,7 @@ Yokohama
 Japan
  Yokohama Port
 
-### Child 468 · section='2.\t Biofuel Bunkering' · page=299 · 153 tok
+### Child 469 · section='2.\t Biofuel Bunkering' · page=299 · 153 tok
 
 S. No. 
 Port Name 
@@ -15847,7 +15844,7 @@ North Sea Port
 Caleta Coloso
 Chile
 
-### Child 469 · section='Biofuel Bunkering STS — Singapore — Singapore — MPA Singapore — Rotterdam — Netherlands — Port of Rotterdam — Hong Kong — Hong Kong — Hong Kong Port Board — Fujairah' · page=299 · 257 tok
+### Child 470 · section='Biofuel Bunkering STS — Singapore — Singapore — MPA Singapore — Rotterdam — Netherlands — Port of Rotterdam — Hong Kong — Hong Kong — Hong Kong Port Board — Fujairah' · page=299 · 257 tok
 
 U.A.E.
 Abu Dhabi Ports
@@ -15878,7 +15875,7 @@ Guangzhou Port Grp
 | Ammonia Bunkering TTS |  |  |  |  |
 |  | Yokohama |  | Japan | Yokohama Port |
 
-### Child 470 · section='Biofuel Bunkering STS — Singapore — Singapore — MPA Singapore — Rotterdam — Netherlands — Port of Rotterdam — Hong Kong — Hong Kong — Hong Kong Port Board — Fujairah' · page=299 · 389 tok
+### Child 471 · section='Biofuel Bunkering STS — Singapore — Singapore — MPA Singapore — Rotterdam — Netherlands — Port of Rotterdam — Hong Kong — Hong Kong — Hong Kong Port Board — Fujairah' · page=299 · 389 tok
 
 uyama |  | Japan | East Asia |
 |  | Floro |  | Norway | United Kingdom/Continent |
@@ -15901,7 +15898,7 @@ uyama |  | Japan | East Asia |
 
 … [+474 more chars]
 
-### Child 471 · section='Biofuel Bunkering STS — Singapore — Singapore — MPA Singapore — Rotterdam — Netherlands — Port of Rotterdam — Hong Kong — Hong Kong — Hong Kong Port Board — Fujairah' · page=300 · 256 tok
+### Child 472 · section='Biofuel Bunkering STS — Singapore — Singapore — MPA Singapore — Rotterdam — Netherlands — Port of Rotterdam — Hong Kong — Hong Kong — Hong Kong Port Board — Fujairah' · page=300 · 256 tok
 
 . | Ningbo Zhoushan Port |
 |  | Dalian | China P.R. | Dalian Port Group |
@@ -15954,7 +15951,7 @@ E- Hydrogen Bunkering
 Poole Harbor
 United Kingdom
 
-### Child 472 · section='Rouen — France — Haropa Port — E-Hydrogen Bunkering Terminal — Antwerp — Belgium — Port Antwerp-Bruges — Newcastle — Australia' · page=300 · 356 tok
+### Child 473 · section='Rouen — France — Haropa Port — E-Hydrogen Bunkering Terminal — Antwerp — Belgium — Port Antwerp-Bruges — Newcastle — Australia' · page=300 · 356 tok
 
 Newcastle Port Corp.
 Oostende
@@ -16004,7 +16001,7 @@ Helgeland Havn
 
 … [+260 more chars]
 
-### Child 473 · section='Rouen — France — Haropa Port — E-Hydrogen Bunkering Terminal — Antwerp — Belgium — Port Antwerp-Bruges — Newcastle — Australia' · page=300 · 333 tok
+### Child 474 · section='Rouen — France — Haropa Port — E-Hydrogen Bunkering Terminal — Antwerp — Belgium — Port Antwerp-Bruges — Newcastle — Australia' · page=300 · 333 tok
 
 | Kinuura Port Authori |
 | Biofuel Bunkering TTS |  |  |  |
@@ -16028,7 +16025,7 @@ Helgeland Havn
 
 … [+251 more chars]
 
-### Child 474 · section='Rouen — France — Haropa Port — E-Hydrogen Bunkering Terminal — Antwerp — Belgium — Port Antwerp-Bruges — Newcastle — Australia' · page=301 · 363 tok
+### Child 475 · section='Rouen — France — Haropa Port — E-Hydrogen Bunkering Terminal — Antwerp — Belgium — Port Antwerp-Bruges — Newcastle — Australia' · page=301 · 363 tok
 
 and Harbour |
 |  | Esbjerg | Denmark | Port of Esbjerg |
@@ -16086,7 +16083,7 @@ Ijmui
 
 … [+320 more chars]
 
-### Child 475 · section='4.\t LNG bunkering' · page=301 · 472 tok
+### Child 476 · section='4.\t LNG bunkering' · page=301 · 472 tok
 
 Sl no. 
 Port name 
@@ -16125,7 +16122,7 @@ Port of Huelva
 
 … [+738 more chars]
 
-### Child 476 · section='4.\t LNG bunkering' · page=301 · 195 tok
+### Child 477 · section='4.\t LNG bunkering' · page=301 · 195 tok
 
 elag Havn |
 |  | Walvis Bay | Namibia | Namport |
@@ -16141,7 +16138,7 @@ elag Havn |
 |  | Frederikshavn | United Kingdom/Continent | Port Frederikshavn |
 |  | Huelva | United Kingdom/Continent | Port of Huelva |
 
-### Child 477 · section='4.\t LNG bunkering' · page=302 · 498 tok
+### Child 478 · section='4.\t LNG bunkering' · page=302 · 498 tok
 
 |  |  |
 |  | Stockholm | United Kingdom/Continent | Ports of Stockholm |
@@ -16201,7 +16198,7 @@ Fi
 
 … [+638 more chars]
 
-### Child 478 · section='La Spezia — Italy — La Spezia Port Autho — Pengerang — Malaysia' · page=302 · 633 tok
+### Child 479 · section='La Spezia — Italy — La Spezia Port Autho — Pengerang — Malaysia' · page=302 · 633 tok
 
 | Sl no. | Port name | Port country | Port operator |
 | --- | --- | --- | --- |
@@ -16225,7 +16222,7 @@ Fi
 
 … [+1153 more chars]
 
-### Child 479 · section='Vlissingen-Oost — Netherlands — North Sea Port — Toyohashi — Japan — Mikawa Port Office — Huangpu' · page=303 · 158 tok
+### Child 480 · section='Vlissingen-Oost — Netherlands — North Sea Port — Toyohashi — Japan — Mikawa Port Office — Huangpu' · page=303 · 158 tok
 
 China P.R.
 Guangzhou Port Grp
@@ -16268,7 +16265,7 @@ Groningen Seaports
 Gongdan
 South Korea
 
-### Child 480 · section='Okpo — South Korea — Gyeongsangnam-do PMO — Kaliningrad — Russia — Lindo — Denmark — Sodertalje — Sweden — Oxelosund — Sweden — Oxelosunds Hamn AB — Agotnes — Norway — Coast Center Base — Vyborg — Russia — Vyborg Port — Backviken — Sweden — Blang Lancang — Indonesia — Blang Lancang Port — Singapore — Singapore — MPA Singapore — Rotterdam — Netherlands — Port of Rotterdam — Hong Kong — Hong Kong — Hong Kong Port Board — West Port Said — Egypt — Suez Canal Zone — Port Hedland — Australia — Pilbara Ports — Piraeus — Greece — Piraeus Port Auth' · page=303 · 523 tok
+### Child 481 · section='Okpo — South Korea — Gyeongsangnam-do PMO — Kaliningrad — Russia — Lindo — Denmark — Sodertalje — Sweden — Oxelosund — Sweden — Oxelosunds Hamn AB — Agotnes — Norway — Coast Center Base — Vyborg — Russia — Vyborg Port — Backviken — Sweden — Blang Lancang — Indonesia — Blang Lancang Port — Singapore — Singapore — MPA Singapore — Rotterdam — Netherlands — Port of Rotterdam — Hong Kong — Hong Kong — Hong Kong Port Board — West Port Said — Egypt — Suez Canal Zone — Port Hedland — Australia — Pilbara Ports — Piraeus — Greece — Piraeus Port Auth' · page=303 · 523 tok
 
 | Sl no. | Port name | Port country | Port operator |
 | --- | --- | --- | --- |
@@ -16293,7 +16290,7 @@ South Korea
 
 … [+832 more chars]
 
-### Child 481 · section='Okpo — South Korea — Gyeongsangnam-do PMO — Kaliningrad — Russia — Lindo — Denmark — Sodertalje — Sweden — Oxelosund — Sweden — Oxelosunds Hamn AB — Agotnes — Norway — Coast Center Base — Vyborg — Russia — Vyborg Port — Backviken — Sweden — Blang Lancang — Indonesia — Blang Lancang Port — Singapore — Singapore — MPA Singapore — Rotterdam — Netherlands — Port of Rotterdam — Hong Kong — Hong Kong — Hong Kong Port Board — West Port Said — Egypt — Suez Canal Zone — Port Hedland — Australia — Pilbara Ports — Piraeus — Greece — Piraeus Port Auth' · page=304 · 325 tok
+### Child 482 · section='Okpo — South Korea — Gyeongsangnam-do PMO — Kaliningrad — Russia — Lindo — Denmark — Sodertalje — Sweden — Oxelosund — Sweden — Oxelosunds Hamn AB — Agotnes — Norway — Coast Center Base — Vyborg — Russia — Vyborg Port — Backviken — Sweden — Blang Lancang — Indonesia — Blang Lancang Port — Singapore — Singapore — MPA Singapore — Rotterdam — Netherlands — Port of Rotterdam — Hong Kong — Hong Kong — Hong Kong Port Board — West Port Said — Egypt — Suez Canal Zone — Port Hedland — Australia — Pilbara Ports — Piraeus — Greece — Piraeus Port Auth' · page=304 · 325 tok
 
 Port of Rotterdam |
 |  | Hong Kong | Hong Kong | Hong Kong Port Board |
@@ -16353,7 +16350,7 @@ Gree
 
 … [+197 more chars]
 
-### Child 482 · section='Vancouver — Canada — Port of Vancouver — Port Elizabeth — South Africa — Transnet — LNG Bunkering Terminal — Rotterdam — Netherlands — Port of Rotterdam — Barcelona — Spain — Barcelona Port Auth — Jebel Ali' · page=304 · 78 tok
+### Child 483 · section='Vancouver — Canada — Port of Vancouver — Port Elizabeth — South Africa — Transnet — LNG Bunkering Terminal — Rotterdam — Netherlands — Port of Rotterdam — Barcelona — Spain — Barcelona Port Auth — Jebel Ali' · page=304 · 78 tok
 
 U.A.E.
 Port of Jebel Ali
@@ -16375,7 +16372,7 @@ Klaipeda Seaport
 Pengerang
 Malaysia
 
-### Child 483 · section='Hirtshals — Denmark — Port of Hirtshals — Wilhelmshaven — Germany — Niedersachsen Ports' · page=304 · 515 tok
+### Child 484 · section='Hirtshals — Denmark — Port of Hirtshals — Wilhelmshaven — Germany — Niedersachsen Ports' · page=304 · 515 tok
 
 | Sl no. | Port name | Port country | Port operator |
 | --- | --- | --- | --- |
@@ -16398,7 +16395,7 @@ Malaysia
 
 … [+880 more chars]
 
-### Child 484 · section='Hirtshals — Denmark — Port of Hirtshals — Wilhelmshaven — Germany — Niedersachsen Ports' · page=305 · 270 tok
+### Child 485 · section='Hirtshals — Denmark — Port of Hirtshals — Wilhelmshaven — Germany — Niedersachsen Ports' · page=305 · 270 tok
 
 | Klaipeda | Lithuania | Klaipeda Seaport |
 |  | Pengerang | Malaysia |  |
@@ -16445,7 +16442,7 @@ Gongdan
 
 … [+12 more chars]
 
-### Child 485 · section='Tobata — Japan — Kitakyushu Seaport — Hammerfest — Norway — Kristiansund — Norway — Montego Bay — Jamaica — Floro — Norway — Flora Hamn — Lodingen — Norway — Avaldsnes — Norway — Borg Harbour — Norway — Agotnes — Norway — Coast Center Base — Hamina — Finland — Port HaminaKotka — Roytta — Finland — Tahkoluoto — Finland — Port of Pori Ltd — Singapore — Singapore — MPA Singapore — Shanghai' · page=305 · 546 tok
+### Child 486 · section='Tobata — Japan — Kitakyushu Seaport — Hammerfest — Norway — Kristiansund — Norway — Montego Bay — Jamaica — Floro — Norway — Flora Hamn — Lodingen — Norway — Avaldsnes — Norway — Borg Harbour — Norway — Agotnes — Norway — Coast Center Base — Hamina — Finland — Port HaminaKotka — Roytta — Finland — Tahkoluoto — Finland — Port of Pori Ltd — Singapore — Singapore — MPA Singapore — Shanghai' · page=305 · 546 tok
 
 China P.R.
 SIPG
@@ -16481,7 +16478,7 @@ Port de Dunkerque
 
 … [+849 more chars]
 
-### Child 486 · section='Tobata — Japan — Kitakyushu Seaport — Hammerfest — Norway — Kristiansund — Norway — Montego Bay — Jamaica — Floro — Norway — Flora Hamn — Lodingen — Norway — Avaldsnes — Norway — Borg Harbour — Norway — Agotnes — Norway — Coast Center Base — Hamina — Finland — Port HaminaKotka — Roytta — Finland — Tahkoluoto — Finland — Port of Pori Ltd — Singapore — Singapore — MPA Singapore — Shanghai' · page=306 · 290 tok
+### Child 487 · section='Tobata — Japan — Kitakyushu Seaport — Hammerfest — Norway — Kristiansund — Norway — Montego Bay — Jamaica — Floro — Norway — Flora Hamn — Lodingen — Norway — Avaldsnes — Norway — Borg Harbour — Norway — Agotnes — Norway — Coast Center Base — Hamina — Finland — Port HaminaKotka — Roytta — Finland — Tahkoluoto — Finland — Port of Pori Ltd — Singapore — Singapore — MPA Singapore — Shanghai' · page=306 · 290 tok
 
 | SIPG |
 |  | Busan | South Korea | BPA |
@@ -16547,7 +16544,7 @@ United St
 
 … [+4 more chars]
 
-### Child 487 · section='Blang Lancang — Indonesia — Blang Lancang Port — Oxelosund — Sweden — Oxelosunds Hamn AB — Isle Of Grain — United Kingdom — GrainLNG — Taixing' · page=306 · 79 tok
+### Child 488 · section='Blang Lancang — Indonesia — Blang Lancang Port — Oxelosund — Sweden — Oxelosunds Hamn AB — Isle Of Grain — United Kingdom — GrainLNG — Taixing' · page=306 · 79 tok
 
 China P.R.
 Taixing Port
@@ -16569,7 +16566,7 @@ Cyprus Ports Auth.
 Boryeong
 South Korea
 
-### Child 488 · section='Laowei' · page=306 · 640 tok
+### Child 489 · section='Laowei' · page=306 · 640 tok
 
 China P.R.
 Unknown
@@ -16610,7 +16607,7 @@ Port Antwerp-Bruges
 
 … [+1089 more chars]
 
-### Child 489 · section='Laowei' · page=307 · 504 tok
+### Child 490 · section='Laowei' · page=307 · 504 tok
 
 Singapore |
 |  | Rotterdam | Netherlands | Port of Rotterdam |
@@ -16674,7 +16671,7 @@ Marsei
 
 … [+694 more chars]
 
-### Child 490 · section='Laowei' · page=307 · 568 tok
+### Child 491 · section='Laowei' · page=307 · 568 tok
 
 Longkou Port Group
 Amsterdam
@@ -16704,7 +16701,7 @@ JAXPORT | Sl no. | Port name | Port country | Port operator |
 
 … [+1061 more chars]
 
-### Child 491 · section='Laowei' · page=308 · 440 tok
+### Child 492 · section='Laowei' · page=308 · 440 tok
 
 Aires |
 |  | Longkou | China P.R. | Longkou Port Group |
@@ -16769,7 +16766,7 @@ Eemshave
 
 … [+495 more chars]
 
-### Child 492 · section='Laowei' · page=308 · 582 tok
+### Child 493 · section='Laowei' · page=308 · 582 tok
 
 leur
 France
@@ -16803,7 +16800,7 @@ United States | Sl no. | Port name | Port country | Port operator |
 
 … [+1047 more chars]
 
-### Child 493 · section='6.\t Methanol Bunkering' · page=309 · 398 tok
+### Child 494 · section='6.\t Methanol Bunkering' · page=309 · 398 tok
 
 S. No. 
 Port Name 
@@ -16869,7 +16866,7 @@ Port Frederikshav
 
 … [+410 more chars]
 
-### Child 494 · section='6.\t Methanol Bunkering' · page=309 · 515 tok
+### Child 495 · section='6.\t Methanol Bunkering' · page=309 · 515 tok
 
 No. | Port Name | Port Country | Port Operator |
 | --- | --- | --- | --- |
@@ -16891,7 +16888,7 @@ No. | Port Name | Port Country | Port Operator |
 
 … [+853 more chars]
 
-### Child 495 · section='E Methanol Bunkering STS — Singapore — Singapore — MPA Singapore — Gothenburg — Sweden — Gothenburg Port — East Port Said — Egypt — Suez Canal Zone — E Methanol Bunkering Terminal — Onsan — South Korea — Ulsan Port Authority — Ronne — Denmark — Ronne Havn — E Methanol Bunkering — Salalah — Middle East — Salalah Port Service — East Port Said — Mediterranean / Black Sea — Suez Canal Zone — Ain Sokhna — Middle East — Suez Canal Zone — Duqm — Middle East — Port of Duqm' · page=310 · 299 tok
+### Child 496 · section='E Methanol Bunkering STS — Singapore — Singapore — MPA Singapore — Gothenburg — Sweden — Gothenburg Port — East Port Said — Egypt — Suez Canal Zone — E Methanol Bunkering Terminal — Onsan — South Korea — Ulsan Port Authority — Ronne — Denmark — Ronne Havn — E Methanol Bunkering — Salalah — Middle East — Salalah Port Service — East Port Said — Mediterranean / Black Sea — Suez Canal Zone — Ain Sokhna — Middle East — Suez Canal Zone — Duqm — Middle East — Port of Duqm' · page=310 · 299 tok
 
 | S. No. | Port Name | Port Country | Port Operator |
 | --- | --- | --- | --- |
@@ -16920,7 +16917,7 @@ Project Na
 
 … [+167 more chars]
 
-### Child 496 · section='2 GW' · page=311 · 236 tok
+### Child 497 · section='2 GW' · page=311 · 236 tok
 
 5,600,000 t/y
 Total Energies 
@@ -16986,7 +16983,7 @@ phase 1
 Concept
 Unknown
 
-### Child 497 · section='15 kt NH3/y' · page=311 · 393 tok
+### Child 498 · section='15 kt NH3/y' · page=311 · 393 tok
 
 capacity
 15,000 t NH₃/y
@@ -17003,7 +17000,7 @@ capacity
 
 … [+281 more chars]
 
-### Child 498 · section='15 kt NH3/y' · page=312 · 601 tok
+### Child 499 · section='15 kt NH3/y' · page=312 · 601 tok
 
 000 t NH₃/y |  | 11 |
 | 7 | Ammonia plant Kota - Rajasthan state - phase 1 | 2025 | Concept | Unknown | 15 kt NH3/y capacity | 15,000 t NH₃/y |  | 11 | S. 
@@ -17073,7 +17070,7 @@ pla
 
 … [+701 more chars]
 
-### Child 499 · section='15 kt NH3/y' · page=312 · 609 tok
+### Child 500 · section='15 kt NH3/y' · page=312 · 609 tok
 
 production
 5,000,000 NH₃/t/y
@@ -17098,7 +17095,7 @@ production
 
 … [+781 more chars]
 
-### Child 500 · section='15 kt NH3/y' · page=312 · 463 tok
+### Child 501 · section='15 kt NH3/y' · page=312 · 463 tok
 
 000 NH₃/t/y |  | 7 |
 | 17 | Ocior Energy Gujarat H2 | 2030 | Feasibility study | Unknown | 2628 t H2/y production | 1,000,000 NH₃/t/y |  | 7 | | 18 | POSCO H2 | 2027 | Feasibility study | Unknown | 10 t H2/y production | 5,000,000 NH₃/t/y |  | 8 |
@@ -17147,7 +17144,7 @@ Econ
 
 … [+456 more chars]
 
-### Child 501 · section='3.2 kt NH3/day' · page=313 · 140 tok
+### Child 502 · section='3.2 kt NH3/day' · page=313 · 140 tok
 
 production
 1,168,000 t NH₃/y
@@ -17184,7 +17181,7 @@ Solar PV
 1,825 t NH₃/y
 11
 
-### Child 502 · section='3.2 kt NH3/day' · page=313 · 675 tok
+### Child 503 · section='3.2 kt NH3/day' · page=313 · 675 tok
 
 Others/
 Various
@@ -17209,7 +17206,7 @@ Solar PV
 
 … [+1077 more chars]
 
-### Child 503 · section='10 TPD' · page=314 · 185 tok
+### Child 504 · section='10 TPD' · page=314 · 185 tok
 
 3,650 t/y
 NTPC is also working to 
@@ -17254,7 +17251,7 @@ production
 300,000 t/y
 11
 
-### Child 504 · section='10 TPD' · page=314 · 397 tok
+### Child 505 · section='10 TPD' · page=314 · 397 tok
 
 MeOH/y 
 production
@@ -17280,7 +17277,7 @@ production
 
 … [+476 more chars]
 
-### Child 505 · section='Other Details' · page=315 · 132 tok
+### Child 506 · section='Other Details' · page=315 · 132 tok
 
 Ref.
 Given 
@@ -17315,7 +17312,7 @@ Chemicals Ltd
 Feasibility or 
 pre feasibility
 
-### Child 506 · section='75 t/day' · page=315 · 297 tok
+### Child 507 · section='75 t/day' · page=315 · 297 tok
 
 27,375 t/y
 10
@@ -17343,7 +17340,7 @@ Producti
 
 … [+105 more chars]
 
-### Child 507 · section='Concept — Coal w CCUS' · page=316 · 484 tok
+### Child 508 · section='Concept — Coal w CCUS' · page=316 · 484 tok
 
 -
 -
@@ -17421,7 +17418,7 @@ Unknow
 
 … [+463 more chars]
 
-### Child 508 · section='5 kt  H2/y' · page=316 · 611 tok
+### Child 509 · section='5 kt  H2/y' · page=316 · 611 tok
 
 production
 5,000 t H₂/y
@@ -17448,7 +17445,7 @@ C) Hydrogen
 
 … [+915 more chars]
 
-### Child 509 · section='5 kt  H2/y' · page=316 · 349 tok
+### Child 510 · section='5 kt  H2/y' · page=316 · 349 tok
 
 H2/y production | 547,500 t H₂/y | 11 |
 | 10 | Indian Oil Corporation IOCL refinery | 2030 Concept |  | Biomass |  | 350 kt H2/y production | 350,000 t H₂/y | 11 | | 11 | Chennai Petroleum Corporation (CPCL) - phase 1 | 2027 Concept |  | Other Electrolysis | Unknown | 1 kt H2/y production | 1,000 t H₂/y | 11 |
@@ -17478,7 +17475,7 @@ MRPL Mangalore Refiner
 
 … [+205 more chars]
 
-### Child 510 · section='Concept — Other — Electrolysis' · page=317 · 219 tok
+### Child 511 · section='Concept — Other — Electrolysis' · page=317 · 219 tok
 
 1.2 kt H2/d 
 production
@@ -17535,7 +17532,7 @@ DEMO — Other — Electrolysis
 Sonam Nurboo Memorial 
 Hopsital
 
-### Child 511 · section='Feasibility' · page=317 · 212 tok
+### Child 512 · section='Feasibility' · page=317 · 212 tok
 
 study
 Other 
@@ -17595,7 +17592,7 @@ production
 365 t H₂/y
 11
 
-### Child 512 · section='Feasibility' · page=317 · 615 tok
+### Child 513 · section='Feasibility' · page=317 · 615 tok
 
 study
 ALK
@@ -17622,7 +17619,7 @@ production
 
 … [+834 more chars]
 
-### Child 513 · section='Feasibility' · page=317 · 323 tok
+### Child 514 · section='Feasibility' · page=317 · 323 tok
 
 ibility | study | Other Electrolysis | Unknown | 10 kt H2/y production | 10,000 t H₂/y | 11 |
 | 24 | Tamil Nadu project | 2024 Feasibility | study | PEM | Solar PV | - | - | 11 | | 25 | Indian Oil Corporation Koyali refinery | 2026 Feasibility | study | NG w CCUS |  | 0.7Mt CO2/y (part for CCU) | 72,500 t H₂/y | 15 |
@@ -17659,7 +17656,7 @@ producti
 
 … [+91 more chars]
 
-### Child 514 · section='5 kt H2/y' · page=318 · 304 tok
+### Child 515 · section='5 kt H2/y' · page=318 · 304 tok
 
 production
 5,000 t H₂/y
@@ -17739,7 +17736,7 @@ study
 PEM
 Unknown
 
-### Child 515 · section='1 MW' · page=318 · 232 tok
+### Child 516 · section='1 MW' · page=318 · 232 tok
 
 175.2 t H₂/y
 11
@@ -17799,7 +17796,7 @@ production
  3,650 t H₂/y
 11
 
-### Child 516 · section='1 MW' · page=318 · 619 tok
+### Child 517 · section='1 MW' · page=318 · 619 tok
 
 H2/y 
 production
@@ -17824,7 +17821,7 @@ production
 
 … [+866 more chars]
 
-### Child 517 · section='1 MW' · page=318 · 545 tok
+### Child 518 · section='1 MW' · page=318 · 545 tok
 
 175.2 t H₂/y | 11 |
 | 37 | Madhya Pradesh H2 | 2040 Feasibility | study | Other Electrolysis | Unknown | 16.43 t H2/y production | 16.43 t H₂/y | 11 | | 38 | MAHAPREIT | 2027 Feasibility | study | Other Electrolysis | Unknown | 64.02 t H2/y production | 64.02 t H₂/y | 11 |
@@ -17851,7 +17848,7 @@ Conve
 
 … [+675 more chars]
 
-### Child 518 · section='5 kt H2/y' · page=319 · 234 tok
+### Child 519 · section='5 kt H2/y' · page=319 · 234 tok
 
 5,000 t H₂/y
 11
@@ -17915,7 +17912,7 @@ ALK
 Others/
 Various
 
-### Child 519 · section='1.8 Mwel' · page=319 · 622 tok
+### Child 520 · section='1.8 Mwel' · page=319 · 622 tok
 
 170 t H₂/y
 14
@@ -17947,7 +17944,7 @@ PEM
 
 … [+887 more chars]
 
-### Child 520 · section='1.8 Mwel' · page=319 · 302 tok
+### Child 521 · section='1.8 Mwel' · page=319 · 302 tok
 
 175.2 t H₂/y | 11 |
 | 51 | HPCL Vizag Refinery H2 | 2024 FID/ | Construction | Other Electrolysis | Unknown | 2.4MW | 420.48 t H₂/y | 11 | | 52 | PMC Waste to H2 Phase I | 2024 FID/ | Construction | Biomass |  | 2 kt H2/y production | 2,000 t H₂/y | 11 |
@@ -17979,7 +17976,7 @@ Hydrogen sup
 
 … [+24 more chars]
 
-### Child 521 · section='1.8 Mwel' · page=320 · 427 tok
+### Child 522 · section='1.8 Mwel' · page=320 · 427 tok
 
 Given 
 Production 
@@ -18058,7 +18055,7 @@ demonstrat
 
 … [+309 more chars]
 
-### Child 522 · section='1 MW' · page=320 · 575 tok
+### Child 523 · section='1 MW' · page=320 · 575 tok
 
 175.2 t H₂/y
 11
@@ -18074,7 +18071,7 @@ demonstrat
 
 … [+759 more chars]
 
-### Child 523 · section='Reference' · page=321 · 432 tok
+### Child 524 · section='Reference' · page=321 · 432 tok
 
 1.	 Adani New Industries Limited. (2024). Green Hydrogen Ecosystem. https://www.adanienterprises.
 com/-/media/Project/Enterprises/Investors/Investor-Downloads/Investors-Presentation/ANIL-
@@ -18093,7 +18090,7 @@ news/2387218-firms-earmark-35bn-for-indian-green-h2-in-karnataka
 
 … [+509 more chars]
 
-### Child 524 · section='8.\t https://www.livemint.com/industry/energy/posco-to-make-green-hydrogen-signs-mou-with-' · page=321 · 460 tok
+### Child 525 · section='8.\t https://www.livemint.com/industry/energy/posco-to-make-green-hydrogen-signs-mou-with-' · page=321 · 458 tok
 
 greenko-s-zeroc-11662039544742.html
 9.	  Matalucci, U. G. a. S. (2024, February 19). The Hydrogen Stream: ReNew begins work on 1.2 
@@ -18108,4 +18105,4 @@ projects-database
 12.	 Electrolysis for green hydrogen production.. Linde. https://www.linde.com/clean-energy/
 our-h2-technology/electrolysis-for-green-hydrogen-product
 
-… [+681 more chars]
+… [+677 more chars]

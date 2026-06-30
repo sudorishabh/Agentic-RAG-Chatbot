@@ -190,7 +190,7 @@ Financial Cost of Power Generation
 
 ## Page 10 · via `ocr` · 0 table(s)
 
-# Carbon Implications
+Carbon Implications
 
 ## Page 11 · via `text` · 0 table(s)
 
@@ -325,7 +325,7 @@ Agartala)
 
 ## Page 17 · via `ocr` · 0 table(s)
 
-## Domestic Coal and Gas Availability and Projected Requirements
+Domestic Coal and Gas Availability and Projected Requirements
 
 ## Page 18 · via `text` · 0 table(s)
 
@@ -367,7 +367,7 @@ KG-D6 output which has decreased to nearly 16 mmscmd*
 
 ## Page 20 · via `ocr` · 0 table(s)
 
-### International Fuel Markets
+International Fuel Markets
 
 ## Page 21 · via `text` · 0 table(s)
 
@@ -495,7 +495,7 @@ Likelihood of excess gas availability and softening of prices in Asia?
 
 ## Page 25 · via `ocr` · 0 table(s)
 
-#### Conclusions
+Conclusions
 
 ## Page 26 · via `text` · 0 table(s)
 
@@ -516,7 +516,7 @@ strategy
 
 ## Page 27 · via `ocr` · 0 table(s)
 
-#### Suggestions - Policy Options
+Suggestions - Policy Options
 
 ## Page 28 · via `text` · 0 table(s)
 

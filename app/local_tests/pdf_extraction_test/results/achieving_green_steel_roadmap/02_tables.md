@@ -1,6 +1,6 @@
 # Tables — Achieving_Green_Steel_Roadmap.pdf
 
-Total tables: **8**
+Total tables: **7**
 
 ## Table 1 · page 13 · 27×5 · caption: None
 
@@ -48,11 +48,7 @@ Total tables: **8**
 |  |  |  | Thyssen Krupp 2025 2025 2027 |
 |  |  |  | Tenaris TBC |
 
-## Table 3 · page 31 · 2×3 · caption: None
-
-_(empty)_
-
-## Table 4 · page 32 · 10×2 · caption: None
+## Table 3 · page 32 · 10×2 · caption: None
 
 | too early to assess the effectiveness of this programme. |  |
 | --- | --- |
@@ -66,7 +62,7 @@ _(empty)_
 | Finance | 30-35 |
 | Total cost disadvantage | 80-100 |
 
-## Table 5 · page 34 · 6×3 · caption: None
+## Table 4 · page 34 · 6×3 · caption: None
 
 |  | 500 |  |
 | --- | --- | --- |
@@ -76,7 +72,7 @@ _(empty)_
 |  | 200 |  |
 |  | 100 |  |
 
-## Table 6 · page 35 · 44×4 · caption: None
+## Table 5 · page 35 · 44×4 · caption: None
 
 | Table 2: Low emissions steelmaking technologies |  |  |  |
 | --- | --- | --- | --- |
@@ -124,7 +120,7 @@ _(empty)_
 |  |  | >90% emissions reduction. | and in india (institute of Minerals and |
 |  |  |  | Materials Technology, iMMT). Timeline for |
 
-## Table 7 · page 42 · 11×4 · caption: None
+## Table 6 · page 42 · 11×4 · caption: None
 
 |  | TERI | TERI |  |
 | --- | --- | --- | --- |
@@ -139,7 +135,7 @@ _(empty)_
 | 200 |  |  |  |
 | 100 |  |  |  |
 
-## Table 8 · page 52 · 22×3 · caption: None
+## Table 7 · page 52 · 22×3 · caption: None
 
 |  | Figure 25: Pathways for low carbon primary steelmaking |  |
 | --- | --- | --- |

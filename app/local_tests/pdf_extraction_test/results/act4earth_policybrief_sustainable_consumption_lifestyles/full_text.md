@@ -812,6 +812,9 @@ Energy and Resources Institute.
 UNEP (United Nations Environment Programme). (2022). Global Strategy for Sustainable Consumption and Production 
 2023-2030. UNEP.
 
+Internationalizing Lifestyles for Environment: Messages for G20
+19
+
 20	
 SDG Charter Policy Brief
 WORLD SUSTAINABLE 

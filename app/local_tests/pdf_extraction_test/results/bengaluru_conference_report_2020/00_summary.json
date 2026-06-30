@@ -1,12 +1,13 @@
 {
   "pdf": "Bengaluru-Conference-Report_2020.pdf",
-  "elapsed_seconds": 39.09,
+  "elapsed_seconds": 41.18,
   "page_count": 44,
-  "table_count": 5,
-  "char_count": 92797,
+  "table_count": 0,
+  "char_count": 90481,
   "route": "azure",
   "routes": {
-    "ocr": 44
+    "ocr": 43,
+    "empty": 1
   },
   "page_routes": {
     "azure": 44,
@@ -15,11 +16,10 @@
   },
   "camelot_pages": 0,
   "digital_pages": 0,
-  "scanned_ocr_pages": 44,
-  "empty_pages": 0,
+  "scanned_ocr_pages": 43,
+  "empty_pages": 1,
   "ocr_page_numbers": [
     1,
-    2,
     3,
     4,
     5,
@@ -63,10 +63,10 @@
     43,
     44
   ],
-  "chunks_total": 67,
-  "parent_chunks": 8,
-  "child_chunks": 59,
-  "child_token_min": 130,
-  "child_token_max": 626,
-  "child_token_avg": 344
+  "chunks_total": 69,
+  "parent_chunks": 13,
+  "child_chunks": 56,
+  "child_token_min": 142,
+  "child_token_max": 571,
+  "child_token_avg": 373
 }

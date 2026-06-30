@@ -1,9 +1,9 @@
 PDF EXTRACTION SUMMARY — Annexure_O_Map-Plastic-Leakage-Points.pdf
 ==============================================================================
-  elapsed            : 4.28s
+  elapsed            : 2.26s
   pages              : 1
   tables             : 0
-  extracted chars    : 256
+  extracted chars    : 243
 
   extraction route   : azure
   pages by extractor : azure=1 camelot=0 local=0
@@ -14,4 +14,4 @@ PDF EXTRACTION SUMMARY — Annexure_O_Map-Plastic-Leakage-Points.pdf
   chunks (total)     : 1
   parent chunks      : 0
   child chunks       : 1
-  child tokens       : min=77 max=77 avg=77
+  child tokens       : min=78 max=78 avg=78

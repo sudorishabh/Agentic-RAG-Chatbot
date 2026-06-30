@@ -1,7 +1,7 @@
 # Chunking (chunk_pdf) — ICDL_Poster_2019_Full.pdf
 
-- parents: **59**
-- children: **249**
+- parents: **60**
+- children: **250**
 
 ---
 
@@ -60,6 +60,38 @@ Tweet using ICDL Hashtags
 | --- | -
 
 … [+848 more chars]
+
+### Parent · section='CONTENTS IN DETAIL — Foreword ...ix — Nitin Desai' · pages=(9, 10) · 470 tok
+
+CONTENTS IN DETAIL — Foreword ...ix — Nitin Desai
+
+Message from Director General ...xi 
+Ajay Mathur
+Preface ...xiii 
+P K Bhattacharya and Shantanu Ganguly
+ICDL 2019 Conference Committee ...xv
+Keynote Speech ...1
+Nikhil Seth
+Posters
+Digital rights management and how it is solution to libraries ...11
+Priyanka Bose
+Role of librarian in promoting open access: Study of Indian librarians’ community ...18 
+Vrushali Dandawate and M Dhanamajaya
+Security and Safety issues in Libraries with special reference to Disaster Management...28 
+Jamal Anam and Ali Naushad P M
+Is science built on false claim: An analysis of citation dependency of scientific literature on 
+retracted article ...29
+Rosy Jan, Sabha Ali and Irfan ul haq
+Was Beall’s list of predatory journals worth disappearing?  ...39
+Rosy Jan and Sumeer Gul
+Predatory publishing or quality research: Which is bigger challenge for India ...40
+Rosy Jan and Sumeer Gul
+
+Information literacy skills among faculty members of Central Universities in India: A survey ... 48 Haleema Khatoon
+Digital Avatar: Is e-publishing future of publishing ... 64 Anuradha Maurya
+Information e-resources for Generation Alpha: MRIS library as an information resource ce
+
+… [+760 more chars]
 
 ### Parent · section='Message from Director General — I' · pages=(13, 13) · 796 tok
 
@@ -1689,37 +1721,55 @@ Geographical Indications of
 
 … [+4403 more chars]
 
-### Parent · section='Agnou — R' · pages=(187, 188) · 1186 tok
+### Parent · section='Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18' · pages=(185, 188) · 1535 tok
 
-Agnou — R
+Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18
 
-00 30 30:30
+Gul Sumeer   39, 40
+Jamal Anam  28
+Jan Rosy  29, 39, 40
+Khan Khalid Nadeem  48
+Khatoon Haleema  48
+Maurya Anuradha  64
+Mukh Monika  82
+Naushad Ali P M  28
+Pareek Sarwesh  89
+Rahman M A M Mominur   133
+Roychowdhury Priyanka   119
+Samadi Shafi qunnabee   133
+Shee Payel   134
+Shukla Archana  144
+Singh Vikas  144
+Ul haq Irfan  29
+Verma O P  152
+International Conference on Digital Landscape
+Digital Transformation for an Agile Environment
+November 6-8, 2019 | New Delhi
+ICDL2019
+CONFERENCE POSTERS
+AUTHOR INDEX
+163
 
-6
-E
+ICDL 2019 WEBCASTING Supported by Indira Gandhi National Open University (IGNOU)
+THE ENERGY AND RESOURCES INSTITUTE
+ICDL 2019 INTERNATIONAL CONFERENCE ON DIGITAL LANDSCAPE DIGITAL TRANSFORMATION FOR AN AGILE ENVIRONMENT
+November 6-8. 2019 | New Delhi
+Corporate Sponsor
+Partners
+Associates
+Đ
+50
+Knowledge Partoun
+0
+Copyright ( 2019 LIC,IGNOU. All rights reserved.
 
 Editor-in-Chief   Prof. 
 Editor   Dr Partha Kalyan Bhattacharya
 Associate Editor   Dr Shantanu Ganguly
 Michael Seadle
-World Digital Libraries is an international peer-reviewed biannual journal. The journal seeks 
-quality research papers that present original theoretical approaches. It also seeks 
-experimental case studies related to digital library developments, maintenance and 
-dissemination of digital information focussing on research and integration of knowledge at 
-the interface of resources and development. The journal will, therefore, keep readers 
-abreast with the current developments and contain articles, reviews, current 
-developments, and case studies, encompassing the following areas.
-n Theoretical and methodological issues that relate to the interrelationships among
-electronic resources management, digital preservation, multiple access, multi-
-linguality, copyright issues, and security aspects.
-n
-digital library development and maintenance.
-n Initiatives towards digitization through lucid case studies.
-n Current developments across the globe.
-n Dialogues between the scientific community and society at large.
-You are requested to access digit
+World Digital Libraries is an international peer-reviewed biannual journa
 
-… [+3792 more chars]
+… [+4772 more chars]
 
 ---
 
@@ -1858,7 +1908,7 @@ North Eastern Council, Government of
 
 … [+864 more chars]
 
-### Child 5 · section='CONTENTS IN DETAIL — Foreword ...ix — Nitin Desai' · page=9 · 467 tok
+### Child 5 · section='CONTENTS IN DETAIL — Foreword ...ix — Nitin Desai' · page=9 · 218 tok
 
 Message from Director General ...xi 
 Ajay Mathur
@@ -1881,9 +1931,24 @@ Was Beall’s list of predatory journals worth disappearing?  ...39
 Rosy Jan and Sumeer Gul
 Predatory publishing or quality research
 
-… [+1118 more chars]
+… [+67 more chars]
 
-### Child 6 · section='Foreword — W' · page=11 · 481 tok
+### Child 6 · section='CONTENTS IN DETAIL — Foreword ...ix — Nitin Desai' · page=10 · 295 tok
+
+Jan, Sabha Ali and Irfan ul haq
+Was Beall’s list of predatory journals worth disappearing?  ...39
+Rosy Jan and Sumeer Gul
+Predatory publishing or quality research: Which is bigger challenge for India ...40
+Rosy Jan and Sumeer Gul Information literacy skills among faculty members of Central Universities in India: A survey ... 48 Haleema Khatoon
+Digital Avatar: Is e-publishing future of publishing ... 64 Anuradha Maurya
+Information e-resources for Generation Alpha: MRIS library as an information resource centre ... 82 Monika Mukh
+Children's right to read: community participation in improving reading ... 89 Sarwesh Pareek
+Electronic publishing: A simplified approach ... 119 Priyanka Roychowdhury and Subarna Kumar Das
+Campus TV through digital library: A never-ending possibility for knowledge 
+
+… [+470 more chars]
+
+### Child 7 · section='Foreword — W' · page=11 · 481 tok
 
 ith the Digital Transformation (DT), the era of trotting from one 
 place to another for services, processes, business decisions, knowledge 
@@ -1899,7 +1964,7 @@ policy making an
 
 … [+1740 more chars]
 
-### Child 7 · section='Message from Director General — I' · page=13 · 435 tok
+### Child 8 · section='Message from Director General — I' · page=13 · 435 tok
 
 CDL 2019 conference is being organized this year on the broader theme on Digital 
 Transformation for an Agile Environment. It has envisaged holding discussions on cross-cutting 
@@ -1913,7 +1978,7 @@ novative technology adoption. In
 
 … [+1491 more chars]
 
-### Child 8 · section='Message from Director General — I' · page=13 · 387 tok
+### Child 9 · section='Message from Director General — I' · page=13 · 387 tok
 
 Organizations are increasingly capitalizing enormous 
 opportunities of digital transformation more than ever through increased use of digitization, knowledge management, data analytics 
@@ -1925,7 +1990,7 @@ collaboration models have changed the organization decision makin
 
 … [+1292 more chars]
 
-### Child 9 · section='Preface — D' · page=15 · 430 tok
+### Child 10 · section='Preface — D' · page=15 · 430 tok
 
 igital transformation is about revolutionising the way organisation and institutions are 
 continuously changing internal operations and activities, addressing need of various 
@@ -1939,7 +2004,7 @@ improving services. By sharing digital skills
 
 … [+1571 more chars]
 
-### Child 10 · section='Preface — D' · page=15 · 268 tok
+### Child 11 · section='Preface — D' · page=15 · 268 tok
 
 It has become one of the premier international platforms to facilitate 
 the exchange of knowledge on all dimensions of digital libraries. The entire ICDL was started in 2004, but today in the sixth edition of this conference and research it has evinced a paradigm shift from Digital Libraries to Digital Landscape. This shift is due to 
@@ -1950,7 +2015,7 @@ event will address emerging trends and issues that accelerate Digital Transforma
 
 … [+619 more chars]
 
-### Child 11 · section='Preface — D' · page=16 · 396 tok
+### Child 12 · section='Preface — D' · page=16 · 396 tok
 
 International Conference on Digital Landscape
 Digital Transformation for an Agile Environment
@@ -1971,7 +2036,7 @@ Stakeholders engagement in digital plat
 
 … [+1156 more chars]
 
-### Child 12 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=17 · 398 tok
+### Child 13 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=17 · 398 tok
 
 ••
 Nitin Desai, Chairman, Governing Council, The Energy and Resources Institute (TERI), India
@@ -2000,7 +2065,7 @@ Department of Scientific and Industrial Research, Government of India, Indi
 
 … [+688 more chars]
 
-### Child 13 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=18 · 498 tok
+### Child 14 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=18 · 498 tok
 
 , India
 ••
@@ -2029,7 +2094,7 @@ Parveen Arora, Adviser and Head (NSTMIS Division), Department of Science and Te
 
 … [+993 more chars]
 
-### Child 14 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=18 · 369 tok
+### Child 15 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=18 · 369 tok
 
 ••
 Arpan Kar, Associate Professor, Department of Management Studies, Indian Institute of Technology, India
@@ -2054,7 +2119,7 @@ Alka Suri, Dir
 
 … [+729 more chars]
 
-### Child 15 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=19 · 436 tok
+### Child 16 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=19 · 436 tok
 
 xvii
 ••
@@ -2079,7 +2144,7 @@ Matthias L Hemmje,  FernUniversitat in Hagen – Fakultat fur Ma
 
 … [+880 more chars]
 
-### Child 16 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=19 · 497 tok
+### Child 17 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=19 · 497 tok
 
 anus Wisnu Wijaya, Chairperson, Software Engineering Undergraduate Program, Universitas Prasetiya
 Mulya, Indonesia
@@ -2102,7 +2167,7 @@ S Siva Chidambaram, Chief Librarian,
 
 … [+961 more chars]
 
-### Child 17 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=19 · 611 tok
+### Child 18 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=19 · 611 tok
 
 ist ‘G’ and Head, KIRAN Project, DSIR, Government of India, India
 ••
@@ -2128,7 +2193,7 @@ Jagdish Mutharia, Director, Information Tech
 
 … [+1590 more chars]
 
-### Child 18 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=20 · 416 tok
+### Child 19 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=20 · 416 tok
 
 ach, Senior Adviser, NASSCOM Foundation, India
 ••
@@ -2155,7 +2220,7 @@ Kalpana Dasgupta, H
 
 … [+596 more chars]
 
-### Child 19 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=21 · 450 tok
+### Child 20 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=21 · 450 tok
 
 xix
 ••
@@ -2206,7 +2271,7 @@ P K Bha
 
 … [+385 more chars]
 
-### Child 20 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=21 · 193 tok
+### Child 21 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=21 · 193 tok
 
 ••
 Harsh, TERI, India
@@ -2235,7 +2300,7 @@ Sufian Ahmed, Jamia Millia Islamia, India
 ••
 Praveen Bakshi, TERI, India
 
-### Child 21 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=22 · 499 tok
+### Child 22 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=22 · 499 tok
 
 la, TERI, India
 ••
@@ -2280,7 +2345,7 @@ Varun Prakash Pand
 
 … [+543 more chars]
 
-### Child 22 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=22 · 263 tok
+### Child 23 · section='ICDL 2019 Conference Committee — Conference Committee — Patron' · page=22 · 263 tok
 
 ••
 Programme Cell, TERI, India
@@ -2325,7 +2390,7 @@ Nikhi
 
 … [+6 more chars]
 
-### Child 23 · section='PART I' · page=25 · 504 tok
+### Child 24 · section='PART I' · page=25 · 504 tok
 
 Agenda 2030 and its significance
 1. It is a special privilege for me to be in Delhi, invited by my “guru” Nitin Desai and TERI. Thank
@@ -2341,7 +2406,7 @@ significant. And it is
 
 … [+1429 more chars]
 
-### Child 24 · section='PART II — Global Assessment' · page=26 · 520 tok
+### Child 25 · section='PART II — Global Assessment' · page=26 · 520 tok
 
 5. I have been at the SDGs Summit in New York this year. Overall, progress is being made with
 some favorable trends:
@@ -2363,7 +2428,7 @@ reform.
 
 … [+1373 more chars]
 
-### Child 25 · section='PART III' · page=27 · 253 tok
+### Child 26 · section='PART III' · page=27 · 253 tok
 
 Digital Transformation leading to a low carbon footprint and 
 achieving the SDGs 
@@ -2378,7 +2443,7 @@ People, Peace and Prosperi
 
 … [+433 more chars]
 
-### Child 26 · section='12. Platform and partnership approach' · page=27 · 435 tok
+### Child 27 · section='12. Platform and partnership approach' · page=27 · 435 tok
 
 The UNCC: Learn e-learning platform provides learners credible and free content as well as 
 certification that can help them to progress in their careers or become innovators/champions in 
@@ -2392,7 +2457,7 @@ product. Examples include working with UNICEF on climate change and children, or
 
 … [+1302 more chars]
 
-### Child 27 · section='13. Reaching thousands of learners worldwide' · page=27 · 507 tok
+### Child 28 · section='13. Reaching thousands of learners worldwide' · page=27 · 507 tok
 
 UNCC: Learn is the single largest provider of online courses on climate change and green 
 economy globally, with a total of 250,000 registrants to date and currently issuing more than 
@@ -2409,7 +2474,7 @@ visibility for course providers.
 
 … [+1579 more chars]
 
-### Child 28 · section='13. Reaching thousands of learners worldwide' · page=28 · 170 tok
+### Child 29 · section='13. Reaching thousands of learners worldwide' · page=28 · 170 tok
 
 UNCC:Learn can issue a certificate of completion on the basics of climate change, for example, at less than USD 20.  By contrast, more advanced and
 applied content still requires a face to face approach, potential backed by on the job coaching.
@@ -2424,7 +2489,7 @@ followed b
 
 … [+56 more chars]
 
-### Child 29 · section='15. Innovation in design' · page=28 · 214 tok
+### Child 30 · section='15. Innovation in design' · page=28 · 214 tok
 
 Learning from social media: UNCC:Learn has active social media accounts but the impact in this
 area is relatively weak.  It is hard to measure the effectiveness of social media in advancing
@@ -2442,7 +2507,7 @@ industry
 
 … [+244 more chars]
 
-### Child 30 · section='16. Business models' · page=29 · 284 tok
+### Child 31 · section='16. Business models' · page=29 · 284 tok
 
 Free vs. fee based approaches:  Both platforms are free to the learner but is relatively high cost to
 maintain and to create content. We still depend on traditional donor contributions and UN co-
@@ -2456,7 +2521,7 @@ by the end of the year to offset maintenance costs.
 
 … [+578 more chars]
 
-### Child 31 · section='Organizer — International Conference on Digital Landscape' · page=31 · 479 tok
+### Child 32 · section='Organizer — International Conference on Digital Landscape' · page=31 · 479 tok
 
 Digital Transformation for an Agile Environment
 November 6-8, 2019 | New Delhi
@@ -2481,7 +2546,7 @@ laws, criminal laws, rights and duties of the citizens. In all this comes a very
 
 … [+1474 more chars]
 
-### Child 32 · section='Organizer — International Conference on Digital Landscape' · page=33 · 490 tok
+### Child 33 · section='Organizer — International Conference on Digital Landscape' · page=33 · 490 tok
 
 The concept of usage is connected to digital work.  
 DRM: The concept 
@@ -2499,7 +2564,7 @@ that there is two types of DR
 
 … [+1480 more chars]
 
-### Child 33 · section='Organizer — International Conference on Digital Landscape' · page=35 · 485 tok
+### Child 34 · section='Organizer — International Conference on Digital Landscape' · page=35 · 485 tok
 
 Things like 
 encryption is important as there is presence of workflow such as for those works which are yet to 
@@ -2517,7 +2582,7 @@ of the work. As there is chances
 
 … [+1648 more chars]
 
-### Child 34 · section='Organizer — International Conference on Digital Landscape' · page=35 · 623 tok
+### Child 35 · section='Organizer — International Conference on Digital Landscape' · page=35 · 623 tok
 
 To produce this kind of files simple office tools are used such as Microsoft office, 
 Libre office and various kind of office suites. In the era of only print libraries the libraries had minimal job when it comes to publishing. Only 
@@ -2533,7 +2598,7 @@ software are also there for all this thing. Born Digital can be in
 
 … [+2270 more chars]
 
-### Child 35 · section='Organizer — International Conference on Digital Landscape' · page=37 · 445 tok
+### Child 36 · section='Organizer — International Conference on Digital Landscape' · page=37 · 445 tok
 
 ICDL 2019: Poster 
 Copyright Laws 
@@ -2551,7 +2616,7 @@ As per USA under section 10
 
 … [+1390 more chars]
 
-### Child 36 · section='Organizer — International Conference on Digital Landscape' · page=37 · 540 tok
+### Child 37 · section='Organizer — International Conference on Digital Landscape' · page=37 · 540 tok
 
 DRM sometimes turn out to be good for librarians such as, this make it possible to manage all 
 the rights which are associated with it. Machine readable information can enhance to develop 
@@ -2567,7 +2632,7 @@ amount of digi
 
 … [+1806 more chars]
 
-### Child 37 · section='Organizer — International Conference on Digital Landscape' · page=38 · 407 tok
+### Child 38 · section='Organizer — International Conference on Digital Landscape' · page=38 · 407 tok
 
 Not
 following this could lead to penal action. If systematic download is done then the publisher will block entire community of users
@@ -2590,7 +2655,7 @@ https://en.wikipedia.o
 
 … [+762 more chars]
 
-### Child 38 · section='Organizer — International Conference on Digital Landscape' · page=40 · 476 tok
+### Child 39 · section='Organizer — International Conference on Digital Landscape' · page=40 · 476 tok
 
 Mahesh, G., & Mittal, R. (2009). Digital content creation and copyright issues. The Electronic Library,
 27(4), 676–683. https://doi.org/10.1108/02640470910979615
@@ -2609,7 +2674,7 @@ plus open access journals are coming in market so here librarians has to help th
 
 … [+1371 more chars]
 
-### Child 39 · section='1 http://www.budapestopenaccessinitiative.org/ Accessed on 18/3/2018' · page=40 · 464 tok
+### Child 40 · section='1 http://www.budapestopenaccessinitiative.org/ Accessed on 18/3/2018' · page=40 · 464 tok
 
 18
 
@@ -2627,7 +2692,7 @@ distribution model that makes scholarly research literature—most of which is
 
 … [+1482 more chars]
 
-### Child 40 · section='3 https://www.opensocietyfoundations.org/explainers/what-open-access Accessed on 18/3/2018 — 4 http://wordpress.openoasis.org/promoting-open-access/ accessed on 24/5/2018' · page=41 · 561 tok
+### Child 41 · section='3 https://www.opensocietyfoundations.org/explainers/what-open-access Accessed on 18/3/2018 — 4 http://wordpress.openoasis.org/promoting-open-access/ accessed on 24/5/2018' · page=41 · 561 tok
 
 19
 
@@ -2645,7 +2710,7 @@ distribution model that makes scholarly research literature—most of which is
 
 … [+1597 more chars]
 
-### Child 41 · section='3 https://www.opensocietyfoundations.org/explainers/what-open-access Accessed on 18/3/2018 — 4 http://wordpress.openoasis.org/promoting-open-access/ accessed on 24/5/2018' · page=41 · 206 tok
+### Child 42 · section='3 https://www.opensocietyfoundations.org/explainers/what-open-access Accessed on 18/3/2018 — 4 http://wordpress.openoasis.org/promoting-open-access/ accessed on 24/5/2018' · page=41 · 206 tok
 
 |
 | Open access helps to researcher by following ways |  |  |
@@ -2660,7 +2725,7 @@ distribution model that makes scholarly research literature—most of which is
 ICDL 2019: Poster 
 Administrators
 
-### Child 42 · section='1. Help to improve visibility and prestige of Institute' · page=42 · 380 tok
+### Child 43 · section='1. Help to improve visibility and prestige of Institute' · page=42 · 380 tok
 
 2. To enable research institutions to better account for their research output.
 Policy makers and funding agencies 
@@ -2679,7 +2744,7 @@ their Ope
 
 … [+1150 more chars]
 
-### Child 43 · section='5 http://doabooks.org/' · page=42 · 520 tok
+### Child 44 · section='5 http://doabooks.org/' · page=42 · 520 tok
 
 20
 
@@ -2701,7 +2766,7 @@ their Ope
 
 … [+1485 more chars]
 
-### Child 44 · section='5 http://doabooks.org/' · page=43 · 531 tok
+### Child 45 · section='5 http://doabooks.org/' · page=43 · 531 tok
 
 Some are subsidized, and some require payment on behalf of the |  |
 | author. |  |
@@ -2719,7 +2784,7 @@ started k
 
 … [+1892 more chars]
 
-### Child 45 · section='6 http://doaj.org — 7 http://opendoar.org/' · page=43 · 143 tok
+### Child 46 · section='6 http://doaj.org — 7 http://opendoar.org/' · page=43 · 143 tok
 
 8 Jain, Priti, "Promoting Open Access to Research in Academic Libraries" (2012). Library Philosophy and Practice (e-
 journal). 737. http://digitalcommons.unl.edu/libphilprac/737 
@@ -2729,7 +2794,7 @@ http://lackoftalent.org/michael/papers/532.pdf
 Promoting Open Access to Research in Academic Libraries. 
 21
 
-### Child 46 · section='6 http://doaj.org — 7 http://opendoar.org/' · page=44 · 486 tok
+### Child 47 · section='6 http://doaj.org — 7 http://opendoar.org/' · page=44 · 486 tok
 
 (2011). Incorporating Open Access into Libraries. Serials , 37 (2), 103-107. Jain, P. (2012). 
 Promoting Open Access to Research in Academic Libraries. 
@@ -2744,7 +2809,7 @@ participation towards open access and there need of  promoting open acc
 
 … [+1250 more chars]
 
-### Child 47 · section='6 http://doaj.org — 7 http://opendoar.org/' · page=45 · 386 tok
+### Child 48 · section='6 http://doaj.org — 7 http://opendoar.org/' · page=45 · 386 tok
 
 The awareness of academic librarians towards Open Access 
 resources to support reference services: A case of private institutions of higher learning in Gaborone, Botswana 
@@ -2761,7 +2826,7 @@ RO
 
 … [+733 more chars]
 
-### Child 48 · section='6 http://doaj.org — 7 http://opendoar.org/' · page=47 · 446 tok
+### Child 49 · section='6 http://doaj.org — 7 http://opendoar.org/' · page=47 · 446 tok
 
 And 12.7% of librarians were involved in organizing workshop and 
 conferences on Open Access for user community.    
@@ -2781,7 +2846,7 @@ etc
 
 … [+1318 more chars]
 
-### Child 49 · section='3. Library should start promoting Open Access Weeks' · page=48 · 187 tok
+### Child 50 · section='3. Library should start promoting Open Access Weeks' · page=48 · 187 tok
 
 (http://www.openaccessweek.org/page/about)
 4. Librarian should educate the users by proving links of various useful open access
@@ -2798,7 +2863,7 @@ https://www.opensocietyfoundations.org/explainers/what-open-access Accessed on 1
 4.
 http://wordpress.openoasis.org/promoting-open-access/ accessed on 24/5/2018
 
-### Child 50 · section='3. Library should start promoting Open Access Weeks' · page=49 · 349 tok
+### Child 51 · section='3. Library should start promoting Open Access Weeks' · page=49 · 349 tok
 
 .edu/~peters/fos/overview.htm 
 3.
@@ -2817,7 +2882,7 @@ http://lackoftalent.org/michael/papers/532.pdf
 
 … [+415 more chars]
 
-### Child 51 · section='3. Library should start promoting Open Access Weeks' · page=50 · 490 tok
+### Child 52 · section='3. Library should start promoting Open Access Weeks' · page=50 · 490 tok
 
 Kelem Kassahun and Chatiwa Nsala (2015). The awareness of academic librarians towards Open Access
 resources to support reference services: A case of private institutions of higher learning in Gaborone,
@@ -2837,7 +2902,7 @@ r
 
 … [+1564 more chars]
 
-### Child 52 · section='3. Library should start promoting Open Access Weeks' · page=50 · 192 tok
+### Child 53 · section='3. Library should start promoting Open Access Weeks' · page=50 · 192 tok
 
 It 
 explores the reasons and methods of theft, mutilation, and mutilation of library materials along 
@@ -2851,7 +2916,7 @@ building from f
 
 … [+139 more chars]
 
-### Child 53 · section='3. Library should start promoting Open Access Weeks' · page=51 · 467 tok
+### Child 54 · section='3. Library should start promoting Open Access Weeks' · page=51 · 467 tok
 
 Some suggestions are also be proffered for the security of the collection  
 including E-resources and buildings of both libraries. 
@@ -2873,7 +2938,7 @@ the aut
 
 … [+1459 more chars]
 
-### Child 54 · section='3. Library should start promoting Open Access Weeks' · page=52 · 449 tok
+### Child 55 · section='3. Library should start promoting Open Access Weeks' · page=52 · 449 tok
 
 ICDL 2019: Poster 
 ethics, misbehavior or fraud in research and it has been revealed the main reason for such cause 
@@ -2888,7 +2953,7 @@ take longer time to be retracted than erroneous papers (Steen, 2011; Fang, Steen
 
 … [+1203 more chars]
 
-### Child 55 · section='3. Library should start promoting Open Access Weeks' · page=52 · 343 tok
+### Child 56 · section='3. Library should start promoting Open Access Weeks' · page=52 · 343 tok
 
 Number of problems arises when researchers favorably cite an 
 erroneous article. Citations to erroneous paper make such papers credible. Finally, a researcher 
@@ -2901,7 +2966,7 @@ that might be at risk of contamination. Construction & vi
 
 … [+783 more chars]
 
-### Child 56 · section='3. Library should start promoting Open Access Weeks' · page=53 · 486 tok
+### Child 57 · section='3. Library should start promoting Open Access Weeks' · page=53 · 486 tok
 
 Scope 
 The scope of study is confined to one of the retracted article “Visfatin: A protein secreted by 
@@ -2920,7 +2985,7 @@ D
 
 … [+1173 more chars]
 
-### Child 57 · section='3. Library should start promoting Open Access Weeks' · page=53 · 291 tok
+### Child 58 · section='3. Library should start promoting Open Access Weeks' · page=53 · 291 tok
 
 The graphical representation of large bibliometric maps can be much enhanced by means of zoom functionality, special labeling algorithms, and density metaphors. However, 
 such kind of functionality is not integrated into the computer programs, frequently used by 
@@ -2933,7 +2998,7 @@ clustering (Chen., Hu., Milbank., & Schultz,  2013).; Leydesdorff.,
 
 … [+523 more chars]
 
-### Child 58 · section='3. Library should start promoting Open Access Weeks' · page=54 · 236 tok
+### Child 59 · section='3. Library should start promoting Open Access Weeks' · page=54 · 236 tok
 
 The article was retracted since the authors have 
 been unable to reproduce some of the reported spontaneous transformation events and suspect 
@@ -2950,7 +3015,7 @@ It implies that it could have a direct implication on the citing literature.
 
 … [+269 more chars]
 
-### Child 59 · section='Article — Authors — Citing — Articles' · page=54 · 348 tok
+### Child 60 · section='Article — Authors — Citing — Articles' · page=54 · 348 tok
 
 before 
 retraction 
@@ -3003,7 +3068,7 @@ One, Journal of Clinical Endocrinology Met
 
 … [+404 more chars]
 
-### Child 60 · section='Article — Authors — Citing — Articles' · page=56 · 411 tok
+### Child 61 · section='Article — Authors — Citing — Articles' · page=56 · 411 tok
 
 Construction & Visualization of Bibliometric Maps of data
 
@@ -3021,7 +3086,7 @@ item is determined by the clu
 
 … [+1040 more chars]
 
-### Child 61 · section='Article — Authors — Citing — Articles' · page=57 · 376 tok
+### Child 62 · section='Article — Authors — Citing — Articles' · page=57 · 376 tok
 
 The data could be further 
 verified and analyzed through the following screenshots captures in the VOSviewer. 
@@ -3037,7 +3102,7 @@ paper falls into cluster 2.   The third and fourth cluster is represented in blu
 
 … [+886 more chars]
 
-### Child 62 · section='Article — Authors — Citing — Articles' · page=59 · 491 tok
+### Child 63 · section='Article — Authors — Citing — Articles' · page=59 · 491 tok
 
 9: Poster 
 Fig.2b Network visualization of Bibliographic coupling and co-citation of retracted article 
@@ -3054,7 +3119,7 @@ other words, these retra
 
 … [+1499 more chars]
 
-### Child 63 · section='Article — Authors — Citing — Articles' · page=59 · 462 tok
+### Child 64 · section='Article — Authors — Citing — Articles' · page=59 · 462 tok
 
 Boyack, K.W., Klavans, R., & Börner, K. (2005). Mapping the backbone of science. Scientometrics, 64(3),
 351–374.
@@ -3073,7 +3138,7 @@ Da Silva, J. A. T., & Dobránszki, J. (2017). Highly cited retracted papers. Sc
 
 … [+643 more chars]
 
-### Child 64 · section='Article — Authors — Citing — Articles' · page=59 · 542 tok
+### Child 65 · section='Article — Authors — Citing — Articles' · page=59 · 542 tok
 
 | References |  |
 | --- | --- |
@@ -3089,7 +3154,7 @@ Da Silva, J. A. T., & Dobránszki, J. (2017). Highly cited retracted papers. Sc
 
 … [+827 more chars]
 
-### Child 65 · section='Article — Authors — Citing — Articles' · page=59 · 542 tok
+### Child 66 · section='Article — Authors — Citing — Articles' · page=59 · 542 tok
 
 (2014). Unwrapping “impact” for evaluation: A co-word analysis |
 |  | of the UK REF2014 policy documents using VOSviewer. In Proceedings of the science and technology |
@@ -3106,7 +3171,7 @@ lit
 
 … [+925 more chars]
 
-### Child 66 · section='Article — Authors — Citing — Articles' · page=60 · 483 tok
+### Child 67 · section='Article — Authors — Citing — Articles' · page=60 · 483 tok
 
 Moylan, E. C., & Kowalczuk, M. K. (2016). Why articles are retracted: A retrospective cross-sectional
 study of retraction notices at BioMed Central. British Medical Journal Open, 6(11), e012047. 20. Neale AV, Northrup J, Dailey R, Marks E, Abrams J. (2007).Correction and use of biomedical literature
@@ -3120,7 +3185,7 @@ increasing?. Journal of medical ethics, 37(4), 249-253.
 
 … [+741 more chars]
 
-### Child 67 · section='Article — Authors — Citing — Articles' · page=60 · 193 tok
+### Child 68 · section='Article — Authors — Citing — Articles' · page=60 · 193 tok
 
 Van Eck, N. J., Waltman, L., Van den Berg, J., & Kaymak, U. (2006). Visualizing the computational
 intelligence field. IEEE Computational Intelligence Magazine, 1(4), 6–10. 29. Van Noorden, R. (2011). The trouble with retractions. Nature, 478(7367), 26.
@@ -3131,7 +3196,7 @@ VOSviewer. Scientometrics, 111(2), 1053-1070.
 VOSviewer. Scientometrics, 111(2), 1053-1070.
 38
 
-### Child 68 · section='Article — Authors — Citing — Articles' · page=60 · 547 tok
+### Child 69 · section='Article — Authors — Citing — Articles' · page=60 · 547 tok
 
 | ICDL 2019: Poster |  |
 | --- | --- |
@@ -3148,7 +3213,7 @@ VOSviewer. Scientometrics, 111(2), 1053-1070.
 
 … [+827 more chars]
 
-### Child 69 · section='Article — Authors — Citing — Articles' · page=60 · 599 tok
+### Child 70 · section='Article — Authors — Citing — Articles' · page=60 · 599 tok
 
 British Medical Journal Open, 6(11), e012047. |
 |  | 20. Neale AV, Northrup J, Dailey R, Marks E, Abrams J. (2007).Correction and use of biomedical literature | |  | affected by scientific misconduct. Sci Eng Ethics. Mar; 13(1): p. 5-24 |
@@ -3162,7 +3227,7 @@ British Medical Journal Open, 6(11), e012047. |
 
 … [+987 more chars]
 
-### Child 70 · section='Article — Authors — Citing — Articles' · page=60 · 405 tok
+### Child 71 · section='Article — Authors — Citing — Articles' · page=60 · 405 tok
 
 Van Noorden, R. (2011). The trouble with retractions. Nature, 478(7367), 26. |
 |  | 31. Waltman, L. (2017). Citation-based clustering of publications using CitNetExplorer and | |  | VOSviewer. Scientometrics, 111(2), 1053-1070. |
@@ -3182,7 +3247,7 @@ It is a
 
 … [+925 more chars]
 
-### Child 71 · section='Article — Authors — Citing — Articles' · page=62 · 529 tok
+### Child 72 · section='Article — Authors — Citing — Articles' · page=62 · 529 tok
 
 The paper is a discourse on the 56 characteristics list by 
 Beall as guidelines for Determining Predatory Open-Access Publishers and journals. 
@@ -3201,7 +3266,7 @@ scientific rigor and honesty. Indian academi
 
 … [+1798 more chars]
 
-### Child 72 · section='Article — Authors — Citing — Articles' · page=63 · 438 tok
+### Child 73 · section='Article — Authors — Citing — Articles' · page=63 · 438 tok
 
 ICDL 2019: Poster 
 debate around such journals, and the term ‘predatory’ has become the standard way to describe 
@@ -3216,7 +3281,7 @@ difficulties to defini
 
 … [+1409 more chars]
 
-### Child 73 · section='Article — Authors — Citing — Articles' · page=63 · 269 tok
+### Child 74 · section='Article — Authors — Citing — Articles' · page=63 · 269 tok
 
 Xia 
 et al (2015) noted that those who published in predatory journals were mainly “young and 
@@ -3230,7 +3295,7 @@ and insufficient mentoring and the lack of inst
 
 … [+598 more chars]
 
-### Child 74 · section='Article — Authors — Citing — Articles' · page=64 · 493 tok
+### Child 75 · section='Article — Authors — Citing — Articles' · page=64 · 493 tok
 
 into Indian Academia 
 Taken advantage of the Internet technology, the open access movement, and the needs of young, 
@@ -3246,7 +3311,7 @@ and absence of a
 
 … [+1286 more chars]
 
-### Child 75 · section='Article — Authors — Citing — Articles' · page=64 · 478 tok
+### Child 76 · section='Article — Authors — Citing — Articles' · page=64 · 478 tok
 
 These two lists were suddenly taken 
 down in January of 2017 for unknown reasons, which shocked the media and scholarly community (Chawla, 2017; Silver, 2017). However, the Internet archive site Web Archive has 
@@ -3260,7 +3325,7 @@ political factors th
 
 … [+1338 more chars]
 
-### Child 76 · section='Article — Authors — Citing — Articles' · page=65 · 437 tok
+### Child 77 · section='Article — Authors — Citing — Articles' · page=65 · 437 tok
 
 ICDL 2019: Poster 
 Reasons of low quality research and the consequent submission 
@@ -3276,7 +3341,7 @@ geographers, historians, linguists, musicologists, philosopher
 
 … [+1320 more chars]
 
-### Child 77 · section='Article — Authors — Citing — Articles' · page=65 · 356 tok
+### Child 78 · section='Article — Authors — Citing — Articles' · page=65 · 356 tok
 
 He argued that the research tradition and culture in developing countries seems to be the 
 byproduct of the global framework of international capitalist relations. Academic scholars in India seem to be under pressure to create “universal knowledge” in alignment with the developed 
@@ -3289,7 +3354,7 @@ limited applicability in the Indian context and tend
 
 … [+998 more chars]
 
-### Child 78 · section='Article — Authors — Citing — Articles' · page=66 · 490 tok
+### Child 79 · section='Article — Authors — Citing — Articles' · page=66 · 490 tok
 
 Further, he pointed out that academic faculty are viewed as 
 generalists; they are expected to be superior performers in all aspects of academics (teaching, 
@@ -3304,7 +3369,7 @@ out, there is a lack of “real” incentive for
 
 … [+1782 more chars]
 
-### Child 79 · section='Article — Authors — Citing — Articles' · page=66 · 343 tok
+### Child 80 · section='Article — Authors — Citing — Articles' · page=66 · 343 tok
 
 Most researchers are academically trained 
 to develop or validate theories/ frameworks using scientifically rigorous data analysis tools rather 
@@ -3319,7 +3384,7 @@ academic environment, dearth of academic resources, low
 
 … [+1087 more chars]
 
-### Child 80 · section='Article — Authors — Citing — Articles' · page=67 · 441 tok
+### Child 81 · section='Article — Authors — Citing — Articles' · page=67 · 441 tok
 
 ICDL 2019: Poster 
 Consequently, the academic leaders at Indian institutions are not really successful in raising 
@@ -3335,7 +3400,7 @@ programmes, attrac
 
 … [+1677 more chars]
 
-### Child 81 · section='Article — Authors — Citing — Articles' · page=67 · 265 tok
+### Child 82 · section='Article — Authors — Citing — Articles' · page=67 · 265 tok
 
 The relevance of academic 
 research can be enhanced by doing research in relevant areas and working collaboratively with 
@@ -3349,7 +3414,7 @@ research, and a third group
 
 … [+585 more chars]
 
-### Child 82 · section='Article — Authors — Citing — Articles' · page=68 · 475 tok
+### Child 83 · section='Article — Authors — Citing — Articles' · page=68 · 475 tok
 
 Junior scholars should seek out 
 partnership with senior scholars around the world to collaborate on and co-author research. This 
@@ -3366,7 +3431,7 @@ performance appr
 
 … [+1177 more chars]
 
-### Child 83 · section='Article — Authors — Citing — Articles' · page=68 · 472 tok
+### Child 84 · section='Article — Authors — Citing — Articles' · page=68 · 472 tok
 
 Bohannon, J. (2013). Who’s afraid of peer review? Science, 342(6154), pp. 60–65. DOI:
 10.1126/science.342.6154.60.
@@ -3385,7 +3450,7 @@ Weekly, 12, 1579e1583.
 
 … [+689 more chars]
 
-### Child 84 · section='Article — Authors — Citing — Articles' · page=69 · 450 tok
+### Child 85 · section='Article — Authors — Citing — Articles' · page=69 · 450 tok
 
 ICDL 2019: Poster 
 15. Khatri, N., Ojha, A. K., Budhwar, P., Srinivasan, V., & Varma, A. (2012). Management research in India:
@@ -3400,7 +3465,7 @@ Retrieved from: https://www.researchgate.net/publica
 
 … [+620 more chars]
 
-### Child 85 · section='Article — Authors — Citing — Articles' · page=69 · 476 tok
+### Child 86 · section='Article — Authors — Citing — Articles' · page=69 · 476 tok
 
 Learned Publishing, 28(2), pp. 114–122. DOI: 10.1087/20150205.
 22. Odiorne, G. S. (1966). The management theory jungle and the existential manager. Academy of Management Journal, 9,109e115.
@@ -3414,7 +3479,7 @@ December 16. Retrieved from: http://www.sciencemag.org/news/2016/12/preda
 
 … [+777 more chars]
 
-### Child 86 · section='Article — Authors — Citing — Articles' · page=69 · 237 tok
+### Child 87 · section='Article — Authors — Citing — Articles' · page=69 · 237 tok
 
 Current Science, 111(11),
 pp. 1759–1764.
@@ -3428,7 +3493,7 @@ shuts-down-1.21328.
 74. DOI:10.1087/20150111.
 47
 
-### Child 87 · section='Article — Authors — Citing — Articles' · page=70 · 596 tok
+### Child 88 · section='Article — Authors — Citing — Articles' · page=70 · 596 tok
 
 DOI:
 10.1087/20140309.
@@ -3450,7 +3515,7 @@ agenda for susta
 
 … [+2092 more chars]
 
-### Child 88 · section='Article — Authors — Citing — Articles' · page=71 · 428 tok
+### Child 89 · section='Article — Authors — Citing — Articles' · page=71 · 428 tok
 
 ICDL 2019: Poster 
 Social Science. Therefore, findings, conclusions and recommendations may be applicable and 
@@ -3465,7 +3530,7 @@ information resources and services. It will
 
 … [+1590 more chars]
 
-### Child 89 · section='Article — Authors — Citing — Articles' · page=71 · 607 tok
+### Child 90 · section='Article — Authors — Citing — Articles' · page=71 · 607 tok
 
 Keywords
 Digital Literacy,Information Literacy, Faculty members;Teaching and Learning 
@@ -3484,7 +3549,7 @@ Good as these new s
 
 … [+2180 more chars]
 
-### Child 90 · section='Article — Authors — Citing — Articles' · page=72 · 547 tok
+### Child 91 · section='Article — Authors — Citing — Articles' · page=72 · 547 tok
 
 (El Hassani and Nfissi, 2015). 
 According to the UNESCO,the empowerment of people through media and Information 
@@ -3502,7 +3567,7 @@ communicat
 
 … [+1956 more chars]
 
-### Child 91 · section='Article — Authors — Citing — Articles' · page=74 · 426 tok
+### Child 92 · section='Article — Authors — Citing — Articles' · page=74 · 426 tok
 
 ICDL 2019: Poster 
 over conventional documents.It has been found in the study that internet has become a vital 
@@ -3517,7 +3582,7 @@ skills can be
 
 … [+1290 more chars]
 
-### Child 92 · section='Article — Authors — Citing — Articles' · page=74 · 471 tok
+### Child 93 · section='Article — Authors — Citing — Articles' · page=74 · 471 tok
 
 ol(2012).Ganaie(2013) focuses on 
 the concept of information literacy and role of library professionals in supporting information 
@@ -3531,7 +3596,7 @@ medical professionals to locate the information in very less spare of time ,so k
 
 … [+1433 more chars]
 
-### Child 93 · section='Article — Authors — Citing — Articles' · page=75 · 509 tok
+### Child 94 · section='Article — Authors — Citing — Articles' · page=75 · 509 tok
 
 aneefa K and Sarika C(2018) assessed the web competency of
 Library and information science students in universities of kerala.they revealed in the study that
@@ -3548,7 +3613,7 @@ BHU,148 respondents(75.5
 
 … [+1383 more chars]
 
-### Child 94 · section='Article — Authors — Citing — Articles' · page=76 · 267 tok
+### Child 95 · section='Article — Authors — Citing — Articles' · page=76 · 267 tok
 
 Electronic |  | 150 100 Responses 50 Responses Responses 0 1 2 3 4 5 6 Responses Responses Responses |  |
 | --- | --- | --- |
@@ -3573,7 +3638,7 @@ Table 3 reveals that 84(86.5%) respondents from DU; 102(86.44%) respondents from
 
 … [+106 more chars]
 
-### Child 95 · section='Article — Authors — Citing — Articles' · page=78 · 317 tok
+### Child 96 · section='Article — Authors — Citing — Articles' · page=78 · 317 tok
 
 A significant 
 number of respondents i.e.70 (72.1%) respondents of DU; 95(80.5%) of JMI and 117 (79.05%) ICDL 2019: Poster 
@@ -3591,7 +3656,7 @@ BHU need e-resources to keep thei
 
 … [+258 more chars]
 
-### Child 96 · section='Article — Authors — Citing — Articles' · page=79 · 438 tok
+### Child 97 · section='Article — Authors — Citing — Articles' · page=79 · 438 tok
 
 ICDL 2019: Poster 
 Criteria for evaluation of web resources 
@@ -3612,7 +3677,7 @@ Figure 6: Search strategy used at the
 
 … [+817 more chars]
 
-### Child 97 · section='Article — Authors — Citing — Articles' · page=81 · 249 tok
+### Child 98 · section='Article — Authors — Citing — Articles' · page=81 · 249 tok
 
 Impact of digital sources on academic work performance 
 Table 7. Impact of digital sources on academic work performance 
@@ -3634,7 +3699,7 @@ and 101 (68.24%) from BHU stated that fast access to information is the great be
 
 … [+178 more chars]
 
-### Child 98 · section='Article — Authors — Citing — Articles' · page=81 · 356 tok
+### Child 99 · section='Article — Authors — Citing — Articles' · page=81 · 356 tok
 
 Constraints faced in searching the required information 
 Table 8. Constraints faced in searching the required information 
@@ -3649,7 +3714,7 @@ Access to wide range of |  | S.No. |  | Constraints |  | Responses (DU) | % | Re
 
 … [+20 more chars]
 
-### Child 99 · section='Article — Authors — Citing — Articles' · page=82 · 511 tok
+### Child 100 · section='Article — Authors — Citing — Articles' · page=82 · 511 tok
 
 | 13.5% |  |
 |  | 5. |  | Language of search engine |  | 12 | 12.3% | 10 |  | 8.47% | 16 |  |  | 10.81% |  | ICDL 2019: Poster 
@@ -3669,7 +3734,7 @@ Majority o
 
 … [+1037 more chars]
 
-### Child 100 · section='Article — Authors — Citing — Articles' · page=83 · 184 tok
+### Child 101 · section='Article — Authors — Citing — Articles' · page=83 · 184 tok
 
 R E QUIR ED 
 INFOR M AT IO N 
@@ -3690,7 +3755,7 @@ problems involved are unskilled Library staff, discrete language of search
 
 … [+39 more chars]
 
-### Child 101 · section='Suggestions' · page=83 · 309 tok
+### Child 102 · section='Suggestions' · page=83 · 309 tok
 
  It is found from the study that most of the respondents depend on internet for searching 
 their required information. It shows that dependency on internet has been increased. 
@@ -3707,7 +3772,7 @@ availability of required inform
 
 … [+861 more chars]
 
-### Child 102 · section='Suggestions' · page=84 · 497 tok
+### Child 103 · section='Suggestions' · page=84 · 497 tok
 
 authorities which will make users more vigilant about uses of digital 
 tools of information.
@@ -3730,7 +3795,7 @@ can acces
 
 … [+1613 more chars]
 
-### Child 103 · section='Suggestions' · page=84 · 564 tok
+### Child 104 · section='Suggestions' · page=84 · 564 tok
 
 Fariza and Yaacob(2009).Facilitating lifelong learning through development of information literacy skills:a
 study of integrated project work.European journal of social sciences.9(3).457-464.
@@ -3750,7 +3815,7 @@ Study of Guru Nanak Dev U
 
 … [+1448 more chars]
 
-### Child 104 · section='Suggestions' · page=85 · 242 tok
+### Child 105 · section='Suggestions' · page=85 · 242 tok
 
 Mishra, Champeswar (2007). A survey of digital information literacy of Faculty at Sambalpur university.
 Library philosophy and practice.2007.(9). 16. Murugesan,N.(2011).Application of ICT based resources and services in research and development
@@ -3764,7 +3829,7 @@ Studies.17(2).89-98.
 
 … [+159 more chars]
 
-### Child 105 · section='Suggestions' · page=86 · 499 tok
+### Child 106 · section='Suggestions' · page=86 · 499 tok
 
 Information Literacy skills among faculty members of engineering colleges in
 Tirunelveli district, Tamil nadu: a study. International research journal of multidisciplinary science and
@@ -3784,7 +3849,7 @@ evident in all fields from the way we enjoy sports, mov
 
 … [+1737 more chars]
 
-### Child 106 · section='Suggestions' · page=86 · 620 tok
+### Child 107 · section='Suggestions' · page=86 · 620 tok
 
 Electronic publishing (EP) is fast 
 transforming into a resource set of interactive publications endowed with rich multimedia that 
@@ -3800,7 +3865,7 @@ two parts - open source, which users can download freely and paid co
 
 … [+2125 more chars]
 
-### Child 107 · section='1. PDF (Portable Document Format)' · page=88 · 434 tok
+### Child 108 · section='1. PDF (Portable Document Format)' · page=88 · 434 tok
 
 2. DOC/ DOCX: Microsoft Word .doc or .docx format.
 3. Mobipocket format: (.mobi) files are supported by various devices like Amazon Kindle,
@@ -3819,7 +3884,7 @@ with so-called electronic ink
 
 … [+1082 more chars]
 
-### Child 108 · section='1. PDF (Portable Document Format)' · page=88 · 591 tok
+### Child 109 · section='1. PDF (Portable Document Format)' · page=88 · 591 tok
 
 In 2010, Nook was introduced by Barnes and Noble, which is the largest bookstore chain in US, 
 another US bookchain named Borders, presented an eReader called Kobo. Canada-based Wattpad readers spend over 2 billion minutes on the site every month. Sony captured the largest 
@@ -3836,7 +3901,7 @@ A tablet is a portable computer with a touch screen. Apple devices can access an
 
 … [+1905 more chars]
 
-### Child 109 · section='6. Design Cover using image processing software' · page=90 · 446 tok
+### Child 110 · section='6. Design Cover using image processing software' · page=90 · 446 tok
 
 7. ISBN (International Standard Book Number) : Acquire a ISBN if desired however for
 electronic documents , ISBN is not necessary.
@@ -3853,7 +3918,7 @@ knowledge in academics and other fields, although they are the most
 
 … [+1312 more chars]
 
-### Child 110 · section='6. Design Cover using image processing software' · page=90 · 499 tok
+### Child 111 · section='6. Design Cover using image processing software' · page=90 · 499 tok
 
 Pollution is 
 another negative offshoot of the publishing industry. Large scale paper production releases COx, 
@@ -3870,7 +3935,7 @@ worldwide. Although the per ca
 
 … [+1338 more chars]
 
-### Child 111 · section='6. Design Cover using image processing software' · page=91 · 294 tok
+### Child 112 · section='6. Design Cover using image processing software' · page=91 · 294 tok
 
 According to the writersservice.com it takes about 3 to 6 
 months time to publish a book, Transportation, warehousing and others cost involved are paid by 
@@ -3885,7 +3950,7 @@ glob
 
 … [+605 more chars]
 
-### Child 112 · section='6. Design Cover using image processing software' · page=92 · 313 tok
+### Child 113 · section='6. Design Cover using image processing software' · page=92 · 313 tok
 
 Reasons of Growing E-Publication 
 Publishers are open and responsive to e-Books because they 
@@ -3903,7 +3968,7 @@ P
 
 … [+818 more chars]
 
-### Child 113 · section='6. Design Cover using image processing software' · page=93 · 511 tok
+### Child 114 · section='6. Design Cover using image processing software' · page=93 · 511 tok
 
 Accessibility: 
 E-documents can be accessed by a number of users at a time without increasing the cost of
@@ -3919,7 +3984,7 @@ internet and scholars search information in electronic journals and abstr
 
 … [+1810 more chars]
 
-### Child 114 · section='6. Design Cover using image processing software' · page=94 · 360 tok
+### Child 115 · section='6. Design Cover using image processing software' · page=94 · 360 tok
 
 ICDL 2019: Poster 
 Intellectual property rights and copyright issues: 
@@ -3936,7 +4001,7 @@ while cross compatible devices like tablets
 
 … [+1160 more chars]
 
-### Child 115 · section='6. Design Cover using image processing software' · page=95 · 478 tok
+### Child 116 · section='6. Design Cover using image processing software' · page=95 · 478 tok
 
 Lack of e-Books in Regional Languages: 
 Most of e-books are available only in English or international languages, these create problems 
@@ -3955,7 +4020,7 @@ Publishers in the subscription scheme
 
 … [+1539 more chars]
 
-### Child 116 · section='6. Design Cover using image processing software' · page=95 · 487 tok
+### Child 117 · section='6. Design Cover using image processing software' · page=95 · 487 tok
 
 Across various subjects and languages, thousands of 
 books has been converted in multiple formats and are available for the access for special 
@@ -3974,7 +4039,7 @@ The Victor
 
 … [+1494 more chars]
 
-### Child 117 · section='6. Design Cover using image processing software' · page=97 · 422 tok
+### Child 118 · section='6. Design Cover using image processing software' · page=97 · 422 tok
 
 Listen Your Book: 
 If one is bored of reading with their eyes, they can read with their ears. There are many audio 
@@ -3994,7 +4059,7 @@ There is no need of
 
 … [+1225 more chars]
 
-### Child 118 · section='6. Design Cover using image processing software' · page=98 · 445 tok
+### Child 119 · section='6. Design Cover using image processing software' · page=98 · 445 tok
 
 ICDL 2019: Poster 
 7. Reference Verification: The authenticity can be checked with the source  if the content is
@@ -4011,7 +4076,7 @@ the text and brightness of
 
 … [+1350 more chars]
 
-### Child 119 · section='6. Design Cover using image processing software' · page=99 · 497 tok
+### Child 120 · section='6. Design Cover using image processing software' · page=99 · 497 tok
 
 Not all the e-documents are freely available, so to purchase them internet banking is
 essential for payment of the cost of the document.
@@ -4029,7 +4094,7 @@ Looki
 
 … [+1682 more chars]
 
-### Child 120 · section='6. Design Cover using image processing software' · page=99 · 551 tok
+### Child 121 · section='6. Design Cover using image processing software' · page=99 · 551 tok
 
 As Budd and Harloe stated that more likely possibility for the first decades for the 21st century is
 the continued evolution of a mixed system- part print, increasing electronic. 
@@ -4047,7 +4112,7 @@ contents too, e.g., Clinical Key, Medline for Medical Students.
 
 … [+1371 more chars]
 
-### Child 121 · section='6. Design Cover using image processing software' · page=100 · 416 tok
+### Child 122 · section='6. Design Cover using image processing software' · page=100 · 416 tok
 
 Publishing
 Perspectives. Retrieved form https://publishingperspectives.com/2017/05/global-ebook-report-2017-many-
@@ -4067,7 +4132,7 @@ Centre for Sustainable Communications. (2013). Dr
 
 … [+625 more chars]
 
-### Child 122 · section='6. Design Cover using image processing software' · page=101 · 422 tok
+### Child 123 · section='6. Design Cover using image processing software' · page=101 · 422 tok
 
 ICDL 2019: Poster 
 12. Emery, Christina, Mithu Lucraft, Agata Morka, and Ros Pyne. (2017). The OA Effect: How Does Open
@@ -4083,7 +4148,7 @@ http://janefriedman.com/2011/08/09/5-things-beginners-n
 
 … [+629 more chars]
 
-### Child 123 · section='6. Design Cover using image processing software' · page=101 · 477 tok
+### Child 124 · section='6. Design Cover using image processing software' · page=101 · 477 tok
 
 Hoffelder, Nate (2015). New Survey Shows Surprisingly High Library eBook Usage. The Digital Reader.
 Retrieved from https://the-digital-reader.com/2015/12/01/new-survey-shows-surprisingly-high-library-
@@ -4097,7 +4162,7 @@ Reports. 22–28. Retrieved from journals.ala.org/ltr/article/download/4683/5566
 
 … [+832 more chars]
 
-### Child 124 · section='6. Design Cover using image processing software' · page=101 · 307 tok
+### Child 125 · section='6. Design Cover using image processing software' · page=101 · 307 tok
 
 Kinsella, Bridget. (2004). Rueben's Reading Revolution.Epublishers Weekly. 20. Retrieved from
 https://www.publishersweekly.com/pw/print/20041129/24484-rueben-s-reading-revolution.html 26. Koganuramath, Dr. M M, Jange , Suresh and Angadi , Mallikarjun. (2014). Electronic publishing: an
@@ -4111,7 +4176,7 @@ Retrieved form https://devicebar.com/ebooks-v
 
 … [+209 more chars]
 
-### Child 125 · section='6. Design Cover using image processing software' · page=101 · 535 tok
+### Child 126 · section='6. Design Cover using image processing software' · page=101 · 535 tok
 
 | ICDL 2019: Poster |  |
 | --- | --- |
@@ -4127,7 +4192,7 @@ Retrieved form https://devicebar.com/ebooks-v
 
 … [+869 more chars]
 
-### Child 126 · section='6. Design Cover using image processing software' · page=101 · 587 tok
+### Child 127 · section='6. Design Cover using image processing software' · page=101 · 587 tok
 
 Hutsko, Joe. (2009). Are eReaders Greener than Books? NY Times, 2–4. Retrieved from | |  | http://green.blogs.nytimes.com/2009/08/31/are-eReaders-greener-than-books/?_r=0 |
 | 20. | Inouye, Alan S. (2016). What’s in Store for Ebooks?. American Libraries. Retrieved from |
@@ -4141,7 +4206,7 @@ Hutsko, Joe. (2009). Are eReaders Greener than Books? NY Times, 2–4. Retrieved
 
 … [+1058 more chars]
 
-### Child 127 · section='6. Design Cover using image processing software' · page=101 · 224 tok
+### Child 128 · section='6. Design Cover using image processing software' · page=101 · 224 tok
 
 S.S. Murthy festschrift. |
 |  | Viva Books (New Delhi, India), pp. 45-53. Retrieved from http://eprints.rclis.org/4971/1/Electronic- | |  | publishing.PDF |
@@ -4152,7 +4217,7 @@ S.S. Murthy festschrift. |
 |  | 29. Lean, Geoffrey. (2010). How Many E-Books to Spare a Tree ?. Retrieved from |
 |  | https://www.telegraph.co.uk/journalists/geoffrey-lean/8234044/How-many-e-books-to-spare-a-tree.html |
 
-### Child 128 · section='6. Design Cover using image processing software' · page=102 · 433 tok
+### Child 129 · section='6. Design Cover using image processing software' · page=102 · 433 tok
 
 ICDL 2019: Poster 
 30. Mason, Caleb. (2016). Trashing Paper : Why We Should Consider Time Spent With Print. Book Business.
@@ -4168,7 +4233,7 @@ https://blog.the-
 
 … [+750 more chars]
 
-### Child 129 · section='6. Design Cover using image processing software' · page=102 · 478 tok
+### Child 130 · section='6. Design Cover using image processing software' · page=102 · 478 tok
 
 Retrieved from http://www.vikalpsangam.org/article/a-digital-book-library-for-blind-students-is-
 helping-them-visualise-a-bright-future/#.XSTZJz9KjIU 38. Palmer, Brian. (2010). Should You Ditch Your Books for an eReader ?. Slate. Retrieved from
@@ -4182,7 +4247,7 @@ https://www.pewinter
 
 … [+859 more chars]
 
-### Child 130 · section='6. Design Cover using image processing software' · page=102 · 265 tok
+### Child 131 · section='6. Design Cover using image processing software' · page=102 · 265 tok
 
 Reily, Markus. (2015). eBooks and The Environment: A Greener Reading Experience. Good EReader. 1–3. http://goodereader.com/blog/electronic-readers/ebooks-and-the-environment-a-greener-reading-experience
 46. Roth, Susanna, Zetterberg, Lars, AcWorth, William, Kangas, Hannah-Liisa, Neuhoff, Karsten, and Vera
@@ -4194,7 +4259,7 @@ Techtree.com. Retrieved form http://www.techtree.com/content/news/3245/10000-hp-
 notebooks-distributed-akhilesh-yadav-govt.html
 80
 
-### Child 131 · section='6. Design Cover using image processing software' · page=103 · 603 tok
+### Child 132 · section='6. Design Cover using image processing software' · page=103 · 603 tok
 
 Techtree.com. Retrieved form http://www.techtree.com/content/news/3245/10000-hp-pavilion-g4-
 notebooks-distributed-akhilesh-yadav-govt.html
@@ -4211,7 +4276,7 @@ _final-web.pdf
 
 … [+1290 more chars]
 
-### Child 132 · section='6. Design Cover using image processing software' · page=104 · 436 tok
+### Child 133 · section='6. Design Cover using image processing software' · page=104 · 436 tok
 
 ICDL 2019: Poster 
 Information E-resources for Generation Alpha: 
@@ -4229,7 +4294,7 @@ read paper books or lengthy paper
 
 … [+1314 more chars]
 
-### Child 133 · section='6. Design Cover using image processing software' · page=104 · 231 tok
+### Child 134 · section='6. Design Cover using image processing software' · page=104 · 231 tok
 
 Pathshala: for students and teachers who can access e-books on 
 mobile devices and desktops, mKavach (Mobile security solutions), DigiSevak: for citizen 
@@ -4247,7 +4312,7 @@ emphasis on teachers training new premier higher educat
 
 … [+361 more chars]
 
-### Child 134 · section='SWAYAM MOOCs Portal' · page=105 · 184 tok
+### Child 135 · section='SWAYAM MOOCs Portal' · page=105 · 184 tok
 
 Study Webs of Active learning for Young Aspiring Minds (SWAYAM) is an indigenous 
 Massive Open Online Courses (MOOCs) portal that provides high quality education – anyone, 
@@ -4265,7 +4330,7 @@ digital books and journa
 
 … [+56 more chars]
 
-### Child 135 · section='Unnat Bharat Abhiyan (UBA)' · page=105 · 203 tok
+### Child 136 · section='Unnat Bharat Abhiyan (UBA)' · page=105 · 203 tok
 
 It is a new initiative to make use of the knowledge base in the higher educational institutions for 
 plugging technology gaps in the rural areas. It will help boosting the technology usage in rural 
@@ -4286,7 +4351,7 @@ faculty to interact with best ac
 
 … [+180 more chars]
 
-### Child 136 · section='Unnat Bharat Abhiyan (UBA)' · page=106 · 595 tok
+### Child 137 · section='Unnat Bharat Abhiyan (UBA)' · page=106 · 595 tok
 
 GIAN is supposed to enable Indian students & 
 faculty to interact with best academic and industry experts from across the world. So far, 1,075 
@@ -4304,7 +4369,7 @@ up the competitiveness of Indian industry in the global market. It is proposed t
 
 … [+1860 more chars]
 
-### Child 137 · section='Rashtriya Madhyamik Shiksha Abhiyan (RMSA)' · page=107 · 128 tok
+### Child 138 · section='Rashtriya Madhyamik Shiksha Abhiyan (RMSA)' · page=107 · 128 tok
 
 It was launched by the Government of India in March, 2009 envisaging inter-alia provision of a 
 secondary school within a reasonable distance of any habitation and to improve quality of 
@@ -4314,7 +4379,7 @@ education the schemes of ICT, vocational education, Girls Hostel and IEDSS were 
 under the umbrella of RMSA. Under the scheme, 12,682 new schools and 37,799 existing 
 schools for strengthening have been sanctioned so far.
 
-### Child 138 · section='E-pathshala' · page=107 · 300 tok
+### Child 139 · section='E-pathshala' · page=107 · 300 tok
 
 It has been developed by NCERT (National Council for Educational Research and Training) for 
 showcasing and disseminating all educational e-resources including textbooks, audio, video, 
@@ -4333,7 +4398,7 @@ various periodicals and other
 
 … [+689 more chars]
 
-### Child 139 · section='E-pathshala' · page=108 · 470 tok
+### Child 140 · section='E-pathshala' · page=108 · 470 tok
 
 Class-Library connectivity is done during Academic Workshops wherein children visit the 
 library to complete their work and review the work done in the class. Children explore the 
@@ -4350,7 +4415,7 @@ which help
 
 … [+1500 more chars]
 
-### Child 140 · section='E-pathshala' · page=110 · 311 tok
+### Child 141 · section='E-pathshala' · page=110 · 311 tok
 
  Expose them to books from variety of genres through organizing ‘Books Tasting’ activity 
 from time to time. 
@@ -4368,7 +4433,7 @@ information re
 
 … [+596 more chars]
 
-### Child 141 · section='Abstract' · page=111 · 158 tok
+### Child 142 · section='Abstract' · page=111 · 158 tok
 
 In an age when browsing the net, playing with funky handsets and passing non-stop SMSs seem 
 to be the order of the day, reading a book in a peaceful corner of a library has become an archaic 
@@ -4379,7 +4444,7 @@ summarized as a habit that involves books, printed articles and electronic mater
 differently of how each material can affect their reading habits. Are students still reading books 
 up until today? Or the reading habits among students have been on the decline?
 
-### Child 142 · section='Introduction' · page=111 · 442 tok
+### Child 143 · section='Introduction' · page=111 · 442 tok
 
 Today, in the 21st century, where everything mobilised, we are experiencing a revolution of 
 digital technology. Like the printing press did, technological blessings like the internet, smart 
@@ -4394,7 +4459,7 @@ One of the key things that have changed as a direct consequence of the advancing
 
 … [+1454 more chars]
 
-### Child 143 · section='Introduction' · page=112 · 492 tok
+### Child 144 · section='Introduction' · page=112 · 492 tok
 
 ILA asserts that every child deserves—frames reading as an issue of equity and social justice. 
 The campaign was focus on activating educators, policymakers and literacy partners to join ILA 
@@ -4413,7 +4478,7 @@ windows into the lives of others, and open doors into our diverse world.
 
 … [+1648 more chars]
 
-### Child 144 · section='Introduction' · page=112 · 237 tok
+### Child 145 · section='Introduction' · page=112 · 237 tok
 
 While it’s not often recognized for its quality, education in the south 
 Asian country has been on the rise, and now places in the top half of U.S. News & World 
@@ -4428,7 +4493,7 @@ Reading as a “way of interpreting some
 
 … [+355 more chars]
 
-### Child 145 · section='Introduction' · page=113 · 488 tok
+### Child 146 · section='Introduction' · page=113 · 488 tok
 
 Reading is one of the powerful and everlasting influence 
 in the promotion of one’s personal development in particular social progress in general. Regular 
@@ -4443,7 +4508,7 @@ reflects the society’s lifestyle, the ideals, beliefs, curiosities and seeking
 
 … [+1644 more chars]
 
-### Child 146 · section='Introduction' · page=113 · 381 tok
+### Child 147 · section='Introduction' · page=113 · 381 tok
 
 Broadly, reading habits cover broadly individual’s style of regularizing study behaviour and 
 sensitization to curricular and extracurricular books, interest in newspapers, and magazines on 
@@ -4456,7 +4521,7 @@ behaviour and demanding varied and continued instructional guidance to read accu
 
 … [+1000 more chars]
 
-### Child 147 · section='5W1H Annotation' · page=114 · 265 tok
+### Child 148 · section='5W1H Annotation' · page=114 · 265 tok
 
 5W1H is the abbreviation summarising the following six questions: What? Who? Where? 
 When? Why? How? These questions whose answers are considered basic in information 
@@ -4472,7 +4537,7 @@ the abst
 
 … [+473 more chars]
 
-### Child 148 · section='Research Questions' · page=114 · 202 tok
+### Child 149 · section='Research Questions' · page=114 · 202 tok
 
 To achieve the research objectives some questions and their myths & predictions were 
 formulated based on 5W1H analyses are tabulated below:
@@ -4509,7 +4574,7 @@ What if children just don’t enjoy reading?
 
 … [+16 more chars]
 
-### Child 149 · section='7. I think my child’s problems are more serious' · page=115 · 432 tok
+### Child 150 · section='7. I think my child’s problems are more serious' · page=115 · 432 tok
 
 – what should I do? 
 8. My son is switching off reading - what can I 
@@ -4548,7 +4613,7 @@ Evidence
 
 … [+1086 more chars]
 
-### Child 150 · section='7. I think my child’s problems are more serious' · page=116 · 498 tok
+### Child 151 · section='7. I think my child’s problems are more serious' · page=116 · 498 tok
 
 Difference could I make as a Parent? 2. 3. My child is too young to learn to read yet, but what can I do to set them off in the right |
 
@@ -4569,7 +4634,7 @@ sentences, paragraphs and articles constantly. Such process reinforce
 
 … [+1662 more chars]
 
-### Child 151 · section='Myths & Predictions' · page=117 · 400 tok
+### Child 152 · section='Myths & Predictions' · page=117 · 400 tok
 
 Myth-1. Is it really necessary for parents to take part in  school reading activities?
 
@@ -4587,7 +4652,7 @@ it’s never too young for a child to start, even if you’re only reading with 
 
 … [+1006 more chars]
 
-### Child 152 · section='Myths & Predictions' · page=117 · 459 tok
+### Child 153 · section='Myths & Predictions' · page=117 · 459 tok
 
 In this way, 
 reading becomes a habit. Most importantly, talk to your child. Spend time with them, doing simple activities (cooking, 
@@ -4610,7 +4675,7 @@ texts. At the same time, reading magazines for children, geographic j
 
 … [+1509 more chars]
 
-### Child 153 · section='Myths & Predictions' · page=119 · 241 tok
+### Child 154 · section='Myths & Predictions' · page=119 · 241 tok
 
 These books provide 
 simple and interesting experiments and challenging problems which stimulate children’s 
@@ -4634,7 +4699,7 @@ Magazines are an amazing chance for a child or teen to grow ide
 
 … [+428 more chars]
 
-### Child 154 · section='MYTH' · page=119 · 423 tok
+### Child 155 · section='MYTH' · page=119 · 423 tok
 
 Myth-4. Can children choose their own books?
 
@@ -4654,7 +4719,7 @@ about them and make sure that the contents
 
 … [+1359 more chars]
 
-### Child 155 · section='MYTH' · page=120 · 416 tok
+### Child 156 · section='MYTH' · page=120 · 416 tok
 
 There are many good ways to tempt children to read:
 
@@ -4683,7 +4748,7 @@ Constantly be in touch with the pupils,
 
 … [+1090 more chars]
 
-### Child 156 · section='MYTH' · page=121 · 482 tok
+### Child 157 · section='MYTH' · page=121 · 482 tok
 
 Many children learn at different rates, and you shouldn’t 
 get anxious. Remember that anxious children can’t learn, and that early enjoyment of books and 
@@ -4702,7 +4767,7 @@ interesting than fiction, so it may be as simple as changing
 
 … [+1361 more chars]
 
-### Child 157 · section='MYTH' · page=122 · 487 tok
+### Child 158 · section='MYTH' · page=122 · 487 tok
 
 Many boys like non-fiction books, so try asking at your local library 
 for recommendations – it may be that he’ll enjoy reading Horrible Histories or the 
@@ -4723,7 +4788,7 @@ is young for their year g
 
 … [+1411 more chars]
 
-### Child 158 · section='MYTH' · page=122 · 363 tok
+### Child 159 · section='MYTH' · page=122 · 363 tok
 
 Several schools have not just one library but 
 maybe even three — a reading room for pre-school, a primary school library and one for high 
@@ -4742,7 +4807,7 @@ Libraries today have become bustling i
 
 … [+985 more chars]
 
-### Child 159 · section='MYTH' · page=123 · 448 tok
+### Child 160 · section='MYTH' · page=123 · 448 tok
 
 Libraries provide access to reading materials through the school library, students and youths can 
 gain and improve their skills. Libraries help introduce the use of reading for information, 
@@ -4758,7 +4823,7 @@ reflec
 
 … [+1650 more chars]
 
-### Child 160 · section='MYTH' · page=124 · 478 tok
+### Child 161 · section='MYTH' · page=124 · 478 tok
 
 School libraries are always rich in colourful story books 
 101
@@ -4778,7 +4843,7 @@ right books that
 
 … [+1620 more chars]
 
-### Child 161 · section='MYTH' · page=125 · 510 tok
+### Child 162 · section='MYTH' · page=125 · 510 tok
 
 Role of teachers: o Provide reading assignments 
 o twenty minute reading time; 
@@ -4799,7 +4864,7 @@ o Distributing story books am
 
 … [+1672 more chars]
 
-### Child 162 · section='Your Child’s Teacher' · page=126 · 338 tok
+### Child 163 · section='Your Child’s Teacher' · page=126 · 338 tok
 
 When children see their parents and teachers working together, they feel more secure and 
 confident. Taking an interest in your child’s education will help your child do better in school. 
@@ -4826,7 +4891,7 @@ books or guides that could help you hel
 
 … [+701 more chars]
 
-### Child 163 · section='Others Who Can Help' · page=126 · 410 tok
+### Child 164 · section='Others Who Can Help' · page=126 · 410 tok
 
 You can enlist many other people besides your child’s teacher as partners in helping your child 
 learn to read. Here are some suggestions:
@@ -4853,7 +4918,7 @@ community organizations. They will be familiar with community resource
 
 … [+1108 more chars]
 
-### Child 164 · section='Others Who Can Help' · page=127 · 504 tok
+### Child 165 · section='Others Who Can Help' · page=127 · 504 tok
 
 Over the next pages, you can pick up some tips on:
 
@@ -4884,7 +4949,7 @@ baby how important books are to you, that books come with a loving adult and tha
 
 … [+1365 more chars]
 
-### Child 165 · section='Others Who Can Help' · page=128 · 500 tok
+### Child 166 · section='Others Who Can Help' · page=128 · 500 tok
 
 While you may not 
 win an Oscar, your child will enjoy your performance and appreciate the story even more.
@@ -4911,7 +4976,7 @@ Be
 
 … [+1378 more chars]
 
-### Child 166 · section='Others Who Can Help' · page=129 · 367 tok
+### Child 167 · section='Others Who Can Help' · page=129 · 367 tok
 
 Reading is reading and it is all good. 5) 
 Get comfortable! – Snuggle up somewhere warm and cosy with your child, either in 
@@ -4936,7 +5001,7 @@ Bedtime stories – Regularly read with your child or children at bedti
 
 … [+763 more chars]
 
-### Child 167 · section='Others Who Can Help' · page=130 · 350 tok
+### Child 168 · section='Others Who Can Help' · page=130 · 350 tok
 
 Is it a book they have got from school to help 
 practise reading and build fluency? Is it a book that they find easy to read that helps them build 
@@ -4952,7 +5017,7 @@ You can find advice on what books children of different ages might enjoy read
 
 … [+746 more chars]
 
-### Child 168 · section='Others Who Can Help' · page=130 · 451 tok
+### Child 169 · section='Others Who Can Help' · page=130 · 451 tok
 
 Introduce the ‘Rule of five’ to older children. Encourage them to read the first page or two of a 
 new book. They must put up one finger for every word they cannot read. If they get to five 
@@ -4978,7 +5043,7 @@ together. Unlocking how
 
 … [+1011 more chars]
 
-### Child 169 · section='Others Who Can Help' · page=131 · 382 tok
+### Child 170 · section='Others Who Can Help' · page=131 · 382 tok
 
 Try not to add ‘uh’ to consonant sounds, such as /t/ and /p/, as this makes 
 it trickier to blend the sounds together into words. Link sounds and letters to make words: Children are taught in school to quickly see a link 
@@ -4993,7 +5058,7 @@ something that begins with (for example) the sound ‘f-f-f ’” Look a
 
 … [+772 more chars]
 
-### Child 170 · section='Others Who Can Help' · page=132 · 464 tok
+### Child 171 · section='Others Who Can Help' · page=132 · 464 tok
 
 Tips can I use to help Children learn to Read?
 
@@ -5026,7 +5091,7 @@ Make reading fun:
 
 … [+1142 more chars]
 
-### Child 171 · section='Others Who Can Help' · page=133 · 465 tok
+### Child 172 · section='Others Who Can Help' · page=133 · 465 tok
 
 He or she will love receiving mail!
 
@@ -5054,7 +5119,7 @@ Choose a comfortable spot to read, where you can be close to your child. Make it
 
 … [+1220 more chars]
 
-### Child 172 · section='Others Who Can Help' · page=133 · 347 tok
+### Child 173 · section='Others Who Can Help' · page=133 · 347 tok
 
 It also helps enrich your child’s vocabulary with new words and phrases. Here are some 
 ways to help your child acquire skills in comprehension, reasoning, and critical thinking: • 
@@ -5079,7 +5144,7 @@ Think out loud
 
 … [+684 more chars]
 
-### Child 173 · section='Others Who Can Help' · page=134 · 438 tok
+### Child 174 · section='Others Who Can Help' · page=134 · 438 tok
 
 • 
 Show your child that you are enjoying the book by indicating interest and by asking 
@@ -5103,7 +5168,7 @@ Talk about a book after your chi
 
 … [+1158 more chars]
 
-### Child 174 · section='Others Who Can Help' · page=135 · 474 tok
+### Child 175 · section='Others Who Can Help' · page=135 · 474 tok
 
 One person cannot change the learning culture of the school. For 
 this reason it is important for the school library development work to have a multi-professional 
@@ -5136,7 +5201,7 @@ Arranges teaching in the school library (information retrieval
 
 … [+1297 more chars]
 
-### Child 175 · section='Others Who Can Help' · page=136 · 445 tok
+### Child 176 · section='Others Who Can Help' · page=136 · 445 tok
 
 Trusted pupils • 
 Act as contact persons between the pupils and the teacher librarian 
@@ -5175,7 +5240,7 @@ Plan and organise the acquisiti
 
 … [+1428 more chars]
 
-### Child 176 · section='Others Who Can Help' · page=137 · 411 tok
+### Child 177 · section='Others Who Can Help' · page=137 · 411 tok
 
 The 
 best way to create a reading environment is to provide every child with a desk 
@@ -5204,7 +5269,7 @@ Children can buy the b
 
 … [+1257 more chars]
 
-### Child 177 · section='Others Who Can Help' · page=138 · 194 tok
+### Child 178 · section='Others Who Can Help' · page=138 · 194 tok
 
 They 
 should read in their spare time, enjoy talking about books with others, and make reading part of 
@@ -5228,7 +5293,7 @@ help childre
 
 … [+170 more chars]
 
-### Child 178 · section='MYTH' · page=139 · 557 tok
+### Child 179 · section='MYTH' · page=139 · 557 tok
 
 Myth-11. 
 Should parents arrange a large number of extra- curricular activities and 
@@ -5250,7 +5315,7 @@ Academic learning is indeed
 
 … [+1826 more chars]
 
-### Child 179 · section='Abstract' · page=141 · 228 tok
+### Child 180 · section='Abstract' · page=141 · 228 tok
 
 E- Publishing or Electronic Publishing is a more recent way in which books, short stories, 
 collections and works of non-fiction can be distributed via the Internet and computers in general. 
@@ -5264,7 +5329,7 @@ books, E-journals, Electronic ink, Web publishing
 
 … [+425 more chars]
 
-### Child 180 · section='Introduction' · page=141 · 446 tok
+### Child 181 · section='Introduction' · page=141 · 446 tok
 
 Information Technology has brought about changes from traditional print to electronic format. 
 Electronic publishing (EP), uses new technology to deliver books and other content to readers. 
@@ -5279,7 +5344,7 @@ information technology industry for generat
 
 … [+1595 more chars]
 
-### Child 181 · section='Introduction' · page=142 · 192 tok
+### Child 182 · section='Introduction' · page=142 · 192 tok
 
 The media in an 
 electronic publishing can be text, numeric, graphic, still or motion pictures, video, sound or as in 
@@ -5295,7 +5360,7 @@ extranet for delivery of the content. Offline publishing uses storage media such
 
 … [+172 more chars]
 
-### Child 182 · section='Definitions of Electronic Publishing' · page=142 · 427 tok
+### Child 183 · section='Definitions of Electronic Publishing' · page=142 · 427 tok
 
 When the computer and electronic media are used for the publishing of any intellectual output, it 
 is called electronic publishing. F.W. Lancaster (1995) defines Electronic Publishing as “a 
@@ -5311,7 +5376,7 @@ through some h
 
 … [+1452 more chars]
 
-### Child 183 · section='Methodology' · page=143 · 318 tok
+### Child 184 · section='Methodology' · page=143 · 318 tok
 
 This is a desktop research and literatures were reviewed using core keywords for the literature 
 search. To ensure that all concepts were included within publishing, the following general related 
@@ -5325,7 +5390,7 @@ insightful
 
 … [+951 more chars]
 
-### Child 184 · section='Methodology' · page=144 · 394 tok
+### Child 185 · section='Methodology' · page=144 · 394 tok
 
 latest research, or research that has not been 
 published
@@ -5344,7 +5409,7 @@ papers to limited groups of people in various fields. Electronic publication rea
 
 … [+1047 more chars]
 
-### Child 185 · section='Methodology' · page=144 · 433 tok
+### Child 186 · section='Methodology' · page=144 · 433 tok
 
 It was Michael Hart who envisioned the idea that computers could 
 indefinitely reproduce anything that was entered and stored for future retrieval. Subsequently, there have been many offspring of his original idea leading to what was termed 
@@ -5358,7 +5423,7 @@ electronic form in 198
 
 … [+1251 more chars]
 
-### Child 186 · section='Methodology' · page=145 · 396 tok
+### Child 187 · section='Methodology' · page=145 · 396 tok
 
 The use of electronics to print on paper is not a 
 completely pedestrian application since it allows new capabilities such as printing on 
@@ -5377,7 +5442,7 @@ accessible the text and/or graphics of journals that are also sold in print-on-p
 
 … [+1072 more chars]
 
-### Child 187 · section='Process of E-Publishing' · page=145 · 412 tok
+### Child 188 · section='Process of E-Publishing' · page=145 · 412 tok
 
 The stages of electronic publishing are similar to the process of traditional print publishing in 
 many ways but there are some variations that consist of eight steps:
@@ -5394,7 +5459,7 @@ done by the content creator
 
 … [+1263 more chars]
 
-### Child 188 · section='Process of E-Publishing' · page=146 · 515 tok
+### Child 189 · section='Process of E-Publishing' · page=146 · 515 tok
 
 The publisher takes care of content compatibility because the users may not 
 use the same device and software to read the content, for example the text should be 
@@ -5410,7 +5475,7 @@ preparation and distribution.
 
 … [+1909 more chars]
 
-### Child 189 · section='Characteristics of Electronic Publishing' · page=147 · 460 tok
+### Child 190 · section='Characteristics of Electronic Publishing' · page=147 · 460 tok
 
 Wilson (1997) enlists the characteristics of electronic publishing as follows:
 
@@ -5432,7 +5497,7 @@ reprinting;
 
 … [+1588 more chars]
 
-### Child 190 · section='Electronic books' · page=148 · 284 tok
+### Child 191 · section='Electronic books' · page=148 · 284 tok
 
 Borchers (1999) defines an eBook as a portable hardware and software system that can display 
 large quantity of readable textual information to the user and let the user navigate through this 
@@ -5446,7 +5511,7 @@ document format for evaluat
 
 … [+546 more chars]
 
-### Child 191 · section='Electronic periodicals' · page=148 · 142 tok
+### Child 192 · section='Electronic periodicals' · page=148 · 142 tok
 
 Electronic journal (or e-journal) is defined as any journal, magazine, e-zine, webzine, newsletter 
 or type of electronic serial publication which is available over the Internet and can be accessed 
@@ -5459,7 +5524,7 @@ academics, but students and lay people (Saxena, 2009).
 
 ICDL 2019: Poster
 
-### Child 192 · section='Electronic databases' · page=149 · 279 tok
+### Child 193 · section='Electronic databases' · page=149 · 279 tok
 
 With the influx of computers and communication technologies, the strength of information 
 system in the development of modern database has taken a new dimension. The stocks of the 
@@ -5476,7 +5541,7 @@ information mainly abstracting sources are quite commo
 
 … [+576 more chars]
 
-### Child 193 · section='Print-on-Demand (POD)' · page=149 · 172 tok
+### Child 194 · section='Print-on-Demand (POD)' · page=149 · 172 tok
 
 Print-on-Demand is a new method for printing books (and other content) which allows books to 
 be printed one at a time, or on demand. It is a mix of electronic and print publishing .i.e. (print on 
@@ -5490,7 +5555,7 @@ paper books and electronic book
 
 … [+2 more chars]
 
-### Child 194 · section='Digital content' · page=149 · 145 tok
+### Child 195 · section='Digital content' · page=149 · 145 tok
 
 Digital content generally refers to the electronic delivery of fiction that is shorter than book- 
 length, nonfiction, and other written works of shorter length. Publishers of digital content deliver 
@@ -5505,7 +5570,7 @@ away the works (Saxena, 2009).
 
 ICDL 2019: Poster
 
-### Child 195 · section='Electronic ink' · page=150 · 253 tok
+### Child 196 · section='Electronic ink' · page=150 · 253 tok
 
 Electronic Ink is a developing technology that has a huge impact on the media and publishing 
 industries. Electronic Ink could be used to create a newspaper or book that updates itself. It is a 
@@ -5522,7 +5587,7 @@ Email publish
 
 … [+475 more chars]
 
-### Child 196 · section='Web publishing' · page=150 · 405 tok
+### Child 197 · section='Web publishing' · page=150 · 405 tok
 
 Web publishing is not a novel practice any longer, but it continues to change and develop with 
 the introduction of new programming languages. Hypertext Markup Language (HTML) is still 
@@ -5542,7 +5607,7 @@ able to purchase the latest version of publication.
 
 … [+1209 more chars]
 
-### Child 197 · section='Web publishing' · page=151 · 405 tok
+### Child 198 · section='Web publishing' · page=151 · 405 tok
 
 This leads to further reducing the gap between the author and the 
 end-user.
@@ -5560,7 +5625,7 @@ book- marks and personal notes to be sites or by
 
 … [+1294 more chars]
 
-### Child 198 · section='Web publishing' · page=152 · 216 tok
+### Child 199 · section='Web publishing' · page=152 · 216 tok
 
 Electronic Publishing and its Role in Libraries: Definition of a library is an institution that selects, acquire, organize, and provide access to 
 record knowledge. This is obviously a very broad definition, but both the collecting ad 
@@ -5573,7 +5638,7 @@ each library. In spite of being in electronic form, the amount of material
 
 … [+327 more chars]
 
-### Child 199 · section='Conclusion' · page=152 · 257 tok
+### Child 200 · section='Conclusion' · page=152 · 257 tok
 
 Electronic publishing has created a revolution in publishing industry. By now, they have 
 received adequate acceptance among the users. During the past one decade, they have become 
@@ -5587,7 +5652,7 @@ help attract readership and potential con
 
 … [+614 more chars]
 
-### Child 200 · section='Reference' · page=152 · 443 tok
+### Child 201 · section='Reference' · page=152 · 443 tok
 
  
 Anderson, K & Dresselhaus, A. (2011). Publishing 2.0: How the internet changes publications in society. 
@@ -5620,7 +5685,7 @@ Gutenberg, P. (1994). The History and Philo
 
 … [+551 more chars]
 
-### Child 201 · section='Reference' · page=153 · 490 tok
+### Child 202 · section='Reference' · page=153 · 490 tok
 
 20, 
 2019)
@@ -5646,7 +5711,7 @@ Moorthy, A.L.& Karisdiddappa, C.R. (1996). Electronic Publishing: impact and imp
 
 … [+893 more chars]
 
-### Child 202 · section='Reference' · page=154 · 197 tok
+### Child 203 · section='Reference' · page=154 · 197 tok
 
 Amherst Jct.
 
@@ -5677,7 +5742,7 @@ Central Library, Rajshahi, Bangladesh
 M.A.M. Mominur Rahman  
 Operation Manager, Faculty of Engineering, Rajshahi University, Rajshahi – 6205, Bangladesh
 
-### Child 203 · section='Abstract' · page=155 · 372 tok
+### Child 204 · section='Abstract' · page=155 · 372 tok
 
 Knowledge streaming through digital process is very important now a days for a country like 
 Bangladesh. Rajshahi University Central Library has identified this mater five years back. Now 
@@ -5691,7 +5756,7 @@ our seminar lectures, class lecture of senior profes
 
 … [+1106 more chars]
 
-### Child 204 · section='Introduction' · page=156 · 232 tok
+### Child 205 · section='Introduction' · page=156 · 232 tok
 
 Libraries are synonymous with education and offer countless learning opportunities that can fuel 
 economic, social and cultural development. As an information centre library can provide 
@@ -5705,7 +5770,7 @@ enhance library
 
 … [+406 more chars]
 
-### Child 205 · section='Indian Scenario' · page=157 · 419 tok
+### Child 206 · section='Indian Scenario' · page=157 · 419 tok
 
 As per the Census 2011, in India out of the 121 Cr population, 2.68 Cr persons are ‘disabled’ 
 which is 2.21% of the total population.
@@ -5734,7 +5799,7 @@ to the legal framework, extensive national infrastructure has been developed inc
 
 … [+1237 more chars]
 
-### Child 206 · section='Indian Scenario' · page=157 · 331 tok
+### Child 207 · section='Indian Scenario' · page=157 · 331 tok
 
 National Policy for Persons with Disabilities, 2006 The National Policy for Persons with Disabilities, 2006 recognizes persons with disabilities as 
 valuable human resource for the country and seeks to create an environment that provides those 
@@ -5753,7 +5818,7 @@ intensified and their coverage expanded.
 
 … [+737 more chars]
 
-### Child 207 · section='Indian Scenario' · page=158 · 395 tok
+### Child 208 · section='Indian Scenario' · page=158 · 395 tok
 
 It will also 
 include development of rehabilitation professionals; Educational rehabilitation including 
@@ -5768,7 +5833,7 @@ available throughout the world some are priced and some are available free of co
 
 … [+1247 more chars]
 
-### Child 208 · section='Indian Scenario' · page=158 · 265 tok
+### Child 209 · section='Indian Scenario' · page=158 · 265 tok
 
 � Telecommunication devices
 Cognitive disabilities 
@@ -5785,7 +5850,7 @@ Cognitive disabilities
 
 … [+277 more chars]
 
-### Child 209 · section='Assistive or Adaptive Technology' · page=159 · 432 tok
+### Child 210 · section='Assistive or Adaptive Technology' · page=159 · 432 tok
 
 Assistive technologies (ATs) that refers to assistive, adaptive rehabilitative devices, products, or 
 equipment for helping people with disabilities. ATs assist individuals in communication, 
@@ -5806,7 +5871,7 @@ Speech recognition software: Speech recogniti
 
 … [+1312 more chars]
 
-### Child 210 · section='Dolphin SuperNova' · page=160 · 427 tok
+### Child 211 · section='Dolphin SuperNova' · page=160 · 427 tok
 
 138
 
@@ -5829,7 +5894,7 @@ ages with maths topics, including number sense, scale, addition, subtraction, mu
 
 … [+1236 more chars]
 
-### Child 211 · section='Livescribe Smartpens' · page=163 · 355 tok
+### Child 212 · section='Livescribe Smartpens' · page=163 · 355 tok
 
 Digital recorder: Digital recorder is ideal for anyone with dyslexia and who needs support with 
 note-taking. 
@@ -5852,7 +5917,7 @@ developed for the blind or visually impaire
 
 … [+1053 more chars]
 
-### Child 212 · section='References' · page=164 · 394 tok
+### Child 213 · section='References' · page=164 · 394 tok
 
 1. Tripathi, M., & Shukla, A. (2014). Use of assistive technologies in academic libraries: A survey. Assistive 
 Technology, 26(2), 105–118. https://doi.org/10.1080/10400435.2013.853329
@@ -5869,7 +5934,7 @@ http://crl.du.ac.in/ical09/papers/index_files/ical-105_241_602_1_RV.pdf
 
 … [+494 more chars]
 
-### Child 213 · section='References' · page=164 · 482 tok
+### Child 214 · section='References' · page=164 · 482 tok
 
 International Journal of Information Sciences and Techniques, 6(1/2), 257–267. Retrieved 
 from http://dspace-unipr.cineca.it/bitstream/1889/1147/1/Library Services for Blind and Visually Impaired 
@@ -5886,7 +5951,7 @@ Network and Computer Applications, 35(2),
 
 … [+799 more chars]
 
-### Child 214 · section='Archana Shukla — DLIS, IGNOU — Abstract' · page=166 · 160 tok
+### Child 215 · section='Archana Shukla — DLIS, IGNOU — Abstract' · page=166 · 160 tok
 
 The present paper discusses digital prevention activities and processes. It also discusses why the 
 preservation of digital assets in libraries is required. It has been observed that the preservation of 
@@ -5900,7 +5965,7 @@ the study moves forward towards c
 
 … [+109 more chars]
 
-### Child 215 · section='Concept Building' · page=166 · 376 tok
+### Child 216 · section='Concept Building' · page=166 · 376 tok
 
 Digital Preservation is key not only for human history, education, culture, and economics but 
 also for our civilization. Earlier we used to preserve knowledge via wood, stone, bamboo, 
@@ -5914,7 +5979,7 @@ form for easy access and use by present genera
 
 … [+1109 more chars]
 
-### Child 216 · section='Concept Building' · page=167 · 231 tok
+### Child 217 · section='Concept Building' · page=167 · 231 tok
 
 Assess the current digital preservation landscape at each institution; (iii) Advocate for the value 
 144
@@ -5931,7 +5996,7 @@ property”. It has been observed as preser
 
 … [+451 more chars]
 
-### Child 217 · section='Definition' · page=167 · 281 tok
+### Child 218 · section='Definition' · page=167 · 281 tok
 
 There are many definitions available on digital preservation. It is a formal endeavor to ensure the 
 digital information of continuing value remains accessible and usable. Some of the definitions 
@@ -5949,7 +6014,7 @@ ALA defined as "It is the combination of policies, strategies, and actions that 
 
 … [+674 more chars]
 
-### Child 218 · section='Definition' · page=168 · 395 tok
+### Child 219 · section='Definition' · page=168 · 395 tok
 
 The 
 dangerous threat to digital continuity is “losing the access”.
@@ -5969,7 +6034,7 @@ information by choosing a platform where we could store the information for long
 
 … [+1278 more chars]
 
-### Child 219 · section='Definition' · page=168 · 476 tok
+### Child 220 · section='Definition' · page=168 · 476 tok
 
 Nowadays, libraries have started procuring/subscribing more collection in e-form as compare 
 to print collection so the challenge for preserving them has also increased. We need a system in 
@@ -5984,7 +6049,7 @@ OCLC has
 
 … [+1662 more chars]
 
-### Child 220 · section='Definition' · page=169 · 225 tok
+### Child 221 · section='Definition' · page=169 · 225 tok
 
 Despite all that copying, the digital content into another medium is the 
 violation of intellectual property rights. It strictly needs permission from copyright holders. 
@@ -6005,7 +6070,7 @@ Migration, Viewers, and Migration at the Point of Access, Emulation, Canonicaliz
 
 … [+389 more chars]
 
-### Child 221 · section='Challenges to Digital Preservation' · page=170 · 329 tok
+### Child 222 · section='Challenges to Digital Preservation' · page=170 · 329 tok
 
 It is so easy creating content in digital media and keeping it up-to-date also but it has a lot of 
 economic and technical challenges in preservation. It is also could be challenging because of “its 
@@ -6021,7 +6086,7 @@ Data Ma
 
 … [+895 more chars]
 
-### Child 222 · section='Preservation Planning' · page=171 · 448 tok
+### Child 223 · section='Preservation Planning' · page=171 · 448 tok
 
 In this process preservation activities are organized in a logical sequence. Preservation planning 
 is a process that organizes preservation activities in a logical sequence. The “standards for 
@@ -6038,7 +6103,7 @@ under the national e-governance plan u
 
 … [+1660 more chars]
 
-### Child 223 · section='Preservation Planning' · page=172 · 274 tok
+### Child 224 · section='Preservation Planning' · page=172 · 274 tok
 
 No doubt that till now no such serious efforts have been undertaken by the Indian 
 government.
@@ -6055,7 +6120,7 @@ and make them availab
 
 … [+718 more chars]
 
-### Child 224 · section='Some Examples' · page=172 · 210 tok
+### Child 225 · section='Some Examples' · page=172 · 210 tok
 
 It has been observed that the preservation of digital material has a lot of challenges from 
 selecting tools for preservation to saving the digital content for a longer period. While doing this 
@@ -6072,7 +6137,7 @@ connected fil
 
 … [+231 more chars]
 
-### Child 225 · section='Some Examples' · page=173 · 503 tok
+### Child 226 · section='Some Examples' · page=173 · 503 tok
 
 Data was contained in many different 
 connected files. Data in those files started disappearing. They retrieved back up files of 
@@ -6090,7 +6155,7 @@ t
 
 … [+1475 more chars]
 
-### Child 226 · section='Some Examples' · page=173 · 542 tok
+### Child 227 · section='Some Examples' · page=173 · 542 tok
 
 ISBN 978-0-7546-4038-7.
 4.
@@ -6112,7 +6177,7 @@ losing-the-picture/.
 
 … [+1044 more chars]
 
-### Child 227 · section='Abstract' · page=174 · 478 tok
+### Child 228 · section='Abstract' · page=174 · 478 tok
 
 An attempt has been made to explain the concept of DRM (Digital Rights Management), which 
 allows content providers to distribute, promote and market the digital contents in a secure way. 
@@ -6128,7 +6193,7 @@ publishers are able
 
 … [+1605 more chars]
 
-### Child 228 · section='Digital Rights Management (DRM)' · page=175 · 286 tok
+### Child 229 · section='Digital Rights Management (DRM)' · page=175 · 286 tok
 
 Digital Rights Management (DRM) refers to technologies used by software and hardware 
 manufacturers, publishers, Content Owners, and Copyright holderslimitunauthorized use of 
@@ -6142,7 +6207,7 @@ teaching, library archiving and scholarship etc.
 
 … [+767 more chars]
 
-### Child 229 · section='Objectives' · page=175 · 436 tok
+### Child 230 · section='Objectives' · page=175 · 436 tok
 
 The objectives of Digital Rights Management to provide needful services in digitization era in 
 respect of library professionals are:
@@ -6165,7 +6230,7 @@ mechanism
 
 … [+1241 more chars]
 
-### Child 230 · section='Objectives' · page=176 · 204 tok
+### Child 231 · section='Objectives' · page=176 · 204 tok
 
 In May 2012, both houses of the Indian Parliament unanimously placed their seal on 
 the Copyright Amendment Bill, 2012, bringing Indian copyright law into compliance with the 
@@ -6181,7 +6246,7 @@ The amendments introduced through Copyright (Amendment) Act 2012 can be categori
 
 … [+284 more chars]
 
-### Child 231 · section='6. Reform of Copyright Board and other minor amendments — Protection of Technological Measures' · page=176 · 163 tok
+### Child 232 · section='6. Reform of Copyright Board and other minor amendments — Protection of Technological Measures' · page=176 · 163 tok
 
 The new section 65A, introduced for protection of technological protection measures (TPM) 
 used by a copyright owner to protect his rights on the work, makes circumvention of it a criminal 
@@ -6196,7 +6261,7 @@ access to work facilitated by the copyright laws. Sub-section (2) permits circum
 
 … [+23 more chars]
 
-### Child 232 · section='6. Reform of Copyright Board and other minor amendments — Protection of Technological Measures' · page=177 · 482 tok
+### Child 233 · section='6. Reform of Copyright Board and other minor amendments — Protection of Technological Measures' · page=177 · 482 tok
 
 This amendment also clarifies the problem of circumvention impacting the public interest on 
 access to work facilitated by the copyright laws. Sub-section (2) permits circumvention for 
@@ -6214,7 +6279,7 @@ information is a criminal offence punishable with imprisonment, which may extend
 
 … [+1709 more chars]
 
-### Child 233 · section='6. Reform of Copyright Board and other minor amendments — Protection of Technological Measures' · page=177 · 585 tok
+### Child 234 · section='6. Reform of Copyright Board and other minor amendments — Protection of Technological Measures' · page=177 · 585 tok
 
 is available to specialized 
 researchers other than those affiliated with the institution) will not be liable for copyright 
@@ -6230,7 +6295,7 @@ of such works per patron. Copying a complete work from the library collecti
 
 … [+1985 more chars]
 
-### Child 234 · section='6. Reform of Copyright Board and other minor amendments — Protection of Technological Measures' · page=178 · 419 tok
+### Child 235 · section='6. Reform of Copyright Board and other minor amendments — Protection of Technological Measures' · page=178 · 419 tok
 
 running the applications through remote terminal sessions
 (protection from remote access).
@@ -6250,7 +6315,7 @@ Making download a complex process: As a site license user, he is able to utilize
 
 … [+1270 more chars]
 
-### Child 235 · section='6. Reform of Copyright Board and other minor amendments — Protection of Technological Measures' · page=179 · 321 tok
+### Child 236 · section='6. Reform of Copyright Board and other minor amendments — Protection of Technological Measures' · page=179 · 321 tok
 
 In such a network, each site makes local decisions about which other sites to 
 contact and offer trades as well as whether to accept trades offered by other sites. The 
@@ -6265,7 +6330,7 @@ issued by the rights holders.Originated from operating system
 
 … [+840 more chars]
 
-### Child 236 · section='Copyright — Digital Rights Management' · page=179 · 408 tok
+### Child 237 · section='Copyright — Digital Rights Management' · page=179 · 408 tok
 
 • 
 Right over expression of ideas, 
@@ -6299,7 +6364,7 @@ Copyright law sets d
 
 … [+1033 more chars]
 
-### Child 237 · section='Copyright — Digital Rights Management' · page=180 · 413 tok
+### Child 238 · section='Copyright — Digital Rights Management' · page=180 · 413 tok
 
 (Electronic Frontier 
 Foundation has recorded fairly large 
@@ -6323,7 +6388,7 @@ happened around 20-25 years before.  Pentium 1
 
 … [+1284 more chars]
 
-### Child 238 · section='Copyright — Digital Rights Management' · page=181 · 450 tok
+### Child 239 · section='Copyright — Digital Rights Management' · page=181 · 450 tok
 
 (Electronic Frontier Foundation has recorded fairly large number of such transgression cases) |  |
 | --- | --- | --- | --- | ICDL 2019: Poster 
@@ -6341,7 +6406,7 @@ Example: Preserving a  copyrighted material in a locked vault. Will breaking
 
 … [+1150 more chars]
 
-### Child 239 · section='Copyright — Digital Rights Management' · page=182 · 479 tok
+### Child 240 · section='Copyright — Digital Rights Management' · page=182 · 479 tok
 
 Kumar used 
 Dr.HarivanshRaiBachchan’s poem line, “Need kaNirmanPhirPhir”. Amitabh Bachchan alleged it 
@@ -6358,7 +6423,7 @@ the protection mechanisms that the data protection laws in india mus
 
 … [+1428 more chars]
 
-### Child 240 · section='Copyright — Digital Rights Management' · page=182 · 241 tok
+### Child 241 · section='Copyright — Digital Rights Management' · page=182 · 241 tok
 
 During that period different television broadcast companies in India telecast 
 clippings taken from ESPN. ESPN filed suit against television companies for infringing their 
@@ -6372,7 +6437,7 @@ Form B (which is not a product of ‘774 patent but a ‘507 rejected applicat
 
 … [+235 more chars]
 
-### Child 241 · section='Copyright — Digital Rights Management' · page=183 · 434 tok
+### Child 242 · section='Copyright — Digital Rights Management' · page=183 · 434 tok
 
 ICDL 2019: Poster 
 Some important Milestones in India under Intellectual Property 
@@ -6389,7 +6454,7 @@ person has to be true or first inventor of the invention. Registration with gove
 
 … [+1150 more chars]
 
-### Child 242 · section='Copyright — Digital Rights Management' · page=183 · 198 tok
+### Child 243 · section='Copyright — Digital Rights Management' · page=183 · 198 tok
 
 Quality, reputation or other 
 characteristic of such goods is essentially attached to its geographical origin. When they are 
@@ -6404,7 +6469,7 @@ mechanical device, and does not inclu
 
 … [+155 more chars]
 
-### Child 243 · section='Copyright — Digital Rights Management' · page=184 · 499 tok
+### Child 244 · section='Copyright — Digital Rights Management' · page=184 · 499 tok
 
 construction or anything which is in substance a mere 
 mechanical device, and does not include any trade mark as defined in clause (v) of sub-section 
@@ -6421,7 +6486,7 @@ passage of the
 
 … [+1353 more chars]
 
-### Child 244 · section='Copyright — Digital Rights Management' · page=184 · 360 tok
+### Child 245 · section='Copyright — Digital Rights Management' · page=184 · 360 tok
 
 Hitsevich, Nataliya. Intellectual Property Rights infringement on the internet: an analysis of the private
 international law implications.
@@ -6439,7 +6504,7 @@ by insiders. Computer Science Department, Stony Book University.
 
 … [+464 more chars]
 
-### Child 245 · section='Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18' · page=185 · 317 tok
+### Child 246 · section='Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18' · page=185 · 313 tok
 
 Gul Sumeer   39, 40
 Jamal Anam  28
@@ -6466,36 +6531,19 @@ CONFERENCE POSTERS
 AUTHOR INDEX
 163
 
-ICDL 2019 WEBCASTING
-
-Supported by
-Indira Gandhi National Open University (IGNOU)
-
-teri
-
-ICDL
-
-2019
-INTERNATIONAL CONFERENCE ON DIGITAL LANDSCAPE
-DIGITAL TRANSFORMATION
-FOR AN AGILE ENVIRONMENT
-
+ICDL 2019 WEBCASTING Supported by Indira Gandhi National Open University (IGNOU)
 THE ENERGY AND RESOURCES INSTITUTE
-
-November 6-8, 2019 | New Delhi
-
-Corporate Sponsor — Par
+ICDL 2019 INTERNATIONAL CONFERENCE ON DIGITAL LANDSCAPE DIGITAL TRANSFORMATION FOR AN AGILE ENVIRONMENT
+November 6-8. 2019 | New Delhi
+Corporate Sponsor
+Partners
+Associat
 
 … [+76 more chars]
 
-### Child 246 · section='Agnou — R' · page=187 · 437 tok
+### Child 247 · section='Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18' · page=188 · 429 tok
 
-00 30 30:30
-
-6
-E
-
-Editor-in-Chief   Prof. 
+All rights reserved. Editor-in-Chief   Prof. 
 Editor   Dr Partha Kalyan Bhattacharya
 Associate Editor   Dr Shantanu Ganguly
 Michael Seadle
@@ -6506,11 +6554,11 @@ dissemination of digital information focussing on research and integration of kn
 the interface of resources and development. The journal will, therefore, keep readers 
 abreast with the current developments and contain articles, reviews, current 
 developments, and case studies, encompassing the following areas.
-n Theoretical and methodological issues that relate to the interrelationships
+n Theoretical and methodological issues that relate to the interrelationsh
 
-… [+1246 more chars]
+… [+1249 more chars]
 
-### Child 247 · section='Agnou — R' · page=188 · 486 tok
+### Child 248 · section='Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18' · page=188 · 486 tok
 
 Soft copy in English, in MS Word format 
 should be submitted to the editor: P K Bhattacharya at <pkbhatta@teri.res.in>. The length of the original article should not exceed a 8,000 words. The main text should be double-spaced, with headings and sub-headings clearly indicated and placed on the left-hand side of the text. 
@@ -6528,7 +6576,7 @@ Information Sciences, Northumbri
 
 … [+1062 more chars]
 
-### Child 248 · section='Agnou — R' · page=188 · 363 tok
+### Child 249 · section='Ali Sabha  29 — Bose Priyanka  11 — Chakraborty Somen  152 — Dandawate Vrushali   18 — Das Subarna Kumar  119 — Dhanamajaya M  18' · page=188 · 363 tok
 
 Professor, 
 Bangalore, India

@@ -9,7 +9,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
 
 ## Child · `4a4870bf-7578-5c1e-b005-08591ee2d306`
 
-- vector: dim=3072 · [-0.0092, -0.0018, -0.0179, -0.0326, -0.0193, -0.0065, 0.0048, 0.0121, …]
+- vector: dim=3072 · [-0.0091, -0.0016, -0.0181, -0.0328, -0.0197, -0.0064, 0.0048, 0.0120, …]
 
 ```json
 {
@@ -37,8 +37,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     2,
     2
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -70,14 +70,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     3,
     7
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `5911f148-fff8-5bee-a4c6-8105782e7901`
 
-- vector: dim=3072 · [-0.0198, -0.0224, -0.0138, -0.0295, -0.0136, -0.0107, 0.0125, 0.0079, …]
+- vector: dim=3072 · [-0.0195, -0.0228, -0.0142, -0.0294, -0.0140, -0.0108, 0.0122, 0.0078, …]
 
 ```json
 {
@@ -106,14 +106,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     3,
     5
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `87815a3f-8947-599d-b9a0-e2eb45b932e7`
 
-- vector: dim=3072 · [-0.0157, 0.0053, -0.0150, -0.0061, -0.0255, -0.0137, 0.0107, 0.0070, …]
+- vector: dim=3072 · [-0.0156, 0.0050, -0.0149, -0.0063, -0.0255, -0.0141, 0.0112, 0.0070, …]
 
 ```json
 {
@@ -142,14 +142,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     6,
     6
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `90c55f49-9bb2-536f-ad89-4dfa1cb1d1be`
 
-- vector: dim=3072 · [-0.0308, 0.0144, -0.0171, 0.0040, -0.0255, -0.0362, 0.0094, -0.0236, …]
+- vector: dim=3072 · [-0.0309, 0.0145, -0.0170, 0.0040, -0.0258, -0.0360, 0.0094, -0.0237, …]
 
 ```json
 {
@@ -178,14 +178,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     6,
     6
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `51d0e2a6-ea4c-58d3-9058-9d55901d24a5`
 
-- vector: dim=3072 · [-0.0200, -0.0086, -0.0109, 0.0143, -0.0385, -0.0125, -0.0248, 0.0027, …]
+- vector: dim=3072 · [-0.0200, -0.0086, -0.0109, 0.0143, -0.0385, -0.0126, -0.0248, 0.0027, …]
 
 ```json
 {
@@ -214,14 +214,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     7
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `5d119d9a-f907-5b22-a8a6-27874acf75a5`
 
-- vector: dim=3072 · [-0.0141, -0.0134, -0.0133, -0.0018, -0.0266, -0.0209, -0.0028, -0.0259, …]
+- vector: dim=3072 · [-0.0140, -0.0134, -0.0133, -0.0019, -0.0265, -0.0210, -0.0027, -0.0259, …]
 
 ```json
 {
@@ -250,8 +250,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     7,
     7
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -283,14 +283,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     8,
     9
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `945fd016-eb6d-5d49-bde7-2a839822c112`
 
-- vector: dim=3072 · [-0.0139, 0.0145, -0.0061, -0.0229, -0.0229, -0.0324, 0.0154, 0.0216, …]
+- vector: dim=3072 · [-0.0142, 0.0144, -0.0059, -0.0234, -0.0228, -0.0315, 0.0153, 0.0218, …]
 
 ```json
 {
@@ -319,14 +319,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     8,
     8
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `fbbf2ad2-43e4-5c7f-8a61-04a1853a00e4`
 
-- vector: dim=3072 · [-0.0281, -0.0091, -0.0047, -0.0160, -0.0248, -0.0642, 0.0163, 0.0181, …]
+- vector: dim=3072 · [-0.0288, -0.0090, -0.0049, -0.0157, -0.0247, -0.0641, 0.0165, 0.0179, …]
 
 ```json
 {
@@ -355,14 +355,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     8,
     8
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `f19d0f2e-5144-5dfc-b157-69c1e4f0dc30`
 
-- vector: dim=3072 · [-0.0208, 0.0076, -0.0089, -0.0028, -0.0186, -0.0854, -0.0054, 0.0095, …]
+- vector: dim=3072 · [-0.0207, 0.0072, -0.0092, -0.0030, -0.0191, -0.0859, -0.0056, 0.0095, …]
 
 ```json
 {
@@ -391,8 +391,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     8,
     9
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -424,14 +424,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     10
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `ba5a3d97-6871-5743-be63-1c1b59d8a58d`
 
-- vector: dim=3072 · [-0.0202, 0.0032, -0.0131, -0.0058, -0.0227, -0.0749, 0.0210, 0.0245, …]
+- vector: dim=3072 · [-0.0194, 0.0028, -0.0133, -0.0057, -0.0220, -0.0739, 0.0216, 0.0246, …]
 
 ```json
 {
@@ -460,14 +460,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     9
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `4bda1301-1798-559e-9841-6eed6827899a`
 
-- vector: dim=3072 · [0.0149, -0.0245, -0.0061, 0.0112, -0.0298, -0.0748, 0.0195, 0.0445, …]
+- vector: dim=3072 · [0.0148, -0.0251, -0.0062, 0.0116, -0.0296, -0.0745, 0.0191, 0.0445, …]
 
 ```json
 {
@@ -496,14 +496,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     9
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `2d8d9504-be57-584f-aeb4-e7861bb90b59`
 
-- vector: dim=3072 · [0.0007, -0.0266, -0.0074, 0.0127, -0.0242, -0.0697, 0.0216, 0.0561, …]
+- vector: dim=3072 · [0.0011, -0.0261, -0.0072, 0.0129, -0.0253, -0.0693, 0.0212, 0.0566, …]
 
 ```json
 {
@@ -532,14 +532,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     9,
     9
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `1304ceae-5142-59e9-a22b-f0e06c17e660`
 
-- vector: dim=3072 · [-0.0172, 0.0142, -0.0049, 0.0042, -0.0213, -0.0602, 0.0047, 0.0079, …]
+- vector: dim=3072 · [-0.0173, 0.0142, -0.0050, 0.0043, -0.0212, -0.0602, 0.0047, 0.0078, …]
 
 ```json
 {
@@ -568,8 +568,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     10,
     10
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -601,14 +601,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     11,
     12
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `2b222c9d-8ff9-55b7-a125-8688c3f5ea4a`
 
-- vector: dim=3072 · [-0.0277, -0.0135, -0.0113, -0.0128, -0.0265, 0.0111, -0.0235, 0.0002, …]
+- vector: dim=3072 · [-0.0277, -0.0135, -0.0113, -0.0129, -0.0265, 0.0112, -0.0237, 0.0002, …]
 
 ```json
 {
@@ -637,14 +637,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     11,
     11
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `59fc7588-0b88-5d15-8d5e-6be9eec6603a`
 
-- vector: dim=3072 · [-0.0219, -0.0023, -0.0081, 0.0080, -0.0329, -0.0086, -0.0015, 0.0020, …]
+- vector: dim=3072 · [-0.0222, -0.0023, -0.0078, 0.0081, -0.0327, -0.0092, -0.0019, 0.0020, …]
 
 ```json
 {
@@ -673,14 +673,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     11,
     12
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `2fec014e-9a87-5a3e-8818-3e0cce5e5ef9`
 
-- vector: dim=3072 · [-0.0128, -0.0142, -0.0122, 0.0031, -0.0179, -0.0234, 0.0098, 0.0031, …]
+- vector: dim=3072 · [-0.0126, -0.0142, -0.0122, 0.0031, -0.0185, -0.0236, 0.0105, 0.0032, …]
 
 ```json
 {
@@ -709,8 +709,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     12,
     12
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -742,8 +742,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     13,
     14
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -778,8 +778,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     13,
     13
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -814,8 +814,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     13,
     13
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -850,8 +850,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     13,
     13
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -886,8 +886,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     13,
     13
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -922,8 +922,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     14,
     14
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -955,8 +955,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     15,
     17
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -991,8 +991,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     15,
     15
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -1027,14 +1027,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     15,
     15
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `82a702cf-b49b-5abf-8eaf-d629e25894c6`
 
-- vector: dim=3072 · [-0.0257, -0.0018, -0.0152, -0.0149, -0.0098, -0.0086, 0.0033, -0.0064, …]
+- vector: dim=3072 · [-0.0255, -0.0022, -0.0153, -0.0149, -0.0098, -0.0085, 0.0027, -0.0064, …]
 
 ```json
 {
@@ -1063,8 +1063,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     16,
     16
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -1099,8 +1099,8 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     17,
     17
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
@@ -1116,9 +1116,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
   "section_heading": "Introduction",
-  "chunk_text": "Introduction (cont.)\n\n18\t\nSDG Charter Policy Brief\nREFERENCES\nAl-Fouzan, S. A. (2012). Using car parking requirements to promote sustainable transport development in the Kingdom \nof Saudi Arabia. Cities. 29(3), 201-211.\nEgset, K. S., & Nordfjœrn, T. (2019). The role of transport priorities, transport attitudes and situational factors for sustainable \ntransport mode use in wintertime. Transportation Research Part F: Traffic Psychology and Behaviour. 62, 473-482. \nFAO (Food and Agriculture Organization). (2022). Meat Production in Our World in Data, URL: https://ourworldindata.\norg/meat-producti\n\n… [+3824 more chars]",
-  "content_hash": "f97487ab4db2bdb4cdc2bc6e87dfc4e47a9179c38e026bbf695e572bf529c80c",
-  "token_count": 1104,
+  "chunk_text": "Introduction (cont.)\n\n18\t\nSDG Charter Policy Brief\nREFERENCES\nAl-Fouzan, S. A. (2012). Using car parking requirements to promote sustainable transport development in the Kingdom \nof Saudi Arabia. Cities. 29(3), 201-211.\nEgset, K. S., & Nordfjœrn, T. (2019). The role of transport priorities, transport attitudes and situational factors for sustainable \ntransport mode use in wintertime. Transportation Research Part F: Traffic Psychology and Behaviour. 62, 473-482. \nFAO (Food and Agriculture Organization). (2022). Meat Production in Our World in Data, URL: https://ourworldindata.\norg/meat-producti\n\n… [+3892 more chars]",
+  "content_hash": "d8334e484c224c348b5ca811039ea2e190ab1f8cc8a534f02479d08f96b598d4",
+  "token_count": 1118,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1132,14 +1132,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     18,
     20
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `ed3cad3c-3255-5a49-88dc-0cc885a6a167`
 
-- vector: dim=3072 · [0.0025, 0.0402, -0.0111, 0.0065, -0.0048, -0.0023, -0.0035, 0.0073, …]
+- vector: dim=3072 · [0.0027, 0.0402, -0.0111, 0.0066, -0.0048, -0.0025, -0.0031, 0.0070, …]
 
 ```json
 {
@@ -1168,14 +1168,14 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     18,
     18
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `8821a9c0-be6c-592d-aaa6-68b359b726d1`
 
-- vector: dim=3072 · [-0.0321, 0.0115, -0.0073, -0.0011, -0.0174, -0.0136, 0.0087, 0.0152, …]
+- vector: dim=3072 · [-0.0297, 0.0053, -0.0071, -0.0052, -0.0080, -0.0175, 0.0060, 0.0137, …]
 
 ```json
 {
@@ -1186,9 +1186,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "title": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
   "section_heading": "Introduction",
   "section_type": "references",
-  "chunk_text": "Hasija, G. Lisboa, S. Luz, J. Malley, (eds.)]. Cambridge University Press, \nCambridge, UK and New York, NY, USA. doi: 10.1017/9781009157926.001. Jambeck et al. (2015). Plastic waste inputs from land into the ocean. Science. 347(6223), 768-771 in Our World in Data. \nURL: https://ourworldindata.org/grapher/plastic-waste-generation-total (Last accessed on 25 October 2022).\nMEA (Ministry of External Affairs). (2022). India’s Forthcoming G20 Presidency. New Delhi: MEA. URL: https://www.mea.\ngov.in/press-releases.htm?dtl/35700/Indias_forthcoming_G20_Presidency (Last Accessed 25 October 2022).\nNITI A\n\n… [+479 more chars]",
-  "content_hash": "366b7274a2cea9b99a8801b85c85243b8abcce2204f38cba23987f53e498ad40",
-  "token_count": 303,
+  "chunk_text": "Hasija, G. Lisboa, S. Luz, J. Malley, (eds.)]. Cambridge University Press, \nCambridge, UK and New York, NY, USA. doi: 10.1017/9781009157926.001. Jambeck et al. (2015). Plastic waste inputs from land into the ocean. Science. 347(6223), 768-771 in Our World in Data. \nURL: https://ourworldindata.org/grapher/plastic-waste-generation-total (Last accessed on 25 October 2022).\nMEA (Ministry of External Affairs). (2022). India’s Forthcoming G20 Presidency. New Delhi: MEA. URL: https://www.mea.\ngov.in/press-releases.htm?dtl/35700/Indias_forthcoming_G20_Presidency (Last Accessed 25 October 2022).\nNITI A\n\n… [+547 more chars]",
+  "content_hash": "f6dbcc21f2c65230d7fcd70b7a61fc63127c114624bd1096c74b0cd60c34e3c6",
+  "token_count": 316,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1203,16 +1203,16 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "page_number": 18,
   "page_range": [
     18,
-    18
+    19
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```
 
 ## Child · `a0e04f67-1e36-572c-9d9f-5156d9b47e15`
 
-- vector: dim=3072 · [0.0120, 0.0296, -0.0153, 0.0083, -0.0172, 0.0149, 0.0353, 0.0169, …]
+- vector: dim=3072 · [0.0077, 0.0171, -0.0115, 0.0064, -0.0113, 0.0176, 0.0441, 0.0091, …]
 
 ```json
 {
@@ -1222,9 +1222,9 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "source_type": "pdf",
   "title": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
   "section_heading": "Introduction",
-  "chunk_text": "Act4Earth and World Sustainable Development Summit. New Delhi: The \nEnergy and Resources Institute.\nUNEP (United Nations Environment Programme). (2022). Global Strategy for Sustainable Consumption and Production \n2023-2030. UNEP. 20\t\nSDG Charter Policy Brief\nWORLD SUSTAINABLE \nDEVELOPMENT SUMMIT\nThe World Sustainable Development Summit (WSDS) is the annual \nflagship Track II initiative organized by The Energy and Resources Institute \n(TERI). Instituted in 2001, the Summit series has a legacy of over two \ndecades for making ‘sustainable development’ a globally shared goal. \nThe only independent\n\n… [+1505 more chars]",
-  "content_hash": "2aeda2acc3e442e22ed5b1ad6275b4c1bb26c3f3e8ca81555e97b39447892f82",
-  "token_count": 456,
+  "chunk_text": "New Delhi: The \nEnergy and Resources Institute.\nUNEP (United Nations Environment Programme). (2022). Global Strategy for Sustainable Consumption and Production \n2023-2030. UNEP.\n\nInternationalizing Lifestyles for Environment: Messages for G20\n19 20\t\nSDG Charter Policy Brief\nWORLD SUSTAINABLE \nDEVELOPMENT SUMMIT\nThe World Sustainable Development Summit (WSDS) is the annual \nflagship Track II initiative organized by The Energy and Resources Institute \n(TERI). Instituted in 2001, the Summit series has a legacy of over two \ndecades for making ‘sustainable development’ a globally shared goal. \nThe \n\n… [+1521 more chars]",
+  "content_hash": "25b4786d4277ae855fe60d133fa1184334aa92214b04a1c4a33ce1f5dd0af9c2",
+  "token_count": 460,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -1241,7 +1241,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     20,
     20
   ],
-  "created_at": "2026-06-29T10:48:01.842791+00:00",
-  "updated_at": "2026-06-29T10:48:01.842791+00:00"
+  "created_at": "2026-06-30T08:25:38.782151+00:00",
+  "updated_at": "2026-06-30T08:25:38.782151+00:00"
 }
 ```

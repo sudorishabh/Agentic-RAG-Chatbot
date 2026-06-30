@@ -1,14 +1,15 @@
 [
   {
     "pdf": "Achieving_Green_Steel_Roadmap.pdf",
-    "elapsed_seconds": 17.11,
+    "elapsed_seconds": 17.5,
     "page_count": 60,
-    "table_count": 8,
-    "char_count": 100910,
+    "table_count": 7,
+    "char_count": 100878,
     "route": "azure+camelot+local",
     "routes": {
-      "ocr": 14,
-      "text": 46
+      "ocr": 9,
+      "text": 46,
+      "empty": 5
     },
     "page_routes": {
       "azure": 14,
@@ -17,16 +18,11 @@
     },
     "camelot_pages": 7,
     "digital_pages": 46,
-    "scanned_ocr_pages": 14,
-    "empty_pages": 0,
+    "scanned_ocr_pages": 9,
+    "empty_pages": 5,
     "ocr_page_numbers": [
       1,
-      4,
-      6,
       7,
-      8,
-      14,
-      16,
       18,
       27,
       31,
@@ -44,14 +40,15 @@
   },
   {
     "pdf": "Act4Earth_PolicyBrief_Sustainable_consumption_Lifestyles.pdf",
-    "elapsed_seconds": 9.81,
+    "elapsed_seconds": 9.17,
     "page_count": 20,
     "table_count": 9,
-    "char_count": 46969,
+    "char_count": 47037,
     "route": "azure+camelot+local",
     "routes": {
       "text": 18,
-      "ocr": 2
+      "empty": 1,
+      "ocr": 1
     },
     "page_routes": {
       "azure": 2,
@@ -60,10 +57,9 @@
     },
     "camelot_pages": 5,
     "digital_pages": 18,
-    "scanned_ocr_pages": 2,
-    "empty_pages": 0,
+    "scanned_ocr_pages": 1,
+    "empty_pages": 1,
     "ocr_page_numbers": [
-      4,
       19
     ],
     "chunks_total": 35,
@@ -71,19 +67,19 @@
     "child_chunks": 28,
     "child_token_min": 265,
     "child_token_max": 619,
-    "child_token_avg": 422
+    "child_token_avg": 423
   },
   {
     "pdf": "Advanced-Green-fuels-for-Maritime-Part-A-Book.pdf",
-    "elapsed_seconds": 90.36,
+    "elapsed_seconds": 98.29,
     "page_count": 324,
     "table_count": 139,
-    "char_count": 682837,
+    "char_count": 682951,
     "route": "azure+camelot+local",
     "routes": {
       "text": 301,
-      "ocr": 22,
-      "empty": 1
+      "ocr": 12,
+      "empty": 11
     },
     "page_routes": {
       "azure": 23,
@@ -92,50 +88,40 @@
     },
     "camelot_pages": 127,
     "digital_pages": 301,
-    "scanned_ocr_pages": 22,
-    "empty_pages": 1,
+    "scanned_ocr_pages": 12,
+    "empty_pages": 11,
     "ocr_page_numbers": [
       3,
-      4,
-      6,
-      8,
-      12,
-      20,
-      24,
       29,
       32,
       33,
-      94,
       95,
       107,
       127,
-      154,
       155,
       229,
       259,
       277,
-      290,
-      291,
-      323
+      291
     ],
-    "chunks_total": 653,
-    "parent_chunks": 128,
-    "child_chunks": 525,
+    "chunks_total": 655,
+    "parent_chunks": 129,
+    "child_chunks": 526,
     "child_token_min": 78,
     "child_token_max": 723,
     "child_token_avg": 413
   },
   {
     "pdf": "Advanced-Green-fuels-for-Maritime.pdf",
-    "elapsed_seconds": 85.5,
+    "elapsed_seconds": 110.14,
     "page_count": 324,
     "table_count": 139,
-    "char_count": 682837,
+    "char_count": 682951,
     "route": "azure+camelot+local",
     "routes": {
       "text": 301,
-      "ocr": 22,
-      "empty": 1
+      "ocr": 12,
+      "empty": 11
     },
     "page_routes": {
       "azure": 23,
@@ -144,45 +130,35 @@
     },
     "camelot_pages": 127,
     "digital_pages": 301,
-    "scanned_ocr_pages": 22,
-    "empty_pages": 1,
+    "scanned_ocr_pages": 12,
+    "empty_pages": 11,
     "ocr_page_numbers": [
       3,
-      4,
-      6,
-      8,
-      12,
-      20,
-      24,
       29,
       32,
       33,
-      94,
       95,
       107,
       127,
-      154,
       155,
       229,
       259,
       277,
-      290,
-      291,
-      323
+      291
     ],
-    "chunks_total": 653,
-    "parent_chunks": 128,
-    "child_chunks": 525,
+    "chunks_total": 655,
+    "parent_chunks": 129,
+    "child_chunks": 526,
     "child_token_min": 78,
     "child_token_max": 723,
     "child_token_avg": 413
   },
   {
     "pdf": "Annexure_A2_Commitment-letters.pdf",
-    "elapsed_seconds": 5.42,
+    "elapsed_seconds": 3.39,
     "page_count": 6,
     "table_count": 0,
-    "char_count": 7288,
+    "char_count": 7556,
     "route": "azure+local",
     "routes": {
       "text": 1,
@@ -204,19 +180,19 @@
       5,
       6
     ],
-    "chunks_total": 10,
-    "parent_chunks": 2,
-    "child_chunks": 8,
-    "child_token_min": 124,
-    "child_token_max": 407,
-    "child_token_avg": 253
+    "chunks_total": 7,
+    "parent_chunks": 1,
+    "child_chunks": 6,
+    "child_token_min": 232,
+    "child_token_max": 424,
+    "child_token_avg": 351
   },
   {
     "pdf": "Annexure_J1_ TERI_WWD-2020_Report.pdf",
-    "elapsed_seconds": 8.17,
+    "elapsed_seconds": 6.63,
     "page_count": 47,
     "table_count": 2,
-    "char_count": 34729,
+    "char_count": 34469,
     "route": "azure+camelot+local",
     "routes": {
       "text": 35,
@@ -245,19 +221,19 @@
       45,
       46
     ],
-    "chunks_total": 46,
-    "parent_chunks": 10,
-    "child_chunks": 36,
+    "chunks_total": 44,
+    "parent_chunks": 7,
+    "child_chunks": 37,
     "child_token_min": 113,
-    "child_token_max": 530,
-    "child_token_avg": 362
+    "child_token_max": 511,
+    "child_token_avg": 358
   },
   {
     "pdf": "Annexure_O_Map-Plastic-Leakage-Points.pdf",
-    "elapsed_seconds": 4.28,
+    "elapsed_seconds": 2.26,
     "page_count": 1,
     "table_count": 0,
-    "char_count": 256,
+    "char_count": 243,
     "route": "azure",
     "routes": {
       "ocr": 1
@@ -277,19 +253,20 @@
     "chunks_total": 1,
     "parent_chunks": 0,
     "child_chunks": 1,
-    "child_token_min": 77,
-    "child_token_max": 77,
-    "child_token_avg": 77
+    "child_token_min": 78,
+    "child_token_max": 78,
+    "child_token_avg": 78
   },
   {
     "pdf": "Bengaluru-Conference-Report_2020.pdf",
-    "elapsed_seconds": 39.09,
+    "elapsed_seconds": 41.18,
     "page_count": 44,
-    "table_count": 5,
-    "char_count": 92797,
+    "table_count": 0,
+    "char_count": 90481,
     "route": "azure",
     "routes": {
-      "ocr": 44
+      "ocr": 43,
+      "empty": 1
     },
     "page_routes": {
       "azure": 44,
@@ -298,11 +275,10 @@
     },
     "camelot_pages": 0,
     "digital_pages": 0,
-    "scanned_ocr_pages": 44,
-    "empty_pages": 0,
+    "scanned_ocr_pages": 43,
+    "empty_pages": 1,
     "ocr_page_numbers": [
       1,
-      2,
       3,
       4,
       5,
@@ -346,19 +322,19 @@
       43,
       44
     ],
-    "chunks_total": 67,
-    "parent_chunks": 8,
-    "child_chunks": 59,
-    "child_token_min": 130,
-    "child_token_max": 626,
-    "child_token_avg": 344
+    "chunks_total": 69,
+    "parent_chunks": 13,
+    "child_chunks": 56,
+    "child_token_min": 142,
+    "child_token_max": 571,
+    "child_token_avg": 373
   },
   {
     "pdf": "check-your-water-quality.pdf",
-    "elapsed_seconds": 4.41,
+    "elapsed_seconds": 3.4,
     "page_count": 1,
-    "table_count": 2,
-    "char_count": 1880,
+    "table_count": 0,
+    "char_count": 1788,
     "route": "azure",
     "routes": {
       "ocr": 1
@@ -378,16 +354,16 @@
     "chunks_total": 1,
     "parent_chunks": 0,
     "child_chunks": 1,
-    "child_token_min": 507,
-    "child_token_max": 507,
-    "child_token_avg": 507
+    "child_token_min": 500,
+    "child_token_max": 500,
+    "child_token_avg": 500
   },
   {
     "pdf": "ES2012RS02.pdf",
-    "elapsed_seconds": 8.28,
+    "elapsed_seconds": 5.42,
     "page_count": 31,
     "table_count": 8,
-    "char_count": 15962,
+    "char_count": 15943,
     "route": "azure+camelot+local",
     "routes": {
       "text": 25,
@@ -414,19 +390,20 @@
     "parent_chunks": 1,
     "child_chunks": 17,
     "child_token_min": 128,
-    "child_token_max": 474,
-    "child_token_avg": 275
+    "child_token_max": 484,
+    "child_token_avg": 279
   },
   {
     "pdf": "ICDL_Poster_2019_Full.pdf",
-    "elapsed_seconds": 46.39,
+    "elapsed_seconds": 27.39,
     "page_count": 188,
     "table_count": 27,
-    "char_count": 412351,
+    "char_count": 412322,
     "route": "azure+camelot+local",
     "routes": {
       "text": 180,
-      "ocr": 8
+      "ocr": 2,
+      "empty": 6
     },
     "page_routes": {
       "azure": 8,
@@ -435,31 +412,25 @@
     },
     "camelot_pages": 30,
     "digital_pages": 180,
-    "scanned_ocr_pages": 8,
-    "empty_pages": 0,
+    "scanned_ocr_pages": 2,
+    "empty_pages": 6,
     "ocr_page_numbers": [
       10,
-      12,
-      14,
-      24,
-      30,
-      32,
-      186,
       187
     ],
-    "chunks_total": 308,
-    "parent_chunks": 59,
-    "child_chunks": 249,
+    "chunks_total": 310,
+    "parent_chunks": 60,
+    "child_chunks": 250,
     "child_token_min": 128,
     "child_token_max": 623,
-    "child_token_avg": 394
+    "child_token_avg": 393
   },
   {
     "pdf": "make-solar-cooker.pdf",
-    "elapsed_seconds": 6.45,
+    "elapsed_seconds": 4.68,
     "page_count": 1,
     "table_count": 0,
-    "char_count": 1209,
+    "char_count": 1194,
     "route": "azure",
     "routes": {
       "ocr": 1
@@ -479,16 +450,16 @@
     "chunks_total": 1,
     "parent_chunks": 0,
     "child_chunks": 1,
-    "child_token_min": 302,
-    "child_token_max": 302,
-    "child_token_avg": 302
+    "child_token_min": 277,
+    "child_token_max": 277,
+    "child_token_avg": 277
   },
   {
     "pdf": "managing-water.pdf",
-    "elapsed_seconds": 4.39,
+    "elapsed_seconds": 2.29,
     "page_count": 1,
     "table_count": 0,
-    "char_count": 5514,
+    "char_count": 5511,
     "route": "azure",
     "routes": {
       "ocr": 1
@@ -505,19 +476,19 @@
     "ocr_page_numbers": [
       1
     ],
-    "chunks_total": 5,
+    "chunks_total": 4,
     "parent_chunks": 1,
-    "child_chunks": 4,
-    "child_token_min": 310,
-    "child_token_max": 366,
-    "child_token_avg": 331
+    "child_chunks": 3,
+    "child_token_min": 375,
+    "child_token_max": 423,
+    "child_token_avg": 393
   },
   {
     "pdf": "Navbharat_Times.pdf",
-    "elapsed_seconds": 4.52,
+    "elapsed_seconds": 2.4,
     "page_count": 1,
     "table_count": 0,
-    "char_count": 3482,
+    "char_count": 3453,
     "route": "azure",
     "routes": {
       "ocr": 1
@@ -534,11 +505,11 @@
     "ocr_page_numbers": [
       1
     ],
-    "chunks_total": 13,
-    "parent_chunks": 2,
-    "child_chunks": 11,
-    "child_token_min": 183,
-    "child_token_max": 445,
-    "child_token_avg": 347
+    "chunks_total": 11,
+    "parent_chunks": 1,
+    "child_chunks": 10,
+    "child_token_min": 205,
+    "child_token_max": 482,
+    "child_token_avg": 391
   }
 ]

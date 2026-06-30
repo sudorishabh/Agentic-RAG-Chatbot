@@ -9,7 +9,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
 
 ## Child · `77306fc6-cc8b-56ac-b66a-6c471b31ef45`
 
-- vector: dim=3072 · [-0.0321, 0.0013, 0.0108, 0.0360, -0.0120, -0.0213, -0.0210, -0.0123, …]
+- vector: dim=3072 · [-0.0318, 0.0087, 0.0113, 0.0403, -0.0061, -0.0194, -0.0279, 0.0023, …]
 
 ```json
 {
@@ -18,10 +18,10 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
   "is_parent": false,
   "source_type": "pdf",
   "title": "check-your-water-quality.pdf",
-  "section_heading": "HOW TO CHECK WATER QUALITYA",
-  "chunk_text": "| SI. No. | Parameters | Method | Desirable Limit | Undesirable effect outisde the desirable limit | Permissible limit in the absence of alternate source | Cause of these parameters in water |\n| --- | --- | --- | --- | --- | --- | --- |\n| 1. | Colour (Hazen Units, max) | By Visual | 5 | Above 5 consumer acceptance decreases. | 15 | Due to natural metallic, ions, humus, peat material, industrial waste. |\n| 2. | Odour | By smell | Agreeable |  | Agreeable | Organic & inorganic waste from municipal and industrial waste discharge, or due to natural sources. |\n| 3. | pH | by pH paper strip | 6.5-8.\n\n… [+1256 more chars]",
-  "content_hash": "95f67664d9030508aa1e8cb33e9d93877a34b66e302190bf1b20b4fa3ca913ed",
-  "token_count": 507,
+  "section_heading": "HOW TO CHECK+ WATER QUALITY!",
+  "chunk_text": "SI No.\nParameters\nMethod\nDesirable Limit\nUndesirable effect outisde the desirable limit\nPermissible limit in the absence of alternate source\nCause of these parameters in water\n1.\nColour (Hazen Units, max)\nBy Visual\n5\nAbove 5 consumer acceptance decreases.\n15\nDue to natural metallic, ions, humus, peat material, industrial waste.\n2.\nOdour\nBy smell\nAgreeable\nAgreeable\nOrganic & inorganic waste from municipal and industrial waste discharge, or due to natural sources.\n3.\nPH\nby pH paper strip\n6.5-8.5\nBeyond this range the water will affect the mucous membrane and/or water supply system.\nNo relaxatio\n\n… [+1160 more chars]",
+  "content_hash": "691926101a070a63773680a01080bb57d62ef753dfc90d8826dddbbdb34fbc66",
+  "token_count": 500,
   "doc_version": 1,
   "is_current": true,
   "tenant_id": "default",
@@ -37,7 +37,7 @@ Each point is `{id, vector, payload}` exactly as `index_chunks` upserts it. Chil
     1,
     1
   ],
-  "created_at": "2026-06-29T10:54:37.906961+00:00",
-  "updated_at": "2026-06-29T10:54:37.906961+00:00"
+  "created_at": "2026-06-30T08:32:52.646088+00:00",
+  "updated_at": "2026-06-30T08:32:52.646088+00:00"
 }
 ```

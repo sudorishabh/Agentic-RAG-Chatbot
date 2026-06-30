@@ -7,14 +7,10 @@
 
 ## Parent chunks
 
-### Parent · section='ENERGY TRANSITIONS — COMMISSION INDIA — CHY' · pages=(1, 5) · 815 tok
+### Parent · section=None · pages=(1, 5) · 808 tok
 
-ENERGY TRANSITIONS — COMMISSION INDIA — CHY
-
-teri
-THE ENERGY AND
-RESOURCES INSTITUTE
-Creating Innovative Solutions for a Sustainable Future
+teri THE ENERGY AND RESOURCES INSTITUTE Creating Innovative Solutions for a Sustainable Future
+ENERGY TRANSITIONS COMMISSION INDIA
 
 ©2022 The Energy and Resources Institute
 Authors
@@ -34,30 +30,20 @@ Will Hall, Sachin Kumar, Sneha Kashyap, Shruti Dayal. 2022. Achieving Green Stee
 steel sector in India. New Delhi: The Energy and Resources Institute (TERI)
 
 Energy Transitions Commission (ETC) India is a research platform based in The Energy and 
-Resources Institute (TERI) in Delhi. ETC India is the Indian chapter of the global Ene
+Resources Institute (TERI) in Delhi. ETC India is the Indian chapter of the global Energy 
+Tran
 
-… [+2207 more chars]
+… [+2198 more chars]
 
-### Parent · section='FOREWORD' · pages=(7, 9) · 589 tok
+### Parent · section='FOREWORD' · pages=(7, 9) · 561 tok
 
 FOREWORD
 
-The Indian steel sector has been, and will remain an important pillar of India's economic growth and
-development. Steel demand is estimated to increase more than by twofold 2030-31, spurred by increased
-spending on infrastructure, automobiles and affordable housing. This increase in demand will provide
-both challenges and opportunities, including the impact of the sector on the environment. There is a need
-to ensure that future pathways for growing steel demand are green with minimal environmental impacts.
+The Indian steel sector has been, and will remain an important pillar of India's economic growth and development. Steel demand is estimated to increase more than by twofold 2030-31, spurred by increased spending on infrastructure, automobiles and affordable housing. This increase in demand will provide both challenges and opportunities, including the impact of the sector on the environment. There is a need to ensure that future pathways for growing steel demand are green with minimal environmental impacts.
+The Energy and Resources Institute (TERI), as part of the Energy Transitions Commission India work program, is examining various economic and technological developments across sectors to further our understanding of possible routes for decarbonizing India's energy system and key industry sectors. It has included detailed modelling of the Indian power system, technology pathways for the heavy industry sectors such as iron and steel and an assessment of the sector-wise potential for hydrogen in India.
+In 2020, we published a consultation document on the iron and steel sector - Towards a Low Carbon Steel Sector - an in-depth study outlining various options for reducing emi
 
-The Energy and Resources Institute (TERI), as part of the Energy Transitions Commission India work
-program, is examining various economic and technological developments across sectors to further our
-understanding of possible routes for decarbonizing India's energy system and key industry sectors. It
-has included detailed modelling of the Indian power system, technology pathways for the heavy industry
-sectors such as iron and steel and an assessment of the sector-wise potential for hydrogen in India.
-
-In 2020, we published a consultation document on the iron and steel sector - Towards a Low Carbon
-Steel Sector - an in-depth study outlining various options for reducing e
-
-… [+2160 more chars]
+… [+2155 more chars]
 
 ### Parent · section='3. Challenges' · pages=(9, 11) · 814 tok
 
@@ -82,7 +68,7 @@ Steel Sector - an in-depth study outlining various options for reducing e
 
 … [+5279 more chars]
 
-### Parent · section='Steel Scrap Recycling' · pages=(13, 17) · 1152 tok
+### Parent · section='Steel Scrap Recycling' · pages=(13, 18) · 1157 tok
 
 Steel Scrap Recycling
 
@@ -130,11 +116,11 @@ The financial sector is shifting funds away from fossil investments, with a
 significant additional push from COP26 under the Glasgow Financial Alliance 
 for Net Zero (GFANZ), as well as m
 
-… [+4386 more chars]
+… [+4402 more chars]
 
-### Parent · section='1 BACKGROUND — 1.1\t Indian steel industry' · pages=(19, 21) · 1057 tok
+### Parent · section='1.1\t Indian steel industry' · pages=(19, 21) · 1053 tok
 
-1 BACKGROUND — 1.1	 Indian steel industry
+1.1	 Indian steel industry
 
 India is currently the world’s second-largest steel producer, and second-largest steel consumer (WSA, 
 2020a). The steel industry in India is relatively heterogeneous compared to other countries, with a wide 
@@ -147,9 +133,9 @@ market (see Figure 1).
 Use of coal-based direct reduction processes is unique to the Indian steel sector. This process is mainly 
 used in smaller facilities to meet local steel demands, as opposed to exports. India’s reliance on this 
 technology is driven by availability of cheap domestic coal reserves, lack of sufficient domestic natural gas 
-supplies as well as domestic coking coal of sufficient quality. The use of inducti
+supplies as well as domestic coking coal of sufficient quality. The use of induction furnaces alo
 
-… [+3417 more chars]
+… [+3402 more chars]
 
 ### Parent · section='1.3.2\t Digitalisation' · pages=(24, 25) · 644 tok
 
@@ -170,7 +156,7 @@ in effici
 
 … [+2095 more chars]
 
-### Parent · section='1.3.3\t Decarbonisation' · pages=(25, 26) · 938 tok
+### Parent · section='1.3.3\t Decarbonisation' · pages=(25, 27) · 948 tok
 
 1.3.3	 Decarbonisation
 
@@ -202,7 +188,7 @@ below 2°C.
 Figure 7: Green steel projects pipeline
 Source: (Vo
 
-… [+2033 more chars]
+… [+2058 more chars]
 
 ### Parent · section='3.1\t Competitiveness' · pages=(32, 33) · 828 tok
 
@@ -279,9 +265,9 @@ the growth of natural gas-based capacity
 
 … [+5674 more chars]
 
-### Parent · section='4 TRANSITION PATHWAY — Transition Pathway — 4.1 Structure of Indian steel assets' · pages=(38, 40) · 717 tok
+### Parent · section='Transition Pathway — 4.1 Structure of Indian steel assets' · pages=(38, 40) · 711 tok
 
-4 TRANSITION PATHWAY — Transition Pathway — 4.1 Structure of Indian steel assets
+Transition Pathway — 4.1 Structure of Indian steel assets
 
 Before exploring future pathways for the Indian steel sector, it is worth outlining the structure of existing 
 assets. Principally, we are concerned with (a) the technological make-up and (b) lifetime of the existing 
@@ -293,9 +279,10 @@ induction furnaces, although we can expect these to continue to decline over the
 efficient technologies are adopted.
 The preference for blast furnace technology, which is also clear in the pipeline of committed projects, 
 represents a challenge for the future transition to low emissions steel in India. As we will come on to, CCUS 
-technology for blast furnaces can be expensive (especially at higher capture rates) and there are que
+technology for blast furnaces can be expensive (especially at higher capture rates) and there are questions 
+around suitabil
 
-… [+2181 more chars]
+… [+2158 more chars]
 
 ### Parent · section='4.2 Technology option assessment' · pages=(40, 43) · 1618 tok
 
@@ -407,7 +394,7 @@ xcarb-signalling-its-c
 
 … [+5695 more chars]
 
-### Parent · section='Conclusions' · pages=(59, 60) · 1072 tok
+### Parent · section='Conclusions' · pages=(59, 60) · 1069 tok
 
 Conclusions (cont.)
 
@@ -424,18 +411,16 @@ in/assets/pdfs/consulting/technology/the-indian-steel-industry-growth-challenges
 SEI. (2020). Bigger is sometimes better: demonstrating hydrogen steelmaking at scale. Stockholm Environment 
 Institute. Retrieved from https://www.sei.org/wp-content/uploads/2020/07/bigger-is-sometimes-better.pdf
 
-… [+2571 more chars]
+… [+2568 more chars]
 
 ---
 
 ## Child chunks
 
-### Child 0 · section='ENERGY TRANSITIONS — COMMISSION INDIA — CHY' · page=1 · 245 tok
+### Child 0 · section=None · page=1 · 251 tok
 
-teri
-THE ENERGY AND
-RESOURCES INSTITUTE
-Creating Innovative Solutions for a Sustainable Future
+teri THE ENERGY AND RESOURCES INSTITUTE Creating Innovative Solutions for a Sustainable Future
+ENERGY TRANSITIONS COMMISSION INDIA
 
 ©2022 The Energy and Resources Institute
 Authors
@@ -449,13 +434,11 @@ Disclaimer
 This report is an output of a research exercise undertaken by TERI supported by CIFF. It does not represent 
 the views of the supporting organisations or the acknowledged individuals. While every effort has been 
 made to avoid any mistakes or omissions, TERI would not be in any way liable to any persons/organisations 
-by reason for any mistake or omission in the publication.
-Suggested Citation
-Will
+by reason for any mistake or omission in the 
 
-… [+177 more chars]
+… [+213 more chars]
 
-### Child 1 · section='ENERGY TRANSITIONS — COMMISSION INDIA — CHY' · page=3 · 266 tok
+### Child 1 · section=None · page=3 · 266 tok
 
 Suggested Citation
 Will Hall, Sachin Kumar, Sneha Kashyap, Shruti Dayal. 2022. Achieving Green Steel: Roadmap to a net zero 
@@ -470,7 +453,7 @@ sector. Whilst that work i
 
 … [+289 more chars]
 
-### Child 2 · section='ENERGY TRANSITIONS — COMMISSION INDIA — CHY' · page=5 · 371 tok
+### Child 2 · section=None · page=5 · 371 tok
 
 Learn more at: https://www.teriin.org/energy-transitions
 ENERGY TRANSITIONS 
@@ -487,32 +470,18 @@ Kashiva (Spo
 
 … [+787 more chars]
 
-### Child 3 · section='FOREWORD' · page=7 · 352 tok
+### Child 3 · section='FOREWORD' · page=7 · 332 tok
 
-The Indian steel sector has been, and will remain an important pillar of India's economic growth and
-development. Steel demand is estimated to increase more than by twofold 2030-31, spurred by increased
-spending on infrastructure, automobiles and affordable housing. This increase in demand will provide
-both challenges and opportunities, including the impact of the sector on the environment. There is a need
-to ensure that future pathways for growing steel demand are green with minimal environmental impacts.
+The Indian steel sector has been, and will remain an important pillar of India's economic growth and development. Steel demand is estimated to increase more than by twofold 2030-31, spurred by increased spending on infrastructure, automobiles and affordable housing. This increase in demand will provide both challenges and opportunities, including the impact of the sector on the environment. There is a need to ensure that future pathways for growing steel demand are green with minimal environmental impacts.
+The Energy and Resources Institute (TERI), as part of the Energy Transitions Commission India work program, is examining various economic and technological developments across sectors to further our understanding of possible routes for decarbonizing India's energy system and key industry
 
-The Energy and Resources Institute (TERI), as part of the Energy Transitions Commission India work
-program, is examining various economic and technological developments across sectors to further our
-understanding of possible routes for decarbonizing India's energy system and key industr
+… [+1098 more chars]
 
-… [+1100 more chars]
+### Child 4 · section='FOREWORD' · page=7 · 266 tok
 
-### Child 4 · section='FOREWORD' · page=7 · 277 tok
+In the formulation of this Roadmap, TERI has carried out extensive consultations with various stakeholders in the steel sector - producers, buyers, technology providers, financiers, government bodies and the research community. This comprehensive Roadmap provides an overview of the current state of the steel sector and details a range of possible emissions mitigation strategies. In the near term, implementation of strategies such as maximizing energy efficiency, increasing utilization of scrap, introducing green product standards, creating demand for green steel, setting up pilot demonstration plants based on low carbon technologies, and initiatives to develop a domestic carbon market may be necessary to ensure that the Indian steel sector is in a better position to move towards rapid deca
 
-In the formulation of this Roadmap, TERI has carried out extensive
-consultations with various stakeholders in the steel sector - producers, buyers, technology providers,
-financiers, government bodies and the research community. This comprehensive Roadmap provides an overview of the current state of the steel sector and details a
-range of possible emissions mitigation strategies. In the near term, implementation of strategies such
-as maximizing energy efficiency, increasing utilization of scrap, introducing green product standards,
-creating demand for green steel, setting up pilot demonstration plants based on low carbon technologies,
-and initiatives to develop a domestic carbon market may be necessary to ensure that the Indian steel
-sector is in a better position to move towards rapid deca
-
-… [+876 more chars]
+… [+874 more chars]
 
 ### Child 5 · section='1. Background' · page=9 · 141 tok
 
@@ -669,7 +638,7 @@ for a net zero world, then an ambitious strategy for emissions reduction is r
 
 … [+1573 more chars]
 
-### Child 12 · section='Steel Scrap Recycling' · page=17 · 176 tok
+### Child 12 · section='Steel Scrap Recycling' · page=17 · 181 tok
 
 This roadmap is a follow-up to the consultation document published by TERI in 2020, “Towards a Low Carbon Steel Sector: An overview of the changing market, technology and policy context for Indian steel”. 
 The updated consultation document is available at our website as Tech Annex . The roadmap builds on this 
@@ -680,7 +649,10 @@ INTRODUCTION
 1	 The Potential Role of Hydrogen in India (Hall et. al, 2020); Green steel through hydrogen direct reduction (Hall et. al, 2021); Making the Hydrogen 
 Economy Possible (ETC, 2021); Net-Zero Steel: Sector Transition Strategy (MPP, 2021)
 
-### Child 13 · section='1 BACKGROUND — 1.1\t Indian steel industry' · page=19 · 382 tok
+
+… [+15 more chars]
+
+### Child 13 · section='1.1\t Indian steel industry' · page=19 · 382 tok
 
 India is currently the world’s second-largest steel producer, and second-largest steel consumer (WSA, 
 2020a). The steel industry in India is relatively heterogeneous compared to other countries, with a wide 
@@ -694,7 +666,7 @@ Use of coal-based direct reduction processes is
 
 … [+970 more chars]
 
-### Child 14 · section='1 BACKGROUND — 1.1\t Indian steel industry' · page=20 · 491 tok
+### Child 14 · section='1.1\t Indian steel industry' · page=20 · 491 tok
 
 Figure 1: Route-wise crude steel production share, 2020-21
 Source: (MoS, 2021a) 
@@ -715,7 +687,7 @@ import/export pattern from before the pandemic. Imports reduced by 39.4% and exp
 
 … [+1142 more chars]
 
-### Child 15 · section='1 BACKGROUND — 1.1\t Indian steel industry' · page=20 · 241 tok
+### Child 15 · section='1.1\t Indian steel industry' · page=20 · 241 tok
 
 In 2017, the Ministry of Steel (MoS) launched the National Steel Policy (NSP), which included an aim to increase India’s steelmaking capacity to 300 Mt by 2030. This policy also encompasses targets to reduce 
 energy consumption per tonne of steel, through adopting the latest energy efficiency measures. To support 
@@ -863,7 +835,7 @@ TBC
 |  |  |  | Thyssen Krupp 2025 2025 2027 |
 |  |  |  | Tenaris TBC |
 
-### Child 23 · section='1.3.3\t Decarbonisation' · page=26 · 257 tok
+### Child 23 · section='1.3.3\t Decarbonisation' · page=26 · 267 tok
 
 7 |
 |  |  |  | JFE TBC |
@@ -878,9 +850,9 @@ Whilst it is true that some Indian steel companies are already taking significan
 consumption and emissions, the pace and scale of transition taking place in other regions, most notably 
 Europe and China,
 
-… [+322 more chars]
+… [+347 more chars]
 
-### Child 24 · section='2 MACROECONOMIC IMPACTS — ZA — 2.1\t Overview' · page=28 · 132 tok
+### Child 24 · section='2.1\t Overview' · page=28 · 132 tok
 
 The steel sector contributes around 2% of India’s GDP (MoS, 2020a) and is valued at well over $100bn (Niti 
 Aayog, 2016). The indirect contribution of the sector is significantly higher, given its enabling role in several 
@@ -913,7 +885,7 @@ job creation. This Mission aims to facilitate investments worth $70 billion, sup
 
 … [+918 more chars]
 
-### Child 27 · section='2.4 Employment' · page=30 · 415 tok
+### Child 27 · section='2.4 Employment' · page=30 · 416 tok
 
 The Indian steel sector currently employs approximately 2.5 million people throughout the supply chain 
 (MoS, 2020a). This is estimated to increase to around 3.5 million by 2030, depending on the degree of 
@@ -1111,7 +1083,7 @@ Table 2: Low emissions steelmaking technologies | Table 2: Low emissions steelma
 
 … [+946 more chars]
 
-### Child 36 · section='3.4 Capital requirements' · page=36 · 236 tok
+### Child 36 · section='3.4 Capital requirements' · page=36 · 242 tok
 
 The transition towards a net-zero steel sector will be highly capital-intensive, as new steel facilities will 
 need to be built, alongside supporting infrastructure (such as electricity, hydrogen and CCUS networks). 
@@ -1123,9 +1095,9 @@ the future of ‘green steel’ in India will be needed from the Government, to 
 investment. 
 Beyond the quantum of financ
 
-… [+361 more chars]
+… [+383 more chars]
 
-### Child 37 · section='4 TRANSITION PATHWAY — Transition Pathway — 4.1 Structure of Indian steel assets' · page=38 · 319 tok
+### Child 37 · section='Transition Pathway — 4.1 Structure of Indian steel assets' · page=38 · 319 tok
 
 Before exploring future pathways for the Indian steel sector, it is worth outlining the structure of existing 
 assets. Principally, we are concerned with (a) the technological make-up and (b) lifetime of the existing 
@@ -1138,7 +1110,7 @@ efficient technologies are adopted.
 
 … [+830 more chars]
 
-### Child 38 · section='4 TRANSITION PATHWAY — Transition Pathway — 4.1 Structure of Indian steel assets' · page=39 · 435 tok
+### Child 38 · section='Transition Pathway — 4.1 Structure of Indian steel assets' · page=39 · 435 tok
 
 India has seen a relatively steady growth in blast 
 furnace technology since the 1960s, with a marked acceleration in deployment since 2000 from which 
@@ -1477,7 +1449,7 @@ familiarity with such projects among private sector lenders, greater focus shoul
 
 … [+623 more chars]
 
-### Child 58 · section='5.9\t Implement a carbon border tariff' · page=53 · 572 tok
+### Child 58 · section='5.9\t Implement a carbon border tariff' · page=53 · 576 tok
 
 Steel, a carbon intensive product which is also heavily traded globally, has found a lot of attention in 
 recent years in the trade environment policy discourses. For example, the EU green deal mentions 
@@ -1492,7 +1464,7 @@ domestic industry during transition
 higher steel carbon intensity. This may dissuade Indian steel importers from importing and will help in 
 switching to domestic. Additional revenue, that may be collected as import duty, based on carb
 
-… [+1955 more chars]
+… [+1957 more chars]
 
 ### Child 59 · section='Conclusions' · page=56 · 190 tok
 
@@ -1600,7 +1572,7 @@ jamshedpur-plant-recognised-as-advanced-4th-industrial-revolution-lighthouse/art
 
 … [+958 more chars]
 
-### Child 66 · section='Conclusions' · page=59 · 247 tok
+### Child 66 · section='Conclusions' · page=59 · 244 tok
 
 (2017). World Development Indicators. 
 WSA. (2018). Steel Statistical Yearbook 2018. 
@@ -1611,8 +1583,5 @@ WSA. (2020b). Steel Statistical Yearbook 2020 Concise Version. Retrieved from ht
 jcr:5001dac8-0083-46f3-aadd-35aa357acbcc/SSY%25202020_concise%2520version.pdf
 
 teri
-THE ENERGY AND
-RESOURCES INSTITUTE
-Creating Innovative Solutions for a Sustainable Future
-
-ENERGY TRANSITIONS — COMMISSION INDIA
+THE ENERGY AND RESOURCES INSTITUTE Creating Innovative Solutions for a Sustainable Future
+ENERGY TRANSITIONS COMMISSION INDIA

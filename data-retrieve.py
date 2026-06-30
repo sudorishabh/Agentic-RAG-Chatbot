@@ -8,7 +8,6 @@ def include_fields(resource: str) -> list[str]:
     rels = doc["data"][0]["relationships"]
     return [k for k in rels if k.startswith("field_")]
 
-
 resultIncludes = include_fields("node/feature_articles")
 print(f"Fields to include for node/feature_articles: {resultIncludes}")
 
@@ -43,6 +42,5 @@ def resolve_metadata(node: dict, included: dict) -> dict:
     return meta
 
 nodes, included = fetch_with_relations("node/feature_articles")
-
 
 print(resolve_metadata(nodes[0], included))
