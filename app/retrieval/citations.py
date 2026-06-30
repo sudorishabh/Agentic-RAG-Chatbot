@@ -12,7 +12,7 @@ def _pdf_link(payload: dict[str, Any]) -> str | None:
         return None
     page = payload.get("page_number")
     anchor = f"#page={page}" if page else ""
-    return f"/viewer?doc={pdf_id}{anchor}"
+    return f"/source/{pdf_id}{anchor}"
 
 
 def _source_from_payload(payload: dict[str, Any]) -> CitationSource:
