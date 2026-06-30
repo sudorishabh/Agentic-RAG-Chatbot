@@ -109,6 +109,10 @@ class Settings(BaseSettings):
     pdf_source_path: str = ""
     pdf_ignore_globs: str = ""
     ingest_state_table: str = "ingest_state"
+    # Append-only audit log of every ingestion event (one row per file/record
+    # per run), separate from the overwrite-in-place ingest_state table.
+    ingest_log_table: str = "ingest_log"
+    ingest_log_enabled: bool = True
     drupal_reconcile_every: int = 10
 
 
