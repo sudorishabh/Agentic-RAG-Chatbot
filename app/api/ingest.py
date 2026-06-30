@@ -10,6 +10,7 @@ from app.schemas.ingest import (
     ArticleIngestResponse,
     DirectIngestRequest,
     DirectIngestResponse,
+    IngestLogResponse,
     IngestResponse,
     PdfIngestRunResponse,
     ReindexRequest,
@@ -73,6 +74,25 @@ async def ingest_article_route(request: ArticleIngestRequest) -> ArticleIngestRe
         bundle=request.bundle,
     )
     return ArticleIngestResponse(document_id=document_id, chunks_ingested=chunks)
+
+
+@router.get("/ingest/log", response_model=IngestLogResponse)
+async def ingest_log_route(
+    limit: int = 100,
+    source_type: str | None = None,
+    document_id: str | None = None,
+    status: str | None = None,
+) -> IngestLogResponse:
+    from app.ingestion import ingest_log
+
+    rows = await run_in_threadpool(
+        ingest_log.recent,
+        limit=limit,
+        source_type=source_type,
+        document_id=document_id,
+        status=status,
+    )
+    return IngestLogResponse(count=len(rows), entries=rows)
 
 
 @router.post("/reindex", response_model=ReindexResponse)

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 def _clean_bundles(value: list[str] | None) -> list[str] | None:
@@ -63,3 +63,29 @@ class ReindexRequest(BaseModel):
 class ReindexResponse(BaseModel):
     status: str
     detail: dict = Field(default_factory=dict)
+
+
+class IngestLogEntry(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    id: int
+    run_id: str | None = None
+    document_id: str
+    source_type: str
+    source_path: str | None = None
+    source_url: str | None = None
+    bundle: str | None = None
+    tags: str | None = None
+    title: str | None = None
+    status: str
+    doc_version: int | None = None
+    chunks_indexed: int | None = None
+    fingerprint: str | None = None
+    content_hash: str | None = None
+    error_message: str | None = None
+    event_time: str | None = None
+
+
+class IngestLogResponse(BaseModel):
+    count: int
+    entries: list[IngestLogEntry] = Field(default_factory=list)

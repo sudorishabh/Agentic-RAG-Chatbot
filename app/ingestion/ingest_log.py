@@ -116,3 +116,36 @@ def record(entry: LogEntry) -> None:
             conn.commit()
     except Exception:
         logger.exception("Failed to write ingest log for %s; continuing.", entry.document_id)
+
+
+def recent(
+    *,
+    limit: int = 100,
+    source_type: str | None = None,
+    document_id: str | None = None,
+    status: str | None = None,
+) -> list[dict]:
+    """Most recent events first, with optional filters. Newest by insertion order."""
+    table = _table()
+    clauses: list[str] = []
+    params: list = []
+    if source_type:
+        clauses.append("source_type = %s")
+        params.append(source_type)
+    if document_id:
+        clauses.append("document_id = %s")
+        params.append(document_id)
+    if status:
+        clauses.append("status = %s")
+        params.append(status)
+    where = (" WHERE " + " AND ".join(clauses)) if clauses else ""
+    limit = max(1, min(int(limit), 1000))
+    sql = f"SELECT * FROM `{table}`{where} ORDER BY id DESC LIMIT {limit}"
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(sql, tuple(params))
+        rows = cur.fetchall()
+    for row in rows:
+        ts = row.get("event_time")
+        if isinstance(ts, datetime):
+            row["event_time"] = ts.isoformat()
+    return rows
