@@ -119,7 +119,9 @@ def _sem_key() -> str:
     return f"{_NS}:sem:{corpus_version()}"
 
 
-def semantic_lookup(query_vector: Sequence[float]) -> dict[str, Any] | None:
+def semantic_lookup(
+    query_vector: Sequence[float], *, answer_format: str = "default"
+) -> dict[str, Any] | None:
     settings = get_settings()
     client = _client()
     if client is None or not settings.semantic_cache_enabled or not query_vector:
@@ -134,20 +136,26 @@ def semantic_lookup(query_vector: Sequence[float]) -> dict[str, Any] | None:
             entry = json.loads(raw)
         except Exception:
             continue
+        # Don't serve an answer shaped for a different format from a near-identical
+        # query vector (the format intent is stripped out of the search query).
+        if entry.get("f", "default") != answer_format:
+            continue
         sim = _cosine(query_vector, entry.get("v", []))
         if sim >= best_sim:
             best, best_sim = entry.get("p"), sim
     return best
 
 
-def semantic_store(query_vector: Sequence[float], payload: dict[str, Any]) -> None:
+def semantic_store(
+    query_vector: Sequence[float], payload: dict[str, Any], *, answer_format: str = "default"
+) -> None:
     settings = get_settings()
     client = _client()
     if client is None or not settings.semantic_cache_enabled or not query_vector:
         return
     key = _sem_key()
     try:
-        client.lpush(key, json.dumps({"v": list(query_vector), "p": payload}))
+        client.lpush(key, json.dumps({"v": list(query_vector), "p": payload, "f": answer_format}))
         client.ltrim(key, 0, settings.semantic_cache_max - 1)
         client.expire(key, settings.response_cache_ttl)
     except Exception:  # pragma: no cover

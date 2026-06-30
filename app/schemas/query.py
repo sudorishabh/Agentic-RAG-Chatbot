@@ -45,6 +45,7 @@ class QueryResponse(BaseModel):
     answer: str
     citations: list[Citation] = Field(default_factory=list)
     intent: str = "qa"
+    answer_format: str = "default"
     used_chunks: int = 0
     conflict: bool = False
     cached: bool = False
@@ -81,5 +82,6 @@ class SearchBlock(BaseModel):
 
 class SearchResponse(BaseModel):
     intent: str
+    answer_format: str = "default"
     search_query: str
     blocks: list[SearchBlock] = Field(default_factory=list)

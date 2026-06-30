@@ -33,11 +33,14 @@ def _chitchat(question: str, history: list[dict[str, str]] | None) -> str:
     return chain.invoke({"question": question}).strip()
 
 
-def _empty(intent: str, answer: str, *, cached: bool = False) -> dict[str, Any]:
+def _empty(
+    intent: str, answer: str, *, answer_format: str = "default", cached: bool = False
+) -> dict[str, Any]:
     return {
         "answer": answer,
         "citations": [],
         "intent": intent,
+        "answer_format": answer_format,
         "used_chunks": 0,
         "conflict": False,
         "cached": cached,
@@ -166,10 +169,11 @@ def _answer(
 
         structured = answer_structured(question, history)
         if structured is not None:
+            structured.setdefault("answer_format", pq.answer_format)
             return structured
 
     query_vector = embed_query_cached(pq.search_query)
-    semantic = redis_cache.semantic_lookup(query_vector)
+    semantic = redis_cache.semantic_lookup(query_vector, answer_format=pq.answer_format)
     if semantic is not None:
         return {**semantic, "cached": True}
 
@@ -183,7 +187,7 @@ def _answer(
         answer_format=pq.answer_format,
     )
     if not blocks:
-        return _empty(pq.intent, REFUSAL)
+        return _empty(pq.intent, REFUSAL, answer_format=pq.answer_format)
 
     with span("rag.generate") as s:
         answer = _grounded_answer(pq.search_query, blocks, answer_format=pq.answer_format)
@@ -194,12 +198,13 @@ def _answer(
         "answer": answer,
         "citations": [c.model_dump() for c in citations],
         "intent": pq.intent,
+        "answer_format": pq.answer_format,
         "used_chunks": len(blocks),
         "conflict": any(b.conflict for b in blocks),
         "cached": False,
     }
     redis_cache.set_response(signature, result)
-    redis_cache.semantic_store(query_vector, result)
+    redis_cache.semantic_store(query_vector, result, answer_format=pq.answer_format)
     return result
 
 
@@ -267,7 +272,7 @@ def stream_answer(
     if pq.intent == "chitchat":
         yield {"type": "token", "text": _chitchat(question, history)}
         yield {"type": "sources", "citations": [], "intent": "chitchat",
-               "used_chunks": 0, "conflict": False}
+               "answer_format": pq.answer_format, "used_chunks": 0, "conflict": False}
         yield {"type": "done"}
         return
 
@@ -277,8 +282,9 @@ def stream_answer(
         structured = answer_structured(question, history)
         if structured is not None:
             yield {"type": "token", "text": structured["answer"]}
-            yield {"type": "sources", **{k: structured[k] for k in
-                   ("citations", "intent", "used_chunks", "conflict")}}
+            yield {"type": "sources",
+                   **{k: structured[k] for k in ("citations", "intent", "used_chunks", "conflict")},
+                   "answer_format": structured.get("answer_format", pq.answer_format)}
             yield {"type": "done"}
             return
 
@@ -291,7 +297,7 @@ def stream_answer(
     if not blocks:
         yield {"type": "token", "text": REFUSAL}
         yield {"type": "sources", "citations": [], "intent": pq.intent,
-               "used_chunks": 0, "conflict": False}
+               "answer_format": pq.answer_format, "used_chunks": 0, "conflict": False}
         yield {"type": "done"}
         return
 
@@ -301,6 +307,7 @@ def stream_answer(
         "type": "sources",
         "citations": [c.model_dump() for c in build_citations(blocks)],
         "intent": pq.intent,
+        "answer_format": pq.answer_format,
         "used_chunks": len(blocks),
         "conflict": any(b.conflict for b in blocks),
     }
@@ -322,6 +329,7 @@ def search_blocks(
     )
     return {
         "intent": pq.intent,
+        "answer_format": pq.answer_format,
         "search_query": pq.search_query,
         "blocks": [
             {
