@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import logging
+import uuid
 from collections import Counter
 from typing import Callable, Iterable, Iterator
 
 from app.core.models import CanonicalDocument
 from app.ingestion import change_detection as cd
+from app.ingestion import ingest_log
 from app.ingestion import state
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus
 from app.ingestion.indexer import index_canonical
@@ -33,14 +35,50 @@ def _save_state(record: ChangeRecord, content_hash: str, version: int, *, indexe
     )
 
 
-def _handle(record: ChangeRecord, build_doc: DocBuilder) -> str:
+def _log(
+    run_id: str | None,
+    record: ChangeRecord,
+    status: str,
+    *,
+    doc: CanonicalDocument | None = None,
+    version: int | None = None,
+    chunks: int | None = None,
+    error: str | None = None,
+) -> None:
+    is_pdf = record.source_type == "pdf"
+    prior_hash = record.prior.content_hash if record.prior else None
+    ingest_log.record(
+        ingest_log.LogEntry(
+            run_id=run_id,
+            document_id=record.document_id,
+            source_type=record.source_type,
+            status=status,
+            source_path=record.source_key if is_pdf else None,
+            source_url=None if is_pdf else record.source_key,
+            bundle=record.bundle,
+            tags=", ".join(doc.tags) if doc and doc.tags else None,
+            title=doc.title if doc else None,
+            doc_version=version,
+            chunks_indexed=chunks,
+            fingerprint=record.fingerprint or None,
+            content_hash=(doc.content_hash if doc else prior_hash) or None,
+            error_message=error,
+        )
+    )
+
+
+def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = None) -> str:
+    prior_version = record.prior.doc_version if record.prior else None
+
     if record.status is ChangeStatus.DELETED:
         delete_document(record.document_id)
         state.delete([record.document_id])
         logger.info("Deleted %s (%s)", record.document_id, record.source_key)
+        _log(run_id, record, "deleted", version=prior_version)
         return "deleted"
 
     if record.status is ChangeStatus.UNCHANGED:
+        _log(run_id, record, "unchanged", version=prior_version)
         return "unchanged"
 
     logger.info(
@@ -48,34 +86,43 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder) -> str:
     )
     doc = build_doc(record)
     if doc is None:
+        _log(run_id, record, "skipped")
         return "skipped"
 
     content_hash = doc.ensure_content_hash()
     if not cd.content_changed(record, content_hash):
-        prior_version = record.prior.doc_version if record.prior else 1
-        _save_state(record, content_hash, prior_version, indexed=False)
+        version = prior_version or 1
+        _save_state(record, content_hash, version, indexed=False)
         logger.info("Unchanged content for %s; fingerprint refreshed.", record.document_id)
+        _log(run_id, record, "unchanged_content", doc=doc, version=version)
         return "unchanged_content"
 
     version = cd.next_version(record)
     doc.doc_version = version
     delete_document(record.document_id)
-    index_canonical(doc)
+    chunks = index_canonical(doc)
     _save_state(record, content_hash, version, indexed=True)
     logger.info(
         "%s %s -> v%d", record.status.value, record.document_id, version
     )
+    _log(run_id, record, "indexed", doc=doc, version=version, chunks=chunks)
     return "indexed"
 
 
 def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
     state.ensure_table()
+    try:
+        ingest_log.ensure_table()
+    except Exception:
+        logger.exception("Could not ensure ingest_log table; events will be skipped.")
+    run_id = uuid.uuid4().hex
     tally: Counter = Counter()
     for record in records:
         try:
-            tally[_handle(record, build_doc)] += 1
-        except Exception:
+            tally[_handle(record, build_doc, run_id)] += 1
+        except Exception as exc:
             logger.exception("Failed handling %s; skipping.", record.document_id)
+            _log(run_id, record, "error", error=str(exc))
             tally["error"] += 1
     return tally
 
