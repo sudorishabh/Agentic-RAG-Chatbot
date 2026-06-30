@@ -46,9 +46,11 @@ Builders in [app/ingestion/canonical.py](../app/ingestion/canonical.py):
      (`camelot_flavor`, default `lattice`, with a `stream` retry on empty pages);
      the page's prose still comes from PyMuPDF and the table Markdown is merged
      into that page's text;
-   - **scanned / image** → Azure Document Intelligence OCR (`prebuilt-layout`),
-     which reconstructs both text and tables. A scanned page that *also* has a
-     table goes to Azure — Camelot cannot read an image.
+   - **scanned / image** → Azure Document Intelligence OCR (`prebuilt-read`,
+     text only). A scanned page that *also* has a table goes to Azure — Camelot
+     cannot read an image — so its table is OCR'd as plain text, not structured.
+     Switch `azure_document_intelligence_model` to `prebuilt-layout` (~6x cost)
+     if you need tables reconstructed from scanned pages.
 3. **Fallbacks.** If Azure is unavailable its pages degrade to PyMuPDF text; if
    Camelot finds nothing on a flagged page that page keeps just its PyMuPDF text.
    `EXTRACTION_MODE` overrides the path: `hybrid` (default, per-page above),

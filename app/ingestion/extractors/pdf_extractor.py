@@ -246,12 +246,16 @@ def _ocr_pdf(content: bytes, page_numbers: list[int] | None = None) -> dict[int,
     kwargs: dict[str, Any] = {"body": AnalyzeDocumentRequest(bytes_source=content)}
     if page_numbers:
         kwargs["pages"] = _page_range_str(page_numbers)
-    try:
-        from azure.ai.documentintelligence.models import DocumentContentFormat
+    # Markdown output is a Layout-model feature; the OCR-only "prebuilt-read"
+    # model rejects output_content_format and the whole call would fail. Only
+    # request Markdown for layout-style models.
+    if "layout" in (settings.azure_document_intelligence_model or "").lower():
+        try:
+            from azure.ai.documentintelligence.models import DocumentContentFormat
 
-        kwargs["output_content_format"] = DocumentContentFormat.MARKDOWN
-    except Exception:
-        pass
+            kwargs["output_content_format"] = DocumentContentFormat.MARKDOWN
+        except Exception:
+            pass
 
     try:
         poller = client.begin_analyze_document(
@@ -294,7 +298,7 @@ def _merge_table_text(text: str, tables: list[TableData]) -> str:
 
 
 def _azure_extract(content: bytes, filename: str) -> ExtractionResult | None:
-    """Send the WHOLE document to Azure Layout; None if Azure is unavailable.
+    """Send the WHOLE document to Azure OCR; None if Azure is unavailable.
 
     Used by EXTRACTION_MODE=azure_only and as the hybrid fallback when page
     classification itself fails.
@@ -334,7 +338,8 @@ def _hybrid_extract(content: bytes, filename: str, *, mode: str) -> ExtractionRe
 
     Three destinations (see ``PageSignal.route``):
 
-    * scanned / image pages -> Azure OCR (owns text and tables there);
+    * scanned / image pages -> Azure OCR (text only with the default
+      "prebuilt-read" model; "prebuilt-layout" also reconstructs tables);
     * born-digital table pages -> Camelot for the table(s), PyMuPDF for the
       page's prose, merged into one page of text;
     * everything else -> PyMuPDF text only.

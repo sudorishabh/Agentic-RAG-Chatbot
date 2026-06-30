@@ -23,12 +23,15 @@ class Settings(BaseSettings):
     azure_openai_embedding_api_version: str = "2024-06-01"
     azure_document_intelligence_endpoint: str = ""
     azure_document_intelligence_key: str = ""
-    azure_document_intelligence_model: str = "prebuilt-layout"
+    # "prebuilt-read" is the OCR-only (basic) model: cheap, text only, no table
+    # structure. "prebuilt-layout" costs ~6x more but also reconstructs tables
+    # and document structure (and supports Markdown output).
+    azure_document_intelligence_model: str = "prebuilt-read"
     pdf_scanned_char_threshold: int = 100
     # PDF extraction routing (app/ingestion/extractors): "hybrid" classifies each
     # page and routes per page — scanned/image pages to Azure OCR, born-digital
     # table pages to Camelot, the rest to PyMuPDF text; "azure_only" always uses
-    # Azure Layout; "local_only" uses PyMuPDF text only.
+    # Azure OCR; "local_only" uses PyMuPDF text only.
     extraction_mode: str = "hybrid"
     # Camelot table extraction (born-digital table pages). "lattice" reads ruled
     # tables and needs Ghostscript; the extractor falls back to "stream" when
