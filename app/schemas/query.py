@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Literal
-
 from pydantic import BaseModel, Field
 
 
@@ -49,15 +47,6 @@ class QueryResponse(BaseModel):
     used_chunks: int = 0
     conflict: bool = False
     cached: bool = False
-
-
-class FeedbackRequest(BaseModel):
-
-    question: str
-    rating: Literal["up", "down"]
-    answer: str | None = None
-    clicked_citations: list[int] = Field(default_factory=list)
-    comment: str | None = None
 
 
 class SearchRequest(BaseModel):

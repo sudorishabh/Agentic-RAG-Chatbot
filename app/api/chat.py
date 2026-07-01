@@ -6,9 +6,8 @@ from typing import Iterator
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 
-from app.observability.tracing import record_feedback
 from app.rag import stream_answer
-from app.schemas.query import FeedbackRequest, QueryRequest
+from app.schemas.query import QueryRequest
 
 router = APIRouter(tags=["chat"])
 
@@ -32,9 +31,3 @@ def chat(request: QueryRequest) -> StreamingResponse:
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
-
-
-@router.post("/chat/feedback")
-def feedback(request: FeedbackRequest) -> dict[str, str]:
-    record_feedback(request.model_dump())
-    return {"status": "recorded"}

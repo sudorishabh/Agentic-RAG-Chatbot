@@ -29,7 +29,7 @@ Drop a single tag onto any page — that's the whole install:
 
 The widget self-injects a launcher button (bottom-right), a welcome screen with
 TERI-relevant suggestion prompts, a **New chat** button, streamed answers,
-citations, and 👍/👎 feedback. All markup and styles live inside a Shadow DOM,
+and citations. All markup and styles live inside a Shadow DOM,
 so the host site's CSS can't leak in and the widget's styles can't leak out.
 On phones (≤480px) it expands to full screen.
 
@@ -100,12 +100,11 @@ CORS_ALLOW_ORIGINS=https://teriin.org,https://www.teriin.org,http://localhost:55
 | --- | --- |
 | `GET /health` | Connection status indicator |
 | `POST /chat` | Streamed answer (SSE: `token` / `sources` / `done`) |
-| `POST /chat/feedback` | Thumbs up/down + clicked citations |
 
 ## Files
 
-- `widget.js` — **embeddable widget**: self-contained launcher + Shadow-DOM panel, streaming, citations, feedback (the Drupal drop-in)
+- `widget.js` — **embeddable widget**: self-contained launcher + Shadow-DOM panel, streaming, citations (the Drupal drop-in)
 - `demo.html` — mock host page that loads `widget.js` for local preview
 - `index.html` — standalone page markup / layout
 - `styles.css` — standalone page theme and layout styles
-- `app.js` — standalone page logic: config, streaming, citation + feedback rendering, settings
+- `app.js` — standalone page logic: config, streaming, citation rendering, settings

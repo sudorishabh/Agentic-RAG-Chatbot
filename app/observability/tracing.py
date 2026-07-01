@@ -70,21 +70,6 @@ def record_query_metrics(*, latency_ms: float | None = None, **metrics: Any) -> 
             pass
 
 
-def record_feedback(feedback: dict[str, Any]) -> None:
-    logger.info("rag_feedback %s", feedback)
-    try:
-        import json
-
-        from app.deps import get_redis
-
-        client = get_redis()
-        if client is not None:
-            client.lpush("rag:feedback", json.dumps(feedback))
-            client.ltrim("rag:feedback", 0, 9999)
-    except Exception:  # pragma: no cover
-        logger.warning("Could not persist feedback to redis.", exc_info=True)
-
-
 def get_langfuse() -> Any | None:
     return _langfuse
 

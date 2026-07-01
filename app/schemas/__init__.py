@@ -8,7 +8,6 @@ from app.schemas.ingest import (
 from app.schemas.query import (
     ChatTurn,
     Citation,
-    FeedbackRequest,
     QueryRequest,
     QueryResponse,
     SearchBlock,
@@ -24,7 +23,6 @@ __all__ = [
     "ReindexResponse",
     "ChatTurn",
     "Citation",
-    "FeedbackRequest",
     "QueryRequest",
     "QueryResponse",
     "SearchBlock",

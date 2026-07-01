@@ -16,7 +16,6 @@
  * Backend contract (unchanged from the standalone UI):
  *   GET  /health          -> connection status
  *   POST /chat            -> SSE: {type:"token",text} / {type:"sources",...} / {type:"done"}
- *   POST /chat/feedback   -> {question, rating, answer, clicked_citations[]}
  * ======================================================================== */
 
 (function () {
@@ -210,9 +209,7 @@
       bubble.classList.remove("bubble--pending");
       if (answer) bubble.innerHTML = renderMarkdown(answer);
       else bubble.textContent = "(no response)";
-      const clicked = new Set();
-      if (sources) renderSources(wrap, sources, clicked);
-      if (answer) renderFeedback(wrap, text, answer, clicked);
+      if (sources) renderSources(wrap, sources);
       history.push({ role: "user", content: text });
       history.push({ role: "assistant", content: answer });
     } catch (err) {
@@ -447,29 +444,12 @@
   /* ---------------------------------------------------------------- *
    * Citations / sources
    * ---------------------------------------------------------------- */
-  function badge(text, warn) {
-    const b = document.createElement("span");
-    b.className = "badge" + (warn ? " badge--warn" : "");
-    b.textContent = text;
-    return b;
-  }
-
-  function renderSources(wrap, sources, clicked) {
+  function renderSources(wrap, sources) {
     const citations = Array.isArray(sources.citations) ? sources.citations : [];
-    const meta = document.createElement("div");
-    meta.className = "meta";
-    if (sources.intent) meta.appendChild(badge(sources.intent));
-    const count = sources.used_chunks || citations.length;
-    if (count)
-      meta.appendChild(badge(count + (count === 1 ? " source" : " sources")));
-    if (sources.conflict)
-      meta.appendChild(badge("⚠ conflicting sources", true));
-    if (meta.childNodes.length) wrap.appendChild(meta);
-
     if (!citations.length) return;
     const list = document.createElement("div");
     list.className = "citations";
-    for (const c of citations) list.appendChild(renderCitation(c, clicked));
+    for (const c of citations) list.appendChild(renderCitation(c));
     wrap.appendChild(list);
   }
 
@@ -487,10 +467,9 @@
     return node;
   }
 
-  function renderCitation(c, clicked) {
+  function renderCitation(c) {
     const item = document.createElement("div");
     item.className = "citation";
-    if (clicked) item.addEventListener("click", () => clicked.add(c.n));
 
     const marker = document.createElement("span");
     marker.className = "citation__marker";
@@ -534,62 +513,6 @@
 
     item.appendChild(body);
     return item;
-  }
-
-  /* ---------------------------------------------------------------- *
-   * Feedback
-   * ---------------------------------------------------------------- */
-  function renderFeedback(wrap, question, answer, clicked) {
-    const row = document.createElement("div");
-    row.className = "feedback";
-
-    const up = document.createElement("button");
-    up.type = "button";
-    up.className = "fb-btn";
-    up.textContent = "👍";
-    up.title = "Helpful";
-
-    const down = document.createElement("button");
-    down.type = "button";
-    down.className = "fb-btn";
-    down.textContent = "👎";
-    down.title = "Not helpful";
-
-    const note = document.createElement("span");
-    note.className = "fb-note";
-
-    async function send(rating) {
-      if (row.dataset.sent === rating) return;
-      up.classList.toggle("fb-btn--active", rating === "up");
-      down.classList.toggle("fb-btn--active", rating === "down");
-      note.textContent = "";
-      try {
-        const res = await fetch(API_BASE + "/chat/feedback", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            question,
-            rating,
-            answer,
-            clicked_citations: Array.from(clicked),
-          }),
-        });
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        row.dataset.sent = rating;
-        note.textContent = "thanks for the feedback";
-      } catch {
-        up.classList.remove("fb-btn--active");
-        down.classList.remove("fb-btn--active");
-        note.textContent = "couldn't send feedback";
-      }
-    }
-
-    up.addEventListener("click", () => send("up"));
-    down.addEventListener("click", () => send("down"));
-    row.appendChild(up);
-    row.appendChild(down);
-    row.appendChild(note);
-    wrap.appendChild(row);
   }
 
   /* ---------------------------------------------------------------- *
@@ -939,19 +862,6 @@
     .bubble tbody tr:nth-child(even) { background: rgba(0,0,0,.025); }
 
     /* ---- Citations ---- */
-    .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-    .badge {
-      font-size: .66rem;
-      text-transform: uppercase;
-      letter-spacing: .03em;
-      color: var(--teri-dim);
-      background: var(--teri-bg);
-      border: 1px solid var(--teri-border);
-      border-radius: 999px;
-      padding: 2px 8px;
-    }
-    .badge--warn { color: var(--teri-warn); border-color: var(--teri-warn); }
-
     /* Horizontal, scrollable strip so sources don't eat vertical space. */
     .citations {
       margin-top: 6px;
@@ -984,21 +894,6 @@
     .citation__detail, .citation__also { color: var(--teri-dim); font-size: .74rem; }
     .citation__also a { color: var(--teri-green-dark); text-decoration: none; }
     .citation__also a:hover { text-decoration: underline; }
-
-    /* ---- Feedback ---- */
-    .feedback { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
-    .fb-btn {
-      background: var(--teri-bg);
-      border: 1px solid var(--teri-border);
-      border-radius: 8px;
-      padding: 2px 8px;
-      font-size: .9rem;
-      line-height: 1;
-      cursor: pointer;
-    }
-    .fb-btn:hover { background: var(--teri-green-soft); }
-    .fb-btn--active { border-color: var(--teri-green); background: var(--teri-green-soft); }
-    .fb-note { font-size: .74rem; color: var(--teri-dim); }
 
     /* ---- Composer: a floating rounded box with the send button inside ---- */
     .composer {
