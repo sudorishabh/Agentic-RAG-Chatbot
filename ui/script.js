@@ -555,7 +555,7 @@
           </div>
           <div class="head__actions">
             <button id="new-chat" class="icon-btn" title="New chat" aria-label="New chat">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>
+              <span class="new-chat__label">New chat</span>
             </button>
             <button id="expand" class="icon-btn" title="Expand" aria-label="Expand">
               <svg class="ic-expand" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
@@ -716,6 +716,14 @@
       border-radius: 6px;
     }
     .icon-btn:hover { background: var(--teri-surface); }
+    #new-chat {
+      padding: 5px 12px;
+      border: 1px solid var(--teri-border);
+      border-radius: 8px;
+      color: var(--teri-green);
+    }
+    #new-chat:hover { border-color: var(--teri-green); background: var(--teri-green-soft); }
+    .new-chat__label { font-size: .82rem; font-weight: 600; }
     #close { color: var(--teri-bad); }
 
     /* ---- Messages ---- */
