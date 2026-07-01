@@ -466,11 +466,24 @@
     wrap.appendChild(list);
   }
 
+  // The backend emits root-relative source links (e.g. "/source/<id>#page=N")
+  // when SOURCE_BASE_URL is unset. Resolve those against the API origin so they
+  // open the locally-served PDF even when the widget is embedded on another
+  // origin. Absolute URLs (remote article pages, configured SOURCE_BASE_URL)
+  // are left untouched.
+  function resolveUrl(url) {
+    if (!url) return url;
+    if (/^(https?:)?\/\//i.test(url)) return url;
+    if (url.charAt(0) === "/") return API_BASE + url;
+    return url;
+  }
+
   function linkOrText(label, url) {
     let node;
-    if (url) {
+    const href = resolveUrl(url);
+    if (href) {
       node = document.createElement("a");
-      node.href = url;
+      node.href = href;
       node.target = "_blank";
       node.rel = "noopener noreferrer";
     } else {
