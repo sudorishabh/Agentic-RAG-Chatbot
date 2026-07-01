@@ -66,8 +66,8 @@
   // Status words cycled while the bot is working, before the first token lands.
   const LOADER_PHASES = [
     "Thinking",
-    "Searching the knowledge base",
     "Reading relevant sources",
+    "Thinking",
     "Generating your answer",
   ];
 
@@ -174,17 +174,13 @@
     el.send.classList.toggle("busy", on);
   }
 
-  /* Animated "working" indicator: a pulsing sparkle, a shimmering status word
-     that steps through LOADER_PHASES, and three bouncing dots. Runs until the
-     first token arrives (see streamChat) or the request settles. */
+  /* Animated "working" indicator: a shimmering status word that steps through
+     LOADER_PHASES, plus three bouncing dots. Runs until the first token arrives
+     (see streamChat) or the request settles. */
   function startLoader(bubble) {
     bubble.classList.add("bubble--pending");
     bubble.innerHTML =
       '<span class="loader">' +
-      '<svg class="loader__spark" viewBox="0 0 24 24" width="18" height="18" ' +
-      'fill="currentColor" aria-hidden="true">' +
-      '<path d="M12 0C12 6 6 12 0 12C6 12 12 18 12 24C12 18 18 12 24 12' +
-      'C18 12 12 6 12 0Z"/></svg>' +
       '<span class="loader__text" role="status"></span>' +
       '<span class="loader__dots" aria-hidden="true"><i></i><i></i><i></i></span>' +
       "</span>";
@@ -201,7 +197,7 @@
       if (idx >= LOADER_PHASES.length - 1) stopLoader();
     };
     advance();
-    loaderTimer = setInterval(advance, 1500);
+    loaderTimer = setInterval(advance, 2400);
   }
 
   function stopLoader() {
@@ -844,15 +840,8 @@
     .bubble--pending { color: var(--teri-dim); }
     .bubble--error { border-color: var(--teri-bad); color: var(--teri-bad); }
 
-    /* ---- Working indicator: pulsing sparkle + shimmering status word + dots ---- */
+    /* ---- Working indicator: shimmering status word + bouncing dots ---- */
     .loader { display: inline-flex; align-items: center; gap: 9px; }
-    .loader__spark {
-      flex-shrink: 0;
-      color: var(--teri-green);
-      transform-origin: center;
-      filter: drop-shadow(0 0 4px rgba(37,112,94,.4));
-      animation: spark 1.8s ease-in-out infinite;
-    }
     .loader__text { display: inline-flex; }
     .loader__word {
       display: inline-block;
@@ -877,11 +866,6 @@
     .loader__dots i:nth-child(2) { animation-delay: .18s; }
     .loader__dots i:nth-child(3) { animation-delay: .36s; }
 
-    @keyframes spark {
-      0%   { transform: rotate(0deg)   scale(.8);  opacity: .65; }
-      50%  { transform: rotate(180deg) scale(1.1); opacity: 1; }
-      100% { transform: rotate(360deg) scale(.8);  opacity: .65; }
-    }
     @keyframes shimmer {
       0%   { background-position: 220% 0; }
       100% { background-position: -20% 0; }
@@ -895,7 +879,7 @@
       40% { opacity: 1; transform: translateY(-3px); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .loader__spark, .loader__word, .loader__dots i { animation: none; }
+      .loader__word, .loader__dots i { animation: none; }
       .loader__word { -webkit-text-fill-color: var(--teri-green); color: var(--teri-green); }
     }
 
