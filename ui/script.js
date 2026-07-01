@@ -88,6 +88,16 @@
     el.input.focus();
   }
 
+  // Reset to a fresh conversation: drop history, clear messages, show welcome.
+  function resetChat() {
+    history.length = 0;
+    el.messages.querySelectorAll(".msg").forEach((n) => n.remove());
+    if (el.welcome) el.welcome.hidden = false;
+    el.input.value = "";
+    autoGrow();
+    el.input.focus();
+  }
+
   function renderCards() {
     el.cards.innerHTML = "";
     for (const s of SUGGESTIONS) {
@@ -489,6 +499,7 @@
     el = {
       launcher: $("#launcher"),
       panel: $("#panel"),
+      newChat: $("#new-chat"),
       close: $("#close"),
       expand: $("#expand"),
       messages: $("#messages"),
@@ -501,6 +512,7 @@
     el.launcher.addEventListener("click", () =>
       isOpen ? closePanel() : openPanel(),
     );
+    el.newChat.addEventListener("click", resetChat);
     el.close.addEventListener("click", closePanel);
     el.expand.addEventListener("click", toggleExpand);
     el.send.addEventListener("click", handleSend);
@@ -542,6 +554,9 @@
             <span class="brand__title">${escapeHtml(TITLE)}</span>
           </div>
           <div class="head__actions">
+            <button id="new-chat" class="icon-btn" title="New chat" aria-label="New chat">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>
+            </button>
             <button id="expand" class="icon-btn" title="Expand" aria-label="Expand">
               <svg class="ic-expand" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
               <svg class="ic-compress" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5H4M15 3v5h5M9 21v-5H4M15 21v-5h5"/></svg>
