@@ -11,6 +11,7 @@ def get_embeddings() -> AzureOpenAIEmbeddings:
         api_key=settings.azure_openai_embedding_key,
         api_version=settings.azure_openai_embedding_api_version,
         azure_deployment=settings.azure_openai_embedding_model,
+        dimensions=settings.azure_openai_embedding_dimensions,
     )
 
 

@@ -4,13 +4,12 @@ Turning retrieved context into a grounded, cited answer — and verifying it.
 
 ## LLM factories — [app/generation/llm_client.py](../app/generation/llm_client.py)
 
-Three factory functions return configured `AzureChatOpenAI` clients. `get_llm` and
-`get_reasoning_llm` are memoized with `@lru_cache`.
+Two factory functions return configured `AzureChatOpenAI` clients; `get_llm` is
+memoized with `@lru_cache`.
 
 | Function | Deployment | Temperature | Use |
 | --- | --- | --- | --- |
 | `get_llm(temperature=None, streaming=False)` | `azure_openai_*` | as passed | general generation, chitchat |
-| `get_reasoning_llm(temperature=None, streaming=False)` | `azure_openai_reasoning_*` | as passed | optional reasoning deployment |
 | `get_structured_llm(streaming=False)` | `azure_openai_*` | `llm_structured_temperature` | structured/deterministic extraction (query understanding, intent routing, LLM rerank, faithfulness) |
 
 **Temperature handling is deliberate.** `_build_llm(...)` omits the `temperature`
@@ -18,7 +17,7 @@ argument entirely when it is `None`. Reasoning models (gpt-5 / o-series) reject 
 non-default temperature, so `get_structured_llm()` defaults to `None` (via
 `llm_structured_temperature`). Set `llm_structured_temperature=0` only for classic chat
 deployments where you want deterministic extraction. See
-[configuration.md](configuration.md#azure-openai--reasoning-optional-separate-deployment).
+[configuration.md](configuration.md#azure-openai--chat).
 
 ## Prompts — [app/generation/prompts.py](../app/generation/prompts.py)
 

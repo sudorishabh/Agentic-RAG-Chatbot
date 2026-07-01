@@ -12,15 +12,16 @@ class Settings(BaseSettings):
     azure_openai_endpoint: str = ""
     azure_openai_api_version: str = "2024-06-01"
     azure_openai_model: str = ""
-    azure_openai_reasoning_api_key: str = ""
-    azure_openai_reasoning_endpoint: str = ""
-    azure_openai_reasoning_api_version: str = "2024-06-01"
-    azure_openai_reasoning_model: str = ""
     llm_structured_temperature: float | None = None
     azure_openai_embedding_model: str = ""
     azure_openai_embedding_key: str = ""
     azure_openai_embedding_endpoint: str = ""
     azure_openai_embedding_api_version: str = "2024-06-01"
+    # Output vector size for the embedding model. text-embedding-3-{small,large}
+    # support Matryoshka truncation to a smaller dimension; 1536 halves storage
+    # and search cost vs 3-large's native 3072 with negligible retrieval loss.
+    # Set to None (leave blank) for ada-002, which does not accept this param.
+    azure_openai_embedding_dimensions: int | None = 1536
     azure_document_intelligence_endpoint: str = ""
     azure_document_intelligence_key: str = ""
     # "prebuilt-read" is the OCR-only (basic) model: cheap, text only, no table
@@ -88,6 +89,11 @@ class Settings(BaseSettings):
     faithfulness_check: bool = False
     metrics_log_enabled: bool = True
     cors_allow_origins: str = "*"
+    # Absolute base URL of the retrieval API as reached from the browser
+    # (e.g. "http://localhost:8000"). When set, citation links to locally
+    # served PDFs become "{base}/source/{id}#page=N" so a separate-origin
+    # frontend can open them. Empty = emit a relative "/source/..." path.
+    source_base_url: str = ""
     otel_enabled: bool = False
     otel_service_name: str = "agentic-rag"
     otel_exporter_otlp_endpoint: str = ""

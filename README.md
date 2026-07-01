@@ -33,7 +33,7 @@ app/
 │   ├── citations.py         Build numbered citations from chunk payloads (§8)
 │   └── drupal_router.py     Structured MySQL / JSON:API path for lookup/aggregate queries (§7)
 ├── generation/
-│   ├── llm_client.py        Azure chat / reasoning / structured LLM factories
+│   ├── llm_client.py        Azure chat / structured LLM factories
 │   ├── prompts.py           Strict grounding prompt + context formatting (§10.6)
 │   └── faithfulness.py      Optional post-generation entailment check (§10.6)
 ├── ingestion/
@@ -59,8 +59,7 @@ app/
 
 - Python 3.11+
 - Docker (for Qdrant)
-- **Azure OpenAI** — a chat deployment and an embedding deployment (a separate
-  reasoning deployment is optional)
+- **Azure OpenAI** — a chat deployment and an embedding deployment
 - *Optional:* Azure Document Intelligence (OCR for scanned PDFs), MySQL/MariaDB
   (Drupal source + ingest-state manifest), Redis (caches), a Celery broker
   (background ingestion). All degrade gracefully when unconfigured.
@@ -156,7 +155,6 @@ and defaults; `.env.example` for a starting template). The most relevant:
 | Variable | Default | Description |
 |---|---|---|
 | `AZURE_OPENAI_MODEL` / `_API_KEY` / `_ENDPOINT` | — | Standard chat deployment (e.g. `gpt-5-mini`). |
-| `AZURE_OPENAI_REASONING_*` | — | Optional reasoning deployment (e.g. `gpt-5`). |
 | `AZURE_OPENAI_EMBEDDING_MODEL` / `_KEY` / `_ENDPOINT` | — | Embedding deployment (e.g. `text-embedding-3-large`). |
 | `LLM_STRUCTURED_TEMPERATURE` | *(unset → omitted)* | Temperature for deterministic/structured calls (query understanding, routing, rerank, faithfulness). **Leave unset for reasoning models** (gpt-5 / o-series reject any value but the default); set `0` for classic chat models. |
 | `AZURE_DOCUMENT_INTELLIGENCE_*` | — | Optional OCR/layout for scanned PDFs. |

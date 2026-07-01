@@ -74,7 +74,7 @@ def get_embedding(text: str) -> list[float] | None:
     settings = get_settings()
     if not settings.embedding_cache_enabled:
         return None
-    key = f"{_NS}:emb:{_sha(settings.azure_openai_embedding_model, text)}"
+    key = f"{_NS}:emb:{_sha(settings.azure_openai_embedding_model, str(settings.azure_openai_embedding_dimensions), text)}"
     return _get_json(key)
 
 
@@ -82,7 +82,7 @@ def set_embedding(text: str, vector: Sequence[float]) -> None:
     settings = get_settings()
     if not settings.embedding_cache_enabled:
         return
-    key = f"{_NS}:emb:{_sha(settings.azure_openai_embedding_model, text)}"
+    key = f"{_NS}:emb:{_sha(settings.azure_openai_embedding_model, str(settings.azure_openai_embedding_dimensions), text)}"
     _set_json(key, list(vector), settings.embedding_cache_ttl)
 
 

@@ -5,7 +5,7 @@
 - **Python 3.11+**
 - **Docker** (for Qdrant) — or a reachable Qdrant instance
 - An **Azure OpenAI** resource with a **chat** deployment and an **embedding**
-  deployment. A separate **reasoning** deployment is optional.
+  deployment.
 - Optional: **Redis** (caches + corpus version), **MySQL/MariaDB** (ingest-state
   manifest + structured query path), **Azure Document Intelligence** (OCR for scanned
   PDFs).

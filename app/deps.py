@@ -12,7 +12,7 @@ from pymysql.cursors import DictCursor
 
 from app.config import get_settings
 
-from app.generation.llm_client import get_llm, get_reasoning_llm
+from app.generation.llm_client import get_llm
 from app.ingestion.embedder import get_embeddings
 
 if TYPE_CHECKING:
@@ -33,7 +33,6 @@ __all__ = [
     "get_redis",
     "get_embeddings",
     "get_llm",
-    "get_reasoning_llm",
 ]
 
 

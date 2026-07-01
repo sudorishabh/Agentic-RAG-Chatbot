@@ -17,15 +17,6 @@ upper-cased field names. Unknown env keys are ignored (`extra="ignore"`). See
 | `azure_openai_endpoint` | `""` | Resource endpoint URL |
 | `azure_openai_api_version` | `2024-06-01` | API version |
 | `azure_openai_model` | `""` | Chat deployment name |
-
-## Azure OpenAI — reasoning (optional, separate deployment)
-
-| Setting | Default | Description |
-| --- | --- | --- |
-| `azure_openai_reasoning_api_key` | `""` | Key for the reasoning deployment |
-| `azure_openai_reasoning_endpoint` | `""` | Reasoning endpoint URL |
-| `azure_openai_reasoning_api_version` | `2024-06-01` | API version |
-| `azure_openai_reasoning_model` | `""` | Reasoning deployment name |
 | `llm_structured_temperature` | `None` | Temperature for structured/deterministic calls (query understanding, routing, rerank, faithfulness). **Leave unset** for reasoning models (gpt-5 / o-series) — they reject any non-default value, so `None` omits the parameter entirely. Set `0` for classic chat models. |
 
 ## Azure OpenAI — embeddings
@@ -36,6 +27,7 @@ upper-cased field names. Unknown env keys are ignored (`extra="ignore"`). See
 | `azure_openai_embedding_key` | `""` | Embedding API key |
 | `azure_openai_embedding_endpoint` | `""` | Embedding endpoint URL |
 | `azure_openai_embedding_api_version` | `2024-06-01` | API version |
+| `azure_openai_embedding_dimensions` | `1536` | Output vector size. `text-embedding-3-{small,large}` support Matryoshka truncation; `1536` halves storage/search cost vs 3-large's native 3072. Set blank/`None` for `ada-002`. Changing it requires recreating the Qdrant collection and re-indexing. |
 
 ## PDF extraction & OCR
 

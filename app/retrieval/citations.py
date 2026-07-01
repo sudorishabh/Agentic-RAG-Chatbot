@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from app.config import get_settings
 from app.retrieval.context_builder import ContextBlock
 from app.schemas.query import Citation, CitationSource
 
@@ -10,7 +11,8 @@ def _pdf_link(payload: dict[str, Any]) -> str | None:
     pdf_id = payload.get("pdf_id") or payload.get("document_id")
     if not pdf_id:
         return None
-    return _with_page(f"/source/{pdf_id}", payload)
+    base = get_settings().source_base_url.rstrip("/")
+    return _with_page(f"{base}/source/{pdf_id}", payload)
 
 
 def _with_page(url: str | None, payload: dict[str, Any]) -> str | None:

@@ -29,21 +29,6 @@ def get_llm(temperature: float | None = None, streaming: bool = False) -> AzureC
     )
 
 
-@lru_cache
-def get_reasoning_llm(
-    temperature: float | None = None, streaming: bool = False
-) -> AzureChatOpenAI:
-    settings = get_settings()
-    return _build_llm(
-        endpoint=settings.azure_openai_reasoning_endpoint,
-        api_key=settings.azure_openai_reasoning_api_key,
-        api_version=settings.azure_openai_reasoning_api_version,
-        deployment=settings.azure_openai_reasoning_model,
-        temperature=temperature,
-        streaming=streaming,
-    )
-
-
 def get_structured_llm(streaming: bool = False) -> AzureChatOpenAI:
     return get_llm(
         temperature=get_settings().llm_structured_temperature, streaming=streaming

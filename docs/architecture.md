@@ -24,7 +24,7 @@ app/
 │   ├── citations.py         Build numbered citations from chunk payloads
 │   └── drupal_router.py     Structured MySQL/JSON:API path for lookup/list/count queries
 ├── generation/
-│   ├── llm_client.py        Azure chat / reasoning / structured LLM factories
+│   ├── llm_client.py        Azure chat / structured LLM factories
 │   ├── prompts.py           Grounding + chitchat prompts, context formatting
 │   └── faithfulness.py      Citation-marker validation + optional entailment check
 ├── ingestion/
@@ -56,7 +56,7 @@ ingest routers.
 - **MySQL** — durable ingest-state manifest ([app/ingestion/state.py](../app/ingestion/state.py))
   and the structured-query path. Accessed through a small connection pool in
   [app/deps.py](../app/deps.py).
-- **Azure OpenAI** — chat + embeddings (and an optional separate reasoning deployment).
+- **Azure OpenAI** — chat + embeddings.
 - **Redis** *(optional)* — caches and the corpus-version counter. Everything degrades
   gracefully to "no cache" when `redis_url` is unset.
 
