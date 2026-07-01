@@ -63,12 +63,21 @@
     },
   ];
 
+  // Status words cycled while the bot is working, before the first token lands.
+  const LOADER_PHASES = [
+    "Thinking",
+    "Searching the knowledge base",
+    "Reading relevant sources",
+    "Generating your answer",
+  ];
+
   // Guard against double-injection.
   if (document.getElementById("teri-rag-widget")) return;
 
   const history = [];
   let streaming = false;
   let isOpen = false;
+  let loaderTimer = null;
 
   let host, root, el;
 
@@ -165,6 +174,43 @@
     el.send.classList.toggle("busy", on);
   }
 
+  /* Animated "working" indicator: a pulsing sparkle, a shimmering status word
+     that steps through LOADER_PHASES, and three bouncing dots. Runs until the
+     first token arrives (see streamChat) or the request settles. */
+  function startLoader(bubble) {
+    bubble.classList.add("bubble--pending");
+    bubble.innerHTML =
+      '<span class="loader">' +
+      '<svg class="loader__spark" viewBox="0 0 24 24" width="18" height="18" ' +
+      'fill="currentColor" aria-hidden="true">' +
+      '<path d="M12 0C12 6 6 12 0 12C6 12 12 18 12 24C12 18 18 12 24 12' +
+      'C18 12 12 6 12 0Z"/></svg>' +
+      '<span class="loader__text" role="status"></span>' +
+      '<span class="loader__dots" aria-hidden="true"><i></i><i></i><i></i></span>' +
+      "</span>";
+
+    const textEl = bubble.querySelector(".loader__text");
+    let idx = -1;
+    const advance = () => {
+      idx = Math.min(idx + 1, LOADER_PHASES.length - 1);
+      const word = document.createElement("span");
+      word.className = "loader__word";
+      word.textContent = LOADER_PHASES[idx];
+      textEl.textContent = "";
+      textEl.appendChild(word);
+      if (idx >= LOADER_PHASES.length - 1) stopLoader();
+    };
+    advance();
+    loaderTimer = setInterval(advance, 1500);
+  }
+
+  function stopLoader() {
+    if (loaderTimer) {
+      clearInterval(loaderTimer);
+      loaderTimer = null;
+    }
+  }
+
   async function handleSend() {
     if (streaming) return;
     const text = el.input.value.trim();
@@ -176,11 +222,11 @@
 
     setStreaming(true);
     const { wrap, bubble } = addMessage("bot", "");
-    bubble.classList.add("bubble--pending");
-    bubble.textContent = "…";
+    startLoader(bubble);
 
     try {
       const { answer, sources } = await streamChat(text, bubble);
+      stopLoader();
       bubble.classList.remove("bubble--pending");
       if (answer) bubble.innerHTML = renderMarkdown(answer);
       else bubble.textContent = "(no response)";
@@ -188,6 +234,7 @@
       history.push({ role: "user", content: text });
       history.push({ role: "assistant", content: answer });
     } catch (err) {
+      stopLoader();
       bubble.classList.remove("bubble--pending");
       bubble.classList.add("bubble--error");
       bubble.textContent =
@@ -237,6 +284,7 @@
 
         if (event.type === "token") {
           if (bubble.classList.contains("bubble--pending")) {
+            stopLoader();
             bubble.classList.remove("bubble--pending");
             bubble.textContent = "";
           }
@@ -795,6 +843,61 @@
     .msg--bot .bubble { background: var(--teri-bg); border: 1px solid var(--teri-border); border-bottom-left-radius: 4px; }
     .bubble--pending { color: var(--teri-dim); }
     .bubble--error { border-color: var(--teri-bad); color: var(--teri-bad); }
+
+    /* ---- Working indicator: pulsing sparkle + shimmering status word + dots ---- */
+    .loader { display: inline-flex; align-items: center; gap: 9px; }
+    .loader__spark {
+      flex-shrink: 0;
+      color: var(--teri-green);
+      transform-origin: center;
+      filter: drop-shadow(0 0 4px rgba(37,112,94,.4));
+      animation: spark 1.8s ease-in-out infinite;
+    }
+    .loader__text { display: inline-flex; }
+    .loader__word {
+      display: inline-block;
+      font-weight: 600;
+      background: linear-gradient(100deg,
+        var(--teri-dim) 25%, var(--teri-green) 45%,
+        var(--teri-green-dark) 55%, var(--teri-dim) 75%);
+      background-size: 220% 100%;
+      -webkit-background-clip: text;
+              background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      animation: word-in .4s ease both, shimmer 2.2s linear infinite;
+    }
+    .loader__dots { display: inline-flex; align-items: center; gap: 3px; }
+    .loader__dots i {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--teri-green);
+      animation: dot-bounce 1.2s ease-in-out infinite;
+    }
+    .loader__dots i:nth-child(2) { animation-delay: .18s; }
+    .loader__dots i:nth-child(3) { animation-delay: .36s; }
+
+    @keyframes spark {
+      0%   { transform: rotate(0deg)   scale(.8);  opacity: .65; }
+      50%  { transform: rotate(180deg) scale(1.1); opacity: 1; }
+      100% { transform: rotate(360deg) scale(.8);  opacity: .65; }
+    }
+    @keyframes shimmer {
+      0%   { background-position: 220% 0; }
+      100% { background-position: -20% 0; }
+    }
+    @keyframes word-in {
+      from { opacity: 0; transform: translateY(3px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes dot-bounce {
+      0%, 80%, 100% { opacity: .3; transform: translateY(0); }
+      40% { opacity: 1; transform: translateY(-3px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .loader__spark, .loader__word, .loader__dots i { animation: none; }
+      .loader__word { -webkit-text-fill-color: var(--teri-green); color: var(--teri-green); }
+    }
 
     .bubble p { margin: 0 0 .55rem; }
     .bubble > :last-child { margin-bottom: 0; }
