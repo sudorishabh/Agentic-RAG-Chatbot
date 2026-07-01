@@ -4,7 +4,7 @@
   const SCRIPT = document.currentScript;
   const cfg = (SCRIPT && SCRIPT.dataset) || {};
   const API_BASE = (cfg.apiBase || "http://localhost:8000").replace(/\/+$/, "");
-  const TITLE = "AI SARTHI";
+  const TITLE = "TERI AI SARTHI";
   const TOP_K = parseInt(cfg.topK || "", 10);
   const top_k = Number.isInteger(TOP_K) && TOP_K > 0 ? TOP_K : null;
 
@@ -635,7 +635,7 @@
       max-width: calc(100vw - 32px);
       height: 620px;
       max-height: calc(100vh - 120px);
-      background: linear-gradient(135deg, #c8e4d9 0%, #ddefe8 50%, #eef5f0 100%);
+      background: linear-gradient(135deg, #e6f2ed 0%, #eef2fa 38%, #f6f0f7 70%, #fef5f2 100%);
       border: 1px solid var(--teri-border);
       border-radius: var(--radius);
       box-shadow: 0 12px 40px rgba(0,0,0,.24);
@@ -746,7 +746,7 @@
     .card__text { line-height: 1.4; }
 
     /* Expanded body = AI Sarthi look: soft gradient, big centred welcome, 3 cols. */
-    :host(.expanded) .messages { background: linear-gradient(135deg, #c8e4d9 0%, #ddefe8 50%, #eef5f0 100%); }
+    :host(.expanded) .messages { background: linear-gradient(135deg, #e6f2ed 0%, #eef2fa 38%, #f6f0f7 70%, #fef5f2 100%); }
     :host(.expanded) .welcome { margin-top: 7vh; }
     :host(.expanded) .welcome__title { font-size: 2.25rem; margin-bottom: 8px; }
     :host(.expanded) .welcome__hint { font-size: 1.05rem; margin-bottom: 28px; }
