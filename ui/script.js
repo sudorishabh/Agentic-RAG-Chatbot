@@ -1,36 +1,13 @@
 "use strict";
 
-/* ==========================================================================
- * Agentic RAG Chatbot — embeddable widget
- * --------------------------------------------------------------------------
- * A single self-contained script. Drop one tag onto any page (incl. Drupal):
- *
- *   <script src="/path/to/widget.js"
- *           data-api-base="https://chatbot.teriin.org"
- *           data-title="TERI Assistant"></script>
- *
- * It injects a floating launcher button + an overlay chat panel. All markup
- * and styles live inside a Shadow DOM, so the host site's CSS (Drupal theme)
- * cannot leak in and the widget's styles cannot leak out. No build, no deps.
- *
- * Backend contract (unchanged from the standalone UI):
- *   GET  /health          -> connection status
- *   POST /chat            -> SSE: {type:"token",text} / {type:"sources",...} / {type:"done"}
- * ======================================================================== */
-
 (function () {
-  /* ---------------------------------------------------------------- *
-   * Config — read from this <script> tag's data-* attributes
-   * ---------------------------------------------------------------- */
   const SCRIPT = document.currentScript;
   const cfg = (SCRIPT && SCRIPT.dataset) || {};
   const API_BASE = (cfg.apiBase || "http://localhost:8000").replace(/\/+$/, "");
-  const TITLE = cfg.title || "TERI AI";
+  const TITLE = "AI SARTHI";
   const TOP_K = parseInt(cfg.topK || "", 10);
   const top_k = Number.isInteger(TOP_K) && TOP_K > 0 ? TOP_K : null;
 
-  // Example prompts shown on the welcome screen (TERI-relevant).
-  // icon = inner SVG paths (stroke, currentColor); bg/color = pastel chip.
   const ICON = {
     find: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
     compare:
@@ -89,21 +66,12 @@
   // Guard against double-injection.
   if (document.getElementById("teri-rag-widget")) return;
 
-  /* ---------------------------------------------------------------- *
-   * State
-   * ---------------------------------------------------------------- */
-  const history = []; // [{ role:"user"|"assistant", content:string }]
+  const history = [];
   let streaming = false;
   let isOpen = false;
 
-  /* ---------------------------------------------------------------- *
-   * Shadow DOM host (assigned in boot(), once <body> exists)
-   * ---------------------------------------------------------------- */
   let host, root, el;
 
-  /* ---------------------------------------------------------------- *
-   * Open / close
-   * ---------------------------------------------------------------- */
   function openPanel() {
     isOpen = true;
     host.classList.add("open");
@@ -120,9 +88,6 @@
     el.input.focus();
   }
 
-  /* ---------------------------------------------------------------- *
-   * Welcome / suggestion cards
-   * ---------------------------------------------------------------- */
   function renderCards() {
     el.cards.innerHTML = "";
     for (const s of SUGGESTIONS) {
@@ -223,9 +188,6 @@
     }
   }
 
-  /* ---------------------------------------------------------------- *
-   * Chat streaming (POST SSE)
-   * ---------------------------------------------------------------- */
   async function streamChat(question, bubble) {
     const body = { question, history };
     if (top_k) body.top_k = top_k;
@@ -281,9 +243,6 @@
     return { answer, sources };
   }
 
-  /* ---------------------------------------------------------------- *
-   * Minimal Markdown (HTML-escaped, no dependencies)
-   * ---------------------------------------------------------------- */
   function escapeHtml(s) {
     return String(s)
       .replace(/&/g, "&amp;")
@@ -580,15 +539,6 @@
       <section id="panel" class="panel" role="dialog" aria-label="${escapeHtml(TITLE)}">
         <header class="head">
           <div class="brand">
-            <span class="brand__mark" aria-hidden="true">
-              <svg viewBox="0 0 32 32" width="26" height="26">
-                <defs><linearGradient id="teriMark" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#4f9bff"/><stop offset="1" stop-color="#16b8a3"/>
-                </linearGradient></defs>
-                <circle cx="16" cy="16" r="14" fill="url(#teriMark)"/>
-                <path d="M16 7.5l2.1 4.4 4.4 2.1-4.4 2.1L16 20.5l-2.1-4.4L9.5 14l4.4-2.1z" fill="#fff"/>
-              </svg>
-            </span>
             <span class="brand__title">${escapeHtml(TITLE)}</span>
           </div>
           <div class="head__actions">
@@ -631,9 +581,9 @@
     return `<style>
     :host {
       /* ---- AI Sarthi palette (var names kept to minimise churn) ---- */
-      --teri-green: #2563eb;
-      --teri-green-dark: #1d4ed8;
-      --teri-green-soft: #e8f0fe;
+      --teri-green: #25705e;
+      --teri-green-dark: #1c5648;
+      --teri-green-soft: #e3f0ec;
       --teri-ink: #1f2330;
       --teri-dim: #6b7280;
       --teri-bg: #ffffff;
@@ -685,7 +635,7 @@
       max-width: calc(100vw - 32px);
       height: 620px;
       max-height: calc(100vh - 120px);
-      background: linear-gradient(135deg, #eef2fc 0%, #f9f7fc 50%, #fdf5f2 100%);
+      background: linear-gradient(135deg, #c8e4d9 0%, #ddefe8 50%, #eef5f0 100%);
       border: 1px solid var(--teri-border);
       border-radius: var(--radius);
       box-shadow: 0 12px 40px rgba(0,0,0,.24);
@@ -729,7 +679,6 @@
       border-bottom: 1px solid var(--teri-border);
     }
     .brand { display: flex; align-items: center; gap: 9px; min-width: 0; }
-    .brand__mark { display: inline-flex; flex-shrink: 0; line-height: 0; }
     .brand__title { font-weight: 700; font-size: 1.05rem; white-space: nowrap; letter-spacing: .01em; }
     .head__actions { display: flex; align-items: center; gap: 6px; }
 
@@ -797,7 +746,7 @@
     .card__text { line-height: 1.4; }
 
     /* Expanded body = AI Sarthi look: soft gradient, big centred welcome, 3 cols. */
-    :host(.expanded) .messages { background: linear-gradient(135deg, #eef2fc 0%, #f9f7fc 50%, #fdf5f2 100%); }
+    :host(.expanded) .messages { background: linear-gradient(135deg, #c8e4d9 0%, #ddefe8 50%, #eef5f0 100%); }
     :host(.expanded) .welcome { margin-top: 7vh; }
     :host(.expanded) .welcome__title { font-size: 2.25rem; margin-bottom: 8px; }
     :host(.expanded) .welcome__hint { font-size: 1.05rem; margin-bottom: 28px; }

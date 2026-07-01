@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Widget demo — mock host page</title>
   <style>
-    /* Deliberately opinionated host styles to prove the widget is CSS-isolated:
-       none of this should leak into the Shadow-DOM widget. */
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -24,7 +21,7 @@
     main { max-width: 820px; margin: 0 auto; padding: 40px 24px; }
     h1 { color: #1d4e2f; }
     p { line-height: 1.7; font-size: 18px; }
-    button { font-size: 30px; color: hotpink; } /* would clobber the widget if not isolated */
+    button { font-size: 30px; color: hotpink; } 
   </style>
 </head>
 <body>
@@ -44,9 +41,8 @@
     </p>
   </main>
 
-  <!-- The single drop-in tag. On Drupal this goes in a block or html.html.twig. -->
   <script
-    src="widget.js"
+    src="script.js"
     data-api-base="http://localhost:8000"
     data-title="TERI AI"></script>
 </body>
