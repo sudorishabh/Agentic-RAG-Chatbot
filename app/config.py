@@ -85,7 +85,11 @@ class Settings(BaseSettings):
     # request still returns non-table results when no table matches.
     rerank_table_boost: float = 0.15
     dedup_cosine_threshold: float = 0.92
-    context_token_budget: int = 8000
+    # Max tokens of retrieved context sent to the LLM. Blocks are parent chunks
+    # (~1800 tokens each), so this gates roughly context_token_budget / 1800
+    # passages; 6000 keeps ~3 diverse sources — balanced for quality vs prefill
+    # latency. Raise toward 8000 for broad multi-source questions.
+    context_token_budget: int = 6000
     faithfulness_check: bool = False
     metrics_log_enabled: bool = True
     cors_allow_origins: str = "*"

@@ -34,19 +34,57 @@
   // icon = inner SVG paths (stroke, currentColor); bg/color = pastel chip.
   const ICON = {
     find: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
-    compare: '<rect x="5" y="5" width="5" height="14" rx="1"/><rect x="14" y="5" width="5" height="14" rx="1"/>',
+    compare:
+      '<rect x="5" y="5" width="5" height="14" rx="1"/><rect x="14" y="5" width="5" height="14" rx="1"/>',
     track: '<path d="M3 17l6-6 4 4 7-7"/><path d="M21 8v5h-5"/>',
     list: '<path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2"/><circle cx="4.5" cy="12" r="1.2"/><circle cx="4.5" cy="18" r="1.2"/>',
     analyze: '<path d="M5 21V11M12 21V4M19 21v-7"/>',
-    suggest: '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10c1 1 1 2 1 3h6c0-1 0-2 1-3a6 6 0 0 0-4-10z"/>',
+    suggest:
+      '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10c1 1 1 2 1 3h6c0-1 0-2 1-3a6 6 0 0 0-4-10z"/>',
   };
   const SUGGESTIONS = [
-    { verb: "Find", rest: " India's renewable energy capacity targets", icon: ICON.find, bg: "#e7f0ff", color: "#3b73d6" },
-    { verb: "Compare", rest: " solar and wind energy adoption across states", icon: ICON.compare, bg: "#ece8ff", color: "#6b53d6" },
-    { verb: "Track", rest: " progress on India's net-zero commitments", icon: ICON.track, bg: "#e2f4f1", color: "#1f9c86" },
-    { verb: "List", rest: " key recommendations on sustainable water management", icon: ICON.list, bg: "#fdeaf3", color: "#cc4f8e" },
-    { verb: "Analyze", rest: " the main drivers of urban air pollution", icon: ICON.analyze, bg: "#e9f6e6", color: "#4c9f38" },
-    { verb: "Suggest", rest: " actions to improve industrial energy efficiency", icon: ICON.suggest, bg: "#fff1e0", color: "#d9871f" },
+    {
+      verb: "Find",
+      rest: " India's renewable energy capacity targets",
+      icon: ICON.find,
+      bg: "#e7f0ff",
+      color: "#3b73d6",
+    },
+    {
+      verb: "Compare",
+      rest: " solar and wind energy adoption across states",
+      icon: ICON.compare,
+      bg: "#ece8ff",
+      color: "#6b53d6",
+    },
+    {
+      verb: "Track",
+      rest: " progress on India's net-zero commitments",
+      icon: ICON.track,
+      bg: "#e2f4f1",
+      color: "#1f9c86",
+    },
+    {
+      verb: "List",
+      rest: " key recommendations on sustainable water management",
+      icon: ICON.list,
+      bg: "#fdeaf3",
+      color: "#cc4f8e",
+    },
+    {
+      verb: "Analyze",
+      rest: " the main drivers of urban air pollution",
+      icon: ICON.analyze,
+      bg: "#e9f6e6",
+      color: "#4c9f38",
+    },
+    {
+      verb: "Suggest",
+      rest: " actions to improve industrial energy efficiency",
+      icon: ICON.suggest,
+      bg: "#fff1e0",
+      color: "#d9871f",
+    },
   ];
 
   // Guard against double-injection.
@@ -93,10 +131,20 @@
       card.type = "button";
       card.className = "card";
       card.innerHTML =
-        '<span class="card__icon" style="background:' + s.bg + ';color:' + s.color + '">' +
+        '<span class="card__icon" style="background:' +
+        s.bg +
+        ";color:" +
+        s.color +
+        '">' +
         '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" ' +
-        'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + s.icon + "</svg></span>" +
-        '<span class="card__text"><strong>' + escapeHtml(s.verb) + "</strong>" + escapeHtml(s.rest) + "</span>";
+        'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+        s.icon +
+        "</svg></span>" +
+        '<span class="card__text"><strong>' +
+        escapeHtml(s.verb) +
+        "</strong>" +
+        escapeHtml(s.rest) +
+        "</span>";
       card.addEventListener("click", () => {
         el.input.value = (s.verb + s.rest).trim();
         handleSend();
@@ -170,7 +218,8 @@
     } catch (err) {
       bubble.classList.remove("bubble--pending");
       bubble.classList.add("bubble--error");
-      bubble.textContent = "⚠ " + (err && err.message ? err.message : "request failed");
+      bubble.textContent =
+        "⚠ " + (err && err.message ? err.message : "request failed");
     } finally {
       setStreaming(false);
       scrollToBottom();
@@ -239,14 +288,18 @@
    * Minimal Markdown (HTML-escaped, no dependencies)
    * ---------------------------------------------------------------- */
   function escapeHtml(s) {
-    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
   }
 
   function renderInline(text) {
     let out = text.replace(/`([^`]+)`/g, (_, c) => "<code>" + c + "</code>");
     out = out.replace(
       /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
-      (_, label, url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`
+      (_, label, url) =>
+        `<a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`,
     );
     out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
     out = out.replace(/__([^_]+)__/g, "<strong>$1</strong>");
@@ -259,10 +312,20 @@
     return /^\s*\|?\s*:?-{1,}:?\s*(\|\s*:?-{1,}:?\s*)*\|?\s*$/.test(line);
   }
   function isTableStart(line, next) {
-    return line != null && line.indexOf("|") !== -1 && next != null && isTableSeparator(next);
+    return (
+      line != null &&
+      line.indexOf("|") !== -1 &&
+      next != null &&
+      isTableSeparator(next)
+    );
   }
   function splitTableRow(line) {
-    return line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
+    return line
+      .trim()
+      .replace(/^\|/, "")
+      .replace(/\|$/, "")
+      .split("|")
+      .map((c) => c.trim());
   }
   function tableAligns(sep) {
     return splitTableRow(sep).map((c) => {
@@ -272,14 +335,22 @@
     });
   }
   function renderTable(header, aligns, rows) {
-    const at = (idx) => (aligns[idx] ? ' style="text-align:' + aligns[idx] + '"' : "");
+    const at = (idx) =>
+      aligns[idx] ? ' style="text-align:' + aligns[idx] + '"' : "";
     let out = '<div class="table-wrap"><table><thead><tr>';
-    header.forEach((c, idx) => { out += "<th" + at(idx) + ">" + renderInline(c) + "</th>"; });
+    header.forEach((c, idx) => {
+      out += "<th" + at(idx) + ">" + renderInline(c) + "</th>";
+    });
     out += "</tr></thead><tbody>";
     for (const row of rows) {
       out += "<tr>";
       for (let idx = 0; idx < header.length; idx++) {
-        out += "<td" + at(idx) + ">" + renderInline(row[idx] != null ? row[idx] : "") + "</td>";
+        out +=
+          "<td" +
+          at(idx) +
+          ">" +
+          renderInline(row[idx] != null ? row[idx] : "") +
+          "</td>";
       }
       out += "</tr>";
     }
@@ -295,7 +366,8 @@
       if (/^```/.test(line)) {
         const code = [];
         i++;
-        while (i < lines.length && !/^```\s*$/.test(lines[i])) code.push(lines[i++]);
+        while (i < lines.length && !/^```\s*$/.test(lines[i]))
+          code.push(lines[i++]);
         i++;
         html.push("<pre><code>" + code.join("\n") + "</code></pre>");
         continue;
@@ -305,7 +377,11 @@
         const aligns = tableAligns(lines[i + 1]);
         i += 2;
         const rows = [];
-        while (i < lines.length && lines[i].indexOf("|") !== -1 && !/^\s*$/.test(lines[i])) {
+        while (
+          i < lines.length &&
+          lines[i].indexOf("|") !== -1 &&
+          !/^\s*$/.test(lines[i])
+        ) {
           rows.push(splitTableRow(lines[i]));
           i++;
         }
@@ -315,7 +391,11 @@
       if (/^\s*[-*]\s+/.test(line)) {
         const items = [];
         while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) {
-          items.push("<li>" + renderInline(lines[i].replace(/^\s*[-*]\s+/, "")) + "</li>");
+          items.push(
+            "<li>" +
+              renderInline(lines[i].replace(/^\s*[-*]\s+/, "")) +
+              "</li>",
+          );
           i++;
         }
         html.push("<ul>" + items.join("") + "</ul>");
@@ -324,7 +404,11 @@
       if (/^\s*\d+\.\s+/.test(line)) {
         const items = [];
         while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) {
-          items.push("<li>" + renderInline(lines[i].replace(/^\s*\d+\.\s+/, "")) + "</li>");
+          items.push(
+            "<li>" +
+              renderInline(lines[i].replace(/^\s*\d+\.\s+/, "")) +
+              "</li>",
+          );
           i++;
         }
         html.push("<ol>" + items.join("") + "</ol>");
@@ -333,7 +417,9 @@
       const heading = line.match(/^(#{1,6})\s+(.*)$/);
       if (heading) {
         const lvl = heading[1].length;
-        html.push("<h" + lvl + ">" + renderInline(heading[2]) + "</h" + lvl + ">");
+        html.push(
+          "<h" + lvl + ">" + renderInline(heading[2]) + "</h" + lvl + ">",
+        );
         i++;
         continue;
       }
@@ -374,8 +460,10 @@
     meta.className = "meta";
     if (sources.intent) meta.appendChild(badge(sources.intent));
     const count = sources.used_chunks || citations.length;
-    if (count) meta.appendChild(badge(count + (count === 1 ? " source" : " sources")));
-    if (sources.conflict) meta.appendChild(badge("⚠ conflicting sources", true));
+    if (count)
+      meta.appendChild(badge(count + (count === 1 ? " source" : " sources")));
+    if (sources.conflict)
+      meta.appendChild(badge("⚠ conflicting sources", true));
     if (meta.childNodes.length) wrap.appendChild(meta);
 
     if (!citations.length) return;
@@ -412,7 +500,10 @@
     const body = document.createElement("div");
     body.className = "citation__body";
 
-    const title = linkOrText(c.title || c.document_id || c.type || "source", c.url);
+    const title = linkOrText(
+      c.title || c.document_id || c.type || "source",
+      c.url,
+    );
     title.classList.add("citation__title");
     body.appendChild(title);
 
@@ -432,8 +523,11 @@
       also.className = "citation__also";
       also.appendChild(document.createTextNode("also in: "));
       c.also_available.forEach((alt, idx) => {
-        also.appendChild(linkOrText(alt.title || alt.type || "source", alt.url));
-        if (idx < c.also_available.length - 1) also.appendChild(document.createTextNode(", "));
+        also.appendChild(
+          linkOrText(alt.title || alt.type || "source", alt.url),
+        );
+        if (idx < c.also_available.length - 1)
+          also.appendChild(document.createTextNode(", "));
       });
       body.appendChild(also);
     }
@@ -522,7 +616,9 @@
       send: $("#send"),
     };
 
-    el.launcher.addEventListener("click", () => (isOpen ? closePanel() : openPanel()));
+    el.launcher.addEventListener("click", () =>
+      isOpen ? closePanel() : openPanel(),
+    );
     el.close.addEventListener("click", closePanel);
     el.expand.addEventListener("click", toggleExpand);
     el.send.addEventListener("click", handleSend);
@@ -678,14 +774,17 @@
     :host(.open) .panel { display: flex; animation: pop .16s ease; }
     @keyframes pop { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
-    /* Expanded: full-page overlay; content centred in a readable column. */
+    /* Expanded: large floating dialog (not full-bleed), centred over a dimmed
+       backdrop; content still centred in a readable column. */
     :host(.expanded) .panel {
       inset: 0;
-      width: 100%;
-      max-width: 100%;
-      height: 100%;
-      max-height: 100%;
-      border-radius: 0;
+      margin: auto;
+      width: min(1100px, calc(100vw - 54px));
+      height: min(900px, calc(100vh - 54px));
+      max-width: calc(100vw - 64px);
+      max-height: calc(100vh - 64px);
+      border-radius: var(--radius);
+      box-shadow: 0 0 0 100vmax rgba(15,23,42,.45), 0 24px 60px rgba(0,0,0,.35);
     }
     :host(.expanded) .messages,
     :host(.expanded) .composer {
@@ -853,13 +952,29 @@
     }
     .badge--warn { color: var(--teri-warn); border-color: var(--teri-warn); }
 
-    .citations { margin-top: 6px; display: flex; flex-direction: column; gap: 6px; width: 100%; }
+    /* Horizontal, scrollable strip so sources don't eat vertical space. */
+    .citations {
+      margin-top: 6px;
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 4px;
+      scroll-snap-type: x proximity;
+    }
+    .citations::-webkit-scrollbar { height: 6px; }
+    .citations::-webkit-scrollbar-thumb { background: var(--teri-border); border-radius: 999px; }
     .citation {
       display: flex; gap: 7px; font-size: .8rem;
       background: var(--teri-bg);
       border: 1px solid var(--teri-border);
       border-radius: 8px;
       padding: 7px 9px;
+      flex: 0 0 220px;
+      width: 220px;
+      scroll-snap-align: start;
     }
     .citation__marker { color: var(--teri-green-dark); font-weight: 600; flex-shrink: 0; }
     .citation__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }

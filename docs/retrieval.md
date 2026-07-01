@@ -84,7 +84,7 @@ else 0.5 (a payload `source_authority` overrides). Recency is derived from `publ
    (`conflict=True`) so generation can surface discrepancies.
 4. **Attention ordering** — interleave strongest-first/strongest-last to mitigate
    "lost in the middle"; renumber `n` accordingly.
-5. **Token budget** — keep within `context_token_budget` (default 8000) and at most
+5. **Token budget** — keep within `context_token_budget` (default 6000) and at most
    `limit`/`retrieval_top_k` blocks.
 
 `ContextBlock`: `n`, `text`, `payload`, `score`, `conflict`, `also_available[]`.

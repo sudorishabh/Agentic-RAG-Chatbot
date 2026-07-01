@@ -70,7 +70,7 @@ See [ingestion.md](ingestion.md#extraction) for the extraction pipeline.
 | `rerank_recency_weight` | `0.05` | Weight of recency in the blended score |
 | `rerank_authority_weight` | `0.05` | Weight of source authority in the blended score |
 | `dedup_cosine_threshold` | `0.92` | Cosine threshold for query-time deduplication |
-| `context_token_budget` | `8000` | Max tokens of retrieved context sent to the LLM |
+| `context_token_budget` | `6000` | Max tokens of retrieved context sent to the LLM. Blocks are parent chunks (~1800 tokens each), so this gates ~3 passages; raise toward 8000 for broad multi-source questions, lower toward 4500 for faster single-fact lookups |
 
 See [retrieval.md](retrieval.md) for how these combine.
 
