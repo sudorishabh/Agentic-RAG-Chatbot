@@ -9,7 +9,9 @@
       margin: 0;
       font-family: Georgia, serif;
       color: #222;
-      background: #fafafa;
+      background: #fafafa url("Screenshot 2026-07-01 155054.png") no-repeat top center;
+      background-size: cover;
+      background-attachment: fixed;
     }
     header {
       background: #1d4e2f;
@@ -25,22 +27,6 @@
   </style>
 </head>
 <body>
-  <header>The Energy and Resources Institute — (mock host page)</header>
-  <main>
-    <h1>This page simulates teriin.org</h1>
-    <p>
-      The host page uses serif fonts, dark-green headers, and absurd
-      <button>global button styles</button> on purpose. Because the chatbot
-      lives inside a Shadow DOM, none of that leaks into the widget — and the
-      widget's styles don't leak out here either.
-    </p>
-    <p>
-      Look for the floating launcher in the bottom-right corner. Click it to
-      open the assistant. To point it at a running backend, edit the
-      <code>data-api-base</code> attribute on the script tag below.
-    </p>
-  </main>
-
   <script
     src="script.js"
     data-api-base="http://localhost:8000"
