@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     # support Matryoshka truncation to a smaller dimension; 1536 halves storage
     # and search cost vs 3-large's native 3072 with negligible retrieval loss.
     # Set to None (leave blank) for ada-002, which does not accept this param.
-    azure_openai_embedding_dimensions: int | None = 1536
+    azure_openai_embedding_dimensions: int | None = 3072
     azure_document_intelligence_endpoint: str = ""
     azure_document_intelligence_key: str = ""
     # "prebuilt-read" is the OCR-only (basic) model: cheap, text only, no table

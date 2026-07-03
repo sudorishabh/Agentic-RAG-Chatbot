@@ -67,7 +67,6 @@
   const LOADER_PHASES = [
     "Thinking",
     "Reading relevant sources",
-    "Thinking",
     "Generating your answer",
   ];
 
@@ -197,7 +196,7 @@
       if (idx >= LOADER_PHASES.length - 1) stopLoader();
     };
     advance();
-    loaderTimer = setInterval(advance, 2400);
+    loaderTimer = setInterval(advance, 3200);
   }
 
   function stopLoader() {

@@ -14,21 +14,24 @@ logger = logging.getLogger(__name__)
 
 HEADERS = {"Accept": "application/vnd.api+json"}
 
-DEFAULT_BUNDLES: tuple[str, ...] = ("news", "events", "article", "feature_articles")
-    # "feature_articles",
-    # "completed_projects",
-    # "events",
-    # "press_release",
-    # "research_papers",
-    # "ongoing_projects",
-    # "article",
-    # "policy_brief",
-    # "videos",
-    # "infographics",
-    # "services",
-    # "report",
-    # "people",
-    # "page",
+DEFAULT_BUNDLES: tuple[str, ...] = (
+    "news",
+    "feature_articles",
+    "completed_projects",
+    "events",
+    "press_release",
+    "research_papers",
+    "ongoing_projects",
+    "article",
+    "policy_brief",
+    "videos",
+    "infographics",
+    "services",
+    "report",
+    "people",
+    "page", 
+    )
+   
 
 LONG_TEXT_THRESHOLD = 255
 
