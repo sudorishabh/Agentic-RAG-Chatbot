@@ -1,8 +1,11 @@
 from __future__ import annotations
+import hashlib
 import logging
+import re
 from dataclasses import dataclass, field
 from html.parser import HTMLParser
 from typing import Any, Iterable, Iterator
+from urllib.parse import urlparse
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -29,11 +32,30 @@ DEFAULT_BUNDLES: tuple[str, ...] = (
     "services",
     "report",
     "people",
-    "page", 
+    "page",
+    "carousel",
     )
-   
+
+# Content-bearing resources that are NOT node bundles. Their descriptive text
+# (taxonomy term descriptions, custom-block bodies) is prime corpus content that
+# the node crawl never reaches. Fetched under /jsonapi/{entity_type}/{bundle}.
+DEFAULT_TAXONOMIES: tuple[str, ...] = (
+    "themes",
+    "extra_pages",
+    "regional_centre",
+)
+DEFAULT_BLOCKS: tuple[str, ...] = ("basic",)
+
 
 LONG_TEXT_THRESHOLD = 255
+
+# MIME types / extensions of document attachments we do not extract today but
+# want visibility into (R5). Images/media are intentionally excluded elsewhere.
+_DOC_EXTS = (".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".csv")
+
+# In-body links (href="…pdf") and bare https://…pdf URLs embedded in rich text.
+_HREF_PDF_RE = re.compile(r'href=["\']([^"\']+\.pdf(?:\?[^"\']*)?)["\']', re.I)
+_BARE_PDF_RE = re.compile(r'(https?://[^\s"\'<>()]+\.pdf)', re.I)
 
 @dataclass
 class DrupalFile:
@@ -43,6 +65,9 @@ class DrupalFile:
     filename: str
     description: str | None = None
     uuid: str = ""
+    # "attachment" = referenced file--file entity; "inbody" = harvested from a
+    # rich-text field (see R7 in docs/drupal-coverage-analysis.md).
+    origin: str = "attachment"
 
 
 @dataclass
@@ -122,14 +147,20 @@ def iter_bundle_records(
     session: requests.Session,
     bundle: str,
     *,
+    entity_type: str = "node",
     published_only: bool = True,
     changed_since: int | None = None,
 ) -> Iterator[DrupalRecord]:
+    """Yield records for one resource bundle. ``entity_type`` is the JSON:API
+    entity ("node", "taxonomy_term", "block_content"); the resource is fetched
+    from /jsonapi/{entity_type}/{bundle}."""
     settings = get_settings()
     base = settings.drupal_jsonapi_base.rstrip("/")
     site = _site_base(base)
 
-    fields = _discover_relationship_fields(session, base, bundle, published_only)
+    fields = _discover_relationship_fields(
+        session, base, bundle, published_only, entity_type=entity_type
+    )
     params: dict[str, Any] = {
         "page[limit]": settings.drupal_page_size,
         "sort": "-changed",
@@ -143,27 +174,28 @@ def iter_bundle_records(
         params["filter[changed][condition][operator]"] = ">"
         params["filter[changed][condition][value]"] = int(changed_since)
 
-    url = f"{base}/node/{bundle}"
+    url = f"{base}/{entity_type}/{bundle}"
     for data, included in _iter_pages(session, url, params, settings.drupal_request_timeout):
         for node in data:
-            yield _build_record(node, included, bundle, site)
+            yield _build_record(node, included, bundle, site, entity_type=entity_type)
 
 def iter_node_uuids(
     session: requests.Session,
     bundle: str,
     *,
+    entity_type: str = "node",
     published_only: bool = True,
 ) -> Iterator[str]:
     settings = get_settings()
     base = settings.drupal_jsonapi_base.rstrip("/")
     params: dict[str, Any] = {
         "page[limit]": settings.drupal_page_size,
-        f"fields[node--{bundle}]": "drupal_internal__nid",
+        f"fields[{entity_type}--{bundle}]": "drupal_internal__nid",
     }
     if published_only:
         params["filter[status]"] = 1
 
-    url = f"{base}/node/{bundle}"
+    url = f"{base}/{entity_type}/{bundle}"
     for data, _included in _iter_pages(session, url, params, settings.drupal_request_timeout):
         for node in data:
             uuid = node.get("id")
@@ -216,20 +248,22 @@ def _discover_relationship_fields(
     base: str,
     bundle: str,
     published_only: bool,
+    *,
+    entity_type: str = "node",
 ) -> list[str]:
     params: dict[str, Any] = {"page[limit]": 1}
     if published_only:
         params["filter[status]"] = 1
     try:
         response = session.get(
-            f"{base}/node/{bundle}",
+            f"{base}/{entity_type}/{bundle}",
             params=params,
             timeout=get_settings().drupal_request_timeout,
         )
         response.raise_for_status()
         data = response.json().get("data") or []
     except requests.RequestException:
-        logger.warning("Could not sample node/%s for include fields", bundle)
+        logger.warning("Could not sample %s/%s for include fields", entity_type, bundle)
         return []
 
     if not data:
@@ -242,24 +276,39 @@ def _build_record(
     included: dict[tuple[str, str], dict],
     bundle: str,
     site: str,
+    *,
+    entity_type: str = "node",
 ) -> DrupalRecord:
     attributes = node.get("attributes", {})
     body_parts, scalar_meta = _partition_attributes(attributes)
 
     metadata = _resolve_relationships(node, included)
     metadata.update(scalar_meta)
+    if entity_type != "node":
+        metadata.setdefault("entity_type", entity_type)
+
+    files = _resolve_files(node, included, site)
+    files.extend(_extract_inbody_pdfs(attributes, site, {f.url for f in files}))
+
+    # Taxonomy terms label their title "name"; custom blocks use "info".
+    title = (
+        attributes.get("title")
+        or attributes.get("name")
+        or attributes.get("info")
+        or ""
+    ).strip()
 
     return DrupalRecord(
         uuid=node.get("id", ""),
         bundle=bundle,
         nid=attributes.get("drupal_internal__nid"),
-        title=(attributes.get("title") or "").strip(),
+        title=title,
         url=_node_url(attributes, site),
         body="\n\n".join(body_parts),
         created=attributes.get("created"),
         changed=attributes.get("changed"),
         metadata=metadata,
-        files=_resolve_files(node, included, site),
+        files=files,
     )
 
 
@@ -292,6 +341,13 @@ def _resolve_files(
             filename = (attrs.get("filename") or "").strip()
             mime = (attrs.get("filemime") or "").lower()
             if mime != _PDF_MIME and not filename.lower().endswith(".pdf"):
+                # R5: surface document attachments we skip (docx/xlsx/pptx/…) so
+                # a genuinely missed source is visible rather than silent.
+                if filename.lower().endswith(_DOC_EXTS):
+                    logger.warning(
+                        "Skipping non-PDF document attachment %r (mime=%s) on %s",
+                        filename, mime, node.get("id"),
+                    )
                 continue
             uri = attrs.get("uri")
             rel_url = uri.get("url") if isinstance(uri, dict) else None
@@ -308,6 +364,59 @@ def _resolve_files(
                     filename=filename,
                     description=(meta.get("description") or None),
                     uuid=ref.get("id") or "",
+                )
+            )
+    return out
+
+
+def _iter_rich_text(attributes: dict) -> Iterator[str]:
+    """Yield every HTML/long-text value on a record: formatted-text fields
+    (dicts with processed/value) plus long plain strings. This is where in-body
+    PDF links live — confirmed in ``body`` and in several ``field_*`` text
+    fields (field_completed_featured_text, field_ongoing_featured_text, …)."""
+    for value in attributes.values():
+        if isinstance(value, dict) and ("processed" in value or "value" in value):
+            html = value.get("processed") or value.get("value") or ""
+            if html:
+                yield html
+        elif isinstance(value, str) and len(value) > LONG_TEXT_THRESHOLD:
+            yield value
+
+
+def _extract_inbody_pdfs(
+    attributes: dict, site: str, seen_urls: set[str]
+) -> list[DrupalFile]:
+    """Harvest PDF links embedded in rich-text fields (R7). Internal
+    (teriin.org / relative) PDFs are always returned so the attachment pipeline
+    ingests them; external PDFs are only returned when
+    ``drupal_ingest_external_pdfs`` is set (their URL otherwise survives in the
+    body text via the link-preserving text extractor). Returns DrupalFiles with
+    a URL-stable synthetic uuid so the same PDF ingests once."""
+    ingest_external = get_settings().drupal_ingest_external_pdfs
+    site_host = urlparse(site).netloc.lower().lstrip("www.")
+
+    out: list[DrupalFile] = []
+    local_seen = set(seen_urls)
+    for html in _iter_rich_text(attributes):
+        candidates = set(_HREF_PDF_RE.findall(html)) | set(_BARE_PDF_RE.findall(html))
+        for raw in candidates:
+            if not raw.split("?")[0].lower().endswith(".pdf"):
+                continue
+            abs_url = raw if raw.lower().startswith("http") else f"{site}{raw if raw.startswith('/') else '/' + raw}"
+            host = urlparse(abs_url).netloc.lower().lstrip("www.")
+            is_internal = (not host) or host == site_host or "teriin.org" in host or "teri.res.in" in host
+            if not is_internal and not ingest_external:
+                continue
+            if abs_url in local_seen:
+                continue
+            local_seen.add(abs_url)
+            filename = abs_url.split("?")[0].rsplit("/", 1)[-1] or "document.pdf"
+            out.append(
+                DrupalFile(
+                    url=abs_url,
+                    filename=filename,
+                    uuid=f"inbody:{hashlib.sha1(abs_url.encode('utf-8')).hexdigest()}",
+                    origin="inbody",
                 )
             )
     return out
@@ -389,24 +498,53 @@ class _TextExtractor(HTMLParser):
         "p", "br", "div", "li", "ul", "ol", "tr", "table", "section", "article",
         "header", "footer", "blockquote", "h1", "h2", "h3", "h4", "h5", "h6",
     }
+    _CELL = {"td", "th"}
     _SKIP = {"script", "style"}
 
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self._parts: list[str] = []
         self._skip_depth = 0
+        self._pending_href: str | None = None
 
     def handle_starttag(self, tag: str, attrs: Any) -> None:
+        adict = {k: v for k, v in attrs}
         if tag in self._SKIP:
             self._skip_depth += 1
+        elif tag in self._CELL:
+            # Keep table structure legible: separate cells rather than merging.
+            self._parts.append(" | ")
         elif tag in self._BLOCK:
             self._parts.append("\n")
+
+        # R4: preserve information that would otherwise be dropped on flatten.
+        if self._skip_depth:
+            return
+        if tag == "a":
+            href = (adict.get("href") or "").strip()
+            # Skip in-page anchors / javascript; keep real destinations.
+            self._pending_href = href if href and not href.startswith(("#", "javascript:")) else None
+        elif tag == "img":
+            alt = (adict.get("alt") or "").strip()
+            if alt:
+                self._parts.append(f" [image: {alt}] ")
+        elif tag == "iframe":
+            src = (adict.get("src") or "").strip()
+            if src:
+                self._parts.append(f" [embedded: {src}] ")
+
+    def handle_startendtag(self, tag: str, attrs: Any) -> None:
+        # Void elements like <img .../> arrive here, not via handle_starttag.
+        self.handle_starttag(tag, attrs)
 
     def handle_endtag(self, tag: str) -> None:
         if tag in self._SKIP and self._skip_depth:
             self._skip_depth -= 1
         elif tag in self._BLOCK:
             self._parts.append("\n")
+        if tag == "a" and self._pending_href and not self._skip_depth:
+            self._parts.append(f" ({self._pending_href})")
+            self._pending_href = None
 
     def handle_data(self, data: str) -> None:
         if not self._skip_depth:

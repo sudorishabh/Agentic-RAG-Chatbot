@@ -113,6 +113,14 @@ class Settings(BaseSettings):
     drupal_request_timeout: int = 60
     drupal_page_size: int = 50
     drupal_max_retries: int = 3
+    # When true, PDF links in rich text that point to external (non-teriin.org)
+    # domains are also downloaded and extracted. Off by default: the corpus
+    # stays TERI-authored and the external URL still survives in the body text.
+    drupal_ingest_external_pdfs: bool = False
+    # Custom blocks (block_content) shorter than this (stripped body) are treated
+    # as chrome/boilerplate (Search box, "Follow us" strip) and skipped — unless
+    # they carry a harvestable PDF link.
+    drupal_block_min_chars: int = 200
     pdf_source_dirs: str = ""
     # Single folder scanned by the PDF-only ingestion API. Used as the PDF
     # source when pdf_source_dirs is not set.
