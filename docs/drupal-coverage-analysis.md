@@ -385,11 +385,72 @@ PDF ingestion stays off unless `drupal_ingest_external_pdfs=true`.
 
 ---
 
-## 9. Change Log
+## 9. Thematic areas — coverage verification (2026-07-03)
+
+Follow-up check: are TERI's thematic areas and their details fully captured by
+the changes above? **Yes for content; two structural items are not stored.**
+
+### Captured
+
+- **All 35 theme terms** (`taxonomy_term/themes`, all published — none skipped),
+  organised as 16 top-level areas with sub-themes:
+  - **Energy** → Electricity & Renewables, Energy Access, Energy Assessment &
+    Modelling, Energy Efficiency
+  - **Environment** → Air, Forest & Biodiversity, Land, Microbes, Waste, Water
+  - **Sustainable Habitat** → Buildings, Cities, Transport
+  - **Resources & Sustainable Development** → Centre for Sustainable Development
+    Research, Resource Efficiency & Governance
+  - **Environment Education** → Education for Youth Empowerment, Strategic
+    Communication for Sustainability
+  - **TERI Knowledge Resource Centre** → Knowledge Products & Services, Knowledge
+    Repositories & Information Centre, Skill Development & Awareness,
+    Sustainability Driven Knowledge Projects
+  - **Standalone:** Climate Change, Sustainable Agriculture, Corporate Social
+    Responsibility, Environment & Public Health, Green Shipping, Himalayan Centre
+    Nainital, TERI Council for Business Sustainability, World Sustainable
+    Development Summit
+- **Each theme's full `description` prose** (286–1027 chars each) — ingested as
+  body text; it is the only content field on a theme term.
+- **Theme → content associations.** Content nodes tag their theme(s) via
+  `field_*_theme` relationships, which we resolve into `categories` metadata:
+  `article`→`field_theme`, `research_papers`→`field_rpaper_themes`,
+  `policy_brief`→`field_policybrief_theme`, `events`→`field_event_theme`,
+  `feature_articles`→`field_farticle_theme`,
+  `completed_projects`→`field_completed_theme`,
+  `ongoing_projects`→`field_ongoing_theme`. Verified end-to-end (e.g. a research
+  paper resolves to `Forest & Biodiversity, Land, Environment`).
+- **The content under each theme** — the articles/events/papers a theme page
+  lists are the individual node documents we already ingest. Theme pages are
+  Drupal Views (description + grouped lists), so nothing unique to the page is
+  lost.
+
+### Missing (ranked)
+
+1. **`news` is not tagged to any theme.** The `news` bundle has **no theme field
+   at all** in Drupal (0 of 25 sampled), unlike every other content bundle. So
+   news items cannot be associated to a thematic area. **This is a content-model
+   gap on the Drupal side, not an extraction gap** — we can't capture an
+   association that doesn't exist. Flag to the Drupal team if news should be
+   themed.
+2. **Theme hierarchy (parent → child tree) is not stored.** All 35 themes are
+   kept as flat records with their descriptions; the parent link (e.g. "Air" is
+   under "Environment") is skipped because `parent` is not a `field_*`
+   relationship. All content is present — only the tree structure is absent.
+   Easy to add (capture the `parent` relationship) if theme breadcrumbs are
+   wanted. Minor for retrieval.
+3. **Theme banner images** (`field_theme_image`) — not captured (intended;
+   images are not text).
+4. **Theme SEO `metatag`** — not captured; typically a shortened duplicate of the
+   description, so no real content loss.
+
+---
+
+## 10. Change Log
 
 | Date | Change | Recs | Commit |
 |---|---|---|---|
 | 2026-07-03 | Initial analysis documented. No code changes yet. | — | — |
 | 2026-07-03 | Added §6.4 + R7: in-body PDF links (698 URLs, ~10% of nodes) confirmed missed and fetchable. | R7 | — |
 | 2026-07-03 | Full Drupal sweep: **1,096** PDF URLs in nodes (528 nodes) + 46 in blocks + 1 in taxonomy ≈ **1,143 total**. Links also in `field_*` text (not just `body`). R7 scope widened to all rich-text fields + blocks + taxonomy. | R7 | — |
-| 2026-07-03 | Implemented R1–R5 + R7 on `feat/drupal-coverage-inbody-pdfs`; verified live. See §9. | R1–R5,R7 | _(this commit)_ |
+| 2026-07-03 | Implemented R1–R5 + R7 on `feat/drupal-coverage-inbody-pdfs`; verified live. See §8. | R1–R5,R7 | `63b7f2e` |
+| 2026-07-03 | Added §9: thematic-areas verification — all 35 themes + descriptions + associations captured; gaps = news has no theme field, theme parent/child tree & images not stored. | — | — |
