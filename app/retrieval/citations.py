@@ -20,21 +20,26 @@ def _with_page(url: str | None, payload: dict[str, Any]) -> str | None:
     return f"{url}#page={page}" if (url and page) else url
 
 
+# Canonical source_type for Drupal content is "website"; "article" still appears
+# on points indexed before the rename (until the migration script runs).
+_WEBSITE_TYPES = ("website", "article")
+
+
 def _primary_url(payload: dict[str, Any]) -> str | None:
     """The best openable link for a source: the real attached PDF if we have
-    one, else the article page, else the local /source fallback for disk PDFs."""
+    one, else the website page, else the local /source fallback for disk PDFs."""
     file_url = payload.get("file_url")
     if file_url:
         return _with_page(file_url, payload)
-    if payload.get("source_type") == "article":
+    if payload.get("source_type") in _WEBSITE_TYPES:
         return payload.get("source_url")
     return _pdf_link(payload)
 
 
 def _source_from_payload(payload: dict[str, Any]) -> CitationSource:
-    if payload.get("source_type") == "article":
+    if payload.get("source_type") in _WEBSITE_TYPES:
         return CitationSource(
-            type="article",
+            type="website",
             title=payload.get("title"),
             url=_primary_url(payload),
             section=payload.get("section_heading"),
@@ -51,10 +56,10 @@ def _source_from_payload(payload: dict[str, Any]) -> CitationSource:
 def _citation_from_block(block: ContextBlock) -> Citation:
     p = block.payload
     also = [_source_from_payload(alt) for alt in block.also_available]
-    if p.get("source_type") == "article":
+    if p.get("source_type") in _WEBSITE_TYPES:
         return Citation(
             n=block.n,
-            type="article",
+            type="website",
             title=p.get("title"),
             url=_primary_url(p),
             section=p.get("section_heading"),

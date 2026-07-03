@@ -10,7 +10,9 @@ before chunking, so PDFs and articles flow through one pipeline.
 
 `CanonicalDocument` fields (abridged):
 
-- **Identity:** `document_id`, `source_type` (`pdf` / `article` / …), `title`, `sections[]`.
+- **Identity:** `document_id`, `source_type` (`pdf` / `website` / `pdf_attachment`), `title`, `sections[]`.
+  *(`website` covers all Drupal content; it was historically named `article` — the
+  migration script `scripts/migrate_source_type_website.py` renames stored data.)*
 - **Source refs:** `source_url`, `pdf_id`, `pdf_path`, `article_uuid`,
   `linked_pdf_id`, `linked_article_uuid` (cross-links power dedup/conflict handling).
 - **Metadata:** `authors[]`, `tags[]`, `categories[]`, `language` (default `en`),
@@ -166,7 +168,7 @@ Yields `ChangeRecord`s with status `NEW` / `CHANGED` / `UNCHANGED` / `DELETED`.
 - `detect_drupal_changes(bundles=None, *, published_only=True, reconcile_deletes=False)`
   — crawls node bundles (incremental via a `changed_since` high-water mark) plus the
   taxonomy and block sources (fetched in full each run). Each node/taxonomy/block
-  yields an `article` record fingerprinted on its `changed` timestamp; each attached
+  yields a `website` record fingerprinted on its `changed` timestamp; each attached
   or in-body PDF yields a `pdf_attachment` record. Attachments are fingerprinted on
   the node's changed mark (re-fetched when the node changes); in-body PDFs are
   fingerprinted on their URL and de-duped per run, so a PDF shared across nodes

@@ -206,7 +206,10 @@ def detect_drupal_changes(
     )
 
     settings = get_settings()
-    prior_all = state.load("article")
+    # "website" is the canonical source_type for Drupal content; "article" rows
+    # may remain from before the rename (until the migration script runs), so
+    # load both to keep change detection incremental across the transition.
+    prior_all = {**state.load("article"), **state.load("website")}
     prior_pdf_all = state.load("pdf_attachment")
     # Per-run dedup so an in-body PDF linked from several records ingests once.
     seen_pdf: set[str] = set()
@@ -271,7 +274,7 @@ def detect_drupal_changes(
                     yield ChangeRecord(
                         status=status,
                         document_id=uuid,
-                        source_type="article",
+                        source_type="website",
                         source_key=record.source,
                         fingerprint=fingerprint,
                         bundle=bundle,
@@ -334,7 +337,7 @@ def detect_drupal_changes(
                         yield ChangeRecord(
                             status=ChangeStatus.DELETED,
                             document_id=uuid,
-                            source_type="article",
+                            source_type="website",
                             source_key=record.source_key,
                             bundle=bundle,
                             prior=record,

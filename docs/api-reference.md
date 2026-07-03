@@ -145,7 +145,7 @@ Body — `ReindexRequest`. Two modes:
 - **Sweep mode** — `sweep: true` runs a full incremental sweep (PDFs + Drupal) and
   returns `{ "status": "swept", "detail": { "pdfs": {...}, "drupal": {...} } }`.
 - **Single document** — provide `document_id` (and optional `source_type`, default
-  `"article"`) to delete it from Qdrant + the manifest so the next sweep re-ingests
+  `"website"`) to delete it from Qdrant + the manifest so the next sweep re-ingests
   it. Returns `{ "status": "reset", "detail": {...} }`.
 
 Errors: `400` if `document_id` is missing and `sweep` is not set.

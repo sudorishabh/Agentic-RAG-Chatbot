@@ -56,7 +56,7 @@ class ArticleIngestResponse(BaseModel):
 class ReindexRequest(BaseModel):
 
     document_id: str | None = None
-    source_type: str = "article"
+    source_type: str = "website"
     sweep: bool = False
 
 

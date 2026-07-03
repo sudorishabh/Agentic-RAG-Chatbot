@@ -19,7 +19,7 @@ it returns the original question with `intent="qa"`.
 | `original` | unmodified user input |
 | `search_query` | pronoun-resolved, standalone query for retrieval |
 | `intent` | `qa` \| `structured` \| `chitchat` |
-| `source_type` | `pdf` / `article` if the user was explicit, else None |
+| `source_type` | `pdf` / `website` if the user was explicit, else None |
 | `language` | two-letter code if explicit, else None |
 | `filters` | Qdrant `FieldCondition`s derived from the facets above |
 | `needs_retrieval` | property — false only for `chitchat` |
@@ -68,8 +68,9 @@ Providers (`reranker_provider`):
 | `cross_encoder` | sentence-transformers CrossEncoder over (query, text) | default model `BAAI/bge-reranker-v2-m3`, cached |
 | `cohere` | Cohere Rerank API | default model `rerank-3.5` |
 
-Authority defaults by source type: `pdf` 1.0, `report`/`policy` 0.95, `article` 0.65,
-else 0.5 (a payload `source_authority` overrides). Recency is derived from `published_at`.
+Authority defaults by source type: `pdf` 1.0, `report`/`policy` 0.95, `website` 0.65
+(the legacy `article` value maps identically), else 0.5 (a payload
+`source_authority` overrides). Recency is derived from `published_at`.
 
 ## 4. Context building — [app/retrieval/context_builder.py](../app/retrieval/context_builder.py)
 
@@ -96,7 +97,7 @@ else 0.5 (a payload `source_authority` overrides). Recency is derived from `publ
 Built **entirely from payloads** — the LLM never produces a citation, only a `[n]`
 marker. Per block:
 
-- **article** → `title` + `source_url` (linked directly).
+- **website** → `title` + `source_url` (linked directly).
 - **pdf** → `title` + a deep link `"/viewer?doc=<pdf_id>#page=<page>"` (pdf_id from
   `pdf_id` or `document_id`), plus `page` and `section`.
 - Any `also_available` entries become secondary `CitationSource`s.

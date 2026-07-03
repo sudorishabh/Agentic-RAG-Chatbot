@@ -11,7 +11,16 @@ from app.retrieval.hybrid_search import Candidate
 
 logger = logging.getLogger(__name__)
 
-_AUTHORITY = {"pdf": 1.0, "pdf_attachment": 1.0, "report": 0.95, "policy": 0.95, "article": 0.65}
+# "website" = Drupal content (canonical value; "article" kept for points indexed
+# before the rename — see scripts/migrate_source_type_website.py).
+_AUTHORITY = {
+    "pdf": 1.0,
+    "pdf_attachment": 1.0,
+    "report": 0.95,
+    "policy": 0.95,
+    "website": 0.65,
+    "article": 0.65,
+}
 _MAX_LLM_CANDIDATES = 40
 _LLM_SNIPPET_CHARS = 600
 
