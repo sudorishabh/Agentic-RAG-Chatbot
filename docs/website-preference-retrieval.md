@@ -1,11 +1,12 @@
 # Design: preferring website content in retrieval (dual-retrieval / "Lane S")
 
-**Status:** Design / discussion. No code yet. Direction locked: **dual retrieval
-in the application layer (Lane S)** with **segregated presentation** (website
-content and references first, PDFs after). A few [open decisions](#open-decisions)
-remain before implementation.
+**Status:** **Implemented** behind `prefer_website_enabled` (default off), on branch
+`feat/website-preference-retrieval`. Approach: **dual retrieval in the application
+layer** with **segregated presentation** (website content and references first, PDFs
+after). Testing guide: [website-preference-testing.md](website-preference-testing.md).
 **Date:** 2026-07-07
-**Related:** [retrieval.md](retrieval.md), [ingestion.md](ingestion.md)
+**Related:** [retrieval.md](retrieval.md) (§6), [configuration.md](configuration.md),
+[generation.md](generation.md), [ingestion.md](ingestion.md)
 
 > **History.** Earlier drafts of this doc explored a boost/gate mechanism and a
 > Qdrant-native scoring approach ("Lane 1 / W2"). Those are superseded. This
@@ -108,8 +109,23 @@ query
 
 Two Qdrant queries instead of one. Latency impact is small for the default
 reranker and dominated by LLM generation regardless (§9). The website pull hits a
-small filtered subset and is cheap; run the two pulls **concurrently** to hide
-even that.
+small filtered subset and is cheap; the two pulls may be run **concurrently** to
+hide even that (currently sequential — acceptable, see §9).
+
+### 4.1 Implementation code map (as built)
+
+| Concern | Where | What |
+|---|---|---|
+| Dual pull + routing | `rag.py::retrieve`, `rag.py::_dual_search` | `dual = prefer_website_enabled and not source_type and answer_format != "table"`; embeds once, runs website + "not website" pulls, merges; `source_type` now threaded in from all three callers |
+| "not website" filter | `hybrid_search.py::build_filter`, `search` | new `extra_must_not` param feeds Qdrant `must_not`; website pull uses `extra_filter=[source_type==website]`, PDF pull uses `extra_must_not=[source_type==website]` |
+| Raw relevance score | `hybrid_search.py::Candidate.semantic_score`, `reranker.py::rerank` | `rerank` populates `semantic_score` (raw, pre-blend) on each returned candidate |
+| Authority map removal | `reranker.py::_authority_score` | source-type map deleted; neutral 0.5 unless `source_authority` override |
+| Segregated selection + order | `context_builder.py::build_context`, `_admit` | `segregate`, `website_max_slots`, `website_chunk_floor` params; two-pass admission; website-first order replaces `_order_for_attention` when segregating |
+| Conflict exclusion | `context_builder.py::_flag_conflicts`, `_same_source_two_formats` | website↔its-own-`pdf_attachment` pair not flagged |
+| Prompt + labels | `generation/prompts.py` | rule 6 (lead website, then PDF); `format_context_blocks` emits group headers when website-led (`_is_website_led`) |
+| Citations | `retrieval/citations.py` | unchanged — website-first falls out of block order; `type` drives the two UI sections |
+| Cache invalidation | `cache/redis_cache.py::_pref_fingerprint` | preference-config hash mixed into `response_signature` + `_sem_key` |
+| Config | `config.py` | `prefer_website_enabled`, `website_candidate_k`, `website_max_slots`, `website_chunk_floor`; `context_token_budget` 6000→9000 |
 
 ## 5. The adaptive split
 

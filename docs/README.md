@@ -19,6 +19,8 @@ HTTP API, and configuration.
 | [retrieval.md](retrieval.md) | Query understanding, hybrid search, reranking, context building, citations, structured path |
 | [generation.md](generation.md) | LLM factories, grounding prompts, faithfulness checking |
 | [operations.md](operations.md) | Redis caches, Celery/inline workers, observability, health/metrics |
+| [website-preference-retrieval.md](website-preference-retrieval.md) | Design + implementation of preferring website content (dual retrieval + segregated, website-first context) |
+| [website-preference-testing.md](website-preference-testing.md) | How to enable, verify, tune, and roll back the website-preference feature |
 
 > A few designed-but-not-yet-wired features (server-side sparse/RRF fusion, multi-tenant
 > `is_tenant` partitioning) are called out inline where relevant — these docs describe

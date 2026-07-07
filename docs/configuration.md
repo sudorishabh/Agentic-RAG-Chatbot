@@ -61,16 +61,27 @@ See [ingestion.md](ingestion.md#extraction) for the extraction pipeline.
 
 | Setting | Default | Description |
 | --- | --- | --- |
-| `retrieval_candidate_k` | `40` | Candidates pulled from Qdrant before reranking |
+| `retrieval_candidate_k` | `40` | Candidates pulled from Qdrant before reranking (also the "not website" pull size when the website preference is on) |
 | `retrieval_top_k` | `6` | Context blocks kept after reranking |
 | `hybrid_use_sparse` | `false` | Reserved for sparse/BM25 leg (dense-only today) |
 | `reranker_provider` | `embedding` | `embedding` / `llm` / `cross_encoder` / `cohere` |
 | `rerank_model` | `""` | Model id; defaults per provider when blank (`BAAI/bge-reranker-v2-m3` for cross-encoder, `rerank-3.5` for Cohere) |
-| `rerank_score_threshold` | `0.0` | Drop candidates scoring below this after rerank |
+| `rerank_score_threshold` | `0.0` | Drop candidates scoring below this after rerank (applied pre-segregation; keep at 0 unless tuned per source group) |
 | `rerank_recency_weight` | `0.05` | Weight of recency in the blended score |
-| `rerank_authority_weight` | `0.05` | Weight of source authority in the blended score |
+| `rerank_authority_weight` | `0.05` | Weight of source authority in the blended score. Authority is now **neutral** (0.5) unless a payload sets `source_authority`; the source-type map was removed (see [retrieval.md](retrieval.md#3-reranking--appretrievalrerankerpy)) |
 | `dedup_cosine_threshold` | `0.92` | Cosine threshold for query-time deduplication |
-| `context_token_budget` | `6000` | Max tokens of retrieved context sent to the LLM. Blocks are parent chunks (~1800 tokens each), so this gates ~3 passages; raise toward 8000 for broad multi-source questions, lower toward 4500 for faster single-fact lookups |
+| `context_token_budget` | `9000` | Max tokens of retrieved context sent to the LLM. Blocks are parent chunks (~1800 tokens each), so this gates ~5 passages; sized so the website-preference split (2 website + ~3 PDF) fits. Lower toward 6000 for faster single-source answers |
+
+### Website-content preference (dual retrieval)
+
+See [website-preference-retrieval.md](website-preference-retrieval.md) for the design.
+
+| Setting | Default | Description |
+| --- | --- | --- |
+| `prefer_website_enabled` | `false` | Master switch. When on (and no explicit `source_type`, non-table query), retrieval runs a website pull + a "not website" pull, merges them, and builds a website-first segregated context. Off = today's single-pull behavior. Launch off; flip on after eval tuning |
+| `website_candidate_k` | `20` | Website-only candidates pulled alongside the (larger) not-website pull |
+| `website_max_slots` | `2` | Max website blocks admitted (the concise lead); PDFs fill the remaining `retrieval_top_k` slots |
+| `website_chunk_floor` | `0.30` | Raw-semantic relevance floor a website chunk must clear to take a website slot. Scale is reranker-provider-specific (dense cosine by default); **tune empirically** |
 
 See [retrieval.md](retrieval.md) for how these combine.
 

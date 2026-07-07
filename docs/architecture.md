@@ -20,7 +20,7 @@ app/
 │   ├── query_processor.py   Intent + rewrite + facet filters       → ProcessedQuery
 │   ├── hybrid_search.py     Qdrant search with tenant/ACL/facet filters → Candidate[]
 │   ├── reranker.py          Rerank (embedding/llm/cross_encoder/cohere) + recency·authority
-│   ├── context_builder.py   Parent-expand, cosine dedup, conflict flag, token budget → ContextBlock[]
+│   ├── context_builder.py   Parent-expand, cosine dedup, conflict flag, token budget, website-first segregation → ContextBlock[]
 │   ├── citations.py         Build numbered citations from chunk payloads
 │   └── drupal_router.py     Structured MySQL/JSON:API path for lookup/list/count queries
 ├── generation/
@@ -92,13 +92,16 @@ process()  ── query_processor: LLM classifies intent + rewrites + extracts f
    retrieve():
      search()        hybrid_search: Qdrant search, candidate_k≈40, with
         │            mandatory filters is_parent=false / is_current=true / tenant_id
-        │            + ACL MatchAny(user_groups) + query-derived facets
+        │            + ACL MatchAny(user_groups) + query-derived facets.
+        │            (When prefer_website_enabled and no explicit source_type / non-table:
+        │             TWO pulls — website + "not website" — merged; see retrieval.md §6)
         ▼
-     rerank()        reranker: semantic score (provider) blended with recency·authority,
-        │            threshold-filtered, sorted, truncated to top_k
+     rerank()        reranker: semantic score (provider) blended with recency,
+        │            threshold-filtered, sorted, truncated to top_k (raw score kept)
         ▼
      build_context() context_builder: parent-expand → cosine dedup → conflict flag →
-        │            attention reorder → token budget → ContextBlock[]
+        │            (attention reorder, OR website-first segregation when preferring
+        │             website) → token budget → ContextBlock[]
         ▼
    _generate(_stream)()   grounded LLM call over numbered context blocks
         │                 (optional faithfulness check + one regeneration)
