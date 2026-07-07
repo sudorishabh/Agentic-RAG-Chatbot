@@ -24,7 +24,7 @@ block_content/basic           homepage / section highlight blocks
 | 5 | Downstream ingestability | Do these records survive canonical + chunking into retrievable chunks? |
 | 6 | Block boilerplate filter | `block_content/basic`: how many survive `drupal_block_min_chars`? |
 | 7 | Theme→content association | Do content nodes carry their theme(s) in `categories`? (and confirm `news` doesn't) |
-| 8 | Change-detection wiring | End-to-end (DB-free): does `detect_drupal_changes` actually **emit** these as `source_type="website"` documents? |
+| 8 | Change-detection wiring + delete reconciliation | End-to-end (DB-free): does `detect_drupal_changes` **emit** these as `website` docs, and **purge** a stale theme when `reconcile_deletes=True`? |
 
 Each check returns `✅ PASS` / `🟡 WARN` / `🟠 DOUBT` / `🔴 FAIL`.
 

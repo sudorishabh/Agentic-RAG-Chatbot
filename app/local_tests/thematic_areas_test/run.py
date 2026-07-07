@@ -613,29 +613,51 @@ def check_association(session, limit: int) -> Check:
 
 def check_wiring() -> Check:
     """Run the REAL detect_drupal_changes over ONLY the non-node sources, DB-free
-    (stub state.load → {}), and confirm it emits source_type='website' documents
-    for themes / extra_pages / regional_centre / basic. This is the actual path
-    the ingest pipeline drives — the ultimate 'is it wired?' proof."""
-    c = Check("8", "Change-detection wiring (detect_drupal_changes emits these, DB-free)")
+    (stub state.load), and confirm both halves of the pipeline contract:
+      (a) it EMITS source_type='website' documents for themes / extra_pages /
+          regional_centre / basic, and
+      (b) delete-reconciliation now PURGES a stale non-node document (a theme that
+          no longer exists live) when reconcile_deletes=True."""
+    c = Check("8", "Change-detection wiring + delete reconciliation (DB-free)")
 
     import app.ingestion.change_detection as cd
     import app.ingestion.state as state_mod
     import app.ingestion.extractors.drupal_extractor as dx
+    from app.ingestion.state import StateRecord
 
     orig_load = state_mod.load
     orig_bundles = dx.DEFAULT_BUNDLES
+
+    def _run(prior_by_type: dict, reconcile: bool) -> list:
+        # state.load(source_type) → seeded prior for that type ({} = nothing yet)
+        state_mod.load = lambda st, *_a, **_k: dict(prior_by_type.get(st, {}))
+        dx.DEFAULT_BUNDLES = ()  # skip the ~8k node crawl; only non-node sources
+        out = []
+        for i, rec in enumerate(cd.detect_drupal_changes(reconcile_deletes=reconcile)):
+            out.append(rec)
+            if i > 5000:  # safety cap
+                break
+        return out
+
     try:
-        state_mod.load = lambda *_a, **_k: {}          # no DB; everything reads as NEW
-        dx.DEFAULT_BUNDLES = ()                          # skip the ~8k node crawl
+        # (a) emission — no prior, so every live record reads as NEW
+        emitted = _run({}, False)
         by_bundle: dict[str, int] = {}
         by_source_type: dict[str, int] = {}
-        n = 0
-        for rec in cd.detect_drupal_changes(reconcile_deletes=False):
-            n += 1
+        for rec in emitted:
             by_bundle[rec.bundle or "?"] = by_bundle.get(rec.bundle or "?", 0) + 1
             by_source_type[rec.source_type] = by_source_type.get(rec.source_type, 0) + 1
-            if n > 5000:  # safety cap
-                break
+
+        # (b) reconciliation — seed a stale 'themes' doc that no longer exists live
+        ghost = "ghost-theme-0000-0000-0000-000000000000"
+        stale = StateRecord(
+            document_id=ghost, source_type="website",
+            source_key="themes/ghost", fingerprint="x", bundle="themes",
+        )
+        reconciled = _run({"website": {ghost: stale}}, True)
+        ghost_deleted = any(
+            r.status.value == "deleted" and r.document_id == ghost for r in reconciled
+        )
     except Exception as exc:
         c.verdict = FAIL
         c.summary = f"detect_drupal_changes raised: {type(exc).__name__}: {exc}"
@@ -645,13 +667,19 @@ def check_wiring() -> Check:
         state_mod.load = orig_load
         dx.DEFAULT_BUNDLES = orig_bundles
 
-    c.data = {"by_bundle": by_bundle, "by_source_type": by_source_type, "total": n}
-    c.detail.append(f"  emitted {n} ChangeRecords from non-node sources")
+    c.data = {
+        "by_bundle": by_bundle, "by_source_type": by_source_type,
+        "emitted": len(emitted), "ghost_deleted": ghost_deleted,
+    }
+    c.detail.append(f"  emitted {len(emitted)} ChangeRecords from non-node sources")
     c.detail.append(f"  by source_type: {by_source_type}")
     c.detail.append(f"  by bundle: {by_bundle}")
-    expected = {"themes", "extra_pages", "regional_centre", "basic"}
-    seen = set(by_bundle)
-    missing = expected - seen
+    c.detail.append(
+        f"  reconcile: stale 'themes' ghost doc "
+        f"{'PURGED (DELETED emitted)' if ghost_deleted else 'NOT purged'}"
+    )
+
+    missing = {"themes", "extra_pages", "regional_centre", "basic"} - set(by_bundle)
     if missing:
         c.verdict = FAIL
         c.summary = f"detect_drupal_changes did NOT emit: {', '.join(sorted(missing))}."
@@ -659,20 +687,20 @@ def check_wiring() -> Check:
             f"These non-node sources produced 0 ChangeRecords: {', '.join(sorted(missing))} "
             f"— they are declared but not reaching the pipeline."
         )
+    elif not ghost_deleted:
+        c.verdict = FAIL
+        c.summary = "Non-node sources emit, but a stale theme was NOT purged on reconcile."
+        c.doubts.append(
+            "reconcile_deletes=True did not emit a DELETED record for a stale "
+            "taxonomy document — non-node deletes are not reconciled."
+        )
     else:
         c.summary = (
             f"All non-node sources flow through as documents "
             f"({by_source_type.get('website', 0)} website + "
-            f"{by_source_type.get('pdf_attachment', 0)} in-body PDF records)."
+            f"{by_source_type.get('pdf_attachment', 0)} in-body PDF); stale non-node "
+            f"docs are purged when reconcile_deletes=True."
         )
-    # static note: deletes are not reconciled for taxonomies
-    c.doubts.append(
-        "Note (static): delete-reconciliation is gated to entity_type=='node' "
-        "(change_detection.py:327), so an unpublished/removed theme is NOT purged "
-        "from the corpus until a full re-index."
-    )
-    if c.verdict == PASS:
-        c.verdict = WARN  # the delete-reconcile note is a real, if minor, caveat
     return c
 
 

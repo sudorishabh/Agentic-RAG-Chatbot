@@ -239,6 +239,9 @@ def detect_drupal_changes(
                 if incremental
                 else None
             )
+            # Live document UUIDs yielded this run. For full-fetch sources this is
+            # the complete live set, used for delete reconciliation below.
+            live_uuids: set[str] = set()
 
             try:
                 for record in iter_bundle_records(
@@ -261,6 +264,7 @@ def detect_drupal_changes(
                     ):
                         continue
 
+                    live_uuids.add(uuid)
                     fingerprint = record.changed or ""
                     prev = prior.get(uuid)
 
@@ -322,16 +326,28 @@ def detect_drupal_changes(
                 )
                 continue
 
-            # Delete reconciliation only makes sense for node bundles (the small
-            # taxonomy/block sets are stable and enumerated in full each run).
-            if reconcile_deletes and incremental and entity_type == "node" and prior:
-                try:
-                    live = set(iter_node_uuids(session, bundle, published_only=published_only))
-                except Exception:
-                    logger.exception(
-                        "Reconcile enumeration failed for node/%s; skipping deletes.", bundle
-                    )
-                    continue
+            # Delete reconciliation. Node bundles are crawled incrementally, so
+            # the changed set doesn't reveal what is still live — enumerate their
+            # UUIDs separately. Taxonomy/block sets are fetched in full every run,
+            # so the documents we just yielded ARE the live set.
+            if reconcile_deletes and prior:
+                if incremental:
+                    try:
+                        live = set(
+                            iter_node_uuids(
+                                session, bundle,
+                                entity_type=entity_type,
+                                published_only=published_only,
+                            )
+                        )
+                    except Exception:
+                        logger.exception(
+                            "Reconcile enumeration failed for %s/%s; skipping deletes.",
+                            entity_type, bundle,
+                        )
+                        continue
+                else:
+                    live = live_uuids
                 for uuid, record in prior.items():
                     if uuid not in live:
                         yield ChangeRecord(
