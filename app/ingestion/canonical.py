@@ -96,6 +96,13 @@ def _drupal_document(
     metadata: dict[str, Any],
     **overrides: Any,
 ) -> CanonicalDocument:
+    categories = _union_list(metadata, "category", "theme", "area", "division")
+    # A sub-theme's parent thematic area is itself a category, so the term is
+    # retrievable under its parent (e.g. "Air" surfaces under "Environment").
+    for parent in _as_list(metadata.get("parent")):
+        if parent not in categories:
+            categories.append(parent)
+
     doc = CanonicalDocument(
         document_id=uuid or _slugify(url or f"{bundle}/{title}"),
         source_type=overrides.pop("source_type", "website"),
@@ -104,7 +111,7 @@ def _drupal_document(
         source_url=url,
         article_uuid=uuid or None,
         tags=_union_list(metadata, "tag", "keyword"),
-        categories=_union_list(metadata, "category", "theme", "area", "division"),
+        categories=categories,
         authors=_pick_list(metadata, "author"),
         published_at=created,
         extra={"bundle": bundle, "nid": nid, "changed": changed},
