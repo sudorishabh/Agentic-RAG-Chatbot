@@ -161,6 +161,12 @@ def iter_bundle_records(
     fields = _discover_relationship_fields(
         session, base, bundle, published_only, entity_type=entity_type
     )
+    # Taxonomy terms carry their tree via the `parent` relationship (not a
+    # field_*), so it is excluded above. Include it explicitly so the parent
+    # term is embedded and its name is resolvable — this is what preserves the
+    # thematic-area hierarchy (e.g. "Air" under "Environment").
+    if entity_type == "taxonomy_term" and "parent" not in fields:
+        fields.append("parent")
     params: dict[str, Any] = {
         "page[limit]": settings.drupal_page_size,
         "sort": "-changed",
@@ -462,7 +468,8 @@ def _resolve_relationships(
 ) -> dict[str, list[str]]:
     meta: dict[str, list[str]] = {}
     for field_name, relationship in node.get("relationships", {}).items():
-        if not field_name.startswith("field_"):
+        # field_* are content relationships; `parent` is the taxonomy tree link.
+        if not (field_name.startswith("field_") or field_name == "parent"):
             continue
         data = relationship.get("data")
         if not data:
