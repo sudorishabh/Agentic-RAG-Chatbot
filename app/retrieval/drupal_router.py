@@ -96,7 +96,7 @@ def _normalize_bundle(raw: str | None) -> str | None:
     for variant in (f"{key}s", key.rstrip("s")):
         if variant in DEFAULT_BUNDLES:
             return variant
-    return _BUNDLE_SYNONYMS.get(key, key)
+    return _BUNDLE_SYNONYMS.get(key) or _BUNDLE_SYNONYMS.get(key.rstrip("s"), key)
 
 
 def _bundles_for(sq: StructuredQuery) -> tuple[str, ...]:
