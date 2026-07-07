@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from datetime import datetime
 from typing import Any, Literal, Sequence
 
 import requests
@@ -33,6 +34,11 @@ _PARSE_SYSTEM = (
     "- title_contains: a title keyword if the user names/quotes a title; else null.\n"
     "- author: an author/person name if specified; else null.\n"
     "- year: a four-digit year if a specific year is referenced; else null.\n"
+    "- date_from / date_to: an inclusive start and exclusive end ISO date "
+    "(YYYY-MM-DD) bounding any date or period mentioned. For a single day set "
+    "date_from to that day and date_to to the next day; for a month or year span "
+    "it; for 'since'/'after' set only date_from; for 'before'/'until' set only "
+    "date_to; else both null.\n"
     "- limit: how many items to return for list/lookup (default 10)."
 )
 
@@ -43,6 +49,8 @@ class StructuredQuery(BaseModel):
     title_contains: str | None = None
     author: str | None = None
     year: int | None = None
+    date_from: str | None = None
+    date_to: str | None = None
     limit: int = 10
 
 
@@ -122,22 +130,6 @@ def _author_match(record: DrupalRecord, author: str) -> bool:
     return False
 
 
-def _count(session: requests.Session, bundle: str, filters: dict[str, Any], published_only: bool) -> int:
-    settings = get_settings()
-    base = settings.drupal_jsonapi_base.rstrip("/")
-    params: dict[str, Any] = {
-        "page[limit]": settings.drupal_page_size,
-        f"fields[node--{bundle}]": "drupal_internal__nid",
-    }
-    if published_only:
-        params["filter[status]"] = 1
-    params.update(filters)
-    total = 0
-    for data, _ in _iter_pages(session, f"{base}/node/{bundle}", params, settings.drupal_request_timeout):
-        total += len(data)
-    return total
-
-
 def _fetch(session: requests.Session, bundle: str, filters: dict[str, Any], *, published_only: bool, limit: int) -> list[DrupalRecord]:
     settings = get_settings()
     base = settings.drupal_jsonapi_base.rstrip("/")
@@ -159,10 +151,39 @@ def _fetch(session: requests.Session, bundle: str, filters: dict[str, Any], *, p
     return out
 
 
-def _count_result(total: int, scope: str, year: int | None) -> dict[str, Any]:
-    suffix = f" in {year}" if year else ""
+def _parse_date(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(value)
+    except ValueError:
+        return None
+
+
+def _date_range(sq: StructuredQuery) -> tuple[datetime | None, datetime | None]:
+    """Half-open ``[from, to)`` bounds from explicit dates, falling back to the
+    whole calendar year when only ``year`` is given."""
+    lo, hi = _parse_date(sq.date_from), _parse_date(sq.date_to)
+    if lo is None and hi is None and sq.year:
+        return datetime(sq.year, 1, 1), datetime(sq.year + 1, 1, 1)
+    return lo, hi
+
+
+def _period_label(sq: StructuredQuery) -> str:
+    if sq.year and not sq.date_from and not sq.date_to:
+        return f" in {sq.year}"
+    if sq.date_from and sq.date_to:
+        return f" between {sq.date_from} and {sq.date_to}"
+    if sq.date_from:
+        return f" since {sq.date_from}"
+    if sq.date_to:
+        return f" before {sq.date_to}"
+    return ""
+
+
+def _count_result(total: int, scope: str, period: str) -> dict[str, Any]:
     return {
-        "answer": f"There are {total} {scope}{suffix} matching your query.",
+        "answer": f"There are {total} {scope}{period} matching your query.",
         "citations": [],
         "intent": "structured",
         "used_chunks": 0,
@@ -171,26 +192,21 @@ def _count_result(total: int, scope: str, year: int | None) -> dict[str, Any]:
     }
 
 
-def _answer_count(
-    sq: StructuredQuery, session: requests.Session, filters: dict[str, Any]
-) -> dict[str, Any]:
-    scope = sq.bundle or "items"
-    # Answer exactly from the ingested catalog. Author/year filters aren't stored
-    # there yet, so those still fall back to a live Drupal count.
-    if not sq.author and not sq.year:
-        try:
-            total = state.count_documents(source_type="website", bundle=sq.bundle)
-            return _count_result(total, scope, None)
-        except Exception:
-            logger.warning("Catalog count failed; falling back to Drupal.", exc_info=True)
-
-    total = 0
-    for bundle in _bundles_for(sq):
-        try:
-            total += _count(session, bundle, filters, True)
-        except requests.RequestException:
-            logger.warning("Count failed for node/%s; skipping.", bundle, exc_info=True)
-    return _count_result(total, scope, sq.year)
+def _answer_count(sq: StructuredQuery) -> dict[str, Any] | None:
+    """Count documents from the ingested catalog by bundle, author and date."""
+    lo, hi = _date_range(sq)
+    try:
+        total = state.count_documents(
+            source_type="website",
+            bundle=sq.bundle,
+            author=sq.author,
+            published_from=lo,
+            published_to=hi,
+        )
+    except Exception:
+        logger.warning("Catalog count failed.", exc_info=True)
+        return None
+    return _count_result(total, sq.bundle or "items", _period_label(sq))
 
 
 def answer_structured(
@@ -207,7 +223,7 @@ def answer_structured(
     session = _build_session(settings.drupal_max_retries)
     try:
         if sq.operation == "count":
-            return _answer_count(sq, session, filters)
+            return _answer_count(sq)
 
         records: list[DrupalRecord] = []
         for bundle in _bundles_for(sq):

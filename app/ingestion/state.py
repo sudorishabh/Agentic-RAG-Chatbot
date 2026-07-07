@@ -233,19 +233,51 @@ def keys(source_type: str, bundle: str | None = None) -> set[str]:
         return {row["document_id"] for row in cur.fetchall()}
 
 
-def count_documents(source_type: str | None = None, bundle: str | None = None) -> int:
+def _like(term: str) -> str:
+    escaped = term.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+    return f"%{escaped}%"
+
+
+def count_documents(
+    source_type: str | None = None,
+    bundle: str | None = None,
+    *,
+    author: str | None = None,
+    published_from: datetime | None = None,
+    published_to: datetime | None = None,
+) -> int:
+    """Count catalog documents (not chunks) matching the given filters.
+
+    ``author`` matches a substring against the author facet; the date bounds are
+    a half-open ``[from, to)`` interval over ``published_at``."""
     table = _table()
     clauses: list[str] = []
-    params: list[str] = []
+    params: list[Any] = []
     if source_type is not None:
-        clauses.append("source_type = %s")
+        clauses.append("s.source_type = %s")
         params.append(source_type)
     if bundle is not None:
-        clauses.append("bundle = %s")
+        clauses.append("s.bundle = %s")
         params.append(bundle)
+    if published_from is not None:
+        clauses.append("s.published_at >= %s")
+        params.append(published_from)
+    if published_to is not None:
+        clauses.append("s.published_at < %s")
+        params.append(published_to)
+
+    join = ""
+    count_expr = "COUNT(*)"
+    if author:
+        join = f" JOIN `{table}_author` a ON a.document_id = s.document_id"
+        clauses.append("a.author LIKE %s")
+        params.append(_like(author))
+        count_expr = "COUNT(DISTINCT s.document_id)"
+
     where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
+    sql = f"SELECT {count_expr} AS n FROM `{table}` s{join}{where}"
     with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(f"SELECT COUNT(*) AS n FROM `{table}`{where}", tuple(params))
+        cur.execute(sql, tuple(params))
         row = cur.fetchone()
     return int(row["n"]) if row and row["n"] is not None else 0
 
