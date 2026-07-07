@@ -19,7 +19,14 @@ logger = logging.getLogger(__name__)
 DocBuilder = Callable[[ChangeRecord], "CanonicalDocument | None"]
 
 
-def _save_state(record: ChangeRecord, content_hash: str, version: int, *, indexed: bool) -> None:
+def _save_state(
+    record: ChangeRecord,
+    doc: CanonicalDocument,
+    content_hash: str,
+    version: int,
+    *,
+    indexed: bool,
+) -> None:
     state.upsert(
         StateRecord(
             document_id=record.document_id,
@@ -30,6 +37,9 @@ def _save_state(record: ChangeRecord, content_hash: str, version: int, *, indexe
             doc_version=version,
             bundle=record.bundle,
             changed_mark=record.changed_mark,
+            published_at=doc.published_at,
+            authors=list(doc.authors),
+            categories=list(doc.categories),
         ),
         mark_indexed=indexed,
     )
@@ -92,7 +102,7 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
     content_hash = doc.ensure_content_hash()
     if not cd.content_changed(record, content_hash):
         version = prior_version or 1
-        _save_state(record, content_hash, version, indexed=False)
+        _save_state(record, doc, content_hash, version, indexed=False)
         logger.info("Unchanged content for %s; fingerprint refreshed.", record.document_id)
         _log(run_id, record, "unchanged_content", doc=doc, version=version)
         return "unchanged_content"
@@ -101,7 +111,7 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
     doc.doc_version = version
     delete_document(record.document_id)
     chunks = index_canonical(doc)
-    _save_state(record, content_hash, version, indexed=True)
+    _save_state(record, doc, content_hash, version, indexed=True)
     logger.info(
         "%s %s -> v%d", record.status.value, record.document_id, version
     )

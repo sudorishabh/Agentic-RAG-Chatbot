@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Iterable, Iterator
+from typing import Any, Iterable, Iterator
 
 from app.config import get_settings
 from app.deps import mysql_connection
@@ -23,6 +23,9 @@ class StateRecord:
     bundle: str | None = None
     changed_mark: int | None = None
     indexed_at: str | None = None
+    published_at: str | None = None
+    authors: list[str] = field(default_factory=list)
+    categories: list[str] = field(default_factory=list)
 
 
 def _now() -> datetime:
@@ -44,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `{table}` (
     content_hash VARCHAR(64)   NOT NULL DEFAULT '',
     doc_version  INT           NOT NULL DEFAULT 1,
     changed_mark BIGINT        NULL,
+    published_at DATETIME      NULL,
     indexed_at   DATETIME      NULL,
     updated_at   DATETIME      NOT NULL,
     PRIMARY KEY (document_id),
@@ -52,16 +56,68 @@ CREATE TABLE IF NOT EXISTS `{table}` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 """
 
+# Multi-valued facets stored one row per (document, value) so they count exactly
+# via COUNT(DISTINCT document_id). Rows cascade-delete with their parent.
+_FACETS: tuple[str, ...] = ("author", "category")
+
+_CHILD_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_{facet}` (
+    document_id VARCHAR(255) NOT NULL,
+    {facet}     VARCHAR(255) NOT NULL,
+    KEY idx_doc (document_id),
+    KEY idx_val ({facet}),
+    CONSTRAINT `fk_{table}_{facet}` FOREIGN KEY (document_id)
+        REFERENCES `{table}` (document_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+
+def _to_datetime(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return dt.astimezone(timezone.utc).replace(tzinfo=None) if dt.tzinfo else dt
+
+
+def _ensure_column(cur: Any, table: str, column: str, ddl: str) -> None:
+    """Add a column to an existing table only if it is missing (idempotent
+    migration for deployments created before the column existed)."""
+    cur.execute(
+        "SELECT 1 FROM information_schema.COLUMNS "
+        "WHERE table_schema = DATABASE() AND table_name = %s AND column_name = %s",
+        (table, column),
+    )
+    if not cur.fetchone():
+        cur.execute(f"ALTER TABLE `{table}` ADD COLUMN {ddl}")
+
+
+def _replace_facet(
+    cur: Any, table: str, facet: str, document_id: str, values: Iterable[str]
+) -> None:
+    cur.execute(f"DELETE FROM `{table}_{facet}` WHERE document_id = %s", (document_id,))
+    rows = [(document_id, v[:255]) for v in dict.fromkeys(x for x in values if x)]
+    if rows:
+        cur.executemany(
+            f"INSERT INTO `{table}_{facet}` (document_id, {facet}) VALUES (%s, %s)", rows
+        )
+
 
 def ensure_table() -> None:
     table = _table()
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(_DDL.format(table=table))
+        _ensure_column(cur, table, "published_at", "published_at DATETIME NULL")
+        for facet in _FACETS:
+            cur.execute(_CHILD_DDL.format(table=table, facet=facet))
         conn.commit()
 
 
 def _row_to_record(row: dict) -> StateRecord:
     indexed = row.get("indexed_at")
+    published = row.get("published_at")
     return StateRecord(
         document_id=row["document_id"],
         source_type=row["source_type"],
@@ -72,6 +128,7 @@ def _row_to_record(row: dict) -> StateRecord:
         bundle=row.get("bundle"),
         changed_mark=row.get("changed_mark"),
         indexed_at=indexed.isoformat() if isinstance(indexed, datetime) else indexed,
+        published_at=published.isoformat() if isinstance(published, datetime) else published,
     )
 
 
@@ -103,8 +160,9 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
             f"""
             INSERT INTO `{table}`
                 (document_id, source_type, source_key, bundle, fingerprint,
-                 content_hash, doc_version, changed_mark, indexed_at, updated_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                 content_hash, doc_version, changed_mark, published_at,
+                 indexed_at, updated_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE
                 source_type  = VALUES(source_type),
                 source_key   = VALUES(source_key),
@@ -113,6 +171,7 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 content_hash = VALUES(content_hash),
                 doc_version  = VALUES(doc_version),
                 changed_mark = VALUES(changed_mark),
+                published_at = VALUES(published_at),
                 indexed_at   = COALESCE(VALUES(indexed_at), indexed_at),
                 updated_at   = VALUES(updated_at)
             """,
@@ -125,10 +184,13 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 record.content_hash,
                 record.doc_version,
                 record.changed_mark,
+                _to_datetime(record.published_at),
                 indexed_at,
                 now,
             ),
         )
+        _replace_facet(cur, table, "author", record.document_id, record.authors)
+        _replace_facet(cur, table, "category", record.document_id, record.categories)
         conn.commit()
 
 
