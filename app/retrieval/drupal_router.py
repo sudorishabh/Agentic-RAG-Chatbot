@@ -182,7 +182,7 @@ def answer_structured(
 
     lines = [f"- {r.title} ({r.url})" if r.url else f"- {r.title}" for r in records]
     citations = [
-        Citation(n=i, type="article", title=r.title, url=r.url, document_id=r.uuid or None)
+        Citation(n=i, type="website", title=r.title, url=r.url, document_id=r.uuid or None)
         for i, r in enumerate(records, start=1)
     ]
     return {

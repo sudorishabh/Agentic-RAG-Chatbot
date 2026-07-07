@@ -197,33 +197,70 @@ def detect_drupal_changes(
     reconcile_deletes: bool = False,
 ) -> Iterator[ChangeRecord]:
     from app.ingestion.extractors.drupal_extractor import (
+        DEFAULT_BLOCKS,
         DEFAULT_BUNDLES,
+        DEFAULT_TAXONOMIES,
         _build_session,
         iter_bundle_records,
         iter_node_uuids,
     )
 
     settings = get_settings()
-    bundles = tuple(bundles) if bundles is not None else DEFAULT_BUNDLES
-    prior_all = state.load("article")
+    # "website" is the canonical source_type for Drupal content; "article" rows
+    # may remain from before the rename (until the migration script runs), so
+    # load both to keep change detection incremental across the transition.
+    prior_all = {**state.load("article"), **state.load("website")}
     prior_pdf_all = state.load("pdf_attachment")
+    # Per-run dedup so an in-body PDF linked from several records ingests once.
+    seen_pdf: set[str] = set()
+
+    # A "source" is (entity_type, bundle, incremental). Node bundles support the
+    # changed-since high-water mark; the small taxonomy/block sets are fetched in
+    # full and change-detected purely on their fingerprint. An explicit
+    # ``bundles`` argument is treated as node bundles (preserves --bundle).
+    if bundles is not None:
+        sources = [("node", b, True) for b in bundles]
+    else:
+        sources = (
+            [("node", b, True) for b in DEFAULT_BUNDLES]
+            + [("taxonomy_term", b, False) for b in DEFAULT_TAXONOMIES]
+            + [("block_content", b, False) for b in DEFAULT_BLOCKS]
+        )
 
     session = _build_session(settings.drupal_max_retries)
     try:
-        for bundle in bundles:
+        for entity_type, bundle, incremental in sources:
             prior = {k: v for k, v in prior_all.items() if v.bundle == bundle}
-            high = max(
-                (v.changed_mark for v in prior.values() if v.changed_mark is not None),
-                default=None,
+            high = (
+                max(
+                    (v.changed_mark for v in prior.values() if v.changed_mark is not None),
+                    default=None,
+                )
+                if incremental
+                else None
             )
 
             try:
                 for record in iter_bundle_records(
-                    session, bundle, published_only=published_only, changed_since=high
+                    session,
+                    bundle,
+                    entity_type=entity_type,
+                    published_only=published_only,
+                    changed_since=high,
                 ):
                     uuid = record.uuid
                     if not uuid:
                         continue
+
+                    # Drop boilerplate custom blocks (Search box, footer strips)
+                    # that carry neither substantial text nor a PDF to harvest.
+                    if (
+                        entity_type == "block_content"
+                        and len(record.body.strip()) < settings.drupal_block_min_chars
+                        and not record.files
+                    ):
+                        continue
+
                     fingerprint = record.changed or ""
                     prev = prior.get(uuid)
 
@@ -237,7 +274,7 @@ def detect_drupal_changes(
                     yield ChangeRecord(
                         status=status,
                         document_id=uuid,
-                        source_type="article",
+                        source_type="website",
                         source_key=record.source,
                         fingerprint=fingerprint,
                         bundle=bundle,
@@ -246,15 +283,24 @@ def detect_drupal_changes(
                         payload=None if status is ChangeStatus.UNCHANGED else record,
                     )
 
-                    # Each attached PDF becomes its own document, keyed by the
-                    # file uuid and fingerprinted on the node's changed mark.
+                    # Each attached PDF becomes its own document. Real file--file
+                    # attachments are fingerprinted on the node's changed mark
+                    # (re-fetched when the node changes); in-body PDF links are
+                    # fingerprinted on their URL so the same PDF, which may be
+                    # linked from several nodes, ingests exactly once.
                     for file in record.files:
-                        if not file.uuid:
+                        if not file.uuid or file.uuid in seen_pdf:
                             continue
+                        seen_pdf.add(file.uuid)
+                        a_fingerprint = (
+                            f"inbody:{file.url}"
+                            if file.origin == "inbody"
+                            else fingerprint
+                        )
                         a_prev = prior_pdf_all.get(file.uuid)
                         if a_prev is None:
                             a_status = ChangeStatus.NEW
-                        elif a_prev.fingerprint != fingerprint:
+                        elif a_prev.fingerprint != a_fingerprint:
                             a_status = ChangeStatus.CHANGED
                         else:
                             a_status = ChangeStatus.UNCHANGED
@@ -263,7 +309,7 @@ def detect_drupal_changes(
                             document_id=file.uuid,
                             source_type="pdf_attachment",
                             source_key=file.url,
-                            fingerprint=fingerprint,
+                            fingerprint=a_fingerprint,
                             bundle=bundle,
                             changed_mark=_to_unix(record.changed),
                             prior=a_prev,
@@ -271,10 +317,14 @@ def detect_drupal_changes(
                             filename=file.filename,
                         )
             except Exception:
-                logger.exception("Drupal fetch failed for node/%s; skipping bundle.", bundle)
+                logger.exception(
+                    "Drupal fetch failed for %s/%s; skipping bundle.", entity_type, bundle
+                )
                 continue
 
-            if reconcile_deletes and prior:
+            # Delete reconciliation only makes sense for node bundles (the small
+            # taxonomy/block sets are stable and enumerated in full each run).
+            if reconcile_deletes and incremental and entity_type == "node" and prior:
                 try:
                     live = set(iter_node_uuids(session, bundle, published_only=published_only))
                 except Exception:
@@ -287,7 +337,7 @@ def detect_drupal_changes(
                         yield ChangeRecord(
                             status=ChangeStatus.DELETED,
                             document_id=uuid,
-                            source_type="article",
+                            source_type="website",
                             source_key=record.source_key,
                             bundle=bundle,
                             prior=record,

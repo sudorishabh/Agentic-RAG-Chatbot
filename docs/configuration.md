@@ -139,6 +139,8 @@ See [operations.md](operations.md#caching).
 | `drupal_page_size` | `50` | JSON:API page size |
 | `drupal_max_retries` | `3` | Retry attempts for 429/5xx |
 | `drupal_reconcile_every` | `10` | Sweeps between full delete-reconciliation passes |
+| `drupal_ingest_external_pdfs` | `false` | Also download/extract in-body PDF links on external (non-teriin.org) domains. Off keeps the corpus TERI-authored; the external URL still survives in the body text |
+| `drupal_block_min_chars` | `200` | Custom blocks (`block_content`) with a stripped body shorter than this and no PDF are treated as boilerplate and skipped |
 
 ## PDF source discovery (sweeps)
 

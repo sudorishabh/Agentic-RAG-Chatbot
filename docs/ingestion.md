@@ -10,7 +10,9 @@ before chunking, so PDFs and articles flow through one pipeline.
 
 `CanonicalDocument` fields (abridged):
 
-- **Identity:** `document_id`, `source_type` (`pdf` / `article` / …), `title`, `sections[]`.
+- **Identity:** `document_id`, `source_type` (`pdf` / `website` / `pdf_attachment`), `title`, `sections[]`.
+  *(`website` covers all Drupal content; it was historically named `article` — the
+  migration script `scripts/migrate_source_type_website.py` renames stored data.)*
 - **Source refs:** `source_url`, `pdf_id`, `pdf_path`, `article_uuid`,
   `linked_pdf_id`, `linked_article_uuid` (cross-links power dedup/conflict handling).
 - **Metadata:** `authors[]`, `tags[]`, `categories[]`, `language` (default `en`),
@@ -71,21 +73,57 @@ layer (they need visual OCR) and are left as-is.
 > from text by the chunker, so pages without Markdown headings chunk as flat
 > sections.
 
-### Drupal articles — [app/ingestion/extractors/drupal_extractor.py](../app/ingestion/extractors/drupal_extractor.py)
+### Drupal — [app/ingestion/extractors/drupal_extractor.py](../app/ingestion/extractors/drupal_extractor.py)
 
-Crawls the JSON:API at `drupal_jsonapi_base`:
+Crawls the JSON:API at `drupal_jsonapi_base`. The crawl is **entity-type aware**:
+the same iterators fetch node bundles, taxonomy-term vocabularies, and custom
+blocks from `/jsonapi/{entity_type}/{bundle}`.
 
 - `iter_records(bundles=None, *, published_only=True, changed_since=None, session=None)`
-  — yields `DrupalRecord`s across bundles.
-- `iter_bundle_records(session, bundle, …)` — paginates one bundle, auto-discovers
-  `field_*` relationships, resolves them to labels, and converts HTML bodies to text.
-- `iter_node_uuids(session, bundle, …)` — lightweight UUID listing for delete reconciliation.
+  — yields `DrupalRecord`s across node bundles (convenience / CLI entry point).
+- `iter_bundle_records(session, bundle, *, entity_type="node", published_only=True, changed_since=None)`
+  — paginates one resource, auto-discovers `field_*` relationships, resolves them
+  to labels, converts HTML bodies to text, and collects attached + in-body PDFs.
+- `iter_node_uuids(session, bundle, *, entity_type="node", …)` — lightweight UUID
+  listing for delete reconciliation.
+
+**Resources crawled by default:**
+
+- `DEFAULT_BUNDLES` (nodes): news, feature_articles, completed_projects, events,
+  press_release, research_papers, ongoing_projects, article, policy_brief, videos,
+  infographics, services, report, people, page, **carousel**.
+- `DEFAULT_TAXONOMIES` (`taxonomy_term`): **themes, extra_pages, regional_centre** —
+  their `description` prose (thematic / landing-page content that lives nowhere in
+  the nodes) is ingested as body text.
+- `DEFAULT_BLOCKS` (`block_content`): **basic** — substantial custom-block bodies;
+  boilerplate shorter than `drupal_block_min_chars` (with no PDF) is skipped.
+
+Non-node records tag `entity_type` in metadata; the title falls back to `name`
+(taxonomy) / `info` (block); blocks have no canonical URL.
 
 `DrupalRecord` carries `uuid`, `bundle`, `nid`, `title`, `url`, `body`, `created`,
-`changed`, `metadata`, with `to_text()` and `to_metadata()` helpers. Default bundles
-include news, feature_articles, completed_projects, events, press_release,
-research_papers, ongoing_projects, article, policy_brief, videos, infographics,
-services, report, people, page. Retries use exponential backoff on 429/5xx.
+`changed`, `metadata`, `files[]`, with `to_text()`, `to_metadata()`, and `pdf_url`
+helpers. Retries use exponential backoff on 429/5xx.
+
+**Attached & in-body PDFs → their own documents.** PDFs are collected two ways,
+each as a `DrupalFile` (`origin` = `attachment` | `inbody`):
+
+- **Attachments** — referenced `file--file` entities on any `field_*`. Non-PDF
+  document attachments (docx/xlsx/pptx/…) are logged and skipped.
+- **In-body links** — `<a href="…pdf">` and bare `https://…pdf` URLs scanned across
+  *all* rich-text fields (not just `body` — links also appear in
+  `field_completed_featured_text`, etc.). Internal (teriin.org) PDFs are always
+  harvested; external ones only when `drupal_ingest_external_pdfs=true` (otherwise
+  the URL still survives in the body text). Each in-body PDF gets a URL-stable
+  synthetic uuid (`inbody:<sha1>`) so a PDF linked from several nodes ingests once.
+
+Each PDF (attachment or in-body) is downloaded, PDF-extracted, and indexed as its
+own `pdf_attachment` document linked back to the node (see change detection below).
+
+**HTML → text.** `_html_to_text` flattens body HTML but preserves what a naive
+strip would drop: `<a>` destinations as `text (url)`, `<img>` alt as
+`[image: alt]`, `<iframe>` src as `[embedded: src]`, and `<td>`/`<th>` as
+`|`-separated cells so tables stay legible.
 
 ## Chunking — [app/ingestion/chunker.py](../app/ingestion/chunker.py)
 
@@ -128,8 +166,15 @@ Yields `ChangeRecord`s with status `NEW` / `CHANGED` / `UNCHANGED` / `DELETED`.
   is the file's SHA-256. De-dupes repeated `document_id`s within a scan; detects deletes
   by comparing prior manifest keys to the current scan.
 - `detect_drupal_changes(bundles=None, *, published_only=True, reconcile_deletes=False)`
-  — fingerprint is the `changed` timestamp (as Unix epoch), enabling a `changed_since`
-  high-water-mark crawl; optional delete reconciliation against live UUIDs.
+  — crawls node bundles (incremental via a `changed_since` high-water mark) plus the
+  taxonomy and block sources (fetched in full each run). Each node/taxonomy/block
+  yields a `website` record fingerprinted on its `changed` timestamp; each attached
+  or in-body PDF yields a `pdf_attachment` record. Attachments are fingerprinted on
+  the node's changed mark (re-fetched when the node changes); in-body PDFs are
+  fingerprinted on their URL and de-duped per run, so a PDF shared across nodes
+  ingests once. Boilerplate blocks are skipped; delete reconciliation (against live
+  UUIDs) applies to node bundles only. An explicit `bundles` argument is treated as
+  node bundles.
 - `content_changed(record, content_hash)` — true if no prior or the content hash differs.
 - `next_version(record)` — prior `doc_version + 1`, else 1.
 

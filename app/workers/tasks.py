@@ -100,7 +100,7 @@ def ingest_upload(filename: str, content_b64: str) -> dict[str, Any]:
 
 
 @_task("app.workers.tasks.reindex_document")
-def reindex_document(document_id: str, source_type: str = "article") -> dict[str, Any]:
+def reindex_document(document_id: str, source_type: str = "website") -> dict[str, Any]:
     from app.deps import delete_document
     from app.ingestion import state
     from app.cache.redis_cache import bump_corpus_version

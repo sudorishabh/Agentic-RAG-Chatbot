@@ -34,8 +34,8 @@ _ANALYSIS_SYSTEM = (
     "'summary' if they ask for a brief summary / overview / 'in short' / TL;DR; "
     "'detailed' if they ask for an in-depth / comprehensive / thorough explanation; "
     "otherwise 'default'.\n"
-    "- source_type: 'pdf' or 'article' ONLY if the user explicitly restricts to "
-    "documents/PDFs or to website articles/news; otherwise null.\n"
+    "- source_type: 'pdf' or 'website' ONLY if the user explicitly restricts to "
+    "documents/PDFs or to website content (articles/news/pages); otherwise null.\n"
     "- language: a two-letter code ONLY if the user explicitly asks in/about a "
     "specific language; otherwise null."
 )
@@ -80,9 +80,11 @@ def _facet_filters(analysis: QueryAnalysis) -> list[Any]:
         conditions.append(
             FieldCondition(key="source_type", match=MatchAny(any=["pdf", "pdf_attachment"]))
         )
-    elif analysis.source_type == "article":
+    elif analysis.source_type in ("website", "article"):
+        # "website" is canonical; "article" accepted from the LLM and matched in
+        # storage for points indexed before the rename.
         conditions.append(
-            FieldCondition(key="source_type", match=MatchValue(value="article"))
+            FieldCondition(key="source_type", match=MatchAny(any=["website", "article"]))
         )
     if analysis.language:
         conditions.append(

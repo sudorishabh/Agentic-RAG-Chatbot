@@ -98,7 +98,7 @@ def _drupal_document(
 ) -> CanonicalDocument:
     doc = CanonicalDocument(
         document_id=uuid or _slugify(url or f"{bundle}/{title}"),
-        source_type=overrides.pop("source_type", "article"),
+        source_type=overrides.pop("source_type", "website"),
         title=(title or "").strip() or None,
         sections=[CanonicalSection(text=body, order=0)] if body else [],
         source_url=url,

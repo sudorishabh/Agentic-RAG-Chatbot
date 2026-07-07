@@ -40,7 +40,7 @@ Tasks:
 | `ingest_drupal` | `(bundles=None, reconcile=False) -> dict` | incremental Drupal ingest |
 | `sweep` | `() -> dict` | runs both (`drupal` with `reconcile=worker_sweep_reconcile`) |
 | `ingest_upload` | `(filename, content_b64) -> dict` | decode + inline upload ingest |
-| `reindex_document` | `(document_id, source_type="article") -> dict` | delete from Qdrant + manifest, bump version |
+| `reindex_document` | `(document_id, source_type="website") -> dict` | delete from Qdrant + manifest, bump version |
 
 **Inline CLI** (no broker needed):
 

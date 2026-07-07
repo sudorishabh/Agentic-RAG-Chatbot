@@ -83,6 +83,10 @@ for _bundle in (
 # PDFs attached to Drupal nodes chunk like any other PDF.
 _PRESETS.setdefault("pdf_attachment", _PRESETS["pdf"])
 
+# "website" is the canonical source_type for Drupal content (renamed from
+# "article"); it must resolve to the article preset, not _BASE.
+_PRESETS.setdefault("website", _PRESETS["article"])
+
 
 def config_for(key: str | None) -> ChunkingConfig:
     if not key:
