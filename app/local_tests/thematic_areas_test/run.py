@@ -586,21 +586,13 @@ def check_association(session, limit: int) -> Check:
         note = f"theme field(s): {', '.join(sorted(theme_fields)) or 'NONE'}"
         c.detail.append(f"  {bundle}: {with_cat}/{sampled} records have categories · {note}")
         if bundle == "news" and not theme_fields:
-            c.doubts.append(
-                "`news` has NO theme field (0 sampled records carry one) — news items "
-                "cannot be associated to a thematic area. Content-model gap on Drupal, "
-                "not fixable in extraction (doc §9)."
-            )
-        elif bundle == "news" and theme_fields:
-            # Live data contradicts docs/drupal-coverage-analysis.md §9, which
-            # claims "news has no theme field at all". It now does — flag the
-            # stale doc so it gets corrected.
+            # Regression guard: docs §9 (corrected 2026-07-07) records that news
+            # carries field_news_themes and resolves into categories. If it ever
+            # stops, surface it rather than passing silently.
             c.verdict = max_verdict(c.verdict, WARN)
             c.doubts.append(
-                f"DOC CONTRADICTION: `news` DOES carry {sorted(theme_fields)} and "
-                f"{with_cat}/{sampled} sampled records resolved into `categories`. "
-                f"This contradicts docs/drupal-coverage-analysis.md §9 ('news has no "
-                f"theme field at all'). The doc is stale — news IS themable; update §9."
+                "`news` has NO theme field in this sample — docs §9 expects "
+                "`field_news_themes`. Either a regression or a sampling miss."
             )
         elif sampled and not with_cat and theme_fields:
             c.verdict = max_verdict(c.verdict, WARN)
@@ -609,7 +601,7 @@ def check_association(session, limit: int) -> Check:
                 f"records resolved into `categories` — check field_*→categories mapping."
             )
     if c.verdict == PASS:
-        c.summary = "Content bundles resolve their theme(s) into `categories` (except `news`, which has no theme field)."
+        c.summary = "All sampled content bundles (incl. `news`) resolve their theme(s) into `categories`."
     else:
         c.summary = "Theme→content association works for most bundles; see doubts."
     return c
