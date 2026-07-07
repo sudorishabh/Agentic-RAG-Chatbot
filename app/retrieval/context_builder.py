@@ -102,28 +102,41 @@ def _order_for_attention(blocks: list[ContextBlock]) -> list[ContextBlock]:
     return ordered
 
 
-def build_context(
+def _is_website(payload: dict[str, Any]) -> bool:
+    return payload.get("source_type") == "website"
+
+
+def _same_source_two_formats(a: dict[str, Any], b: dict[str, Any]) -> bool:
+    """True when the pair is a website node and its own attached PDF — the same
+    content in two formats, not a genuine conflict."""
+    return {a.get("source_type"), b.get("source_type")} == {"website", "pdf_attachment"} and _linked(a, b)
+
+
+def _admit(
     candidates: Sequence[Candidate],
     *,
-    limit: int | None = None,
-    token_budget: int | None = None,
-) -> list[ContextBlock]:
-    settings = get_settings()
-    limit = limit or settings.retrieval_top_k
-    token_budget = token_budget or settings.context_token_budget
-    sim_threshold = settings.dedup_cosine_threshold
-    if not candidates:
-        return []
-
-    parents = _fetch_parents([c.parent_id for c in candidates if c.parent_id])
-
-    blocks: list[ContextBlock] = []
-    block_vectors: list[list[float]] = []
-    seen_parents: set[str] = set()
-    spent = 0
+    blocks: list[ContextBlock],
+    block_vectors: list[list[float]],
+    seen_parents: set[str],
+    parents: dict[str, dict[str, Any]],
+    spent: int,
+    limit: int,
+    token_budget: int,
+    sim_threshold: float,
+    max_add: int | None = None,
+    floor: float | None = None,
+) -> int:
+    """Walk candidates in order, admitting each that survives parent-expand, dedup
+    and the token budget, until `max_add` are added or `limit` total blocks is
+    reached. Mutates blocks/block_vectors/seen_parents in place; returns the
+    updated token spend. `floor` skips candidates below a raw-semantic relevance
+    bar (used for the website slots)."""
+    added = 0
     for cand in candidates:
-        if len(blocks) >= limit:
+        if len(blocks) >= limit or (max_add is not None and added >= max_add):
             break
+        if floor is not None and cand.semantic_score < floor:
+            continue
         key = cand.parent_id or cand.id
         if key in seen_parents:
             continue
@@ -158,13 +171,69 @@ def build_context(
             )
         )
         block_vectors.append(list(cand.vector))
+        added += 1
+    return spent
 
-    _flag_conflicts(blocks)
-    return _order_for_attention(blocks)
+
+def build_context(
+    candidates: Sequence[Candidate],
+    *,
+    limit: int | None = None,
+    token_budget: int | None = None,
+    segregate: bool = False,
+    website_max_slots: int | None = None,
+    website_chunk_floor: float | None = None,
+) -> list[ContextBlock]:
+    settings = get_settings()
+    limit = limit or settings.retrieval_top_k
+    token_budget = token_budget or settings.context_token_budget
+    sim_threshold = settings.dedup_cosine_threshold
+    if not candidates:
+        return []
+
+    parents = _fetch_parents([c.parent_id for c in candidates if c.parent_id])
+
+    blocks: list[ContextBlock] = []
+    block_vectors: list[list[float]] = []
+    seen_parents: set[str] = set()
+    spent = 0
+
+    if segregate:
+        # Website leads (capped + floor-gated); PDFs fill the rest. Walking website
+        # first makes the final order website-first and lets a website block win a
+        # website/PDF near-dup tie (the PDF then lands in its also_available).
+        wmax = website_max_slots if website_max_slots is not None else settings.website_max_slots
+        floor = website_chunk_floor if website_chunk_floor is not None else settings.website_chunk_floor
+        website = [c for c in candidates if _is_website(c.payload)]
+        others = [c for c in candidates if not _is_website(c.payload)]
+        spent = _admit(
+            website, blocks=blocks, block_vectors=block_vectors,
+            seen_parents=seen_parents, parents=parents, spent=spent, limit=limit,
+            token_budget=token_budget, sim_threshold=sim_threshold,
+            max_add=wmax, floor=floor,
+        )
+        _admit(
+            others, blocks=blocks, block_vectors=block_vectors,
+            seen_parents=seen_parents, parents=parents, spent=spent, limit=limit,
+            token_budget=token_budget, sim_threshold=sim_threshold,
+        )
+        ordered = blocks  # already website-first
+        for i, block in enumerate(ordered, start=1):
+            block.n = i
+    else:
+        _admit(
+            candidates, blocks=blocks, block_vectors=block_vectors,
+            seen_parents=seen_parents, parents=parents, spent=spent, limit=limit,
+            token_budget=token_budget, sim_threshold=sim_threshold,
+        )
+        ordered = _order_for_attention(blocks)
+
+    _flag_conflicts(ordered)
+    return ordered
 
 
 def _flag_conflicts(blocks: list[ContextBlock]) -> None:
     for i, a in enumerate(blocks):
         for b in blocks[i + 1 :]:
-            if _linked(a.payload, b.payload):
+            if _linked(a.payload, b.payload) and not _same_source_two_formats(a.payload, b.payload):
                 a.conflict = b.conflict = True

@@ -86,11 +86,27 @@ def set_embedding(text: str, vector: Sequence[float]) -> None:
     _set_json(key, list(vector), settings.embedding_cache_ttl)
 
 
+def _pref_fingerprint() -> str:
+    """Hash of the retrieval-preference settings so that toggling the feature or
+    tuning its knobs self-invalidates both caches (otherwise old-mode answers
+    would be served until TTL and pollute before/after tuning comparisons)."""
+    s = get_settings()
+    return _sha(
+        str(s.prefer_website_enabled),
+        str(s.website_candidate_k),
+        str(s.website_max_slots),
+        str(s.website_chunk_floor),
+        str(s.retrieval_top_k),
+        str(s.retrieval_candidate_k),
+        str(s.context_token_budget),
+    )
+
+
 def response_signature(
     question: str, *, tenant_id: str, user_groups: Sequence[str], top_k: int
 ) -> str:
     scope = f"{tenant_id}|{','.join(sorted(user_groups))}|{top_k}"
-    return _sha(corpus_version(), question.strip().lower(), scope)
+    return _sha(corpus_version(), question.strip().lower(), scope, _pref_fingerprint())
 
 
 def get_response(signature: str) -> dict[str, Any] | None:
@@ -116,7 +132,7 @@ def _cosine(a: Sequence[float], b: Sequence[float]) -> float:
 
 
 def _sem_key() -> str:
-    return f"{_NS}:sem:{corpus_version()}"
+    return f"{_NS}:sem:{corpus_version()}:{_pref_fingerprint()[:16]}"
 
 
 def semantic_lookup(

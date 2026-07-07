@@ -11,16 +11,6 @@ from app.retrieval.hybrid_search import Candidate
 
 logger = logging.getLogger(__name__)
 
-# "website" = Drupal content (canonical value; "article" kept for points indexed
-# before the rename — see scripts/migrate_source_type_website.py).
-_AUTHORITY = {
-    "pdf": 1.0,
-    "pdf_attachment": 1.0,
-    "report": 0.95,
-    "policy": 0.95,
-    "website": 0.65,
-    "article": 0.65,
-}
 _MAX_LLM_CANDIDATES = 40
 _LLM_SNIPPET_CHARS = 600
 
@@ -54,10 +44,14 @@ def _recency_scores(candidates: Sequence[Candidate]) -> list[float]:
 
 
 def _authority_score(payload: dict) -> float:
+    # Source-type authority map removed (it only ever penalized website content;
+    # website preference is now handled by the dual-pull + segregation, see
+    # docs/website-preference-retrieval.md). The per-document `source_authority`
+    # override hook is kept for future use; absent it, authority is neutral.
     explicit = payload.get("source_authority")
     if isinstance(explicit, (int, float)):
         return max(0.0, min(1.0, float(explicit)))
-    return _AUTHORITY.get(payload.get("source_type", ""), 0.5)
+    return 0.5
 
 
 class _Relevance(BaseModel):
@@ -181,7 +175,10 @@ def rerank(
 
     scored.sort(key=lambda t: t[0], reverse=True)
     ranked = [
-        Candidate(id=c.id, score=blended, payload=c.payload, vector=c.vector)
-        for blended, _sem, c in scored
+        Candidate(
+            id=c.id, score=blended, payload=c.payload, vector=c.vector,
+            semantic_score=sem,
+        )
+        for blended, sem, c in scored
     ]
     return ranked[:top_n] if top_n else ranked

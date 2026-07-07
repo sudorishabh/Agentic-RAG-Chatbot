@@ -21,6 +21,10 @@ class Candidate:
     score: float
     payload: dict[str, Any] = field(default_factory=dict)
     vector: list[float] = field(default_factory=list)
+    # Raw semantic relevance score (pre-blend / pre-normalization) carried through
+    # rerank() so the context builder can apply the website relevance floor.
+    # Defaults to `score` until rerank() populates it.
+    semantic_score: float = 0.0
 
     @property
     def parent_id(self) -> str | None:
@@ -36,6 +40,7 @@ def build_filter(
     tenant_id: str = "default",
     user_groups: Sequence[str] | None = None,
     extra: Sequence[Any] | None = None,
+    extra_must_not: Sequence[Any] | None = None,
 ) -> Any:
     from qdrant_client.models import FieldCondition, Filter, MatchAny, MatchValue
 
@@ -52,6 +57,8 @@ def build_filter(
     must_not = [
         FieldCondition(key="section_type", match=MatchAny(any=list(_NON_SEARCHABLE_SECTIONS)))
     ]
+    if extra_must_not:
+        must_not.extend(extra_must_not)
     return Filter(must=must, must_not=must_not)
 
 
@@ -62,6 +69,7 @@ def search(
     tenant_id: str = "default",
     user_groups: Sequence[str] | None = None,
     extra_filter: Sequence[Any] | None = None,
+    extra_must_not: Sequence[Any] | None = None,
     query_vector: Sequence[float] | None = None,
     with_vectors: bool = True,
 ) -> list[Candidate]:
@@ -75,7 +83,8 @@ def search(
 
     vector = list(query_vector) if query_vector is not None else get_embeddings().embed_query(query)
     query_filter = build_filter(
-        tenant_id=tenant_id, user_groups=user_groups, extra=extra_filter
+        tenant_id=tenant_id, user_groups=user_groups, extra=extra_filter,
+        extra_must_not=extra_must_not,
     )
 
     response = client.query_points(

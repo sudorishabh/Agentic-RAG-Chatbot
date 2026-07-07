@@ -103,6 +103,43 @@ def _grounded_answer(
     return answer
 
 
+def _dual_search(
+    search_query: str,
+    *,
+    tenant_id: str,
+    user_groups: list[str],
+    filters: list[Any] | None,
+    query_vector: list[float] | None,
+    settings: Any,
+) -> list[Any]:
+    """Two pulls sharing one query vector: website (source_type == website) and
+    "not website". Preserves any non-source filters (language / date) on both.
+    Their union guarantees the website's best chunks are fetched even though PDFs
+    dominate the corpus (see docs/website-preference-retrieval.md)."""
+    from qdrant_client.models import FieldCondition, MatchValue
+
+    base = list(filters or [])
+    website_cond = FieldCondition(key="source_type", match=MatchValue(value="website"))
+    website = search(
+        search_query,
+        limit=settings.website_candidate_k,
+        tenant_id=tenant_id,
+        user_groups=user_groups,
+        extra_filter=base + [website_cond],
+        query_vector=query_vector,
+    )
+    others = search(
+        search_query,
+        limit=settings.retrieval_candidate_k,
+        tenant_id=tenant_id,
+        user_groups=user_groups,
+        extra_filter=base or None,
+        extra_must_not=[website_cond],
+        query_vector=query_vector,
+    )
+    return website + others
+
+
 def retrieve(
     search_query: str,
     *,
@@ -112,20 +149,37 @@ def retrieve(
     n: int | None = None,
     query_vector: list[float] | None = None,
     answer_format: str | None = None,
+    source_type: str | None = None,
 ) -> list[ContextBlock]:
     settings = get_settings()
     n = n or settings.retrieval_top_k
     user_groups = user_groups or ["public"]
 
+    # Prefer website content only when the feature is on, the user didn't pin a
+    # source (explicit intent → honor their filter with a single pull, else the
+    # PDF pull's "not website" would contradict a website filter), and the answer
+    # isn't a table (tables live in PDFs — don't force a website lead).
+    dual = bool(settings.prefer_website_enabled) and not source_type and answer_format != "table"
+
     with span("rag.search") as s:
-        candidates = search(
-            search_query,
-            limit=settings.retrieval_candidate_k,
-            tenant_id=tenant_id,
-            user_groups=user_groups,
-            extra_filter=filters or None,
-            query_vector=query_vector,
-        )
+        if query_vector is None:
+            from app.ingestion.embedder import embed_query_cached
+
+            query_vector = embed_query_cached(search_query)
+        if dual:
+            candidates = _dual_search(
+                search_query, tenant_id=tenant_id, user_groups=user_groups,
+                filters=filters, query_vector=query_vector, settings=settings,
+            )
+        else:
+            candidates = search(
+                search_query,
+                limit=settings.retrieval_candidate_k,
+                tenant_id=tenant_id,
+                user_groups=user_groups,
+                extra_filter=filters or None,
+                query_vector=query_vector,
+            )
         s.set("candidates", len(candidates))
 
     with span("rag.rerank") as s:
@@ -134,7 +188,7 @@ def retrieve(
         s.set("survivors", len(ranked))
     if not ranked:
         return []
-    return build_context(ranked, limit=n)
+    return build_context(ranked, limit=n, segregate=dual)
 
 
 def _answer(
@@ -185,6 +239,7 @@ def _answer(
         n=n,
         query_vector=query_vector,
         answer_format=pq.answer_format,
+        source_type=pq.source_type,
     )
     if not blocks:
         return _empty(pq.intent, REFUSAL, answer_format=pq.answer_format)
@@ -292,7 +347,7 @@ def stream_answer(
     blocks = retrieve(
         pq.search_query, tenant_id=tenant_id, user_groups=user_groups,
         filters=pq.filters, n=n, query_vector=query_vector,
-        answer_format=pq.answer_format,
+        answer_format=pq.answer_format, source_type=pq.source_type,
     )
     if not blocks:
         yield {"type": "token", "text": REFUSAL}
@@ -326,6 +381,7 @@ def search_blocks(
     blocks = retrieve(
         pq.search_query, tenant_id=tenant_id, user_groups=user_groups,
         filters=pq.filters, n=top_k, answer_format=pq.answer_format,
+        source_type=pq.source_type,
     )
     return {
         "intent": pq.intent,

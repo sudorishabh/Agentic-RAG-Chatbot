@@ -74,6 +74,21 @@ class Settings(BaseSettings):
     worker_sweep_reconcile: bool = False
     retrieval_top_k: int = 6
     retrieval_candidate_k: int = 40
+    # Website-content preference (see docs/website-preference-retrieval.md).
+    # When enabled, retrieval runs two pulls — website (source_type == "website")
+    # and "not website" — merges them, and the context builder leads with a
+    # concise website section (capped) followed by PDF depth. Launches OFF; flip
+    # on after eval tuning.
+    prefer_website_enabled: bool = False
+    # Website-only candidates pulled alongside the (larger) not-website pull.
+    website_candidate_k: int = 20
+    # Max website blocks admitted (the concise lead). PDFs fill the rest, so no
+    # separate PDF floor is needed. Users' website needs are typically met in ~2.
+    website_max_slots: int = 2
+    # Per-chunk raw-semantic relevance floor a website chunk must clear to take a
+    # website slot (prevents padding the answer with weak website text). Scale is
+    # reranker-provider specific (dense cosine here); tuned empirically in eval.
+    website_chunk_floor: float = 0.30
     hybrid_use_sparse: bool = False
     reranker_provider: str = "embedding"
     rerank_model: str = ""
@@ -87,9 +102,10 @@ class Settings(BaseSettings):
     dedup_cosine_threshold: float = 0.92
     # Max tokens of retrieved context sent to the LLM. Blocks are parent chunks
     # (~1800 tokens each), so this gates roughly context_token_budget / 1800
-    # passages; 6000 keeps ~3 diverse sources — balanced for quality vs prefill
-    # latency. Raise toward 8000 for broad multi-source questions.
-    context_token_budget: int = 6000
+    # passages; 9000 keeps ~5 diverse sources — sized so the website-preference
+    # split (2 website + ~3 PDF depth) can fit. Prefill cost/latency rises only on
+    # content-rich queries (see docs/website-preference-retrieval.md §9, §13).
+    context_token_budget: int = 9000
     faithfulness_check: bool = False
     metrics_log_enabled: bool = True
     cors_allow_origins: str = "*"
