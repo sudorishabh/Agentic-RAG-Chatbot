@@ -24,18 +24,40 @@ environment, what to verify, how to tune, and how to roll back.
 
 ## 2. Enable / disable
 
-Set in `.env` (env var = upper-cased field name):
+**What "behind a flag, default off" means.** `prefer_website_enabled` is a config
+switch that turns the whole feature on or off **without touching code**. It ships set
+to `false`, so although all the new code is present, it does **not run** — the app
+behaves exactly as before (single pull, no website preference). Setting it to `true`
+is what activates the dual-retrieval, website-first behavior. This lets the code be
+merged and deployed with zero risk to current behavior; you enable it only in a test
+environment, and can revert instantly.
 
-```
-PREFER_WEBSITE_ENABLED=true      # turn the feature on (default false)
-WEBSITE_CANDIDATE_K=20           # website-only pull size
-WEBSITE_MAX_SLOTS=2              # max website blocks (the concise lead)
-WEBSITE_CHUNK_FLOOR=0.30         # relevance floor for a website slot (TUNE — see §6)
-CONTEXT_TOKEN_BUDGET=9000        # raised from 6000 so ~5 blocks fit (2 web + ~3 pdf)
-```
+**How settings are read.** The app loads settings from a `.env` file in the project
+root (`D:\Agentic-RAG-Chatbot\.env`), where each setting's name is the **upper-cased**
+field name. Settings are loaded **once at process start** (memoized), so any change
+requires a **restart** to take effect.
 
-**Rollback** = `PREFER_WEBSITE_ENABLED=false` (instant; reverts to single-pull
-behavior). No re-ingest needed to toggle.
+**Steps to enable:**
+
+1. Open (or create) `.env` in the project root — it's gitignored, so it stays local.
+2. Add the switch (the other lines are optional; they have working defaults):
+   ```
+   PREFER_WEBSITE_ENABLED=true      # turn the feature on (default false)
+   WEBSITE_CANDIDATE_K=20           # website-only pull size
+   WEBSITE_MAX_SLOTS=2              # max website blocks (the concise lead)
+   WEBSITE_CHUNK_FLOOR=0.30         # relevance floor for a website slot (TUNE — see §6)
+   CONTEXT_TOKEN_BUDGET=9000        # raised from 6000 so ~5 blocks fit (2 web + ~3 pdf)
+   ```
+3. **Restart the API server** so the new setting is picked up.
+4. **Confirm it's on** — hit `POST /search` with a website-answerable question (§3);
+   website blocks should now appear first (lowest `n`), capped at 2.
+
+**Rollback** = set `PREFER_WEBSITE_ENABLED=false` (or delete the line) and restart.
+Instant; reverts to single-pull behavior. No re-ingest needed to toggle.
+
+> Prerequisite: enabling the flag is step 2. Do the fresh Qdrant rebuild + re-ingest
+> (§1) **first**, or the two pulls run against old/mixed data and results won't be
+> meaningful.
 
 > Toggling the flag or changing any of these knobs changes the cache fingerprint, so
 > old-mode cached answers are automatically bypassed — before/after comparisons stay
