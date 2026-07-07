@@ -171,6 +171,23 @@ def keys(source_type: str, bundle: str | None = None) -> set[str]:
         return {row["document_id"] for row in cur.fetchall()}
 
 
+def count_documents(source_type: str | None = None, bundle: str | None = None) -> int:
+    table = _table()
+    clauses: list[str] = []
+    params: list[str] = []
+    if source_type is not None:
+        clauses.append("source_type = %s")
+        params.append(source_type)
+    if bundle is not None:
+        clauses.append("bundle = %s")
+        params.append(bundle)
+    where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(f"SELECT COUNT(*) AS n FROM `{table}`{where}", tuple(params))
+        row = cur.fetchone()
+    return int(row["n"]) if row and row["n"] is not None else 0
+
+
 def iter_records(source_type: str) -> Iterator[StateRecord]:
     for record in load(source_type).values():
         yield record
