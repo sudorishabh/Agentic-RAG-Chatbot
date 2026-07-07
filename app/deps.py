@@ -55,6 +55,22 @@ def ensure_collection() -> None:
             collection_name=settings.qdrant_collection,
             vectors_config=VectorParams(size=dimension, distance=Distance.COSINE),
         )
+    _ensure_datetime_index(client, settings.qdrant_collection, "published_at")
+
+
+def _ensure_datetime_index(client: "QdrantClient", collection: str, field: str) -> None:
+    """Index a payload field as datetime so range filters work. Idempotent and
+    best-effort: date filtering degrades gracefully if the index can't be made."""
+    try:
+        from qdrant_client.models import PayloadSchemaType
+
+        client.create_payload_index(
+            collection_name=collection,
+            field_name=field,
+            field_schema=PayloadSchemaType.DATETIME,
+        )
+    except Exception:
+        logger.debug("Could not ensure datetime index on %r.", field, exc_info=True)
 
 
 def delete_document(document_id: str) -> None:

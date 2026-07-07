@@ -208,6 +208,30 @@ def delete(document_ids: Iterable[str]) -> int:
     return int(removed or 0)
 
 
+def backfill_facets(
+    document_id: str,
+    published_at: str | None,
+    authors: Iterable[str],
+    categories: Iterable[str],
+) -> bool:
+    """Set the date/author/category facets for an already-cataloged document
+    (e.g. one indexed before these columns existed). Returns False when no
+    catalog row exists for the id, leaving child rows untouched (FK safety)."""
+    table = _table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(f"SELECT 1 FROM `{table}` WHERE document_id = %s", (document_id,))
+        if cur.fetchone() is None:
+            return False
+        cur.execute(
+            f"UPDATE `{table}` SET published_at = %s WHERE document_id = %s",
+            (_to_datetime(published_at), document_id),
+        )
+        _replace_facet(cur, table, "author", document_id, authors)
+        _replace_facet(cur, table, "category", document_id, categories)
+        conn.commit()
+    return True
+
+
 def high_water(source_type: str, bundle: str | None = None) -> int | None:
     table = _table()
     sql = f"SELECT MAX(changed_mark) AS hw FROM `{table}` WHERE source_type = %s"

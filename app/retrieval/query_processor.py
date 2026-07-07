@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from typing import Any, Literal, Sequence
 
 from pydantic import BaseModel, Field
@@ -36,6 +37,10 @@ _ANALYSIS_SYSTEM = (
     "otherwise 'default'.\n"
     "- source_type: 'pdf' or 'website' ONLY if the user explicitly restricts to "
     "documents/PDFs or to website content (articles/news/pages); otherwise null.\n"
+    "- date_from / date_to: inclusive start and exclusive end ISO date (YYYY-MM-DD) "
+    "bounding any date or period the user restricts to (e.g. 'in 2024', 'since March "
+    "2023', 'on 5 Jan 2024'). For a single day set date_to to the next day; for "
+    "'since'/'after' set only date_from; for 'before' only date_to; else both null.\n"
     "- language: a two-letter code ONLY if the user explicitly asks in/about a "
     "specific language; otherwise null."
 )
@@ -46,6 +51,8 @@ class QueryAnalysis(BaseModel):
     search_query: str = Field(description="Standalone, pronoun-resolved query.")
     answer_format: AnswerFormat = "default"
     source_type: str | None = None
+    date_from: str | None = None
+    date_to: str | None = None
     language: str | None = None
 
 
@@ -71,6 +78,16 @@ def _format_history(history: Sequence[dict[str, str]] | None, max_turns: int = 6
     return "\n".join(f"{t.get('role', 'user')}: {t.get('content', '')}" for t in recent)
 
 
+def _parse_bound(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        dt = datetime.fromisoformat(value)
+    except ValueError:
+        return None
+    return dt.replace(tzinfo=timezone.utc) if dt.tzinfo is None else dt.astimezone(timezone.utc)
+
+
 def _facet_filters(analysis: QueryAnalysis) -> list[Any]:
     from qdrant_client.models import FieldCondition, MatchAny, MatchValue
 
@@ -89,6 +106,13 @@ def _facet_filters(analysis: QueryAnalysis) -> list[Any]:
     if analysis.language:
         conditions.append(
             FieldCondition(key="language", match=MatchValue(value=analysis.language))
+        )
+    lo, hi = _parse_bound(analysis.date_from), _parse_bound(analysis.date_to)
+    if lo is not None or hi is not None:
+        from qdrant_client.models import DatetimeRange
+
+        conditions.append(
+            FieldCondition(key="published_at", range=DatetimeRange(gte=lo, lt=hi))
         )
     return conditions
 
