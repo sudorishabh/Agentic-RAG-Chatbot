@@ -170,6 +170,11 @@ def _date_range(sq: StructuredQuery) -> tuple[datetime | None, datetime | None]:
 
 
 def _period_label(sq: StructuredQuery) -> str:
+    lo, hi = _parse_date(sq.date_from), _parse_date(sq.date_to)
+    # A whole-calendar-year range reads better as "in YYYY" than as raw bounds
+    # (the LLM often expands "in 2024" to 2024-01-01 .. 2025-01-01).
+    if lo and hi and (lo.month, lo.day) == (1, 1) and hi == datetime(lo.year + 1, 1, 1):
+        return f" in {lo.year}"
     if sq.year and not sq.date_from and not sq.date_to:
         return f" in {sq.year}"
     if sq.date_from and sq.date_to:
@@ -181,9 +186,44 @@ def _period_label(sq: StructuredQuery) -> str:
     return ""
 
 
+# Display (singular, plural) forms for the count answer. Bundle names are
+# inconsistently pluralized ("events" vs "report" vs "news"), so map the known
+# ones; anything else gets a humanized best-effort.
+_BUNDLE_LABELS: dict[str, tuple[str, str]] = {
+    "news": ("news item", "news items"),
+    "events": ("event", "events"),
+    "feature_articles": ("feature article", "feature articles"),
+    "completed_projects": ("completed project", "completed projects"),
+    "ongoing_projects": ("ongoing project", "ongoing projects"),
+    "press_release": ("press release", "press releases"),
+    "research_papers": ("research paper", "research papers"),
+    "policy_brief": ("policy brief", "policy briefs"),
+    "videos": ("video", "videos"),
+    "infographics": ("infographic", "infographics"),
+    "services": ("service", "services"),
+    "people": ("person", "people"),
+    "article": ("article", "articles"),
+    "report": ("report", "reports"),
+    "page": ("page", "pages"),
+    "carousel": ("carousel", "carousels"),
+    "items": ("item", "items"),
+}
+
+
+def _scope_label(scope: str, n: int) -> str:
+    forms = _BUNDLE_LABELS.get(scope)
+    if forms:
+        return forms[0] if n == 1 else forms[1]
+    human = scope.replace("_", " ")
+    if n == 1:
+        return human[:-1] if human.endswith("s") else human
+    return human if human.endswith("s") else f"{human}s"
+
+
 def _count_result(total: int, scope: str, period: str) -> dict[str, Any]:
+    verb = "is" if total == 1 else "are"
     return {
-        "answer": f"There are {total} {scope}{period} matching your query.",
+        "answer": f"There {verb} {total} {_scope_label(scope, total)}{period} matching your query.",
         "citations": [],
         "intent": "structured",
         "used_chunks": 0,

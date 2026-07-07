@@ -73,6 +73,19 @@ def test_period_label_matches_range():
     assert dr._period_label(q(operation="count", date_from="2023-01-01")) == " since 2023-01-01"
     assert dr._period_label(q(operation="count", date_to="2023-01-01")) == " before 2023-01-01"
     assert dr._period_label(q(operation="count")) == ""
+    # a whole-year range (as the LLM tends to emit) collapses to "in YYYY"
+    assert dr._period_label(q(operation="count", date_from="2024-01-01", date_to="2025-01-01")) == " in 2024"
+
+
+def test_count_result_grammar_and_labels():
+    ans = lambda n, scope: dr._count_result(n, scope, "")["answer"]
+    assert ans(1, "events") == "There is 1 event matching your query."
+    assert ans(3, "events") == "There are 3 events matching your query."
+    assert ans(2, "news") == "There are 2 news items matching your query."
+    assert ans(1, "items") == "There is 1 item matching your query."
+    # unknown bundle -> humanized best-effort, still grammatical
+    assert ans(1, "widgets") == "There is 1 widget matching your query."
+    assert ans(2, "widget") == "There are 2 widgets matching your query."
 
 
 # --------------------------------------------------------------------------- #
