@@ -7,6 +7,7 @@ import requests
 from pydantic import BaseModel, Field
 
 from app.config import get_settings
+from app.ingestion import state
 from app.ingestion.extractors.drupal_extractor import (
     DEFAULT_BUNDLES,
     DrupalRecord,
@@ -64,12 +65,34 @@ def parse_structured(question: str, history: Sequence[dict[str, str]] | None = N
         return None
 
 
+# Free-text content types the LLM may emit that regular plural/singular matching
+# won't map to a known bundle (e.g. "person" -> "people").
+_BUNDLE_SYNONYMS: dict[str, str] = {
+    "person": "people",
+    "paper": "research_papers",
+    "policy": "policy_brief",
+    "brief": "policy_brief",
+    "news_article": "news",
+    "press": "press_release",
+}
+
+
+def _normalize_bundle(raw: str | None) -> str | None:
+    """Map a free-text content type ('event', 'press release') to a known bundle.
+    Falls back to the cleaned key so an unknown type counts as zero, not as all."""
+    if not raw:
+        return None
+    key = raw.strip().lower().replace(" ", "_").replace("-", "_")
+    if key in DEFAULT_BUNDLES:
+        return key
+    for variant in (f"{key}s", key.rstrip("s")):
+        if variant in DEFAULT_BUNDLES:
+            return variant
+    return _BUNDLE_SYNONYMS.get(key, key)
+
+
 def _bundles_for(sq: StructuredQuery) -> tuple[str, ...]:
-    if sq.bundle and sq.bundle in DEFAULT_BUNDLES:
-        return (sq.bundle,)
-    if sq.bundle:
-        return (sq.bundle,)
-    return DEFAULT_BUNDLES
+    return (sq.bundle,) if sq.bundle else DEFAULT_BUNDLES
 
 
 def _filter_params(sq: StructuredQuery) -> dict[str, Any]:
@@ -136,6 +159,40 @@ def _fetch(session: requests.Session, bundle: str, filters: dict[str, Any], *, p
     return out
 
 
+def _count_result(total: int, scope: str, year: int | None) -> dict[str, Any]:
+    suffix = f" in {year}" if year else ""
+    return {
+        "answer": f"There are {total} {scope}{suffix} matching your query.",
+        "citations": [],
+        "intent": "structured",
+        "used_chunks": 0,
+        "conflict": False,
+        "cached": False,
+    }
+
+
+def _answer_count(
+    sq: StructuredQuery, session: requests.Session, filters: dict[str, Any]
+) -> dict[str, Any]:
+    scope = sq.bundle or "items"
+    # Answer exactly from the ingested catalog. Author/year filters aren't stored
+    # there yet, so those still fall back to a live Drupal count.
+    if not sq.author and not sq.year:
+        try:
+            total = state.count_documents(source_type="website", bundle=sq.bundle)
+            return _count_result(total, scope, None)
+        except Exception:
+            logger.warning("Catalog count failed; falling back to Drupal.", exc_info=True)
+
+    total = 0
+    for bundle in _bundles_for(sq):
+        try:
+            total += _count(session, bundle, filters, True)
+        except requests.RequestException:
+            logger.warning("Count failed for node/%s; skipping.", bundle, exc_info=True)
+    return _count_result(total, scope, sq.year)
+
+
 def answer_structured(
     question: str,
     history: Sequence[dict[str, str]] | None = None,
@@ -143,25 +200,14 @@ def answer_structured(
     sq = parse_structured(question, history)
     if sq is None:
         return None
+    sq.bundle = _normalize_bundle(sq.bundle)
 
     settings = get_settings()
     filters = _filter_params(sq)
     session = _build_session(settings.drupal_max_retries)
     try:
         if sq.operation == "count":
-            total = 0
-            for bundle in _bundles_for(sq):
-                try:
-                    total += _count(session, bundle, filters, True)
-                except requests.RequestException:
-                    logger.warning("Count failed for node/%s; skipping.", bundle, exc_info=True)
-            scope = sq.bundle or "items"
-            year = f" in {sq.year}" if sq.year else ""
-            return {
-                "answer": f"There are {total} {scope}{year} matching your query.",
-                "citations": [], "intent": "structured",
-                "used_chunks": 0, "conflict": False, "cached": False,
-            }
+            return _answer_count(sq, session, filters)
 
         records: list[DrupalRecord] = []
         for bundle in _bundles_for(sq):
