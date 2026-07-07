@@ -388,7 +388,9 @@ PDF ingestion stays off unless `drupal_ingest_external_pdfs=true`.
 ## 9. Thematic areas — coverage verification (2026-07-03)
 
 Follow-up check: are TERI's thematic areas and their details fully captured by
-the changes above? **Yes for content; two structural items are not stored.**
+the changes above? **Yes** — the term descriptions, the parent→child hierarchy,
+and the theme↔content associations (including `news`) are all captured. Only
+theme banner images and SEO metatags are intentionally skipped.
 
 ### Captured
 
@@ -417,8 +419,13 @@ the changes above? **Yes for content; two structural items are not stored.**
   `policy_brief`→`field_policybrief_theme`, `events`→`field_event_theme`,
   `feature_articles`→`field_farticle_theme`,
   `completed_projects`→`field_completed_theme`,
-  `ongoing_projects`→`field_ongoing_theme`. Verified end-to-end (e.g. a research
-  paper resolves to `Forest & Biodiversity, Land, Environment`).
+  `ongoing_projects`→`field_ongoing_theme`, `news`→`field_news_themes`. Verified
+  end-to-end (e.g. a research paper resolves to `Forest & Biodiversity, Land,
+  Environment`).
+- **Theme hierarchy (parent → child).** The taxonomy `parent` relationship is
+  captured (`include=parent`) and a sub-theme's parent area is indexed as a
+  `category`, so e.g. "Air" is retrievable under "Environment". Top-level terms
+  have no parent.
 - **The content under each theme** — the articles/events/papers a theme page
   lists are the individual node documents we already ingest. Theme pages are
   Drupal Views (description + grouped lists), so nothing unique to the page is
@@ -426,22 +433,16 @@ the changes above? **Yes for content; two structural items are not stored.**
 
 ### Missing (ranked)
 
-1. **`news` is not tagged to any theme.** The `news` bundle has **no theme field
-   at all** in Drupal (0 of 25 sampled), unlike every other content bundle. So
-   news items cannot be associated to a thematic area. **This is a content-model
-   gap on the Drupal side, not an extraction gap** — we can't capture an
-   association that doesn't exist. Flag to the Drupal team if news should be
-   themed.
-2. **Theme hierarchy (parent → child tree) is not stored.** All 35 themes are
-   kept as flat records with their descriptions; the parent link (e.g. "Air" is
-   under "Environment") is skipped because `parent` is not a `field_*`
-   relationship. All content is present — only the tree structure is absent.
-   Easy to add (capture the `parent` relationship) if theme breadcrumbs are
-   wanted. Minor for retrieval.
-3. **Theme banner images** (`field_theme_image`) — not captured (intended;
+1. **Theme banner images** (`field_theme_image`) — not captured (intended;
    images are not text).
-4. **Theme SEO `metatag`** — not captured; typically a shortened duplicate of the
+2. **Theme SEO `metatag`** — not captured; typically a shortened duplicate of the
    description, so no real content loss.
+
+> **Corrected 2026-07-07** (via `app/local_tests/thematic_areas_test`): two items
+> previously listed here are resolved. *Theme hierarchy* is now captured (see
+> above). And `news` **is** themable — it carries `field_news_themes` and
+> resolves into `categories` — correcting the earlier "news has no theme field"
+> finding; the field exists on the live site.
 
 ---
 
@@ -454,3 +455,4 @@ the changes above? **Yes for content; two structural items are not stored.**
 | 2026-07-03 | Full Drupal sweep: **1,096** PDF URLs in nodes (528 nodes) + 46 in blocks + 1 in taxonomy ≈ **1,143 total**. Links also in `field_*` text (not just `body`). R7 scope widened to all rich-text fields + blocks + taxonomy. | R7 | — |
 | 2026-07-03 | Implemented R1–R5 + R7 on `feat/drupal-coverage-inbody-pdfs`; verified live. See §8. | R1–R5,R7 | `63b7f2e` |
 | 2026-07-03 | Added §9: thematic-areas verification — all 35 themes + descriptions + associations captured; gaps = news has no theme field, theme parent/child tree & images not stored. | — | — |
+| 2026-07-07 | Captured taxonomy `parent` → theme hierarchy preserved; sub-theme parent area indexed as a `category`. Corrected §9: `news` **is** themable (`field_news_themes`). Added `app/local_tests/thematic_areas_test`. | — | — |
