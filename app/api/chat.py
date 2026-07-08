@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from functools import lru_cache
 from typing import AsyncIterator, Iterator
 
@@ -15,6 +16,7 @@ from app.rag import stream_answer
 from app.schemas.query import QueryRequest
 
 router = APIRouter(tags=["chat"])
+logger = logging.getLogger(__name__)
 
 _END = object()  # sentinel: the sync event stream is exhausted
 
@@ -50,6 +52,13 @@ async def _sse(events: Iterator[dict]) -> AsyncIterator[str]:
             if event is _END:
                 break
             yield f"data: {json.dumps(event)}\n\n"
+    except Exception:
+        # The 200 + headers are already on the wire, so an HTTP error is no
+        # longer possible; a terminal SSE event is the only way to tell the
+        # client the answer was cut short (a bare disconnect renders as a
+        # complete answer). Generic on purpose — details stay in the log.
+        logger.exception("Chat stream failed mid-response.")
+        yield 'data: {"type": "error"}\n\n'
     finally:
         # Runs on normal completion and on client disconnect: close the sync
         # generator so the pipeline's finally blocks (spans, cache writes in

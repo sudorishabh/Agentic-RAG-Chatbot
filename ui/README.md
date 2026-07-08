@@ -15,16 +15,15 @@ Drop a single tag onto any page — that's the whole install:
 ```html
 <script
   src="https://chatbot.teriin.org/ui/script.js"
-  data-api-base="https://chatbot.teriin.org"></script>
+  data-api-base="https://chatbot.teriin.org"
+  data-title="TERI AI SARTHI"></script>
 ```
 
 | `data-*` attribute | Meaning | Default |
 | --- | --- | --- |
 | `data-api-base` | Backend origin the widget calls. On an `https` host page an `http://` base is auto-upgraded to `https://` (localhost/loopback exempt) so requests aren't blocked as mixed content. | `http://localhost:8000` |
+| `data-title` | Header / launcher label | `TERI AI SARTHI` |
 | `data-top-k` | Optional override for chunks retrieved per question | server default |
-
-The header / launcher title is currently fixed (`TERI AI SARTHI`) in
-`script.js`.
 
 The widget self-injects a launcher button (bottom-right), a welcome screen with
 TERI-relevant suggestion prompts, a **New chat** button (which also cancels any
@@ -88,7 +87,7 @@ CORS_ALLOW_ORIGINS=https://teriin.org,https://www.teriin.org,http://localhost:55
 
 | Endpoint | Purpose |
 | --- | --- |
-| `POST /chat` | Streamed answer (SSE: `token` / `sources` / `done`) |
+| `POST /chat` | Streamed answer (SSE: `token` / `sources` / `done`; a terminal `error` event when generation fails mid-stream) |
 
 Citation links for locally served PDFs point at `GET /source/{id}` on the API
 origin.

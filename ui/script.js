@@ -23,7 +23,9 @@
     return base;
   }
   const API_BASE = normalizeApiBase(cfg.apiBase);
-  const TITLE = "TERI AI SARTHI";
+  // data-title on the script tag overrides the header/launcher label. Always
+  // rendered through escapeHtml, so a hostile host-page value stays inert.
+  const TITLE = (cfg.title || "").trim() || "TERI AI SARTHI";
   const TOP_K = parseInt(cfg.topK || "", 10);
   const top_k = Number.isInteger(TOP_K) && TOP_K > 0 ? TOP_K : null;
 
@@ -346,15 +348,23 @@
             sources = event;
           } else if (event.type === "done") {
             return { answer, sources };
+          } else if (event.type === "error") {
+            // Server-signalled mid-stream failure.
+            throw new Error("The answer was interrupted. Please try again.");
           }
         }
       }
-      return { answer, sources };
+      // Every complete answer ends with a "done" event; a stream that just
+      // stops was truncated (server crash / dropped connection). Surface it
+      // instead of presenting the partial answer as complete.
+      throw new Error("The connection was interrupted. Please try again.");
     } finally {
-      // Every exit (done, stream end, abort/error) supersedes the live text —
+      // Every exit (done, truncation, abort/error) supersedes the live text —
       // the caller re-renders the full answer — so drop any queued flush
-      // before it writes into a replaced/detached node.
+      // before it writes into a replaced/detached node, and release the
+      // connection (the "done" return path otherwise leaves it open).
       if (raf) cancelAnimationFrame(raf);
+      reader.cancel().catch(() => {});
     }
   }
 
