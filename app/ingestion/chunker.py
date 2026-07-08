@@ -535,7 +535,10 @@ def _coalesce_windows(
         windows[lo] = windows[lo] + windows[hi]
         sizes[lo] = enc.count(_join_blocks(windows[lo]))
         del windows[hi], sizes[hi]
-        i = 0
+        # Resume at the merged window, not 0: every window before `lo` is already
+        # >= min_tokens and untouched by this merge, so rescanning them from the
+        # start (the old O(n^2) behaviour) can never find a new merge.
+        i = lo
     return windows
 
 
