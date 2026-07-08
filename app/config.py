@@ -114,6 +114,12 @@ class Settings(BaseSettings):
     context_token_budget: int = 9000
     faithfulness_check: bool = False
     metrics_log_enabled: bool = True
+    # Expose infrastructure detail (collection name, point counts, tuning
+    # values, raw error strings) on /ready and /metrics. Off by default: the
+    # retrieval API is public-facing and those bodies fingerprint the
+    # deployment — probes only need the status codes. Enable on private /
+    # dev deployments for human debugging.
+    ops_detail_enabled: bool = False
     cors_allow_origins: str = "*"
     # Absolute base URL of the retrieval API as reached from the browser
     # (e.g. "http://localhost:8000"). When set, citation links to locally

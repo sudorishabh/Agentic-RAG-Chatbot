@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
 
@@ -41,13 +41,19 @@ def _redis_status() -> dict:
 
 @router.get("/ready")
 async def ready() -> JSONResponse:
+    """Readiness probe. The 200/503 status code is the contract; the body
+    carries infrastructure detail only when ``ops_detail_enabled`` — error
+    strings and point counts fingerprint the deployment on the public API."""
+    detail = get_settings().ops_detail_enabled
     try:
         qdrant = await run_in_threadpool(_qdrant_status)
     except Exception as exc:
-        return JSONResponse(
-            status_code=503,
-            content={"status": "not_ready", "qdrant": {"reachable": False, "error": str(exc)}},
-        )
+        content: dict = {"status": "not_ready"}
+        if detail:
+            content["qdrant"] = {"reachable": False, "error": str(exc)}
+        return JSONResponse(status_code=503, content=content)
+    if not detail:
+        return JSONResponse(content={"status": "ready"})
     redis = await run_in_threadpool(_redis_status)
     return JSONResponse(content={"status": "ready", "qdrant": qdrant, "redis": redis})
 
@@ -55,6 +61,9 @@ async def ready() -> JSONResponse:
 @router.get("/metrics")
 async def metrics() -> dict:
     settings = get_settings()
+    if not settings.ops_detail_enabled:
+        # Hide the endpoint entirely: its whole body is deployment detail.
+        raise HTTPException(status_code=404, detail="Not Found")
     try:
         qdrant = await run_in_threadpool(_qdrant_status)
     except Exception as exc:
