@@ -3,7 +3,26 @@
 (function () {
   const SCRIPT = document.currentScript;
   const cfg = (SCRIPT && SCRIPT.dataset) || {};
-  const API_BASE = (cfg.apiBase || "http://localhost:8000").replace(/\/+$/, "");
+
+  // An https host page blocks http:// API calls as mixed content, so upgrade
+  // the scheme rather than fail silently. localhost/loopback is exempt —
+  // browsers treat it as a trustworthy origin, and dev servers are plain http.
+  function normalizeApiBase(raw) {
+    let base = (raw || "http://localhost:8000").replace(/\/+$/, "");
+    if (
+      window.location.protocol === "https:" &&
+      /^http:\/\//i.test(base) &&
+      !/^http:\/\/(localhost|127\.0\.0\.1|\[::1\])([:/]|$)/i.test(base)
+    ) {
+      base = "https://" + base.slice(7);
+      console.warn(
+        "[teri-rag] data-api-base upgraded to https to avoid mixed-content blocking:",
+        base,
+      );
+    }
+    return base;
+  }
+  const API_BASE = normalizeApiBase(cfg.apiBase);
   const TITLE = "TERI AI SARTHI";
   const TOP_K = parseInt(cfg.topK || "", 10);
   const top_k = Number.isInteger(TOP_K) && TOP_K > 0 ? TOP_K : null;
