@@ -9,8 +9,10 @@ from app.ingestion import state
 
 logger = logging.getLogger(__name__)
 
-# Document-level facets to lift out of the chunk payloads back into the catalog.
-_PAYLOAD_FIELDS = ["document_id", "published_at", "authors", "categories"]
+# Document-level fields to lift out of the chunk payloads back into the catalog.
+_PAYLOAD_FIELDS = [
+    "document_id", "published_at", "authors", "categories", "title", "source_url",
+]
 
 
 def _iter_payloads(batch_size: int = 512) -> Iterator[dict[str, Any]]:
@@ -56,10 +58,15 @@ def collect() -> dict[str, dict[str, Any]]:
         if not doc_id:
             continue
         entry = docs.setdefault(
-            doc_id, {"published_at": None, "authors": [], "categories": []}
+            doc_id,
+            {"published_at": None, "authors": [], "categories": [], "title": None, "url": None},
         )
         if entry["published_at"] is None and payload.get("published_at"):
             entry["published_at"] = payload["published_at"]
+        if entry["title"] is None and payload.get("title"):
+            entry["title"] = payload["title"]
+        if entry["url"] is None and payload.get("source_url"):
+            entry["url"] = payload["source_url"]
         for key in ("authors", "categories"):
             for value in _as_list(payload.get(key)):
                 if value not in entry[key]:
@@ -72,7 +79,8 @@ def backfill_catalog() -> dict[str, int]:
     updated = skipped = 0
     for doc_id, facets in docs.items():
         if state.backfill_facets(
-            doc_id, facets["published_at"], facets["authors"], facets["categories"]
+            doc_id, facets["published_at"], facets["authors"], facets["categories"],
+            title=facets["title"], url=facets["url"],
         ):
             updated += 1
         else:
@@ -87,7 +95,7 @@ def _main(argv: list[str] | None = None) -> int:
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="Backfill catalog date/author/category facets from Qdrant payloads."
+        description="Backfill catalog title/url/date/author/category from Qdrant payloads."
     )
     parser.parse_args(argv)
 

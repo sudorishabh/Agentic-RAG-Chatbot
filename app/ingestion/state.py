@@ -256,18 +256,25 @@ def backfill_facets(
     published_at: str | None,
     authors: Iterable[str],
     categories: Iterable[str],
+    *,
+    title: str | None = None,
+    url: str | None = None,
 ) -> bool:
-    """Set the date/author/category facets for an already-cataloged document
-    (e.g. one indexed before these columns existed). Returns False when no
-    catalog row exists for the id, leaving child rows untouched (FK safety)."""
+    """Set the date/author/category facets (and optionally title/url) for an
+    already-cataloged document (e.g. one indexed before these columns existed).
+    title/url only overwrite when a value is supplied (COALESCE), so rows already
+    populated at ingest are left intact. Returns False when no catalog row exists
+    for the id, leaving child rows untouched (FK safety)."""
     table = _table()
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(f"SELECT 1 FROM `{table}` WHERE document_id = %s", (document_id,))
         if cur.fetchone() is None:
             return False
         cur.execute(
-            f"UPDATE `{table}` SET published_at = %s WHERE document_id = %s",
-            (_to_datetime(published_at), document_id),
+            f"UPDATE `{table}` SET published_at = %s, "
+            f"title = COALESCE(%s, title), url = COALESCE(%s, url) "
+            f"WHERE document_id = %s",
+            (_to_datetime(published_at), title, url, document_id),
         )
         _replace_facet(cur, table, "author", document_id, authors)
         _replace_facet(cur, table, "category", document_id, categories)
