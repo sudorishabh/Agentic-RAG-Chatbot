@@ -227,7 +227,10 @@ def _answer(
             return structured
 
     query_vector = embed_query_cached(pq.search_query)
-    semantic = redis_cache.semantic_lookup(query_vector, answer_format=pq.answer_format)
+    semantic = redis_cache.semantic_lookup(
+        query_vector, tenant_id=tenant_id, user_groups=user_groups,
+        top_k=n, answer_format=pq.answer_format,
+    )
     if semantic is not None:
         return {**semantic, "cached": True}
 
@@ -259,7 +262,10 @@ def _answer(
         "cached": False,
     }
     redis_cache.set_response(signature, result)
-    redis_cache.semantic_store(query_vector, result, answer_format=pq.answer_format)
+    redis_cache.semantic_store(
+        query_vector, result, tenant_id=tenant_id, user_groups=user_groups,
+        top_k=n, answer_format=pq.answer_format,
+    )
     return result
 
 

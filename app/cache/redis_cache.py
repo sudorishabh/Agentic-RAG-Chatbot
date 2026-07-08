@@ -131,19 +131,32 @@ def _cosine(a: Sequence[float], b: Sequence[float]) -> float:
     return dot / (na * nb) if na and nb else 0.0
 
 
-def _sem_key() -> str:
-    return f"{_NS}:sem:{corpus_version()}:{_pref_fingerprint()[:16]}"
+def _identity_scope(tenant_id: str, user_groups: Sequence[str], top_k: int) -> str:
+    return f"{tenant_id}|{','.join(sorted(user_groups))}|{top_k}"
+
+
+def _sem_key(scope: str) -> str:
+    # The caller's identity (tenant + groups + top_k) is folded into the key so a
+    # cached answer built from one caller's ACL-scoped documents is never served to
+    # another — the semantic cache would otherwise ignore document ACLs.
+    return f"{_NS}:sem:{corpus_version()}:{_sha(_pref_fingerprint(), scope)[:16]}"
 
 
 def semantic_lookup(
-    query_vector: Sequence[float], *, answer_format: str = "default"
+    query_vector: Sequence[float],
+    *,
+    tenant_id: str,
+    user_groups: Sequence[str],
+    top_k: int,
+    answer_format: str = "default",
 ) -> dict[str, Any] | None:
     settings = get_settings()
     client = _client()
     if client is None or not settings.semantic_cache_enabled or not query_vector:
         return None
+    key = _sem_key(_identity_scope(tenant_id, user_groups, top_k))
     try:
-        entries = client.lrange(_sem_key(), 0, settings.semantic_cache_max - 1)
+        entries = client.lrange(key, 0, settings.semantic_cache_max - 1)
     except Exception:  # pragma: no cover
         return None
     best, best_sim = None, settings.semantic_cache_threshold
@@ -163,13 +176,19 @@ def semantic_lookup(
 
 
 def semantic_store(
-    query_vector: Sequence[float], payload: dict[str, Any], *, answer_format: str = "default"
+    query_vector: Sequence[float],
+    payload: dict[str, Any],
+    *,
+    tenant_id: str,
+    user_groups: Sequence[str],
+    top_k: int,
+    answer_format: str = "default",
 ) -> None:
     settings = get_settings()
     client = _client()
     if client is None or not settings.semantic_cache_enabled or not query_vector:
         return
-    key = _sem_key()
+    key = _sem_key(_identity_scope(tenant_id, user_groups, top_k))
     try:
         client.lpush(key, json.dumps({"v": list(query_vector), "p": payload, "f": answer_format}))
         client.ltrim(key, 0, settings.semantic_cache_max - 1)
