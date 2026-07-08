@@ -5,6 +5,7 @@ import uuid
 from collections import Counter
 from typing import Callable, Iterable, Iterator
 
+from app.config import get_settings
 from app.core.models import CanonicalDocument
 from app.ingestion import change_detection as cd
 from app.ingestion import ingest_log
@@ -98,7 +99,8 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
             record.prior.size != record.size or record.prior.mtime_ns != record.mtime_ns
         ):
             state.update_stat(record.document_id, record.size, record.mtime_ns)
-        _log(run_id, record, "unchanged", version=prior_version)
+        if get_settings().ingest_log_unchanged:
+            _log(run_id, record, "unchanged", version=prior_version)
         return "unchanged"
 
     logger.info(

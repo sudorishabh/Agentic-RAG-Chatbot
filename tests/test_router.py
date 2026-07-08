@@ -27,8 +27,23 @@ from app.ingestion.extractors.pdf_extractor import (
 from app.ingestion.extractors.pymupdf_local import PageSignal
 
 
-def _sig(page: int, *, scanned: bool = False, has_table: bool = False, chars: int = 500) -> PageSignal:
-    return PageSignal(page_number=page, char_count=chars, scanned=scanned, has_table=has_table)
+def _sig(
+    page: int,
+    *,
+    scanned: bool = False,
+    has_table: bool = False,
+    chars: int = 500,
+    text: str | None = None,
+) -> PageSignal:
+    # classify_document now carries each page's born-digital text on the signal;
+    # default it to a page-stamped marker so dispatch tests can assert on it.
+    return PageSignal(
+        page_number=page,
+        char_count=chars,
+        scanned=scanned,
+        has_table=has_table,
+        text=text if text is not None else f"local {page}",
+    )
 
 
 # --------------------------------------------------------------------------- #
@@ -59,16 +74,10 @@ def test_route_scanned_table_page_prefers_azure():
 @pytest.fixture
 def router(monkeypatch):
     calls = {
-        "local_pages_calls": [],  # every extract_local_pages(page_numbers)
         "camelot_pages": None,
         "azure_pages": None,
         "local_full": 0,
     }
-
-    def fake_extract_local_pages(content, page_numbers=None):
-        calls["local_pages_calls"].append(list(page_numbers) if page_numbers is not None else "ALL")
-        nums = page_numbers if page_numbers is not None else [1]
-        return {n: PageContent(page_number=n, text=f"local {n}", extracted_via=ExtractedVia.TEXT) for n in nums}
 
     def fake_extract_local(content, filename):  # whole-doc: local_only + fallback
         calls["local_full"] += 1
@@ -90,7 +99,6 @@ def router(monkeypatch):
             for n in page_numbers
         }
 
-    monkeypatch.setattr(pymupdf_local, "extract_local_pages", fake_extract_local_pages)
     monkeypatch.setattr(pymupdf_local, "extract_local", fake_extract_local)
     monkeypatch.setattr(pdf_extractor, "_ocr_pdf", fake_ocr_pdf)
     monkeypatch.setattr(pdf_extractor, "_camelot_tables", fake_camelot_tables)
@@ -116,10 +124,14 @@ def test_hybrid_text_only_routes_all_local(router):
 
     result = pdf_extractor.extract_pdf(b"%PDF-1.4", "doc.pdf")
 
-    assert calls["local_pages_calls"] == [[1, 2]]
     assert calls["azure_pages"] is None  # Azure never called
     assert calls["camelot_pages"] is None  # Camelot never called
     assert result.metadata["route"] == "local"
+    # both pages carry their classified PyMuPDF text, stitched in order
+    assert [p.page_number for p in result.pages] == [1, 2]
+    assert all(p.extracted_via is ExtractedVia.TEXT for p in result.pages)
+    assert result.pages[0].text == "local 1"
+    assert result.pages[1].text == "local 2"
 
 
 def test_hybrid_mixed_routes_each_page_and_stitches(router):
@@ -132,16 +144,15 @@ def test_hybrid_mixed_routes_each_page_and_stitches(router):
     # page 1 -> local text, page 2 -> Camelot table, page 3 -> Azure OCR
     assert calls["camelot_pages"] == [2]
     assert calls["azure_pages"] == [3]
-    assert [1] in calls["local_pages_calls"]  # plain page text
-    assert [2] in calls["local_pages_calls"]  # table page's prose still via PyMuPDF
     # stitched in page order
     assert [p.page_number for p in result.pages] == [1, 2, 3]
     assert result.pages[0].extracted_via is ExtractedVia.TEXT
+    assert result.pages[0].text == "local 1"  # plain page text from classification
     assert result.pages[1].extracted_via is ExtractedVia.TEXT  # born-digital table page
     assert result.pages[2].extracted_via is ExtractedVia.OCR
     # camelot table markdown merged into the table page's text, prose retained
     assert "cam2" in result.pages[1].text
-    assert "local 2" in result.pages[1].text
+    assert "local 2" in result.pages[1].text  # table page's prose still via PyMuPDF
     assert result.pages[1].tables  # TableData attached too
     assert result.metadata["route"] == "azure+camelot+local"
 
@@ -155,8 +166,10 @@ def test_hybrid_all_table_pages_route_camelot(router):
 
     assert calls["camelot_pages"] == [1, 2]
     assert calls["azure_pages"] is None
-    assert [1, 2] in calls["local_pages_calls"]  # table-page prose via PyMuPDF
     assert result.metadata["route"] == "camelot"
+    # each table page's prose (from classification) is merged with its table
+    assert "local 1" in result.pages[0].text and "cam1" in result.pages[0].text
+    assert "local 2" in result.pages[1].text and "cam2" in result.pages[1].text
 
 
 def test_hybrid_camelot_empty_falls_back_to_local_text(router, monkeypatch):
@@ -182,8 +195,11 @@ def test_hybrid_azure_unavailable_falls_back_to_local_text(router, monkeypatch):
     result = pdf_extractor.extract_pdf(b"%PDF", "doc.pdf")
 
     # scanned page couldn't reach Azure, so it degrades to local text alongside page 1
-    assert [1, 2] in calls["local_pages_calls"]
     assert result.metadata["route"] == "azure_unavailable_local_fallback+local"
+    assert [p.page_number for p in result.pages] == [1, 2]
+    assert result.pages[0].text == "local 1"
+    assert result.pages[1].text == "local 2"  # fell back to classified text
+    assert result.pages[1].extracted_via is ExtractedVia.TEXT
 
 
 def test_local_only_never_calls_azure_or_camelot(router):

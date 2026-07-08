@@ -41,12 +41,18 @@ __all__ = [
 
 @dataclass
 class PageSignal:
-    """Per-page routing signals derived with PyMuPDF."""
+    """Per-page routing signals derived with PyMuPDF.
+
+    ``text`` is the page's born-digital text. The scanned check already extracts
+    it during classification, so carrying it here lets the hybrid router reuse it
+    for local/table pages instead of re-opening the PDF to extract it again.
+    """
 
     page_number: int
     char_count: int
     scanned: bool
     has_table: bool
+    text: str = ""
 
     @property
     def route(self) -> str:
@@ -180,6 +186,7 @@ def classify_document(content: bytes) -> list[PageSignal]:
                     char_count=len(text),
                     scanned=scanned,
                     has_table=has_table,
+                    text=text,
                 )
             )
     finally:

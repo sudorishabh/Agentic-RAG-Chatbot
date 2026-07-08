@@ -174,6 +174,11 @@ class Settings(BaseSettings):
     # per run), separate from the overwrite-in-place ingest_state table.
     ingest_log_table: str = "ingest_log"
     ingest_log_enabled: bool = True
+    # Whether to record a per-document row for UNCHANGED docs. Off by default:
+    # on an incremental sweep almost every doc is unchanged, so logging each one
+    # is write amplification (one INSERT+commit per doc) and the main driver of
+    # the log's growth. The run-level tally already reports the unchanged count.
+    ingest_log_unchanged: bool = False
     # Max size (bytes) accepted by the direct PDF upload endpoint (/ingest/pdf).
     # Larger uploads are rejected with 413 before the payload is fully buffered.
     max_upload_bytes: int = 52_428_800  # 50 MiB

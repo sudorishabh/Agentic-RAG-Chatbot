@@ -348,7 +348,7 @@ def _hybrid_extract(content: bytes, filename: str, *, mode: str) -> ExtractionRe
     nothing on a flagged page -> that page keeps just its PyMuPDF text. If
     classification itself fails we bias the whole document to Azure.
     """
-    from app.ingestion.extractors.pymupdf_local import classify_document, extract_local_pages
+    from app.ingestion.extractors.pymupdf_local import classify_document
 
     try:
         signals = classify_document(content)
@@ -362,6 +362,9 @@ def _hybrid_extract(content: bytes, filename: str, *, mode: str) -> ExtractionRe
     azure_pages = [s.page_number for s in signals if s.route == "azure"]
     table_pages = [s.page_number for s in signals if s.route == "camelot"]
     local_pages = [s.page_number for s in signals if s.route == "local"]
+    # Text captured during classification — reused below so local/table pages
+    # don't re-open (and re-parse) the PDF just to re-extract it.
+    text_by_page = {s.page_number: s.text for s in signals}
 
     pages_map: dict[int, PageContent] = {}
     routes: list[str] = []
@@ -382,21 +385,23 @@ def _hybrid_extract(content: bytes, filename: str, *, mode: str) -> ExtractionRe
             local_pages = local_pages + azure_pages
             routes.append("azure_unavailable_local_fallback")
 
-    # Born-digital table pages -> Camelot table(s) merged with PyMuPDF text.
+    # Born-digital table pages -> Camelot table(s) merged with the page's prose
+    # (captured during classification).
     if table_pages:
-        text_map = extract_local_pages(content, table_pages)
         tables_map = _camelot_tables(content, table_pages)
         for n in table_pages:
-            base = text_map.get(n)
             tabs = tables_map.get(n, [])
-            merged = _merge_table_text(base.text if base else "", tabs)
+            merged = _merge_table_text(text_by_page.get(n, ""), tabs)
             via = ExtractedVia.TEXT if merged else ExtractedVia.EMPTY
             pages_map[n] = PageContent(page_number=n, text=merged, extracted_via=via, tables=tabs)
         routes.append("camelot" if any(tables_map.values()) else "camelot_empty_local_fallback")
 
-    # Plain born-digital pages -> PyMuPDF text.
+    # Plain born-digital pages -> the PyMuPDF text captured during classification.
     if local_pages:
-        pages_map.update(extract_local_pages(content, local_pages))
+        for n in local_pages:
+            text = text_by_page.get(n, "")
+            via = ExtractedVia.TEXT if text else ExtractedVia.EMPTY
+            pages_map[n] = PageContent(page_number=n, text=text, extracted_via=via, tables=[])
         routes.append("local")
 
     pages = [
