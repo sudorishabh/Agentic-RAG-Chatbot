@@ -114,6 +114,13 @@ class Settings(BaseSettings):
     context_token_budget: int = 9000
     faithfulness_check: bool = False
     metrics_log_enabled: bool = True
+    # Max chat generations driven concurrently on the dedicated chat capacity
+    # limiter. The /chat pipeline is blocking (LLM + Qdrant + Redis clients),
+    # so each active stream occupies a worker thread for most of its life;
+    # giving chat its own limiter keeps those long generations from starving
+    # the shared request threadpool (~40 threads) that auth dependencies,
+    # probes and other sync offloads borrow from. Extra chats queue here.
+    chat_stream_max_concurrency: int = 64
     # Expose infrastructure detail (collection name, point counts, tuning
     # values, raw error strings) on /ready and /metrics. Off by default: the
     # retrieval API is public-facing and those bodies fingerprint the

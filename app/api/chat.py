@@ -1,25 +1,64 @@
 from __future__ import annotations
 
 import json
-from typing import Iterator
+from functools import lru_cache
+from typing import AsyncIterator, Iterator
 
+import anyio
+import anyio.to_thread
 from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 
 from app.api.auth import Principal, require_principal
+from app.config import get_settings
 from app.rag import stream_answer
 from app.schemas.query import QueryRequest
 
 router = APIRouter(tags=["chat"])
 
+_END = object()  # sentinel: the sync event stream is exhausted
 
-def _sse(events: Iterator[dict]) -> Iterator[str]:
-    for event in events:
-        yield f"data: {json.dumps(event)}\n\n"
+
+@lru_cache(maxsize=1)
+def _chat_limiter() -> anyio.CapacityLimiter:
+    return anyio.CapacityLimiter(get_settings().chat_stream_max_concurrency)
+
+
+def _next_event(events: Iterator[dict]) -> object:
+    # StopIteration must not escape into async code (PEP 479); map it to _END.
+    try:
+        return next(events)
+    except StopIteration:
+        return _END
+
+
+async def _sse(events: Iterator[dict]) -> AsyncIterator[str]:
+    """Drive the blocking RAG event stream from the event loop, borrowing a
+    worker thread per event from a chat-only capacity limiter.
+
+    The pipeline blocks inside ``next()`` (retrieval, then a network wait per
+    LLM token), so a sync iterator here would pin one of the ~40 shared
+    request-threadpool threads per active chat for the whole generation —
+    enough concurrent chats starve auth dependencies, probes and every other
+    sync offload. The dedicated limiter isolates chat load; extra chats queue
+    against it instead of the shared pool.
+    """
+    limiter = _chat_limiter()
+    try:
+        while True:
+            event = await anyio.to_thread.run_sync(_next_event, events, limiter=limiter)
+            if event is _END:
+                break
+            yield f"data: {json.dumps(event)}\n\n"
+    finally:
+        # Runs on normal completion and on client disconnect: close the sync
+        # generator so the pipeline's finally blocks (spans, cache writes in
+        # flight) execute and generation work stops.
+        await anyio.to_thread.run_sync(events.close, limiter=limiter)
 
 
 @router.post("/chat")
-def chat(
+async def chat(
     request: QueryRequest, principal: Principal = Depends(require_principal)
 ) -> StreamingResponse:
     events = stream_answer(
