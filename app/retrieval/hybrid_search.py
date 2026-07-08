@@ -13,6 +13,20 @@ logger = logging.getLogger(__name__)
 # bibliographies, glossaries) — excluded from search via the query filter.
 _NON_SEARCHABLE_SECTIONS = ("toc", "references", "glossary")
 
+# Collections confirmed to exist this process. A missing collection is a
+# bootstrap/error state, not a per-query concern, so we verify it once and then
+# skip the extra round-trip — steady state is a single query_points per search.
+_verified_collections: set[str] = set()
+
+
+def _collection_ready(client: Any, name: str) -> bool:
+    if name in _verified_collections:
+        return True
+    if client.collection_exists(name):
+        _verified_collections.add(name)
+        return True
+    return False
+
 
 @dataclass
 class Candidate:
@@ -77,7 +91,7 @@ def search(
     limit = limit or settings.retrieval_candidate_k
 
     client = get_qdrant_client()
-    if not client.collection_exists(settings.qdrant_collection):
+    if not _collection_ready(client, settings.qdrant_collection):
         logger.warning("Collection %r does not exist; no results.", settings.qdrant_collection)
         return []
 
