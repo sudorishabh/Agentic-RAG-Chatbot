@@ -142,6 +142,21 @@ def _sem_key(scope: str) -> str:
     return f"{_NS}:sem:{corpus_version()}:{_sha(_pref_fingerprint(), scope)[:16]}"
 
 
+def semantic_partition(
+    tenant_id: str, user_groups: Sequence[str], top_k: int, answer_format: str
+) -> str:
+    """Partition key for the semantic cache: corpus version + retrieval-preference
+    fingerprint + caller identity + answer format. A cached answer is only valid
+    within the same partition, so bumping the corpus, retuning the preference
+    knobs, or crossing an ACL/tenant boundary self-invalidates it."""
+    return _sha(
+        corpus_version(),
+        _pref_fingerprint(),
+        _identity_scope(tenant_id, user_groups, top_k),
+        answer_format,
+    )
+
+
 def semantic_lookup(
     query_vector: Sequence[float],
     *,

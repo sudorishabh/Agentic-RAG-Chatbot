@@ -1,0 +1,188 @@
+"""Semantic response cache backed by a dedicated Qdrant collection.
+
+A near-duplicate question is answered from a prior result via nearest-neighbor
+search on the query embedding, gated by a cosine threshold. Entries are scoped
+to the caller's identity (so ACLs are respected) and self-invalidate on corpus
+or preference changes via the partition key. Qdrant has no native TTL, so each
+point carries an ``expires_at`` that lookups filter out and ``prune`` deletes.
+
+Every operation degrades gracefully: any Qdrant error disables the cache for that
+call rather than failing the query.
+"""
+
+from __future__ import annotations
+
+import logging
+import time
+import uuid
+from typing import Any, Sequence
+
+from app.cache.redis_cache import semantic_partition
+from app.config import get_settings
+
+logger = logging.getLogger(__name__)
+
+_store_count = 0
+
+
+def _client() -> Any | None:
+    from app.deps import get_qdrant_client
+
+    try:
+        return get_qdrant_client()
+    except Exception:  # pragma: no cover - misconfigured qdrant
+        logger.warning("Qdrant unavailable; semantic cache disabled.", exc_info=True)
+        return None
+
+
+def _index(client: Any, name: str) -> None:
+    from qdrant_client.models import PayloadSchemaType
+
+    for field, schema in (
+        ("scope", PayloadSchemaType.KEYWORD),
+        ("expires_at", PayloadSchemaType.FLOAT),
+    ):
+        try:
+            client.create_payload_index(
+                collection_name=name, field_name=field, field_schema=schema
+            )
+        except Exception:  # pragma: no cover - best-effort
+            logger.debug("Could not index %r on semantic cache.", field, exc_info=True)
+
+
+def _ensure_collection(client: Any, dim: int) -> bool:
+    from qdrant_client.models import Distance, VectorParams
+
+    name = get_settings().semantic_cache_collection
+    try:
+        if not client.collection_exists(name):
+            client.create_collection(
+                collection_name=name,
+                vectors_config=VectorParams(size=dim, distance=Distance.COSINE),
+            )
+            _index(client, name)
+        return True
+    except Exception:
+        logger.warning("Could not ensure semantic cache collection.", exc_info=True)
+        return False
+
+
+def lookup(
+    query_vector: Sequence[float],
+    *,
+    tenant_id: str,
+    user_groups: Sequence[str],
+    top_k: int,
+    answer_format: str = "default",
+) -> dict[str, Any] | None:
+    settings = get_settings()
+    if not settings.semantic_cache_enabled or not query_vector:
+        return None
+    client = _client()
+    if client is None:
+        return None
+
+    name = settings.semantic_cache_collection
+    scope = semantic_partition(tenant_id, user_groups, top_k, answer_format)
+    try:
+        if not client.collection_exists(name):
+            return None
+        from qdrant_client.models import FieldCondition, Filter, MatchValue, Range
+
+        response = client.query_points(
+            collection_name=name,
+            query=list(query_vector),
+            query_filter=Filter(
+                must=[
+                    FieldCondition(key="scope", match=MatchValue(value=scope)),
+                    FieldCondition(key="expires_at", range=Range(gte=time.time())),
+                ]
+            ),
+            limit=1,
+            with_payload=True,
+            score_threshold=settings.semantic_cache_threshold,
+        )
+    except Exception:  # pragma: no cover - store hiccup
+        logger.warning("Semantic cache lookup failed.", exc_info=True)
+        return None
+
+    points = response.points
+    if not points:
+        return None
+    return (points[0].payload or {}).get("result")
+
+
+def store(
+    query_vector: Sequence[float],
+    result: dict[str, Any],
+    *,
+    tenant_id: str,
+    user_groups: Sequence[str],
+    top_k: int,
+    answer_format: str = "default",
+) -> None:
+    settings = get_settings()
+    if not settings.semantic_cache_enabled or not query_vector:
+        return
+    client = _client()
+    if client is None or not _ensure_collection(client, len(query_vector)):
+        return
+
+    from qdrant_client.models import PointStruct
+
+    name = settings.semantic_cache_collection
+    scope = semantic_partition(tenant_id, user_groups, top_k, answer_format)
+    point = PointStruct(
+        id=str(uuid.uuid4()),
+        vector=list(query_vector),
+        payload={
+            "result": result,
+            "scope": scope,
+            "expires_at": time.time() + settings.response_cache_ttl,
+        },
+    )
+    try:
+        client.upsert(collection_name=name, points=[point])
+    except Exception:  # pragma: no cover
+        logger.warning("Semantic cache store failed.", exc_info=True)
+        return
+    _maybe_prune(client, name)
+
+
+def _maybe_prune(client: Any, name: str) -> None:
+    global _store_count
+    every = get_settings().semantic_cache_prune_every
+    if every <= 0:
+        return
+    _store_count += 1
+    if _store_count % every == 0:
+        prune(client, name)
+
+
+def prune(client: Any | None = None, name: str | None = None) -> None:
+    """Delete points whose ``expires_at`` has passed. Safe to call from a
+    scheduler; also invoked opportunistically from ``store``."""
+    client = client or _client()
+    if client is None:
+        return
+    name = name or get_settings().semantic_cache_collection
+    try:
+        if not client.collection_exists(name):
+            return
+        from qdrant_client.models import (
+            FieldCondition,
+            Filter,
+            FilterSelector,
+            Range,
+        )
+
+        client.delete(
+            collection_name=name,
+            points_selector=FilterSelector(
+                filter=Filter(
+                    must=[FieldCondition(key="expires_at", range=Range(lt=time.time()))]
+                )
+            ),
+        )
+    except Exception:  # pragma: no cover
+        logger.warning("Semantic cache prune failed.", exc_info=True)
