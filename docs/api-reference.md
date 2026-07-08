@@ -1,31 +1,63 @@
 # API Reference
 
-All routes are registered in [app/main.py](../app/main.py). Schemas live in
-[app/schemas/query.py](../app/schemas/query.py) and
-[app/schemas/ingest.py](../app/schemas/ingest.py). Interactive docs are available at
-`/docs` (Swagger) and `/redoc` when the server is running.
+The service runs as **two servers**:
 
-| Method | Path | Purpose |
-| --- | --- | --- |
-| GET | `/health` | Liveness probe |
-| GET | `/ready` | Readiness — checks Qdrant (and Redis) |
-| GET | `/metrics` | Effective config + store status snapshot |
-| POST | `/chat` | Ask a question; **streams** the answer (SSE) |
-| POST | `/chat/feedback` | Record thumbs up/down + clicked citations |
-| POST | `/search` | Retrieval only — ranked context blocks, no generation |
-| POST | `/ingest/pdf` | Upload and ingest a single PDF |
-| POST | `/ingest/article` | Ingest an article inline, or crawl Drupal bundles |
-| POST | `/reindex` | Reset a document for re-ingest, or run a full sweep |
+- **Retrieval server** ([app/main.py](../app/main.py)) — public-facing:
+  `/chat`, `/search`, `/source/{id}`, plus health probes.
+- **Ingestion server** ([app/ingest_main.py](../app/ingest_main.py)) — private
+  (network-isolated, no in-app auth): `/ingest/*`, `/reindex`, plus health probes
+  and the background sweep scheduler.
+
+Schemas live in [app/schemas/query.py](../app/schemas/query.py) and
+[app/schemas/ingest.py](../app/schemas/ingest.py). Interactive docs are available at
+`/docs` (Swagger) and `/redoc` on each server.
+
+| Server | Method | Path | Purpose |
+| --- | --- | --- | --- |
+| retrieval | GET | `/health` | Liveness probe |
+| retrieval | GET | `/ready` | Readiness — 200/503 based on Qdrant reachability |
+| retrieval | GET | `/metrics` | Config + store snapshot (only when `ops_detail_enabled`) |
+| retrieval | POST | `/chat` | Ask a question; **streams** the answer (SSE) |
+| retrieval | POST | `/search` | Retrieval only — ranked context blocks, no generation |
+| retrieval | GET | `/source/{document_id}` | Serve a cited document's source PDF inline |
+| ingestion | POST | `/ingest/pdf` | Upload and ingest a single PDF |
+| ingestion | POST | `/ingest/pdfs` | Scan + ingest the configured PDF source dirs |
+| ingestion | POST | `/ingest/run` | Incremental ingest: PDFs + Drupal |
+| ingestion | POST | `/ingest/article` | Ingest an article inline, or crawl Drupal bundles |
+| ingestion | GET | `/ingest/log` | Recent ingestion audit events |
+| ingestion | POST | `/reindex` | Reset a document for re-ingest, or run a full sweep |
+
+---
+
+## Authentication
+
+When `auth_enabled` is on, the public endpoints (`/chat`, `/search`,
+`/source/{id}`) require an `Authorization: Bearer <JWT>` header. The backend
+verifies the signature (`jwt_secret` / `jwt_algorithms`, plus audience/issuer when
+configured) and derives the caller's **tenant** and **groups** from the token's
+claims (`jwt_tenant_claim` / `jwt_groups_claim`). A missing or invalid token is a
+`401`.
+
+When auth is disabled (default), requests run as the anonymous principal —
+tenant `default`, groups `["public"]`.
+
+Either way, **identity never comes from the request body**: `tenant_id` and
+`user_groups` are not accepted as request fields.
 
 ---
 
 ## Ops
 
+The health router is mounted on both servers.
+
 ### `GET /health`
 Always returns `{"status": "ok"}`. Use for liveness.
 
 ### `GET /ready`
-Returns `200` with Qdrant + Redis status, or `503` if Qdrant is unreachable.
+Returns `200 {"status": "ready"}` or `503 {"status": "not_ready"}` — the status
+code is the contract for orchestrator probes. Infrastructure detail (collection
+name, point counts, error strings) is included in the body **only when
+`ops_detail_enabled`** — it fingerprints the deployment on a public API:
 
 ```json
 { "status": "ready",
@@ -34,8 +66,8 @@ Returns `200` with Qdrant + Redis status, or `503` if Qdrant is unreachable.
 ```
 
 ### `GET /metrics`
-Effective configuration and store status — useful for confirming what a deployment is
-actually running.
+Effective configuration and store status. Returns `404` unless
+`ops_detail_enabled` is set (its whole body is deployment detail).
 
 ```json
 { "service": "agentic-rag",
@@ -59,9 +91,7 @@ Request body — `QueryRequest`:
 | --- | --- | --- | --- |
 | `question` | string | — | required, min length 1 |
 | `history` | `ChatTurn[]` | `[]` | each `{ role: "user"\|"assistant", content }` |
-| `tenant_id` | string | `"default"` | injected into the mandatory Qdrant filter |
-| `user_groups` | string[] | `["public"]` | ACL — matched against each chunk's `acl` |
-| `top_k` | int \| null | null | overrides `retrieval_top_k` |
+| `top_k` | int \| null | null | overrides `retrieval_top_k`; bounded 1–50 (`422` outside) |
 | `stream` | bool | false | accepted for compatibility; `/chat` always streams |
 
 Each SSE line is `data: <json>\n\n`. Event shapes:
@@ -76,25 +106,15 @@ data: {"type": "done"}
 - `token` — an incremental chunk of answer text (many of these).
 - `sources` — emitted once after the answer: the structured `citations`, plus
   `intent`, `used_chunks`, and `conflict`.
-- `done` — terminal event.
+- `done` — terminal event. Every complete answer ends with it; a stream that
+  stops without `done` was truncated.
+- `error` — terminal event emitted when generation fails **mid-stream** (the 200
+  and headers are already sent, so an HTTP error is no longer possible). The
+  event is deliberately generic; details stay in the server log.
 
 When nothing relevant is retrieved, a single `token` carries the exact refusal text
 `"I don't have information on that in the available sources."`, followed by empty
 `sources` and `done`.
-
-### `POST /chat/feedback`
-Records user feedback (logged, and pushed to a Redis list when available). Body —
-`FeedbackRequest`:
-
-| Field | Type | Notes |
-| --- | --- | --- |
-| `question` | string | the question that was answered |
-| `rating` | `"up"` \| `"down"` | required |
-| `answer` | string \| null | optional copy of the answer |
-| `clicked_citations` | int[] | citation numbers the user opened |
-| `comment` | string \| null | free text |
-
-Response: `{ "status": "recorded" }`.
 
 ---
 
@@ -102,8 +122,8 @@ Response: `{ "status": "recorded" }`.
 
 ### `POST /search`
 Same retrieval pipeline as `/chat` (query understanding → search → rerank → context
-build) but **no generation**. Body — `SearchRequest` (same fields as `QueryRequest`
-minus `stream`). Returns `SearchResponse`:
+build) but **no generation**. Body — `SearchRequest` (`question`, `history`,
+`top_k`; same bounds as `/chat`). Returns `SearchResponse`:
 
 ```json
 { "intent": "qa",
@@ -117,27 +137,58 @@ minus `stream`). Returns `SearchResponse`:
 
 ---
 
-## Ingest
+## Source files
+
+### `GET /source/{document_id}`
+Serves the document's source PDF inline (`application/pdf`) so citation links open
+in the browser's viewer (which honours the `#page=N` fragment). The id may be a
+`document_id` or `pdf_id`.
+
+Scoped to the caller's tenant/ACL — the same visibility rule as search, checked
+against the point payload. A document outside the caller's scope, an unknown id, a
+missing file, or a stored path outside the configured source roots all return the
+same `404` (no existence disclosure).
+
+---
+
+## Ingest (private server)
 
 ### `POST /ingest/pdf`
-`multipart/form-data` with a `file` field. Extracts, chunks, embeds, and indexes the
-PDF immediately (inline — no change-detection bookkeeping). Returns `IngestResponse`:
+`multipart/form-data` with a `file` field. Validates before buffering the payload:
+
+- `400` — missing filename, non-`.pdf` suffix, or empty file
+- `413` — larger than `max_upload_bytes` (default 50 MiB)
+- `415` — content does not start with the `%PDF-` magic bytes
+
+Extracts, chunks, embeds, and indexes the PDF immediately (inline — no
+change-detection bookkeeping). Returns `IngestResponse`:
 
 ```json
 { "filename": "policy.pdf", "document_id": "policy", "chunks_ingested": 37 }
 ```
 
-Errors: `400` if the filename is missing or the file is empty.
+### `POST /ingest/pdfs`
+Runs the incremental PDF scan over the configured source dirs
+(`pdf_source_dirs` / `pdf_source_path`; `400` when neither is set). Returns the
+per-status tally.
+
+### `POST /ingest/run`
+Body — `DirectIngestRequest` (`bundles`, `reconcile`, both optional). Runs the PDF
+scan (when a source is configured) then the Drupal crawl. Returns both tallies.
 
 ### `POST /ingest/article`
 Body — `ArticleIngestRequest`. Two modes:
 
 - **Crawl mode** — provide `bundles: ["news", "report", ...]` to crawl those Drupal
-  JSON:API bundles. Returns `{ "crawled": { "<bundle>": <count>, ... } }`.
+  JSON:API bundles. Returns `{ "crawled": { "<status>": <count>, ... } }`.
 - **Inline mode** — provide `title`/`body` (and optionally `url`, `uuid`, `bundle`)
   to ingest one article. Returns `{ "document_id": "...", "chunks_ingested": N }`.
 
 Errors: `400` if neither `bundles` nor an article (`title`/`body`) is supplied.
+
+### `GET /ingest/log`
+Query params: `limit` (default 100, max 1000), `source_type`, `document_id`,
+`status`. Returns the most recent audit events, newest first.
 
 ### `POST /reindex`
 Body — `ReindexRequest`. Two modes:
@@ -150,6 +201,8 @@ Body — `ReindexRequest`. Two modes:
 
 Errors: `400` if `document_id` is missing and `sweep` is not set.
 
-> Ingest routes run the blocking work in a threadpool. When a Celery broker is
-> configured these can be backed by workers; otherwise they execute inline. See
-> [operations.md](operations.md#background-workers).
+> **One run at a time.** Corpus-wide runs (`/ingest/pdfs`, `/ingest/run`, crawl
+> mode, sweep mode) are mutually exclusive with each other and with the background
+> sweep — a second concurrent trigger returns `409 Conflict`. Ingest routes run the
+> blocking work in a threadpool; when a Celery broker is configured they can be
+> backed by workers instead. See [operations.md](operations.md#background-workers).

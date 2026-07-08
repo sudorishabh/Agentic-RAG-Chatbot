@@ -287,7 +287,8 @@ sources alongside the 2-source website lead — see §5 and §13 #1.
   presented as today. No forced, irrelevant website lead.
 - **Cache invalidation on config change:** both pre-retrieval caches — the exact
   response cache (`response_signature`) and the **semantic cache**
-  (`semantic_lookup`) — key only on question/tenant/groups/top_k (+ corpus version
+  (`semantic_cache.lookup`, Qdrant-backed) — key only on
+  question/tenant/groups/top_k (+ corpus version
   / answer_format). Neither knows about preference settings, so flipping
   `prefer_website_enabled` or tuning the floor would keep serving old-mode answers
   until TTL and pollute before/after tuning comparisons. **Add a

@@ -171,13 +171,18 @@ or tuning the feature self-invalidates stale answers.
 ## Structured path — [app/retrieval/drupal_router.py](../app/retrieval/drupal_router.py)
 
 For `intent == "structured"` queries (exact lookups, counts, filtered lists) that are
-better answered relationally than semantically.
+better answered relationally than semantically. **Answered entirely from the local
+catalog** — the `ingest_state` table in MySQL
+([app/ingestion/state.py](../app/ingestion/state.py)), which stores each ingested
+document's bundle, title, url, authors, categories, and publish date. No live
+website/JSON:API calls happen at query time, so `count` and `list` read the same
+source and always agree.
 
 - `parse_structured(question, history=None) -> StructuredQuery | None` — LLM parses the
   question into `{ operation: lookup|list|count, bundle, title_contains, author, year,
   limit }`.
-- `answer_structured(question, history=None) -> dict | None` — executes against the
-  Drupal JSON:API and returns an answer dict shaped like the RAG response
+- `answer_structured(question, history=None) -> dict | None` — runs the operation over
+  the catalog and returns an answer dict shaped like the RAG response
   (`answer`, `citations`, `intent="structured"`, `used_chunks`, `conflict=false`,
   `cached=false`), or `None` if it can't handle the query — in which case
   [app/rag.py](../app/rag.py) falls through to the normal RAG pipeline.
@@ -186,10 +191,11 @@ Query shapes:
 
 | Operation | Behavior |
 | --- | --- |
-| `count` | paginates matching items across bundles → "There are N … matching your query." |
-| `list` | enumerates up to `limit` items (sorted most-recently-changed), optional author filter |
+| `count` | `state.count_documents(...)` by bundle / author / date range → "There are N …" |
+| `list` | `state.list_documents(...)` — up to `limit` items, most recent first, with title/url citations |
 | `lookup` | a single item (list with limit 1) |
 
-Filters map to JSON:API conditions: `title_contains` → `CONTAINS` on `title`; `year`
-→ a `created` date range; `status=1` (published) is always applied. Config:
-`drupal_jsonapi_base`, `drupal_page_size`, `drupal_request_timeout`, `drupal_max_retries`.
+Existing deployments need the one-time `python -m app.ingestion.backfill` so
+pre-catalog documents carry `title`/`url` (see
+[operations.md](operations.md#maintenance-notes)); new ingests populate them
+automatically.

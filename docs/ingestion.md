@@ -199,11 +199,14 @@ for what has been ingested. `StateRecord` columns: `document_id` (PK), `source_t
 - `ingest_pdfs(roots=None, ignore_globs=None) -> Counter`
 - `ingest_drupal(bundles=None, *, published_only=True, reconcile_deletes=False) -> Counter`
 
-Each: detect changes → build canonical → check content hash / bump version → delete the
-prior version from Qdrant → chunk + embed + index → upsert the manifest. The returned
+Each: detect changes → build canonical → check content hash / bump version → chunk +
+embed + **index the new version first** → delete the prior version's points (chunk ids
+are version-scoped, so the document stays searchable through the swap and a mid-index
+failure leaves the old version intact) → upsert the manifest. The returned
 `Counter` tallies `{new, changed, unchanged, unchanged_content, indexed, deleted,
 skipped, error}` (keys present as they occur). Errors are counted per document; the
-sweep continues.
+sweep continues. Corpus-wide runs are mutually exclusive within the process
+(`IngestBusyError` → HTTP 409 / a logged sweep skip).
 
 ### Inline upload — [app/ingestion/upload.py](../app/ingestion/upload.py)
 

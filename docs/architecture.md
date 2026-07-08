@@ -6,14 +6,18 @@ How the implemented system is wired, and how a request travels through it.
 
 ```
 app/
-├── main.py                  FastAPI app + observability init + router wiring
+├── main.py                  Retrieval server: health + chat + search + source routers
+├── ingest_main.py           Ingestion server: health + ingest routers + sweep scheduler
+├── app_factory.py           Shared FastAPI wiring: logging, CORS, observability
 ├── config.py                Settings (pydantic-settings, loaded from env / .env)
 ├── deps.py                  Shared clients: Qdrant, MySQL pool, Redis, embeddings, LLMs
 ├── rag.py                   Orchestration: query → retrieve → rerank → context → generate
 ├── api/
-│   ├── chat.py              POST /chat (SSE stream), POST /chat/feedback
+│   ├── auth.py              Bearer-JWT principal (tenant + groups) for the public API
+│   ├── chat.py              POST /chat (SSE stream on a dedicated thread limiter)
 │   ├── search.py            POST /search   (retrieval only, no generation)
-│   ├── ingest.py            POST /ingest/pdf, /ingest/article, /reindex
+│   ├── source.py            GET /source/{id} (cited PDFs, tenant/ACL-scoped)
+│   ├── ingest.py            POST /ingest/pdf(s), /ingest/run, /ingest/article, /reindex; GET /ingest/log
 │   └── health.py            GET /health, /ready, /metrics
 ├── schemas/                 Pydantic request/response models (query.py, ingest.py)
 ├── retrieval/
@@ -22,43 +26,62 @@ app/
 │   ├── reranker.py          Rerank (embedding/llm/cross_encoder/cohere) + recency·authority
 │   ├── context_builder.py   Parent-expand, cosine dedup, conflict flag, token budget, website-first segregation → ContextBlock[]
 │   ├── citations.py         Build numbered citations from chunk payloads
-│   └── drupal_router.py     Structured MySQL/JSON:API path for lookup/list/count queries
+│   ├── source_locator.py    document_id → on-disk PDF (roots + tenant/ACL guarded)
+│   └── drupal_router.py     Structured path for lookup/list/count — answers from the local catalog (MySQL ingest_state)
 ├── generation/
 │   ├── llm_client.py        Azure chat / structured LLM factories
 │   ├── prompts.py           Grounding + chitchat prompts, context formatting
 │   └── faithfulness.py      Citation-marker validation + optional entailment check
 ├── ingestion/
-│   ├── pipeline.py          Incremental ingest orchestration (PDF + Drupal)
+│   ├── pipeline.py          Incremental ingest orchestration (PDF + Drupal), one run at a time
 │   ├── upload.py            Inline one-off PDF / article ingest
 │   ├── canonical.py         Build CanonicalDocument from extractor output
 │   ├── chunker.py           Structure-aware parent/child chunking
 │   ├── embedder.py          Azure embeddings + embedding cache
 │   ├── indexer.py           Chunk → embed children → upsert to Qdrant
-│   ├── change_detection.py  Fingerprint / content-hash incremental detection
-│   ├── state.py             Ingest-state manifest (MySQL table)
+│   ├── change_detection.py  Fingerprint / content-hash incremental detection (stat pre-filter for PDFs)
+│   ├── state.py             Ingest-state manifest + document catalog (MySQL table)
+│   ├── ingest_log.py        Append-only audit log (retention-pruned)
+│   ├── backfill.py          One-time catalog title/url backfill from Qdrant payloads
 │   └── extractors/          pdf_extractor.py (PyMuPDF text / Camelot tables / Azure-OCR), drupal_extractor.py (JSON:API: nodes + taxonomy + blocks, attached & in-body PDFs)
-├── cache/redis_cache.py     Response / embedding / semantic caches + corpus version
-├── workers/tasks.py         Celery ingestion tasks with inline fallback + CLI
+├── cache/
+│   ├── redis_cache.py       Response + embedding caches, corpus version, identity partition
+│   └── semantic_cache.py    Qdrant-backed semantic cache (lookup / store / prune)
+├── workers/
+│   ├── tasks.py             Celery ingestion tasks with inline fallback + CLI
+│   └── scheduler.py         In-process periodic sweep + cache/log pruning (ingestion server)
 ├── observability/tracing.py Per-stage spans, RAG metrics, optional OTel/Langfuse
 ├── core/models.py           CanonicalDocument / CanonicalSection domain models
-└── local_tests/             Offline runners (canonical, chunking, PDF extraction)
+└── local_tests/             Offline runners (counting, Drupal extraction, PDF extraction, thematic areas)
 ```
 
-Application startup is [app/main.py](../app/main.py): it constructs the `FastAPI`
-app, calls `init_observability(app)`, and includes the health, chat, search, and
-ingest routers.
+The service runs as **two servers** built by the shared
+[app/app_factory.py](../app/app_factory.py):
+
+- [app/main.py](../app/main.py) — the **public retrieval server** (chat, search,
+  source files, probes). When `auth_enabled` is set, requests must carry a Bearer
+  JWT ([app/api/auth.py](../app/api/auth.py)); identity never comes from the body.
+- [app/ingest_main.py](../app/ingest_main.py) — the **private ingestion server**
+  (ingest/reindex endpoints + the background sweep scheduler). It is protected by
+  network isolation, not in-app auth, and must never be exposed publicly.
 
 ## Two data stores + two model services
 
-- **Qdrant** — semantic retrieval over chunked unstructured text. One collection
-  (`qdrant_collection`, default `documents`). Child chunks carry dense embeddings;
-  parent chunks are stored as zero-vectors and fetched by id during parent-expand.
-- **MySQL** — durable ingest-state manifest ([app/ingestion/state.py](../app/ingestion/state.py))
-  and the structured-query path. Accessed through a small connection pool in
-  [app/deps.py](../app/deps.py).
+- **Qdrant** — semantic retrieval over chunked unstructured text. The main
+  collection (`qdrant_collection`, default `documents`) holds child chunks with
+  dense embeddings and parent chunks as zero-vectors fetched by id during
+  parent-expand. A second, dedicated collection (`semantic_cache_collection`)
+  backs the **semantic answer cache**
+  ([app/cache/semantic_cache.py](../app/cache/semantic_cache.py)).
+- **MySQL** — durable ingest-state manifest / document catalog
+  ([app/ingestion/state.py](../app/ingestion/state.py)) — which also answers the
+  structured count/list/lookup path — plus the ingestion audit log. Accessed
+  through a small connection pool in [app/deps.py](../app/deps.py) that reserves
+  a slot before connecting and fails fast after `mysql_pool_timeout`.
 - **Azure OpenAI** — chat + embeddings.
-- **Redis** *(optional)* — caches and the corpus-version counter. Everything degrades
-  gracefully to "no cache" when `redis_url` is unset.
+- **Redis** *(optional)* — the response and embedding caches and the
+  corpus-version counter. Everything degrades gracefully to "no cache" when
+  `redis_url` is unset.
 
 Clients are created lazily and memoized with `@lru_cache` in
 [app/deps.py](../app/deps.py) and [app/generation/llm_client.py](../app/generation/llm_client.py).
@@ -79,8 +102,9 @@ process()  ── query_processor: LLM classifies intent + rewrites + extracts f
   │
   ├─ intent == "chitchat"   → answer directly with CHITCHAT prompt, no retrieval
   │
-  ├─ intent == "structured" → drupal_router.answer_structured() (MySQL/JSON:API)
-  │                            count / list / lookup; returns answer + citations
+  ├─ intent == "structured" → drupal_router.answer_structured() — answered from the
+  │                            LOCAL catalog (MySQL ingest_state: count / list / lookup);
+  │                            no live website calls at query time
   │                            (falls through to RAG if it can't handle the query)
   │
   └─ intent == "qa" (default)
@@ -114,6 +138,10 @@ process()  ── query_processor: LLM classifies intent + rewrites + extracts f
 
 Key invariants:
 
+- **Identity comes from the verified principal, never the body.** With
+  `auth_enabled`, tenant/groups are claims of a backend-verified Bearer JWT;
+  otherwise the anonymous principal (`default` / `["public"]`). The same identity
+  scopes `/chat`, `/search`, and `/source/{id}`.
 - **Citations come from payloads, not the model.** The LLM only emits `[n]` markers;
   [app/retrieval/citations.py](../app/retrieval/citations.py) maps each marker to real
   metadata, and [app/generation/faithfulness.py](../app/generation/faithfulness.py)
@@ -121,19 +149,23 @@ Key invariants:
 - **Refuse rather than guess.** If retrieval yields no blocks, the answer is the exact
   `REFUSAL` string from [app/generation/prompts.py](../app/generation/prompts.py).
 - **Tenant/ACL filters are mandatory** on every Qdrant query (built in
-  `hybrid_search.build_filter`).
+  `hybrid_search.build_filter`; mirrored by the source-file lookup).
 
 ## Streaming vs. non-streaming
 
+Both answer entrypoints share one pipeline in [app/rag.py](../app/rag.py)
+(`_prepare` → generate → `_assemble` → `_persist` → `_record`); they differ only
+in how the answer is emitted.
+
 | Path | Function | Caches used | Notes |
 | --- | --- | --- | --- |
-| `POST /chat` | `stream_answer()` | embedding cache only | Server-Sent Events: `token` → `sources` → `done` |
-| programmatic | `answer_query()` | embedding + response + semantic | Cache-aware; wraps `_answer()` and records metrics |
+| `POST /chat` | `stream_answer()` | embedding + response + semantic | SSE: `token` → `sources` → `done` (terminal `error` on mid-stream failure). Streams token-by-token; buffers-then-emits when `faithfulness_check` is on |
+| programmatic | `answer_query()` | embedding + response + semantic | Buffered; same pipeline |
 | `POST /search` | `search_blocks()` | embedding cache only | Returns ranked blocks, no generation |
 
-The response and semantic caches are populated/read on the `answer_query()` path; the
-SSE `/chat` path intentionally streams fresh each time (it still benefits from the
-embedding cache). See [operations.md](operations.md#caching) for cache details.
+Cache lookups happen in `_prepare` (response cache first, then — after query
+understanding — the semantic cache), so `/chat` serves cache hits as a single
+`token` event. See [operations.md](operations.md#caching) for cache details.
 
 ## Ingestion lifecycle (summary)
 
@@ -146,6 +178,9 @@ extract  →  canonical  →  chunk (parent/child)  →  embed children  →  up
    └────────────────────── change detection + ingest-state manifest (MySQL) ┘
 ```
 
-Incremental ingest skips unchanged documents via a fingerprint, and skips re-indexing
-when only the fingerprint (not the content hash) changed. Full detail in
-[ingestion.md](ingestion.md).
+Incremental ingest skips unchanged documents via a fingerprint (PDFs are
+pre-filtered on size+mtime before hashing), and skips re-indexing when only the
+fingerprint (not the content hash) changed. Reindexing upserts the new version's
+points **before** deleting the old ones, so a document never disappears from
+search mid-swap. Corpus-wide runs are mutually exclusive (a concurrent trigger is
+rejected). Full detail in [ingestion.md](ingestion.md).

@@ -69,6 +69,7 @@ See [ingestion.md](ingestion.md#extraction) for the extraction pipeline.
 | `rerank_score_threshold` | `0.0` | Drop candidates scoring below this after rerank (applied pre-segregation; keep at 0 unless tuned per source group) |
 | `rerank_recency_weight` | `0.05` | Weight of recency in the blended score |
 | `rerank_authority_weight` | `0.05` | Weight of source authority in the blended score. Authority is now **neutral** (0.5) unless a payload sets `source_authority`; the source-type map was removed (see [retrieval.md](retrieval.md#3-reranking--appretrievalrerankerpy)) |
+| `rerank_table_boost` | `0.15` | Additive boost for table-bearing candidates when the user asked for a table-shaped answer (soft, not a filter) |
 | `dedup_cosine_threshold` | `0.92` | Cosine threshold for query-time deduplication |
 | `context_token_budget` | `9000` | Max tokens of retrieved context sent to the LLM. Blocks are parent chunks (~1800 tokens each), so this gates ~5 passages; sized so the website-preference split (2 website + ~3 PDF) fits. Lower toward 6000 for faster single-source answers |
 
@@ -91,21 +92,50 @@ See [retrieval.md](retrieval.md) for how these combine.
 | --- | --- | --- |
 | `faithfulness_check` | `false` | Run a post-generation entailment check; regenerate once if unfaithful |
 
-## Caching (Redis)
+## Authentication (public retrieval API)
 
-Redis is optional — when `redis_url` is empty, all caches are inert and the corpus
-version is `"0"`.
+When enabled, `/chat`, `/search` and `/source/{id}` require a **Bearer JWT**; the
+caller's tenant and groups come from its verified claims — never from the request
+body. Disabled (the default) means the anonymous principal: tenant `default`,
+groups `["public"]`. See [api-reference.md](api-reference.md#authentication).
 
 | Setting | Default | Description |
 | --- | --- | --- |
-| `redis_url` | `""` | Redis connection URL; enables caches when set |
-| `response_cache_enabled` | `true` | Cache full responses (non-streaming path) |
+| `auth_enabled` | `false` | Require a verified Bearer JWT on the public retrieval API |
+| `jwt_secret` | `""` | Signature verification key: the shared secret (HS\*) or PEM public key (RS\*/ES\*) |
+| `jwt_algorithms` | `HS256` | Comma-separated allow-list of accepted signing algorithms (`none` is always rejected) |
+| `jwt_audience` | `""` | Audience to enforce when set (empty = not checked) |
+| `jwt_issuer` | `""` | Issuer to enforce when set (empty = not checked) |
+| `jwt_tenant_claim` | `tenant_id` | Claim carrying the caller's tenant |
+| `jwt_groups_claim` | `groups` | Claim carrying the caller's authorization groups (list or comma-separated string) |
+
+## API server
+
+| Setting | Default | Description |
+| --- | --- | --- |
+| `cors_allow_origins` | `*` | Comma-separated origins allowed by CORS. The wildcard keeps the embeddable widget working from any host page (credentials stay off; a startup warning is logged) — pin the host site(s) in deployments serving non-public content. Grants are narrowed to `GET`/`POST` and the `Content-Type`/`Authorization` headers |
+| `ops_detail_enabled` | `false` | Expose infrastructure detail (collection name, point counts, tuning values, error strings) on `/ready` and `/metrics`. Off: `/ready` is status-only and `/metrics` returns 404 |
+| `chat_stream_max_concurrency` | `64` | Max chat generations driven concurrently on the dedicated chat thread limiter; keeps long streams from starving the shared request threadpool |
+| `source_base_url` | `""` | Absolute base URL of the retrieval API as reached from the browser; when set, citation links become `{base}/source/{id}#page=N`. Empty = relative `/source/...` paths |
+
+## Caching
+
+Redis holds the **response** and **embedding** caches only; the **semantic cache**
+lives in its own Qdrant collection (nearest-neighbor lookup on the query embedding,
+identity-scoped, TTL-pruned). Redis is optional — when `redis_url` is empty, the
+Redis-backed caches are inert and the corpus version is `"0"`.
+
+| Setting | Default | Description |
+| --- | --- | --- |
+| `redis_url` | `""` | Redis connection URL; enables the response/embedding caches when set |
+| `response_cache_enabled` | `true` | Cache full responses (exact-signature hits) |
 | `response_cache_ttl` | `86400` | Response cache TTL (seconds, 1 day) |
 | `embedding_cache_enabled` | `true` | Cache query embeddings |
 | `embedding_cache_ttl` | `604800` | Embedding cache TTL (seconds, 7 days) |
-| `semantic_cache_enabled` | `true` | Reuse near-identical prior queries |
+| `semantic_cache_enabled` | `true` | Reuse answers for near-identical prior queries (Qdrant-backed) |
 | `semantic_cache_threshold` | `0.97` | Cosine similarity required for a semantic hit |
-| `semantic_cache_max` | `200` | Max entries in the semantic cache list |
+| `semantic_cache_collection` | `semantic_cache` | Dedicated Qdrant collection for semantic-cache entries |
+| `semantic_cache_prune_every` | `200` | Opportunistic prune cadence: every N `store()` calls, expired entries are deleted (a prune also runs after each background sweep) |
 
 See [operations.md](operations.md#caching).
 
@@ -139,6 +169,7 @@ See [operations.md](operations.md#caching).
 | `mysql_database` | `""` | Database name |
 | `mysql_connect_timeout` | `10` | Connect timeout (seconds) |
 | `mysql_pool_size` | `5` | Connection pool size ([app/deps.py](../app/deps.py)) |
+| `mysql_pool_timeout` | `30` | Max seconds to wait for a free pooled connection before raising `TimeoutError` (the pool fails fast instead of blocking forever) |
 | `ingest_state_table` | `ingest_state` | Manifest table name |
 
 ## Drupal (JSON:API source + structured queries)
@@ -158,4 +189,15 @@ See [operations.md](operations.md#caching).
 | Setting | Default | Description |
 | --- | --- | --- |
 | `pdf_source_dirs` | `""` | Directories scanned for PDFs (path-list) |
+| `pdf_source_path` | `""` | Single folder fallback when `pdf_source_dirs` is not set |
 | `pdf_ignore_globs` | `""` | Glob patterns to exclude |
+
+## Ingestion API & audit log
+
+| Setting | Default | Description |
+| --- | --- | --- |
+| `max_upload_bytes` | `52428800` | Max size accepted by `/ingest/pdf` (50 MiB); larger uploads are rejected with `413` before the payload is fully buffered |
+| `ingest_log_table` | `ingest_log` | Append-only audit table of ingestion events (one row per file/record per run) |
+| `ingest_log_enabled` | `true` | Write ingestion events to the audit log |
+| `ingest_log_unchanged` | `false` | Also log a row for every UNCHANGED doc. Off by default: on an incremental sweep almost every doc is unchanged, so per-doc rows are write amplification; the run tally already reports the count |
+| `ingest_log_retention_days` | `90` | Days to keep audit rows; older rows are pruned after each background sweep (`0` = keep forever) |

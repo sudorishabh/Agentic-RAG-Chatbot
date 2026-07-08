@@ -3,8 +3,10 @@
 Documentation for the **Agentic RAG Chatbot** — a FastAPI RAG service over a mixed
 corpus of PDFs and website/Drupal articles, served by Azure OpenAI with Qdrant
 retrieval, cross-encoder reranking, grounded+cited generation, an intent-routed
-structured (MySQL/JSON:API) path, optional Redis caches, Celery ingestion workers,
-and observability.
+structured path answered from the local MySQL catalog, optional Bearer-JWT auth on
+the public API, Redis response/embedding caches plus a Qdrant-backed semantic
+cache, Celery/inline ingestion workers, and observability. It runs as two servers:
+a public retrieval API and a private ingestion API.
 
 These docs describe how the code that exists *actually* works — modules, functions,
 HTTP API, and configuration.
@@ -18,7 +20,7 @@ HTTP API, and configuration.
 | [ingestion.md](ingestion.md) | Extraction → canonical → chunk → embed → index, change detection, state |
 | [retrieval.md](retrieval.md) | Query understanding, hybrid search, reranking, context building, citations, structured path |
 | [generation.md](generation.md) | LLM factories, grounding prompts, faithfulness checking |
-| [operations.md](operations.md) | Redis caches, Celery/inline workers, observability, health/metrics |
+| [operations.md](operations.md) | Caches (Redis + Qdrant semantic), workers & sweep scheduler, observability, probes, maintenance |
 | [website-preference-retrieval.md](website-preference-retrieval.md) | Design + implementation of preferring website content (dual retrieval + segregated, website-first context) |
 | [website-preference-testing.md](website-preference-testing.md) | How to enable, verify, tune, and roll back the website-preference feature |
 

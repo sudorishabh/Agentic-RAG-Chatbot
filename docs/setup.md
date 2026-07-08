@@ -64,34 +64,41 @@ This runs Qdrant from [docker-compose.yml](../docker-compose.yml) on ports `6333
 > Redis and MySQL are not in the compose file — point the app at existing instances via
 > `REDIS_URL` and the `MYSQL_*` settings, or run your own containers. Both are optional.
 
-## 4. Run the API
+## 4. Run the servers
+
+The service is **two servers**: the public retrieval API and the private
+ingestion API (which also runs the background sweep). The ingestion server must
+only be reachable by internal systems — network isolation is its access control.
 
 ```bash
-uvicorn app.main:app --reload                 # development
-uvicorn app.main:app --host 0.0.0.0 --port 8000   # production-ish
+uvicorn app.main:app --reload --port 8000          # retrieval (public)
+uvicorn app.ingest_main:app --reload --port 8001   # ingestion (private)
 ```
 
 Verify:
 
 ```bash
 curl http://localhost:8000/health    # {"status":"ok"}
-curl http://localhost:8000/ready     # 200 when Qdrant is reachable
+curl http://localhost:8000/ready     # 200 when Qdrant is reachable (status only
+                                     # unless OPS_DETAIL_ENABLED=true)
 ```
 
-Interactive API docs: `http://localhost:8000/docs`.
+Interactive API docs: `http://localhost:8000/docs` and `http://localhost:8001/docs`.
 
 ## 5. Ingest content
+
+Ingestion endpoints live on the **ingestion server** (port 8001 above).
 
 **Single PDF (HTTP):**
 
 ```bash
-curl -F "file=@policy.pdf" http://localhost:8000/ingest/pdf
+curl -F "file=@policy.pdf" http://localhost:8001/ingest/pdf
 ```
 
 **Crawl Drupal bundles (HTTP):**
 
 ```bash
-curl -X POST http://localhost:8000/ingest/article \
+curl -X POST http://localhost:8001/ingest/article \
   -H "Content-Type: application/json" \
   -d '{"bundles": ["news", "report"]}'
 ```
@@ -119,14 +126,42 @@ curl -N -X POST http://localhost:8000/chat \
 `-N` disables curl buffering so you see the SSE token stream. See
 [api-reference.md](api-reference.md#chat) for the event format.
 
-## Verifying without external services
+## 7. Enable authentication (optional)
 
-The offline runners exercise canonicalization, chunking, and PDF extraction without
-Qdrant/Redis/Azure:
+The public retrieval API accepts anonymous callers by default (tenant `default`,
+groups `["public"]`). To require a **Bearer JWT** on `/chat`, `/search`, and
+`/source/{id}`:
+
+```env
+AUTH_ENABLED=true
+JWT_SECRET=<shared secret (HS256) or PEM public key (RS/ES)>
+JWT_ALGORITHMS=HS256
+# optional hardening / claim mapping:
+JWT_AUDIENCE=rag-api
+JWT_ISSUER=https://your-idp.example
+JWT_TENANT_CLAIM=tenant_id
+JWT_GROUPS_CLAIM=groups
+```
+
+The token must carry an `exp` claim; tenant and groups are read from the
+configured claims — the request body cannot assert identity. Mint a test token
+(HS256):
 
 ```bash
-python -m app.local_tests.run_all
+python -c "import jwt, time; print(jwt.encode(
+    {'tenant_id': 'default', 'groups': ['public'], 'exp': int(time.time()) + 3600},
+    '<shared secret>', algorithm='HS256'))"
 ```
+
+Then call the API with `-H "Authorization: Bearer <token>"`. A missing or invalid
+token is a `401`.
+
+## Verifying without external services
+
+The suite runs offline (`./.venv/Scripts/python.exe -m pytest -q` on Windows, or
+`pytest -q`), and the runners under
+[app/local_tests/](../app/local_tests/) exercise extraction and the structured
+path — see [operations.md](operations.md#offline-test-runners) for the commands.
 
 ## Where things live
 
