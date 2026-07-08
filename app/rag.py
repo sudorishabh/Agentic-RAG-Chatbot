@@ -223,7 +223,7 @@ def _prepare(
     no-context refusal), or ``(None, generation)`` when a grounded answer still
     has to be generated.
     """
-    from app.cache import redis_cache
+    from app.cache import redis_cache, semantic_cache
     from app.ingestion.embedder import embed_query_cached
 
     settings = get_settings()
@@ -251,7 +251,7 @@ def _prepare(
             return structured, None
 
     query_vector = embed_query_cached(pq.search_query)
-    semantic = redis_cache.semantic_lookup(
+    semantic = semantic_cache.lookup(
         query_vector, tenant_id=tenant_id, user_groups=user_groups,
         top_k=n, answer_format=pq.answer_format,
     )
@@ -290,10 +290,10 @@ def _assemble(answer: str, gen: _Generation) -> dict[str, Any]:
 
 
 def _persist(gen: _Generation, result: dict[str, Any]) -> None:
-    from app.cache import redis_cache
+    from app.cache import redis_cache, semantic_cache
 
     redis_cache.set_response(gen.signature, result)
-    redis_cache.semantic_store(
+    semantic_cache.store(
         gen.query_vector, result, tenant_id=gen.tenant_id,
         user_groups=gen.user_groups, top_k=gen.top_k,
         answer_format=gen.pq.answer_format,

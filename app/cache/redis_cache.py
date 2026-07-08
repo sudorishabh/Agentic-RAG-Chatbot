@@ -3,7 +3,6 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
-import math
 from typing import Any, Sequence
 
 from app.config import get_settings
@@ -122,24 +121,8 @@ def set_response(signature: str, payload: dict[str, Any]) -> None:
     _set_json(f"{_NS}:resp:{signature}", payload, settings.response_cache_ttl)
 
 
-def _cosine(a: Sequence[float], b: Sequence[float]) -> float:
-    if not a or not b or len(a) != len(b):
-        return 0.0
-    dot = sum(x * y for x, y in zip(a, b))
-    na = math.sqrt(sum(x * x for x in a))
-    nb = math.sqrt(sum(y * y for y in b))
-    return dot / (na * nb) if na and nb else 0.0
-
-
 def _identity_scope(tenant_id: str, user_groups: Sequence[str], top_k: int) -> str:
     return f"{tenant_id}|{','.join(sorted(user_groups))}|{top_k}"
-
-
-def _sem_key(scope: str) -> str:
-    # The caller's identity (tenant + groups + top_k) is folded into the key so a
-    # cached answer built from one caller's ACL-scoped documents is never served to
-    # another — the semantic cache would otherwise ignore document ACLs.
-    return f"{_NS}:sem:{corpus_version()}:{_sha(_pref_fingerprint(), scope)[:16]}"
 
 
 def semantic_partition(
@@ -155,58 +138,3 @@ def semantic_partition(
         _identity_scope(tenant_id, user_groups, top_k),
         answer_format,
     )
-
-
-def semantic_lookup(
-    query_vector: Sequence[float],
-    *,
-    tenant_id: str,
-    user_groups: Sequence[str],
-    top_k: int,
-    answer_format: str = "default",
-) -> dict[str, Any] | None:
-    settings = get_settings()
-    client = _client()
-    if client is None or not settings.semantic_cache_enabled or not query_vector:
-        return None
-    key = _sem_key(_identity_scope(tenant_id, user_groups, top_k))
-    try:
-        entries = client.lrange(key, 0, settings.semantic_cache_max - 1)
-    except Exception:  # pragma: no cover
-        return None
-    best, best_sim = None, settings.semantic_cache_threshold
-    for raw in entries:
-        try:
-            entry = json.loads(raw)
-        except Exception:
-            continue
-        # Don't serve an answer shaped for a different format from a near-identical
-        # query vector (the format intent is stripped out of the search query).
-        if entry.get("f", "default") != answer_format:
-            continue
-        sim = _cosine(query_vector, entry.get("v", []))
-        if sim >= best_sim:
-            best, best_sim = entry.get("p"), sim
-    return best
-
-
-def semantic_store(
-    query_vector: Sequence[float],
-    payload: dict[str, Any],
-    *,
-    tenant_id: str,
-    user_groups: Sequence[str],
-    top_k: int,
-    answer_format: str = "default",
-) -> None:
-    settings = get_settings()
-    client = _client()
-    if client is None or not settings.semantic_cache_enabled or not query_vector:
-        return
-    key = _sem_key(_identity_scope(tenant_id, user_groups, top_k))
-    try:
-        client.lpush(key, json.dumps({"v": list(query_vector), "p": payload, "f": answer_format}))
-        client.ltrim(key, 0, settings.semantic_cache_max - 1)
-        client.expire(key, settings.response_cache_ttl)
-    except Exception:  # pragma: no cover
-        logger.warning("Semantic cache store failed.", exc_info=True)

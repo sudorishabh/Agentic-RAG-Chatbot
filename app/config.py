@@ -65,7 +65,6 @@ class Settings(BaseSettings):
     embedding_cache_ttl: int = 604800
     semantic_cache_enabled: bool = True
     semantic_cache_threshold: float = 0.97
-    semantic_cache_max: int = 200
     # Semantic cache is backed by a dedicated Qdrant collection: a nearest-neighbor
     # lookup on the query embedding, gated by semantic_cache_threshold (cosine).
     semantic_cache_collection: str = "semantic_cache"
