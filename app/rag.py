@@ -375,6 +375,21 @@ def _generate_stream(
     )
 
 
+def _stream_result(result: dict[str, Any]) -> Iterator[dict[str, Any]]:
+    """Emit a ready-made result dict (cache hit, chit-chat, structured lookup, or
+    refusal) as the standard token / sources / done SSE event sequence."""
+    yield {"type": "token", "text": result.get("answer", "")}
+    yield {
+        "type": "sources",
+        "citations": result.get("citations", []),
+        "intent": result.get("intent", "qa"),
+        "answer_format": result.get("answer_format", "default"),
+        "used_chunks": result.get("used_chunks", 0),
+        "conflict": result.get("conflict", False),
+    }
+    yield {"type": "done"}
+
+
 def stream_answer(
     question: str,
     *,
@@ -383,56 +398,49 @@ def stream_answer(
     user_groups: list[str] | None = None,
     top_k: int | None = None,
 ) -> Iterator[dict[str, Any]]:
-    from app.ingestion.embedder import embed_query_cached
-
-    settings = get_settings()
-    n = top_k or settings.retrieval_top_k
-    user_groups = user_groups or ["public"]
-
-    pq = process(question, history)
-    if pq.intent == "chitchat":
-        yield {"type": "token", "text": _chitchat(question, history)}
-        yield {"type": "sources", "citations": [], "intent": "chitchat",
-               "answer_format": pq.answer_format, "used_chunks": 0, "conflict": False}
-        yield {"type": "done"}
-        return
-
-    if pq.intent == "structured":
-        from app.retrieval.drupal_router import answer_structured
-
-        structured = answer_structured(question, history)
-        if structured is not None:
-            yield {"type": "token", "text": structured["answer"]}
-            yield {"type": "sources",
-                   **{k: structured[k] for k in ("citations", "intent", "used_chunks", "conflict")},
-                   "answer_format": structured.get("answer_format", pq.answer_format)}
-            yield {"type": "done"}
+    with span("rag.stream_answer") as s:
+        result, gen = _prepare(
+            question, history=history, tenant_id=tenant_id,
+            user_groups=user_groups, top_k=top_k,
+        )
+        # Cache hit, chit-chat, structured lookup, or refusal — already complete.
+        if result is not None:
+            yield from _stream_result(result)
+            _record(s, result)
             return
 
-    query_vector = embed_query_cached(pq.search_query)
-    blocks = retrieve(
-        pq.search_query, tenant_id=tenant_id, user_groups=user_groups,
-        filters=pq.filters, n=n, query_vector=query_vector,
-        answer_format=pq.answer_format, source_type=pq.source_type,
-    )
-    if not blocks:
-        yield {"type": "token", "text": REFUSAL}
-        yield {"type": "sources", "citations": [], "intent": pq.intent,
-               "answer_format": pq.answer_format, "used_chunks": 0, "conflict": False}
-        yield {"type": "done"}
-        return
+        if get_settings().faithfulness_check:
+            # Faithfulness needs the whole answer (and may regenerate once), which
+            # is incompatible with live token streaming — so buffer, then emit.
+            # The check is off by default, so the normal path streams token-by-token.
+            answer = _grounded_answer(
+                gen.pq.search_query, gen.blocks, answer_format=gen.pq.answer_format
+            )
+            yield {"type": "token", "text": answer}
+        else:
+            from app.generation import faithfulness
 
-    for token in _generate_stream(pq.search_query, blocks, answer_format=pq.answer_format):
-        yield {"type": "token", "text": token}
-    yield {
-        "type": "sources",
-        "citations": [c.model_dump() for c in build_citations(blocks)],
-        "intent": pq.intent,
-        "answer_format": pq.answer_format,
-        "used_chunks": len(blocks),
-        "conflict": any(b.conflict for b in blocks),
-    }
-    yield {"type": "done"}
+            parts: list[str] = []
+            for token in _generate_stream(
+                gen.pq.search_query, gen.blocks, answer_format=gen.pq.answer_format
+            ):
+                parts.append(token)
+                yield {"type": "token", "text": token}
+            answer = faithfulness.validate_markers("".join(parts), len(gen.blocks))
+
+        result = _assemble(answer, gen)
+        s.set("answer_chars", len(answer))
+        yield {
+            "type": "sources",
+            "citations": result["citations"],
+            "intent": result["intent"],
+            "answer_format": result["answer_format"],
+            "used_chunks": result["used_chunks"],
+            "conflict": result["conflict"],
+        }
+        yield {"type": "done"}
+        _persist(gen, result)
+        _record(s, result)
 
 
 def search_blocks(
