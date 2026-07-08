@@ -36,12 +36,25 @@ def create_base_app(title: str, **kwargs: Any) -> FastAPI:
     app = FastAPI(title=title, version="0.1.0", **kwargs)
 
     origins = [o.strip() for o in settings.cors_allow_origins.split(",") if o.strip()]
+    if not origins or "*" in origins:
+        # Wildcard keeps the embeddable widget working from any host page, and
+        # is tolerable only because credentials stay off and auth uses a
+        # non-ambient bearer token — but deployments serving non-public content
+        # should pin the host origins.
+        logging.getLogger(__name__).warning(
+            "CORS allows all origins; set CORS_ALLOW_ORIGINS to pin the host "
+            "site(s) in production."
+        )
     app.add_middleware(
         CORSMiddleware,
         allow_origins=origins or ["*"],
+        # Never enable credentials here: with a wildcard-capable origin config,
+        # ambient cookies would make every embedding page a CSRF vector.
         allow_credentials=False,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        # The whole API is GET/POST; the clients send JSON plus, when auth is
+        # enabled, a bearer token. Grant exactly that instead of "*".
+        allow_methods=["GET", "POST"],
+        allow_headers=["Content-Type", "Authorization"],
     )
 
     init_observability(app)
