@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from app.config import get_settings
 from app.deps import mysql_connection
@@ -116,6 +116,38 @@ def record(entry: LogEntry) -> None:
             conn.commit()
     except Exception:
         logger.exception("Failed to write ingest log for %s; continuing.", entry.document_id)
+
+
+def prune(batch_size: int = 10_000) -> int:
+    """Delete rows older than ``ingest_log_retention_days``; returns rows deleted.
+
+    Deletes in batches so a large backlog (the log was unpruned historically)
+    never holds one long row-lock transaction. Never raises — retention is
+    housekeeping and must not break the sweep loop.
+    """
+    settings = get_settings()
+    days = settings.ingest_log_retention_days
+    if not settings.ingest_log_enabled or days <= 0:
+        return 0
+    cutoff = _now() - timedelta(days=days)
+    table = _table()
+    deleted = 0
+    try:
+        with mysql_connection() as conn, conn.cursor() as cur:
+            while True:
+                cur.execute(
+                    f"DELETE FROM `{table}` WHERE event_time < %s LIMIT {int(batch_size)}",
+                    (cutoff,),
+                )
+                conn.commit()
+                deleted += cur.rowcount
+                if cur.rowcount < batch_size:
+                    break
+        if deleted:
+            logger.info("Pruned %d ingest-log rows older than %s.", deleted, cutoff.date())
+    except Exception:
+        logger.exception("Ingest log prune failed; continuing.")
+    return deleted
 
 
 def recent(

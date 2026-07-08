@@ -179,6 +179,9 @@ class Settings(BaseSettings):
     # is write amplification (one INSERT+commit per doc) and the main driver of
     # the log's growth. The run-level tally already reports the unchanged count.
     ingest_log_unchanged: bool = False
+    # Days to keep ingest-log rows; older rows are pruned after each background
+    # sweep. 0 disables pruning (the log then grows without bound).
+    ingest_log_retention_days: int = 90
     # Max size (bytes) accepted by the direct PDF upload endpoint (/ingest/pdf).
     # Larger uploads are rejected with 413 before the payload is fully buffered.
     max_upload_bytes: int = 52_428_800  # 50 MiB

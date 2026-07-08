@@ -9,14 +9,15 @@ logger = logging.getLogger(__name__)
 
 
 async def _sweep_loop(interval: float) -> None:
-    """Run an incremental ingestion sweep, prune the semantic cache, then sleep,
-    forever.
+    """Run an incremental ingestion sweep, prune the semantic cache and the
+    ingest log, then sleep, forever.
 
-    The sweep and prune are blocking (network / DB / Qdrant IO), so they run in a
-    worker thread to keep the event loop responsive. Errors are logged and the
+    The sweep and prunes are blocking (network / DB / Qdrant IO), so they run in
+    a worker thread to keep the event loop responsive. Errors are logged and the
     loop continues on the next interval.
     """
     from app.cache import semantic_cache
+    from app.ingestion import ingest_log
     from app.workers.tasks import sweep
 
     while True:
@@ -34,6 +35,13 @@ async def _sweep_loop(interval: float) -> None:
                 raise
             except Exception:
                 logger.exception("Semantic cache prune failed; continuing.")
+        try:
+            # No-op unless ingest_log_enabled and a retention window is set.
+            await asyncio.to_thread(ingest_log.prune)
+        except asyncio.CancelledError:
+            raise
+        except Exception:
+            logger.exception("Ingest log prune failed; continuing.")
         await asyncio.sleep(interval)
 
 
