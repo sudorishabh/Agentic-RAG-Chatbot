@@ -127,8 +127,9 @@ def new_mysql_connection() -> pymysql.connections.Connection:
 
 class MySQLPool:
 
-    def __init__(self, size: int) -> None:
+    def __init__(self, size: int, *, checkout_timeout: float = 30.0) -> None:
         self._size = max(1, size)
+        self._checkout_timeout = checkout_timeout
         self._idle: queue.LifoQueue[pymysql.connections.Connection] = queue.LifoQueue(
             maxsize=self._size
         )
@@ -148,12 +149,31 @@ class MySQLPool:
             conn = self._reconnect(conn)
         return conn
 
+    def _open_new(self) -> pymysql.connections.Connection:
+        """Open a connection for an already-reserved slot, releasing the slot if
+        the connect fails — otherwise a transient outage permanently shrinks the
+        pool until every checkout blocks forever."""
+        try:
+            return new_mysql_connection()
+        except Exception:
+            self._drop_count()
+            raise
+
     def _open_or_wait(self) -> pymysql.connections.Connection:
         with self._lock:
-            if self._created < self._size:
+            reserved = self._created < self._size
+            if reserved:
                 self._created += 1
-                return new_mysql_connection()
-        return self._idle.get()
+        # Connect outside the lock so a slow handshake never serializes checkouts.
+        if reserved:
+            return self._open_new()
+        try:
+            return self._idle.get(timeout=self._checkout_timeout)
+        except queue.Empty:
+            raise TimeoutError(
+                f"MySQL pool exhausted; no connection available within "
+                f"{self._checkout_timeout}s."
+            )
 
     def _reconnect(self, conn: pymysql.connections.Connection) -> pymysql.connections.Connection:
         try:
@@ -162,7 +182,7 @@ class MySQLPool:
             pass
         with self._lock:
             self._created += 1
-        return new_mysql_connection()
+        return self._open_new()
 
     def _release(self, conn: pymysql.connections.Connection) -> None:
         try:
@@ -203,7 +223,8 @@ class MySQLPool:
 
 @lru_cache
 def get_mysql_pool() -> MySQLPool:
-    return MySQLPool(get_settings().mysql_pool_size)
+    settings = get_settings()
+    return MySQLPool(settings.mysql_pool_size, checkout_timeout=settings.mysql_pool_timeout)
 
 
 @contextmanager

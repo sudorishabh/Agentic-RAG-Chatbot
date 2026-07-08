@@ -149,6 +149,9 @@ class Settings(BaseSettings):
     mysql_database: str = ""
     mysql_connect_timeout: int = 10
     mysql_pool_size: int = 5
+    # Max seconds a caller waits for a free pooled connection before failing fast
+    # (instead of blocking forever) when every connection is checked out.
+    mysql_pool_timeout: int = 30
     drupal_jsonapi_base: str = "https://teriin.org/jsonapi"
     drupal_request_timeout: int = 60
     drupal_page_size: int = 50
