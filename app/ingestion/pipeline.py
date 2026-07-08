@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import logging
+import threading
 import uuid
 from collections import Counter
+from contextlib import contextmanager
 from typing import Callable, Iterable, Iterator
 
 from app.config import get_settings
@@ -11,13 +13,34 @@ from app.ingestion import change_detection as cd
 from app.ingestion import ingest_log
 from app.ingestion import state
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus
-from app.ingestion.indexer import index_canonical
+from app.ingestion.chunker import chunk_canonical
+from app.ingestion.indexer import index_chunks
 from app.ingestion.state import StateRecord
 from app.deps import delete_document
 
 logger = logging.getLogger(__name__)
 
 DocBuilder = Callable[[ChangeRecord], "CanonicalDocument | None"]
+
+# One corpus-wide ingestion run (sweep / PDF scan / Drupal crawl) at a time.
+# Concurrent runs double-embed documents and race each other's delete/upsert
+# and ingest_state writes. Process-local by design: the ingestion server is a
+# single private instance (celery mode serializes via its queue instead).
+_run_lock = threading.Lock()
+
+
+class IngestBusyError(RuntimeError):
+    """Another ingestion run is already in progress in this process."""
+
+
+@contextmanager
+def _exclusive(what: str) -> Iterator[None]:
+    if not _run_lock.acquire(blocking=False):
+        raise IngestBusyError(f"Another ingestion run is in progress; {what} rejected.")
+    try:
+        yield
+    finally:
+        _run_lock.release()
 
 
 def _save_state(
@@ -121,8 +144,13 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
 
     version = cd.next_version(record)
     doc.doc_version = version
-    delete_document(record.document_id)
-    chunks = index_canonical(doc)
+    # Index the new version FIRST, then delete everything else for the doc.
+    # Chunk ids are version-scoped (uuid5 of doc|version|suffix), so the new
+    # points never collide with the old ones: the old version stays searchable
+    # until the swap, and a mid-index failure leaves it fully intact.
+    new_chunks = chunk_canonical(doc)
+    chunks = index_chunks(new_chunks)
+    delete_document(record.document_id, keep_ids=[c.chunk_id for c in new_chunks])
     _save_state(record, doc, content_hash, version, indexed=True)
     logger.info(
         "%s %s -> v%d", record.status.value, record.document_id, version
@@ -214,10 +242,11 @@ def _build_attachment_doc(
 
 
 def ingest_pdfs(roots=None, ignore_globs=None) -> Counter:
-    logger.info("PDF ingestion started (roots=%s)", roots or "configured PDF source")
-    tally = _run(cd.detect_file_changes(roots, ignore_globs), _build_pdf_doc)
-    logger.info("PDF ingestion finished: %s", dict(tally))
-    return tally
+    with _exclusive("PDF ingestion"):
+        logger.info("PDF ingestion started (roots=%s)", roots or "configured PDF source")
+        tally = _run(cd.detect_file_changes(roots, ignore_globs), _build_pdf_doc)
+        logger.info("PDF ingestion finished: %s", dict(tally))
+        return tally
 
 
 def ingest_drupal(
@@ -228,22 +257,22 @@ def ingest_drupal(
 ) -> Counter:
     from functools import partial
 
-    from app.config import get_settings
     from app.ingestion.extractors.drupal_extractor import _build_session
 
-    logger.info("Drupal ingestion started (bundles=%s, reconcile=%s)", bundles or "default", reconcile_deletes)
-    records = cd.detect_drupal_changes(
-        bundles, published_only=published_only, reconcile_deletes=reconcile_deletes
-    )
-    # One session for the whole run: attachment downloads reuse its connection
-    # pool rather than opening a new one per PDF.
-    session = _build_session(get_settings().drupal_max_retries)
-    try:
-        tally = _run(records, partial(_build_drupal_or_attachment, session=session))
-    finally:
-        session.close()
-    logger.info("Drupal ingestion finished: %s", dict(tally))
-    return tally
+    with _exclusive("Drupal ingestion"):
+        logger.info("Drupal ingestion started (bundles=%s, reconcile=%s)", bundles or "default", reconcile_deletes)
+        records = cd.detect_drupal_changes(
+            bundles, published_only=published_only, reconcile_deletes=reconcile_deletes
+        )
+        # One session for the whole run: attachment downloads reuse its connection
+        # pool rather than opening a new one per PDF.
+        session = _build_session(get_settings().drupal_max_retries)
+        try:
+            tally = _run(records, partial(_build_drupal_or_attachment, session=session))
+        finally:
+            session.close()
+        logger.info("Drupal ingestion finished: %s", dict(tally))
+        return tally
 
 
 def _main(argv: list[str] | None = None) -> int:

@@ -18,6 +18,7 @@ async def _sweep_loop(interval: float) -> None:
     """
     from app.cache import semantic_cache
     from app.ingestion import ingest_log
+    from app.ingestion.pipeline import IngestBusyError
     from app.workers.tasks import sweep
 
     while True:
@@ -26,6 +27,8 @@ async def _sweep_loop(interval: float) -> None:
             logger.info("Background sweep complete: %s", result)
         except asyncio.CancelledError:
             raise
+        except IngestBusyError:
+            logger.info("Skipping sweep; another ingestion run is in progress.")
         except Exception:
             logger.exception("Background sweep failed; retrying next interval.")
         if get_settings().semantic_cache_enabled:

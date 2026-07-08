@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
 
 from app.config import get_settings
+from app.ingestion.pipeline import IngestBusyError
 from app.ingestion.upload import ingest_article, ingest_upload
 from app.schemas.ingest import (
     ArticleIngestRequest,
@@ -20,6 +21,15 @@ from app.schemas.ingest import (
 )
 
 router = APIRouter(tags=["ingest"])
+
+
+async def _run_exclusive(fn, *args):
+    """Run a corpus-wide ingestion task in the threadpool, mapping the
+    one-run-at-a-time rejection (IngestBusyError) to HTTP 409."""
+    try:
+        return await run_in_threadpool(fn, *args)
+    except IngestBusyError as exc:
+        raise HTTPException(status_code=409, detail=str(exc))
 
 
 async def _read_capped(file: UploadFile, limit: int) -> bytes:
@@ -62,7 +72,7 @@ async def ingest_pdfs_route() -> PdfIngestRunResponse:
         raise HTTPException(status_code=400, detail="PDF_SOURCE_PATH is not configured")
     from app.workers.tasks import ingest_pdfs
 
-    tally = await run_in_threadpool(ingest_pdfs)
+    tally = await _run_exclusive(ingest_pdfs)
     return PdfIngestRunResponse(source=source, tally=tally)
 
 
@@ -73,8 +83,8 @@ async def ingest_run_route(request: DirectIngestRequest | None = None) -> Direct
     source = settings.pdf_source_dirs or settings.pdf_source_path
     from app.workers.tasks import ingest_drupal, ingest_pdfs
 
-    pdfs = await run_in_threadpool(ingest_pdfs) if source else {}
-    drupal = await run_in_threadpool(ingest_drupal, request.bundles, request.reconcile)
+    pdfs = await _run_exclusive(ingest_pdfs) if source else {}
+    drupal = await _run_exclusive(ingest_drupal, request.bundles, request.reconcile)
     return DirectIngestResponse(pdf_source=source or None, pdfs=pdfs, drupal=drupal)
 
 
@@ -83,7 +93,7 @@ async def ingest_article_route(request: ArticleIngestRequest) -> ArticleIngestRe
     if request.bundles:
         from app.workers.tasks import ingest_drupal
 
-        crawled = await run_in_threadpool(ingest_drupal, request.bundles)
+        crawled = await _run_exclusive(ingest_drupal, request.bundles)
         return ArticleIngestResponse(crawled=crawled)
 
     if not (request.body or request.title):
@@ -123,7 +133,7 @@ async def reindex(request: ReindexRequest) -> ReindexResponse:
     if request.sweep:
         from app.workers.tasks import sweep
 
-        detail = await run_in_threadpool(sweep)
+        detail = await _run_exclusive(sweep)
         return ReindexResponse(status="swept", detail=detail)
 
     if not request.document_id:

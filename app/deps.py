@@ -5,7 +5,7 @@ import queue
 import threading
 from contextlib import contextmanager
 from functools import lru_cache
-from typing import TYPE_CHECKING, Any, Iterator
+from typing import TYPE_CHECKING, Any, Iterator, Sequence
 
 import pymysql
 from pymysql.cursors import DictCursor
@@ -85,11 +85,17 @@ def _ensure_datetime_index(client: "QdrantClient", collection: str, field: str) 
         logger.debug("Could not ensure datetime index on %r.", field, exc_info=True)
 
 
-def delete_document(document_id: str) -> None:
+def delete_document(document_id: str, *, keep_ids: Sequence[str] | None = None) -> None:
+    """Delete a document's points; ``keep_ids`` spares the listed point ids.
+
+    Reindexing upserts the new version's points first and then calls this with
+    their ids, so the document never disappears from search mid-swap.
+    """
     from qdrant_client.models import (
         FieldCondition,
         Filter,
         FilterSelector,
+        HasIdCondition,
         MatchValue,
     )
 
@@ -105,7 +111,8 @@ def delete_document(document_id: str) -> None:
                     FieldCondition(
                         key="document_id", match=MatchValue(value=document_id)
                     )
-                ]
+                ],
+                must_not=[HasIdCondition(has_id=list(keep_ids))] if keep_ids else None,
             )
         ),
     )
