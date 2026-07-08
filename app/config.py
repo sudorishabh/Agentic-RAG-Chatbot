@@ -66,6 +66,13 @@ class Settings(BaseSettings):
     semantic_cache_enabled: bool = True
     semantic_cache_threshold: float = 0.97
     semantic_cache_max: int = 200
+    # Semantic cache is backed by a dedicated Qdrant collection: a nearest-neighbor
+    # lookup on the query embedding, gated by semantic_cache_threshold (cosine).
+    semantic_cache_collection: str = "semantic_cache"
+    # Qdrant has no native TTL, so each entry stores an expires_at that lookups
+    # filter out once stale; expired points are deleted every N stores (0 disables
+    # the opportunistic prune — rely on lookup-time filtering / a scheduled prune).
+    semantic_cache_prune_every: int = 200
     chunk_size: int = 1000
     chunk_overlap: int = 200
     celery_broker_url: str = ""
