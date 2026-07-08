@@ -201,6 +201,7 @@ def iter_node_uuids(
         "page[limit]": settings.drupal_page_size,
         f"fields[{entity_type}--{bundle}]": "drupal_internal__nid",
     }
+    
     if published_only:
         params["filter[status]"] = 1
 
@@ -402,7 +403,9 @@ def _extract_inbody_pdfs(
     body text via the link-preserving text extractor). Returns DrupalFiles with
     a URL-stable synthetic uuid so the same PDF ingests once."""
     ingest_external = get_settings().drupal_ingest_external_pdfs
-    site_host = urlparse(site).netloc.lower().lstrip("www.")
+    # removeprefix, NOT lstrip: lstrip("www.") strips *characters* {w, .} from
+    # the left, mangling hosts like "web.teriin.org" -> "eb.teriin.org".
+    site_host = urlparse(site).netloc.lower().removeprefix("www.")
 
     out: list[DrupalFile] = []
     local_seen = set(seen_urls)
@@ -412,7 +415,7 @@ def _extract_inbody_pdfs(
             if not raw.split("?")[0].lower().endswith(".pdf"):
                 continue
             abs_url = raw if raw.lower().startswith("http") else f"{site}{raw if raw.startswith('/') else '/' + raw}"
-            host = urlparse(abs_url).netloc.lower().lstrip("www.")
+            host = urlparse(abs_url).netloc.lower().removeprefix("www.")
             is_internal = (not host) or host == site_host or "teriin.org" in host or "teri.res.in" in host
             if not is_internal and not ingest_external:
                 continue

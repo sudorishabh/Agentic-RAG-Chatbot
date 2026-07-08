@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timezone
+from datetime import datetime
+from functools import lru_cache
 from typing import Sequence
 
 from pydantic import BaseModel, Field
@@ -90,8 +91,6 @@ def _llm_semantic(query: str, candidates: Sequence[Candidate]) -> list[float] | 
 def _cross_encoder_semantic(query: str, candidates: Sequence[Candidate]) -> list[float] | None:
     model_name = get_settings().rerank_model or "BAAI/bge-reranker-v2-m3"
     try:
-        from sentence_transformers import CrossEncoder
-
         encoder = _load_cross_encoder(model_name)
         scores = encoder.predict([(query, c.text) for c in candidates])
         return [float(s) for s in scores]
@@ -111,14 +110,21 @@ def _load_cross_encoder(model_name: str):
     return _CROSS_ENCODER_CACHE[model_name]
 
 
+@lru_cache(maxsize=1)
+def _cohere_client():
+    import os
+
+    import cohere
+
+    return cohere.Client(os.environ.get("COHERE_API_KEY", ""))
+
+
 def _cohere_semantic(query: str, candidates: Sequence[Candidate]) -> list[float] | None:
     settings = get_settings()
     try:
-        import os
-
-        import cohere
-
-        client = cohere.Client(os.environ.get("COHERE_API_KEY", ""))
+        # Cached client: constructing one per rerank call rebuilds an HTTP
+        # connection pool on every query.
+        client = _cohere_client()
         model = settings.rerank_model or "rerank-3.5"
         resp = client.rerank(
             query=query, documents=[c.text for c in candidates], model=model

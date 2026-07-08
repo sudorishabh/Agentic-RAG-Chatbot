@@ -15,7 +15,9 @@ class QueryRequest(BaseModel):
     # app/api/auth.py), never from the request body.
     question: str = Field(min_length=1)
     history: list[ChatTurn] = Field(default_factory=list)
-    top_k: int | None = None
+    # Bounded: this is public input, and an absurd top_k inflates retrieval and
+    # context-assembly work per request. None = server default.
+    top_k: int | None = Field(default=None, ge=1, le=50)
     stream: bool = False
 
 
@@ -54,7 +56,7 @@ class SearchRequest(BaseModel):
     # Identity comes from the authenticated principal, not the body (see QueryRequest).
     question: str = Field(min_length=1)
     history: list[ChatTurn] = Field(default_factory=list)
-    top_k: int | None = None
+    top_k: int | None = Field(default=None, ge=1, le=50)
 
 
 class SearchBlock(BaseModel):

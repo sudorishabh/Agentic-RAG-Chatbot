@@ -1,0 +1,32 @@
+Date : 2026-07-08 17:10:53
+Directory : d:\OneDrive - The Energy and Resources Institute\Desktop\My_Files\Projects\Agentic-RAG-Chatbot\tests
+Total : 8 files,  569 codes, 75 comments, 256 blanks, all 900 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Python   |          8 |        569 |         75 |        256 |        900 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                        | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                           |          8 |        569 |         75 |        256 |        900 |
++-----------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                                    | language | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| d:\OneDrive - The Energy and Resources Institute\Desktop\My_Files\Projects\Agentic-RAG-Chatbot\tests\test_chunk_classify.py | Python   |         58 |          3 |         17 |         78 |
+| d:\OneDrive - The Energy and Resources Institute\Desktop\My_Files\Projects\Agentic-RAG-Chatbot\tests\test_chunk_heading.py  | Python   |         26 |          3 |         29 |         58 |
+| d:\OneDrive - The Energy and Resources Institute\Desktop\My_Files\Projects\Agentic-RAG-Chatbot\tests\test_chunk_overlap.py  | Python   |         19 |          1 |         12 |         32 |
+| d:\OneDrive - The Energy and Resources Institute\Desktop\My_Files\Projects\Agentic-RAG-Chatbot\tests\test_chunk_parent.py   | Python   |         19 |          1 |          8 |         28 |
+| d:\OneDrive - The Energy and Resources Institute\Desktop\My_Files\Projects\Agentic-RAG-Chatbot\tests\test_counting.py       | Python   |        115 |         27 |         48 |        190 |
+| d:\OneDrive - The Energy and Resources Institute\Desktop\My_Files\Projects\Agentic-RAG-Chatbot\tests\test_hybrid_filter.py  | Python   |         10 |          1 |          7 |         18 |
+| d:\OneDrive - The Energy and Resources Institute\Desktop\My_Files\Projects\Agentic-RAG-Chatbot\tests\test_router.py         | Python   |        180 |         31 |         67 |        278 |
+| d:\OneDrive - The Energy and Resources Institute\Desktop\My_Files\Projects\Agentic-RAG-Chatbot\tests\test_text_normalize.py | Python   |        142 |          8 |         68 |        218 |
+| Total                                                                                                                       |          |        569 |         75 |        256 |        900 |
++-----------------------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
