@@ -114,6 +114,24 @@ class Settings(BaseSettings):
     # served PDFs become "{base}/source/{id}#page=N" so a separate-origin
     # frontend can open them. Empty = emit a relative "/source/..." path.
     source_base_url: str = ""
+    # Authentication for the public retrieval API (/chat, /search). When enabled,
+    # requests must carry a Bearer JWT that the backend verifies; tenant_id and
+    # user_groups are taken from the token's claims, never from the request body.
+    # Off by default (anonymous caller = tenant "default", groups ["public"]);
+    # turn on in any deployment that serves non-public content.
+    auth_enabled: bool = False
+    # Key used to verify the JWT signature. For HS* algorithms this is the shared
+    # secret; for RS*/ES* it is the PEM-encoded public key.
+    jwt_secret: str = ""
+    # Comma-separated allow-list of accepted signing algorithms. Anything outside
+    # this list (including the unsigned "none" algorithm) is rejected.
+    jwt_algorithms: str = "HS256"
+    # Optional audience / issuer to enforce when set (empty = not checked).
+    jwt_audience: str = ""
+    jwt_issuer: str = ""
+    # Claim names carrying the caller's tenant and authorization groups.
+    jwt_tenant_claim: str = "tenant_id"
+    jwt_groups_claim: str = "groups"
     otel_enabled: bool = False
     otel_service_name: str = "agentic-rag"
     otel_exporter_otlp_endpoint: str = ""
