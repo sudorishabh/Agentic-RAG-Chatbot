@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
+from typing import Sequence
 
 from app.config import get_settings
 from app.deps import get_qdrant_client
@@ -39,10 +40,14 @@ def _within_roots(path: Path, roots: list[Path]) -> bool:
     return False
 
 
-def _lookup_pdf_path(document_id: str) -> str | None:
-    """Read the stored on-disk path for a document from the index. The id may
-    match either the document_id or the pdf_id payload field."""
-    from qdrant_client.models import FieldCondition, Filter, MatchValue
+def _lookup_pdf_path(
+    document_id: str, tenant_id: str, user_groups: Sequence[str]
+) -> str | None:
+    """Read the stored on-disk path for a document the caller may see. The id
+    may match either the document_id or the pdf_id payload field; the tenant
+    and ACL conditions mirror the search filter, so a document that would never
+    appear in this caller's results can't be fetched by id either."""
+    from qdrant_client.models import FieldCondition, Filter, MatchAny, MatchValue
 
     settings = get_settings()
     client = get_qdrant_client()
@@ -50,9 +55,15 @@ def _lookup_pdf_path(document_id: str) -> str | None:
         return None
 
     flt = Filter(
-        should=[
-            FieldCondition(key="document_id", match=MatchValue(value=document_id)),
-            FieldCondition(key="pdf_id", match=MatchValue(value=document_id)),
+        must=[
+            Filter(
+                should=[
+                    FieldCondition(key="document_id", match=MatchValue(value=document_id)),
+                    FieldCondition(key="pdf_id", match=MatchValue(value=document_id)),
+                ]
+            ),
+            FieldCondition(key="tenant_id", match=MatchValue(value=tenant_id)),
+            FieldCondition(key="acl", match=MatchAny(any=list(user_groups) or ["public"])),
         ]
     )
     points, _ = client.scroll(
@@ -67,14 +78,22 @@ def _lookup_pdf_path(document_id: str) -> str | None:
     return (points[0].payload or {}).get("pdf_path")
 
 
-def resolve_source_file(document_id: str) -> Path | None:
-    """Resolve a document_id / pdf_id to a readable PDF on disk.
+def resolve_source_file(
+    document_id: str,
+    *,
+    tenant_id: str = "default",
+    user_groups: Sequence[str] | None = None,
+) -> Path | None:
+    """Resolve a document_id / pdf_id to a readable PDF on disk, scoped to the
+    caller's identity (defaults mirror the anonymous principal, like search()).
 
-    Returns None when the document is unknown, the file is missing, no source
-    roots are configured, or the stored path escapes the configured roots
-    (path-traversal guard). Callers should treat None as a 404.
+    Returns None when the document is unknown or outside the caller's
+    tenant/ACL scope, the file is missing, no source roots are configured, or
+    the stored path escapes the configured roots (path-traversal guard).
+    Callers should treat None as a 404 — it deliberately does not distinguish
+    "does not exist" from "not yours to see".
     """
-    raw = _lookup_pdf_path(document_id)
+    raw = _lookup_pdf_path(document_id, tenant_id, list(user_groups or ["public"]))
     if not raw:
         return None
 
