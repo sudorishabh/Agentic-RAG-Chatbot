@@ -2,6 +2,7 @@ fastapi
 uvicorn[standard]
 pydantic-settings
 python-multipart
+PyJWT                          # Bearer-token verification for the retrieval API (app/api/auth.py)
 langchain
 langchain-openai
 langchain-qdrant
