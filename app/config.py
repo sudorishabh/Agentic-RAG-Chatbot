@@ -174,6 +174,9 @@ class Settings(BaseSettings):
     # per run), separate from the overwrite-in-place ingest_state table.
     ingest_log_table: str = "ingest_log"
     ingest_log_enabled: bool = True
+    # Max size (bytes) accepted by the direct PDF upload endpoint (/ingest/pdf).
+    # Larger uploads are rejected with 413 before the payload is fully buffered.
+    max_upload_bytes: int = 52_428_800  # 50 MiB
     drupal_reconcile_every: int = 10
 
 

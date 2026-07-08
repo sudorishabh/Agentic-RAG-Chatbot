@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from fastapi import APIRouter, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
 
@@ -20,13 +22,34 @@ from app.schemas.ingest import (
 router = APIRouter(tags=["ingest"])
 
 
+async def _read_capped(file: UploadFile, limit: int) -> bytes:
+    """Read an upload in bounded chunks, rejecting anything over ``limit`` bytes
+    before the whole payload is buffered — an unbounded read is a memory-DoS."""
+    buf = bytearray()
+    while True:
+        chunk = await file.read(1 << 20)  # 1 MiB
+        if not chunk:
+            break
+        buf.extend(chunk)
+        if len(buf) > limit:
+            raise HTTPException(
+                status_code=413,
+                detail=f"File exceeds the maximum upload size of {limit} bytes",
+            )
+    return bytes(buf)
+
+
 @router.post("/ingest/pdf", response_model=IngestResponse)
 async def ingest_pdf(file: UploadFile) -> IngestResponse:
     if not file.filename:
         raise HTTPException(status_code=400, detail="Filename is required")
-    content = await file.read()
+    if Path(file.filename).suffix.lower() != ".pdf":
+        raise HTTPException(status_code=400, detail="Only .pdf files are accepted")
+    content = await _read_capped(file, get_settings().max_upload_bytes)
     if not content:
         raise HTTPException(status_code=400, detail="File is empty")
+    if not content.startswith(b"%PDF-"):
+        raise HTTPException(status_code=415, detail="File is not a valid PDF")
     document_id, chunks = await run_in_threadpool(ingest_upload, file.filename, content)
     return IngestResponse(filename=file.filename, document_id=document_id, chunks_ingested=chunks)
 
