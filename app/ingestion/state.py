@@ -22,6 +22,10 @@ class StateRecord:
     doc_version: int = 1
     bundle: str | None = None
     changed_mark: int | None = None
+    # Cheap file-change signal for local PDFs: byte size + mtime (ns). Lets a scan
+    # skip re-reading/hashing a file whose size and mtime are unchanged.
+    size: int | None = None
+    mtime_ns: int | None = None
     indexed_at: str | None = None
     published_at: str | None = None
     authors: list[str] = field(default_factory=list)
@@ -47,6 +51,8 @@ CREATE TABLE IF NOT EXISTS `{table}` (
     content_hash VARCHAR(64)   NOT NULL DEFAULT '',
     doc_version  INT           NOT NULL DEFAULT 1,
     changed_mark BIGINT        NULL,
+    size         BIGINT        NULL,
+    mtime_ns     BIGINT        NULL,
     published_at DATETIME      NULL,
     indexed_at   DATETIME      NULL,
     updated_at   DATETIME      NOT NULL,
@@ -110,6 +116,8 @@ def ensure_table() -> None:
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(_DDL.format(table=table))
         _ensure_column(cur, table, "published_at", "published_at DATETIME NULL")
+        _ensure_column(cur, table, "size", "size BIGINT NULL")
+        _ensure_column(cur, table, "mtime_ns", "mtime_ns BIGINT NULL")
         for facet in _FACETS:
             cur.execute(_CHILD_DDL.format(table=table, facet=facet))
         conn.commit()
@@ -127,6 +135,8 @@ def _row_to_record(row: dict) -> StateRecord:
         doc_version=int(row.get("doc_version") or 1),
         bundle=row.get("bundle"),
         changed_mark=row.get("changed_mark"),
+        size=row.get("size"),
+        mtime_ns=row.get("mtime_ns"),
         indexed_at=indexed.isoformat() if isinstance(indexed, datetime) else indexed,
         published_at=published.isoformat() if isinstance(published, datetime) else published,
     )
@@ -160,9 +170,9 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
             f"""
             INSERT INTO `{table}`
                 (document_id, source_type, source_key, bundle, fingerprint,
-                 content_hash, doc_version, changed_mark, published_at,
-                 indexed_at, updated_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                 content_hash, doc_version, changed_mark, size, mtime_ns,
+                 published_at, indexed_at, updated_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE
                 source_type  = VALUES(source_type),
                 source_key   = VALUES(source_key),
@@ -171,6 +181,8 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 content_hash = VALUES(content_hash),
                 doc_version  = VALUES(doc_version),
                 changed_mark = VALUES(changed_mark),
+                size         = VALUES(size),
+                mtime_ns     = VALUES(mtime_ns),
                 published_at = VALUES(published_at),
                 indexed_at   = COALESCE(VALUES(indexed_at), indexed_at),
                 updated_at   = VALUES(updated_at)
@@ -184,6 +196,8 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 record.content_hash,
                 record.doc_version,
                 record.changed_mark,
+                record.size,
+                record.mtime_ns,
                 _to_datetime(record.published_at),
                 indexed_at,
                 now,
@@ -191,6 +205,21 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
         )
         _replace_facet(cur, table, "author", record.document_id, record.authors)
         _replace_facet(cur, table, "category", record.document_id, record.categories)
+        conn.commit()
+
+
+def update_stat(document_id: str, size: int | None, mtime_ns: int | None) -> None:
+    """Refresh only the cheap change-detection stat (size + mtime) for a document
+    whose content is unchanged, so a later scan can skip re-hashing it after a
+    metadata-only touch."""
+    if size is None and mtime_ns is None:
+        return
+    table = _table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"UPDATE `{table}` SET size = %s, mtime_ns = %s WHERE document_id = %s",
+            (size, mtime_ns, document_id),
+        )
         conn.commit()
 
 

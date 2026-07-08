@@ -37,6 +37,8 @@ def _save_state(
             doc_version=version,
             bundle=record.bundle,
             changed_mark=record.changed_mark,
+            size=record.size,
+            mtime_ns=record.mtime_ns,
             published_at=doc.published_at,
             authors=list(doc.authors),
             categories=list(doc.categories),
@@ -88,6 +90,12 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
         return "deleted"
 
     if record.status is ChangeStatus.UNCHANGED:
+        # A touched-but-identical file re-hashes to UNCHANGED with a new size/mtime;
+        # refresh the stored stat so the next scan skips it via the pre-filter.
+        if record.size is not None and record.prior is not None and (
+            record.prior.size != record.size or record.prior.mtime_ns != record.mtime_ns
+        ):
+            state.update_stat(record.document_id, record.size, record.mtime_ns)
         _log(run_id, record, "unchanged", version=prior_version)
         return "unchanged"
 

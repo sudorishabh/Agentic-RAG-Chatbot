@@ -38,6 +38,8 @@ class ChangeRecord:
     prior: StateRecord | None = None
     payload: Any = None
     filename: str | None = None
+    size: int | None = None
+    mtime_ns: int | None = None
 
     @property
     def is_actionable(self) -> bool:
@@ -145,12 +147,36 @@ def detect_file_changes(
             seen.add(document_id)
 
             try:
+                st = path.stat()
+            except OSError:
+                logger.exception("Could not stat PDF, skipping: %s", path)
+                continue
+            size, mtime_ns = st.st_size, st.st_mtime_ns
+            prev = prior.get(document_id)
+
+            # Cheap pre-filter: an unchanged size + mtime means the content is
+            # unchanged, so skip the (expensive) full read + SHA-256 entirely.
+            if prev is not None and prev.size == size and prev.mtime_ns == mtime_ns:
+                yield ChangeRecord(
+                    status=ChangeStatus.UNCHANGED,
+                    document_id=document_id,
+                    source_type="pdf",
+                    source_key=str(path),
+                    fingerprint=prev.fingerprint,
+                    prior=prev,
+                    payload=None,
+                    filename=path.name,
+                    size=size,
+                    mtime_ns=mtime_ns,
+                )
+                continue
+
+            try:
                 data = path.read_bytes()
             except OSError:
                 logger.exception("Could not read PDF, skipping: %s", path)
                 continue
             fingerprint = _sha256(data)
-            prev = prior.get(document_id)
 
             if prev is None:
                 status = ChangeStatus.NEW
@@ -168,6 +194,8 @@ def detect_file_changes(
                 prior=prev,
                 payload=None if status is ChangeStatus.UNCHANGED else data,
                 filename=path.name,
+                size=size,
+                mtime_ns=mtime_ns,
             )
 
     for document_id, record in prior.items():
