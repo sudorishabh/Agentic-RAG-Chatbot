@@ -176,8 +176,11 @@ def iter_bundle_records(
     if published_only:
         params["filter[status]"] = 1
     if changed_since is not None:
+        # ">=" (not ">") so a record edited in the same second as the stored
+        # high-water mark is not skipped. The boundary-second records re-fetched
+        # each run are cheap and resolve to UNCHANGED via their fingerprint.
         params["filter[changed][condition][path]"] = "changed"
-        params["filter[changed][condition][operator]"] = ">"
+        params["filter[changed][condition][operator]"] = ">="
         params["filter[changed][condition][value]"] = int(changed_since)
 
     url = f"{base}/{entity_type}/{bundle}"
