@@ -77,6 +77,11 @@
   let streaming = false;
   let isOpen = false;
   let loaderTimer = null;
+  // In-flight request state: aborting the fetch on "New chat" stops the
+  // server-side generation, and the epoch guard keeps a stream that raced the
+  // reset from leaking its turn into the fresh conversation's history.
+  let currentAbort = null;
+  let chatEpoch = 0;
 
   let host, root, el;
 
@@ -96,8 +101,13 @@
     el.input.focus();
   }
 
-  // Reset to a fresh conversation: drop history, clear messages, show welcome.
+  // Reset to a fresh conversation: cancel any in-flight request, drop history,
+  // clear messages, show welcome.
   function resetChat() {
+    chatEpoch++;
+    if (currentAbort) currentAbort.abort();
+    setStreaming(false);
+    stopLoader();
     history.length = 0;
     el.messages.querySelectorAll(".msg").forEach((n) => n.remove());
     if (el.welcome) el.welcome.hidden = false;
@@ -219,9 +229,13 @@
     const { wrap, bubble } = addMessage("bot", "");
     startLoader(bubble);
 
+    const epoch = chatEpoch;
+    const ctrl = new AbortController();
+    currentAbort = ctrl;
     try {
-      const { answer, sources } = await streamChat(text, bubble);
+      const { answer, sources } = await streamChat(text, bubble, ctrl.signal);
       stopLoader();
+      if (epoch !== chatEpoch) return; // conversation was reset mid-flight
       bubble.classList.remove("bubble--pending");
       if (answer) bubble.innerHTML = renderMarkdown(answer);
       else bubble.textContent = "(no response)";
@@ -231,16 +245,19 @@
     } catch (err) {
       stopLoader();
       bubble.classList.remove("bubble--pending");
+      // Cancelled by "New chat": the bubble is already gone — stay silent.
+      if ((err && err.name === "AbortError") || epoch !== chatEpoch) return;
       bubble.classList.add("bubble--error");
       bubble.textContent =
         "⚠ " + (err && err.message ? err.message : "request failed");
     } finally {
-      setStreaming(false);
+      if (currentAbort === ctrl) currentAbort = null;
+      if (epoch === chatEpoch) setStreaming(false);
       scrollToBottom();
     }
   }
 
-  async function streamChat(question, bubble) {
+  async function streamChat(question, bubble, signal) {
     const body = { question, history };
     if (top_k) body.top_k = top_k;
 
@@ -248,6 +265,7 @@
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
+      signal,
     });
     if (!res.ok || !res.body) throw new Error("HTTP " + res.status);
 
