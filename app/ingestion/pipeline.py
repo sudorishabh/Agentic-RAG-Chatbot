@@ -161,27 +161,31 @@ def _build_drupal_doc(record: ChangeRecord) -> CanonicalDocument | None:
     return from_drupal_record(record.payload)
 
 
-def _build_drupal_or_attachment(record: ChangeRecord) -> CanonicalDocument | None:
+def _build_drupal_or_attachment(
+    record: ChangeRecord, session: "requests.Session"
+) -> CanonicalDocument | None:
     if record.source_type == "pdf_attachment":
-        return _build_attachment_doc(record)
+        return _build_attachment_doc(record, session)
     return _build_drupal_doc(record)
 
 
-def _build_attachment_doc(record: ChangeRecord) -> CanonicalDocument | None:
+def _build_attachment_doc(
+    record: ChangeRecord, session: "requests.Session"
+) -> CanonicalDocument | None:
     """Download a node's attached PDF, extract it, and build a canonical PDF
     document linked back to the node. ``record.payload`` is a (DrupalRecord,
     DrupalFile) pair; ``source_type`` is 'pdf_attachment' so the local on-disk
-    PDF pipeline's delete-reconcile never touches these web-sourced docs."""
+    PDF pipeline's delete-reconcile never touches these web-sourced docs. The
+    ``session`` is shared across the run so downloads reuse the connection pool
+    instead of re-handshaking per attachment."""
     import requests
 
     from app.config import get_settings
     from app.ingestion.canonical import from_pdf
-    from app.ingestion.extractors.drupal_extractor import _build_session
     from app.ingestion.extractors.pdf_extractor import extract_pdf
 
     node, file = record.payload
     settings = get_settings()
-    session = _build_session(settings.drupal_max_retries)
     try:
         response = session.get(file.url, timeout=settings.drupal_request_timeout)
         response.raise_for_status()
@@ -189,8 +193,6 @@ def _build_attachment_doc(record: ChangeRecord) -> CanonicalDocument | None:
     except requests.RequestException:
         logger.exception("Could not download attachment %s; skipping.", file.url)
         return None
-    finally:
-        session.close()
     if not content:
         logger.warning("Empty attachment body for %s; skipping.", file.url)
         return None
@@ -222,11 +224,22 @@ def ingest_drupal(
     published_only: bool = True,
     reconcile_deletes: bool = False,
 ) -> Counter:
+    from functools import partial
+
+    from app.config import get_settings
+    from app.ingestion.extractors.drupal_extractor import _build_session
+
     logger.info("Drupal ingestion started (bundles=%s, reconcile=%s)", bundles or "default", reconcile_deletes)
     records = cd.detect_drupal_changes(
         bundles, published_only=published_only, reconcile_deletes=reconcile_deletes
     )
-    tally = _run(records, _build_drupal_or_attachment)
+    # One session for the whole run: attachment downloads reuse its connection
+    # pool rather than opening a new one per PDF.
+    session = _build_session(get_settings().drupal_max_retries)
+    try:
+        tally = _run(records, partial(_build_drupal_or_attachment, session=session))
+    finally:
+        session.close()
     logger.info("Drupal ingestion finished: %s", dict(tally))
     return tally
 
