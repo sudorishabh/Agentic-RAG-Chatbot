@@ -296,11 +296,17 @@
     return { answer, sources };
   }
 
+  // Escapes for both element text and double-quoted attribute values. renderMarkdown
+  // escapes the whole source once through here before any inline HTML is built, so
+  // quotes must be escaped too — otherwise a quote inside a markdown link URL breaks
+  // out of the href attribute and injects handlers (DOM XSS).
   function escapeHtml(s) {
     return String(s)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
   }
 
   function renderInline(text) {
@@ -471,10 +477,14 @@
   // origin. Absolute URLs (remote article pages, configured SOURCE_BASE_URL)
   // are left untouched.
   function resolveUrl(url) {
-    if (!url) return url;
-    if (/^(https?:)?\/\//i.test(url)) return url;
+    if (!url) return "";
+    // Absolute http(s) or protocol-relative — safe to open as-is.
+    if (/^https?:\/\//i.test(url) || url.slice(0, 2) === "//") return url;
+    // Root-relative backend links resolve against the API origin.
     if (url.charAt(0) === "/") return API_BASE + url;
-    return url;
+    // Reject anything else (javascript:, data:, mailto:, bare relative) so a
+    // hostile citation URL renders as plain text instead of a live link.
+    return "";
   }
 
   function linkOrText(label, url) {
