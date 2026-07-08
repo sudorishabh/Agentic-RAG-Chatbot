@@ -10,10 +10,11 @@ class ChatTurn(BaseModel):
 
 
 class QueryRequest(BaseModel):
+    # tenant_id / user_groups are intentionally absent: the caller's tenant and
+    # authorization groups come from the authenticated principal (see
+    # app/api/auth.py), never from the request body.
     question: str = Field(min_length=1)
     history: list[ChatTurn] = Field(default_factory=list)
-    tenant_id: str = "default"
-    user_groups: list[str] = Field(default_factory=lambda: ["public"])
     top_k: int | None = None
     stream: bool = False
 
@@ -50,10 +51,9 @@ class QueryResponse(BaseModel):
 
 
 class SearchRequest(BaseModel):
+    # Identity comes from the authenticated principal, not the body (see QueryRequest).
     question: str = Field(min_length=1)
     history: list[ChatTurn] = Field(default_factory=list)
-    tenant_id: str = "default"
-    user_groups: list[str] = Field(default_factory=lambda: ["public"])
     top_k: int | None = None
 
 
