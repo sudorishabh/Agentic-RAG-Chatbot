@@ -208,9 +208,17 @@ def _pages_from_di(result: Any, requested_pages: list[int] | None) -> dict[int, 
     di_pages = list(getattr(result, "pages", None) or [])
 
     tables_by_page: dict[int, list[TableData]] = {}
+    # Tables DI returns without a bounding region have no page to land on.
+    # Bucketing them under page 0 (the old behaviour) silently dropped them —
+    # pages are 1-based, so nothing ever read that key. Placement is unknowable,
+    # so keep them on the first emitted page rather than losing the content.
+    unplaced: list[TableData] = []
     for table in getattr(result, "tables", None) or []:
         td = _di_table_to_data(table)
-        tables_by_page.setdefault(td.page_number or 0, []).append(td)
+        if td.page_number is None:
+            unplaced.append(td)
+        else:
+            tables_by_page.setdefault(td.page_number, []).append(td)
 
     out: dict[int, PageContent] = {}
     for i, page in enumerate(di_pages):
@@ -224,6 +232,8 @@ def _pages_from_di(result: Any, requested_pages: list[int] | None) -> dict[int, 
         text = _html_tables_to_pipe(text).strip()
 
         ptables = tables_by_page.get(page_no, [])
+        if i == 0 and unplaced:
+            ptables = unplaced + ptables
         via = ExtractedVia.OCR if (text or ptables) else ExtractedVia.EMPTY
         out[page_no] = PageContent(
             page_number=page_no, text=text, extracted_via=via, tables=ptables
