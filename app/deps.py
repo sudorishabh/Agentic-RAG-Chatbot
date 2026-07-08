@@ -44,10 +44,19 @@ def get_qdrant_client() -> "QdrantClient":
     return QdrantClient(url=settings.qdrant_url, api_key=settings.qdrant_api_key)
 
 
+# Collections whose existence + payload index we've already verified this
+# process. Ingestion calls ensure_collection() once per document; without this
+# guard each call re-hits Qdrant with collection_exists + create_payload_index.
+_ensured_collections: set[str] = set()
+
+
 def ensure_collection() -> None:
     from qdrant_client.models import Distance, VectorParams
 
     settings = get_settings()
+    if settings.qdrant_collection in _ensured_collections:
+        return
+
     client = get_qdrant_client()
     if not client.collection_exists(settings.qdrant_collection):
         dimension = len(get_embeddings().embed_query("dimension probe"))
@@ -56,6 +65,9 @@ def ensure_collection() -> None:
             vectors_config=VectorParams(size=dimension, distance=Distance.COSINE),
         )
     _ensure_datetime_index(client, settings.qdrant_collection, "published_at")
+    # Recorded only after the collection is confirmed/created so a transient
+    # failure above retries on the next call rather than being cached as done.
+    _ensured_collections.add(settings.qdrant_collection)
 
 
 def _ensure_datetime_index(client: "QdrantClient", collection: str, field: str) -> None:
