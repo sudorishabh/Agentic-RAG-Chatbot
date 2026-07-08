@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from dataclasses import dataclass
 from typing import Any, Iterator
 
 from app.config import get_settings
@@ -191,14 +192,37 @@ def retrieve(
     return build_context(ranked, limit=n, segregate=dual)
 
 
-def _answer(
+@dataclass
+class _Generation:
+    """What the answer step needs after the shared front-matter (query
+    understanding, cache lookups, retrieval) has decided a fresh grounded answer
+    must be generated. Carried out of `_prepare` so the buffered and streaming
+    entrypoints share one pipeline and differ only in how they emit the answer."""
+
+    pq: ProcessedQuery
+    blocks: list[ContextBlock]
+    query_vector: list[float]
+    signature: str
+    tenant_id: str
+    user_groups: list[str]
+    top_k: int
+
+
+def _prepare(
     question: str,
     *,
-    history: list[dict[str, str]] | None = None,
-    tenant_id: str = "default",
-    user_groups: list[str] | None = None,
-    top_k: int | None = None,
-) -> dict[str, Any]:
+    history: list[dict[str, str]] | None,
+    tenant_id: str,
+    user_groups: list[str] | None,
+    top_k: int | None,
+) -> tuple[dict[str, Any] | None, _Generation | None]:
+    """Shared front-matter for both answer entrypoints.
+
+    Returns ``(result, None)`` when a complete answer is already available (a
+    response- or semantic-cache hit, chit-chat, a structured lookup, or a
+    no-context refusal), or ``(None, generation)`` when a grounded answer still
+    has to be generated.
+    """
     from app.cache import redis_cache
     from app.ingestion.embedder import embed_query_cached
 
@@ -211,12 +235,12 @@ def _answer(
     )
     hit = redis_cache.get_response(signature)
     if hit is not None:
-        return {**hit, "cached": True}
+        return {**hit, "cached": True}, None
 
     with span("rag.query_understanding"):
         pq: ProcessedQuery = process(question, history)
     if pq.intent == "chitchat":
-        return _empty("chitchat", _chitchat(question, history))
+        return _empty("chitchat", _chitchat(question, history)), None
 
     if pq.intent == "structured":
         from app.retrieval.drupal_router import answer_structured
@@ -224,7 +248,7 @@ def _answer(
         structured = answer_structured(question, history)
         if structured is not None:
             structured.setdefault("answer_format", pq.answer_format)
-            return structured
+            return structured, None
 
     query_vector = embed_query_cached(pq.search_query)
     semantic = redis_cache.semantic_lookup(
@@ -232,7 +256,7 @@ def _answer(
         top_k=n, answer_format=pq.answer_format,
     )
     if semantic is not None:
-        return {**semantic, "cached": True}
+        return {**semantic, "cached": True}, None
 
     blocks = retrieve(
         pq.search_query,
@@ -245,27 +269,71 @@ def _answer(
         source_type=pq.source_type,
     )
     if not blocks:
-        return _empty(pq.intent, REFUSAL, answer_format=pq.answer_format)
+        return _empty(pq.intent, REFUSAL, answer_format=pq.answer_format), None
 
-    with span("rag.generate") as s:
-        answer = _grounded_answer(pq.search_query, blocks, answer_format=pq.answer_format)
-        s.set("answer_chars", len(answer))
-    citations = build_citations(blocks)
+    return None, _Generation(
+        pq=pq, blocks=blocks, query_vector=query_vector, signature=signature,
+        tenant_id=tenant_id, user_groups=user_groups, top_k=n,
+    )
 
-    result = {
+
+def _assemble(answer: str, gen: _Generation) -> dict[str, Any]:
+    return {
         "answer": answer,
-        "citations": [c.model_dump() for c in citations],
-        "intent": pq.intent,
-        "answer_format": pq.answer_format,
-        "used_chunks": len(blocks),
-        "conflict": any(b.conflict for b in blocks),
+        "citations": [c.model_dump() for c in build_citations(gen.blocks)],
+        "intent": gen.pq.intent,
+        "answer_format": gen.pq.answer_format,
+        "used_chunks": len(gen.blocks),
+        "conflict": any(b.conflict for b in gen.blocks),
         "cached": False,
     }
-    redis_cache.set_response(signature, result)
+
+
+def _persist(gen: _Generation, result: dict[str, Any]) -> None:
+    from app.cache import redis_cache
+
+    redis_cache.set_response(gen.signature, result)
     redis_cache.semantic_store(
-        query_vector, result, tenant_id=tenant_id, user_groups=user_groups,
-        top_k=n, answer_format=pq.answer_format,
+        gen.query_vector, result, tenant_id=gen.tenant_id,
+        user_groups=gen.user_groups, top_k=gen.top_k,
+        answer_format=gen.pq.answer_format,
     )
+
+
+def _record(span_ctx: Any, result: dict[str, Any]) -> None:
+    record_query_metrics(
+        latency_ms=span_ctx.elapsed_ms,
+        intent=result.get("intent"),
+        used_chunks=result.get("used_chunks", 0),
+        has_citations=bool(result.get("citations")),
+        answered=result.get("answer") != REFUSAL,
+        conflict=result.get("conflict", False),
+        cached=result.get("cached", False),
+    )
+
+
+def _answer(
+    question: str,
+    *,
+    history: list[dict[str, str]] | None = None,
+    tenant_id: str = "default",
+    user_groups: list[str] | None = None,
+    top_k: int | None = None,
+) -> dict[str, Any]:
+    result, gen = _prepare(
+        question, history=history, tenant_id=tenant_id,
+        user_groups=user_groups, top_k=top_k,
+    )
+    if result is not None:
+        return result
+
+    with span("rag.generate") as s:
+        answer = _grounded_answer(
+            gen.pq.search_query, gen.blocks, answer_format=gen.pq.answer_format
+        )
+        s.set("answer_chars", len(answer))
+    result = _assemble(answer, gen)
+    _persist(gen, result)
     return result
 
 
@@ -285,15 +353,7 @@ def answer_query(
             user_groups=user_groups,
             top_k=top_k,
         )
-        record_query_metrics(
-            latency_ms=s.elapsed_ms,
-            intent=result.get("intent"),
-            used_chunks=result.get("used_chunks", 0),
-            has_citations=bool(result.get("citations")),
-            answered=result.get("answer") != REFUSAL,
-            conflict=result.get("conflict", False),
-            cached=result.get("cached", False),
-        )
+        _record(s, result)
     return result
 
 
