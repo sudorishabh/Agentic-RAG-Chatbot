@@ -4,20 +4,10 @@ import logging
 from datetime import datetime
 from typing import Any, Literal, Sequence
 
-import requests
 from pydantic import BaseModel, Field
 
-from app.config import get_settings
 from app.ingestion import state
-from app.ingestion.extractors.drupal_extractor import (
-    DEFAULT_BUNDLES,
-    DrupalRecord,
-    _build_record,
-    _build_session,
-    _discover_relationship_fields,
-    _iter_pages,
-    _site_base,
-)
+from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 from app.schemas.query import Citation
 
 logger = logging.getLogger(__name__)
@@ -97,58 +87,6 @@ def _normalize_bundle(raw: str | None) -> str | None:
         if variant in DEFAULT_BUNDLES:
             return variant
     return _BUNDLE_SYNONYMS.get(key) or _BUNDLE_SYNONYMS.get(key.rstrip("s"), key)
-
-
-def _bundles_for(sq: StructuredQuery) -> tuple[str, ...]:
-    return (sq.bundle,) if sq.bundle else DEFAULT_BUNDLES
-
-
-def _filter_params(sq: StructuredQuery) -> dict[str, Any]:
-    params: dict[str, Any] = {}
-    if sq.title_contains:
-        params["filter[t][condition][path]"] = "title"
-        params["filter[t][condition][operator]"] = "CONTAINS"
-        params["filter[t][condition][value]"] = sq.title_contains
-    if sq.year:
-        params["filter[ge][condition][path]"] = "created"
-        params["filter[ge][condition][operator]"] = ">="
-        params["filter[ge][condition][value]"] = f"{sq.year}-01-01T00:00:00"
-        params["filter[lt][condition][path]"] = "created"
-        params["filter[lt][condition][operator]"] = "<"
-        params["filter[lt][condition][value]"] = f"{sq.year + 1}-01-01T00:00:00"
-    return params
-
-
-def _author_match(record: DrupalRecord, author: str) -> bool:
-    needle = author.lower()
-    for key, value in (record.metadata or {}).items():
-        if "author" not in key.lower() and "people" not in key.lower():
-            continue
-        values = value if isinstance(value, (list, tuple)) else [value]
-        if any(needle in str(v).lower() for v in values):
-            return True
-    return False
-
-
-def _fetch(session: requests.Session, bundle: str, filters: dict[str, Any], *, published_only: bool, limit: int) -> list[DrupalRecord]:
-    settings = get_settings()
-    base = settings.drupal_jsonapi_base.rstrip("/")
-    site = _site_base(base)
-    fields = _discover_relationship_fields(session, base, bundle, published_only)
-    params: dict[str, Any] = {"page[limit]": settings.drupal_page_size, "sort": "-changed"}
-    if fields:
-        params["include"] = ",".join(fields)
-    if published_only:
-        params["filter[status]"] = 1
-    params.update(filters)
-
-    out: list[DrupalRecord] = []
-    for data, included in _iter_pages(session, f"{base}/node/{bundle}", params, settings.drupal_request_timeout):
-        for node in data:
-            out.append(_build_record(node, included, bundle, site))
-            if len(out) >= limit:
-                return out
-    return out
 
 
 def _parse_date(value: str | None) -> datetime | None:
@@ -249,42 +187,31 @@ def _answer_count(sq: StructuredQuery) -> dict[str, Any] | None:
     return _count_result(total, sq.bundle or "items", _period_label(sq))
 
 
-def answer_structured(
-    question: str,
-    history: Sequence[dict[str, str]] | None = None,
-) -> dict[str, Any] | None:
-    sq = parse_structured(question, history)
-    if sq is None:
-        return None
-    sq.bundle = _normalize_bundle(sq.bundle)
-
-    settings = get_settings()
-    filters = _filter_params(sq)
-    session = _build_session(settings.drupal_max_retries)
+def _answer_list(sq: StructuredQuery) -> dict[str, Any] | None:
+    """Answer a list/lookup from the ingested catalog (no live site fetch)."""
+    lo, hi = _date_range(sq)
     try:
-        if sq.operation == "count":
-            return _answer_count(sq)
-
-        records: list[DrupalRecord] = []
-        for bundle in _bundles_for(sq):
-            try:
-                records.extend(_fetch(session, bundle, filters, published_only=True, limit=sq.limit))
-            except requests.RequestException:
-                logger.warning("Fetch failed for node/%s; skipping.", bundle, exc_info=True)
-            if len(records) >= sq.limit:
-                break
-    finally:
-        session.close()
-
-    if sq.author:
-        records = [r for r in records if _author_match(r, sq.author)]
-    records = records[: sq.limit]
+        records = state.list_documents(
+            source_type="website",
+            bundle=sq.bundle,
+            title_contains=sq.title_contains,
+            author=sq.author,
+            published_from=lo,
+            published_to=hi,
+            limit=sq.limit,
+        )
+    except Exception:
+        logger.warning("Catalog list failed.", exc_info=True)
+        return None
     if not records:
         return None
 
-    lines = [f"- {r.title} ({r.url})" if r.url else f"- {r.title}" for r in records]
+    lines = [
+        f"- {r.title} ({r.url})" if r.url else f"- {r.title or r.document_id}"
+        for r in records
+    ]
     citations = [
-        Citation(n=i, type="website", title=r.title, url=r.url, document_id=r.uuid or None)
+        Citation(n=i, type="website", title=r.title, url=r.url, document_id=r.document_id or None)
         for i, r in enumerate(records, start=1)
     ]
     return {
@@ -295,3 +222,16 @@ def answer_structured(
         "conflict": False,
         "cached": False,
     }
+
+
+def answer_structured(
+    question: str,
+    history: Sequence[dict[str, str]] | None = None,
+) -> dict[str, Any] | None:
+    sq = parse_structured(question, history)
+    if sq is None:
+        return None
+    sq.bundle = _normalize_bundle(sq.bundle)
+    if sq.operation == "count":
+        return _answer_count(sq)
+    return _answer_list(sq)
