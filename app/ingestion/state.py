@@ -28,6 +28,10 @@ class StateRecord:
     mtime_ns: int | None = None
     indexed_at: str | None = None
     published_at: str | None = None
+    # Display fields so structured list/lookup queries can be answered from the
+    # catalog (no live site fetch). url is the document's public page/file URL.
+    title: str | None = None
+    url: str | None = None
     authors: list[str] = field(default_factory=list)
     categories: list[str] = field(default_factory=list)
 
@@ -54,6 +58,8 @@ CREATE TABLE IF NOT EXISTS `{table}` (
     size         BIGINT        NULL,
     mtime_ns     BIGINT        NULL,
     published_at DATETIME      NULL,
+    title        VARCHAR(1024) NULL,
+    url          VARCHAR(1024) NULL,
     indexed_at   DATETIME      NULL,
     updated_at   DATETIME      NOT NULL,
     PRIMARY KEY (document_id),
@@ -118,6 +124,8 @@ def ensure_table() -> None:
         _ensure_column(cur, table, "published_at", "published_at DATETIME NULL")
         _ensure_column(cur, table, "size", "size BIGINT NULL")
         _ensure_column(cur, table, "mtime_ns", "mtime_ns BIGINT NULL")
+        _ensure_column(cur, table, "title", "title VARCHAR(1024) NULL")
+        _ensure_column(cur, table, "url", "url VARCHAR(1024) NULL")
         for facet in _FACETS:
             cur.execute(_CHILD_DDL.format(table=table, facet=facet))
         conn.commit()
@@ -137,6 +145,8 @@ def _row_to_record(row: dict) -> StateRecord:
         changed_mark=row.get("changed_mark"),
         size=row.get("size"),
         mtime_ns=row.get("mtime_ns"),
+        title=row.get("title"),
+        url=row.get("url"),
         indexed_at=indexed.isoformat() if isinstance(indexed, datetime) else indexed,
         published_at=published.isoformat() if isinstance(published, datetime) else published,
     )
@@ -171,8 +181,8 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
             INSERT INTO `{table}`
                 (document_id, source_type, source_key, bundle, fingerprint,
                  content_hash, doc_version, changed_mark, size, mtime_ns,
-                 published_at, indexed_at, updated_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                 published_at, title, url, indexed_at, updated_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE
                 source_type  = VALUES(source_type),
                 source_key   = VALUES(source_key),
@@ -184,6 +194,8 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 size         = VALUES(size),
                 mtime_ns     = VALUES(mtime_ns),
                 published_at = VALUES(published_at),
+                title        = VALUES(title),
+                url          = VALUES(url),
                 indexed_at   = COALESCE(VALUES(indexed_at), indexed_at),
                 updated_at   = VALUES(updated_at)
             """,
@@ -199,6 +211,8 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 record.size,
                 record.mtime_ns,
                 _to_datetime(record.published_at),
+                record.title,
+                record.url,
                 indexed_at,
                 now,
             ),
@@ -333,6 +347,59 @@ def count_documents(
         cur.execute(sql, tuple(params))
         row = cur.fetchone()
     return int(row["n"]) if row and row["n"] is not None else 0
+
+
+def list_documents(
+    source_type: str | None = None,
+    bundle: str | None = None,
+    *,
+    title_contains: str | None = None,
+    author: str | None = None,
+    published_from: datetime | None = None,
+    published_to: datetime | None = None,
+    limit: int = 10,
+) -> list[StateRecord]:
+    """List catalog documents matching the filters, most recent first.
+
+    Mirrors ``count_documents`` but returns the matching rows so structured
+    list/lookup queries are answered from the local catalog instead of a live
+    site fetch. ``limit`` is clamped to [1, 100]."""
+    table = _table()
+    clauses: list[str] = []
+    params: list[Any] = []
+    if source_type is not None:
+        clauses.append("s.source_type = %s")
+        params.append(source_type)
+    if bundle is not None:
+        clauses.append("s.bundle = %s")
+        params.append(bundle)
+    if title_contains:
+        clauses.append("s.title LIKE %s")
+        params.append(_like(title_contains))
+    if published_from is not None:
+        clauses.append("s.published_at >= %s")
+        params.append(published_from)
+    if published_to is not None:
+        clauses.append("s.published_at < %s")
+        params.append(published_to)
+
+    join = ""
+    distinct = ""
+    if author:
+        join = f" JOIN `{table}_author` a ON a.document_id = s.document_id"
+        clauses.append("a.author LIKE %s")
+        params.append(_like(author))
+        distinct = "DISTINCT "
+
+    where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
+    capped = max(1, min(int(limit or 10), 100))
+    sql = (
+        f"SELECT {distinct}s.* FROM `{table}` s{join}{where} "
+        f"ORDER BY s.published_at DESC, s.document_id ASC LIMIT {capped}"
+    )
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(sql, tuple(params))
+        return [_row_to_record(row) for row in cur.fetchall()]
 
 
 def iter_records(source_type: str) -> Iterator[StateRecord]:
