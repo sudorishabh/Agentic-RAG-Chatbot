@@ -40,6 +40,8 @@ def _save_state(
             size=record.size,
             mtime_ns=record.mtime_ns,
             published_at=doc.published_at,
+            title=doc.title,
+            url=doc.source_url,
             authors=list(doc.authors),
             categories=list(doc.categories),
         ),
