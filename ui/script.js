@@ -275,43 +275,68 @@
     let answer = "";
     let sources = null;
 
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
+    // Live render sink. Tokens append their DELTA to one persistent text node,
+    // batched to at most one DOM write + scroll per animation frame — rewriting
+    // the full accumulated answer per token (the old behaviour) costs O(n^2)
+    // characters and forces a layout per token on long answers.
+    let textNode = null;
+    let pending = "";
+    let raf = 0;
+    const flush = () => {
+      raf = 0;
+      if (pending && textNode) {
+        textNode.appendData(pending);
+        pending = "";
+        scrollToBottom();
+      }
+    };
 
-      let idx;
-      while ((idx = buffer.indexOf("\n\n")) !== -1) {
-        const raw = buffer.slice(0, idx).trim();
-        buffer = buffer.slice(idx + 2);
-        if (!raw.startsWith("data:")) continue;
-        const payload = raw.slice(5).trim();
-        if (!payload) continue;
+    try {
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
 
-        let event;
-        try {
-          event = JSON.parse(payload);
-        } catch {
-          continue;
-        }
+        let idx;
+        while ((idx = buffer.indexOf("\n\n")) !== -1) {
+          const raw = buffer.slice(0, idx).trim();
+          buffer = buffer.slice(idx + 2);
+          if (!raw.startsWith("data:")) continue;
+          const payload = raw.slice(5).trim();
+          if (!payload) continue;
 
-        if (event.type === "token") {
-          if (bubble.classList.contains("bubble--pending")) {
-            stopLoader();
-            bubble.classList.remove("bubble--pending");
-            bubble.textContent = "";
+          let event;
+          try {
+            event = JSON.parse(payload);
+          } catch {
+            continue;
           }
-          answer += event.text;
-          bubble.textContent = answer;
-          scrollToBottom();
-        } else if (event.type === "sources") {
-          sources = event;
-        } else if (event.type === "done") {
-          return { answer, sources };
+
+          if (event.type === "token") {
+            if (!textNode) {
+              stopLoader();
+              bubble.classList.remove("bubble--pending");
+              bubble.textContent = "";
+              textNode = document.createTextNode("");
+              bubble.appendChild(textNode);
+            }
+            answer += event.text;
+            pending += event.text;
+            if (!raf) raf = requestAnimationFrame(flush);
+          } else if (event.type === "sources") {
+            sources = event;
+          } else if (event.type === "done") {
+            return { answer, sources };
+          }
         }
       }
+      return { answer, sources };
+    } finally {
+      // Every exit (done, stream end, abort/error) supersedes the live text —
+      // the caller re-renders the full answer — so drop any queued flush
+      // before it writes into a replaced/detached node.
+      if (raf) cancelAnimationFrame(raf);
     }
-    return { answer, sources };
   }
 
   // Escapes for both element text and double-quoted attribute values. renderMarkdown
