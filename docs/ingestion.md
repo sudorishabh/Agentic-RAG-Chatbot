@@ -163,8 +163,10 @@ parent-expand at query time (see [retrieval.md](retrieval.md)).
 Yields `ChangeRecord`s with status `NEW` / `CHANGED` / `UNCHANGED` / `DELETED`.
 
 - `detect_file_changes(roots=None, ignore_globs=None)` — walks PDF roots; fingerprint
-  is the file's SHA-256. De-dupes repeated `document_id`s within a scan; detects deletes
-  by comparing prior manifest keys to the current scan.
+  is the file's SHA-256. A **stat pre-filter** skips the read+hash entirely when the
+  stored `size` + `mtime_ns` match (a touched-but-identical file refreshes its stored
+  stat so the next scan stays cheap). De-dupes repeated `document_id`s within a scan;
+  detects deletes by comparing prior manifest keys to the current scan.
 - `detect_drupal_changes(bundles=None, *, published_only=True, reconcile_deletes=False)`
   — crawls node bundles (incremental via a `changed_since` high-water mark) plus the
   taxonomy and block sources (fetched in full each run). Each node/taxonomy/block
@@ -182,15 +184,23 @@ Yields `ChangeRecord`s with status `NEW` / `CHANGED` / `UNCHANGED` / `DELETED`.
 fingerprint changed but the *content hash* matches, the document is counted
 `unchanged_content` and the fingerprint is refreshed without re-indexing.
 
-## Ingest-state manifest — [app/ingestion/state.py](../app/ingestion/state.py)
+## Ingest-state manifest / document catalog — [app/ingestion/state.py](../app/ingestion/state.py)
 
 A MySQL table (`ingest_state_table`, default `ingest_state`) is the source of truth
-for what has been ingested. `StateRecord` columns: `document_id` (PK), `source_type`,
-`source_key`, `fingerprint`, `content_hash`, `doc_version`, `bundle`, `changed_mark`,
-`indexed_at`. Public functions: `ensure_table()`, `load(source_type)`,
+for what has been ingested — and doubles as the **document catalog** that answers
+the structured count/list/lookup path (see
+[retrieval.md](retrieval.md#structured-path--appretrievaldrupal_routerpy)).
+`StateRecord` columns: `document_id` (PK), `source_type`, `source_key`,
+`fingerprint`, `content_hash`, `doc_version`, `bundle`, `changed_mark`, `size`,
+`mtime_ns` (the PDF stat pre-filter), `title`, `url`, `published_at`, `authors`,
+`categories`, `indexed_at`. Public functions: `ensure_table()`, `load(source_type)`,
 `get(document_id)`, `upsert(record, *, mark_indexed=True)`, `delete(document_ids)`,
-`high_water(source_type, bundle=None)`, `keys(source_type, bundle=None)`,
-`iter_records(source_type)`. Upserts use `INSERT … ON DUPLICATE KEY UPDATE`.
+`update_stat(document_id, size, mtime_ns)`, `high_water(source_type, bundle=None)`,
+`keys(source_type, bundle=None)`, `iter_records(source_type)`,
+`count_documents(...)`, `list_documents(...)`. Upserts use
+`INSERT … ON DUPLICATE KEY UPDATE`. Rows created before the catalog columns
+existed get `title`/`url` via the one-time
+`python -m app.ingestion.backfill` (from Qdrant payloads).
 
 ## Orchestration
 

@@ -72,15 +72,26 @@ generate ── validate_markers ──► answer
 
 ## Generation paths
 
-All in [app/rag.py](../app/rag.py):
+All in [app/rag.py](../app/rag.py). Both entrypoints (`stream_answer()` behind
+`/chat`, and the buffered `answer_query()`) share one pipeline — cache lookups,
+retrieval, persistence, and metrics are identical; only answer emission differs.
 
-- `_generate(question, blocks, *, correction=None)` — non-streaming grounded call;
-  returns `REFUSAL` if there are no blocks.
-- `_generate_stream(question, blocks)` — streaming token generator used by `/chat`.
+- `_generate(question, blocks, *, correction=None, answer_format=None)` —
+  buffered grounded call; returns `REFUSAL` if there are no blocks.
+- `_generate_stream(question, blocks, *, answer_format=None)` — streaming token
+  generator used by `/chat`.
 - `_chitchat(question, history)` — direct answer with the chitchat prompt, no retrieval.
 
-The streaming `/chat` path yields tokens straight from `_generate_stream()`, so it
-runs **neither** marker validation nor the faithfulness loop (both require the complete
-answer in hand). The non-streaming `answer_query()` path goes through
-`_grounded_answer()` and gets both `validate_markers()` and — when `faithfulness_check`
-is on — `verify()` with one regeneration.
+Faithfulness on the streaming path:
+
+- **`faithfulness_check` off (default):** tokens stream live from
+  `_generate_stream()`; the assembled answer is then passed through
+  `validate_markers()` before the `sources` event is built and the result is
+  cached — so persisted answers and citations are always validated, even though
+  the raw tokens were already on the wire.
+- **`faithfulness_check` on:** streaming is incompatible with a check that needs
+  the whole answer (and may regenerate once), so `/chat` buffers via
+  `_grounded_answer()` — the full markers + `verify()` + one-regeneration loop —
+  and then emits the answer as a single `token` event.
+
+The buffered `answer_query()` path always goes through `_grounded_answer()`.
