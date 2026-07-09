@@ -49,6 +49,15 @@ class ChangeRecord:
         return self.status in (ChangeStatus.NEW, ChangeStatus.CHANGED, ChangeStatus.DELETED)
 
 
+def _parse_bundle_spec(spec: str) -> tuple[str, str, bool]:
+    """Parse a --bundle value: 'report' is a node bundle; 'taxonomy_term:themes'
+    scopes another entity type. Only node bundles crawl incrementally."""
+    entity_type, sep, bundle = spec.partition(":")
+    if not sep:
+        entity_type, bundle = "node", spec
+    return entity_type, bundle, entity_type == "node"
+
+
 def content_changed(record: ChangeRecord, content_hash: str) -> bool:
     if record.prior is None:
         return True
@@ -248,9 +257,10 @@ def detect_drupal_changes(
     # A "source" is (entity_type, bundle, incremental). Node bundles support the
     # changed-since high-water mark; the small taxonomy/block sets are fetched in
     # full and change-detected purely on their fingerprint. An explicit
-    # ``bundles`` argument is treated as node bundles (preserves --bundle).
+    # ``bundles`` argument is treated as node bundles (preserves --bundle);
+    # an "entity_type:bundle" spec (e.g. taxonomy_term:themes) scopes others.
     if bundles is not None:
-        sources = [("node", b, True) for b in bundles]
+        sources = [_parse_bundle_spec(spec) for spec in bundles]
     else:
         sources = (
             [("node", b, True) for b in DEFAULT_BUNDLES]

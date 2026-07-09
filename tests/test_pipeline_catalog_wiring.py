@@ -10,8 +10,14 @@ from __future__ import annotations
 
 from app.core.models import CanonicalDocument, EntityRef, FileLink
 from app.ingestion import pipeline
-from app.ingestion.change_detection import ChangeRecord, ChangeStatus
+from app.ingestion.change_detection import ChangeRecord, ChangeStatus, _parse_bundle_spec
 from app.ingestion.state import AttachmentLink, TermLink
+
+
+def test_parse_bundle_spec():
+    assert _parse_bundle_spec("report") == ("node", "report", True)
+    assert _parse_bundle_spec("taxonomy_term:themes") == ("taxonomy_term", "themes", False)
+    assert _parse_bundle_spec("block_content:basic") == ("block_content", "basic", False)
 
 
 def _record(**kwargs) -> ChangeRecord:
