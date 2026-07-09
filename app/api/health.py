@@ -58,6 +58,20 @@ async def ready() -> JSONResponse:
     return JSONResponse(content={"status": "ready", "qdrant": qdrant, "redis": redis})
 
 
+@router.get("/metrics/timings")
+async def metrics_timings() -> dict:
+    """Per-stage timing aggregates: which pipeline stage takes how much time.
+
+    Fed by the tracing spans (rag.* on the retrieval server, ingest.* on the
+    ingestion server). Per-process, in-memory, reset on restart; parent spans
+    include their children's time. Same visibility gate as /metrics."""
+    if not get_settings().ops_detail_enabled:
+        raise HTTPException(status_code=404, detail="Not Found")
+    from app.observability.metrics import snapshot
+
+    return snapshot()
+
+
 @router.get("/metrics")
 async def metrics() -> dict:
     settings = get_settings()

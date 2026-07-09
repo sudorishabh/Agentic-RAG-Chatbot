@@ -17,6 +17,16 @@ logger = logging.getLogger(__name__)
 
 HEADERS = {"Accept": "application/vnd.api+json"}
 
+# Content-bearing resources that are NOT node bundles. Their descriptive text
+# (taxonomy term descriptions, custom-block bodies) is prime corpus content that
+# the node crawl never reaches. Fetched under /jsonapi/{entity_type}/{bundle}.
+
+DEFAULT_TAXONOMIES: tuple[str, ...] = (
+    "themes",
+    "extra_pages",
+    "regional_centre",
+)
+
 DEFAULT_BUNDLES: tuple[str, ...] = (
     "news",
     "feature_articles",
@@ -36,14 +46,7 @@ DEFAULT_BUNDLES: tuple[str, ...] = (
     "carousel",
     )
 
-# Content-bearing resources that are NOT node bundles. Their descriptive text
-# (taxonomy term descriptions, custom-block bodies) is prime corpus content that
-# the node crawl never reaches. Fetched under /jsonapi/{entity_type}/{bundle}.
-DEFAULT_TAXONOMIES: tuple[str, ...] = (
-    "themes",
-    "extra_pages",
-    "regional_centre",
-)
+
 DEFAULT_BLOCKS: tuple[str, ...] = ("basic",)
 
 

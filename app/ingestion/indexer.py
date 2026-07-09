@@ -6,6 +6,7 @@ from typing import Any, Iterable, Sequence
 
 from app.core.models import CanonicalDocument
 from app.ingestion.chunker import Chunk, chunk_canonical
+from app.observability.tracing import span
 
 logger = logging.getLogger(__name__)
 
@@ -58,7 +59,8 @@ def index_chunks(chunks: Sequence[Chunk], *, batch_size: int = 128, stamp: bool 
     ensure_collection()
 
     children = [c for c in chunks if not c.is_parent]
-    vectors = _embed_children([c.text for c in children], batch_size)
+    with span("ingest.embed", chunks=len(children)):
+        vectors = _embed_children([c.text for c in children], batch_size)
     vec_by_id = {c.chunk_id: v for c, v in zip(children, vectors)}
     dim = len(vectors[0]) if vectors else _probe_dim()
 
@@ -66,11 +68,12 @@ def index_chunks(chunks: Sequence[Chunk], *, batch_size: int = 128, stamp: bool 
 
     settings = get_settings()
     client = get_qdrant_client()
-    for start in range(0, len(points), batch_size):
-        client.upsert(
-            collection_name=settings.qdrant_collection,
-            points=points[start : start + batch_size],
-        )
+    with span("ingest.upsert", points=len(points)):
+        for start in range(0, len(points), batch_size):
+            client.upsert(
+                collection_name=settings.qdrant_collection,
+                points=points[start : start + batch_size],
+            )
     logger.info(
         "Indexed %d points (%d children, %d parents) into %r",
         len(points), len(children), len(points) - len(children), settings.qdrant_collection,

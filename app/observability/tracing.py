@@ -6,6 +6,7 @@ from contextlib import contextmanager
 from typing import Any, Iterator
 
 from app.config import get_settings
+from app.observability import metrics as stage_metrics
 
 logger = logging.getLogger("app.observability")
 
@@ -50,6 +51,7 @@ def span(name: str, **attrs: Any) -> Iterator[Span]:
                 otel_cm.__exit__(None, None, None)
             except Exception:  # pragma: no cover
                 pass
+        stage_metrics.record_stage(s.name, s.elapsed_ms)
         logger.debug("span %s %.1fms %s", s.name, s.elapsed_ms, s.attrs or "")
 
 
@@ -57,6 +59,7 @@ def record_query_metrics(*, latency_ms: float | None = None, **metrics: Any) -> 
     settings = get_settings()
     if latency_ms is not None:
         metrics["latency_ms"] = round(latency_ms, 1)
+    metrics = {k: v for k, v in metrics.items() if v is not None}
     if settings.metrics_log_enabled:
         logger.info("rag_metrics %s", metrics)
     if _otel_tracer is not None:
@@ -65,6 +68,8 @@ def record_query_metrics(*, latency_ms: float | None = None, **metrics: Any) -> 
 
             current = trace.get_current_span()
             for key, value in metrics.items():
+                if isinstance(value, dict):  # stages breakdown; OTel wants scalars
+                    value = str(value)
                 current.set_attribute(f"rag.{key}", value)
         except Exception:  # pragma: no cover
             pass

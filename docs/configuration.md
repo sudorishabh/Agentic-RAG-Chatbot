@@ -114,7 +114,7 @@ groups `["public"]`. See [api-reference.md](api-reference.md#authentication).
 | Setting | Default | Description |
 | --- | --- | --- |
 | `cors_allow_origins` | `*` | Comma-separated origins allowed by CORS. The wildcard keeps the embeddable widget working from any host page (credentials stay off; a startup warning is logged) — pin the host site(s) in deployments serving non-public content. Grants are narrowed to `GET`/`POST` and the `Content-Type`/`Authorization` headers |
-| `ops_detail_enabled` | `false` | Expose infrastructure detail (collection name, point counts, tuning values, error strings) on `/ready` and `/metrics`. Off: `/ready` is status-only and `/metrics` returns 404 |
+| `ops_detail_enabled` | `false` | Expose infrastructure detail (collection name, point counts, tuning values, error strings) on `/ready`, `/metrics` and `/metrics/timings`. Off: `/ready` is status-only and both metrics endpoints return 404 |
 | `chat_stream_max_concurrency` | `64` | Max chat generations driven concurrently on the dedicated chat thread limiter; keeps long streams from starving the shared request threadpool |
 | `source_base_url` | `""` | Absolute base URL of the retrieval API as reached from the browser; when set, citation links become `{base}/source/{id}#page=N`. Empty = relative `/source/...` paths |
 

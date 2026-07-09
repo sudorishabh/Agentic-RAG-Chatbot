@@ -17,6 +17,7 @@ Schemas live in [app/schemas/query.py](../app/schemas/query.py) and
 | retrieval | GET | `/health` | Liveness probe |
 | retrieval | GET | `/ready` | Readiness — 200/503 based on Qdrant reachability |
 | retrieval | GET | `/metrics` | Config + store snapshot (only when `ops_detail_enabled`) |
+| retrieval | GET | `/metrics/timings` | Per-stage timing aggregates (only when `ops_detail_enabled`) |
 | retrieval | POST | `/chat` | Ask a question; **streams** the answer (SSE) |
 | retrieval | POST | `/search` | Retrieval only — ranked context blocks, no generation |
 | retrieval | GET | `/source/{document_id}` | Serve a cited document's source PDF inline |
@@ -76,6 +77,26 @@ Effective configuration and store status. Returns `404` unless
   "reranker_provider": "embedding",
   "retrieval": { "candidate_k": 40, "top_k": 6, "score_threshold": 0.0 },
   "caches": { "response": true, "embedding": true, "semantic": true } }
+```
+
+### `GET /metrics/timings`
+Per-stage timing aggregates — which pipeline stage takes how much time. Fed by
+the tracing spans (`rag.*` on the retrieval server, `ingest.*` on the ingestion
+server, which also mounts this router). Sorted by total time, percentiles over
+the last 512 samples per stage; in-memory per process, reset on restart. Parent
+spans (`rag.answer_query`, `rag.stream_answer`) include their children's time.
+Returns `404` unless `ops_detail_enabled`.
+
+```json
+{ "since": "2026-07-09T10:00:00+00:00",
+  "window": 512,
+  "stages": [
+    { "stage": "rag.stream_answer", "count": 42, "total_ms": 98213.5, "avg_ms": 2338.4,
+      "p50_ms": 2100.9, "p95_ms": 4880.2, "max_ms": 7012.0 },
+    { "stage": "rag.generate", "count": 40, "total_ms": 71400.1, "avg_ms": 1785.0,
+      "p50_ms": 1650.2, "p95_ms": 3900.8, "max_ms": 5100.3 },
+    { "stage": "rag.search", "count": 40, "total_ms": 9120.7, "avg_ms": 228.0,
+      "p50_ms": 210.4, "p95_ms": 390.1, "max_ms": 610.9 } ] }
 ```
 
 ---

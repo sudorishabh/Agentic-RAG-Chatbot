@@ -14,6 +14,7 @@ from app.generation.prompts import (
 )
 from app.retrieval.citations import build_citations
 from app.generation.prompts import REFUSAL
+from app.observability.metrics import collect_into
 from app.observability.tracing import record_query_metrics, span
 from app.retrieval.context_builder import ContextBlock, build_context
 from app.retrieval.hybrid_search import search
@@ -93,7 +94,9 @@ def _grounded_answer(
         _generate(question, blocks, answer_format=answer_format), len(blocks)
     )
     if get_settings().faithfulness_check and blocks:
-        report = faithfulness.verify(answer, blocks)
+        with span("rag.faithfulness") as s:
+            report = faithfulness.verify(answer, blocks)
+            s.set("faithful", report.faithful)
         if not report.faithful:
             logger.info("Faithfulness check flagged claims; regenerating once.")
             retry = _generate(
@@ -162,11 +165,13 @@ def retrieve(
     # isn't a table (tables live in PDFs — don't force a website lead).
     dual = bool(settings.prefer_website_enabled) and not source_type and answer_format != "table"
 
-    with span("rag.search") as s:
-        if query_vector is None:
-            from app.ingestion.embedder import embed_query_cached
+    if query_vector is None:
+        from app.ingestion.embedder import embed_query_cached
 
+        with span("rag.embed_query"):
             query_vector = embed_query_cached(search_query)
+
+    with span("rag.search") as s:
         if dual:
             candidates = _dual_search(
                 search_query, tenant_id=tenant_id, user_groups=user_groups,
@@ -189,7 +194,8 @@ def retrieve(
         s.set("survivors", len(ranked))
     if not ranked:
         return []
-    return build_context(ranked, limit=n, segregate=dual)
+    with span("rag.context_build"):
+        return build_context(ranked, limit=n, segregate=dual)
 
 
 @dataclass
@@ -233,7 +239,8 @@ def _prepare(
     signature = redis_cache.response_signature(
         question, tenant_id=tenant_id, user_groups=user_groups, top_k=n
     )
-    hit = redis_cache.get_response(signature)
+    with span("rag.response_cache"):
+        hit = redis_cache.get_response(signature)
     if hit is not None:
         return {**hit, "cached": True}, None
 
@@ -250,11 +257,14 @@ def _prepare(
             structured.setdefault("answer_format", pq.answer_format)
             return structured, None
 
-    query_vector = embed_query_cached(pq.search_query)
-    semantic = semantic_cache.lookup(
-        query_vector, tenant_id=tenant_id, user_groups=user_groups,
-        top_k=n, answer_format=pq.answer_format,
-    )
+    with span("rag.embed_query"):
+        query_vector = embed_query_cached(pq.search_query)
+    with span("rag.semantic_cache") as s:
+        semantic = semantic_cache.lookup(
+            query_vector, tenant_id=tenant_id, user_groups=user_groups,
+            top_k=n, answer_format=pq.answer_format,
+        )
+        s.set("hit", semantic is not None)
     if semantic is not None:
         return {**semantic, "cached": True}, None
 
@@ -292,15 +302,18 @@ def _assemble(answer: str, gen: _Generation) -> dict[str, Any]:
 def _persist(gen: _Generation, result: dict[str, Any]) -> None:
     from app.cache import redis_cache, semantic_cache
 
-    redis_cache.set_response(gen.signature, result)
-    semantic_cache.store(
-        gen.query_vector, result, tenant_id=gen.tenant_id,
-        user_groups=gen.user_groups, top_k=gen.top_k,
-        answer_format=gen.pq.answer_format,
-    )
+    with span("rag.cache_store"):
+        redis_cache.set_response(gen.signature, result)
+        semantic_cache.store(
+            gen.query_vector, result, tenant_id=gen.tenant_id,
+            user_groups=gen.user_groups, top_k=gen.top_k,
+            answer_format=gen.pq.answer_format,
+        )
 
 
-def _record(span_ctx: Any, result: dict[str, Any]) -> None:
+def _record(
+    span_ctx: Any, result: dict[str, Any], stages: dict[str, float] | None = None
+) -> None:
     record_query_metrics(
         latency_ms=span_ctx.elapsed_ms,
         intent=result.get("intent"),
@@ -309,6 +322,7 @@ def _record(span_ctx: Any, result: dict[str, Any]) -> None:
         answered=result.get("answer") != REFUSAL,
         conflict=result.get("conflict", False),
         cached=result.get("cached", False),
+        stages={k: round(v, 1) for k, v in stages.items()} if stages else None,
     )
 
 
@@ -345,7 +359,8 @@ def answer_query(
     user_groups: list[str] | None = None,
     top_k: int | None = None,
 ) -> dict[str, Any]:
-    with span("rag.answer_query") as s:
+    stages: dict[str, float] = {}
+    with collect_into(stages), span("rag.answer_query") as s:
         result = _answer(
             question,
             history=history,
@@ -353,7 +368,7 @@ def answer_query(
             user_groups=user_groups,
             top_k=top_k,
         )
-        _record(s, result)
+        _record(s, result, stages)
     return result
 
 
@@ -398,7 +413,12 @@ def stream_answer(
     user_groups: list[str] | None = None,
     top_k: int | None = None,
 ) -> Iterator[dict[str, Any]]:
-    with span("rag.stream_answer") as s:
+    # Spans after the first yield only reach the global aggregates, not this
+    # dict — the SSE driver resumes the generator in fresh contexts (see
+    # metrics.collect_into) — so the logged breakdown covers the pre-token
+    # stages, which is where retrieval time goes.
+    stages: dict[str, float] = {}
+    with collect_into(stages), span("rag.stream_answer") as s:
         result, gen = _prepare(
             question, history=history, tenant_id=tenant_id,
             user_groups=user_groups, top_k=top_k,
@@ -406,7 +426,7 @@ def stream_answer(
         # Cache hit, chit-chat, structured lookup, or refusal — already complete.
         if result is not None:
             yield from _stream_result(result)
-            _record(s, result)
+            _record(s, result, stages)
             return
 
         if get_settings().faithfulness_check:
@@ -440,7 +460,7 @@ def stream_answer(
         }
         yield {"type": "done"}
         _persist(gen, result)
-        _record(s, result)
+        _record(s, result, stages)
 
 
 def search_blocks(

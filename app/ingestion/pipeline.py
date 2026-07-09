@@ -17,6 +17,7 @@ from app.ingestion.chunker import chunk_canonical
 from app.ingestion.indexer import index_chunks
 from app.ingestion.state import StateRecord
 from app.deps import delete_document
+from app.observability.tracing import span
 
 logger = logging.getLogger(__name__)
 
@@ -129,7 +130,8 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
     logger.info(
         "Ingesting %s %s (%s)", record.source_type, record.document_id, record.source_key
     )
-    doc = build_doc(record)
+    with span("ingest.extract", source_type=record.source_type):
+        doc = build_doc(record)
     if doc is None:
         _log(run_id, record, "skipped")
         return "skipped"
@@ -148,7 +150,8 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
     # Chunk ids are version-scoped (uuid5 of doc|version|suffix), so the new
     # points never collide with the old ones: the old version stays searchable
     # until the swap, and a mid-index failure leaves it fully intact.
-    new_chunks = chunk_canonical(doc)
+    with span("ingest.chunk"):
+        new_chunks = chunk_canonical(doc)
     chunks = index_chunks(new_chunks)
     delete_document(record.document_id, keep_ids=[c.chunk_id for c in new_chunks])
     _save_state(record, doc, content_hash, version, indexed=True)
