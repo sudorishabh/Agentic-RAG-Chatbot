@@ -125,6 +125,36 @@ def delete_terms(term_uuids: Iterable[str]) -> int:
     return int(removed or 0)
 
 
+def resolve_terms(name: str, vocabulary: str | None = None) -> list[dict[str, Any]]:
+    """Resolve a user-supplied term name to catalog rows [{term_uuid, name}].
+
+    Case-insensitive exact match on current names; archived aliases are only
+    consulted when no current name matches, so a rename keeps old phrasing
+    working without dragging history into unrelated matches."""
+    name = (name or "").strip()
+    if not name:
+        return []
+    vocab_params: tuple = (vocabulary,) if vocabulary else ()
+    current_clause = " AND vocabulary = %s" if vocabulary else ""
+    alias_clause = " AND t.vocabulary = %s" if vocabulary else ""
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"SELECT term_uuid, name FROM `{TERM_TABLE}` "
+            f"WHERE LOWER(name) = LOWER(%s){current_clause}",
+            (name, *vocab_params),
+        )
+        rows = list(cur.fetchall())
+        if rows:
+            return rows
+        cur.execute(
+            f"SELECT t.term_uuid, t.name FROM `{ALIAS_TABLE}` a "
+            f"JOIN `{TERM_TABLE}` t ON t.term_uuid = a.term_uuid "
+            f"WHERE LOWER(a.old_name) = LOWER(%s){alias_clause}",
+            (name, *vocab_params),
+        )
+        return list(cur.fetchall())
+
+
 def get_term(term_uuid: str) -> dict[str, Any] | None:
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(

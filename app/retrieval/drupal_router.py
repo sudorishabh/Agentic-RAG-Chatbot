@@ -6,21 +6,27 @@ from typing import Any, Literal, Sequence
 
 from pydantic import BaseModel, Field
 
-from app.ingestion import state
+from app.ingestion import state, terms
 from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 from app.schemas.query import Citation
 
 logger = logging.getLogger(__name__)
 
-Operation = Literal["lookup", "list", "count"]
+Operation = Literal["lookup", "list", "count", "distribution"]
+GroupBy = Literal["theme", "content_type", "author", "year"]
 
 _PARSE_SYSTEM = (
     "Extract structured-query parameters from the user's request about a content "
     "repository of news, articles, reports, projects, events and research papers.\n"
-    "- operation: 'count' for how-many/aggregate; 'lookup' for a single specific "
-    "item; 'list' for browse/enumerate.\n"
+    "- operation: 'count' for how-many/aggregate; 'distribution' for a breakdown "
+    "per group ('how many per theme', 'spread across content types'); 'lookup' "
+    "for a single specific item; 'list' for browse/enumerate.\n"
     "- bundle: the content type if implied, one of: " + ", ".join(DEFAULT_BUNDLES) +
     "; else null.\n"
+    "- theme: the thematic area / topic / category name if the request is scoped "
+    "to one (e.g. 'under the Climate theme', 'in the Energy area'); else null.\n"
+    "- group_by: for 'distribution' only — the dimension to break down by: "
+    "'theme', 'content_type', 'author', or 'year'; else null.\n"
     "- title_contains: a title keyword if the user names/quotes a title; else null.\n"
     "- author: an author/person name if specified; else null.\n"
     "- year: a four-digit year if a specific year is referenced; else null.\n"
@@ -36,6 +42,8 @@ _PARSE_SYSTEM = (
 class StructuredQuery(BaseModel):
     operation: Operation = "list"
     bundle: str | None = None
+    theme: str | None = None
+    group_by: GroupBy | None = None
     title_contains: str | None = None
     author: str | None = None
     year: int | None = None
@@ -170,8 +178,24 @@ def _count_result(total: int, scope: str, period: str) -> dict[str, Any]:
     }
 
 
+def _theme_scope(sq: StructuredQuery) -> dict[str, Any]:
+    """Catalog filter kwargs for a theme scope. Term UUIDs when the term
+    catalog resolves the name (rename/alias-proof); otherwise the display-name
+    category fallback covers documents ingested before the term catalog."""
+    if not sq.theme:
+        return {}
+    try:
+        rows = terms.resolve_terms(sq.theme)
+    except Exception:
+        logger.warning("Theme resolution failed; using name fallback.", exc_info=True)
+        rows = []
+    if rows:
+        return {"term_uuids": [r["term_uuid"] for r in rows]}
+    return {"category": sq.theme}
+
+
 def _answer_count(sq: StructuredQuery) -> dict[str, Any] | None:
-    """Count documents from the ingested catalog by bundle, author and date."""
+    """Count documents from the ingested catalog by bundle, theme, author, date."""
     lo, hi = _date_range(sq)
     try:
         total = state.count_documents(
@@ -180,11 +204,13 @@ def _answer_count(sq: StructuredQuery) -> dict[str, Any] | None:
             author=sq.author,
             published_from=lo,
             published_to=hi,
+            **_theme_scope(sq),
         )
     except Exception:
         logger.warning("Catalog count failed.", exc_info=True)
         return None
-    return _count_result(total, sq.bundle or "items", _period_label(sq))
+    scope = f" on '{sq.theme}'" if sq.theme else ""
+    return _count_result(total, sq.bundle or "items", scope + _period_label(sq))
 
 
 def _answer_list(sq: StructuredQuery) -> dict[str, Any] | None:
@@ -199,6 +225,7 @@ def _answer_list(sq: StructuredQuery) -> dict[str, Any] | None:
             published_from=lo,
             published_to=hi,
             limit=sq.limit,
+            **_theme_scope(sq),
         )
     except Exception:
         logger.warning("Catalog list failed.", exc_info=True)
@@ -224,6 +251,46 @@ def _answer_list(sq: StructuredQuery) -> dict[str, Any] | None:
     }
 
 
+# StructuredQuery.group_by -> state.distribution dimension and answer label.
+_GROUP_DIMENSIONS: dict[str, tuple[str, str]] = {
+    "theme": ("category", "theme"),
+    "content_type": ("bundle", "content type"),
+    "author": ("author", "author"),
+    "year": ("year", "year"),
+}
+
+
+def _answer_distribution(sq: StructuredQuery) -> dict[str, Any] | None:
+    """Break down catalog counts per theme/content type/author/year."""
+    dimension, label = _GROUP_DIMENSIONS[sq.group_by or "theme"]
+    lo, hi = _date_range(sq)
+    try:
+        rows = state.distribution(
+            dimension,
+            source_type="website",
+            bundle=sq.bundle,
+            published_from=lo,
+            published_to=hi,
+        )
+    except Exception:
+        logger.warning("Catalog distribution failed.", exc_info=True)
+        return None
+    if not rows:
+        return None
+
+    scope = _scope_label(sq.bundle or "items", 2)
+    lines = [f"- {value}: {n}" for value, n in rows]
+    return {
+        "answer": f"Distribution of {scope}{_period_label(sq)} by {label}:\n"
+        + "\n".join(lines),
+        "citations": [],
+        "intent": "structured",
+        "used_chunks": 0,
+        "conflict": False,
+        "cached": False,
+    }
+
+
 def answer_structured(
     question: str,
     history: Sequence[dict[str, str]] | None = None,
@@ -234,4 +301,6 @@ def answer_structured(
     sq.bundle = _normalize_bundle(sq.bundle)
     if sq.operation == "count":
         return _answer_count(sq)
+    if sq.operation == "distribution":
+        return _answer_distribution(sq)
     return _answer_list(sq)

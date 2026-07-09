@@ -37,6 +37,8 @@ _ANALYSIS_SYSTEM = (
     "otherwise 'default'.\n"
     "- source_type: 'pdf' or 'website' ONLY if the user explicitly restricts to "
     "documents/PDFs or to website content (articles/news/pages); otherwise null.\n"
+    "- theme: the thematic area / topic name ONLY if the user explicitly scopes "
+    "to one (e.g. 'under the Climate theme', 'in the Energy area'); otherwise null.\n"
     "- date_from / date_to: inclusive start and exclusive end ISO date (YYYY-MM-DD) "
     "bounding any date or period the user restricts to (e.g. 'in 2024', 'since March "
     "2023', 'on 5 Jan 2024'). For a single day set date_to to the next day; for "
@@ -51,6 +53,7 @@ class QueryAnalysis(BaseModel):
     search_query: str = Field(description="Standalone, pronoun-resolved query.")
     answer_format: AnswerFormat = "default"
     source_type: str | None = None
+    theme: str | None = None
     date_from: str | None = None
     date_to: str | None = None
     language: str | None = None
@@ -88,10 +91,37 @@ def _parse_bound(value: str | None) -> datetime | None:
     return dt.replace(tzinfo=timezone.utc) if dt.tzinfo is None else dt.astimezone(timezone.utc)
 
 
+def _theme_condition(theme: str) -> Any:
+    """Filter for a theme scope: term UUIDs (rename-proof) OR display names —
+    the name leg matches points indexed before term_ids existed. Term lookup
+    failure degrades to the name-only filter rather than failing retrieval."""
+    from qdrant_client.models import FieldCondition, Filter, MatchAny
+
+    names = {theme, theme.title()}
+    uuids: list[str] = []
+    try:
+        from app.ingestion import terms
+
+        for row in terms.resolve_terms(theme):
+            uuids.append(row["term_uuid"])
+            names.add(row["name"])
+    except Exception:
+        logger.debug("Term resolution unavailable; theme filter by name only.",
+                     exc_info=True)
+
+    should: list[Any] = []
+    if uuids:
+        should.append(FieldCondition(key="theme_ids", match=MatchAny(any=uuids)))
+    should.append(FieldCondition(key="categories", match=MatchAny(any=sorted(names))))
+    return Filter(should=should)
+
+
 def _facet_filters(analysis: QueryAnalysis) -> list[Any]:
     from qdrant_client.models import FieldCondition, MatchAny, MatchValue
 
     conditions: list[Any] = []
+    if analysis.theme:
+        conditions.append(_theme_condition(analysis.theme))
     if analysis.source_type == "pdf":
         # "PDFs" includes documents attached to web articles.
         conditions.append(

@@ -4,7 +4,7 @@ import json
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Iterable, Iterator
+from typing import Any, Iterable, Iterator, Sequence
 
 from app.config import get_settings
 from app.deps import mysql_connection
@@ -416,68 +416,27 @@ def _like(term: str) -> str:
     return f"%{escaped}%"
 
 
-def count_documents(
-    source_type: str | None = None,
-    bundle: str | None = None,
-    *,
-    author: str | None = None,
-    published_from: datetime | None = None,
-    published_to: datetime | None = None,
-) -> int:
-    """Count catalog documents (not chunks) matching the given filters.
-
-    ``author`` matches a substring against the author facet; the date bounds are
-    a half-open ``[from, to)`` interval over ``published_at``."""
-    table = _table()
-    clauses: list[str] = []
-    params: list[Any] = []
-    if source_type is not None:
-        clauses.append("s.source_type = %s")
-        params.append(source_type)
-    if bundle is not None:
-        clauses.append("s.bundle = %s")
-        params.append(bundle)
-    if published_from is not None:
-        clauses.append("s.published_at >= %s")
-        params.append(published_from)
-    if published_to is not None:
-        clauses.append("s.published_at < %s")
-        params.append(published_to)
-
-    join = ""
-    count_expr = "COUNT(*)"
-    if author:
-        join = f" JOIN `{table}_author` a ON a.document_id = s.document_id"
-        clauses.append("a.author LIKE %s")
-        params.append(_like(author))
-        count_expr = "COUNT(DISTINCT s.document_id)"
-
-    where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
-    sql = f"SELECT {count_expr} AS n FROM `{table}` s{join}{where}"
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(sql, tuple(params))
-        row = cur.fetchone()
-    return int(row["n"]) if row and row["n"] is not None else 0
-
-
-def list_documents(
-    source_type: str | None = None,
-    bundle: str | None = None,
+def _catalog_filters(
+    source_type: str | None,
+    bundle: str | None,
     *,
     title_contains: str | None = None,
     author: str | None = None,
+    term_uuids: Sequence[str] | None = None,
+    category: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
-    limit: int = 10,
-) -> list[StateRecord]:
-    """List catalog documents matching the filters, most recent first.
+) -> tuple[str, list[str], list[Any], bool]:
+    """Shared JOIN/WHERE assembly for the catalog count/list queries.
 
-    Mirrors ``count_documents`` but returns the matching rows so structured
-    list/lookup queries are answered from the local catalog instead of a live
-    site fetch. ``limit`` is clamped to [1, 100]."""
+    ``term_uuids`` scopes by taxonomy links (rename-proof); ``category`` is the
+    display-name fallback for documents ingested before the term catalog.
+    Returns (joins, clauses, params, needs_distinct)."""
     table = _table()
+    joins: list[str] = []
     clauses: list[str] = []
     params: list[Any] = []
+    distinct = False
     if source_type is not None:
         clauses.append("s.source_type = %s")
         params.append(source_type)
@@ -493,24 +452,146 @@ def list_documents(
     if published_to is not None:
         clauses.append("s.published_at < %s")
         params.append(published_to)
-
-    join = ""
-    distinct = ""
     if author:
-        join = f" JOIN `{table}_author` a ON a.document_id = s.document_id"
+        joins.append(f" JOIN `{table}_author` a ON a.document_id = s.document_id")
         clauses.append("a.author LIKE %s")
         params.append(_like(author))
-        distinct = "DISTINCT "
+        distinct = True
+    if term_uuids:
+        placeholders = ", ".join(["%s"] * len(term_uuids))
+        joins.append(f" JOIN `{table}_term` dt ON dt.document_id = s.document_id")
+        clauses.append(f"dt.term_uuid IN ({placeholders})")
+        params.extend(term_uuids)
+        distinct = True
+    elif category:
+        joins.append(f" JOIN `{table}_category` c ON c.document_id = s.document_id")
+        clauses.append("c.category LIKE %s")
+        params.append(_like(category))
+        distinct = True
+    return "".join(joins), clauses, params, distinct
 
+
+def count_documents(
+    source_type: str | None = None,
+    bundle: str | None = None,
+    *,
+    author: str | None = None,
+    term_uuids: Sequence[str] | None = None,
+    category: str | None = None,
+    published_from: datetime | None = None,
+    published_to: datetime | None = None,
+) -> int:
+    """Count catalog documents (not chunks) matching the given filters.
+
+    ``author``/``category`` match substrings against their facets; ``term_uuids``
+    scopes by taxonomy links and wins over ``category``. Date bounds are a
+    half-open ``[from, to)`` interval over ``published_at``."""
+    table = _table()
+    joins, clauses, params, distinct = _catalog_filters(
+        source_type, bundle,
+        author=author, term_uuids=term_uuids, category=category,
+        published_from=published_from, published_to=published_to,
+    )
+    count_expr = "COUNT(DISTINCT s.document_id)" if distinct else "COUNT(*)"
+    where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
+    sql = f"SELECT {count_expr} AS n FROM `{table}` s{joins}{where}"
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(sql, tuple(params))
+        row = cur.fetchone()
+    return int(row["n"]) if row and row["n"] is not None else 0
+
+
+def list_documents(
+    source_type: str | None = None,
+    bundle: str | None = None,
+    *,
+    title_contains: str | None = None,
+    author: str | None = None,
+    term_uuids: Sequence[str] | None = None,
+    category: str | None = None,
+    published_from: datetime | None = None,
+    published_to: datetime | None = None,
+    limit: int = 10,
+) -> list[StateRecord]:
+    """List catalog documents matching the filters, most recent first.
+
+    Mirrors ``count_documents`` but returns the matching rows so structured
+    list/lookup queries are answered from the local catalog instead of a live
+    site fetch. ``limit`` is clamped to [1, 100]."""
+    table = _table()
+    joins, clauses, params, needs_distinct = _catalog_filters(
+        source_type, bundle,
+        title_contains=title_contains, author=author,
+        term_uuids=term_uuids, category=category,
+        published_from=published_from, published_to=published_to,
+    )
+    distinct = "DISTINCT " if needs_distinct else ""
     where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
     capped = max(1, min(int(limit or 10), 100))
     sql = (
-        f"SELECT {distinct}s.* FROM `{table}` s{join}{where} "
+        f"SELECT {distinct}s.* FROM `{table}` s{joins}{where} "
         f"ORDER BY s.published_at DESC, s.document_id ASC LIMIT {capped}"
     )
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(sql, tuple(params))
         return [_row_to_record(row) for row in cur.fetchall()]
+
+
+# Dimensions the distribution query can group by. "category" and "author" use
+# the facet tables (the rename refresh keeps category values canonical);
+# "bundle" and "year" come off the document row itself.
+_DISTRIBUTION_DIMENSIONS = ("bundle", "author", "category", "year")
+
+
+def distribution(
+    group_by: str,
+    source_type: str | None = "website",
+    bundle: str | None = None,
+    *,
+    published_from: datetime | None = None,
+    published_to: datetime | None = None,
+    limit: int = 20,
+) -> list[tuple[str, int]]:
+    """Grouped document counts ("how many per theme/type/author/year"),
+    largest group first. Returns (group value, count) pairs."""
+    if group_by not in _DISTRIBUTION_DIMENSIONS:
+        raise ValueError(f"group_by must be one of {_DISTRIBUTION_DIMENSIONS}")
+    table = _table()
+    clauses: list[str] = []
+    params: list[Any] = []
+    if source_type is not None:
+        clauses.append("s.source_type = %s")
+        params.append(source_type)
+    if bundle is not None:
+        clauses.append("s.bundle = %s")
+        params.append(bundle)
+    if published_from is not None:
+        clauses.append("s.published_at >= %s")
+        params.append(published_from)
+    if published_to is not None:
+        clauses.append("s.published_at < %s")
+        params.append(published_to)
+
+    joins = ""
+    if group_by == "bundle":
+        key, count_expr = "s.bundle", "COUNT(*)"
+    elif group_by == "year":
+        key, count_expr = "YEAR(s.published_at)", "COUNT(*)"
+        clauses.append("s.published_at IS NOT NULL")
+    else:
+        joins = f" JOIN `{table}_{group_by}` f ON f.document_id = s.document_id"
+        key, count_expr = f"f.{group_by}", "COUNT(DISTINCT s.document_id)"
+
+    where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
+    capped = max(1, min(int(limit or 20), 100))
+    sql = (
+        f"SELECT {key} AS k, {count_expr} AS n FROM `{table}` s{joins}{where} "
+        f"GROUP BY k ORDER BY n DESC, k ASC LIMIT {capped}"
+    )
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(sql, tuple(params))
+        rows = cur.fetchall()
+    return [(str(row["k"]), int(row["n"])) for row in rows if row["k"] is not None]
 
 
 def documents_for_term(term_uuid: str) -> list[str]:
