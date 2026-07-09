@@ -199,6 +199,29 @@ def _build_drupal_or_attachment(
     return _build_drupal_doc(record)
 
 
+def _fetch_attachment(
+    session: "requests.Session", url: str, timeout: float
+) -> tuple[bytes, str]:
+    """GET an attachment, trying the https:// variant first for http:// URLs.
+    Old body HTML still links plain-http PDFs, but teriin.org no longer answers
+    on port 80 (the connect attempt hangs until timeout), while the same files
+    are served fine over TLS. Falls back to the original URL so hosts that are
+    still http-only keep working. Returns (content, url that succeeded)."""
+    import requests
+
+    if url.lower().startswith("http://"):
+        upgraded = "https://" + url[len("http://"):]
+        try:
+            response = session.get(upgraded, timeout=timeout)
+            response.raise_for_status()
+            return response.content, upgraded
+        except requests.RequestException:
+            logger.info("HTTPS variant failed for %s; retrying original URL.", url)
+    response = session.get(url, timeout=timeout)
+    response.raise_for_status()
+    return response.content, url
+
+
 def _build_attachment_doc(
     record: ChangeRecord, session: "requests.Session"
 ) -> CanonicalDocument | None:
@@ -217,9 +240,9 @@ def _build_attachment_doc(
     node, file = record.payload
     settings = get_settings()
     try:
-        response = session.get(file.url, timeout=settings.drupal_request_timeout)
-        response.raise_for_status()
-        content = response.content
+        content, fetched_url = _fetch_attachment(
+            session, file.url, settings.drupal_request_timeout
+        )
     except requests.RequestException:
         logger.exception("Could not download attachment %s; skipping.", file.url)
         return None
@@ -234,7 +257,7 @@ def _build_attachment_doc(
         source_type="pdf_attachment",
         title=(file.description or node.title or file.filename or None),
         source_url=node.url,
-        file_url=file.url,
+        file_url=fetched_url,
         linked_article_uuid=(node.uuid or None),
         published_at=node.created,
         extra={"bundle": node.bundle},
