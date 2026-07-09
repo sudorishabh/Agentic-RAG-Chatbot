@@ -8,6 +8,13 @@ def _slugify(value: str) -> str:
     return slug or "document"
 
 
+# Substring hints that route Drupal metadata fields into canonical facets.
+# field_audit reports against these same rules — import from here, don't copy.
+CATEGORY_HINTS: tuple[str, ...] = ("category", "theme", "area", "division")
+TAG_HINTS: tuple[str, ...] = ("tag", "keyword")
+AUTHOR_HINTS: tuple[str, ...] = ("author",)
+
+
 def _as_list(value: Any) -> list[str]:
     if value is None:
         return []
@@ -96,7 +103,7 @@ def _drupal_document(
     metadata: dict[str, Any],
     **overrides: Any,
 ) -> CanonicalDocument:
-    categories = _union_list(metadata, "category", "theme", "area", "division")
+    categories = _union_list(metadata, *CATEGORY_HINTS)
     # A sub-theme's parent thematic area is itself a category, so the term is
     # retrievable under its parent (e.g. "Air" surfaces under "Environment").
     for parent in _as_list(metadata.get("parent")):
@@ -110,9 +117,9 @@ def _drupal_document(
         sections=[CanonicalSection(text=body, order=0)] if body else [],
         source_url=url,
         article_uuid=uuid or None,
-        tags=_union_list(metadata, "tag", "keyword"),
+        tags=_union_list(metadata, *TAG_HINTS),
         categories=categories,
-        authors=_pick_list(metadata, "author"),
+        authors=_pick_list(metadata, *AUTHOR_HINTS),
         published_at=created,
         extra={"bundle": bundle, "nid": nid, "changed": changed},
         **overrides,
