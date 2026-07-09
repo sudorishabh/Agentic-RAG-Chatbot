@@ -1,7 +1,7 @@
 from __future__ import annotations
 import re
 from typing import Any, Protocol
-from app.core.models import CanonicalDocument, CanonicalSection, EntityRef
+from app.core.models import CanonicalDocument, CanonicalSection, EntityRef, FileLink
 
 def _slugify(value: str) -> str:
     slug = re.sub(r"[^a-z0-9]+", "_", (value or "").lower()).strip("_")
@@ -155,6 +155,11 @@ def from_drupal_record(record: Any, **overrides: Any) -> CanonicalDocument:
         changed=record.changed,
         metadata=record.metadata or {},
         refs=list(getattr(record, "refs", None) or []),
+        file_links=[
+            FileLink(uuid=f.uuid, origin=f.origin, url=f.url, filename=f.filename)
+            for f in getattr(record, "files", None) or []
+            if f.uuid
+        ],
         **overrides,
     )
 

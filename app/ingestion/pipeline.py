@@ -12,10 +12,11 @@ from app.core.models import CanonicalDocument
 from app.ingestion import change_detection as cd
 from app.ingestion import ingest_log
 from app.ingestion import state
+from app.ingestion import terms
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus
 from app.ingestion.chunker import chunk_canonical
 from app.ingestion.indexer import index_chunks
-from app.ingestion.state import StateRecord
+from app.ingestion.state import AttachmentLink, StateRecord, TermLink
 from app.deps import delete_document
 from app.observability.tracing import span
 
@@ -69,8 +70,40 @@ def _save_state(
             url=doc.source_url,
             authors=list(doc.authors),
             categories=list(doc.categories),
+            # Only taxonomy refs become term links; people/other entity refs
+            # stay in raw_meta until they get their own catalog tables.
+            term_links=[
+                TermLink(term_uuid=r.uuid, role=r.field_name)
+                for r in doc.entity_refs
+                if r.vocabulary
+            ],
+            attachments=[
+                AttachmentLink(
+                    file_uuid=f.uuid, origin=f.origin, url=f.url, filename=f.filename
+                )
+                for f in doc.file_links
+            ],
+            raw_meta=doc.raw_meta or None,
         ),
         mark_indexed=indexed,
+    )
+
+
+def _sync_term(record: ChangeRecord, doc: CanonicalDocument) -> None:
+    """Mirror a taxonomy-term record into the term catalog. A rename archives
+    the old name as an alias inside upsert_term; document links join on the
+    term's uuid, so they need no touch-up."""
+    if record.entity_type != "taxonomy_term" or not doc.title:
+        return
+    parent_uuid = next(
+        (r.uuid for r in doc.entity_refs if r.field_name == "parent"), None
+    )
+    terms.upsert_term(
+        record.document_id,
+        record.bundle or "",
+        doc.title,
+        parent_uuid=parent_uuid,
+        changed_mark=record.changed_mark,
     )
 
 
@@ -112,6 +145,8 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
     if record.status is ChangeStatus.DELETED:
         delete_document(record.document_id)
         state.delete([record.document_id])
+        if record.entity_type == "taxonomy_term":
+            terms.delete_terms([record.document_id])
         logger.info("Deleted %s (%s)", record.document_id, record.source_key)
         _log(run_id, record, "deleted", version=prior_version)
         return "deleted"
@@ -136,6 +171,7 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
         _log(run_id, record, "skipped")
         return "skipped"
 
+    _sync_term(record, doc)
     content_hash = doc.ensure_content_hash()
     if not cd.content_changed(record, content_hash):
         version = prior_version or 1
@@ -164,6 +200,7 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
 
 def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
     state.ensure_table()
+    terms.ensure_tables()
     try:
         ingest_log.ensure_table()
     except Exception:

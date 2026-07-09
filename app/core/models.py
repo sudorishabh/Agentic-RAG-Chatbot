@@ -25,6 +25,17 @@ class EntityRef:
 
 
 @dataclass
+class FileLink:
+    """A document's link to an attached file. The file is ingested as its own
+    document (keyed by this uuid); the link records which node references it."""
+
+    uuid: str
+    origin: str  # "attachment" | "inbody"
+    url: str | None = None
+    filename: str | None = None
+
+
+@dataclass
 class CanonicalSection:
     text: str
     heading: str | None = None
@@ -60,10 +71,12 @@ class CanonicalDocument:
     content_hash: str = ""
 
     extra: dict[str, Any] = field(default_factory=dict)
-    # Entity references and the full normalized source metadata. Catalog-only:
-    # persisted to MySQL (terms / document_term / raw_meta), never into chunk
-    # payloads — the chunker copies fields into DocumentMeta explicitly.
+    # Entity references, attached-file links, and the full normalized source
+    # metadata. Catalog-only: persisted to MySQL (terms / document_term /
+    # document_attachment / raw_meta), never into chunk payloads — the chunker
+    # copies fields into DocumentMeta explicitly.
     entity_refs: list[EntityRef] = field(default_factory=list)
+    file_links: list[FileLink] = field(default_factory=list)
     raw_meta: dict[str, Any] = field(default_factory=dict)
 
     @property

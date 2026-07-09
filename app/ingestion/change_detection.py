@@ -40,6 +40,9 @@ class ChangeRecord:
     filename: str | None = None
     size: int | None = None
     mtime_ns: int | None = None
+    # JSON:API entity type ("node", "taxonomy_term", "block_content") for
+    # Drupal records; None for filesystem PDFs and attachment documents.
+    entity_type: str | None = None
 
     @property
     def is_actionable(self) -> bool:
@@ -313,6 +316,7 @@ def detect_drupal_changes(
                         changed_mark=_to_unix(record.changed),
                         prior=prev,
                         payload=None if status is ChangeStatus.UNCHANGED else record,
+                        entity_type=entity_type,
                     )
 
                     # Each attached PDF becomes its own document. Real file--file
@@ -385,6 +389,7 @@ def detect_drupal_changes(
                             source_key=record.source_key,
                             bundle=bundle,
                             prior=record,
+                            entity_type=entity_type,
                         )
     finally:
         session.close()
