@@ -513,6 +513,34 @@ def list_documents(
         return [_row_to_record(row) for row in cur.fetchall()]
 
 
+def documents_for_term(term_uuid: str) -> list[str]:
+    """Document ids linked to a taxonomy term (any role)."""
+    table = _table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"SELECT DISTINCT document_id FROM `{table}_term` WHERE term_uuid = %s",
+            (term_uuid,),
+        )
+        return [row["document_id"] for row in cur.fetchall()]
+
+
+def rename_category_facet(document_id: str, old: str, new: str) -> list[str]:
+    """Replace ``old`` with ``new`` in a document's category facet, collapsing
+    duplicates; returns the resulting category list (payload-refresh input)."""
+    table = _table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"SELECT category FROM `{table}_category` WHERE document_id = %s",
+            (document_id,),
+        )
+        categories = [row["category"] for row in cur.fetchall()]
+        updated = list(dict.fromkeys(new if c == old else c for c in categories))
+        if updated != categories:
+            _replace_facet(cur, table, "category", document_id, updated)
+            conn.commit()
+    return updated
+
+
 def iter_records(source_type: str) -> Iterator[StateRecord]:
     for record in load(source_type).values():
         yield record

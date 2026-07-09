@@ -65,15 +65,16 @@ def upsert_term(
     *,
     parent_uuid: str | None = None,
     changed_mark: int | None = None,
-) -> bool:
-    """Insert or update one term; returns True when this was a rename.
+) -> str | None:
+    """Insert or update one term; returns the previous name when this was a
+    rename (the trigger for the payload display refresh), else None.
 
     On a rename the previous name is archived into the alias table in the
     same transaction, so it stays resolvable for queries. Document links are
     untouched — they join on term_uuid."""
     name = name.strip()[:255]
     if not (term_uuid and vocabulary and name):
-        return False
+        return None
 
     renamed = False
     with mysql_connection() as conn, conn.cursor() as cur:
@@ -107,7 +108,8 @@ def upsert_term(
 
     if renamed:
         logger.info("Term %s renamed %r -> %r", term_uuid, prior_name, name)
-    return renamed
+        return prior_name
+    return None
 
 
 def delete_terms(term_uuids: Iterable[str]) -> int:

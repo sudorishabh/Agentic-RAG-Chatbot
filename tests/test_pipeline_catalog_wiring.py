@@ -107,6 +107,34 @@ def test_sync_term_upserts_with_parent(monkeypatch):
     }
 
 
+def test_sync_term_rename_triggers_payload_refresh(monkeypatch):
+    refreshed = {}
+    monkeypatch.setattr(
+        pipeline.terms, "upsert_term", lambda *a, **k: "Climate"  # rename detected
+    )
+    monkeypatch.setattr(
+        pipeline.payload_refresh,
+        "refresh_renamed_term",
+        lambda uuid, old, new: refreshed.update(uuid=uuid, old=old, new=new) or 1,
+    )
+
+    record = _record(document_id="t1", bundle="themes", entity_type="taxonomy_term")
+    pipeline._sync_term(record, _doc(document_id="t1", title="Climate Action"))
+
+    assert refreshed == {"uuid": "t1", "old": "Climate", "new": "Climate Action"}
+
+
+def test_sync_term_refresh_failure_does_not_abort_ingest(monkeypatch):
+    monkeypatch.setattr(pipeline.terms, "upsert_term", lambda *a, **k: "Climate")
+    monkeypatch.setattr(
+        pipeline.payload_refresh,
+        "refresh_renamed_term",
+        lambda *a: (_ for _ in ()).throw(RuntimeError("qdrant down")),
+    )
+    record = _record(document_id="t1", bundle="themes", entity_type="taxonomy_term")
+    pipeline._sync_term(record, _doc(document_id="t1", title="Climate Action"))  # no raise
+
+
 def test_sync_term_ignores_non_taxonomy_records(monkeypatch):
     monkeypatch.setattr(
         pipeline.terms, "upsert_term",

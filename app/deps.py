@@ -65,6 +65,9 @@ def ensure_collection() -> None:
             vectors_config=VectorParams(size=dimension, distance=Distance.COSINE),
         )
     _ensure_datetime_index(client, settings.qdrant_collection, "published_at")
+    # Term-UUID filters (rename-proof theme/taxonomy filtering).
+    _ensure_keyword_index(client, settings.qdrant_collection, "term_ids")
+    _ensure_keyword_index(client, settings.qdrant_collection, "theme_ids")
     # Recorded only after the collection is confirmed/created so a transient
     # failure above retries on the next call rather than being cached as done.
     _ensured_collections.add(settings.qdrant_collection)
@@ -83,6 +86,21 @@ def _ensure_datetime_index(client: "QdrantClient", collection: str, field: str) 
         )
     except Exception:
         logger.debug("Could not ensure datetime index on %r.", field, exc_info=True)
+
+
+def _ensure_keyword_index(client: "QdrantClient", collection: str, field: str) -> None:
+    """Index a payload field as keyword for exact-match filters. Idempotent and
+    best-effort, like the datetime variant."""
+    try:
+        from qdrant_client.models import PayloadSchemaType
+
+        client.create_payload_index(
+            collection_name=collection,
+            field_name=field,
+            field_schema=PayloadSchemaType.KEYWORD,
+        )
+    except Exception:
+        logger.debug("Could not ensure keyword index on %r.", field, exc_info=True)
 
 
 def delete_document(document_id: str, *, keep_ids: Sequence[str] | None = None) -> None:

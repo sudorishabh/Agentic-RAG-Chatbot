@@ -11,6 +11,7 @@ from app.config import get_settings
 from app.core.models import CanonicalDocument
 from app.ingestion import change_detection as cd
 from app.ingestion import ingest_log
+from app.ingestion import payload_refresh
 from app.ingestion import state
 from app.ingestion import terms
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus
@@ -92,19 +93,30 @@ def _save_state(
 def _sync_term(record: ChangeRecord, doc: CanonicalDocument) -> None:
     """Mirror a taxonomy-term record into the term catalog. A rename archives
     the old name as an alias inside upsert_term; document links join on the
-    term's uuid, so they need no touch-up."""
+    term's uuid, so they need no touch-up. Only the display names baked into
+    payloads/facets need refreshing — best-effort, healed by any reindex."""
     if record.entity_type != "taxonomy_term" or not doc.title:
         return
     parent_uuid = next(
         (r.uuid for r in doc.entity_refs if r.field_name == "parent"), None
     )
-    terms.upsert_term(
+    old_name = terms.upsert_term(
         record.document_id,
         record.bundle or "",
         doc.title,
         parent_uuid=parent_uuid,
         changed_mark=record.changed_mark,
     )
+    if old_name:
+        try:
+            payload_refresh.refresh_renamed_term(
+                record.document_id, old_name, doc.title.strip()
+            )
+        except Exception:
+            logger.exception(
+                "Payload refresh after term rename failed for %s; display "
+                "names heal on the next reindex.", record.document_id,
+            )
 
 
 def _log(

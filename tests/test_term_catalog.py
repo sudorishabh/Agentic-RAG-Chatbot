@@ -73,7 +73,7 @@ def test_upsert_new_term_no_alias(monkeypatch):
     cursor = _FakeCursor(fetchone_results=[None])  # no prior row
     conn = _patch(monkeypatch, terms, cursor)
 
-    assert terms.upsert_term("t1", "themes", "Climate") is False
+    assert terms.upsert_term("t1", "themes", "Climate") is None
     assert not [c for c in cursor.calls if "alias" in c[0].lower()]
     assert conn.commits == 1
 
@@ -82,7 +82,7 @@ def test_upsert_same_name_no_alias(monkeypatch):
     cursor = _FakeCursor(fetchone_results=[{"name": "Climate"}])
     _patch(monkeypatch, terms, cursor)
 
-    assert terms.upsert_term("t1", "themes", "Climate") is False
+    assert terms.upsert_term("t1", "themes", "Climate") is None
     assert not [c for c in cursor.calls if "alias" in c[0].lower()]
 
 
@@ -90,7 +90,8 @@ def test_upsert_rename_archives_old_name(monkeypatch):
     cursor = _FakeCursor(fetchone_results=[{"name": "Climate"}])
     _patch(monkeypatch, terms, cursor)
 
-    assert terms.upsert_term("t1", "themes", "Climate Action") is True
+    # The archived previous name comes back — the payload-refresh trigger.
+    assert terms.upsert_term("t1", "themes", "Climate Action") == "Climate"
 
     alias_calls = [c for c in cursor.calls if "taxonomy_term_alias" in c[0]]
     assert len(alias_calls) == 1
@@ -104,8 +105,8 @@ def test_upsert_rename_archives_old_name(monkeypatch):
 def test_upsert_rejects_blank_identity(monkeypatch):
     cursor = _FakeCursor()
     _patch(monkeypatch, terms, cursor)
-    assert terms.upsert_term("", "themes", "X") is False
-    assert terms.upsert_term("t1", "themes", "  ") is False
+    assert terms.upsert_term("", "themes", "X") is None
+    assert terms.upsert_term("t1", "themes", "  ") is None
     assert cursor.calls == []
 
 

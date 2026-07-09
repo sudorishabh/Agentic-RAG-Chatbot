@@ -123,3 +123,14 @@ def test_new_fields_do_not_leak_into_chunk_payloads():
         assert "entity_refs" not in payload
         assert "raw_meta" not in payload
         assert "field_isbn" not in payload
+
+
+def test_chunk_payloads_carry_term_uuid_filters():
+    doc = from_drupal_record(_record())
+    payloads = [c.to_payload() for c in chunk_canonical(doc)]
+    assert payloads
+    for payload in payloads:
+        # Taxonomy UUIDs only — the people ref is not a term.
+        assert payload["term_ids"] == ["t-climate", "t-missing"]
+        assert payload["theme_ids"] == ["t-climate", "t-missing"]
+        assert "p-jane" not in payload["term_ids"]

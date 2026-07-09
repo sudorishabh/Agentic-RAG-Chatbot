@@ -110,6 +110,11 @@ class DocumentMeta:
     tags: list[str] = field(default_factory=list)
     categories: list[str] = field(default_factory=list)
     authors: list[str] = field(default_factory=list)
+    # Taxonomy term UUIDs (theme_ids = category vocabularies only). Filters
+    # join on these; the name lists above are display-only and may go stale
+    # between a term rename and the payload refresh.
+    term_ids: list[str] = field(default_factory=list)
+    theme_ids: list[str] = field(default_factory=list)
     language: str | None = "en"
     tenant_id: str | None = None
     acl: list[str] = field(default_factory=list)
@@ -159,6 +164,8 @@ class Chunk:
             "tags": m.tags,
             "categories": m.categories,
             "authors": m.authors,
+            "term_ids": m.term_ids,
+            "theme_ids": m.theme_ids,
             "language": m.language,
             "source_url": m.source_url,
             "file_url": m.file_url,
@@ -750,6 +757,12 @@ def _slugify(value: str) -> str:
 
 
 def _meta_from_canonical(doc: CanonicalDocument) -> DocumentMeta:
+    from app.ingestion.canonical import CATEGORY_VOCABULARIES
+
+    term_ids = [r.uuid for r in doc.entity_refs if r.vocabulary]
+    theme_ids = [
+        r.uuid for r in doc.entity_refs if r.vocabulary in CATEGORY_VOCABULARIES
+    ]
     return DocumentMeta(
         document_id=doc.document_id,
         source_type=doc.source_type,
@@ -764,6 +777,8 @@ def _meta_from_canonical(doc: CanonicalDocument) -> DocumentMeta:
         tags=list(doc.tags),
         categories=list(doc.categories),
         authors=list(doc.authors),
+        term_ids=list(dict.fromkeys(term_ids)),
+        theme_ids=list(dict.fromkeys(theme_ids)),
         language=doc.language,
         tenant_id=doc.tenant_id,
         acl=list(doc.acl),
