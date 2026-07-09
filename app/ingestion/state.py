@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -9,6 +10,26 @@ from app.config import get_settings
 from app.deps import mysql_connection
 
 logger = logging.getLogger(__name__)
+
+
+@dataclass
+class TermLink:
+    """A document's reference to a taxonomy term. ``role`` is the referencing
+    Drupal field (field_theme, field_tags, parent, ...), so queries can
+    distinguish a theme link from a tag link on the same term."""
+
+    term_uuid: str
+    role: str
+
+
+@dataclass
+class AttachmentLink:
+    """A node's link to an attached PDF (its own document, keyed by file_uuid)."""
+
+    file_uuid: str
+    origin: str  # "attachment" | "inbody"
+    url: str | None = None
+    filename: str | None = None
 
 
 @dataclass
@@ -34,6 +55,10 @@ class StateRecord:
     url: str | None = None
     authors: list[str] = field(default_factory=list)
     categories: list[str] = field(default_factory=list)
+    # Entity-modeled links and the lossless source metadata (JSON column).
+    term_links: list[TermLink] = field(default_factory=list)
+    attachments: list[AttachmentLink] = field(default_factory=list)
+    raw_meta: dict[str, Any] | None = None
 
 
 def _now() -> datetime:
@@ -83,6 +108,36 @@ CREATE TABLE IF NOT EXISTS `{table}_{facet}` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 """
 
+# Document -> taxonomy term links, joined on term_uuid (rename-proof; the
+# term's name/hierarchy live in the taxonomy_term table, see terms.py).
+_TERM_LINK_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_term` (
+    document_id VARCHAR(255) NOT NULL,
+    term_uuid   VARCHAR(64)  NOT NULL,
+    role        VARCHAR(128) NOT NULL,
+    PRIMARY KEY (document_id, term_uuid, role),
+    KEY idx_term (term_uuid),
+    CONSTRAINT `fk_{table}_term` FOREIGN KEY (document_id)
+        REFERENCES `{table}` (document_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+# Node -> attached PDF links. Composite key: one in-body PDF can be linked
+# from several nodes. The PDF's own catalog row is keyed by file_uuid.
+_ATTACHMENT_LINK_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_attachment` (
+    file_uuid   VARCHAR(255)  NOT NULL,
+    document_id VARCHAR(255)  NOT NULL,
+    origin      VARCHAR(16)   NOT NULL,
+    url         VARCHAR(1024) NULL,
+    filename    VARCHAR(255)  NULL,
+    PRIMARY KEY (file_uuid, document_id),
+    KEY idx_doc (document_id),
+    CONSTRAINT `fk_{table}_attachment` FOREIGN KEY (document_id)
+        REFERENCES `{table}` (document_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
 
 def _to_datetime(value: str | None) -> datetime | None:
     if not value:
@@ -117,6 +172,46 @@ def _replace_facet(
         )
 
 
+def _replace_term_links(
+    cur: Any, table: str, document_id: str, links: Iterable[TermLink]
+) -> None:
+    cur.execute(f"DELETE FROM `{table}_term` WHERE document_id = %s", (document_id,))
+    rows = list(
+        dict.fromkeys(
+            (document_id, l.term_uuid, l.role[:128]) for l in links if l.term_uuid
+        )
+    )
+    if rows:
+        cur.executemany(
+            f"INSERT INTO `{table}_term` (document_id, term_uuid, role) "
+            "VALUES (%s, %s, %s)",
+            rows,
+        )
+
+
+def _replace_attachment_links(
+    cur: Any, table: str, document_id: str, links: Iterable[AttachmentLink]
+) -> None:
+    cur.execute(f"DELETE FROM `{table}_attachment` WHERE document_id = %s", (document_id,))
+    # First link wins per file: an explicit attachment ref carries url/filename
+    # and outranks a later in-body sighting of the same PDF.
+    seen: dict[str, AttachmentLink] = {}
+    for link in links:
+        if link.file_uuid and link.file_uuid not in seen:
+            seen[link.file_uuid] = link
+    rows = [
+        (l.file_uuid, document_id, l.origin[:16], l.url, l.filename)
+        for l in seen.values()
+    ]
+    if rows:
+        cur.executemany(
+            f"INSERT INTO `{table}_attachment` "
+            "(file_uuid, document_id, origin, url, filename) "
+            "VALUES (%s, %s, %s, %s, %s)",
+            rows,
+        )
+
+
 def ensure_table() -> None:
     table = _table()
     with mysql_connection() as conn, conn.cursor() as cur:
@@ -126,8 +221,11 @@ def ensure_table() -> None:
         _ensure_column(cur, table, "mtime_ns", "mtime_ns BIGINT NULL")
         _ensure_column(cur, table, "title", "title VARCHAR(1024) NULL")
         _ensure_column(cur, table, "url", "url VARCHAR(1024) NULL")
+        _ensure_column(cur, table, "raw_meta", "raw_meta JSON NULL")
         for facet in _FACETS:
             cur.execute(_CHILD_DDL.format(table=table, facet=facet))
+        cur.execute(_TERM_LINK_DDL.format(table=table))
+        cur.execute(_ATTACHMENT_LINK_DDL.format(table=table))
         conn.commit()
 
 
@@ -181,8 +279,8 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
             INSERT INTO `{table}`
                 (document_id, source_type, source_key, bundle, fingerprint,
                  content_hash, doc_version, changed_mark, size, mtime_ns,
-                 published_at, title, url, indexed_at, updated_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                 published_at, title, url, raw_meta, indexed_at, updated_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE
                 source_type  = VALUES(source_type),
                 source_key   = VALUES(source_key),
@@ -196,6 +294,7 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 published_at = VALUES(published_at),
                 title        = VALUES(title),
                 url          = VALUES(url),
+                raw_meta     = COALESCE(VALUES(raw_meta), raw_meta),
                 indexed_at   = COALESCE(VALUES(indexed_at), indexed_at),
                 updated_at   = VALUES(updated_at)
             """,
@@ -213,12 +312,17 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 _to_datetime(record.published_at),
                 record.title,
                 record.url,
+                json.dumps(record.raw_meta, ensure_ascii=False, default=str)
+                if record.raw_meta is not None
+                else None,
                 indexed_at,
                 now,
             ),
         )
         _replace_facet(cur, table, "author", record.document_id, record.authors)
         _replace_facet(cur, table, "category", record.document_id, record.categories)
+        _replace_term_links(cur, table, record.document_id, record.term_links)
+        _replace_attachment_links(cur, table, record.document_id, record.attachments)
         conn.commit()
 
 
