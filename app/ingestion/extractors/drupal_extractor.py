@@ -12,6 +12,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 from app.config import get_settings
+from app.core.models import EntityRef
 
 logger = logging.getLogger(__name__)
 
@@ -85,6 +86,7 @@ class DrupalRecord:
     changed: str | None
     metadata: dict[str, Any] = field(default_factory=dict)
     files: list[DrupalFile] = field(default_factory=list)
+    refs: list[EntityRef] = field(default_factory=list)
 
     @property
     def source(self) -> str:
@@ -295,7 +297,7 @@ def _build_record(
     attributes = node.get("attributes", {})
     body_parts, scalar_meta = _partition_attributes(attributes)
 
-    metadata = _resolve_relationships(node, included)
+    metadata, refs = _resolve_relationships(node, included)
     metadata.update(scalar_meta)
     if entity_type != "node":
         metadata.setdefault("entity_type", entity_type)
@@ -322,6 +324,7 @@ def _build_record(
         changed=attributes.get("changed"),
         metadata=metadata,
         files=files,
+        refs=refs,
     )
 
 
@@ -474,8 +477,15 @@ def _partition_attributes(attributes: dict) -> tuple[list[str], dict[str, Any]]:
 
 def _resolve_relationships(
     node: dict, included: dict[tuple[str, str], dict]
-) -> dict[str, list[str]]:
+) -> tuple[dict[str, list[str]], list[EntityRef]]:
+    """Resolve entity relationships to label metadata plus full entity refs.
+
+    The labels keep the existing metadata shape (field -> resolved names); the
+    refs additionally carry each entity's UUID and JSON:API type, so catalog
+    joins stay correct when a term is later renamed. Refs are kept even when
+    the entity is not embedded in ``included`` (label stays None)."""
     meta: dict[str, list[str]] = {}
+    refs: list[EntityRef] = []
     for field_name, relationship in node.get("relationships", {}).items():
         # field_* are content relationships; `parent` is the taxonomy tree link.
         if not (field_name.startswith("field_") or field_name == "parent"):
@@ -483,20 +493,28 @@ def _resolve_relationships(
         data = relationship.get("data")
         if not data:
             continue
-        refs = data if isinstance(data, list) else [data]
+        items = data if isinstance(data, list) else [data]
 
         labels: list[str] = []
-        for ref in refs:
-            entity = included.get((ref.get("type"), ref.get("id")))
-            if not entity:
+        for item in items:
+            uuid, ref_type = item.get("id"), item.get("type")
+            # "virtual" is the placeholder parent of root taxonomy terms;
+            # file--file attachments are handled by _resolve_files.
+            if not uuid or not ref_type or uuid == "virtual" or ref_type == "file--file":
                 continue
-            attrs = entity.get("attributes", {})
+            entity = included.get((ref_type, uuid))
+            attrs = entity.get("attributes", {}) if entity else {}
             label = attrs.get("name") or attrs.get("display_name") or attrs.get("title")
+            refs.append(
+                EntityRef(
+                    field_name=field_name, uuid=uuid, entity_type=ref_type, label=label
+                )
+            )
             if label:
                 labels.append(label)
         if labels:
             meta[field_name] = labels
-    return meta
+    return meta, refs
 
 
 def _node_url(attributes: dict, site: str) -> str | None:

@@ -5,6 +5,26 @@ from dataclasses import dataclass, field
 from typing import Any
 
 @dataclass
+class EntityRef:
+    """A resolved reference from a document to another CMS entity (taxonomy
+    term, people node, ...). Carries the referenced entity's UUID so joins
+    stay correct when the entity is later renamed; the label is display-only.
+    ``entity_type`` is the JSON:API type, e.g. "taxonomy_term--themes";
+    ``field_name`` is the referencing field on the source document."""
+
+    field_name: str
+    uuid: str
+    entity_type: str
+    label: str | None = None
+
+    @property
+    def vocabulary(self) -> str | None:
+        """Vocabulary of a taxonomy_term reference, else None."""
+        prefix, _, bundle = self.entity_type.partition("--")
+        return bundle if prefix == "taxonomy_term" else None
+
+
+@dataclass
 class CanonicalSection:
     text: str
     heading: str | None = None
@@ -40,6 +60,11 @@ class CanonicalDocument:
     content_hash: str = ""
 
     extra: dict[str, Any] = field(default_factory=dict)
+    # Entity references and the full normalized source metadata. Catalog-only:
+    # persisted to MySQL (terms / document_term / raw_meta), never into chunk
+    # payloads — the chunker copies fields into DocumentMeta explicitly.
+    entity_refs: list[EntityRef] = field(default_factory=list)
+    raw_meta: dict[str, Any] = field(default_factory=dict)
 
     @property
     def is_paginated(self) -> bool:

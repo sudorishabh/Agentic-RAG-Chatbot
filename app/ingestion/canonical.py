@@ -1,7 +1,7 @@
 from __future__ import annotations
 import re
 from typing import Any, Protocol
-from app.core.models import CanonicalDocument, CanonicalSection
+from app.core.models import CanonicalDocument, CanonicalSection, EntityRef
 
 def _slugify(value: str) -> str:
     slug = re.sub(r"[^a-z0-9]+", "_", (value or "").lower()).strip("_")
@@ -13,6 +13,10 @@ def _slugify(value: str) -> str:
 CATEGORY_HINTS: tuple[str, ...] = ("category", "theme", "area", "division")
 TAG_HINTS: tuple[str, ...] = ("tag", "keyword")
 AUTHOR_HINTS: tuple[str, ...] = ("author",)
+
+# Taxonomy vocabularies whose terms are categories regardless of the name of
+# the referencing field — vocabulary routing beats field-name guessing.
+CATEGORY_VOCABULARIES: tuple[str, ...] = ("themes",)
 
 
 def _as_list(value: Any) -> list[str]:
@@ -101,9 +105,17 @@ def _drupal_document(
     created: str | None,
     changed: str | None,
     metadata: dict[str, Any],
+    refs: list[EntityRef] | None = None,
     **overrides: Any,
 ) -> CanonicalDocument:
+    refs = refs or []
     categories = _union_list(metadata, *CATEGORY_HINTS)
+    # Any reference into a category vocabulary is a category, whatever the
+    # referencing field is called — catches fields the name hints miss.
+    for ref in refs:
+        if ref.vocabulary in CATEGORY_VOCABULARIES and ref.label:
+            if ref.label not in categories:
+                categories.append(ref.label)
     # A sub-theme's parent thematic area is itself a category, so the term is
     # retrievable under its parent (e.g. "Air" surfaces under "Environment").
     for parent in _as_list(metadata.get("parent")):
@@ -122,6 +134,8 @@ def _drupal_document(
         authors=_pick_list(metadata, *AUTHOR_HINTS),
         published_at=created,
         extra={"bundle": bundle, "nid": nid, "changed": changed},
+        entity_refs=refs,
+        raw_meta=dict(metadata),
         **overrides,
     )
     doc.ensure_content_hash()
@@ -140,6 +154,7 @@ def from_drupal_record(record: Any, **overrides: Any) -> CanonicalDocument:
         created=record.created,
         changed=record.changed,
         metadata=record.metadata or {},
+        refs=list(getattr(record, "refs", None) or []),
         **overrides,
     )
 
