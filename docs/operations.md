@@ -86,21 +86,26 @@ by `init_observability(app)` ([app/main.py](../app/main.py)).
   attributes, and creates an OpenTelemetry span when OTel is enabled. The query
   pipeline is covered end to end (`rag.response_cache`, `rag.query_understanding`,
   `rag.embed_query`, `rag.semantic_cache`, `rag.search`, `rag.rerank`,
-  `rag.context_build`, `rag.generate`, `rag.faithfulness`, `rag.cache_store`) in
+  `rag.context_build`, `rag.generate`, `rag.faithfulness`,
+  `rag.response_cache_store`, `rag.semantic_cache_store`) in
   [app/rag.py](../app/rag.py), and ingestion (`ingest.extract`, `ingest.chunk`,
   `ingest.embed`, `ingest.upsert`) in the pipeline and indexer.
 - **Stage timing metrics** ([app/observability/metrics.py](../app/observability/metrics.py)) —
   every span also feeds an in-process registry of per-stage timings. `GET
   /metrics/timings` (gated by `ops_detail_enabled`, mounted on both servers)
-  returns count / total / avg / p50 / p95 / max per stage, sorted by total time —
-  the "which stage is the time going to" view. Per-process and reset on restart;
-  parent spans include their children's time.
+  answers "which component is the time going to": a `components` section folds
+  the stages into **qdrant / llm / embedding / redis / rerank / extraction /
+  other** with total ms, call count and share %, and a `stages` section gives
+  count / total / avg / p50 / p95 / max per stage, sorted by total time.
+  Per-process and reset on restart; parent spans include their children's time
+  and are excluded from the component totals.
 - `record_query_metrics(*, latency_ms=None, **metrics)` — per-query RAG quality metrics
   (`intent`, `used_chunks`, `has_citations`, `answered`, `conflict`, `cached`). Logged
   as `rag_metrics` when `metrics_log_enabled`, and attached to the current OTel span.
   Recorded on both the streaming and buffered answer paths, cache hits included.
-  The log line now also carries a per-request `stages` breakdown (ms per stage);
-  on the streaming path it covers the stages up to the first token.
+  The log line now also carries a per-request `components` summary (ms spent in
+  qdrant / llm / embedding / ...) and a `stages` breakdown (ms per stage); on
+  the streaming path they cover the stages up to the first token.
 
 Optional integrations (off by default):
 
@@ -118,8 +123,8 @@ Both fail gracefully if the SDK isn't installed.
 | --- | --- |
 | `GET /health` | liveness — always `200` |
 | `GET /ready` | readiness — `200`/`503` on Qdrant reachability; body detail only when `ops_detail_enabled` |
-| `GET /metrics` | effective config + store snapshot; returns `404` unless `ops_detail_enabled` |
-| `GET /metrics/timings` | per-stage timing aggregates (which stage takes how much time); returns `404` unless `ops_detail_enabled` |
+| `GET /metrics` | effective config + store snapshot; `404` unless `ops_detail_enabled` or the caller is in `ops_admin_group` |
+| `GET /metrics/timings` | per-component / per-stage timing aggregates (where the time goes); same gate as `/metrics` |
 
 Probes consume the status code; the detailed bodies fingerprint the deployment,
 so they are off by default on the public API. See

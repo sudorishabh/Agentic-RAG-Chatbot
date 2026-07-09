@@ -66,9 +66,15 @@ name, point counts, error strings) is included in the body **only when
   "redis":  { "configured": true, "reachable": true } }
 ```
 
+Both metrics endpoints share one visibility gate: readable when
+`ops_detail_enabled` is on, **or** by callers whose JWT carries the
+`ops_admin_group` group (requires `auth_enabled`) — send the same
+`Authorization: Bearer <JWT>` header as for `/chat`. Everyone else gets `404`,
+never `401`, so the endpoints stay invisible on the public API.
+
 ### `GET /metrics`
-Effective configuration and store status. Returns `404` unless
-`ops_detail_enabled` is set (its whole body is deployment detail).
+Effective configuration and store status. Its whole body is deployment detail —
+see the visibility gate above.
 
 ```json
 { "service": "agentic-rag",
@@ -80,23 +86,34 @@ Effective configuration and store status. Returns `404` unless
 ```
 
 ### `GET /metrics/timings`
-Per-stage timing aggregates — which pipeline stage takes how much time. Fed by
-the tracing spans (`rag.*` on the retrieval server, `ingest.*` on the ingestion
-server, which also mounts this router). Sorted by total time, percentiles over
-the last 512 samples per stage; in-memory per process, reset on restart. Parent
-spans (`rag.answer_query`, `rag.stream_answer`) include their children's time.
-Returns `404` unless `ops_detail_enabled`.
+Where the time goes, in two granularities. `components` folds the timed stages
+into the dependency that consumed the time — **qdrant** (vector search, semantic
+cache, upserts), **llm** (generation, query understanding, faithfulness),
+**embedding** (Azure OpenAI embeddings), **redis** (response cache), **rerank**,
+**extraction** (PDF/Drupal) and **other** — with total ms, call count and share
+of attributed time. `stages` gives the per-span detail (count / total / avg /
+p50 / p95 / max, percentiles over the last 512 samples). Fed by the tracing
+spans (`rag.*` on the retrieval server, `ingest.*` on the ingestion server,
+which also mounts this router); in-memory per process, reset on restart. Parent
+spans are labeled `"component": "total"` and excluded from the component fold.
+Visibility gate as above (`ops_detail_enabled` or `ops_admin_group`).
 
 ```json
 { "since": "2026-07-09T10:00:00+00:00",
   "window": 512,
+  "components": [
+    { "component": "llm",       "total_ms": 74100.3, "calls": 82, "share_pct": 86.1 },
+    { "component": "qdrant",    "total_ms": 9770.9,  "calls": 80, "share_pct": 11.4 },
+    { "component": "embedding", "total_ms": 1610.2,  "calls": 40, "share_pct": 1.9 },
+    { "component": "redis",     "total_ms": 220.6,   "calls": 80, "share_pct": 0.3 },
+    { "component": "other",     "total_ms": 310.5,   "calls": 40, "share_pct": 0.4 } ],
   "stages": [
-    { "stage": "rag.stream_answer", "count": 42, "total_ms": 98213.5, "avg_ms": 2338.4,
-      "p50_ms": 2100.9, "p95_ms": 4880.2, "max_ms": 7012.0 },
-    { "stage": "rag.generate", "count": 40, "total_ms": 71400.1, "avg_ms": 1785.0,
-      "p50_ms": 1650.2, "p95_ms": 3900.8, "max_ms": 5100.3 },
-    { "stage": "rag.search", "count": 40, "total_ms": 9120.7, "avg_ms": 228.0,
-      "p50_ms": 210.4, "p95_ms": 390.1, "max_ms": 610.9 } ] }
+    { "stage": "rag.stream_answer", "component": "total", "count": 42, "total_ms": 98213.5,
+      "avg_ms": 2338.4, "p50_ms": 2100.9, "p95_ms": 4880.2, "max_ms": 7012.0 },
+    { "stage": "rag.generate", "component": "llm", "count": 40, "total_ms": 71400.1,
+      "avg_ms": 1785.0, "p50_ms": 1650.2, "p95_ms": 3900.8, "max_ms": 5100.3 },
+    { "stage": "rag.search", "component": "qdrant", "count": 40, "total_ms": 9120.7,
+      "avg_ms": 228.0, "p50_ms": 210.4, "p95_ms": 390.1, "max_ms": 610.9 } ] }
 ```
 
 ---

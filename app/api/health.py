@@ -1,12 +1,24 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
 
+from app.api.auth import Principal, optional_principal
 from app.config import get_settings
 
 router = APIRouter(tags=["ops"])
+
+
+def _ops_visible(principal: Principal) -> bool:
+    """Metrics visibility: the ops_detail_enabled deployments (private/dev)
+    see everything; otherwise only members of ops_admin_group do, and only
+    when auth is on — unverified callers are all anonymous."""
+    settings = get_settings()
+    if settings.ops_detail_enabled:
+        return True
+    group = settings.ops_admin_group
+    return bool(group) and settings.auth_enabled and group in principal.user_groups
 
 
 @router.get("/health")
@@ -59,13 +71,15 @@ async def ready() -> JSONResponse:
 
 
 @router.get("/metrics/timings")
-async def metrics_timings() -> dict:
-    """Per-stage timing aggregates: which pipeline stage takes how much time.
+async def metrics_timings(
+    principal: Principal = Depends(optional_principal),
+) -> dict:
+    """Per-stage / per-component timing aggregates: where the time goes.
 
     Fed by the tracing spans (rag.* on the retrieval server, ingest.* on the
     ingestion server). Per-process, in-memory, reset on restart; parent spans
     include their children's time. Same visibility gate as /metrics."""
-    if not get_settings().ops_detail_enabled:
+    if not _ops_visible(principal):
         raise HTTPException(status_code=404, detail="Not Found")
     from app.observability.metrics import snapshot
 
@@ -73,9 +87,9 @@ async def metrics_timings() -> dict:
 
 
 @router.get("/metrics")
-async def metrics() -> dict:
+async def metrics(principal: Principal = Depends(optional_principal)) -> dict:
     settings = get_settings()
-    if not settings.ops_detail_enabled:
+    if not _ops_visible(principal):
         # Hide the endpoint entirely: its whole body is deployment detail.
         raise HTTPException(status_code=404, detail="Not Found")
     try:

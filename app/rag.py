@@ -14,7 +14,7 @@ from app.generation.prompts import (
 )
 from app.retrieval.citations import build_citations
 from app.generation.prompts import REFUSAL
-from app.observability.metrics import collect_into
+from app.observability.metrics import collect_into, component_totals
 from app.observability.tracing import record_query_metrics, span
 from app.retrieval.context_builder import ContextBlock, build_context
 from app.retrieval.hybrid_search import search
@@ -302,8 +302,9 @@ def _assemble(answer: str, gen: _Generation) -> dict[str, Any]:
 def _persist(gen: _Generation, result: dict[str, Any]) -> None:
     from app.cache import redis_cache, semantic_cache
 
-    with span("rag.cache_store"):
+    with span("rag.response_cache_store"):
         redis_cache.set_response(gen.signature, result)
+    with span("rag.semantic_cache_store"):
         semantic_cache.store(
             gen.query_vector, result, tenant_id=gen.tenant_id,
             user_groups=gen.user_groups, top_k=gen.top_k,
@@ -322,6 +323,7 @@ def _record(
         answered=result.get("answer") != REFUSAL,
         conflict=result.get("conflict", False),
         cached=result.get("cached", False),
+        components=component_totals(stages) if stages else None,
         stages={k: round(v, 1) for k, v in stages.items()} if stages else None,
     )
 

@@ -127,6 +127,11 @@ class Settings(BaseSettings):
     # deployment — probes only need the status codes. Enable on private /
     # dev deployments for human debugging.
     ops_detail_enabled: bool = False
+    # JWT group whose members may read /metrics and /metrics/timings even when
+    # ops_detail_enabled is off (e.g. "admin"). Only honored when auth_enabled —
+    # without verified tokens every caller is anonymous and a group grant would
+    # be meaningless. Empty (default) disables the group grant entirely.
+    ops_admin_group: str = ""
     cors_allow_origins: str = "*"
     # Absolute base URL of the retrieval API as reached from the browser
     # (e.g. "http://localhost:8000"). When set, citation links to locally

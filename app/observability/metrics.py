@@ -22,6 +22,46 @@ from typing import Any, Iterator
 
 _WINDOW = 512  # recent samples kept per stage; percentiles cover this window
 
+# Which dependency a stage's time is spent on, so the read-outs can answer
+# "how much time did Qdrant / the LLM / everything else take" directly.
+# Unmapped stages (context build, chunking, ...) count as "other"; the parent
+# spans are excluded from component totals — they wrap the stages below and
+# would double-count.
+_PARENTS = {"rag.answer_query", "rag.stream_answer"}
+_COMPONENTS = {
+    "rag.search": "qdrant",
+    "rag.semantic_cache": "qdrant",
+    "rag.semantic_cache_store": "qdrant",
+    "ingest.upsert": "qdrant",
+    "rag.generate": "llm",
+    "rag.query_understanding": "llm",
+    "rag.faithfulness": "llm",
+    "rag.embed_query": "embedding",
+    "ingest.embed": "embedding",
+    "rag.response_cache": "redis",
+    "rag.response_cache_store": "redis",
+    "rag.rerank": "rerank",
+    "ingest.extract": "extraction",
+}
+
+
+def component_of(stage: str) -> str | None:
+    """The component a stage belongs to; None for parent (total) spans."""
+    if stage in _PARENTS:
+        return None
+    return _COMPONENTS.get(stage, "other")
+
+
+def component_totals(stages: dict[str, float]) -> dict[str, float]:
+    """Fold a per-stage breakdown into per-component time (ms)."""
+    totals: dict[str, float] = {}
+    for name, ms in stages.items():
+        component = component_of(name)
+        if component is None:
+            continue
+        totals[component] = round(totals.get(component, 0.0) + ms, 1)
+    return dict(sorted(totals.items(), key=lambda item: item[1], reverse=True))
+
 
 class _StageStats:
     __slots__ = ("count", "total_ms", "max_ms", "samples")
@@ -93,13 +133,17 @@ def snapshot() -> dict[str, Any]:
             for name, s in _stages.items()
         }
     stages = []
+    component_time: dict[str, float] = {}
+    component_calls: dict[str, int] = {}
     for name, (count, total, max_ms, samples) in sorted(
         copied.items(), key=lambda item: item[1][1], reverse=True
     ):
         ordered = sorted(samples)
+        component = component_of(name)
         stages.append(
             {
                 "stage": name,
+                "component": component or "total",
                 "count": count,
                 "total_ms": round(total, 1),
                 "avg_ms": round(total / count, 1),
@@ -108,7 +152,28 @@ def snapshot() -> dict[str, Any]:
                 "max_ms": round(max_ms, 1),
             }
         )
-    return {"since": _since.isoformat(), "window": _WINDOW, "stages": stages}
+        if component is not None:
+            component_time[component] = component_time.get(component, 0.0) + total
+            component_calls[component] = component_calls.get(component, 0) + count
+
+    attributed = sum(component_time.values())
+    components = [
+        {
+            "component": name,
+            "total_ms": round(total, 1),
+            "calls": component_calls[name],
+            "share_pct": round(100.0 * total / attributed, 1) if attributed else 0.0,
+        }
+        for name, total in sorted(
+            component_time.items(), key=lambda item: item[1], reverse=True
+        )
+    ]
+    return {
+        "since": _since.isoformat(),
+        "window": _WINDOW,
+        "components": components,
+        "stages": stages,
+    }
 
 
 def reset() -> None:

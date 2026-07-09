@@ -99,3 +99,16 @@ def require_principal(
         raise _unauthorized("Invalid or expired token")
 
     return _principal_from_claims(claims)
+
+
+def optional_principal(
+    credentials: HTTPAuthorizationCredentials | None = Depends(_bearer),
+) -> Principal:
+    """Like require_principal, but a missing or invalid token degrades to the
+    anonymous principal instead of a 401. For endpoints where identity only
+    widens visibility (the ops metrics endpoints answer 404 to everyone else)
+    and a 401 would advertise their existence."""
+    try:
+        return require_principal(credentials)
+    except HTTPException:
+        return Principal()

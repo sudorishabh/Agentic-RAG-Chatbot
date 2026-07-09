@@ -42,6 +42,42 @@ def test_record_stage_aggregates():
     assert snap["stages"][0]["stage"] == "rag.generate"
 
 
+def test_component_totals_groups_and_excludes_parents():
+    stages = {
+        "rag.search": 200.0,          # qdrant
+        "rag.semantic_cache": 30.0,   # qdrant
+        "rag.generate": 1500.0,       # llm
+        "rag.embed_query": 80.0,      # embedding
+        "rag.context_build": 5.0,     # other (unmapped)
+        "rag.answer_query": 1900.0,   # parent — excluded
+    }
+    totals = metrics.component_totals(stages)
+    assert totals == {
+        "llm": 1500.0,
+        "qdrant": 230.0,
+        "embedding": 80.0,
+        "other": 5.0,
+    }
+    assert list(totals) == ["llm", "qdrant", "embedding", "other"]  # sorted desc
+
+
+def test_snapshot_reports_components():
+    metrics.record_stage("rag.search", 300.0)
+    metrics.record_stage("rag.generate", 700.0)
+    metrics.record_stage("rag.answer_query", 1050.0)  # parent, not attributed
+
+    snap = metrics.snapshot()
+    by_component = {c["component"]: c for c in snap["components"]}
+    assert set(by_component) == {"qdrant", "llm"}
+    assert by_component["llm"]["total_ms"] == 700.0
+    assert by_component["llm"]["share_pct"] == 70.0
+    assert by_component["qdrant"]["share_pct"] == 30.0
+
+    by_stage = {s["stage"]: s for s in snap["stages"]}
+    assert by_stage["rag.search"]["component"] == "qdrant"
+    assert by_stage["rag.answer_query"]["component"] == "total"
+
+
 def test_span_feeds_registry():
     with span("test.stage"):
         pass
@@ -70,7 +106,7 @@ def test_collect_into_survives_foreign_context_resume():
         with metrics.collect_into(breakdown):
             metrics.record_stage("rag.search", 7.0)
             yield "token"
-            metrics.record_stage("rag.cache_store", 3.0)
+            metrics.record_stage("rag.semantic_cache_store", 3.0)
 
     events = gen()
     parent = contextvars.copy_context()
@@ -82,7 +118,7 @@ def test_collect_into_survives_foreign_context_resume():
     # only reached the global registry — and nothing raised.
     assert breakdown == {"rag.search": 7.0}
     by_name = {s["stage"]: s for s in metrics.snapshot()["stages"]}
-    assert by_name["rag.cache_store"]["count"] == 1
+    assert by_name["rag.semantic_cache_store"]["count"] == 1
 
 
 def test_timings_endpoint_gated_by_ops_detail(monkeypatch):
@@ -105,3 +141,46 @@ def test_timings_endpoint_gated_by_ops_detail(monkeypatch):
     body = client.get("/metrics/timings").json()
     assert body["stages"][0]["stage"] == "rag.search"
     assert body["stages"][0]["total_ms"] == 42.0
+    assert body["components"][0]["component"] == "qdrant"
+
+
+def test_timings_endpoint_admin_group_grant(monkeypatch):
+    import time
+
+    jwt = pytest.importorskip("jwt")  # PyJWT ships with the auth feature
+    from fastapi.testclient import TestClient
+
+    from app import app_factory
+    from app.api.health import router
+    from app.config import get_settings
+
+    app = app_factory.FastAPI()
+    app.include_router(router)
+    client = TestClient(app)
+
+    settings = get_settings()
+    monkeypatch.setattr(settings, "ops_detail_enabled", False)
+    monkeypatch.setattr(settings, "ops_admin_group", "admin")
+    monkeypatch.setattr(settings, "auth_enabled", True)
+    monkeypatch.setattr(settings, "jwt_secret", "test-secret")
+
+    def token(groups):
+        return jwt.encode(
+            {"groups": groups, "exp": int(time.time()) + 60},
+            "test-secret",
+            algorithm="HS256",
+        )
+
+    def get(tok=None):
+        headers = {"Authorization": f"Bearer {tok}"} if tok else {}
+        return client.get("/metrics/timings", headers=headers)
+
+    metrics.record_stage("rag.generate", 10.0)
+    assert get(token(["admin"])).status_code == 200
+    assert get(token(["public"])).status_code == 404  # wrong group
+    assert get().status_code == 404                    # no token: hidden, not 401
+    assert get("garbage").status_code == 404           # bad token: hidden too
+
+    # group grant is meaningless without verified identities
+    monkeypatch.setattr(settings, "auth_enabled", False)
+    assert get(token(["admin"])).status_code == 404
