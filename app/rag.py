@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from dataclasses import dataclass
 from typing import Any, Iterator
 
@@ -194,6 +195,56 @@ def _paraphrase_search(
         return []
 
 
+# Salient-term patterns for the keyword leg: the query features dense vectors
+# handle worst — exact phrases, acronyms, years, proper nouns.
+_QUOTED = re.compile(r"\"([^\"]{2,})\"|'([^']{2,})'")
+_CAP_BIGRAM = re.compile(r"\b([A-Z][a-z]+(?: [A-Z][a-z]+)+)\b")
+_ACRONYM = re.compile(r"\b[A-Z]{2,}\b")
+_YEAR = re.compile(r"\b\d{4}\b")
+
+
+def _extract_key_terms(query: str) -> str | None:
+    """Deterministic salient terms for a MatchText pull; None when the query
+    has none (the keyword leg is skipped, not run over stopwords)."""
+    terms: list[str] = [m.group(1) or m.group(2) for m in _QUOTED.finditer(query)]
+    terms.extend(_CAP_BIGRAM.findall(query))
+    terms.extend(_ACRONYM.findall(query))
+    terms.extend(_YEAR.findall(query))
+    unique: list[str] = []
+    seen: set[str] = set()
+    for term in terms:
+        if term.lower() not in seen:
+            seen.add(term.lower())
+            unique.append(term)
+    return " ".join(unique) or None
+
+
+def _keyword_search(
+    search_query: str,
+    terms_text: str,
+    *,
+    tenant_id: str,
+    user_groups: list[str],
+    filters: list[Any] | None,
+    query_vector: list[float],
+    limit: int,
+) -> list[Any]:
+    """One MatchText-filtered pull (dense ranking within keyword matches).
+    Fails open to [] — notably while the chunk_text full-text index doesn't
+    exist yet (scripts/create_fulltext_index.py)."""
+    try:
+        from qdrant_client.models import FieldCondition, MatchText
+
+        cond = FieldCondition(key="chunk_text", match=MatchText(text=terms_text))
+        return search(
+            search_query, limit=limit, tenant_id=tenant_id, user_groups=user_groups,
+            extra_filter=list(filters or []) + [cond], query_vector=query_vector,
+        )
+    except Exception:
+        logger.debug("Keyword leg unavailable; dense-only.", exc_info=True)
+        return []
+
+
 def _supplement_attachments(
     blocks: list[ContextBlock],
     ranked: list[Any],
@@ -308,33 +359,56 @@ def retrieve(
             query_vector=query_vector,
         )
 
+    keyword_terms = (
+        _extract_key_terms(search_query) if settings.keyword_leg_enabled else None
+    )
+
     with span("rag.search") as s:
-        if multi:
+        if multi or keyword_terms:
             from concurrent.futures import ThreadPoolExecutor
 
             from app.retrieval.fusion import rrf
 
-            with span("rag.multi_query") as mq:
-                # Paraphrase generation overlaps the base pull, so the added
-                # wall-clock is only the paraphrase searches that follow.
-                with ThreadPoolExecutor(max_workers=4) as pool:
-                    base_future = pool.submit(_base_search)
-                    queries = pool.submit(
-                        _paraphrases, search_query, settings.multi_query_paraphrases
-                    ).result()
-                    rankings = [
-                        r
-                        for r in pool.map(
-                            lambda q: _paraphrase_search(
-                                q, tenant_id=tenant_id, user_groups=user_groups,
-                                limit=settings.retrieval_candidate_k,
-                            ),
-                            queries,
+            rankings: list[list[Any]] = []
+            # Paraphrase generation and the keyword pull overlap the base
+            # pull, so the added wall-clock is only the paraphrase searches
+            # that follow the generation step.
+            with ThreadPoolExecutor(max_workers=4) as pool:
+                base_future = pool.submit(_base_search)
+                keyword_future = (
+                    pool.submit(
+                        _keyword_search, search_query, keyword_terms,
+                        tenant_id=tenant_id, user_groups=user_groups,
+                        filters=filters, query_vector=query_vector,
+                        limit=settings.retrieval_candidate_k,
+                    )
+                    if keyword_terms
+                    else None
+                )
+                if multi:
+                    with span("rag.multi_query") as mq:
+                        queries = pool.submit(
+                            _paraphrases, search_query, settings.multi_query_paraphrases
+                        ).result()
+                        rankings.extend(
+                            r
+                            for r in pool.map(
+                                lambda q: _paraphrase_search(
+                                    q, tenant_id=tenant_id, user_groups=user_groups,
+                                    limit=settings.retrieval_candidate_k,
+                                ),
+                                queries,
+                            )
+                            if r
                         )
-                        if r
-                    ]
-                    base = base_future.result()
-                mq.set("paraphrases", len(queries))
+                        mq.set("paraphrases", len(queries))
+                if keyword_future is not None:
+                    with span("rag.keyword_leg") as kw:
+                        keyword_hits = keyword_future.result()
+                        kw.set("hits", len(keyword_hits))
+                    if keyword_hits:
+                        rankings.append(keyword_hits)
+                base = base_future.result()
             candidates = rrf([base] + rankings) if rankings else base
         else:
             candidates = _base_search()

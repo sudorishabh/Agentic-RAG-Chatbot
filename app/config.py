@@ -102,6 +102,12 @@ class Settings(BaseSettings):
     # after eval.
     multi_query_enabled: bool = False
     multi_query_paraphrases: int = 2
+    # Keyword leg over the chunk_text full-text index (created by
+    # scripts/create_fulltext_index.py): salient query terms drive one extra
+    # MatchText-filtered pull fused with the dense pull via RRF. Fails open to
+    # dense-only while the index is absent. Launches OFF. (hybrid_use_sparse
+    # stays reserved for true sparse vectors, which need ingest-time writes.)
+    keyword_leg_enabled: bool = False
     reranker_provider: str = "embedding"
     rerank_model: str = ""
     rerank_score_threshold: float = 0.0
