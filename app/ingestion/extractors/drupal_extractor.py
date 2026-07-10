@@ -26,6 +26,19 @@ DEFAULT_TAXONOMIES: tuple[str, ...] = (
     "themes",
     "extra_pages",
     "regional_centre",
+    # Facet vocabularies referenced by node bundles (field_audit, 2026-07).
+    # Crawling them keeps the term catalog able to resolve every
+    # document_term link to a name; most terms carry no body text, so they
+    # land in the catalog without producing vector points.
+    "tags",
+    "partners",
+    "programs_units",
+    "related_terms",
+    "stakeholders",
+    "division",
+    "division_areas",
+    "region",
+    "language",
 )
 
 DEFAULT_BUNDLES: tuple[str, ...] = (
