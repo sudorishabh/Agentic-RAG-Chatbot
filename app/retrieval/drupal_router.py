@@ -229,7 +229,39 @@ def _answer_count(sq: StructuredQuery) -> dict[str, Any] | None:
     return _count_result(total, sq.bundle or "items", scope + _period_label(sq))
 
 
-def _answer_list(sq: StructuredQuery) -> dict[str, Any] | None:
+def _md_cell(text: str) -> str:
+    """'|' inside a value would break the markdown table row."""
+    return text.replace("|", "\\|")
+
+
+def _render_list_table(records: Sequence[state.StateRecord]) -> str:
+    lines = ["| Title | Published | Type |", "| --- | --- | --- |"]
+    for r in records:
+        title = _md_cell(r.title or r.document_id)
+        cell = f"[{title}]({r.url})" if r.url else title
+        lines.append(f"| {cell} | {(r.published_at or '')[:10]} | {r.bundle or ''} |")
+    return "\n".join(lines)
+
+
+def _render_list_timeline(records: Sequence[state.StateRecord]) -> str:
+    """Year-grouped chronology. Expects records already sorted newest-first;
+    ISO published_at strings slice cleanly: [:4] year, [:7] YYYY-MM."""
+    lines: list[str] = []
+    year = ""
+    for r in records:
+        y = (r.published_at or "")[:4] or "Undated"
+        if y != year:
+            if lines:
+                lines.append("")
+            lines.append(f"{y}:")
+            year = y
+        label = (r.published_at or "")[:7] or "n.d."
+        title = r.title or r.document_id
+        lines.append(f"- {label}: {title} ({r.url})" if r.url else f"- {label}: {title}")
+    return "\n".join(lines)
+
+
+def _answer_list(sq: StructuredQuery, answer_format: str = "default") -> dict[str, Any] | None:
     """Answer a list/lookup from the ingested catalog (no live site fetch)."""
     lo, hi = _date_range(sq)
     try:
@@ -250,16 +282,24 @@ def _answer_list(sq: StructuredQuery) -> dict[str, Any] | None:
     if not records:
         return None
 
-    lines = [
-        f"- {r.title} ({r.url})" if r.url else f"- {r.title or r.document_id}"
-        for r in records
-    ]
+    if answer_format == "timeline":
+        # ISO dates order lexicographically; undated rows sink to the end.
+        # Citations below follow the same rendered order.
+        records = sorted(records, key=lambda r: r.published_at or "", reverse=True)
+        body = _render_list_timeline(records)
+    elif answer_format == "table":
+        body = _render_list_table(records)
+    else:
+        body = "\n".join(
+            f"- {r.title} ({r.url})" if r.url else f"- {r.title or r.document_id}"
+            for r in records
+        )
     citations = [
         Citation(n=i, type="website", title=r.title, url=r.url, document_id=r.document_id or None)
         for i, r in enumerate(records, start=1)
     ]
     return {
-        "answer": "Here is what I found:\n" + "\n".join(lines),
+        "answer": "Here is what I found:\n" + body,
         "citations": [c.model_dump() for c in citations],
         "intent": "structured",
         "used_chunks": len(records),
@@ -277,7 +317,9 @@ _GROUP_DIMENSIONS: dict[str, tuple[str, str]] = {
 }
 
 
-def _answer_distribution(sq: StructuredQuery) -> dict[str, Any] | None:
+def _answer_distribution(
+    sq: StructuredQuery, answer_format: str = "default"
+) -> dict[str, Any] | None:
     """Break down catalog counts per theme/content type/author/year."""
     dimension, label = _GROUP_DIMENSIONS[sq.group_by or "theme"]
     lo, hi = _date_range(sq)
@@ -296,11 +338,16 @@ def _answer_distribution(sq: StructuredQuery) -> dict[str, Any] | None:
     if not rows:
         return None
 
+    if answer_format == "table":
+        body = "\n".join(
+            [f"| {label} | count |", "| --- | --- |"]
+            + [f"| {_md_cell(str(value))} | {n} |" for value, n in rows]
+        )
+    else:
+        body = "\n".join(f"- {value}: {n}" for value, n in rows)
     scope = _scope_label(sq.bundle or "items", 2)
-    lines = [f"- {value}: {n}" for value, n in rows]
     return {
-        "answer": f"Distribution of {scope}{_period_label(sq)} by {label}:\n"
-        + "\n".join(lines),
+        "answer": f"Distribution of {scope}{_period_label(sq)} by {label}:\n" + body,
         "citations": [],
         "intent": "structured",
         "used_chunks": 0,
@@ -340,9 +387,10 @@ def answer_structured(
         sq = parse_structured(question, history)
     if sq is None:
         return None
+    answer_format = analysis.answer_format if analysis is not None else "default"
     sq.bundle = _normalize_bundle(sq.bundle)
     if sq.operation == "count":
         return _answer_count(sq)
     if sq.operation == "distribution":
-        return _answer_distribution(sq)
-    return _answer_list(sq)
+        return _answer_distribution(sq, answer_format)
+    return _answer_list(sq, answer_format)

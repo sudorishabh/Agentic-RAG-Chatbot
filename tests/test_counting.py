@@ -272,6 +272,84 @@ def test_facet_filters_no_dates_no_condition():
 
 
 # --------------------------------------------------------------------------- #
+# Format-aware renderers — deterministic table / timeline shapes from SQL rows.
+# --------------------------------------------------------------------------- #
+
+def _rec(document_id="d1", title="T", url="https://t/x", published_at=None, bundle="news"):
+    return state.StateRecord(
+        document_id=document_id, source_type="website", source_key="k",
+        fingerprint="f", title=title, url=url, published_at=published_at,
+        bundle=bundle,
+    )
+
+
+def test_answer_list_table_format(monkeypatch):
+    recs = [
+        _rec(title="Solar push", url="https://t/solar",
+             published_at="2024-03-15T00:00:00", bundle="news"),
+        _rec(document_id="d2", title="Wind | Energy", url=None,
+             published_at=None, bundle="events"),
+    ]
+    monkeypatch.setattr(state, "list_documents", lambda **kw: recs)
+    out = dr._answer_list(dr.StructuredQuery(operation="list"), "table")
+
+    a = out["answer"]
+    assert "| Title | Published | Type |" in a and "| --- | --- | --- |" in a
+    assert "| [Solar push](https://t/solar) | 2024-03-15 | news |" in a
+    assert "| Wind \\| Energy |  | events |" in a  # escaped pipe; no URL -> plain text
+    assert len(out["citations"]) == 2
+
+
+def test_answer_list_timeline_groups_by_year_desc(monkeypatch):
+    recs = [
+        _rec(document_id="d1", title="Old", url="https://t/old",
+             published_at="2023-11-02T00:00:00"),
+        _rec(document_id="d2", title="New", url="https://t/new",
+             published_at="2024-05-20T00:00:00"),
+        _rec(document_id="d3", title="NoDate", url=None, published_at=None),
+    ]
+    monkeypatch.setattr(state, "list_documents", lambda **kw: recs)
+    out = dr._answer_list(dr.StructuredQuery(operation="list"), "timeline")
+
+    a = out["answer"]
+    assert a.index("2024:") < a.index("2023:") < a.index("Undated:")
+    assert "- 2024-05: New (https://t/new)" in a
+    assert "- 2023-11: Old (https://t/old)" in a
+    assert "- n.d.: NoDate" in a
+    # Citations follow the rendered (newest-first) order.
+    assert [c["title"] for c in out["citations"]] == ["New", "Old", "NoDate"]
+
+
+def test_answer_list_default_stays_bullets(monkeypatch):
+    monkeypatch.setattr(
+        state, "list_documents", lambda **kw: [_rec(title="Solar push", url="https://t/solar")]
+    )
+    out = dr._answer_list(dr.StructuredQuery(operation="list"))
+    assert out["answer"] == "Here is what I found:\n- Solar push (https://t/solar)"
+
+
+def test_answer_distribution_table_format(monkeypatch):
+    monkeypatch.setattr(
+        state, "distribution", lambda *a, **k: [("Climate", 12), ("Energy", 5)]
+    )
+    out = dr._answer_distribution(dr.StructuredQuery(operation="distribution"), "table")
+
+    a = out["answer"]
+    assert "| theme | count |" in a and "| --- | --- |" in a
+    assert "| Climate | 12 |" in a and "| Energy | 5 |" in a
+
+
+def test_answer_structured_passes_format_from_analysis(monkeypatch):
+    monkeypatch.setattr(state, "distribution", lambda *a, **k: [("Climate", 2)])
+    analysis = qp.QueryAnalysis(
+        search_query="articles per theme as a table",
+        intent="structured", operation="distribution", answer_format="table",
+    )
+    out = dr.answer_structured("articles per theme as a table", analysis=analysis)
+    assert "| theme | count |" in out["answer"]
+
+
+# --------------------------------------------------------------------------- #
 # Unified analysis schema — structured slots default off; ProcessedQuery
 # carries the full analysis for the structured route.
 # --------------------------------------------------------------------------- #
