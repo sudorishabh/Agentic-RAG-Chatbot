@@ -133,6 +133,46 @@ def test_answer_count_returns_none_on_db_error(monkeypatch):
     assert dr._answer_count(dr.StructuredQuery(operation="count", bundle="events")) is None
 
 
+# --------------------------------------------------------------------------- #
+# Count fall-through guard — unresolvable scopes are usually misrouted content
+# questions; they must reach semantic search, not answer "0 items".
+# --------------------------------------------------------------------------- #
+
+def _forbid_count(**kw):
+    raise AssertionError("count_documents must not be called")
+
+
+def test_answer_count_unknown_bundle_falls_through(monkeypatch):
+    monkeypatch.setattr(state, "count_documents", _forbid_count)
+    sq = dr.StructuredQuery(operation="count", bundle="widgets", year=2024)
+    assert dr._answer_count(sq) is None
+
+
+def test_answer_count_unresolved_theme_falls_through(monkeypatch):
+    monkeypatch.setattr(dr.terms, "resolve_terms", lambda name: [])
+    monkeypatch.setattr(state, "count_documents", _forbid_count)
+    sq = dr.StructuredQuery(operation="count", theme="emissions by sector")
+    assert dr._answer_count(sq) is None
+
+
+def test_answer_count_bare_total_still_answers(monkeypatch):
+    # No dimensions at all = a genuine corpus-size question.
+    monkeypatch.setattr(state, "count_documents", lambda **kw: 123)
+    out = dr._answer_count(dr.StructuredQuery(operation="count"))
+    assert out["answer"] == "There are 123 items matching your query."
+
+
+def test_answer_structured_unknown_bundle_falls_through(monkeypatch):
+    monkeypatch.setattr(state, "count_documents", _forbid_count)
+    analysis = qp.QueryAnalysis(
+        search_query="table of emissions by sector",
+        intent="structured",
+        operation="count",
+        bundle="emission",  # normalizes to no known bundle
+    )
+    assert dr.answer_structured("emissions by sector?", analysis=analysis) is None
+
+
 def test_answer_structured_normalizes_bundle_for_count(monkeypatch):
     monkeypatch.setattr(
         dr, "parse_structured", lambda q, h=None: dr.StructuredQuery(operation="count", bundle="event")

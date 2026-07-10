@@ -198,7 +198,19 @@ def _theme_scope(sq: StructuredQuery) -> dict[str, Any]:
 
 
 def _answer_count(sq: StructuredQuery) -> dict[str, Any] | None:
-    """Count documents from the ingested catalog by bundle, theme, author, date."""
+    """Count documents from the ingested catalog by bundle, theme, author, date.
+
+    Guards against misrouted content questions: an unknown content type or a
+    theme the term catalog cannot resolve would count as a misleading "0 items",
+    so those return None and fall through to semantic search instead. A count
+    with no dimensions at all is a genuine corpus-size question and still
+    answers the total.
+    """
+    if sq.bundle and sq.bundle not in DEFAULT_BUNDLES:
+        return None
+    scope = _theme_scope(sq)
+    if sq.theme and not scope.get("term_uuids"):
+        return None
     lo, hi = _date_range(sq)
     try:
         total = state.count_documents(
@@ -208,7 +220,7 @@ def _answer_count(sq: StructuredQuery) -> dict[str, Any] | None:
             author=sq.author,
             published_from=lo,
             published_to=hi,
-            **_theme_scope(sq),
+            **scope,
         )
     except Exception:
         logger.warning("Catalog count failed.", exc_info=True)
