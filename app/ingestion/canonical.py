@@ -94,6 +94,31 @@ def from_pdf(
     return doc
 
 
+def drupal_facets(
+    metadata: dict[str, Any], refs: list[EntityRef]
+) -> dict[str, list[str]]:
+    """Facet lists (categories/tags/authors) for a Drupal record. Shared by the
+    node document and its attachment documents — an attached PDF inherits its
+    node's facets so theme-scoped retrieval reaches the PDF content too."""
+    categories = _union_list(metadata, *CATEGORY_HINTS)
+    # Any reference into a category vocabulary is a category, whatever the
+    # referencing field is called — catches fields the name hints miss.
+    for ref in refs:
+        if ref.vocabulary in CATEGORY_VOCABULARIES and ref.label:
+            if ref.label not in categories:
+                categories.append(ref.label)
+    # A sub-theme's parent thematic area is itself a category, so the term is
+    # retrievable under its parent (e.g. "Air" surfaces under "Environment").
+    for parent in _as_list(metadata.get("parent")):
+        if parent not in categories:
+            categories.append(parent)
+    return {
+        "categories": categories,
+        "tags": _union_list(metadata, *TAG_HINTS),
+        "authors": _pick_list(metadata, *AUTHOR_HINTS),
+    }
+
+
 def _drupal_document(
     *,
     body: str,
@@ -109,18 +134,7 @@ def _drupal_document(
     **overrides: Any,
 ) -> CanonicalDocument:
     refs = refs or []
-    categories = _union_list(metadata, *CATEGORY_HINTS)
-    # Any reference into a category vocabulary is a category, whatever the
-    # referencing field is called — catches fields the name hints miss.
-    for ref in refs:
-        if ref.vocabulary in CATEGORY_VOCABULARIES and ref.label:
-            if ref.label not in categories:
-                categories.append(ref.label)
-    # A sub-theme's parent thematic area is itself a category, so the term is
-    # retrievable under its parent (e.g. "Air" surfaces under "Environment").
-    for parent in _as_list(metadata.get("parent")):
-        if parent not in categories:
-            categories.append(parent)
+    facets = drupal_facets(metadata, refs)
 
     doc = CanonicalDocument(
         document_id=uuid or _slugify(url or f"{bundle}/{title}"),
@@ -129,9 +143,9 @@ def _drupal_document(
         sections=[CanonicalSection(text=body, order=0)] if body else [],
         source_url=url,
         article_uuid=uuid or None,
-        tags=_union_list(metadata, *TAG_HINTS),
-        categories=categories,
-        authors=_pick_list(metadata, *AUTHOR_HINTS),
+        tags=facets["tags"],
+        categories=facets["categories"],
+        authors=facets["authors"],
         published_at=created,
         extra={"bundle": bundle, "nid": nid, "changed": changed},
         entity_refs=refs,

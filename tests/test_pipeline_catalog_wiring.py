@@ -151,6 +151,57 @@ def test_sync_term_ignores_non_taxonomy_records(monkeypatch):
 
 
 # --------------------------------------------------------------------------- #
+# Attachment docs inherit the node's refs and facets.
+# --------------------------------------------------------------------------- #
+
+class _FakePage:
+    def __init__(self, n: int, text: str):
+        self.page_number = n
+        self.text = text
+
+
+class _FakePdfResult:
+    source = "a.pdf"
+    pages = [_FakePage(1, "PDF body text about climate policy.")]
+
+
+def test_attachment_doc_inherits_node_refs_and_facets(monkeypatch):
+    from types import SimpleNamespace
+
+    from app.ingestion.extractors import pdf_extractor
+
+    monkeypatch.setattr(pipeline, "_fetch_attachment", lambda s, url, t: (b"%PDF-", url))
+    monkeypatch.setattr(pdf_extractor, "extract_pdf", lambda content, name: _FakePdfResult())
+
+    node = SimpleNamespace(
+        uuid="node-1",
+        title="A report",
+        url="https://example.org/report",
+        created="2024-01-01T00:00:00+00:00",
+        bundle="report",
+        metadata={"field_report_tags": ["Coal"]},
+        refs=[EntityRef("field_report_theme", "t-energy", "taxonomy_term--themes", "Energy")],
+    )
+    file = SimpleNamespace(
+        uuid="f1", url="https://example.org/a.pdf", filename="a.pdf",
+        description=None, origin="attachment",
+    )
+    record = _record(
+        document_id="f1", source_type="pdf_attachment", payload=(node, file)
+    )
+
+    doc = pipeline._build_attachment_doc(record, session=None)
+
+    assert doc.source_type == "pdf_attachment"
+    assert doc.linked_article_uuid == "node-1"
+    # Inherited from the node: refs (-> term_ids/theme_ids + catalog links)
+    # and display facets, so theme-scoped retrieval reaches the PDF.
+    assert [r.uuid for r in doc.entity_refs] == ["t-energy"]
+    assert doc.categories == ["Energy"]
+    assert doc.tags == ["Coal"]
+
+
+# --------------------------------------------------------------------------- #
 # DELETED — taxonomy terms are removed from the term catalog too.
 # --------------------------------------------------------------------------- #
 

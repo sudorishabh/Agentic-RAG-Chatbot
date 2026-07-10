@@ -286,7 +286,7 @@ def _build_attachment_doc(
     import requests
 
     from app.config import get_settings
-    from app.ingestion.canonical import from_pdf
+    from app.ingestion.canonical import drupal_facets, from_pdf
     from app.ingestion.extractors.pdf_extractor import extract_pdf
 
     node, file = record.payload
@@ -303,6 +303,10 @@ def _build_attachment_doc(
         return None
 
     result = extract_pdf(content, file.filename or record.document_id)
+    # The PDF inherits its node's entity refs and facets so theme-scoped
+    # retrieval and per-theme counts reach the attached content too. In-body
+    # PDFs linked from several nodes inherit from the first-seen node.
+    refs = list(getattr(node, "refs", None) or [])
     return from_pdf(
         result,
         document_id=record.document_id,
@@ -313,6 +317,8 @@ def _build_attachment_doc(
         linked_article_uuid=(node.uuid or None),
         published_at=node.created,
         extra={"bundle": node.bundle},
+        entity_refs=refs,
+        **drupal_facets(node.metadata or {}, refs),
     )
 
 
