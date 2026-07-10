@@ -144,6 +144,67 @@ def _dual_search(
     return website + others
 
 
+def _supplement_attachments(
+    blocks: list[ContextBlock],
+    ranked: list[Any],
+    *,
+    search_query: str,
+    query_vector: list[float],
+    tenant_id: str,
+    user_groups: list[str],
+    n: int,
+    segregate: bool,
+) -> list[ContextBlock]:
+    """Detailed answers: when admitted website blocks have attached PDFs that
+    contributed nothing to the context, pull those attachments' chunks once and
+    let rerank decide admission. Bounded to one extra Qdrant query; any failure
+    keeps the original blocks."""
+    from app.retrieval import catalog
+    from app.retrieval.scoped_retrieval import search_within_documents
+
+    try:
+        website_ids = {
+            b.payload.get("document_id")
+            for b in blocks
+            if b.payload.get("source_type") == "website" and b.payload.get("document_id")
+        }
+        if not website_ids:
+            return blocks
+        attachments = catalog.attachments_for(sorted(website_ids))
+        if not attachments:
+            return blocks
+        # An attachment document's id is its file_uuid; it is "represented"
+        # when any admitted block is that document or links to it.
+        represented = {
+            v
+            for b in blocks
+            for v in (b.payload.get("document_id"), b.payload.get("linked_pdf_id"))
+            if v
+        }
+        file_uuids = list(dict.fromkeys(
+            a["file_uuid"]
+            for rows in attachments.values()
+            for a in rows
+            if a.get("file_uuid") and a["file_uuid"] not in represented
+        ))
+        if not file_uuids:
+            return blocks
+        extra = search_within_documents(
+            query_vector, file_uuids, limit=10,
+            tenant_id=tenant_id, user_groups=user_groups,
+        )
+        seen = {c.id for c in ranked}
+        new = [c for c in extra if c.id not in seen]
+        if not new:
+            return blocks
+        reranked = rerank(search_query, list(ranked) + new)
+        return build_context(reranked, limit=n, segregate=segregate)
+    except Exception:
+        logger.warning("Attachment supplementation failed; keeping original blocks.",
+                       exc_info=True)
+        return blocks
+
+
 def retrieve(
     search_query: str,
     *,
@@ -195,7 +256,14 @@ def retrieve(
     if not ranked:
         return []
     with span("rag.context_build"):
-        return build_context(ranked, limit=n, segregate=dual)
+        blocks = build_context(ranked, limit=n, segregate=dual)
+    if answer_format == "detailed" and blocks:
+        with span("rag.attachment_pull"):
+            blocks = _supplement_attachments(
+                blocks, ranked, search_query=search_query, query_vector=query_vector,
+                tenant_id=tenant_id, user_groups=user_groups, n=n, segregate=dual,
+            )
+    return blocks
 
 
 @dataclass
