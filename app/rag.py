@@ -144,6 +144,56 @@ def _dual_search(
     return website + others
 
 
+_PARAPHRASE_SYSTEM = (
+    "Rewrite the search query as alternative phrasings that could retrieve "
+    "relevant passages a literal match might miss. Vary the wording and "
+    "specificity; keep the meaning; do not add facts or constraints.\n"
+    "Example: 'impact of biofuel adoption on rural incomes' -> "
+    "['how biofuels affect farmer earnings in rural areas', "
+    "'economic effects of biofuel programmes on village households']"
+)
+
+
+def _paraphrases(search_query: str, n: int) -> list[str]:
+    """LLM paraphrases of the query for the multi-query pull; [] on failure."""
+    from pydantic import BaseModel
+
+    class Paraphrases(BaseModel):
+        queries: list[str] = []
+
+    try:
+        # Diversity is the point here, so temperature ~0.7 (not the pinned
+        # parsing temperature).
+        model = get_llm(temperature=0.7).with_structured_output(Paraphrases)
+        result: Paraphrases = model.invoke(
+            [
+                ("system", _PARAPHRASE_SYSTEM),
+                ("human", f"Give {n} paraphrases of: {search_query}"),
+            ]
+        )
+        cleaned = [q.strip() for q in result.queries if q and q.strip()]
+        return [q for q in cleaned if q.lower() != search_query.lower()][:n]
+    except Exception:
+        logger.warning("Paraphrase generation failed; base query only.", exc_info=True)
+        return []
+
+
+def _paraphrase_search(
+    query: str, *, tenant_id: str, user_groups: list[str], limit: int
+) -> list[Any]:
+    """One paraphrase's dense pull (cached embed); [] on failure."""
+    try:
+        from app.ingestion.embedder import embed_query_cached
+
+        return search(
+            query, limit=limit, tenant_id=tenant_id, user_groups=user_groups,
+            query_vector=embed_query_cached(query),
+        )
+    except Exception:
+        logger.warning("Paraphrase search failed for %r.", query, exc_info=True)
+        return []
+
+
 def _supplement_attachments(
     blocks: list[ContextBlock],
     ranked: list[Any],
@@ -215,6 +265,7 @@ def retrieve(
     query_vector: list[float] | None = None,
     answer_format: str | None = None,
     source_type: str | None = None,
+    intent: str = "qa",
 ) -> list[ContextBlock]:
     settings = get_settings()
     n = n or settings.retrieval_top_k
@@ -225,6 +276,16 @@ def retrieve(
     # PDF pull's "not website" would contradict a website filter), and the answer
     # isn't a table (tables live in PDFs — don't force a website lead).
     dual = bool(settings.prefer_website_enabled) and not source_type and answer_format != "table"
+    # Multi-query only where recall expansion helps: plain qa, no explicit
+    # scope already narrowing the pull, and enough words that paraphrases can
+    # actually diverge (short factoids are already unambiguous).
+    multi = (
+        bool(settings.multi_query_enabled)
+        and intent == "qa"
+        and not source_type
+        and not filters
+        and len(search_query.split()) >= 5
+    )
 
     if query_vector is None:
         from app.ingestion.embedder import embed_query_cached
@@ -232,21 +293,51 @@ def retrieve(
         with span("rag.embed_query"):
             query_vector = embed_query_cached(search_query)
 
-    with span("rag.search") as s:
+    def _base_search() -> list[Any]:
         if dual:
-            candidates = _dual_search(
+            return _dual_search(
                 search_query, tenant_id=tenant_id, user_groups=user_groups,
                 filters=filters, query_vector=query_vector, settings=settings,
             )
+        return search(
+            search_query,
+            limit=settings.retrieval_candidate_k,
+            tenant_id=tenant_id,
+            user_groups=user_groups,
+            extra_filter=filters or None,
+            query_vector=query_vector,
+        )
+
+    with span("rag.search") as s:
+        if multi:
+            from concurrent.futures import ThreadPoolExecutor
+
+            from app.retrieval.fusion import rrf
+
+            with span("rag.multi_query") as mq:
+                # Paraphrase generation overlaps the base pull, so the added
+                # wall-clock is only the paraphrase searches that follow.
+                with ThreadPoolExecutor(max_workers=4) as pool:
+                    base_future = pool.submit(_base_search)
+                    queries = pool.submit(
+                        _paraphrases, search_query, settings.multi_query_paraphrases
+                    ).result()
+                    rankings = [
+                        r
+                        for r in pool.map(
+                            lambda q: _paraphrase_search(
+                                q, tenant_id=tenant_id, user_groups=user_groups,
+                                limit=settings.retrieval_candidate_k,
+                            ),
+                            queries,
+                        )
+                        if r
+                    ]
+                    base = base_future.result()
+                mq.set("paraphrases", len(queries))
+            candidates = rrf([base] + rankings) if rankings else base
         else:
-            candidates = search(
-                search_query,
-                limit=settings.retrieval_candidate_k,
-                tenant_id=tenant_id,
-                user_groups=user_groups,
-                extra_filter=filters or None,
-                query_vector=query_vector,
-            )
+            candidates = _base_search()
         s.set("candidates", len(candidates))
 
     with span("rag.rerank") as s:
@@ -367,6 +458,7 @@ def _prepare(
         query_vector=query_vector,
         answer_format=pq.answer_format,
         source_type=pq.source_type,
+        intent=pq.intent,
     )
     if not blocks:
         return _empty(pq.intent, REFUSAL, answer_format=pq.answer_format), None
@@ -567,7 +659,7 @@ def search_blocks(
     blocks = retrieve(
         pq.search_query, tenant_id=tenant_id, user_groups=user_groups,
         filters=pq.filters, n=top_k, answer_format=pq.answer_format,
-        source_type=pq.source_type,
+        source_type=pq.source_type, intent=pq.intent,
     )
     return {
         "intent": pq.intent,

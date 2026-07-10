@@ -96,6 +96,12 @@ class Settings(BaseSettings):
     # reranker-provider specific (dense cosine here); tuned empirically in eval.
     website_chunk_floor: float = 0.30
     hybrid_use_sparse: bool = False
+    # Multi-query recall expansion: LLM paraphrases of the search query are
+    # searched in parallel and RRF-fused with the base pull. Gated per query
+    # (qa intent, no explicit filters, non-trivial length). Launches OFF; flip
+    # after eval.
+    multi_query_enabled: bool = False
+    multi_query_paraphrases: int = 2
     reranker_provider: str = "embedding"
     rerank_model: str = ""
     rerank_score_threshold: float = 0.0
