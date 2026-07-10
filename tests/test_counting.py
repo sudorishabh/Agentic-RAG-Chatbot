@@ -295,6 +295,24 @@ def test_timeline_format_directive_exists():
     assert "chronological" in directive and "citation" in directive
 
 
+def test_format_exemplars_attach_only_with_their_directive():
+    from app.generation.prompts import format_directive
+
+    assert "Example shape:" in format_directive("table")
+    assert "Example shape:" in format_directive("timeline")
+    # The default path must stay lean: no directive, no exemplar.
+    assert format_directive("default") == ""
+    assert format_directive(None) == ""
+    assert "Example shape:" not in format_directive("list")
+
+
+def test_grounded_prompt_carries_worked_example():
+    from app.generation.prompts import GROUNDED_SYSTEM_PROMPT
+
+    assert "Example:" in GROUNDED_SYSTEM_PROMPT
+    assert GROUNDED_SYSTEM_PROMPT.rstrip().endswith("Answer concisely and factually.")
+
+
 # --------------------------------------------------------------------------- #
 # Format-aware renderers — deterministic table / timeline shapes from SQL rows.
 # --------------------------------------------------------------------------- #
