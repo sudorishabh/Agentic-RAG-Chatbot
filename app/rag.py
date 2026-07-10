@@ -252,7 +252,7 @@ def _prepare(
     if pq.intent == "structured":
         from app.retrieval.drupal_router import answer_structured
 
-        structured = answer_structured(question, history)
+        structured = answer_structured(question, history, analysis=pq.analysis)
         if structured is not None:
             structured.setdefault("answer_format", pq.answer_format)
             return structured, None

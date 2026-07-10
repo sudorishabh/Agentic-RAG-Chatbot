@@ -2,13 +2,16 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime
-from typing import Any, Literal, Sequence
+from typing import TYPE_CHECKING, Any, Literal, Sequence
 
 from pydantic import BaseModel, Field
 
 from app.ingestion import state, terms
 from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 from app.schemas.query import Citation
+
+if TYPE_CHECKING:
+    from app.retrieval.query_processor import QueryAnalysis
 
 logger = logging.getLogger(__name__)
 
@@ -294,11 +297,35 @@ def _answer_distribution(sq: StructuredQuery) -> dict[str, Any] | None:
     }
 
 
+def _query_from_analysis(analysis: QueryAnalysis) -> StructuredQuery:
+    """Map the unified analysis onto the router's query model. The unified
+    prompt emits explicit date bounds, so ``year`` stays unset (the field is
+    kept on StructuredQuery for direct ``parse_structured`` callers)."""
+    return StructuredQuery(
+        operation=analysis.operation or "list",
+        bundle=analysis.bundle,
+        theme=analysis.theme,
+        group_by=analysis.group_by,
+        title_contains=analysis.title_contains,
+        author=analysis.author,
+        date_from=analysis.date_from,
+        date_to=analysis.date_to,
+        limit=analysis.limit,
+    )
+
+
 def answer_structured(
     question: str,
     history: Sequence[dict[str, str]] | None = None,
+    *,
+    analysis: QueryAnalysis | None = None,
 ) -> dict[str, Any] | None:
-    sq = parse_structured(question, history)
+    # The unified analysis already extracted the structured slots — reuse it
+    # instead of a second LLM parse; parse only when no usable analysis came.
+    if analysis is not None and analysis.operation:
+        sq = _query_from_analysis(analysis)
+    else:
+        sq = parse_structured(question, history)
     if sq is None:
         return None
     sq.bundle = _normalize_bundle(sq.bundle)

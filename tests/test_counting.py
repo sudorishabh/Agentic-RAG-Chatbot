@@ -147,6 +147,73 @@ def test_answer_structured_normalizes_bundle_for_count(monkeypatch):
 
 
 # --------------------------------------------------------------------------- #
+# Unified-analysis routing — a provided analysis replaces the second LLM parse;
+# the parse remains the fallback when no usable analysis came.
+# --------------------------------------------------------------------------- #
+
+def test_query_from_analysis_maps_fields():
+    analysis = qp.QueryAnalysis(
+        search_query="x",
+        intent="structured",
+        operation="distribution",
+        bundle="news",
+        theme="Climate",
+        group_by="year",
+        title_contains="solar",
+        author="Sharma",
+        date_from="2023-01-01",
+        date_to="2024-01-01",
+        limit=5,
+    )
+    sq = dr._query_from_analysis(analysis)
+    assert sq.operation == "distribution"
+    assert sq.bundle == "news"
+    assert sq.theme == "Climate"
+    assert sq.group_by == "year"
+    assert sq.title_contains == "solar"
+    assert sq.author == "Sharma"
+    assert sq.year is None  # the unified prompt emits explicit dates instead
+    assert (sq.date_from, sq.date_to) == ("2023-01-01", "2024-01-01")
+    assert sq.limit == 5
+
+
+def test_answer_structured_skips_parse_when_analysis_provided(monkeypatch):
+    def no_parse(q, h=None):
+        raise AssertionError("parse_structured must not be called")
+
+    monkeypatch.setattr(dr, "parse_structured", no_parse)
+    seen: dict = {}
+    monkeypatch.setattr(state, "count_documents", lambda **kw: seen.update(kw) or 5)
+
+    analysis = qp.QueryAnalysis(
+        search_query="how many events in 2024",
+        intent="structured",
+        operation="count",
+        bundle="event",
+        date_from="2024-01-01",
+        date_to="2025-01-01",
+    )
+    out = dr.answer_structured("how many events in 2024?", analysis=analysis)
+
+    assert seen["bundle"] == "events"  # normalized before the catalog query
+    assert seen["published_from"] == datetime(2024, 1, 1)
+    assert seen["published_to"] == datetime(2025, 1, 1)
+    assert out["answer"] == "There are 5 events in 2024 matching your query."
+
+
+def test_answer_structured_falls_back_to_parse_without_operation(monkeypatch):
+    monkeypatch.setattr(
+        dr, "parse_structured",
+        lambda q, h=None: dr.StructuredQuery(operation="count", bundle="events"),
+    )
+    monkeypatch.setattr(state, "count_documents", lambda **kw: 4)
+
+    analysis = qp.QueryAnalysis(search_query="x", intent="structured")  # no operation
+    out = dr.answer_structured("how many events?", analysis=analysis)
+    assert out["answer"] == "There are 4 events matching your query."
+
+
+# --------------------------------------------------------------------------- #
 # Semantic path — dates become a Qdrant DatetimeRange on published_at.
 # --------------------------------------------------------------------------- #
 
