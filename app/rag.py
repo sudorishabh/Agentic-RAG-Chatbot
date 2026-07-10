@@ -250,12 +250,22 @@ def _prepare(
         return _empty("chitchat", _chitchat(question, history)), None
 
     if pq.intent == "structured":
-        from app.retrieval.drupal_router import answer_structured
+        from app.retrieval.drupal_router import answer_structured, resolve_lookup_document
 
-        structured = answer_structured(question, history, analysis=pq.analysis)
-        if structured is not None:
-            structured.setdefault("answer_format", pq.answer_format)
-            return structured, None
+        chain_id = resolve_lookup_document(pq.analysis, question)
+        if chain_id is not None:
+            # Content question about one named title: answer from that
+            # document's chunks (QA path below) instead of title+URL.
+            from qdrant_client.models import FieldCondition, MatchValue
+
+            pq.filters.append(
+                FieldCondition(key="document_id", match=MatchValue(value=chain_id))
+            )
+        else:
+            structured = answer_structured(question, history, analysis=pq.analysis)
+            if structured is not None:
+                structured.setdefault("answer_format", pq.answer_format)
+                return structured, None
 
     if pq.intent == "scoped_summary":
         from app.retrieval.summarizer import summarize_scope

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from datetime import datetime
 from typing import TYPE_CHECKING, Any, Literal, Sequence
 
@@ -371,6 +372,44 @@ def _query_from_analysis(analysis: QueryAnalysis) -> StructuredQuery:
         date_to=analysis.date_to,
         limit=analysis.limit,
     )
+
+
+# Words signalling the user wants what a document SAYS, not just its catalog
+# entry ("show/find the article titled X" browses; "what does X say" reads).
+_CONTENT_QUESTION = re.compile(
+    r"\b(what|how|why|when|where|who|does|do|did|is|are|was|were"
+    r"|explain|describe|summar\w*|tell)\b",
+    re.IGNORECASE,
+)
+
+
+def resolve_lookup_document(
+    analysis: QueryAnalysis | None, question: str
+) -> str | None:
+    """Document id for a title lookup that should chain into content QA.
+
+    Chains only when the lookup names a title, the question asks about
+    content (summary/detailed format or an interrogative in the question),
+    and the catalog matches exactly one document — ambiguity or errors fall
+    back to the plain lookup-list behavior (None).
+    """
+    if analysis is None or analysis.operation != "lookup" or not analysis.title_contains:
+        return None
+    if analysis.answer_format not in ("summary", "detailed") and not _CONTENT_QUESTION.search(question):
+        return None
+    try:
+        records = state.list_documents(
+            source_type="website",
+            entity_type="node",
+            title_contains=analysis.title_contains,
+            limit=3,
+        )
+    except Exception:
+        logger.warning("Lookup resolution failed.", exc_info=True)
+        return None
+    if len(records) != 1 or not records[0].document_id:
+        return None
+    return records[0].document_id
 
 
 def answer_structured(
