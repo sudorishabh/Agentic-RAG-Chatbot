@@ -165,6 +165,58 @@ def test_facet_filters_no_dates_no_condition():
 
 
 # --------------------------------------------------------------------------- #
+# Unified analysis schema — structured slots default off; ProcessedQuery
+# carries the full analysis for the structured route.
+# --------------------------------------------------------------------------- #
+
+def test_query_analysis_structured_slot_defaults():
+    a = qp.QueryAnalysis(search_query="x")
+    assert a.operation is None
+    assert a.bundle is None
+    assert a.group_by is None
+    assert a.title_contains is None
+    assert a.author is None
+    assert a.tags == []
+    assert a.limit == 10
+
+
+def test_answer_format_accepts_timeline():
+    a = qp.QueryAnalysis(search_query="x", answer_format="timeline")
+    assert a.answer_format == "timeline"
+
+
+def test_process_carries_analysis(monkeypatch):
+    analysis = qp.QueryAnalysis(
+        search_query="how many events in 2024",
+        intent="structured",
+        operation="count",
+        bundle="events",
+    )
+
+    class _FakeStructured:
+        def with_structured_output(self, schema):
+            return self
+
+        def invoke(self, messages):
+            return analysis
+
+    monkeypatch.setattr(qp, "get_structured_llm", lambda: _FakeStructured())
+    pq = qp.process("how many events in 2024?")
+    assert pq.analysis is analysis
+    assert pq.intent == "structured"
+
+
+def test_process_passthrough_has_no_analysis(monkeypatch):
+    def boom():
+        raise RuntimeError("llm down")
+
+    monkeypatch.setattr(qp, "get_structured_llm", boom)
+    pq = qp.process("hello")
+    assert pq.analysis is None
+    assert pq.intent == "qa"
+
+
+# --------------------------------------------------------------------------- #
 # Value normalizers.
 # --------------------------------------------------------------------------- #
 
