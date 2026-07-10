@@ -77,18 +77,30 @@ def _disable_caches() -> None:
 # Shared answer execution with stage timing.
 # --------------------------------------------------------------------------- #
 
-def _answer_with_stages(question: str) -> tuple[dict[str, Any], dict[str, float], float]:
-    # rag._answer is answer_query minus its own collect_into/metrics wrapper —
-    # nested collect_into contexts shadow each other, so the runner wraps the
-    # unwrapped pipeline to own the stage breakdown.
+def _answer_with_stages(
+    question: str,
+) -> tuple[dict[str, Any], list[str], dict[str, float], float]:
+    # Mirrors rag._answer but built from _prepare/_grounded_answer/_assemble:
+    # answer_query's own collect_into would shadow the runner's stage dict,
+    # and the judges need the context block texts, which the assembled result
+    # doesn't carry. Cache persistence is skipped (no-op'd here anyway).
     import app.rag as rag
     from app.observability.metrics import collect_into
 
     stages: dict[str, float] = {}
+    block_texts: list[str] = []
     start = time.perf_counter()
     with collect_into(stages):
-        result = rag._answer(question)
-    return result, stages, (time.perf_counter() - start) * 1000.0
+        result, gen = rag._prepare(
+            question, history=None, tenant_id="default", user_groups=None, top_k=None
+        )
+        if result is None:
+            answer = rag._grounded_answer(
+                gen.pq.search_query, gen.blocks, answer_format=gen.pq.answer_format
+            )
+            result = rag._assemble(answer, gen)
+            block_texts = [b.text for b in gen.blocks]
+    return result, block_texts, stages, (time.perf_counter() - start) * 1000.0
 
 
 def _value_in_answer(value: str, answer: str) -> bool:
@@ -180,7 +192,7 @@ def _sql_expected(check: dict) -> tuple[list[str], str]:
 
 
 def _run_analytics(item: dict) -> tuple[dict[str, bool], dict, float, dict]:
-    result, stages, latency = _answer_with_stages(item["question"])
+    result, _, stages, latency = _answer_with_stages(item["question"])
     answer = result.get("answer", "")
     expected_values, sql_note = _sql_expected(item["expect"]["sql_check"])
     checks = {
@@ -218,8 +230,9 @@ def _run_retrieval(item: dict) -> tuple[dict[str, bool], dict, float, dict]:
 
 def _run_generation(item: dict) -> tuple[dict[str, bool], dict, float, dict]:
     from app.generation.prompts import REFUSAL
+    from scripts.eval.judges import citation_coverage, judge_faithfulness, judge_relevance
 
-    result, stages, latency = _answer_with_stages(item["question"])
+    result, block_texts, stages, latency = _answer_with_stages(item["question"])
     answer = result.get("answer", "")
     expect = item["expect"]
     checks: dict[str, bool] = {"answered": answer != REFUSAL}
@@ -231,13 +244,27 @@ def _run_generation(item: dict) -> tuple[dict[str, bool], dict, float, dict]:
         checks[f"format:{expect['format']}"] = _format_ok(expect["format"], answer)
     if expect.get("citations_required"):
         checks["citations"] = re.search(r"\[\d+\]", answer) is not None
-    return checks, {"answer": answer[:400]}, latency, stages
+
+    # Judged metrics are reported, not pass/fail gates — LLM judges are noisy;
+    # deterministic assertions above decide pass/fail.
+    extras: dict[str, Any] = {"answer": answer[:400]}
+    if checks["answered"]:
+        extras["citation_coverage"] = round(citation_coverage(answer), 3)
+        report = judge_faithfulness(answer, block_texts)
+        if report is not None:
+            extras["faithful"] = report["faithful"]
+            extras["claim_support_rate"] = report["rate"]
+            extras["claims_checked"] = report["total"]
+        relevance = judge_relevance(item["question"], answer)
+        if relevance is not None:
+            extras["relevance"] = relevance
+    return checks, extras, latency, stages
 
 
 def _run_unanswerable(item: dict) -> tuple[dict[str, bool], dict, float, dict]:
     from app.generation.prompts import REFUSAL
 
-    result, stages, latency = _answer_with_stages(item["question"])
+    result, _, stages, latency = _answer_with_stages(item["question"])
     answer = result.get("answer", "")
     return {"refusal": answer == REFUSAL}, {"answer": answer[:200]}, latency, stages
 
@@ -289,6 +316,25 @@ def _aggregate(items: list[dict]) -> dict[str, Any]:
             entry["website_lead_rate"] = round(
                 sum(1 for r in rows if r["extras"]["website_lead"]) / len(rows), 3
             )
+        if cls == "generation":
+            judged = [r for r in rows if "claim_support_rate" in r["extras"]]
+            if judged:
+                entry["faithful_rate"] = round(
+                    sum(1 for r in judged if r["extras"]["faithful"]) / len(judged), 3
+                )
+                entry["mean_claim_support"] = round(
+                    sum(r["extras"]["claim_support_rate"] for r in judged) / len(judged), 3
+                )
+            scored = [r["extras"]["relevance"] for r in rows if "relevance" in r["extras"]]
+            if scored:
+                entry["mean_relevance"] = round(sum(scored) / len(scored), 2)
+            covered = [
+                r["extras"]["citation_coverage"]
+                for r in rows
+                if "citation_coverage" in r["extras"]
+            ]
+            if covered:
+                entry["mean_citation_coverage"] = round(sum(covered) / len(covered), 3)
         classes[cls] = entry
     return classes
 
@@ -322,6 +368,16 @@ def _markdown(report: dict[str, Any]) -> str:
     if routing:
         lines += ["", "Routing field accuracy: "
                   + ", ".join(f"{f}={a}" for f, a in routing["field_accuracy"].items())]
+    generation = report["classes"].get("generation")
+    if generation:
+        judged_bits = [
+            f"{k}={generation[k]}"
+            for k in ("faithful_rate", "mean_claim_support", "mean_relevance",
+                      "mean_citation_coverage")
+            if k in generation
+        ]
+        if judged_bits:
+            lines += ["", "Generation judges: " + ", ".join(judged_bits)]
     lines += ["", "## Stage latencies", "", "| stage | n | p50 ms | p95 ms |",
               "| --- | --- | --- | --- |"]
     for stage, s in report["stages"].items():
