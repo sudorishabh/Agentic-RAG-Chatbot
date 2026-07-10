@@ -166,6 +166,17 @@ def _facet_filters(analysis: QueryAnalysis) -> list[Any]:
     conditions: list[Any] = []
     if analysis.theme:
         conditions.append(_theme_condition(analysis.theme))
+    if analysis.author:
+        # authors holds display names and MatchAny is exact-value only, so this
+        # matches the stored name verbatim (e.g. "Dr R K Sharma") — no substring
+        # matching. Partial-name scoping arrives with the Phase 2 catalog reader.
+        conditions.append(
+            FieldCondition(key="authors", match=MatchAny(any=[analysis.author]))
+        )
+    if analysis.tags:
+        conditions.append(
+            FieldCondition(key="tags", match=MatchAny(any=list(analysis.tags)))
+        )
     if analysis.source_type == "pdf":
         # "PDFs" includes documents attached to web articles.
         conditions.append(

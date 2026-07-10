@@ -271,6 +271,30 @@ def test_facet_filters_no_dates_no_condition():
     assert not any(getattr(c, "key", None) == "published_at" for c in conds)
 
 
+def test_facet_filters_author_and_tags_exact_match():
+    analysis = qp.QueryAnalysis(
+        search_query="x", author="Dr R K Sharma", tags=["biofuels", "solar"]
+    )
+    conds = qp._facet_filters(analysis)
+    by_key = {getattr(c, "key", None): c for c in conds}
+    # Exact display-name / tag values — MatchAny has no substring matching.
+    assert by_key["authors"].match.any == ["Dr R K Sharma"]
+    assert by_key["tags"].match.any == ["biofuels", "solar"]
+
+
+def test_facet_filters_absent_author_tags_add_nothing():
+    conds = qp._facet_filters(qp.QueryAnalysis(search_query="x"))
+    keys = {getattr(c, "key", None) for c in conds}
+    assert "authors" not in keys and "tags" not in keys
+
+
+def test_timeline_format_directive_exists():
+    from app.generation.prompts import format_directive
+
+    directive = format_directive("timeline")
+    assert "chronological" in directive and "citation" in directive
+
+
 # --------------------------------------------------------------------------- #
 # Format-aware renderers — deterministic table / timeline shapes from SQL rows.
 # --------------------------------------------------------------------------- #

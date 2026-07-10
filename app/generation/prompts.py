@@ -52,6 +52,10 @@ _FORMAT_DIRECTIVES: dict[str, str] = {
         "points comprehensively using the context, organized into short labeled "
         "sections or paragraphs, each claim cited."
     ),
+    "timeline": (
+        "Shape the answer as a chronological timeline: order events by date, "
+        "one dated entry per line, each with its citation."
+    ),
 }
 
 
