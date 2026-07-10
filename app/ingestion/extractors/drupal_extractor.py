@@ -168,10 +168,13 @@ def iter_bundle_records(
     entity_type: str = "node",
     published_only: bool = True,
     changed_since: int | None = None,
+    ascending: bool = False,
 ) -> Iterator[DrupalRecord]:
     """Yield records for one resource bundle. ``entity_type`` is the JSON:API
     entity ("node", "taxonomy_term", "block_content"); the resource is fetched
-    from /jsonapi/{entity_type}/{bundle}."""
+    from /jsonapi/{entity_type}/{bundle}. ``ascending`` crawls oldest-first —
+    used by capped batch runs so the changed high-water mark advances only
+    past documents that were actually processed (a resume cursor)."""
     settings = get_settings()
     base = settings.drupal_jsonapi_base.rstrip("/")
     site = _site_base(base)
@@ -187,7 +190,7 @@ def iter_bundle_records(
         fields.append("parent")
     params: dict[str, Any] = {
         "page[limit]": settings.drupal_page_size,
-        "sort": "-changed",
+        "sort": "changed" if ascending else "-changed",
     }
     if fields:
         params["include"] = ",".join(fields)

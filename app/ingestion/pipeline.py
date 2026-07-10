@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import threading
+import time
 import uuid
 from collections import Counter
 from contextlib import contextmanager
@@ -211,6 +212,13 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
     return "indexed"
 
 
+# Outcomes that consumed real work (downloads, extraction, embedding). Only
+# these count against the batch budget — unchanged scans are free and must
+# never exhaust it, or a caught-up capped run would stall before reaching the
+# documents that actually changed.
+_WORKED_OUTCOMES = frozenset({"indexed", "deleted", "skipped", "error"})
+
+
 def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
     state.ensure_table()
     terms.ensure_tables()
@@ -218,15 +226,36 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
         ingest_log.ensure_table()
     except Exception:
         logger.exception("Could not ensure ingest_log table; events will be skipped.")
+    settings = get_settings()
+    max_docs = settings.ingest_max_docs_per_run
+    batch_size = settings.ingest_batch_size
+    pause = settings.ingest_batch_pause_seconds
+
     run_id = uuid.uuid4().hex
     tally: Counter = Counter()
+    worked = 0
     for record in records:
+        # Stop only at a document boundary: a node's attachment records follow
+        # it immediately and must land in the same run, or the node's state row
+        # would hide them from the next crawl.
+        if max_docs and worked >= max_docs and record.source_type != "pdf_attachment":
+            logger.info(
+                "Batch budget of %d documents reached; stopping cleanly "
+                "(the next run resumes from the high-water mark).", max_docs,
+            )
+            tally["budget_stop"] = 1
+            break
         try:
-            tally[_handle(record, build_doc, run_id)] += 1
+            outcome = _handle(record, build_doc, run_id)
         except Exception as exc:
             logger.exception("Failed handling %s; skipping.", record.document_id)
             _log(run_id, record, "error", error=str(exc))
-            tally["error"] += 1
+            outcome = "error"
+        tally[outcome] += 1
+        if outcome in _WORKED_OUTCOMES:
+            worked += 1
+            if pause > 0 and batch_size > 0 and worked % batch_size == 0:
+                time.sleep(pause)
     return tally
 
 

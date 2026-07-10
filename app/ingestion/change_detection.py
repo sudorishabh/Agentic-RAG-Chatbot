@@ -268,6 +268,12 @@ def detect_drupal_changes(
             + [("block_content", b, False) for b in DEFAULT_BLOCKS]
         )
 
+    # Capped batch runs crawl oldest-first: the MAX(changed_mark) high-water
+    # then only ever covers documents that were actually processed, so it acts
+    # as a resume cursor. Newest-first with a cap would advance the mark past
+    # unprocessed older documents and strand them.
+    ascending = settings.ingest_max_docs_per_run > 0
+
     session = _build_session(settings.drupal_max_retries)
     try:
         for entity_type, bundle, incremental in sources:
@@ -291,6 +297,7 @@ def detect_drupal_changes(
                     entity_type=entity_type,
                     published_only=published_only,
                     changed_since=high,
+                    ascending=ascending,
                 ):
                     uuid = record.uuid
                     if not uuid:
