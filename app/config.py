@@ -102,6 +102,11 @@ class Settings(BaseSettings):
     # after eval.
     multi_query_enabled: bool = False
     multi_query_paraphrases: int = 2
+    # Self-consistency routing: number of concurrent query-analysis samples,
+    # majority-voted per field. 1 = single pinned-temperature call (today's
+    # behavior); >1 samples at exploratory temperature. Flip to 3 only after
+    # the routing eval shows a win.
+    analysis_votes: int = 1
     # Keyword leg over the chunk_text full-text index (created by
     # scripts/create_fulltext_index.py): salient query terms drive one extra
     # MatchText-filtered pull fused with the dense pull via RRF. Fails open to

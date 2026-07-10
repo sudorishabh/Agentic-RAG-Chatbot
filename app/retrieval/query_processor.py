@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import logging
+from collections import Counter
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Literal, Sequence
 
 from pydantic import BaseModel, Field
 
+from app.config import get_settings
 from app.generation.llm_client import get_structured_llm
 from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 
@@ -209,22 +211,84 @@ def _facet_filters(analysis: QueryAnalysis) -> list[Any]:
     return conditions
 
 
+def _analysis_messages(
+    question: str, history: Sequence[dict[str, str]] | None
+) -> list[tuple[str, str]]:
+    return [
+        ("system", _ANALYSIS_SYSTEM),
+        (
+            "human",
+            f"Conversation so far:\n{_format_history(history)}\n\n"
+            f"Latest user turn:\n{question}",
+        ),
+    ]
+
+
+def _vote(values: Sequence[Any], *, qa_on_tie: bool = False) -> Any:
+    """Majority value across analysis samples. Ties: 'qa' for the intent field
+    (the safe route — downstream guards catch misroutes), otherwise the first
+    non-null value in vote order."""
+    keyed = [tuple(v) if isinstance(v, list) else v for v in values]
+    counts = Counter(keyed)
+    top = max(counts.values())
+    leaders = {k for k, n in counts.items() if n == top}
+    if len(leaders) == 1:
+        winner = next(iter(leaders))
+    elif qa_on_tie:
+        return "qa"
+    else:
+        winner = next((k for k in keyed if k in leaders and k is not None), None)
+    return list(winner) if isinstance(winner, tuple) else winner
+
+
+def _merge_votes(votes: Sequence[QueryAnalysis]) -> QueryAnalysis:
+    merged: dict[str, Any] = {}
+    for name in QueryAnalysis.model_fields:
+        values = [getattr(v, name) for v in votes]
+        merged[name] = _vote(values, qa_on_tie=(name == "intent"))
+    return QueryAnalysis(**merged)
+
+
+def _voted_analysis(
+    question: str, history: Sequence[dict[str, str]] | None, votes: int
+) -> QueryAnalysis | None:
+    """N concurrent analysis samples at exploratory temperature, majority-voted
+    per field. Errored samples are dropped; None when every sample failed."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    from app.generation.llm_client import get_llm
+
+    messages = _analysis_messages(question, history)
+
+    def sample(_: int) -> QueryAnalysis | None:
+        try:
+            model = get_llm(temperature=0.7).with_structured_output(QueryAnalysis)
+            return model.invoke(messages)
+        except Exception:
+            logger.warning("Analysis vote failed; dropping it.", exc_info=True)
+            return None
+
+    with ThreadPoolExecutor(max_workers=votes) as pool:
+        results = [r for r in pool.map(sample, range(votes)) if r is not None]
+    if not results:
+        return None
+    return results[0] if len(results) == 1 else _merge_votes(results)
+
+
 def process(question: str, history: Sequence[dict[str, str]] | None = None) -> ProcessedQuery:
     passthrough = ProcessedQuery(original=question, search_query=question, intent="qa")
+    votes = max(1, int(get_settings().analysis_votes))
     try:
-        structured = get_structured_llm().with_structured_output(QueryAnalysis)
-        analysis: QueryAnalysis = structured.invoke(
-            [
-                ("system", _ANALYSIS_SYSTEM),
-                (
-                    "human",
-                    f"Conversation so far:\n{_format_history(history)}\n\n"
-                    f"Latest user turn:\n{question}",
-                ),
-            ]
-        )
+        if votes > 1:
+            analysis = _voted_analysis(question, history, votes)
+        else:
+            structured = get_structured_llm().with_structured_output(QueryAnalysis)
+            analysis = structured.invoke(_analysis_messages(question, history))
     except Exception:
         logger.warning("Query analysis failed; using passthrough.", exc_info=True)
+        return passthrough
+    if analysis is None:
+        logger.warning("All analysis votes failed; using passthrough.")
         return passthrough
 
     search_query = (analysis.search_query or question).strip() or question
