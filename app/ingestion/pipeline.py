@@ -230,32 +230,85 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
     max_docs = settings.ingest_max_docs_per_run
     batch_size = settings.ingest_batch_size
     pause = settings.ingest_batch_pause_seconds
+    workers = max(1, settings.ingest_workers)
 
     run_id = uuid.uuid4().hex
     tally: Counter = Counter()
     worked = 0
-    for record in records:
-        # Stop only at a document boundary: a node's attachment records follow
-        # it immediately and must land in the same run, or the node's state row
-        # would hide them from the next crawl.
-        if max_docs and worked >= max_docs and record.source_type != "pdf_attachment":
-            logger.info(
-                "Batch budget of %d documents reached; stopping cleanly "
-                "(the next run resumes from the high-water mark).", max_docs,
-            )
-            tally["budget_stop"] = 1
-            break
+
+    def handle(record: ChangeRecord) -> str:
         try:
-            outcome = _handle(record, build_doc, run_id)
+            return _handle(record, build_doc, run_id)
         except Exception as exc:
             logger.exception("Failed handling %s; skipping.", record.document_id)
             _log(run_id, record, "error", error=str(exc))
-            outcome = "error"
+            return "error"
+
+    def account(outcome: str) -> None:
+        nonlocal worked
         tally[outcome] += 1
         if outcome in _WORKED_OUTCOMES:
             worked += 1
             if pause > 0 and batch_size > 0 and worked % batch_size == 0:
                 time.sleep(pause)
+
+    def budget_reached(record: ChangeRecord, pending: int) -> bool:
+        # Stop only at a document boundary: a node's attachment records follow
+        # it immediately and must land in the same run, or the node's state
+        # row would hide them from the next crawl. In-flight documents count
+        # pessimistically so the cap can never overshoot.
+        if not max_docs or record.source_type == "pdf_attachment":
+            return False
+        if worked + pending < max_docs:
+            return False
+        logger.info(
+            "Batch budget of %d documents reached; stopping cleanly "
+            "(the next run resumes from the high-water mark).", max_docs,
+        )
+        tally["budget_stop"] = 1
+        return True
+
+    if workers == 1:
+        for record in records:
+            if budget_reached(record, pending=0):
+                break
+            account(handle(record))
+        return tally
+
+    # Parallel mode: the crawler stays single-threaded (per-run dedup and
+    # node-before-attachment ordering live there); a bounded pool works the
+    # heavy per-document I/O (download, extract, embed, index). Documents are
+    # independent across MySQL (pooled connections, per-doc transactions) and
+    # Qdrant (per-doc points); the one-run-at-a-time lock still applies.
+    from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
+
+    from app.deps import ensure_collection
+
+    try:
+        # Pre-create the collection and payload indexes once, so first-run
+        # workers don't race the create call.
+        ensure_collection()
+    except Exception:
+        logger.exception("Could not pre-create the collection; workers will retry.")
+
+    with ThreadPoolExecutor(max_workers=workers, thread_name_prefix="ingest") as pool:
+        in_flight: set = set()
+        for record in records:
+            done = {f for f in in_flight if f.done()}
+            in_flight -= done
+            for future in done:
+                account(future.result())
+            if budget_reached(record, pending=len(in_flight)):
+                break
+            while len(in_flight) >= workers * 2:
+                finished, in_flight = wait(in_flight, return_when=FIRST_COMPLETED)
+                for future in finished:
+                    account(future.result())
+            in_flight.add(pool.submit(handle, record))
+        if in_flight:
+            finished, _ = wait(in_flight)
+            for future in finished:
+                account(future.result())
     return tally
 
 

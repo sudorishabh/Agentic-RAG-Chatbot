@@ -202,14 +202,18 @@ class Settings(BaseSettings):
     ingest_log_retention_days: int = 90
     # Batch controls for large (re)ingests. max_docs_per_run caps how many
     # documents actually get processed per run (new/changed/deleted; unchanged
-    # scans are free) before the run stops cleanly; 0 = unlimited. When a cap
-    # is set, Drupal bundles are crawled oldest-first so the changed high-water
-    # mark doubles as the resume cursor — the next run continues exactly where
-    # the last one stopped. batch_size/pause throttle within a run: sleep
-    # pause seconds after every batch_size processed documents.
+    # scans are free) before the run stops cleanly; 0 = unlimited. Drupal
+    # bundles are always crawled oldest-first, so the changed high-water mark
+    # doubles as a resume cursor — a capped or interrupted run continues where
+    # it stopped. batch_size/pause throttle within a run: sleep pause seconds
+    # after every batch_size processed documents. workers > 1 processes that
+    # many documents concurrently (one crawler, a pool of document workers —
+    # keep workers below mysql_pool_size); the one-run-at-a-time lock still
+    # applies.
     ingest_max_docs_per_run: int = 0
     ingest_batch_size: int = 0
     ingest_batch_pause_seconds: float = 0.0
+    ingest_workers: int = 1
     # Max size (bytes) accepted by the direct PDF upload endpoint (/ingest/pdf).
     # Larger uploads are rejected with 413 before the payload is fully buffered.
     max_upload_bytes: int = 52_428_800  # 50 MiB
