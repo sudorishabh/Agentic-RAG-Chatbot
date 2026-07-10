@@ -201,6 +201,7 @@ def _answer_count(sq: StructuredQuery) -> dict[str, Any] | None:
         total = state.count_documents(
             source_type="website",
             bundle=sq.bundle,
+            entity_type="node",  # facet terms/blocks are not content documents
             author=sq.author,
             published_from=lo,
             published_to=hi,
@@ -220,6 +221,7 @@ def _answer_list(sq: StructuredQuery) -> dict[str, Any] | None:
         records = state.list_documents(
             source_type="website",
             bundle=sq.bundle,
+            entity_type="node",
             title_contains=sq.title_contains,
             author=sq.author,
             published_from=lo,
@@ -269,6 +271,7 @@ def _answer_distribution(sq: StructuredQuery) -> dict[str, Any] | None:
             dimension,
             source_type="website",
             bundle=sq.bundle,
+            entity_type="node",
             published_from=lo,
             published_to=hi,
         )

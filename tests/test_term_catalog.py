@@ -149,7 +149,8 @@ def test_upsert_writes_links_and_raw_meta(monkeypatch):
 
     insert_sql, insert_params = _sql(cursor, "INSERT INTO")[0]
     assert "raw_meta" in insert_sql
-    assert json.loads(insert_params[13]) == {"field_isbn": "978-81-7993"}
+    json_params = [p for p in insert_params if isinstance(p, str) and p.startswith("{")]
+    assert [json.loads(p) for p in json_params] == [{"field_isbn": "978-81-7993"}]
 
     assert conn.commits == 1  # everything in one transaction
 
@@ -173,4 +174,4 @@ def test_upsert_without_links_clears_stale_rows(monkeypatch):
     # No link rows to insert, and raw_meta stays NULL.
     assert not [c for c in cursor.calls if isinstance(c[1], list)]
     _, insert_params = _sql(cursor, "INSERT INTO")[0]
-    assert insert_params[13] is None
+    assert not [p for p in insert_params if isinstance(p, str) and p.startswith("{")]

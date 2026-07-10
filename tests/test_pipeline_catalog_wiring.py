@@ -59,9 +59,10 @@ def test_save_state_maps_links_and_raw_meta(monkeypatch):
         file_links=[FileLink("f1", "attachment", url="https://x/a.pdf", filename="a.pdf")],
         raw_meta={"field_isbn": "978-81-7993"},
     )
-    pipeline._save_state(_record(), doc, "hash", 1, indexed=True)
+    pipeline._save_state(_record(entity_type="node"), doc, "hash", 1, indexed=True)
 
     rec = captured["rec"]
+    assert rec.entity_type == "node"
     # Taxonomy refs (including parent) become term links; people refs do not.
     assert rec.term_links == [
         TermLink("t-climate", "field_focus"),

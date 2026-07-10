@@ -102,6 +102,7 @@ def test_answer_count_passes_catalog_filters(monkeypatch):
     assert seen == {
         "source_type": "website",
         "bundle": "events",
+        "entity_type": "node",  # facet terms/blocks never count as content
         "author": "Sharma",
         "published_from": datetime(2024, 1, 1),
         "published_to": datetime(2025, 1, 1),

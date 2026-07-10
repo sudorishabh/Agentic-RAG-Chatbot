@@ -106,6 +106,25 @@ def test_count_by_term_uuids_joins_link_table(monkeypatch):
     assert params == ("website", "policy_brief", "t1", "t2")
 
 
+def test_count_scoped_to_entity_type(monkeypatch):
+    cursor = _FakeCursor(fetchone_results=[{"n": 5}])
+    _patch(monkeypatch, state, cursor)
+
+    assert state.count_documents(source_type="website", entity_type="node") == 5
+    sql, params = cursor.calls[0]
+    assert "s.entity_type = %s" in sql
+    assert params == ("website", "node")
+
+
+def test_distribution_scoped_to_entity_type(monkeypatch):
+    cursor = _FakeCursor(fetchall_results=[[{"k": "report", "n": 8}]])
+    _patch(monkeypatch, state, cursor)
+
+    assert state.distribution("bundle", entity_type="node") == [("report", 8)]
+    sql, params = cursor.calls[0]
+    assert "s.entity_type = %s" in sql and params == ("website", "node")
+
+
 def test_count_by_category_name_fallback(monkeypatch):
     cursor = _FakeCursor(fetchone_results=[{"n": 3}])
     _patch(monkeypatch, state, cursor)
@@ -174,6 +193,8 @@ def test_answer_count_passes_theme_scope(monkeypatch):
     )
     result = dr._answer_count(dr.StructuredQuery(operation="count", theme="Climate"))
     assert captured["term_uuids"] == ["t1"]
+    # Content counts exclude taxonomy-term and block rows.
+    assert captured["entity_type"] == "node"
     assert "4" in result["answer"] and "'Climate'" in result["answer"]
 
 

@@ -42,6 +42,10 @@ class StateRecord:
     content_hash: str = ""
     doc_version: int = 1
     bundle: str | None = None
+    # JSON:API entity type ("node", "taxonomy_term", "block_content") for
+    # Drupal records; None for filesystem PDFs and attachment documents.
+    # Content counts filter on it so facet terms don't count as documents.
+    entity_type: str | None = None
     changed_mark: int | None = None
     # Cheap file-change signal for local PDFs: byte size + mtime (ns). Lets a scan
     # skip re-reading/hashing a file whose size and mtime are unchanged.
@@ -76,6 +80,7 @@ CREATE TABLE IF NOT EXISTS `{table}` (
     source_type  VARCHAR(32)   NOT NULL,
     source_key   VARCHAR(1024) NOT NULL,
     bundle       VARCHAR(128)  NULL,
+    entity_type  VARCHAR(32)   NULL,
     fingerprint  VARCHAR(128)  NOT NULL,
     content_hash VARCHAR(64)   NOT NULL DEFAULT '',
     doc_version  INT           NOT NULL DEFAULT 1,
@@ -222,6 +227,7 @@ def ensure_table() -> None:
         _ensure_column(cur, table, "title", "title VARCHAR(1024) NULL")
         _ensure_column(cur, table, "url", "url VARCHAR(1024) NULL")
         _ensure_column(cur, table, "raw_meta", "raw_meta JSON NULL")
+        _ensure_column(cur, table, "entity_type", "entity_type VARCHAR(32) NULL")
         for facet in _FACETS:
             cur.execute(_CHILD_DDL.format(table=table, facet=facet))
         cur.execute(_TERM_LINK_DDL.format(table=table))
@@ -240,6 +246,7 @@ def _row_to_record(row: dict) -> StateRecord:
         content_hash=row.get("content_hash") or "",
         doc_version=int(row.get("doc_version") or 1),
         bundle=row.get("bundle"),
+        entity_type=row.get("entity_type"),
         changed_mark=row.get("changed_mark"),
         size=row.get("size"),
         mtime_ns=row.get("mtime_ns"),
@@ -277,14 +284,16 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
         cur.execute(
             f"""
             INSERT INTO `{table}`
-                (document_id, source_type, source_key, bundle, fingerprint,
-                 content_hash, doc_version, changed_mark, size, mtime_ns,
-                 published_at, title, url, raw_meta, indexed_at, updated_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                (document_id, source_type, source_key, bundle, entity_type,
+                 fingerprint, content_hash, doc_version, changed_mark, size,
+                 mtime_ns, published_at, title, url, raw_meta, indexed_at,
+                 updated_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE
                 source_type  = VALUES(source_type),
                 source_key   = VALUES(source_key),
                 bundle       = VALUES(bundle),
+                entity_type  = COALESCE(VALUES(entity_type), entity_type),
                 fingerprint  = VALUES(fingerprint),
                 content_hash = VALUES(content_hash),
                 doc_version  = VALUES(doc_version),
@@ -303,6 +312,7 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 record.source_type,
                 record.source_key,
                 record.bundle,
+                record.entity_type,
                 record.fingerprint,
                 record.content_hash,
                 record.doc_version,
@@ -420,6 +430,7 @@ def _catalog_filters(
     source_type: str | None,
     bundle: str | None,
     *,
+    entity_type: str | None = None,
     title_contains: str | None = None,
     author: str | None = None,
     term_uuids: Sequence[str] | None = None,
@@ -429,6 +440,8 @@ def _catalog_filters(
 ) -> tuple[str, list[str], list[Any], bool]:
     """Shared JOIN/WHERE assembly for the catalog count/list queries.
 
+    ``entity_type`` scopes to one Drupal entity kind — the query layer passes
+    "node" so taxonomy-term and block rows never count as content documents.
     ``term_uuids`` scopes by taxonomy links (rename-proof); ``category`` is the
     display-name fallback for documents ingested before the term catalog.
     Returns (joins, clauses, params, needs_distinct)."""
@@ -443,6 +456,9 @@ def _catalog_filters(
     if bundle is not None:
         clauses.append("s.bundle = %s")
         params.append(bundle)
+    if entity_type is not None:
+        clauses.append("s.entity_type = %s")
+        params.append(entity_type)
     if title_contains:
         clauses.append("s.title LIKE %s")
         params.append(_like(title_contains))
@@ -475,6 +491,7 @@ def count_documents(
     source_type: str | None = None,
     bundle: str | None = None,
     *,
+    entity_type: str | None = None,
     author: str | None = None,
     term_uuids: Sequence[str] | None = None,
     category: str | None = None,
@@ -488,7 +505,7 @@ def count_documents(
     half-open ``[from, to)`` interval over ``published_at``."""
     table = _table()
     joins, clauses, params, distinct = _catalog_filters(
-        source_type, bundle,
+        source_type, bundle, entity_type=entity_type,
         author=author, term_uuids=term_uuids, category=category,
         published_from=published_from, published_to=published_to,
     )
@@ -505,6 +522,7 @@ def list_documents(
     source_type: str | None = None,
     bundle: str | None = None,
     *,
+    entity_type: str | None = None,
     title_contains: str | None = None,
     author: str | None = None,
     term_uuids: Sequence[str] | None = None,
@@ -520,7 +538,7 @@ def list_documents(
     site fetch. ``limit`` is clamped to [1, 100]."""
     table = _table()
     joins, clauses, params, needs_distinct = _catalog_filters(
-        source_type, bundle,
+        source_type, bundle, entity_type=entity_type,
         title_contains=title_contains, author=author,
         term_uuids=term_uuids, category=category,
         published_from=published_from, published_to=published_to,
@@ -548,6 +566,7 @@ def distribution(
     source_type: str | None = "website",
     bundle: str | None = None,
     *,
+    entity_type: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
     limit: int = 20,
@@ -565,6 +584,9 @@ def distribution(
     if bundle is not None:
         clauses.append("s.bundle = %s")
         params.append(bundle)
+    if entity_type is not None:
+        clauses.append("s.entity_type = %s")
+        params.append(entity_type)
     if published_from is not None:
         clauses.append("s.published_at >= %s")
         params.append(published_from)

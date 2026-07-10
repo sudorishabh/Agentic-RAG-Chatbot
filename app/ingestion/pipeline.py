@@ -63,6 +63,7 @@ def _save_state(
             content_hash=content_hash,
             doc_version=version,
             bundle=record.bundle,
+            entity_type=record.entity_type,
             changed_mark=record.changed_mark,
             size=record.size,
             mtime_ns=record.mtime_ns,
