@@ -257,6 +257,18 @@ def _prepare(
             structured.setdefault("answer_format", pq.answer_format)
             return structured, None
 
+    if pq.intent == "scoped_summary":
+        from app.retrieval.summarizer import summarize_scope
+
+        with span("rag.scoped_summary"):
+            summary = summarize_scope(
+                pq.analysis, tenant_id=tenant_id, user_groups=user_groups
+            )
+        if summary is not None:
+            summary.setdefault("answer_format", pq.answer_format)
+            return summary, None
+        # Empty/unresolvable scope: fall through to plain semantic QA.
+
     with span("rag.embed_query"):
         query_vector = embed_query_cached(pq.search_query)
     with span("rag.semantic_cache") as s:

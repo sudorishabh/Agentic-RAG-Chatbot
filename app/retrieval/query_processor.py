@@ -12,7 +12,7 @@ from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 
 logger = logging.getLogger(__name__)
 
-Intent = Literal["qa", "structured", "chitchat"]
+Intent = Literal["qa", "structured", "scoped_summary", "chitchat"]
 # How the user wants the answer shaped. Detected from the turn; used downstream
 # to steer generation (and table-aware retrieval). 'default' = let the model
 # choose the natural shape.
@@ -29,6 +29,10 @@ _ANALYSIS_SYSTEM = (
     "(e.g. 'how many reports were published in 2024', 'show the article titled X'). "
     "Data reported INSIDE documents (figures, tables, quantities from a report) is "
     "'qa' with the matching answer_format, never 'structured'. "
+    "'scoped_summary' when the user asks to summarize or get an overview of a "
+    "SET of documents defined by theme/author/period/type ('summarize the "
+    "Climate theme', 'overview of 2024 publications'); summarizing ONE named "
+    "document is 'qa' with answer_format='summary'. "
     "'chitchat' for greetings, thanks, or meta questions needing no documents; "
     "'qa' for anything answerable from document content.\n"
     "- search_query: a standalone, self-contained rewrite of the latest turn with "
@@ -75,6 +79,9 @@ _ANALYSIS_SYSTEM = (
     "answer_format=table (the data is document content).\n"
     "'list news since March 2024' -> structured/list, bundle=news, "
     "date_from=2024-03-01.\n"
+    "'summarize the Climate theme' -> scoped_summary, theme=Climate.\n"
+    "'summarize the Thoothukudi report' -> qa, answer_format=summary (one "
+    "named document, not a set).\n"
     "'how has the Climate theme's coverage evolved over the years' -> qa, "
     "theme=Climate, answer_format=timeline."
 )
