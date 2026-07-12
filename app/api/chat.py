@@ -1,3 +1,13 @@
+"""SSE chat endpoint.
+
+Event contract (each ``data:`` line is one JSON object, keyed by ``type``):
+  token      — one answer fragment; concatenate in order.
+  correction — full replacement answer text (faithfulness verify flagged the
+               streamed draft; ``reason`` says why). Discard prior tokens.
+  sources    — citations + answer metadata; follows the final answer text.
+  done       — normal end of stream.
+  error      — the stream failed mid-response; the answer is incomplete.
+"""
 from __future__ import annotations
 
 import json

@@ -42,35 +42,119 @@ class FaithfulnessReport:
         )
 
 
-class _Verdict(BaseModel):
-    faithful: bool = Field(description="True if every claim is supported by the context.")
-    unsupported: list[str] = Field(default_factory=list, description="Unsupported claims.")
+class _Claim(BaseModel):
+    text: str
+    citations: list[int] = Field(default_factory=list)
+
+
+class _ClaimList(BaseModel):
+    claims: list[_Claim] = Field(default_factory=list)
+
+
+class _Support(BaseModel):
+    supported: bool
+
+
+_EXTRACT_SYSTEM = (
+    "Split the answer into atomic factual claims for verification. One claim "
+    "= one checkable statement, wording copied faithfully; keep the [n] "
+    "markers cited for each claim as its citations. Skip greetings, hedges, "
+    "and meta statements about the answer itself.\n"
+    "Example answer: 'The programme added 1.2 GW in 2023 [1]. Adoption was "
+    "led by commercial installations [1][3].'\n"
+    "Example claims: text='The programme added 1.2 GW in 2023', citations=[1]; "
+    "text='Adoption was led by commercial installations', citations=[1, 3]."
+)
+
+_SUPPORT_SYSTEM = (
+    "Decide whether the passage supports the claim. supported=true ONLY when "
+    "the passage states the claim or directly entails it — numbers, dates and "
+    "names must match exactly. supported=false when the claim is absent, "
+    "contradicted, or only loosely related.\n"
+    "Example (true): claim 'Capacity grew 40% in 2023' vs passage "
+    "'...capacity rose by 40% during 2023...'.\n"
+    "Example (false): claim 'The plant opened in 2019' vs passage 'The plant "
+    "was announced in 2019' — announced is not opened."
+)
+
+
+def _extract_claims(answer: str) -> list[_Claim]:
+    from app.generation.llm_client import get_structured_llm
+
+    result: _ClaimList = get_structured_llm().with_structured_output(_ClaimList).invoke(
+        [("system", _EXTRACT_SYSTEM), ("human", f"Answer:\n{answer}")]
+    )
+    return [c for c in result.claims if c.text.strip()]
+
+
+def _claim_supported(claim: str, evidence: str) -> bool | None:
+    """One binary verdict; None on error (the claim is skipped, not flagged)."""
+    from app.generation.llm_client import get_structured_llm
+
+    try:
+        verdict: _Support = get_structured_llm().with_structured_output(_Support).invoke(
+            [("system", _SUPPORT_SYSTEM), ("human", f"Claim: {claim}\n\nPassage:\n{evidence}")]
+        )
+        return bool(verdict.supported)
+    except Exception:
+        logger.warning("Claim support check failed; skipping claim.", exc_info=True)
+        return None
 
 
 def verify(answer: str, blocks: "list[ContextBlock]") -> FaithfulnessReport:
-    from app.generation.llm_client import get_structured_llm
-    from app.generation.prompts import format_context_blocks
+    """Claim-level faithfulness: extract atomic claims, then one binary
+    supported/unsupported verdict per claim (in parallel) against its cited
+    blocks — mini is unreliable as a holistic grader but strong at scoped
+    binary verdicts. Fails open to faithful at every stage."""
+    from concurrent.futures import ThreadPoolExecutor
 
     if not answer.strip() or not blocks:
         return FaithfulnessReport(faithful=True)
     try:
-        model = get_structured_llm().with_structured_output(_Verdict)
-        verdict: _Verdict = model.invoke(
-            [
-                (
-                    "system",
-                    "You are a strict fact-checker. Decide whether EVERY claim in the "
-                    "answer is directly supported by the numbered context. List any "
-                    "claim that is not supported. Ignore citation markers themselves.",
-                ),
-                (
-                    "human",
-                    f"Numbered context:\n{format_context_blocks(blocks)}\n\n"
-                    f"Answer:\n{answer}",
-                ),
-            ]
-        )
+        claims = _extract_claims(answer)
     except Exception:
-        logger.warning("Faithfulness check failed; assuming faithful.", exc_info=True)
+        logger.warning("Claim extraction failed; assuming faithful.", exc_info=True)
         return FaithfulnessReport(faithful=True)
-    return FaithfulnessReport(faithful=verdict.faithful, unsupported=verdict.unsupported)
+    if not claims:
+        return FaithfulnessReport(faithful=True)
+
+    by_n = {b.n: b.text for b in blocks}
+    everything = "\n\n".join(b.text for b in blocks)
+
+    def evidence(claim: _Claim) -> str:
+        cited = [by_n[n] for n in claim.citations if n in by_n]
+        return "\n\n".join(cited) if cited else everything
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        verdicts = list(
+            pool.map(lambda c: _claim_supported(c.text, evidence(c)), claims)
+        )
+    unsupported = [c.text for c, v in zip(claims, verdicts) if v is False]
+    return FaithfulnessReport(faithful=not unsupported, unsupported=unsupported)
+
+
+# Numbers/percents in answers, thousands separators tolerated ("1,234").
+_NUMBER = re.compile(r"\d[\d,]*(?:\.\d+)?")
+
+
+def _numbers(text: str) -> set[str]:
+    return {m.replace(",", "") for m in _NUMBER.findall(text)}
+
+
+def numeric_mismatches(answer: str, blocks: "list[ContextBlock]") -> list[str]:
+    """Numbers in the answer that appear in no cited block (all blocks when
+    nothing is cited). Deterministic, no LLM — an observability signal, not a
+    blocker; percent signs and thousands separators are normalized away to
+    keep false flags low."""
+    if not blocks:
+        return []
+    stripped = _MARKER.sub(" ", answer)  # citation markers are not claims
+    claimed = _numbers(stripped)
+    if not claimed:
+        return []
+    cited = extract_markers(answer)
+    texts = [b.text for b in blocks if not cited or b.n in cited]
+    available: set[str] = set()
+    for text in texts:
+        available |= _numbers(text)
+    return sorted(n for n in claimed if n not in available)

@@ -545,6 +545,13 @@ def _prepare(
 
 
 def _assemble(answer: str, gen: _Generation) -> dict[str, Any]:
+    from app.generation import faithfulness
+
+    # Deterministic numeric check (~0 ms): observe-only in v1 — flagged and
+    # logged, never auto-corrected.
+    mismatches = faithfulness.numeric_mismatches(answer, gen.blocks)
+    if mismatches:
+        logger.info("Numeric claims not found in cited blocks: %s", mismatches)
     return {
         "answer": answer,
         "citations": [c.model_dump() for c in build_citations(gen.blocks)],
@@ -552,6 +559,7 @@ def _assemble(answer: str, gen: _Generation) -> dict[str, Any]:
         "answer_format": gen.pq.answer_format,
         "used_chunks": len(gen.blocks),
         "conflict": any(b.conflict for b in gen.blocks),
+        "numeric_mismatch": bool(mismatches),
         "cached": False,
     }
 
@@ -581,6 +589,7 @@ def _record(
         answered=result.get("answer") != REFUSAL,
         conflict=result.get("conflict", False),
         cached=result.get("cached", False),
+        numeric_mismatch=result.get("numeric_mismatch") or None,  # logged only when set
         components=component_totals(stages) if stages else None,
         stages={k: round(v, 1) for k, v in stages.items()} if stages else None,
     )
@@ -689,24 +698,40 @@ def stream_answer(
             _record(s, result, stages)
             return
 
-        if get_settings().faithfulness_check:
-            # Faithfulness needs the whole answer (and may regenerate once), which
-            # is incompatible with live token streaming — so buffer, then emit.
-            # The check is off by default, so the normal path streams token-by-token.
-            answer = _grounded_answer(
-                gen.pq.search_query, gen.blocks, answer_format=gen.pq.answer_format
-            )
-            yield {"type": "token", "text": answer}
-        else:
-            from app.generation import faithfulness
+        from app.generation import faithfulness
 
-            parts: list[str] = []
-            for token in _generate_stream(
-                gen.pq.search_query, gen.blocks, answer_format=gen.pq.answer_format
-            ):
-                parts.append(token)
-                yield {"type": "token", "text": token}
-            answer = faithfulness.validate_markers("".join(parts), len(gen.blocks))
+        parts: list[str] = []
+        for token in _generate_stream(
+            gen.pq.search_query, gen.blocks, answer_format=gen.pq.answer_format
+        ):
+            parts.append(token)
+            yield {"type": "token", "text": token}
+        answer = faithfulness.validate_markers("".join(parts), len(gen.blocks))
+
+        if get_settings().faithfulness_check:
+            # Post-hoc verify: tokens streamed at full speed above; an
+            # unfaithful answer gets one regeneration emitted as a correction
+            # event, and the corrected version is what gets cached below.
+            with span("rag.faithfulness") as fs:
+                report = faithfulness.verify(answer, gen.blocks)
+                fs.set("faithful", report.faithful)
+            if not report.faithful:
+                logger.info("Streamed answer flagged unfaithful; correcting once.")
+                try:
+                    retry = _generate(
+                        gen.pq.search_query, gen.blocks,
+                        correction=report.correction_note(),
+                        answer_format=gen.pq.answer_format,
+                    )
+                    corrected = faithfulness.validate_markers(retry, len(gen.blocks))
+                except Exception:
+                    logger.warning("Correction regeneration failed; keeping "
+                                   "the streamed answer.", exc_info=True)
+                    corrected = ""
+                if corrected and corrected != answer:
+                    answer = corrected
+                    yield {"type": "correction", "text": corrected,
+                           "reason": "faithfulness"}
 
         result = _assemble(answer, gen)
         s.set("answer_chars", len(answer))

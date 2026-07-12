@@ -49,6 +49,9 @@ class QueryResponse(BaseModel):
     answer_format: str = "default"
     used_chunks: int = 0
     conflict: bool = False
+    # A number in the answer was not found in any cited block (observe-only
+    # deterministic check; see faithfulness.numeric_mismatches).
+    numeric_mismatch: bool = False
     cached: bool = False
 
 
