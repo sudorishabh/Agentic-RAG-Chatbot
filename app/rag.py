@@ -195,6 +195,84 @@ def _paraphrase_search(
         return []
 
 
+_CORRECTIVE_SYSTEM = (
+    "The retrieved passages may not answer the question. Suggest ONE "
+    "reformulated search query targeting the missing information: change the "
+    "wording or angle toward what the passages lack; keep the original "
+    "meaning; do not add facts.\n"
+    "Example: question 'what did the report say about coastal erosion "
+    "funding' with passages about erosion science but nothing on budgets -> "
+    "'budget allocation for coastal erosion protection programmes'."
+)
+
+
+def _corrective_query(search_query: str, ranked: list[Any]) -> str | None:
+    """One structured reformulation aimed at what the weak results missed;
+    None when it fails or merely echoes the original."""
+    from pydantic import BaseModel
+
+    from app.generation.llm_client import get_structured_llm
+
+    class Reformulation(BaseModel):
+        query: str = ""
+
+    snippets = "\n".join(f"- {c.text[:200]}" for c in ranked[:3] if c.text)
+    try:
+        result: Reformulation = (
+            get_structured_llm()
+            .with_structured_output(Reformulation)
+            .invoke(
+                [
+                    ("system", _CORRECTIVE_SYSTEM),
+                    ("human", f"Question: {search_query}\n\n"
+                              f"Best passages so far:\n{snippets or '(none)'}"),
+                ]
+            )
+        )
+    except Exception:
+        logger.warning("Corrective reformulation failed.", exc_info=True)
+        return None
+    query = (result.query or "").strip()
+    if not query or query.lower() == search_query.lower():
+        return None
+    return query
+
+
+def _corrective_requery(
+    search_query: str,
+    ranked: list[Any],
+    *,
+    tenant_id: str,
+    user_groups: list[str],
+    filters: list[Any] | None,
+    limit: int,
+    table_boost: float,
+) -> list[Any]:
+    """One-shot corrective retrieval: reformulate, search once, RRF-fuse with
+    the current ranking, rerank once more. Strictly one iteration; any failure
+    or empty gain keeps the original ranking."""
+    try:
+        reformulated = _corrective_query(search_query, ranked)
+        if not reformulated:
+            return ranked
+        from app.ingestion.embedder import embed_query_cached
+        from app.retrieval.fusion import rrf
+
+        extra = search(
+            reformulated, limit=limit, tenant_id=tenant_id, user_groups=user_groups,
+            extra_filter=filters or None,
+            query_vector=embed_query_cached(reformulated),
+        )
+        seen = {c.id for c in ranked}
+        if not any(c.id not in seen for c in extra):
+            return ranked
+        return rerank(search_query, rrf([ranked, extra]), table_boost=table_boost)
+    except Exception:
+        logger.warning("Corrective requery failed; keeping original ranking.",
+                       exc_info=True)
+        return ranked
+
+
 # Salient-term patterns for the keyword leg: the query features dense vectors
 # handle worst — exact phrases, acronyms, years, proper nouns.
 _QUOTED = re.compile(r"\"([^\"]{2,})\"|'([^']{2,})'")
@@ -418,6 +496,18 @@ def retrieve(
         table_boost = settings.rerank_table_boost if answer_format == "table" else 0.0
         ranked = rerank(search_query, candidates, table_boost=table_boost)
         s.set("survivors", len(ranked))
+    if (
+        bool(settings.corrective_loop_enabled)
+        and ranked
+        and ranked[0].semantic_score < settings.corrective_min_score
+    ):
+        with span("rag.corrective") as s:
+            ranked = _corrective_requery(
+                search_query, ranked, tenant_id=tenant_id, user_groups=user_groups,
+                filters=filters, limit=settings.retrieval_candidate_k,
+                table_boost=table_boost,
+            )
+            s.set("survivors", len(ranked))
     if not ranked:
         return []
     with span("rag.context_build"):

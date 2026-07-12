@@ -111,6 +111,12 @@ class Settings(BaseSettings):
     # behavior); >1 samples at exploratory temperature. Flip to 3 only after
     # the routing eval shows a win.
     analysis_votes: int = 1
+    # One-shot corrective retrieval: when the reranked top candidate's raw
+    # semantic score is below corrective_min_score, reformulate the query once,
+    # search again, RRF-fuse and rerank. Strictly one iteration. Launches OFF;
+    # eval must show a recall win within the latency budget before flipping.
+    corrective_loop_enabled: bool = False
+    corrective_min_score: float = 0.2
     # Keyword leg over the chunk_text full-text index (created by
     # scripts/create_fulltext_index.py): salient query terms drive one extra
     # MatchText-filtered pull fused with the dense pull via RRF. Fails open to

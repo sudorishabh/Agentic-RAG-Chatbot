@@ -91,7 +91,8 @@ def _settings(**overrides):
     base = dict(
         retrieval_top_k=6, retrieval_candidate_k=40, prefer_website_enabled=False,
         multi_query_enabled=True, multi_query_paraphrases=2, rerank_table_boost=0.15,
-        keyword_leg_enabled=False,
+        keyword_leg_enabled=False, corrective_loop_enabled=False,
+        corrective_min_score=0.2,
     )
     base.update(overrides)
     return SimpleNamespace(**base)
