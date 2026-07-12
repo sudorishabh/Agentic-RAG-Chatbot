@@ -518,6 +518,7 @@ def _prepare(
         semantic = semantic_cache.lookup(
             query_vector, tenant_id=tenant_id, user_groups=user_groups,
             top_k=n, answer_format=pq.answer_format,
+            fingerprint=semantic_cache.facet_fingerprint(pq),
         )
         s.set("hit", semantic is not None)
     if semantic is not None:
@@ -565,6 +566,7 @@ def _persist(gen: _Generation, result: dict[str, Any]) -> None:
             gen.query_vector, result, tenant_id=gen.tenant_id,
             user_groups=gen.user_groups, top_k=gen.top_k,
             answer_format=gen.pq.answer_format,
+            fingerprint=semantic_cache.facet_fingerprint(gen.pq),
         )
 
 

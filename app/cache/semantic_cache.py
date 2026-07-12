@@ -67,6 +67,35 @@ def _ensure_collection(client: Any, dim: int) -> bool:
         return False
 
 
+def facet_fingerprint(pq: Any) -> dict[str, Any]:
+    """Compact facet identity of a processed query. A cached answer built
+    under different facets (another period, theme, author…) must never be
+    served, however close the embeddings.
+
+    Uses the normalized theme *name* rather than resolved term uuids: the
+    name→uuid resolution is deterministic, so name equality is at least as
+    strict — and it costs no extra MySQL round-trip per query. ``tags`` are
+    included since they filter retrieval too.
+    """
+    analysis = getattr(pq, "analysis", None)
+
+    def norm(value: Any) -> str | None:
+        text = str(value or "").strip().lower()
+        return text or None
+
+    fp: dict[str, Any] = {
+        "source_type": norm(getattr(pq, "source_type", None)),
+        "language": norm(getattr(pq, "language", None)),
+        "theme": norm(getattr(analysis, "theme", None)),
+        "author": norm(getattr(analysis, "author", None)),
+        "date_from": norm(getattr(analysis, "date_from", None)),
+        "date_to": norm(getattr(analysis, "date_to", None)),
+        "tags": sorted(t for t in (norm(v) for v in getattr(analysis, "tags", []) or []) if t)
+        or None,
+    }
+    return {k: v for k, v in fp.items() if v is not None}
+
+
 def lookup(
     query_vector: Sequence[float],
     *,
@@ -74,6 +103,7 @@ def lookup(
     user_groups: Sequence[str],
     top_k: int,
     answer_format: str = "default",
+    fingerprint: dict[str, Any] | None = None,
 ) -> dict[str, Any] | None:
     settings = get_settings()
     if not settings.semantic_cache_enabled or not query_vector:
@@ -109,7 +139,13 @@ def lookup(
     points = response.points
     if not points:
         return None
-    return (points[0].payload or {}).get("result")
+    payload = points[0].payload or {}
+    # Post-filter on the single candidate: the stored facet fingerprint must
+    # match the query's. Legacy entries without one count as mismatches (they
+    # age out via expires_at).
+    if payload.get("facets") != (fingerprint or {}):
+        return None
+    return payload.get("result")
 
 
 def store(
@@ -120,6 +156,7 @@ def store(
     user_groups: Sequence[str],
     top_k: int,
     answer_format: str = "default",
+    fingerprint: dict[str, Any] | None = None,
 ) -> None:
     settings = get_settings()
     if not settings.semantic_cache_enabled or not query_vector:
@@ -138,6 +175,7 @@ def store(
         payload={
             "result": result,
             "scope": scope,
+            "facets": fingerprint or {},
             "expires_at": time.time() + settings.response_cache_ttl,
         },
     )

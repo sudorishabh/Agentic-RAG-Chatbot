@@ -64,7 +64,11 @@ class Settings(BaseSettings):
     embedding_cache_enabled: bool = True
     embedding_cache_ttl: int = 604800
     semantic_cache_enabled: bool = True
-    semantic_cache_threshold: float = 0.97
+    # 0.995: near-verbatim rephrasings only. At the old 0.97 a subtly different
+    # question (another year, another theme) could return the wrong cached
+    # answer; correctness beats hit rate here. Lookups additionally require the
+    # stored facet fingerprint to match.
+    semantic_cache_threshold: float = 0.995
     # Semantic cache is backed by a dedicated Qdrant collection: a nearest-neighbor
     # lookup on the query embedding, gated by semantic_cache_threshold (cosine).
     semantic_cache_collection: str = "semantic_cache"
