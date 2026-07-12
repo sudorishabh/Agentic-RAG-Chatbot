@@ -135,6 +135,13 @@ class Settings(BaseSettings):
     context_token_budget: int = 9000
     faithfulness_check: bool = False
     metrics_log_enabled: bool = True
+    # Async answer-quality monitor: fresh grounded answers are judged off the
+    # request path (bounded queue + one daemon worker; full queue drops
+    # silently). quality_judge_sample is the fraction that also gets the
+    # claim-level faithfulness judge — citation coverage is always computed.
+    # Flip on after smoke-testing.
+    quality_monitor_enabled: bool = False
+    quality_judge_sample: float = 1.0
     # Max chat generations driven concurrently on the dedicated chat capacity
     # limiter. The /chat pipeline is blocking (LLM + Qdrant + Redis clients),
     # so each active stream occupies a worker thread for most of its life;

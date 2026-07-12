@@ -28,6 +28,17 @@ def validate_markers(answer: str, n_blocks: int) -> str:
     return _MARKER.sub(_keep, answer).replace("  ", " ").strip()
 
 
+def citation_coverage(answer: str) -> float:
+    """Deterministic: fraction of sentences (simple split; bullet/table lines
+    count as sentences) carrying at least one [n] marker."""
+    sentences = [
+        s.strip() for s in re.split(r"(?<=[.!?])\s+|\n+", answer) if s.strip()
+    ]
+    if not sentences:
+        return 0.0
+    return sum(1 for s in sentences if _MARKER.search(s)) / len(sentences)
+
+
 @dataclass
 class FaithfulnessReport:
     faithful: bool = True

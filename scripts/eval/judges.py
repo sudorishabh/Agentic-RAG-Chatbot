@@ -11,11 +11,14 @@ fail an eval run or, later, a production request.
 from __future__ import annotations
 
 import logging
-import re
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Sequence
 
 from pydantic import BaseModel, Field
+
+# Canonical home is production code (the quality monitor uses it too);
+# re-exported here so eval callers keep one import site for all judges.
+from app.generation.faithfulness import citation_coverage  # noqa: F401
 
 logger = logging.getLogger(__name__)
 
@@ -164,13 +167,3 @@ def judge_relevance(question: str, answer: str) -> int | None:
         return None
 
 
-def citation_coverage(answer: str) -> float:
-    """Deterministic: fraction of sentences (simple split; bullet/table lines
-    count as sentences) carrying at least one [n] marker."""
-    sentences = [
-        s.strip() for s in re.split(r"(?<=[.!?])\s+|\n+", answer) if s.strip()
-    ]
-    if not sentences:
-        return 0.0
-    cited = sum(1 for s in sentences if re.search(r"\[\d+\]", s))
-    return cited / len(sentences)
