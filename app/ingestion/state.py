@@ -4,7 +4,7 @@ import json
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Iterable, Iterator, Sequence
+from typing import Any, Iterable, Sequence
 
 from app.config import get_settings
 from app.deps import mysql_connection
@@ -642,8 +642,3 @@ def rename_category_facet(document_id: str, old: str, new: str) -> list[str]:
             _replace_facet(cur, table, "category", document_id, updated)
             conn.commit()
     return updated
-
-
-def iter_records(source_type: str) -> Iterator[StateRecord]:
-    for record in load(source_type).values():
-        yield record
