@@ -44,17 +44,6 @@ def _recency_scores(candidates: Sequence[Candidate]) -> list[float]:
     return [0.5 if e is None else (0.5 if span < 1e-9 else (e - lo) / span) for e in epochs]
 
 
-def _authority_score(payload: dict) -> float:
-    # Source-type authority map removed (it only ever penalized website content;
-    # website preference is now handled by the dual-pull + segregation, see
-    # docs/website-preference-retrieval.md). The per-document `source_authority`
-    # override hook is kept for future use; absent it, authority is neutral.
-    explicit = payload.get("source_authority")
-    if isinstance(explicit, (int, float)):
-        return max(0.0, min(1.0, float(explicit)))
-    return 0.5
-
-
 class _Relevance(BaseModel):
     scores: list[float] = Field(description="Relevance 0..1 per candidate, in order.")
 
@@ -173,7 +162,10 @@ def rerank(
     for cand, sem_raw, sem_n, rec in zip(candidates, semantic, norm_sem, recency):
         if threshold and sem_raw < threshold:
             continue
-        auth = _authority_score(cand.payload)
+        # Neutral authority baseline: the source-type map and the per-document
+        # source_authority override were both removed, so wa*0.5 is a constant
+        # offset that does not affect ranking.
+        auth = 0.5
         blended = ws * sem_n + wr * rec + wa * auth
         if table_boost and cand.payload.get("has_table"):
             blended += table_boost
