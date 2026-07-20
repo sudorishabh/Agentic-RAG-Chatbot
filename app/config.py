@@ -193,7 +193,6 @@ class Settings(BaseSettings):
     otel_enabled: bool = False
     otel_service_name: str = "agentic-rag"
     otel_exporter_otlp_endpoint: str = ""
-    langfuse_enabled: bool = False
     mysql_host: str = "localhost"
     mysql_port: int = 3306
     mysql_user: str = ""

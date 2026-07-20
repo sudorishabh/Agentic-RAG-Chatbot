@@ -11,7 +11,6 @@ from app.observability import metrics as stage_metrics
 logger = logging.getLogger("app.observability")
 
 _otel_tracer: Any | None = None
-_langfuse: Any | None = None
 _initialized = False
 
 
@@ -75,10 +74,6 @@ def record_query_metrics(*, latency_ms: float | None = None, **metrics: Any) -> 
             pass
 
 
-def get_langfuse() -> Any | None:
-    return _langfuse
-
-
 def _init_otel(settings: Any) -> None:
     global _otel_tracer
     try:
@@ -107,17 +102,6 @@ def _init_otel(settings: Any) -> None:
         logger.warning("OpenTelemetry requested but unavailable; tracing off.", exc_info=True)
 
 
-def _init_langfuse() -> None:
-    global _langfuse
-    try:
-        from langfuse import Langfuse
-
-        _langfuse = Langfuse()
-        logger.info("Langfuse tracing enabled.")
-    except Exception:  # pragma: no cover
-        logger.warning("Langfuse requested but unavailable; LLM tracing off.", exc_info=True)
-
-
 def init_observability(app: Any | None = None) -> None:
     global _initialized
     if _initialized:
@@ -134,6 +118,3 @@ def init_observability(app: Any | None = None) -> None:
                 FastAPIInstrumentor.instrument_app(app)
             except Exception:  # pragma: no cover
                 logger.warning("FastAPI OTel instrumentation unavailable.", exc_info=True)
-
-    if settings.langfuse_enabled:
-        _init_langfuse()
