@@ -17,7 +17,7 @@ import time
 import uuid
 from typing import Any, Sequence
 
-from app.cache.redis_cache import semantic_partition
+from app.cache.cache_keys import semantic_partition
 from app.config import get_settings
 
 logger = logging.getLogger(__name__)
