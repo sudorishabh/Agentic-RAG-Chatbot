@@ -108,9 +108,6 @@ def _index(doc: CanonicalDocument, *, label: str) -> tuple[str, int]:
         _log_doc(doc, "error", run_id=run_id, error=str(exc))
         raise
 
-    from app.cache.redis_cache import bump_corpus_version
-
-    bump_corpus_version()
     _log_doc(doc, "indexed", run_id=run_id, chunks=points)
     logger.info("Ingested %s -> %s (%d points)", label, doc.document_id, points)
     return doc.document_id, points

@@ -1,19 +1,11 @@
 from __future__ import annotations
 
 import logging
-from collections import Counter
 from typing import Any
 
 from app.config import get_settings
 
 logger = logging.getLogger(__name__)
-
-
-def _bump_cache_if_changed(tally: Counter) -> None:
-    if tally.get("indexed") or tally.get("deleted"):
-        from app.cache.redis_cache import bump_corpus_version
-
-        bump_corpus_version()
 
 
 def ingest_pdfs(dirs: list[str] | None = None) -> dict[str, int]:
@@ -23,7 +15,6 @@ def ingest_pdfs(dirs: list[str] | None = None) -> dict[str, int]:
 
     roots = [Path(d) for d in dirs] if dirs else None
     tally = run(roots)
-    _bump_cache_if_changed(tally)
     return dict(tally)
 
 
@@ -31,7 +22,6 @@ def ingest_drupal(bundles: list[str] | None = None, reconcile: bool = False) -> 
     from app.ingestion.pipeline import ingest_drupal as run
 
     tally = run(bundles or None, reconcile_deletes=reconcile)
-    _bump_cache_if_changed(tally)
     return dict(tally)
 
 
@@ -47,11 +37,9 @@ def sweep() -> dict[str, dict[str, int]]:
 def reindex_document(document_id: str, source_type: str = "website") -> dict[str, Any]:
     from app.deps import delete_document
     from app.ingestion import state
-    from app.cache.redis_cache import bump_corpus_version
 
     delete_document(document_id)
     removed = state.delete([document_id])
-    bump_corpus_version()
     logger.info("Reindex reset %s (%s); %d manifest rows removed", document_id, source_type, removed)
     return {"document_id": document_id, "manifest_rows_removed": removed}
 

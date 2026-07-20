@@ -87,18 +87,6 @@ def migrate_mysql(dry_run: bool) -> None:
         logger.warning("MySQL migration skipped (table/connection unavailable).", exc_info=True)
 
 
-def bump_caches(dry_run: bool) -> None:
-    if dry_run:
-        return
-    try:
-        from app.cache.redis_cache import bump_corpus_version
-
-        bump_corpus_version()
-        logger.info("Redis: corpus version bumped; stale cached responses invalidated.")
-    except Exception:
-        logger.warning("Redis bump skipped (cache unavailable).", exc_info=True)
-
-
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--dry-run", action="store_true", help="Report counts only.")
@@ -107,7 +95,6 @@ def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     migrate_qdrant(args.dry_run)
     migrate_mysql(args.dry_run)
-    bump_caches(args.dry_run)
     logger.info("Done%s.", " (dry run)" if args.dry_run else "")
     return 0
 
