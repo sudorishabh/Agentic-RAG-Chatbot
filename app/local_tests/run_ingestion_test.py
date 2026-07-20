@@ -1,6 +1,11 @@
-"""Run ONLY the ingestion pipeline against a local folder of PDFs and report
-every stage per document: change detection, extraction, canonical mapping,
-chunking, indexing, and exactly what landed in MySQL.
+"""Run ONLY the ingestion pipeline and report every stage per document:
+change detection, extraction, canonical mapping, chunking, indexing, and
+exactly what landed in MySQL.
+
+Two sources:
+  --source drupal   (default) crawl live Drupal nodes of one bundle plus the
+                    PDFs attached to / linked from them (pdf_attachment docs)
+  --source pdf      scan a local folder of PDF files
 
 Isolated by default: all writes go to ``local_test_*`` MySQL tables and a
 ``local_test_documents`` Qdrant collection, never the real catalog. Documents
@@ -8,12 +13,12 @@ are processed through the pipeline's own per-document handler, so this test
 exercises the real ingestion code path.
 
 Usage:
-    python -m app.local_tests.run_ingestion_test --make-sample --skip-index
-    python -m app.local_tests.run_ingestion_test --dir path\\to\\pdfs
+    python -m app.local_tests.run_ingestion_test --bundle article --max-docs 3
+    python -m app.local_tests.run_ingestion_test --source pdf --make-sample
     python -m app.local_tests.run_ingestion_test --cleanup
 
-Run it twice to see change detection in action: the second run reports every
-document as UNCHANGED straight from the MySQL state table.
+Run it twice to see change detection in action: the second run reports the
+same documents as UNCHANGED straight from the MySQL state table.
 """
 
 from __future__ import annotations
@@ -27,7 +32,7 @@ import uuid
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterator
 from unittest import mock
 
 # Only stdlib and reporting (which has no app.* dependencies) are imported at
@@ -66,7 +71,7 @@ class DocCapture:
 
 
 # --------------------------------------------------------------------------- #
-# Sample data
+# Sample data (--source pdf --make-sample)
 # --------------------------------------------------------------------------- #
 
 _SAMPLE_PAGES = [
@@ -128,24 +133,31 @@ def make_sample_pdf(directory: Path) -> Path:
 # Pipeline execution with stage capture
 # --------------------------------------------------------------------------- #
 
-def _process(record: Any, run_id: str, *, skip_index: bool) -> DocCapture:
+def _process(
+    record: Any, run_id: str, *, skip_index: bool, session: Any = None
+) -> DocCapture:
     """Run one change record through the real pipeline handler, capturing the
     extraction result, canonical document, chunks, and indexed point count."""
     from app.ingestion import pipeline
-    from app.ingestion.canonical import from_pdf
     from app.ingestion.chunker import chunk_canonical
-    from app.ingestion.extractors.pdf_extractor import extract_pdf
+    from app.ingestion.extractors import pdf_extractor
 
     cap = DocCapture(record=record)
     real_index = pipeline.index_chunks
+    real_extract = pdf_extractor.extract_pdf
 
     def build_doc(rec: Any) -> Any:
-        # Mirrors pipeline._build_pdf_doc, keeping the extraction result too.
-        cap.extraction = extract_pdf(rec.payload, rec.filename or rec.document_id)
-        cap.doc = from_pdf(
-            cap.extraction, document_id=rec.document_id, pdf_path=rec.source_key
-        )
+        if rec.source_type == "pdf_attachment":
+            cap.doc = pipeline._build_attachment_doc(rec, session)
+        elif rec.source_type == "pdf":
+            cap.doc = pipeline._build_pdf_doc(rec)
+        else:
+            cap.doc = pipeline._build_drupal_doc(rec)
         return cap.doc
+
+    def observed_extract(content: bytes, filename: str) -> Any:
+        cap.extraction = real_extract(content, filename)
+        return cap.extraction
 
     def observed_chunk(doc: Any, **kwargs: Any) -> list[Any]:
         cap.chunks = chunk_canonical(doc, **kwargs)
@@ -156,6 +168,9 @@ def _process(record: Any, run_id: str, *, skip_index: bool) -> DocCapture:
         return cap.points
 
     patches = [
+        # The PDF builders import extract_pdf from its module at call time,
+        # so patching the module attribute captures the extraction result.
+        mock.patch.object(pdf_extractor, "extract_pdf", observed_extract),
         mock.patch.object(pipeline, "chunk_canonical", observed_chunk),
         mock.patch.object(pipeline, "index_chunks", observed_index),
     ]
@@ -185,16 +200,18 @@ def _report_stages(cap: DocCapture, show_chunks: int) -> None:
 
     rep.section("Change detection")
     rep.kv("status", rec.status.value)
-    rep.kv("file", rec.source_key)
+    rep.kv("source_type", rec.source_type)
+    rep.kv("source", rec.source_key)
+    rep.kv("bundle", rec.bundle)
     rep.kv("size (bytes)", rec.size)
-    rep.kv("fingerprint (sha256)", rec.fingerprint)
+    rep.kv("fingerprint", rec.fingerprint)
     rep.kv("prior doc_version", rec.prior.doc_version if rec.prior else None)
     if cap.error:
         rep.kv("error", cap.error)
 
     if cap.extraction is not None:
         pages = cap.extraction.pages
-        rep.section("Extraction")
+        rep.section("Extraction (PDF)")
         rep.kv("pages with text", len(pages))
         rep.kv("route per page", dict(Counter(p.extracted_via.value for p in pages)))
         rep.kv("tables detected", sum(len(p.tables) for p in pages))
@@ -210,6 +227,12 @@ def _report_stages(cap: DocCapture, show_chunks: int) -> None:
         rep.kv("document_id", d.document_id)
         rep.kv("source_type", d.source_type)
         rep.kv("title", d.title)
+        rep.kv("source_url", d.source_url)
+        rep.kv("file_url", d.file_url)
+        rep.kv("article_uuid", d.article_uuid)
+        rep.kv("linked_article_uuid", d.linked_article_uuid)
+        if d.extra:
+            rep.kv("bundle / nid", f"{d.extra.get('bundle')} / {d.extra.get('nid')}")
         rep.kv("sections", len(d.sections))
         rep.kv("paginated", d.is_paginated)
         rep.kv("doc_version", d.doc_version)
@@ -218,8 +241,39 @@ def _report_stages(cap: DocCapture, show_chunks: int) -> None:
         rep.kv("authors", d.authors)
         rep.kv("tags", d.tags)
         rep.kv("categories", d.categories)
-        rep.kv("entity refs / file links", f"{len(d.entity_refs)} / {len(d.file_links)}")
         rep.kv("language / tenant / acl", f"{d.language} / {d.tenant_id} / {d.acl}")
+        rep.kv("raw_meta keys", sorted(d.raw_meta) if d.raw_meta else None)
+        rep.kv("body preview", rep.snippet(d.full_text()))
+        if d.entity_refs:
+            rep.section("Entity references (canonical)")
+            rep.table(
+                [
+                    {
+                        "field": r.field_name,
+                        "label": r.label,
+                        "entity_type": r.entity_type,
+                        "uuid": r.uuid[:13],
+                    }
+                    for r in d.entity_refs[:12]
+                ],
+                ["field", "label", "entity_type", "uuid"],
+            )
+            if len(d.entity_refs) > 12:
+                rep.emit(f"  ... and {len(d.entity_refs) - 12} more ref(s)")
+        if d.file_links:
+            rep.section("File links (canonical)")
+            rep.table(
+                [
+                    {
+                        "file_uuid": f.uuid[:21],
+                        "origin": f.origin,
+                        "filename": f.filename,
+                        "url": f.url,
+                    }
+                    for f in d.file_links
+                ],
+                ["file_uuid", "origin", "filename", "url"],
+            )
 
     if cap.chunks:
         parents = [c for c in cap.chunks if c.is_parent]
@@ -247,7 +301,7 @@ def _report_stages(cap: DocCapture, show_chunks: int) -> None:
             ["kind", "idx", "tokens", "pages", "section", "chunk_id"],
         )
         if len(cap.chunks) > show_chunks:
-            print(f"  ... and {len(cap.chunks) - show_chunks} more chunk(s)")
+            rep.emit(f"  ... and {len(cap.chunks) - show_chunks} more chunk(s)")
         if children:
             rep.section("Chunk payload (first child, as indexed)")
             for key, value in children[0].to_payload().items():
@@ -263,20 +317,22 @@ def _report_stages(cap: DocCapture, show_chunks: int) -> None:
 def _report_mysql(cap: DocCapture, snap: Any) -> None:
     rep.section("MySQL catalog (read back)")
     if snap.state_row is None:
-        print("  (no state row)")
+        rep.emit("  (no state row)")
     else:
         for key in (
             "document_id", "source_type", "source_key", "bundle", "entity_type",
-            "fingerprint", "content_hash", "doc_version", "size", "mtime_ns",
-            "published_at", "title", "url", "indexed_at", "updated_at",
+            "fingerprint", "content_hash", "doc_version", "changed_mark", "size",
+            "mtime_ns", "published_at", "title", "url", "indexed_at", "updated_at",
         ):
             rep.kv(key, snap.state_row.get(key))
         rep.kv("raw_meta", "present" if snap.state_row.get("raw_meta") else None)
     rep.kv("author facet rows", snap.authors)
     rep.kv("category facet rows", snap.categories)
     if snap.term_links:
+        rep.section("Term links (MySQL)")
         rep.table(snap.term_links, ["term_uuid", "role"])
     if snap.attachments:
+        rep.section("Attachment links (MySQL)")
         rep.table(snap.attachments, ["file_uuid", "origin", "filename", "url"])
 
     rep.section("Ingest log (this document, newest first)")
@@ -314,9 +370,7 @@ def _verify(cap: DocCapture, snap: Any, checks: rep.Checks) -> None:
     checks.add("content_hash matches canonical", row["content_hash"] == doc.content_hash)
     checks.add("doc_version stored", row["doc_version"] == doc.doc_version)
     checks.add("title stored", (row["title"] or None) == doc.title)
-    checks.add(
-        "size/mtime stored", row["size"] == rec.size and row["mtime_ns"] == rec.mtime_ns
-    )
+    checks.add("url stored", (row["url"] or None) == doc.source_url)
     checks.add("author facets match", set(snap.authors) == set(doc.authors))
     checks.add("category facets match", set(snap.categories) == set(doc.categories))
     expected_terms = {r.uuid for r in doc.entity_refs if r.vocabulary}
@@ -342,15 +396,28 @@ def _verify(cap: DocCapture, snap: Any, checks: rep.Checks) -> None:
 
 def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Exercise the PDF ingestion pipeline against isolated test tables."
+        description="Exercise the ingestion pipeline against isolated test tables."
+    )
+    parser.add_argument(
+        "--source", choices=["drupal", "pdf"], default="drupal",
+        help="Ingest live Drupal nodes (+ attached PDFs) or a local PDF folder.",
+    )
+    parser.add_argument(
+        "--bundle", default="article",
+        help="Drupal node bundle to crawl (default: article).",
+    )
+    parser.add_argument(
+        "--max-docs", type=int, default=5,
+        help="Max nodes/PDF files to process (0 = no limit; attached PDFs "
+        "ride along with their node and do not count). Default: 5.",
     )
     parser.add_argument(
         "--dir", default=str(Path(__file__).parent / "data"),
-        help="Folder of PDFs to ingest (default: app/local_tests/data).",
+        help="[pdf] Folder of PDFs to ingest (default: app/local_tests/data).",
     )
     parser.add_argument(
         "--make-sample", action="store_true",
-        help="Generate a small sample PDF into the data dir before running.",
+        help="[pdf] Generate a small sample PDF into the data dir first.",
     )
     parser.add_argument(
         "--skip-index", action="store_true",
@@ -369,6 +436,25 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     )
     parser.add_argument("--verbose", action="store_true", help="Show pipeline INFO logs.")
     return parser.parse_args(argv)
+
+
+def _iter_records(args: argparse.Namespace) -> tuple[Iterator[Any], Any]:
+    """Change-record stream for the chosen source, plus the shared HTTP
+    session used for attachment downloads (None for the pdf source)."""
+    from app.config import get_settings
+    from app.ingestion import change_detection as cd
+
+    if args.source == "pdf":
+        data_dir = Path(args.dir).resolve()
+        data_dir.mkdir(parents=True, exist_ok=True)
+        if args.make_sample:
+            rep.emit(f"Sample PDF written: {make_sample_pdf(data_dir)}")
+        return cd.detect_file_changes([data_dir], []), None
+
+    from app.ingestion.extractors.drupal_extractor import _build_session
+
+    session = _build_session(get_settings().drupal_max_retries)
+    return cd.detect_drupal_changes([args.bundle]), session
 
 
 def _cleanup(skip_index: bool) -> None:
@@ -400,20 +486,20 @@ def main(argv: list[str] | None = None) -> int:
 
     # Safe to import app modules now that the env overrides are in place.
     from app.config import get_settings
-    from app.ingestion import change_detection as cd
     from app.ingestion import ingest_log, state
     from app.local_tests import db_checks
 
     get_settings.cache_clear()
     settings = get_settings()
 
-    data_dir = Path(args.dir).resolve()
-    data_dir.mkdir(parents=True, exist_ok=True)
-    if args.make_sample:
-        print(f"Sample PDF written: {make_sample_pdf(data_dir)}")
-
     rep.header("INGESTION LOCAL TEST")
-    rep.kv("PDF source dir", data_dir)
+    rep.kv("source", args.source)
+    if args.source == "drupal":
+        rep.kv("bundle", args.bundle)
+        rep.kv("jsonapi base", settings.drupal_jsonapi_base)
+    else:
+        rep.kv("PDF source dir", Path(args.dir).resolve())
+    rep.kv("max docs", args.max_docs or "no limit")
     rep.kv("MySQL state table", settings.ingest_state_table)
     rep.kv("MySQL log table", settings.ingest_log_table)
     rep.kv("Qdrant collection", settings.qdrant_collection)
@@ -423,46 +509,62 @@ def main(argv: list[str] | None = None) -> int:
     state.ensure_table()
     ingest_log.ensure_table()
 
-    records = list(cd.detect_file_changes([data_dir], []))
-    if not records:
-        print(f"\nNo PDFs found in {data_dir}. Add PDFs or pass --make-sample.")
-        return 2
-
-    rep.section("Change detection overview")
-    rep.table(
-        [
-            {
-                "document_id": r.document_id,
-                "status": r.status.value,
-                "size": r.size,
-                "file": Path(r.source_key).name,
-            }
-            for r in records
-        ],
-        ["document_id", "status", "size", "file"],
-    )
-
+    records, session = _iter_records(args)
     run_id = uuid.uuid4().hex
     checks = rep.Checks()
     tally: Counter = Counter()
+    overview: list[dict[str, Any]] = []
+    primary_done = 0  # nodes / local PDF files processed (attachments excluded)
 
-    for record in records:
-        cap = _process(record, run_id, skip_index=args.skip_index)
-        tally[cap.outcome] += 1
-        rep.header(f"{record.document_id}  ->  {cap.outcome.upper()}")
-        _report_stages(cap, args.show_chunks)
-        snap = db_checks.fetch_snapshot(record.document_id)
-        _report_mysql(cap, snap)
-        _verify(cap, snap, checks)
+    try:
+        for record in records:
+            is_attachment = record.source_type == "pdf_attachment"
+            if args.max_docs and primary_done >= args.max_docs and not is_attachment:
+                break
+            cap = _process(record, run_id, skip_index=args.skip_index, session=session)
+            if not is_attachment:
+                primary_done += 1
+            tally[cap.outcome] += 1
+
+            rep.header(f"{record.document_id}  ->  {cap.outcome.upper()}")
+            _report_stages(cap, args.show_chunks)
+            snap = db_checks.fetch_snapshot(record.document_id)
+            _report_mysql(cap, snap)
+            failed_before = checks.failed
+            _verify(cap, snap, checks)
+            overview.append(
+                {
+                    "document_id": record.document_id,
+                    "type": record.source_type,
+                    "status": record.status.value,
+                    "outcome": cap.outcome,
+                    "chunks": len(cap.chunks) or None,
+                    "checks": "FAIL" if checks.failed > failed_before else "ok",
+                    "title": cap.doc.title if cap.doc else None,
+                }
+            )
+    finally:
+        records.close()
+        if session is not None:
+            session.close()
+
+    if not overview:
+        rep.emit("\nNo documents detected. Check the source configuration above.")
+        return 2
 
     rep.header("RUN SUMMARY")
-    rep.kv("documents", len(records))
+    rep.kv("documents processed", len(overview))
     rep.kv("outcomes", dict(tally))
+    rep.section("Documents")
+    rep.table(
+        overview,
+        ["document_id", "type", "status", "outcome", "chunks", "checks", "title"],
+    )
     rep.section("MySQL table row counts")
     for name, count in db_checks.table_counts().items():
         rep.kv(name, "missing" if count < 0 else count)
     rep.section("Result")
-    print(f"  {checks.summary()}")
+    rep.emit(f"  {checks.summary()}")
 
     if args.cleanup:
         _cleanup(args.skip_index)
