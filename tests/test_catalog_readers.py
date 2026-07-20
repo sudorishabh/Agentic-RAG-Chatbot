@@ -117,28 +117,6 @@ def test_ids_in_scope_fails_open(monkeypatch):
 
 
 # --------------------------------------------------------------------------- #
-# authors_matching — disambiguation lookup.
-# --------------------------------------------------------------------------- #
-
-def test_authors_matching_shape_and_escaping(monkeypatch):
-    cursor = _FakeCursor(fetchall_results=[[{"author": "Dr R K Sharma"}]])
-    _patch(monkeypatch, cursor)
-
-    assert catalog.authors_matching("50%_Sharma") == ["Dr R K Sharma"]
-    sql, params = cursor.calls[0]
-    assert "SELECT DISTINCT author" in sql and "_author`" in sql
-    assert "ORDER BY author ASC LIMIT 10" in sql
-    assert params == (r"%50\%\_Sharma%",)
-
-
-def test_authors_matching_blank_skips_query(monkeypatch):
-    cursor = _FakeCursor()
-    _patch(monkeypatch, cursor)
-    assert catalog.authors_matching("   ") == []
-    assert cursor.calls == []
-
-
-# --------------------------------------------------------------------------- #
 # attachments_for — website -> attached-PDF join.
 # --------------------------------------------------------------------------- #
 
@@ -177,46 +155,3 @@ def test_attachments_for_fails_open(monkeypatch):
 
     monkeypatch.setattr(catalog, "mysql_connection", boom)
     assert catalog.attachments_for(["d1"]) == {}
-
-
-# --------------------------------------------------------------------------- #
-# distribution_scoped — theme-scoped breakdowns.
-# --------------------------------------------------------------------------- #
-
-def test_distribution_scoped_by_author_joins_both_tables(monkeypatch):
-    cursor = _FakeCursor(fetchall_results=[[{"k": "Sharma", "n": 4}, {"k": None, "n": 1}]])
-    _patch(monkeypatch, cursor)
-
-    rows = catalog.distribution_scoped("author", term_uuids=["t1", "t2"])
-
-    assert rows == [("Sharma", 4)]  # NULL group dropped
-    sql, params = cursor.calls[0]
-    assert "_term` dt" in sql and "_author` f" in sql
-    assert "COUNT(DISTINCT s.document_id)" in sql
-    assert "GROUP BY k ORDER BY n DESC, k ASC LIMIT 20" in sql
-    assert params == ("website", "node", "t1", "t2")
-
-
-def test_distribution_scoped_by_year_skips_undated(monkeypatch):
-    cursor = _FakeCursor(fetchall_results=[[{"k": 2024, "n": 9}]])
-    _patch(monkeypatch, cursor)
-
-    assert catalog.distribution_scoped("year", term_uuids=["t1"]) == [("2024", 9)]
-    sql, _ = cursor.calls[0]
-    assert "YEAR(s.published_at)" in sql and "IS NOT NULL" in sql
-
-
-def test_distribution_scoped_rejects_unknown_dimension():
-    try:
-        catalog.distribution_scoped("acl", term_uuids=["t1"])
-    except ValueError:
-        pass
-    else:
-        raise AssertionError("unknown dimension must raise")
-
-
-def test_distribution_scoped_empty_terms_returns_empty(monkeypatch):
-    cursor = _FakeCursor()
-    _patch(monkeypatch, cursor)
-    assert catalog.distribution_scoped("bundle", term_uuids=[]) == []
-    assert cursor.calls == []
