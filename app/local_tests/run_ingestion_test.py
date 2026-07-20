@@ -25,20 +25,25 @@ from __future__ import annotations
 
 import argparse
 import contextlib
+import json
 import logging
 import os
+import re
 import sys
 import uuid
 from collections import Counter
 from dataclasses import dataclass, field
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Iterator
 from unittest import mock
 
-# Only stdlib and reporting (which has no app.* dependencies) are imported at
-# module level: the test-table env overrides must land before app settings are
-# first built, so every app import happens after _apply_test_env() ran.
+# Only stdlib and these dependency-free local modules are imported at module
+# level: the test-table env overrides must land before app settings are first
+# built, so every app.* import happens after _apply_test_env() ran.
+from app.local_tests import dump
 from app.local_tests import reporting as rep
+from app.local_tests import serialize
 
 _PREFIX = "local_test"
 
@@ -68,6 +73,11 @@ class DocCapture:
     points: int | None = None
     outcome: str = "error"
     error: str | None = None
+
+
+def _safe_name(document_id: str) -> str:
+    """Filesystem-safe report filename stem (in-body PDF ids contain ':')."""
+    return re.sub(r"[^A-Za-z0-9._-]+", "_", document_id)[:60]
 
 
 # --------------------------------------------------------------------------- #
@@ -192,155 +202,10 @@ def _process(
 
 
 # --------------------------------------------------------------------------- #
-# Per-document report
+# Per-document verification
 # --------------------------------------------------------------------------- #
-
-def _report_stages(cap: DocCapture, show_chunks: int) -> None:
-    rec = cap.record
-
-    rep.section("Change detection")
-    rep.kv("status", rec.status.value)
-    rep.kv("source_type", rec.source_type)
-    rep.kv("source", rec.source_key)
-    rep.kv("bundle", rec.bundle)
-    rep.kv("size (bytes)", rec.size)
-    rep.kv("fingerprint", rec.fingerprint)
-    rep.kv("prior doc_version", rec.prior.doc_version if rec.prior else None)
-    if cap.error:
-        rep.kv("error", cap.error)
-
-    if cap.extraction is not None:
-        pages = cap.extraction.pages
-        rep.section("Extraction (PDF)")
-        rep.kv("pages with text", len(pages))
-        rep.kv("route per page", dict(Counter(p.extracted_via.value for p in pages)))
-        rep.kv("tables detected", sum(len(p.tables) for p in pages))
-        rep.kv("total characters", sum(len(p.text) for p in pages))
-        if cap.extraction.metadata:
-            rep.kv("pdf metadata", cap.extraction.metadata)
-        if pages:
-            rep.kv("first page preview", rep.snippet(pages[0].text))
-
-    if cap.doc is not None:
-        d = cap.doc
-        rep.section("Canonical document")
-        rep.kv("document_id", d.document_id)
-        rep.kv("source_type", d.source_type)
-        rep.kv("title", d.title)
-        rep.kv("source_url", d.source_url)
-        rep.kv("file_url", d.file_url)
-        rep.kv("article_uuid", d.article_uuid)
-        rep.kv("linked_article_uuid", d.linked_article_uuid)
-        if d.extra:
-            rep.kv("bundle / nid", f"{d.extra.get('bundle')} / {d.extra.get('nid')}")
-        rep.kv("sections", len(d.sections))
-        rep.kv("paginated", d.is_paginated)
-        rep.kv("doc_version", d.doc_version)
-        rep.kv("content_hash", d.content_hash)
-        rep.kv("published_at", d.published_at)
-        rep.kv("authors", d.authors)
-        rep.kv("tags", d.tags)
-        rep.kv("categories", d.categories)
-        rep.kv("language / tenant / acl", f"{d.language} / {d.tenant_id} / {d.acl}")
-        rep.kv("raw_meta keys", sorted(d.raw_meta) if d.raw_meta else None)
-        rep.kv("body preview", rep.snippet(d.full_text()))
-        if d.entity_refs:
-            rep.section("Entity references (canonical)")
-            rep.table(
-                [
-                    {
-                        "field": r.field_name,
-                        "label": r.label,
-                        "entity_type": r.entity_type,
-                        "uuid": r.uuid[:13],
-                    }
-                    for r in d.entity_refs[:12]
-                ],
-                ["field", "label", "entity_type", "uuid"],
-            )
-            if len(d.entity_refs) > 12:
-                rep.emit(f"  ... and {len(d.entity_refs) - 12} more ref(s)")
-        if d.file_links:
-            rep.section("File links (canonical)")
-            rep.table(
-                [
-                    {
-                        "file_uuid": f.uuid[:21],
-                        "origin": f.origin,
-                        "filename": f.filename,
-                        "url": f.url,
-                    }
-                    for f in d.file_links
-                ],
-                ["file_uuid", "origin", "filename", "url"],
-            )
-
-    if cap.chunks:
-        parents = [c for c in cap.chunks if c.is_parent]
-        children = [c for c in cap.chunks if not c.is_parent]
-        rep.section("Chunking")
-        rep.kv("parents / children", f"{len(parents)} / {len(children)}")
-        if children:
-            tokens = [c.token_count for c in children]
-            rep.kv(
-                "child tokens",
-                f"min={min(tokens)} max={max(tokens)} avg={sum(tokens) // len(tokens)}",
-            )
-        rep.table(
-            [
-                {
-                    "kind": "parent" if c.is_parent else "child",
-                    "idx": c.chunk_index,
-                    "tokens": c.token_count,
-                    "pages": c.page_range,
-                    "section": c.section_heading,
-                    "chunk_id": c.chunk_id[:13],
-                }
-                for c in cap.chunks[:show_chunks]
-            ],
-            ["kind", "idx", "tokens", "pages", "section", "chunk_id"],
-        )
-        if len(cap.chunks) > show_chunks:
-            rep.emit(f"  ... and {len(cap.chunks) - show_chunks} more chunk(s)")
-        if children:
-            rep.section("Chunk payload (first child, as indexed)")
-            for key, value in children[0].to_payload().items():
-                rep.kv(key, rep.snippet(rep.fmt(value), 110), indent=4)
-
-    rep.section("Indexing")
-    if cap.points is None:
-        rep.kv("qdrant points", "- (no indexing this outcome)")
-    else:
-        rep.kv("qdrant points", cap.points)
-
-
-def _report_mysql(cap: DocCapture, snap: Any) -> None:
-    rep.section("MySQL catalog (read back)")
-    if snap.state_row is None:
-        rep.emit("  (no state row)")
-    else:
-        for key in (
-            "document_id", "source_type", "source_key", "bundle", "entity_type",
-            "fingerprint", "content_hash", "doc_version", "changed_mark", "size",
-            "mtime_ns", "published_at", "title", "url", "indexed_at", "updated_at",
-        ):
-            rep.kv(key, snap.state_row.get(key))
-        rep.kv("raw_meta", "present" if snap.state_row.get("raw_meta") else None)
-    rep.kv("author facet rows", snap.authors)
-    rep.kv("category facet rows", snap.categories)
-    if snap.term_links:
-        rep.section("Term links (MySQL)")
-        rep.table(snap.term_links, ["term_uuid", "role"])
-    if snap.attachments:
-        rep.section("Attachment links (MySQL)")
-        rep.table(snap.attachments, ["file_uuid", "origin", "filename", "url"])
-
-    rep.section("Ingest log (this document, newest first)")
-    rep.table(
-        snap.log_rows[:5],
-        ["status", "doc_version", "chunks_indexed", "run_id", "event_time", "error_message"],
-    )
-
+# The full raw content of each stage is rendered by app.local_tests.dump; the
+# function below only asserts that what MySQL stored matches the canonical doc.
 
 def _verify(cap: DocCapture, snap: Any, checks: rep.Checks) -> None:
     rep.section("Checks")
@@ -428,7 +293,8 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         help="Override EXTRACTION_MODE for this run (local_only avoids Azure OCR).",
     )
     parser.add_argument(
-        "--show-chunks", type=int, default=6, help="Chunks listed per document.",
+        "--results-dir",
+        help="Folder for the raw dumps (default: app/local_tests/results/run-<timestamp>).",
     )
     parser.add_argument(
         "--cleanup", action="store_true",
@@ -457,6 +323,22 @@ def _iter_records(args: argparse.Namespace) -> tuple[Iterator[Any], Any]:
     return cd.detect_drupal_changes([args.bundle]), session
 
 
+def _preflight_index(settings: Any) -> str | None:
+    """Verify the vector store + embeddings are usable before processing docs.
+
+    Runs the same ``ensure_collection()`` the indexer calls first, so real
+    indexing failures surface once, up front, instead of as a traceback per
+    document. Returns an error message when unavailable, else None.
+    """
+    try:
+        from app.deps import ensure_collection
+
+        ensure_collection()
+        return None
+    except Exception as exc:  # connection refused, missing creds, ...
+        return f"{type(exc).__name__}: {exc}"
+
+
 def _cleanup(skip_index: bool) -> None:
     from app.config import get_settings
     from app.local_tests import db_checks
@@ -474,17 +356,47 @@ def _cleanup(skip_index: bool) -> None:
             rep.kv("dropped collection", collection)
 
 
-def main(argv: list[str] | None = None) -> int:
-    args = _parse_args(argv)
-    _apply_test_env(args.extraction_mode)
-    logging.basicConfig(
-        level=logging.INFO if args.verbose else logging.WARNING,
-        format="%(levelname)s %(name)s: %(message)s",
+def _write_summary(
+    run_dir: Path,
+    args: argparse.Namespace,
+    settings: Any,
+    run_id: str,
+    started: datetime,
+    documents: list[dict[str, Any]],
+    tally: Counter,
+    table_counts: dict[str, int],
+    checks: rep.Checks,
+    exit_code: int,
+) -> Path:
+    summary = {
+        "run_id": run_id,
+        "started_at": started.isoformat(timespec="seconds"),
+        "finished_at": datetime.now().isoformat(timespec="seconds"),
+        "source": args.source,
+        "bundle": args.bundle if args.source == "drupal" else None,
+        "pdf_dir": str(Path(args.dir).resolve()) if args.source == "pdf" else None,
+        "max_docs": args.max_docs,
+        "skip_index": args.skip_index,
+        "extraction_mode": settings.extraction_mode,
+        "mysql_state_table": settings.ingest_state_table,
+        "mysql_log_table": settings.ingest_log_table,
+        "qdrant_collection": settings.qdrant_collection,
+        "outcomes": dict(tally),
+        "mysql_table_counts": table_counts,
+        "checks_total": checks.total,
+        "checks_failed": checks.failed,
+        "exit_code": exit_code,
+        "documents": documents,
+    }
+    path = run_dir / "summary.json"
+    path.write_text(
+        json.dumps(summary, indent=2, ensure_ascii=False, default=str),
+        encoding="utf-8",
     )
-    with contextlib.suppress(AttributeError, ValueError):
-        sys.stdout.reconfigure(encoding="utf-8")
+    return path
 
-    # Safe to import app modules now that the env overrides are in place.
+
+def _run(args: argparse.Namespace, run_dir: Path, started: datetime) -> int:
     from app.config import get_settings
     from app.ingestion import ingest_log, state
     from app.local_tests import db_checks
@@ -500,6 +412,7 @@ def main(argv: list[str] | None = None) -> int:
     else:
         rep.kv("PDF source dir", Path(args.dir).resolve())
     rep.kv("max docs", args.max_docs or "no limit")
+    rep.kv("results dir", run_dir)
     rep.kv("MySQL state table", settings.ingest_state_table)
     rep.kv("MySQL log table", settings.ingest_log_table)
     rep.kv("Qdrant collection", settings.qdrant_collection)
@@ -509,13 +422,29 @@ def main(argv: list[str] | None = None) -> int:
     state.ensure_table()
     ingest_log.ensure_table()
 
+    if not args.skip_index:
+        error = _preflight_index(settings)
+        if error:
+            rep.section("Preflight FAILED")
+            rep.emit(f"  Real indexing is enabled but the vector store / embeddings")
+            rep.emit(f"  are unavailable (Qdrant at {settings.qdrant_url}):")
+            rep.emit(f"    {error}")
+            rep.emit("")
+            rep.emit("  Fix one of:")
+            rep.emit("   - start Qdrant + set Azure embedding credentials, or")
+            rep.emit("   - re-run with --skip-index: extraction, canonical mapping,")
+            rep.emit("     chunking and MySQL writes all still run and are dumped in")
+            rep.emit("     full; only the embedding + Qdrant upsert is skipped.")
+            return 3
+
     records, session = _iter_records(args)
     run_id = uuid.uuid4().hex
     checks = rep.Checks()
     tally: Counter = Counter()
-    overview: list[dict[str, Any]] = []
+    documents: list[dict[str, Any]] = []
     primary_done = 0  # nodes / local PDF files processed (attachments excluded)
 
+    rep.section("Processing (full raw dump written per document)")
     try:
         for record in records:
             is_attachment = record.source_type == "pdf_attachment"
@@ -526,21 +455,42 @@ def main(argv: list[str] | None = None) -> int:
                 primary_done += 1
             tally[cap.outcome] += 1
 
-            rep.header(f"{record.document_id}  ->  {cap.outcome.upper()}")
-            _report_stages(cap, args.show_chunks)
             snap = db_checks.fetch_snapshot(record.document_id)
-            _report_mysql(cap, snap)
-            failed_before = checks.failed
-            _verify(cap, snap, checks)
-            overview.append(
+            data = serialize.capture_to_dict(cap, snap)
+
+            stem = f"{len(documents) + 1:02d}_{_safe_name(record.document_id)}"
+            raw_file = Path("raw") / f"{stem}.json"
+            txt_file = Path("docs") / f"{stem}.txt"
+            (run_dir / "raw").mkdir(parents=True, exist_ok=True)
+            (run_dir / raw_file).write_text(
+                json.dumps(data, indent=2, ensure_ascii=False, default=str),
+                encoding="utf-8",
+            )
+
+            print(
+                f"  [{len(documents) + 1}] {record.source_type:15} "
+                f"{cap.outcome.upper():9} chunks={len(cap.chunks):<4} {record.document_id}"
+            )
+            checks_before = len(checks.results)
+            # The full dump goes to files only (it is large); the console shows
+            # the one-line progress above and the run summary at the end.
+            with rep.sink(run_dir / txt_file), rep.quiet_console():
+                dump.render(data)
+                _verify(cap, snap, checks)
+            documents.append(
                 {
                     "document_id": record.document_id,
-                    "type": record.source_type,
+                    "source_type": record.source_type,
                     "status": record.status.value,
                     "outcome": cap.outcome,
-                    "chunks": len(cap.chunks) or None,
-                    "checks": "FAIL" if checks.failed > failed_before else "ok",
+                    "error": cap.error,
                     "title": cap.doc.title if cap.doc else None,
+                    "doc_version": cap.doc.doc_version if cap.doc else None,
+                    "chunks": len(cap.chunks),
+                    "points": cap.points,
+                    "raw_file": raw_file.as_posix(),
+                    "text_file": txt_file.as_posix(),
+                    "checks": checks.results[checks_before:],
                 }
             )
     finally:
@@ -548,28 +498,77 @@ def main(argv: list[str] | None = None) -> int:
         if session is not None:
             session.close()
 
-    if not overview:
+    if not documents:
         rep.emit("\nNo documents detected. Check the source configuration above.")
         return 2
 
     rep.header("RUN SUMMARY")
-    rep.kv("documents processed", len(overview))
+    rep.kv("documents processed", len(documents))
     rep.kv("outcomes", dict(tally))
     rep.section("Documents")
     rep.table(
-        overview,
+        [
+            {
+                "document_id": d["document_id"],
+                "type": d["source_type"],
+                "status": d["status"],
+                "outcome": d["outcome"],
+                "chunks": d["chunks"] or None,
+                "checks": "FAIL" if any(not c["ok"] for c in d["checks"]) else "ok",
+                "title": d["title"],
+            }
+            for d in documents
+        ],
         ["document_id", "type", "status", "outcome", "chunks", "checks", "title"],
     )
     rep.section("MySQL table row counts")
-    for name, count in db_checks.table_counts().items():
+    table_counts = db_checks.table_counts()
+    for name, count in table_counts.items():
         rep.kv(name, "missing" if count < 0 else count)
+
+    exit_code = 0 if checks.failed == 0 and tally["error"] == 0 else 1
     rep.section("Result")
     rep.emit(f"  {checks.summary()}")
+    summary_path = _write_summary(
+        run_dir, args, settings, run_id, started, documents,
+        tally, table_counts, checks, exit_code,
+    )
+    rep.kv("summary json", summary_path)
 
     if args.cleanup:
         _cleanup(args.skip_index)
 
-    return 0 if checks.failed == 0 and tally["error"] == 0 else 1
+    return exit_code
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = _parse_args(argv)
+    _apply_test_env(args.extraction_mode)
+    logging.basicConfig(
+        level=logging.INFO if args.verbose else logging.WARNING,
+        format="%(levelname)s %(name)s: %(message)s",
+    )
+    with contextlib.suppress(AttributeError, ValueError):
+        sys.stdout.reconfigure(encoding="utf-8")
+
+    started = datetime.now()
+    run_dir = (
+        Path(args.results_dir)
+        if args.results_dir
+        else Path(__file__).parent / "results" / f"run-{started:%Y%m%d-%H%M%S}"
+    ).resolve()
+    run_dir.mkdir(parents=True, exist_ok=True)
+
+    # all_documents.txt is the full raw dump of every document concatenated;
+    # per-document copies live in docs/*.txt and raw/*.json.
+    with rep.sink(run_dir / "all_documents.txt"):
+        code = _run(args, run_dir, started)
+    print(f"\nRaw results written to: {run_dir}")
+    print("  all_documents.txt   full raw dump, every document")
+    print("  docs/NN_<id>.txt    per-document readable raw dump")
+    print("  raw/NN_<id>.json    per-document raw data (machine-readable)")
+    print("  summary.json        run config + per-document outcomes and checks")
+    return code
 
 
 if __name__ == "__main__":

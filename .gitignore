@@ -8,6 +8,7 @@ __pycache__/
 .ruff_cache/
 data/
 qdrant_storage/
+app/local_tests/results/
 .vscode/
 .idea/
 pdf_examples/

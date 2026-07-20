@@ -15,13 +15,28 @@ from typing import Any, Iterator, Mapping, Sequence, TextIO
 WIDTH = 78
 
 _sinks: list[TextIO] = []
+_console_enabled = True
 
 
 def emit(text: str = "") -> None:
-    """Write one line to the console and every active report-file sink."""
-    print(text)
+    """Write one line to the console (unless quieted) and every file sink."""
+    if _console_enabled:
+        print(text)
     for handle in _sinks:
         print(text, file=handle)
+
+
+@contextmanager
+def quiet_console() -> Iterator[None]:
+    """Suppress console output while active; file sinks still receive it.
+    Used to keep large per-document dumps in files without flooding the terminal."""
+    global _console_enabled
+    previous = _console_enabled
+    _console_enabled = False
+    try:
+        yield
+    finally:
+        _console_enabled = previous
 
 
 @contextmanager
@@ -70,6 +85,16 @@ def snippet(text: str | None, limit: int = 160) -> str:
     """Single-line preview of a text blob."""
     flat = " ".join((text or "").split())
     return flat if len(flat) <= limit else flat[: limit - 3] + "..."
+
+
+def block(text: str | None, indent: int = 4) -> None:
+    """Emit a multi-line text blob verbatim (no truncation), each line indented."""
+    pad = " " * indent
+    if not text:
+        emit(f"{pad}(empty)")
+        return
+    for line in str(text).splitlines() or [""]:
+        emit(pad + line)
 
 
 def table(rows: Sequence[Mapping[str, Any]], columns: Sequence[str], indent: int = 2) -> None:
