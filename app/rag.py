@@ -695,52 +695,6 @@ def _record(
     )
 
 
-def _answer(
-    question: str,
-    *,
-    history: list[dict[str, str]] | None = None,
-    tenant_id: str = "default",
-    user_groups: list[str] | None = None,
-    top_k: int | None = None,
-) -> dict[str, Any]:
-    result, gen = _prepare(
-        question, history=history, tenant_id=tenant_id,
-        user_groups=user_groups, top_k=top_k,
-    )
-    if result is not None:
-        return result
-
-    with span("rag.generate") as s:
-        answer = _grounded_answer(
-            gen.pq.search_query, gen.blocks, answer_format=gen.pq.answer_format
-        )
-        s.set("answer_chars", len(answer))
-    result = _assemble(answer, gen)
-    _persist(gen, result)
-    return result
-
-
-def answer_query(
-    question: str,
-    *,
-    history: list[dict[str, str]] | None = None,
-    tenant_id: str = "default",
-    user_groups: list[str] | None = None,
-    top_k: int | None = None,
-) -> dict[str, Any]:
-    stages: dict[str, float] = {}
-    with collect_into(stages), span("rag.answer_query") as s:
-        result = _answer(
-            question,
-            history=history,
-            tenant_id=tenant_id,
-            user_groups=user_groups,
-            top_k=top_k,
-        )
-        _record(s, result, stages)
-    return result
-
-
 def _generate_stream(
     question: str, blocks: list[ContextBlock], *, answer_format: str | None = None
 ) -> Iterator[str]:

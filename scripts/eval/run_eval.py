@@ -80,10 +80,10 @@ def _disable_caches() -> None:
 def _answer_with_stages(
     question: str,
 ) -> tuple[dict[str, Any], list[str], dict[str, float], float]:
-    # Mirrors rag._answer but built from _prepare/_grounded_answer/_assemble:
-    # answer_query's own collect_into would shadow the runner's stage dict,
-    # and the judges need the context block texts, which the assembled result
-    # doesn't carry. Cache persistence is skipped (no-op'd here anyway).
+    # Rebuilds the buffered answer flow from _prepare/_grounded_answer/_assemble:
+    # a wrapper's own collect_into would shadow the runner's stage dict, and the
+    # judges need the context block texts, which the assembled result doesn't
+    # carry. Cache persistence is skipped (no-op'd here anyway).
     import app.rag as rag
     from app.observability.metrics import collect_into
 
