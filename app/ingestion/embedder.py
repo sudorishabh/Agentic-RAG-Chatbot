@@ -1,5 +1,7 @@
 from functools import lru_cache
+
 from langchain_openai import AzureOpenAIEmbeddings
+
 from app.config import get_settings
 
 
@@ -15,12 +17,5 @@ def get_embeddings() -> AzureOpenAIEmbeddings:
     )
 
 
-def embed_query_cached(text: str) -> list[float]:
-    from app.cache import redis_cache
-
-    cached = redis_cache.get_embedding(text)
-    if cached is not None:
-        return cached
-    vector = get_embeddings().embed_query(text)
-    redis_cache.set_embedding(text, vector)
-    return vector
+def embed_query(text: str) -> list[float]:
+    return get_embeddings().embed_query(text)

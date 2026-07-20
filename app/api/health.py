@@ -108,7 +108,6 @@ async def metrics(principal: Principal = Depends(optional_principal)) -> dict:
         },
         "caches": {
             "response": settings.response_cache_enabled,
-            "embedding": settings.embedding_cache_enabled,
             "semantic": settings.semantic_cache_enabled,
         },
     }

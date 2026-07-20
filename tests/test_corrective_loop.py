@@ -84,7 +84,7 @@ def test_confident_or_disabled_skips_corrective(monkeypatch):
 def test_requery_fuses_and_reranks_once(monkeypatch):
     ranked = [_cand("a"), _cand("b")]
     monkeypatch.setattr(rag, "_corrective_query", lambda q, r: "reformulated query")
-    monkeypatch.setattr(embedder, "embed_query_cached", lambda q: [0.9])
+    monkeypatch.setattr(embedder, "embed_query", lambda q: [0.9])
     searched: list = []
 
     def fake_search(query, **kw):
@@ -125,7 +125,7 @@ def test_requery_fail_open_paths(monkeypatch):
 
     # Requery finds nothing new -> unchanged, no second rerank.
     monkeypatch.setattr(rag, "_corrective_query", lambda q, r: "other")
-    monkeypatch.setattr(embedder, "embed_query_cached", lambda q: [0.9])
+    monkeypatch.setattr(embedder, "embed_query", lambda q: [0.9])
     monkeypatch.setattr(rag, "search", lambda *a, **kw: [_cand("a")])
 
     def no_rerank(*a, **kw):

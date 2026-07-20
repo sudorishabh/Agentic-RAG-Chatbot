@@ -61,8 +61,6 @@ class Settings(BaseSettings):
     redis_url: str = ""
     response_cache_enabled: bool = True
     response_cache_ttl: int = 86400
-    embedding_cache_enabled: bool = True
-    embedding_cache_ttl: int = 604800
     semantic_cache_enabled: bool = True
     # 0.995: near-verbatim rephrasings only. At the old 0.97 a subtly different
     # question (another year, another theme) could return the wrong cached

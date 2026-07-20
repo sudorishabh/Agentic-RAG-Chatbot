@@ -184,11 +184,11 @@ def _paraphrase_search(
 ) -> list[Any]:
     """One paraphrase's dense pull (cached embed); [] on failure."""
     try:
-        from app.ingestion.embedder import embed_query_cached
+        from app.ingestion.embedder import embed_query
 
         return search(
             query, limit=limit, tenant_id=tenant_id, user_groups=user_groups,
-            query_vector=embed_query_cached(query),
+            query_vector=embed_query(query),
         )
     except Exception:
         logger.warning("Paraphrase search failed for %r.", query, exc_info=True)
@@ -255,13 +255,13 @@ def _corrective_requery(
         reformulated = _corrective_query(search_query, ranked)
         if not reformulated:
             return ranked
-        from app.ingestion.embedder import embed_query_cached
+        from app.ingestion.embedder import embed_query
         from app.retrieval.fusion import rrf
 
         extra = search(
             reformulated, limit=limit, tenant_id=tenant_id, user_groups=user_groups,
             extra_filter=filters or None,
-            query_vector=embed_query_cached(reformulated),
+            query_vector=embed_query(reformulated),
         )
         seen = {c.id for c in ranked}
         if not any(c.id not in seen for c in extra):
@@ -417,10 +417,10 @@ def retrieve(
     )
 
     if query_vector is None:
-        from app.ingestion.embedder import embed_query_cached
+        from app.ingestion.embedder import embed_query
 
         with span("rag.embed_query"):
-            query_vector = embed_query_cached(search_query)
+            query_vector = embed_query(search_query)
 
     def _base_search() -> list[Any]:
         if dual:
@@ -553,7 +553,7 @@ def _prepare(
     has to be generated.
     """
     from app.cache import redis_cache, semantic_cache
-    from app.ingestion.embedder import embed_query_cached
+    from app.ingestion.embedder import embed_query
 
     settings = get_settings()
     n = top_k or settings.retrieval_top_k
@@ -603,7 +603,7 @@ def _prepare(
         # Empty/unresolvable scope: fall through to plain semantic QA.
 
     with span("rag.embed_query"):
-        query_vector = embed_query_cached(pq.search_query)
+        query_vector = embed_query(pq.search_query)
     with span("rag.semantic_cache") as s:
         semantic = semantic_cache.lookup(
             query_vector, tenant_id=tenant_id, user_groups=user_groups,
