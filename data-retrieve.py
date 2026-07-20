@@ -7,7 +7,6 @@ def include_fields(resource: str) -> list[str]:
     doc = requests.get(f"{BASE}/{resource}?page[limit]=1", headers=H, timeout=60).json()
     rels = doc["data"][0]["relationships"]
     return [k for k in rels if k.startswith("field_")]
-
 resultIncludes = include_fields("node/feature_articles")
 print(f"Fields to include for node/feature_articles: {resultIncludes}")
 
