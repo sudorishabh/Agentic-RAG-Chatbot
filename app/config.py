@@ -78,8 +78,6 @@ class Settings(BaseSettings):
     semantic_cache_prune_every: int = 200
     chunk_size: int = 1000
     chunk_overlap: int = 200
-    celery_broker_url: str = ""
-    celery_result_backend: str = ""
     worker_sweep_interval_seconds: int = 3600
     worker_sweep_reconcile: bool = False
     retrieval_top_k: int = 6

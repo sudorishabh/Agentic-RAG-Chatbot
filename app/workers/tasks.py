@@ -1,56 +1,12 @@
 from __future__ import annotations
 
-import base64
 import logging
 from collections import Counter
-from typing import Any, Callable
+from typing import Any
 
 from app.config import get_settings
 
 logger = logging.getLogger(__name__)
-
-try:
-    from celery import Celery
-
-    _HAS_CELERY = True
-except Exception:  # pragma: no cover - celery not installed
-    Celery = None  # type: ignore[assignment]
-    _HAS_CELERY = False
-
-
-def _build_celery() -> Any | None:
-    if not _HAS_CELERY:
-        return None
-    settings = get_settings()
-    broker = settings.celery_broker_url or settings.redis_url
-    if not broker:
-        logger.warning("No celery broker / redis_url configured; tasks run inline.")
-        return None
-    backend = settings.celery_result_backend or settings.redis_url or None
-    app = Celery("agentic_rag", broker=broker, backend=backend)
-    app.conf.task_default_queue = "ingest"
-    app.conf.task_track_started = True
-    if settings.worker_sweep_interval_seconds > 0:
-        app.conf.beat_schedule = {
-            "incremental-sweep": {
-                "task": "app.workers.tasks.sweep",
-                "schedule": float(settings.worker_sweep_interval_seconds),
-            }
-        }
-    return app
-
-
-celery_app = _build_celery()
-
-
-def _task(name: str) -> Callable[[Callable], Callable]:
-
-    def decorator(fn: Callable) -> Callable:
-        if celery_app is not None:
-            return celery_app.task(name=name)(fn)
-        return fn
-
-    return decorator
 
 
 def _bump_cache_if_changed(tally: Counter) -> None:
@@ -60,7 +16,6 @@ def _bump_cache_if_changed(tally: Counter) -> None:
         bump_corpus_version()
 
 
-@_task("app.workers.tasks.ingest_pdfs")
 def ingest_pdfs(dirs: list[str] | None = None) -> dict[str, int]:
     from pathlib import Path
 
@@ -72,7 +27,6 @@ def ingest_pdfs(dirs: list[str] | None = None) -> dict[str, int]:
     return dict(tally)
 
 
-@_task("app.workers.tasks.ingest_drupal")
 def ingest_drupal(bundles: list[str] | None = None, reconcile: bool = False) -> dict[str, int]:
     from app.ingestion.pipeline import ingest_drupal as run
 
@@ -81,7 +35,6 @@ def ingest_drupal(bundles: list[str] | None = None, reconcile: bool = False) -> 
     return dict(tally)
 
 
-@_task("app.workers.tasks.sweep")
 def sweep() -> dict[str, dict[str, int]]:
     settings = get_settings()
     pdfs = ingest_pdfs()
@@ -91,15 +44,6 @@ def sweep() -> dict[str, dict[str, int]]:
     return result
 
 
-@_task("app.workers.tasks.ingest_upload")
-def ingest_upload(filename: str, content_b64: str) -> dict[str, Any]:
-    from app.ingestion.upload import ingest_upload as run
-
-    document_id, points = run(filename, base64.b64decode(content_b64))
-    return {"document_id": document_id, "points": points}
-
-
-@_task("app.workers.tasks.reindex_document")
 def reindex_document(document_id: str, source_type: str = "website") -> dict[str, Any]:
     from app.deps import delete_document
     from app.ingestion import state

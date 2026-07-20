@@ -13,7 +13,6 @@ pymysql
 cryptography
 requests
 redis
-celery  # optional: background ingestion workers (app/workers/tasks.py)
 
 # PDF extraction (app/ingestion/extractors/pdf_extractor.py)
 azure-ai-documentintelligence  # OCR for scanned/image pages in hybrid routing
