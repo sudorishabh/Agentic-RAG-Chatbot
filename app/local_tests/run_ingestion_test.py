@@ -286,7 +286,7 @@ def _report_mysql(cap: DocCapture, snap: Any) -> None:
     )
 
 
-def _verify(cap: DocCapture, snap: Any, checks: Checks) -> None:
+def _verify(cap: DocCapture, snap: Any, checks: rep.Checks) -> None:
     rep.section("Checks")
     rec, doc, row = cap.record, cap.doc, snap.state_row
 
@@ -443,7 +443,7 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     run_id = uuid.uuid4().hex
-    checks = Checks()
+    checks = rep.Checks()
     tally: Counter = Counter()
 
     for record in records:

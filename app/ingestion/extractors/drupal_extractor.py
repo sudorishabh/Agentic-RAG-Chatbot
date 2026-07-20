@@ -42,21 +42,21 @@ DEFAULT_TAXONOMIES: tuple[str, ...] = (
 )
 
 DEFAULT_BUNDLES: tuple[str, ...] = (
-    "news",
-    "feature_articles",
+    "article",
+    "page",
+    "research_papers",
     "completed_projects",
+    "feature_articles",
+    "ongoing_projects",
+    "news",
     "events",
     "press_release",
-    "research_papers",
-    "ongoing_projects",
-    "article",
     "policy_brief",
     "videos",
     "infographics",
     "services",
     "report",
     "people",
-    "page",
     "carousel",
     )
 
