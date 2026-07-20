@@ -511,9 +511,10 @@ def _main(argv: list[str] | None = None) -> int:
         print(body)
 
     if args.chunk:
-        from app.ingestion.chunker import chunk_pdf
+        from app.ingestion.canonical import from_pdf
+        from app.ingestion.chunker import chunk_canonical
 
-        chunks = chunk_pdf(result)
+        chunks = chunk_canonical(from_pdf(result))
         parents = sum(c.is_parent for c in chunks)
         print(f"\nchunks: {len(chunks)} ({parents} parents, {len(chunks) - parents} children)")
     return 0

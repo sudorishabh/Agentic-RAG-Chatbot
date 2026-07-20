@@ -821,31 +821,6 @@ def chunk_canonical(
     return chunk_document(doc.full_text(), meta, config=config)
 
 
-def chunk_pdf(
-    result: "ExtractionResult",  # noqa: F821 - extractors.pdf_extractor.ExtractionResult
-    *,
-    document_id: str | None = None,
-    config: ChunkingConfig | None = None,
-    small_doc_pages: int = 10,
-    **meta_overrides: Any,
-) -> list[Chunk]:
-    from app.ingestion.canonical import from_pdf
-
-    source_type = meta_overrides.pop("source_type", "pdf")
-    doc = from_pdf(result, document_id=document_id, source_type=source_type, **meta_overrides)
-    return chunk_canonical(doc, config=config, small_doc_pages=small_doc_pages)
-
-
-def chunk_drupal_record(
-    record: "DrupalRecord",  # noqa: F821 - extractors.drupal_extractor.DrupalRecord
-    *,
-    config: ChunkingConfig | None = None,
-) -> list[Chunk]:
-    from app.ingestion.canonical import from_drupal_record
-
-    return chunk_canonical(from_drupal_record(record), config=config)
-
-
 def _main(argv: list[str] | None = None) -> int:
     import argparse
     import sys
@@ -865,9 +840,11 @@ def _main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     path = Path(args.path)
     if path.suffix.lower() == ".pdf":
+        from app.ingestion.canonical import from_pdf
         from app.ingestion.extractors.pdf_extractor import extract_pdf
 
-        chunks = chunk_pdf(extract_pdf(path.read_bytes(), path.name))
+        doc = from_pdf(extract_pdf(path.read_bytes(), path.name))
+        chunks = chunk_canonical(doc)
     else:
         meta = DocumentMeta(document_id=_slugify(path.stem), source_type="pdf", title=path.name)
         chunks = chunk_document(path.read_text(encoding="utf-8", errors="ignore"), meta)
