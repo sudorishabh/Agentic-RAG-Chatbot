@@ -1,33 +1,60 @@
-"""Console reporting helpers for the local ingestion test.
+"""Console + file reporting for the local ingestion test.
 
-Plain-ASCII output so results render identically in Windows and Unix
-terminals and stay readable when redirected to a file.
+Everything emitted goes to the console and to every active file sink, so a
+run can mirror its output into a run-level report file and a per-document
+file at the same time. Plain-ASCII output so results render identically in
+Windows and Unix terminals.
 """
 
 from __future__ import annotations
 
-from typing import Any, Mapping, Sequence
+from contextlib import contextmanager
+from pathlib import Path
+from typing import Any, Iterator, Mapping, Sequence, TextIO
 
 WIDTH = 78
+
+_sinks: list[TextIO] = []
+
+
+def emit(text: str = "") -> None:
+    """Write one line to the console and every active report-file sink."""
+    print(text)
+    for handle in _sinks:
+        print(text, file=handle)
+
+
+@contextmanager
+def sink(path: Path) -> Iterator[None]:
+    """Mirror emitted output into ``path`` while active. Sinks nest, so a
+    per-document file can be active inside the run-level report file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle = path.open("w", encoding="utf-8")
+    _sinks.append(handle)
+    try:
+        yield
+    finally:
+        _sinks.remove(handle)
+        handle.close()
 
 
 def header(title: str) -> None:
     """Top-level banner, one per document or run phase."""
-    print()
-    print("=" * WIDTH)
-    print(f" {title}")
-    print("=" * WIDTH)
+    emit()
+    emit("=" * WIDTH)
+    emit(f" {title}")
+    emit("=" * WIDTH)
 
 
 def section(title: str) -> None:
     """Stage divider inside a document report (extraction, chunking, ...)."""
-    print()
-    print(f"--- {title} " + "-" * max(0, WIDTH - len(title) - 5))
+    emit()
+    emit(f"--- {title} " + "-" * max(0, WIDTH - len(title) - 5))
 
 
 def kv(label: str, value: Any, indent: int = 2) -> None:
     """One aligned 'label: value' line."""
-    print(f"{' ' * indent}{label + ':':<26} {fmt(value)}")
+    emit(f"{' ' * indent}{label + ':':<26} {fmt(value)}")
 
 
 def fmt(value: Any) -> str:
@@ -48,40 +75,40 @@ def snippet(text: str | None, limit: int = 160) -> str:
 def table(rows: Sequence[Mapping[str, Any]], columns: Sequence[str], indent: int = 2) -> None:
     """Fixed-width table of dict rows; long cells are clipped, missing keys show '-'."""
     if not rows:
-        print(f"{' ' * indent}(no rows)")
+        emit(f"{' ' * indent}(no rows)")
         return
     cells = [[snippet(fmt(row.get(col)), 40) for col in columns] for row in rows]
     widths = [
         max(len(col), *(len(row[i]) for row in cells)) for i, col in enumerate(columns)
     ]
     pad = " " * indent
-    print(pad + "  ".join(col.ljust(widths[i]) for i, col in enumerate(columns)))
-    print(pad + "  ".join("-" * w for w in widths))
+    emit(pad + "  ".join(col.ljust(widths[i]) for i, col in enumerate(columns)))
+    emit(pad + "  ".join("-" * w for w in widths))
     for row in cells:
-        print(pad + "  ".join(row[i].ljust(widths[i]) for i in range(len(columns))))
+        emit(pad + "  ".join(row[i].ljust(widths[i]) for i in range(len(columns))))
 
 
 class Checks:
     """Collects named PASS/FAIL results and renders a run summary."""
 
     def __init__(self) -> None:
-        self._results: list[bool] = []
+        self.results: list[dict[str, Any]] = []
 
     def add(self, name: str, ok: bool, detail: str = "") -> bool:
-        self._results.append(ok)
+        self.results.append({"name": name, "ok": bool(ok), "detail": detail})
         line = f"  [{'PASS' if ok else 'FAIL'}] {name}"
         if detail:
             line += f"  ({detail})"
-        print(line)
+        emit(line)
         return ok
 
     @property
     def failed(self) -> int:
-        return self._results.count(False)
+        return sum(1 for r in self.results if not r["ok"])
 
     @property
     def total(self) -> int:
-        return len(self._results)
+        return len(self.results)
 
     def summary(self) -> str:
         return f"{self.total - self.failed}/{self.total} checks passed"
