@@ -666,16 +666,6 @@ def _persist(gen: _Generation, result: dict[str, Any]) -> None:
             answer_format=gen.pq.answer_format,
             fingerprint=semantic_cache.facet_fingerprint(gen.pq),
         )
-    # Fresh grounded answers only reach this point (cache hits, chit-chat and
-    # structured results return earlier), so this is the async-judging hook.
-    from app.observability.quality_monitor import enqueue as quality_enqueue
-
-    quality_enqueue(
-        question=gen.pq.original,
-        answer=result.get("answer", ""),
-        block_texts=[b.text for b in gen.blocks],
-        citations=result.get("citations", []),
-    )
 
 
 def _record(
