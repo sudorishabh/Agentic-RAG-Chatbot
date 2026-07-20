@@ -38,8 +38,6 @@ _COMPONENTS = {
     "rag.faithfulness": "llm",
     "rag.embed_query": "embedding",
     "ingest.embed": "embedding",
-    "rag.response_cache": "redis",
-    "rag.response_cache_store": "redis",
     "rag.rerank": "rerank",
     "ingest.extract": "extraction",
 }

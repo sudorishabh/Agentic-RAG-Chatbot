@@ -59,8 +59,6 @@ class Settings(BaseSettings):
     qdrant_api_key: str | None = None
     qdrant_collection: str = "documents"
     redis_url: str = ""
-    response_cache_enabled: bool = True
-    response_cache_ttl: int = 86400
     semantic_cache_enabled: bool = True
     # 0.995: near-verbatim rephrasings only. At the old 0.97 a subtly different
     # question (another year, another theme) could return the wrong cached
@@ -70,6 +68,8 @@ class Settings(BaseSettings):
     # Semantic cache is backed by a dedicated Qdrant collection: a nearest-neighbor
     # lookup on the query embedding, gated by semantic_cache_threshold (cosine).
     semantic_cache_collection: str = "semantic_cache"
+    # Cached-answer lifetime in seconds (stored as expires_at; Qdrant has no TTL).
+    semantic_cache_ttl: int = 86400
     # Qdrant has no native TTL, so each entry stores an expires_at that lookups
     # filter out once stale; expired points are deleted every N stores (0 disables
     # the opportunistic prune — rely on lookup-time filtering / a scheduled prune).

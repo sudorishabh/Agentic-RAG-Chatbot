@@ -107,7 +107,6 @@ async def metrics(principal: Principal = Depends(optional_principal)) -> dict:
             "score_threshold": settings.rerank_score_threshold,
         },
         "caches": {
-            "response": settings.response_cache_enabled,
             "semantic": settings.semantic_cache_enabled,
         },
     }

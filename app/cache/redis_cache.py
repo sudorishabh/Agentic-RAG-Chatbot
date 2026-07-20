@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import hashlib
-import json
 import logging
 from typing import Any, Sequence
 
@@ -47,28 +46,6 @@ def bump_corpus_version() -> None:
         logger.warning("Could not bump corpus version.", exc_info=True)
 
 
-def _get_json(key: str) -> Any | None:
-    client = _client()
-    if client is None:
-        return None
-    try:
-        raw = client.get(key)
-        return json.loads(raw) if raw else None
-    except Exception:  # pragma: no cover
-        logger.warning("Cache read failed for %s", key, exc_info=True)
-        return None
-
-
-def _set_json(key: str, value: Any, ttl: int) -> None:
-    client = _client()
-    if client is None:
-        return
-    try:
-        client.set(key, json.dumps(value), ex=ttl)
-    except Exception:  # pragma: no cover
-        logger.warning("Cache write failed for %s", key, exc_info=True)
-
-
 def _pref_fingerprint() -> str:
     """Hash of the retrieval-preference settings so that toggling the feature or
     tuning its knobs self-invalidates both caches (otherwise old-mode answers
@@ -83,26 +60,6 @@ def _pref_fingerprint() -> str:
         str(s.retrieval_candidate_k),
         str(s.context_token_budget),
     )
-
-
-def response_signature(
-    question: str, *, tenant_id: str, user_groups: Sequence[str], top_k: int
-) -> str:
-    scope = f"{tenant_id}|{','.join(sorted(user_groups))}|{top_k}"
-    return _sha(corpus_version(), question.strip().lower(), scope, _pref_fingerprint())
-
-
-def get_response(signature: str) -> dict[str, Any] | None:
-    if not get_settings().response_cache_enabled:
-        return None
-    return _get_json(f"{_NS}:resp:{signature}")
-
-
-def set_response(signature: str, payload: dict[str, Any]) -> None:
-    settings = get_settings()
-    if not settings.response_cache_enabled:
-        return
-    _set_json(f"{_NS}:resp:{signature}", payload, settings.response_cache_ttl)
 
 
 def _identity_scope(tenant_id: str, user_groups: Sequence[str], top_k: int) -> str:

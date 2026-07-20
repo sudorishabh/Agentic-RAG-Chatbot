@@ -531,7 +531,6 @@ class _Generation:
     pq: ProcessedQuery
     blocks: list[ContextBlock]
     query_vector: list[float]
-    signature: str
     tenant_id: str
     user_groups: list[str]
     top_k: int
@@ -552,20 +551,12 @@ def _prepare(
     no-context refusal), or ``(None, generation)`` when a grounded answer still
     has to be generated.
     """
-    from app.cache import redis_cache, semantic_cache
+    from app.cache import semantic_cache
     from app.ingestion.embedder import embed_query
 
     settings = get_settings()
     n = top_k or settings.retrieval_top_k
     user_groups = user_groups or ["public"]
-
-    signature = redis_cache.response_signature(
-        question, tenant_id=tenant_id, user_groups=user_groups, top_k=n
-    )
-    with span("rag.response_cache"):
-        hit = redis_cache.get_response(signature)
-    if hit is not None:
-        return {**hit, "cached": True}, None
 
     with span("rag.query_understanding"):
         pq: ProcessedQuery = process(question, history)
@@ -629,7 +620,7 @@ def _prepare(
         return _empty(pq.intent, REFUSAL, answer_format=pq.answer_format), None
 
     return None, _Generation(
-        pq=pq, blocks=blocks, query_vector=query_vector, signature=signature,
+        pq=pq, blocks=blocks, query_vector=query_vector,
         tenant_id=tenant_id, user_groups=user_groups, top_k=n,
     )
 
@@ -655,10 +646,8 @@ def _assemble(answer: str, gen: _Generation) -> dict[str, Any]:
 
 
 def _persist(gen: _Generation, result: dict[str, Any]) -> None:
-    from app.cache import redis_cache, semantic_cache
+    from app.cache import semantic_cache
 
-    with span("rag.response_cache_store"):
-        redis_cache.set_response(gen.signature, result)
     with span("rag.semantic_cache_store"):
         semantic_cache.store(
             gen.query_vector, result, tenant_id=gen.tenant_id,

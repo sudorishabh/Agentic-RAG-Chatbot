@@ -176,7 +176,7 @@ def store(
             "result": result,
             "scope": scope,
             "facets": fingerprint or {},
-            "expires_at": time.time() + settings.response_cache_ttl,
+            "expires_at": time.time() + settings.semantic_cache_ttl,
         },
     )
     try:
