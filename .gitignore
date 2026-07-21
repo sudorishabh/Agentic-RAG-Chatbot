@@ -16,3 +16,5 @@ pdf_examples/
 .claude/settings.local.json
 # Added by code-review-graph
 .code-review-graph/
+# VSCodeCounter extension output (generated line-count reports)
+.VSCodeCounter/

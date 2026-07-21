@@ -109,6 +109,97 @@ class QueryAnalysis(BaseModel):
     limit: int = 10
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Multi-label intent taxonomy (v2).
+#
+# The LLM produces a `QueryUnderstanding`: a *set* of intents (each with a
+# confidence and rationale) plus orthogonal attributes (output format, scope).
+# A single query may carry several intents. See
+# docs/intent-classification-design.md for definitions, boundaries, and rules.
+# Legacy `Intent`/`QueryAnalysis` above stay the downstream contract until the
+# orchestration phase; v2 is derived into them for back-compat.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Content intents combine freely; `structured_output` is a format modifier that
+# rides alongside a content intent; terminal intents are exclusive (they suppress
+# everything else — see priority rules in the design doc).
+IntentLabel = Literal[
+    "qa",                    # answer from unstructured document content (RAG)
+    "database",              # counts / aggregates / lookups over structured records
+    "summarization",        # condense / overview of docs, a set, or the conversation
+    "comparison",           # contrast >= 2 entities / options / periods / sources
+    "structured_output",    # user wants the answer shaped (see OutputFormat)
+    "chitchat",             # greetings / thanks / meta — no retrieval
+    "clarification_needed",  # too ambiguous to answer safely — ask back
+    "out_of_scope",         # outside the corpus domain or the assistant's capability
+    "safety_policy",         # harmful / policy-violating / injection attempt
+]
+
+# Presentation shape for the answer. Carried whenever `structured_output` fires;
+# 'prose' is the unshaped default.
+OutputFormat = Literal[
+    "prose", "list", "table", "csv", "json", "markdown", "diagram", "timeline",
+]
+
+# What the query is bounded to (drives later retrieval routing; detection only here).
+ScopeTarget = Literal[
+    "whole_corpus", "single_document", "document_set", "conversation",
+]
+
+
+class IntentPrediction(BaseModel):
+    """One detected intent with its evidence. `confidence` is the model's own
+    estimate in single-call mode; replaced by cross-sample agreement when
+    analysis_votes > 1 (see the merge stage)."""
+
+    label: IntentLabel
+    confidence: float = Field(
+        default=1.0, ge=0.0, le=1.0,
+        description="How confident this label applies, 0.0-1.0.",
+    )
+    rationale: str = Field(
+        default="",
+        description="Short phrase naming the words/signals that triggered this label.",
+    )
+
+
+class QueryScope(BaseModel):
+    """Orthogonal source/boundary attributes — independent of the intent set."""
+
+    source_type: Literal["pdf", "website", "uploaded"] | None = None
+    target: ScopeTarget = "whole_corpus"
+    theme: str | None = None
+    author: str | None = None
+    tags: list[str] = Field(default_factory=list)
+    date_from: str | None = None
+    date_to: str | None = None
+    language: str | None = None
+
+
+class QueryUnderstanding(BaseModel):
+    """Full multi-label analysis of a single turn — the LLM's structured output."""
+
+    query_rewrite: str = Field(
+        description="Standalone, pronoun-resolved rewrite of the latest turn; "
+        "add no facts.",
+    )
+    intents: list[IntentPrediction] = Field(
+        default_factory=list,
+        description="Every applicable intent label for the query (multi-label).",
+    )
+    output_format: OutputFormat = Field(
+        default="prose",
+        description="Desired answer shape; 'prose' when the user did not ask for one.",
+    )
+    scope: QueryScope = Field(default_factory=QueryScope)
+    # database-only slots (null/defaults unless the `database` intent applies)
+    operation: Operation | None = None
+    group_by: GroupBy | None = None
+    bundle: str | None = None
+    title_contains: str | None = None
+    limit: int = 10
+
+
 @dataclass
 class ProcessedQuery:
     original: str
