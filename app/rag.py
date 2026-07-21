@@ -799,6 +799,11 @@ def search_blocks(
         "intent": pq.intent,
         "answer_format": pq.answer_format,
         "search_query": pq.search_query,
+        "intents": [
+            {"label": p.label, "confidence": p.confidence, "rationale": p.rationale}
+            for p in (pq.understanding.intents if pq.understanding else [])
+        ],
+        "is_ambiguous": pq.is_ambiguous,
         "blocks": [
             {
                 "n": b.n,

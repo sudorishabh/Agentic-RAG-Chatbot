@@ -60,8 +60,19 @@ class SearchBlock(BaseModel):
     section_heading: str | None = None
 
 
+class DetectedIntent(BaseModel):
+    label: str
+    confidence: float = 1.0
+    rationale: str = ""
+
+
 class SearchResponse(BaseModel):
     intent: str
     answer_format: str = "default"
     search_query: str
+    # Multi-label understanding exposed for inspection/debugging (see
+    # docs/intent-classification-design.md). `intent` stays the single-label
+    # route the pipeline acts on; `intents` is the full detected set.
+    intents: list[DetectedIntent] = Field(default_factory=list)
+    is_ambiguous: bool = False
     blocks: list[SearchBlock] = Field(default_factory=list)

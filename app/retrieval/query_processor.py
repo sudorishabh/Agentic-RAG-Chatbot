@@ -309,6 +309,12 @@ class ProcessedQuery:
     def needs_retrieval(self) -> bool:
         return self.intent != "chitchat"
 
+    @property
+    def is_ambiguous(self) -> bool:
+        """Near-tie between the top content intents — a debug/clarification
+        signal. False on the passthrough fallback (no understanding)."""
+        return _is_ambiguous(self.understanding.intents) if self.understanding else False
+
 
 def _format_history(history: Sequence[dict[str, str]] | None, max_turns: int = 6) -> str:
     if not history:
@@ -658,6 +664,12 @@ def process(question: str, history: Sequence[dict[str, str]] | None = None) -> P
 
     understanding = _merge_understanding(samples, threshold=threshold)
     analysis = _to_legacy_analysis(question, understanding)
+    logger.info(
+        "intent: %s -> route=%s%s",
+        [f"{p.label}:{p.confidence}" for p in understanding.intents],
+        analysis.intent,
+        " (ambiguous)" if _is_ambiguous(understanding.intents) else "",
+    )
     return ProcessedQuery(
         original=question,
         search_query=analysis.search_query,

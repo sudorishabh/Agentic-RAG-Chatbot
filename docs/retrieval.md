@@ -8,9 +8,14 @@ plus the structured (non-RAG) path. Orchestrated by `retrieve()` and friends in
 
 `process(question, history=None) -> ProcessedQuery`
 
-A structured-output LLM call (via `get_structured_llm`) classifies and rewrites the
-question over up to the last ~6 turns of history. It **fails open**: on any LLM error
-it returns the original question with `intent="qa"`.
+A structured-output LLM call produces a **multi-label** `QueryUnderstanding` — a set
+of intents (each with a confidence + rationale) plus orthogonal attributes (output
+format, scope). With `analysis_votes > 1` it runs N concurrent samples at exploratory
+temperature and confidence is the cross-sample agreement share; at `votes = 1` it is a
+single pinned-temperature call using the model's own confidence. It **fails open**: on
+any error it returns the original question with `intent="qa"`. The multi-label result
+is then collapsed to the single-label route the rest of the pipeline consumes. Full
+taxonomy, boundaries, and rules: [intent-classification-design.md](intent-classification-design.md).
 
 `ProcessedQuery`:
 
@@ -18,14 +23,22 @@ it returns the original question with `intent="qa"`.
 | --- | --- |
 | `original` | unmodified user input |
 | `search_query` | pronoun-resolved, standalone query for retrieval |
-| `intent` | `qa` \| `structured` \| `chitchat` |
+| `intent` | derived single-label route: `qa` \| `structured` \| `scoped_summary` \| `chitchat` |
+| `answer_format` | `default` \| `list` \| `table` \| `summary` \| `detailed` \| `timeline` |
 | `source_type` | `pdf` / `website` if the user was explicit, else None. Also gates the website-preference dual pull (see §6): when set, retrieval uses a single filtered pull, not the dual pull |
 | `language` | two-letter code if explicit, else None |
 | `filters` | Qdrant `FieldCondition`s derived from the facets above — may include a `source_type` match, a `language` match, and a `published_at` `DatetimeRange` (from `date_from`/`date_to`) |
 | `needs_retrieval` | property — false only for `chitchat` |
+| `is_ambiguous` | property — true when the top content intents are a near-tie |
+| `analysis` | derived `QueryAnalysis` (structured slots for the Drupal router) |
+| `understanding` | full multi-label `QueryUnderstanding` (intents + confidence + rationale + scope), for inspection |
 
-Intents route differently (see [architecture.md](architecture.md#query-lifecycle)):
-`chitchat` answers directly, `structured` tries the Drupal router, `qa` runs full RAG.
+The derived `intent` routes as before (see [architecture.md](architecture.md#query-lifecycle)):
+`chitchat` answers directly, `structured` goes to the Drupal router, `scoped_summary`
+to the summarizer, `qa` runs full RAG. The new terminal intents (`out_of_scope`,
+`safety_policy`, `clarification_needed`) currently map to the non-retrieving `chitchat`
+route pending dedicated handling. The multi-label `intents` and `is_ambiguous` are
+exposed on the `/search` response for inspection.
 
 ## 2. Hybrid search — [app/retrieval/hybrid_search.py](../app/retrieval/hybrid_search.py)
 
