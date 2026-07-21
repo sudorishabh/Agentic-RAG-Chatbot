@@ -19,6 +19,7 @@ from app.retrieval.database.tools import (
     count_records,
     list_records,
     lookup_record,
+    resolve_lookup_chain,
 )
 from app.retrieval.database.types import (
     DatabasePlan,
@@ -40,6 +41,7 @@ __all__ = [
     "count_records",
     "list_records",
     "lookup_record",
+    "resolve_lookup_chain",
     "execute",
     "plan",
     "DatabasePlan",

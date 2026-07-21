@@ -534,6 +534,34 @@ class _Generation:
     tenant_id: str
     user_groups: list[str]
     top_k: int
+    # Deterministic catalog section prefixed onto a combined (database + content)
+    # answer; "" for single-source answers.
+    db_prefix: str = ""
+
+
+# Content capabilities that pair with a database lookup into a combined answer.
+_CONTENT_CAPS = frozenset({"qa", "comparison"})
+
+
+def _capabilities(pq: ProcessedQuery) -> set[str]:
+    """The detected multi-label intents (empty on the passthrough fallback)."""
+    if pq.understanding is None:
+        return set()
+    return {p.label for p in pq.understanding.intents}
+
+
+def _db_section(
+    pq: ProcessedQuery, question: str, history: list[dict[str, str]] | None
+) -> str:
+    """Deterministic catalog answer to prefix onto a combined (database + content)
+    response, reusing the already-extracted slots (no second LLM parse). '' when
+    there is nothing to add."""
+    if pq.analysis is None or not pq.analysis.operation:
+        return ""
+    from app.retrieval.drupal_router import answer_structured
+
+    structured = answer_structured(question, history, analysis=pq.analysis)
+    return structured["answer"] if structured else ""
 
 
 def _prepare(
@@ -563,19 +591,28 @@ def _prepare(
     if pq.intent == "chitchat":
         return _empty("chitchat", _chitchat(question, history)), None
 
-    if pq.intent == "structured":
-        from app.retrieval.drupal_router import answer_structured, resolve_lookup_document
+    caps = _capabilities(pq)
+    # A query that needs both catalog facts and document content: keep the
+    # deterministic catalog answer and prefix it onto the grounded content answer.
+    combined = "database" in caps and bool(caps & _CONTENT_CAPS)
+    chained = False
 
-        chain_id = resolve_lookup_document(pq.analysis, question)
+    if pq.intent == "structured":
+        from app.retrieval.database.tools import resolve_lookup_chain
+        from app.retrieval.drupal_router import answer_structured
+
+        chain_id = resolve_lookup_chain(pq.analysis, question)
         if chain_id is not None:
-            # Content question about one named title: answer from that
-            # document's chunks (QA path below) instead of title+URL.
+            # Content question about one named title: answer from that document's
+            # chunks (QA path below) instead of title+URL.
             from qdrant_client.models import FieldCondition, MatchValue
 
             pq.filters.append(
                 FieldCondition(key="document_id", match=MatchValue(value=chain_id))
             )
-        else:
+            chained = True
+        elif not combined:
+            # Database-only: the deterministic catalog answer is complete.
             structured = answer_structured(question, history, analysis=pq.analysis)
             if structured is not None:
                 structured.setdefault("answer_format", pq.answer_format)
@@ -592,6 +629,11 @@ def _prepare(
             summary.setdefault("answer_format", pq.answer_format)
             return summary, None
         # Empty/unresolvable scope: fall through to plain semantic QA.
+
+    db_prefix = ""
+    if combined and not chained:
+        with span("rag.db_section"):
+            db_prefix = _db_section(pq, question, history)
 
     with span("rag.embed_query"):
         query_vector = embed_query(pq.search_query)
@@ -617,11 +659,15 @@ def _prepare(
         intent=pq.intent,
     )
     if not blocks:
+        # Combined query whose content retrieval came up empty: still return the
+        # deterministic catalog answer rather than a blanket refusal.
+        if db_prefix:
+            return _empty(pq.intent, db_prefix, answer_format=pq.answer_format), None
         return _empty(pq.intent, REFUSAL, answer_format=pq.answer_format), None
 
     return None, _Generation(
         pq=pq, blocks=blocks, query_vector=query_vector,
-        tenant_id=tenant_id, user_groups=user_groups, top_k=n,
+        tenant_id=tenant_id, user_groups=user_groups, top_k=n, db_prefix=db_prefix,
     )
 
 
@@ -633,8 +679,11 @@ def _assemble(answer: str, gen: _Generation) -> dict[str, Any]:
     mismatches = faithfulness.numeric_mismatches(answer, gen.blocks)
     if mismatches:
         logger.info("Numeric claims not found in cited blocks: %s", mismatches)
+    # The catalog section is deterministic (not from the blocks), so faithfulness
+    # and numeric checks run on the grounded content only; compose for display.
+    final = f"{gen.db_prefix}\n\n{answer}" if gen.db_prefix else answer
     return {
-        "answer": answer,
+        "answer": final,
         "citations": [c.model_dump() for c in build_citations(gen.blocks)],
         "intent": gen.pq.intent,
         "answer_format": gen.pq.answer_format,
@@ -734,6 +783,10 @@ def stream_answer(
         from app.generation import faithfulness
 
         parts: list[str] = []
+        # Combined answer: stream the deterministic catalog section first, then
+        # the grounded content answer.
+        if gen.db_prefix:
+            yield {"type": "token", "text": gen.db_prefix + "\n\n"}
         for token in _generate_stream(
             gen.pq.search_query, gen.blocks, answer_format=gen.pq.answer_format
         ):
@@ -763,8 +816,11 @@ def stream_answer(
                     corrected = ""
                 if corrected and corrected != answer:
                     answer = corrected
-                    yield {"type": "correction", "text": corrected,
-                           "reason": "faithfulness"}
+                    yield {
+                        "type": "correction",
+                        "text": f"{gen.db_prefix}\n\n{corrected}" if gen.db_prefix else corrected,
+                        "reason": "faithfulness",
+                    }
 
         result = _assemble(answer, gen)
         s.set("answer_chars", len(answer))

@@ -106,8 +106,7 @@ def test_verify_fails_open(monkeypatch):
 def _gen(blocks):
     pq = ProcessedQuery(original="q", search_query="q")
     return rag._Generation(pq=pq, blocks=blocks, query_vector=[0.1],
-                           signature="sig", tenant_id="default",
-                           user_groups=["public"], top_k=6)
+                           tenant_id="default", user_groups=["public"], top_k=6)
 
 
 def _wire_stream(monkeypatch, *, check_on, faithful, persisted):

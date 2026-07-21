@@ -172,11 +172,12 @@ Two implementations behind one interface:
 - **Single capability, simple op** (`database` only, one count/list/distribution):
   return the tool's deterministic rendering — unchanged from today, exact and
   LLM-free.
-- **Multi-capability** (`database` + `qa`/`summarization`): adapt each `ToolResult`
-  into the **same evidence/`ContextBlock` shape** the generation layer already
-  consumes, concatenate with the retrieval blocks, and let the existing grounded
-  generation synthesize one cited answer. Generation code is unchanged; only the
-  orchestration that assembles the combined context is new.
+- **Multi-capability** (`database` + `qa`/`comparison`) — **sectioned composition**:
+  keep the tool's exact deterministic rendering as one section and prefix it onto
+  the grounded, cited content answer (in `rag._assemble` / `stream_answer`).
+  Faithfulness and numeric checks run on the grounded content only, so the catalog
+  count stays exact. If content retrieval comes up empty, the catalog section is
+  returned alone rather than a refusal.
 
 ---
 
@@ -194,9 +195,10 @@ run in parallel:
    if "qa" in caps:            doc_blocks  = retrieve(...)          # unchanged
    if "summarization" in caps: summary     = summarize_scope(...)   # unchanged
 
-synthesize:
-   if only database and simple op → db_results[0].rendered           # deterministic
-   else                           → generate(context = doc_blocks + as_blocks(db_results))
+compose (sectioned):
+   db-only            → db_results[0].rendered                   # deterministic, complete
+   database + content → db_prefix (deterministic) + "\n\n" + generate(doc_blocks)
+   content-only       → generate(doc_blocks)                     # unchanged QA path
 ```
 
 - QA retrieval (`retrieve()`) is **called, not modified**.

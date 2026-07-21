@@ -15,7 +15,7 @@ import logging
 import re
 from dataclasses import replace
 from datetime import datetime
-from typing import Sequence
+from typing import Any, Sequence
 
 from app.ingestion import state
 from app.retrieval.database.entities import entity_label, get_entity
@@ -238,6 +238,20 @@ def lookup_record(
         citations=result.citations,
         rendered=result.rendered,
         error=result.error,
+    )
+
+
+def resolve_lookup_chain(analysis: Any, question: str) -> str | None:
+    """The lookup->content-QA chain decision used by rag._prepare: the document id
+    when `analysis` is a lookup naming a title that a content question matches to
+    exactly one catalog document, else None. Duck-typed on operation /
+    title_contains / answer_format."""
+    if analysis is None or getattr(analysis, "operation", None) != "lookup":
+        return None
+    return _resolve_chain(
+        getattr(analysis, "title_contains", None),
+        question,
+        getattr(analysis, "answer_format", "default"),
     )
 
 

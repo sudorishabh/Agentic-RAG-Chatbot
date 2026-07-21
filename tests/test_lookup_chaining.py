@@ -8,8 +8,8 @@ catalog is stubbed; no MySQL, Qdrant, or LLM.
 from __future__ import annotations
 
 from app.ingestion import state
-from app.retrieval import drupal_router as dr
 from app.retrieval import query_processor as qp
+from app.retrieval.database.tools import resolve_lookup_chain
 
 
 def _rec(document_id="d1", title="Thoothukudi report"):
@@ -32,7 +32,7 @@ def test_chains_on_interrogative_with_single_match(monkeypatch):
     monkeypatch.setattr(
         state, "list_documents", lambda **kw: seen.update(kw) or [_rec()]
     )
-    out = dr.resolve_lookup_document(
+    out = resolve_lookup_chain(
         _lookup(), "what does the Thoothukudi report say about emissions?"
     )
     assert out == "d1"
@@ -43,7 +43,7 @@ def test_chains_on_interrogative_with_single_match(monkeypatch):
 
 def test_chains_on_summary_format_without_interrogative(monkeypatch):
     monkeypatch.setattr(state, "list_documents", lambda **kw: [_rec()])
-    out = dr.resolve_lookup_document(
+    out = resolve_lookup_chain(
         _lookup(answer_format="summary"), "show me the article titled Thoothukudi"
     )
     assert out == "d1"
@@ -54,7 +54,7 @@ def test_browse_question_does_not_chain(monkeypatch):
         raise AssertionError("catalog must not be queried for a browse lookup")
 
     monkeypatch.setattr(state, "list_documents", no_db)
-    out = dr.resolve_lookup_document(
+    out = resolve_lookup_chain(
         _lookup(), "show me the article titled Thoothukudi"
     )
     assert out is None
@@ -62,10 +62,10 @@ def test_browse_question_does_not_chain(monkeypatch):
 
 def test_ambiguous_and_missing_matches_do_not_chain(monkeypatch):
     monkeypatch.setattr(state, "list_documents", lambda **kw: [_rec("d1"), _rec("d2")])
-    assert dr.resolve_lookup_document(_lookup(), "what does it say?") is None
+    assert resolve_lookup_chain(_lookup(), "what does it say?") is None
 
     monkeypatch.setattr(state, "list_documents", lambda **kw: [])
-    assert dr.resolve_lookup_document(_lookup(), "what does it say?") is None
+    assert resolve_lookup_chain(_lookup(), "what does it say?") is None
 
 
 def test_non_lookup_or_untitled_does_not_chain(monkeypatch):
@@ -73,9 +73,9 @@ def test_non_lookup_or_untitled_does_not_chain(monkeypatch):
         raise AssertionError("catalog must not be queried")
 
     monkeypatch.setattr(state, "list_documents", no_db)
-    assert dr.resolve_lookup_document(_lookup(operation="list"), "what?") is None
-    assert dr.resolve_lookup_document(_lookup(title_contains=None), "what?") is None
-    assert dr.resolve_lookup_document(None, "what?") is None
+    assert resolve_lookup_chain(_lookup(operation="list"), "what?") is None
+    assert resolve_lookup_chain(_lookup(title_contains=None), "what?") is None
+    assert resolve_lookup_chain(None, "what?") is None
 
 
 def test_catalog_error_falls_back(monkeypatch):
@@ -83,4 +83,4 @@ def test_catalog_error_falls_back(monkeypatch):
         raise RuntimeError("db down")
 
     monkeypatch.setattr(state, "list_documents", boom)
-    assert dr.resolve_lookup_document(_lookup(), "what does it say?") is None
+    assert resolve_lookup_chain(_lookup(), "what does it say?") is None
