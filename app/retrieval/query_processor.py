@@ -495,6 +495,144 @@ def _merge_votes(votes: Sequence[QueryAnalysis]) -> QueryAnalysis:
     return QueryAnalysis(**merged)
 
 
+# ── Multi-label merge + hybrid confidence (v2) ───────────────────────────────
+# Terminal intents are exclusive: the highest-priority one present wins alone.
+# Content intents are co-equal, ranked by confidence. `structured_output` is a
+# modifier that only rides alongside a content intent. See
+# docs/intent-classification-design.md (sections 6-8).
+_TERMINAL_PRIORITY: tuple[IntentLabel, ...] = (
+    "safety_policy", "out_of_scope", "clarification_needed", "chitchat",
+)
+_CONTENT_INTENTS: frozenset[str] = frozenset(
+    {"qa", "database", "summarization", "comparison"}
+)
+
+
+def _label_confidences(
+    samples: Sequence[QueryUnderstanding],
+) -> dict[str, tuple[float, str]]:
+    """Per-label confidence + a representative rationale (the hybrid scheme):
+    with several samples, confidence is the agreement fraction (vote share);
+    with a single sample it is the model's own reported confidence."""
+    n = len(samples)
+    grouped: dict[str, list[float]] = {}
+    rationale: dict[str, str] = {}
+    for sample in samples:
+        for pred in sample.intents:
+            grouped.setdefault(pred.label, []).append(pred.confidence)
+            rationale.setdefault(pred.label, pred.rationale)
+    out: dict[str, tuple[float, str]] = {}
+    for label, confs in grouped.items():
+        conf = confs[0] if n <= 1 else len(confs) / n
+        out[label] = (round(float(conf), 3), rationale.get(label, ""))
+    return out
+
+
+def _resolve_intents(
+    confidences: dict[str, tuple[float, str]], *, threshold: float
+) -> list[IntentPrediction]:
+    """Apply the taxonomy rules to per-label confidences: terminal exclusivity +
+    priority, the threshold gate, a guaranteed content intent, and the
+    structured_output-never-alone modifier rule."""
+    kept = {label: cr for label, cr in confidences.items() if cr[0] >= threshold}
+
+    # Terminal intents are exclusive — the highest-priority one present wins.
+    for term in _TERMINAL_PRIORITY:
+        if term in kept:
+            conf, why = kept[term]
+            return [IntentPrediction(label=term, confidence=conf, rationale=why)]
+
+    # Content path: guarantee at least one content intent survives.
+    content = {lbl: cr for lbl, cr in kept.items() if lbl in _CONTENT_INTENTS}
+    if not content:
+        pool = {lbl: cr for lbl, cr in confidences.items() if lbl in _CONTENT_INTENTS}
+        if pool:
+            top = max(pool, key=lambda lbl: pool[lbl][0])
+            content = {top: pool[top]}
+        else:
+            content = {"qa": (0.5, "fallback: no content intent detected")}
+
+    ordered = sorted(content, key=lambda lbl: content[lbl][0], reverse=True)
+    result = [
+        IntentPrediction(label=lbl, confidence=content[lbl][0], rationale=content[lbl][1])
+        for lbl in ordered
+    ]
+    # structured_output rides along only when a content intent is present.
+    if "structured_output" in kept:
+        conf, why = kept["structured_output"]
+        result.append(
+            IntentPrediction(label="structured_output", confidence=conf, rationale=why)
+        )
+    return result
+
+
+def _primary_intent(intents: Sequence[IntentPrediction]) -> IntentLabel:
+    """Single-label view for back-compat: highest-priority terminal, else the
+    highest-confidence content intent, else qa."""
+    labels = {p.label for p in intents}
+    for term in _TERMINAL_PRIORITY:
+        if term in labels:
+            return term
+    content = [p for p in intents if p.label in _CONTENT_INTENTS]
+    if content:
+        return max(content, key=lambda p: p.confidence).label
+    return "qa"
+
+
+def _is_ambiguous(intents: Sequence[IntentPrediction], *, margin: float = 0.2) -> bool:
+    """True when the top two content intents are within `margin` of each other —
+    a genuine multi-way call worth surfacing (and a clarification signal)."""
+    content = sorted(
+        (p for p in intents if p.label in _CONTENT_INTENTS),
+        key=lambda p: p.confidence, reverse=True,
+    )
+    if len(content) < 2:
+        return False
+    return (content[0].confidence - content[1].confidence) < margin
+
+
+def _merge_understanding(
+    samples: Sequence[QueryUnderstanding], *, threshold: float
+) -> QueryUnderstanding:
+    """Merge N understanding samples into one: agreement-voted intents (see
+    _label_confidences / _resolve_intents), majority-voted attributes, and a
+    query_rewrite drawn from a sample that matches the merged primary intent.
+    Assumes at least one sample."""
+    confidences = _label_confidences(samples)
+    intents = _resolve_intents(confidences, threshold=threshold)
+
+    def vote(getter: Any) -> Any:
+        return _vote([getter(s) for s in samples])
+
+    scope = QueryScope(
+        source_type=vote(lambda s: s.scope.source_type),
+        target=vote(lambda s: s.scope.target) or "whole_corpus",
+        theme=vote(lambda s: s.scope.theme),
+        author=vote(lambda s: s.scope.author),
+        tags=vote(lambda s: s.scope.tags) or [],
+        date_from=vote(lambda s: s.scope.date_from),
+        date_to=vote(lambda s: s.scope.date_to),
+        language=vote(lambda s: s.scope.language),
+    )
+    primary = _primary_intent(intents)
+    rewrite = next(
+        (s.query_rewrite for s in samples
+         if s.query_rewrite.strip() and any(p.label == primary for p in s.intents)),
+        samples[0].query_rewrite,
+    )
+    return QueryUnderstanding(
+        query_rewrite=rewrite,
+        intents=intents,
+        output_format=vote(lambda s: s.output_format) or "prose",
+        scope=scope,
+        operation=vote(lambda s: s.operation),
+        group_by=vote(lambda s: s.group_by),
+        bundle=vote(lambda s: s.bundle),
+        title_contains=vote(lambda s: s.title_contains),
+        limit=vote(lambda s: s.limit) or 10,
+    )
+
+
 def _voted_analysis(
     question: str, history: Sequence[dict[str, str]] | None, votes: int
 ) -> QueryAnalysis | None:
