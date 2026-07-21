@@ -413,9 +413,9 @@ def test_answer_format_accepts_timeline():
 
 
 def test_process_carries_analysis(monkeypatch):
-    analysis = qp.QueryAnalysis(
-        search_query="how many events in 2024",
-        intent="structured",
+    understanding = qp.QueryUnderstanding(
+        query_rewrite="how many events in 2024",
+        intents=[qp.IntentPrediction(label="database", confidence=0.9, rationale="")],
         operation="count",
         bundle="events",
     )
@@ -425,12 +425,16 @@ def test_process_carries_analysis(monkeypatch):
             return self
 
         def invoke(self, messages):
-            return analysis
+            return understanding
 
     monkeypatch.setattr(qp, "get_structured_llm", lambda: _FakeStructured())
     pq = qp.process("how many events in 2024?")
-    assert pq.analysis is analysis
+    # 'database' derives the legacy structured route; slots reach pq.analysis and
+    # the full multi-label result is exposed on pq.understanding.
     assert pq.intent == "structured"
+    assert pq.analysis.operation == "count"
+    assert pq.analysis.bundle == "events"
+    assert pq.understanding.intents[0].label == "database"
 
 
 def test_process_passthrough_has_no_analysis(monkeypatch):

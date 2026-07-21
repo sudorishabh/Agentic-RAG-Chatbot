@@ -1,9 +1,10 @@
-"""Unit tests for self-consistency voting on query analysis.
+"""Unit tests for scalar vote merging and the process() wiring.
 
-Covers the per-field majority vote (ties, list slots, intent-tie safety),
-vote merging, and the process() wiring: exploratory-temperature samples when
-analysis_votes > 1, dropped erroring votes, all-failed passthrough, and the
-unchanged single-call path at votes=1. LLM is stubbed; no network.
+Covers _vote (majority + tie behavior) and process(): exploratory-temperature
+samples when analysis_votes > 1, dropped erroring votes, all-failed passthrough,
+and the single-call path at votes=1. The multi-label merge, confidence, and
+legacy derivation live in test_intent_understanding.py. LLM is stubbed; no
+network.
 """
 
 from __future__ import annotations
@@ -12,11 +13,6 @@ from types import SimpleNamespace
 
 import app.generation.llm_client as llm_client
 from app.retrieval import query_processor as qp
-
-
-def _a(**kw):
-    kw.setdefault("search_query", "q")
-    return qp.QueryAnalysis(**kw)
 
 
 def _u(labels, **kw):
@@ -29,7 +25,7 @@ def _u(labels, **kw):
 
 
 # --------------------------------------------------------------------------- #
-# Voting math.
+# Vote math.
 # --------------------------------------------------------------------------- #
 
 def test_vote_majority_wins():
@@ -42,31 +38,6 @@ def test_vote_ties_take_first_non_null():
     assert qp._vote(["count", "list", None]) == "count"
     assert qp._vote([None, "list", "count"]) == "list"
     assert qp._vote([None, None]) is None
-
-
-def test_vote_intent_tie_falls_to_qa():
-    assert qp._vote(["structured", "chitchat"], qa_on_tie=True) == "qa"
-    assert qp._vote(["structured", "structured", "qa"], qa_on_tie=True) == "structured"
-
-
-def test_merge_votes_per_field():
-    votes = [
-        _a(intent="structured", operation="count", bundle="news", limit=10,
-           tags=["solar"]),
-        _a(intent="structured", operation="count", bundle=None, limit=10,
-           tags=["solar"]),
-        _a(intent="qa", operation=None, bundle="news", limit=5, tags=[]),
-    ]
-    merged = qp._merge_votes(votes)
-    assert merged.intent == "structured"
-    assert merged.operation == "count"
-    assert merged.bundle == "news"
-    assert merged.limit == 10
-    assert merged.tags == ["solar"]
-
-
-def test_merge_votes_intent_tie_is_safe():
-    assert qp._merge_votes([_a(intent="structured"), _a(intent="chitchat")]).intent == "qa"
 
 
 # --------------------------------------------------------------------------- #
@@ -112,7 +83,7 @@ def test_process_merges_three_votes(monkeypatch):
     pq = qp.process("how many news items?")
 
     assert temps == [0.7, 0.7, 0.7]  # exploratory temperature per sample
-    assert pq.intent == "structured"
+    assert pq.intent == "structured"  # database -> legacy structured route
     assert pq.analysis.operation == "count"
 
 

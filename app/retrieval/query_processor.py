@@ -22,72 +22,6 @@ AnswerFormat = Literal["default", "list", "table", "summary", "detailed", "timel
 Operation = Literal["count", "list", "lookup", "distribution"]
 GroupBy = Literal["theme", "content_type", "author", "year"]
 
-_ANALYSIS_SYSTEM = (
-    "You are the query-understanding stage of a retrieval system over an "
-    "enterprise corpus of PDFs and website articles. Given the conversation so "
-    "far and the latest user turn, produce a compact analysis.\n"
-    "- intent: 'structured' ONLY when the subject is the documents themselves — "
-    "counting, listing or looking up catalog entries by type/author/theme/date "
-    "(e.g. 'how many reports were published in 2024', 'show the article titled X'). "
-    "Data reported INSIDE documents (figures, tables, quantities from a report) is "
-    "'qa' with the matching answer_format, never 'structured'. "
-    "'scoped_summary' when the user asks to summarize or get an overview of a "
-    "SET of documents defined by theme/author/period/type ('summarize the "
-    "Climate theme', 'overview of 2024 publications'); summarizing ONE named "
-    "document is 'qa' with answer_format='summary'. "
-    "'chitchat' for greetings, thanks, or meta questions needing no documents; "
-    "'qa' for anything answerable from document content.\n"
-    "- search_query: a standalone, self-contained rewrite of the latest turn with "
-    "pronouns and references resolved from the history. Keep it faithful; do not "
-    "add facts.\n"
-    "- answer_format: how the user wants the answer shaped. "
-    "'table' if they ask for a table / tabular data / columns / 'in a table' or "
-    "compare items across attributes; "
-    "'list' if they ask to list / enumerate / give bullet points / steps; "
-    "'summary' if they ask for a brief summary / overview / 'in short' / TL;DR; "
-    "'detailed' if they ask for an in-depth / comprehensive / thorough explanation; "
-    "'timeline' if they ask for a chronological view / evolution over time / "
-    "history of events; otherwise 'default'.\n"
-    "- source_type: 'pdf' or 'website' ONLY if the user explicitly restricts to "
-    "documents/PDFs or to website content (articles/news/pages); otherwise null.\n"
-    "- theme: the thematic area / topic name ONLY if the user explicitly scopes "
-    "to one (e.g. 'under the Climate theme', 'in the Energy area'); otherwise null.\n"
-    "- author: an author/person name ONLY if the user scopes to one; else null.\n"
-    "- tags: explicit tag/keyword labels the user scopes to; else empty.\n"
-    "- date_from / date_to: inclusive start and exclusive end ISO date (YYYY-MM-DD) "
-    "bounding any date or period the user restricts to (e.g. 'in 2024', 'since March "
-    "2023', 'on 5 Jan 2024'). For a single day set date_to to the next day; for "
-    "'since'/'after' set only date_from; for 'before' only date_to; else both null.\n"
-    "- language: a two-letter code ONLY if the user explicitly asks in/about a "
-    "specific language; otherwise null.\n"
-    "When intent is 'structured', also fill (else leave null):\n"
-    "- operation: 'count' for how-many/aggregate; 'distribution' for a breakdown "
-    "per group ('how many per theme', 'spread across content types'); 'lookup' "
-    "for a single specific item; 'list' for browse/enumerate.\n"
-    "- bundle: the content type if implied, one of: " + ", ".join(DEFAULT_BUNDLES) +
-    "; else null.\n"
-    "- group_by: for 'distribution' only — 'theme', 'content_type', 'author', or "
-    "'year'; else null.\n"
-    "- title_contains: a title keyword if the user names/quotes a title; else null.\n"
-    "- limit: how many items to return for list/lookup (default 10).\n"
-    "Examples:\n"
-    "'how many research papers in 2024' -> structured/count, "
-    "bundle=research_papers, date_from=2024-01-01, date_to=2025-01-01.\n"
-    "'how many MW of capacity does the report cite' -> qa (the quantity lives "
-    "inside a document, not the catalog).\n"
-    "'articles per theme as a table' -> structured/distribution, group_by=theme, "
-    "answer_format=table.\n"
-    "'table of GHG emissions by sector from the Thoothukudi report' -> qa, "
-    "answer_format=table (the data is document content).\n"
-    "'list news since March 2024' -> structured/list, bundle=news, "
-    "date_from=2024-03-01.\n"
-    "'summarize the Climate theme' -> scoped_summary, theme=Climate.\n"
-    "'summarize the Thoothukudi report' -> qa, answer_format=summary (one "
-    "named document, not a set).\n"
-    "'how has the Climate theme's coverage evolved over the years' -> qa, "
-    "theme=Climate, answer_format=timeline."
-)
-
 
 # Multi-label query-understanding prompt (v2). Core decision logic only; the
 # few-shot example bank is appended separately (see _UNDERSTANDING_EXAMPLES).
@@ -460,42 +394,18 @@ def _facet_filters(analysis: QueryAnalysis) -> list[Any]:
     return conditions
 
 
-def _analysis_messages(
-    question: str, history: Sequence[dict[str, str]] | None
-) -> list[tuple[str, str]]:
-    return [
-        ("system", _ANALYSIS_SYSTEM),
-        (
-            "human",
-            f"Conversation so far:\n{_format_history(history)}\n\n"
-            f"Latest user turn:\n{question}",
-        ),
-    ]
-
-
-def _vote(values: Sequence[Any], *, qa_on_tie: bool = False) -> Any:
-    """Majority value across analysis samples. Ties: 'qa' for the intent field
-    (the safe route — downstream guards catch misroutes), otherwise the first
-    non-null value in vote order."""
+def _vote(values: Sequence[Any]) -> Any:
+    """Majority value across samples; ties take the first non-null value in vote
+    order. Used to merge the scalar attributes of understanding samples."""
     keyed = [tuple(v) if isinstance(v, list) else v for v in values]
     counts = Counter(keyed)
     top = max(counts.values())
     leaders = {k for k, n in counts.items() if n == top}
     if len(leaders) == 1:
         winner = next(iter(leaders))
-    elif qa_on_tie:
-        return "qa"
     else:
         winner = next((k for k in keyed if k in leaders and k is not None), None)
     return list(winner) if isinstance(winner, tuple) else winner
-
-
-def _merge_votes(votes: Sequence[QueryAnalysis]) -> QueryAnalysis:
-    merged: dict[str, Any] = {}
-    for name in QueryAnalysis.model_fields:
-        values = [getattr(v, name) for v in votes]
-        merged[name] = _vote(values, qa_on_tie=(name == "intent"))
-    return QueryAnalysis(**merged)
 
 
 # ── Multi-label merge + hybrid confidence (v2) ───────────────────────────────
@@ -634,32 +544,6 @@ def _merge_understanding(
         title_contains=vote(lambda s: s.title_contains),
         limit=vote(lambda s: s.limit) or 10,
     )
-
-
-def _voted_analysis(
-    question: str, history: Sequence[dict[str, str]] | None, votes: int
-) -> QueryAnalysis | None:
-    """N concurrent analysis samples at exploratory temperature, majority-voted
-    per field. Errored samples are dropped; None when every sample failed."""
-    from concurrent.futures import ThreadPoolExecutor
-
-    from app.generation.llm_client import get_llm
-
-    messages = _analysis_messages(question, history)
-
-    def sample(_: int) -> QueryAnalysis | None:
-        try:
-            model = get_llm(temperature=0.7).with_structured_output(QueryAnalysis)
-            return model.invoke(messages)
-        except Exception:
-            logger.warning("Analysis vote failed; dropping it.", exc_info=True)
-            return None
-
-    with ThreadPoolExecutor(max_workers=votes) as pool:
-        results = [r for r in pool.map(sample, range(votes)) if r is not None]
-    if not results:
-        return None
-    return results[0] if len(results) == 1 else _merge_votes(results)
 
 
 def _understanding_messages(
