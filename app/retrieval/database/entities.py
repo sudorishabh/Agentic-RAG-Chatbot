@@ -6,8 +6,8 @@ per-entity tables and no per-entity tools: the bundle is a query parameter, so
 registering a content type is a data change here.
 
 This module is the canonical home for the bundle synonyms and display labels
-(drupal_router carries its own copies until it delegates here in the Phase 3
-refactor). See docs/database-tool-registry.md.
+(summarizer and the catalog tools resolve entities through here). See
+docs/database-tool-registry.md.
 """
 
 from __future__ import annotations

@@ -13,6 +13,7 @@ from app.retrieval.database.entities import (
     normalize_entity,
 )
 from app.retrieval.database.filters import ResolvedScope, resolve_filters, resolve_theme
+from app.retrieval.database.planner import execute, plan
 from app.retrieval.database.tools import (
     aggregate_records,
     count_records,
@@ -39,6 +40,8 @@ __all__ = [
     "count_records",
     "list_records",
     "lookup_record",
+    "execute",
+    "plan",
     "DatabasePlan",
     "RecordFilters",
     "ToolCall",

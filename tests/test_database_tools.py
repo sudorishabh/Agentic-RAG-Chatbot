@@ -66,6 +66,30 @@ def test_count_records_singular_verb(monkeypatch):
     assert r.rendered == "There is 1 report matching your query."
 
 
+def test_count_records_bare_total(monkeypatch):
+    monkeypatch.setattr("app.ingestion.state.count_documents", lambda **k: 123)
+    r = tools.count_records(None, RecordFilters())
+    assert r.rendered == "There are 123 items matching your query."
+
+
+def test_count_records_date_range_render(monkeypatch):
+    monkeypatch.setattr("app.ingestion.state.count_documents", lambda **k: 2)
+    r = tools.count_records(
+        None, RecordFilters(date_from="2024-03-15", date_to="2024-03-16")
+    )
+    assert r.rendered == (
+        "There are 2 items between 2024-03-15 and 2024-03-16 matching your query."
+    )
+
+
+def test_count_records_db_error_is_not_ok(monkeypatch):
+    def boom(**k):
+        raise RuntimeError("db down")
+
+    monkeypatch.setattr("app.ingestion.state.count_documents", boom)
+    assert tools.count_records("news", RecordFilters()).ok is False
+
+
 # --------------------------------------------------------------------------- #
 # list_records
 # --------------------------------------------------------------------------- #
@@ -89,6 +113,22 @@ def test_list_records_empty_is_not_ok(monkeypatch):
     monkeypatch.setattr("app.ingestion.state.list_documents", lambda **k: [])
     r = tools.list_records("news", RecordFilters())
     assert r.ok is False
+
+
+def test_list_records_timeline_groups_by_year(monkeypatch):
+    recs = [
+        _rec("d1", "Old", "http://old", "2023-11-02T00:00:00"),
+        _rec("d2", "New", "http://new", "2024-05-20T00:00:00"),
+        _rec("d3", "NoDate", None, None),
+    ]
+    monkeypatch.setattr("app.ingestion.state.list_documents", lambda **k: recs)
+    r = tools.list_records("news", RecordFilters(), output_format="timeline")
+    a = r.rendered
+    assert a.index("2024:") < a.index("2023:") < a.index("Undated:")
+    assert "- 2024-05: New (http://new)" in a
+    assert "- n.d.: NoDate" in a
+    # citations follow the rendered (newest-first) order
+    assert [c["title"] for c in r.citations] == ["New", "Old", "NoDate"]
 
 
 # --------------------------------------------------------------------------- #

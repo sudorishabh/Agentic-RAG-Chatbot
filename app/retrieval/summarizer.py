@@ -22,7 +22,7 @@ from pydantic import BaseModel, Field
 from app.ingestion import terms
 from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 from app.retrieval import catalog, scoped_retrieval
-from app.retrieval.drupal_router import _normalize_bundle
+from app.retrieval.database.entities import normalize_entity
 from app.schemas.query import Citation
 
 if TYPE_CHECKING:
@@ -111,7 +111,7 @@ def _scope_filters(analysis: QueryAnalysis) -> dict[str, Any] | None:
             filters["term_uuids"] = [r["term_uuid"] for r in rows]
         else:
             filters["category"] = analysis.theme
-    bundle = _normalize_bundle(analysis.bundle)
+    bundle = normalize_entity(analysis.bundle)
     if bundle in DEFAULT_BUNDLES:
         filters["bundle"] = bundle
     if analysis.author:

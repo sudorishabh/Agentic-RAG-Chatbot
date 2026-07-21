@@ -9,7 +9,6 @@ runs against scripted fakes; the LLM parse is never invoked.
 from __future__ import annotations
 
 from app.ingestion import state, terms
-from app.retrieval import drupal_router as dr
 from app.retrieval import query_processor as qp
 
 
@@ -166,61 +165,10 @@ def test_distribution_rejects_unknown_dimension():
 
 
 # --------------------------------------------------------------------------- #
-# Router — theme scoping and the distribution answer.
-# --------------------------------------------------------------------------- #
-
-def test_theme_scope_prefers_term_uuids(monkeypatch):
-    monkeypatch.setattr(
-        dr.terms, "resolve_terms", lambda name: [{"term_uuid": "t1", "name": "Climate"}]
-    )
-    sq = dr.StructuredQuery(operation="count", theme="climate")
-    assert dr._theme_scope(sq) == {"term_uuids": ["t1"]}
-
-
-def test_theme_scope_falls_back_to_category_name(monkeypatch):
-    monkeypatch.setattr(dr.terms, "resolve_terms", lambda name: [])
-    sq = dr.StructuredQuery(operation="count", theme="Oceans")
-    assert dr._theme_scope(sq) == {"category": "Oceans"}
-
-
-def test_answer_count_passes_theme_scope(monkeypatch):
-    captured = {}
-    monkeypatch.setattr(
-        dr.terms, "resolve_terms", lambda name: [{"term_uuid": "t1", "name": "Climate"}]
-    )
-    monkeypatch.setattr(
-        dr.state, "count_documents", lambda **kw: captured.update(kw) or 4
-    )
-    result = dr._answer_count(dr.StructuredQuery(operation="count", theme="Climate"))
-    assert captured["term_uuids"] == ["t1"]
-    # Content counts exclude taxonomy-term and block rows.
-    assert captured["entity_type"] == "node"
-    assert "4" in result["answer"] and "'Climate'" in result["answer"]
-
-
-def test_answer_distribution_defaults_to_theme(monkeypatch):
-    captured = {}
-
-    def fake_distribution(dimension, **kw):
-        captured["dimension"] = dimension
-        return [("Climate", 12), ("Energy", 5)]
-
-    monkeypatch.setattr(dr.state, "distribution", fake_distribution)
-    result = dr._answer_distribution(dr.StructuredQuery(operation="distribution"))
-
-    assert captured["dimension"] == "category"
-    assert result["intent"] == "structured"
-    assert "- Climate: 12" in result["answer"] and "by theme" in result["answer"]
-
-
-def test_answer_distribution_empty_falls_through(monkeypatch):
-    monkeypatch.setattr(dr.state, "distribution", lambda *a, **k: [])
-    sq = dr.StructuredQuery(operation="distribution", group_by="year")
-    assert dr._answer_distribution(sq) is None
-
-
-# --------------------------------------------------------------------------- #
 # Semantic path — theme filter over the vector search.
+#
+# The router's theme-scoping and distribution answer are now covered by the
+# database package (test_database_tools / test_database_registry).
 # --------------------------------------------------------------------------- #
 
 def test_theme_condition_matches_uuids_or_names(monkeypatch):

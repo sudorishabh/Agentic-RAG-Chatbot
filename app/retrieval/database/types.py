@@ -50,6 +50,8 @@ class ToolCall:
     # list_records / lookup_record
     sort: str = "recent"
     limit: int = 10
+    # rendering shape for list/aggregate output (table/timeline/list/default)
+    output_format: str = "default"
 
 
 @dataclass
