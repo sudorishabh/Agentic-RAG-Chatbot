@@ -22,6 +22,7 @@ HTTP API, and configuration.
 | [retrieval-and-generation-flow.md](retrieval-and-generation-flow.md) | End-to-end, plain-language walkthrough of the retrieve → generate flow |
 | [intent-classification-design.md](intent-classification-design.md) | Multi-label intent taxonomy, boundaries, confidence, output schema (redesign) |
 | [database-planner-architecture.md](database-planner-architecture.md) | Database capability: planner + parameterized operation-level tools |
+| [database-tool-registry.md](database-tool-registry.md) | Data-model-grounded Database tool registry + migration plan |
 | [generation.md](generation.md) | LLM factories, grounding prompts, faithfulness checking |
 | [operations.md](operations.md) | Caches (Redis + Qdrant semantic), workers & sweep scheduler, observability, probes, maintenance |
 | [website-preference-retrieval.md](website-preference-retrieval.md) | Design + implementation of preferring website content (dual retrieval + segregated, website-first context) |

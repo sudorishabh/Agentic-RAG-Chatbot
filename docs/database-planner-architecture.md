@@ -103,6 +103,10 @@ backing query + filter map. No new tools, no planner change, no intent change.
 
 ### 3.2 Operation-level tools
 
+> The concrete, data-model-grounded registry (per-tool justification, input/output
+> schemas, and reused code) is specified in
+> [database-tool-registry.md](database-tool-registry.md). This section is the shape.
+
 A fixed, small, orthogonal set. Each takes an `entity` + normalized `filters`,
 resolves the entity via the registry, executes the backing query, and returns a
 `ToolResult` (structured data + citations + a deterministic text rendering).
