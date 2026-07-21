@@ -107,6 +107,11 @@ class Settings(BaseSettings):
     # behavior); >1 samples at exploratory temperature. Flip to 3 only after
     # the routing eval shows a win.
     analysis_votes: int = 1
+    # Minimum per-label confidence for a multi-label intent to be kept: the
+    # agreement share across samples when analysis_votes > 1, else the model's
+    # self-reported score. Terminal intents (chitchat/out_of_scope/…) are gated
+    # by the same bar.
+    intent_confidence_threshold: float = 0.5
     # One-shot corrective retrieval: when the reranked top candidate's raw
     # semantic score is below corrective_min_score, reformulate the query once,
     # search again, RRF-fuse and rerank. Strictly one iteration. Launches OFF;

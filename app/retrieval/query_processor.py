@@ -367,6 +367,9 @@ class ProcessedQuery:
     # Full analysis for downstream consumers (structured route); None when the
     # analysis call failed and we fell back to passthrough.
     analysis: QueryAnalysis | None = None
+    # Full multi-label understanding (v2) for exposure/debugging; None on the
+    # passthrough fallback. Downstream still routes on `intent`/`analysis`.
+    understanding: QueryUnderstanding | None = None
 
     @property
     def needs_retrieval(self) -> bool:
@@ -659,30 +662,126 @@ def _voted_analysis(
     return results[0] if len(results) == 1 else _merge_votes(results)
 
 
+def _understanding_messages(
+    question: str, history: Sequence[dict[str, str]] | None
+) -> list[tuple[str, str]]:
+    return [
+        ("system", _UNDERSTANDING_SYSTEM),
+        (
+            "human",
+            f"Conversation so far:\n{_format_history(history)}\n\n"
+            f"Latest user turn:\n{question}",
+        ),
+    ]
+
+
+def _voted_understanding(
+    question: str, history: Sequence[dict[str, str]] | None, votes: int
+) -> list[QueryUnderstanding]:
+    """N concurrent understanding samples at exploratory temperature. Errored
+    samples are dropped; the caller merges the survivors."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    from app.generation.llm_client import get_llm
+
+    messages = _understanding_messages(question, history)
+
+    def sample(_: int) -> QueryUnderstanding | None:
+        try:
+            model = get_llm(temperature=0.7).with_structured_output(QueryUnderstanding)
+            return model.invoke(messages)
+        except Exception:
+            logger.warning("Understanding vote failed; dropping it.", exc_info=True)
+            return None
+
+    with ThreadPoolExecutor(max_workers=votes) as pool:
+        return [r for r in pool.map(sample, range(votes)) if r is not None]
+
+
+# v2 output_format -> legacy AnswerFormat. csv/json/markdown/diagram have no
+# legacy equivalent yet, so they degrade to 'default' (the structured_output
+# intent still records the exact shape on `understanding` for later use).
+_FORMAT_TO_LEGACY: dict[str, AnswerFormat] = {
+    "prose": "default", "list": "list", "table": "table", "timeline": "timeline",
+    "csv": "default", "json": "default", "markdown": "default", "diagram": "default",
+}
+
+
+def _legacy_intent_and_format(u: QueryUnderstanding) -> tuple[Intent, AnswerFormat]:
+    """Collapse the multi-label understanding onto the single-label route the
+    current pipeline consumes. Behavior-preserving for existing intents; the new
+    terminal intents route to the non-retrieving chitchat path until dedicated
+    handling (refusal / clarifying question) lands downstream."""
+    primary = _primary_intent(u.intents)
+    fmt: AnswerFormat = _FORMAT_TO_LEGACY.get(u.output_format, "default")
+    if primary in ("chitchat", "clarification_needed", "out_of_scope", "safety_policy"):
+        return "chitchat", fmt
+    if primary == "database":
+        return "structured", fmt
+    if primary == "summarization":
+        # One named document keeps the old qa+summary behavior; a set or the whole
+        # corpus uses the scoped-summary path.
+        if u.scope.target == "single_document" or u.title_contains:
+            return "qa", (fmt if fmt != "default" else "summary")
+        return "scoped_summary", fmt
+    return "qa", fmt  # qa, comparison, or a lone modifier
+
+
+def _to_legacy_analysis(question: str, u: QueryUnderstanding) -> QueryAnalysis:
+    """Derive the downstream QueryAnalysis contract from the v2 understanding."""
+    intent, answer_format = _legacy_intent_and_format(u)
+    source_type = (
+        u.scope.source_type if u.scope.source_type in ("pdf", "website") else None
+    )
+    return QueryAnalysis(
+        intent=intent,
+        search_query=(u.query_rewrite or question).strip() or question,
+        answer_format=answer_format,
+        source_type=source_type,
+        theme=u.scope.theme,
+        author=u.scope.author,
+        tags=list(u.scope.tags or []),
+        date_from=u.scope.date_from,
+        date_to=u.scope.date_to,
+        language=u.scope.language,
+        operation=u.operation,
+        bundle=u.bundle,
+        group_by=u.group_by,
+        title_contains=u.title_contains,
+        limit=u.limit,
+    )
+
+
 def process(question: str, history: Sequence[dict[str, str]] | None = None) -> ProcessedQuery:
     passthrough = ProcessedQuery(original=question, search_query=question, intent="qa")
-    votes = max(1, int(get_settings().analysis_votes))
+    settings = get_settings()
+    votes = max(1, int(settings.analysis_votes))
+    threshold = float(getattr(settings, "intent_confidence_threshold", 0.5))
     try:
         if votes > 1:
-            analysis = _voted_analysis(question, history, votes)
+            samples = _voted_understanding(question, history, votes)
         else:
-            structured = get_structured_llm().with_structured_output(QueryAnalysis)
-            analysis = structured.invoke(_analysis_messages(question, history))
+            model = get_structured_llm().with_structured_output(QueryUnderstanding)
+            samples = [model.invoke(_understanding_messages(question, history))]
     except Exception:
         logger.warning("Query analysis failed; using passthrough.", exc_info=True)
         return passthrough
-    if analysis is None:
+
+    samples = [s for s in samples if s is not None]
+    if not samples:
         logger.warning("All analysis votes failed; using passthrough.")
         return passthrough
 
-    search_query = (analysis.search_query or question).strip() or question
+    understanding = _merge_understanding(samples, threshold=threshold)
+    analysis = _to_legacy_analysis(question, understanding)
     return ProcessedQuery(
         original=question,
-        search_query=search_query,
+        search_query=analysis.search_query,
         intent=analysis.intent,
         answer_format=analysis.answer_format,
         source_type=analysis.source_type,
         language=analysis.language,
         filters=_facet_filters(analysis),
         analysis=analysis,
+        understanding=understanding,
     )

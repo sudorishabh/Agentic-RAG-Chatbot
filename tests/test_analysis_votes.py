@@ -19,6 +19,15 @@ def _a(**kw):
     return qp.QueryAnalysis(**kw)
 
 
+def _u(labels, **kw):
+    """Build a QueryUnderstanding (v2) from (label, confidence) pairs + attrs."""
+    kw.setdefault("query_rewrite", "q")
+    intents = [
+        qp.IntentPrediction(label=lbl, confidence=c, rationale="") for lbl, c in labels
+    ]
+    return qp.QueryUnderstanding(intents=intents, **kw)
+
+
 # --------------------------------------------------------------------------- #
 # Voting math.
 # --------------------------------------------------------------------------- #
@@ -87,9 +96,9 @@ def _settings(monkeypatch, votes):
 
 def test_process_merges_three_votes(monkeypatch):
     model = _FakeModel([
-        _a(intent="structured", operation="count"),
-        _a(intent="structured", operation="count"),
-        _a(intent="qa", operation=None),
+        _u([("database", 0.9)], operation="count"),
+        _u([("database", 0.9)], operation="count"),
+        _u([("qa", 0.8)], operation=None),
     ])
     temps: list = []
 
@@ -110,8 +119,8 @@ def test_process_merges_three_votes(monkeypatch):
 def test_process_drops_erroring_votes(monkeypatch):
     model = _FakeModel([
         RuntimeError("one vote down"),
-        _a(intent="structured", operation="count"),
-        _a(intent="structured", operation="count"),
+        _u([("database", 0.9)], operation="count"),
+        _u([("database", 0.9)], operation="count"),
     ])
     monkeypatch.setattr(llm_client, "get_llm", lambda **kw: model)
     _settings(monkeypatch, 3)
@@ -136,7 +145,7 @@ def test_single_vote_keeps_pinned_llm(monkeypatch):
 
     monkeypatch.setattr(llm_client, "get_llm", no_exploratory)
     monkeypatch.setattr(
-        qp, "get_structured_llm", lambda: _FakeModel([_a(intent="chitchat")])
+        qp, "get_structured_llm", lambda: _FakeModel([_u([("chitchat", 0.9)])])
     )
     _settings(monkeypatch, 1)
 
