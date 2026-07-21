@@ -61,6 +61,11 @@ and "structured output" is reserved for the format modifier **`structured_output
 | `summarization` | Condense or give an **overview** of documents, a conversation, retrieved results, or a defined set. (= "Summary"; absorbs today's `scoped_summary`.) |
 | `comparison` | Contrast **≥2** entities / options / periods / sources along one or more dimensions. |
 
+> **`database` fulfilment:** the `database` intent is a *capability signal* — it
+> flags that structured/catalog data is needed. *How* that data is fetched (which
+> operation, which tool) is owned by the **Database Planner**, not the intent
+> layer. See [database-planner-architecture.md](database-planner-architecture.md).
+
 ### 3b. Terminal intents — exclusive, short-circuit the pipeline
 
 | Intent | Definition | Why it exists |
