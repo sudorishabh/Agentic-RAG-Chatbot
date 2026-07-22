@@ -47,7 +47,7 @@ def _supplement(blocks, ranked, **overrides):
     kw = dict(search_query="q", query_vector=[0.1], tenant_id="default",
               user_groups=["public"], n=5, segregate=False)
     kw.update(overrides)
-    return retriever.supplement_attachments(blocks, ranked, **kw)
+    return retriever._supplement_attachments(blocks, ranked, **kw)
 
 
 # --------------------------------------------------------------------------- #
@@ -158,7 +158,7 @@ def test_retrieve_supplements_only_detailed(monkeypatch):
     monkeypatch.setattr(retriever, "build_context", lambda ranked, *, limit, segregate: blocks)
     calls: list = []
     monkeypatch.setattr(
-        retriever, "supplement_attachments",
+        retriever, "_supplement_attachments",
         lambda b, r, **kw: calls.append(kw["n"]) or b,
     )
 

@@ -33,8 +33,13 @@ from app.retrieval.search.strategies import (
 
 logger = logging.getLogger(__name__)
 
+# `retrieve` is the retrieval engine's sole public entry point; the stages it
+# composes here (and in app.retrieval.search.strategies) are internal and free
+# to change. The rest of the app depends only on this name.
+__all__ = ["retrieve"]
 
-def supplement_attachments(
+
+def _supplement_attachments(
     blocks: list[ContextBlock],
     ranked: list[Any],
     *,
@@ -234,7 +239,7 @@ def retrieve(
         blocks = build_context(ranked, limit=n, segregate=dual)
     if answer_format == "detailed" and blocks:
         with span("rag.attachment_pull"):
-            blocks = supplement_attachments(
+            blocks = _supplement_attachments(
                 blocks, ranked, search_query=search_query, query_vector=query_vector,
                 tenant_id=tenant_id, user_groups=user_groups, n=n, segregate=dual,
             )
