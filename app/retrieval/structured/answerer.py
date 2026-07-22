@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING, Any, Literal, Sequence
 
 from pydantic import BaseModel
 
+from app.config import get_settings
 from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 from app.retrieval.structured.types import ToolResult
 
@@ -137,9 +138,12 @@ def answer_structured(
     if slots is None:
         return None
     output_format = analysis.answer_format if analysis is not None else "default"
-    results = planner.execute(
-        planner.plan(slots, output_format=output_format), question=question
-    )
+    db_plan = None
+    if get_settings().database_multi_call_enabled:
+        db_plan = planner.plan_multi(question, output_format=output_format)
+    if db_plan is None:  # disabled, or the LLM planner produced nothing usable
+        db_plan = planner.plan(slots, output_format=output_format)
+    results = planner.execute(db_plan, question=question)
     ok = [r for r in results if r.ok]
     if not ok:
         return None

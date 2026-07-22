@@ -11,9 +11,11 @@ MySQL, Qdrant, LLM, or network.
 from __future__ import annotations
 
 from datetime import datetime
+from types import SimpleNamespace
 
 from app.catalog import queries as state
 from app.retrieval.structured import answerer as dr
+from app.retrieval.structured import planner
 from app.retrieval.structured.types import ToolResult
 from app.retrieval import query_processor as qp
 
@@ -95,6 +97,44 @@ def test_answer_structured_passes_format_from_analysis(monkeypatch):
     )
     out = dr.answer_structured("articles per theme as a table", analysis=analysis)
     assert "| theme | count |" in out["answer"]
+
+
+def test_answer_structured_prefers_multi_plan_when_enabled(monkeypatch):
+    sentinel = object()
+    seen: dict = {}
+
+    def forbid_v1(*a, **k):
+        raise AssertionError("v1 plan must not run when the multi-call plan succeeds")
+
+    monkeypatch.setattr(
+        dr, "get_settings", lambda: SimpleNamespace(database_multi_call_enabled=True)
+    )
+    monkeypatch.setattr(planner, "plan_multi", lambda q, *, output_format: sentinel)
+    monkeypatch.setattr(planner, "plan", forbid_v1)
+    monkeypatch.setattr(
+        planner, "execute",
+        lambda db_plan, *, question=None: seen.update(plan=db_plan)
+        or [ToolResult(tool="count_records", ok=True, rendered="R")],
+    )
+    analysis = qp.QueryAnalysis(search_query="x", intent="structured", operation="count")
+    out = dr.answer_structured("2023 vs 2024?", analysis=analysis)
+
+    assert seen["plan"] is sentinel  # the v2 plan was executed
+    assert out["answer"] == "R"
+
+
+def test_answer_structured_falls_back_to_v1_when_multi_none(monkeypatch):
+    monkeypatch.setattr(
+        dr, "get_settings", lambda: SimpleNamespace(database_multi_call_enabled=True)
+    )
+    monkeypatch.setattr(planner, "plan_multi", lambda q, *, output_format: None)
+    monkeypatch.setattr(state, "count_documents", lambda **kw: 2)
+
+    analysis = qp.QueryAnalysis(
+        search_query="x", intent="structured", operation="count", bundle="events"
+    )
+    out = dr.answer_structured("how many events?", analysis=analysis)
+    assert out["answer"] == "There are 2 events matching your query."
 
 
 def test_compose_stacks_sections_and_renumbers_citations():

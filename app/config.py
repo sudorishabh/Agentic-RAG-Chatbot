@@ -124,6 +124,11 @@ class Settings(BaseSettings):
     # dense-only while the index is absent. Launches OFF. (hybrid_use_sparse
     # stays reserved for true sparse vectors, which need ingest-time writes.)
     keyword_leg_enabled: bool = False
+    # Database Planner v2: use an LLM to decompose a catalog (database-intent)
+    # question into one or more tool calls (comparisons like "2023 vs 2024", a
+    # count paired with a list). OFF uses the deterministic single-call v1 plan;
+    # any planner failure falls back to v1 as well. Launches OFF; flip after eval.
+    database_multi_call_enabled: bool = False
     reranker_provider: str = "embedding"
     rerank_model: str = ""
     rerank_score_threshold: float = 0.0

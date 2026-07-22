@@ -10,8 +10,11 @@ from __future__ import annotations
 
 import logging
 from concurrent.futures import ThreadPoolExecutor
-from typing import Any
+from typing import Any, Literal
 
+from pydantic import BaseModel, Field
+
+from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 from app.retrieval.structured.tools import (
     aggregate_records,
     count_records,
@@ -72,6 +75,95 @@ def plan(slots: Any, *, output_format: str = "default") -> DatabasePlan:
     return DatabasePlan(
         calls=[call], rationale=f"{call.tool} for {call.entity or 'all content'}"
     )
+
+
+# ── v2: LLM multi-call planner ───────────────────────────────────────────────
+# Opt-in via settings.database_multi_call_enabled. Decomposes a compound catalog
+# question into several tool calls; any failure returns None so answer_structured
+# falls back to the deterministic v1 `plan` above. `execute` already runs the
+# calls in parallel.
+
+_MAX_CALLS = 4
+
+
+class _PlannedCall(BaseModel):
+    """One LLM-planned tool call. Mirrors the fields of `ToolCall` that a planner
+    can set from natural language; unset fields fall back to tool defaults."""
+
+    tool: Literal["count_records", "list_records", "lookup_record", "aggregate_records"]
+    entity: str | None = Field(
+        default=None, description="Content type / bundle, or null to span all content."
+    )
+    theme: str | None = None
+    author: str | None = None
+    title_contains: str | None = None
+    date_from: str | None = Field(default=None, description="Inclusive ISO start (YYYY-MM-DD).")
+    date_to: str | None = Field(default=None, description="Exclusive ISO end (YYYY-MM-DD).")
+    group_by: Literal["theme", "content_type", "author", "year"] | None = None
+    title: str | None = None
+    limit: int = 10
+
+
+class _MultiPlan(BaseModel):
+    calls: list[_PlannedCall] = Field(default_factory=list)
+    rationale: str = ""
+
+
+_PLANNER_SYSTEM = (
+    "You plan database queries over a content repository of "
+    + ", ".join(DEFAULT_BUNDLES) + ".\n"
+    "Decompose the request into one or more catalog tool calls. Emit MULTIPLE "
+    "calls ONLY for genuinely compound requests — a comparison across periods, "
+    "themes, or content types ('reports in 2023 vs 2024'), or a count paired "
+    "with a list. A simple request is a single call.\n"
+    "Tools:\n"
+    "- count_records: how many items match.\n"
+    "- list_records: list matching items (most recent first).\n"
+    "- lookup_record: find one item by title.\n"
+    "- aggregate_records: counts grouped by group_by "
+    "(theme / content_type / author / year).\n"
+    "Set only the fields that apply. Dates are a half-open [date_from, date_to) "
+    "ISO range. entity is one of the listed content types, or null for all."
+)
+
+
+def _to_tool_call(call: _PlannedCall, output_format: str) -> ToolCall:
+    return ToolCall(
+        tool=call.tool,
+        entity=call.entity,
+        filters=RecordFilters(
+            theme=call.theme,
+            author=call.author,
+            title_contains=call.title_contains,
+            date_from=call.date_from,
+            date_to=call.date_to,
+        ),
+        group_by=call.group_by,
+        title=call.title or call.title_contains,
+        limit=call.limit or 10,
+        output_format=output_format,
+    )
+
+
+def plan_multi(question: str, *, output_format: str = "default") -> DatabasePlan | None:
+    """v2 LLM planner: decompose a question into up to ``_MAX_CALLS`` tool calls.
+
+    Returns None on any failure or an empty plan so the caller can fall back to
+    the deterministic :func:`plan`."""
+    from app.core.clients.llm import get_structured_llm
+
+    try:
+        model = get_structured_llm().with_structured_output(_MultiPlan)
+        result: _MultiPlan = model.invoke(
+            [("system", _PLANNER_SYSTEM), ("human", question)]
+        )
+    except Exception:
+        logger.warning("Multi-call planning failed; falling back to v1.", exc_info=True)
+        return None
+    calls = [_to_tool_call(c, output_format) for c in result.calls[:_MAX_CALLS]]
+    if not calls:
+        return None
+    return DatabasePlan(calls=calls, rationale=result.rationale or "multi-call plan")
 
 
 def _run(call: ToolCall, question: str | None) -> ToolResult:
