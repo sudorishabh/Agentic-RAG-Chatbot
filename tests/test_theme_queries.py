@@ -8,7 +8,8 @@ runs against scripted fakes; the LLM parse is never invoked.
 
 from __future__ import annotations
 
-from app.ingestion import state, terms
+from app.catalog import queries as state
+from app.catalog import terms
 from app.retrieval import query_processor as qp
 
 

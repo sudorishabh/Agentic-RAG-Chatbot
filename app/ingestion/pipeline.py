@@ -8,18 +8,16 @@ from collections import Counter
 from contextlib import contextmanager
 from typing import Callable, Iterable, Iterator
 
+from app.catalog import payload_refresh, state, terms
+from app.catalog import log as ingest_log
+from app.catalog.models import AttachmentLink, StateRecord, TermLink
 from app.config import get_settings
 from app.core.models import CanonicalDocument
 from app.ingestion import change_detection as cd
-from app.ingestion import ingest_log
-from app.ingestion import payload_refresh
-from app.ingestion import state
-from app.ingestion import terms
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus
-from app.ingestion.chunker import chunk_canonical
+from app.ingestion.chunking import chunk_canonical
 from app.ingestion.indexer import index_chunks
-from app.ingestion.state import AttachmentLink, StateRecord, TermLink
-from app.deps import delete_document
+from app.core.clients import delete_document
 from app.observability.tracing import span
 
 logger = logging.getLogger(__name__)
@@ -282,7 +280,7 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
     # Qdrant (per-doc points); the one-run-at-a-time lock still applies.
     from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 
-    from app.deps import ensure_collection
+    from app.core.clients import ensure_collection
 
     try:
         # Pre-create the collection and payload indexes once, so first-run
@@ -330,79 +328,10 @@ def _build_drupal_or_attachment(
     record: ChangeRecord, session: "requests.Session"
 ) -> CanonicalDocument | None:
     if record.source_type == "pdf_attachment":
-        return _build_attachment_doc(record, session)
+        from app.ingestion.extractors.attachment import build_attachment_doc
+
+        return build_attachment_doc(record, session)
     return _build_drupal_doc(record)
-
-
-def _fetch_attachment(
-    session: "requests.Session", url: str, timeout: float
-) -> tuple[bytes, str]:
-    """GET an attachment, trying the https:// variant first for http:// URLs.
-    Old body HTML still links plain-http PDFs, but teriin.org no longer answers
-    on port 80 (the connect attempt hangs until timeout), while the same files
-    are served fine over TLS. Falls back to the original URL so hosts that are
-    still http-only keep working. Returns (content, url that succeeded)."""
-    import requests
-
-    if url.lower().startswith("http://"):
-        upgraded = "https://" + url[len("http://"):]
-        try:
-            response = session.get(upgraded, timeout=timeout)
-            response.raise_for_status()
-            return response.content, upgraded
-        except requests.RequestException:
-            logger.info("HTTPS variant failed for %s; retrying original URL.", url)
-    response = session.get(url, timeout=timeout)
-    response.raise_for_status()
-    return response.content, url
-
-
-def _build_attachment_doc(
-    record: ChangeRecord, session: "requests.Session"
-) -> CanonicalDocument | None:
-    """Download a node's attached PDF, extract it, and build a canonical PDF
-    document linked back to the node. ``record.payload`` is a (DrupalRecord,
-    DrupalFile) pair; ``source_type`` is 'pdf_attachment' so the local on-disk
-    PDF pipeline's delete-reconcile never touches these web-sourced docs. The
-    ``session`` is shared across the run so downloads reuse the connection pool
-    instead of re-handshaking per attachment."""
-    import requests
-
-    from app.config import get_settings
-    from app.ingestion.canonical import drupal_facets, from_pdf
-    from app.ingestion.extractors.pdf_extractor import extract_pdf
-
-    node, file = record.payload
-    settings = get_settings()
-    try:
-        content, fetched_url = _fetch_attachment(
-            session, file.url, settings.drupal_request_timeout
-        )
-    except requests.RequestException:
-        logger.exception("Could not download attachment %s; skipping.", file.url)
-        return None
-    if not content:
-        logger.warning("Empty attachment body for %s; skipping.", file.url)
-        return None
-
-    result = extract_pdf(content, file.filename or record.document_id)
-    # The PDF inherits its node's entity refs and facets so theme-scoped
-    # retrieval and per-theme counts reach the attached content too. In-body
-    # PDFs linked from several nodes inherit from the first-seen node.
-    refs = list(getattr(node, "refs", None) or [])
-    return from_pdf(
-        result,
-        document_id=record.document_id,
-        source_type="pdf_attachment",
-        title=(file.description or node.title or file.filename or None),
-        source_url=node.url,
-        file_url=fetched_url,
-        linked_article_uuid=(node.uuid or None),
-        published_at=node.created,
-        extra={"bundle": node.bundle},
-        entity_refs=refs,
-        **drupal_facets(node.metadata or {}, refs),
-    )
 
 
 def ingest_pdfs(roots=None, ignore_globs=None) -> Counter:

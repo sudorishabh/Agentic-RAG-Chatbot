@@ -35,8 +35,8 @@ def sweep() -> dict[str, dict[str, int]]:
 
 
 def reindex_document(document_id: str, source_type: str = "website") -> dict[str, Any]:
-    from app.deps import delete_document
-    from app.ingestion import state
+    from app.catalog import state
+    from app.core.clients import delete_document
 
     delete_document(document_id)
     removed = state.delete([document_id])

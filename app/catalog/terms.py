@@ -4,58 +4,24 @@ Terms are keyed by their Drupal UUID so document links survive renames: a
 rename updates one row here and archives the previous name as an alias, which
 keeps user queries using the stale name resolvable. Populated from the full
 taxonomy_term fetch every ingestion run — a rebuildable projection of Drupal,
-never hand-edited.
+never hand-edited. Schema/DDL lives in :mod:`app.catalog.schema`.
 """
 
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timezone
 from typing import Any, Iterable
 
-from app.deps import mysql_connection
+from app.catalog import schema
+from app.catalog.db import now as _now
+from app.catalog.schema import ALIAS_TABLE, TERM_TABLE
+from app.core.clients import mysql_connection
 
 logger = logging.getLogger(__name__)
 
-# Fixed table names: terms are site-global facts, shared by any environment
-# pointing at the same Drupal instance.
-TERM_TABLE = "taxonomy_term"
-ALIAS_TABLE = "taxonomy_term_alias"
-
-_TERM_DDL = f"""
-CREATE TABLE IF NOT EXISTS `{TERM_TABLE}` (
-    term_uuid    VARCHAR(64)  NOT NULL,
-    vocabulary   VARCHAR(128) NOT NULL,
-    name         VARCHAR(255) NOT NULL,
-    parent_uuid  VARCHAR(64)  NULL,
-    changed_mark BIGINT       NULL,
-    updated_at   DATETIME     NOT NULL,
-    PRIMARY KEY (term_uuid),
-    KEY idx_vocab_name (vocabulary, name),
-    KEY idx_parent (parent_uuid)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-"""
-
-_ALIAS_DDL = f"""
-CREATE TABLE IF NOT EXISTS `{ALIAS_TABLE}` (
-    term_uuid  VARCHAR(64)  NOT NULL,
-    old_name   VARCHAR(255) NOT NULL,
-    renamed_at DATETIME     NOT NULL,
-    PRIMARY KEY (term_uuid, old_name),
-    KEY idx_old_name (old_name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-"""
-
-
-def _now() -> datetime:
-    return datetime.now(timezone.utc)
-
 
 def ensure_tables() -> None:
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(_TERM_DDL)
-        cur.execute(_ALIAS_DDL)
-        conn.commit()
+    schema.ensure_term_tables()
 
 
 def upsert_term(
@@ -153,11 +119,3 @@ def resolve_terms(name: str, vocabulary: str | None = None) -> list[dict[str, An
             (name, *vocab_params),
         )
         return list(cur.fetchall())
-
-
-def get_term(term_uuid: str) -> dict[str, Any] | None:
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT * FROM `{TERM_TABLE}` WHERE term_uuid = %s", (term_uuid,)
-        )
-        return cur.fetchone()

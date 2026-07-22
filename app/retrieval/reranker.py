@@ -49,7 +49,7 @@ class _Relevance(BaseModel):
 
 
 def _llm_semantic(query: str, candidates: Sequence[Candidate]) -> list[float] | None:
-    from app.generation.llm_client import get_structured_llm
+    from app.core.clients.llm import get_structured_llm
 
     listing = "\n".join(
         f"[{i}] {c.text[:_LLM_SNIPPET_CHARS]}" for i, c in enumerate(candidates)

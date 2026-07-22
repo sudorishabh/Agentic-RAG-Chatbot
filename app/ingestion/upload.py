@@ -1,20 +1,15 @@
 from __future__ import annotations
 
 import logging
-import re
 import uuid
 from pathlib import Path
 
+from app.catalog import log as ingest_log
 from app.core.models import CanonicalDocument, CanonicalSection
-from app.ingestion import ingest_log
 from app.ingestion.indexer import index_canonical
+from app.ingestion.textutil import slugify as _slugify
 
 logger = logging.getLogger(__name__)
-
-
-def _slugify(value: str) -> str:
-    slug = re.sub(r"[^a-z0-9]+", "_", (value or "").lower()).strip("_")
-    return slug or "document"
 
 
 def _pdf_document(filename: str, content: bytes) -> CanonicalDocument:

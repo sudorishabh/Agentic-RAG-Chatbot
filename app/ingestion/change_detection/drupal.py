@@ -1,224 +1,22 @@
+"""Drupal change detection: incremental node crawl (changed-since high-water
+mark), full-fetch taxonomy/block sources, attached-PDF fan-out, and optional
+delete reconciliation."""
 from __future__ import annotations
 
-import fnmatch
-import hashlib
 import logging
-import os
-import re
-from dataclasses import dataclass
 from datetime import datetime
-from enum import Enum
-from pathlib import Path
-from typing import Any, Iterable, Iterator
+from typing import Iterable, Iterator
 
+from app.catalog import state
 from app.config import get_settings
-from app.ingestion import state
-from app.ingestion.state import StateRecord
+from app.ingestion.change_detection.base import (
+    ChangeRecord,
+    ChangeStatus,
+    _parse_bundle_spec,
+    compute_status,
+)
 
 logger = logging.getLogger(__name__)
-
-
-class ChangeStatus(str, Enum):
-    NEW = "new"
-    CHANGED = "changed"
-    UNCHANGED = "unchanged"
-    DELETED = "deleted"
-
-
-@dataclass
-class ChangeRecord:
-
-    status: ChangeStatus
-    document_id: str
-    source_type: str
-    source_key: str
-    fingerprint: str = ""
-    bundle: str | None = None
-    changed_mark: int | None = None
-    prior: StateRecord | None = None
-    payload: Any = None
-    filename: str | None = None
-    size: int | None = None
-    mtime_ns: int | None = None
-    # JSON:API entity type ("node", "taxonomy_term", "block_content") for
-    # Drupal records; None for filesystem PDFs and attachment documents.
-    entity_type: str | None = None
-
-    @property
-    def is_actionable(self) -> bool:
-        return self.status in (ChangeStatus.NEW, ChangeStatus.CHANGED, ChangeStatus.DELETED)
-
-
-def _parse_bundle_spec(spec: str) -> tuple[str, str, bool]:
-    """Parse a --bundle value: 'report' is a node bundle; 'taxonomy_term:themes'
-    scopes another entity type. Only node bundles crawl incrementally."""
-    entity_type, sep, bundle = spec.partition(":")
-    if not sep:
-        entity_type, bundle = "node", spec
-    return entity_type, bundle, entity_type == "node"
-
-
-def content_changed(record: ChangeRecord, content_hash: str) -> bool:
-    if record.prior is None:
-        return True
-    return record.prior.content_hash != content_hash
-
-
-def next_version(record: ChangeRecord) -> int:
-    return record.prior.doc_version + 1 if record.prior else 1
-
-
-def _parse_roots(raw: str | None) -> list[Path]:
-    if not raw:
-        return []
-    roots: list[Path] = []
-    for part in raw.split(os.pathsep):
-        part = part.strip()
-        if not part:
-            continue
-        path = Path(part)
-        if path.is_dir():
-            roots.append(path)
-        else:
-            logger.warning("PDF source dir does not exist, skipping: %s", part)
-    return roots
-
-
-def _parse_globs(raw: str | None) -> list[str]:
-    if not raw:
-        return []
-    return [g.strip() for g in re.split(r"[,\n]", raw) if g.strip()]
-
-
-def _slugify(value: str) -> str:
-    slug = re.sub(r"[^a-z0-9]+", "_", (value or "").lower()).strip("_")
-    return slug or "document"
-
-
-def _document_id_for(rel_path: str) -> str:
-    return _slugify(os.path.splitext(rel_path)[0])
-
-
-def _is_ignored(rel_posix: str, ignore_globs: list[str]) -> bool:
-    return any(fnmatch.fnmatch(rel_posix, pat) for pat in ignore_globs)
-
-
-def _iter_pdfs(root: Path, ignore_globs: list[str]) -> Iterator[tuple[Path, str]]:
-    for dirpath, dirnames, filenames in os.walk(root):
-        rel_dir = os.path.relpath(dirpath, root)
-        kept: list[str] = []
-        for name in dirnames:
-            rel = name if rel_dir == "." else f"{rel_dir}/{name}"
-            rel_posix = rel.replace(os.sep, "/")
-            if _is_ignored(rel_posix, ignore_globs) or _is_ignored(f"{rel_posix}/", ignore_globs):
-                logger.debug("Ignoring directory: %s", rel_posix)
-            else:
-                kept.append(name)
-        dirnames[:] = kept
-
-        for name in filenames:
-            if not name.lower().endswith(".pdf"):
-                continue
-            rel = name if rel_dir == "." else f"{rel_dir}/{name}"
-            rel_posix = rel.replace(os.sep, "/")
-            if _is_ignored(rel_posix, ignore_globs):
-                continue
-            yield Path(dirpath) / name, rel_posix
-
-
-def _sha256(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
-
-
-def detect_file_changes(
-    roots: list[Path] | None = None,
-    ignore_globs: list[str] | None = None,
-) -> Iterator[ChangeRecord]:
-    settings = get_settings()
-    configured = settings.pdf_source_dirs or settings.pdf_source_path
-    roots = roots if roots is not None else _parse_roots(configured)
-    ignore_globs = (
-        ignore_globs if ignore_globs is not None else _parse_globs(settings.pdf_ignore_globs)
-    )
-    if not roots:
-        logger.warning("No PDF source dirs configured (pdf_source_dirs); nothing to scan.")
-        return
-
-    prior = state.load("pdf")
-    seen: set[str] = set()
-
-    for root in roots:
-        for path, rel_posix in _iter_pdfs(root, ignore_globs):
-            document_id = _document_id_for(rel_posix)
-            if document_id in seen:
-                logger.warning(
-                    "Duplicate document id %r (%s) — keeping first, skipping this one.",
-                    document_id, path,
-                )
-                continue
-            seen.add(document_id)
-
-            try:
-                st = path.stat()
-            except OSError:
-                logger.exception("Could not stat PDF, skipping: %s", path)
-                continue
-            size, mtime_ns = st.st_size, st.st_mtime_ns
-            prev = prior.get(document_id)
-
-            # Cheap pre-filter: an unchanged size + mtime means the content is
-            # unchanged, so skip the (expensive) full read + SHA-256 entirely.
-            if prev is not None and prev.size == size and prev.mtime_ns == mtime_ns:
-                yield ChangeRecord(
-                    status=ChangeStatus.UNCHANGED,
-                    document_id=document_id,
-                    source_type="pdf",
-                    source_key=str(path),
-                    fingerprint=prev.fingerprint,
-                    prior=prev,
-                    payload=None,
-                    filename=path.name,
-                    size=size,
-                    mtime_ns=mtime_ns,
-                )
-                continue
-
-            try:
-                data = path.read_bytes()
-            except OSError:
-                logger.exception("Could not read PDF, skipping: %s", path)
-                continue
-            fingerprint = _sha256(data)
-
-            if prev is None:
-                status = ChangeStatus.NEW
-            elif prev.fingerprint != fingerprint:
-                status = ChangeStatus.CHANGED
-            else:
-                status = ChangeStatus.UNCHANGED
-
-            yield ChangeRecord(
-                status=status,
-                document_id=document_id,
-                source_type="pdf",
-                source_key=str(path),
-                fingerprint=fingerprint,
-                prior=prev,
-                payload=None if status is ChangeStatus.UNCHANGED else data,
-                filename=path.name,
-                size=size,
-                mtime_ns=mtime_ns,
-            )
-
-    for document_id, record in prior.items():
-        if document_id not in seen:
-            yield ChangeRecord(
-                status=ChangeStatus.DELETED,
-                document_id=document_id,
-                source_type="pdf",
-                source_key=record.source_key,
-                prior=record,
-            )
 
 
 def _to_unix(changed: str | None) -> int | None:
@@ -314,13 +112,7 @@ def detect_drupal_changes(
                     live_uuids.add(uuid)
                     fingerprint = record.changed or ""
                     prev = prior.get(uuid)
-
-                    if prev is None:
-                        status = ChangeStatus.NEW
-                    elif prev.fingerprint != fingerprint:
-                        status = ChangeStatus.CHANGED
-                    else:
-                        status = ChangeStatus.UNCHANGED
+                    status = compute_status(prev, fingerprint)
 
                     yield ChangeRecord(
                         status=status,
@@ -350,12 +142,7 @@ def detect_drupal_changes(
                             else fingerprint
                         )
                         a_prev = prior_pdf_all.get(file.uuid)
-                        if a_prev is None:
-                            a_status = ChangeStatus.NEW
-                        elif a_prev.fingerprint != a_fingerprint:
-                            a_status = ChangeStatus.CHANGED
-                        else:
-                            a_status = ChangeStatus.UNCHANGED
+                        a_status = compute_status(a_prev, a_fingerprint)
                         yield ChangeRecord(
                             status=a_status,
                             document_id=file.uuid,

@@ -1,9 +1,9 @@
 """Database Planner: turn extracted query slots into a validated tool plan.
 
 v1 is deterministic — it maps the operation + facets the intent layer already
-extracted onto a single tool call (the mapping drupal_router used). The interface
-is ready for a v2 LLM planner that emits several calls; `execute` already runs a
-plan's independent calls in parallel. See docs/database-planner-architecture.md.
+extracted onto a single tool call. The interface is ready for a v2 LLM planner
+that emits several calls; `execute` already runs a plan's independent calls in
+parallel. See docs/database-planner-architecture.md.
 """
 
 from __future__ import annotations
@@ -12,13 +12,13 @@ import logging
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any
 
-from app.retrieval.database.tools import (
+from app.retrieval.structured.tools import (
     aggregate_records,
     count_records,
     list_records,
     lookup_record,
 )
-from app.retrieval.database.types import DatabasePlan, RecordFilters, ToolCall, ToolResult
+from app.retrieval.structured.types import DatabasePlan, RecordFilters, ToolCall, ToolResult
 
 logger = logging.getLogger(__name__)
 

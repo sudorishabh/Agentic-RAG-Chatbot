@@ -2,30 +2,30 @@
 
 from __future__ import annotations
 
-from app.ingestion.chunker import _apply_overlap, _get_encoder, _overlap_carry
+from app.ingestion.chunking.packer import apply_overlap, get_encoder, overlap_carry
 
-ENC = _get_encoder("cl100k_base")
+ENC = get_encoder("cl100k_base")
 
 
 def test_overlap_starts_at_sentence_boundary():
     prev = "reducing emissions is hard. The introduction of new low carbon tech is required."
-    carry = _overlap_carry(prev, 60, ENC)
+    carry = overlap_carry(prev, 60, ENC)
     assert carry.startswith("The introduction")  # leading partial sentence dropped
 
 
 def test_apply_overlap_child_starts_cleanly():
     prev = "Some earlier prose. This sentence completes the prior chunk."
     nxt = "Next chunk body begins here."
-    out = _apply_overlap([prev, nxt], 60, ENC)
+    out = apply_overlap([prev, nxt], 60, ENC)
     assert out[1].startswith("This sentence completes")
 
 
 def test_abbreviation_is_not_a_boundary():
     prev = "costs (Hall et. al, 2020) varied across the routes considered here."
-    carry = _overlap_carry(prev, 60, ENC)
+    carry = overlap_carry(prev, 60, ENC)
     assert carry.startswith("costs")  # "et. al," must not split the sentence
 
 
 def test_overlap_without_boundary_returns_tail():
     prev = "onelongfragmentwithnoboundary"
-    assert _overlap_carry(prev, 60, ENC) == "onelongfragmentwithnoboundary"
+    assert overlap_carry(prev, 60, ENC) == "onelongfragmentwithnoboundary"

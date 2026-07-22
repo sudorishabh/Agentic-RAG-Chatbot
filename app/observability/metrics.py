@@ -7,7 +7,7 @@ aggregates (count / total / avg / p50 / p95 / max) served by
 breakdown that ends up on the ``rag_metrics`` log line.
 
 The registry is per-process — each uvicorn worker keeps its own numbers and
-they reset on restart. Parent spans (e.g. "rag.answer_query") include the
+they reset on restart. Parent spans (e.g. "rag.stream_answer") include the
 time of the child stages they wrap, so stage totals overlap by design.
 """
 
@@ -27,7 +27,7 @@ _WINDOW = 512  # recent samples kept per stage; percentiles cover this window
 # Unmapped stages (context build, chunking, ...) count as "other"; the parent
 # spans are excluded from component totals — they wrap the stages below and
 # would double-count.
-_PARENTS = {"rag.answer_query", "rag.stream_answer"}
+_PARENTS = {"rag.stream_answer"}
 _COMPONENTS = {
     "rag.search": "qdrant",
     "rag.semantic_cache": "qdrant",

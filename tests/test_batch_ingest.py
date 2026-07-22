@@ -114,7 +114,7 @@ def test_pause_fires_every_batch(monkeypatch):
 def _patch_parallel(monkeypatch, outcomes, settings):
     processed = _patch_run(monkeypatch, outcomes, settings)
     # The parallel branch pre-creates the collection; not under test here.
-    import app.deps as deps
+    import app.core.clients as deps
 
     monkeypatch.setattr(deps, "ensure_collection", lambda: None)
     return processed
@@ -148,7 +148,7 @@ def test_parallel_worker_exception_becomes_error(monkeypatch):
     monkeypatch.setattr(pipeline, "_handle", exploding_handle)
     monkeypatch.setattr(pipeline, "_log", lambda *a, **k: None)
     monkeypatch.setattr(pipeline, "get_settings", lambda: settings)
-    import app.deps as deps
+    import app.core.clients as deps
 
     monkeypatch.setattr(deps, "ensure_collection", lambda: None)
 

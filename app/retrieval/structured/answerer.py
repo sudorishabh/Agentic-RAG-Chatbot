@@ -1,15 +1,16 @@
 """Structured (database-intent) answer adapter.
 
 Answers catalog questions by delegating to the Database Planner + tools
-(`app.retrieval.database`). This module now holds only:
+(`app.retrieval.structured`). This module holds only:
 
 - the LLM parse fallback (`parse_structured` / `StructuredQuery`) for when no
   usable analysis was supplied;
-- `answer_structured`, the thin adapter `rag._prepare` calls (unchanged signature).
+- `answer_structured`, the thin adapter the query pipeline calls.
 
 The catalog operations, filters, entity handling, rendering, and the lookup->QA
-chaining (`resolve_lookup_chain`) live in `app.retrieval.database` (see
-docs/database-tool-registry.md).
+chaining (`resolve_lookup_chain`) live in `app.retrieval.structured` (see
+docs/database-tool-registry.md). The name is source-agnostic on purpose: this
+adapter has no Drupal-specific logic — only the underlying bundle list does.
 """
 
 from __future__ import annotations
@@ -71,7 +72,7 @@ def parse_structured(
 ) -> StructuredQuery | None:
     """LLM fallback parse of the structured slots, used when no usable analysis
     was supplied. None on failure."""
-    from app.generation.llm_client import get_structured_llm
+    from app.core.clients.llm import get_structured_llm
 
     convo = ""
     if history:
@@ -98,11 +99,11 @@ def answer_structured(
     """Answer a catalog (database-intent) query via the Database Planner + tools.
 
     The unified analysis already extracted the structured slots — reuse it and let
-    the planner pick the tool; parse only when no usable analysis came. Signature
-    is unchanged so rag._prepare is untouched. Returns None (fall through to
-    semantic search) on an unusable plan or a guarded/empty tool result.
+    the planner pick the tool; parse only when no usable analysis came. Returns
+    None (fall through to semantic search) on an unusable plan or a guarded/empty
+    tool result.
     """
-    from app.retrieval.database import planner
+    from app.retrieval.structured import planner
 
     slots = (
         analysis

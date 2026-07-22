@@ -1,8 +1,8 @@
 """MySQL readback for the local ingestion test.
 
-Resolves table names through app.ingestion.state / ingest_log so the report
-reads exactly the tables the pipeline wrote — including the isolated
-``local_test_*`` tables the runner configures via environment overrides.
+Resolves table names through app.catalog.db so the report reads exactly the
+tables the pipeline wrote — including the isolated ``local_test_*`` tables the
+runner configures via environment overrides.
 """
 
 from __future__ import annotations
@@ -10,8 +10,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-from app.deps import mysql_connection
-from app.ingestion import ingest_log, state
+from app.catalog import log as ingest_log
+from app.catalog.db import log_table, state_table
+from app.core.clients import mysql_connection
 
 
 @dataclass
@@ -35,7 +36,7 @@ def _rows(sql: str, params: tuple = ()) -> list[dict[str, Any]]:
 
 def fetch_snapshot(document_id: str) -> CatalogSnapshot:
     """Read a document's state row, facet rows, links, and log entries back."""
-    table = state._table()
+    table = state_table()
     snap = CatalogSnapshot(document_id=document_id)
 
     rows = _rows(f"SELECT * FROM `{table}` WHERE document_id = %s", (document_id,))
@@ -69,9 +70,9 @@ def fetch_snapshot(document_id: str) -> CatalogSnapshot:
 
 def catalog_tables() -> list[str]:
     """All catalog tables the ingestion run touches, parents first."""
-    table = state._table()
+    table = state_table()
     children = [f"{table}_{suffix}" for suffix in ("author", "category", "term", "attachment")]
-    return [table, *children, ingest_log._table()]
+    return [table, *children, log_table()]
 
 
 def table_counts() -> dict[str, int]:

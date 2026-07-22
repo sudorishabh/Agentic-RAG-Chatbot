@@ -10,8 +10,8 @@ from __future__ import annotations
 
 import json
 
-from app.ingestion import state, terms
-from app.ingestion.state import AttachmentLink, StateRecord, TermLink
+from app.catalog import state, terms
+from app.catalog.models import AttachmentLink, StateRecord, TermLink
 
 
 class _FakeCursor:

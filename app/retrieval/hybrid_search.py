@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from typing import Any, Sequence
 
 from app.config import get_settings
-from app.deps import get_embeddings, get_qdrant_client
+from app.core.clients import get_embeddings, get_qdrant_client
 
 logger = logging.getLogger(__name__)
 

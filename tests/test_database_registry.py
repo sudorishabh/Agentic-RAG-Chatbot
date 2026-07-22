@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from app.retrieval import database as db
-from app.retrieval.database import entities, filters
+from app.retrieval import structured as db
+from app.retrieval.structured import entities, filters
 
 
 # --------------------------------------------------------------------------- #
@@ -47,14 +47,14 @@ def test_entity_label_singular_plural():
 
 def test_resolve_theme_prefers_term_uuids(monkeypatch):
     monkeypatch.setattr(
-        "app.ingestion.terms.resolve_terms",
+        "app.catalog.terms.resolve_terms",
         lambda name, vocabulary=None: [{"term_uuid": "u1", "name": "Climate"}],
     )
     assert filters.resolve_theme("Climate") == {"term_uuids": ["u1"]}
 
 
 def test_resolve_theme_falls_back_to_category(monkeypatch):
-    monkeypatch.setattr("app.ingestion.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
     assert filters.resolve_theme("Nonexistent") == {"category": "Nonexistent"}
 
 
@@ -62,13 +62,13 @@ def test_resolve_theme_degrades_on_error(monkeypatch):
     def boom(*a, **k):
         raise RuntimeError("db down")
 
-    monkeypatch.setattr("app.ingestion.terms.resolve_terms", boom)
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", boom)
     assert filters.resolve_theme("Climate") == {"category": "Climate"}
 
 
 def test_resolve_filters_resolved_theme(monkeypatch):
     monkeypatch.setattr(
-        "app.ingestion.terms.resolve_terms",
+        "app.catalog.terms.resolve_terms",
         lambda *a, **k: [{"term_uuid": "u1", "name": "Climate"}],
     )
     scope = filters.resolve_filters(
@@ -93,7 +93,7 @@ def test_resolve_filters_resolved_theme(monkeypatch):
 
 
 def test_resolve_filters_unresolved_theme_uses_category(monkeypatch):
-    monkeypatch.setattr("app.ingestion.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
     scope = filters.resolve_filters(db.RecordFilters(theme="Mystery"))
     assert scope.term_uuids is None
     assert scope.category == "Mystery"

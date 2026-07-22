@@ -6,8 +6,8 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.retrieval.database import planner
-from app.retrieval.database.types import DatabasePlan, ToolCall, ToolResult
+from app.retrieval.structured import planner
+from app.retrieval.structured.types import DatabasePlan, ToolCall, ToolResult
 
 
 def _slots(**kw):

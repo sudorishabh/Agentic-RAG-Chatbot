@@ -12,7 +12,7 @@ import logging
 from typing import Any, Sequence
 
 from app.config import get_settings
-from app.deps import get_qdrant_client
+from app.core.clients import get_qdrant_client
 from app.retrieval.hybrid_search import Candidate, build_filter, search
 
 logger = logging.getLogger(__name__)

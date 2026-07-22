@@ -26,7 +26,7 @@ _store_count = 0
 
 
 def _client() -> Any | None:
-    from app.deps import get_qdrant_client
+    from app.core.clients import get_qdrant_client
 
     try:
         return get_qdrant_client()

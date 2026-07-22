@@ -1,8 +1,9 @@
 # Retrieval
 
 The query-time pipeline: **understand → search → rerank → build context → cite**,
-plus the structured (non-RAG) path. Orchestrated by `retrieve()` and friends in
-[app/rag.py](../app/rag.py).
+plus the structured (non-RAG) path. Orchestrated by `retrieve()` in
+[app/retrieval/retriever.py](../app/retrieval/retriever.py), called from the query
+pipeline in [app/pipeline/query_pipeline.py](../app/pipeline/query_pipeline.py).
 
 ## 1. Query understanding — [app/retrieval/query_processor.py](../app/retrieval/query_processor.py)
 
@@ -156,7 +157,8 @@ rationale: [website-preference-retrieval.md](website-preference-retrieval.md).
 
 The corpus is ~11k PDFs vs a small amount of Drupal website content, so a single
 similarity pull is almost all PDF and website content often never enters the
-candidate set. When enabled, `retrieve()` (in [app/rag.py](../app/rag.py)) runs
+candidate set. When enabled, `retrieve()` (in
+[app/retrieval/retriever.py](../app/retrieval/retriever.py)) runs
 **two pulls sharing one query vector** and merges them before the single rerank:
 
 - **website pull** — `source_type == "website"`, `website_candidate_k` (= 20)
@@ -181,15 +183,19 @@ Sizing note: `context_token_budget` was raised to 9000 so ~5 blocks fit (2 websi
 preference-config fingerprint (see [operations.md](operations.md#caching)) so toggling
 or tuning the feature self-invalidates stale answers.
 
-## Structured path — [app/retrieval/drupal_router.py](../app/retrieval/drupal_router.py)
+## Structured path — [app/retrieval/structured/answerer.py](../app/retrieval/structured/answerer.py)
 
 For `intent == "structured"` queries (exact lookups, counts, filtered lists) that are
 better answered relationally than semantically. **Answered entirely from the local
 catalog** — the `ingest_state` table in MySQL
-([app/ingestion/state.py](../app/ingestion/state.py)), which stores each ingested
+([app/catalog/state.py](../app/catalog/state.py), read via
+[app/catalog/queries.py](../app/catalog/queries.py)), which stores each ingested
 document's bundle, title, url, authors, categories, and publish date. No live
 website/JSON:API calls happen at query time, so `count` and `list` read the same
-source and always agree.
+source and always agree. The catalog operations, filters, and rendering live in
+[app/retrieval/structured/](../app/retrieval/structured/) (see
+[database-tool-registry.md](database-tool-registry.md)); `answerer.py` is the thin
+adapter the query pipeline calls.
 
 - `parse_structured(question, history=None) -> StructuredQuery | None` — LLM parses the
   question into `{ operation: lookup|list|count, bundle, title_contains, author, year,
@@ -198,7 +204,8 @@ source and always agree.
   the catalog and returns an answer dict shaped like the RAG response
   (`answer`, `citations`, `intent="structured"`, `used_chunks`, `conflict=false`,
   `cached=false`), or `None` if it can't handle the query — in which case
-  [app/rag.py](../app/rag.py) falls through to the normal RAG pipeline.
+  [app/pipeline/query_pipeline.py](../app/pipeline/query_pipeline.py) falls through to
+  the normal RAG pipeline.
 
 Query shapes:
 

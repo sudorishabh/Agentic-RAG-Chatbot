@@ -1,0 +1,78 @@
+"""Catalog domain models: the ingest-state record and its link/log types."""
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from typing import Any
+
+
+@dataclass
+class TermLink:
+    """A document's reference to a taxonomy term. ``role`` is the referencing
+    Drupal field (field_theme, field_tags, parent, ...), so queries can
+    distinguish a theme link from a tag link on the same term."""
+
+    term_uuid: str
+    role: str
+
+
+@dataclass
+class AttachmentLink:
+    """A node's link to an attached PDF (its own document, keyed by file_uuid)."""
+
+    file_uuid: str
+    origin: str  # "attachment" | "inbody"
+    url: str | None = None
+    filename: str | None = None
+
+
+@dataclass
+class StateRecord:
+
+    document_id: str
+    source_type: str
+    source_key: str
+    fingerprint: str
+    content_hash: str = ""
+    doc_version: int = 1
+    bundle: str | None = None
+    # JSON:API entity type ("node", "taxonomy_term", "block_content") for
+    # Drupal records; None for filesystem PDFs and attachment documents.
+    # Content counts filter on it so facet terms don't count as documents.
+    entity_type: str | None = None
+    changed_mark: int | None = None
+    # Cheap file-change signal for local PDFs: byte size + mtime (ns). Lets a scan
+    # skip re-reading/hashing a file whose size and mtime are unchanged.
+    size: int | None = None
+    mtime_ns: int | None = None
+    indexed_at: str | None = None
+    published_at: str | None = None
+    # Display fields so structured list/lookup queries can be answered from the
+    # catalog (no live site fetch). url is the document's public page/file URL.
+    title: str | None = None
+    url: str | None = None
+    authors: list[str] = field(default_factory=list)
+    categories: list[str] = field(default_factory=list)
+    # Entity-modeled links and the lossless source metadata (JSON column).
+    term_links: list[TermLink] = field(default_factory=list)
+    attachments: list[AttachmentLink] = field(default_factory=list)
+    raw_meta: dict[str, Any] | None = None
+
+
+@dataclass
+class LogEntry:
+    """One ingestion event: where a file/record came from and what happened."""
+
+    document_id: str
+    source_type: str
+    status: str
+    run_id: str | None = None
+    source_path: str | None = None
+    source_url: str | None = None
+    bundle: str | None = None
+    tags: str | None = None
+    title: str | None = None
+    doc_version: int | None = None
+    chunks_indexed: int | None = None
+    fingerprint: str | None = None
+    content_hash: str | None = None
+    error_message: str | None = None

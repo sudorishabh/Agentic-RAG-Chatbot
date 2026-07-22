@@ -90,7 +90,7 @@ _SUPPORT_SYSTEM = (
 
 
 def _extract_claims(answer: str) -> list[_Claim]:
-    from app.generation.llm_client import get_structured_llm
+    from app.core.clients.llm import get_structured_llm
 
     result: _ClaimList = get_structured_llm().with_structured_output(_ClaimList).invoke(
         [("system", _EXTRACT_SYSTEM), ("human", f"Answer:\n{answer}")]
@@ -100,7 +100,7 @@ def _extract_claims(answer: str) -> list[_Claim]:
 
 def _claim_supported(claim: str, evidence: str) -> bool | None:
     """One binary verdict; None on error (the claim is skipped, not flagged)."""
-    from app.generation.llm_client import get_structured_llm
+    from app.core.clients.llm import get_structured_llm
 
     try:
         verdict: _Support = get_structured_llm().with_structured_output(_Support).invoke(

@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Sequence
 
 from app.config import get_settings
-from app.deps import get_qdrant_client
+from app.core.clients import get_qdrant_client
 
 logger = logging.getLogger(__name__)
 

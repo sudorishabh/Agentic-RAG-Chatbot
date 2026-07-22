@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from typing import Any, Iterable, Sequence
 
 from app.core.models import CanonicalDocument
-from app.ingestion.chunker import Chunk, chunk_canonical
+from app.ingestion.chunking import Chunk, chunk_canonical
 from app.observability.tracing import span
 
 logger = logging.getLogger(__name__)
@@ -16,7 +16,7 @@ def _now_iso() -> str:
 
 
 def _embed_children(texts: Sequence[str], batch_size: int) -> list[list[float]]:
-    from app.ingestion.embedder import get_embeddings
+    from app.core.clients import get_embeddings
 
     embeddings = get_embeddings()
     vectors: list[list[float]] = []
@@ -53,7 +53,7 @@ def index_chunks(chunks: Sequence[Chunk], *, batch_size: int = 128, stamp: bool 
     if not chunks:
         return 0
 
-    from app.deps import ensure_collection, get_qdrant_client
+    from app.core.clients import ensure_collection, get_qdrant_client
     from app.config import get_settings
 
     ensure_collection()
@@ -82,7 +82,7 @@ def index_chunks(chunks: Sequence[Chunk], *, batch_size: int = 128, stamp: bool 
 
 
 def _probe_dim() -> int:
-    from app.ingestion.embedder import get_embeddings
+    from app.core.clients import get_embeddings
 
     return len(get_embeddings().embed_query("dimension probe"))
 

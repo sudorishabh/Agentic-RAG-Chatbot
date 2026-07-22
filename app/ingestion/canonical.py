@@ -1,12 +1,7 @@
 from __future__ import annotations
-import re
 from typing import Any, Protocol
 from app.core.models import CanonicalDocument, CanonicalSection, EntityRef, FileLink
-
-def _slugify(value: str) -> str:
-    slug = re.sub(r"[^a-z0-9]+", "_", (value or "").lower()).strip("_")
-    return slug or "document"
-
+from app.ingestion.textutil import slugify as _slugify
 
 # Substring hints that route Drupal metadata fields into canonical facets.
 # field_audit reports against these same rules — import from here, don't copy.

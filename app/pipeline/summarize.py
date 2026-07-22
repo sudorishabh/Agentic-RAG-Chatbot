@@ -7,6 +7,10 @@ chunk, and GPT-4o-mini summarizes hierarchically: per-document bullets in
 parallel batches (map), then one aggregation call (reduce). Small scopes skip
 the map stage entirely. Citations are document-level catalog rows. Any
 failure returns None — the caller falls through to plain semantic RAG.
+
+This is an orchestration use case: it combines retrieval (catalog scope +
+lead-parent fetch) with generation (the LLM summary), so it lives in the
+pipeline layer rather than inside either feature package.
 """
 
 from __future__ import annotations
@@ -19,10 +23,11 @@ from typing import TYPE_CHECKING, Any, Sequence
 
 from pydantic import BaseModel, Field
 
-from app.ingestion import terms
+from app.catalog import terms
+from app.catalog import queries as catalog
 from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
-from app.retrieval import catalog, scoped_retrieval
-from app.retrieval.database.entities import normalize_entity
+from app.retrieval import scoped_retrieval
+from app.retrieval.structured.entities import normalize_entity
 from app.schemas.query import Citation
 
 if TYPE_CHECKING:
@@ -162,9 +167,9 @@ def _batch_documents(
 
 
 def _summarize_direct(question: str, docs: list[_Doc]) -> str:
-    from app.generation.llm_client import get_llm
+    from app.core.clients.llm import get_llm
+    from app.core.models.context import ContextBlock
     from app.generation.prompts import format_context_blocks
-    from app.retrieval.context_builder import ContextBlock
 
     blocks = [
         ContextBlock(
@@ -186,7 +191,7 @@ def _summarize_direct(question: str, docs: list[_Doc]) -> str:
 
 
 def _map_batch(batch: list[_Doc]) -> dict[str, list[str]]:
-    from app.generation.llm_client import get_structured_llm
+    from app.core.clients.llm import get_structured_llm
 
     parts = [
         f"document_id: {doc.document_id}\ntitle: {doc.title}\ntext: {doc.text}"
@@ -200,7 +205,7 @@ def _map_batch(batch: list[_Doc]) -> dict[str, list[str]]:
 
 
 def _summarize_map_reduce(question: str, docs: list[_Doc]) -> str:
-    from app.generation.llm_client import get_llm
+    from app.core.clients.llm import get_llm
 
     batches = _batch_documents(docs)
     with ThreadPoolExecutor(max_workers=_MAP_WORKERS) as pool:

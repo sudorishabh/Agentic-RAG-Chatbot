@@ -22,7 +22,7 @@ from fastapi.responses import StreamingResponse
 
 from app.api.auth import Principal, require_principal
 from app.config import get_settings
-from app.rag import stream_answer
+from app.pipeline.query_pipeline import stream_answer
 from app.schemas.query import QueryRequest
 
 router = APIRouter(tags=["chat"])

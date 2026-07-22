@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from app.ingestion.chunker import _classify_section
+from app.ingestion.chunking.classifier import classify_section
 
 
 def test_toc_detected():
@@ -13,7 +13,7 @@ def test_toc_detected():
         "3 Competitiveness ....................................... 32",
         "Bibliography ............................................ 45",
     ])
-    assert _classify_section(text) == "toc"
+    assert classify_section(text) == "toc"
 
 
 def test_references_detected():
@@ -24,7 +24,7 @@ def test_references_detected():
         "MoS. (2021). Annual Report. Retrieved from https://steel.gov.in/z",
         "WSA. (2020). World Steel in Figures. Retrieved from https://www.worldsteel.org/a",
     ])
-    assert _classify_section(text) == "references"
+    assert classify_section(text) == "references"
 
 
 def test_glossary_detected():
@@ -36,7 +36,7 @@ def test_glossary_detected():
         "EAF – Electric Arc Furnace",
         "GDP – Gross Domestic Product",
     ])
-    assert _classify_section(text) == "glossary"
+    assert classify_section(text) == "glossary"
 
 
 def test_url_sparse_bibliography_detected():
@@ -48,7 +48,7 @@ def test_url_sparse_bibliography_detected():
         "WSA. (2020a). World Steel in figures.",
         "WSA. (2020b). Steel Statistical Yearbook 2020 Concise Version.",
     ])
-    assert _classify_section(text) == "references"
+    assert classify_section(text) == "references"
 
 
 def test_inline_prose_citations_not_flagged():
@@ -59,7 +59,7 @@ def test_inline_prose_citations_not_flagged():
         "The sector is highly cyclical and capital-intensive in nature.\n"
         "Investment depends on public and private players (NSP, 2017)."
     )
-    assert _classify_section(text) is None
+    assert classify_section(text) is None
 
 
 def test_prose_not_flagged():
@@ -70,8 +70,8 @@ def test_prose_not_flagged():
         "This report sets out that such a pathway is possible and desirable.\n"
         "Nonetheless there are significant risks of not rising to this challenge."
     )
-    assert _classify_section(text) is None
+    assert classify_section(text) is None
 
 
 def test_short_text_not_flagged():
-    assert _classify_section("Bibliography ........ 45") is None  # < 4 lines
+    assert classify_section("Bibliography ........ 45") is None  # < 4 lines

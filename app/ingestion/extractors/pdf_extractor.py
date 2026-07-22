@@ -512,7 +512,7 @@ def _main(argv: list[str] | None = None) -> int:
 
     if args.chunk:
         from app.ingestion.canonical import from_pdf
-        from app.ingestion.chunker import chunk_canonical
+        from app.ingestion.chunking import chunk_canonical
 
         chunks = chunk_canonical(from_pdf(result))
         parents = sum(c.is_parent for c in chunks)

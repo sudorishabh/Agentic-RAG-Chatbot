@@ -1,10 +1,8 @@
 """The four parameterized catalog tools the Database Planner invokes.
 
-Each tool wraps an existing read function in `app.ingestion.state` (the frozen
-ingestion module — called, never edited) and re-homes the deterministic renderer
-previously living in `drupal_router`, returning a uniform `ToolResult`. Behavior
-is preserved: an unknown entity, an unresolvable theme, or an empty result yields
-`ok=False` so the caller can fall through to semantic search.
+Each tool wraps an existing read function in `app.catalog.queries` and renders
+a uniform `ToolResult`. An unknown entity, an unresolvable theme, or an empty
+result yields `ok=False` so the caller can fall through to semantic search.
 
 See docs/database-tool-registry.md.
 """
@@ -17,17 +15,18 @@ from dataclasses import replace
 from datetime import datetime
 from typing import Any, Sequence
 
-from app.ingestion import state
-from app.retrieval.database.entities import entity_label, get_entity
-from app.retrieval.database.filters import _parse_date, resolve_filters
-from app.retrieval.database.types import GroupBy, RecordFilters, ToolResult
+from app.catalog import queries as state
+from app.catalog.models import StateRecord
+from app.retrieval.structured.entities import entity_label, get_entity
+from app.retrieval.structured.filters import _parse_date, resolve_filters
+from app.retrieval.structured.types import GroupBy, RecordFilters, ToolResult
 from app.schemas.query import Citation
 
 logger = logging.getLogger(__name__)
 
 
 # --------------------------------------------------------------------------- #
-# Rendering helpers (re-homed from drupal_router).
+# Rendering helpers.
 # --------------------------------------------------------------------------- #
 
 def _md_cell(text: str) -> str:
@@ -51,7 +50,7 @@ def _period_label(filters: RecordFilters) -> str:
     return ""
 
 
-def _render_list_table(records: Sequence[state.StateRecord]) -> str:
+def _render_list_table(records: Sequence[StateRecord]) -> str:
     lines = ["| Title | Published | Type |", "| --- | --- | --- |"]
     for r in records:
         title = _md_cell(r.title or r.document_id)
@@ -60,7 +59,7 @@ def _render_list_table(records: Sequence[state.StateRecord]) -> str:
     return "\n".join(lines)
 
 
-def _render_list_timeline(records: Sequence[state.StateRecord]) -> str:
+def _render_list_timeline(records: Sequence[StateRecord]) -> str:
     """Year-grouped chronology; expects records already sorted newest-first."""
     lines: list[str] = []
     year = ""
@@ -78,7 +77,7 @@ def _render_list_timeline(records: Sequence[state.StateRecord]) -> str:
 
 
 def _render_records(
-    records: Sequence[state.StateRecord], output_format: str
+    records: Sequence[StateRecord], output_format: str
 ) -> tuple[str, list[dict], list[dict]]:
     """Body + structured records + citations, in one consistent order (timeline
     sorts newest-first; citations follow the rendered order)."""
@@ -195,7 +194,7 @@ _CONTENT_QUESTION = re.compile(
 def _resolve_chain(title: str | None, question: str | None, output_format: str) -> str | None:
     """Document id for a title lookup that should chain into content QA: a content
     question (or summary/detailed shape) naming a title that matches exactly one
-    catalog document. Mirrors the former drupal_router.resolve_lookup_document."""
+    catalog document."""
     if not title:
         return None
     is_content = output_format in ("summary", "detailed") or bool(
@@ -242,10 +241,10 @@ def lookup_record(
 
 
 def resolve_lookup_chain(analysis: Any, question: str) -> str | None:
-    """The lookup->content-QA chain decision used by rag._prepare: the document id
-    when `analysis` is a lookup naming a title that a content question matches to
-    exactly one catalog document, else None. Duck-typed on operation /
-    title_contains / answer_format."""
+    """The lookup->content-QA chain decision used by the query pipeline: the
+    document id when `analysis` is a lookup naming a title that a content
+    question matches to exactly one catalog document, else None. Duck-typed on
+    operation / title_contains / answer_format."""
     if analysis is None or getattr(analysis, "operation", None) != "lookup":
         return None
     return _resolve_chain(

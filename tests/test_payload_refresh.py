@@ -8,7 +8,7 @@ state helpers are stubbed; no datastores needed.
 
 from __future__ import annotations
 
-from app.ingestion import payload_refresh, state
+from app.catalog import payload_refresh, state
 
 
 class _FakeQdrant:

@@ -149,7 +149,7 @@ def _process(
     """Run one change record through the real pipeline handler, capturing the
     extraction result, canonical document, chunks, and indexed point count."""
     from app.ingestion import pipeline
-    from app.ingestion.chunker import chunk_canonical
+    from app.ingestion.chunking import chunk_canonical
     from app.ingestion.extractors import pdf_extractor
 
     cap = DocCapture(record=record)
@@ -331,7 +331,7 @@ def _preflight_index(settings: Any) -> str | None:
     document. Returns an error message when unavailable, else None.
     """
     try:
-        from app.deps import ensure_collection
+        from app.core.clients import ensure_collection
 
         ensure_collection()
         return None
@@ -347,7 +347,7 @@ def _cleanup(skip_index: bool) -> None:
     for name in db_checks.drop_test_tables():
         rep.kv("dropped table", name)
     if not skip_index:
-        from app.deps import get_qdrant_client
+        from app.core.clients import get_qdrant_client
 
         collection = get_settings().qdrant_collection
         client = get_qdrant_client()
@@ -397,8 +397,9 @@ def _write_summary(
 
 
 def _run(args: argparse.Namespace, run_dir: Path, started: datetime) -> int:
+    from app.catalog import log as ingest_log
+    from app.catalog import state
     from app.config import get_settings
-    from app.ingestion import ingest_log, state
     from app.local_tests import db_checks
 
     get_settings.cache_clear()

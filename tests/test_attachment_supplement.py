@@ -8,10 +8,23 @@ context build are all stubbed; no network.
 
 from __future__ import annotations
 
-import app.rag as rag
-from app.retrieval import catalog, scoped_retrieval
-from app.retrieval.context_builder import ContextBlock
+from types import SimpleNamespace
+
+from app.catalog import queries as catalog
+from app.core.models.context import ContextBlock
+from app.retrieval import retriever, scoped_retrieval
 from app.retrieval.hybrid_search import Candidate
+
+
+def _plain_settings():
+    """Retrieval settings with every recall-expansion leg off, so retrieve()
+    takes the single base-search path (independent of the ambient .env)."""
+    return SimpleNamespace(
+        retrieval_top_k=6, retrieval_candidate_k=40, prefer_website_enabled=False,
+        multi_query_enabled=False, multi_query_paraphrases=2, rerank_table_boost=0.15,
+        keyword_leg_enabled=False, corrective_loop_enabled=False,
+        corrective_min_score=0.2,
+    )
 
 
 def _block(n=1, doc_id="w1", source_type="website", linked_pdf_id=None):
@@ -34,7 +47,7 @@ def _supplement(blocks, ranked, **overrides):
     kw = dict(search_query="q", query_vector=[0.1], tenant_id="default",
               user_groups=["public"], n=5, segregate=False)
     kw.update(overrides)
-    return rag._supplement_attachments(blocks, ranked, **kw)
+    return retriever.supplement_attachments(blocks, ranked, **kw)
 
 
 # --------------------------------------------------------------------------- #
@@ -95,10 +108,10 @@ def test_unrepresented_attachment_triggers_one_pull(monkeypatch):
     monkeypatch.setattr(scoped_retrieval, "search_within_documents", fake_search)
     reranked_input: list = []
     monkeypatch.setattr(
-        rag, "rerank", lambda q, cands, **kw: reranked_input.extend(cands) or cands
+        retriever, "rerank", lambda q, cands, **kw: reranked_input.extend(cands) or cands
     )
     rebuilt = [_block(), _block(n=2, doc_id="f1", source_type="pdf_attachment")]
-    monkeypatch.setattr(rag, "build_context", lambda ranked, *, limit, segregate: rebuilt)
+    monkeypatch.setattr(retriever, "build_context", lambda ranked, *, limit, segregate: rebuilt)
 
     out = _supplement([_block()], [_cand("c1")])
 
@@ -119,7 +132,7 @@ def test_already_ranked_candidates_short_circuit(monkeypatch):
     def no_rerank(*a, **k):
         raise AssertionError("rerank must not run when the pull adds nothing")
 
-    monkeypatch.setattr(rag, "rerank", no_rerank)
+    monkeypatch.setattr(retriever, "rerank", no_rerank)
     blocks = [_block()]
     assert _supplement(blocks, [_cand("c1")]) is blocks
 
@@ -139,17 +152,18 @@ def test_failure_keeps_original_blocks(monkeypatch):
 
 def test_retrieve_supplements_only_detailed(monkeypatch):
     blocks = [_block()]
-    monkeypatch.setattr(rag, "search", lambda *a, **k: [_cand()])
-    monkeypatch.setattr(rag, "rerank", lambda q, cands, **kw: cands)
-    monkeypatch.setattr(rag, "build_context", lambda ranked, *, limit, segregate: blocks)
+    monkeypatch.setattr(retriever, "get_settings", _plain_settings)
+    monkeypatch.setattr(retriever, "search", lambda *a, **k: [_cand()])
+    monkeypatch.setattr(retriever, "rerank", lambda q, cands, **kw: cands)
+    monkeypatch.setattr(retriever, "build_context", lambda ranked, *, limit, segregate: blocks)
     calls: list = []
     monkeypatch.setattr(
-        rag, "_supplement_attachments",
+        retriever, "supplement_attachments",
         lambda b, r, **kw: calls.append(kw["n"]) or b,
     )
 
-    rag.retrieve("q", query_vector=[0.1], answer_format="detailed")
+    retriever.retrieve("q", query_vector=[0.1], answer_format="detailed")
     assert len(calls) == 1
-    rag.retrieve("q", query_vector=[0.1], answer_format="default")
-    rag.retrieve("q", query_vector=[0.1], answer_format="table")
+    retriever.retrieve("q", query_vector=[0.1], answer_format="default")
+    retriever.retrieve("q", query_vector=[0.1], answer_format="table")
     assert len(calls) == 1  # unchanged: only detailed triggered the pull

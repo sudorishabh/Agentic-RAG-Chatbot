@@ -116,7 +116,7 @@ async def ingest_log_route(
     document_id: str | None = None,
     status: str | None = None,
 ) -> IngestLogResponse:
-    from app.ingestion import ingest_log
+    from app.catalog import log as ingest_log
 
     rows = await run_in_threadpool(
         ingest_log.recent,

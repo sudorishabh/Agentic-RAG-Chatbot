@@ -11,7 +11,7 @@ from __future__ import annotations
 from app.core.models import CanonicalDocument, EntityRef, FileLink
 from app.ingestion import pipeline
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus, _parse_bundle_spec
-from app.ingestion.state import AttachmentLink, TermLink
+from app.catalog.models import AttachmentLink, TermLink
 
 
 def test_parse_bundle_spec():
@@ -169,9 +169,9 @@ class _FakePdfResult:
 def test_attachment_doc_inherits_node_refs_and_facets(monkeypatch):
     from types import SimpleNamespace
 
-    from app.ingestion.extractors import pdf_extractor
+    from app.ingestion.extractors import attachment, pdf_extractor
 
-    monkeypatch.setattr(pipeline, "_fetch_attachment", lambda s, url, t: (b"%PDF-", url))
+    monkeypatch.setattr(attachment, "fetch_attachment", lambda s, url, t: (b"%PDF-", url))
     monkeypatch.setattr(pdf_extractor, "extract_pdf", lambda content, name: _FakePdfResult())
 
     node = SimpleNamespace(
@@ -191,7 +191,7 @@ def test_attachment_doc_inherits_node_refs_and_facets(monkeypatch):
         document_id="f1", source_type="pdf_attachment", payload=(node, file)
     )
 
-    doc = pipeline._build_attachment_doc(record, session=None)
+    doc = attachment.build_attachment_doc(record, session=None)
 
     assert doc.source_type == "pdf_attachment"
     assert doc.linked_article_uuid == "node-1"

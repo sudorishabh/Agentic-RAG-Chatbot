@@ -7,13 +7,14 @@ catalog is stubbed; no MySQL, Qdrant, or LLM.
 
 from __future__ import annotations
 
-from app.ingestion import state
+from app.catalog import queries as state
+from app.catalog.models import StateRecord
 from app.retrieval import query_processor as qp
-from app.retrieval.database.tools import resolve_lookup_chain
+from app.retrieval.structured.tools import resolve_lookup_chain
 
 
 def _rec(document_id="d1", title="Thoothukudi report"):
-    return state.StateRecord(
+    return StateRecord(
         document_id=document_id, source_type="website", source_key="k",
         fingerprint="f", title=title, url=f"https://t/{document_id}",
     )

@@ -12,8 +12,8 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from app.ingestion import state
-from app.retrieval import drupal_router as dr
+from app.catalog import queries as state
+from app.retrieval.structured import answerer as dr
 from app.retrieval import query_processor as qp
 
 

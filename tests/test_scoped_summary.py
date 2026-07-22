@@ -10,8 +10,8 @@ from __future__ import annotations
 
 from datetime import datetime
 
+from app.pipeline import summarize as sm
 from app.retrieval import query_processor as qp
-from app.retrieval import summarizer as sm
 
 
 def _analysis(**kw):

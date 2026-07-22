@@ -1,7 +1,7 @@
 """Scope resolver: normalized RecordFilters -> catalog backing kwargs.
 
 Holds the application's structured-scope business rules in one place (previously
-duplicated across state, catalog, drupal_router, and query_processor):
+duplicated across state, catalog, the structured answerer, and query_processor):
 
 - theme names resolve to taxonomy term UUIDs (rename-proof, alias-aware via
   terms.resolve_terms), with a display-name category fallback for documents
@@ -20,7 +20,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
-from app.retrieval.database.types import RecordFilters
+from app.retrieval.structured.types import RecordFilters
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +41,7 @@ def resolve_theme(theme: str | None) -> dict[str, Any]:
     if not theme:
         return {}
     try:
-        from app.ingestion import terms
+        from app.catalog import terms
 
         rows = terms.resolve_terms(theme)
     except Exception:

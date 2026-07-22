@@ -10,9 +10,9 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-import app.rag as rag
+from app.core.models.context import ContextBlock
 from app.generation import faithfulness as fa
-from app.retrieval.context_builder import ContextBlock
+from app.pipeline import query_pipeline as pipe
 from app.retrieval.query_processor import ProcessedQuery
 
 
@@ -105,18 +105,18 @@ def test_verify_fails_open(monkeypatch):
 
 def _gen(blocks):
     pq = ProcessedQuery(original="q", search_query="q")
-    return rag._Generation(pq=pq, blocks=blocks, query_vector=[0.1],
-                           tenant_id="default", user_groups=["public"], top_k=6)
+    return pipe._Generation(pq=pq, blocks=blocks, query_vector=[0.1],
+                            tenant_id="default", user_groups=["public"], top_k=6)
 
 
 def _wire_stream(monkeypatch, *, check_on, faithful, persisted):
     blocks = [_block(1, "evidence text")]
-    monkeypatch.setattr(rag, "_prepare", lambda q, **kw: (None, _gen(blocks)))
+    monkeypatch.setattr(pipe, "_prepare", lambda q, **kw: (None, _gen(blocks)))
     monkeypatch.setattr(
-        rag, "_generate_stream", lambda q, b, answer_format=None: iter(["draft ", "answer [1]"])
+        pipe, "generate_stream", lambda q, b, answer_format=None: iter(["draft ", "answer [1]"])
     )
     monkeypatch.setattr(
-        rag, "get_settings", lambda: SimpleNamespace(faithfulness_check=check_on)
+        pipe, "get_settings", lambda: SimpleNamespace(faithfulness_check=check_on)
     )
     monkeypatch.setattr(
         fa, "verify",
@@ -124,17 +124,17 @@ def _wire_stream(monkeypatch, *, check_on, faithful, persisted):
                                            unsupported=[] if faithful else ["claim"]),
     )
     monkeypatch.setattr(
-        rag, "_generate",
+        pipe, "generate_answer",
         lambda q, b, correction=None, answer_format=None: "corrected answer [1]",
     )
-    monkeypatch.setattr(rag, "_persist", lambda gen, result: persisted.update(result))
+    monkeypatch.setattr(pipe, "_persist", lambda gen, result: persisted.update(result))
 
 
 def test_stream_emits_correction_before_sources_and_persists_it(monkeypatch):
     persisted: dict = {}
     _wire_stream(monkeypatch, check_on=True, faithful=False, persisted=persisted)
 
-    events = list(rag.stream_answer("q"))
+    events = list(pipe.stream_answer("q"))
     types = [e["type"] for e in events]
     assert types == ["token", "token", "correction", "sources", "done"]
     correction = events[2]
@@ -147,7 +147,7 @@ def test_stream_clean_answer_has_no_correction(monkeypatch):
     persisted: dict = {}
     _wire_stream(monkeypatch, check_on=True, faithful=True, persisted=persisted)
 
-    events = list(rag.stream_answer("q"))
+    events = list(pipe.stream_answer("q"))
     assert [e["type"] for e in events] == ["token", "token", "sources", "done"]
     assert persisted["answer"] == "draft answer [1]"
 
@@ -160,11 +160,11 @@ def test_stream_check_off_never_verifies(monkeypatch):
         raise AssertionError("verify must not run when the check is off")
 
     monkeypatch.setattr(fa, "verify", no_verify)
-    events = list(rag.stream_answer("q"))
+    events = list(pipe.stream_answer("q"))
     assert [e["type"] for e in events] == ["token", "token", "sources", "done"]
 
 
 def test_assemble_sets_numeric_mismatch_flag():
     gen = _gen([_block(1, "the total was 40% in 2023")])
-    assert rag._assemble("It was 40% in 2023 [1].", gen)["numeric_mismatch"] is False
-    assert rag._assemble("It was 90% in 2023 [1].", gen)["numeric_mismatch"] is True
+    assert pipe._assemble("It was 40% in 2023 [1].", gen)["numeric_mismatch"] is False
+    assert pipe._assemble("It was 90% in 2023 [1].", gen)["numeric_mismatch"] is True

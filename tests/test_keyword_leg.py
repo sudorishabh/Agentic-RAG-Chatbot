@@ -10,8 +10,9 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-import app.rag as rag
+from app.retrieval import retriever
 from app.retrieval.hybrid_search import Candidate
+from app.retrieval.search import strategies
 
 
 def _cand(id, payload=None):
@@ -23,24 +24,24 @@ def _cand(id, payload=None):
 # --------------------------------------------------------------------------- #
 
 def test_extract_quoted_acronyms_years_bigrams():
-    out = rag._extract_key_terms(
+    out = strategies.extract_key_terms(
         'what does the "solar mission" report say about GHG output in Tamil Nadu in 2024'
     )
     assert out == "solar mission Tamil Nadu GHG 2024"
 
 
 def test_extract_dedupes_case_insensitively():
-    out = rag._extract_key_terms('"GHG emissions" and GHG levels of 2024, again 2024')
+    out = strategies.extract_key_terms('"GHG emissions" and GHG levels of 2024, again 2024')
     assert out == "GHG emissions GHG 2024"
 
 
 def test_extract_none_when_no_salient_terms():
-    assert rag._extract_key_terms("what are the impacts of biofuel adoption") is None
-    assert rag._extract_key_terms("") is None
+    assert strategies.extract_key_terms("what are the impacts of biofuel adoption") is None
+    assert strategies.extract_key_terms("") is None
 
 
 # --------------------------------------------------------------------------- #
-# _keyword_search — MatchText condition and fail-open.
+# keyword_search — MatchText condition and fail-open.
 # --------------------------------------------------------------------------- #
 
 def test_keyword_search_builds_matchtext_condition(monkeypatch):
@@ -50,8 +51,8 @@ def test_keyword_search_builds_matchtext_condition(monkeypatch):
         seen.update(kw)
         return [_cand("k1")]
 
-    monkeypatch.setattr(rag, "search", fake_search)
-    out = rag._keyword_search(
+    monkeypatch.setattr(strategies, "search", fake_search)
+    out = strategies.keyword_search(
         "q", "GHG 2024", tenant_id="default", user_groups=["public"],
         filters=["prior"], query_vector=[0.1], limit=40,
     )
@@ -67,8 +68,8 @@ def test_keyword_search_fails_open_without_index(monkeypatch):
     def boom(query, **kw):
         raise RuntimeError("Index required but not found for chunk_text")
 
-    monkeypatch.setattr(rag, "search", boom)
-    out = rag._keyword_search(
+    monkeypatch.setattr(strategies, "search", boom)
+    out = strategies.keyword_search(
         "q", "GHG", tenant_id="default", user_groups=["public"],
         filters=None, query_vector=[0.1], limit=40,
     )
@@ -91,11 +92,11 @@ def _settings(**overrides):
 
 
 def _wire(monkeypatch, *, settings, base_candidates):
-    monkeypatch.setattr(rag, "get_settings", lambda: settings)
-    monkeypatch.setattr(rag, "search", lambda *a, **k: base_candidates)
-    monkeypatch.setattr(rag, "rerank", lambda q, cands, **kw: cands)
+    monkeypatch.setattr(retriever, "get_settings", lambda: settings)
+    monkeypatch.setattr(retriever, "search", lambda *a, **k: base_candidates)
+    monkeypatch.setattr(retriever, "rerank", lambda q, cands, **kw: cands)
     monkeypatch.setattr(
-        rag, "build_context", lambda ranked, *, limit, segregate: list(ranked)
+        retriever, "build_context", lambda ranked, *, limit, segregate: list(ranked)
     )
 
 
@@ -103,11 +104,11 @@ def test_keyword_leg_fuses_with_dense_pull(monkeypatch):
     _wire(monkeypatch, settings=_settings(), base_candidates=[_cand("a"), _cand("b")])
     pulls: list = []
     monkeypatch.setattr(
-        rag, "_keyword_search",
+        retriever, "keyword_search",
         lambda q, terms, **kw: pulls.append(terms) or [_cand("b"), _cand("k")],
     )
 
-    out = rag.retrieve("what happened at COP in 2024", query_vector=[0.1])
+    out = retriever.retrieve("what happened at COP in 2024", query_vector=[0.1])
 
     assert pulls == ["COP 2024"]
     assert [b.id for b in out][0] == "b"  # consensus candidate leads after RRF
@@ -117,9 +118,9 @@ def test_keyword_leg_fuses_with_dense_pull(monkeypatch):
 def test_keyword_leg_empty_hits_keep_dense_only(monkeypatch):
     base = [_cand("a")]
     _wire(monkeypatch, settings=_settings(), base_candidates=base)
-    monkeypatch.setattr(rag, "_keyword_search", lambda q, terms, **kw: [])
+    monkeypatch.setattr(retriever, "keyword_search", lambda q, terms, **kw: [])
 
-    out = rag.retrieve("what happened at COP in 2024", query_vector=[0.1])
+    out = retriever.retrieve("what happened at COP in 2024", query_vector=[0.1])
     assert [b.id for b in out] == ["a"]
 
 
@@ -131,10 +132,10 @@ def test_keyword_leg_skipped_without_terms_or_flag(monkeypatch):
 
     # Flag on, but nothing salient in the query.
     _wire(monkeypatch, settings=_settings(), base_candidates=base)
-    monkeypatch.setattr(rag, "_keyword_search", no_keyword)
-    rag.retrieve("what are the impacts of biofuel adoption", query_vector=[0.1])
+    monkeypatch.setattr(retriever, "keyword_search", no_keyword)
+    retriever.retrieve("what are the impacts of biofuel adoption", query_vector=[0.1])
 
     # Salient terms, but flag off.
     _wire(monkeypatch, settings=_settings(keyword_leg_enabled=False), base_candidates=base)
-    monkeypatch.setattr(rag, "_keyword_search", no_keyword)
-    rag.retrieve("what happened at COP in 2024", query_vector=[0.1])
+    monkeypatch.setattr(retriever, "keyword_search", no_keyword)
+    retriever.retrieve("what happened at COP in 2024", query_vector=[0.1])

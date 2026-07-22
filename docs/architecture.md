@@ -4,14 +4,17 @@ How the implemented system is wired, and how a request travels through it.
 
 ## Module map
 
+The dependency direction is: `retrieval` never imports `generation`; `generation`
+never imports retrieval internals (only the shared `core.models.ContextBlock`
+contract); `pipeline` is the only layer that combines both. Ingestion writes the
+document catalog, retrieval reads it — both through `app/catalog/`.
+
 ```
 app/
 ├── main.py                  Retrieval server: health + chat + search + source routers
 ├── ingest_main.py           Ingestion server: health + ingest routers + sweep scheduler
 ├── app_factory.py           Shared FastAPI wiring: logging, CORS, observability
 ├── config.py                Settings (pydantic-settings, loaded from env / .env)
-├── deps.py                  Shared clients: Qdrant, MySQL pool, Redis, embeddings, LLMs
-├── rag.py                   Orchestration: query → retrieve → rerank → context → generate
 ├── api/
 │   ├── auth.py              Bearer-JWT principal (tenant + groups) for the public API
 │   ├── chat.py              POST /chat (SSE stream on a dedicated thread limiter)
@@ -20,39 +23,65 @@ app/
 │   ├── ingest.py            POST /ingest/pdf(s), /ingest/run, /ingest/article, /reindex; GET /ingest/log
 │   └── health.py            GET /health, /ready, /metrics
 ├── schemas/                 Pydantic request/response models (query.py, ingest.py)
-├── retrieval/
-│   ├── query_processor.py   Intent + rewrite + facet filters       → ProcessedQuery
+├── core/
+│   ├── clients/             Shared infra gateways: vector_store.py (Qdrant), database.py
+│   │                        (MySQL pool), cache.py (Redis), embeddings.py, llm.py
+│   └── models/              CanonicalDocument/CanonicalSection (document.py) and the
+│                            retrieval→generation ContextBlock contract (context.py)
+├── pipeline/                Orchestration: the only layer depending on both
+│   │                        retrieval and generation
+│   ├── query_pipeline.py    query → cache → retrieve → generate → assemble → persist
+│   └── summarize.py         Scoped-summary use case (catalog scope + map-reduce LLM synthesis)
+├── retrieval/               READ PATH — no LLM answer synthesis
+│   ├── query_processor.py   Intent + rewrite + facet filters (control flow)    → ProcessedQuery
+│   ├── understanding/       prompts.py (the classification prompt), filters.py (Qdrant facet filters)
+│   ├── retriever.py         retrieve(): base/dual search → fuse → rerank → context → supplement
+│   ├── search/strategies.py Dual (website-biased) pull, keyword leg, multi-query, corrective requery
 │   ├── hybrid_search.py     Qdrant search with tenant/ACL/facet filters → Candidate[]
+│   ├── fusion.py            Reciprocal-rank fusion
 │   ├── reranker.py          Rerank (embedding/llm/cross_encoder/cohere) + recency·authority
 │   ├── context_builder.py   Parent-expand, cosine dedup, conflict flag, token budget, website-first segregation → ContextBlock[]
 │   ├── citations.py         Build numbered citations from chunk payloads
 │   ├── source_locator.py    document_id → on-disk PDF (roots + tenant/ACL guarded)
-│   └── drupal_router.py     Structured path for lookup/list/count — answers from the local catalog (MySQL ingest_state)
-├── generation/
-│   ├── llm_client.py        Azure chat / structured LLM factories
-│   ├── prompts.py           Grounding + chitchat prompts, context formatting
-│   └── faithfulness.py      Citation-marker validation + optional entailment check
-├── ingestion/
-│   ├── pipeline.py          Incremental ingest orchestration (PDF + Drupal), one run at a time
-│   ├── upload.py            Inline one-off PDF / article ingest
-│   ├── canonical.py         Build CanonicalDocument from extractor output
-│   ├── chunker.py           Structure-aware parent/child chunking
-│   ├── embedder.py          Azure embeddings + embedding cache
-│   ├── indexer.py           Chunk → embed children → upsert to Qdrant
-│   ├── change_detection.py  Fingerprint / content-hash incremental detection (stat pre-filter for PDFs)
-│   ├── state.py             Ingest-state manifest + document catalog (MySQL table)
-│   ├── ingest_log.py        Append-only audit log (retention-pruned)
-│   ├── backfill.py          One-time catalog title/url backfill from Qdrant payloads
-│   └── extractors/          pdf_extractor.py (PyMuPDF text / Camelot tables / Azure-OCR), drupal_extractor.py (JSON:API: nodes + taxonomy + blocks, attached & in-body PDFs)
-├── cache/
-│   ├── redis_cache.py       Response + embedding caches, corpus version, identity partition
-│   └── semantic_cache.py    Qdrant-backed semantic cache (lookup / store / prune)
+│   ├── scoped_retrieval.py  Id-scoped Qdrant reads for scoped summarization
+│   └── structured/          Catalog (database-intent) capability: entities.py, filters.py,
+│                            planner.py, tools.py, types.py, answerer.py (the query-pipeline adapter)
+├── generation/               ANSWER SYNTHESIS — no retrieval dependency
+│   ├── answerer.py           Grounded generate/stream + chitchat
+│   ├── prompts.py            Grounding + chitchat prompts, context formatting
+│   └── faithfulness.py       Citation-marker validation + optional entailment check
+├── catalog/                  The document catalog (MySQL): ingestion writes, retrieval reads
+│   ├── schema.py             All table DDL + migrations
+│   ├── models.py             StateRecord / TermLink / AttachmentLink / LogEntry
+│   ├── db.py                 Shared DAO helpers (timestamps, table-name guards)
+│   ├── state.py              Ingest-state write model + point reads
+│   ├── queries.py            Retrieval-facing analytical reads (count/list/distribution,
+│   │                         id-scoped reads for scoped summarization/attachment supplementation)
+│   ├── terms.py               Taxonomy-term catalog + aliases
+│   ├── log.py                 Append-only ingest audit log (retention-pruned)
+│   └── payload_refresh.py     Rename-driven display refresh (MySQL facet + Qdrant payload)
+├── ingestion/                 WRITE PATH
+│   ├── pipeline.py            Incremental ingest orchestration (PDF + Drupal), one run at a time
+│   ├── upload.py               Inline one-off PDF / article ingest
+│   ├── canonical.py            Build CanonicalDocument from extractor output
+│   ├── textutil.py              Shared text helpers (slugify)
+│   ├── chunking/                Structure-aware parent/child chunking: config.py (presets),
+│   │                            models.py (Chunk/DocumentMeta), payload.py (Qdrant serialization),
+│   │                            segmenter.py (markdown/heading parsing), packer.py (token windowing/
+│   │                            overlap), classifier.py (toc/references/glossary)
+│   ├── indexer.py                Chunk → embed children → upsert to Qdrant
+│   ├── change_detection/          base.py (ChangeRecord/ChangeStatus), files.py (PDF scan),
+│   │                              drupal.py (JSON:API crawl + delete reconciliation)
+│   ├── backfill.py                One-time catalog title/url backfill from Qdrant payloads
+│   └── extractors/                pdf_extractor.py (PyMuPDF text / Camelot tables / Azure-OCR),
+│                                  drupal_extractor.py (JSON:API: nodes + taxonomy + blocks),
+│                                  attachment.py (attached-PDF download + build)
+├── cache/semantic_cache.py    Qdrant-backed semantic cache (lookup / store / prune)
 ├── workers/
-│   ├── tasks.py             Celery ingestion tasks with inline fallback + CLI
-│   └── scheduler.py         In-process periodic sweep + cache/log pruning (ingestion server)
-├── observability/tracing.py Per-stage spans, RAG metrics, optional OTel/Langfuse
-├── core/models.py           CanonicalDocument / CanonicalSection domain models
-└── local_tests/             Offline runners (counting, Drupal extraction, PDF extraction, thematic areas)
+│   ├── tasks.py               Celery ingestion tasks with inline fallback + CLI
+│   └── scheduler.py           In-process periodic sweep + cache/log pruning (ingestion server)
+├── observability/tracing.py   Per-stage spans, RAG metrics, optional OTel/Langfuse
+└── local_tests/                Offline runners (counting, Drupal extraction, PDF extraction, thematic areas)
 ```
 
 The service runs as **two servers** built by the shared
@@ -74,24 +103,30 @@ The service runs as **two servers** built by the shared
   backs the **semantic answer cache**
   ([app/cache/semantic_cache.py](../app/cache/semantic_cache.py)).
 - **MySQL** — durable ingest-state manifest / document catalog
-  ([app/ingestion/state.py](../app/ingestion/state.py)) — which also answers the
-  structured count/list/lookup path — plus the ingestion audit log. Accessed
-  through a small connection pool in [app/deps.py](../app/deps.py) that reserves
-  a slot before connecting and fails fast after `mysql_pool_timeout`.
+  ([app/catalog/state.py](../app/catalog/state.py), read via
+  [app/catalog/queries.py](../app/catalog/queries.py)) — which also answers the
+  structured count/list/lookup path — plus the taxonomy-term catalog
+  ([app/catalog/terms.py](../app/catalog/terms.py)) and the ingestion audit log
+  ([app/catalog/log.py](../app/catalog/log.py)). Accessed through a small
+  connection pool in [app/core/clients/database.py](../app/core/clients/database.py)
+  that reserves a slot before connecting and fails fast after `mysql_pool_timeout`.
 - **Azure OpenAI** — chat + embeddings.
-- **Redis** *(optional)* — the response and embedding caches and the
+- **Redis** *(optional)* — the semantic-cache prune scheduling and the
   corpus-version counter. Everything degrades gracefully to "no cache" when
   `redis_url` is unset.
 
 Clients are created lazily and memoized with `@lru_cache` in
-[app/deps.py](../app/deps.py) and [app/generation/llm_client.py](../app/generation/llm_client.py).
+[app/core/clients/](../app/core/clients/) (`vector_store.py`, `database.py`, `cache.py`,
+`embeddings.py`, `llm.py`) — the one place every feature package depends on for
+infrastructure access.
 
 ## Query lifecycle
 
 The HTTP entry point for asking a question is **`POST /chat`**, which streams via
-`stream_answer()`. There is also a cache-aware non-streaming function
-`answer_query()` (programmatic) and a retrieval-only `search_blocks()` behind
-`POST /search`. All live in [app/rag.py](../app/rag.py).
+`stream_answer()`; a retrieval-only `search_blocks()` backs `POST /search`. Both
+live in [app/pipeline/query_pipeline.py](../app/pipeline/query_pipeline.py) — the
+orchestration layer that is the only place depending on both `retrieval` and
+`generation`.
 
 ```
 question
@@ -102,18 +137,18 @@ process()  ── query_processor: LLM classifies intent + rewrites + extracts f
   │
   ├─ intent == "chitchat"   → answer directly with CHITCHAT prompt, no retrieval
   │
-  ├─ intent == "structured" → drupal_router.answer_structured() — answered from the
-  │                            LOCAL catalog (MySQL ingest_state: count / list / lookup);
+  ├─ intent == "structured" → structured/answerer.answer_structured() — answered from
+  │                            the LOCAL catalog (MySQL ingest_state: count / list / lookup);
   │                            no live website calls at query time
   │                            (falls through to RAG if it can't handle the query)
   │
   └─ intent == "qa" (default)
         │
         ▼
-   embed_query_cached()          embedding cache (Redis) keyed by model+text
+   semantic_cache.lookup()       Qdrant-backed semantic cache, keyed by embedding + facets
         │
         ▼
-   retrieve():
+   retriever.retrieve():
      search()        hybrid_search: Qdrant search, candidate_k≈40, with
         │            mandatory filters is_parent=false / is_current=true / tenant_id
         │            + ACL MatchAny(user_groups) + query-derived facets.
@@ -127,8 +162,8 @@ process()  ── query_processor: LLM classifies intent + rewrites + extracts f
         │            (attention reorder, OR website-first segregation when preferring
         │             website) → token budget → ContextBlock[]
         ▼
-   _generate(_stream)()   grounded LLM call over numbered context blocks
-        │                 (optional faithfulness check + one regeneration)
+   answerer.generate(_stream)()   grounded LLM call over numbered context blocks
+        │                          (optional faithfulness check + one regeneration)
         ▼
    build_citations()      structured citations assembled from payloads (never the LLM)
         │
@@ -150,22 +185,26 @@ Key invariants:
   `REFUSAL` string from [app/generation/prompts.py](../app/generation/prompts.py).
 - **Tenant/ACL filters are mandatory** on every Qdrant query (built in
   `hybrid_search.build_filter`; mirrored by the source-file lookup).
+- **Retrieval never imports generation.** The recall-expansion strategies (dual
+  pull, multi-query, corrective requery) call the shared LLM/embedding gateways in
+  `core.clients` directly; the only place retrieval and generation meet is
+  `pipeline/query_pipeline.py`.
 
 ## Streaming vs. non-streaming
 
-Both answer entrypoints share one pipeline in [app/rag.py](../app/rag.py)
+Both answer entrypoints share one pipeline in
+[app/pipeline/query_pipeline.py](../app/pipeline/query_pipeline.py)
 (`_prepare` → generate → `_assemble` → `_persist` → `_record`); they differ only
 in how the answer is emitted.
 
 | Path | Function | Caches used | Notes |
 | --- | --- | --- | --- |
-| `POST /chat` | `stream_answer()` | embedding + response + semantic | SSE: `token` → `sources` → `done` (terminal `error` on mid-stream failure). Streams token-by-token; buffers-then-emits when `faithfulness_check` is on |
-| programmatic | `answer_query()` | embedding + response + semantic | Buffered; same pipeline |
-| `POST /search` | `search_blocks()` | embedding cache only | Returns ranked blocks, no generation |
+| `POST /chat` | `stream_answer()` | semantic | SSE: `token` → `sources` → `done` (terminal `error` on mid-stream failure). Streams token-by-token; buffers-then-emits when `faithfulness_check` is on |
+| `POST /search` | `search_blocks()` | none | Returns ranked blocks, no generation |
 
-Cache lookups happen in `_prepare` (response cache first, then — after query
-understanding — the semantic cache), so `/chat` serves cache hits as a single
-`token` event. See [operations.md](operations.md#caching) for cache details.
+The semantic-cache lookup happens in `_prepare`, after query understanding, so
+`/chat` serves a cache hit as a single `token` event. See
+[operations.md](operations.md#caching) for cache details.
 
 ## Ingestion lifecycle (summary)
 

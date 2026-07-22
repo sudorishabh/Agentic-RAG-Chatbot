@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from app.core.models import EntityRef
 from app.ingestion.canonical import from_drupal_record
-from app.ingestion.chunker import chunk_canonical
+from app.ingestion.chunking import chunk_canonical
 from app.ingestion.extractors.drupal_extractor import DrupalRecord, _resolve_relationships
 
 

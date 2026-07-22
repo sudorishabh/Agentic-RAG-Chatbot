@@ -49,7 +49,7 @@ def test_component_totals_groups_and_excludes_parents():
         "rag.generate": 1500.0,       # llm
         "rag.embed_query": 80.0,      # embedding
         "rag.context_build": 5.0,     # other (unmapped)
-        "rag.answer_query": 1900.0,   # parent — excluded
+        "rag.stream_answer": 1900.0,  # parent — excluded
     }
     totals = metrics.component_totals(stages)
     assert totals == {
@@ -64,7 +64,7 @@ def test_component_totals_groups_and_excludes_parents():
 def test_snapshot_reports_components():
     metrics.record_stage("rag.search", 300.0)
     metrics.record_stage("rag.generate", 700.0)
-    metrics.record_stage("rag.answer_query", 1050.0)  # parent, not attributed
+    metrics.record_stage("rag.stream_answer", 1050.0)  # parent, not attributed
 
     snap = metrics.snapshot()
     by_component = {c["component"]: c for c in snap["components"]}
@@ -75,7 +75,7 @@ def test_snapshot_reports_components():
 
     by_stage = {s["stage"]: s for s in snap["stages"]}
     assert by_stage["rag.search"]["component"] == "qdrant"
-    assert by_stage["rag.answer_query"]["component"] == "total"
+    assert by_stage["rag.stream_answer"]["component"] == "total"
 
 
 def test_span_feeds_registry():

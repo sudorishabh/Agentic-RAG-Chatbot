@@ -17,7 +17,7 @@ async def _sweep_loop(interval: float) -> None:
     loop continues on the next interval.
     """
     from app.cache import semantic_cache
-    from app.ingestion import ingest_log
+    from app.catalog import log as ingest_log
     from app.ingestion.pipeline import IngestBusyError
     from app.workers.tasks import sweep
 

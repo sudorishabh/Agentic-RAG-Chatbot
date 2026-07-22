@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from fastapi.concurrency import run_in_threadpool
 
 from app.api.auth import Principal, require_principal
-from app.rag import search_blocks
+from app.pipeline.query_pipeline import search_blocks
 from app.schemas.query import SearchRequest, SearchResponse
 
 router = APIRouter(tags=["search"])

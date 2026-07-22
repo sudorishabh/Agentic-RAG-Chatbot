@@ -3,9 +3,9 @@ from __future__ import annotations
 import logging
 from typing import Any, Iterator
 
+from app.catalog import state
 from app.config import get_settings
-from app.deps import get_qdrant_client
-from app.ingestion import state
+from app.core.clients import get_qdrant_client
 
 logger = logging.getLogger(__name__)
 

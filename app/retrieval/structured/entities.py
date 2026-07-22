@@ -1,13 +1,16 @@
-"""Entity registry for the Database capability.
+"""Entity registry for the structured (catalog) query capability.
 
-An "entity" is a Drupal content bundle (news, research_papers, events, ...) — all
+An "entity" is a content bundle (news, research_papers, events, ...) — all
 `source_type='website', entity_type='node'` rows in the catalog. There are no
 per-entity tables and no per-entity tools: the bundle is a query parameter, so
-registering a content type is a data change here.
+registering a content type is a data change here. The bundle list itself comes
+from the Drupal source registry (`app.ingestion.extractors.drupal_extractor`) —
+this module is what makes the catalog query layer usable without every caller
+knowing that origin.
 
 This module is the canonical home for the bundle synonyms and display labels
-(summarizer and the catalog tools resolve entities through here). See
-docs/database-tool-registry.md.
+(the pipeline summarizer and the catalog tools resolve entities through here).
+See docs/database-tool-registry.md.
 """
 
 from __future__ import annotations

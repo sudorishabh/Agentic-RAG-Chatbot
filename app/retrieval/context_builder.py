@@ -7,7 +7,7 @@ from typing import Any, Sequence
 
 from app.config import get_settings
 from app.core.models.context import ContextBlock
-from app.deps import get_qdrant_client
+from app.core.clients import get_qdrant_client
 from app.retrieval.hybrid_search import Candidate
 
 logger = logging.getLogger(__name__)

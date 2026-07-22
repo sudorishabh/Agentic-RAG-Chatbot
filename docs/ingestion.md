@@ -125,7 +125,7 @@ strip would drop: `<a>` destinations as `text (url)`, `<img>` alt as
 `[image: alt]`, `<iframe>` src as `[embedded: src]`, and `<td>`/`<th>` as
 `|`-separated cells so tables stay legible.
 
-## Chunking — [app/ingestion/chunker.py](../app/ingestion/chunker.py)
+## Chunking — [app/ingestion/chunking/](../app/ingestion/chunking/)
 
 Structure-aware, token-based, parent/child.
 
@@ -158,7 +158,7 @@ parent-expand at query time (see [retrieval.md](retrieval.md)).
 - `index_canonical(doc, **chunk_kwargs)` — chunk then index a document.
 - `index_documents(docs, **chunk_kwargs)` — loop, catching per-document errors.
 
-## Change detection — [app/ingestion/change_detection.py](../app/ingestion/change_detection.py)
+## Change detection — [app/ingestion/change_detection/](../app/ingestion/change_detection/)
 
 Yields `ChangeRecord`s with status `NEW` / `CHANGED` / `UNCHANGED` / `DELETED`.
 
@@ -184,12 +184,12 @@ Yields `ChangeRecord`s with status `NEW` / `CHANGED` / `UNCHANGED` / `DELETED`.
 fingerprint changed but the *content hash* matches, the document is counted
 `unchanged_content` and the fingerprint is refreshed without re-indexing.
 
-## Ingest-state manifest / document catalog — [app/ingestion/state.py](../app/ingestion/state.py)
+## Ingest-state manifest / document catalog — [app/catalog/state.py](../app/catalog/state.py)
 
 A MySQL table (`ingest_state_table`, default `ingest_state`) is the source of truth
 for what has been ingested — and doubles as the **document catalog** that answers
 the structured count/list/lookup path (see
-[retrieval.md](retrieval.md#structured-path--appretrievaldrupal_routerpy)).
+[retrieval.md](retrieval.md#structured-path--appretrievalstructuredanswererpy)).
 `StateRecord` columns: `document_id` (PK), `source_type`, `source_key`,
 `fingerprint`, `content_hash`, `doc_version`, `bundle`, `changed_mark`, `size`,
 `mtime_ns` (the PDF stat pre-filter), `title`, `url`, `published_at`, `authors`,

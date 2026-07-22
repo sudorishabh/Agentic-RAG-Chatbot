@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from app.ingestion.chunker import _line_heading_level
+from app.ingestion.chunking.segmenter import line_heading_level
 
 
 def _is_heading(s: str) -> bool:
-    return _line_heading_level(s, at_block_start=True) is not None
+    return line_heading_level(s, at_block_start=True) is not None
 
 
 # --- rejects extraction artifacts ------------------------------------------ #

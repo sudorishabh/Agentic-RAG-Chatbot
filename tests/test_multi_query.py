@@ -10,9 +10,10 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-import app.rag as rag
+from app.retrieval import retriever
 from app.retrieval.fusion import rrf
 from app.retrieval.hybrid_search import Candidate
+from app.retrieval.search import strategies
 
 
 def _cand(id, payload=None):
@@ -68,10 +69,10 @@ class _FakeLLM:
 
 def test_paraphrases_cleaned_deduped_capped(monkeypatch):
     monkeypatch.setattr(
-        rag, "get_llm",
+        strategies, "get_llm",
         lambda **kw: _FakeLLM(["  Alt one ", "", "BASE QUERY", "alt two", "alt three"]),
     )
-    out = rag._paraphrases("base query", 2)
+    out = strategies.paraphrases("base query", 2)
     assert out == ["Alt one", "alt two"]  # stripped, base echo dropped, capped
 
 
@@ -79,8 +80,8 @@ def test_paraphrases_fail_open(monkeypatch):
     def boom(**kw):
         raise RuntimeError("llm down")
 
-    monkeypatch.setattr(rag, "get_llm", boom)
-    assert rag._paraphrases("base query", 2) == []
+    monkeypatch.setattr(strategies, "get_llm", boom)
+    assert strategies.paraphrases("base query", 2) == []
 
 
 # --------------------------------------------------------------------------- #
@@ -99,25 +100,25 @@ def _settings(**overrides):
 
 
 def _wire(monkeypatch, *, settings, base_candidates):
-    monkeypatch.setattr(rag, "get_settings", lambda: settings)
-    monkeypatch.setattr(rag, "search", lambda *a, **k: base_candidates)
-    monkeypatch.setattr(rag, "rerank", lambda q, cands, **kw: cands)
+    monkeypatch.setattr(retriever, "get_settings", lambda: settings)
+    monkeypatch.setattr(retriever, "search", lambda *a, **k: base_candidates)
+    monkeypatch.setattr(retriever, "rerank", lambda q, cands, **kw: cands)
     monkeypatch.setattr(
-        rag, "build_context",
+        retriever, "build_context",
         lambda ranked, *, limit, segregate: list(ranked),
     )
 
 
 def test_multi_query_fuses_paraphrase_pulls(monkeypatch):
     _wire(monkeypatch, settings=_settings(), base_candidates=[_cand("a"), _cand("b")])
-    monkeypatch.setattr(rag, "_paraphrases", lambda q, n: ["p1", "p2"])
+    monkeypatch.setattr(retriever, "paraphrases", lambda q, n: ["p1", "p2"])
     pulls: list = []
     monkeypatch.setattr(
-        rag, "_paraphrase_search",
+        retriever, "paraphrase_search",
         lambda q, **kw: pulls.append(q) or [_cand("b"), _cand("c")],
     )
 
-    out = rag.retrieve("what are the impacts of biofuel adoption", query_vector=[0.1])
+    out = retriever.retrieve("what are the impacts of biofuel adoption", query_vector=[0.1])
 
     assert sorted(pulls) == ["p1", "p2"]
     assert [b.id for b in out][0] == "b"  # consensus candidate leads after RRF
@@ -127,9 +128,9 @@ def test_multi_query_fuses_paraphrase_pulls(monkeypatch):
 def test_multi_query_no_paraphrases_uses_base(monkeypatch):
     base = [_cand("a")]
     _wire(monkeypatch, settings=_settings(), base_candidates=base)
-    monkeypatch.setattr(rag, "_paraphrases", lambda q, n: [])
+    monkeypatch.setattr(retriever, "paraphrases", lambda q, n: [])
 
-    out = rag.retrieve("what are the impacts of biofuel adoption", query_vector=[0.1])
+    out = retriever.retrieve("what are the impacts of biofuel adoption", query_vector=[0.1])
     assert [b.id for b in out] == ["a"]
 
 
@@ -141,16 +142,16 @@ def test_multi_query_gates(monkeypatch):
 
     # Flag off.
     _wire(monkeypatch, settings=_settings(multi_query_enabled=False), base_candidates=base)
-    monkeypatch.setattr(rag, "_paraphrases", no_paraphrase)
-    rag.retrieve("what are the impacts of biofuel adoption", query_vector=[0.1])
+    monkeypatch.setattr(retriever, "paraphrases", no_paraphrase)
+    retriever.retrieve("what are the impacts of biofuel adoption", query_vector=[0.1])
 
     # Short query, explicit source, filters, non-qa intent.
     _wire(monkeypatch, settings=_settings(), base_candidates=base)
-    monkeypatch.setattr(rag, "_paraphrases", no_paraphrase)
-    rag.retrieve("biofuel impacts", query_vector=[0.1])
-    rag.retrieve("what are the impacts of biofuel adoption",
-                 query_vector=[0.1], source_type="pdf")
-    rag.retrieve("what are the impacts of biofuel adoption",
-                 query_vector=[0.1], filters=["cond"])
-    rag.retrieve("what are the impacts of biofuel adoption",
-                 query_vector=[0.1], intent="structured")
+    monkeypatch.setattr(retriever, "paraphrases", no_paraphrase)
+    retriever.retrieve("biofuel impacts", query_vector=[0.1])
+    retriever.retrieve("what are the impacts of biofuel adoption",
+                       query_vector=[0.1], source_type="pdf")
+    retriever.retrieve("what are the impacts of biofuel adoption",
+                       query_vector=[0.1], filters=["cond"])
+    retriever.retrieve("what are the impacts of biofuel adoption",
+                       query_vector=[0.1], intent="structured")

@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from app.retrieval import catalog
+from app.catalog import queries as catalog
 
 
 class _FakeCursor:

@@ -6,7 +6,7 @@ in search_blocks (no Qdrant / LLM).
 
 from __future__ import annotations
 
-from app import rag
+from app.pipeline import query_pipeline as pipe
 from app.retrieval import query_processor as qp
 
 
@@ -35,10 +35,10 @@ def test_search_blocks_exposes_intents(monkeypatch):
         [("database", 0.9, "count"), ("structured_output", 0.8, "table")],
         output_format="table", operation="count",
     )
-    monkeypatch.setattr(rag, "process", lambda q, h: pq)
-    monkeypatch.setattr(rag, "retrieve", lambda *a, **k: [])
+    monkeypatch.setattr(pipe, "process", lambda q, h: pq)
+    monkeypatch.setattr(pipe, "retrieve", lambda *a, **k: [])
 
-    out = rag.search_blocks("show tenders in a table")
+    out = pipe.search_blocks("show tenders in a table")
 
     assert out["intent"] == "structured"  # single-label route unchanged
     assert [i["label"] for i in out["intents"]] == ["database", "structured_output"]
@@ -49,9 +49,9 @@ def test_search_blocks_exposes_intents(monkeypatch):
 
 def test_search_blocks_flags_ambiguous(monkeypatch):
     pq = _pq([("database", 0.9, "x"), ("qa", 0.8, "y")])
-    monkeypatch.setattr(rag, "process", lambda q, h: pq)
-    monkeypatch.setattr(rag, "retrieve", lambda *a, **k: [])
+    monkeypatch.setattr(pipe, "process", lambda q, h: pq)
+    monkeypatch.setattr(pipe, "retrieve", lambda *a, **k: [])
 
-    out = rag.search_blocks("q")
+    out = pipe.search_blocks("q")
 
     assert out["is_ambiguous"] is True

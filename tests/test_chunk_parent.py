@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from app.ingestion.chunker import DocumentMeta, chunk_pages
+from app.ingestion.chunking import DocumentMeta, chunk_pages
 
 META = DocumentMeta(document_id="d", source_type="pdf", title="T")
 

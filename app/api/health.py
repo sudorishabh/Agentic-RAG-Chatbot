@@ -26,7 +26,7 @@ def health() -> dict[str, str]:
     return {"status": "ok"}
 
 def _qdrant_status() -> dict:
-    from app.deps import get_qdrant_client
+    from app.core.clients import get_qdrant_client
 
     settings = get_settings()
     client = get_qdrant_client()
@@ -39,7 +39,7 @@ def _qdrant_status() -> dict:
 
 
 def _redis_status() -> dict:
-    from app.deps import get_redis
+    from app.core.clients import get_redis
 
     client = get_redis()
     if client is None:
