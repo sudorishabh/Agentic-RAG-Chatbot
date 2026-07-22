@@ -21,7 +21,7 @@ def safe_table(name: str, default: str) -> str:
 
 
 def state_table() -> str:
-    return safe_table(get_settings().ingest_state_table, "ingest_state")
+    return safe_table(get_settings().ingest_state_table, "documents")
 
 
 def log_table() -> str:

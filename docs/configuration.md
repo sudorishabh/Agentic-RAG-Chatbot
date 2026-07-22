@@ -171,7 +171,7 @@ See [operations.md](operations.md#caching).
 | `mysql_connect_timeout` | `10` | Connect timeout (seconds) |
 | `mysql_pool_size` | `5` | Connection pool size ([app/deps.py](../app/deps.py)) |
 | `mysql_pool_timeout` | `30` | Max seconds to wait for a free pooled connection before raising `TimeoutError` (the pool fails fast instead of blocking forever) |
-| `ingest_state_table` | `ingest_state` | Manifest table name |
+| `ingest_state_table` | `documents` | Manifest table name |
 
 ## Drupal (JSON:API source + structured queries)
 

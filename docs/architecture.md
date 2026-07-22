@@ -138,7 +138,7 @@ process()  ── query_processor: LLM classifies intent + rewrites + extracts f
   ├─ intent == "chitchat"   → answer directly with CHITCHAT prompt, no retrieval
   │
   ├─ intent == "structured" → structured/answerer.answer_structured() — answered from
-  │                            the LOCAL catalog (MySQL ingest_state: count / list / lookup);
+  │                            the LOCAL catalog (MySQL documents: count / list / lookup);
   │                            no live website calls at query time
   │                            (falls through to RAG if it can't handle the query)
   │

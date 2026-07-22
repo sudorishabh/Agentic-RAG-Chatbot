@@ -186,7 +186,7 @@ fingerprint changed but the *content hash* matches, the document is counted
 
 ## Ingest-state manifest / document catalog — [app/catalog/state.py](../app/catalog/state.py)
 
-A MySQL table (`ingest_state_table`, default `ingest_state`) is the source of truth
+A MySQL table (`ingest_state_table`, default `documents`) is the source of truth
 for what has been ingested — and doubles as the **document catalog** that answers
 the structured count/list/lookup path (see
 [retrieval.md](retrieval.md#structured-path--appretrievalstructuredanswererpy)).

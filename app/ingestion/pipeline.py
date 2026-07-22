@@ -26,7 +26,7 @@ DocBuilder = Callable[[ChangeRecord], "CanonicalDocument | None"]
 
 # One corpus-wide ingestion run (sweep / PDF scan / Drupal crawl) at a time.
 # Concurrent runs double-embed documents and race each other's delete/upsert
-# and ingest_state writes. Process-local by design: the ingestion server is a
+# and documents-table writes. Process-local by design: the ingestion server is a
 # single private instance (celery mode serializes via its queue instead).
 _run_lock = threading.Lock()
 

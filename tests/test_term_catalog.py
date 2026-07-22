@@ -93,7 +93,7 @@ def test_upsert_rename_archives_old_name(monkeypatch):
     # The archived previous name comes back — the payload-refresh trigger.
     assert terms.upsert_term("t1", "themes", "Climate Action") == "Climate"
 
-    alias_calls = [c for c in cursor.calls if "taxonomy_term_alias" in c[0]]
+    alias_calls = [c for c in cursor.calls if "term_aliases" in c[0]]
     assert len(alias_calls) == 1
     _, params = alias_calls[0]
     assert params[0] == "t1" and params[1] == "Climate"  # old name archived

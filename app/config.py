@@ -214,9 +214,9 @@ class Settings(BaseSettings):
     # source when pdf_source_dirs is not set.
     pdf_source_path: str = ""
     pdf_ignore_globs: str = ""
-    ingest_state_table: str = "ingest_state"
+    ingest_state_table: str = "documents"
     # Append-only audit log of every ingestion event (one row per file/record
-    # per run), separate from the overwrite-in-place ingest_state table.
+    # per run), separate from the overwrite-in-place documents table.
     ingest_log_table: str = "ingest_log"
     ingest_log_enabled: bool = True
     # Whether to record a per-document row for UNCHANGED docs. Off by default:

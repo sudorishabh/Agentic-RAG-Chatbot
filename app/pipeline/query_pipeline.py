@@ -75,13 +75,15 @@ def _db_section(
 ) -> str:
     """Deterministic catalog answer to prefix onto a combined (database + content)
     response, reusing the already-extracted slots (no second LLM parse). '' when
-    there is nothing to add."""
-    if pq.analysis is None or not pq.analysis.operation:
-        return ""
-    from app.retrieval.structured.answerer import answer_structured
+    there is nothing to add. Owns its ``rag.db_section`` span so the timing is
+    still recorded when this runs off the main thread (see ``_prepare``)."""
+    with span("rag.db_section"):
+        if pq.analysis is None or not pq.analysis.operation:
+            return ""
+        from app.retrieval.structured.answerer import answer_structured
 
-    structured = answer_structured(question, history, analysis=pq.analysis)
-    return structured["answer"] if structured else ""
+        structured = answer_structured(question, history, analysis=pq.analysis)
+        return structured["answer"] if structured else ""
 
 
 def _prepare(
@@ -150,11 +152,6 @@ def _prepare(
             return summary, None
         # Empty/unresolvable scope: fall through to plain semantic QA.
 
-    db_prefix = ""
-    if combined and not chained:
-        with span("rag.db_section"):
-            db_prefix = _db_section(pq, question, history)
-
     with span("rag.embed_query"):
         query_vector = embed_query(pq.search_query)
     with span("rag.semantic_cache") as s:
@@ -165,19 +162,41 @@ def _prepare(
         )
         s.set("hit", semantic is not None)
     if semantic is not None:
+        # A cached combined answer already carries its catalog section, so the
+        # short-circuit here also skips rebuilding it.
         return {**semantic, "cached": True}, None
 
-    blocks = retrieve(
-        pq.search_query,
-        tenant_id=tenant_id,
-        user_groups=user_groups,
-        filters=pq.filters,
-        n=n,
-        query_vector=query_vector,
-        answer_format=pq.answer_format,
-        source_type=pq.source_type,
-        intent=pq.intent,
-    )
+    def _run_retrieve() -> list[ContextBlock]:
+        return retrieve(
+            pq.search_query,
+            tenant_id=tenant_id,
+            user_groups=user_groups,
+            filters=pq.filters,
+            n=n,
+            query_vector=query_vector,
+            answer_format=pq.answer_format,
+            source_type=pq.source_type,
+            intent=pq.intent,
+        )
+
+    # The deterministic catalog section (combined queries only) and content
+    # retrieval are independent, so overlap them and pay the slower of the two
+    # rather than their sum. copy_context() keeps the worker's span in this
+    # request's stage breakdown; single-source queries skip the pool entirely.
+    if combined and not chained:
+        from concurrent.futures import ThreadPoolExecutor
+        from contextvars import copy_context
+
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            db_future = pool.submit(
+                copy_context().run, _db_section, pq, question, history
+            )
+            blocks = _run_retrieve()
+            db_prefix = db_future.result()
+    else:
+        db_prefix = ""
+        blocks = _run_retrieve()
+
     if not blocks:
         # Combined query whose content retrieval came up empty: still return the
         # deterministic catalog answer rather than a blanket refusal.

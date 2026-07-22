@@ -1,7 +1,7 @@
 """Append-only ingestion audit log (retention-pruned).
 
 One row per file/record per run — separate from the overwrite-in-place
-ingest_state table (see :mod:`app.catalog.state`). Schema/DDL lives in
+documents table (see :mod:`app.catalog.state`). Schema/DDL lives in
 :mod:`app.catalog.schema`.
 """
 from __future__ import annotations

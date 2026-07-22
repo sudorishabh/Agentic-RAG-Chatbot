@@ -4,6 +4,12 @@ Kept apart from the read/write model code (state.py / terms.py / log.py): this
 module only ever CREATEs or ALTERs tables, never touches rows. Called once per
 process via each ``ensure_*`` function (state.py / terms.py / log.py wrap these
 under their historical names so callers are unaffected).
+
+Table names were simplified from their legacy ``ingest_state*`` /
+``taxonomy_term*`` forms to ``documents*`` / ``terms`` / ``term_aliases``; a
+deployment with existing data must run ``scripts.rename_catalog_tables`` once
+before/at deploy so the old tables become the new ones instead of being
+recreated empty.
 """
 from __future__ import annotations
 
@@ -114,8 +120,8 @@ def ensure_state_table() -> None:
 
 # Fixed table names: terms are site-global facts, shared by any environment
 # pointing at the same Drupal instance.
-TERM_TABLE = "taxonomy_term"
-ALIAS_TABLE = "taxonomy_term_alias"
+TERM_TABLE = "terms"
+ALIAS_TABLE = "term_aliases"
 
 _TERM_DDL = f"""
 CREATE TABLE IF NOT EXISTS `{TERM_TABLE}` (

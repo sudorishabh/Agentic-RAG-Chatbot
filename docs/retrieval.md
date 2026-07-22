@@ -187,7 +187,7 @@ or tuning the feature self-invalidates stale answers.
 
 For `intent == "structured"` queries (exact lookups, counts, filtered lists) that are
 better answered relationally than semantically. **Answered entirely from the local
-catalog** — the `ingest_state` table in MySQL
+catalog** — the `documents` table in MySQL
 ([app/catalog/state.py](../app/catalog/state.py), read via
 [app/catalog/queries.py](../app/catalog/queries.py)), which stores each ingested
 document's bundle, title, url, authors, categories, and publish date. No live
