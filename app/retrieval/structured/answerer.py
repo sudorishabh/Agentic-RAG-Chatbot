@@ -21,6 +21,7 @@ from typing import TYPE_CHECKING, Any, Literal, Sequence
 from pydantic import BaseModel
 
 from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
+from app.retrieval.structured.types import ToolResult
 
 if TYPE_CHECKING:
     from app.retrieval.query_processor import QueryAnalysis
@@ -90,6 +91,29 @@ def parse_structured(
         return None
 
 
+def _compose(results: list[ToolResult]) -> dict[str, Any]:
+    """Merge the successful tool results into one structured answer: stack the
+    rendered sections and renumber citations sequentially across them. A single
+    result (the v1 deterministic plan) round-trips unchanged."""
+    bodies: list[str] = []
+    citations: list[dict[str, Any]] = []
+    used_chunks = 0
+    for result in results:
+        if result.rendered:
+            bodies.append(result.rendered)
+        for citation in result.citations:
+            citations.append({**citation, "n": len(citations) + 1})
+        used_chunks += len(result.data.get("records", []))
+    return {
+        "answer": "\n\n".join(bodies),
+        "citations": citations,
+        "intent": "structured",
+        "used_chunks": used_chunks,
+        "conflict": False,
+        "cached": False,
+    }
+
+
 def answer_structured(
     question: str,
     history: Sequence[dict[str, str]] | None = None,
@@ -116,15 +140,7 @@ def answer_structured(
     results = planner.execute(
         planner.plan(slots, output_format=output_format), question=question
     )
-    if not results or not results[0].ok:
+    ok = [r for r in results if r.ok]
+    if not ok:
         return None
-    result = results[0]
-    used_chunks = len(result.data["records"]) if "records" in result.data else 0
-    return {
-        "answer": result.rendered,
-        "citations": result.citations,
-        "intent": "structured",
-        "used_chunks": used_chunks,
-        "conflict": False,
-        "cached": False,
-    }
+    return _compose(ok)

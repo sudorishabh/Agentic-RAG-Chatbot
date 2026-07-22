@@ -14,6 +14,7 @@ from datetime import datetime
 
 from app.catalog import queries as state
 from app.retrieval.structured import answerer as dr
+from app.retrieval.structured.types import ToolResult
 from app.retrieval import query_processor as qp
 
 
@@ -94,6 +95,27 @@ def test_answer_structured_passes_format_from_analysis(monkeypatch):
     )
     out = dr.answer_structured("articles per theme as a table", analysis=analysis)
     assert "| theme | count |" in out["answer"]
+
+
+def test_compose_stacks_sections_and_renumbers_citations():
+    r1 = ToolResult(
+        tool="list_records", ok=True, data={"records": [{"title": "A"}]},
+        citations=[{"n": 1, "title": "A"}], rendered="Section one",
+    )
+    r2 = ToolResult(
+        tool="list_records", ok=True,
+        data={"records": [{"title": "B"}, {"title": "C"}]},
+        citations=[{"n": 1, "title": "B"}, {"n": 2, "title": "C"}],
+        rendered="Section two",
+    )
+    out = dr._compose([r1, r2])
+    assert out["answer"] == "Section one\n\nSection two"
+    # Second section's citations shift up so numbering is unique across sections.
+    assert [(c["n"], c["title"]) for c in out["citations"]] == [
+        (1, "A"), (2, "B"), (3, "C"),
+    ]
+    assert out["used_chunks"] == 3  # 1 + 2 records
+    assert out["intent"] == "structured" and out["conflict"] is False
 
 
 # --------------------------------------------------------------------------- #
