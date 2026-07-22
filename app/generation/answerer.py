@@ -64,7 +64,7 @@ def generate_answer(
             ("human", "Numbered context:\n{context}\n\nQuestion: {question}"),
         ]
     )
-    chain = prompt | get_llm() | StrOutputParser()
+    chain = prompt | get_llm(temperature=0.2) | StrOutputParser()
     return chain.invoke(
         {"context": format_context_blocks(blocks), "question": question}
     ).strip()
@@ -82,7 +82,7 @@ def generate_stream(
             ("human", "Numbered context:\n{context}\n\nQuestion: {question}"),
         ]
     )
-    chain = prompt | get_llm(streaming=True) | StrOutputParser()
+    chain = prompt | get_llm(temperature=0.2, streaming=True) | StrOutputParser()
     yield from chain.stream(
         {"context": format_context_blocks(blocks), "question": question}
     )
