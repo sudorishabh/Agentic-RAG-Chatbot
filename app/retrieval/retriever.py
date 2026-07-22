@@ -209,12 +209,25 @@ def retrieve(
         and ranked[0].semantic_score < settings.corrective_min_score
     ):
         with span("rag.corrective") as s:
+            score_before = ranked[0].semantic_score
             ranked = corrective_requery(
                 search_query, ranked, tenant_id=tenant_id, user_groups=user_groups,
                 filters=filters, limit=settings.retrieval_candidate_k,
                 table_boost=table_boost,
             )
+            score_after = ranked[0].semantic_score if ranked else 0.0
+            # Did the retry actually lift the top result? Recorded so we can
+            # later judge whether the corrective loop earns its extra LLM +
+            # search cost before tuning or removing it.
             s.set("survivors", len(ranked))
+            s.set("score_before", round(score_before, 4))
+            s.set("score_after", round(score_after, 4))
+            s.set("improved", score_after > score_before)
+            logger.info(
+                "corrective loop: top score %.4f -> %.4f (%s)",
+                score_before, score_after,
+                "improved" if score_after > score_before else "no gain",
+            )
     if not ranked:
         return []
     with span("rag.context_build"):
