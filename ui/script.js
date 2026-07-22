@@ -585,51 +585,32 @@
   }
 
   function renderCitation(c) {
-    const item = document.createElement("div");
-    item.className = "citation";
+    const chip = document.createElement("div");
+    chip.className = "citation";
 
     const marker = document.createElement("span");
     marker.className = "citation__marker";
     marker.textContent = "[" + c.n + "]";
-    item.appendChild(marker);
+    chip.appendChild(marker);
 
-    const body = document.createElement("div");
-    body.className = "citation__body";
-
-    const title = linkOrText(
-      c.title || c.document_id || c.type || "source",
-      c.url,
-    );
+    const label = c.title || c.document_id || c.type || "source";
+    const title = linkOrText(label, c.url);
     title.classList.add("citation__title");
-    body.appendChild(title);
+    // Page/section are kept accessible on hover so the chip stays one line.
+    const tip = [];
+    if (c.page != null) tip.push("p. " + c.page);
+    if (c.section) tip.push(c.section);
+    title.title = tip.length ? label + " — " + tip.join(" · ") : label;
+    chip.appendChild(title);
 
-    const detail = [];
-    if (c.type) detail.push(c.type);
-    if (c.page != null) detail.push("p. " + c.page);
-    if (c.section) detail.push(c.section);
-    if (detail.length) {
-      const d = document.createElement("span");
-      d.className = "citation__detail";
-      d.textContent = detail.join(" · ");
-      body.appendChild(d);
+    if (c.page != null) {
+      const page = document.createElement("span");
+      page.className = "citation__page";
+      page.textContent = "p." + c.page;
+      chip.appendChild(page);
     }
 
-    if (Array.isArray(c.also_available) && c.also_available.length) {
-      const also = document.createElement("span");
-      also.className = "citation__also";
-      also.appendChild(document.createTextNode("also in: "));
-      c.also_available.forEach((alt, idx) => {
-        also.appendChild(
-          linkOrText(alt.title || alt.type || "source", alt.url),
-        );
-        if (idx < c.also_available.length - 1)
-          also.appendChild(document.createTextNode(", "));
-      });
-      body.appendChild(also);
-    }
-
-    item.appendChild(body);
-    return item;
+    return chip;
   }
 
   /* ---------------------------------------------------------------- *
@@ -1025,20 +1006,14 @@
     .bubble tbody tr:nth-child(even) { background: rgba(0,0,0,.025); }
 
     /* ---- Citations ---- */
-    /* Horizontal, scrollable strip so sources don't eat vertical space. */
+    /* Compact chips that wrap onto multiple rows so every source stays
+       visible at once — no horizontal scrolling. */
     .citations {
       margin-top: 6px;
       display: flex;
-      flex-direction: row;
-      gap: 8px;
-      width: 100%;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding-bottom: 4px;
-      scroll-snap-type: x proximity;
+      flex-wrap: wrap;
+      gap: 6px;
     }
-    .citations::-webkit-scrollbar { height: 6px; }
-    .citations::-webkit-scrollbar-thumb { background: var(--teri-border); border-radius: 999px; }
     /* Unverified-figures notice: same amber token, sits above the citations. */
     .answer-warn {
       margin-top: 6px;
@@ -1049,23 +1024,28 @@
       align-items: flex-start;
     }
     .citation {
-      display: flex; gap: 7px; font-size: .8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      max-width: 100%;
+      font-size: .74rem;
+      line-height: 1.3;
       background: var(--teri-bg);
       border: 1px solid var(--teri-border);
-      border-radius: 8px;
-      padding: 7px 9px;
-      flex: 0 0 220px;
-      width: 220px;
-      scroll-snap-align: start;
+      border-radius: 999px;
+      padding: 3px 9px;
     }
     .citation__marker { color: var(--teri-green-dark); font-weight: 600; flex-shrink: 0; }
-    .citation__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-    .citation__title { color: var(--teri-ink); word-break: break-word; }
+    .citation__title {
+      color: var(--teri-ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 180px;
+    }
     a.citation__title { color: var(--teri-green-dark); text-decoration: none; }
     a.citation__title:hover { text-decoration: underline; }
-    .citation__detail, .citation__also { color: var(--teri-dim); font-size: .74rem; }
-    .citation__also a { color: var(--teri-green-dark); text-decoration: none; }
-    .citation__also a:hover { text-decoration: underline; }
+    .citation__page { color: var(--teri-dim); flex-shrink: 0; }
 
     /* ---- Composer: a floating rounded box with the send button inside ---- */
     .composer {
