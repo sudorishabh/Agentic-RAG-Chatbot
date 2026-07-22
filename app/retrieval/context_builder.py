@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import logging
 import math
-from dataclasses import dataclass, field
 from functools import lru_cache
 from typing import Any, Sequence
 
 from app.config import get_settings
+from app.core.models.context import ContextBlock
 from app.deps import get_qdrant_client
 from app.retrieval.hybrid_search import Candidate
 
@@ -14,16 +14,7 @@ logger = logging.getLogger(__name__)
 
 _CHARS_PER_TOKEN = 4
 
-
-@dataclass
-class ContextBlock:
-
-    n: int
-    text: str
-    payload: dict[str, Any] = field(default_factory=dict)
-    score: float = 0.0
-    conflict: bool = False
-    also_available: list[dict[str, Any]] = field(default_factory=list)
+__all__ = ["ContextBlock", "build_context"]
 
 
 @lru_cache(maxsize=1)

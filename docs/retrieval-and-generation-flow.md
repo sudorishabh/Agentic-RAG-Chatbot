@@ -4,8 +4,9 @@ A plain-language walkthrough of what happens between a user asking a question an
 the answer streaming back. Read this top-to-bottom; every stage links to the code
 that runs it.
 
-The whole pipeline lives in [`app/rag.py`](../app/rag.py), with the query-understanding
-brain in [`app/retrieval/query_processor.py`](../app/retrieval/query_processor.py)
+The pipeline lives in [`app/rag.py`](../app/rag.py), with the query-understanding
+brain in [`app/retrieval/query_processor.py`](../app/retrieval/query_processor.py),
+the structured/catalog capability in [`app/retrieval/database/`](../app/retrieval/database/),
 and helpers under [`app/retrieval/`](../app/retrieval/) and
 [`app/generation/`](../app/generation/).
 
@@ -14,148 +15,168 @@ and helpers under [`app/retrieval/`](../app/retrieval/) and
 ## 1. The big picture
 
 ```
-                          ┌─────────────────────────────────────────────┐
-   user question  ──────► │  stream_answer()  (app/rag.py)                │
-   + chat history         └───────────────────────┬─────────────────────┘
-                                                  │ calls
-                                                  ▼
-                          ┌─────────────────────────────────────────────┐
-                          │  _prepare()  — shared front-matter            │
-                          └───────────────────────┬─────────────────────┘
-                                                  │
-      ┌───────────────────────────────────────────┼───────────────────────────────┐
-      │ STEP A: UNDERSTAND         STEP B: ROUTE (on intent)                        │
-      │ process(question, history) ──► intent + search_query + answer_format + facets│
-      └───────────────────────────────────────────┼───────────────────────────────┘
-                                                  │
-        ┌──────────────┬──────────────────────────┼───────────────────────┐
-        ▼              ▼                          ▼                        ▼
-   "chitchat"     "structured"              "scoped_summary"            "qa"  (default)
-   plain LLM      catalog lookup            summarize a doc set         FULL RAG
-   reply,         (MySQL, no vectors)       (falls back to qa           │
-   no retrieval   (may fall back to qa       if scope empty)            │
-                   for one named doc)                                   ▼
-                                                          ┌─────────────────────────┐
-                                                          │ STEP C: EMBED + CACHE   │
-                                                          │ STEP D: RETRIEVE        │
-                                                          │ STEP E: GENERATE        │
-                                                          │ STEP F: VERIFY + STORE  │
-                                                          └─────────────────────────┘
+   user question + history
+            │
+            ▼
+   stream_answer()  →  _prepare()          (app/rag.py)
+            │
+            ▼
+   STEP A  UNDERSTAND — process()          (query_processor.py)
+     multi-label QueryUnderstanding: intents[] (+confidence +rationale),
+     query_rewrite, output_format, scope
+        → collapsed to a legacy route (pq.intent) + capability set (pq.understanding)
+            │
+            ▼
+   STEP B  ROUTE
+     ├─ chitchat                  → plain LLM reply (no retrieval)          → done
+     ├─ database (only)           → Database Planner → catalog tools        → done
+     ├─ scoped_summary            → summarizer (empty scope → falls to qa)  → done
+     ├─ database + qa/comparison  → DB section (deterministic) ▸ prefixed ▸ QA answer
+     └─ qa (default / fallbacks)  → FULL RAG ┐
+                                             ▼
+                    STEP C embed + cache · STEP D retrieve
+                    STEP E generate · STEP F verify + store
 ```
 
-Two things do all the routing:
+Two layers do the routing:
 
-1. **`process()`** turns the raw turn into a structured `QueryAnalysis` — most
-   importantly an **intent** (the top-level router) plus a rewritten `search_query`,
-   an `answer_format`, and metadata `filters`.
-2. **`_prepare()`** reads that intent and sends the request down one of four paths.
+1. **`process()`** turns the turn into a multi-label **`QueryUnderstanding`** (a set
+   of intents with confidences, plus `query_rewrite`, `output_format`, `scope`). For
+   back-compat it collapses this to a single legacy **`pq.intent`** (the route) and
+   exposes the full set on **`pq.understanding`**.
+2. **`_prepare()`** routes on that intent and — when the intent set includes both
+   `database` and a content intent — composes a **sectioned** answer.
 
----
-
-## 2. The four intents (the master switch)
-
-Intent is decided by an LLM, not by keywords. It is the single most important
-value in the pipeline because it selects the entire downstream path.
-
-| Intent | What it means | Path taken | Retrieval? |
-| --- | --- | --- | --- |
-| `qa` | Answerable from document *content* (the default & fallback) | Full RAG: embed → retrieve → generate | ✅ vector search |
-| `structured` | A question about the *documents themselves* — count / list / lookup by type, author, theme, date | Catalog query via `drupal_router` (MySQL metadata) | ❌ (unless it resolves to one named doc → falls through to qa) |
-| `scoped_summary` | "Summarize the *set* of docs matching theme/author/period/type" | `summarizer.summarize_scope` | ✅ scoped |
-| `chitchat` | Greetings, thanks, meta ("what can you do?") | Plain conversational LLM reply | ❌ none |
-
-> **Rule of thumb the classifier follows:** data reported *inside* a document
-> (a figure in a report) is `qa`; questions about the *catalog* (how many reports
-> exist) are `structured`. Summarizing **one named** document is `qa` with
-> `answer_format="summary"`; summarizing a **set** is `scoped_summary`.
+Deep dives: [intent-classification-design.md](intent-classification-design.md),
+[database-planner-architecture.md](database-planner-architecture.md),
+[database-tool-registry.md](database-tool-registry.md).
 
 ---
 
-## 3. STEP A — Query understanding (how intent is decided)
+## 2. The intent taxonomy (multi-label)
+
+Intent is decided by an LLM, and a query may carry **several** intents at once
+(e.g. `database` + `qa`). The full set with confidences lives on `pq.understanding`;
+for routing it collapses to one legacy `pq.intent`.
+
+**Content intents** — combine freely:
+
+| Intent | Meaning | Collapses to route |
+| --- | --- | --- |
+| `qa` | answerable from document *content* (default) | `qa` (full RAG) |
+| `database` | about the *catalog* — count / list / lookup / aggregate | `structured` (Database Planner) |
+| `summarization` | overview of a doc set / conversation | `scoped_summary` (a set) or `qa`+summary (one named doc) |
+| `comparison` | contrast ≥2 entities / periods / sources | `qa` |
+| `structured_output` | wants a shaped answer (table/list/json/csv/…) | sets `output_format` (a modifier) |
+
+**Terminal intents** — exclusive (suppress everything else):
+
+| Intent | Meaning | Route today |
+| --- | --- | --- |
+| `chitchat` | greetings / thanks / meta | `chitchat` (no retrieval) |
+| `clarification_needed` / `out_of_scope` / `safety_policy` | too vague / off-domain / unsafe | **interim:** mapped to the non-retrieving `chitchat` route — dedicated refusal/clarify handling is deferred |
+
+> **Rule of thumb:** data *inside* a document is `qa`; facts *about the catalog*
+> (how many reports) are `database`. Summarizing **one named** document is
+> `qa`+summary; a **set** is `summarization` → `scoped_summary`.
+
+---
+
+## 3. STEP A — Query understanding
 
 **Code:** [`query_processor.py::process`](../app/retrieval/query_processor.py) → returns a `ProcessedQuery`.
 
-The classifier is a single **structured-output LLM call** guided by the
-`_ANALYSIS_SYSTEM` prompt (which spells out every intent, format, and facet rule).
-Given the last ~6 turns of history + the latest turn, it emits a `QueryAnalysis`:
+A structured-output LLM call guided by `_UNDERSTANDING_SYSTEM` (definitions,
+decision boundaries, priority, and a few-shot bank) emits a **`QueryUnderstanding`**:
 
-| Field | Purpose | Used by |
-| --- | --- | --- |
-| `intent` | Top-level route | `_prepare` |
-| `search_query` | Standalone, pronoun-resolved rewrite of the turn | all retrieval |
-| `answer_format` | `default`/`list`/`table`/`summary`/`detailed`/`timeline` | retrieval knobs + generation shape |
-| `source_type` | `pdf` / `website` if the user pinned one | retrieval filter |
-| `theme` / `author` / `tags` / `date_from` / `date_to` / `language` | Facet scope | `_facet_filters` → Qdrant filters |
-| `operation` / `bundle` / `group_by` / `title_contains` / `limit` | Structured-path slots | `drupal_router` |
+| Field | Meaning |
+| --- | --- |
+| `intents` | list of `{label, confidence, rationale}` (multi-label) |
+| `query_rewrite` | standalone, pronoun-resolved rewrite of the turn |
+| `output_format` | `prose`/`list`/`table`/`csv`/`json`/`markdown`/`diagram`/`timeline` |
+| `scope` | `source_type`, `target`, `theme`, `author`, `tags`, `date_from/to`, `language` |
+| database slots | `operation`, `group_by`, `bundle`, `title_contains`, `limit` |
 
-### 3a. Self-consistency voting (optional, for robustness)
+### 3a. Confidence & voting (hybrid)
 
-Controlled by the `analysis_votes` setting ([`process`](../app/retrieval/query_processor.py)):
+Controlled by `analysis_votes`:
 
-- **`analysis_votes == 1`** → one call at the pinned parsing temperature (`get_structured_llm`).
-- **`analysis_votes > 1`** → [`_voted_analysis`](../app/retrieval/query_processor.py) fires
-  N concurrent samples at **temperature 0.7** and majority-votes **each field**
-  independently via [`_merge_votes`](../app/retrieval/query_processor.py) → [`_vote`](../app/retrieval/query_processor.py).
+- **`== 1`** → one call; each label's confidence is the model's **self-reported** score.
+- **`> 1`** → [`_voted_understanding`](../app/retrieval/query_processor.py) fires N
+  samples at temp 0.7; [`_label_confidences`](../app/retrieval/query_processor.py) sets
+  each label's confidence to its **agreement share** across samples.
 
-The tie-break is deliberate: for the **`intent`** field, a tie falls back to **`qa`**
-(the safe route — a mis-routed qa is caught by downstream guards, but a wrong
-structured/summary route is harder to recover). Other fields on a tie take the
-first non-null value. Errored samples are dropped; if *all* fail → passthrough.
+[`_resolve_intents`](../app/retrieval/query_processor.py) then applies the taxonomy
+rules: a **threshold** gate (`intent_confidence_threshold`), **terminal exclusivity +
+priority** (`safety_policy > out_of_scope > clarification_needed > chitchat`),
+`structured_output`-never-alone, and a guaranteed content fallback.
+[`_merge_understanding`](../app/retrieval/query_processor.py) majority-votes the scalar
+attributes via [`_vote`](../app/retrieval/query_processor.py).
 
-### 3b. It never hard-fails
+### 3b. Collapse to the legacy route + exposure
 
-Any exception (or all votes failing) returns a **passthrough**: `intent="qa"`,
-`search_query = original question`, no filters. Query understanding can degrade
-retrieval quality but can never break the request.
+[`_to_legacy_analysis`](../app/retrieval/query_processor.py) maps the merged
+understanding onto the fields the current pipeline consumes: a single `intent` (via
+[`_primary_intent`](../app/retrieval/query_processor.py)), `answer_format` (from
+`output_format`), `source_type`, `language`, `filters` (facets → Qdrant conditions
+via `_facet_filters`), and the structured slots. The full multi-label result stays on
+`pq.understanding` — exposed on the `/search` response and logged per query.
 
-### 3c. Facets become Qdrant filters
+### 3c. Never hard-fails
 
-[`_facet_filters`](../app/retrieval/query_processor.py) translates the scope
-fields into Qdrant `FieldCondition`s:
-theme (UUID-or-name, rename-proof via [`_theme_condition`](../app/retrieval/query_processor.py)),
-author, tags, `source_type`, `language`, and a `published_at` `DatetimeRange`
-from `date_from`/`date_to`. These ride along on every search in the qa path.
+Any exception (or all votes failing) → **passthrough**: `intent="qa"`, raw query, no
+filters, `understanding=None`. Understanding can degrade quality but never breaks a request.
 
 ---
 
-## 4. STEP B — Routing on intent
+## 4. STEP B — Routing
 
-**Code:** [`_prepare`](../app/rag.py). It returns either a **finished result**
-(`chitchat`, a structured lookup, a scoped summary, a cache hit, or a no-context
-refusal) or a `_Generation` object meaning "still needs a grounded answer".
+**Code:** [`_prepare`](../app/rag.py). Returns a **finished result** (chitchat,
+database answer, scoped summary, cache hit, refusal) or a `_Generation` (a grounded
+answer still has to be produced).
 
 ```
-process() → pq.intent
+pq.intent  (+ capabilities from pq.understanding)
    │
-   ├─ "chitchat"        → _chitchat()  → return finished (empty citations)
+   ├─ chitchat                 → _chitchat()                            → finished
    │
-   ├─ "structured"      → resolve_lookup_document(pq.analysis)
-   │                        ├─ names ONE title? → add document_id filter, fall through to QA
-   │                        └─ else → answer_structured()  → return finished (from MySQL catalog)
+   ├─ structured (db only)     → Database Planner → catalog tools       → finished
+   │       a lookup naming ONE title on a content question →
+   │       resolve_lookup_chain() adds a document_id filter, falls through to QA
    │
-   ├─ "scoped_summary"  → summarize_scope()
-   │                        ├─ scope resolves → return finished
-   │                        └─ empty scope   → fall through to QA
+   ├─ scoped_summary           → summarize_scope()  (empty scope → QA)
    │
-   └─ "qa" (+ fall-throughs) → STEP C onward
+   ├─ database + qa/comparison → _db_section() deterministic catalog answer,
+   │       carried as db_prefix, then continue the QA path (sectioned answer)
+   │
+   └─ qa (default + fallbacks) → STEP C onward
 ```
 
-Note the two **fall-throughs**: a structured question that turns out to be about
-one specific document, and an unresolvable summary scope, both drop into the qa
-pipeline rather than failing.
+- **Database path** — [`drupal_router.answer_structured`](../app/retrieval/drupal_router.py)
+  delegates to the [Database Planner](database-planner-architecture.md):
+  [`plan()`](../app/retrieval/database/planner.py) maps the extracted slots to a tool
+  call, [`execute()`](../app/retrieval/database/planner.py) runs it, and one of
+  `count/list/lookup/aggregate_records` returns a deterministic, LLM-free answer (or
+  `None` → fall through to semantic search).
+- **Combined (`database` + content)** — the deterministic catalog answer is computed
+  first ([`_db_section`](../app/rag.py)) and carried as `db_prefix`; the QA path then
+  produces the grounded content answer, and STEP F composes `db_prefix` ▸ then ▸ the
+  content answer. *(The two run sequentially today, not in parallel.)*
+- **Lookup→read chaining** — [`resolve_lookup_chain`](../app/retrieval/database/tools.py)
+  (in the database package) replaces the former `resolve_lookup_document`.
 
 ---
 
 ## 5. STEP C — Embed + cache (qa path only)
 
-**Code:** [`_prepare`](../app/rag.py) lines ~596–606.
+**Code:** [`_prepare`](../app/rag.py).
 
 1. **Embed** the `search_query` once (`embed_query`) — the vector is reused
    everywhere downstream so we never embed the same query twice.
-2. **Semantic cache lookup** ([`app/cache/semantic_cache.py`]) keyed by the query
-   vector + tenant + user groups + `answer_format` + a facet fingerprint. A hit
-   returns the stored answer immediately with `cached: true` — no retrieval, no
-   generation.
+2. **Semantic cache lookup** ([`app/cache/semantic_cache.py`](../app/cache/semantic_cache.py))
+   keyed by the query vector + tenant + user groups + `answer_format` + a facet
+   fingerprint. A hit returns the stored answer immediately with `cached: true` — no
+   retrieval, no generation.
 
 ---
 
@@ -174,8 +195,8 @@ Three booleans are computed up front from intent/format/scope:
 | `multi` | multi-query on, **intent == `qa`**, no `source_type`, no `filters`, query ≥ 5 words | Recall expansion via LLM paraphrases |
 | `keyword_terms` | `keyword_leg_enabled` and the query has salient terms | Adds an exact-match (full-text) leg |
 
-This is the one place **intent** itself gates retrieval: paraphrase expansion is
-reserved for open-ended `qa`. The rest is driven by `answer_format` / scope.
+This is the one place the (legacy) **intent** itself gates retrieval: paraphrase
+expansion is reserved for open-ended `qa`. The rest is driven by `answer_format` / scope.
 
 ### 6.2 The searches (run in parallel, then fused)
 
@@ -254,11 +275,11 @@ does one extra bounded pull of PDF chunks attached to admitted website blocks th
 weren't already represented, then reranks and rebuilds. Any failure keeps the
 original blocks.
 
-### 6.7 No blocks? Refuse.
+### 6.7 No blocks? Refuse (or return the catalog section).
 
-If retrieval yields nothing, `_prepare` returns the `REFUSAL` string
-("I don't have information on that in the available sources.") — the system never
-guesses without evidence.
+If retrieval yields nothing, `_prepare` returns the `REFUSAL` string — **unless** a
+combined query already has a deterministic `db_prefix`, in which case that catalog
+answer is returned alone. The system never guesses content without evidence.
 
 ---
 
@@ -281,6 +302,9 @@ guesses without evidence.
 - [`format_directive`](../app/generation/prompts.py) appends per-format shaping
   (list / table / summary / detailed / timeline) plus a tiny worked exemplar for
   `table` and `timeline`. `default` adds nothing (let the model choose the shape).
+  *(Note: `csv`/`json`/`markdown`/`diagram` output formats are detected by the intent
+  layer but currently degrade to `default` here — the generation prompt isn't yet
+  extended for them.)*
 
 ### 7.2 Format the context
 
@@ -310,26 +334,32 @@ tokens are yielded to the client as `{"type": "token"}` events as they arrive.
   `{"type": "correction"}` event and the corrected text is what gets cached.
 - Fails open to "faithful" at every stage.
 
+For a combined answer, faithfulness runs on the **grounded content only** — the
+deterministic catalog section (`db_prefix`) isn't produced from the blocks, so it's
+excluded from the check.
+
 ### 8.2 Numeric check (observe-only)
 
 [`numeric_mismatches`](../app/generation/faithfulness.py) deterministically flags
-numbers in the answer that appear in no cited block. In v1 this is **logged only**,
-never auto-corrected, and surfaced as `numeric_mismatch` in metrics.
+numbers in the answer that appear in no cited block (again, content only). In v1 this
+is **logged only**, never auto-corrected, and surfaced as `numeric_mismatch` in metrics.
 
 ### 8.3 Assemble, cache, record
 
 - [`_assemble`](../app/rag.py) builds the final dict: `answer`, `citations`
   ([`build_citations`](../app/retrieval/citations.py)), `intent`, `answer_format`,
-  `used_chunks`, `conflict`, `numeric_mismatch`, `cached: false`.
-- [`_persist`](../app/rag.py) stores the result in the semantic cache (keyed as in
-  STEP C) so an equivalent future query short-circuits.
+  `used_chunks`, `conflict`, `numeric_mismatch`, `cached: false`. For a combined
+  query it composes `db_prefix` + `"\n\n"` + the grounded answer.
+- [`_persist`](../app/rag.py) stores the composed result in the semantic cache (keyed
+  as in STEP C) so an equivalent future query short-circuits.
 - [`_record`](../app/rag.py) emits query metrics (latency, intent, chunk count,
   citations present, answered vs refused, conflict, cached, per-stage timings).
 
 ### 8.4 The SSE event sequence (streaming)
 
 ```
-{"type":"token", "text": "..."}          # repeated as the answer streams
+{"type":"token", "text": "..."}          # DB section first (combined), then the
+                                          # grounded answer streams token by token
 {"type":"correction", "text":"...",       # only if faithfulness triggered a rewrite
  "reason":"faithfulness"}
 {"type":"sources", "citations":[...],     # final metadata
@@ -338,7 +368,7 @@ never auto-corrected, and surfaced as `numeric_mismatch` in metrics.
 {"type":"done"}
 ```
 
-Finished results from STEP B/C (chitchat, structured, scoped summary, cache hit,
+Finished results from STEP B/C (chitchat, database answer, scoped summary, cache hit,
 refusal) are emitted through the same shape via
 [`_stream_result`](../app/rag.py) — one token event with the whole answer, then
 sources + done.
@@ -349,14 +379,16 @@ sources + done.
 
 | Stage | If it fails… |
 | --- | --- |
-| Query analysis / voting | Passthrough: `intent="qa"`, raw query, no filters |
-| Intent tie in voting | Falls to `qa` (safe route) |
-| Structured lookup | Falls through to qa (as does an unresolvable summary scope) |
+| Query understanding / voting | Passthrough: `intent="qa"`, raw query, no filters |
+| Below-threshold / competing intents | `_resolve_intents` keeps the top content intent; terminals resolve by priority |
+| Database answer (`answer_structured`) | `None` → fall through to semantic QA |
+| Combined query, content retrieval empty | Returns the deterministic catalog section alone (not a refusal) |
+| Scoped summary, empty scope | Falls through to qa |
 | Term resolution (theme filter) | Degrades to name-only filter |
 | Multi-query / keyword / corrective / attachment legs | Each fails open to `[]` / the prior ranking |
 | Rerank provider (llm / cross-encoder / cohere) | Falls back to dense score |
 | Parent fetch | Falls back to child chunk text |
-| Retrieval empty | Returns the exact `REFUSAL` string |
+| Retrieval empty (pure qa) | Returns the exact `REFUSAL` string |
 | Faithfulness at any stage | Assumes faithful (never blocks the answer) |
 
 ---
@@ -367,7 +399,8 @@ All in [`app/config.py`](../app/config.py) / `.env`:
 
 | Setting | Controls |
 | --- | --- |
-| `analysis_votes` | 1 = single analysis call; >1 = N-way self-consistency vote |
+| `analysis_votes` | 1 = single understanding call (self-reported confidence); >1 = N-way self-consistency vote (agreement confidence) |
+| `intent_confidence_threshold` | minimum per-label confidence to keep a multi-label intent |
 | `retrieval_top_k` / `retrieval_candidate_k` | final blocks / candidates pulled per search |
 | `prefer_website_enabled`, `website_candidate_k`, `website_max_slots`, `website_chunk_floor` | dual pull + website-first context |
 | `multi_query_enabled`, `multi_query_paraphrases` | paraphrase recall expansion |
@@ -381,7 +414,11 @@ All in [`app/config.py`](../app/config.py) / `.env`:
 
 ## See also
 
+- [intent-classification-design.md](intent-classification-design.md) — multi-label taxonomy, boundaries, confidence, schema
+- [database-planner-architecture.md](database-planner-architecture.md) — planner + tools + combined-answer composition
+- [database-tool-registry.md](database-tool-registry.md) — the concrete catalog tools
 - [retrieval.md](retrieval.md) — reference-style module detail
 - [generation.md](generation.md) — LLM factories & grounding prompts
 - [architecture.md](architecture.md) — module map & request lifecycle
 - [website-preference-retrieval.md](website-preference-retrieval.md) — the dual-pull design
+```

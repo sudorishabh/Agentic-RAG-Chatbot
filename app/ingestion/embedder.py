@@ -1,21 +1,10 @@
-from functools import lru_cache
+"""Backwards-compatible facade.
 
-from langchain_openai import AzureOpenAIEmbeddings
+The embeddings gateway now lives in :mod:`app.core.clients.embeddings` (it is a
+shared concern used by the query/retrieval path as much as by ingestion). This
+module re-exports it so existing ``app.ingestion.embedder`` imports keep working;
+prefer importing from ``app.core.clients`` in new code.
+"""
+from app.core.clients.embeddings import embed_query, get_embeddings
 
-from app.config import get_settings
-
-
-@lru_cache
-def get_embeddings() -> AzureOpenAIEmbeddings:
-    settings = get_settings()
-    return AzureOpenAIEmbeddings(
-        azure_endpoint=settings.azure_openai_embedding_endpoint,
-        api_key=settings.azure_openai_embedding_key,
-        api_version=settings.azure_openai_embedding_api_version,
-        azure_deployment=settings.azure_openai_embedding_model,
-        dimensions=settings.azure_openai_embedding_dimensions,
-    )
-
-
-def embed_query(text: str) -> list[float]:
-    return get_embeddings().embed_query(text)
+__all__ = ["embed_query", "get_embeddings"]

@@ -5,11 +5,12 @@ Design for the redesigned **intent identification layer**. This phase covers
 rules, confidence, and output schema. It deliberately does **not** design the
 retrieval or generation orchestration that will later consume these intents.
 
-- **Owns:** [`app/retrieval/query_processor.py`](../app/retrieval/query_processor.py) (the analysis stage; today `process()` → `ProcessedQuery`).
-- **Status:** proposed. The current system ships a single-label taxonomy
-  (`qa` / `structured` / `scoped_summary` / `chitchat`); this document replaces it
-  with a multi-label taxonomy plus orthogonal attributes.
-- **Related:** [retrieval-and-generation-flow.md](retrieval-and-generation-flow.md) · [retrieval.md](retrieval.md)
+- **Owns:** [`app/retrieval/query_processor.py`](../app/retrieval/query_processor.py) (the analysis stage; `process()` → `ProcessedQuery`).
+- **Status:** **implemented** (multi-label understanding, hybrid confidence, back-compat
+  derivation, `/search` + log exposure). §3–12 below are the design rationale; the
+  **[Implementation status](#implementation-status-as-built)** section records exactly
+  what shipped and where it differs from this design.
+- **Related:** [retrieval-and-generation-flow.md](retrieval-and-generation-flow.md) · [database-planner-architecture.md](database-planner-architecture.md) · [retrieval.md](retrieval.md)
 
 ---
 
@@ -37,6 +38,52 @@ and "structured output" is reserved for the format modifier **`structured_output
 5. **Confidence = agreement across self-consistency votes** — reuse the existing N-sample voting so confidences are frequency-grounded, not self-reported.
 6. **Everything is exposed** for inspection: full intent set + per-label confidence + rationale in API responses, logs, and metrics.
 7. **Back-compat bridge:** a single `primary_intent` field is still emitted so existing single-label consumers keep working while `intents[]` is additive.
+
+---
+
+## Implementation status (as built)
+
+The design shipped in `query_processor.py`; a few things differ from the aspirational
+schema in §9 — this section is the source of truth for current behavior.
+
+**Live**
+
+- **Taxonomy** — all nine labels of §3 are implemented as `IntentLabel`
+  (`qa`, `database`, `summarization`, `comparison`, `structured_output`, `chitchat`,
+  `clarification_needed`, `out_of_scope`, `safety_policy`). `action_command` (§3d) is
+  **not** in the enum yet.
+- **LLM output** — `QueryUnderstanding` = `query_rewrite`, `intents[]`
+  (`{label, confidence, rationale}`), `output_format`, `scope`, and the database
+  slots. The orthogonal attributes are **top-level fields, not nested under an
+  `attributes` key** (the §9 JSON is illustrative grouping).
+- **Confidence — hybrid:** agreement share across samples when `analysis_votes > 1`
+  (`_label_confidences`), the model's self-reported score when `== 1`.
+  `_resolve_intents` applies the threshold (`intent_confidence_threshold`, default
+  0.5), terminal exclusivity + priority, and `structured_output`-never-alone.
+- **Derived, not LLM-emitted:** `primary_intent` (`_primary_intent`) and
+  `is_ambiguous` (`_is_ambiguous`, surfaced as `ProcessedQuery.is_ambiguous`).
+  There is **no** `overall_confidence` and **no** `debug` block.
+- **Back-compat:** `_to_legacy_analysis` derives `pq.intent` (legacy route),
+  `pq.analysis` (legacy `QueryAnalysis`), and facet `filters`; the full result is on
+  `pq.understanding`.
+- **Exposure:** `intents` + `is_ambiguous` on the `/search` response
+  (`SearchResponse`) and one INFO log line per query in `process()`.
+
+**Deferred / differs from this design**
+
+- **Terminal-intent handling** — `out_of_scope` / `safety_policy` /
+  `clarification_needed` are *detected* but currently routed to the non-retrieving
+  `chitchat` path (interim); no dedicated refusal or clarifying-question behavior,
+  and `is_ambiguous` does not yet trigger `clarification_needed`.
+- **Exposure gaps** — not added to the SSE `sources` event; no `intents`/`ambiguous`
+  **metrics** dimension; no `debug`/`per_label_votes` payload (§13 partially done).
+- **Not implemented** — deterministic post-processor guardrails (§12.4), the
+  two-stage classifier (§12.5), the golden eval set + τ tuning (§12.6). `analysis_votes`
+  defaults to **1** (voting off by default).
+- **Downstream routing** (how each intent is fulfilled) lives in
+  [retrieval-and-generation-flow.md](retrieval-and-generation-flow.md) and
+  [database-planner-architecture.md](database-planner-architecture.md), including the
+  **sectioned** combined `database + content` answer.
 
 ---
 
@@ -335,8 +382,10 @@ until the orchestration phase.
 
 ---
 
-## 16. Open decisions
+## 16. Decisions (resolved)
 
-1. **v1 label scope** — keep all four additions (`comparison`, `clarification_needed`, `out_of_scope`, `safety_policy`), or trim per §3d?
-2. **Axes vs flat** — intent + `output_format`/`scope` attributes (recommended), or a strictly flat multi-label set where `structured_output` carries no sub-format?
-3. **Confidence source** — require voting (`analysis_votes > 1`) for grounded confidence, or accept self-reported confidence in single-call mode?
+1. **v1 label scope** — ✅ **full taxonomy**: all four additions (`comparison`,
+   `clarification_needed`, `out_of_scope`, `safety_policy`) kept.
+2. **Axes vs flat** — ✅ **intent + `output_format`/`scope` attributes**.
+3. **Confidence source** — ✅ **hybrid**: vote-agreement when `analysis_votes > 1`,
+   self-reported when `== 1`.
