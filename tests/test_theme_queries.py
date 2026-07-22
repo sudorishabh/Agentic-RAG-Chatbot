@@ -147,6 +147,22 @@ def test_distribution_by_category(monkeypatch):
     assert "GROUP BY k ORDER BY n DESC" in sql and "_category` f" in sql
 
 
+def test_distribution_scoped_by_term_and_author(monkeypatch):
+    cursor = _FakeCursor(fetchall_results=[[{"k": "2024", "n": 4}]])
+    _patch(monkeypatch, state, cursor)
+
+    rows = state.distribution(
+        "year", term_uuids=["t1"], author="Sharma", limit=20,
+    )
+    assert rows == [("2024", 4)]
+    sql, params = cursor.calls[0]
+    # Scope joins apply, so undated rows drop and documents are counted once.
+    assert "_term` dt" in sql and "dt.term_uuid IN (%s)" in sql
+    assert "_author` a" in sql and "a.author LIKE %s" in sql
+    assert "COUNT(DISTINCT s.document_id)" in sql
+    assert params == ("website", "%Sharma%", "t1")
+
+
 def test_distribution_by_year_skips_undated(monkeypatch):
     cursor = _FakeCursor(fetchall_results=[[{"k": 2024, "n": 9}]])
     _patch(monkeypatch, state, cursor)

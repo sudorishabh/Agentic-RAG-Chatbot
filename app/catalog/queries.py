@@ -175,47 +175,53 @@ def distribution(
     bundle: str | None = None,
     *,
     entity_type: str | None = None,
+    author: str | None = None,
+    term_uuids: Sequence[str] | None = None,
+    category: str | None = None,
+    title_contains: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
     limit: int = 20,
 ) -> list[tuple[str, int]]:
     """Grouped document counts ("how many per theme/type/author/year"),
-    largest group first. Returns (group value, count) pairs."""
+    largest group first. Returns (group value, count) pairs.
+
+    Applies the same theme/author/title/date scope as ``count_documents`` and
+    ``list_documents`` (via :func:`_catalog_filters`), so a breakdown can be
+    narrowed to one theme, author, period, etc. A document that fans out across
+    a facet join is counted once per group."""
     if group_by not in _DISTRIBUTION_DIMENSIONS:
         raise ValueError(f"group_by must be one of {_DISTRIBUTION_DIMENSIONS}")
     table = _table()
-    clauses: list[str] = []
-    params: list[Any] = []
-    if source_type is not None:
-        clauses.append("s.source_type = %s")
-        params.append(source_type)
-    if bundle is not None:
-        clauses.append("s.bundle = %s")
-        params.append(bundle)
-    if entity_type is not None:
-        clauses.append("s.entity_type = %s")
-        params.append(entity_type)
-    if published_from is not None:
-        clauses.append("s.published_at >= %s")
-        params.append(published_from)
-    if published_to is not None:
-        clauses.append("s.published_at < %s")
-        params.append(published_to)
+    scope_joins, clauses, params, scoped = _catalog_filters(
+        source_type, bundle, entity_type=entity_type,
+        title_contains=title_contains, author=author,
+        term_uuids=term_uuids, category=category,
+        published_from=published_from, published_to=published_to,
+    )
 
-    joins = ""
     if group_by == "bundle":
-        key, count_expr = "s.bundle", "COUNT(*)"
+        group_join, key = "", "s.bundle"
     elif group_by == "year":
-        key, count_expr = "YEAR(s.published_at)", "COUNT(*)"
+        group_join, key = "", "YEAR(s.published_at)"
         clauses.append("s.published_at IS NOT NULL")
     else:
-        joins = f" JOIN `{table}_{group_by}` f ON f.document_id = s.document_id"
-        key, count_expr = f"f.{group_by}", "COUNT(DISTINCT s.document_id)"
+        group_join = f" JOIN `{table}_{group_by}` f ON f.document_id = s.document_id"
+        key = f"f.{group_by}"
 
+    # A facet join — from the scope filters or the group key itself — can repeat
+    # a document across rows, so count distinct documents unless the query stays
+    # purely on the document row (bundle/year with no scoped join).
+    count_expr = (
+        "COUNT(*)"
+        if group_by in ("bundle", "year") and not scoped
+        else "COUNT(DISTINCT s.document_id)"
+    )
     where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
     capped = max(1, min(int(limit or 20), 100))
     sql = (
-        f"SELECT {key} AS k, {count_expr} AS n FROM `{table}` s{joins}{where} "
+        f"SELECT {key} AS k, {count_expr} AS n "
+        f"FROM `{table}` s{scope_joins}{group_join}{where} "
         f"GROUP BY k ORDER BY n DESC, k ASC LIMIT {capped}"
     )
     with mysql_connection() as conn, conn.cursor() as cur:

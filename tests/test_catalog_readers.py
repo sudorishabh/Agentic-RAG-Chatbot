@@ -1,9 +1,8 @@
 """Unit tests for the retrieval-side MySQL catalog readers.
 
 Covers the id-set scope selection (joins, params, DISTINCT, clamping), author
-disambiguation lookup, the attachment join, and the theme-scoped distribution
-that ``state.distribution`` lacks. All SQL runs against scripted fakes; no
-MySQL, Qdrant, or LLM needed.
+disambiguation lookup, and the attachment join. All SQL runs against scripted
+fakes; no MySQL, Qdrant, or LLM needed.
 """
 
 from __future__ import annotations

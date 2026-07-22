@@ -279,6 +279,9 @@ def aggregate_records(
         return ToolResult(tool="aggregate_records", entity=entity, ok=False,
                           error=f"unknown entity {entity!r}")
     scope = resolve_filters(filters)
+    if scope.theme_requested and not scope.theme_resolved:
+        return ToolResult(tool="aggregate_records", entity=entity, ok=False,
+                          error="theme did not resolve to a known term")
     bundle = ent.name if ent else None
     try:
         rows = state.distribution(
@@ -286,8 +289,8 @@ def aggregate_records(
             source_type="website",
             bundle=bundle,
             entity_type="node",
-            published_from=scope.published_from,
-            published_to=scope.published_to,
+            title_contains=scope.title_contains,
+            **scope.as_kwargs(),
         )
     except Exception:
         logger.warning("aggregate_records query failed.", exc_info=True)

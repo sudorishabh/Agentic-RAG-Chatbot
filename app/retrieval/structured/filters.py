@@ -75,9 +75,9 @@ class ResolvedScope:
         return bool(self.term_uuids)
 
     def as_kwargs(self) -> dict[str, Any]:
-        """Filter kwargs shared by count_documents / list_documents (author, theme,
-        dates). `title_contains` is list/lookup-only and passed separately by those
-        tools; distribution takes only the date bounds."""
+        """Filter kwargs shared by count_documents / list_documents / distribution
+        (author, theme, dates). `title_contains` is passed separately by the tools
+        that use it."""
         kwargs: dict[str, Any] = {
             "author": self.author,
             "published_from": self.published_from,
