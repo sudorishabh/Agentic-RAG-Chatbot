@@ -176,7 +176,7 @@ def _prepare(
             query_vector=query_vector,
             answer_format=pq.answer_format,
             source_type=pq.source_type,
-            intent=pq.intent,
+            capabilities=caps,
         )
 
     # The deterministic catalog section (combined queries only) and content
@@ -370,7 +370,7 @@ def search_blocks(
     blocks = retrieve(
         pq.search_query, tenant_id=tenant_id, user_groups=user_groups,
         filters=pq.filters, n=top_k, answer_format=pq.answer_format,
-        source_type=pq.source_type, intent=pq.intent,
+        source_type=pq.source_type, capabilities=_capabilities(pq),
     )
     return {
         "intent": pq.intent,

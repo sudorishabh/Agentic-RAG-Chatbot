@@ -2,8 +2,8 @@
 
 Covers the RRF math (id-dedup, first-sighting payload, deterministic ties),
 the paraphrase cleaner, and the per-query gates in ``retrieve()`` (flag off,
-short query, explicit filters/source, non-qa intent). LLM and Qdrant are
-stubbed; no network.
+short query, explicit filters/source, non-content capability). LLM and Qdrant
+are stubbed; no network.
 """
 
 from __future__ import annotations
@@ -145,7 +145,7 @@ def test_multi_query_gates(monkeypatch):
     monkeypatch.setattr(retriever, "paraphrases", no_paraphrase)
     retriever.retrieve("what are the impacts of biofuel adoption", query_vector=[0.1])
 
-    # Short query, explicit source, filters, non-qa intent.
+    # Short query, explicit source, filters, non-content capability.
     _wire(monkeypatch, settings=_settings(), base_candidates=base)
     monkeypatch.setattr(retriever, "paraphrases", no_paraphrase)
     retriever.retrieve("biofuel impacts", query_vector=[0.1])
@@ -154,4 +154,4 @@ def test_multi_query_gates(monkeypatch):
     retriever.retrieve("what are the impacts of biofuel adoption",
                        query_vector=[0.1], filters=["cond"])
     retriever.retrieve("what are the impacts of biofuel adoption",
-                       query_vector=[0.1], intent="structured")
+                       query_vector=[0.1], capabilities={"database"})

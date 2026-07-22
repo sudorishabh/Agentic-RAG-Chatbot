@@ -38,6 +38,10 @@ logger = logging.getLogger(__name__)
 # to change. The rest of the app depends only on this name.
 __all__ = ["retrieve"]
 
+# Content capabilities (from query understanding) whose open-ended search
+# benefits from multi-query recall expansion; a pure `database` lookup does not.
+_MULTI_QUERY_INTENTS = frozenset({"qa", "comparison"})
+
 
 def _supplement_attachments(
     blocks: list[ContextBlock],
@@ -110,7 +114,7 @@ def retrieve(
     query_vector: list[float] | None = None,
     answer_format: str | None = None,
     source_type: str | None = None,
-    intent: str = "qa",
+    capabilities: set[str] | None = None,
 ) -> list[ContextBlock]:
     settings = get_settings()
     n = n or settings.retrieval_top_k
@@ -121,12 +125,15 @@ def retrieve(
     # PDF pull's "not website" would contradict a website filter), and the answer
     # isn't a table (tables live in PDFs — don't force a website lead).
     dual = bool(settings.prefer_website_enabled) and not source_type and answer_format != "table"
-    # Multi-query only where recall expansion helps: plain qa, no explicit
-    # scope already narrowing the pull, and enough words that paraphrases can
-    # actually diverge (short factoids are already unambiguous).
+    # Multi-query only where recall expansion helps: an open-ended content
+    # search (not a pure structured lookup), no explicit scope already narrowing
+    # the pull, and enough words that paraphrases can actually diverge (short
+    # factoids are already unambiguous). The capabilities come from query
+    # understanding; an empty set (the degraded passthrough) is treated as QA.
+    content_search = not capabilities or bool(capabilities & _MULTI_QUERY_INTENTS)
     multi = (
         bool(settings.multi_query_enabled)
-        and intent == "qa"
+        and content_search
         and not source_type
         and not filters
         and len(search_query.split()) >= 5
