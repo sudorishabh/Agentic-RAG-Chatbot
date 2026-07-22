@@ -83,9 +83,9 @@ class Settings(BaseSettings):
     # Website-content preference (see docs/website-preference-retrieval.md).
     # When enabled, retrieval runs two pulls — website (source_type == "website")
     # and "not website" — merges them, and the context builder leads with a
-    # concise website section (capped) followed by PDF depth. Launches OFF; flip
-    # on after eval tuning.
-    prefer_website_enabled: bool = False
+    # concise website section (capped) followed by PDF depth. Enabled by default;
+    # validate on representative queries before relying on it in production.
+    prefer_website_enabled: bool = True
     # Website-only candidates pulled alongside the (larger) not-website pull.
     website_candidate_k: int = 20
     # Max website blocks admitted (the concise lead). PDFs fill the rest, so no
