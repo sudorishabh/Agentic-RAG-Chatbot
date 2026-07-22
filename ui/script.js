@@ -535,6 +535,16 @@
    * Citations / sources
    * ---------------------------------------------------------------- */
   function renderSources(wrap, sources) {
+    // The deterministic numeric check flagged a figure the cited sources don't
+    // support: warn the reader without altering the answer. Shown even when
+    // there are no citations to list.
+    if (sources.numeric_mismatch) {
+      const warn = document.createElement("div");
+      warn.className = "answer-warn";
+      warn.textContent =
+        "⚠ Some figures in this answer could not be verified against the cited sources.";
+      wrap.appendChild(warn);
+    }
     const citations = Array.isArray(sources.citations) ? sources.citations : [];
     if (!citations.length) return;
     const list = document.createElement("div");
@@ -1029,6 +1039,15 @@
     }
     .citations::-webkit-scrollbar { height: 6px; }
     .citations::-webkit-scrollbar-thumb { background: var(--teri-border); border-radius: 999px; }
+    /* Unverified-figures notice: same amber token, sits above the citations. */
+    .answer-warn {
+      margin-top: 6px;
+      font-size: .78rem;
+      color: var(--teri-warn);
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+    }
     .citation {
       display: flex; gap: 7px; font-size: .8rem;
       background: var(--teri-bg);

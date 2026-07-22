@@ -273,6 +273,7 @@ def _stream_result(result: dict[str, Any]) -> Iterator[dict[str, Any]]:
         "answer_format": result.get("answer_format", "default"),
         "used_chunks": result.get("used_chunks", 0),
         "conflict": result.get("conflict", False),
+        "numeric_mismatch": result.get("numeric_mismatch", False),
     }
     yield {"type": "done"}
 
@@ -352,6 +353,7 @@ def stream_answer(
             "answer_format": result["answer_format"],
             "used_chunks": result["used_chunks"],
             "conflict": result["conflict"],
+            "numeric_mismatch": result["numeric_mismatch"],
         }
         yield {"type": "done"}
         _persist(gen, result)
