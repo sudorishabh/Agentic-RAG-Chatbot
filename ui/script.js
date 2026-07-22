@@ -547,10 +547,30 @@
     }
     const citations = Array.isArray(sources.citations) ? sources.citations : [];
     if (!citations.length) return;
+
+    // Segregate sources by kind so web pages and PDFs read as distinct groups.
+    const webPages = citations.filter((c) => c.type === "website");
+    const pdfs = citations.filter((c) => c.type !== "website");
+
     const list = document.createElement("div");
     list.className = "citations";
-    for (const c of citations) list.appendChild(renderCitation(c));
+    renderSourceGroup(list, "Web pages", webPages);
+    renderSourceGroup(list, "PDFs", pdfs);
     wrap.appendChild(list);
+  }
+
+  function renderSourceGroup(container, label, items) {
+    if (!items.length) return;
+    const group = document.createElement("div");
+    group.className = "citation-group";
+
+    const heading = document.createElement("span");
+    heading.className = "citation-group__label";
+    heading.textContent = label;
+    group.appendChild(heading);
+
+    for (const c of items) group.appendChild(renderCitation(c));
+    container.appendChild(group);
   }
 
   // The backend emits root-relative source links (e.g. "/source/<id>#page=N")
@@ -1007,12 +1027,27 @@
 
     /* ---- Citations ---- */
     /* Compact chips that wrap onto multiple rows so every source stays
-       visible at once — no horizontal scrolling. */
+       visible at once — no horizontal scrolling. Web pages and PDFs are
+       split into separate labelled groups. */
     .citations {
       margin-top: 6px;
       display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    /* One row per source kind: a small caption leads its wrapping chips. */
+    .citation-group {
+      display: flex;
       flex-wrap: wrap;
+      align-items: center;
       gap: 6px;
+    }
+    .citation-group__label {
+      font-size: .66rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--teri-dim);
     }
     /* Unverified-figures notice: same amber token, sits above the citations. */
     .answer-warn {
