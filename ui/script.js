@@ -569,7 +569,11 @@
     heading.textContent = label;
     group.appendChild(heading);
 
-    for (const c of items) group.appendChild(renderCitation(c));
+    const chips = document.createElement("div");
+    chips.className = "citation-group__chips";
+    for (const c of items) chips.appendChild(renderCitation(c));
+    group.appendChild(chips);
+
     container.appendChild(group);
   }
 
@@ -1061,19 +1065,29 @@
       width: 100%;
       align-self: stretch;
     }
-    /* One row per source kind: a small caption leads its wrapping chips. */
+    /* One row per source kind: a fixed-width caption column keeps every
+       group's chips aligned on the same left edge. */
     .citation-group {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px;
+      align-items: flex-start;
+      gap: 8px;
     }
     .citation-group__label {
+      flex: 0 0 68px;
+      padding-top: 7px;
       font-size: .66rem;
       font-weight: 600;
+      line-height: 1.4;
       text-transform: uppercase;
       letter-spacing: .04em;
       color: var(--teri-dim);
+    }
+    .citation-group__chips {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
     /* Unverified-figures notice: same amber token, sits above the citations. */
     .answer-warn {
