@@ -161,7 +161,7 @@ class ProcessedQuery:
         return _is_ambiguous(self.understanding.intents) if self.understanding else False
 
 
-def _format_history(history: Sequence[dict[str, str]] | None, max_turns: int = 6) -> str:
+def _format_history(history: Sequence[dict[str, str]] | None, max_turns: int = 12) -> str:
     if not history:
         return "(no prior conversation)"
     recent = list(history)[-max_turns:]

@@ -310,7 +310,8 @@ def stream_answer(
         if gen.db_prefix:
             yield {"type": "token", "text": gen.db_prefix + "\n\n"}
         for token in generate_stream(
-            gen.pq.search_query, gen.blocks, answer_format=gen.pq.answer_format
+            gen.pq.search_query, gen.blocks,
+            history=history, answer_format=gen.pq.answer_format,
         ):
             parts.append(token)
             yield {"type": "token", "text": token}
@@ -328,6 +329,7 @@ def stream_answer(
                 try:
                     retry = generate_answer(
                         gen.pq.search_query, gen.blocks,
+                        history=history,
                         correction=report.correction_note(),
                         answer_format=gen.pq.answer_format,
                     )

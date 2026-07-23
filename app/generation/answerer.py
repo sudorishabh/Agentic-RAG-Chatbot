@@ -8,7 +8,7 @@ module only turns a question + context blocks into answer text.
 from __future__ import annotations
 
 import logging
-from typing import Iterator
+from typing import Any, Iterator, Sequence
 
 from app.core.clients.llm import get_llm
 from app.core.models.context import ContextBlock
@@ -22,20 +22,73 @@ from app.generation.prompts import (
 
 logger = logging.getLogger(__name__)
 
+# Prior turns threaded into the answer prompt so the model can resolve follow-up
+# references ("it", "that one", the original question) that the standalone query
+# rewrite may not fully capture. Counts messages, not exchanges — each exchange
+# is a user + assistant pair — so this is ~6 turns of memory; older turns drop
+# off to bound prompt growth on long conversations.
+HISTORY_MAX_TURNS = 12
+
+# Appended to the grounded system prompt only when prior turns are present: the
+# history is for interpreting the question, never a source of facts/citations.
+_HISTORY_RULE = (
+    "9. Earlier conversation turns appear before the numbered context for "
+    "continuity — use them only to interpret the current question (e.g. resolve "
+    'references like "it" or "that", or recall what the user asked earlier). '
+    "Every fact and every [n] citation in your answer must still come from the "
+    "numbered context below, never from an earlier turn."
+)
+
+
+def _history_messages(
+    history: Sequence[dict[str, str]] | None, max_turns: int = HISTORY_MAX_TURNS
+) -> list[Any]:
+    """The recent conversation as LangChain messages for a MessagesPlaceholder.
+
+    Roles collapse to human/ai; blank turns are dropped. Empty list on no
+    history (the placeholder then renders to nothing). Returned as message
+    objects, not template strings, so any braces in prior turns are never
+    re-interpreted as prompt variables.
+    """
+    if not history:
+        return []
+    from langchain_core.messages import AIMessage, HumanMessage
+
+    messages: list[Any] = []
+    for turn in list(history)[-max_turns:]:
+        content = turn.get("content", "")
+        if not content:
+            continue
+        if turn.get("role") == "assistant":
+            messages.append(AIMessage(content=content))
+        else:
+            messages.append(HumanMessage(content=content))
+    return messages
+
 
 def chitchat(question: str, history: list[dict[str, str]] | None) -> str:
     from langchain_core.output_parsers import StrOutputParser
-    from langchain_core.prompts import ChatPromptTemplate
+    from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
     prompt = ChatPromptTemplate.from_messages(
-        [("system", CHITCHAT_SYSTEM_PROMPT), ("human", "{question}")]
+        [
+            ("system", CHITCHAT_SYSTEM_PROMPT),
+            MessagesPlaceholder("history"),
+            ("human", "{question}"),
+        ]
     )
     chain = prompt | get_llm() | StrOutputParser()
-    return chain.invoke({"question": question}).strip()
+    return chain.invoke(
+        {"history": _history_messages(history), "question": question}
+    ).strip()
 
 
-def _build_system(answer_format: str | None, correction: str | None) -> str:
+def _build_system(
+    answer_format: str | None, correction: str | None, *, has_history: bool = False
+) -> str:
     system = GROUNDED_SYSTEM_PROMPT
+    if has_history:
+        system += f"\n{_HISTORY_RULE}"
     directive = format_directive(answer_format)
     if directive:
         system += f"\n\n{directive}"
@@ -48,41 +101,58 @@ def generate_answer(
     question: str,
     blocks: list[ContextBlock],
     *,
+    history: Sequence[dict[str, str]] | None = None,
     correction: str | None = None,
     answer_format: str | None = None,
 ) -> str:
     from langchain_core.output_parsers import StrOutputParser
-    from langchain_core.prompts import ChatPromptTemplate
+    from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
     if not blocks:
         return REFUSAL
 
-    system = _build_system(answer_format, correction)
+    messages = _history_messages(history)
+    system = _build_system(answer_format, correction, has_history=bool(messages))
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system", system),
+            MessagesPlaceholder("history"),
             ("human", "Numbered context:\n{context}\n\nQuestion: {question}"),
         ]
     )
     chain = prompt | get_llm(temperature=0.2) | StrOutputParser()
     return chain.invoke(
-        {"context": format_context_blocks(blocks), "question": question}
+        {
+            "history": messages,
+            "context": format_context_blocks(blocks),
+            "question": question,
+        }
     ).strip()
 
 
 def generate_stream(
-    question: str, blocks: list[ContextBlock], *, answer_format: str | None = None
+    question: str,
+    blocks: list[ContextBlock],
+    *,
+    history: Sequence[dict[str, str]] | None = None,
+    answer_format: str | None = None,
 ) -> Iterator[str]:
     from langchain_core.output_parsers import StrOutputParser
-    from langchain_core.prompts import ChatPromptTemplate
+    from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
+    messages = _history_messages(history)
     prompt = ChatPromptTemplate.from_messages(
         [
-            ("system", _build_system(answer_format, None)),
+            ("system", _build_system(answer_format, None, has_history=bool(messages))),
+            MessagesPlaceholder("history"),
             ("human", "Numbered context:\n{context}\n\nQuestion: {question}"),
         ]
     )
     chain = prompt | get_llm(temperature=0.2, streaming=True) | StrOutputParser()
     yield from chain.stream(
-        {"context": format_context_blocks(blocks), "question": question}
+        {
+            "history": messages,
+            "context": format_context_blocks(blocks),
+            "question": question,
+        }
     )
