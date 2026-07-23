@@ -247,7 +247,7 @@
     autoGrow();
 
     setStreaming(true);
-    const { wrap, bubble } = addMessage("bot", "");
+    const { bubble } = addMessage("bot", "");
     startLoader(bubble);
 
     const epoch = chatEpoch;
@@ -260,7 +260,7 @@
       bubble.classList.remove("bubble--pending");
       if (answer) bubble.innerHTML = renderMarkdown(answer);
       else bubble.textContent = "(no response)";
-      if (sources) renderSources(wrap, sources);
+      if (sources) renderSources(bubble, sources);
       history.push({ role: "user", content: text });
       history.push({ role: "assistant", content: answer });
     } catch (err) {
@@ -534,7 +534,7 @@
   /* ---------------------------------------------------------------- *
    * Citations / sources
    * ---------------------------------------------------------------- */
-  function renderSources(wrap, sources) {
+  function renderSources(bubble, sources) {
     // The deterministic numeric check flagged a figure the cited sources don't
     // support: warn the reader without altering the answer. Shown even when
     // there are no citations to list.
@@ -543,7 +543,7 @@
       warn.className = "answer-warn";
       warn.textContent =
         "⚠ Some figures in this answer could not be verified against the cited sources.";
-      wrap.appendChild(warn);
+      bubble.appendChild(warn);
     }
     const citations = Array.isArray(sources.citations) ? sources.citations : [];
     if (!citations.length) return;
@@ -552,11 +552,18 @@
     const webPages = citations.filter((c) => c.type === "website");
     const pdfs = citations.filter((c) => c.type !== "website");
 
-    const list = document.createElement("div");
-    list.className = "citations";
-    renderSourceGroup(list, "Web pages", webPages);
-    renderSourceGroup(list, "PDFs", pdfs);
-    wrap.appendChild(list);
+    // A self-contained reference block pinned to the bottom of the answer.
+    const section = document.createElement("div");
+    section.className = "sources";
+
+    const title = document.createElement("div");
+    title.className = "sources__title";
+    title.textContent = "Sources";
+    section.appendChild(title);
+
+    renderSourceGroup(section, "Web pages", webPages);
+    renderSourceGroup(section, "PDFs", pdfs);
+    bubble.appendChild(section);
   }
 
   function renderSourceGroup(container, label, items) {
@@ -1051,19 +1058,24 @@
     .bubble thead th { background: var(--teri-surface); font-weight: 700; }
     .bubble tbody tr:nth-child(even) { background: rgba(0,0,0,.025); }
 
-    /* ---- Citations ---- */
-    /* Compact chips that wrap onto multiple rows so every source stays
-       visible at once — no horizontal scrolling. Web pages and PDFs are
-       split into separate labelled groups. */
-    .citations {
-      margin-top: 6px;
+    /* ---- Sources ---- */
+    /* A reference block that sits at the bottom of the answer bubble,
+       separated by a hairline rule. Web pages and PDFs are split into
+       labelled groups of compact, wrapping chips (no horizontal scroll). */
+    .sources {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--teri-border);
       display: flex;
       flex-direction: column;
       gap: 8px;
-      /* Break out of the bot bubble's content width so sources use the full
-         message width and more chips fit per row. */
-      width: 100%;
-      align-self: stretch;
+    }
+    .sources__title {
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--teri-dim);
     }
     /* One row per source kind: a fixed-width caption column keeps every
        group's chips aligned on the same left edge. */
@@ -1089,7 +1101,7 @@
       flex-wrap: wrap;
       gap: 6px;
     }
-    /* Unverified-figures notice: same amber token, sits above the citations. */
+    /* Unverified-figures notice: same amber token, sits above the sources. */
     .answer-warn {
       margin-top: 6px;
       font-size: .78rem;
@@ -1105,7 +1117,7 @@
       gap: 7px;
       max-width: 260px;
       font-size: .78rem;
-      background: var(--teri-bg);
+      background: var(--teri-surface);
       border: 1px solid var(--teri-border);
       border-radius: 10px;
       padding: 6px 10px;
