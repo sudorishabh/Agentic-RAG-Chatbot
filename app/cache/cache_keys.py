@@ -21,6 +21,8 @@ def _pref_fingerprint() -> str:
         str(s.website_candidate_k),
         str(s.website_max_slots),
         str(s.website_chunk_floor),
+        str(s.pdf_max_slots),
+        str(s.pdf_high_confidence_floor),
         str(s.retrieval_top_k),
         str(s.retrieval_candidate_k),
         str(s.context_token_budget),

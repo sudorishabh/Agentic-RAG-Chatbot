@@ -26,13 +26,16 @@ _WEBSITE_TYPES = ("website", "article")
 
 
 def _primary_url(payload: dict[str, Any]) -> str | None:
-    """The best openable link for a source: the real attached PDF if we have
-    one, else the website page, else the local /source fallback for disk PDFs."""
+    """The best openable link for a source. A website node links to its own page
+    (a node may carry a file_url for an attached PDF, but that attachment is its
+    own citation in the PDFs group — the page must not resolve to it, or it reads
+    as a PDF under Web pages). PDF sources link to the attachment, else the local
+    /source fallback for disk PDFs."""
+    if payload.get("source_type") in _WEBSITE_TYPES:
+        return payload.get("source_url") or _with_page(payload.get("file_url"), payload)
     file_url = payload.get("file_url")
     if file_url:
         return _with_page(file_url, payload)
-    if payload.get("source_type") in _WEBSITE_TYPES:
-        return payload.get("source_url")
     return _pdf_link(payload)
 
 
