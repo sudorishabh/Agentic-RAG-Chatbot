@@ -143,18 +143,18 @@ def retrieve(
         with span("rag.embed_query"):
             query_vector = embed_query(search_query)
 
-    def _base_search() -> list[Any]:
-        if dual:
+    def _base_search(active_filters: list[Any] | None, *, use_dual: bool) -> list[Any]:
+        if use_dual:
             return dual_search(
                 search_query, tenant_id=tenant_id, user_groups=user_groups,
-                filters=filters, query_vector=query_vector, settings=settings,
+                filters=active_filters, query_vector=query_vector, settings=settings,
             )
         return search(
             search_query,
             limit=settings.retrieval_candidate_k,
             tenant_id=tenant_id,
             user_groups=user_groups,
-            extra_filter=filters or None,
+            extra_filter=active_filters or None,
             query_vector=query_vector,
         )
 
@@ -171,7 +171,7 @@ def retrieve(
             # pull, so the added wall-clock is only the paraphrase searches
             # that follow the generation step.
             with ThreadPoolExecutor(max_workers=4) as pool:
-                base_future = pool.submit(_base_search)
+                base_future = pool.submit(_base_search, filters, use_dual=dual)
                 keyword_future = (
                     pool.submit(
                         keyword_search, search_query, keyword_terms,
@@ -208,8 +208,27 @@ def retrieve(
                 base = base_future.result()
             candidates = rrf([base] + rankings) if rankings else base
         else:
-            candidates = _base_search()
+            candidates = _base_search(filters, use_dual=dual)
         s.set("candidates", len(candidates))
+
+    # Facet filters (theme / author / source_type / date) are LLM-extracted and
+    # applied as hard AND conditions. When they lift terms straight out of the
+    # question — a title query parsed into theme="SDG 7", author="TERI" — those
+    # literals rarely equal the stored metadata, and their intersection can be
+    # empty even when the corpus plainly answers the question. A total miss under
+    # facets is never better than the plain semantic pull, so retry once without
+    # them rather than refusing. Precision-preserving: only fires on zero, so a
+    # non-empty facet-scoped result is left exactly as-is.
+    if not candidates and filters:
+        with span("rag.search_relaxed") as s:
+            relaxed_dual = bool(settings.prefer_website_enabled) and answer_format != "table"
+            candidates = _base_search(None, use_dual=relaxed_dual)
+            s.set("candidates", len(candidates))
+            s.set("relaxed", True)
+        logger.info(
+            "Facet filters matched no chunks; retried without facets (%d candidates).",
+            len(candidates),
+        )
 
     with span("rag.rerank") as s:
         table_boost = settings.rerank_table_boost if answer_format == "table" else 0.0
