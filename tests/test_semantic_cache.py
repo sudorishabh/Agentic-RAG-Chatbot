@@ -10,8 +10,18 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
+import pytest
+
 from app.cache import semantic_cache as sc
 from app.retrieval import query_processor as qp
+
+
+@pytest.fixture(autouse=True)
+def _enable_cache(monkeypatch):
+    """These tests exercise the enabled cache path (store/lookup/facets). The
+    cache short-circuits to a no-op when disabled, so pin it on regardless of
+    the ambient .env (SEMANTIC_CACHE_ENABLED is false in some local setups)."""
+    monkeypatch.setattr(sc.get_settings(), "semantic_cache_enabled", True)
 
 
 def _pq(**analysis_kw):
