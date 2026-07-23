@@ -174,6 +174,8 @@ def build_context(
     segregate: bool = False,
     website_max_slots: int | None = None,
     website_chunk_floor: float | None = None,
+    pdf_max_slots: int | None = None,
+    pdf_high_confidence_floor: float | None = None,
 ) -> list[ContextBlock]:
     settings = get_settings()
     limit = limit or settings.retrieval_top_k
@@ -190,11 +192,20 @@ def build_context(
     spent = 0
 
     if segregate:
-        # Website leads (capped + floor-gated); PDFs fill the rest. Walking website
-        # first makes the final order website-first and lets a website block win a
-        # website/PDF near-dup tie (the PDF then lands in its also_available).
+        # Website leads (capped + floor-gated); PDFs follow under a hard budget:
+        # the top `pmax` PDF chunks unconditionally, then a single extra slot that
+        # opens only for a high-confidence candidate — nothing past that is ever
+        # admitted. Walking website first makes the final order website-first and
+        # lets a website block win a website/PDF near-dup tie (the PDF then lands
+        # in its also_available).
         wmax = website_max_slots if website_max_slots is not None else settings.website_max_slots
         floor = website_chunk_floor if website_chunk_floor is not None else settings.website_chunk_floor
+        pmax = pdf_max_slots if pdf_max_slots is not None else settings.pdf_max_slots
+        pfloor = (
+            pdf_high_confidence_floor
+            if pdf_high_confidence_floor is not None
+            else settings.pdf_high_confidence_floor
+        )
         website = [c for c in candidates if _is_website(c.payload)]
         others = [c for c in candidates if not _is_website(c.payload)]
         spent = _admit(
@@ -203,10 +214,19 @@ def build_context(
             token_budget=token_budget, sim_threshold=sim_threshold,
             max_add=wmax, floor=floor,
         )
+        # Top PDFs, admitted unconditionally.
+        spent = _admit(
+            others, blocks=blocks, block_vectors=block_vectors,
+            seen_parents=seen_parents, parents=parents, spent=spent, limit=limit,
+            token_budget=token_budget, sim_threshold=sim_threshold,
+            max_add=pmax,
+        )
+        # One extra PDF slot, gated on the high-confidence bar; never a further one.
         _admit(
             others, blocks=blocks, block_vectors=block_vectors,
             seen_parents=seen_parents, parents=parents, spent=spent, limit=limit,
             token_budget=token_budget, sim_threshold=sim_threshold,
+            max_add=1, floor=pfloor,
         )
         ordered = blocks  # already website-first
         for i, block in enumerate(ordered, start=1):

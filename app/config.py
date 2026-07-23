@@ -88,13 +88,21 @@ class Settings(BaseSettings):
     prefer_website_enabled: bool = True
     # Website-only candidates pulled alongside the (larger) not-website pull.
     website_candidate_k: int = 20
-    # Max website blocks admitted (the concise lead). PDFs fill the rest, so no
-    # separate PDF floor is needed. Users' website needs are typically met in ~2.
+    # Max website blocks admitted (the concise lead). PDFs then follow under
+    # their own budget (see pdf_max_slots). Users' website needs are typically
+    # met in ~2.
     website_max_slots: int = 2
     # Per-chunk raw-semantic relevance floor a website chunk must clear to take a
     # website slot (prevents padding the answer with weak website text). Scale is
     # reranker-provider specific (dense cosine here); tuned empirically in eval.
     website_chunk_floor: float = 0.30
+    # PDF budget after the website lead (segregated/dual retrieval only). The top
+    # pdf_max_slots PDF chunks are admitted unconditionally; one extra ("3rd")
+    # slot opens only for a candidate whose raw semantic_score clears the
+    # high-confidence bar below, and nothing past that slot is ever admitted.
+    # Scale matches website_chunk_floor (raw semantic_score); tune in eval.
+    pdf_max_slots: int = 2
+    pdf_high_confidence_floor: float = 0.5
     hybrid_use_sparse: bool = False
     # Multi-query recall expansion: LLM paraphrases of the search query are
     # searched in parallel and RRF-fused with the base pull. Gated per query
