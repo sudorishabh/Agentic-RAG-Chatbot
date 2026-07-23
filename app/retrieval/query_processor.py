@@ -365,12 +365,19 @@ _FORMAT_TO_LEGACY: dict[str, AnswerFormat] = {
 
 def _legacy_intent_and_format(u: QueryUnderstanding) -> tuple[Intent, AnswerFormat]:
     """Collapse the multi-label understanding onto the single-label route the
-    current pipeline consumes. Behavior-preserving for existing intents; the new
-    terminal intents route to the non-retrieving chitchat path until dedicated
-    handling (refusal / clarifying question) lands downstream."""
+    current pipeline consumes.
+
+    `out_of_scope` is deliberately routed to `qa`, not chitchat: the classifier
+    is a single stochastic sample that frequently mislabels an in-corpus question
+    (a pasted document title, a domain topic) as out-of-scope, and a blind
+    deflection then hides content the store actually contains. Routing it through
+    retrieval lets the corpus be the arbiter — a genuinely off-topic query
+    retrieves nothing usable and the grounding prompt returns the standard
+    refusal, while a misjudged one gets answered. `chitchat` /
+    `clarification_needed` / `safety_policy` stay on the non-retrieving path."""
     primary = _primary_intent(u.intents)
     fmt: AnswerFormat = _FORMAT_TO_LEGACY.get(u.output_format, "default")
-    if primary in ("chitchat", "clarification_needed", "out_of_scope", "safety_policy"):
+    if primary in ("chitchat", "clarification_needed", "safety_policy"):
         return "chitchat", fmt
     if primary == "database":
         return "structured", fmt

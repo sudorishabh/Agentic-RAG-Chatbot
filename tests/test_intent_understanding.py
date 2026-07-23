@@ -187,8 +187,15 @@ def test_derive_comparison_maps_to_qa():
 
 
 def test_derive_terminals_map_to_chitchat():
-    for term in ("chitchat", "clarification_needed", "out_of_scope", "safety_policy"):
+    for term in ("chitchat", "clarification_needed", "safety_policy"):
         assert qp._to_legacy_analysis("q", _mk([(term, 0.9)])).intent == "chitchat"
+
+
+def test_derive_out_of_scope_routes_to_qa():
+    # A stochastic out_of_scope verdict must not blindly deflect: route it
+    # through retrieval so the corpus (not one LLM sample) decides — a real miss
+    # still ends in the grounded refusal downstream.
+    assert qp._to_legacy_analysis("q", _mk([("out_of_scope", 0.9)])).intent == "qa"
 
 
 def test_derive_source_type_uploaded_is_dropped_pdf_kept():
