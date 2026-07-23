@@ -951,9 +951,9 @@
       margin: 0 auto;
     }
     :host(.expanded) .card { font-size: .9rem; padding: 16px; }
-    :host(.expanded) .msg { max-width: 75%; }
+    :host(.expanded) .msg { max-width: 92%; }
 
-    .msg { display: flex; flex-direction: column; max-width: 90%; }
+    .msg { display: flex; flex-direction: column; max-width: 96%; }
     .msg--user { align-self: flex-end; align-items: flex-end; }
     .msg--bot { align-self: flex-start; align-items: flex-start; }
     .bubble {
@@ -1056,6 +1056,10 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      /* Break out of the bot bubble's content width so sources use the full
+         message width and more chips fit per row. */
+      width: 100%;
+      align-self: stretch;
     }
     /* One row per source kind: a small caption leads its wrapping chips. */
     .citation-group {
