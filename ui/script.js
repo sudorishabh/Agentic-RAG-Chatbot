@@ -613,24 +613,46 @@
     marker.textContent = "[" + c.n + "]";
     chip.appendChild(marker);
 
+    const body = document.createElement("div");
+    body.className = "citation__body";
+
+    // Row 1: the title (always), truncated to a single line with a hover tip.
     const label = c.title || c.document_id || c.type || "source";
     const title = linkOrText(label, c.url);
     title.classList.add("citation__title");
-    // Page/section are kept accessible on hover so the chip stays one line.
-    const tip = [];
-    if (c.page != null) tip.push("p. " + c.page);
-    if (c.section) tip.push(c.section);
-    title.title = tip.length ? label + " — " + tip.join(" · ") : label;
-    chip.appendChild(title);
+    title.title = label;
+    body.appendChild(title);
 
-    if (c.page != null) {
-      const page = document.createElement("span");
-      page.className = "citation__page";
-      page.textContent = "p." + c.page;
-      chip.appendChild(page);
+    // Row 2: supporting detail — page/section, or the site host for web pages.
+    const meta = [];
+    if (c.page != null) meta.push("Page " + c.page);
+    if (c.section) meta.push(c.section);
+    if (!meta.length && c.type === "website") {
+      const host = hostLabel(c.url);
+      if (host) meta.push(host);
+    }
+    if (meta.length) {
+      const detail = meta.join(" · ");
+      const m = document.createElement("span");
+      m.className = "citation__meta";
+      m.textContent = detail;
+      m.title = detail;
+      body.appendChild(m);
     }
 
+    chip.appendChild(body);
     return chip;
+  }
+
+  // Short, human-friendly host (no "www.") for a citation URL, used as
+  // second-row detail when a web page carries no page/section label.
+  function hostLabel(url) {
+    if (!url) return "";
+    try {
+      return new URL(url, API_BASE).hostname.replace(/^www\./, "");
+    } catch {
+      return "";
+    }
   }
 
   /* ---------------------------------------------------------------- *
@@ -1058,29 +1080,57 @@
       gap: 6px;
       align-items: flex-start;
     }
+    /* Chip: [n] marker + a two-row body (title, then supporting detail). */
     .citation {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      max-width: 100%;
-      font-size: .74rem;
-      line-height: 1.3;
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      max-width: 260px;
+      font-size: .78rem;
       background: var(--teri-bg);
       border: 1px solid var(--teri-border);
-      border-radius: 999px;
-      padding: 3px 9px;
+      border-radius: 10px;
+      padding: 6px 10px;
+      transition: border-color .15s ease, box-shadow .15s ease;
     }
-    .citation__marker { color: var(--teri-green-dark); font-weight: 600; flex-shrink: 0; }
+    .citation:hover {
+      border-color: var(--teri-green-dark);
+      box-shadow: 0 1px 5px rgba(0, 0, 0, .07);
+    }
+    .citation__marker {
+      color: var(--teri-green-dark);
+      font-weight: 600;
+      line-height: 1.4;
+      flex-shrink: 0;
+    }
+    .citation__body {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+    /* Row 1 — title, one line with ellipsis. */
     .citation__title {
       color: var(--teri-ink);
+      font-weight: 500;
+      line-height: 1.4;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 180px;
+      max-width: 100%;
     }
     a.citation__title { color: var(--teri-green-dark); text-decoration: none; }
     a.citation__title:hover { text-decoration: underline; }
-    .citation__page { color: var(--teri-dim); flex-shrink: 0; }
+    /* Row 2 — supporting detail. */
+    .citation__meta {
+      color: var(--teri-dim);
+      font-size: .7rem;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
 
     /* ---- Composer: a floating rounded box with the send button inside ---- */
     .composer {

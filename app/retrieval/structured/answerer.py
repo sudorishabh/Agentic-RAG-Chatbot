@@ -16,6 +16,7 @@ adapter has no Drupal-specific logic — only the underlying bundle list does.
 from __future__ import annotations
 
 import logging
+import re
 from typing import TYPE_CHECKING, Any, Literal, Sequence
 
 from pydantic import BaseModel
@@ -38,8 +39,10 @@ _PARSE_SYSTEM = (
     "- operation: 'count' for how-many/aggregate; 'distribution' for a breakdown "
     "per group ('how many per theme', 'spread across content types'); 'lookup' "
     "for a single specific item; 'list' for browse/enumerate.\n"
-    "- bundle: the content type if implied, one of: " + ", ".join(DEFAULT_BUNDLES) +
-    "; else null.\n"
+    "- bundle: the specific content type when the user names one, one of: "
+    + ", ".join(DEFAULT_BUNDLES) +
+    ". Leave it null for a generic collective word ('publications', 'works', "
+    "'output', 'everything') so a count/list spans ALL content types; else null.\n"
     "- theme: the thematic area / topic / category name if the request is scoped "
     "to one (e.g. 'under the Climate theme', 'in the Energy area'); else null.\n"
     "- group_by: for 'distribution' only — the dimension to break down by: "
@@ -92,6 +95,29 @@ def parse_structured(
         return None
 
 
+# Collective words that mean "everything published", not one content type. The
+# classifier inconsistently collapses these onto the research_papers bundle,
+# under-counting a person's output (10 papers instead of the 21 papers+articles).
+_GENERIC_SCOPE = re.compile(r"\b(publications?|works|writings|output|everything)\b", re.I)
+
+
+def _spans_all_content(question: str, bundle: str | None) -> bool:
+    """True when a generic collective term (not a type the user actually named)
+    is what set ``bundle`` — the count/list must then span all content types.
+
+    Detected structurally, so it stays robust to the classifier's nondeterminism:
+    a generic term is present AND none of the resolved bundle's own label words
+    appear in the question. 'how many publications from X' -> clear the bundle;
+    'how many research paper publications' -> keep it (the type was named)."""
+    if not bundle or not _GENERIC_SCOPE.search(question):
+        return False
+    from app.retrieval.structured.entities import entity_label
+
+    label_words = set(re.findall(r"[a-z]+", f"{bundle} {entity_label(bundle, 2)}".lower()))
+    question_words = set(re.findall(r"[a-z]+", question.lower()))
+    return not (label_words & question_words)
+
+
 def _compose(results: list[ToolResult]) -> dict[str, Any]:
     """Merge the successful tool results into one structured answer: stack the
     rendered sections and renumber citations sequentially across them. A single
@@ -137,6 +163,11 @@ def answer_structured(
     )
     if slots is None:
         return None
+    # A generic "publications / works" ask must count across every content type;
+    # drop a bundle the classifier inferred from that collective word so the total
+    # is not silently narrowed to one type (see _spans_all_content).
+    if _spans_all_content(question, getattr(slots, "bundle", None)):
+        slots.bundle = None
     output_format = analysis.answer_format if analysis is not None else "default"
     db_plan = None
     if get_settings().database_multi_call_enabled:

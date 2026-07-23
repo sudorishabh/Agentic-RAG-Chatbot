@@ -53,6 +53,51 @@ def test_answer_structured_normalizes_bundle_for_count(monkeypatch):
     assert out["answer"] == "There are 3 events matching your query."
 
 
+def test_answer_structured_generic_publications_spans_all_types(monkeypatch):
+    # "publications" is a collective word; the classifier may collapse it onto the
+    # research_papers bundle, which would under-count a person's total output. The
+    # bundle must be dropped so the count spans every content type.
+    seen: dict = {}
+    monkeypatch.setattr(state, "count_documents", lambda **kw: seen.update(kw) or 21)
+    analysis = qp.QueryAnalysis(
+        search_query="how many publications from Dr Suneel Pandey",
+        intent="structured", operation="count",
+        bundle="research_papers", author="Dr Suneel Pandey",
+    )
+    out = dr.answer_structured(
+        "tell me overall number of publications from Dr Suneel Pandey", analysis=analysis
+    )
+    assert seen["bundle"] is None  # spans all content types, not just papers
+    assert out["answer"] == "There are 21 items matching your query."
+
+
+def test_answer_structured_named_type_keeps_bundle(monkeypatch):
+    # When the user actually names the type, the bundle is honored even though the
+    # word "publications" is also present.
+    seen: dict = {}
+    monkeypatch.setattr(state, "count_documents", lambda **kw: seen.update(kw) or 10)
+    analysis = qp.QueryAnalysis(
+        search_query="how many research paper publications from Dr Suneel Pandey",
+        intent="structured", operation="count",
+        bundle="research_papers", author="Dr Suneel Pandey",
+    )
+    dr.answer_structured(
+        "how many research paper publications from Dr Suneel Pandey", analysis=analysis
+    )
+    assert seen["bundle"] == "research_papers"
+
+
+def test_spans_all_content_helper():
+    # Generic term, bundle words absent from the question -> span all types.
+    assert dr._spans_all_content("how many publications from Dr X", "research_papers")
+    # The named type appears -> keep the bundle.
+    assert not dr._spans_all_content("how many research papers from Dr X", "research_papers")
+    # No generic term -> keep the bundle.
+    assert not dr._spans_all_content("how many articles from Dr X", "article")
+    # No bundle to begin with -> nothing to clear.
+    assert not dr._spans_all_content("how many publications from Dr X", None)
+
+
 def test_answer_structured_skips_parse_when_analysis_provided(monkeypatch):
     def no_parse(q, h=None):
         raise AssertionError("parse_structured must not be called")

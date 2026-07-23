@@ -123,7 +123,9 @@ _PLANNER_SYSTEM = (
     "- aggregate_records: counts grouped by group_by "
     "(theme / content_type / author / year).\n"
     "Set only the fields that apply. Dates are a half-open [date_from, date_to) "
-    "ISO range. entity is one of the listed content types, or null for all."
+    "ISO range. entity is one of the listed content types, or null for all — leave "
+    "it null for a generic collective word ('publications', 'works') so the result "
+    "spans every type rather than collapsing onto research_papers."
 )
 
 
