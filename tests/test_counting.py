@@ -2,7 +2,7 @@
 
 Covers answer_structured's delegation to the Database Planner (analysis vs the
 parse fallback, bundle normalization, format passthrough, fall-through), the
-query_processor facet filters (semantic-path DatetimeRange / author / tags), the
+query_processor facet filters (semantic-path DatetimeRange / tags), the
 generation format directives, and the ProcessedQuery contract. The catalog tools
 themselves are covered by test_database_tools; the SQL by app/local_tests. No
 MySQL, Qdrant, LLM, or network.
@@ -176,21 +176,23 @@ def test_facet_filters_no_dates_no_condition():
     assert not any(getattr(c, "key", None) == "published_at" for c in conds)
 
 
-def test_facet_filters_author_and_tags_exact_match():
+def test_facet_filters_tags_exact_match_author_not_filtered():
     analysis = qp.QueryAnalysis(
         search_query="x", author="Dr R K Sharma", tags=["biofuels", "solar"]
     )
     conds = qp._facet_filters(analysis)
     by_key = {getattr(c, "key", None): c for c in conds}
-    # Exact display-name / tag values — MatchAny has no substring matching.
-    assert by_key["authors"].match.any == ["Dr R K Sharma"]
     assert by_key["tags"].match.any == ["biofuels", "solar"]
+    # author is intentionally NOT a hard filter: exact keyword match on sparse
+    # display-name metadata excludes most of the corpus and rarely matches the
+    # LLM's extracted form (see _facet_filters). Scoping stays on the catalog path.
+    assert "authors" not in by_key
 
 
-def test_facet_filters_absent_author_tags_add_nothing():
+def test_facet_filters_absent_tags_add_nothing():
     conds = qp._facet_filters(qp.QueryAnalysis(search_query="x"))
     keys = {getattr(c, "key", None) for c in conds}
-    assert "authors" not in keys and "tags" not in keys
+    assert "tags" not in keys
 
 
 # --------------------------------------------------------------------------- #

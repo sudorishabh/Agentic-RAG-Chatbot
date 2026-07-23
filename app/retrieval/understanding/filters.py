@@ -57,13 +57,16 @@ def _facet_filters(analysis: "QueryAnalysis") -> list[Any]:
     conditions: list[Any] = []
     if analysis.theme:
         conditions.append(_theme_condition(analysis.theme))
-    if analysis.author:
-        # authors holds display names and MatchAny is exact-value only, so this
-        # matches the stored name verbatim (e.g. "Dr R K Sharma") — no substring
-        # matching. Partial-name scoping arrives with the Phase 2 catalog reader.
-        conditions.append(
-            FieldCondition(key="authors", match=MatchAny(any=[analysis.author]))
-        )
+    # `analysis.author` is intentionally NOT applied as a filter here. The stored
+    # `authors` field is a KEYWORD index (exact-value match, no substring) that is
+    # populated on only ~20% of chunks and holds full display names ("Ms Meena
+    # Sehgal", "TERI Web Desk"). The understanding LLM extracts a loose form
+    # ("TERI", "Sharma") that almost never equals a stored value, so as a hard AND
+    # condition it excludes the ~80% of the corpus that has no author at all and
+    # then misses the rest — turning strong matches into false refusals. Author
+    # scoping stays on `analysis.author` for the structured/catalog path (which
+    # LIKE-matches the MySQL facet table); the qa path relies on semantic search,
+    # where author names in titles/text already surface author-relevant content.
     if analysis.tags:
         conditions.append(
             FieldCondition(key="tags", match=MatchAny(any=list(analysis.tags)))
