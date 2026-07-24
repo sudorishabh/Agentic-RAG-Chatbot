@@ -168,6 +168,25 @@ def test_lookup_record_no_chain_when_multiple_match(monkeypatch):
 # aggregate_records
 # --------------------------------------------------------------------------- #
 
+def test_list_themes_renders_vocabulary(monkeypatch):
+    monkeypatch.setattr(
+        "app.catalog.terms.list_themes",
+        lambda **kw: [
+            {"term_uuid": "t1", "name": "Climate", "parent_uuid": None},
+            {"term_uuid": "t2", "name": "Energy", "parent_uuid": None},
+        ],
+    )
+    r = tools.list_themes()
+    assert r.ok and r.data == {"themes": ["Climate", "Energy"]}
+    assert "Climate" in r.rendered and "Energy" in r.rendered
+
+
+def test_list_themes_empty_falls_through(monkeypatch):
+    monkeypatch.setattr("app.catalog.terms.list_themes", lambda **kw: [])
+    r = tools.list_themes()
+    assert r.ok is False and r.tool == "list_themes"
+
+
 def test_aggregate_records_table_and_dimension(monkeypatch):
     seen = {}
 

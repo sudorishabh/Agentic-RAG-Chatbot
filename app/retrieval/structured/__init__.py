@@ -19,6 +19,7 @@ from app.retrieval.structured.tools import (
     aggregate_records,
     count_records,
     list_records,
+    list_themes,
     lookup_record,
     resolve_lookup_chain,
 )
@@ -43,6 +44,7 @@ __all__ = [
     "aggregate_records",
     "count_records",
     "list_records",
+    "list_themes",
     "lookup_record",
     "resolve_lookup_chain",
     "execute",

@@ -148,3 +148,21 @@ def descendant_uuids(roots: Iterable[str]) -> list[str]:
             for uuid in frontier:
                 seen.setdefault(uuid, None)
     return list(seen)
+
+
+def list_themes(vocabulary: str = "themes", *, limit: int = 200) -> list[dict[str, Any]]:
+    """The theme vocabulary as catalog rows ``[{term_uuid, name, parent_uuid}]``,
+    ordered by name.
+
+    Reads the canonical terms table, not the free-text facet, so it reflects the
+    real taxonomy — including themes with no documents yet — and is unaffected by
+    display-name drift. ``limit`` clamps to [1, 1000].
+    """
+    capped = max(1, min(int(limit or 200), 1000))
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"SELECT term_uuid, name, parent_uuid FROM `{TERM_TABLE}` "
+            f"WHERE vocabulary = %s ORDER BY name ASC LIMIT {capped}",
+            (vocabulary,),
+        )
+        return list(cur.fetchall())

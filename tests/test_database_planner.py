@@ -70,6 +70,18 @@ def test_execute_routes_to_tool(monkeypatch):
     assert results[0].tool == "count_records" and results[0].data == {"count": 7}
 
 
+def test_execute_routes_to_list_themes(monkeypatch):
+    monkeypatch.setattr(
+        planner, "list_themes",
+        lambda *, limit, output_format: ToolResult(
+            tool="list_themes", data={"themes": ["Climate"]}
+        ),
+    )
+    results = planner.execute(DatabasePlan(calls=[ToolCall(tool="list_themes")]))
+    assert len(results) == 1
+    assert results[0].tool == "list_themes" and results[0].data == {"themes": ["Climate"]}
+
+
 def test_execute_runs_multiple_calls(monkeypatch):
     monkeypatch.setattr(planner, "count_records",
                         lambda entity, filters: ToolResult(tool="count_records", entity=entity))

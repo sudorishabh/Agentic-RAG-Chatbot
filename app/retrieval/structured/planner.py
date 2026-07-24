@@ -19,6 +19,7 @@ from app.retrieval.structured.tools import (
     aggregate_records,
     count_records,
     list_records,
+    list_themes,
     lookup_record,
 )
 from app.retrieval.structured.types import DatabasePlan, RecordFilters, ToolCall, ToolResult
@@ -90,7 +91,9 @@ class _PlannedCall(BaseModel):
     """One LLM-planned tool call. Mirrors the fields of `ToolCall` that a planner
     can set from natural language; unset fields fall back to tool defaults."""
 
-    tool: Literal["count_records", "list_records", "lookup_record", "aggregate_records"]
+    tool: Literal[
+        "count_records", "list_records", "lookup_record", "aggregate_records", "list_themes"
+    ]
     entity: str | None = Field(
         default=None, description="Content type / bundle, or null to span all content."
     )
@@ -122,6 +125,7 @@ _PLANNER_SYSTEM = (
     "- lookup_record: find one item by title.\n"
     "- aggregate_records: counts grouped by group_by "
     "(theme / content_type / author / year).\n"
+    "- list_themes: list the themes/topics the collection covers (takes no filters).\n"
     "Set only the fields that apply. Dates are a half-open [date_from, date_to) "
     "ISO range. entity is one of the listed content types, or null for all — leave "
     "it null for a generic collective word ('publications', 'works') so the result "
@@ -181,6 +185,8 @@ def _run(call: ToolCall, question: str | None) -> ToolResult:
         return aggregate_records(call.entity, call.group_by, call.filters,
                                  aggregation=call.aggregation,
                                  output_format=call.output_format)
+    if call.tool == "list_themes":
+        return list_themes(limit=call.limit, output_format=call.output_format)
     return ToolResult(tool=call.tool, entity=call.entity, ok=False,
                       error=f"unknown tool {call.tool!r}")
 

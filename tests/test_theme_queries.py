@@ -106,6 +106,21 @@ def test_descendant_uuids_empty_roots_issues_no_query(monkeypatch):
     assert cursor.calls == []
 
 
+def test_list_themes_reads_vocabulary_ordered(monkeypatch):
+    cursor = _FakeCursor(fetchall_results=[[
+        {"term_uuid": "t1", "name": "Climate", "parent_uuid": None},
+        {"term_uuid": "t2", "name": "Energy", "parent_uuid": None},
+    ]])
+    _patch(monkeypatch, terms, cursor)
+
+    rows = terms.list_themes(limit=5)
+    assert [r["name"] for r in rows] == ["Climate", "Energy"]
+    sql, params = cursor.calls[0]
+    assert "FROM `terms`" in sql and "vocabulary = %s" in sql
+    assert "ORDER BY name ASC" in sql and "LIMIT 5" in sql
+    assert params == ("themes",)
+
+
 # --------------------------------------------------------------------------- #
 # Catalog SQL — term/theme scoping and distribution.
 # --------------------------------------------------------------------------- #

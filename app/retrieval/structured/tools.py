@@ -311,3 +311,26 @@ def aggregate_records(
     )
     return ToolResult(tool="aggregate_records", entity=bundle, ok=True,
                       data={"groups": [[value, n] for value, n in rows]}, rendered=rendered)
+
+
+def list_themes(*, limit: int = 200, output_format: str = "default") -> ToolResult:
+    """Enumerate the themes the collection covers, from the canonical taxonomy
+    (not the free-text facet). Answers 'what themes/topics do you cover?'. An
+    empty vocabulary or a query failure returns ok=False so the caller can fall
+    through to semantic search."""
+    try:
+        from app.catalog import terms
+
+        rows = terms.list_themes(limit=limit)
+    except Exception:
+        logger.warning("list_themes query failed.", exc_info=True)
+        return ToolResult(tool="list_themes", ok=False, error="query failed")
+    if not rows:
+        return ToolResult(tool="list_themes", ok=False, error="no themes found")
+    names = [r["name"] for r in rows]
+    if output_format == "table":
+        body = "\n".join(["| theme |", "| --- |"] + [f"| {_md_cell(n)} |" for n in names])
+    else:
+        body = "\n".join(f"- {n}" for n in names)
+    rendered = f"The collection covers {len(names)} themes:\n" + body
+    return ToolResult(tool="list_themes", ok=True, data={"themes": names}, rendered=rendered)
