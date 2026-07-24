@@ -974,9 +974,14 @@
       word-wrap: break-word;
     }
     .msg--user .bubble { background: var(--teri-user); color: #fff; border-bottom-right-radius: 4px; }
-    .msg--bot .bubble { background: var(--teri-bg); border: 1px solid var(--teri-border); border-bottom-left-radius: 4px; }
+    .msg--bot .bubble { background: transparent; border: none; padding: 9px 0; }
     .bubble--pending { color: var(--teri-dim); }
-    .bubble--error { border-color: var(--teri-bad); color: var(--teri-bad); }
+    .msg--bot .bubble--error {
+      color: var(--teri-bad);
+      border: 1px solid var(--teri-bad);
+      border-radius: var(--radius);
+      padding: 9px 13px;
+    }
 
     /* ---- Working indicator: shimmering status word + bouncing dots ---- */
     .loader { display: inline-flex; align-items: center; gap: 9px; }
