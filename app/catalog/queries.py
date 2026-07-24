@@ -23,6 +23,7 @@ from datetime import datetime
 from typing import Any, Sequence
 
 from app.catalog.db import state_table as _table
+from app.catalog.schema import TERM_TABLE, THEME_VOCABULARY
 from app.catalog.state import StateRecord, _row_to_record
 from app.core.clients import mysql_connection
 
@@ -163,9 +164,9 @@ def list_documents(
         return [_row_to_record(row) for row in cur.fetchall()]
 
 
-# Dimensions the distribution query can group by. "theme" and "author" use
-# the facet tables (the rename refresh keeps theme values canonical);
-# "bundle" and "year" come off the document row itself.
+# Dimensions the distribution query can group by. "author" groups on its facet
+# table; "theme" groups on the canonical taxonomy (documents_term -> terms), not
+# the free-text facet; "bundle" and "year" come off the document row itself.
 _DISTRIBUTION_DIMENSIONS = ("bundle", "author", "theme", "year")
 
 
@@ -205,7 +206,18 @@ def distribution(
     elif group_by == "year":
         group_join, key = "", "YEAR(s.published_at)"
         clauses.append("s.published_at IS NOT NULL")
-    else:
+    elif group_by == "theme":
+        # Group by the canonical taxonomy term (rename-proof, drift-free), not
+        # the free-text facet: join the term links to the terms table and keep
+        # only theme-vocabulary rows.
+        group_join = (
+            f" JOIN `{table}_term` gt ON gt.document_id = s.document_id"
+            f" JOIN `{TERM_TABLE}` gtn ON gtn.term_uuid = gt.term_uuid"
+        )
+        key = "gtn.name"
+        clauses.append("gtn.vocabulary = %s")
+        params.append(THEME_VOCABULARY)
+    else:  # author -> multi-valued facet table
         group_join = f" JOIN `{table}_{group_by}` f ON f.document_id = s.document_id"
         key = f"f.{group_by}"
 

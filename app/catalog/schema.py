@@ -123,6 +123,11 @@ def ensure_state_table() -> None:
 TERM_TABLE = "terms"
 ALIAS_TABLE = "term_aliases"
 
+# Taxonomy vocabulary that holds themes — the canonical source for theme
+# enumeration and theme-distribution grouping (mirrors ingestion's
+# CATEGORY_VOCABULARIES).
+THEME_VOCABULARY = "themes"
+
 _TERM_DDL = f"""
 CREATE TABLE IF NOT EXISTS `{TERM_TABLE}` (
     term_uuid    VARCHAR(64)  NOT NULL,

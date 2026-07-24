@@ -14,7 +14,7 @@ from typing import Any, Iterable
 
 from app.catalog import schema
 from app.catalog.db import now as _now
-from app.catalog.schema import ALIAS_TABLE, TERM_TABLE
+from app.catalog.schema import ALIAS_TABLE, TERM_TABLE, THEME_VOCABULARY
 from app.core.clients import mysql_connection
 
 logger = logging.getLogger(__name__)
@@ -150,7 +150,7 @@ def descendant_uuids(roots: Iterable[str]) -> list[str]:
     return list(seen)
 
 
-def list_themes(vocabulary: str = "themes", *, limit: int = 200) -> list[dict[str, Any]]:
+def list_themes(vocabulary: str = THEME_VOCABULARY, *, limit: int = 200) -> list[dict[str, Any]]:
     """The theme vocabulary as catalog rows ``[{term_uuid, name, parent_uuid}]``,
     ordered by name.
 

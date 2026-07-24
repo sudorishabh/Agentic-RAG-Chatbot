@@ -176,8 +176,13 @@ def test_distribution_by_theme(monkeypatch):
 
     rows = state.distribution("theme")
     assert rows == [("Climate", 12), ("Energy", 5)]
-    sql, _ = cursor.calls[0]
-    assert "GROUP BY k ORDER BY n DESC" in sql and "_theme` f" in sql
+    sql, params = cursor.calls[0]
+    assert "GROUP BY k ORDER BY n DESC" in sql
+    # Groups on the canonical taxonomy (documents_term -> terms), not the facet.
+    assert "_term` gt" in sql and "`terms` gtn" in sql
+    assert "gtn.name AS k" in sql and "COUNT(DISTINCT s.document_id)" in sql
+    assert "gtn.vocabulary = %s" in sql
+    assert params == ("website", "themes")
 
 
 def test_distribution_scoped_by_term_and_author(monkeypatch):
