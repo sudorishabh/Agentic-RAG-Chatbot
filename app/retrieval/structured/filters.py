@@ -36,8 +36,10 @@ def _parse_date(value: str | None) -> datetime | None:
 
 def resolve_theme(theme: str | None) -> dict[str, Any]:
     """Theme scope: term UUIDs when the taxonomy resolves the name (rename/
-    alias-proof), else the display-name theme fallback. Resolution failure
-    degrades to the name fallback rather than raising."""
+    alias-proof), expanded to descendant sub-themes so a parent theme also
+    counts documents tagged only with a child; else the display-name theme
+    fallback. Resolution failure degrades to the name fallback rather than
+    raising."""
     if not theme:
         return {}
     try:
@@ -46,10 +48,18 @@ def resolve_theme(theme: str | None) -> dict[str, Any]:
         rows = terms.resolve_terms(theme)
     except Exception:
         logger.warning("Theme resolution failed; using name fallback.", exc_info=True)
-        rows = []
-    if rows:
-        return {"term_uuids": [row["term_uuid"] for row in rows]}
-    return {"theme": theme}
+        return {"theme": theme}
+    if not rows:
+        return {"theme": theme}
+    uuids = [row["term_uuid"] for row in rows]
+    try:
+        uuids = terms.descendant_uuids(uuids)
+    except Exception:
+        logger.warning(
+            "Theme descendant expansion failed; scoping to matched terms only.",
+            exc_info=True,
+        )
+    return {"term_uuids": uuids}
 
 
 @dataclass

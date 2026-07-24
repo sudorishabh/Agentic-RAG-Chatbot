@@ -88,6 +88,24 @@ def test_resolve_terms_blank_returns_empty(monkeypatch):
     assert cursor.calls == []
 
 
+def test_descendant_uuids_expands_transitively(monkeypatch):
+    # root -> {c1, c2}; c1 -> {g1}; then no more children.
+    cursor = _FakeCursor(fetchall_results=[
+        [{"term_uuid": "c1"}, {"term_uuid": "c2"}],
+        [{"term_uuid": "g1"}],
+        [],
+    ])
+    _patch(monkeypatch, terms, cursor)
+    assert terms.descendant_uuids(["root"]) == ["root", "c1", "c2", "g1"]
+
+
+def test_descendant_uuids_empty_roots_issues_no_query(monkeypatch):
+    cursor = _FakeCursor()
+    _patch(monkeypatch, terms, cursor)
+    assert terms.descendant_uuids([]) == []
+    assert cursor.calls == []
+
+
 # --------------------------------------------------------------------------- #
 # Catalog SQL — term/theme scoping and distribution.
 # --------------------------------------------------------------------------- #

@@ -119,3 +119,32 @@ def resolve_terms(name: str, vocabulary: str | None = None) -> list[dict[str, An
             (name, *vocab_params),
         )
         return list(cur.fetchall())
+
+
+def descendant_uuids(roots: Iterable[str]) -> list[str]:
+    """Expand term UUIDs to include every transitive child (via ``parent_uuid``).
+
+    The roots are always included and returned first. Walks UUIDs only, so it
+    is rename-proof, and the ``seen`` set makes it safe against cyclic parent
+    links. Lets a parent theme scope its whole subtree — a document tagged only
+    with a sub-theme still counts under the parent.
+    """
+    seen: dict[str, None] = {}
+    frontier = [u for u in roots if u]
+    for uuid in frontier:
+        seen.setdefault(uuid, None)
+    if not frontier:
+        return []
+    with mysql_connection() as conn, conn.cursor() as cur:
+        while frontier:
+            placeholders = ", ".join(["%s"] * len(frontier))
+            cur.execute(
+                f"SELECT term_uuid FROM `{TERM_TABLE}` "
+                f"WHERE parent_uuid IN ({placeholders})",
+                tuple(frontier),
+            )
+            children = [row["term_uuid"] for row in cur.fetchall()]
+            frontier = [c for c in children if c not in seen]
+            for uuid in frontier:
+                seen.setdefault(uuid, None)
+    return list(seen)

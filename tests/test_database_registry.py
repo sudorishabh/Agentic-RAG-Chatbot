@@ -50,6 +50,34 @@ def test_resolve_theme_prefers_term_uuids(monkeypatch):
         "app.catalog.terms.resolve_terms",
         lambda name, vocabulary=None: [{"term_uuid": "u1", "name": "Climate"}],
     )
+    monkeypatch.setattr("app.catalog.terms.descendant_uuids", lambda uuids: list(uuids))
+    assert filters.resolve_theme("Climate") == {"term_uuids": ["u1"]}
+
+
+def test_resolve_theme_expands_to_descendant_subthemes(monkeypatch):
+    monkeypatch.setattr(
+        "app.catalog.terms.resolve_terms",
+        lambda name, vocabulary=None: [{"term_uuid": "parent", "name": "Environment"}],
+    )
+    monkeypatch.setattr(
+        "app.catalog.terms.descendant_uuids",
+        lambda uuids: list(uuids) + ["air", "water"],
+    )
+    assert filters.resolve_theme("Environment") == {
+        "term_uuids": ["parent", "air", "water"]
+    }
+
+
+def test_resolve_theme_expansion_failure_keeps_matched_terms(monkeypatch):
+    monkeypatch.setattr(
+        "app.catalog.terms.resolve_terms",
+        lambda name, vocabulary=None: [{"term_uuid": "u1", "name": "Climate"}],
+    )
+
+    def boom(uuids):
+        raise RuntimeError("db down")
+
+    monkeypatch.setattr("app.catalog.terms.descendant_uuids", boom)
     assert filters.resolve_theme("Climate") == {"term_uuids": ["u1"]}
 
 
@@ -71,6 +99,7 @@ def test_resolve_filters_resolved_theme(monkeypatch):
         "app.catalog.terms.resolve_terms",
         lambda *a, **k: [{"term_uuid": "u1", "name": "Climate"}],
     )
+    monkeypatch.setattr("app.catalog.terms.descendant_uuids", lambda uuids: list(uuids))
     scope = filters.resolve_filters(
         db.RecordFilters(
             theme="Climate", author="Sharma", title_contains="grid",
