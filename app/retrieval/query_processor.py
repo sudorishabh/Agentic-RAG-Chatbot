@@ -23,7 +23,7 @@ Intent = Literal["qa", "structured", "scoped_summary", "chitchat"]
 # to steer generation (and table-aware retrieval). 'default' = let the model
 # choose the natural shape.
 AnswerFormat = Literal["default", "list", "table", "summary", "detailed", "timeline"]
-Operation = Literal["count", "list", "lookup", "distribution"]
+Operation = Literal["count", "list", "lookup", "distribution", "list_themes"]
 GroupBy = Literal["theme", "content_type", "author", "year"]
 
 

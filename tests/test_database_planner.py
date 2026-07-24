@@ -35,6 +35,13 @@ def test_plan_maps_operation_to_tool(operation, tool):
     assert call.entity == "news"
 
 
+def test_plan_maps_list_themes_operation():
+    call = planner.plan(_slots(operation="list_themes", limit=50)).calls[0]
+    assert call.tool == "list_themes"
+    assert call.entity is None  # vocabulary-wide, not scoped to a bundle
+    assert call.limit == 50
+
+
 def test_plan_carries_filters_and_format():
     call = planner.plan(
         _slots(operation="count", theme="Climate", author="Sharma",

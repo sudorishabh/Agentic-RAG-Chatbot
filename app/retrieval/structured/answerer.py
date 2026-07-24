@@ -30,7 +30,7 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-Operation = Literal["lookup", "list", "count", "distribution"]
+Operation = Literal["lookup", "list", "count", "distribution", "list_themes"]
 GroupBy = Literal["theme", "content_type", "author", "year"]
 
 _PARSE_SYSTEM = (
@@ -38,7 +38,8 @@ _PARSE_SYSTEM = (
     "repository of news, articles, reports, projects, events and research papers.\n"
     "- operation: 'count' for how-many/aggregate; 'distribution' for a breakdown "
     "per group ('how many per theme', 'spread across content types'); 'lookup' "
-    "for a single specific item; 'list' for browse/enumerate.\n"
+    "for a single specific item; 'list' for browse/enumerate; 'list_themes' to "
+    "enumerate the themes/topics the collection covers ('what themes are there?').\n"
     "- bundle: the specific content type when the user names one, one of: "
     + ", ".join(DEFAULT_BUNDLES) +
     ". Leave it null for a generic collective word ('publications', 'works', "

@@ -66,6 +66,10 @@ def _tool_call(slots: Any, output_format: str) -> ToolCall:
         return ToolCall(tool="lookup_record", entity=bundle, filters=filters,
                         title=getattr(slots, "title_contains", None), limit=limit,
                         output_format=output_format)
+    if operation == "list_themes":
+        # Vocabulary-wide: no entity/filter scoping.
+        return ToolCall(tool="list_themes", filters=filters, limit=limit,
+                        output_format=output_format)
     return ToolCall(tool="list_records", entity=bundle, filters=filters, limit=limit,
                     output_format=output_format)
 
