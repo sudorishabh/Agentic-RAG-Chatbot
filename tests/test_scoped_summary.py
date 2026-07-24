@@ -38,8 +38,20 @@ def test_scope_filters_theme_resolves_to_term_uuids(monkeypatch):
     monkeypatch.setattr(
         sm.terms, "resolve_terms", lambda name: [{"term_uuid": "t1", "name": "Climate"}]
     )
+    monkeypatch.setattr(sm.terms, "descendant_uuids", lambda uuids: list(uuids))
     filters = sm._scope_filters(_analysis(theme="Climate"))
     assert filters == {"term_uuids": ["t1"]}
+
+
+def test_scope_filters_theme_expands_to_descendant_subthemes(monkeypatch):
+    monkeypatch.setattr(
+        sm.terms, "resolve_terms", lambda name: [{"term_uuid": "parent", "name": "Environment"}]
+    )
+    monkeypatch.setattr(
+        sm.terms, "descendant_uuids", lambda uuids: list(uuids) + ["air"]
+    )
+    filters = sm._scope_filters(_analysis(theme="Environment"))
+    assert filters == {"term_uuids": ["parent", "air"]}
 
 
 def test_scope_filters_theme_falls_back_to_theme_name(monkeypatch):

@@ -113,7 +113,15 @@ def _scope_filters(analysis: QueryAnalysis) -> dict[str, Any] | None:
                            exc_info=True)
             rows = []
         if rows:
-            filters["term_uuids"] = [r["term_uuid"] for r in rows]
+            uuids = [r["term_uuid"] for r in rows]
+            try:
+                uuids = terms.descendant_uuids(uuids)
+            except Exception:
+                logger.warning(
+                    "Theme descendant expansion failed; scoping to matched terms only.",
+                    exc_info=True,
+                )
+            filters["term_uuids"] = uuids
         else:
             filters["theme"] = analysis.theme
     bundle = normalize_entity(analysis.bundle)

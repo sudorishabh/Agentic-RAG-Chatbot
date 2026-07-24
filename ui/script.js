@@ -91,18 +91,16 @@
     "Generating your answer",
   ];
 
-  // Avatar shown to the left of every AI reply — a robot head on the brand
-  // gradient, the conventional mark for an AI-generated response.
+  // Avatar shown to the left of every AI reply — a simple robot head, the
+  // conventional mark for an AI-generated response.
   const BOT_AVATAR =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-    '<circle cx="12" cy="3.2" r="1"/>' +
-    '<path d="M12 4.2v2.3"/>' +
-    '<rect x="4.5" y="6.5" width="15" height="11.5" rx="3.2"/>' +
-    '<path d="M2.5 11.5v3"/>' +
-    '<path d="M21.5 11.5v3"/>' +
-    '<circle cx="9.3" cy="12.2" r="1.25" fill="currentColor" stroke="none"/>' +
-    '<circle cx="14.7" cy="12.2" r="1.25" fill="currentColor" stroke="none"/>' +
+    '<circle cx="12" cy="3" r="1"/>' +
+    '<path d="M12 4v2"/>' +
+    '<rect x="4" y="6" width="16" height="14" rx="5"/>' +
+    '<circle cx="9" cy="13.5" r="1.4" fill="currentColor" stroke="none"/>' +
+    '<circle cx="15" cy="13.5" r="1.4" fill="currentColor" stroke="none"/>' +
     "</svg>";
 
   // Guard against double-injection.

@@ -211,6 +211,7 @@ def test_theme_condition_matches_uuids_or_names(monkeypatch):
         terms, "resolve_terms",
         lambda name: [{"term_uuid": "t1", "name": "Climate Action"}],
     )
+    monkeypatch.setattr(terms, "descendant_uuids", lambda uuids: list(uuids))
     condition = qp._theme_condition("climate action")
 
     legs = {c.key: c for c in condition.should}
@@ -218,6 +219,20 @@ def test_theme_condition_matches_uuids_or_names(monkeypatch):
     # Display-name leg covers points indexed before term_ids existed, and
     # includes the canonical name alongside the user's phrasing.
     assert "Climate Action" in legs["categories"].match.any
+
+
+def test_theme_condition_expands_uuids_to_descendants(monkeypatch):
+    monkeypatch.setattr(
+        terms, "resolve_terms",
+        lambda name: [{"term_uuid": "parent", "name": "Environment"}],
+    )
+    monkeypatch.setattr(
+        terms, "descendant_uuids", lambda uuids: list(uuids) + ["air", "water"],
+    )
+    condition = qp._theme_condition("Environment")
+
+    legs = {c.key: c for c in condition.should}
+    assert legs["theme_ids"].match.any == ["parent", "air", "water"]
 
 
 def test_theme_condition_survives_catalog_outage(monkeypatch):

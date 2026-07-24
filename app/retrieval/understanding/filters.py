@@ -28,8 +28,10 @@ def _parse_bound(value: str | None) -> datetime | None:
 
 def _theme_condition(theme: str) -> Any:
     """Filter for a theme scope: term UUIDs (rename-proof) OR display names —
-    the name leg matches points indexed before term_ids existed. Term lookup
-    failure degrades to the name-only filter rather than failing retrieval."""
+    the name leg matches points indexed before term_ids existed. UUIDs are
+    expanded to descendant sub-themes so a parent theme also matches documents
+    tagged only with a child. Term lookup failure degrades to the name-only
+    filter rather than failing retrieval."""
     from qdrant_client.models import FieldCondition, Filter, MatchAny
 
     names = {theme, theme.title()}
@@ -43,6 +45,13 @@ def _theme_condition(theme: str) -> Any:
     except Exception:
         logger.debug("Term resolution unavailable; theme filter by name only.",
                      exc_info=True)
+
+    if uuids:
+        try:
+            uuids = terms.descendant_uuids(uuids)
+        except Exception:
+            logger.debug("Theme descendant expansion unavailable; matched terms only.",
+                         exc_info=True)
 
     should: list[Any] = []
     if uuids:
