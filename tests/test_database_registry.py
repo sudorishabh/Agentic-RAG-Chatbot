@@ -53,9 +53,9 @@ def test_resolve_theme_prefers_term_uuids(monkeypatch):
     assert filters.resolve_theme("Climate") == {"term_uuids": ["u1"]}
 
 
-def test_resolve_theme_falls_back_to_category(monkeypatch):
+def test_resolve_theme_falls_back_to_theme_name(monkeypatch):
     monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
-    assert filters.resolve_theme("Nonexistent") == {"category": "Nonexistent"}
+    assert filters.resolve_theme("Nonexistent") == {"theme": "Nonexistent"}
 
 
 def test_resolve_theme_degrades_on_error(monkeypatch):
@@ -63,7 +63,7 @@ def test_resolve_theme_degrades_on_error(monkeypatch):
         raise RuntimeError("db down")
 
     monkeypatch.setattr("app.catalog.terms.resolve_terms", boom)
-    assert filters.resolve_theme("Climate") == {"category": "Climate"}
+    assert filters.resolve_theme("Climate") == {"theme": "Climate"}
 
 
 def test_resolve_filters_resolved_theme(monkeypatch):
@@ -92,13 +92,13 @@ def test_resolve_filters_resolved_theme(monkeypatch):
     assert scope.title_contains == "grid"  # passed separately by list/lookup
 
 
-def test_resolve_filters_unresolved_theme_uses_category(monkeypatch):
+def test_resolve_filters_unresolved_theme_uses_theme_name(monkeypatch):
     monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
     scope = filters.resolve_filters(db.RecordFilters(theme="Mystery"))
     assert scope.term_uuids is None
-    assert scope.category == "Mystery"
+    assert scope.theme == "Mystery"
     assert scope.theme_requested is True and scope.theme_resolved is False
-    assert scope.as_kwargs() == {"category": "Mystery"}
+    assert scope.as_kwargs() == {"theme": "Mystery"}
 
 
 def test_resolve_filters_empty_is_empty():

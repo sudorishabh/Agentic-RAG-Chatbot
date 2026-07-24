@@ -3,11 +3,15 @@ names (see app.catalog.schema).
 
     ingest_state            -> documents
     ingest_state_author     -> documents_author
-    ingest_state_category   -> documents_category
+    ingest_state_category   -> documents_theme
     ingest_state_term       -> documents_term
     ingest_state_attachment -> documents_attachment
     taxonomy_term           -> terms
     taxonomy_term_alias     -> term_aliases
+
+The theme facet was previously named ``category``; a deployment already on the
+simplified ``documents_category`` name is carried forward to ``documents_theme``
+by the extra pair below.
 
 Run once against a deployment that already has data, before/at the same
 deploy as the code change -- otherwise the old tables are left behind and
@@ -31,11 +35,14 @@ logger = logging.getLogger("rename_catalog_tables")
 _RENAMES: list[tuple[str, str]] = [
     ("ingest_state", "documents"),
     ("ingest_state_author", "documents_author"),
-    ("ingest_state_category", "documents_category"),
+    ("ingest_state_category", "documents_theme"),
     ("ingest_state_term", "documents_term"),
     ("ingest_state_attachment", "documents_attachment"),
     ("taxonomy_term", "terms"),
     ("taxonomy_term_alias", "term_aliases"),
+    # Theme facet renamed from ``category``: carry an already-simplified
+    # deployment forward to the final name.
+    ("documents_category", "documents_theme"),
 ]
 
 

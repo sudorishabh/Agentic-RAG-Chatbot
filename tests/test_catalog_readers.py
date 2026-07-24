@@ -86,14 +86,14 @@ def test_ids_in_scope_term_join_distinct_and_param_order(monkeypatch):
     assert params == ("website", "node", datetime(2024, 1, 1), "%Sharma%", "t1", "t2")
 
 
-def test_ids_in_scope_category_fallback_only_without_terms(monkeypatch):
+def test_ids_in_scope_theme_fallback_only_without_terms(monkeypatch):
     cursor = _FakeCursor(fetchall_results=[[]])
     _patch(monkeypatch, cursor)
 
-    catalog.document_ids_in_scope(term_uuids=["t1"], category="Climate")
+    catalog.document_ids_in_scope(term_uuids=["t1"], theme="Climate")
 
     sql, _ = cursor.calls[0]
-    assert "_term` dt" in sql and "_category`" not in sql  # uuids win
+    assert "_term` dt" in sql and "_theme`" not in sql  # uuids win
 
 
 def test_ids_in_scope_clamps_limit(monkeypatch):

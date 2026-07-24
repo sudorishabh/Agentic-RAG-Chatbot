@@ -49,9 +49,9 @@ def fetch_snapshot(document_id: str) -> CatalogSnapshot:
         )
     ]
     snap.categories = [
-        r["category"]
+        r["theme"]
         for r in _rows(
-            f"SELECT category FROM `{table}_category` WHERE document_id = %s ORDER BY category",
+            f"SELECT theme FROM `{table}_theme` WHERE document_id = %s ORDER BY theme",
             (document_id,),
         )
     ]
@@ -71,7 +71,7 @@ def fetch_snapshot(document_id: str) -> CatalogSnapshot:
 def catalog_tables() -> list[str]:
     """All catalog tables the ingestion run touches, parents first."""
     table = state_table()
-    children = [f"{table}_{suffix}" for suffix in ("author", "category", "term", "attachment")]
+    children = [f"{table}_{suffix}" for suffix in ("author", "theme", "term", "attachment")]
     return [table, *children, log_table()]
 
 

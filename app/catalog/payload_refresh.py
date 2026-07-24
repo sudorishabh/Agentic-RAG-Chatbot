@@ -2,7 +2,7 @@
 
 Correctness never depends on this module: filters and counts join on term
 UUIDs, which a rename does not touch. What goes stale are the display-name
-arrays (``categories``) baked into chunk payloads and the MySQL category
+arrays (``categories``) baked into chunk payloads and the MySQL theme
 facet at ingest time — this refreshes both for the affected documents, with
 no re-embedding or reindex.
 """
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 def refresh_renamed_term(term_uuid: str, old_name: str, new_name: str) -> int:
-    """Rewrite ``old_name`` -> ``new_name`` in the category facet and chunk
+    """Rewrite ``old_name`` -> ``new_name`` in the theme facet and chunk
     payloads of every document linked to the term; returns the number of
     documents touched."""
     document_ids = state.documents_for_term(term_uuid)
@@ -33,7 +33,7 @@ def refresh_renamed_term(term_uuid: str, old_name: str, new_name: str) -> int:
     collection_live = client.collection_exists(settings.qdrant_collection)
 
     for document_id in document_ids:
-        categories = state.rename_category_facet(document_id, old_name, new_name)
+        categories = state.rename_theme_facet(document_id, old_name, new_name)
         if not collection_live:
             continue
         client.set_payload(

@@ -179,7 +179,7 @@ def test_aggregate_records_table_and_dimension(monkeypatch):
     r = tools.aggregate_records(None, "theme", RecordFilters(), output_format="table")
     assert r.ok
     assert r.data["groups"] == [["Climate", 5], ["Energy", 3]]
-    assert seen["dimension"] == "category"  # theme -> category facet
+    assert seen["dimension"] == "theme"  # theme -> theme facet
     assert "| theme | count |" in r.rendered
 
 

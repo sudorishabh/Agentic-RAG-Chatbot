@@ -32,7 +32,7 @@ __all__ = [
     "delete",
     "backfill_facets",
     "documents_for_term",
-    "rename_category_facet",
+    "rename_theme_facet",
 ]
 
 
@@ -196,7 +196,7 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
             ),
         )
         _replace_facet(cur, table, "author", record.document_id, record.authors)
-        _replace_facet(cur, table, "category", record.document_id, record.categories)
+        _replace_facet(cur, table, "theme", record.document_id, record.categories)
         _replace_term_links(cur, table, record.document_id, record.term_links)
         _replace_attachment_links(cur, table, record.document_id, record.attachments)
         conn.commit()
@@ -240,7 +240,7 @@ def backfill_facets(
     title: str | None = None,
     url: str | None = None,
 ) -> bool:
-    """Set the date/author/category facets (and optionally title/url) for an
+    """Set the date/author/theme facets (and optionally title/url) for an
     already-cataloged document (e.g. one indexed before these columns existed).
     title/url only overwrite when a value is supplied (COALESCE), so rows already
     populated at ingest are left intact. Returns False when no catalog row exists
@@ -257,7 +257,7 @@ def backfill_facets(
             (_to_datetime(published_at), title, url, document_id),
         )
         _replace_facet(cur, table, "author", document_id, authors)
-        _replace_facet(cur, table, "category", document_id, categories)
+        _replace_facet(cur, table, "theme", document_id, categories)
         conn.commit()
     return True
 
@@ -273,18 +273,18 @@ def documents_for_term(term_uuid: str) -> list[str]:
         return [row["document_id"] for row in cur.fetchall()]
 
 
-def rename_category_facet(document_id: str, old: str, new: str) -> list[str]:
-    """Replace ``old`` with ``new`` in a document's category facet, collapsing
-    duplicates; returns the resulting category list (payload-refresh input)."""
+def rename_theme_facet(document_id: str, old: str, new: str) -> list[str]:
+    """Replace ``old`` with ``new`` in a document's theme facet, collapsing
+    duplicates; returns the resulting theme list (payload-refresh input)."""
     table = _table()
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(
-            f"SELECT category FROM `{table}_category` WHERE document_id = %s",
+            f"SELECT theme FROM `{table}_theme` WHERE document_id = %s",
             (document_id,),
         )
-        categories = [row["category"] for row in cur.fetchall()]
-        updated = list(dict.fromkeys(new if c == old else c for c in categories))
-        if updated != categories:
-            _replace_facet(cur, table, "category", document_id, updated)
+        themes = [row["theme"] for row in cur.fetchall()]
+        updated = list(dict.fromkeys(new if c == old else c for c in themes))
+        if updated != themes:
+            _replace_facet(cur, table, "theme", document_id, updated)
             conn.commit()
     return updated

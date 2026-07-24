@@ -1,4 +1,4 @@
-"""Taxonomy-term catalog: the entity tables behind theme/category facets.
+"""Taxonomy-term catalog: the entity tables behind theme facets.
 
 Terms are keyed by their Drupal UUID so document links survive renames: a
 rename updates one row here and archives the previous name as an alias, which

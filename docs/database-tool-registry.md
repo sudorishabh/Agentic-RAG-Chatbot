@@ -29,7 +29,7 @@ Catalog schema (all in `ingest_state*`, see [state.py](../app/ingestion/state.py
 |---|---|---|
 | `ingest_state` | one row per document | `document_id` (PK), `source_type`, `bundle`, `entity_type`, `published_at`, `title`, `url`, `raw_meta` |
 | `ingest_state_author` | doc × author | `document_id`, `author` |
-| `ingest_state_category` | doc × category | `document_id`, `category` |
+| `ingest_state_theme` | doc × theme | `document_id`, `theme` |
 | `ingest_state_term` | doc × taxonomy term | `document_id`, `term_uuid`, `role` |
 | `ingest_state_attachment` | doc × attached PDF | `file_uuid`, `document_id`, `origin`, `url` |
 | `taxonomy_term` / `taxonomy_term_alias` | term (rename-proof) | `term_uuid` (PK), `vocabulary`, `name`; aliases keep old names resolvable |
@@ -59,7 +59,7 @@ is a bundle filter, not a new table — so a tool per entity would be 16× redun
 | `rag._supplement_attachments` | `catalog.attachments_for` | website→PDF supplementation (vector path) |
 
 **Two business behaviors emerge** that a generic template would miss:
-1. **Rename-proof taxonomy scoping** — theme/category names must resolve through
+1. **Rename-proof taxonomy scoping** — theme names must resolve through
    `terms.resolve_terms` (UUIDs + archived aliases) before filtering, with a
    display-name fallback for pre-catalog documents.
 2. **Lookup→read chaining** — a title lookup that resolves to exactly one document
@@ -120,12 +120,12 @@ selects; the infrastructure is what every tool reuses.
 - **Reuses:** `terms.resolve_terms` (rename-proof), the date-bound and bundle-normalize
   helpers.
 - **Input:** `RecordFilters` (below). **Output:** backing kwargs for `state.*`
-  (`bundle`, `term_uuids` | `category`, `author`, `published_from/to`, `title_contains`).
+  (`bundle`, `term_uuids` | `theme`, `author`, `published_from/to`, `title_contains`).
 
 ```jsonc
 // RecordFilters — normalized, entity-agnostic (only the columns the catalog supports)
 {
-  "theme":  null,          // name -> resolved to term_uuids (alias-aware), else category fallback
+  "theme":  null,          // name -> resolved to term_uuids (alias-aware), else theme-name fallback
   "author": null,          // substring match on the author facet
   "title_contains": null,  // substring match on title
   "date_from": null,       // inclusive  ┐ half-open [from, to) on published_at
@@ -138,7 +138,7 @@ selects; the infrastructure is what every tool reuses.
 - **Why / problem:** "how many research papers in 2024", "how many news items on the
   Climate theme" — the single most common catalog question.
 - **Kind:** generic operation-level.
-- **Reuses:** `state.count_documents(source_type, bundle, entity_type='node', author, term_uuids|category, published_from, published_to)`.
+- **Reuses:** `state.count_documents(source_type, bundle, entity_type='node', author, term_uuids|theme, published_from, published_to)`.
 - **Input:** `{ entity: str, filters: RecordFilters }`.
 - **Output `ToolResult.data`:** `{ "count": int }`. Guardrail (preserved from
   `_answer_count`): an unknown bundle or an unresolvable theme returns `ok=false`
@@ -176,7 +176,7 @@ selects; the infrastructure is what every tool reuses.
 - **Why / problem:** "articles per theme", "how many of each content type", "count by
   year" — grouped breakdowns.
 - **Kind:** generic operation-level.
-- **Reuses:** `state.distribution(group_by, source_type, bundle, entity_type, published_from, published_to)`; `group_by ∈ {theme→category, content_type→bundle, author, year}`.
+- **Reuses:** `state.distribution(group_by, source_type, bundle, entity_type, published_from, published_to)`; `group_by ∈ {theme→theme, content_type→bundle, author, year}`.
 - **Input:** `{ entity: str | null, group_by: "theme"|"content_type"|"author"|"year", aggregation: "count" (default), filters }`.
 - **Output `ToolResult.data`:** `{ "groups": [[value, count], …] }` (largest first, ≤100).
 - **Note:** `aggregation` is `count` today (the only backing capability). Sum/avg over

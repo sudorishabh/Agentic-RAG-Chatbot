@@ -91,6 +91,20 @@
     "Generating your answer",
   ];
 
+  // Avatar shown to the left of every AI reply — a robot head on the brand
+  // gradient, the conventional mark for an AI-generated response.
+  const BOT_AVATAR =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<circle cx="12" cy="3.2" r="1"/>' +
+    '<path d="M12 4.2v2.3"/>' +
+    '<rect x="4.5" y="6.5" width="15" height="11.5" rx="3.2"/>' +
+    '<path d="M2.5 11.5v3"/>' +
+    '<path d="M21.5 11.5v3"/>' +
+    '<circle cx="9.3" cy="12.2" r="1.25" fill="currentColor" stroke="none"/>' +
+    '<circle cx="14.7" cy="12.2" r="1.25" fill="currentColor" stroke="none"/>' +
+    "</svg>";
+
   // Guard against double-injection.
   if (document.getElementById("teri-rag-widget")) return;
 
@@ -176,6 +190,13 @@
     hideWelcome();
     const wrap = document.createElement("div");
     wrap.className = "msg msg--" + role;
+    if (role === "bot") {
+      const avatar = document.createElement("div");
+      avatar.className = "msg__avatar";
+      avatar.setAttribute("aria-hidden", "true");
+      avatar.innerHTML = BOT_AVATAR;
+      wrap.appendChild(avatar);
+    }
     const bubble = document.createElement("div");
     bubble.className = "bubble";
     bubble.textContent = text;
@@ -556,10 +577,10 @@
     const section = document.createElement("div");
     section.className = "sources";
 
-    const title = document.createElement("div");
-    title.className = "sources__title";
-    title.textContent = "Sources";
-    section.appendChild(title);
+    // const title = document.createElement("div");
+    // title.className = "sources__title";
+    // title.textContent = "Sources";
+    // section.appendChild(title);
 
     renderSourceGroup(section, "Web pages", webPages);
     renderSourceGroup(section, "PDFs", pdfs);
@@ -963,10 +984,13 @@
     }
     :host(.expanded) .card { font-size: .9rem; padding: 16px; }
     :host(.expanded) .msg { max-width: 92%; }
+    :host(.expanded) .msg--bot { max-width: 100%; }
 
     .msg { display: flex; flex-direction: column; max-width: 96%; }
     .msg--user { align-self: flex-end; align-items: flex-end; }
-    .msg--bot { align-self: flex-start; align-items: flex-start; }
+    /* Bot replies span the full column width; the user bubble stays sized to
+       its content on the right. */
+    .msg--bot { align-self: stretch; max-width: 100%; flex-direction: row; align-items: flex-start; gap: 10px; }
     .bubble {
       padding: 9px 13px;
       border-radius: var(--radius);
@@ -974,7 +998,21 @@
       word-wrap: break-word;
     }
     .msg--user .bubble { background: var(--teri-user); color: #fff; border-bottom-right-radius: 4px; }
-    .msg--bot .bubble { background: transparent; border: none; padding: 9px 0; }
+    .msg--bot .bubble { flex: 1; background: transparent; border: none; padding: 3px 0; min-width: 0; }
+
+    /* AI avatar: a bare brand-green robot glyph (no disc), aligned to the first
+       line of the reply. */
+    .msg__avatar {
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      margin-top: 1px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teri-green);
+    }
+    .msg__avatar svg { width: 22px; height: 22px; }
     .bubble--pending { color: var(--teri-dim); }
     .msg--bot .bubble--error {
       color: var(--teri-bad);

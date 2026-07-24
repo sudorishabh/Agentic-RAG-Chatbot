@@ -94,7 +94,7 @@ Each entry declares:
 | `name` | canonical entity id (e.g. `news`) |
 | `aliases` | free-text synonyms → canonical (reuses today's `_BUNDLE_SYNONYMS`, `_normalize_bundle`) |
 | `backing` | the query binding — for bundles: `state.*` with `source_type="website"`, `entity_type="node"`, `bundle=name` |
-| `filter_map` | how normalized `RecordFilters` map to backing kwargs (theme→`term_uuids`/`category`, author, dates, `title_contains`) |
+| `filter_map` | how normalized `RecordFilters` map to backing kwargs (theme→`term_uuids`/`theme`, author, dates, `title_contains`) |
 | `labels` | singular/plural display forms (reuses today's `_BUNDLE_LABELS`) |
 | `authz` | optional per-entity ACL/tenant rule |
 

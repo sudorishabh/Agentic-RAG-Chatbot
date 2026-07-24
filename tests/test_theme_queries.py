@@ -89,7 +89,7 @@ def test_resolve_terms_blank_returns_empty(monkeypatch):
 
 
 # --------------------------------------------------------------------------- #
-# Catalog SQL — term/category scoping and distribution.
+# Catalog SQL — term/theme scoping and distribution.
 # --------------------------------------------------------------------------- #
 
 def test_count_by_term_uuids_joins_link_table(monkeypatch):
@@ -125,26 +125,26 @@ def test_distribution_scoped_to_entity_type(monkeypatch):
     assert "s.entity_type = %s" in sql and params == ("website", "node")
 
 
-def test_count_by_category_name_fallback(monkeypatch):
+def test_count_by_theme_name_fallback(monkeypatch):
     cursor = _FakeCursor(fetchone_results=[{"n": 3}])
     _patch(monkeypatch, state, cursor)
 
-    assert state.count_documents(source_type="website", category="Climate") == 3
+    assert state.count_documents(source_type="website", theme="Climate") == 3
     sql, params = cursor.calls[0]
-    assert "_category` c" in sql and "c.category LIKE %s" in sql
+    assert "_theme` c" in sql and "c.theme LIKE %s" in sql
     assert params == ("website", "%Climate%")
 
 
-def test_distribution_by_category(monkeypatch):
+def test_distribution_by_theme(monkeypatch):
     cursor = _FakeCursor(
         fetchall_results=[[{"k": "Climate", "n": 12}, {"k": "Energy", "n": 5}]]
     )
     _patch(monkeypatch, state, cursor)
 
-    rows = state.distribution("category")
+    rows = state.distribution("theme")
     assert rows == [("Climate", 12), ("Energy", 5)]
     sql, _ = cursor.calls[0]
-    assert "GROUP BY k ORDER BY n DESC" in sql and "_category` f" in sql
+    assert "GROUP BY k ORDER BY n DESC" in sql and "_theme` f" in sql
 
 
 def test_distribution_scoped_by_term_and_author(monkeypatch):

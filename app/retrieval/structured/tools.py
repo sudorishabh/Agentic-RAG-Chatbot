@@ -256,7 +256,7 @@ def resolve_lookup_chain(analysis: Any, question: str) -> str | None:
 
 # aggregate group_by -> (catalog dimension, display label).
 _GROUP_DIMENSIONS: dict[str, tuple[str, str]] = {
-    "theme": ("category", "theme"),
+    "theme": ("theme", "theme"),
     "content_type": ("bundle", "content type"),
     "author": ("author", "author"),
     "year": ("year", "year"),
@@ -273,7 +273,7 @@ def aggregate_records(
 ) -> ToolResult:
     """Grouped counts (per theme / content type / author / year). Only the
     'count' aggregation is backed today."""
-    dimension, label = _GROUP_DIMENSIONS.get(group_by or "theme", ("category", "theme"))
+    dimension, label = _GROUP_DIMENSIONS.get(group_by or "theme", ("theme", "theme"))
     ent = get_entity(entity) if entity else None
     if entity and ent is None:
         return ToolResult(tool="aggregate_records", entity=entity, ok=False,

@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `{table}` (
 
 # Multi-valued facets stored one row per (document, value) so they count exactly
 # via COUNT(DISTINCT document_id). Rows cascade-delete with their parent.
-STATE_FACETS: tuple[str, ...] = ("author", "category")
+STATE_FACETS: tuple[str, ...] = ("author", "theme")
 
 _STATE_CHILD_DDL = """
 CREATE TABLE IF NOT EXISTS `{table}_{facet}` (

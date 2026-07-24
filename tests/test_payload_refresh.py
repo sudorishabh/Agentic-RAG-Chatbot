@@ -1,6 +1,6 @@
 """Unit tests for the rename-driven payload display refresh.
 
-Covers the category-facet rewrite helper and the orchestration in
+Covers the theme-facet rewrite helper and the orchestration in
 ``refresh_renamed_term`` (MySQL facet + Qdrant set_payload per affected
 document, catalog-only when the collection is missing). Qdrant and the
 state helpers are stubbed; no datastores needed.
@@ -29,7 +29,7 @@ def _patch_state(monkeypatch, docs: list[str], facets: dict[str, list[str]]):
     )
     monkeypatch.setattr(
         payload_refresh.state,
-        "rename_category_facet",
+        "rename_theme_facet",
         lambda doc_id, old, new: facets[doc_id],
     )
 
@@ -72,7 +72,7 @@ def test_refresh_missing_collection_still_fixes_catalog(monkeypatch):
     monkeypatch.setattr(payload_refresh.state, "documents_for_term", lambda uuid: ["d1"])
     monkeypatch.setattr(
         payload_refresh.state,
-        "rename_category_facet",
+        "rename_theme_facet",
         lambda doc_id, old, new: touched.append(doc_id) or ["New"],
     )
 
@@ -82,7 +82,7 @@ def test_refresh_missing_collection_still_fixes_catalog(monkeypatch):
 
 
 # --------------------------------------------------------------------------- #
-# state.rename_category_facet — rewrite semantics over a fake connection.
+# state.rename_theme_facet — rewrite semantics over a fake connection.
 # --------------------------------------------------------------------------- #
 
 class _FakeCursor:
@@ -126,13 +126,13 @@ class _FakeConn:
         return False
 
 
-def test_rename_category_facet_replaces_and_dedupes(monkeypatch):
+def test_rename_theme_facet_replaces_and_dedupes(monkeypatch):
     # "Climate Action" already present alongside old "Climate": must collapse.
-    cursor = _FakeCursor(rows=[{"category": "Climate"}, {"category": "Climate Action"}])
+    cursor = _FakeCursor(rows=[{"theme": "Climate"}, {"theme": "Climate Action"}])
     conn = _FakeConn(cursor)
     monkeypatch.setattr(state, "mysql_connection", lambda: conn)
 
-    result = state.rename_category_facet("d1", "Climate", "Climate Action")
+    result = state.rename_theme_facet("d1", "Climate", "Climate Action")
 
     assert result == ["Climate Action"]
     inserts = [c for c in cursor.calls if isinstance(c[1], list)]
@@ -140,10 +140,10 @@ def test_rename_category_facet_replaces_and_dedupes(monkeypatch):
     assert conn.commits == 1
 
 
-def test_rename_category_facet_untouched_document_writes_nothing(monkeypatch):
-    cursor = _FakeCursor(rows=[{"category": "Energy"}])
+def test_rename_theme_facet_untouched_document_writes_nothing(monkeypatch):
+    cursor = _FakeCursor(rows=[{"theme": "Energy"}])
     conn = _FakeConn(cursor)
     monkeypatch.setattr(state, "mysql_connection", lambda: conn)
 
-    assert state.rename_category_facet("d1", "Climate", "Climate Action") == ["Energy"]
+    assert state.rename_theme_facet("d1", "Climate", "Climate Action") == ["Energy"]
     assert conn.commits == 0  # read-only when the term name isn't present

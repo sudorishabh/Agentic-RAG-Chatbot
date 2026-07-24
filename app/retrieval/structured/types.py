@@ -14,7 +14,7 @@ from typing import Any, Literal
 ToolName = Literal["count_records", "list_records", "lookup_record", "aggregate_records"]
 
 # Grouping dimensions for aggregate_records (mapped to catalog columns/facets by
-# the tool: theme->category, content_type->bundle, author, year).
+# the tool: theme->theme, content_type->bundle, author, year).
 GroupBy = Literal["theme", "content_type", "author", "year"]
 
 

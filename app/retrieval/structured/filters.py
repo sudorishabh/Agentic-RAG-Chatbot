@@ -4,7 +4,7 @@ Holds the application's structured-scope business rules in one place (previously
 duplicated across state, catalog, the structured answerer, and query_processor):
 
 - theme names resolve to taxonomy term UUIDs (rename-proof, alias-aware via
-  terms.resolve_terms), with a display-name category fallback for documents
+  terms.resolve_terms), with a display-name theme fallback for documents
   ingested before the term catalog;
 - dates are a half-open [from, to) interval;
 - resolution failures degrade rather than raise.
@@ -36,7 +36,7 @@ def _parse_date(value: str | None) -> datetime | None:
 
 def resolve_theme(theme: str | None) -> dict[str, Any]:
     """Theme scope: term UUIDs when the taxonomy resolves the name (rename/
-    alias-proof), else the display-name category fallback. Resolution failure
+    alias-proof), else the display-name theme fallback. Resolution failure
     degrades to the name fallback rather than raising."""
     if not theme:
         return {}
@@ -49,7 +49,7 @@ def resolve_theme(theme: str | None) -> dict[str, Any]:
         rows = []
     if rows:
         return {"term_uuids": [row["term_uuid"] for row in rows]}
-    return {"category": theme}
+    return {"theme": theme}
 
 
 @dataclass
@@ -65,7 +65,7 @@ class ResolvedScope:
     author: str | None = None
     title_contains: str | None = None
     term_uuids: list[str] | None = None
-    category: str | None = None
+    theme: str | None = None
     published_from: datetime | None = None
     published_to: datetime | None = None
     theme_requested: bool = False
@@ -85,8 +85,8 @@ class ResolvedScope:
         }
         if self.term_uuids:
             kwargs["term_uuids"] = self.term_uuids
-        elif self.category:
-            kwargs["category"] = self.category
+        elif self.theme:
+            kwargs["theme"] = self.theme
         return {key: value for key, value in kwargs.items() if value is not None}
 
 
@@ -98,7 +98,7 @@ def resolve_filters(filters: RecordFilters) -> ResolvedScope:
         author=filters.author or None,
         title_contains=filters.title_contains or None,
         term_uuids=theme.get("term_uuids"),
-        category=theme.get("category"),
+        theme=theme.get("theme"),
         published_from=_parse_date(filters.date_from),
         published_to=_parse_date(filters.date_to),
         theme_requested=bool(filters.theme),

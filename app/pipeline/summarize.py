@@ -103,19 +103,19 @@ def _scope_filters(analysis: QueryAnalysis) -> dict[str, Any] | None:
     """Catalog kwargs for the analysis' scope; None when nothing scopes the
     set — a scope-less "summarize" belongs on the QA path. Unknown bundles are
     dropped rather than zeroing the set (a summary scope is soft, unlike the
-    count guard); themes fall back to the category display name."""
+    count guard); themes fall back to the theme display name."""
     filters: dict[str, Any] = {}
     if analysis.theme:
         try:
             rows = terms.resolve_terms(analysis.theme)
         except Exception:
-            logger.warning("Theme resolution failed; using category fallback.",
+            logger.warning("Theme resolution failed; using theme-name fallback.",
                            exc_info=True)
             rows = []
         if rows:
             filters["term_uuids"] = [r["term_uuid"] for r in rows]
         else:
-            filters["category"] = analysis.theme
+            filters["theme"] = analysis.theme
     bundle = normalize_entity(analysis.bundle)
     if bundle in DEFAULT_BUNDLES:
         filters["bundle"] = bundle

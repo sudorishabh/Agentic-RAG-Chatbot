@@ -42,7 +42,7 @@ def _catalog_filters(
     title_contains: str | None = None,
     author: str | None = None,
     term_uuids: Sequence[str] | None = None,
-    category: str | None = None,
+    theme: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
 ) -> tuple[str, list[str], list[Any], bool]:
@@ -50,7 +50,7 @@ def _catalog_filters(
 
     ``entity_type`` scopes to one Drupal entity kind — the query layer passes
     "node" so taxonomy-term and block rows never count as content documents.
-    ``term_uuids`` scopes by taxonomy links (rename-proof); ``category`` is the
+    ``term_uuids`` scopes by taxonomy links (rename-proof); ``theme`` is the
     display-name fallback for documents ingested before the term catalog.
     Returns (joins, clauses, params, needs_distinct)."""
     table = _table()
@@ -87,10 +87,10 @@ def _catalog_filters(
         clauses.append(f"dt.term_uuid IN ({placeholders})")
         params.extend(term_uuids)
         distinct = True
-    elif category:
-        joins.append(f" JOIN `{table}_category` c ON c.document_id = s.document_id")
-        clauses.append("c.category LIKE %s")
-        params.append(_like(category))
+    elif theme:
+        joins.append(f" JOIN `{table}_theme` c ON c.document_id = s.document_id")
+        clauses.append("c.theme LIKE %s")
+        params.append(_like(theme))
         distinct = True
     return "".join(joins), clauses, params, distinct
 
@@ -102,19 +102,19 @@ def count_documents(
     entity_type: str | None = None,
     author: str | None = None,
     term_uuids: Sequence[str] | None = None,
-    category: str | None = None,
+    theme: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
 ) -> int:
     """Count catalog documents (not chunks) matching the given filters.
 
-    ``author``/``category`` match substrings against their facets; ``term_uuids``
-    scopes by taxonomy links and wins over ``category``. Date bounds are a
+    ``author``/``theme`` match substrings against their facets; ``term_uuids``
+    scopes by taxonomy links and wins over ``theme``. Date bounds are a
     half-open ``[from, to)`` interval over ``published_at``."""
     table = _table()
     joins, clauses, params, distinct = _catalog_filters(
         source_type, bundle, entity_type=entity_type,
-        author=author, term_uuids=term_uuids, category=category,
+        author=author, term_uuids=term_uuids, theme=theme,
         published_from=published_from, published_to=published_to,
     )
     count_expr = "COUNT(DISTINCT s.document_id)" if distinct else "COUNT(*)"
@@ -134,7 +134,7 @@ def list_documents(
     title_contains: str | None = None,
     author: str | None = None,
     term_uuids: Sequence[str] | None = None,
-    category: str | None = None,
+    theme: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
     limit: int = 10,
@@ -148,7 +148,7 @@ def list_documents(
     joins, clauses, params, needs_distinct = _catalog_filters(
         source_type, bundle, entity_type=entity_type,
         title_contains=title_contains, author=author,
-        term_uuids=term_uuids, category=category,
+        term_uuids=term_uuids, theme=theme,
         published_from=published_from, published_to=published_to,
     )
     distinct = "DISTINCT " if needs_distinct else ""
@@ -163,10 +163,10 @@ def list_documents(
         return [_row_to_record(row) for row in cur.fetchall()]
 
 
-# Dimensions the distribution query can group by. "category" and "author" use
-# the facet tables (the rename refresh keeps category values canonical);
+# Dimensions the distribution query can group by. "theme" and "author" use
+# the facet tables (the rename refresh keeps theme values canonical);
 # "bundle" and "year" come off the document row itself.
-_DISTRIBUTION_DIMENSIONS = ("bundle", "author", "category", "year")
+_DISTRIBUTION_DIMENSIONS = ("bundle", "author", "theme", "year")
 
 
 def distribution(
@@ -177,7 +177,7 @@ def distribution(
     entity_type: str | None = None,
     author: str | None = None,
     term_uuids: Sequence[str] | None = None,
-    category: str | None = None,
+    theme: str | None = None,
     title_contains: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
@@ -196,7 +196,7 @@ def distribution(
     scope_joins, clauses, params, scoped = _catalog_filters(
         source_type, bundle, entity_type=entity_type,
         title_contains=title_contains, author=author,
-        term_uuids=term_uuids, category=category,
+        term_uuids=term_uuids, theme=theme,
         published_from=published_from, published_to=published_to,
     )
 
@@ -241,7 +241,7 @@ def document_ids_in_scope(
     *,
     bundle: str | None = None,
     term_uuids: Sequence[str] | None = None,
-    category: str | None = None,
+    theme: str | None = None,
     author: str | None = None,
     title_contains: str | None = None,
     published_from: datetime | None = None,
@@ -252,7 +252,7 @@ def document_ids_in_scope(
 
     The id-set selection behind catalog-scoped retrieval: MySQL decides set
     membership, Qdrant ranks content within it. ``term_uuids`` wins over the
-    ``category`` display-name fallback. ``limit`` clamps to [1, 300] — honest
+    ``theme`` display-name fallback. ``limit`` clamps to [1, 300] — honest
     truncation beats an unbounded MatchAny downstream.
     """
     table = _table()
@@ -283,10 +283,10 @@ def document_ids_in_scope(
         clauses.append(f"dt.term_uuid IN ({placeholders})")
         params.extend(term_uuids)
         distinct = True
-    elif category:
-        joins.append(f" JOIN `{table}_category` c ON c.document_id = s.document_id")
-        clauses.append("c.category LIKE %s")
-        params.append(_like(category))
+    elif theme:
+        joins.append(f" JOIN `{table}_theme` c ON c.document_id = s.document_id")
+        clauses.append("c.theme LIKE %s")
+        params.append(_like(theme))
         distinct = True
 
     # published_at is selected alongside the id: MySQL rejects DISTINCT with

@@ -42,10 +42,10 @@ def test_scope_filters_theme_resolves_to_term_uuids(monkeypatch):
     assert filters == {"term_uuids": ["t1"]}
 
 
-def test_scope_filters_theme_falls_back_to_category(monkeypatch):
+def test_scope_filters_theme_falls_back_to_theme_name(monkeypatch):
     monkeypatch.setattr(sm.terms, "resolve_terms", lambda name: [])
     filters = sm._scope_filters(_analysis(theme="Oceans"))
-    assert filters == {"category": "Oceans"}
+    assert filters == {"theme": "Oceans"}
 
 
 def test_scope_filters_unknown_bundle_dropped_dates_kept(monkeypatch):

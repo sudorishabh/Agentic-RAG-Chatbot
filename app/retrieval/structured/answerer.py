@@ -43,7 +43,7 @@ _PARSE_SYSTEM = (
     + ", ".join(DEFAULT_BUNDLES) +
     ". Leave it null for a generic collective word ('publications', 'works', "
     "'output', 'everything') so a count/list spans ALL content types; else null.\n"
-    "- theme: the thematic area / topic / category name if the request is scoped "
+    "- theme: the thematic area / topic / theme name if the request is scoped "
     "to one (e.g. 'under the Climate theme', 'in the Energy area'); else null.\n"
     "- group_by: for 'distribution' only — the dimension to break down by: "
     "'theme', 'content_type', 'author', or 'year'; else null.\n"
