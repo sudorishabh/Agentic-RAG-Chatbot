@@ -75,7 +75,7 @@ conflict flagging).
 - `ingest_state`: document_id PK, source_type (`website`/`pdf`/`pdf_attachment`),
   bundle, entity_type (`node`/`taxonomy_term`/`block_content`), published_at,
   title, url, raw_meta JSON.
-- `ingest_state_author`, `ingest_state_category`: (document_id, value) facet rows.
+- `ingest_state_author`, `ingest_state_theme`: (document_id, value) facet rows.
 - `ingest_state_term`: (document_id, term_uuid, role).
 - `ingest_state_attachment`: (file_uuid, document_id, origin, url, filename).
 - `taxonomy_term` (term_uuid PK, vocabulary, name, parent_uuid) +

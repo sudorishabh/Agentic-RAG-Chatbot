@@ -22,7 +22,7 @@ class CatalogSnapshot:
     document_id: str
     state_row: dict[str, Any] | None = None
     authors: list[str] = field(default_factory=list)
-    categories: list[str] = field(default_factory=list)
+    themes: list[str] = field(default_factory=list)
     term_links: list[dict[str, Any]] = field(default_factory=list)
     attachments: list[dict[str, Any]] = field(default_factory=list)
     log_rows: list[dict[str, Any]] = field(default_factory=list)
@@ -48,7 +48,7 @@ def fetch_snapshot(document_id: str) -> CatalogSnapshot:
             (document_id,),
         )
     ]
-    snap.categories = [
+    snap.themes = [
         r["theme"]
         for r in _rows(
             f"SELECT theme FROM `{table}_theme` WHERE document_id = %s ORDER BY theme",

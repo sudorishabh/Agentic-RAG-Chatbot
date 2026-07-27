@@ -10,6 +10,11 @@ Table names were simplified from their legacy ``ingest_state*`` /
 deployment with existing data must run ``scripts.rename_catalog_tables`` once
 before/at deploy so the old tables become the new ones instead of being
 recreated empty.
+
+The theme facet was likewise renamed from ``category``. That one is handled here
+rather than by the script, in ``migrate_renamed_facets``, because it also has to
+rename the child table's *value column* and must work for whatever
+``ingest_state_table`` prefix the process is configured with.
 """
 from __future__ import annotations
 
@@ -43,8 +48,16 @@ CREATE TABLE IF NOT EXISTS `{table}` (
 """
 
 # Multi-valued facets stored one row per (document, value) so they count exactly
-# via COUNT(DISTINCT document_id). Rows cascade-delete with their parent.
+# via COUNT(DISTINCT document_id). Rows cascade-delete with their parent. The
+# facet name doubles as the child table's suffix and its value column.
 STATE_FACETS: tuple[str, ...] = ("author", "theme")
+
+# Facets renamed after deployments already had data. Because the facet name is
+# both the table suffix and the column name, both have to be carried forward --
+# and scripts.rename_catalog_tables only ever renamed tables, so a deployment
+# can sit on `documents_theme` while its value column is still `category`.
+# {current facet: previous facet}
+_RENAMED_FACETS: dict[str, str] = {"theme": "category"}
 
 _STATE_CHILD_DDL = """
 CREATE TABLE IF NOT EXISTS `{table}_{facet}` (
@@ -88,16 +101,70 @@ CREATE TABLE IF NOT EXISTS `{table}_attachment` (
 """
 
 
-def _ensure_column(cur: Any, table: str, column: str, ddl: str) -> None:
-    """Add a column to an existing table only if it is missing (idempotent
-    migration for deployments created before the column existed)."""
+def _table_exists(cur: Any, table: str) -> bool:
+    cur.execute(
+        "SELECT 1 FROM information_schema.TABLES "
+        "WHERE table_schema = DATABASE() AND table_name = %s",
+        (table,),
+    )
+    return cur.fetchone() is not None
+
+
+def _column_exists(cur: Any, table: str, column: str) -> bool:
     cur.execute(
         "SELECT 1 FROM information_schema.COLUMNS "
         "WHERE table_schema = DATABASE() AND table_name = %s AND column_name = %s",
         (table, column),
     )
-    if not cur.fetchone():
+    return cur.fetchone() is not None
+
+
+def _ensure_column(cur: Any, table: str, column: str, ddl: str) -> None:
+    """Add a column to an existing table only if it is missing (idempotent
+    migration for deployments created before the column existed)."""
+    if not _column_exists(cur, table, column):
         cur.execute(f"ALTER TABLE `{table}` ADD COLUMN {ddl}")
+
+
+def migrate_renamed_facets(cur: Any, table: str, *, dry_run: bool = False) -> list[str]:
+    """Carry a renamed facet's child table *and* value column forward.
+
+    Two independent steps, because a deployment can be part-way through: the
+    table rename (``documents_category`` -> ``documents_theme``) may already have
+    been done by ``scripts.rename_catalog_tables``, which leaves the value column
+    named after the old facet. Renaming in place preserves the existing rows --
+    the child DDL below cannot, since ``CREATE TABLE IF NOT EXISTS`` silently
+    no-ops against the old table.
+
+    Must run *before* the facet DDL: creating the new facet's table first would
+    shadow the still-populated old one with an empty table.
+
+    Idempotent -- each step only fires while the old name is the one present.
+    Returns the statements applied (or, under ``dry_run``, the ones that would be).
+    """
+    applied: list[str] = []
+    for facet, old in _RENAMED_FACETS.items():
+        old_table, new_table = f"{table}_{old}", f"{table}_{facet}"
+        # The table still holding the rows: under dry_run nothing moves, so a
+        # pending table rename means the column lives on the old table.
+        holder = new_table
+        if _table_exists(cur, old_table) and not _table_exists(cur, new_table):
+            stmt = f"RENAME TABLE `{old_table}` TO `{new_table}`"
+            applied.append(stmt)
+            if dry_run:
+                holder = old_table
+            else:
+                cur.execute(stmt)
+        if (
+            _table_exists(cur, holder)
+            and _column_exists(cur, holder, old)
+            and not _column_exists(cur, holder, facet)
+        ):
+            stmt = f"ALTER TABLE `{new_table}` RENAME COLUMN `{old}` TO `{facet}`"
+            applied.append(stmt)
+            if not dry_run:
+                cur.execute(stmt)
+    return applied
 
 
 def ensure_state_table() -> None:
@@ -111,6 +178,7 @@ def ensure_state_table() -> None:
         _ensure_column(cur, table, "url", "url VARCHAR(1024) NULL")
         _ensure_column(cur, table, "raw_meta", "raw_meta JSON NULL")
         _ensure_column(cur, table, "entity_type", "entity_type VARCHAR(32) NULL")
+        migrate_renamed_facets(cur, table)
         for facet in STATE_FACETS:
             cur.execute(_STATE_CHILD_DDL.format(table=table, facet=facet))
         cur.execute(_STATE_TERM_LINK_DDL.format(table=table))

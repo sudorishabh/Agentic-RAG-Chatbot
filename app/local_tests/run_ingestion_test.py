@@ -237,7 +237,7 @@ def _verify(cap: DocCapture, snap: Any, checks: rep.Checks) -> None:
     checks.add("title stored", (row["title"] or None) == doc.title)
     checks.add("url stored", (row["url"] or None) == doc.source_url)
     checks.add("author facets match", set(snap.authors) == set(doc.authors))
-    checks.add("category facets match", set(snap.categories) == set(doc.categories))
+    checks.add("theme facets match", set(snap.themes) == set(doc.categories))
     expected_terms = {r.uuid for r in doc.entity_refs if r.vocabulary}
     checks.add(
         "term links match", {t["term_uuid"] for t in snap.term_links} == expected_terms

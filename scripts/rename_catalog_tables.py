@@ -11,7 +11,11 @@ names (see app.catalog.schema).
 
 The theme facet was previously named ``category``; a deployment already on the
 simplified ``documents_category`` name is carried forward to ``documents_theme``
-by the extra pair below.
+by the extra pair below. Renaming that table is not enough on its own -- the
+facet's *value column* is named after the facet too -- so this script also runs
+``schema.migrate_renamed_facets``, which renames ``category`` -> ``theme`` in
+place. Without it the table arrives under the new name still holding a
+``category`` column and every theme query fails on the missing column.
 
 Run once against a deployment that already has data, before/at the same
 deploy as the code change -- otherwise the old tables are left behind and
@@ -55,25 +59,36 @@ def _existing_tables(cur) -> set[str]:
 
 
 def rename_tables(dry_run: bool) -> int:
+    from app.catalog.db import state_table
+    from app.catalog.schema import migrate_renamed_facets
     from app.core.clients import mysql_connection
 
+    verb = "would rename" if dry_run else "renaming"
     with mysql_connection() as conn, conn.cursor() as cur:
         existing = _existing_tables(cur)
         pending = [
             (old, new) for old, new in _RENAMES
             if old in existing and new not in existing
         ]
-        if not pending:
+        for old, new in pending:
+            print(f"  {verb} {old} -> {new}")
+        if pending and not dry_run:
+            clause = ", ".join(f"`{old}` TO `{new}`" for old, new in pending)
+            cur.execute(f"RENAME TABLE {clause}")
+
+        # Finish the theme facet: the pairs above move the table, this renames
+        # the value column still called `category` inside it.
+        facet_stmts = migrate_renamed_facets(cur, state_table(), dry_run=dry_run)
+        for stmt in facet_stmts:
+            print(f"  {verb} facet column: {stmt}")
+
+        if not pending and not facet_stmts:
             print("Nothing to rename (already renamed, or a fresh install).")
             return 0
-        for old, new in pending:
-            print(f"  {'would rename' if dry_run else 'renaming'} {old} -> {new}")
         if dry_run:
             return 0
-        clause = ", ".join(f"`{old}` TO `{new}`" for old, new in pending)
-        cur.execute(f"RENAME TABLE {clause}")
         conn.commit()
-    logger.info("Renamed: %s", pending)
+    logger.info("Renamed tables: %s; facet columns: %s", pending, facet_stmts)
     return 0
 
 

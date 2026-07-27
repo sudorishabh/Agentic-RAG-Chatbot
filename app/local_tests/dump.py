@@ -119,7 +119,7 @@ def _mysql(data: dict[str, Any]) -> None:
     rep.emit("  state row:")
     _json(data["state_row"], indent=4)
     rep.kv("author facet rows", data["author_rows"])
-    rep.kv("category facet rows", data["category_rows"])
+    rep.kv("theme facet rows", data["theme_rows"])
     rep.emit("  term_link rows:")
     _json(data["term_link_rows"], indent=4)
     rep.emit("  attachment rows:")

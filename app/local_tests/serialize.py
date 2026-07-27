@@ -164,7 +164,7 @@ def snapshot_to_dict(snap: Any) -> dict[str, Any]:
     return {
         "state_row": row,
         "author_rows": list(snap.authors),
-        "category_rows": list(snap.categories),
+        "theme_rows": list(snap.themes),
         "term_link_rows": snap.term_links,
         "attachment_rows": snap.attachments,
         "ingest_log_rows": snap.log_rows,

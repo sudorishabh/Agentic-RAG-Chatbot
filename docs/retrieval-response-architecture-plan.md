@@ -16,7 +16,7 @@ Retrieval design must exploit exactly what is stored. Verified from
 | Table | Contents | Retrieval use |
 | --- | --- | --- |
 | `ingest_state` | One row per document: `document_id`, `source_type` (`website` / `pdf` / `pdf_attachment`), `bundle` (Drupal content type), `entity_type` (`node` / `taxonomy_term` / `block_content`), `published_at`, `title`, `url`, `raw_meta` JSON | Counts, lists, date filters, title lookups |
-| `ingest_state_author` / `_category` | One row per (document, value) facet | Exact author/theme counts via `COUNT(DISTINCT document_id)` |
+| `ingest_state_author` / `_theme` | One row per (document, value) facet | Exact author/theme counts via `COUNT(DISTINCT document_id)` |
 | `ingest_state_term` | (document_id, term_uuid, role) — rename-proof taxonomy links | Theme/tag scoping by UUID |
 | `ingest_state_attachment` | (file_uuid, document_id, origin, url, filename) — node ↔ attached-PDF links | Website→PDF supplementation joins |
 | `taxonomy_term` / `taxonomy_term_alias` | Term UUID → vocabulary, name, parent; old names archived on rename | Resolving user phrasing ("Climate", old names) to UUIDs; theme hierarchy |

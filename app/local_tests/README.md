@@ -25,7 +25,7 @@ The real per-document ingestion path (`app/ingestion/pipeline.py`):
 4. **Chunking** — parent/child chunks, token stats, the exact payload a chunk
    is indexed with
 5. **Indexing** — embeddings + Qdrant upsert (or stubbed, see `--skip-index`)
-6. **MySQL catalog** — state row, author/category facet rows, term/attachment
+6. **MySQL catalog** — state row, author/theme facet rows, term/attachment
    links, ingest-log rows, each verified against the canonical data
 
 ## Output files
@@ -56,7 +56,7 @@ Each per-document dump contains, in full and untruncated:
   and every section's full text
 - **Chunking** — every parent and child chunk: full text, all fields, and the
   exact payload upserted to Qdrant
-- **MySQL catalog** — the state row, author/category facet rows, term-link rows,
+- **MySQL catalog** — the state row, author/theme facet rows, term-link rows,
   attachment rows, and ingest-log rows, all read back from the database
 - **Checks** — `[PASS]/[FAIL]` per assertion
 
@@ -65,7 +65,7 @@ Each per-document dump contains, in full and untruncated:
 Writes never touch the real catalog. Before app settings load, the runner
 overrides the environment so everything lands in:
 
-- MySQL: `local_test_ingest_state` (+ `_author`, `_category`, `_term`,
+- MySQL: `local_test_ingest_state` (+ `_author`, `_theme`, `_term`,
   `_attachment`) and `local_test_ingest_log`
 - Qdrant: `local_test_documents`
 
