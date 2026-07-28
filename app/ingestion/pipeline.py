@@ -119,6 +119,27 @@ def _sync_term(record: ChangeRecord, doc: CanonicalDocument) -> None:
             )
 
 
+def _persist(
+    record: ChangeRecord,
+    doc: CanonicalDocument,
+    content_hash: str,
+    version: int,
+    *,
+    indexed: bool,
+) -> None:
+    """Persist the content record first, then the theme/term data derived from it.
+
+    The document row is the primary fact — and the FK target every facet and link
+    row hangs off — so it is written and committed before anything theme-related
+    happens. ``_save_state`` covers the first half (the document row precedes its
+    theme/author/link rows inside one transaction); mirroring a taxonomy-term
+    record into the term catalog follows, so a term-catalog or payload-refresh
+    problem can no longer leave the content itself unsaved.
+    """
+    _save_state(record, doc, content_hash, version, indexed=indexed)
+    _sync_term(record, doc)
+
+
 def _log(
     run_id: str | None,
     record: ChangeRecord,
@@ -183,11 +204,10 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
         _log(run_id, record, "skipped")
         return "skipped"
 
-    _sync_term(record, doc)
     content_hash = doc.ensure_content_hash()
     if not cd.content_changed(record, content_hash):
         version = prior_version or 1
-        _save_state(record, doc, content_hash, version, indexed=False)
+        _persist(record, doc, content_hash, version, indexed=False)
         logger.info("Unchanged content for %s; fingerprint refreshed.", record.document_id)
         _log(run_id, record, "unchanged_content", doc=doc, version=version)
         return "unchanged_content"
@@ -202,7 +222,7 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
         new_chunks = chunk_canonical(doc)
     chunks = index_chunks(new_chunks)
     delete_document(record.document_id, keep_ids=[c.chunk_id for c in new_chunks])
-    _save_state(record, doc, content_hash, version, indexed=True)
+    _persist(record, doc, content_hash, version, indexed=True)
     logger.info(
         "%s %s -> v%d", record.status.value, record.document_id, version
     )

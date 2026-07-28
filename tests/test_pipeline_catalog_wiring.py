@@ -11,7 +11,7 @@ from __future__ import annotations
 from app.core.models import CanonicalDocument, EntityRef, FileLink
 from app.ingestion import pipeline
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus, _parse_bundle_spec
-from app.catalog.models import AttachmentLink, TermLink
+from app.catalog.models import AttachmentLink, StateRecord, TermLink
 
 
 def test_parse_bundle_spec():
@@ -149,6 +149,65 @@ def test_sync_term_ignores_non_taxonomy_records(monkeypatch):
     )
     pipeline._sync_term(_record(entity_type="node"), _doc())
     pipeline._sync_term(_record(entity_type=None), _doc())
+
+
+# --------------------------------------------------------------------------- #
+# _handle — the content record is persisted before any theme/term data.
+# --------------------------------------------------------------------------- #
+
+def _patch_persist_order(monkeypatch, order: list[str]):
+    monkeypatch.setattr(
+        pipeline, "_save_state", lambda *a, **k: order.append("save_state")
+    )
+    monkeypatch.setattr(pipeline, "_sync_term", lambda *a, **k: order.append("sync_term"))
+    monkeypatch.setattr(pipeline, "_log", lambda *a, **k: None)
+
+
+def test_handle_saves_content_before_syncing_the_term(monkeypatch):
+    """_sync_term used to run before the document was stored, so a term-catalog
+    or payload-refresh failure could abandon content that had been extracted."""
+    order: list[str] = []
+    _patch_persist_order(monkeypatch, order)
+    monkeypatch.setattr(pipeline, "chunk_canonical", lambda doc: [])
+    monkeypatch.setattr(pipeline, "index_chunks", lambda chunks: 0)
+    monkeypatch.setattr(pipeline, "delete_document", lambda doc_id, keep_ids=None: None)
+
+    record = _record(document_id="t-air", bundle="themes", entity_type="taxonomy_term")
+    doc = _doc(document_id="t-air", title="Air")
+
+    assert pipeline._handle(record, build_doc=lambda r: doc) == "indexed"
+    assert order == ["save_state", "sync_term"]
+
+
+def test_handle_unchanged_content_keeps_the_same_order(monkeypatch):
+    """The fingerprint-refresh path returns early, so it needs the ordering in
+    its own right — it is the branch a re-crawl takes most often."""
+    order: list[str] = []
+    _patch_persist_order(monkeypatch, order)
+
+    doc = _doc(document_id="t-air", title="Air")
+    prior = StateRecord(
+        document_id="t-air",
+        source_type="website",
+        source_key="https://example.org/themes/air",
+        fingerprint="2024-01-01",
+        content_hash=doc.ensure_content_hash(),  # unchanged content
+        doc_version=3,
+    )
+    record = _record(
+        document_id="t-air", bundle="themes", entity_type="taxonomy_term", prior=prior
+    )
+
+    assert pipeline._handle(record, build_doc=lambda r: doc) == "unchanged_content"
+    assert order == ["save_state", "sync_term"]
+
+
+def test_handle_skips_both_when_no_document_is_built(monkeypatch):
+    order: list[str] = []
+    _patch_persist_order(monkeypatch, order)
+
+    assert pipeline._handle(_record(), build_doc=lambda r: None) == "skipped"
+    assert order == []
 
 
 # --------------------------------------------------------------------------- #
