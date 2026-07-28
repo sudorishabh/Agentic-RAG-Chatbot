@@ -136,7 +136,9 @@ def test_rename_theme_facet_replaces_and_dedupes(monkeypatch):
 
     assert result == ["Climate Action"]
     inserts = [c for c in cursor.calls if isinstance(c[1], list)]
-    assert inserts and inserts[0][1] == [("d1", "Climate Action")]
+    # Rewritten through the theme classifier: "Climate Action" is not in the
+    # theme map, so it lands as an unparented sub-theme.
+    assert inserts and inserts[0][1] == [("d1", "Climate Action", "sub", None)]
     assert conn.commits == 1
 
 

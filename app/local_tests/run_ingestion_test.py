@@ -208,6 +208,8 @@ def _process(
 # function below only asserts that what MySQL stored matches the canonical doc.
 
 def _verify(cap: DocCapture, snap: Any, checks: rep.Checks) -> None:
+    from app.catalog import theme_taxonomy
+
     rep.section("Checks")
     rec, doc, row = cap.record, cap.doc, snap.state_row
 
@@ -237,7 +239,15 @@ def _verify(cap: DocCapture, snap: Any, checks: rep.Checks) -> None:
     checks.add("title stored", (row["title"] or None) == doc.title)
     checks.add("url stored", (row["url"] or None) == doc.source_url)
     checks.add("author facets match", set(snap.authors) == set(doc.authors))
-    checks.add("theme facets match", set(snap.themes) == set(doc.categories))
+    # The theme rows are the document's categories *classified* — buckets and
+    # blanks drop out, so compare against the classification, not the raw list.
+    expected_themes = theme_taxonomy.classify(doc.categories)
+    checks.add("theme facets match", set(snap.themes) == {a.name for a in expected_themes})
+    checks.add(
+        "theme hierarchy matches",
+        {(r["theme"], r["theme_type"], r["parent"]) for r in snap.theme_rows}
+        == {(a.name, a.theme_type, a.parent) for a in expected_themes},
+    )
     expected_terms = {r.uuid for r in doc.entity_refs if r.vocabulary}
     checks.add(
         "term links match", {t["term_uuid"] for t in snap.term_links} == expected_terms

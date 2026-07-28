@@ -12,7 +12,7 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Iterable
 
-from app.catalog import schema
+from app.catalog import schema, theme_taxonomy
 from app.catalog.db import now as _now
 from app.catalog.db import state_table as _table
 from app.catalog.models import AttachmentLink, StateRecord, TermLink
@@ -33,6 +33,7 @@ __all__ = [
     "backfill_facets",
     "documents_for_term",
     "rename_theme_facet",
+    "reclassify_theme_rows",
 ]
 
 
@@ -58,6 +59,31 @@ def _replace_facet(
     if rows:
         cur.executemany(
             f"INSERT INTO `{table}_{facet}` (document_id, {facet}) VALUES (%s, %s)", rows
+        )
+
+
+def _replace_themes(
+    cur: Any, table: str, document_id: str, names: Iterable[str]
+) -> None:
+    """Rewrite a document's theme rows: its main theme as the primary tag and
+    every other theme as a sub-theme naming the primary tag it hangs off.
+
+    Only the themes the document itself carries are written — a sub-theme's
+    parent is recorded as a reference, never materialized as an extra row, so a
+    document is never credited with a theme it wasn't tagged with. A document
+    with no valid theme (all values empty, or only grouping-bucket names) gets no
+    row at all rather than a placeholder. See :mod:`app.catalog.theme_taxonomy`
+    for the classification."""
+    cur.execute(f"DELETE FROM `{table}_theme` WHERE document_id = %s", (document_id,))
+    rows = [
+        (document_id, a.name[:255], a.theme_type, a.parent[:255] if a.parent else None)
+        for a in theme_taxonomy.classify(names)
+    ]
+    if rows:
+        cur.executemany(
+            f"INSERT INTO `{table}_theme` (document_id, theme, theme_type, parent) "
+            "VALUES (%s, %s, %s, %s)",
+            rows,
         )
 
 
@@ -196,7 +222,7 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
             ),
         )
         _replace_facet(cur, table, "author", record.document_id, record.authors)
-        _replace_facet(cur, table, "theme", record.document_id, record.categories)
+        _replace_themes(cur, table, record.document_id, record.categories)
         _replace_term_links(cur, table, record.document_id, record.term_links)
         _replace_attachment_links(cur, table, record.document_id, record.attachments)
         conn.commit()
@@ -257,9 +283,55 @@ def backfill_facets(
             (_to_datetime(published_at), title, url, document_id),
         )
         _replace_facet(cur, table, "author", document_id, authors)
-        _replace_facet(cur, table, "theme", document_id, categories)
+        _replace_themes(cur, table, document_id, categories)
         conn.commit()
     return True
+
+
+def reclassify_theme_rows(*, dry_run: bool = False) -> dict[str, int]:
+    """Re-apply the theme map to theme rows already in the table, in place.
+
+    For deployments whose rows predate the hierarchy columns
+    (:func:`app.catalog.schema.migrate_theme_hierarchy` gives them the column
+    default — an unparented sub-theme). Keyed on the distinct theme *names*, not
+    on documents, since the classification depends only on the name: a whole
+    corpus is a few dozen statements. Names that are not themes at all (grouping
+    buckets, blanks) have their rows deleted.
+
+    Idempotent — a second run reports 0 updated. Under ``dry_run`` nothing is
+    written and the counts are rows that *match* each name, not rows that would
+    actually change. Returns ``{'names', 'updated', 'deleted'}``.
+    """
+    table = _table()
+    tally = {"names": 0, "updated": 0, "deleted": 0}
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(f"SELECT DISTINCT theme FROM `{table}_theme`")
+        for name in [row["theme"] for row in cur.fetchall()]:
+            tally["names"] += 1
+            assignment = next(iter(theme_taxonomy.classify([name])), None)
+            bucket = "deleted" if assignment is None else "updated"
+            if dry_run:
+                cur.execute(
+                    f"SELECT COUNT(*) AS n FROM `{table}_theme` WHERE theme = %s",
+                    (name,),
+                )
+                tally[bucket] += int(cur.fetchone()["n"])
+                continue
+            if assignment is None:
+                logger.info("Dropping theme rows for non-theme value %r", name)
+                affected = cur.execute(
+                    f"DELETE FROM `{table}_theme` WHERE theme = %s", (name,)
+                )
+            else:
+                affected = cur.execute(
+                    f"UPDATE `{table}_theme` SET theme_type = %s, parent = %s "
+                    "WHERE theme = %s",
+                    (assignment.theme_type, assignment.parent, name),
+                )
+            tally[bucket] += int(affected or 0)
+        if not dry_run:
+            conn.commit()
+    return tally
 
 
 def documents_for_term(term_uuid: str) -> list[str]:
@@ -275,7 +347,10 @@ def documents_for_term(term_uuid: str) -> list[str]:
 
 def rename_theme_facet(document_id: str, old: str, new: str) -> list[str]:
     """Replace ``old`` with ``new`` in a document's theme facet, collapsing
-    duplicates; returns the resulting theme list (payload-refresh input)."""
+    duplicates; returns the resulting theme list (payload-refresh input).
+
+    The rewrite re-classifies, so a theme renamed into (or out of) the theme map
+    picks up its correct primary/sub position rather than keeping the old one."""
     table = _table()
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(
@@ -285,6 +360,6 @@ def rename_theme_facet(document_id: str, old: str, new: str) -> list[str]:
         themes = [row["theme"] for row in cur.fetchall()]
         updated = list(dict.fromkeys(new if c == old else c for c in themes))
         if updated != themes:
-            _replace_facet(cur, table, "theme", document_id, updated)
+            _replace_themes(cur, table, document_id, updated)
             conn.commit()
     return updated
