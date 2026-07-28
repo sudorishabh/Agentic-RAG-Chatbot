@@ -41,6 +41,9 @@ def _node() -> dict:
             "parent": {
                 "data": [{"type": "taxonomy_term--themes", "id": "virtual"}]
             },
+            "field_deleted_term": {  # JSON:API's marker for a deleted/gone entity
+                "data": [{"type": "taxonomy_term--themes", "id": "missing"}]
+            },
             "field_file": {
                 "data": [{"type": "file--file", "id": "f1"}]
             },
@@ -71,6 +74,9 @@ def test_resolve_relationships_labels_and_refs():
     assert "parent" not in by_field
     assert "field_file" not in by_field
     assert "node_type" not in by_field
+    # "missing" (a deleted/gone entity) never becomes a ref either -- unlike
+    # "t-missing" above, there is no real UUID here to keep as a dangling link.
+    assert "field_deleted_term" not in by_field
 
 
 def test_vocabulary_property():

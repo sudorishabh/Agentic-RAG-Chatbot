@@ -514,9 +514,17 @@ def _resolve_relationships(
         labels: list[str] = []
         for item in items:
             uuid, ref_type = item.get("id"), item.get("type")
-            # "virtual" is the placeholder parent of root taxonomy terms;
+            # "virtual" is the placeholder parent of root taxonomy terms; "missing"
+            # is JSON:API's resource identifier for a relationship target that no
+            # longer exists (deleted/unpublished) -- never resolvable, so keeping
+            # it as a ref would leave a permanent dangling documents_term row.
             # file--file attachments are handled by _resolve_files.
-            if not uuid or not ref_type or uuid == "virtual" or ref_type == "file--file":
+            if (
+                not uuid
+                or not ref_type
+                or uuid in ("virtual", "missing")
+                or ref_type == "file--file"
+            ):
                 continue
             entity = included.get((ref_type, uuid))
             attrs = entity.get("attributes", {}) if entity else {}

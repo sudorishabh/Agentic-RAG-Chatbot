@@ -1,0 +1,162 @@
+"""Theme hierarchy: the primary-tag / sub-theme map behind a document's themes.
+
+[app/data.json](../data.json) is the authority for which themes are **Primary
+Tags** and which are **Sub-Themes** hanging off one. Its top level ("Main
+Themes" / "Other Themes") is a grouping bucket rather than a theme, so:
+
+* a bucket's children are Primary Tags (``parent`` is NULL);
+* anything below a Primary Tag is a Sub-Theme whose ``parent`` is that tag;
+* a bucket name itself is never stored as a theme.
+
+Deliberately a static file rather than the crawled Drupal tree: classification
+has to stay stable however a vocabulary happens to be nested in the CMS, and the
+same map has to apply to the ref-less export/upload paths, which have no
+taxonomy to read. The crawled tree still lives in ``terms.parent_uuid`` and is
+what uuid-based scoping expands over — this map only shapes the theme rows.
+"""
+
+from __future__ import annotations
+
+import json
+import logging
+import re
+from dataclasses import dataclass
+from functools import lru_cache
+from pathlib import Path
+from typing import Any, Iterable
+
+logger = logging.getLogger(__name__)
+
+PRIMARY = "primary"
+SUB = "sub"
+
+# app/data.json — a sibling of the app package root, not of this module.
+TAXONOMY_PATH = Path(__file__).resolve().parent.parent / "data.json"
+
+_WHITESPACE = re.compile(r"\s+")
+
+# (match key -> (display name, theme_type, parent)) plus the bucket keys that
+# are containers, not themes.
+_Entry = tuple[str, str, str | None]
+
+
+@dataclass(frozen=True)
+class ThemeAssignment:
+    """One theme row for a document: the theme, whether it is the primary tag or
+    a sub-theme, and the primary tag it hangs off.
+
+    ``parent`` is None for a primary tag and for a sub-theme the map has no
+    parent for — both store NULL."""
+
+    name: str
+    theme_type: str
+    parent: str | None
+
+
+def _clean(value: Any) -> str:
+    """Display form: whitespace-collapsed and trimmed. For str patterns \\s
+    is Unicode-aware, so the non-breaking spaces Drupal labels pick up go too."""
+    return _WHITESPACE.sub(" ", str(value or "")).strip()
+
+
+def _key(value: Any) -> str:
+    """Match key — case-insensitive on top of :func:`_clean`, so CMS display
+    drift ("energy  access") still resolves against the map."""
+    return _clean(value).casefold()
+
+
+def _walk(nodes: Any, primary: str | None, out: dict[str, _Entry]) -> None:
+    """Collect ``nodes`` into ``out``. ``primary`` is the primary tag they sit
+    under, or None when they *are* the primary tags (bucket children).
+
+    Descends past unnamed nodes rather than dropping their subtree, and keeps
+    the first entry per key so an accidental duplicate in the file is stable.
+    Anything deeper than a sub-theme still points at the primary tag — the table
+    models one level of parenthood, not the full path."""
+    for node in nodes or ():
+        if not isinstance(node, dict):
+            continue
+        name = _clean(node.get("name"))
+        children = node.get("children")
+        if not name:
+            _walk(children, primary, out)
+            continue
+        if primary is None:
+            out.setdefault(_key(name), (name, PRIMARY, None))
+            _walk(children, name, out)
+        else:
+            out.setdefault(_key(name), (name, SUB, primary))
+            _walk(children, primary, out)
+
+
+@lru_cache(maxsize=1)
+def _load() -> tuple[dict[str, _Entry], frozenset[str]]:
+    """Parse data.json once per process into (theme map, bucket keys).
+
+    A missing or malformed file is logged, not raised: themes then all fall
+    through to unparented sub-themes, which keeps ingestion running instead of
+    failing every document on a data-file problem."""
+    try:
+        raw = json.loads(TAXONOMY_PATH.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        logger.exception(
+            "Could not read the theme map at %s; every theme falls back to an "
+            "unparented sub-theme.",
+            TAXONOMY_PATH,
+        )
+        return {}, frozenset()
+
+    mapping: dict[str, _Entry] = {}
+    buckets: set[str] = set()
+    for bucket in raw if isinstance(raw, list) else ():
+        if not isinstance(bucket, dict):
+            continue
+        name = _clean(bucket.get("name"))
+        if name:
+            buckets.add(_key(name))
+        _walk(bucket.get("children"), None, mapping)
+    # A name used both as a bucket and as a real theme stays a theme.
+    return mapping, frozenset(buckets - set(mapping))
+
+
+def reload_taxonomy() -> None:
+    """Drop the cached map (tests / after editing data.json in place)."""
+    _load.cache_clear()
+
+
+def classify(names: Iterable[str] | None) -> list[ThemeAssignment]:
+    """Theme rows for one document's themes, in input order, de-duplicated.
+
+    Only the names passed in are returned — a sub-theme's parent is recorded as
+    a reference, never materialized as an extra row, so a document is never
+    credited with a theme it was not tagged with.
+
+    Empty values and grouping-bucket names are dropped, so a document with no
+    valid theme yields ``[]`` and no row is written for it. A theme the map does
+    not know is kept as an unparented sub-theme rather than dropped, so a theme
+    newly added in the CMS is still recorded."""
+    mapping, buckets = _load()
+    seen: dict[str, ThemeAssignment] = {}
+    for raw in names or ():
+        name = _clean(raw)
+        if not name:
+            continue
+        key = _key(name)
+        if key in buckets or key in seen:
+            continue
+        known = mapping.get(key)
+        # The supplied display name is stored as-is (rename handling lives in
+        # state.rename_theme_facet); the parent comes from the map, which is the
+        # only place it is named.
+        seen[key] = (
+            ThemeAssignment(name, known[1], known[2])
+            if known
+            else ThemeAssignment(name, SUB, None)
+        )
+    return list(seen.values())
+
+
+def primary_tags() -> list[str]:
+    """Every Primary Tag in the map, in file order (diagnostics / docs)."""
+    mapping, _ = _load()
+    return [name for name, theme_type, _ in mapping.values() if theme_type == PRIMARY]

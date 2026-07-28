@@ -1,0 +1,135 @@
+[
+  {
+    "name": "Main Themes",
+    "children": [
+      {
+        "name": "Sustainable Agriculture",
+        "children": []
+      },
+      {
+        "name": "Climate Change",
+        "children": []
+      },
+      {
+        "name": "Energy",
+        "children": [
+          {
+            "name": "Energy Assessment and Modelling"
+          },
+          {
+            "name": "Electricity and Renewables"
+          },
+          {
+            "name": "Energy Efficiency"
+          },
+          {
+            "name": "Energy Access"
+          }
+        ]
+      },
+      {
+        "name": "Environment",
+        "children": [
+          {
+            "name": "Microbes"
+          },
+          {
+            "name": "Water"
+          },
+          {
+            "name": "Land"
+          },
+          {
+            "name": "Forest & Biodiversity"
+          },
+          {
+            "name": "Waste"
+          },
+          {
+            "name": "Air"
+          }
+        ]
+      },
+      {
+        "name": "Sustainable Habitat",
+        "children": [
+          {
+            "name": "Transport"
+          },
+          {
+            "name": "Buildings"
+          },
+          {
+            "name": "Cities"
+          }
+        ]
+      },
+      {
+        "name": "Environment and Public Health",
+        "children": []
+      },
+      {
+        "name": "Resources & Sustainable Development",
+        "children": [
+          {
+            "name": "Resource Efficiency & Governance"
+          },
+          {
+            "name": "Centre for Sustainable Development Research"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Other Themes",
+    "children": [
+      {
+        "name": "Green Shipping"
+      },
+      {
+        "name": "Pyrolytic Biofuels, Biochar & Green Chemicals"
+      },
+      {
+        "name": "World Sustainable Development Summit"
+      },
+      {
+        "name": "Corporate Social Responsibility"
+      },
+      {
+        "name": "Environment Education",
+        "children": [
+          {
+            "name": "Education for Youth Empowerment"
+          },
+          {
+            "name": "Strategic Communication for Sustainability"
+          }
+        ]
+      },
+      {
+        "name": "Himalayan Centre, Mukteshwar, Nainital"
+      },
+      {
+        "name": "TERI Council for Business Sustainability"
+      },
+      {
+        "name": "TERI Knowledge Resource Centre",
+        "children": [
+          {
+            "name": "Knowledge Products and Services"
+          },
+          {
+            "name": "Knowledge Repositories & Information Centre"
+          },
+          {
+            "name": "Skill Development & Awareness Programmes"
+          },
+          {
+            "name": "Sustainability Driven Knowledge Projects"
+          }
+        ]
+      }
+    ]
+  }
+]

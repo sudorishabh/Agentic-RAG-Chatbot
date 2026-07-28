@@ -94,7 +94,17 @@ blocks from `/jsonapi/{entity_type}/{bundle}`.
   infographics, services, report, people, page, **carousel**.
 - `DEFAULT_TAXONOMIES` (`taxonomy_term`): **themes, extra_pages, regional_centre** —
   their `description` prose (thematic / landing-page content that lives nowhere in
-  the nodes) is ingested as body text.
+  the nodes) is ingested as body text. Plus the facet vocabularies referenced by
+  node fields: **tags, partners, programs_units, related_terms, stakeholders,
+  division, division_areas, region, language**. Those are crawled for their
+  *names*, not their prose — most carry no body, so they populate the `terms`
+  catalog without producing vector points.
+
+  Crawling these is what lets a `documents_term` link resolve to a name, so a
+  run scoped with `--bundle` to node bundles alone leaves `terms` empty and
+  silently breaks theme grouping/resolution. Re-populate a scoped deployment with
+  `--bundle taxonomy_term:<vocabulary>` per vocabulary (a default `--drupal` run
+  with no `--bundle` already covers them all).
 - `DEFAULT_BLOCKS` (`block_content`): **basic** — substantial custom-block bodies;
   boilerplate shorter than `drupal_block_min_chars` (with no PDF) is skipped.
 
