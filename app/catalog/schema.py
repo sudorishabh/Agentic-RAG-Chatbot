@@ -15,13 +15,20 @@ The theme facet was likewise renamed from ``category``. That one is handled here
 rather than by the script, in ``migrate_renamed_facets``, because it also has to
 rename the child table's *value column* and must work for whatever
 ``ingest_state_table`` prefix the process is configured with.
+
+The theme facet also grew from a flat (document, value) list into a primary-tag /
+sub-theme hierarchy; ``migrate_theme_hierarchy`` adds those columns to a table
+that predates them.
 """
 from __future__ import annotations
 
+import logging
 from typing import Any
 
 from app.catalog.db import log_table, state_table
 from app.core.clients import mysql_connection
+
+logger = logging.getLogger(__name__)
 
 _STATE_DDL = """
 CREATE TABLE IF NOT EXISTS `{table}` (
@@ -50,7 +57,9 @@ CREATE TABLE IF NOT EXISTS `{table}` (
 # Multi-valued facets stored one row per (document, value) so they count exactly
 # via COUNT(DISTINCT document_id). Rows cascade-delete with their parent. The
 # facet name doubles as the child table's suffix and its value column.
-STATE_FACETS: tuple[str, ...] = ("author", "theme")
+# Themes are such a facet too, but they carry hierarchy, so they have their own
+# DDL (_STATE_THEME_DDL) instead of the generic one.
+STATE_FACETS: tuple[str, ...] = ("author",)
 
 # Facets renamed after deployments already had data. Because the facet name is
 # both the table suffix and the column name, both have to be carried forward --
@@ -66,6 +75,26 @@ CREATE TABLE IF NOT EXISTS `{table}_{facet}` (
     KEY idx_doc (document_id),
     KEY idx_val ({facet}),
     CONSTRAINT `fk_{table}_{facet}` FOREIGN KEY (document_id)
+        REFERENCES `{table}` (document_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+# The theme facet, with the taxonomy shape a flat facet has no room for: a
+# document's main theme is stored as the primary tag and every other theme as a
+# sub-theme naming the primary tag it hangs off. `parent` is NULL for a primary
+# tag and for a sub-theme no parent is known for. Values are classified by
+# app.catalog.theme_taxonomy against app/data.json; only themes the document is
+# actually tagged with get a row -- a parent is a reference, never its own row.
+_STATE_THEME_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_theme` (
+    document_id VARCHAR(255) NOT NULL,
+    theme       VARCHAR(255) NOT NULL,
+    theme_type  ENUM('primary', 'sub') NOT NULL DEFAULT 'sub',
+    parent      VARCHAR(255) NULL,
+    PRIMARY KEY (document_id, theme),
+    KEY idx_val (theme),
+    KEY idx_parent (parent),
+    CONSTRAINT `fk_{table}_theme` FOREIGN KEY (document_id)
         REFERENCES `{table}` (document_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 """
@@ -119,6 +148,16 @@ def _column_exists(cur: Any, table: str, column: str) -> bool:
     return cur.fetchone() is not None
 
 
+def _has_primary_key(cur: Any, table: str) -> bool:
+    cur.execute(
+        "SELECT 1 FROM information_schema.STATISTICS "
+        "WHERE table_schema = DATABASE() AND table_name = %s "
+        "AND index_name = 'PRIMARY'",
+        (table,),
+    )
+    return cur.fetchone() is not None
+
+
 def _ensure_column(cur: Any, table: str, column: str, ddl: str) -> None:
     """Add a column to an existing table only if it is missing (idempotent
     migration for deployments created before the column existed)."""
@@ -167,6 +206,54 @@ def migrate_renamed_facets(cur: Any, table: str, *, dry_run: bool = False) -> li
     return applied
 
 
+def migrate_theme_hierarchy(cur: Any, table: str, *, dry_run: bool = False) -> list[str]:
+    """Bring a pre-hierarchy ``documents_theme`` up to the current shape.
+
+    The flat facet table held only (document_id, theme) with no primary key.
+    Existing rows keep their theme and take the column default -- an unparented
+    sub-theme -- until something reclassifies them
+    (``scripts.reclassify_theme_rows``, or the document's next ingest).
+
+    The key is added last and its failure is non-fatal: a legacy table can hold
+    duplicate (document_id, theme) pairs, and the table works without the key
+    anyway (every write replaces a document's rows wholesale), so a duplicate is
+    logged rather than allowed to fail ``ensure_state_table`` for everything else.
+
+    Idempotent. Returns the statements applied (or, under ``dry_run``, the ones
+    that would be).
+    """
+    theme_table = f"{table}_theme"
+    applied: list[str] = []
+    if not _table_exists(cur, theme_table):
+        return applied
+
+    for column, ddl in (
+        ("theme_type", "theme_type ENUM('primary', 'sub') NOT NULL DEFAULT 'sub'"),
+        ("parent", "parent VARCHAR(255) NULL"),
+    ):
+        if _column_exists(cur, theme_table, column):
+            continue
+        stmt = f"ALTER TABLE `{theme_table}` ADD COLUMN {ddl}"
+        applied.append(stmt)
+        if not dry_run:
+            cur.execute(stmt)
+
+    if not _has_primary_key(cur, theme_table):
+        stmt = f"ALTER TABLE `{theme_table}` ADD PRIMARY KEY (document_id, theme)"
+        applied.append(stmt)
+        if not dry_run:
+            try:
+                cur.execute(stmt)
+            except Exception:
+                logger.warning(
+                    "Could not add the primary key to `%s` -- duplicate "
+                    "(document_id, theme) rows from before it existed? The table "
+                    "still works; collapse the duplicates and re-run to get the "
+                    "key.", theme_table, exc_info=True,
+                )
+    return applied
+
+
 def ensure_state_table() -> None:
     table = state_table()
     with mysql_connection() as conn, conn.cursor() as cur:
@@ -181,6 +268,11 @@ def ensure_state_table() -> None:
         migrate_renamed_facets(cur, table)
         for facet in STATE_FACETS:
             cur.execute(_STATE_CHILD_DDL.format(table=table, facet=facet))
+        # Create then migrate: a fresh install gets the hierarchy from the DDL
+        # and the migration no-ops; a legacy table survives CREATE IF NOT EXISTS
+        # untouched and gets its columns from the migration.
+        cur.execute(_STATE_THEME_DDL.format(table=table))
+        migrate_theme_hierarchy(cur, table)
         cur.execute(_STATE_TERM_LINK_DDL.format(table=table))
         cur.execute(_STATE_ATTACHMENT_LINK_DDL.format(table=table))
         conn.commit()

@@ -22,10 +22,21 @@ TABLE = "documents"
 
 class _FakeCursor:
     """Answers information_schema probes from an in-memory {table: [columns]}
-    map, and applies RENAME statements to it so repeat runs see real state."""
+    map plus a set of tables holding a primary key, and applies RENAME / ALTER
+    statements to itself so repeat runs see real state.
 
-    def __init__(self, tables: dict[str, list[str]]):
+    ``fail_on`` makes any statement containing that substring raise, which is how
+    the duplicate-rows-block-the-primary-key path is exercised."""
+
+    def __init__(
+        self,
+        tables: dict[str, list[str]],
+        pks: set[str] | None = None,
+        fail_on: str | None = None,
+    ):
         self.tables = {t: list(cols) for t, cols in tables.items()}
+        self.pks = set(pks or ())
+        self.fail_on = fail_on
         self.statements: list[str] = []
         self._result: tuple | None = None
 
@@ -38,8 +49,13 @@ class _FakeCursor:
             table, column = params
             self._result = (1,) if column in self.tables.get(table, []) else None
             return
+        if "information_schema.STATISTICS" in flat:
+            self._result = (1,) if params[0] in self.pks else None
+            return
         self._result = None
         self.statements.append(flat)
+        if self.fail_on and self.fail_on in flat:
+            raise RuntimeError(f"refused: {flat}")
         self._apply(flat)
 
     def _apply(self, stmt: str) -> None:
@@ -49,6 +65,10 @@ class _FakeCursor:
         elif "RENAME COLUMN" in stmt:
             cols = self.tables[words[2]]
             cols[cols.index(words[5])] = words[7]
+        elif "ADD PRIMARY KEY" in stmt:
+            self.pks.add(words[2])
+        elif "ADD COLUMN" in stmt:
+            self.tables.setdefault(words[2], []).append(words[5])
         elif stmt.startswith("CREATE TABLE IF NOT EXISTS"):
             self.tables.setdefault(words[5], [])
 
@@ -176,6 +196,96 @@ def test_dry_run_reports_both_steps_for_fully_old_schema():
 
 
 # --------------------------------------------------------------------------- #
+# migrate_theme_hierarchy — flat facet table -> primary tag / sub-theme rows.
+# --------------------------------------------------------------------------- #
+
+_FLAT_THEME_TABLE = {f"{TABLE}_theme": ["document_id", "theme"]}
+
+
+def test_theme_hierarchy_adds_columns_then_key_to_a_flat_table():
+    cursor = _FakeCursor(dict(_FLAT_THEME_TABLE))
+
+    applied = schema.migrate_theme_hierarchy(cursor, TABLE)
+
+    assert applied == [
+        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN "
+        "theme_type ENUM('primary', 'sub') NOT NULL DEFAULT 'sub'",
+        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN parent VARCHAR(255) NULL",
+        f"ALTER TABLE `{TABLE}_theme` ADD PRIMARY KEY (document_id, theme)",
+    ]
+    assert cursor.tables[f"{TABLE}_theme"] == [
+        "document_id", "theme", "theme_type", "parent",
+    ]
+    assert f"{TABLE}_theme" in cursor.pks
+
+
+def test_theme_hierarchy_noop_when_already_current():
+    cursor = _FakeCursor(
+        {f"{TABLE}_theme": ["document_id", "theme", "theme_type", "parent"]},
+        pks={f"{TABLE}_theme"},
+    )
+
+    assert schema.migrate_theme_hierarchy(cursor, TABLE) == []
+    assert cursor.statements == []
+
+
+def test_theme_hierarchy_noop_when_the_table_does_not_exist_yet():
+    """A fresh install gets the hierarchy from the CREATE, so there is nothing
+    to migrate — and no ALTER may be aimed at a table that isn't there."""
+    cursor = _FakeCursor({TABLE: ["document_id"]})
+
+    assert schema.migrate_theme_hierarchy(cursor, TABLE) == []
+    assert cursor.statements == []
+
+
+def test_theme_hierarchy_is_idempotent():
+    cursor = _FakeCursor(dict(_FLAT_THEME_TABLE))
+
+    assert len(schema.migrate_theme_hierarchy(cursor, TABLE)) == 3
+    assert schema.migrate_theme_hierarchy(cursor, TABLE) == []
+
+
+def test_theme_hierarchy_adds_only_the_missing_half():
+    """A deployment interrupted between the two ADD COLUMNs resumes cleanly."""
+    cursor = _FakeCursor(
+        {f"{TABLE}_theme": ["document_id", "theme", "theme_type"]},
+        pks={f"{TABLE}_theme"},
+    )
+
+    applied = schema.migrate_theme_hierarchy(cursor, TABLE)
+
+    assert applied == [
+        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN parent VARCHAR(255) NULL"
+    ]
+
+
+def test_theme_hierarchy_dry_run_reports_without_executing():
+    cursor = _FakeCursor(dict(_FLAT_THEME_TABLE))
+
+    applied = schema.migrate_theme_hierarchy(cursor, TABLE, dry_run=True)
+
+    assert len(applied) == 3
+    assert cursor.statements == []
+    assert cursor.tables == _FLAT_THEME_TABLE
+
+
+def test_theme_hierarchy_survives_a_key_the_table_will_not_take(caplog):
+    """Legacy rows can hold duplicate (document_id, theme) pairs, which blocks
+    the primary key. The columns still land and ensure_state_table must not die
+    — every theme write replaces a document's rows wholesale regardless."""
+    cursor = _FakeCursor(dict(_FLAT_THEME_TABLE), fail_on="ADD PRIMARY KEY")
+
+    applied = schema.migrate_theme_hierarchy(cursor, TABLE)  # no raise
+
+    assert len(applied) == 3
+    assert cursor.tables[f"{TABLE}_theme"] == [
+        "document_id", "theme", "theme_type", "parent",
+    ]
+    assert f"{TABLE}_theme" not in cursor.pks
+    assert "Could not add the primary key" in caplog.text
+
+
+# --------------------------------------------------------------------------- #
 # ensure_state_table — ordering against the facet DDL.
 # --------------------------------------------------------------------------- #
 
@@ -198,6 +308,14 @@ def test_ensure_state_table_migrates_before_creating_facet_tables(monkeypatch):
         i for i, s in enumerate(cursor.statements)
         if s.startswith("CREATE TABLE IF NOT EXISTS") and f"`{TABLE}_theme`" in s
     )
-    assert rename < create
-    assert cursor.tables[f"{TABLE}_theme"] == ["document_id", "theme"]
+    alter = next(
+        i for i, s in enumerate(cursor.statements)
+        if f"ALTER TABLE `{TABLE}_theme` ADD COLUMN theme_type" in s
+    )
+    # rename -> create (which no-ops on the renamed table) -> hierarchy migration,
+    # so the carried-forward rows end up under the current shape.
+    assert rename < create < alter
+    assert cursor.tables[f"{TABLE}_theme"] == [
+        "document_id", "theme", "theme_type", "parent",
+    ]
     assert f"{TABLE}_category" not in cursor.tables
