@@ -5,7 +5,12 @@ from app.ingestion.textutil import slugify as _slugify
 
 # Substring hints that route Drupal metadata fields into canonical facets.
 # field_audit reports against these same rules — import from here, don't copy.
-CATEGORY_HINTS: tuple[str, ...] = ("category", "theme", "area", "division")
+#
+# Themes match on "theme" alone. They used to also absorb any field named
+# category/area/division, which put things that are not themes (a division, a
+# regional area) into a document's themes; those vocabularies are dimensions of
+# their own and still reach the catalog through entity refs and raw_meta.
+THEME_HINTS: tuple[str, ...] = ("theme",)
 TAG_HINTS: tuple[str, ...] = ("tag", "keyword")
 AUTHOR_HINTS: tuple[str, ...] = ("author",)
 
@@ -94,19 +99,23 @@ def drupal_facets(
 ) -> dict[str, list[str]]:
     """Facet lists (categories/tags/authors) for a Drupal record. Shared by the
     node document and its attachment documents — an attached PDF inherits its
-    node's facets so theme-scoped retrieval reaches the PDF content too."""
-    categories = _union_list(metadata, *CATEGORY_HINTS)
+    node's facets so theme-scoped retrieval reaches the PDF content too.
+
+    Only themes the record is actually tagged with land in ``categories``: its
+    references into a theme vocabulary, plus theme-named metadata for the
+    ref-less paths (``from_drupal_export`` / the upload routes have no
+    relationships to read). A taxonomy term's ``parent`` is no longer folded in
+    by name — a real parent inside a theme vocabulary already arrives as a ref
+    below, and the parent of a term in some *other* vocabulary was never a theme.
+    The primary-tag/sub-theme relationship is recorded on the theme rows
+    themselves (see :mod:`app.catalog.theme_taxonomy`)."""
+    categories = _union_list(metadata, *THEME_HINTS)
     # Any reference into a category vocabulary is a category, whatever the
     # referencing field is called — catches fields the name hints miss.
     for ref in refs:
         if ref.vocabulary in CATEGORY_VOCABULARIES and ref.label:
             if ref.label not in categories:
                 categories.append(ref.label)
-    # A sub-theme's parent thematic area is itself a category, so the term is
-    # retrievable under its parent (e.g. "Air" surfaces under "Environment").
-    for parent in _as_list(metadata.get("parent")):
-        if parent not in categories:
-            categories.append(parent)
     return {
         "categories": categories,
         "tags": _union_list(metadata, *TAG_HINTS),

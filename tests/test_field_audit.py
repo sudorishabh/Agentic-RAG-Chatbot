@@ -1,9 +1,9 @@
 """Unit tests for the field-audit classification logic.
 
 Covers the deterministic pieces: attribute partitioning (body / metadata /
-core / ignored), canonical facet routing (including the parent special case
-and file--file attachments), per-record observation, and the dropped-field
-report. No Drupal, network, or datastores needed.
+core / ignored), canonical facet routing (by field-name hint and by target
+vocabulary, plus file--file attachments), per-record observation, and the
+dropped-field report. No Drupal, network, or datastores needed.
 """
 
 from __future__ import annotations
@@ -32,8 +32,25 @@ def test_destinations_match_current_heuristics():
     assert fa._destinations("field_theme") == ["categories"]
     assert fa._destinations("field_tags") == ["tags"]
     assert fa._destinations("field_author_name") == ["authors"]
-    assert fa._destinations("parent") == ["categories"]
     assert fa._destinations("field_publication_date") == []  # dropped today
+
+
+def test_destinations_route_theme_vocabulary_refs_whatever_the_field_is_called():
+    """drupal_facets routes on the target vocabulary, so a field the name hints
+    miss still reaches categories — a taxonomy term's `parent` included."""
+    themes = {"taxonomy_term--themes"}
+    assert fa._destinations("field_focus", themes) == ["categories"]
+    assert fa._destinations("parent", themes) == ["categories"]
+
+
+def test_destinations_ignore_refs_into_non_theme_vocabularies():
+    """division / area / region terms are dimensions of their own; folding them
+    into themes is what put non-themes in a document's theme rows."""
+    assert fa._destinations("field_division", {"taxonomy_term--division"}) == []
+    assert fa._destinations("parent", {"taxonomy_term--division_areas"}) == []
+    assert fa._destinations("field_owner", {"node--people"}) == []
+    # Name hints still win on their own, with no targets at all.
+    assert fa._destinations("parent") == []
 
 
 def test_field_row_flags_dropped_and_attachments():

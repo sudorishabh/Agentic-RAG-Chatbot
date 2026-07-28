@@ -10,7 +10,7 @@ into chunk payloads before the schema step lands). No network or datastores.
 from __future__ import annotations
 
 from app.core.models import EntityRef
-from app.ingestion.canonical import from_drupal_record
+from app.ingestion.canonical import drupal_facets, from_drupal_record
 from app.ingestion.chunking import chunk_canonical
 from app.ingestion.extractors.drupal_extractor import DrupalRecord, _resolve_relationships
 
@@ -29,7 +29,7 @@ def _included() -> dict:
 def _node() -> dict:
     return {
         "relationships": {
-            "field_focus": {  # no CATEGORY_HINTS substring in the name
+            "field_focus": {  # no THEME_HINTS substring in the name
                 "data": [{"type": "taxonomy_term--themes", "id": "t-climate"}]
             },
             "field_author": {
@@ -111,6 +111,47 @@ def test_from_drupal_record_routes_theme_ref_by_vocabulary():
     # "field_focus" matches no name hint; the vocabulary routes it anyway.
     assert doc.categories == ["Climate"]
     assert doc.authors == ["Jane Doe"]
+
+
+# --------------------------------------------------------------------------- #
+# Only themes reach the theme facet.
+# --------------------------------------------------------------------------- #
+
+def test_theme_named_metadata_still_routes_without_any_refs():
+    """The export / upload paths build documents from a plain dict with no
+    relationships to read, so the name hint has to carry them."""
+    facets = drupal_facets({"field_policybrief_theme": ["Energy"]}, [])
+    assert facets["categories"] == ["Energy"]
+
+
+def test_division_and_area_metadata_no_longer_become_themes():
+    """A division or a regional area is not a theme. They used to be folded in by
+    name, which put non-themes in a document's theme rows; they still survive in
+    raw_meta and (for refs) in documents_term."""
+    facets = drupal_facets(
+        {
+            "field_division": ["Earth Science and Climate Change"],
+            "field_research_area": ["Nainital"],
+            "field_category": ["Press"],
+        },
+        [],
+    )
+    assert facets["categories"] == []
+
+
+def test_theme_vocabulary_parent_ref_is_still_a_theme():
+    """A theme term's parent arrives as a ref inside the theme vocabulary, so
+    dropping the by-name `parent` fold-in does not lose it: the "Air" page still
+    carries "Environment"."""
+    refs = [EntityRef("parent", "t-env", "taxonomy_term--themes", "Environment")]
+    assert drupal_facets({"parent": ["Environment"]}, refs)["categories"] == [
+        "Environment"
+    ]
+
+
+def test_parent_outside_a_theme_vocabulary_is_not_a_theme():
+    refs = [EntityRef("parent", "d-1", "taxonomy_term--division", "Earth Science")]
+    assert drupal_facets({"parent": ["Earth Science"]}, refs)["categories"] == []
 
 
 def test_from_drupal_record_preserves_refs_and_raw_meta():

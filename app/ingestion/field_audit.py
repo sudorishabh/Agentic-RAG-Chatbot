@@ -22,7 +22,12 @@ from typing import Any, Iterator
 import requests
 
 from app.config import get_settings
-from app.ingestion.canonical import AUTHOR_HINTS, CATEGORY_HINTS, TAG_HINTS
+from app.ingestion.canonical import (
+    AUTHOR_HINTS,
+    CATEGORY_VOCABULARIES,
+    TAG_HINTS,
+    THEME_HINTS,
+)
 from app.ingestion.extractors.drupal_extractor import (
     DEFAULT_BLOCKS,
     DEFAULT_BUNDLES,
@@ -45,7 +50,7 @@ _CONSUMED_ATTRIBUTES = frozenset(
 )
 
 _FACET_HINTS: tuple[tuple[str, tuple[str, ...]], ...] = (
-    ("categories", CATEGORY_HINTS),
+    ("categories", THEME_HINTS),
     ("tags", TAG_HINTS),
     ("authors", AUTHOR_HINTS),
 )
@@ -61,12 +66,20 @@ class _FieldStats:
     example: str | None = None
 
 
-def _destinations(field_name: str) -> list[str]:
-    """Facets the canonical heuristics would route this metadata field to."""
+def _destinations(field_name: str, targets: set[str] | None = None) -> list[str]:
+    """Facets the canonical heuristics would route this field to.
+
+    ``targets`` are a relationship's JSON:API target types. drupal_facets routes
+    a reference into a theme vocabulary to categories whatever the field is
+    called — including a taxonomy term's ``parent`` — so the audit has to consult
+    the target vocabulary, not just the field name."""
     key = field_name.lower()
     dests = [facet for facet, hints in _FACET_HINTS if any(h in key for h in hints)]
-    # A taxonomy term's parent is folded into categories by _drupal_document.
-    if field_name == "parent" and "categories" not in dests:
+    if "categories" not in dests and any(
+        target.startswith("taxonomy_term--")
+        and target.partition("--")[2] in CATEGORY_VOCABULARIES
+        for target in targets or ()
+    ):
         dests.append("categories")
     return dests
 
@@ -135,7 +148,7 @@ def _field_row(name: str, st: _FieldStats, records: int) -> dict[str, Any]:
         if st.targets and st.targets <= {"file--file"}:
             row["canonical"] = ["attachments"]
         else:
-            row["canonical"] = _destinations(name)
+            row["canonical"] = _destinations(name, st.targets)
     elif st.partition == "metadata":
         row["canonical"] = _destinations(name)
     return row
