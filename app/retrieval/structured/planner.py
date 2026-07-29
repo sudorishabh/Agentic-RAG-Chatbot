@@ -24,6 +24,7 @@ from app.retrieval.structured.prompt import (
     VOCABULARY,
 )
 from app.retrieval.structured.tools import (
+    THEME_VOCABULARY_LIMIT,
     aggregate_records,
     count_records,
     list_records,
@@ -90,9 +91,11 @@ def _tool_call(slots: Any, output_format: str) -> ToolCall:
                         title=getattr(slots, "title_contains", None), limit=limit,
                         output_format=output_format)
     if operation == "list_themes":
-        # Vocabulary-wide: no entity/filter scoping.
-        return ToolCall(tool="list_themes", filters=filters, limit=limit,
-                        output_format=output_format)
+        # Vocabulary-wide: no entity/filter scoping, and explicitly NOT the
+        # content-row `limit` above — that defaults to 10, which would silently
+        # truncate the vocabulary and report a wrong theme total.
+        return ToolCall(tool="list_themes", filters=filters,
+                        limit=THEME_VOCABULARY_LIMIT, output_format=output_format)
     return ToolCall(tool="list_records", entity=bundle, filters=filters, limit=limit,
                     output_format=output_format)
 
@@ -171,6 +174,9 @@ _PLANNER_SYSTEM = (
 
 
 def _to_tool_call(call: _PlannedCall, output_format: str) -> ToolCall:
+    # A vocabulary enumeration must not inherit the LLM's content-row limit
+    # (which it habitually leaves at 10) — see THEME_VOCABULARY_LIMIT.
+    limit = THEME_VOCABULARY_LIMIT if call.tool == "list_themes" else (call.limit or 10)
     return ToolCall(
         tool=call.tool,
         entity=call.entity,
@@ -183,7 +189,7 @@ def _to_tool_call(call: _PlannedCall, output_format: str) -> ToolCall:
         ),
         group_by=call.group_by,
         title=call.title or call.title_contains,
-        limit=call.limit or 10,
+        limit=limit,
         output_format=output_format,
         query=call.query,
         resolve_type=call.resolve_type,

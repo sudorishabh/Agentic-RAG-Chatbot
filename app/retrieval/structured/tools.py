@@ -422,7 +422,18 @@ def aggregate_records(
     )
 
 
-def list_themes(*, limit: int = 200, output_format: str = "default") -> ToolResult:
+# How many themes a vocabulary enumeration may return. Deliberately NOT the
+# list/lookup row limit (`ToolCall.limit`, default 10): that one answers "how
+# many items should I show", while this one has to cover the whole vocabulary or
+# "how many themes are there?" reports a truncated count as if it were the total.
+# Callers pass this explicitly rather than relying on the default (see
+# planner._tool_call) so the two limits can never be confused again.
+THEME_VOCABULARY_LIMIT = 200
+
+
+def list_themes(
+    *, limit: int = THEME_VOCABULARY_LIMIT, output_format: str = "default"
+) -> ToolResult:
     """Enumerate the themes the collection covers, from the canonical taxonomy
     (not the free-text facet), split into Main themes and Other themes (main
     first) per app/data.json's top-level buckets. A theme the map does not know

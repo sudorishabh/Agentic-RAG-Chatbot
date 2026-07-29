@@ -39,7 +39,26 @@ def test_plan_maps_list_themes_operation():
     call = planner.plan(_slots(operation="list_themes", limit=50)).calls[0]
     assert call.tool == "list_themes"
     assert call.entity is None  # vocabulary-wide, not scoped to a bundle
-    assert call.limit == 50
+
+
+def test_plan_list_themes_ignores_the_content_row_limit():
+    """A vocabulary enumeration must cover the whole vocabulary — inheriting the
+    content-row limit (default 10) would report a truncated theme count as if it
+    were the total."""
+    for row_limit in (10, 50, None):
+        call = planner.plan(_slots(operation="list_themes", limit=row_limit)).calls[0]
+        assert call.limit == planner.THEME_VOCABULARY_LIMIT
+
+
+def test_plan_multi_list_themes_ignores_the_llm_row_limit():
+    planned = planner._PlannedCall(tool="list_themes")  # LLM leaves limit at 10
+    assert planned.limit == 10
+    assert planner._to_tool_call(planned, "default").limit == planner.THEME_VOCABULARY_LIMIT
+
+
+def test_plan_multi_other_tools_keep_their_row_limit():
+    planned = planner._PlannedCall(tool="list_records", limit=5)
+    assert planner._to_tool_call(planned, "default").limit == 5
 
 
 def test_plan_carries_filters_and_format():

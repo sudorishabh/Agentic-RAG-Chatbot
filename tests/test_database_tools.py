@@ -380,6 +380,26 @@ def test_list_themes_renders_vocabulary(monkeypatch):
     assert "Climate Change" in r.rendered and "Energy" in r.rendered
 
 
+def test_list_themes_reports_the_whole_vocabulary_not_a_page(monkeypatch):
+    """The brief's "how many themes are there?" — the rendered total is a factual
+    claim, so it must never be a truncated page of the vocabulary."""
+    vocabulary = [
+        {"term_uuid": f"t{i}", "name": f"Theme {i}", "parent_uuid": None}
+        for i in range(30)
+    ]
+    seen = {}
+
+    def fake_list_themes(**kw):
+        seen.update(kw)
+        return vocabulary[: kw.get("limit", tools.THEME_VOCABULARY_LIMIT)]
+
+    monkeypatch.setattr("app.catalog.terms.list_themes", fake_list_themes)
+    r = tools.list_themes()
+    assert seen["limit"] == tools.THEME_VOCABULARY_LIMIT
+    assert len(r.data["themes"]) == 30
+    assert r.rendered.startswith("The collection covers 30 themes:")
+
+
 def test_list_themes_empty_falls_through(monkeypatch):
     monkeypatch.setattr("app.catalog.terms.list_themes", lambda **kw: [])
     r = tools.list_themes()
