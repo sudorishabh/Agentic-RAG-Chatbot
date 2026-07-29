@@ -155,12 +155,10 @@ def classify_band(top_score: float, runner_up_score: float = 0.0) -> str:
 class EntityCandidate:
     """One ranked match for a free-text entity name.
 
-    `id` is the catalog identifier: a `term_uuid` for a canonically-resolved
-    theme, or the display name itself for author/bundle/a theme falling back to
-    the free-text facet (§4.1) — neither of those has a separate id. Building a
-    `RecordFilters` from a candidate uses `canonical_name` (the filter fields
-    are display names, resolved to ids internally by the existing scope
-    resolver); `id` is the stable identity for callers that need one directly.
+    `id` is the catalog identifier, which for every type is now the name itself
+    — the catalog keys themes, tags, authors and bundles by name (bundles by
+    their canonical key). It is kept distinct from `canonical_name` so a future
+    type with a separate identifier does not need the shape to change.
     """
 
     id: str
@@ -205,37 +203,23 @@ def _bundle_candidates(query: str) -> list[EntityCandidate]:
 
 
 def _theme_candidates(query: str) -> list[EntityCandidate]:
-    """Canonical themes from `terms` (vocabulary-scoped, includes zero-document
-    themes) when populated; else the free-text `documents_theme` facet, so an
-    environment whose taxonomy-term crawl has not run yet still offers real
-    candidates instead of none (§4.1). A lookup failure degrades to no
-    candidates for this type rather than raising — `resolve_entity` still
-    ranks whatever the other types found."""
-    try:
-        from app.catalog import terms
-
-        rows = terms.list_themes()
-    except Exception:
-        logger.warning("Theme candidate lookup failed.", exc_info=True)
-        return []
-    if rows:
-        return [
-            EntityCandidate(
-                id=row["term_uuid"], canonical_name=row["name"],
-                type=THEME, score=score(query, row["name"]),
-            )
-            for row in rows
-        ]
+    """Themes from `documents_theme` — the names documents actually carry, with
+    their Main/Other group. A lookup failure degrades to no candidates for this
+    type rather than raising; `resolve_entity` still ranks whatever the other
+    types found."""
     try:
         from app.catalog import queries
 
-        names = queries.distinct_themes()
+        rows = queries.theme_vocabulary()
     except Exception:
-        logger.warning("Theme fallback candidate lookup failed.", exc_info=True)
+        logger.warning("Theme candidate lookup failed.", exc_info=True)
         return []
     return [
-        EntityCandidate(id=name, canonical_name=name, type=THEME, score=score(query, name))
-        for name in names
+        EntityCandidate(
+            id=row["theme"], canonical_name=row["theme"],
+            type=THEME, score=score(query, row["theme"]),
+        )
+        for row in rows
     ]
 
 

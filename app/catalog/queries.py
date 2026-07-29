@@ -23,11 +23,17 @@ from datetime import datetime
 from typing import Any, Sequence
 
 from app.catalog.db import state_table as _table
-from app.catalog.schema import TERM_TABLE, THEME_VOCABULARY
 from app.catalog.state import StateRecord, _row_to_record
 from app.core.clients import mysql_connection
 
 logger = logging.getLogger(__name__)
+
+
+# Theme values that are ingestion artefacts rather than themes: a boolean field
+# stringified into the theme facet. Filtered in SQL so `limit` applies to real
+# themes only. The ingestion-side guard is the actual fix; this keeps the
+# artefact out of answers for rows already written.
+_NON_THEME_VALUES: tuple[str, ...] = ("False", "True")
 
 
 def _like(term: str) -> str:
@@ -42,9 +48,8 @@ def _catalog_filters(
     entity_type: str | None = None,
     title_contains: str | None = None,
     author: str | None = None,
-    term_uuids: Sequence[str] | None = None,
     theme: str | None = None,
-    tag_uuids: Sequence[str] | None = None,
+    tag: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
 ) -> tuple[str, list[str], list[Any], bool]:
@@ -52,12 +57,20 @@ def _catalog_filters(
 
     ``entity_type`` scopes to one Drupal entity kind — the query layer passes
     "node" so taxonomy-term and block rows never count as content documents.
-    ``term_uuids`` scopes by taxonomy links (rename-proof); ``theme`` is the
-    display-name fallback for documents ingested before the term catalog.
-    ``tag_uuids`` is a second, independent taxonomy-term join (its own alias) so
-    a theme filter and a tag filter combine as AND, never collapse into one IN
-    list — tags have no free-text facet table, so there is no name fallback the
-    way ``theme`` has. Returns (joins, clauses, params, needs_distinct)."""
+
+    ``theme`` matches a theme **name exactly, or any sub-theme hanging off it**
+    (``documents_theme.parent``), so scoping to a primary tag includes documents
+    tagged only with one of its children. Exact rather than substring: the
+    caller canonicalizes the name first (see
+    ``app.retrieval.structured.filters``), and a substring match both misses
+    sub-themes and wrongly merges siblings — "Environment" would sweep in
+    "Environment Education" while missing "Air" and "Water". One level of
+    ``parent`` is enough because ``theme_taxonomy`` flattens deeper nesting onto
+    the primary tag.
+
+    ``tag`` joins ``documents_tag`` separately from the theme join, so a theme
+    filter and a tag filter combine as AND rather than collapsing into one
+    condition. Returns (joins, clauses, params, needs_distinct)."""
     table = _table()
     joins: list[str] = []
     clauses: list[str] = []
@@ -86,22 +99,15 @@ def _catalog_filters(
         clauses.append("a.author LIKE %s")
         params.append(_like(author))
         distinct = True
-    if term_uuids:
-        placeholders = ", ".join(["%s"] * len(term_uuids))
-        joins.append(f" JOIN `{table}_term` dt ON dt.document_id = s.document_id")
-        clauses.append(f"dt.term_uuid IN ({placeholders})")
-        params.extend(term_uuids)
-        distinct = True
-    elif theme:
+    if theme:
         joins.append(f" JOIN `{table}_theme` c ON c.document_id = s.document_id")
-        clauses.append("c.theme LIKE %s")
-        params.append(_like(theme))
+        clauses.append("(c.theme = %s OR c.parent = %s)")
+        params.extend((theme, theme))
         distinct = True
-    if tag_uuids:
-        placeholders = ", ".join(["%s"] * len(tag_uuids))
-        joins.append(f" JOIN `{table}_term` tt ON tt.document_id = s.document_id")
-        clauses.append(f"tt.term_uuid IN ({placeholders})")
-        params.extend(tag_uuids)
+    if tag:
+        joins.append(f" JOIN `{table}_tag` t ON t.document_id = s.document_id")
+        clauses.append("t.tag = %s")
+        params.append(tag)
         distinct = True
     return "".join(joins), clauses, params, distinct
 
@@ -111,23 +117,25 @@ def count_documents(
     bundle: str | None = None,
     *,
     entity_type: str | None = None,
+    title_contains: str | None = None,
     author: str | None = None,
-    term_uuids: Sequence[str] | None = None,
     theme: str | None = None,
-    tag_uuids: Sequence[str] | None = None,
+    tag: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
 ) -> int:
     """Count catalog documents (not chunks) matching the given filters.
 
-    ``author``/``theme`` match substrings against their facets; ``term_uuids``
-    scopes by taxonomy links and wins over ``theme``; ``tag_uuids`` is a second,
-    independent taxonomy scope, ANDed with theme rather than merged into it.
-    Date bounds are a half-open ``[from, to)`` interval over ``published_at``."""
+    ``author`` and ``title_contains`` match substrings; ``theme`` and ``tag``
+    match names exactly (``theme`` also matching its sub-themes) — see
+    :func:`_catalog_filters`. Date bounds are a half-open ``[from, to)`` interval
+    over ``published_at``. Takes the same filter set as
+    ``list_documents``/``distribution`` so a count and a listing of the same
+    query can never disagree."""
     table = _table()
     joins, clauses, params, distinct = _catalog_filters(
-        source_type, bundle, entity_type=entity_type,
-        author=author, term_uuids=term_uuids, theme=theme, tag_uuids=tag_uuids,
+        source_type, bundle, entity_type=entity_type, title_contains=title_contains,
+        author=author, theme=theme, tag=tag,
         published_from=published_from, published_to=published_to,
     )
     count_expr = "COUNT(DISTINCT s.document_id)" if distinct else "COUNT(*)"
@@ -146,9 +154,8 @@ def list_documents(
     entity_type: str | None = None,
     title_contains: str | None = None,
     author: str | None = None,
-    term_uuids: Sequence[str] | None = None,
     theme: str | None = None,
-    tag_uuids: Sequence[str] | None = None,
+    tag: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
     limit: int = 10,
@@ -164,7 +171,7 @@ def list_documents(
     joins, clauses, params, needs_distinct = _catalog_filters(
         source_type, bundle, entity_type=entity_type,
         title_contains=title_contains, author=author,
-        term_uuids=term_uuids, theme=theme, tag_uuids=tag_uuids,
+        theme=theme, tag=tag,
         published_from=published_from, published_to=published_to,
     )
     distinct = "DISTINCT " if needs_distinct else ""
@@ -182,8 +189,8 @@ def list_documents(
 
 
 # Dimensions the distribution query can group by. "author" groups on its facet
-# table; "theme" groups on the canonical taxonomy (documents_term -> terms), not
-# the free-text facet; "bundle" and "year" come off the document row itself.
+# table; "theme" groups on the documents_theme facet; "bundle" and "year" come
+# off the document row itself.
 _DISTRIBUTION_DIMENSIONS = ("bundle", "author", "theme", "year")
 
 
@@ -194,9 +201,8 @@ def distribution(
     *,
     entity_type: str | None = None,
     author: str | None = None,
-    term_uuids: Sequence[str] | None = None,
     theme: str | None = None,
-    tag_uuids: Sequence[str] | None = None,
+    tag: str | None = None,
     title_contains: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
@@ -207,8 +213,8 @@ def distribution(
 
     Applies the same theme/tag/author/title/date scope as ``count_documents``
     and ``list_documents`` (via :func:`_catalog_filters`), so a breakdown can be
-    narrowed to one theme, tag, author, period, etc. — ``tag_uuids`` is a scope
-    filter here, not a groupable dimension (see ``_DISTRIBUTION_DIMENSIONS``). A
+    narrowed to one theme, tag, author, period, etc. — ``tag`` is a scope filter
+    here, not a groupable dimension (see ``_DISTRIBUTION_DIMENSIONS``). A
     document that fans out across a facet join is counted once per group."""
     if group_by not in _DISTRIBUTION_DIMENSIONS:
         raise ValueError(f"group_by must be one of {_DISTRIBUTION_DIMENSIONS}")
@@ -216,7 +222,7 @@ def distribution(
     scope_joins, clauses, params, scoped = _catalog_filters(
         source_type, bundle, entity_type=entity_type,
         title_contains=title_contains, author=author,
-        term_uuids=term_uuids, theme=theme, tag_uuids=tag_uuids,
+        theme=theme, tag=tag,
         published_from=published_from, published_to=published_to,
     )
 
@@ -226,16 +232,14 @@ def distribution(
         group_join, key = "", "YEAR(s.published_at)"
         clauses.append("s.published_at IS NOT NULL")
     elif group_by == "theme":
-        # Group by the canonical taxonomy term (rename-proof, drift-free), not
-        # the free-text facet: join the term links to the terms table and keep
-        # only theme-vocabulary rows.
-        group_join = (
-            f" JOIN `{table}_term` gt ON gt.document_id = s.document_id"
-            f" JOIN `{TERM_TABLE}` gtn ON gtn.term_uuid = gt.term_uuid"
-        )
-        key = "gtn.name"
-        clauses.append("gtn.vocabulary = %s")
-        params.append(THEME_VOCABULARY)
+        # Group on the theme facet, excluding the boolean-literal artefacts
+        # `theme_vocabulary` also filters, so a breakdown and a listing of the
+        # vocabulary can never disagree about which themes exist.
+        group_join = f" JOIN `{table}_theme` gt ON gt.document_id = s.document_id"
+        key = "gt.theme"
+        placeholders = ", ".join(["%s"] * len(_NON_THEME_VALUES))
+        clauses.append(f"gt.theme <> '' AND gt.theme NOT IN ({placeholders})")
+        params.extend(_NON_THEME_VALUES)
     else:  # author -> multi-valued facet table
         group_join = f" JOIN `{table}_{group_by}` f ON f.document_id = s.document_id"
         key = f"f.{group_by}"
@@ -280,21 +284,104 @@ def distinct_authors(*, limit: int = 2000) -> list[str]:
         return [row["author"] for row in cur.fetchall() if row["author"]]
 
 
-def distinct_themes(*, limit: int = 500) -> list[str]:
-    """Every distinct free-text theme name in ``documents_theme``, ordered by
-    name.
+def theme_vocabulary(*, limit: int = 500) -> list[dict[str, Any]]:
+    """The theme vocabulary as the catalog knows it — one row per distinct theme
+    with its hierarchy and Main/Other group, ordered by name.
 
-    Fallback candidate source for theme entity resolution when the canonical
-    ``terms`` vocabulary has no rows yet (see
-    docs/database-retrieval-redesign.md §4.1) — a taxonomy-scoped ingestion
-    crawl has not run, but a document may already carry a real theme name via
-    the free-text facet. ``limit`` clamps to [1, 2000]."""
+    ``documents_theme`` is the source of truth for what themes exist: it stores
+    the theme *name* alongside the ``theme_type`` / ``parent`` / ``theme_group``
+    that ``app.catalog.theme_taxonomy`` materialized at ingest. Nothing here
+    reads app/data.json — that file shapes the columns during ingestion, and the
+    columns answer queries afterwards.
+
+    A theme carrying more than one hierarchy variant (data.json changed between
+    ingests, so some rows are stale) collapses to the variant the most documents
+    agree on, ties broken by name, so callers always see exactly one row per
+    theme. ``documents`` is that variant's document count. ``limit`` clamps to
+    [1, 2000] and applies to themes, not rows.
+    """
     table = _table()
     capped = max(1, min(int(limit or 500), 2000))
-    sql = f"SELECT DISTINCT theme FROM `{table}_theme` ORDER BY theme ASC LIMIT {capped}"
+    placeholders = ", ".join(["%s"] * len(_NON_THEME_VALUES))
+    sql = (
+        f"SELECT theme, theme_type, parent, theme_group,"
+        f" COUNT(DISTINCT document_id) AS documents"
+        f" FROM `{table}_theme`"
+        f" WHERE theme <> '' AND theme NOT IN ({placeholders})"
+        f" GROUP BY theme, theme_type, parent, theme_group"
+        f" ORDER BY theme ASC, documents DESC, theme_type ASC"
+    )
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(sql, _NON_THEME_VALUES)
+        rows = cur.fetchall()
+    vocabulary: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        if not row["theme"]:
+            continue
+        # ORDER BY put the best-supported variant first, so the first win sticks.
+        vocabulary.setdefault(
+            row["theme"],
+            {
+                "theme": row["theme"],
+                "theme_type": row["theme_type"],
+                "parent": row["parent"],
+                "theme_group": row["theme_group"],
+                "documents": int(row["documents"] or 0),
+            },
+        )
+        if len(vocabulary) >= capped:
+            break
+    return list(vocabulary.values())
+
+
+def find_tag(name: str) -> str | None:
+    """The stored casing of ``name`` if any document carries that tag, else None.
+
+    A targeted lookup rather than a vocabulary scan, because tags are matched
+    **exactly** (they are a long-tail freeform set — see
+    docs/database-retrieval-redesign.md §3, and `filters._resolve_tag_name`).
+    Loading every tag to compare in Python would also silently truncate: this
+    corpus already has more distinct tags than a sane row cap.
+    ``idx_val`` on the tag column makes this an index hit."""
+    if not name or not name.strip():
+        return None
+    table = _table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"SELECT tag FROM `{table}_tag` WHERE tag = %s LIMIT 1", (name.strip(),)
+        )
+        row = cur.fetchone()
+        if row:
+            return row["tag"]
+        # Only fall back to a case-insensitive scan when the exact form missed —
+        # LOWER() on the column cannot use the index.
+        cur.execute(
+            f"SELECT tag FROM `{table}_tag` WHERE LOWER(tag) = LOWER(%s) LIMIT 1",
+            (name.strip(),),
+        )
+        row = cur.fetchone()
+    return row["tag"] if row else None
+
+
+def distinct_tags(*, limit: int = 5000) -> list[str]:
+    """Every distinct tag name in ``documents_tag``, ordered by name.
+
+    Diagnostics only — matching a tag goes through :func:`find_tag`, which does
+    not have to load the vocabulary. ``limit`` clamps to [1, 10000]."""
+    table = _table()
+    capped = max(1, min(int(limit or 5000), 10000))
+    sql = f"SELECT DISTINCT tag FROM `{table}_tag` ORDER BY tag ASC LIMIT {capped}"
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(sql)
-        return [row["theme"] for row in cur.fetchall() if row["theme"]]
+        return [row["tag"] for row in cur.fetchall() if row["tag"]]
+
+
+def distinct_themes(*, limit: int = 500) -> list[str]:
+    """Every distinct theme name in ``documents_theme``, ordered by name.
+
+    A names-only view of :func:`theme_vocabulary`, so it inherits the same junk
+    filtering and one-row-per-theme guarantee."""
+    return [row["theme"] for row in theme_vocabulary(limit=limit)]
 
 
 # --------------------------------------------------------------------------- #
@@ -307,8 +394,8 @@ def distinct_themes(*, limit: int = 500) -> list[str]:
 def document_ids_in_scope(
     *,
     bundle: str | None = None,
-    term_uuids: Sequence[str] | None = None,
     theme: str | None = None,
+    tag: str | None = None,
     author: str | None = None,
     title_contains: str | None = None,
     published_from: datetime | None = None,
@@ -318,9 +405,10 @@ def document_ids_in_scope(
     """Document ids matching a metadata scope, most recent first.
 
     The id-set selection behind catalog-scoped retrieval: MySQL decides set
-    membership, Qdrant ranks content within it. ``term_uuids`` wins over the
-    ``theme`` display-name fallback. ``limit`` clamps to [1, 300] — honest
-    truncation beats an unbounded MatchAny downstream.
+    membership, Qdrant ranks content within it. Scoping matches
+    :func:`_catalog_filters` — ``theme`` by exact name or sub-theme, ``tag`` by
+    exact name. ``limit`` clamps to [1, 300] — honest truncation beats an
+    unbounded MatchAny downstream.
     """
     table = _table()
     joins: list[str] = []
@@ -344,16 +432,15 @@ def document_ids_in_scope(
         clauses.append("a.author LIKE %s")
         params.append(_like(author))
         distinct = True
-    if term_uuids:
-        placeholders = ", ".join(["%s"] * len(term_uuids))
-        joins.append(f" JOIN `{table}_term` dt ON dt.document_id = s.document_id")
-        clauses.append(f"dt.term_uuid IN ({placeholders})")
-        params.extend(term_uuids)
-        distinct = True
-    elif theme:
+    if theme:
         joins.append(f" JOIN `{table}_theme` c ON c.document_id = s.document_id")
-        clauses.append("c.theme LIKE %s")
-        params.append(_like(theme))
+        clauses.append("(c.theme = %s OR c.parent = %s)")
+        params.extend((theme, theme))
+        distinct = True
+    if tag:
+        joins.append(f" JOIN `{table}_tag` t ON t.document_id = s.document_id")
+        clauses.append("t.tag = %s")
+        params.append(tag)
         distinct = True
 
     # published_at is selected alongside the id: MySQL rejects DISTINCT with

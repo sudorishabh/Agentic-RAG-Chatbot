@@ -27,37 +27,16 @@ def _parse_bound(value: str | None) -> datetime | None:
 
 
 def _theme_condition(theme: str) -> Any:
-    """Filter for a theme scope: term UUIDs (rename-proof) OR display names —
-    the name leg matches points indexed before term_ids existed. UUIDs are
-    expanded to descendant sub-themes so a parent theme also matches documents
-    tagged only with a child. Term lookup failure degrades to the name-only
-    filter rather than failing retrieval."""
+    """Filter for a theme scope, by display name.
+
+    Qdrant payloads carry `categories` (theme names) alongside `theme_ids`; the
+    catalog is keyed by name now, so the name leg is the whole filter — there is
+    no MySQL term table to translate a name into UUIDs. Casing variants are
+    ORed because payloads store whatever the CMS supplied."""
     from qdrant_client.models import FieldCondition, Filter, MatchAny
 
-    names = {theme, theme.title()}
-    uuids: list[str] = []
-    try:
-        from app.catalog import terms
-
-        for row in terms.resolve_terms(theme):
-            uuids.append(row["term_uuid"])
-            names.add(row["name"])
-    except Exception:
-        logger.debug("Term resolution unavailable; theme filter by name only.",
-                     exc_info=True)
-
-    if uuids:
-        try:
-            uuids = terms.descendant_uuids(uuids)
-        except Exception:
-            logger.debug("Theme descendant expansion unavailable; matched terms only.",
-                         exc_info=True)
-
-    should: list[Any] = []
-    if uuids:
-        should.append(FieldCondition(key="theme_ids", match=MatchAny(any=uuids)))
-    should.append(FieldCondition(key="categories", match=MatchAny(any=sorted(names))))
-    return Filter(should=should)
+    names = sorted({theme, theme.title(), theme.strip()})
+    return Filter(should=[FieldCondition(key="categories", match=MatchAny(any=names))])
 
 
 def _facet_filters(analysis: "QueryAnalysis") -> list[Any]:

@@ -1,4 +1,4 @@
-"""Phase 2: the catalog tools. state.*, terms.*, and resolve.* are stubbed; no DB."""
+"""Phase 2: the catalog tools. state.* and the name vocabularies are stubbed; no DB."""
 
 from __future__ import annotations
 
@@ -17,20 +17,42 @@ def _rec(document_id="d1", title="A", url="http://a", published_at="2024-05-01T0
     )
 
 
+def _theme_vocab(*names, group="main"):
+    """Vocabulary rows. Pass ("Name", "other") tuples to vary the group."""
+    rows = []
+    for entry in names:
+        name, grp = entry if isinstance(entry, tuple) else (entry, group)
+        rows.append({"theme": name, "theme_type": "primary", "parent": None,
+                     "theme_group": grp, "documents": 3})
+    return rows
+
+
+@pytest.fixture(autouse=True)
+def _offline_catalog(monkeypatch):
+    """Themes/tags/authors come from the catalog by name; stub them empty so no
+    test reaches MySQL, and let individual cases override."""
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: [])
+    monkeypatch.setattr("app.catalog.queries.find_tag", lambda name: None)
+    monkeypatch.setattr("app.catalog.queries.distinct_authors", lambda **kw: [])
+    from app.retrieval.structured import resolve
+
+    resolve.reload_authors()
+    yield
+    resolve.reload_authors()
+
+
 @pytest.fixture
 def resolve_theme_ok(monkeypatch):
     monkeypatch.setattr(
-        "app.catalog.terms.resolve_terms",
-        lambda name, vocabulary=None: [{"term_uuid": "u1", "name": name}],
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: _theme_vocab("Climate", "Climate Change", "Environment"),
     )
 
 
 @pytest.fixture
 def resolve_tag_ok(monkeypatch):
-    monkeypatch.setattr(
-        "app.catalog.terms.resolve_terms",
-        lambda name, vocabulary=None: [{"term_uuid": "t1", "name": name}],
-    )
+    monkeypatch.setattr("app.catalog.queries.find_tag",
+                        lambda name: "policy" if name.lower() == "policy" else None)
 
 
 # --------------------------------------------------------------------------- #
@@ -54,6 +76,36 @@ def test_scope_phrase_names_author_theme_tag_and_period_in_order():
 
 def test_scope_phrase_author_only():
     assert tools._scope_phrase(RecordFilters(author="Rishabh Negi")) == " by Rishabh Negi"
+
+
+def test_scope_phrase_names_the_title_filter():
+    assert tools._scope_phrase(RecordFilters(title_contains="Solar")) == (
+        " with 'Solar' in the title"
+    )
+
+
+def test_scope_phrase_covers_every_filter_that_applied_filters_echoes():
+    """The prose and the structured echo must name the same filter set — a
+    filter stated in one but not the other is either an unexplained number or
+    an unexplained key. Dates are compared as a period rather than verbatim:
+    a whole calendar year deliberately reads "in 2024", not its raw bounds."""
+    filters = RecordFilters(
+        author="Rishabh Negi", theme="Climate Change", tag="policy",
+        title_contains="Solar", date_from="2024-03-15", date_to="2024-06-01",
+    )
+    phrase = tools._scope_phrase(filters)
+    applied = tools._applied_filters(None, filters)
+    assert set(applied) == {
+        "author", "theme", "tag", "title_contains", "date_from", "date_to",
+    }
+    for value in applied.values():
+        assert value in phrase, f"{value!r} echoed in data but absent from the prose"
+
+
+def test_scope_phrase_states_a_collapsed_calendar_year():
+    filters = RecordFilters(date_from="2024-01-01", date_to="2025-01-01")
+    assert tools._scope_phrase(filters) == " in 2024"
+    assert set(tools._applied_filters(None, filters)) == {"date_from", "date_to"}
 
 
 def test_applied_filters_omits_unset_values():
@@ -96,7 +148,7 @@ def test_count_records_renders_and_passes_scope(monkeypatch, resolve_theme_ok):
     assert r.rendered == "There are 3 news items on 'Climate' in 2024 matching your query."
     assert seen["bundle"] == "news"
     assert seen["source_type"] == "website" and seen["entity_type"] == "node"
-    assert seen["term_uuids"] == ["u1"]
+    assert seen["theme"] == "Climate"
 
 
 def test_count_records_unknown_entity_is_not_ok(monkeypatch):
@@ -106,21 +158,18 @@ def test_count_records_unknown_entity_is_not_ok(monkeypatch):
 
 
 def test_count_records_unresolved_theme_still_counts_via_name_fallback(monkeypatch):
-    """A theme that matches no taxonomy term still filters on the free-text
-    documents_theme facet — refusing up front would deny a theme that plainly
-    exists in an environment whose taxonomy-term crawl has not run."""
+    """A theme name the vocabulary could not place still filters — matching being
+    unsure is not proof of absence, so the query runs and may well find rows."""
     seen = {}
 
     def fake_count(**kw):
         seen.update(kw)
         return 99
 
-    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
     monkeypatch.setattr("app.catalog.queries.count_documents", fake_count)
     r = tools.count_records("news", RecordFilters(theme="Environment"))
     assert r.ok is True
-    assert seen["theme"] == "Environment"  # display-name fallback, not term_uuids
-    assert "term_uuids" not in seen
+    assert seen["theme"] == "Environment"  # filtered by name
     assert r.data["count"] == 99
 
 
@@ -128,7 +177,6 @@ def test_count_records_unresolved_theme_with_no_rows_is_a_terminal_miss(monkeypa
     """Only when the fallback also finds nothing are "unknown theme" and
     "genuinely no documents" indistinguishable — then the miss is the honest
     answer, not a bare 0."""
-    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
     monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 0)
     r = tools.count_records("news", RecordFilters(theme="Quantum Beekeeping"))
     assert r.ok is False and r.error_kind == "unresolved"
@@ -139,10 +187,9 @@ def test_count_records_resolved_theme_with_no_rows_is_an_honest_zero(monkeypatch
     """A theme that DID resolve and matched nothing is a real zero — never
     relabelled as a miss."""
     monkeypatch.setattr(
-        "app.catalog.terms.resolve_terms",
-        lambda name, vocabulary=None: [{"term_uuid": "u1", "name": name}],
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: _theme_vocab("Climate Change"),
     )
-    monkeypatch.setattr("app.catalog.terms.descendant_uuids", lambda u: list(u))
     monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 0)
     r = tools.count_records("news", RecordFilters(theme="Climate Change"))
     assert r.ok is True and r.data["count"] == 0
@@ -161,14 +208,16 @@ def test_count_records_passes_tag_scope(monkeypatch, resolve_tag_ok):
     assert r.ok
     assert r.data == {"count": 4, "applied": {"entity": "news", "tag": "policy"}}
     assert r.rendered == "There are 4 news items tagged 'policy' matching your query."
-    assert seen["tag_uuids"] == ["t1"]
+    assert seen["tag"] == "policy"
 
 
-def test_count_records_unresolved_tag_is_not_ok(monkeypatch):
-    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
-    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 99)
+def test_count_records_unmatched_tag_with_no_rows_is_a_terminal_miss(monkeypatch):
+    """Tags are matched exactly, so an unmatched name finds nothing — and an
+    empty result on an unmatched name is the honest miss."""
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 0)
     r = tools.count_records("news", RecordFilters(tag="nonexistent"))
-    assert r.ok is False  # no fallback column exists for tag; never guess
+    assert r.ok is False and r.error_kind == "unresolved"
+    assert r.rendered == "No tag matching 'nonexistent' found."
 
 
 def test_count_records_singular_verb(monkeypatch):
@@ -193,6 +242,37 @@ def test_count_records_date_range_render(monkeypatch):
     )
 
 
+def test_count_records_applies_the_title_filter(monkeypatch):
+    """count_documents did not accept title_contains at all, so a title-filtered
+    count silently returned the whole corpus while list_records filtered
+    correctly — the two disagreed on the same query."""
+    seen = {}
+    monkeypatch.setattr(
+        "app.catalog.queries.count_documents", lambda **kw: seen.update(kw) or 3
+    )
+    r = tools.count_records("report", RecordFilters(title_contains="Solar"))
+    assert seen["title_contains"] == "Solar"
+    assert r.rendered == "There are 3 reports with 'Solar' in the title matching your query."
+
+
+def test_count_and_list_pass_the_same_filter_set(monkeypatch):
+    """Regression guard: whatever narrows a listing must narrow its count too."""
+    counted, listed = {}, {}
+    monkeypatch.setattr(
+        "app.catalog.queries.count_documents", lambda **kw: counted.update(kw) or 1
+    )
+    monkeypatch.setattr(
+        "app.catalog.queries.list_documents", lambda **kw: listed.update(kw) or [_rec()]
+    )
+    filters = RecordFilters(author="Sharma", title_contains="Solar",
+                            date_from="2024-01-01", date_to="2025-01-01")
+    tools.count_records("report", filters)
+    tools.list_records("report", filters)
+    # list_documents additionally takes paging keys; every filter must match.
+    for key, value in counted.items():
+        assert listed[key] == value, f"{key} differs between count and list"
+
+
 def test_count_records_names_author_in_rendered_answer(monkeypatch):
     monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 21)
     r = tools.count_records(None, RecordFilters(author="Dr Suneel Pandey"))
@@ -201,7 +281,7 @@ def test_count_records_names_author_in_rendered_answer(monkeypatch):
 
 
 def test_count_records_combines_author_theme_tag_and_period(monkeypatch, resolve_theme_ok):
-    monkeypatch.setattr("app.catalog.terms.resolve_terms",
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary",
                         lambda name, vocabulary=None: [{"term_uuid": "u1", "name": name}])
     monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 3)
     r = tools.count_records(
@@ -271,16 +351,13 @@ def test_list_records_passes_tag_scope(monkeypatch, resolve_tag_ok):
     monkeypatch.setattr("app.catalog.queries.list_documents", fake_list)
     r = tools.list_records("news", RecordFilters(tag="policy"))
     assert r.ok
-    assert seen["tag_uuids"] == ["t1"]
+    assert seen["tag"] == "policy"
 
 
-def test_list_records_unresolved_tag_is_not_ok(monkeypatch):
-    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
-    monkeypatch.setattr("app.catalog.queries.list_documents", lambda **k: [_rec()])
+def test_list_records_unmatched_tag_with_no_rows_is_a_terminal_miss(monkeypatch):
+    monkeypatch.setattr("app.catalog.queries.list_documents", lambda **k: [])
     r = tools.list_records("news", RecordFilters(tag="nonexistent"))
-    # Unlike an unresolved theme (free-text facet fallback), an unresolved tag
-    # has no column to filter on, so listing unfiltered results would be wrong.
-    assert r.ok is False
+    assert r.ok is False and r.error_kind == "unresolved"
 
 
 def test_list_records_passes_offset(monkeypatch):
@@ -382,10 +459,10 @@ def test_lookup_record_no_chain_when_multiple_match(monkeypatch):
 
 def test_list_themes_renders_vocabulary(monkeypatch):
     monkeypatch.setattr(
-        "app.catalog.terms.list_themes",
+        "app.catalog.queries.theme_vocabulary",
         lambda **kw: [
-            {"term_uuid": "t1", "name": "Climate Change", "parent_uuid": None},
-            {"term_uuid": "t2", "name": "Energy", "parent_uuid": None},
+            {"theme": "Climate Change", "theme_type": "primary", "parent": None, "theme_group": "main", "documents": 3},
+            {"theme": "Energy", "theme_type": "primary", "parent": None, "theme_group": "main", "documents": 3},
         ],
     )
     r = tools.list_themes()
@@ -397,36 +474,31 @@ def test_list_themes_renders_vocabulary(monkeypatch):
 def test_list_themes_reports_the_whole_vocabulary_not_a_page(monkeypatch):
     """The brief's "how many themes are there?" — the rendered total is a factual
     claim, so it must never be a truncated page of the vocabulary."""
-    vocabulary = [
-        {"term_uuid": f"t{i}", "name": f"Theme {i}", "parent_uuid": None}
-        for i in range(30)
-    ]
+    vocabulary = _theme_vocab(*[f"Theme {i}" for i in range(30)])
     seen = {}
 
-    def fake_list_themes(**kw):
+    def fake_vocabulary(**kw):
         seen.update(kw)
         return vocabulary[: kw.get("limit", tools.THEME_VOCABULARY_LIMIT)]
 
-    monkeypatch.setattr("app.catalog.terms.list_themes", fake_list_themes)
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", fake_vocabulary)
     r = tools.list_themes()
     assert seen["limit"] == tools.THEME_VOCABULARY_LIMIT
     assert len(r.data["themes"]) == 30
     assert r.rendered.startswith("The collection covers 30 themes:")
 
 
+
 def test_list_themes_empty_falls_through(monkeypatch):
-    monkeypatch.setattr("app.catalog.terms.list_themes", lambda **kw: [])
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: [])
     r = tools.list_themes()
     assert r.ok is False and r.tool == "list_themes"
 
 
 def test_list_themes_splits_main_and_other(monkeypatch):
     monkeypatch.setattr(
-        "app.catalog.terms.list_themes",
-        lambda **kw: [
-            {"term_uuid": "t1", "name": "Energy", "parent_uuid": None},
-            {"term_uuid": "t2", "name": "Green Shipping", "parent_uuid": None},
-        ],
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: _theme_vocab("Energy", ("Green Shipping", "other")),
     )
     r = tools.list_themes()
     assert r.data["main_themes"] == ["Energy"]
@@ -435,14 +507,12 @@ def test_list_themes_splits_main_and_other(monkeypatch):
     assert "- Energy" in r.rendered and "- Green Shipping" in r.rendered
 
 
-def test_list_themes_unknown_theme_lists_under_other(monkeypatch):
-    """A theme the CMS has but data.json does not know about groups as None,
-    which must list under Other rather than being dropped."""
+def test_list_themes_ungrouped_theme_lists_under_other(monkeypatch):
+    """theme_group is NULL for a theme ingestion never classified — it must list
+    under Other rather than being dropped."""
     monkeypatch.setattr(
-        "app.catalog.terms.list_themes",
-        lambda **kw: [
-            {"term_uuid": "t1", "name": "Quantum Beekeeping", "parent_uuid": None},
-        ],
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: _theme_vocab(("Quantum Beekeeping", None)),
     )
     r = tools.list_themes()
     assert r.data["main_themes"] == []
@@ -451,17 +521,16 @@ def test_list_themes_unknown_theme_lists_under_other(monkeypatch):
     assert "Other themes:\n- Quantum Beekeeping" in r.rendered
 
 
+
 def test_list_themes_table_format_has_two_labelled_sections(monkeypatch):
     monkeypatch.setattr(
-        "app.catalog.terms.list_themes",
-        lambda **kw: [
-            {"term_uuid": "t1", "name": "Energy", "parent_uuid": None},
-            {"term_uuid": "t2", "name": "Green Shipping", "parent_uuid": None},
-        ],
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: _theme_vocab("Energy", ("Green Shipping", "other")),
     )
     r = tools.list_themes(output_format="table")
     assert "**Main themes**" in r.rendered and "**Other themes**" in r.rendered
     assert "| Energy |" in r.rendered and "| Green Shipping |" in r.rendered
+
 
 
 def test_aggregate_records_table_and_dimension(monkeypatch):
@@ -497,16 +566,13 @@ def test_aggregate_records_passes_tag_scope(monkeypatch, resolve_tag_ok):
     monkeypatch.setattr("app.catalog.queries.distribution", fake_dist)
     r = tools.aggregate_records(None, "theme", RecordFilters(tag="policy"))
     assert r.ok
-    assert seen["tag_uuids"] == ["t1"]
+    assert seen["tag"] == "policy"
 
 
-def test_aggregate_records_unresolved_tag_is_not_ok(monkeypatch):
-    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
-    monkeypatch.setattr(
-        "app.catalog.queries.distribution", lambda group_by, **k: [("Climate", 5)]
-    )
+def test_aggregate_records_unmatched_tag_with_no_rows_is_a_terminal_miss(monkeypatch):
+    monkeypatch.setattr("app.catalog.queries.distribution", lambda group_by, **k: [])
     r = tools.aggregate_records(None, "theme", RecordFilters(tag="nonexistent"))
-    assert r.ok is False
+    assert r.ok is False and r.error_kind == "unresolved"
 
 
 def test_aggregate_records_content_type_maps_to_bundle(monkeypatch):

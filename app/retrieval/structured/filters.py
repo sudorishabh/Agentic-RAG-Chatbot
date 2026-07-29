@@ -3,12 +3,11 @@
 Holds the application's structured-scope business rules in one place (previously
 duplicated across state, catalog, the structured answerer, and query_processor):
 
-- free-text author/theme names are canonicalized by fuzzy matching (see
-  `_resolve_name`) before any lookup, so a misspelling filters on the name the
-  catalog actually stores;
-- theme names resolve to taxonomy term UUIDs (rename-proof, alias-aware via
-  terms.resolve_terms), with a display-name theme fallback for documents
-  ingested before the term catalog;
+- free-text author and theme names are canonicalized by fuzzy matching against
+  what the catalog stores, so a misspelling filters on the real name;
+- tags are matched by exact name instead (a long-tail vocabulary where fuzzy
+  ranking would flag an ambiguity on almost every query);
+- sub-theme expansion is left to SQL (`theme = X OR parent = X`);
 - dates are a half-open [from, to) interval;
 - resolution failures degrade rather than raise.
 
@@ -19,8 +18,9 @@ Resolving on the way to SQL instead means every tool benefits regardless of how
 the plan is shaped. `tools.resolve_entity` remains for the one thing this path
 cannot do: asking the user which of several close matches they meant.
 
-The resolver produces kwargs the existing `state.*` catalog readers already accept,
-so it consolidates the rules without touching the frozen ingestion module.
+The resolver produces kwargs the `state.*` catalog readers accept, keyed by name
+— themes live in `documents_theme`, tags in `documents_tag`, and taxonomy UUIDs
+only in Qdrant payloads (see docs/retire-term-tables-plan.md).
 """
 
 from __future__ import annotations
@@ -35,6 +35,19 @@ from app.retrieval.structured.types import RecordFilters
 
 logger = logging.getLogger(__name__)
 
+# Entity kinds this module canonicalizes. `resolve` advertises author/bundle/
+# theme as *tool* types; tag is matched the same way here because it now has its
+# own facet table, it just is not offered as a resolve_entity type (see
+# docs/database-retrieval-redesign.md §3).
+_THEME = "theme"
+_TAG = "tag"
+
+
+def _typed(filters: RecordFilters, kind: str) -> str:
+    """The value the user actually typed for `kind` — what a clarification
+    question must quote, rather than the candidate it nearly matched."""
+    return getattr(filters, kind, None) or ""
+
 
 @dataclass(frozen=True)
 class AmbiguousFilter:
@@ -47,20 +60,52 @@ class AmbiguousFilter:
     candidates: list[str]
 
 
-def _resolve_name(kind: str, value: str | None) -> tuple[str | None, str | None, AmbiguousFilter | None]:
+@dataclass(frozen=True)
+class _NameMatch:
+    """Outcome of canonicalizing one free-text entity name.
+
+    `name` is always what to filter on: the canonical name when matching found
+    one, else the string as typed — a filter is never silently dropped. `band`
+    is None when matching was skipped or failed, which callers read as "no
+    opinion" rather than as a miss."""
+
+    name: str | None
+    band: str | None = None
+    candidates: list[str] = field(default_factory=list)
+
+
+def _resolve_tag_name(value: str) -> _NameMatch:
+    """Match a tag by exact name, case-insensitively — never fuzzily.
+
+    Tags are a long-tail freeform vocabulary (thousands of entries, many
+    near-duplicates like "Solid waste" / "Urban waste" / "Waste management"), so
+    ranking them by similarity would flag an ambiguity on almost every query. A
+    hit returns the stored casing; anything else is a miss, which the caller only
+    acts on if the query then also finds nothing."""
+    from app.catalog import queries
+    from app.retrieval.structured import resolve
+
+    try:
+        found = queries.find_tag(value)
+    except Exception:
+        logger.warning("Tag lookup failed; filtering on the name as typed.", exc_info=True)
+        return _NameMatch(value)
+    return _NameMatch(found, resolve.ACCEPT) if found else _NameMatch(value, resolve.MISS)
+
+
+def _resolve_name(kind: str, value: str | None) -> _NameMatch:
     """Canonicalize a free-text entity name against what the catalog stores.
 
-    Returns ``(name to filter on, band, ambiguity)``. The name degrades to the
-    user's own string on anything but a confident single match, so filtering
-    still happens — a fuzzy miss is not the same as no filter, and the caller
-    decides what an empty result then means. ``band`` is None when resolution
-    was skipped (feature disabled or the lookup failed), which callers treat as
-    "no opinion" rather than as a miss.
+    Unconditional, not gated by `entity_resolution_enabled`: theme and tag
+    filters match names **exactly** now (see `queries._catalog_filters`), so
+    canonicalizing is part of how filtering works rather than an enhancement on
+    top of it. The flag gates what the caller *does* with an ambiguous or missing
+    match (ask / report vs. carry on), not whether names are matched at all.
     """
     if not value:
-        return None, None, None
-    if not get_settings().entity_resolution_enabled:
-        return value, None, None
+        return _NameMatch(None)
+    if kind == _TAG:
+        return _resolve_tag_name(value)
     from app.retrieval.structured import resolve
 
     try:
@@ -69,20 +114,21 @@ def _resolve_name(kind: str, value: str | None) -> tuple[str | None, str | None,
         logger.warning(
             "%s name resolution failed; filtering on the name as typed.", kind, exc_info=True
         )
-        return value, None, None
+        return _NameMatch(value)
     if not candidates:
-        return value, resolve.MISS, None
+        return _NameMatch(value, resolve.MISS)
     top = candidates[0]
     runner_up = candidates[1].score if len(candidates) > 1 else 0.0
     band = resolve.classify_band(top.score, runner_up)
-    if band == resolve.ACCEPT:
-        return top.canonical_name, band, None
-    if band == resolve.AMBIGUOUS:
-        return value, band, AmbiguousFilter(
-            kind=kind, query=value,
-            candidates=[c.canonical_name for c in resolve.plausible(candidates)],
-        )
-    return value, band, None
+    if band == resolve.MISS:
+        return _NameMatch(value, band)
+    # Accepted outright, or ambiguous — either way the top candidate is the best
+    # available name. Whether an ambiguous match is acted on or quietly taken is
+    # the caller's decision (see `resolve_filters`).
+    return _NameMatch(
+        top.canonical_name, band,
+        [c.canonical_name for c in resolve.plausible(candidates)],
+    )
 
 
 def _parse_date(value: str | None) -> datetime | None:
@@ -94,148 +140,109 @@ def _parse_date(value: str | None) -> datetime | None:
         return None
 
 
-def resolve_tag(tag: str | None) -> dict[str, Any]:
-    """Tag scope: term UUIDs when the taxonomy resolves the name, else the
-    display-name fallback. Unlike themes, tags have no free-text facet table and
-    no subtree to expand — the `tags` vocabulary is a flat, freeform CMS list
-    (see docs/database-retrieval-redesign.md §4.1/§5), so a name that does not
-    resolve degrades to the display-name dict same as `resolve_theme`, but that
-    fallback has no matching column to filter on until a taxonomy-scoped crawl
-    populates `terms`. Resolution failure degrades to the name fallback rather
-    than raising."""
-    if not tag:
-        return {}
-    try:
-        from app.catalog import terms
-        from app.catalog.schema import TAG_VOCABULARY
+def resolve_theme(theme: str | None) -> str | None:
+    """The theme name to filter on, canonicalized against `documents_theme`.
 
-        rows = terms.resolve_terms(tag, vocabulary=TAG_VOCABULARY)
-    except Exception:
-        logger.warning("Tag resolution failed; using name fallback.", exc_info=True)
-        return {"tag": tag}
-    if not rows:
-        return {"tag": tag}
-    return {"tag_uuids": [row["term_uuid"] for row in rows]}
+    Sub-theme expansion is the SQL layer's job now (`theme = X OR parent = X`),
+    not a UUID walk here — see `queries._catalog_filters`."""
+    return _resolve_name(_THEME, theme).name
 
 
-def resolve_theme(theme: str | None) -> dict[str, Any]:
-    """Theme scope: term UUIDs when the taxonomy resolves the name (rename/
-    alias-proof), expanded to descendant sub-themes so a parent theme also
-    counts documents tagged only with a child; else the display-name theme
-    fallback. Resolution failure degrades to the name fallback rather than
-    raising."""
-    if not theme:
-        return {}
-    try:
-        from app.catalog import terms
+def resolve_tag(tag: str | None) -> str | None:
+    """The tag name to filter on, canonicalized against `documents_tag`.
 
-        rows = terms.resolve_terms(theme)
-    except Exception:
-        logger.warning("Theme resolution failed; using name fallback.", exc_info=True)
-        return {"theme": theme}
-    if not rows:
-        return {"theme": theme}
-    uuids = [row["term_uuid"] for row in rows]
-    try:
-        uuids = terms.descendant_uuids(uuids)
-    except Exception:
-        logger.warning(
-            "Theme descendant expansion failed; scoping to matched terms only.",
-            exc_info=True,
-        )
-    return {"term_uuids": uuids}
+    Symmetric with :func:`resolve_theme` — tags have their own facet table, so
+    unlike the previous UUID-linked design there is no longer a case where a tag
+    has nothing to match against."""
+    return _resolve_name(_TAG, tag).name
 
 
 @dataclass
 class ResolvedScope:
     """Backing kwargs for the state.* catalog readers, plus resolution flags.
 
-    `theme_requested` with `theme_resolved` False means the theme matched no
-    taxonomy term, so only the display-name fallback filtered the query — the
-    tools treat an *empty* result in that state as a miss (a non-empty one is a
-    real answer). `tag_requested`/`tag_resolved` are the tag equivalent, but
-    tags have no display-name fallback table (see resolve_tag), so an unresolved
-    tag is guarded before querying at all.
+    `author` / `theme` / `tag` are the names that reach SQL — canonical when
+    matching identified one, else as typed. All three are matched the same way
+    now that each has its own facet table; there is no longer a filter that has
+    nothing to match against.
 
-    `effective` is the same filter set with canonical names substituted for what
-    the user typed — the tools render and echo from it, so an answer states the
-    entity it actually filtered on rather than the misspelling. `ambiguous` is
-    set when a name matched several entities too closely to choose between;
-    `author_missed` when fuzzy matching found nothing plausible for an author.
+    `effective` is the same filter set with those canonical names substituted, so
+    an answer states the entity it really filtered on rather than the user's
+    spelling. `ambiguous` is set when a name matched several entities too closely
+    to choose between. `*_missed` means matching found nothing plausible — the
+    filter still ran, so the tools only treat it as a miss if the result also
+    came back empty.
     """
 
     author: str | None = None
     title_contains: str | None = None
-    term_uuids: list[str] | None = None
     theme: str | None = None
-    tag_uuids: list[str] | None = None
     tag: str | None = None
     published_from: datetime | None = None
     published_to: datetime | None = None
-    theme_requested: bool = False
-    tag_requested: bool = False
     effective: RecordFilters = field(default_factory=RecordFilters)
     ambiguous: AmbiguousFilter | None = None
     author_missed: bool = False
-
-    @property
-    def theme_resolved(self) -> bool:
-        return bool(self.term_uuids)
-
-    @property
-    def tag_resolved(self) -> bool:
-        return bool(self.tag_uuids)
+    theme_missed: bool = False
+    tag_missed: bool = False
 
     def as_kwargs(self) -> dict[str, Any]:
-        """Filter kwargs shared by count_documents / list_documents / distribution
-        (author, theme, tag, dates). `title_contains` is passed separately by the
-        tools that use it. `tag` (the unresolved display name) never appears here
-        — unlike theme, there is no facet column to filter tag on by name, so a
-        caller must guard on `tag_requested and not tag_resolved` before querying
-        at all (see docs/database-retrieval-redesign.md §4.1)."""
+        """Filter kwargs shared by count_documents / list_documents /
+        distribution (author, theme, tag, dates). `title_contains` is passed
+        separately by the tools that use it."""
         kwargs: dict[str, Any] = {
             "author": self.author,
+            "theme": self.theme,
+            "tag": self.tag,
             "published_from": self.published_from,
             "published_to": self.published_to,
         }
-        if self.term_uuids:
-            kwargs["term_uuids"] = self.term_uuids
-        elif self.theme:
-            kwargs["theme"] = self.theme
-        if self.tag_uuids:
-            kwargs["tag_uuids"] = self.tag_uuids
         return {key: value for key, value in kwargs.items() if value is not None}
 
 
 def resolve_filters(filters: RecordFilters) -> ResolvedScope:
     """Turn user-facing RecordFilters into catalog backing kwargs: canonicalize
-    the author and theme names, resolve theme/tag to taxonomy UUIDs, parse dates.
+    the author, theme and tag names against what the catalog stores, and parse
+    dates.
 
-    Author and theme are canonicalized first so the lookups below run against the
-    name the catalog stores rather than the user's spelling. Tags are not — they
-    are matched exactly (see `resolve_tag` and
-    docs/database-retrieval-redesign.md §3 on why tag is not fuzzy-resolved).
+    `entity_resolution_enabled` decides what happens to an imperfect match, not
+    whether matching runs (see `_resolve_name`). With it off, an ambiguous name
+    quietly takes the best candidate and a miss is not reported — the
+    pre-existing behaviour of answering with whatever the filter finds.
     """
     from app.retrieval.structured import resolve as _resolve
 
-    author, author_band, author_ambiguous = _resolve_name(_resolve.AUTHOR, filters.author)
-    theme_name, _theme_band, theme_ambiguous = _resolve_name(_resolve.THEME, filters.theme)
-    theme = resolve_theme(theme_name)
-    tag = resolve_tag(filters.tag)
+    strict = get_settings().entity_resolution_enabled
+    author = _resolve_name(_resolve.AUTHOR, filters.author)
+    theme = _resolve_name(_THEME, filters.theme)
+    tag = _resolve_name(_TAG, filters.tag)
+
+    ambiguous: AmbiguousFilter | None = None
+    if strict:
+        # One clarification at a time, author first: a person's name is the most
+        # common source of a genuine near-tie.
+        for kind, match in ((_resolve.AUTHOR, author), (_THEME, theme), (_TAG, tag)):
+            if match.band == _resolve.AMBIGUOUS:
+                ambiguous = AmbiguousFilter(
+                    kind=kind, query=_typed(filters, kind), candidates=match.candidates
+                )
+                break
+
     return ResolvedScope(
-        author=author,
+        author=author.name,
         title_contains=filters.title_contains or None,
-        term_uuids=theme.get("term_uuids"),
-        theme=theme.get("theme"),
-        tag_uuids=tag.get("tag_uuids"),
-        tag=tag.get("tag"),
+        theme=theme.name,
+        tag=tag.name,
         published_from=_parse_date(filters.date_from),
         published_to=_parse_date(filters.date_to),
-        theme_requested=bool(filters.theme),
-        tag_requested=bool(filters.tag),
-        effective=replace(filters, author=author, theme=theme_name),
-        # Only one clarification is asked at a time; author first because a
-        # person's name is the more common source of a genuine near-tie.
-        ambiguous=author_ambiguous or theme_ambiguous,
-        author_missed=author_band == _resolve.MISS,
+        effective=replace(filters, author=author.name, theme=theme.name, tag=tag.name),
+        ambiguous=ambiguous,
+        # Misses are always *detected* — the flag only decides whether the tools'
+        # resulting no-answer is surfaced as a terminal message or falls through
+        # to semantic search (see answerer._terminal_result). Detecting them
+        # unconditionally is what keeps flag-off behaviour identical to before:
+        # an unrecognized filter falls through rather than answering a bare 0.
+        author_missed=author.band == _resolve.MISS,
+        theme_missed=theme.band == _resolve.MISS,
+        tag_missed=tag.band == _resolve.MISS,
     )

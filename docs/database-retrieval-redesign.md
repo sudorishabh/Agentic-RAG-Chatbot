@@ -183,7 +183,14 @@ duplicating them: exact match must stay the fast path, and alias resolution and
 `type` omitted → try every type and return the merged ranked list, which makes
 "how many climate?" answerable without the caller knowing the entity kind.
 
-### 4.1 Operational dependency: `resolve_entity(type="theme")` needs `terms` populated
+### 4.1 Operational dependency on `terms` — *resolved, no longer applies*
+
+> This whole class of failure is gone: theme candidates now come from
+> `documents_theme` and tags from `documents_tag`, neither of which depends on a
+> taxonomy crawl. The account below is kept because it is what motivated
+> retiring the term tables — and because it is the bug a user actually hit
+> ("how many themes are there" refusing while 26 themes sat in the facet table).
+> Original text follows.
 
 `resolve_entity` for `theme` reads the canonical `terms` table
 (`vocabulary='themes'`), not the free-text `documents_theme` facet. `terms` is
@@ -240,6 +247,15 @@ taxonomy-scoped crawl populates `vocabulary='tags'`.
 
 ## 5. Tag filtering — filter only, no confidence-scored resolution
 
+> **Updated (current).** Tags now live in their own `documents_tag` facet, so
+> the "no fallback column" asymmetry described below is gone — tag is matched
+> like theme, by name. Matching is still **exact** (case-insensitive) rather
+> than fuzzy, for the long-tail reason in §3, and goes through
+> `queries.find_tag`: a targeted indexed lookup, not a vocabulary scan, because
+> this corpus has **2,364 distinct tags** — more than any sane row cap, so
+> loading them all to compare in Python silently truncated. Original text
+> follows.
+
 Add `tag: str | None` to `RecordFilters` (`types.py:24`) and `tag_uuids` to
 `ResolvedScope`. Resolve it with a small `resolve_tag(tag: str | None)` helper in
 `filters.py`, mirroring `resolve_theme` exactly (exact/alias match against
@@ -268,6 +284,12 @@ that into an OR. Set `distinct = True` as the existing facet joins do.
 ---
 
 ## 6. `list_themes` — Main/Other sections
+
+> **Updated (current).** `list_themes` reads `documents_theme` (via
+> `queries.theme_vocabulary`) and takes the split from its `theme_group` column
+> — not from `terms`, and not by calling `theme_taxonomy.group_of` at query
+> time. `data.json` still *populates* that column at ingest; it is no longer
+> read to answer a query. Original text follows.
 
 `theme_group` lives on `documents_theme`, which only has rows for themes some
 document actually carries. `list_themes` reads `terms`, which includes themes with

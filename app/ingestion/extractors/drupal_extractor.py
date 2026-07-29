@@ -517,7 +517,7 @@ def _resolve_relationships(
             # "virtual" is the placeholder parent of root taxonomy terms; "missing"
             # is JSON:API's resource identifier for a relationship target that no
             # longer exists (deleted/unpublished) -- never resolvable, so keeping
-            # it as a ref would leave a permanent dangling documents_term row.
+            # it as a ref would put an unresolvable id in the Qdrant payload.
             # file--file attachments are handled by _resolve_files.
             if (
                 not uuid

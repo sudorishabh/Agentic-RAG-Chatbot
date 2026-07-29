@@ -34,28 +34,22 @@ def _payload(doc_id, text="Some content.", title=None, published="2024-03-15T00:
 # Scope filters — what the analysis translates to in catalog kwargs.
 # --------------------------------------------------------------------------- #
 
-def test_scope_filters_theme_resolves_to_term_uuids(monkeypatch):
+def test_scope_filters_theme_is_canonicalized_by_name(monkeypatch):
+    """Sub-theme expansion happens in SQL now (theme = X OR parent = X), so the
+    scope carries a single canonical name rather than a UUID set."""
     monkeypatch.setattr(
-        sm.terms, "resolve_terms", lambda name: [{"term_uuid": "t1", "name": "Climate"}]
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: [{"theme": "Climate Change", "theme_type": "primary",
+                       "parent": None, "theme_group": "main", "documents": 3}],
     )
-    monkeypatch.setattr(sm.terms, "descendant_uuids", lambda uuids: list(uuids))
-    filters = sm._scope_filters(_analysis(theme="Climate"))
-    assert filters == {"term_uuids": ["t1"]}
+    filters = sm._scope_filters(_analysis(theme="climate"))
+    assert filters == {"theme": "Climate Change"}
 
 
-def test_scope_filters_theme_expands_to_descendant_subthemes(monkeypatch):
-    monkeypatch.setattr(
-        sm.terms, "resolve_terms", lambda name: [{"term_uuid": "parent", "name": "Environment"}]
-    )
-    monkeypatch.setattr(
-        sm.terms, "descendant_uuids", lambda uuids: list(uuids) + ["air"]
-    )
-    filters = sm._scope_filters(_analysis(theme="Environment"))
-    assert filters == {"term_uuids": ["parent", "air"]}
-
-
-def test_scope_filters_theme_falls_back_to_theme_name(monkeypatch):
-    monkeypatch.setattr(sm.terms, "resolve_terms", lambda name: [])
+def test_scope_filters_unmatched_theme_keeps_the_name_as_typed(monkeypatch):
+    """A summary scope is soft: an unrecognized theme still narrows the set
+    rather than being dropped."""
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: [])
     filters = sm._scope_filters(_analysis(theme="Oceans"))
     assert filters == {"theme": "Oceans"}
 
@@ -115,9 +109,7 @@ def test_batch_documents_oversized_doc_gets_own_batch():
 # --------------------------------------------------------------------------- #
 
 def _stub_scope(monkeypatch, ids, payloads):
-    monkeypatch.setattr(
-        sm.terms, "resolve_terms", lambda name: [{"term_uuid": "t1", "name": "Climate"}]
-    )
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: [])
     monkeypatch.setattr(
         sm.catalog, "document_ids_in_scope", lambda **kw: ids
     )

@@ -1,9 +1,8 @@
 """Unit tests for the tag scope in the catalog SQL layer.
 
-Covers the tag join in isolation and, most importantly, that a tag filter and
-a theme filter combine as two independent joins (AND), never one merged IN
-list (which would silently turn the query into an OR). All SQL runs against a
-scripted fake cursor; no MySQL needed.
+Covers the `documents_tag` join in isolation and, most importantly, that a tag
+filter and a theme filter combine as two independent joins (AND) rather than
+one merged condition. All SQL runs against a scripted fake cursor; no MySQL.
 """
 
 from __future__ import annotations
@@ -53,56 +52,54 @@ def _patch(monkeypatch, cursor):
     monkeypatch.setattr(state, "mysql_connection", lambda: _FakeConn(cursor))
 
 
-def test_count_by_tag_uuids_joins_second_term_alias(monkeypatch):
+def test_count_by_tag_joins_the_tag_facet(monkeypatch):
     cursor = _FakeCursor(fetchone_results=[{"n": 4}])
     _patch(monkeypatch, cursor)
 
     total = state.count_documents(
-        source_type="website", bundle="news", tag_uuids=["tag1", "tag2"]
+        source_type="website", bundle="news", tag="Waste management"
     )
     assert total == 4
     sql, params = cursor.calls[0]
     assert "COUNT(DISTINCT s.document_id)" in sql
-    assert "_term` tt" in sql and "tt.term_uuid IN (%s, %s)" in sql
-    assert params == ("website", "news", "tag1", "tag2")
+    assert "_tag` t" in sql and "t.tag = %s" in sql
+    assert params == ("website", "news", "Waste management")
 
 
 def test_tag_and_theme_are_two_separate_joins(monkeypatch):
-    """The regression that matters: theme and tag must AND, not merge into
-    one IN list — a post has to satisfy both filters, not either."""
+    """The regression that matters: theme and tag must AND — a document has to
+    satisfy both filters, not either."""
     cursor = _FakeCursor(fetchone_results=[{"n": 1}])
     _patch(monkeypatch, cursor)
 
-    state.count_documents(
-        source_type="website", term_uuids=["theme1"], tag_uuids=["tag1"],
-    )
+    state.count_documents(source_type="website", theme="Energy", tag="solar")
     sql, params = cursor.calls[0]
-    assert "_term` dt" in sql and "dt.term_uuid IN (%s)" in sql
-    assert "_term` tt" in sql and "tt.term_uuid IN (%s)" in sql
-    assert sql.count("JOIN") == 2  # two independent joins, not one shared IN list
-    assert params == ("website", "theme1", "tag1")
+    assert "_theme` c" in sql and "(c.theme = %s OR c.parent = %s)" in sql
+    assert "_tag` t" in sql and "t.tag = %s" in sql
+    assert sql.count("JOIN") == 2  # two independent joins
+    assert params == ("website", "Energy", "Energy", "solar")
 
 
 def test_list_documents_applies_tag_scope(monkeypatch):
     cursor = _FakeCursor(fetchall_results=[[]])
     _patch(monkeypatch, cursor)
 
-    state.list_documents(source_type="website", tag_uuids=["tag1"])
+    state.list_documents(source_type="website", tag="solar")
     sql, params = cursor.calls[0]
-    assert "_term` tt" in sql and "tt.term_uuid IN (%s)" in sql
+    assert "_tag` t" in sql and "t.tag = %s" in sql
     assert "DISTINCT" in sql
-    assert params == ("website", "tag1")
+    assert params == ("website", "solar")
 
 
 def test_distribution_scoped_by_tag_is_not_a_group_dimension(monkeypatch):
     cursor = _FakeCursor(fetchall_results=[[{"k": "report", "n": 2}]])
     _patch(monkeypatch, cursor)
 
-    rows = state.distribution("bundle", tag_uuids=["tag1"])
+    rows = state.distribution("bundle", tag="solar")
     assert rows == [("report", 2)]
     sql, params = cursor.calls[0]
-    assert "_term` tt" in sql and "tt.term_uuid IN (%s)" in sql
-    assert params == ("website", "tag1")
+    assert "_tag` t" in sql and "t.tag = %s" in sql
+    assert params == ("website", "solar")
 
     try:
         state.distribution("tag")
@@ -118,4 +115,4 @@ def test_no_tag_filter_omits_the_join(monkeypatch):
 
     state.count_documents(source_type="website")
     sql, _ = cursor.calls[0]
-    assert "_term` tt" not in sql
+    assert "_tag`" not in sql

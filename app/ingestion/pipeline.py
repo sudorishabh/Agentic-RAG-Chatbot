@@ -8,9 +8,9 @@ from collections import Counter
 from contextlib import contextmanager
 from typing import Callable, Iterable, Iterator
 
-from app.catalog import payload_refresh, state, terms
+from app.catalog import state
 from app.catalog import log as ingest_log
-from app.catalog.models import AttachmentLink, StateRecord, TermLink
+from app.catalog.models import AttachmentLink, StateRecord
 from app.config import get_settings
 from app.core.models import CanonicalDocument
 from app.ingestion import change_detection as cd
@@ -71,13 +71,7 @@ def _save_state(
             url=doc.source_url,
             authors=list(doc.authors),
             categories=list(doc.categories),
-            # Only taxonomy refs become term links; people/other entity refs
-            # stay in raw_meta until they get their own catalog tables.
-            term_links=[
-                TermLink(term_uuid=r.uuid, role=r.field_name)
-                for r in doc.entity_refs
-                if r.vocabulary
-            ],
+            tags=list(doc.tags),
             attachments=[
                 AttachmentLink(
                     file_uuid=f.uuid, origin=f.origin, url=f.url, filename=f.filename
@@ -90,35 +84,6 @@ def _save_state(
     )
 
 
-def _sync_term(record: ChangeRecord, doc: CanonicalDocument) -> None:
-    """Mirror a taxonomy-term record into the term catalog. A rename archives
-    the old name as an alias inside upsert_term; document links join on the
-    term's uuid, so they need no touch-up. Only the display names baked into
-    payloads/facets need refreshing — best-effort, healed by any reindex."""
-    if record.entity_type != "taxonomy_term" or not doc.title:
-        return
-    parent_uuid = next(
-        (r.uuid for r in doc.entity_refs if r.field_name == "parent"), None
-    )
-    old_name = terms.upsert_term(
-        record.document_id,
-        record.bundle or "",
-        doc.title,
-        parent_uuid=parent_uuid,
-        changed_mark=record.changed_mark,
-    )
-    if old_name:
-        try:
-            payload_refresh.refresh_renamed_term(
-                record.document_id, old_name, doc.title.strip()
-            )
-        except Exception:
-            logger.exception(
-                "Payload refresh after term rename failed for %s; display "
-                "names heal on the next reindex.", record.document_id,
-            )
-
-
 def _persist(
     record: ChangeRecord,
     doc: CanonicalDocument,
@@ -127,17 +92,13 @@ def _persist(
     *,
     indexed: bool,
 ) -> None:
-    """Persist the content record first, then the theme/term data derived from it.
+    """Persist the content record and the facet rows derived from it.
 
-    The document row is the primary fact — and the FK target every facet and link
-    row hangs off — so it is written and committed before anything theme-related
-    happens. ``_save_state`` covers the first half (the document row precedes its
-    theme/author/link rows inside one transaction); mirroring a taxonomy-term
-    record into the term catalog follows, so a term-catalog or payload-refresh
-    problem can no longer leave the content itself unsaved.
+    The document row is the primary fact — and the FK target every facet row
+    hangs off — so it is written first, with its theme/author/tag/attachment rows
+    following inside the same transaction.
     """
     _save_state(record, doc, content_hash, version, indexed=indexed)
-    _sync_term(record, doc)
 
 
 def _log(
@@ -178,8 +139,6 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
     if record.status is ChangeStatus.DELETED:
         delete_document(record.document_id)
         state.delete([record.document_id])
-        if record.entity_type == "taxonomy_term":
-            terms.delete_terms([record.document_id])
         logger.info("Deleted %s (%s)", record.document_id, record.source_key)
         _log(run_id, record, "deleted", version=prior_version)
         return "deleted"
@@ -239,7 +198,6 @@ _WORKED_OUTCOMES = frozenset({"indexed", "deleted", "skipped", "error"})
 
 def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
     state.ensure_table()
-    terms.ensure_tables()
     try:
         ingest_log.ensure_table()
     except Exception:

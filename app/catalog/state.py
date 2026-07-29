@@ -15,7 +15,7 @@ from typing import Any, Iterable
 from app.catalog import schema, theme_taxonomy
 from app.catalog.db import now as _now
 from app.catalog.db import state_table as _table
-from app.catalog.models import AttachmentLink, StateRecord, TermLink
+from app.catalog.models import AttachmentLink, StateRecord
 from app.core.clients import mysql_connection
 
 logger = logging.getLogger(__name__)
@@ -23,7 +23,6 @@ logger = logging.getLogger(__name__)
 __all__ = [
     "AttachmentLink",
     "StateRecord",
-    "TermLink",
     "ensure_table",
     "load",
     "get",
@@ -31,7 +30,6 @@ __all__ = [
     "update_stat",
     "delete",
     "backfill_facets",
-    "documents_for_term",
     "rename_theme_facet",
     "reclassify_theme_rows",
 ]
@@ -85,23 +83,6 @@ def _replace_themes(
             f"INSERT INTO `{table}_theme` "
             "(document_id, theme, theme_type, parent, theme_group) "
             "VALUES (%s, %s, %s, %s, %s)",
-            rows,
-        )
-
-
-def _replace_term_links(
-    cur: Any, table: str, document_id: str, links: Iterable[TermLink]
-) -> None:
-    cur.execute(f"DELETE FROM `{table}_term` WHERE document_id = %s", (document_id,))
-    rows = list(
-        dict.fromkeys(
-            (document_id, l.term_uuid, l.role[:128]) for l in links if l.term_uuid
-        )
-    )
-    if rows:
-        cur.executemany(
-            f"INSERT INTO `{table}_term` (document_id, term_uuid, role) "
-            "VALUES (%s, %s, %s)",
             rows,
         )
 
@@ -224,8 +205,8 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
             ),
         )
         _replace_facet(cur, table, "author", record.document_id, record.authors)
+        _replace_facet(cur, table, "tag", record.document_id, record.tags)
         _replace_themes(cur, table, record.document_id, record.categories)
-        _replace_term_links(cur, table, record.document_id, record.term_links)
         _replace_attachment_links(cur, table, record.document_id, record.attachments)
         conn.commit()
 
@@ -334,17 +315,6 @@ def reclassify_theme_rows(*, dry_run: bool = False) -> dict[str, int]:
         if not dry_run:
             conn.commit()
     return tally
-
-
-def documents_for_term(term_uuid: str) -> list[str]:
-    """Document ids linked to a taxonomy term (any role)."""
-    table = _table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT DISTINCT document_id FROM `{table}_term` WHERE term_uuid = %s",
-            (term_uuid,),
-        )
-        return [row["document_id"] for row in cur.fetchall()]
 
 
 def rename_theme_facet(document_id: str, old: str, new: str) -> list[str]:

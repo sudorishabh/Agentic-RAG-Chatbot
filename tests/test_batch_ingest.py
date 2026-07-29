@@ -30,7 +30,6 @@ def _patch_run(monkeypatch, outcomes: dict[str, str], settings) -> list[str]:
         return outcomes.get(record.document_id, "indexed")
 
     monkeypatch.setattr(pipeline.state, "ensure_table", lambda: None)
-    monkeypatch.setattr(pipeline.terms, "ensure_tables", lambda: None)
     monkeypatch.setattr(pipeline.ingest_log, "ensure_table", lambda: None)
     monkeypatch.setattr(pipeline, "_handle", fake_handle)
     monkeypatch.setattr(pipeline, "get_settings", lambda: settings)
@@ -143,7 +142,6 @@ def test_parallel_worker_exception_becomes_error(monkeypatch):
         raise RuntimeError("boom")
 
     monkeypatch.setattr(pipeline.state, "ensure_table", lambda: None)
-    monkeypatch.setattr(pipeline.terms, "ensure_tables", lambda: None)
     monkeypatch.setattr(pipeline.ingest_log, "ensure_table", lambda: None)
     monkeypatch.setattr(pipeline, "_handle", exploding_handle)
     monkeypatch.setattr(pipeline, "_log", lambda *a, **k: None)

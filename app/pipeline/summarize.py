@@ -23,7 +23,6 @@ from typing import TYPE_CHECKING, Any, Sequence
 
 from pydantic import BaseModel, Field
 
-from app.catalog import terms
 from app.catalog import queries as catalog
 from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 from app.retrieval import scoped_retrieval
@@ -106,24 +105,11 @@ def _scope_filters(analysis: QueryAnalysis) -> dict[str, Any] | None:
     count guard); themes fall back to the theme display name."""
     filters: dict[str, Any] = {}
     if analysis.theme:
-        try:
-            rows = terms.resolve_terms(analysis.theme)
-        except Exception:
-            logger.warning("Theme resolution failed; using theme-name fallback.",
-                           exc_info=True)
-            rows = []
-        if rows:
-            uuids = [r["term_uuid"] for r in rows]
-            try:
-                uuids = terms.descendant_uuids(uuids)
-            except Exception:
-                logger.warning(
-                    "Theme descendant expansion failed; scoping to matched terms only.",
-                    exc_info=True,
-                )
-            filters["term_uuids"] = uuids
-        else:
-            filters["theme"] = analysis.theme
+        # Canonicalize the name, then let the SQL layer expand it to its
+        # sub-themes (theme = X OR parent = X).
+        from app.retrieval.structured.filters import resolve_theme
+
+        filters["theme"] = resolve_theme(analysis.theme) or analysis.theme
     bundle = normalize_entity(analysis.bundle)
     if bundle in DEFAULT_BUNDLES:
         filters["bundle"] = bundle

@@ -6,16 +6,6 @@ from typing import Any
 
 
 @dataclass
-class TermLink:
-    """A document's reference to a taxonomy term. ``role`` is the referencing
-    Drupal field (field_theme, field_tags, parent, ...), so queries can
-    distinguish a theme link from a tag link on the same term."""
-
-    term_uuid: str
-    role: str
-
-
-@dataclass
 class AttachmentLink:
     """A node's link to an attached PDF (its own document, keyed by file_uuid)."""
 
@@ -52,8 +42,10 @@ class StateRecord:
     url: str | None = None
     authors: list[str] = field(default_factory=list)
     categories: list[str] = field(default_factory=list)
-    # Entity-modeled links and the lossless source metadata (JSON column).
-    term_links: list[TermLink] = field(default_factory=list)
+    # Free-text keyword tags (documents_tag). Separate from `categories`
+    # (themes): tags are a flat, long-tail vocabulary with no hierarchy.
+    tags: list[str] = field(default_factory=list)
+    # Attachment links and the lossless source metadata (JSON column).
     attachments: list[AttachmentLink] = field(default_factory=list)
     raw_meta: dict[str, Any] | None = None
 

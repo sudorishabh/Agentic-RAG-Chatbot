@@ -1,9 +1,8 @@
 """Unit tests for the pipeline -> catalog wiring.
 
-Covers what flows from a built document into the state upsert (term links
-from taxonomy refs only, attachment links, raw_meta), the taxonomy-term
-mirror (_sync_term with parent resolution), and term-row cleanup on DELETED
-records. Collaborators are stubbed; no MySQL, Qdrant, or network.
+Covers what flows from a built document into the state upsert (facets, attachment
+links, raw_meta), the persist ordering, and DELETED cleanup. Collaborators are
+stubbed; no MySQL, Qdrant, or network.
 """
 
 from __future__ import annotations
@@ -11,7 +10,7 @@ from __future__ import annotations
 from app.core.models import CanonicalDocument, EntityRef, FileLink
 from app.ingestion import pipeline
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus, _parse_bundle_spec
-from app.catalog.models import AttachmentLink, StateRecord, TermLink
+from app.catalog.models import AttachmentLink, StateRecord
 
 
 def test_parse_bundle_spec():
@@ -51,11 +50,9 @@ def test_save_state_maps_links_and_raw_meta(monkeypatch):
     )
 
     doc = _doc(
-        entity_refs=[
-            EntityRef("field_focus", "t-climate", "taxonomy_term--themes", "Climate"),
-            EntityRef("parent", "t-env", "taxonomy_term--themes", "Environment"),
-            EntityRef("field_author", "p-jane", "node--people", "Jane Doe"),
-        ],
+        categories=["Climate Change"],
+        tags=["Coal", "Solar"],
+        authors=["Jane Doe"],
         file_links=[FileLink("f1", "attachment", url="https://x/a.pdf", filename="a.pdf")],
         raw_meta={"field_isbn": "978-81-7993"},
     )
@@ -63,11 +60,11 @@ def test_save_state_maps_links_and_raw_meta(monkeypatch):
 
     rec = captured["rec"]
     assert rec.entity_type == "node"
-    # Taxonomy refs (including parent) become term links; people refs do not.
-    assert rec.term_links == [
-        TermLink("t-climate", "field_focus"),
-        TermLink("t-env", "parent"),
-    ]
+    # Facets are carried by name — themes, tags and authors each get their own
+    # child table; there is no UUID link row any more.
+    assert rec.categories == ["Climate Change"]
+    assert rec.tags == ["Coal", "Solar"]
+    assert rec.authors == ["Jane Doe"]
     assert rec.attachments == [
         AttachmentLink("f1", "attachment", url="https://x/a.pdf", filename="a.pdf")
     ]
@@ -81,74 +78,12 @@ def test_save_state_empty_doc_stays_lean(monkeypatch):
     )
     pipeline._save_state(_record(), _doc(), "hash", 1, indexed=False)
     rec = captured["rec"]
-    assert rec.term_links == [] and rec.attachments == [] and rec.raw_meta is None
+    assert rec.categories == [] and rec.tags == [] and rec.attachments == []
+    assert rec.raw_meta is None
 
 
-# --------------------------------------------------------------------------- #
-# _sync_term — taxonomy records mirror into the term catalog.
-# --------------------------------------------------------------------------- #
-
-def test_sync_term_upserts_with_parent(monkeypatch):
-    captured = {}
-
-    def fake_upsert(term_uuid, vocabulary, name, *, parent_uuid=None, changed_mark=None):
-        captured.update(
-            uuid=term_uuid, vocab=vocabulary, name=name,
-            parent=parent_uuid, mark=changed_mark,
-        )
-        return False
-
-    monkeypatch.setattr(pipeline.terms, "upsert_term", fake_upsert)
-
-    record = _record(document_id="t-air", bundle="themes", entity_type="taxonomy_term")
-    doc = _doc(
-        document_id="t-air",
-        title="Air",
-        entity_refs=[EntityRef("parent", "t-env", "taxonomy_term--themes", "Environment")],
-    )
-    pipeline._sync_term(record, doc)
-
-    assert captured == {
-        "uuid": "t-air", "vocab": "themes", "name": "Air",
-        "parent": "t-env", "mark": 1234,
-    }
 
 
-def test_sync_term_rename_triggers_payload_refresh(monkeypatch):
-    refreshed = {}
-    monkeypatch.setattr(
-        pipeline.terms, "upsert_term", lambda *a, **k: "Climate"  # rename detected
-    )
-    monkeypatch.setattr(
-        pipeline.payload_refresh,
-        "refresh_renamed_term",
-        lambda uuid, old, new: refreshed.update(uuid=uuid, old=old, new=new) or 1,
-    )
-
-    record = _record(document_id="t1", bundle="themes", entity_type="taxonomy_term")
-    pipeline._sync_term(record, _doc(document_id="t1", title="Climate Action"))
-
-    assert refreshed == {"uuid": "t1", "old": "Climate", "new": "Climate Action"}
-
-
-def test_sync_term_refresh_failure_does_not_abort_ingest(monkeypatch):
-    monkeypatch.setattr(pipeline.terms, "upsert_term", lambda *a, **k: "Climate")
-    monkeypatch.setattr(
-        pipeline.payload_refresh,
-        "refresh_renamed_term",
-        lambda *a: (_ for _ in ()).throw(RuntimeError("qdrant down")),
-    )
-    record = _record(document_id="t1", bundle="themes", entity_type="taxonomy_term")
-    pipeline._sync_term(record, _doc(document_id="t1", title="Climate Action"))  # no raise
-
-
-def test_sync_term_ignores_non_taxonomy_records(monkeypatch):
-    monkeypatch.setattr(
-        pipeline.terms, "upsert_term",
-        lambda *a, **k: (_ for _ in ()).throw(AssertionError("must not be called")),
-    )
-    pipeline._sync_term(_record(entity_type="node"), _doc())
-    pipeline._sync_term(_record(entity_type=None), _doc())
 
 
 # --------------------------------------------------------------------------- #
@@ -159,13 +94,12 @@ def _patch_persist_order(monkeypatch, order: list[str]):
     monkeypatch.setattr(
         pipeline, "_save_state", lambda *a, **k: order.append("save_state")
     )
-    monkeypatch.setattr(pipeline, "_sync_term", lambda *a, **k: order.append("sync_term"))
     monkeypatch.setattr(pipeline, "_log", lambda *a, **k: None)
 
 
-def test_handle_saves_content_before_syncing_the_term(monkeypatch):
-    """_sync_term used to run before the document was stored, so a term-catalog
-    or payload-refresh failure could abandon content that had been extracted."""
+def test_handle_saves_the_content_record(monkeypatch):
+    """The document row is the FK target every facet row hangs off, so it is
+    written before anything derived from it."""
     order: list[str] = []
     _patch_persist_order(monkeypatch, order)
     monkeypatch.setattr(pipeline, "chunk_canonical", lambda doc: [])
@@ -176,7 +110,7 @@ def test_handle_saves_content_before_syncing_the_term(monkeypatch):
     doc = _doc(document_id="t-air", title="Air")
 
     assert pipeline._handle(record, build_doc=lambda r: doc) == "indexed"
-    assert order == ["save_state", "sync_term"]
+    assert order == ["save_state"]
 
 
 def test_handle_unchanged_content_keeps_the_same_order(monkeypatch):
@@ -199,7 +133,7 @@ def test_handle_unchanged_content_keeps_the_same_order(monkeypatch):
     )
 
     assert pipeline._handle(record, build_doc=lambda r: doc) == "unchanged_content"
-    assert order == ["save_state", "sync_term"]
+    assert order == ["save_state"]
 
 
 def test_handle_skips_both_when_no_document_is_built(monkeypatch):
@@ -262,36 +196,18 @@ def test_attachment_doc_inherits_node_refs_and_facets(monkeypatch):
 
 
 # --------------------------------------------------------------------------- #
-# DELETED — taxonomy terms are removed from the term catalog too.
+# DELETED — the document row and its vectors go; facet rows cascade.
 # --------------------------------------------------------------------------- #
 
-def _patch_delete_path(monkeypatch, calls: dict):
+def test_handle_deleted_removes_vectors_and_state(monkeypatch):
+    calls: dict = {}
     monkeypatch.setattr(
         pipeline, "delete_document", lambda doc_id, keep_ids=None: calls.update(qdrant=doc_id)
     )
     monkeypatch.setattr(pipeline.state, "delete", lambda ids: calls.update(state=list(ids)))
-    monkeypatch.setattr(
-        pipeline.terms, "delete_terms", lambda ids: calls.update(terms=list(ids))
-    )
     monkeypatch.setattr(pipeline, "_log", lambda *a, **k: None)
 
-
-def test_handle_deleted_taxonomy_term_removes_term_row(monkeypatch):
-    calls: dict = {}
-    _patch_delete_path(monkeypatch, calls)
-
-    record = _record(
-        status=ChangeStatus.DELETED, document_id="t-air",
-        bundle="themes", entity_type="taxonomy_term",
-    )
+    record = _record(status=ChangeStatus.DELETED, document_id="d-1", entity_type="node")
     assert pipeline._handle(record, build_doc=lambda r: None) == "deleted"
-    assert calls == {"qdrant": "t-air", "state": ["t-air"], "terms": ["t-air"]}
-
-
-def test_handle_deleted_node_leaves_term_catalog_alone(monkeypatch):
-    calls: dict = {}
-    _patch_delete_path(monkeypatch, calls)
-
-    record = _record(status=ChangeStatus.DELETED, entity_type="node")
-    assert pipeline._handle(record, build_doc=lambda r: None) == "deleted"
-    assert "terms" not in calls
+    # Facet rows need no explicit delete: ON DELETE CASCADE handles them.
+    assert calls == {"qdrant": "d-1", "state": ["d-1"]}

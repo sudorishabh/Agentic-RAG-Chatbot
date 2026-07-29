@@ -43,52 +43,36 @@ def test_bundle_unknown_query_scores_against_every_bundle():
 
 
 # --------------------------------------------------------------------------- #
-# _theme_candidates — canonical terms, with the §4.1 free-text fallback.
+# _theme_candidates — the documents_theme vocabulary.
 # --------------------------------------------------------------------------- #
 
-def test_theme_candidates_use_canonical_terms_when_populated(monkeypatch):
+def test_theme_candidates_read_the_theme_vocabulary(monkeypatch):
     monkeypatch.setattr(
-        "app.catalog.terms.list_themes",
+        "app.catalog.queries.theme_vocabulary",
         lambda **kw: [
-            {"term_uuid": "t1", "name": "Climate Change", "parent_uuid": None},
-            {"term_uuid": "t2", "name": "Environment", "parent_uuid": None},
+            {"theme": "Climate Change", "theme_type": "primary", "parent": None,
+             "theme_group": "main", "documents": 3},
+            {"theme": "Environment", "theme_type": "primary", "parent": None,
+             "theme_group": "main", "documents": 5},
         ],
     )
     candidates = resolve._theme_candidates("climate")
-    assert {c.id for c in candidates} == {"t1", "t2"}
-    top = max(candidates, key=lambda c: c.score)
-    assert top.canonical_name == "Climate Change" and top.id == "t1"
-
-
-def test_theme_candidates_fall_back_to_free_text_facet_when_terms_empty(monkeypatch):
-    """§4.1: an environment whose taxonomy-term crawl has not run yet still
-    offers real candidates from documents_theme instead of none."""
-    monkeypatch.setattr("app.catalog.terms.list_themes", lambda **kw: [])
-    monkeypatch.setattr(
-        "app.catalog.queries.distinct_themes", lambda **kw: ["Climate Change", "Environment"]
-    )
-    candidates = resolve._theme_candidates("climate")
+    # The catalog keys themes by name, so id and canonical_name are the same.
     assert {c.id for c in candidates} == {"Climate Change", "Environment"}
-    # No term_uuid exists in the fallback — the display name is the id.
     top = max(candidates, key=lambda c: c.score)
     assert top.id == top.canonical_name == "Climate Change"
+
+
+def test_theme_candidates_empty_vocabulary_yields_nothing(monkeypatch):
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: [])
+    assert resolve._theme_candidates("climate") == []
 
 
 def test_theme_candidates_degrade_to_empty_on_query_failure(monkeypatch):
     def boom(**kw):
         raise RuntimeError("mysql down")
 
-    monkeypatch.setattr("app.catalog.terms.list_themes", boom)
-    assert resolve._theme_candidates("climate") == []
-
-
-def test_theme_fallback_degrades_to_empty_on_query_failure(monkeypatch):
-    monkeypatch.setattr("app.catalog.terms.list_themes", lambda **kw: [])
-
-    def boom(**kw):
-        raise RuntimeError("mysql down")
-
-    monkeypatch.setattr("app.catalog.queries.distinct_themes", boom)
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", boom)
     assert resolve._theme_candidates("climate") == []
 
 
@@ -154,8 +138,9 @@ def test_resolve_entity_narrows_to_one_type(monkeypatch):
 
 def test_resolve_entity_merges_all_types_when_type_omitted(monkeypatch):
     monkeypatch.setattr(
-        "app.catalog.terms.list_themes",
-        lambda **kw: [{"term_uuid": "t1", "name": "Climate Change", "parent_uuid": None}],
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: [{"theme": "Climate Change", "theme_type": "primary",
+                       "parent": None, "theme_group": "main", "documents": 3}],
     )
     monkeypatch.setattr("app.catalog.queries.distinct_authors", lambda **kw: ["Rishabh Negi"])
     candidates = resolve.resolve_entity("climate")

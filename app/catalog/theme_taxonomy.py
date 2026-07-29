@@ -41,6 +41,13 @@ SUB = "sub"
 MAIN = "main"
 OTHER = "other"
 
+# Values that reach the theme facet as strings but are not themes: a boolean or
+# null from some upstream field, already stringified before it gets here (a real
+# `False` is falsy and drops out in `_clean`, but `"False"` does not). Dropped in
+# `classify` so no such row is ever written — the catalog once held 404 rows
+# whose theme was the literal string "False".
+_NOT_A_THEME: frozenset[str] = frozenset({"false", "true", "none", "null", "nan"})
+
 # app/data.json — a sibling of the app package root, not of this module.
 TAXONOMY_PATH = Path(__file__).resolve().parent.parent / "data.json"
 
@@ -173,7 +180,7 @@ def classify(names: Iterable[str] | None) -> list[ThemeAssignment]:
         if not name:
             continue
         key = _key(name)
-        if key in buckets or key in seen:
+        if key in buckets or key in seen or key in _NOT_A_THEME:
             continue
         known = mapping.get(key)
         # The supplied display name is stored as-is (rename handling lives in

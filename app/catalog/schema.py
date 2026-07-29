@@ -1,15 +1,20 @@
 """Catalog schema: table DDL and idempotent migrations.
 
-Kept apart from the read/write model code (state.py / terms.py / log.py): this
-module only ever CREATEs or ALTERs tables, never touches rows. Called once per
-process via each ``ensure_*`` function (state.py / terms.py / log.py wrap these
-under their historical names so callers are unaffected).
+Kept apart from the read/write model code (state.py / log.py): this module only
+ever CREATEs or ALTERs tables, never touches rows. Called once per process via
+each ``ensure_*`` function (state.py / log.py wrap these under their historical
+names so callers are unaffected).
 
-Table names were simplified from their legacy ``ingest_state*`` /
-``taxonomy_term*`` forms to ``documents*`` / ``terms`` / ``term_aliases``; a
-deployment with existing data must run ``scripts.rename_catalog_tables`` once
-before/at deploy so the old tables become the new ones instead of being
-recreated empty.
+Table names were simplified from their legacy ``ingest_state*`` forms to
+``documents*``; a deployment with existing data must run
+``scripts.rename_catalog_tables`` once before/at deploy so the old tables become
+the new ones instead of being recreated empty.
+
+The taxonomy-term tables (``terms``, ``term_aliases``, ``documents_term``) were
+retired: the catalog is keyed by name, so themes live in ``documents_theme`` and
+tags in ``documents_tag``, and taxonomy UUIDs exist only in Qdrant payloads. Run
+``scripts.drop_term_tables`` once to remove the leftover tables — see
+docs/retire-term-tables-plan.md.
 
 The theme facet was likewise renamed from ``category``. That one is handled here
 rather than by the script, in ``migrate_renamed_facets``, because it also has to
@@ -59,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `{table}` (
 # facet name doubles as the child table's suffix and its value column.
 # Themes are such a facet too, but they carry hierarchy, so they have their own
 # DDL (_STATE_THEME_DDL) instead of the generic one.
-STATE_FACETS: tuple[str, ...] = ("author",)
+STATE_FACETS: tuple[str, ...] = ("author", "tag")
 
 # Facets renamed after deployments already had data. Because the facet name is
 # both the table suffix and the column name, both have to be carried forward --
@@ -102,20 +107,6 @@ CREATE TABLE IF NOT EXISTS `{table}_theme` (
     KEY idx_parent (parent),
     KEY idx_group (theme_group),
     CONSTRAINT `fk_{table}_theme` FOREIGN KEY (document_id)
-        REFERENCES `{table}` (document_id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-"""
-
-# Document -> taxonomy term links, joined on term_uuid (rename-proof; the
-# term's name/hierarchy live in the taxonomy_term table).
-_STATE_TERM_LINK_DDL = """
-CREATE TABLE IF NOT EXISTS `{table}_term` (
-    document_id VARCHAR(255) NOT NULL,
-    term_uuid   VARCHAR(64)  NOT NULL,
-    role        VARCHAR(128) NOT NULL,
-    PRIMARY KEY (document_id, term_uuid, role),
-    KEY idx_term (term_uuid),
-    CONSTRAINT `fk_{table}_term` FOREIGN KEY (document_id)
         REFERENCES `{table}` (document_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 """
@@ -281,54 +272,7 @@ def ensure_state_table() -> None:
         # untouched and gets its columns from the migration.
         cur.execute(_STATE_THEME_DDL.format(table=table))
         migrate_theme_hierarchy(cur, table)
-        cur.execute(_STATE_TERM_LINK_DDL.format(table=table))
         cur.execute(_STATE_ATTACHMENT_LINK_DDL.format(table=table))
-        conn.commit()
-
-
-# Fixed table names: terms are site-global facts, shared by any environment
-# pointing at the same Drupal instance.
-TERM_TABLE = "terms"
-ALIAS_TABLE = "term_aliases"
-
-# Taxonomy vocabulary that holds themes — the canonical source for theme
-# enumeration and theme-distribution grouping (mirrors ingestion's
-# CATEGORY_VOCABULARIES).
-THEME_VOCABULARY = "themes"
-
-# Taxonomy vocabulary that holds tags — crawled via DEFAULT_TAXONOMIES, but only
-# populated by a taxonomy-scoped or full ingestion crawl (see _sync_term).
-TAG_VOCABULARY = "tags"
-
-_TERM_DDL = f"""
-CREATE TABLE IF NOT EXISTS `{TERM_TABLE}` (
-    term_uuid    VARCHAR(64)  NOT NULL,
-    vocabulary   VARCHAR(128) NOT NULL,
-    name         VARCHAR(255) NOT NULL,
-    parent_uuid  VARCHAR(64)  NULL,
-    changed_mark BIGINT       NULL,
-    updated_at   DATETIME     NOT NULL,
-    PRIMARY KEY (term_uuid),
-    KEY idx_vocab_name (vocabulary, name),
-    KEY idx_parent (parent_uuid)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-"""
-
-_ALIAS_DDL = f"""
-CREATE TABLE IF NOT EXISTS `{ALIAS_TABLE}` (
-    term_uuid  VARCHAR(64)  NOT NULL,
-    old_name   VARCHAR(255) NOT NULL,
-    renamed_at DATETIME     NOT NULL,
-    PRIMARY KEY (term_uuid, old_name),
-    KEY idx_old_name (old_name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-"""
-
-
-def ensure_term_tables() -> None:
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(_TERM_DDL)
-        cur.execute(_ALIAS_DDL)
         conn.commit()
 
 

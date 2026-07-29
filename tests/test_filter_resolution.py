@@ -29,7 +29,8 @@ def resolution_on(monkeypatch):
                                 database_multi_call_enabled=False),
     )
     monkeypatch.setattr("app.catalog.queries.distinct_authors", lambda **kw: list(AUTHORS))
-    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: [])
+    monkeypatch.setattr("app.catalog.queries.find_tag", lambda name: None)
     resolve.reload_authors()
     yield
     resolve.reload_authors()
@@ -37,12 +38,15 @@ def resolution_on(monkeypatch):
 
 @pytest.fixture
 def resolution_off(monkeypatch):
+    """Same known pools, flag off — matching still runs, reporting does not."""
     monkeypatch.setattr(
         F, "get_settings",
         lambda: SimpleNamespace(entity_resolution_enabled=False,
                                 database_multi_call_enabled=False),
     )
-    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr("app.catalog.queries.distinct_authors", lambda **kw: list(AUTHORS))
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: [])
+    monkeypatch.setattr("app.catalog.queries.find_tag", lambda name: None)
     resolve.reload_authors()
     yield
     resolve.reload_authors()
@@ -71,37 +75,41 @@ def test_plausible_caps_the_list():
 
 
 # --------------------------------------------------------------------------- #
-# _resolve_name — canonicalization, gated by the feature flag.
+# _resolve_name — canonicalization. Runs unconditionally: theme and tag filters
+# match names exactly in SQL, so matching is part of how filtering works. The
+# feature flag only gates what a caller *does* with an imperfect match.
 # --------------------------------------------------------------------------- #
 
-def test_name_passes_through_untouched_when_disabled(resolution_off):
-    name, band, ambiguous = F._resolve_name(resolve.AUTHOR, "rishab negi")
-    assert (name, band, ambiguous) == ("rishab negi", None, None)
-
-
 def test_confident_match_becomes_the_canonical_name(resolution_on):
-    name, band, ambiguous = F._resolve_name(resolve.AUTHOR, "rishab negi")
-    assert name == "Rishabh Negi"
-    assert band == resolve.ACCEPT and ambiguous is None
+    match = F._resolve_name(resolve.AUTHOR, "rishab negi")
+    assert match.name == "Rishabh Negi"
+    assert match.band == resolve.ACCEPT
 
 
-def test_near_tie_reports_ambiguity_and_keeps_the_typed_name(resolution_on):
-    name, band, ambiguous = F._resolve_name(resolve.AUTHOR, "rishab")
-    assert band == resolve.AMBIGUOUS
-    assert name == "rishab"  # not silently resolved to a guess
-    assert ambiguous.kind == "author" and ambiguous.query == "rishab"
-    assert ambiguous.candidates == ["Rishabh Negi", "Rishab Nigam"]
+def test_matching_runs_even_with_the_flag_disabled(resolution_off):
+    """Exact SQL matching would fail on the raw spelling, so the name is still
+    canonicalized — the flag decides reporting, not matching."""
+    assert F._resolve_name(resolve.AUTHOR, "rishab negi").name == "Rishabh Negi"
+
+
+def test_near_tie_offers_candidates_and_takes_the_best_name(resolution_on):
+    match = F._resolve_name(resolve.AUTHOR, "rishab")
+    assert match.band == resolve.AMBIGUOUS
+    # The best candidate is carried so a non-strict caller can proceed; whether
+    # to ask instead is resolve_filters' decision.
+    assert match.name in {"Rishabh Negi", "Rishab Nigam"}
+    assert match.candidates == ["Rishabh Negi", "Rishab Nigam"]
 
 
 def test_miss_keeps_the_typed_name_so_filtering_still_happens(resolution_on):
-    name, band, ambiguous = F._resolve_name(resolve.AUTHOR, "Zzz Nonexistent")
-    assert name == "Zzz Nonexistent"
-    assert band == resolve.MISS and ambiguous is None
+    match = F._resolve_name(resolve.AUTHOR, "Zzz Nonexistent")
+    assert match.name == "Zzz Nonexistent"
+    assert match.band == resolve.MISS and match.candidates == []
 
 
 def test_blank_name_resolves_to_nothing(resolution_on):
-    assert F._resolve_name(resolve.AUTHOR, None) == (None, None, None)
-    assert F._resolve_name(resolve.AUTHOR, "") == (None, None, None)
+    assert F._resolve_name(resolve.AUTHOR, None).name is None
+    assert F._resolve_name(resolve.AUTHOR, "").name is None
 
 
 def test_resolution_failure_degrades_to_the_typed_name(monkeypatch, resolution_on):
@@ -109,8 +117,8 @@ def test_resolution_failure_degrades_to_the_typed_name(monkeypatch, resolution_o
         raise RuntimeError("db down")
 
     monkeypatch.setattr("app.retrieval.structured.resolve.resolve_entity", boom)
-    name, band, ambiguous = F._resolve_name(resolve.AUTHOR, "rishab negi")
-    assert (name, band, ambiguous) == ("rishab negi", None, None)
+    match = F._resolve_name(resolve.AUTHOR, "rishab negi")
+    assert match.name == "rishab negi" and match.band is None
 
 
 # --------------------------------------------------------------------------- #
@@ -141,40 +149,41 @@ def test_author_missed_is_flagged(resolution_on):
 def test_ambiguity_is_carried_on_the_scope(resolution_on):
     scope = F.resolve_filters(RecordFilters(author="rishab"))
     assert scope.ambiguous is not None and scope.ambiguous.kind == "author"
+    assert scope.ambiguous.query == "rishab"  # quotes what the user typed
 
 
-def test_theme_name_is_canonicalized_before_the_taxonomy_lookup(monkeypatch, resolution_on):
-    """The fuzzy step feeds the exact resolver, so a misspelled theme still
-    reaches terms.resolve_terms as the real name."""
+def test_ambiguity_is_not_raised_when_the_flag_is_off(resolution_off):
+    """Legacy behaviour: take the best candidate and answer, never interrupt."""
+    scope = F.resolve_filters(RecordFilters(author="rishab"))
+    assert scope.ambiguous is None
+    assert scope.author in {"Rishabh Negi", "Rishab Nigam"}
+
+
+def _theme_vocab(*names):
+    return [{"theme": n, "theme_type": "primary", "parent": None,
+             "theme_group": "main", "documents": 3} for n in names]
+
+
+def test_misspelled_theme_canonicalizes_to_the_stored_name(monkeypatch, resolution_on):
     monkeypatch.setattr(
-        "app.catalog.terms.list_themes",
-        lambda **kw: [
-            {"term_uuid": "t1", "name": "Climate Change", "parent_uuid": None},
-            {"term_uuid": "t2", "name": "Energy", "parent_uuid": None},
-        ],
-    )
-    seen = []
-    monkeypatch.setattr(
-        "app.catalog.terms.resolve_terms",
-        lambda name, vocabulary=None: seen.append(name) or [],
-    )
-    scope = F.resolve_filters(RecordFilters(theme="climate chnage"))
-    assert "Climate Change" in seen
-    assert scope.effective.theme == "Climate Change"
-
-
-def test_theme_canonicalizes_from_the_free_text_facet_when_terms_is_empty(
-    monkeypatch, resolution_on
-):
-    """§4.1: with the taxonomy-term crawl not yet run, candidates come from
-    documents_theme — so a misspelling still canonicalizes."""
-    monkeypatch.setattr("app.catalog.terms.list_themes", lambda **kw: [])
-    monkeypatch.setattr(
-        "app.catalog.queries.distinct_themes", lambda **kw: ["Environment", "Energy"]
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: _theme_vocab("Environment", "Energy"),
     )
     scope = F.resolve_filters(RecordFilters(theme="enviroment"))
     assert scope.effective.theme == "Environment"
-    assert scope.theme == "Environment"  # display-name fallback carries it to SQL
+    assert scope.theme == "Environment"  # what reaches SQL
+
+
+def test_tag_is_matched_exactly_not_fuzzily(monkeypatch, resolution_on):
+    """A long-tail vocabulary: an exact hit resolves (with the stored casing),
+    a near-miss does not silently become a different tag."""
+    stored = {"waste management": "Waste management", "solid waste": "Solid waste"}
+    monkeypatch.setattr(
+        "app.catalog.queries.find_tag", lambda name: stored.get(name.strip().lower())
+    )
+    assert F.resolve_filters(RecordFilters(tag="waste MANAGEMENT")).tag == "Waste management"
+    scope = F.resolve_filters(RecordFilters(tag="waste managment"))  # typo
+    assert scope.tag == "waste managment" and scope.tag_missed is True
 
 
 # --------------------------------------------------------------------------- #
@@ -240,13 +249,14 @@ def test_aggregate_records_applies_the_same_canonicalization(monkeypatch, resolu
     assert "by Rishabh Negi" in r.rendered
 
 
-def test_disabled_flag_filters_on_the_name_as_typed(monkeypatch, resolution_off):
-    """The rollback path: with resolution off, the misspelling goes to SQL
-    verbatim exactly as it did before this feature existed."""
+def test_disabled_flag_still_canonicalizes_but_reports_no_miss(monkeypatch, resolution_off):
+    """The rollback path: matching still runs (exact SQL needs it), but an
+    unrecognized name falls through instead of producing a terminal message —
+    which `answerer` gates on the flag."""
     seen = {}
     monkeypatch.setattr(
-        "app.catalog.queries.count_documents", lambda **kw: seen.update(kw) or 0
+        "app.catalog.queries.count_documents", lambda **kw: seen.update(kw) or 12
     )
     r = tools.count_records(None, RecordFilters(author="rishab negi"))
-    assert seen["author"] == "rishab negi"
-    assert r.ok is True and r.data["count"] == 0  # honest zero, no miss reported
+    assert seen["author"] == "Rishabh Negi"
+    assert r.ok is True and r.data["count"] == 12

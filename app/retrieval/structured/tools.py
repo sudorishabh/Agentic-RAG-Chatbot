@@ -53,13 +53,15 @@ def _period_label(filters: RecordFilters) -> str:
 
 
 def _scope_phrase(filters: RecordFilters) -> str:
-    """Human phrase naming every active filter (author, theme, tag, period) —
-    so an answer states its own interpretation rather than a bare number a
-    wrong match could hide behind. The bundle/content-type itself is already
-    named as the sentence's noun (see `entity_label`), so it is not repeated
-    here. Whatever value a filter carries is shown as-is: a caller that
-    resolved a fuzzy name via `resolve_entity` first already passed the
-    canonical name in by the time a tool call reaches this point."""
+    """Human phrase naming every active filter (author, theme, tag, title,
+    period) — so an answer states its own interpretation rather than a bare
+    number a wrong match could hide behind. Kept in step with
+    `_applied_filters`, which echoes the same set structurally.
+
+    The bundle/content-type itself is already named as the sentence's noun (see
+    `entity_label`), so it is not repeated here. Callers pass `scope.effective`,
+    whose author/theme are the canonical names resolution matched — so the
+    phrase names the entity actually filtered on, not the user's spelling."""
     parts = []
     if filters.author:
         parts.append(f" by {filters.author}")
@@ -67,6 +69,8 @@ def _scope_phrase(filters: RecordFilters) -> str:
         parts.append(f" on '{filters.theme}'")
     if filters.tag:
         parts.append(f" tagged '{filters.tag}'")
+    if filters.title_contains:
+        parts.append(f" with '{filters.title_contains}' in the title")
     parts.append(_period_label(filters))
     return "".join(parts)
 
@@ -74,16 +78,11 @@ def _scope_phrase(filters: RecordFilters) -> str:
 def _unresolved_miss(tool: str, entity: str | None, kind: str, value: str | None) -> ToolResult:
     """The terminal "no <kind> matching X found" result.
 
-    Checked *after* querying for theme and author, not before: an unresolved name
-    still filters (a theme via the `documents_theme` display-name facet, an
-    author via a substring match), which is a real if fuzzier match — an
-    environment whose taxonomy-term crawl has not run has every theme
-    unresolved while `documents_theme` is fully populated, so refusing up front
-    would deny a theme that plainly exists. Only an empty result leaves "unknown
-    name" and "genuinely no documents" indistinguishable, and then the miss is
-    the honest answer. Tags are the exception and are guarded before querying:
-    they have no fallback column, so an unresolved tag would silently widen the
-    query to everything rather than narrow it."""
+    Checked *after* querying, never before: a name that matching could not place
+    is still used as a filter, so the query may well find rows anyway — matching
+    works from the names documents carry, and it being unsure is not proof of
+    absence. Only an empty result leaves "unknown name" and "genuinely no
+    documents" indistinguishable, and then the miss is the honest answer."""
     return ToolResult(
         tool=tool, entity=entity, ok=False,
         error=f"{kind} did not resolve to a known entity", error_kind="unresolved",
@@ -107,23 +106,24 @@ def _ambiguous_result(tool: str, entity: str | None, scope: Any) -> ToolResult:
 
 
 def _scope_guard(tool: str, entity: str | None, scope: Any) -> ToolResult | None:
-    """Pre-query guards shared by the filtered tools: a name too ambiguous to
-    pick, or a tag that cannot be filtered at all. Returns None to proceed."""
+    """The one pre-query guard shared by the filtered tools: a name that matched
+    several entities too closely to choose between. Returns None to proceed."""
     if scope.ambiguous is not None:
         return _ambiguous_result(tool, entity, scope)
-    if scope.tag_requested and not scope.tag_resolved:
-        return _unresolved_miss(tool, entity, "tag", scope.effective.tag)
     return None
 
 
 def _empty_result_miss(tool: str, entity: str | None, scope: Any) -> ToolResult | None:
     """Post-query: whether an empty result should be reported as an unresolved
-    name rather than a genuine zero. Returns None when the filters all resolved,
-    leaving the caller to answer an honest zero."""
-    if scope.author_missed:
-        return _unresolved_miss(tool, entity, "author", scope.effective.author)
-    if scope.theme_requested and not scope.theme_resolved:
-        return _unresolved_miss(tool, entity, "theme", scope.effective.theme)
+    name rather than a genuine zero. Returns None when every name placed, leaving
+    the caller to answer an honest zero.
+
+    Author, theme and tag are treated identically — each has its own facet table,
+    so each filters by name and each can only be judged a miss once the query
+    comes back empty."""
+    for kind in ("author", "theme", "tag"):
+        if getattr(scope, f"{kind}_missed", False):
+            return _unresolved_miss(tool, entity, kind, getattr(scope.effective, kind))
     return None
 
 
@@ -258,6 +258,7 @@ def count_records(entity: str | None, filters: RecordFilters) -> ToolResult:
             source_type=ent.source_type if ent else "website",
             bundle=bundle,
             entity_type=ent.entity_type if ent else "node",
+            title_contains=scope.title_contains,
             **scope.as_kwargs(),
         )
     except Exception:
@@ -481,24 +482,25 @@ THEME_VOCABULARY_LIMIT = 200
 def list_themes(
     *, limit: int = THEME_VOCABULARY_LIMIT, output_format: str = "default"
 ) -> ToolResult:
-    """Enumerate the themes the collection covers, from the canonical taxonomy
-    (not the free-text facet), split into Main themes and Other themes (main
-    first) per app/data.json's top-level buckets. A theme the map does not know
-    about (added in the CMS since) lists under Other rather than being dropped.
-    Answers 'what themes/topics do you cover?' / 'how many themes are there?'.
-    An empty vocabulary or a query failure returns ok=False so the caller can
-    fall through to semantic search."""
-    try:
-        from app.catalog import terms, theme_taxonomy
+    """Enumerate the themes the collection covers, split into Main themes and
+    Other themes (main first). Answers 'what themes/topics do you cover?' /
+    'how many themes are there?'.
 
-        rows = terms.list_themes(limit=limit)
+    Reads `documents_theme` — the themes documents actually carry, with the
+    Main/Other split taken from the `theme_group` column that ingestion
+    materialized from app/data.json. A theme whose group was never classified
+    (`NULL`) lists under Other rather than being dropped. An empty vocabulary or
+    a query failure returns ok=False so the caller can fall through to semantic
+    search."""
+    try:
+        rows = state.theme_vocabulary(limit=limit)
     except Exception:
         logger.warning("list_themes query failed.", exc_info=True)
         return ToolResult(tool="list_themes", ok=False, error="query failed")
     if not rows:
         return ToolResult(tool="list_themes", ok=False, error="no themes found")
-    names = [r["name"] for r in rows]
-    main = [n for n in names if theme_taxonomy.group_of(n) == theme_taxonomy.MAIN]
+    names = [r["theme"] for r in rows]
+    main = [r["theme"] for r in rows if r["theme_group"] == "main"]
     other = [n for n in names if n not in main]
     sections = [("Main themes", main)] if main else []
     if other:

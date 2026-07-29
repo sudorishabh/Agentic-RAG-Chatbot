@@ -51,7 +51,7 @@ def test_answer_structured_unresolved_theme_falls_through_by_default(monkeypatch
     """entity_resolution_enabled defaults to False — the rollback path: a theme
     that resolves to nothing AND matches no rows falls through exactly as it did
     before this feature existed, with no settings override needed."""
-    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: [])
     monkeypatch.setattr(state, "count_documents", lambda **kw: 0)
     analysis = qp.QueryAnalysis(
         search_query="how many events under Mystery?",
@@ -66,7 +66,7 @@ def test_answer_structured_unresolved_theme_is_terminal_not_a_fallthrough(monkey
     silently falling through to a vague semantic-search guess
     (docs/database-retrieval-redesign.md §7)."""
     _enable_entity_resolution(monkeypatch)
-    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: [])
     monkeypatch.setattr(state, "count_documents", lambda **kw: 0)
     analysis = qp.QueryAnalysis(
         search_query="how many events under Mystery?",
@@ -76,12 +76,15 @@ def test_answer_structured_unresolved_theme_is_terminal_not_a_fallthrough(monkey
     assert out["answer"] == "No theme matching 'Mystery' found."
 
 
-def test_answer_structured_real_theme_answers_without_the_term_catalog(monkeypatch):
-    """The regression this fix exists for: with `terms` unpopulated every theme
-    is "unresolved", but a theme documents actually carry must still be counted
-    from the free-text facet rather than denied."""
+def test_answer_structured_real_theme_is_counted(monkeypatch):
+    """A theme documents actually carry is counted and named — the vocabulary
+    comes from documents_theme, so no taxonomy crawl is involved."""
     _enable_entity_resolution(monkeypatch)
-    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr(
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: [{"theme": "Environment", "theme_type": "primary",
+                       "parent": None, "theme_group": "main", "documents": 32}],
+    )
     monkeypatch.setattr(state, "count_documents", lambda **kw: 32)
     analysis = qp.QueryAnalysis(
         search_query="how many posts under Environment?",
@@ -93,8 +96,10 @@ def test_answer_structured_real_theme_answers_without_the_term_catalog(monkeypat
 
 def test_answer_structured_unresolved_tag_is_terminal_not_a_fallthrough(monkeypatch):
     _enable_entity_resolution(monkeypatch)
-    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
-    monkeypatch.setattr(state, "count_documents", _forbid_count)
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: [])
+    monkeypatch.setattr("app.catalog.queries.find_tag",
+                        lambda name: "policy" if name.lower() == "policy" else None)
+    monkeypatch.setattr(state, "count_documents", lambda **kw: 0)
     analysis = qp.QueryAnalysis(
         search_query="how many posts are tagged nonexistent?",
         intent="structured", operation="count", tags=["nonexistent"],

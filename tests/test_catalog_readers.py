@@ -67,12 +67,12 @@ def test_ids_in_scope_bakes_in_website_nodes(monkeypatch):
     assert params == ("website", "node", "news")
 
 
-def test_ids_in_scope_term_join_distinct_and_param_order(monkeypatch):
+def test_ids_in_scope_theme_join_distinct_and_param_order(monkeypatch):
     cursor = _FakeCursor(fetchall_results=[[{"document_id": "d1"}]])
     _patch(monkeypatch, cursor)
 
     catalog.document_ids_in_scope(
-        term_uuids=["t1", "t2"],
+        theme="Environment",
         author="Sharma",
         published_from=datetime(2024, 1, 1),
         limit=30,
@@ -80,20 +80,23 @@ def test_ids_in_scope_term_join_distinct_and_param_order(monkeypatch):
 
     sql, params = cursor.calls[0]
     assert sql.startswith("SELECT DISTINCT s.document_id, s.published_at")
-    assert "_term` dt" in sql and "dt.term_uuid IN (%s, %s)" in sql
+    assert "_theme` c" in sql and "(c.theme = %s OR c.parent = %s)" in sql
     assert "_author` a" in sql and "a.author LIKE %s" in sql
     assert "LIMIT 30" in sql
-    assert params == ("website", "node", datetime(2024, 1, 1), "%Sharma%", "t1", "t2")
+    assert params == (
+        "website", "node", datetime(2024, 1, 1), "%Sharma%", "Environment", "Environment",
+    )
 
 
-def test_ids_in_scope_theme_fallback_only_without_terms(monkeypatch):
+def test_ids_in_scope_theme_and_tag_join_independently(monkeypatch):
     cursor = _FakeCursor(fetchall_results=[[]])
     _patch(monkeypatch, cursor)
 
-    catalog.document_ids_in_scope(term_uuids=["t1"], theme="Climate")
+    catalog.document_ids_in_scope(theme="Climate", tag="solar")
 
     sql, _ = cursor.calls[0]
-    assert "_term` dt" in sql and "_theme`" not in sql  # uuids win
+    # Theme and tag are independent joins, so a document must satisfy both.
+    assert "_theme` c" in sql and "_tag` t" in sql
 
 
 def test_ids_in_scope_clamps_limit(monkeypatch):
