@@ -23,22 +23,36 @@ TABLE = "documents"
 # theme_taxonomy.classify — the data.json hierarchy.
 # --------------------------------------------------------------------------- #
 
-def _rows(names) -> list[tuple[str, str, str | None]]:
-    return [(a.name, a.theme_type, a.parent) for a in theme_taxonomy.classify(names)]
+def _rows(names) -> list[tuple[str, str, str | None, str | None]]:
+    return [
+        (a.name, a.theme_type, a.parent, a.group) for a in theme_taxonomy.classify(names)
+    ]
 
 
 def test_bucket_child_is_a_primary_tag():
-    assert _rows(["Energy"]) == [("Energy", "primary", None)]
-    assert _rows(["Climate Change"]) == [("Climate Change", "primary", None)]
-    # "Other Themes" children are primary tags too, children or not.
-    assert _rows(["Green Shipping"]) == [("Green Shipping", "primary", None)]
+    assert _rows(["Energy"]) == [("Energy", "primary", None, "Main Themes")]
+    assert _rows(["Climate Change"]) == [
+        ("Climate Change", "primary", None, "Main Themes")
+    ]
+    # "Other Themes" children are primary tags too, children or not — but the
+    # group distinguishes them from a "Main Themes" primary tag.
+    assert _rows(["Green Shipping"]) == [
+        ("Green Shipping", "primary", None, "Other Themes")
+    ]
 
 
 def test_descendant_is_a_sub_theme_pointing_at_its_primary_tag():
-    assert _rows(["Energy Access"]) == [("Energy Access", "sub", "Energy")]
-    assert _rows(["Air"]) == [("Air", "sub", "Environment")]
+    assert _rows(["Energy Access"]) == [("Energy Access", "sub", "Energy", "Main Themes")]
+    assert _rows(["Air"]) == [("Air", "sub", "Environment", "Main Themes")]
+    # Inherits its primary tag's group even though that primary tag sits under
+    # "Other Themes", not "Main Themes".
     assert _rows(["Education for Youth Empowerment"]) == [
-        ("Education for Youth Empowerment", "sub", "Environment Education")
+        (
+            "Education for Youth Empowerment",
+            "sub",
+            "Environment Education",
+            "Other Themes",
+        )
     ]
 
 
@@ -46,49 +60,58 @@ def test_grouping_buckets_are_never_themes():
     """"Main Themes" / "Other Themes" are containers in data.json — storing them
     would credit every document with a theme it was never tagged with."""
     assert _rows(["Main Themes", "Other Themes"]) == []
-    assert _rows(["Energy", "Main Themes"]) == [("Energy", "primary", None)]
+    assert _rows(["Energy", "Main Themes"]) == [
+        ("Energy", "primary", None, "Main Themes")
+    ]
 
 
 def test_blank_values_are_dropped_rather_than_stored_as_placeholders():
     assert _rows([None, "", "   ", "\t\n"]) == []
 
 
-def test_unknown_theme_is_kept_as_an_unparented_sub_theme():
+def test_unknown_theme_is_kept_as_an_unparented_sub_theme_with_no_group():
     """A theme added in the CMS but not yet in data.json is still recorded — it
-    just has no parent to point at."""
-    assert _rows(["Quantum Beekeeping"]) == [("Quantum Beekeeping", "sub", None)]
+    just has no parent or group to point at."""
+    assert _rows(["Quantum Beekeeping"]) == [
+        ("Quantum Beekeeping", "sub", None, None)
+    ]
 
 
 def test_matching_tolerates_case_and_whitespace_drift():
-    assert _rows(["  energy   ACCESS "]) == [("energy ACCESS", "sub", "Energy")]
+    assert _rows(["  energy   ACCESS "]) == [
+        ("energy ACCESS", "sub", "Energy", "Main Themes")
+    ]
 
 
 def test_names_are_deduplicated_case_insensitively_keeping_input_order():
     assert _rows(["Air", "Energy", "AIR", "air"]) == [
-        ("Air", "sub", "Environment"),
-        ("Energy", "primary", None),
+        ("Air", "sub", "Environment", "Main Themes"),
+        ("Energy", "primary", None, "Main Themes"),
     ]
 
 
 def test_a_parent_is_a_reference_not_an_extra_row():
     """Tagging a post with only a sub-theme must not invent the parent's row —
     the document was never tagged with the parent."""
-    assert _rows(["Energy Access"]) == [("Energy Access", "sub", "Energy")]
+    assert _rows(["Energy Access"]) == [("Energy Access", "sub", "Energy", "Main Themes")]
 
 
 def test_missing_data_file_degrades_instead_of_raising(monkeypatch, tmp_path, caplog):
     monkeypatch.setattr(theme_taxonomy, "TAXONOMY_PATH", tmp_path / "nope.json")
     theme_taxonomy.reload_taxonomy()
     try:
-        assert _rows(["Energy"]) == [("Energy", "sub", None)]
+        assert _rows(["Energy"]) == [("Energy", "sub", None, None)]
         assert "Could not read the theme map" in caplog.text
     finally:
         theme_taxonomy.reload_taxonomy()
 
 
-def test_deeper_nesting_still_points_at_the_primary_tag(monkeypatch, tmp_path):
+def test_deeper_nesting_still_points_at_the_primary_tag_and_inherits_its_group(
+    monkeypatch, tmp_path
+):
     """The table models one level of parenthood, so a great-grandchild hangs off
-    the primary tag rather than its immediate parent."""
+    the primary tag rather than its immediate parent — and still inherits that
+    primary tag's bucket, however deep it sits."""
     path = tmp_path / "data.json"
     path.write_text(
         json.dumps(
@@ -108,9 +131,21 @@ def test_deeper_nesting_still_points_at_the_primary_tag(monkeypatch, tmp_path):
     monkeypatch.setattr(theme_taxonomy, "TAXONOMY_PATH", path)
     theme_taxonomy.reload_taxonomy()
     try:
-        assert _rows(["Rooftop Solar"]) == [("Rooftop Solar", "sub", "Energy")]
+        assert _rows(["Rooftop Solar"]) == [
+            ("Rooftop Solar", "sub", "Energy", "Main Themes")
+        ]
     finally:
         theme_taxonomy.reload_taxonomy()
+
+
+def test_two_primary_tags_from_different_buckets_are_distinguishable_by_group():
+    """"Energy" and "Green Shipping" are both primary tags with parent=None --
+    only theme_group tells them apart as Main Themes vs Other Themes."""
+    energy, shipping = _rows(["Energy"])[0], _rows(["Green Shipping"])[0]
+    assert (energy[1], energy[2]) == (shipping[1], shipping[2]) == ("primary", None)
+    assert energy[3] == "Main Themes"
+    assert shipping[3] == "Other Themes"
+    assert energy[3] != shipping[3]
 
 
 # --------------------------------------------------------------------------- #
@@ -190,11 +225,11 @@ def test_upsert_writes_classified_theme_rows(cursor):
     inserts = _theme_sql(cursor, "INSERT")
     assert len(inserts) == 1
     sql, rows = inserts[0]
-    assert "(document_id, theme, theme_type, parent)" in sql
+    assert "(document_id, theme, theme_type, parent, theme_group)" in sql
     assert rows == [
-        ("doc-1", "Energy", "primary", None),
-        ("doc-1", "Air", "sub", "Environment"),
-        ("doc-1", "Quantum Beekeeping", "sub", None),
+        ("doc-1", "Energy", "primary", None, "Main Themes"),
+        ("doc-1", "Air", "sub", "Environment", "Main Themes"),
+        ("doc-1", "Quantum Beekeeping", "sub", None, None),
     ]
 
 
@@ -232,7 +267,7 @@ def test_backfill_facets_classifies_too(monkeypatch, cursor):
     assert state.backfill_facets("doc-1", None, ["Jane"], ["Energy Access"]) is True
 
     _, rows = _theme_sql(cursor, "INSERT")[0]
-    assert rows == [("doc-1", "Energy Access", "sub", "Energy")]
+    assert rows == [("doc-1", "Energy Access", "sub", "Energy", "Main Themes")]
 
 
 def test_rename_theme_facet_reclassifies_the_new_name(cursor):
@@ -243,7 +278,7 @@ def test_rename_theme_facet_reclassifies_the_new_name(cursor):
     assert state.rename_theme_facet("doc-1", "Atmosphere", "Air") == ["Air"]
 
     _, rows = _theme_sql(cursor, "INSERT")[0]
-    assert rows == [("doc-1", "Air", "sub", "Environment")]
+    assert rows == [("doc-1", "Air", "sub", "Environment", "Main Themes")]
 
 
 # --------------------------------------------------------------------------- #
@@ -259,8 +294,8 @@ def test_reclassify_updates_known_names_and_drops_non_themes(cursor):
 
     updates = _theme_sql(cursor, "UPDATE")
     assert [params for _, params in updates] == [
-        ("primary", None, "Energy"),
-        ("sub", "Environment", "Air"),
+        ("primary", None, "Main Themes", "Energy"),
+        ("sub", "Environment", "Main Themes", "Air"),
     ]
     deletes = _theme_sql(cursor, "DELETE")
     assert [params for _, params in deletes] == [("Main Themes",)]

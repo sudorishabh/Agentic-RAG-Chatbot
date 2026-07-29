@@ -52,7 +52,7 @@ def fetch_snapshot(document_id: str) -> CatalogSnapshot:
         )
     ]
     snap.theme_rows = _rows(
-        f"SELECT theme, theme_type, parent FROM `{table}_theme` "
+        f"SELECT theme, theme_type, parent, theme_group FROM `{table}_theme` "
         "WHERE document_id = %s ORDER BY theme",
         (document_id,),
     )

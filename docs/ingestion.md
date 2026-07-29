@@ -224,9 +224,9 @@ existed get `title`/`url` via the one-time
 ### Theme rows — `documents_theme`
 
 The theme facet carries hierarchy: `document_id`, `theme`,
-`theme_type` (`primary` | `sub`), `parent`. A document's **main theme** is stored
-as the **primary tag** (`parent` NULL) and every other theme as a **sub-theme**
-naming the primary tag it hangs off.
+`theme_type` (`primary` | `sub`), `parent`, `theme_group`. A document's **main
+theme** is stored as the **primary tag** (`parent` NULL) and every other theme as
+a **sub-theme** naming the primary tag it hangs off.
 
 - **Classification** is [app/catalog/theme_taxonomy.py](../app/catalog/theme_taxonomy.py)
   over [app/data.json](../app/data.json). That file's top level (`Main Themes` /
@@ -236,6 +236,13 @@ naming the primary tag it hangs off.
   sub-theme rather than dropped, so a theme newly added in the CMS is still
   recorded. Static by design — classification stays stable however a vocabulary
   is nested in the CMS, and it applies to the ref-less paths too.
+- **`theme_group` keeps "Main Themes" and "Other Themes" distinguishable**, since
+  `theme_type`/`parent` alone can't: two primary tags from different buckets (e.g.
+  `Energy` under Main Themes, `Green Shipping` under Other Themes) are both
+  `primary` with `parent` NULL. `theme_group` records which bucket a theme traces
+  back to; a sub-theme inherits its primary tag's group regardless of nesting
+  depth. NULL only for a theme the map has no entry for at all (no bucket to
+  attribute it to).
 - **Only the document's own themes get rows.** A sub-theme's parent is recorded as
   a *reference*, never materialized as an extra row, so a post tagged only
   "Energy Access" is not also credited with "Energy".

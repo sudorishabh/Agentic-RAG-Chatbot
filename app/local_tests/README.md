@@ -57,8 +57,9 @@ Each per-document dump contains, in full and untruncated:
 - **Chunking** — every parent and child chunk: full text, all fields, and the
   exact payload upserted to Qdrant
 - **MySQL catalog** — the state row, author facet rows, theme rows (with their
-  primary-tag / sub-theme classification and parent), term-link rows, attachment
-  rows, and ingest-log rows, all read back from the database
+  primary-tag / sub-theme classification, parent, and Main/Other Themes group),
+  term-link rows, attachment rows, and ingest-log rows, all read back from the
+  database
 - **Checks** — `[PASS]/[FAIL]` per assertion
 
 ## Isolation

@@ -1,11 +1,13 @@
 """One-shot migration: classify theme rows that predate the theme hierarchy.
 
 ``documents_theme`` used to be a flat (document, theme) list.
-``app.catalog.schema.migrate_theme_hierarchy`` adds the ``theme_type`` and
-``parent`` columns, but existing rows can only take the column default — an
-unparented sub-theme. This re-applies the theme map
-(:mod:`app.catalog.theme_taxonomy`, backed by ``app/data.json``) to those rows so
-main themes become primary tags and sub-themes point at their parent.
+``app.catalog.schema.migrate_theme_hierarchy`` adds the ``theme_type``,
+``parent``, and ``theme_group`` columns, but existing rows can only take the
+column defaults — an unparented sub-theme with no group. This re-applies the
+theme map (:mod:`app.catalog.theme_taxonomy`, backed by ``app/data.json``) to
+those rows so main themes become primary tags, sub-themes point at their
+parent, and every row is tagged with the Main Themes / Other Themes bucket
+it traces back to.
 
 Also deletes rows whose value is not a theme at all — the grouping-bucket names
 ("Main Themes" / "Other Themes") and blanks — which the flat facet had no way to

@@ -8,6 +8,12 @@ Themes" / "Other Themes") is a grouping bucket rather than a theme, so:
 * anything below a Primary Tag is a Sub-Theme whose ``parent`` is that tag;
 * a bucket name itself is never stored as a theme.
 
+The bucket a theme originates from is still tracked, as ``group`` — every entry
+records which top-level bucket it traces back to (a sub-theme inherits its
+primary tag's bucket), so "Main Themes" and "Other Themes" stay distinguishable
+downstream even though ``theme_type`` (primary/sub) is about depth within a
+bucket, not which bucket.
+
 Deliberately a static file rather than the crawled Drupal tree: classification
 has to stay stable however a vocabulary happens to be nested in the CMS, and the
 same map has to apply to the ref-less export/upload paths, which have no
@@ -35,22 +41,26 @@ TAXONOMY_PATH = Path(__file__).resolve().parent.parent / "data.json"
 
 _WHITESPACE = re.compile(r"\s+")
 
-# (match key -> (display name, theme_type, parent)) plus the bucket keys that
-# are containers, not themes.
-_Entry = tuple[str, str, str | None]
+# (match key -> (display name, theme_type, parent, group)) plus the bucket keys
+# that are containers, not themes.
+_Entry = tuple[str, str, "str | None", "str | None"]
 
 
 @dataclass(frozen=True)
 class ThemeAssignment:
     """One theme row for a document: the theme, whether it is the primary tag or
-    a sub-theme, and the primary tag it hangs off.
+    a sub-theme, the primary tag it hangs off, and the top-level bucket
+    ("Main Themes" / "Other Themes") it traces back to.
 
     ``parent`` is None for a primary tag and for a sub-theme the map has no
-    parent for — both store NULL."""
+    parent for — both store NULL. ``group`` is the bucket a sub-theme's primary
+    tag belongs to (inherited), so it is set independently of ``parent``; it is
+    None only when the map has no entry for the name at all."""
 
     name: str
     theme_type: str
     parent: str | None
+    group: str | None
 
 
 def _clean(value: Any) -> str:
@@ -65,9 +75,13 @@ def _key(value: Any) -> str:
     return _clean(value).casefold()
 
 
-def _walk(nodes: Any, primary: str | None, out: dict[str, _Entry]) -> None:
+def _walk(
+    nodes: Any, primary: str | None, group: str | None, out: dict[str, _Entry]
+) -> None:
     """Collect ``nodes`` into ``out``. ``primary`` is the primary tag they sit
-    under, or None when they *are* the primary tags (bucket children).
+    under, or None when they *are* the primary tags (bucket children). ``group``
+    is the top-level bucket name, carried unchanged through the whole recursion —
+    depth changes ``primary``, never ``group``.
 
     Descends past unnamed nodes rather than dropping their subtree, and keeps
     the first entry per key so an accidental duplicate in the file is stable.
@@ -79,14 +93,14 @@ def _walk(nodes: Any, primary: str | None, out: dict[str, _Entry]) -> None:
         name = _clean(node.get("name"))
         children = node.get("children")
         if not name:
-            _walk(children, primary, out)
+            _walk(children, primary, group, out)
             continue
         if primary is None:
-            out.setdefault(_key(name), (name, PRIMARY, None))
-            _walk(children, name, out)
+            out.setdefault(_key(name), (name, PRIMARY, None, group))
+            _walk(children, name, group, out)
         else:
-            out.setdefault(_key(name), (name, SUB, primary))
-            _walk(children, primary, out)
+            out.setdefault(_key(name), (name, SUB, primary, group))
+            _walk(children, primary, group, out)
 
 
 @lru_cache(maxsize=1)
@@ -114,7 +128,7 @@ def _load() -> tuple[dict[str, _Entry], frozenset[str]]:
         name = _clean(bucket.get("name"))
         if name:
             buckets.add(_key(name))
-        _walk(bucket.get("children"), None, mapping)
+        _walk(bucket.get("children"), None, name or None, mapping)
     # A name used both as a bucket and as a real theme stays a theme.
     return mapping, frozenset(buckets - set(mapping))
 
@@ -146,12 +160,12 @@ def classify(names: Iterable[str] | None) -> list[ThemeAssignment]:
             continue
         known = mapping.get(key)
         # The supplied display name is stored as-is (rename handling lives in
-        # state.rename_theme_facet); the parent comes from the map, which is the
-        # only place it is named.
+        # state.rename_theme_facet); the parent and group come from the map,
+        # which is the only place either is named.
         seen[key] = (
-            ThemeAssignment(name, known[1], known[2])
+            ThemeAssignment(name, known[1], known[2], known[3])
             if known
-            else ThemeAssignment(name, SUB, None)
+            else ThemeAssignment(name, SUB, None, None)
         )
     return list(seen.values())
 
@@ -159,4 +173,4 @@ def classify(names: Iterable[str] | None) -> list[ThemeAssignment]:
 def primary_tags() -> list[str]:
     """Every Primary Tag in the map, in file order (diagnostics / docs)."""
     mapping, _ = _load()
-    return [name for name, theme_type, _ in mapping.values() if theme_type == PRIMARY]
+    return [name for name, theme_type, _, _ in mapping.values() if theme_type == PRIMARY]

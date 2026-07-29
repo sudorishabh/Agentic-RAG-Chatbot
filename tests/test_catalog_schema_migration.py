@@ -211,17 +211,18 @@ def test_theme_hierarchy_adds_columns_then_key_to_a_flat_table():
         f"ALTER TABLE `{TABLE}_theme` ADD COLUMN "
         "theme_type ENUM('primary', 'sub') NOT NULL DEFAULT 'sub'",
         f"ALTER TABLE `{TABLE}_theme` ADD COLUMN parent VARCHAR(255) NULL",
+        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN theme_group VARCHAR(255) NULL",
         f"ALTER TABLE `{TABLE}_theme` ADD PRIMARY KEY (document_id, theme)",
     ]
     assert cursor.tables[f"{TABLE}_theme"] == [
-        "document_id", "theme", "theme_type", "parent",
+        "document_id", "theme", "theme_type", "parent", "theme_group",
     ]
     assert f"{TABLE}_theme" in cursor.pks
 
 
 def test_theme_hierarchy_noop_when_already_current():
     cursor = _FakeCursor(
-        {f"{TABLE}_theme": ["document_id", "theme", "theme_type", "parent"]},
+        {f"{TABLE}_theme": ["document_id", "theme", "theme_type", "parent", "theme_group"]},
         pks={f"{TABLE}_theme"},
     )
 
@@ -241,12 +242,12 @@ def test_theme_hierarchy_noop_when_the_table_does_not_exist_yet():
 def test_theme_hierarchy_is_idempotent():
     cursor = _FakeCursor(dict(_FLAT_THEME_TABLE))
 
-    assert len(schema.migrate_theme_hierarchy(cursor, TABLE)) == 3
+    assert len(schema.migrate_theme_hierarchy(cursor, TABLE)) == 4
     assert schema.migrate_theme_hierarchy(cursor, TABLE) == []
 
 
 def test_theme_hierarchy_adds_only_the_missing_half():
-    """A deployment interrupted between the two ADD COLUMNs resumes cleanly."""
+    """A deployment interrupted mid-way through the ADD COLUMNs resumes cleanly."""
     cursor = _FakeCursor(
         {f"{TABLE}_theme": ["document_id", "theme", "theme_type"]},
         pks={f"{TABLE}_theme"},
@@ -255,7 +256,8 @@ def test_theme_hierarchy_adds_only_the_missing_half():
     applied = schema.migrate_theme_hierarchy(cursor, TABLE)
 
     assert applied == [
-        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN parent VARCHAR(255) NULL"
+        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN parent VARCHAR(255) NULL",
+        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN theme_group VARCHAR(255) NULL",
     ]
 
 
@@ -264,7 +266,7 @@ def test_theme_hierarchy_dry_run_reports_without_executing():
 
     applied = schema.migrate_theme_hierarchy(cursor, TABLE, dry_run=True)
 
-    assert len(applied) == 3
+    assert len(applied) == 4
     assert cursor.statements == []
     assert cursor.tables == _FLAT_THEME_TABLE
 
@@ -277,9 +279,9 @@ def test_theme_hierarchy_survives_a_key_the_table_will_not_take(caplog):
 
     applied = schema.migrate_theme_hierarchy(cursor, TABLE)  # no raise
 
-    assert len(applied) == 3
+    assert len(applied) == 4
     assert cursor.tables[f"{TABLE}_theme"] == [
-        "document_id", "theme", "theme_type", "parent",
+        "document_id", "theme", "theme_type", "parent", "theme_group",
     ]
     assert f"{TABLE}_theme" not in cursor.pks
     assert "Could not add the primary key" in caplog.text
@@ -316,6 +318,6 @@ def test_ensure_state_table_migrates_before_creating_facet_tables(monkeypatch):
     # so the carried-forward rows end up under the current shape.
     assert rename < create < alter
     assert cursor.tables[f"{TABLE}_theme"] == [
-        "document_id", "theme", "theme_type", "parent",
+        "document_id", "theme", "theme_type", "parent", "theme_group",
     ]
     assert f"{TABLE}_category" not in cursor.tables

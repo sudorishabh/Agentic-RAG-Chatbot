@@ -66,7 +66,9 @@ def _replace_themes(
     cur: Any, table: str, document_id: str, names: Iterable[str]
 ) -> None:
     """Rewrite a document's theme rows: its main theme as the primary tag and
-    every other theme as a sub-theme naming the primary tag it hangs off.
+    every other theme as a sub-theme naming the primary tag it hangs off, each
+    tagged with the top-level bucket ("Main Themes" / "Other Themes") it traces
+    back to.
 
     Only the themes the document itself carries are written — a sub-theme's
     parent is recorded as a reference, never materialized as an extra row, so a
@@ -76,13 +78,20 @@ def _replace_themes(
     for the classification."""
     cur.execute(f"DELETE FROM `{table}_theme` WHERE document_id = %s", (document_id,))
     rows = [
-        (document_id, a.name[:255], a.theme_type, a.parent[:255] if a.parent else None)
+        (
+            document_id,
+            a.name[:255],
+            a.theme_type,
+            a.parent[:255] if a.parent else None,
+            a.group[:255] if a.group else None,
+        )
         for a in theme_taxonomy.classify(names)
     ]
     if rows:
         cur.executemany(
-            f"INSERT INTO `{table}_theme` (document_id, theme, theme_type, parent) "
-            "VALUES (%s, %s, %s, %s)",
+            f"INSERT INTO `{table}_theme` "
+            "(document_id, theme, theme_type, parent, theme_group) "
+            "VALUES (%s, %s, %s, %s, %s)",
             rows,
         )
 
@@ -324,9 +333,9 @@ def reclassify_theme_rows(*, dry_run: bool = False) -> dict[str, int]:
                 )
             else:
                 affected = cur.execute(
-                    f"UPDATE `{table}_theme` SET theme_type = %s, parent = %s "
-                    "WHERE theme = %s",
-                    (assignment.theme_type, assignment.parent, name),
+                    f"UPDATE `{table}_theme` SET theme_type = %s, parent = %s, "
+                    "theme_group = %s WHERE theme = %s",
+                    (assignment.theme_type, assignment.parent, assignment.group, name),
                 )
             tally[bucket] += int(affected or 0)
         if not dry_run:

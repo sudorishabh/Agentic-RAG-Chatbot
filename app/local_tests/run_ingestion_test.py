@@ -247,8 +247,8 @@ def _verify(cap: DocCapture, snap: Any, checks: rep.Checks) -> None:
     checks.add("theme facets match", set(snap.themes) == {a.name for a in expected_themes})
     checks.add(
         "theme hierarchy matches",
-        {(r["theme"], r["theme_type"], r["parent"]) for r in snap.theme_rows}
-        == {(a.name, a.theme_type, a.parent) for a in expected_themes},
+        {(r["theme"], r["theme_type"], r["parent"], r["theme_group"]) for r in snap.theme_rows}
+        == {(a.name, a.theme_type, a.parent, a.group) for a in expected_themes},
     )
     expected_terms = {r.uuid for r in doc.entity_refs if r.vocabulary}
     checks.add(
