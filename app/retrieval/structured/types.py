@@ -58,6 +58,10 @@ class ToolCall:
     # list_records / lookup_record
     sort: str = "recent"
     limit: int = 10
+    # list_records: page offset, and the metadata keys to keep in the returned
+    # records (None keeps them all).
+    offset: int = 0
+    fields: list[str] | None = None
     # rendering shape for list/aggregate output (table/timeline/list/default)
     output_format: str = "default"
     # resolve_entity

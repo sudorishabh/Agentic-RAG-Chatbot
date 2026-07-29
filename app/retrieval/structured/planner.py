@@ -119,7 +119,12 @@ _MAX_CALLS = 4
 
 class _PlannedCall(BaseModel):
     """One LLM-planned tool call. Mirrors the fields of `ToolCall` that a planner
-    can set from natural language; unset fields fall back to tool defaults."""
+    can set from natural language; unset fields fall back to tool defaults.
+
+    `ToolCall.offset` is deliberately absent: paging needs a notion of "the next
+    page" that this pipeline has no conversation state for, and a hallucinated
+    offset silently hides rows rather than failing visibly. It stays settable on
+    `ToolCall` for a programmatic caller that is genuinely paging."""
 
     tool: ToolName
     entity: str | None = Field(
@@ -133,6 +138,14 @@ class _PlannedCall(BaseModel):
     group_by: Literal["theme", "content_type", "author", "year"] | None = None
     title: str | None = None
     limit: int = 10
+    fields: list[str] | None = Field(
+        default=None,
+        description=(
+            "For list_records: which metadata keys to return per item, from "
+            "title, url, published_at, bundle, document_id. Null returns all — "
+            "only set it when the user asks for specific fields."
+        ),
+    )
     # resolve_entity
     query: str | None = Field(
         default=None, description="Free text to resolve, for resolve_entity."
@@ -190,6 +203,7 @@ def _to_tool_call(call: _PlannedCall, output_format: str) -> ToolCall:
         group_by=call.group_by,
         title=call.title or call.title_contains,
         limit=limit,
+        fields=call.fields or None,
         output_format=output_format,
         query=call.query,
         resolve_type=call.resolve_type,
@@ -222,7 +236,8 @@ def _run(call: ToolCall, question: str | None) -> ToolResult:
         return count_records(call.entity, call.filters)
     if call.tool == "list_records":
         return list_records(call.entity, call.filters, sort=call.sort,
-                            limit=call.limit, output_format=call.output_format)
+                            limit=call.limit, offset=call.offset,
+                            output_format=call.output_format, fields=call.fields)
     if call.tool == "lookup_record":
         return lookup_record(call.entity, call.title, call.filters, limit=call.limit,
                              output_format=call.output_format, question=question)

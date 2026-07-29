@@ -218,10 +218,18 @@ def _project_fields(
     """Keep only the requested metadata keys per record. Projects the structured
     payload only — `rendered` is a natural-language answer already shaped by
     `output_format`, not a strict field projection, so a field list narrows what
-    a caller reads from `data` without changing the human-readable text."""
-    if not fields:
+    a caller reads from `data` without changing the human-readable text.
+
+    Unknown keys are dropped rather than honored, and a list naming *only*
+    unknown keys projects nothing away: an LLM-supplied field name that does not
+    exist should cost the caller some extra keys, not silently empty every
+    record."""
+    if not fields or not records:
         return records
-    allowed = set(fields)
+    allowed = {f for f in fields if f in records[0]}
+    if not allowed:
+        logger.warning("Ignoring unknown list_records fields %s.", sorted(set(fields)))
+        return records
     return [{k: v for k, v in r.items() if k in allowed} for r in records]
 
 

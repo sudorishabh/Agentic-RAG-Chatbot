@@ -303,6 +303,20 @@ def test_list_records_projects_requested_fields(monkeypatch):
     assert r.rendered == "Here is what I found:\n- A (http://a)"
 
 
+def test_list_records_unknown_fields_do_not_empty_the_records(monkeypatch):
+    """An LLM-supplied field name that does not exist should cost the caller a
+    few extra keys, not silently blank every record."""
+    monkeypatch.setattr("app.catalog.queries.list_documents", lambda **k: [_rec()])
+    r = tools.list_records("news", RecordFilters(), fields=["nope", "alsonope"])
+    assert r.data["records"][0]["title"] == "A"  # full record, not {}
+
+
+def test_list_records_mixed_known_and_unknown_fields_keeps_the_known_ones(monkeypatch):
+    monkeypatch.setattr("app.catalog.queries.list_documents", lambda **k: [_rec()])
+    r = tools.list_records("news", RecordFilters(), fields=["title", "nope"])
+    assert r.data["records"] == [{"title": "A"}]
+
+
 def test_list_records_without_fields_keeps_full_metadata(monkeypatch):
     monkeypatch.setattr("app.catalog.queries.list_documents", lambda **k: [_rec()])
     r = tools.list_records("news", RecordFilters())

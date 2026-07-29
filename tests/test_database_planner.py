@@ -124,6 +124,39 @@ def test_execute_routes_to_list_themes(monkeypatch):
     assert results[0].tool == "list_themes" and results[0].data == {"themes": ["Climate"]}
 
 
+def test_execute_forwards_offset_and_fields_to_list_records(monkeypatch):
+    """Both exist on list_records/list_documents; without this forwarding they
+    are unreachable from any plan — dead parameter surface."""
+    seen = {}
+
+    def fake_list(entity, filters, *, sort, limit, offset, output_format, fields):
+        seen.update(limit=limit, offset=offset, fields=fields)
+        return ToolResult(tool="list_records", entity=entity)
+
+    monkeypatch.setattr(planner, "list_records", fake_list)
+    planner.execute(DatabasePlan(calls=[
+        ToolCall(tool="list_records", entity="report", limit=5, offset=10,
+                 fields=["title", "url"]),
+    ]))
+    assert seen == {"limit": 5, "offset": 10, "fields": ["title", "url"]}
+
+
+def test_plan_multi_carries_fields_but_not_offset(monkeypatch):
+    """`fields` is LLM-settable (users ask for specific metadata); `offset` is
+    not — there is no "next page" state for the model to reason about, and a
+    hallucinated offset silently hides rows."""
+    assert "offset" not in planner._PlannedCall.model_fields
+    planned = planner._PlannedCall(tool="list_records", fields=["title"])
+    call = planner._to_tool_call(planned, "default")
+    assert call.fields == ["title"]
+    assert call.offset == 0
+
+
+def test_plan_multi_empty_fields_list_means_all_fields():
+    planned = planner._PlannedCall(tool="list_records", fields=[])
+    assert planner._to_tool_call(planned, "default").fields is None
+
+
 def test_execute_routes_to_resolve_entity(monkeypatch):
     monkeypatch.setattr(
         planner, "resolve_entity",
