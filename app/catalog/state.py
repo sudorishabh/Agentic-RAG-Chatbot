@@ -67,8 +67,7 @@ def _replace_themes(
 ) -> None:
     """Rewrite a document's theme rows: its main theme as the primary tag and
     every other theme as a sub-theme naming the primary tag it hangs off, each
-    tagged with the top-level bucket ("Main Themes" / "Other Themes") it traces
-    back to.
+    tagged with the top-level bucket ("main" / "other") it traces back to.
 
     Only the themes the document itself carries are written — a sub-theme's
     parent is recorded as a reference, never materialized as an extra row, so a
@@ -78,13 +77,7 @@ def _replace_themes(
     for the classification."""
     cur.execute(f"DELETE FROM `{table}_theme` WHERE document_id = %s", (document_id,))
     rows = [
-        (
-            document_id,
-            a.name[:255],
-            a.theme_type,
-            a.parent[:255] if a.parent else None,
-            a.group[:255] if a.group else None,
-        )
+        (document_id, a.name[:255], a.theme_type, a.parent[:255] if a.parent else None, a.group)
         for a in theme_taxonomy.classify(names)
     ]
     if rows:

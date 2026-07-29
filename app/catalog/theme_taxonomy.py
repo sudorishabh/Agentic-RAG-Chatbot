@@ -8,11 +8,13 @@ Themes" / "Other Themes") is a grouping bucket rather than a theme, so:
 * anything below a Primary Tag is a Sub-Theme whose ``parent`` is that tag;
 * a bucket name itself is never stored as a theme.
 
-The bucket a theme originates from is still tracked, as ``group`` — every entry
-records which top-level bucket it traces back to (a sub-theme inherits its
-primary tag's bucket), so "Main Themes" and "Other Themes" stay distinguishable
-downstream even though ``theme_type`` (primary/sub) is about depth within a
-bucket, not which bucket.
+The bucket a theme originates from is still tracked, as ``group`` (``"main"`` /
+``"other"``) — every entry records which top-level bucket it traces back to (a
+sub-theme inherits its primary tag's bucket), so "Main Themes" and "Other Themes"
+stay distinguishable downstream even though ``theme_type`` (primary/sub) is about
+depth within a bucket, not which bucket. The bucket's display name is matched
+down to one of the two fixed codes (see ``_group_code``); it does not store the
+bucket's literal name.
 
 Deliberately a static file rather than the crawled Drupal tree: classification
 has to stay stable however a vocabulary happens to be nested in the CMS, and the
@@ -36,6 +38,9 @@ logger = logging.getLogger(__name__)
 PRIMARY = "primary"
 SUB = "sub"
 
+MAIN = "main"
+OTHER = "other"
+
 # app/data.json — a sibling of the app package root, not of this module.
 TAXONOMY_PATH = Path(__file__).resolve().parent.parent / "data.json"
 
@@ -49,8 +54,8 @@ _Entry = tuple[str, str, "str | None", "str | None"]
 @dataclass(frozen=True)
 class ThemeAssignment:
     """One theme row for a document: the theme, whether it is the primary tag or
-    a sub-theme, the primary tag it hangs off, and the top-level bucket
-    ("Main Themes" / "Other Themes") it traces back to.
+    a sub-theme, the primary tag it hangs off, and which top-level bucket
+    (``"main"`` / ``"other"``) it traces back to.
 
     ``parent`` is None for a primary tag and for a sub-theme the map has no
     parent for — both store NULL. ``group`` is the bucket a sub-theme's primary
@@ -75,13 +80,25 @@ def _key(value: Any) -> str:
     return _clean(value).casefold()
 
 
+def _group_code(bucket_name: str) -> str:
+    """Fixed ``"main"``/``"other"`` code for a top-level bucket's display name.
+
+    Matched on substring rather than position, so reordering the two buckets in
+    ``data.json`` doesn't flip which is which. Any bucket not named after "main"
+    (a third bucket added later, a rename) falls to ``"other"`` rather than
+    raising — the two-value split is deliberately the ceiling here; a document
+    is never denied a theme row over an unrecognized bucket label."""
+    return MAIN if "main" in bucket_name.casefold() else OTHER
+
+
 def _walk(
     nodes: Any, primary: str | None, group: str | None, out: dict[str, _Entry]
 ) -> None:
     """Collect ``nodes`` into ``out``. ``primary`` is the primary tag they sit
     under, or None when they *are* the primary tags (bucket children). ``group``
-    is the top-level bucket name, carried unchanged through the whole recursion —
-    depth changes ``primary``, never ``group``.
+    is the top-level bucket's fixed code (``"main"``/``"other"``), carried
+    unchanged through the whole recursion — depth changes ``primary``, never
+    ``group``.
 
     Descends past unnamed nodes rather than dropping their subtree, and keeps
     the first entry per key so an accidental duplicate in the file is stable.
@@ -128,7 +145,7 @@ def _load() -> tuple[dict[str, _Entry], frozenset[str]]:
         name = _clean(bucket.get("name"))
         if name:
             buckets.add(_key(name))
-        _walk(bucket.get("children"), None, name or None, mapping)
+        _walk(bucket.get("children"), None, _group_code(name) if name else None, mapping)
     # A name used both as a bucket and as a real theme stays a theme.
     return mapping, frozenset(buckets - set(mapping))
 

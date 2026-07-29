@@ -211,7 +211,7 @@ def test_theme_hierarchy_adds_columns_then_key_to_a_flat_table():
         f"ALTER TABLE `{TABLE}_theme` ADD COLUMN "
         "theme_type ENUM('primary', 'sub') NOT NULL DEFAULT 'sub'",
         f"ALTER TABLE `{TABLE}_theme` ADD COLUMN parent VARCHAR(255) NULL",
-        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN theme_group VARCHAR(255) NULL",
+        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN theme_group ENUM('main', 'other') NULL",
         f"ALTER TABLE `{TABLE}_theme` ADD PRIMARY KEY (document_id, theme)",
     ]
     assert cursor.tables[f"{TABLE}_theme"] == [
@@ -257,7 +257,7 @@ def test_theme_hierarchy_adds_only_the_missing_half():
 
     assert applied == [
         f"ALTER TABLE `{TABLE}_theme` ADD COLUMN parent VARCHAR(255) NULL",
-        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN theme_group VARCHAR(255) NULL",
+        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN theme_group ENUM('main', 'other') NULL",
     ]
 
 
