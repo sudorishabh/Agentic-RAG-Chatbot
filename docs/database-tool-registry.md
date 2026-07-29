@@ -4,6 +4,16 @@ The concrete, data-model-grounded tool set the [Database Planner](database-plann
 invokes. This document derives the registry from the application's actual schema,
 services, and query patterns — not a generic template.
 
+> **Status:** §§1–2 and §§5–7 below are the original design proposal and describe
+> package paths (`app/retrieval/database/`, `drupal_router.py`, `app/rag.py`) that
+> shipped under different names (`app/retrieval/structured/`,
+> `app/pipeline/query_pipeline.py`) — kept as historical rationale, not a map of the
+> tree. §3 and §4 are kept current below. For the natural-language resolution layer
+> (fuzzy matching, `resolve_entity`, tags, Main/Other themes, the terminal-answer
+> split) added after this proposal shipped, see
+> [database-retrieval-redesign.md](database-retrieval-redesign.md), the current
+> source of truth for that surface.
+
 - **Scope:** the `database` capability (structured catalog Q&A). Read-only.
 - **Unchanged:** intent layer, QA/RAG vector pipeline, summarizer, generation.
 - **Hard constraint:** `app/ingestion/state.py` is under an **ingestion freeze** —
@@ -90,8 +100,9 @@ resolver removes this.
 
 ## 3. The registry
 
-Four tools + two shared infrastructure pieces. The tools are what the planner
-selects; the infrastructure is what every tool reuses.
+Six tools + two shared infrastructure pieces (as shipped — see the status note
+above for where each landed). The tools are what the planner selects; the
+infrastructure is what every tool reuses.
 
 | # | Tool | Kind | Backing (reused) |
 |---|---|---|---|
@@ -99,6 +110,8 @@ selects; the infrastructure is what every tool reuses.
 | 2 | `list_records` | generic operation | `state.list_documents` |
 | 3 | `lookup_record` | operation + business rule (lookup→read) | `state.list_documents` + `resolve_lookup_document` logic |
 | 4 | `aggregate_records` | generic operation | `state.distribution` |
+| 5 | `list_themes` | structural listing (vocabulary-wide, no entity/filter scope) | `terms.list_themes` + `theme_taxonomy.group_of` |
+| 6 | `resolve_entity` | fuzzy name → canonical candidate resolution | `app.retrieval.structured.resolve` (no catalog read) |
 | — | **Entity Registry** | shared infra | `DEFAULT_BUNDLES`, `_BUNDLE_SYNONYMS`, `_normalize_bundle`, `_BUNDLE_LABELS` |
 | — | **Scope Resolver** | shared infra (holds the business rules) | `terms.resolve_terms`, date/bundle normalization |
 
@@ -129,12 +142,20 @@ selects; the infrastructure is what every tool reuses.
 // RecordFilters — normalized, entity-agnostic (only the columns the catalog supports)
 {
   "theme":  null,          // name -> resolved to term_uuids (alias-aware), else theme-name fallback
+  "tag":    null,          // name -> resolved to term_uuids; no fallback column exists (see below)
   "author": null,          // substring match on the author facet
   "title_contains": null,  // substring match on title
   "date_from": null,       // inclusive  ┐ half-open [from, to) on published_at
   "date_to":   null        // exclusive  ┘
 }
 ```
+
+`tag` was added after this document's original proposal, mirroring `theme`'s
+resolution with one deliberate asymmetry: an unresolved theme still has the
+free-text `documents_theme` facet to fall back on, but tags have no equivalent
+facet table, so an unresolved tag is always a terminal miss rather than a
+degraded partial match — see §5 "Tag filtering" in
+[database-retrieval-redesign.md](database-retrieval-redesign.md).
 
 ### Tool 1 — `count_records`
 
@@ -186,6 +207,42 @@ selects; the infrastructure is what every tool reuses.
   a numeric field would be a new `catalog.py` reader — added under this same tool,
   not a new tool.
 
+### Tool 5 — `list_themes`
+
+- **Why / problem:** "what themes do you cover?", "how many themes are there?" —
+  the theme vocabulary itself, not a per-document filter.
+- **Kind:** structural listing — vocabulary-wide, takes no `entity`/`filters`.
+- **Reuses:** `terms.list_themes` (canonical, includes zero-document themes) +
+  `theme_taxonomy.group_of` to label each name Main or Other.
+- **Output `ToolResult.data`:** `{ "themes": [...], "main_themes": [...], "other_themes": [...] }`,
+  rendered as two labelled sections, Main first. A theme the static taxonomy map
+  doesn't recognize (added in the CMS since) lists under Other rather than being
+  dropped. Asking about one *specific* theme is a normal filtered query on
+  another tool — this Main/Other split only applies to the "list every theme"
+  case. See [database-retrieval-redesign.md §6](database-retrieval-redesign.md).
+
+### Tool 6 — `resolve_entity`
+
+- **Why / problem:** users write loose, synonym-heavy, sometimes misspelled names
+  ("rishab negi", "climate", "env theme") that a substring `LIKE` match can't
+  resolve. This tool maps free text to a ranked, scored candidate before another
+  tool filters by it.
+- **Kind:** resolution utility — wraps `app.retrieval.structured.resolve`
+  (`difflib` + a hand-rolled token-set/prefix scorer over each type's small
+  candidate set), not a catalog read.
+- **Input:** `{ query: str, type: "author" | "bundle" | "theme" | null }` —
+  deliberately **not** `tag` (see the `RecordFilters.tag` note above).
+- **Output:** three bands, never a silent guess: a confident top match accepts
+  (`ok=true`, `data.resolved`); a genuine near-tie is `ok=false`,
+  `error_kind="ambiguous"`, rendered as a numbered clarification asking the user
+  to pick; nothing plausible is `ok=false`, `error_kind="unresolved"`, rendered
+  as an explicit "no `<type>` matching '`<query>`' found."
+- **Gated by:** `entity_resolution_enabled` (config) — off by default; when off,
+  `resolve_entity` still functions, but an all-failed plan falls through to
+  semantic search exactly as before this tool existed, rather than surfacing the
+  ambiguous/miss message. See
+  [database-retrieval-redesign.md §4](database-retrieval-redesign.md).
+
 ### Uniform result envelope
 
 ```jsonc
@@ -193,17 +250,29 @@ selects; the infrastructure is what every tool reuses.
   "tool": "count_records",
   "entity": "research_papers",
   "ok": true,
-  "data": { "count": 12 },                 // or {records:[…]} / {groups:[…]}
+  "data": { "count": 12, "applied": { "entity": "research_papers", "author": "…" } },
   "citations": [ /* Citation, for list/lookup */ ],
   "rendered": "There are 12 research papers in 2024 matching your query.",
-  "error": null
+  "error": null,
+  "error_kind": null
 }
 ```
 
 `rendered` re-homes the existing deterministic renderers (`_answer_count`,
 `_render_list_table`, `_render_list_timeline`, `_answer_distribution`) so the
 single-capability path stays LLM-free; multi-capability synthesis uses `data` +
-`citations` as evidence.
+`citations` as evidence. `data.applied` (added post-proposal) echoes every
+non-null filter actually in effect — the structured counterpart to `rendered`
+naming the same interpretation in prose, so a wrong match is catchable either
+way.
+
+`error_kind` (added post-proposal) splits `ok=false` into two situations that
+used to be indistinguishable: `"unresolved"` / `"ambiguous"` mean the filter was
+*understood but could not be honored* — `rendered` is the answer itself (e.g.
+"no theme matching 'X' found"), not a cue to fall through. Every other
+`ok=false` (`"no_records"`, `"unknown_entity"`, `"query_failed"`, or unset)
+keeps this document's original fall-through-to-semantic-search behavior
+unchanged. See [database-retrieval-redesign.md §7](database-retrieval-redesign.md).
 
 ---
 
@@ -214,7 +283,8 @@ single-capability path stays LLM-free; multi-capability synthesis uses `data` +
 | `get_tender_count`, `get_projects`, … (per-bundle) | ✗ | bundle is a parameter (16× redundancy) |
 | generic `create/update/delete_record` | ✗ | catalog is read-only; writes are frozen ingestion |
 | `document_ids_in_scope`, `attachments_for` | ✗ (not DB-intent tools) | they feed the **vector** pipeline (scoped summary, attachment supplementation); already called directly. Promote to a tool only if the planner must hand a doc-set to vector retrieval — that's multi-label orchestration, not a DB answer |
-| `list_terms(vocabulary)` ("what themes do you cover?") | ⏳ candidate | no current access pattern; would need a new read-only `catalog.py` reader over `taxonomy_term`. Add when a use case appears |
+| `list_terms(vocabulary)` ("what themes do you cover?") | ✓ shipped as **Tool 5, `list_themes`** | now includes the Main/Other split (§3.2 above) |
+| a `tag` type on `resolve_entity` | ✗ | tags are a long-tail, freeform CMS vocabulary (~237 terms over ~224 documents in a dev-DB sample) — the shape fuzzy ranking would constantly flag as ambiguous, not a curated set worth resolving. `tag` stays a direct, exact-match `RecordFilters` field instead |
 
 ---
 

@@ -10,6 +10,13 @@ level tools**.
   QA/RAG vector pipeline (`retrieve()`), the summarizer, reranking, context
   building, and the grounded-generation prompts.
 - **Related:** [intent-classification-design.md](intent-classification-design.md) · [retrieval-and-generation-flow.md](retrieval-and-generation-flow.md)
+- **Status:** this document is the original proposal — package paths below
+  (`app/retrieval/database/`, `drupal_router.py`, `app/rag.py::_prepare`) shipped
+  under different names (`app/retrieval/structured/`,
+  `app/pipeline/query_pipeline.py`); kept as historical rationale for §§1–2, §4,
+  §6, §9–11. For the natural-language resolution layer added after this
+  proposal shipped (`resolve_entity`, fuzzy matching, tags, the terminal-answer
+  split), see [database-retrieval-redesign.md](database-retrieval-redesign.md).
 
 ---
 
@@ -61,10 +68,12 @@ level tools**.
         │                        ▼                                 │
         │              ┌────────────────────┐                      │
         │              │ TOOL EXECUTION      │  parallel            │
-        │              │ count_records       │  partial-failure     │
-        │              │ list_records        │  tolerant            │
+        │              │ resolve_entity      │  partial-failure     │
+        │              │ count_records       │  tolerant            │
+        │              │ list_records        │                      │
         │              │ lookup_record       │                      │
         │              │ aggregate_records   │                      │
+        │              │ list_themes         │                      │
         │              └─────────┬──────────┘                      │
         │                        │ [ToolResult, …]                  │
         └───────────┬────────────┴───────────────┬─────────────────┘
@@ -117,6 +126,8 @@ resolves the entity via the registry, executes the backing query, and returns a
 | `list_records` | `(entity, filters, sort=None, limit=10) -> ToolResult` | `state.list_documents(...)` |
 | `lookup_record` | `(entity, id=None, filters=None) -> ToolResult` | `state.list_documents(..., limit≈3)` + single-match resolution |
 | `aggregate_records` | `(entity, aggregation, group_by, filters) -> ToolResult` | `state.distribution(group_by, ...)` (v1: `aggregation="count"`) |
+| `list_themes` | `(limit=200) -> ToolResult` | `terms.list_themes(...)` + `theme_taxonomy.group_of` (Main/Other split; added post-proposal) |
+| `resolve_entity` | `(query, type=None) -> ToolResult` | `app.retrieval.structured.resolve` — no catalog read; scores `query` against the small candidate set for `type` (added post-proposal) |
 
 Notes:
 - `aggregate_records` generalizes today's `distribution`; v1 supports
@@ -212,15 +223,19 @@ compose (sectioned):
 
 ```jsonc
 // RecordFilters — normalized, entity-agnostic
+// NOTE: this proposal speculated a list "tags": []; what shipped is a single
+// "tag": null instead (a document filters on one tag, not several — see
+// database-retrieval-redesign.md §5 for why tag has no fallback the way theme
+// does, and is never resolved via resolve_entity).
 {
-  "theme": null, "author": null, "tags": [],
+  "theme": null, "tag": null, "author": null,
   "title_contains": null,
   "date_from": null, "date_to": null      // half-open [from, to)
 }
 
 // ToolCall — one planned operation
 {
-  "tool": "count_records",                 // count | list | lookup | aggregate _records
+  "tool": "count_records",                 // count | list | lookup | aggregate_records | list_themes | resolve_entity
   "entity": "research_papers",
   "args": { "filters": { "date_from": "2024-01-01", "date_to": "2025-01-01" } }
 }
@@ -233,10 +248,11 @@ compose (sectioned):
   "tool": "count_records",
   "entity": "research_papers",
   "ok": true,
-  "data": { "count": 12 },                 // or { "records": [...] } / { "groups": [...] }
+  "data": { "count": 12, "applied": { "entity": "research_papers" } },
   "citations": [ /* Citation, … */ ],
   "rendered": "There are 12 research papers in 2024 matching your query.",
-  "error": null
+  "error": null,
+  "error_kind": null   // "unresolved" | "ambiguous" -> terminal; else today's fall-through (added post-proposal)
 }
 ```
 
@@ -269,6 +285,13 @@ compose (sectioned):
   the retrieval path.
 - **Fail-open** — a failed/empty tool degrades gracefully (partial results or
   fall-through to semantic search), never a hard error.
+- **Terminal vs. fall-through (added post-proposal)** — not every `ok=false` means
+  "guess elsewhere." `error_kind` splits it: `"unresolved"`/`"ambiguous"` mean
+  the filter was *understood but unanswerable*, so `rendered` — an explicit "no
+  X matching 'Y' found" or a numbered clarification — is returned as the answer
+  directly; every other failure keeps the fall-through above unchanged. Gated by
+  `entity_resolution_enabled` (off restores exact pre-existing fall-through
+  behavior). See [database-retrieval-redesign.md §7](database-retrieval-redesign.md).
 
 ---
 
