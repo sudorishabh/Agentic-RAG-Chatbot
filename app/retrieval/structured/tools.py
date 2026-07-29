@@ -205,11 +205,13 @@ def _render_records(
 
 
 def _theme_section(label: str, names: list[str], output_format: str) -> str:
-    """One labelled block of the theme listing (Main themes / Other themes)."""
+    """One block of a theme listing. An empty `label` renders the bare list, for
+    the case where the surrounding sentence already names what these are."""
     if output_format == "table":
         rows = "\n".join(["| theme |", "| --- |"] + [f"| {_md_cell(n)} |" for n in names])
-        return f"**{label}**\n{rows}"
-    return f"{label}:\n" + "\n".join(f"- {n}" for n in names)
+        return f"**{label}**\n{rows}" if label else rows
+    body = "\n".join(f"- {n}" for n in names)
+    return f"{label}:\n{body}" if label else body
 
 
 def _project_fields(
@@ -480,18 +482,29 @@ THEME_VOCABULARY_LIMIT = 200
 
 
 def list_themes(
-    *, limit: int = THEME_VOCABULARY_LIMIT, output_format: str = "default"
+    *,
+    children: bool = False,
+    parent: str | None = None,
+    limit: int = THEME_VOCABULARY_LIMIT,
+    output_format: str = "default",
 ) -> ToolResult:
-    """Enumerate the themes the collection covers, split into Main themes and
-    Other themes (main first). Answers 'what themes/topics do you cover?' /
-    'how many themes are there?'.
+    """Enumerate the collection's themes.
 
-    Reads `documents_theme` — the themes documents actually carry, with the
-    Main/Other split taken from the `theme_group` column that ingestion
-    materialized from app/data.json. A theme whose group was never classified
-    (`NULL`) lists under Other rather than being dropped. An empty vocabulary or
-    a query failure returns ok=False so the caller can fall through to semantic
-    search."""
+    Two shapes, because "theme" and "sub-theme" are different questions:
+
+    * default — the **top-level themes only** (`theme_type='primary'`), split
+      into Main themes then Other themes per the `theme_group` column. Answers
+      "what themes do you cover?" / "how many themes are there?". Sub-themes are
+      deliberately excluded: mixing "Air" and "Waste" in with "Climate Change"
+      and "Energy" both overstates the count and flattens the hierarchy the
+      taxonomy exists to express.
+    * `children=True` — the **sub-themes only**, grouped under the theme each
+      hangs off. `parent` narrows to one theme's children.
+
+    Reads `documents_theme`, so it lists what documents actually carry. A theme
+    whose group was never classified (`NULL`) lists under Other rather than being
+    dropped. An empty result or a query failure returns ok=False so the caller can
+    fall through to semantic search."""
     try:
         rows = state.theme_vocabulary(limit=limit)
     except Exception:
@@ -499,18 +512,79 @@ def list_themes(
         return ToolResult(tool="list_themes", ok=False, error="query failed")
     if not rows:
         return ToolResult(tool="list_themes", ok=False, error="no themes found")
-    names = [r["theme"] for r in rows]
-    main = [r["theme"] for r in rows if r["theme_group"] == "main"]
-    other = [n for n in names if n not in main]
+
+    if children:
+        return _list_sub_themes(rows, parent, output_format)
+
+    primary = [r for r in rows if r["theme_type"] == "primary"]
+    if not primary:
+        return ToolResult(tool="list_themes", ok=False, error="no themes found")
+    main = [r["theme"] for r in primary if r["theme_group"] == "main"]
+    other = [r["theme"] for r in primary if r["theme_group"] != "main"]
     sections = [("Main themes", main)] if main else []
     if other:
         sections.append(("Other themes", other))
-    rendered = f"The collection covers {len(names)} themes:\n\n" + "\n\n".join(
+    total = len(main) + len(other)
+    rendered = f"The collection covers {total} themes:\n\n" + "\n\n".join(
         _theme_section(label, group_names, output_format) for label, group_names in sections
     )
     return ToolResult(
         tool="list_themes", ok=True,
-        data={"themes": names, "main_themes": main, "other_themes": other},
+        data={"themes": main + other, "main_themes": main, "other_themes": other},
+        rendered=rendered,
+    )
+
+
+def _list_sub_themes(
+    rows: list[dict[str, Any]], parent: str | None, output_format: str
+) -> ToolResult:
+    """The `children=True` shape of `list_themes`: sub-themes grouped by the
+    theme they hang off, optionally narrowed to one parent.
+
+    A named parent that exists but has no children answers so plainly ("Climate
+    Change has no sub-themes") rather than falling through — the theme is real
+    and the answer is correct, so handing the turn to semantic search would
+    replace a true statement with a vague one. A parent that is not a theme at
+    all is a miss, which is a different thing."""
+    subs = [r for r in rows if r["theme_type"] == "sub" and r["parent"]]
+
+    if parent:
+        wanted = parent.casefold()
+        mine = [r for r in subs if (r["parent"] or "").casefold() == wanted]
+        if not mine:
+            known = next(
+                (r["theme"] for r in rows if r["theme"].casefold() == wanted), None
+            )
+            if known is None:
+                return _unresolved_miss("list_themes", None, "theme", parent)
+            return ToolResult(
+                tool="list_themes", ok=True,
+                data={"parent": known, "sub_themes": [], "by_parent": {}},
+                rendered=f"{known} has no sub-themes.",
+            )
+        names = [r["theme"] for r in mine]
+        body = _theme_section("", names, output_format)
+        rendered = f"{mine[0]['parent']} has {len(names)} sub-themes:\n{body}"
+        return ToolResult(
+            tool="list_themes", ok=True,
+            data={"parent": mine[0]["parent"], "sub_themes": names,
+                  "by_parent": {mine[0]["parent"]: names}},
+            rendered=rendered,
+        )
+
+    if not subs:
+        return ToolResult(tool="list_themes", ok=False, error="no sub-themes found")
+    by_parent: dict[str, list[str]] = {}
+    for row in subs:
+        by_parent.setdefault(row["parent"], []).append(row["theme"])
+    names = [name for group in by_parent.values() for name in group]
+    rendered = f"The collection covers {len(names)} sub-themes:\n\n" + "\n\n".join(
+        _theme_section(theme, children, output_format)
+        for theme, children in by_parent.items()
+    )
+    return ToolResult(
+        tool="list_themes", ok=True,
+        data={"sub_themes": names, "by_parent": by_parent, "parent": None},
         rendered=rendered,
     )
 

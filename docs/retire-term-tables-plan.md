@@ -90,11 +90,34 @@ ordered by name, excluding junk values (§5.1). Replaces `terms.list_themes()`.
 ### 3.2 `list_themes` reads MySQL — `app/retrieval/structured/tools.py`
 
 Group on `theme_group` (`NULL` → Other) instead of calling
-`theme_taxonomy.group_of()`. **This is the fix for the reported bug**: 22 main +
-4 other themes instead of `ok=False`.
+`theme_taxonomy.group_of()`. **This is the fix for the reported bug**: real
+themes instead of `ok=False`.
 
 `theme_taxonomy.group_of` / `themes_by_group` remain — they are still the ingest
 classifier — but `tools.py` stops importing them.
+
+**Since revised — top-level themes only.** `list_themes` has two shapes:
+
+| call | answers | result here |
+|---|---|---|
+| `list_themes()` | "what themes are there?" — `theme_type='primary'` only, Main then Other | **10** (7 main + 3 other) |
+| `list_themes(children=True)` | "what are the sub-themes?" — grouped by parent | **16** across 5 parents |
+| `list_themes(children=True, parent="Energy")` | one theme's children | 4 |
+
+Sub-themes are excluded from the default listing because including them both
+overstates the count (26 vs 10) and flattens the hierarchy the taxonomy exists
+to express — "Air" and "Waste" are not peers of "Climate Change".
+
+Two distinctions the children path keeps separate: a **real theme with no
+children** answers plainly (`"Climate Change has no sub-themes."`, `ok=True`)
+rather than falling through, because that is a true and useful statement; a
+**name that is not a theme at all** is an `unresolved` miss.
+
+Routing: the classifier gains a `theme_children` boolean
+(`QueryAnalysis`/`QueryUnderstanding`/`StructuredQuery` + both prompts). The v1
+planner also treats a *named theme* in a `list_themes` request as implying its
+children — "what's under Environment?" has no other sensible reading — so that
+phrasing works even when the classifier leaves the flag unset.
 
 ### 3.3 Theme filtering by name, with parent expansion
 

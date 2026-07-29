@@ -43,6 +43,9 @@ class QueryAnalysis(BaseModel):
     operation: Operation | None = None
     bundle: str | None = None
     group_by: GroupBy | None = None
+    # list_themes: the user asked for sub-themes/children rather than the
+    # top-level themes.
+    theme_children: bool = False
     title_contains: str | None = None
     limit: int = 10
 
@@ -135,6 +138,11 @@ class QueryUnderstanding(BaseModel):
     group_by: GroupBy | None = None
     bundle: str | None = None
     title_contains: str | None = None
+    theme_children: bool = Field(
+        default=False,
+        description="For list_themes: true when the user asked for sub-themes / "
+        "children rather than the top-level themes.",
+    )
     limit: int = 10
 
 
@@ -410,6 +418,7 @@ def _to_legacy_analysis(question: str, u: QueryUnderstanding) -> QueryAnalysis:
         operation=u.operation,
         bundle=u.bundle,
         group_by=u.group_by,
+        theme_children=u.theme_children,
         title_contains=u.title_contains,
         limit=u.limit,
     )

@@ -495,6 +495,88 @@ def test_list_themes_empty_falls_through(monkeypatch):
     assert r.ok is False and r.tool == "list_themes"
 
 
+def _mixed_vocab():
+    """Two primary themes (one per group) plus sub-themes hanging off them."""
+    return [
+        {"theme": "Energy", "theme_type": "primary", "parent": None,
+         "theme_group": "main", "documents": 227},
+        {"theme": "Energy Access", "theme_type": "sub", "parent": "Energy",
+         "theme_group": "main", "documents": 13},
+        {"theme": "Energy Efficiency", "theme_type": "sub", "parent": "Energy",
+         "theme_group": "main", "documents": 13},
+        {"theme": "Green Shipping", "theme_type": "primary", "parent": None,
+         "theme_group": "other", "documents": 2},
+    ]
+
+
+def test_list_themes_excludes_sub_themes_from_the_default_listing(monkeypatch):
+    """"How many themes are there?" counts top-level themes. Including
+    sub-themes both overstates the total and flattens the hierarchy."""
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
+    r = tools.list_themes()
+    assert r.data["themes"] == ["Energy", "Green Shipping"]
+    assert r.data["main_themes"] == ["Energy"]
+    assert r.data["other_themes"] == ["Green Shipping"]
+    assert r.rendered.startswith("The collection covers 2 themes:")
+    assert "Energy Access" not in r.rendered
+
+
+def test_list_themes_children_lists_only_sub_themes(monkeypatch):
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
+    r = tools.list_themes(children=True)
+    assert r.ok
+    assert r.data["sub_themes"] == ["Energy Access", "Energy Efficiency"]
+    assert r.data["by_parent"] == {"Energy": ["Energy Access", "Energy Efficiency"]}
+    assert r.rendered.startswith("The collection covers 2 sub-themes:")
+    # Top-level themes are not repeated as entries, only as group headers.
+    assert "- Energy\n" not in r.rendered
+    assert "Green Shipping" not in r.rendered
+
+
+def test_list_themes_children_of_one_parent(monkeypatch):
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
+    r = tools.list_themes(children=True, parent="Energy")
+    assert r.data["parent"] == "Energy"
+    assert r.data["sub_themes"] == ["Energy Access", "Energy Efficiency"]
+    assert r.rendered == (
+        "Energy has 2 sub-themes:\n- Energy Access\n- Energy Efficiency"
+    )
+
+
+def test_list_themes_children_of_one_parent_is_case_insensitive(monkeypatch):
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
+    r = tools.list_themes(children=True, parent="energy")
+    assert r.ok and r.data["parent"] == "Energy"  # answers with the stored casing
+
+
+def test_list_themes_real_theme_with_no_children_says_so(monkeypatch):
+    """A true statement beats falling through to a vague semantic answer — the
+    theme exists, it just has no children."""
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
+    r = tools.list_themes(children=True, parent="Green Shipping")
+    assert r.ok is True
+    assert r.data["sub_themes"] == []
+    assert r.rendered == "Green Shipping has no sub-themes."
+
+
+def test_list_themes_children_of_an_unknown_theme_is_a_miss(monkeypatch):
+    """Distinct from the case above: this name is not a theme at all."""
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
+    r = tools.list_themes(children=True, parent="Quantum Beekeeping")
+    assert r.ok is False and r.error_kind == "unresolved"
+    assert r.rendered == "No theme matching 'Quantum Beekeeping' found."
+
+
+def test_list_themes_no_primary_themes_falls_through(monkeypatch):
+    """A vocabulary of only sub-themes cannot answer "what themes are there"."""
+    monkeypatch.setattr(
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: [{"theme": "Air", "theme_type": "sub", "parent": "Environment",
+                       "theme_group": "main", "documents": 1}],
+    )
+    assert tools.list_themes().ok is False
+
+
 def test_list_themes_splits_main_and_other(monkeypatch):
     monkeypatch.setattr(
         "app.catalog.queries.theme_vocabulary",

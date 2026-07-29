@@ -91,10 +91,14 @@ def _tool_call(slots: Any, output_format: str) -> ToolCall:
                         title=getattr(slots, "title_contains", None), limit=limit,
                         output_format=output_format)
     if operation == "list_themes":
-        # Vocabulary-wide: no entity/filter scoping, and explicitly NOT the
-        # content-row `limit` above — that defaults to 10, which would silently
-        # truncate the vocabulary and report a wrong theme total.
+        # Naming a theme in a "list themes" question can only mean its
+        # sub-themes ("what's under Environment?"), so it implies children even
+        # when the classifier did not set the flag. Vocabulary-wide otherwise,
+        # and explicitly NOT the content-row `limit` above — that defaults to
+        # 10, which would truncate the vocabulary and report a wrong total.
+        theme = getattr(slots, "theme", None)
         return ToolCall(tool="list_themes", filters=filters,
+                        children=bool(getattr(slots, "theme_children", False) or theme),
                         limit=THEME_VOCABULARY_LIMIT, output_format=output_format)
     return ToolCall(tool="list_records", entity=bundle, filters=filters, limit=limit,
                     output_format=output_format)
@@ -246,7 +250,8 @@ def _run(call: ToolCall, question: str | None) -> ToolResult:
                                  aggregation=call.aggregation,
                                  output_format=call.output_format)
     if call.tool == "list_themes":
-        return list_themes(limit=call.limit, output_format=call.output_format)
+        return list_themes(children=call.children, parent=call.filters.theme,
+                           limit=call.limit, output_format=call.output_format)
     if call.tool == "resolve_entity":
         return resolve_entity(call.query, call.resolve_type)
     return ToolResult(tool=call.tool, entity=call.entity, ok=False,

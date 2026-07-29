@@ -45,6 +45,9 @@ _PARSE_SYSTEM = (
     + BUNDLE_LIST + ". " + COLLECTIVE_WORD_WARNING + "\n"
     "- theme: the thematic area / topic / theme name if the request is scoped "
     "to one (e.g. 'under the Climate theme', 'in the Energy area'); else null.\n"
+    "- theme_children: for 'list_themes' only — true when the request asks for "
+    "sub-themes / children / what sits under a theme, false for the top-level "
+    "themes.\n"
     "- group_by: for 'distribution' only — the dimension to break down by: "
     "'theme', 'content_type', 'author', or 'year'; else null.\n"
     "- title_contains: a title keyword if the user names/quotes a title; else null.\n"
@@ -66,6 +69,7 @@ class StructuredQuery(BaseModel):
     group_by: GroupBy | None = None
     title_contains: str | None = None
     author: str | None = None
+    theme_children: bool = False
     year: int | None = None
     date_from: str | None = None
     date_to: str | None = None

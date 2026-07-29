@@ -62,6 +62,9 @@ class ToolCall:
     # records (None keeps them all).
     offset: int = 0
     fields: list[str] | None = None
+    # list_themes: list sub-themes instead of top-level themes. The parent to
+    # narrow to travels in `filters.theme`.
+    children: bool = False
     # rendering shape for list/aggregate output (table/timeline/list/default)
     output_format: str = "default"
     # resolve_entity
