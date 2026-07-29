@@ -158,7 +158,9 @@ def _process(
 
     def build_doc(rec: Any) -> Any:
         if rec.source_type == "pdf_attachment":
-            cap.doc = pipeline._build_attachment_doc(rec, session)
+            from app.ingestion.extractors.attachment import build_attachment_doc
+
+            cap.doc = build_attachment_doc(rec, session)
         elif rec.source_type == "pdf":
             cap.doc = pipeline._build_pdf_doc(rec)
         else:
