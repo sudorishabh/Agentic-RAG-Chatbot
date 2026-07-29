@@ -52,6 +52,42 @@ def _period_label(filters: RecordFilters) -> str:
     return ""
 
 
+def _scope_phrase(filters: RecordFilters) -> str:
+    """Human phrase naming every active filter (author, theme, tag, period) —
+    so an answer states its own interpretation rather than a bare number a
+    wrong match could hide behind. The bundle/content-type itself is already
+    named as the sentence's noun (see `entity_label`), so it is not repeated
+    here. Whatever value a filter carries is shown as-is: a caller that
+    resolved a fuzzy name via `resolve_entity` first already passed the
+    canonical name in by the time a tool call reaches this point."""
+    parts = []
+    if filters.author:
+        parts.append(f" by {filters.author}")
+    if filters.theme:
+        parts.append(f" on '{filters.theme}'")
+    if filters.tag:
+        parts.append(f" tagged '{filters.tag}'")
+    parts.append(_period_label(filters))
+    return "".join(parts)
+
+
+def _applied_filters(bundle: str | None, filters: RecordFilters) -> dict[str, str]:
+    """The filters actually in effect, keyed by name — the structured
+    counterpart to `_scope_phrase`, so a caller can check the interpretation
+    programmatically rather than only by reading prose. Unset filters are
+    omitted rather than included as null."""
+    applied = {
+        "entity": bundle,
+        "author": filters.author,
+        "theme": filters.theme,
+        "tag": filters.tag,
+        "title_contains": filters.title_contains,
+        "date_from": filters.date_from,
+        "date_to": filters.date_to,
+    }
+    return {key: value for key, value in applied.items() if value}
+
+
 def _render_list_table(records: Sequence[StateRecord]) -> str:
     lines = ["| Title | Published | Type |", "| --- | --- | --- |"]
     for r in records:
@@ -168,14 +204,15 @@ def count_records(entity: str | None, filters: RecordFilters) -> ToolResult:
     except Exception:
         logger.warning("count_records query failed.", exc_info=True)
         return ToolResult(tool="count_records", entity=bundle, ok=False, error="query failed")
-    phrase = (f" on '{filters.theme}'" if filters.theme else "") + _period_label(filters)
+    phrase = _scope_phrase(filters)
     verb = "is" if total == 1 else "are"
     rendered = (
         f"There {verb} {total} {entity_label(bundle or 'items', total)}{phrase} "
         "matching your query."
     )
     return ToolResult(tool="count_records", entity=bundle, ok=True,
-                      data={"count": total}, rendered=rendered)
+                      data={"count": total, "applied": _applied_filters(bundle, filters)},
+                      rendered=rendered)
 
 
 def list_records(
@@ -221,9 +258,11 @@ def list_records(
         return ToolResult(tool="list_records", entity=bundle, ok=False,
                           error="no matching records")
     rendered, data, citations = _render_records(records, output_format)
-    return ToolResult(tool="list_records", entity=bundle, ok=True,
-                      data={"records": _project_fields(data, fields)},
-                      citations=citations, rendered=rendered)
+    return ToolResult(
+        tool="list_records", entity=bundle, ok=True,
+        data={"records": _project_fields(data, fields), "applied": _applied_filters(bundle, filters)},
+        citations=citations, rendered=rendered,
+    )
 
 
 # Words signalling the user wants what a document SAYS, not just its catalog entry
@@ -355,11 +394,14 @@ def aggregate_records(
     else:
         body = "\n".join(f"- {value}: {n}" for value, n in rows)
     rendered = (
-        f"Distribution of {entity_label(bundle or 'items', 2)}{_period_label(filters)} "
+        f"Distribution of {entity_label(bundle or 'items', 2)}{_scope_phrase(filters)} "
         f"by {label}:\n" + body
     )
-    return ToolResult(tool="aggregate_records", entity=bundle, ok=True,
-                      data={"groups": [[value, n] for value, n in rows]}, rendered=rendered)
+    return ToolResult(
+        tool="aggregate_records", entity=bundle, ok=True,
+        data={"groups": [[value, n] for value, n in rows], "applied": _applied_filters(bundle, filters)},
+        rendered=rendered,
+    )
 
 
 def list_themes(*, limit: int = 200, output_format: str = "default") -> ToolResult:

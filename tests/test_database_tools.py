@@ -34,6 +34,45 @@ def resolve_tag_ok(monkeypatch):
 
 
 # --------------------------------------------------------------------------- #
+# _scope_phrase / _applied_filters — the shared "state the interpretation"
+# helpers used by count_records / list_records / aggregate_records.
+# --------------------------------------------------------------------------- #
+
+def test_scope_phrase_empty_when_nothing_set():
+    assert tools._scope_phrase(RecordFilters()) == ""
+
+
+def test_scope_phrase_names_author_theme_tag_and_period_in_order():
+    filters = RecordFilters(
+        author="Rishabh Negi", theme="Climate Change", tag="policy",
+        date_from="2024-01-01", date_to="2025-01-01",
+    )
+    assert tools._scope_phrase(filters) == (
+        " by Rishabh Negi on 'Climate Change' tagged 'policy' in 2024"
+    )
+
+
+def test_scope_phrase_author_only():
+    assert tools._scope_phrase(RecordFilters(author="Rishabh Negi")) == " by Rishabh Negi"
+
+
+def test_applied_filters_omits_unset_values():
+    assert tools._applied_filters("news", RecordFilters()) == {"entity": "news"}
+    assert tools._applied_filters(None, RecordFilters()) == {}
+
+
+def test_applied_filters_includes_every_set_value():
+    filters = RecordFilters(
+        author="Rishabh Negi", theme="Climate Change", tag="policy",
+        date_from="2024-01-01", date_to="2025-01-01",
+    )
+    assert tools._applied_filters("events", filters) == {
+        "entity": "events", "author": "Rishabh Negi", "theme": "Climate Change",
+        "tag": "policy", "date_from": "2024-01-01", "date_to": "2025-01-01",
+    }
+
+
+# --------------------------------------------------------------------------- #
 # count_records
 # --------------------------------------------------------------------------- #
 
@@ -48,7 +87,12 @@ def test_count_records_renders_and_passes_scope(monkeypatch, resolve_theme_ok):
     r = tools.count_records(
         "news", RecordFilters(theme="Climate", date_from="2024-01-01", date_to="2025-01-01")
     )
-    assert r.ok and r.data == {"count": 3}
+    assert r.ok
+    assert r.data == {
+        "count": 3,
+        "applied": {"entity": "news", "theme": "Climate",
+                   "date_from": "2024-01-01", "date_to": "2025-01-01"},
+    }
     assert r.rendered == "There are 3 news items on 'Climate' in 2024 matching your query."
     assert seen["bundle"] == "news"
     assert seen["source_type"] == "website" and seen["entity_type"] == "node"
@@ -77,7 +121,9 @@ def test_count_records_passes_tag_scope(monkeypatch, resolve_tag_ok):
 
     monkeypatch.setattr("app.catalog.queries.count_documents", fake_count)
     r = tools.count_records("news", RecordFilters(tag="policy"))
-    assert r.ok and r.data == {"count": 4}
+    assert r.ok
+    assert r.data == {"count": 4, "applied": {"entity": "news", "tag": "policy"}}
+    assert r.rendered == "There are 4 news items tagged 'policy' matching your query."
     assert seen["tag_uuids"] == ["t1"]
 
 
@@ -110,6 +156,32 @@ def test_count_records_date_range_render(monkeypatch):
     )
 
 
+def test_count_records_names_author_in_rendered_answer(monkeypatch):
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 21)
+    r = tools.count_records(None, RecordFilters(author="Dr Suneel Pandey"))
+    assert r.rendered == "There are 21 items by Dr Suneel Pandey matching your query."
+    assert r.data["applied"] == {"author": "Dr Suneel Pandey"}
+
+
+def test_count_records_combines_author_theme_tag_and_period(monkeypatch, resolve_theme_ok):
+    monkeypatch.setattr("app.catalog.terms.resolve_terms",
+                        lambda name, vocabulary=None: [{"term_uuid": "u1", "name": name}])
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 3)
+    r = tools.count_records(
+        "news",
+        RecordFilters(author="Rishabh Negi", theme="Climate Change", tag="policy",
+                     date_from="2024-01-01", date_to="2025-01-01"),
+    )
+    assert r.rendered == (
+        "There are 3 news items by Rishabh Negi on 'Climate Change' tagged 'policy' "
+        "in 2024 matching your query."
+    )
+    assert r.data["applied"] == {
+        "entity": "news", "author": "Rishabh Negi", "theme": "Climate Change",
+        "tag": "policy", "date_from": "2024-01-01", "date_to": "2025-01-01",
+    }
+
+
 def test_count_records_db_error_is_not_ok(monkeypatch):
     def boom(**k):
         raise RuntimeError("db down")
@@ -128,6 +200,15 @@ def test_list_records_plain(monkeypatch):
     assert r.ok
     assert r.data["records"][0]["document_id"] == "d1"
     assert r.citations[0]["title"] == "A"
+    assert r.rendered == "Here is what I found:\n- A (http://a)"
+    assert r.data["applied"] == {"entity": "news"}
+
+
+def test_list_records_applied_names_author(monkeypatch):
+    monkeypatch.setattr("app.catalog.queries.list_documents", lambda **k: [_rec()])
+    r = tools.list_records("news", RecordFilters(author="Rishabh Negi"))
+    assert r.data["applied"] == {"entity": "news", "author": "Rishabh Negi"}
+    # the record list itself is the evidence; the prose stays unchanged
     assert r.rendered == "Here is what I found:\n- A (http://a)"
 
 
@@ -221,6 +302,8 @@ def test_lookup_record_chains_on_content_question(monkeypatch):
     )
     assert r.data["chain_document_id"] == "d1"
     assert r.ok  # also renders the list
+    # inherited from list_records's data via the {**result.data, ...} spread
+    assert r.data["applied"] == {"entity": "report", "title_contains": "Solar Report"}
 
 
 def test_lookup_record_no_chain_on_browse(monkeypatch):
