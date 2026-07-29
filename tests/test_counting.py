@@ -48,11 +48,11 @@ def _enable_entity_resolution(monkeypatch):
 
 
 def test_answer_structured_unresolved_theme_falls_through_by_default(monkeypatch):
-    """entity_resolution_enabled defaults to False — the rollback path: an
-    unresolved theme falls through exactly as it did before this feature
-    existed, with no settings override needed."""
+    """entity_resolution_enabled defaults to False — the rollback path: a theme
+    that resolves to nothing AND matches no rows falls through exactly as it did
+    before this feature existed, with no settings override needed."""
     monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
-    monkeypatch.setattr(state, "count_documents", _forbid_count)
+    monkeypatch.setattr(state, "count_documents", lambda **kw: 0)
     analysis = qp.QueryAnalysis(
         search_query="how many events under Mystery?",
         intent="structured", operation="count", bundle="events", theme="Mystery",
@@ -61,19 +61,34 @@ def test_answer_structured_unresolved_theme_falls_through_by_default(monkeypatch
 
 
 def test_answer_structured_unresolved_theme_is_terminal_not_a_fallthrough(monkeypatch):
-    """With the flag on, a theme that does not resolve to a known term is
+    """With the flag on, a theme that resolves to no term AND matches no rows is
     understood-but-unanswerable — the answer names it explicitly rather than
     silently falling through to a vague semantic-search guess
     (docs/database-retrieval-redesign.md §7)."""
     _enable_entity_resolution(monkeypatch)
     monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
-    monkeypatch.setattr(state, "count_documents", _forbid_count)
+    monkeypatch.setattr(state, "count_documents", lambda **kw: 0)
     analysis = qp.QueryAnalysis(
         search_query="how many events under Mystery?",
         intent="structured", operation="count", bundle="events", theme="Mystery",
     )
     out = dr.answer_structured("how many events under Mystery?", analysis=analysis)
     assert out["answer"] == "No theme matching 'Mystery' found."
+
+
+def test_answer_structured_real_theme_answers_without_the_term_catalog(monkeypatch):
+    """The regression this fix exists for: with `terms` unpopulated every theme
+    is "unresolved", but a theme documents actually carry must still be counted
+    from the free-text facet rather than denied."""
+    _enable_entity_resolution(monkeypatch)
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr(state, "count_documents", lambda **kw: 32)
+    analysis = qp.QueryAnalysis(
+        search_query="how many posts under Environment?",
+        intent="structured", operation="count", theme="Environment",
+    )
+    out = dr.answer_structured("how many posts under Environment?", analysis=analysis)
+    assert out["answer"] == "There are 32 items on 'Environment' matching your query."
 
 
 def test_answer_structured_unresolved_tag_is_terminal_not_a_fallthrough(monkeypatch):

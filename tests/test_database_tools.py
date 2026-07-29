@@ -105,11 +105,48 @@ def test_count_records_unknown_entity_is_not_ok(monkeypatch):
     assert r.ok is False and "unknown entity" in (r.error or "")
 
 
-def test_count_records_unresolved_theme_is_not_ok(monkeypatch):
+def test_count_records_unresolved_theme_still_counts_via_name_fallback(monkeypatch):
+    """A theme that matches no taxonomy term still filters on the free-text
+    documents_theme facet — refusing up front would deny a theme that plainly
+    exists in an environment whose taxonomy-term crawl has not run."""
+    seen = {}
+
+    def fake_count(**kw):
+        seen.update(kw)
+        return 99
+
     monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
-    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 99)
-    r = tools.count_records("news", RecordFilters(theme="Mystery"))
-    assert r.ok is False  # must not answer a misleading zero/count
+    monkeypatch.setattr("app.catalog.queries.count_documents", fake_count)
+    r = tools.count_records("news", RecordFilters(theme="Environment"))
+    assert r.ok is True
+    assert seen["theme"] == "Environment"  # display-name fallback, not term_uuids
+    assert "term_uuids" not in seen
+    assert r.data["count"] == 99
+
+
+def test_count_records_unresolved_theme_with_no_rows_is_a_terminal_miss(monkeypatch):
+    """Only when the fallback also finds nothing are "unknown theme" and
+    "genuinely no documents" indistinguishable — then the miss is the honest
+    answer, not a bare 0."""
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 0)
+    r = tools.count_records("news", RecordFilters(theme="Quantum Beekeeping"))
+    assert r.ok is False and r.error_kind == "unresolved"
+    assert r.rendered == "No theme matching 'Quantum Beekeeping' found."
+
+
+def test_count_records_resolved_theme_with_no_rows_is_an_honest_zero(monkeypatch):
+    """A theme that DID resolve and matched nothing is a real zero — never
+    relabelled as a miss."""
+    monkeypatch.setattr(
+        "app.catalog.terms.resolve_terms",
+        lambda name, vocabulary=None: [{"term_uuid": "u1", "name": name}],
+    )
+    monkeypatch.setattr("app.catalog.terms.descendant_uuids", lambda u: list(u))
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 0)
+    r = tools.count_records("news", RecordFilters(theme="Climate Change"))
+    assert r.ok is True and r.data["count"] == 0
+    assert r.rendered == "There are 0 news items on 'Climate Change' matching your query."
 
 
 def test_count_records_passes_tag_scope(monkeypatch, resolve_tag_ok):

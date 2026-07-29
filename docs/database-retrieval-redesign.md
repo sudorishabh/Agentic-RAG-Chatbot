@@ -178,20 +178,34 @@ unresolvable to a name.
 **This is a real operational gap the resolver must degrade through, not paper
 over:**
 
-- **`theme` has a fallback.** `resolve_theme` (`filters.py:37-62`) already falls
-  back to the `documents_theme.theme` display-name facet when `terms` yields no
-  rows for a name — `resolve_entity(type="theme")` should use the same fallback
-  path rather than returning zero candidates outright.
-- **`tag` has no fallback.** There is no free-text tag facet table analogous to
-  `documents_theme`. If `terms` has no rows for `vocabulary='tags'`, a tag filter
-  matches nothing — not a fuzzy miss, a hard miss — until a taxonomy-scoped crawl
-  runs. This is a second, independent reason (beyond the long-tail argument in
-  §3) not to advertise confident tag resolution.
+- **`theme` has a fallback, and every tool must actually reach it.**
+  `resolve_theme` falls back to the `documents_theme.theme` display-name facet
+  when `terms` yields no rows for a name, and `ResolvedScope.as_kwargs` carries
+  that name through as a `theme` kwarg. **A tool must therefore not refuse an
+  unresolved theme up front** — doing so returns before `as_kwargs` is ever
+  consulted, making the fallback dead code and denying a theme that plainly
+  exists (measured: with `terms` empty, `documents_theme` still held 27 distinct
+  themes over 2,016 documents, so an up-front refusal answered "no theme
+  matching 'Environment' found" against 461 real matches). The correct order is:
+  query with the fallback, then treat an *empty result* on an unresolved theme as
+  the miss — at that point "unknown theme" and "genuinely no documents" are
+  indistinguishable, so the miss is the honest answer. A theme that *did* resolve
+  and matched nothing stays an honest `0`. `resolve_entity(type="theme")` uses
+  the same fallback for its candidate list.
+- **`tag` has no fallback, so it is guarded up front.** There is no free-text tag
+  facet table analogous to `documents_theme`. If `terms` has no rows for
+  `vocabulary='tags'`, a tag filter has no column to match on at all — so unlike
+  theme, an unresolved tag *is* a terminal miss before querying, since querying
+  would silently drop the filter and count everything. This is a second,
+  independent reason (beyond the long-tail argument in §3) not to advertise
+  confident tag resolution.
 
-Before enabling `entity_resolution_enabled` in any environment, confirm
-`SELECT COUNT(*) FROM terms WHERE vocabulary = 'themes'` is non-zero; if it
-isn't, run a taxonomy-scoped crawl first rather than shipping a resolver that
-silently returns no candidates for every theme query.
+Check `SELECT COUNT(*) FROM terms WHERE vocabulary = 'themes'` before enabling
+`entity_resolution_enabled`: non-zero means themes resolve canonically
+(rename-proof, subtree-expanding); zero means every theme query runs on the
+display-name fallback above — correct, but fuzzier (substring `LIKE`, no
+sub-theme expansion). Tag filtering does not work at all until a
+taxonomy-scoped crawl populates `vocabulary='tags'`.
 
 ---
 
