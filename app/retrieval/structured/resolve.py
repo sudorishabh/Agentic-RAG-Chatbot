@@ -13,11 +13,27 @@ examples the thresholds below were tuned against.
 from __future__ import annotations
 
 import difflib
+import logging
 import re
+from dataclasses import dataclass
+from functools import lru_cache
+from typing import Callable
+
+logger = logging.getLogger(__name__)
 
 ACCEPT = "accept"
 AMBIGUOUS = "ambiguous"
 MISS = "miss"
+
+# resolve_entity's advertised types. Deliberately author | bundle | theme, not
+# tag — a dev-DB sample found ~237 freeform tag terms over ~224 tagged
+# documents (roughly 3 docs/tag, many near-duplicates like "Solid waste" /
+# "Urban waste" / "Waste management"), the shape of long-tail CMS tagging
+# rather than a curated vocabulary fuzzy matching could usefully rank. See
+# docs/database-retrieval-redesign.md §3, §4.
+AUTHOR = "author"
+BUNDLE = "bundle"
+THEME = "theme"
 
 # A near-exact score always accepts regardless of the runner-up; a moderate
 # score only accepts when it clearly dominates every alternative (no real
@@ -133,3 +149,138 @@ def classify_band(top_score: float, runner_up_score: float = 0.0) -> str:
     if top_score >= _AMBIGUOUS_FLOOR:
         return AMBIGUOUS
     return MISS
+
+
+@dataclass(frozen=True)
+class EntityCandidate:
+    """One ranked match for a free-text entity name.
+
+    `id` is the catalog identifier: a `term_uuid` for a canonically-resolved
+    theme, or the display name itself for author/bundle/a theme falling back to
+    the free-text facet (§4.1) — neither of those has a separate id. Building a
+    `RecordFilters` from a candidate uses `canonical_name` (the filter fields
+    are display names, resolved to ids internally by the existing scope
+    resolver); `id` is the stable identity for callers that need one directly.
+    """
+
+    id: str
+    canonical_name: str
+    type: str
+    score: float
+
+
+def _bundle_candidates(query: str) -> list[EntityCandidate]:
+    """A recognized bundle name/synonym/plural (`entities.get_entity`) is a
+    sure thing — return it alone at score 1.0 rather than also fuzzy-ranking
+    the other 15 bundles against it. Otherwise fuzzy-score the query against
+    every bundle's display label, since raw bundle keys ("policy_brief") don't
+    normalize against free text the way their labels ("policy briefs") do."""
+    from app.retrieval.structured import entities
+
+    exact = entities.get_entity(query)
+    if exact is not None:
+        return [
+            EntityCandidate(
+                id=exact.name, canonical_name=entities.entity_label(exact.name, 2),
+                type=BUNDLE, score=1.0,
+            )
+        ]
+    return [
+        EntityCandidate(
+            id=name, canonical_name=entities.entity_label(name, 2),
+            type=BUNDLE, score=score(query, entities.entity_label(name, 2)),
+        )
+        for name in entities.DEFAULT_BUNDLES
+    ]
+
+
+def _theme_candidates(query: str) -> list[EntityCandidate]:
+    """Canonical themes from `terms` (vocabulary-scoped, includes zero-document
+    themes) when populated; else the free-text `documents_theme` facet, so an
+    environment whose taxonomy-term crawl has not run yet still offers real
+    candidates instead of none (§4.1). A lookup failure degrades to no
+    candidates for this type rather than raising — `resolve_entity` still
+    ranks whatever the other types found."""
+    try:
+        from app.catalog import terms
+
+        rows = terms.list_themes()
+    except Exception:
+        logger.warning("Theme candidate lookup failed.", exc_info=True)
+        return []
+    if rows:
+        return [
+            EntityCandidate(
+                id=row["term_uuid"], canonical_name=row["name"],
+                type=THEME, score=score(query, row["name"]),
+            )
+            for row in rows
+        ]
+    try:
+        from app.catalog import queries
+
+        names = queries.distinct_themes()
+    except Exception:
+        logger.warning("Theme fallback candidate lookup failed.", exc_info=True)
+        return []
+    return [
+        EntityCandidate(id=name, canonical_name=name, type=THEME, score=score(query, name))
+        for name in names
+    ]
+
+
+@lru_cache(maxsize=1)
+def _cached_author_names() -> tuple[str, ...]:
+    from app.catalog import queries
+
+    return tuple(queries.distinct_authors())
+
+
+def reload_authors() -> None:
+    """Drop the cached author list (tests / after ingesting new authors). A
+    failed fetch is never cached — `functools.lru_cache` does not cache
+    exceptions — so a transient DB outage self-heals on the next call without
+    needing this."""
+    _cached_author_names.cache_clear()
+
+
+def _author_candidates(query: str) -> list[EntityCandidate]:
+    """Every distinct author, fuzzy-scored — see `queries.distinct_authors` for
+    why this is a full scored comparison rather than a SQL-narrowed one."""
+    try:
+        names = _cached_author_names()
+    except Exception:
+        logger.warning("Author candidate lookup failed.", exc_info=True)
+        return []
+    return [
+        EntityCandidate(id=name, canonical_name=name, type=AUTHOR, score=score(query, name))
+        for name in names
+    ]
+
+
+_SOURCES: dict[str, Callable[[str], list[EntityCandidate]]] = {
+    BUNDLE: _bundle_candidates,
+    THEME: _theme_candidates,
+    AUTHOR: _author_candidates,
+}
+
+
+def resolve_entity(query: str, type: str | None = None, *, limit: int = 5) -> list[EntityCandidate]:
+    """Ranked entity candidates for a free-text query, highest score first.
+
+    `type` narrows to one entity kind (`author` | `bundle` | `theme`); omit it
+    to merge and rank across all three, so a query like "climate" is answerable
+    without the caller knowing which kind of entity it names. This function
+    only ranks — callers decide what to do with the result (accept the top hit,
+    ask the user to disambiguate, or report a miss) via `classify_band` on the
+    top one or two scores.
+    """
+    if not query or not query.strip():
+        return []
+    if type is not None and type not in _SOURCES:
+        raise ValueError(f"type must be one of {sorted(_SOURCES)} or None, got {type!r}")
+    capped = max(1, min(int(limit or 5), 20))
+    sources = [_SOURCES[type]] if type else list(_SOURCES.values())
+    candidates = [c for source in sources for c in source(query)]
+    candidates.sort(key=lambda c: c.score, reverse=True)
+    return candidates[:capped]
