@@ -1,9 +1,10 @@
-"""The four parameterized catalog tools the Database Planner invokes.
+"""The catalog tools the Database Planner invokes.
 
 Each tool wraps an existing read function in `app.catalog.queries` and renders
 a uniform `ToolResult`. An unknown entity, an unresolvable theme or tag, or an
 empty result yields `ok=False` so the caller can fall through to semantic
-search.
+search. `resolve_entity` is the exception: it wraps
+`app.retrieval.structured.resolve` (fuzzy name matching), not a catalog read.
 
 See docs/database-tool-registry.md.
 """
@@ -391,4 +392,64 @@ def list_themes(*, limit: int = 200, output_format: str = "default") -> ToolResu
         tool="list_themes", ok=True,
         data={"themes": names, "main_themes": main, "other_themes": other},
         rendered=rendered,
+    )
+
+
+# Candidates shown in an ambiguous clarification — enough to cover a genuine
+# near-tie without dumping the whole ranked list on the user.
+_AMBIGUOUS_DISPLAY_LIMIT = 3
+
+
+def resolve_entity(query: str, type: str | None = None) -> ToolResult:
+    """Resolve a free-text name to a ranked catalog entity. A confident top
+    match accepts; a genuine near-tie asks the user to pick rather than
+    silently choosing one (§4 — never guess on ambiguity); nothing plausible is
+    reported explicitly as a miss, never as a misleading zero. See
+    `app.retrieval.structured.resolve` for the scoring and banding this wraps."""
+    from app.retrieval.structured import resolve
+
+    try:
+        candidates = resolve.resolve_entity(query, type)
+    except ValueError as exc:
+        return ToolResult(tool="resolve_entity", entity=type, ok=False, error=str(exc))
+    except Exception:
+        logger.warning("resolve_entity query failed.", exc_info=True)
+        return ToolResult(tool="resolve_entity", entity=type, ok=False, error="query failed")
+
+    label = type or "entity"
+    data: dict[str, Any] = {
+        "candidates": [
+            {"id": c.id, "canonical_name": c.canonical_name, "type": c.type,
+             "score": round(c.score, 3)}
+            for c in candidates
+        ]
+    }
+    if not candidates:
+        return ToolResult(tool="resolve_entity", entity=type, ok=False, data=data,
+                          error="no matching entity", error_kind="unresolved",
+                          rendered=f"No {label} matching '{query}' found.")
+
+    top = candidates[0]
+    runner_up_score = candidates[1].score if len(candidates) > 1 else 0.0
+    band = resolve.classify_band(top.score, runner_up_score)
+
+    if band == resolve.MISS:
+        return ToolResult(tool="resolve_entity", entity=type, ok=False, data=data,
+                          error="no confident match", error_kind="unresolved",
+                          rendered=f"No {label} matching '{query}' found.")
+
+    if band == resolve.AMBIGUOUS:
+        shown = candidates[:_AMBIGUOUS_DISPLAY_LIMIT]
+        options = "\n".join(f"{i}. {c.canonical_name}" for i, c in enumerate(shown, start=1))
+        return ToolResult(
+            tool="resolve_entity", entity=type, ok=False, data=data,
+            error="ambiguous match", error_kind="ambiguous",
+            rendered=f"'{query}' matches more than one {label}:\n{options}\nWhich did you mean?",
+        )
+
+    data["resolved"] = {"id": top.id, "canonical_name": top.canonical_name,
+                        "type": top.type, "score": round(top.score, 3)}
+    return ToolResult(
+        tool="resolve_entity", entity=type, ok=True, data=data,
+        rendered=f"'{query}' resolves to {top.canonical_name} ({top.type}).",
     )

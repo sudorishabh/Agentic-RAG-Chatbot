@@ -105,6 +105,23 @@ def test_execute_routes_to_list_themes(monkeypatch):
     assert results[0].tool == "list_themes" and results[0].data == {"themes": ["Climate"]}
 
 
+def test_execute_routes_to_resolve_entity(monkeypatch):
+    monkeypatch.setattr(
+        planner, "resolve_entity",
+        lambda query, resolve_type: ToolResult(
+            tool="resolve_entity", ok=True,
+            data={"resolved": {"id": "Rishabh Negi", "canonical_name": "Rishabh Negi",
+                               "type": "author", "score": 1.0}},
+        ),
+    )
+    results = planner.execute(
+        DatabasePlan(calls=[ToolCall(tool="resolve_entity", query="rishabh negi",
+                                     resolve_type="author")])
+    )
+    assert len(results) == 1
+    assert results[0].tool == "resolve_entity" and results[0].ok is True
+
+
 def test_execute_runs_multiple_calls(monkeypatch):
     monkeypatch.setattr(planner, "count_records",
                         lambda entity, filters: ToolResult(tool="count_records", entity=entity))
@@ -175,6 +192,26 @@ def test_plan_multi_builds_calls_from_llm(monkeypatch):
     assert plan_obj.calls[0].filters.date_from == "2023-01-01"
     assert plan_obj.calls[1].filters.date_to == "2025-01-01"
     assert all(c.output_format == "table" for c in plan_obj.calls)
+
+
+def test_plan_multi_maps_resolve_entity_call(monkeypatch):
+    """_PlannedCall.tool reuses the shared ToolName Literal, so resolve_entity
+    is a valid LLM-planned tool without a second, separately-maintained list."""
+    fake = planner._MultiPlan(
+        calls=[
+            planner._PlannedCall(tool="resolve_entity", query="rishab negi",
+                                 resolve_type="author"),
+            planner._PlannedCall(tool="count_records", entity="news"),
+        ]
+    )
+    monkeypatch.setattr(
+        "app.core.clients.llm.get_structured_llm", lambda: _FakePlannerLLM(fake)
+    )
+    plan_obj = planner.plan_multi("posts by rishab negi")
+
+    assert [c.tool for c in plan_obj.calls] == ["resolve_entity", "count_records"]
+    assert plan_obj.calls[0].query == "rishab negi"
+    assert plan_obj.calls[0].resolve_type == "author"
 
 
 def test_plan_multi_caps_calls(monkeypatch):

@@ -13,7 +13,12 @@ from app.retrieval.structured.entities import (
     is_known,
     normalize_entity,
 )
-from app.retrieval.structured.filters import ResolvedScope, resolve_filters, resolve_theme
+from app.retrieval.structured.filters import (
+    ResolvedScope,
+    resolve_filters,
+    resolve_tag,
+    resolve_theme,
+)
 from app.retrieval.structured.planner import execute, plan
 from app.retrieval.structured.tools import (
     aggregate_records,
@@ -21,6 +26,7 @@ from app.retrieval.structured.tools import (
     list_records,
     list_themes,
     lookup_record,
+    resolve_entity,
     resolve_lookup_chain,
 )
 from app.retrieval.structured.types import (
@@ -40,12 +46,14 @@ __all__ = [
     "normalize_entity",
     "ResolvedScope",
     "resolve_filters",
+    "resolve_tag",
     "resolve_theme",
     "aggregate_records",
     "count_records",
     "list_records",
     "list_themes",
     "lookup_record",
+    "resolve_entity",
     "resolve_lookup_chain",
     "execute",
     "plan",

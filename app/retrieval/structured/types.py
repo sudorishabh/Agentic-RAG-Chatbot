@@ -12,8 +12,13 @@ from dataclasses import dataclass, field
 from typing import Any, Literal
 
 ToolName = Literal[
-    "count_records", "list_records", "lookup_record", "aggregate_records", "list_themes"
+    "count_records", "list_records", "lookup_record", "aggregate_records", "list_themes",
+    "resolve_entity",
 ]
+
+# resolve_entity's advertised entity kinds — author | bundle | theme, not tag
+# (see app.retrieval.structured.resolve for why).
+ResolveType = Literal["author", "bundle", "theme"]
 
 # Grouping dimensions for aggregate_records (mapped to catalog columns/facets by
 # the tool: theme->theme, content_type->bundle, author, year).
@@ -55,6 +60,9 @@ class ToolCall:
     limit: int = 10
     # rendering shape for list/aggregate output (table/timeline/list/default)
     output_format: str = "default"
+    # resolve_entity
+    query: str | None = None
+    resolve_type: ResolveType | None = None
 
 
 @dataclass

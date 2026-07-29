@@ -21,8 +21,16 @@ from app.retrieval.structured.tools import (
     list_records,
     list_themes,
     lookup_record,
+    resolve_entity,
 )
-from app.retrieval.structured.types import DatabasePlan, RecordFilters, ToolCall, ToolResult
+from app.retrieval.structured.types import (
+    DatabasePlan,
+    RecordFilters,
+    ResolveType,
+    ToolCall,
+    ToolName,
+    ToolResult,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -102,9 +110,7 @@ class _PlannedCall(BaseModel):
     """One LLM-planned tool call. Mirrors the fields of `ToolCall` that a planner
     can set from natural language; unset fields fall back to tool defaults."""
 
-    tool: Literal[
-        "count_records", "list_records", "lookup_record", "aggregate_records", "list_themes"
-    ]
+    tool: ToolName
     entity: str | None = Field(
         default=None, description="Content type / bundle, or null to span all content."
     )
@@ -116,6 +122,11 @@ class _PlannedCall(BaseModel):
     group_by: Literal["theme", "content_type", "author", "year"] | None = None
     title: str | None = None
     limit: int = 10
+    # resolve_entity
+    query: str | None = Field(
+        default=None, description="Free text to resolve, for resolve_entity."
+    )
+    resolve_type: ResolveType | None = None
 
 
 class _MultiPlan(BaseModel):
@@ -159,6 +170,8 @@ def _to_tool_call(call: _PlannedCall, output_format: str) -> ToolCall:
         title=call.title or call.title_contains,
         limit=call.limit or 10,
         output_format=output_format,
+        query=call.query,
+        resolve_type=call.resolve_type,
     )
 
 
@@ -198,6 +211,8 @@ def _run(call: ToolCall, question: str | None) -> ToolResult:
                                  output_format=call.output_format)
     if call.tool == "list_themes":
         return list_themes(limit=call.limit, output_format=call.output_format)
+    if call.tool == "resolve_entity":
+        return resolve_entity(call.query, call.resolve_type)
     return ToolResult(tool=call.tool, entity=call.entity, ok=False,
                       error=f"unknown tool {call.tool!r}")
 

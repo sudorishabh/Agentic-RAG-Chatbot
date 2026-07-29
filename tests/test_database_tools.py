@@ -1,4 +1,4 @@
-"""Phase 2: the four catalog tools. state.* and terms.* are stubbed; no DB."""
+"""Phase 2: the catalog tools. state.*, terms.*, and resolve.* are stubbed; no DB."""
 
 from __future__ import annotations
 
@@ -371,3 +371,110 @@ def test_aggregate_records_empty_is_not_ok(monkeypatch):
     monkeypatch.setattr("app.catalog.queries.distribution", lambda group_by, **k: [])
     r = tools.aggregate_records("news", "year", RecordFilters())
     assert r.ok is False
+
+
+# --------------------------------------------------------------------------- #
+# resolve_entity — the tools.py wrapper around app.retrieval.structured.resolve.
+# Candidate ranking/banding itself is covered by test_entity_resolution.py and
+# test_entity_resolution_scoring.py; these tests cover the ToolResult shaping.
+# --------------------------------------------------------------------------- #
+
+def _cand(name, type_="author", score=1.0, id_=None):
+    from app.retrieval.structured.resolve import EntityCandidate
+
+    return EntityCandidate(id=id_ or name, canonical_name=name, type=type_, score=score)
+
+
+def test_resolve_entity_accept_returns_resolved_candidate(monkeypatch):
+    monkeypatch.setattr(
+        "app.retrieval.structured.resolve.resolve_entity",
+        lambda query, type=None, **kw: [_cand("Rishabh Negi", score=0.957),
+                                         _cand("Rishab Nigam", score=0.783)],
+    )
+    r = tools.resolve_entity("rishab negi", type="author")
+    assert r.ok is True
+    assert r.error_kind is None
+    assert r.data["resolved"] == {
+        "id": "Rishabh Negi", "canonical_name": "Rishabh Negi",
+        "type": "author", "score": 0.957,
+    }
+    assert len(r.data["candidates"]) == 2
+    assert r.rendered == "'rishab negi' resolves to Rishabh Negi (author)."
+
+
+def test_resolve_entity_ambiguous_lists_candidates_and_asks(monkeypatch):
+    monkeypatch.setattr(
+        "app.retrieval.structured.resolve.resolve_entity",
+        lambda query, type=None, **kw: [_cand("Rishabh Negi", score=0.75),
+                                         _cand("Rishab Nigam", score=0.75)],
+    )
+    r = tools.resolve_entity("rishab", type="author")
+    assert r.ok is False
+    assert r.error_kind == "ambiguous"
+    assert "resolved" not in r.data
+    assert r.rendered == (
+        "'rishab' matches more than one author:\n"
+        "1. Rishabh Negi\n"
+        "2. Rishab Nigam\n"
+        "Which did you mean?"
+    )
+
+
+def test_resolve_entity_ambiguous_caps_display_at_three(monkeypatch):
+    monkeypatch.setattr(
+        "app.retrieval.structured.resolve.resolve_entity",
+        lambda query, type=None, **kw: [
+            _cand("A", score=0.75), _cand("B", score=0.74),
+            _cand("C", score=0.73), _cand("D", score=0.72),
+        ],
+    )
+    r = tools.resolve_entity("x", type="author")
+    assert r.rendered.count("\n") == 4  # 3 numbered options + the closing question
+    assert "D" not in r.rendered
+    assert len(r.data["candidates"]) == 4  # the full ranking is still in data
+
+
+def test_resolve_entity_no_candidates_is_terminal_miss(monkeypatch):
+    monkeypatch.setattr(
+        "app.retrieval.structured.resolve.resolve_entity", lambda query, type=None, **kw: []
+    )
+    r = tools.resolve_entity("zzznonexistent", type="theme")
+    assert r.ok is False
+    assert r.error_kind == "unresolved"
+    assert r.rendered == "No theme matching 'zzznonexistent' found."
+
+
+def test_resolve_entity_low_score_is_terminal_miss(monkeypatch):
+    monkeypatch.setattr(
+        "app.retrieval.structured.resolve.resolve_entity",
+        lambda query, type=None, **kw: [_cand("Rishabh Negi", score=0.31)],
+    )
+    r = tools.resolve_entity("zzznonexistent", type="author")
+    assert r.ok is False and r.error_kind == "unresolved"
+
+
+def test_resolve_entity_unadvertised_type_is_reported_not_raised(monkeypatch):
+    def boom(query, type=None, **kw):
+        raise ValueError("bad type")
+
+    monkeypatch.setattr("app.retrieval.structured.resolve.resolve_entity", boom)
+    r = tools.resolve_entity("policy", type="tag")
+    assert r.ok is False
+    assert "bad type" in r.error
+
+
+def test_resolve_entity_query_failure_is_not_ok(monkeypatch):
+    def boom(query, type=None, **kw):
+        raise RuntimeError("db down")
+
+    monkeypatch.setattr("app.retrieval.structured.resolve.resolve_entity", boom)
+    r = tools.resolve_entity("rishabh", type="author")
+    assert r.ok is False and r.error == "query failed"
+
+
+def test_resolve_entity_no_type_labels_as_generic_entity(monkeypatch):
+    monkeypatch.setattr(
+        "app.retrieval.structured.resolve.resolve_entity", lambda query, type=None, **kw: []
+    )
+    r = tools.resolve_entity("zzznonexistent")
+    assert r.rendered == "No entity matching 'zzznonexistent' found."
