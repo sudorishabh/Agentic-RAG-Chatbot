@@ -23,16 +23,19 @@ The assistant serves a TERI knowledge base with two content universes:
 - **Structured catalog** — MySQL, a rebuildable projection of Drupal. This is what
   the Database capability queries.
 
-Catalog schema (all in `ingest_state*`, see [state.py](../app/ingestion/state.py)):
+Catalog schema (DDL in [schema.py](../app/catalog/schema.py), writes in
+[state.py](../app/catalog/state.py)). The tables were renamed from their legacy
+`ingest_state*` / `taxonomy_term*` forms; the document table's name still follows
+the `ingest_state_table` setting, which defaults to `documents`:
 
 | Table | Grain | Key columns |
 |---|---|---|
-| `ingest_state` | one row per document | `document_id` (PK), `source_type`, `bundle`, `entity_type`, `published_at`, `title`, `url`, `raw_meta` |
-| `ingest_state_author` | doc × author | `document_id`, `author` |
-| `ingest_state_theme` | doc × theme | `document_id`, `theme` |
-| `ingest_state_term` | doc × taxonomy term | `document_id`, `term_uuid`, `role` |
-| `ingest_state_attachment` | doc × attached PDF | `file_uuid`, `document_id`, `origin`, `url` |
-| `taxonomy_term` / `taxonomy_term_alias` | term (rename-proof) | `term_uuid` (PK), `vocabulary`, `name`; aliases keep old names resolvable |
+| `documents` | one row per document | `document_id` (PK), `source_type`, `bundle`, `entity_type`, `published_at`, `title`, `url`, `raw_meta` |
+| `documents_author` | doc × author | `document_id`, `author` |
+| `documents_theme` | doc × theme | `document_id`, `theme`, `theme_type` (`primary`/`sub`), `parent` — see [ingestion.md](ingestion.md#theme-rows--documents_theme) |
+| `documents_term` | doc × taxonomy term | `document_id`, `term_uuid`, `role` |
+| `documents_attachment` | doc × attached PDF | `file_uuid`, `document_id`, `origin`, `url` |
+| `terms` / `term_aliases` | term (rename-proof) | `term_uuid` (PK), `vocabulary`, `name`, `parent_uuid`; aliases keep old names resolvable |
 
 **Entities are content _bundles_, not tables.** The 16 bundles (`article`, `page`,
 `research_papers`, `completed_projects`, `ongoing_projects`, `feature_articles`,

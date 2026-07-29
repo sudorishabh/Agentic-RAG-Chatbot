@@ -29,8 +29,17 @@ Builders in [app/ingestion/canonical.py](../app/ingestion/canonical.py):
   extracted pages to one section per page (1-indexed).
 - `from_drupal_record(record, **overrides)` — from a crawled `DrupalRecord`.
 - `from_drupal_export(item, **overrides)` — from an ad-hoc article dict
-  (`text`/`title`/`url`/`uuid`/`bundle`). Metadata keys containing tag/keyword/
-  category/theme/area/division/author are auto-mapped into the canonical lists.
+  (`text`/`title`/`url`/`uuid`/`bundle`). Metadata keys containing theme/tag/
+  keyword/author are auto-mapped into the canonical lists.
+
+**What counts as a theme.** `drupal_facets` fills `categories[]` from a record's
+references into a *theme vocabulary* (`CATEGORY_VOCABULARIES`, currently `themes`)
+whatever the referencing field is called, plus theme-named metadata for the
+ref-less paths (`from_drupal_export` and the upload routes have no relationships
+to read). Fields named category/area/division are **not** themes — a division or
+a regional area is its own dimension and reaches the catalog through
+`documents_term` and `raw_meta`. A taxonomy term's `parent` is not folded in by
+name either: a real parent inside a theme vocabulary already arrives as a ref.
 
 ## Extraction
 
@@ -212,6 +221,41 @@ the structured count/list/lookup path (see
 existed get `title`/`url` via the one-time
 `python -m app.ingestion.backfill` (from Qdrant payloads).
 
+### Theme rows — `documents_theme`
+
+The theme facet carries hierarchy: `document_id`, `theme`,
+`theme_type` (`primary` | `sub`), `parent`. A document's **main theme** is stored
+as the **primary tag** (`parent` NULL) and every other theme as a **sub-theme**
+naming the primary tag it hangs off.
+
+- **Classification** is [app/catalog/theme_taxonomy.py](../app/catalog/theme_taxonomy.py)
+  over [app/data.json](../app/data.json). That file's top level (`Main Themes` /
+  `Other Themes`) is a grouping bucket, *not* a theme: bucket children are primary
+  tags, anything below one is a sub-theme. Matching is case- and
+  whitespace-insensitive. A theme the map doesn't know is kept as an unparented
+  sub-theme rather than dropped, so a theme newly added in the CMS is still
+  recorded. Static by design — classification stays stable however a vocabulary
+  is nested in the CMS, and it applies to the ref-less paths too.
+- **Only the document's own themes get rows.** A sub-theme's parent is recorded as
+  a *reference*, never materialized as an extra row, so a post tagged only
+  "Energy Access" is not also credited with "Energy".
+- **No placeholder rows.** Empty values and bucket names are dropped; a document
+  with no valid theme gets no row at all. The delete-then-insert still runs, so a
+  document that loses its last theme is cleaned up.
+- Written by `state.upsert` *after* the document row, in the same transaction
+  (the FK needs the parent row). Rewritten wholesale on every ingest, so a reindex
+  heals drift.
+
+Deployments predating the hierarchy get the columns from
+`schema.migrate_theme_hierarchy` (any ingestion run applies it); existing rows
+take the column default until reclassified by
+`python -m scripts.reclassify_theme_rows` (`--dry-run` supported) or by the
+document's next ingest.
+
+> The site-wide vocabulary in `terms` is unaffected and still crawled in full —
+> that's what `list_themes` and theme grouping read. `documents_theme` answers
+> "what is *this* document about"; `terms` answers "what themes exist".
+
 ## Orchestration
 
 ### Incremental — [app/ingestion/pipeline.py](../app/ingestion/pipeline.py)
@@ -222,7 +266,10 @@ existed get `title`/`url` via the one-time
 Each: detect changes → build canonical → check content hash / bump version → chunk +
 embed + **index the new version first** → delete the prior version's points (chunk ids
 are version-scoped, so the document stays searchable through the swap and a mid-index
-failure leaves the old version intact) → upsert the manifest. The returned
+failure leaves the old version intact) → upsert the manifest → mirror a
+taxonomy-term record into `terms`. The content record is deliberately persisted
+**before** any theme/term work, so a term-catalog or payload-refresh problem can
+never leave extracted content unsaved. The returned
 `Counter` tallies `{new, changed, unchanged, unchanged_content, indexed, deleted,
 skipped, error}` (keys present as they occur). Errors are counted per document; the
 sweep continues. Corpus-wide runs are mutually exclusive within the process
