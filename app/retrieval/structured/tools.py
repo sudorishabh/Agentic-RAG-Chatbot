@@ -229,7 +229,12 @@ def _theme_tree_section(
             subs = children.get(theme) or []
             if not subs:
                 rows.append(f"| {_md_cell(theme)} | |")
-            rows.extend(f"| {_md_cell(theme)} | {_md_cell(sub)} |" for sub in subs)
+            # Name the theme once and leave the cell blank on its remaining
+            # sub-theme rows: repeating it on every row reads as a flat list of
+            # pairs rather than one theme owning several children.
+            for index, sub in enumerate(subs):
+                cell = _md_cell(theme) if index == 0 else ""
+                rows.append(f"| {cell} | {_md_cell(sub)} |")
         table = "\n".join(rows)
         return f"**{label}**\n{table}" if label else table
     lines: list[str] = []

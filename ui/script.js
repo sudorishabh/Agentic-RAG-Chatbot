@@ -495,16 +495,41 @@
         continue;
       }
       if (/^\s*[-*]\s+/.test(line)) {
-        const items = [];
+        // Indentation sets depth: a deeper item opens a nested <ul> inside the
+        // still-open parent <li>. Stripping the leading whitespace and emitting
+        // one flat <ul> (as this used to) turns a sub-list into siblings of its
+        // parent, so any nested answer rendered flat.
+        const out = [];
+        const depths = [];
+        let openItem = false;
         while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) {
-          items.push(
-            "<li>" +
-              renderInline(lines[i].replace(/^\s*[-*]\s+/, "")) +
-              "</li>",
-          );
+          const indent = (lines[i].match(/^[ \t]*/) || [""])[0]
+            .replace(/\t/g, "    ").length;
+          const content = renderInline(lines[i].replace(/^\s*[-*]\s+/, ""));
+          if (!depths.length || indent > depths[depths.length - 1]) {
+            depths.push(indent);
+            out.push("<ul>");
+          } else {
+            if (openItem) {
+              out.push("</li>");
+              openItem = false;
+            }
+            while (depths.length > 1 && indent < depths[depths.length - 1]) {
+              depths.pop();
+              out.push("</ul></li>");
+            }
+          }
+          out.push("<li>" + content);
+          openItem = true;
           i++;
         }
-        html.push("<ul>" + items.join("") + "</ul>");
+        if (openItem) out.push("</li>");
+        while (depths.length > 1) {
+          depths.pop();
+          out.push("</ul></li>");
+        }
+        if (depths.length) out.push("</ul>");
+        html.push(out.join(""));
         continue;
       }
       if (/^\s*\d+\.\s+/.test(line)) {

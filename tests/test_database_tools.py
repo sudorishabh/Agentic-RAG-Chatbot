@@ -551,12 +551,23 @@ def test_list_themes_children_keeps_themes_that_have_none(monkeypatch):
     assert "- Green Shipping" in tree.rendered  # no children, still listed
 
 
-def test_list_themes_children_as_a_table_pairs_theme_and_sub_theme(monkeypatch):
+def test_list_themes_children_as_a_table_groups_rows_under_one_theme(monkeypatch):
+    """The theme is named on its first row only. Repeating it down the column
+    reads as unrelated pairs instead of one theme owning several sub-themes."""
     monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
     r = tools.list_themes(children=True, output_format="table")
-    assert "| theme | sub-theme |" in r.rendered
-    assert "| Energy | Energy Access |" in r.rendered
-    assert "| Green Shipping | |" in r.rendered  # childless theme keeps its row
+    assert r.rendered == (
+        "The collection covers 2 themes:\n\n"
+        "**Main themes**\n"
+        "| theme | sub-theme |\n"
+        "| --- | --- |\n"
+        "| Energy | Energy Access |\n"
+        "|  | Energy Efficiency |\n\n"     # same theme: cell left blank
+        "**Other themes**\n"
+        "| theme | sub-theme |\n"
+        "| --- | --- |\n"
+        "| Green Shipping | |"             # childless theme keeps its row
+    )
 
 
 def test_list_themes_children_of_one_parent(monkeypatch):
