@@ -5,7 +5,7 @@ engineering that changes for different reasons than the routing logic.
 """
 from __future__ import annotations
 
-from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
+from app.retrieval.structured.prompt import BUNDLE_LIST, COLLECTIVE_WORD_WARNING
 
 # Multi-label query-understanding prompt (v2). Core decision logic only; the
 # few-shot example bank is appended below. Structured output injects the field
@@ -84,10 +84,8 @@ _SYSTEM = (
     "'lookup' for one specific item, 'list' for browse/enumerate, 'list_themes' "
     "to enumerate the themes/topics the collection covers); group_by "
     "('theme', 'content_type', 'author', or 'year') for distribution only; bundle, "
-    "one of: " + ", ".join(DEFAULT_BUNDLES) + ", set ONLY when the user names a "
-    "specific type — leave it null for a generic collective word ('publications', "
-    "'works', 'output', 'everything') so the count spans ALL types (do NOT map "
-    "'publications' to research_papers); title_contains when a title is named or "
+    "one of: " + BUNDLE_LIST + ", set ONLY when the user names a specific type. "
+    + COLLECTIVE_WORD_WARNING + " title_contains when a title is named or "
     "quoted; limit (default 10).\n"
     "\n"
     "## Confidence and rationale\n"

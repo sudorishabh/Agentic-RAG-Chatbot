@@ -22,7 +22,7 @@ from typing import TYPE_CHECKING, Any, Literal, Sequence
 from pydantic import BaseModel
 
 from app.config import get_settings
-from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
+from app.retrieval.structured.prompt import BUNDLE_LIST, COLLECTIVE_WORD_WARNING, VOCABULARY
 from app.retrieval.structured.types import ToolResult
 
 if TYPE_CHECKING:
@@ -36,14 +36,13 @@ GroupBy = Literal["theme", "content_type", "author", "year"]
 _PARSE_SYSTEM = (
     "Extract structured-query parameters from the user's request about a content "
     "repository of news, articles, reports, projects, events and research papers.\n"
+    + VOCABULARY + "\n"
     "- operation: 'count' for how-many/aggregate; 'distribution' for a breakdown "
     "per group ('how many per theme', 'spread across content types'); 'lookup' "
     "for a single specific item; 'list' for browse/enumerate; 'list_themes' to "
     "enumerate the themes/topics the collection covers ('what themes are there?').\n"
     "- bundle: the specific content type when the user names one, one of: "
-    + ", ".join(DEFAULT_BUNDLES) +
-    ". Leave it null for a generic collective word ('publications', 'works', "
-    "'output', 'everything') so a count/list spans ALL content types; else null.\n"
+    + BUNDLE_LIST + ". " + COLLECTIVE_WORD_WARNING + "\n"
     "- theme: the thematic area / topic / theme name if the request is scoped "
     "to one (e.g. 'under the Climate theme', 'in the Energy area'); else null.\n"
     "- group_by: for 'distribution' only — the dimension to break down by: "

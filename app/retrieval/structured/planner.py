@@ -14,7 +14,15 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
+from app.retrieval.structured.prompt import (
+    BEHAVIOR,
+    BUNDLE_LIST,
+    COLLECTIVE_WORD_WARNING,
+    FEW_SHOTS,
+    OPERATIONS,
+    RESOLVE_FIRST,
+    VOCABULARY,
+)
 from app.retrieval.structured.tools import (
     aggregate_records,
     count_records,
@@ -135,23 +143,30 @@ class _MultiPlan(BaseModel):
 
 
 _PLANNER_SYSTEM = (
-    "You plan database queries over a content repository of "
-    + ", ".join(DEFAULT_BUNDLES) + ".\n"
+    "You plan database queries over a content repository of " + BUNDLE_LIST + ".\n"
     "Decompose the request into one or more catalog tool calls. Emit MULTIPLE "
-    "calls ONLY for genuinely compound requests — a comparison across periods, "
-    "themes, or content types ('reports in 2023 vs 2024'), or a count paired "
-    "with a list. A simple request is a single call.\n"
+    "calls for a genuinely compound request — a comparison across periods, "
+    "themes, or content types ('reports in 2023 vs 2024'), a count paired with "
+    "a list — or when a name needs resolving before the real query (see "
+    "resolve_entity below). A simple request naming an exact bundle is a "
+    "single call.\n"
     "Tools:\n"
+    "- resolve_entity: resolve a free-text author/bundle/theme name to a "
+    "canonical id before filtering by it.\n"
     "- count_records: how many items match.\n"
     "- list_records: list matching items (most recent first).\n"
     "- lookup_record: find one item by title.\n"
     "- aggregate_records: counts grouped by group_by "
     "(theme / content_type / author / year).\n"
     "- list_themes: list the themes/topics the collection covers (takes no filters).\n"
+    + VOCABULARY + "\n"
+    + RESOLVE_FIRST + "\n"
+    + OPERATIONS + "\n"
+    + BEHAVIOR + "\n"
     "Set only the fields that apply. Dates are a half-open [date_from, date_to) "
-    "ISO range. entity is one of the listed content types, or null for all — leave "
-    "it null for a generic collective word ('publications', 'works') so the result "
-    "spans every type rather than collapsing onto research_papers."
+    "ISO range. entity is one of the listed content types, or null for all. "
+    + COLLECTIVE_WORD_WARNING + "\n"
+    + FEW_SHOTS
 )
 
 
