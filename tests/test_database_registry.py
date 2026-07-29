@@ -130,10 +130,63 @@ def test_resolve_filters_unresolved_theme_uses_theme_name(monkeypatch):
     assert scope.as_kwargs() == {"theme": "Mystery"}
 
 
+# --------------------------------------------------------------------------- #
+# Tag scope: mirrors the theme resolver's exact/alias match and name-fallback
+# degrade, scoped to the tags vocabulary; no descendant expansion (tags are a
+# flat, freeform CMS list, not a hierarchy).
+# --------------------------------------------------------------------------- #
+
+def test_resolve_tag_prefers_term_uuids(monkeypatch):
+    seen = {}
+
+    def fake_resolve_terms(name, vocabulary=None):
+        seen["name"], seen["vocabulary"] = name, vocabulary
+        return [{"term_uuid": "t1", "name": "Policy"}]
+
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", fake_resolve_terms)
+    assert filters.resolve_tag("policy") == {"tag_uuids": ["t1"]}
+    assert seen == {"name": "policy", "vocabulary": "tags"}
+
+
+def test_resolve_tag_falls_back_to_tag_name(monkeypatch):
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    assert filters.resolve_tag("Nonexistent") == {"tag": "Nonexistent"}
+
+
+def test_resolve_tag_degrades_on_error(monkeypatch):
+    def boom(*a, **k):
+        raise RuntimeError("db down")
+
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", boom)
+    assert filters.resolve_tag("policy") == {"tag": "policy"}
+
+
+def test_resolve_filters_resolved_tag(monkeypatch):
+    monkeypatch.setattr(
+        "app.catalog.terms.resolve_terms",
+        lambda *a, **k: [{"term_uuid": "t1", "name": "Policy"}],
+    )
+    scope = filters.resolve_filters(db.RecordFilters(tag="policy"))
+    assert scope.tag_uuids == ["t1"]
+    assert scope.tag_requested is True and scope.tag_resolved is True
+    # as_kwargs does not carry tag yet — the catalog readers don't accept it
+    # until the tag join lands (docs/database-retrieval-redesign.md §5).
+    assert scope.as_kwargs() == {}
+
+
+def test_resolve_filters_unresolved_tag_has_no_fallback_column(monkeypatch):
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    scope = filters.resolve_filters(db.RecordFilters(tag="Mystery"))
+    assert scope.tag_uuids is None
+    assert scope.tag == "Mystery"
+    assert scope.tag_requested is True and scope.tag_resolved is False
+
+
 def test_resolve_filters_empty_is_empty():
     scope = filters.resolve_filters(db.RecordFilters())
     assert scope.as_kwargs() == {}
     assert scope.theme_requested is False and scope.theme_resolved is False
+    assert scope.tag_requested is False and scope.tag_resolved is False
 
 
 def test_bad_date_is_ignored(monkeypatch):

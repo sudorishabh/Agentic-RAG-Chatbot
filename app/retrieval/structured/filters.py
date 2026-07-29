@@ -34,6 +34,30 @@ def _parse_date(value: str | None) -> datetime | None:
         return None
 
 
+def resolve_tag(tag: str | None) -> dict[str, Any]:
+    """Tag scope: term UUIDs when the taxonomy resolves the name, else the
+    display-name fallback. Unlike themes, tags have no free-text facet table and
+    no subtree to expand — the `tags` vocabulary is a flat, freeform CMS list
+    (see docs/database-retrieval-redesign.md §4.1/§5), so a name that does not
+    resolve degrades to the display-name dict same as `resolve_theme`, but that
+    fallback has no matching column to filter on until a taxonomy-scoped crawl
+    populates `terms`. Resolution failure degrades to the name fallback rather
+    than raising."""
+    if not tag:
+        return {}
+    try:
+        from app.catalog import terms
+        from app.catalog.schema import TAG_VOCABULARY
+
+        rows = terms.resolve_terms(tag, vocabulary=TAG_VOCABULARY)
+    except Exception:
+        logger.warning("Tag resolution failed; using name fallback.", exc_info=True)
+        return {"tag": tag}
+    if not rows:
+        return {"tag": tag}
+    return {"tag_uuids": [row["term_uuid"] for row in rows]}
+
+
 def resolve_theme(theme: str | None) -> dict[str, Any]:
     """Theme scope: term UUIDs when the taxonomy resolves the name (rename/
     alias-proof), expanded to descendant sub-themes so a parent theme also
@@ -69,20 +93,29 @@ class ResolvedScope:
     `theme_requested` with `theme_resolved` False means the theme matched no
     taxonomy term (only the display-name fallback is available) — the count tool
     guards on this so an unresolvable theme falls through to semantic search
-    instead of answering a misleading zero.
+    instead of answering a misleading zero. `tag_requested`/`tag_resolved` are
+    the tag equivalent, but tags have no display-name fallback table to answer
+    from (see resolve_tag), so an unresolved tag has no honest partial answer.
     """
 
     author: str | None = None
     title_contains: str | None = None
     term_uuids: list[str] | None = None
     theme: str | None = None
+    tag_uuids: list[str] | None = None
+    tag: str | None = None
     published_from: datetime | None = None
     published_to: datetime | None = None
     theme_requested: bool = False
+    tag_requested: bool = False
 
     @property
     def theme_resolved(self) -> bool:
         return bool(self.term_uuids)
+
+    @property
+    def tag_resolved(self) -> bool:
+        return bool(self.tag_uuids)
 
     def as_kwargs(self) -> dict[str, Any]:
         """Filter kwargs shared by count_documents / list_documents / distribution
@@ -102,14 +135,18 @@ class ResolvedScope:
 
 def resolve_filters(filters: RecordFilters) -> ResolvedScope:
     """Turn user-facing RecordFilters into catalog backing kwargs, resolving the
-    theme name and parsing dates."""
+    theme and tag names and parsing dates."""
     theme = resolve_theme(filters.theme)
+    tag = resolve_tag(filters.tag)
     return ResolvedScope(
         author=filters.author or None,
         title_contains=filters.title_contains or None,
         term_uuids=theme.get("term_uuids"),
         theme=theme.get("theme"),
+        tag_uuids=tag.get("tag_uuids"),
+        tag=tag.get("tag"),
         published_from=_parse_date(filters.date_from),
         published_to=_parse_date(filters.date_to),
         theme_requested=bool(filters.theme),
+        tag_requested=bool(filters.tag),
     )

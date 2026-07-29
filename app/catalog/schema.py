@@ -296,6 +296,10 @@ ALIAS_TABLE = "term_aliases"
 # CATEGORY_VOCABULARIES).
 THEME_VOCABULARY = "themes"
 
+# Taxonomy vocabulary that holds tags — crawled via DEFAULT_TAXONOMIES, but only
+# populated by a taxonomy-scoped or full ingestion crawl (see _sync_term).
+TAG_VOCABULARY = "tags"
+
 _TERM_DDL = f"""
 CREATE TABLE IF NOT EXISTS `{TERM_TABLE}` (
     term_uuid    VARCHAR(64)  NOT NULL,
