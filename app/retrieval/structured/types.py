@@ -24,11 +24,12 @@ GroupBy = Literal["theme", "content_type", "author", "year"]
 class RecordFilters:
     """Normalized filter scope — only the columns the catalog actually supports.
 
-    `theme` is a display name resolved to taxonomy UUIDs by the Scope Resolver;
-    dates are a half-open [from, to) interval over published_at.
+    `theme` and `tag` are display names resolved to taxonomy UUIDs by the Scope
+    Resolver; dates are a half-open [from, to) interval over published_at.
     """
 
     theme: str | None = None
+    tag: str | None = None
     author: str | None = None
     title_contains: str | None = None
     date_from: str | None = None
@@ -73,7 +74,8 @@ class ToolResult:
     {"groups": [[value, count], ...]}. `rendered` is the LLM-free answer for the
     single-capability path; `data` + `citations` are the evidence for multi-label
     synthesis. `ok=False` signals a guarded no-answer (e.g. unknown entity) so the
-    caller can fall through to semantic search.
+    caller can fall through to semantic search — unless `error_kind` marks it
+    terminal (see below), in which case `rendered` is the answer instead.
     """
 
     tool: str
@@ -83,3 +85,9 @@ class ToolResult:
     citations: list[dict[str, Any]] = field(default_factory=list)
     rendered: str = ""
     error: str | None = None
+    # "unresolved" | "ambiguous" -> terminal: a filter was understood but could
+    # not be answered honestly, so `rendered` is shown as the answer rather than
+    # a cue to fall through to semantic search.
+    # "no_records" | "unknown_entity" | "query_failed" | None -> today's
+    # behaviour: ok=False here still means "fall through".
+    error_kind: str | None = None
