@@ -214,6 +214,32 @@ def _theme_section(label: str, names: list[str], output_format: str) -> str:
     return f"{label}:\n{body}" if label else body
 
 
+def _theme_tree_section(
+    label: str,
+    themes: list[str],
+    children: dict[str, list[str]],
+    output_format: str,
+) -> str:
+    """One block of the theme tree: top-level themes with their sub-themes
+    indented beneath. A theme with no children still appears — dropping it would
+    silently shrink the vocabulary the default listing just reported."""
+    if output_format == "table":
+        rows = ["| theme | sub-theme |", "| --- | --- |"]
+        for theme in themes:
+            subs = children.get(theme) or []
+            if not subs:
+                rows.append(f"| {_md_cell(theme)} | |")
+            rows.extend(f"| {_md_cell(theme)} | {_md_cell(sub)} |" for sub in subs)
+        table = "\n".join(rows)
+        return f"**{label}**\n{table}" if label else table
+    lines: list[str] = []
+    for theme in themes:
+        lines.append(f"- {theme}")
+        lines.extend(f"    - {sub}" for sub in children.get(theme) or [])
+    body = "\n".join(lines)
+    return f"{label}:\n{body}" if label else body
+
+
 def _project_fields(
     records: list[dict[str, Any]], fields: Sequence[str] | None
 ) -> list[dict[str, Any]]:
@@ -490,16 +516,19 @@ def list_themes(
 ) -> ToolResult:
     """Enumerate the collection's themes.
 
-    Two shapes, because "theme" and "sub-theme" are different questions:
+    Three shapes, because "what themes are there", "show them with their
+    children" and "what's under Environment" are different questions:
 
     * default — the **top-level themes only** (`theme_type='primary'`), split
-      into Main themes then Other themes per the `theme_group` column. Answers
-      "what themes do you cover?" / "how many themes are there?". Sub-themes are
-      deliberately excluded: mixing "Air" and "Waste" in with "Climate Change"
-      and "Energy" both overstates the count and flattens the hierarchy the
-      taxonomy exists to express.
-    * `children=True` — the **sub-themes only**, grouped under the theme each
-      hangs off. `parent` narrows to one theme's children.
+      into Main themes then Other themes per the `theme_group` column. Sub-themes
+      are excluded: mixing "Air" and "Waste" in with "Climate Change" and
+      "Energy" both overstates the count and flattens the hierarchy the taxonomy
+      exists to express.
+    * `children=True` — the same top-level themes, each with its sub-themes
+      **nested beneath**. A theme with no children still appears, so the answer
+      never silently covers fewer themes than the default listing just reported.
+    * `children=True, parent=X` — only X's sub-themes. The surrounding sentence
+      names X, so it is not repeated as an entry.
 
     Reads `documents_theme`, so it lists what documents actually carry. A theme
     whose group was never classified (`NULL`) lists under Other rather than being
@@ -513,18 +542,40 @@ def list_themes(
     if not rows:
         return ToolResult(tool="list_themes", ok=False, error="no themes found")
 
-    if children:
-        return _list_sub_themes(rows, parent, output_format)
+    if parent:
+        return _list_one_parents_children(rows, parent, output_format)
 
     primary = [r for r in rows if r["theme_type"] == "primary"]
     if not primary:
         return ToolResult(tool="list_themes", ok=False, error="no themes found")
     main = [r["theme"] for r in primary if r["theme_group"] == "main"]
     other = [r["theme"] for r in primary if r["theme_group"] != "main"]
+    total = len(main) + len(other)
+
+    by_parent: dict[str, list[str]] = {}
+    for row in rows:
+        if row["theme_type"] == "sub" and row["parent"]:
+            by_parent.setdefault(row["parent"], []).append(row["theme"])
+
+    if children:
+        sections = [("Main themes", main)] if main else []
+        if other:
+            sections.append(("Other themes", other))
+        body = "\n\n".join(
+            _theme_tree_section(label, names, by_parent, output_format)
+            for label, names in sections
+        )
+        subs = [s for names in by_parent.values() for s in names]
+        return ToolResult(
+            tool="list_themes", ok=True,
+            data={"themes": main + other, "main_themes": main, "other_themes": other,
+                  "sub_themes": subs, "by_parent": by_parent},
+            rendered=f"The collection covers {total} themes:\n\n{body}",
+        )
+
     sections = [("Main themes", main)] if main else []
     if other:
         sections.append(("Other themes", other))
-    total = len(main) + len(other)
     rendered = f"The collection covers {total} themes:\n\n" + "\n\n".join(
         _theme_section(label, group_names, output_format) for label, group_names in sections
     )
@@ -535,57 +586,38 @@ def list_themes(
     )
 
 
-def _list_sub_themes(
-    rows: list[dict[str, Any]], parent: str | None, output_format: str
+def _list_one_parents_children(
+    rows: list[dict[str, Any]], parent: str, output_format: str
 ) -> ToolResult:
-    """The `children=True` shape of `list_themes`: sub-themes grouped by the
-    theme they hang off, optionally narrowed to one parent.
+    """One named theme's sub-themes. The parent is named in the sentence, so it
+    is not repeated as a list entry.
 
-    A named parent that exists but has no children answers so plainly ("Climate
-    Change has no sub-themes") rather than falling through — the theme is real
-    and the answer is correct, so handing the turn to semantic search would
-    replace a true statement with a vague one. A parent that is not a theme at
-    all is a miss, which is a different thing."""
-    subs = [r for r in rows if r["theme_type"] == "sub" and r["parent"]]
-
-    if parent:
-        wanted = parent.casefold()
-        mine = [r for r in subs if (r["parent"] or "").casefold() == wanted]
-        if not mine:
-            known = next(
-                (r["theme"] for r in rows if r["theme"].casefold() == wanted), None
-            )
-            if known is None:
-                return _unresolved_miss("list_themes", None, "theme", parent)
-            return ToolResult(
-                tool="list_themes", ok=True,
-                data={"parent": known, "sub_themes": [], "by_parent": {}},
-                rendered=f"{known} has no sub-themes.",
-            )
-        names = [r["theme"] for r in mine]
-        body = _theme_section("", names, output_format)
-        rendered = f"{mine[0]['parent']} has {len(names)} sub-themes:\n{body}"
+    A parent that exists but has no children answers so plainly ("Climate Change
+    has no sub-themes") rather than falling through — the theme is real and the
+    statement is true, so handing the turn to semantic search would replace it
+    with a vague one. A parent that is not a theme at all is a miss, which is a
+    different situation and gets the usual unresolved answer."""
+    wanted = parent.casefold()
+    mine = [
+        r for r in rows
+        if r["theme_type"] == "sub" and (r["parent"] or "").casefold() == wanted
+    ]
+    if not mine:
+        known = next((r["theme"] for r in rows if r["theme"].casefold() == wanted), None)
+        if known is None:
+            return _unresolved_miss("list_themes", None, "theme", parent)
         return ToolResult(
             tool="list_themes", ok=True,
-            data={"parent": mine[0]["parent"], "sub_themes": names,
-                  "by_parent": {mine[0]["parent"]: names}},
-            rendered=rendered,
+            data={"parent": known, "sub_themes": [], "by_parent": {}},
+            rendered=f"{known} has no sub-themes.",
         )
-
-    if not subs:
-        return ToolResult(tool="list_themes", ok=False, error="no sub-themes found")
-    by_parent: dict[str, list[str]] = {}
-    for row in subs:
-        by_parent.setdefault(row["parent"], []).append(row["theme"])
-    names = [name for group in by_parent.values() for name in group]
-    rendered = f"The collection covers {len(names)} sub-themes:\n\n" + "\n\n".join(
-        _theme_section(theme, children, output_format)
-        for theme, children in by_parent.items()
-    )
+    names = [r["theme"] for r in mine]
+    resolved = mine[0]["parent"]
+    body = _theme_section("", names, output_format)
     return ToolResult(
         tool="list_themes", ok=True,
-        data={"sub_themes": names, "by_parent": by_parent, "parent": None},
-        rendered=rendered,
+        data={"parent": resolved, "sub_themes": names, "by_parent": {resolved: names}},
+        rendered=f"{resolved} has {len(names)} sub-themes:\n{body}",
     )
 
 

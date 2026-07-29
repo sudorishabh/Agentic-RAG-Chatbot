@@ -521,16 +521,42 @@ def test_list_themes_excludes_sub_themes_from_the_default_listing(monkeypatch):
     assert "Energy Access" not in r.rendered
 
 
-def test_list_themes_children_lists_only_sub_themes(monkeypatch):
+def test_list_themes_children_renders_the_full_tree(monkeypatch):
+    """"...with its children" wants the same themes, annotated — not a different,
+    shorter set. Children nest under their parent; the Main/Other split stays."""
     monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
     r = tools.list_themes(children=True)
     assert r.ok
-    assert r.data["sub_themes"] == ["Energy Access", "Energy Efficiency"]
+    assert r.data["themes"] == ["Energy", "Green Shipping"]
     assert r.data["by_parent"] == {"Energy": ["Energy Access", "Energy Efficiency"]}
-    assert r.rendered.startswith("The collection covers 2 sub-themes:")
-    # Top-level themes are not repeated as entries, only as group headers.
-    assert "- Energy\n" not in r.rendered
-    assert "Green Shipping" not in r.rendered
+    assert r.rendered == (
+        "The collection covers 2 themes:\n\n"
+        "Main themes:\n"
+        "- Energy\n"
+        "    - Energy Access\n"
+        "    - Energy Efficiency\n\n"
+        "Other themes:\n"
+        "- Green Shipping"
+    )
+
+
+def test_list_themes_children_keeps_themes_that_have_none(monkeypatch):
+    """The count must not shrink between "how many themes" and "with their
+    children" — a childless theme still appears, just without a nested list."""
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
+    plain = tools.list_themes()
+    tree = tools.list_themes(children=True)
+    assert tree.data["themes"] == plain.data["themes"]
+    assert tree.rendered.startswith("The collection covers 2 themes:")
+    assert "- Green Shipping" in tree.rendered  # no children, still listed
+
+
+def test_list_themes_children_as_a_table_pairs_theme_and_sub_theme(monkeypatch):
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
+    r = tools.list_themes(children=True, output_format="table")
+    assert "| theme | sub-theme |" in r.rendered
+    assert "| Energy | Energy Access |" in r.rendered
+    assert "| Green Shipping | |" in r.rendered  # childless theme keeps its row
 
 
 def test_list_themes_children_of_one_parent(monkeypatch):

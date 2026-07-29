@@ -324,6 +324,10 @@ def _merge_understanding(
         group_by=vote(lambda s: s.group_by),
         bundle=vote(lambda s: s.bundle),
         title_contains=vote(lambda s: s.title_contains),
+        # Any slot added to QueryUnderstanding must be voted here too: this
+        # rebuilds the object field by field, so an omission silently resets the
+        # slot to its default instead of failing.
+        theme_children=bool(vote(lambda s: s.theme_children)),
         limit=vote(lambda s: s.limit) or 10,
     )
 
