@@ -165,6 +165,34 @@ def test_list_records_unresolved_tag_is_not_ok(monkeypatch):
     assert r.ok is False
 
 
+def test_list_records_passes_offset(monkeypatch):
+    seen = {}
+
+    def fake_list(**kw):
+        seen.update(kw)
+        return [_rec()]
+
+    monkeypatch.setattr("app.catalog.queries.list_documents", fake_list)
+    tools.list_records("news", RecordFilters(), limit=5, offset=15)
+    assert seen["limit"] == 5 and seen["offset"] == 15
+
+
+def test_list_records_projects_requested_fields(monkeypatch):
+    monkeypatch.setattr("app.catalog.queries.list_documents", lambda **k: [_rec()])
+    r = tools.list_records("news", RecordFilters(), fields=["title", "url"])
+    assert r.data["records"] == [{"title": "A", "url": "http://a"}]
+    # rendered stays the normal human-readable answer, unaffected by fields
+    assert r.rendered == "Here is what I found:\n- A (http://a)"
+
+
+def test_list_records_without_fields_keeps_full_metadata(monkeypatch):
+    monkeypatch.setattr("app.catalog.queries.list_documents", lambda **k: [_rec()])
+    r = tools.list_records("news", RecordFilters())
+    assert set(r.data["records"][0]) == {
+        "document_id", "title", "url", "published_at", "bundle",
+    }
+
+
 def test_list_records_timeline_groups_by_year(monkeypatch):
     recs = [
         _rec("d1", "Old", "http://old", "2023-11-02T00:00:00"),

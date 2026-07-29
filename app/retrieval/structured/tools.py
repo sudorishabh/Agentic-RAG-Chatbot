@@ -111,6 +111,19 @@ def _render_records(
     return "Here is what I found:\n" + body, data, citations
 
 
+def _project_fields(
+    records: list[dict[str, Any]], fields: Sequence[str] | None
+) -> list[dict[str, Any]]:
+    """Keep only the requested metadata keys per record. Projects the structured
+    payload only — `rendered` is a natural-language answer already shaped by
+    `output_format`, not a strict field projection, so a field list narrows what
+    a caller reads from `data` without changing the human-readable text."""
+    if not fields:
+        return records
+    allowed = set(fields)
+    return [{k: v for k, v in r.items() if k in allowed} for r in records]
+
+
 # --------------------------------------------------------------------------- #
 # Tools.
 # --------------------------------------------------------------------------- #
@@ -157,13 +170,16 @@ def list_records(
     *,
     sort: str = "recent",
     limit: int = 10,
+    offset: int = 0,
     output_format: str = "default",
+    fields: Sequence[str] | None = None,
 ) -> ToolResult:
     """List matching documents, most recent first (the only backing sort today).
     Empty result returns ok=False. Unlike an unresolved theme (which still has a
     free-text facet to fall back on), an unresolved tag has no column to filter
     on at all, so it is guarded here rather than silently listing unfiltered
-    results."""
+    results. `fields` narrows the metadata keys in `data["records"]`; `rendered`
+    is unaffected (see `_project_fields`)."""
     ent = get_entity(entity) if entity else None
     if entity and ent is None:
         return ToolResult(tool="list_records", entity=entity, ok=False,
@@ -180,6 +196,7 @@ def list_records(
             entity_type=ent.entity_type if ent else "node",
             title_contains=scope.title_contains,
             limit=limit,
+            offset=offset,
             **scope.as_kwargs(),
         )
     except Exception:
@@ -190,7 +207,8 @@ def list_records(
                           error="no matching records")
     rendered, data, citations = _render_records(records, output_format)
     return ToolResult(tool="list_records", entity=bundle, ok=True,
-                      data={"records": data}, citations=citations, rendered=rendered)
+                      data={"records": _project_fields(data, fields)},
+                      citations=citations, rendered=rendered)
 
 
 # Words signalling the user wants what a document SAYS, not just its catalog entry

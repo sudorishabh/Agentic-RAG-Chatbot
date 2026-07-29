@@ -152,12 +152,14 @@ def list_documents(
     published_from: datetime | None = None,
     published_to: datetime | None = None,
     limit: int = 10,
+    offset: int = 0,
 ) -> list[StateRecord]:
     """List catalog documents matching the filters, most recent first.
 
     Mirrors ``count_documents`` but returns the matching rows so structured
     list/lookup queries are answered from the local catalog instead of a live
-    site fetch. ``limit`` is clamped to [1, 100]."""
+    site fetch. ``limit`` is clamped to [1, 100]; ``offset`` clamps to >= 0 and
+    pages through the same ordering (published_at desc, document_id asc)."""
     table = _table()
     joins, clauses, params, needs_distinct = _catalog_filters(
         source_type, bundle, entity_type=entity_type,
@@ -168,9 +170,11 @@ def list_documents(
     distinct = "DISTINCT " if needs_distinct else ""
     where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
     capped = max(1, min(int(limit or 10), 100))
+    capped_offset = max(0, int(offset or 0))
+    offset_clause = f" OFFSET {capped_offset}" if capped_offset else ""
     sql = (
         f"SELECT {distinct}s.* FROM `{table}` s{joins}{where} "
-        f"ORDER BY s.published_at DESC, s.document_id ASC LIMIT {capped}"
+        f"ORDER BY s.published_at DESC, s.document_id ASC LIMIT {capped}{offset_clause}"
     )
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(sql, tuple(params))
