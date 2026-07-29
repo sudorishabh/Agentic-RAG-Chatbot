@@ -7,7 +7,7 @@ No LLM, no network — these check the composed prompt strings only.
 from __future__ import annotations
 
 from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
-from app.retrieval.structured import prompt
+from app.retrieval import catalog_prompt as prompt
 from app.retrieval.structured import answerer
 from app.retrieval.structured import planner
 from app.retrieval.understanding import prompts as understanding_prompts
@@ -107,3 +107,43 @@ def test_bundle_list_is_not_duplicated_by_hand_in_any_consumer():
     for module in (answerer, planner, understanding_prompts):
         source = inspect.getsource(module)
         assert "DEFAULT_BUNDLES" not in source
+
+
+def test_shared_prompt_does_not_depend_on_the_structured_package():
+    """It is imported by the intent classifier, which wants prompt *text* only.
+    Importing from app.retrieval.structured would run that package's __init__ —
+    dragging in the tools, planner and MySQL/Qdrant/LLM clients — and would make
+    the structured.__init__ -> answerer -> prompt chain a real cycle.
+
+    Checks the import statements, not the source text: the docstring names those
+    modules deliberately, as its list of consumers."""
+    import ast
+    import inspect
+
+    tree = ast.parse(inspect.getsource(prompt))
+    imported: list[str] = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom) and node.module:
+            imported.append(node.module)
+        elif isinstance(node, ast.Import):
+            imported.extend(alias.name for alias in node.names)
+    assert not [m for m in imported if m.startswith("app.retrieval.structured")]
+
+
+def test_classifier_prompt_import_stays_client_free():
+    """The measurable form of the above: importing the classifier's prompt text
+    must not transitively load the DB / vector / LLM clients."""
+    import subprocess
+    import sys
+
+    code = (
+        "import sys;"
+        "import app.retrieval.understanding.prompts;"
+        "bad=[m for m in sys.modules if m.startswith('app.') and ("
+        "'core.clients' in m or 'retrieval.structured' in m or 'catalog.queries' in m)];"
+        "print(','.join(sorted(bad)))"
+    )
+    out = subprocess.run(
+        [sys.executable, "-c", code], capture_output=True, text=True, check=True
+    ).stdout.strip()
+    assert out == "", f"classifier prompt import pulled in {out}"

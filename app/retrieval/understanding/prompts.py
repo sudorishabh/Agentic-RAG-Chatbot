@@ -5,7 +5,7 @@ engineering that changes for different reasons than the routing logic.
 """
 from __future__ import annotations
 
-from app.retrieval.structured.prompt import BUNDLE_LIST, COLLECTIVE_WORD_WARNING
+from app.retrieval.catalog_prompt import BUNDLE_LIST, COLLECTIVE_WORD_WARNING
 
 # Multi-label query-understanding prompt (v2). Core decision logic only; the
 # few-shot example bank is appended below. Structured output injects the field

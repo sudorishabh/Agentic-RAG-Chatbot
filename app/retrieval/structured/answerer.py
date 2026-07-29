@@ -22,7 +22,7 @@ from typing import TYPE_CHECKING, Any, Literal, Sequence
 from pydantic import BaseModel
 
 from app.config import get_settings
-from app.retrieval.structured.prompt import BUNDLE_LIST, COLLECTIVE_WORD_WARNING, VOCABULARY
+from app.retrieval.catalog_prompt import BUNDLE_LIST, COLLECTIVE_WORD_WARNING, VOCABULARY
 from app.retrieval.structured.types import ToolResult
 
 if TYPE_CHECKING:

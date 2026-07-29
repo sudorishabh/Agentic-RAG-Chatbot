@@ -14,7 +14,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-from app.retrieval.structured.prompt import (
+from app.retrieval.catalog_prompt import (
     BEHAVIOR,
     BUNDLE_LIST,
     COLLECTIVE_WORD_WARNING,

@@ -9,6 +9,14 @@ independently-edited strings, each previously hand-duplicating its own version.
 Each block is a self-contained sentence/paragraph meant to be appended as its
 own line wherever it applies — not designed to be spliced mid-sentence. See
 docs/database-retrieval-redesign.md §10.
+
+Deliberately sits here rather than inside `app.retrieval.structured`: importing
+anything from that package runs its `__init__`, which pulls in the tools, the
+planner and the MySQL/Qdrant/LLM clients behind them. The intent classifier only
+wants prompt *text*, so paying for the whole query layer to get it — and
+creating a `structured.__init__ -> answerer -> prompt` cycle that only stays
+unbroken while this module has no `structured` imports — was the wrong trade.
+`app/retrieval/` has no `__init__.py`, so this module costs only its own import.
 """
 
 from __future__ import annotations
