@@ -44,6 +44,7 @@ def _catalog_filters(
     author: str | None = None,
     term_uuids: Sequence[str] | None = None,
     theme: str | None = None,
+    tag_uuids: Sequence[str] | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
 ) -> tuple[str, list[str], list[Any], bool]:
@@ -53,7 +54,10 @@ def _catalog_filters(
     "node" so taxonomy-term and block rows never count as content documents.
     ``term_uuids`` scopes by taxonomy links (rename-proof); ``theme`` is the
     display-name fallback for documents ingested before the term catalog.
-    Returns (joins, clauses, params, needs_distinct)."""
+    ``tag_uuids`` is a second, independent taxonomy-term join (its own alias) so
+    a theme filter and a tag filter combine as AND, never collapse into one IN
+    list — tags have no free-text facet table, so there is no name fallback the
+    way ``theme`` has. Returns (joins, clauses, params, needs_distinct)."""
     table = _table()
     joins: list[str] = []
     clauses: list[str] = []
@@ -93,6 +97,12 @@ def _catalog_filters(
         clauses.append("c.theme LIKE %s")
         params.append(_like(theme))
         distinct = True
+    if tag_uuids:
+        placeholders = ", ".join(["%s"] * len(tag_uuids))
+        joins.append(f" JOIN `{table}_term` tt ON tt.document_id = s.document_id")
+        clauses.append(f"tt.term_uuid IN ({placeholders})")
+        params.extend(tag_uuids)
+        distinct = True
     return "".join(joins), clauses, params, distinct
 
 
@@ -104,18 +114,20 @@ def count_documents(
     author: str | None = None,
     term_uuids: Sequence[str] | None = None,
     theme: str | None = None,
+    tag_uuids: Sequence[str] | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
 ) -> int:
     """Count catalog documents (not chunks) matching the given filters.
 
     ``author``/``theme`` match substrings against their facets; ``term_uuids``
-    scopes by taxonomy links and wins over ``theme``. Date bounds are a
-    half-open ``[from, to)`` interval over ``published_at``."""
+    scopes by taxonomy links and wins over ``theme``; ``tag_uuids`` is a second,
+    independent taxonomy scope, ANDed with theme rather than merged into it.
+    Date bounds are a half-open ``[from, to)`` interval over ``published_at``."""
     table = _table()
     joins, clauses, params, distinct = _catalog_filters(
         source_type, bundle, entity_type=entity_type,
-        author=author, term_uuids=term_uuids, theme=theme,
+        author=author, term_uuids=term_uuids, theme=theme, tag_uuids=tag_uuids,
         published_from=published_from, published_to=published_to,
     )
     count_expr = "COUNT(DISTINCT s.document_id)" if distinct else "COUNT(*)"
@@ -136,6 +148,7 @@ def list_documents(
     author: str | None = None,
     term_uuids: Sequence[str] | None = None,
     theme: str | None = None,
+    tag_uuids: Sequence[str] | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
     limit: int = 10,
@@ -149,7 +162,7 @@ def list_documents(
     joins, clauses, params, needs_distinct = _catalog_filters(
         source_type, bundle, entity_type=entity_type,
         title_contains=title_contains, author=author,
-        term_uuids=term_uuids, theme=theme,
+        term_uuids=term_uuids, theme=theme, tag_uuids=tag_uuids,
         published_from=published_from, published_to=published_to,
     )
     distinct = "DISTINCT " if needs_distinct else ""
@@ -179,6 +192,7 @@ def distribution(
     author: str | None = None,
     term_uuids: Sequence[str] | None = None,
     theme: str | None = None,
+    tag_uuids: Sequence[str] | None = None,
     title_contains: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
@@ -187,17 +201,18 @@ def distribution(
     """Grouped document counts ("how many per theme/type/author/year"),
     largest group first. Returns (group value, count) pairs.
 
-    Applies the same theme/author/title/date scope as ``count_documents`` and
-    ``list_documents`` (via :func:`_catalog_filters`), so a breakdown can be
-    narrowed to one theme, author, period, etc. A document that fans out across
-    a facet join is counted once per group."""
+    Applies the same theme/tag/author/title/date scope as ``count_documents``
+    and ``list_documents`` (via :func:`_catalog_filters`), so a breakdown can be
+    narrowed to one theme, tag, author, period, etc. — ``tag_uuids`` is a scope
+    filter here, not a groupable dimension (see ``_DISTRIBUTION_DIMENSIONS``). A
+    document that fans out across a facet join is counted once per group."""
     if group_by not in _DISTRIBUTION_DIMENSIONS:
         raise ValueError(f"group_by must be one of {_DISTRIBUTION_DIMENSIONS}")
     table = _table()
     scope_joins, clauses, params, scoped = _catalog_filters(
         source_type, bundle, entity_type=entity_type,
         title_contains=title_contains, author=author,
-        term_uuids=term_uuids, theme=theme,
+        term_uuids=term_uuids, theme=theme, tag_uuids=tag_uuids,
         published_from=published_from, published_to=published_to,
     )
 
