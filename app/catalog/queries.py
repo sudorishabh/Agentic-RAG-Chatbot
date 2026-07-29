@@ -261,6 +261,42 @@ def distribution(
     return [(str(row["k"]), int(row["n"])) for row in rows if row["k"] is not None]
 
 
+def distinct_authors(*, limit: int = 2000) -> list[str]:
+    """Every distinct author string in the catalog, ordered by name.
+
+    Backs entity resolution's fuzzy author matching (see
+    ``app.retrieval.structured.resolve``): the full set is fetched and scored in
+    Python rather than narrowed by a SQL ``LIKE`` prefilter, because a genuine
+    misspelling ("rishab negi") is not a substring of the stored name
+    ("Rishabh Negi") — a prefilter tight enough to be cheap would systematically
+    exclude exactly the fuzzy matches this exists to catch. Correct at this
+    corpus's scale (low hundreds of distinct authors); revisit if that changes.
+    ``limit`` clamps to [1, 5000]."""
+    table = _table()
+    capped = max(1, min(int(limit or 2000), 5000))
+    sql = f"SELECT DISTINCT author FROM `{table}_author` ORDER BY author ASC LIMIT {capped}"
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(sql)
+        return [row["author"] for row in cur.fetchall() if row["author"]]
+
+
+def distinct_themes(*, limit: int = 500) -> list[str]:
+    """Every distinct free-text theme name in ``documents_theme``, ordered by
+    name.
+
+    Fallback candidate source for theme entity resolution when the canonical
+    ``terms`` vocabulary has no rows yet (see
+    docs/database-retrieval-redesign.md §4.1) — a taxonomy-scoped ingestion
+    crawl has not run, but a document may already carry a real theme name via
+    the free-text facet. ``limit`` clamps to [1, 2000]."""
+    table = _table()
+    capped = max(1, min(int(limit or 500), 2000))
+    sql = f"SELECT DISTINCT theme FROM `{table}_theme` ORDER BY theme ASC LIMIT {capped}"
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(sql)
+        return [row["theme"] for row in cur.fetchall() if row["theme"]]
+
+
 # --------------------------------------------------------------------------- #
 # Id-scoped reads for retrieval (scoped summarization, attachment
 # supplementation). Website nodes (source_type='website', entity_type='node')
