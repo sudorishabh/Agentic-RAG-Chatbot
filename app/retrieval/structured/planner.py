@@ -40,13 +40,20 @@ def _year_dates(year: Any) -> tuple[str | None, str | None]:
 def _tool_call(slots: Any, output_format: str) -> ToolCall:
     """Map a slots object (analysis or StructuredQuery — duck-typed on operation,
     bundle, theme, author, title_contains, group_by, date_from, date_to, limit,
-    and optionally year) to one tool call."""
+    and optionally year/tags) to one tool call.
+
+    `tags` (plural, a list — the query-understanding classifier already extracts
+    it for the qa/vector path) maps to `RecordFilters.tag` (singular, the only
+    tag scope the catalog tools support today) by taking the first tag; there is
+    no multi-tag AND/OR support to map the rest onto."""
     date_from = getattr(slots, "date_from", None)
     date_to = getattr(slots, "date_to", None)
     if not date_from and not date_to:
         date_from, date_to = _year_dates(getattr(slots, "year", None))
+    tags = getattr(slots, "tags", None)
     filters = RecordFilters(
         theme=getattr(slots, "theme", None),
+        tag=tags[0] if tags else None,
         author=getattr(slots, "author", None),
         title_contains=getattr(slots, "title_contains", None),
         date_from=date_from,

@@ -54,6 +54,22 @@ def test_plan_carries_filters_and_format():
     assert call.filters.date_from == "2024-01-01"
 
 
+def test_plan_maps_first_tag_to_filter():
+    """`tags` (plural, from the shared query-understanding extraction) maps to
+    the single `RecordFilters.tag` slot the catalog tools support."""
+    call = planner.plan(
+        _slots(operation="count", tags=["policy", "climate"])
+    ).calls[0]
+    assert call.filters.tag == "policy"
+
+
+def test_plan_no_tags_leaves_filter_unset():
+    call = planner.plan(_slots(operation="count", tags=[])).calls[0]
+    assert call.filters.tag is None
+    call = planner.plan(_slots(operation="count")).calls[0]  # no tags attr at all
+    assert call.filters.tag is None
+
+
 def test_plan_expands_year_shorthand():
     # parse_structured may set only `year`; the planner expands it to a range.
     call = planner.plan(_slots(operation="list", year=2023)).calls[0]

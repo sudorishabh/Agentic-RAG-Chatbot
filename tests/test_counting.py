@@ -39,6 +39,33 @@ def test_answer_structured_unknown_bundle_falls_through(monkeypatch):
     assert dr.answer_structured("emissions by sector?", analysis=analysis) is None
 
 
+def test_answer_structured_unresolved_theme_is_terminal_not_a_fallthrough(monkeypatch):
+    """A theme that does not resolve to a known term is understood-but-unanswerable
+    — the answer names it explicitly rather than silently falling through to a
+    vague semantic-search guess (docs/database-retrieval-redesign.md §7)."""
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr(state, "count_documents", _forbid_count)
+    analysis = qp.QueryAnalysis(
+        search_query="how many events under Mystery?",
+        intent="structured", operation="count", bundle="events", theme="Mystery",
+    )
+    out = dr.answer_structured("how many events under Mystery?", analysis=analysis)
+    assert out["answer"] == "No theme matching 'Mystery' found."
+
+
+def test_answer_structured_unresolved_tag_is_terminal_not_a_fallthrough(monkeypatch):
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr(state, "count_documents", _forbid_count)
+    analysis = qp.QueryAnalysis(
+        search_query="how many posts are tagged nonexistent?",
+        intent="structured", operation="count", tags=["nonexistent"],
+    )
+    out = dr.answer_structured(
+        "how many posts are tagged nonexistent?", analysis=analysis
+    )
+    assert out["answer"] == "No tag matching 'nonexistent' found."
+
+
 def test_answer_structured_normalizes_bundle_for_count(monkeypatch):
     monkeypatch.setattr(
         dr, "parse_structured",
@@ -166,6 +193,47 @@ def test_answer_structured_prefers_multi_plan_when_enabled(monkeypatch):
 
     assert seen["plan"] is sentinel  # the v2 plan was executed
     assert out["answer"] == "R"
+
+
+def test_answer_structured_partial_success_drops_terminal_failure(monkeypatch):
+    """A terminal failure alongside a successful call in the same multi-call
+    plan is dropped exactly like any other ok=False result — the terminal
+    check only kicks in when EVERY call failed (see _terminal_result)."""
+    sentinel = object()
+    monkeypatch.setattr(
+        dr, "get_settings", lambda: SimpleNamespace(database_multi_call_enabled=True)
+    )
+    monkeypatch.setattr(planner, "plan_multi", lambda q, *, output_format: sentinel)
+    monkeypatch.setattr(
+        planner, "execute",
+        lambda db_plan, *, question=None: [
+            ToolResult(tool="count_records", ok=True, rendered="3 items."),
+            ToolResult(tool="count_records", ok=False, error_kind="unresolved",
+                      rendered="No theme matching 'X' found."),
+        ],
+    )
+    analysis = qp.QueryAnalysis(search_query="x", intent="structured", operation="count")
+    out = dr.answer_structured("x", analysis=analysis)
+    assert out["answer"] == "3 items."
+
+
+def test_terminal_result_finds_first_terminal_failure():
+    results = [
+        ToolResult(tool="count_records", ok=False, error_kind=None),
+        ToolResult(tool="count_records", ok=False, error_kind="unresolved",
+                  rendered="No theme matching 'X' found."),
+    ]
+    terminal = dr._terminal_result(results)
+    assert terminal is not None and terminal.rendered == "No theme matching 'X' found."
+
+
+def test_terminal_result_none_when_no_failure_is_terminal():
+    results = [ToolResult(tool="count_records", ok=False, error_kind="no_records")]
+    assert dr._terminal_result(results) is None
+
+
+def test_terminal_result_none_for_empty_results():
+    assert dr._terminal_result([]) is None
 
 
 def test_answer_structured_falls_back_to_v1_when_multi_none(monkeypatch):

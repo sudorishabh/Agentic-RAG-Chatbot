@@ -137,9 +137,12 @@ def _project_fields(
 # --------------------------------------------------------------------------- #
 
 def count_records(entity: str | None, filters: RecordFilters) -> ToolResult:
-    """How many catalog documents match. Unknown entity or a theme/tag that
-    resolves to no term returns ok=False (fall through, never a misleading
-    zero)."""
+    """How many catalog documents match. Unknown entity returns ok=False (fall
+    through, never a misleading zero). A theme/tag that resolves to no term is
+    a terminal miss (error_kind="unresolved") — the filter was understood but
+    could not be honored, which is a different situation from finding nothing
+    to fall through from, so it is reported explicitly rather than guessed at
+    via semantic search."""
     ent = get_entity(entity) if entity else None
     if entity and ent is None:
         return ToolResult(tool="count_records", entity=entity, ok=False,
@@ -147,10 +150,12 @@ def count_records(entity: str | None, filters: RecordFilters) -> ToolResult:
     scope = resolve_filters(filters)
     if scope.theme_requested and not scope.theme_resolved:
         return ToolResult(tool="count_records", entity=entity, ok=False,
-                          error="theme did not resolve to a known term")
+                          error="theme did not resolve to a known term", error_kind="unresolved",
+                          rendered=f"No theme matching '{filters.theme}' found.")
     if scope.tag_requested and not scope.tag_resolved:
         return ToolResult(tool="count_records", entity=entity, ok=False,
-                          error="tag did not resolve to a known term")
+                          error="tag did not resolve to a known term", error_kind="unresolved",
+                          rendered=f"No tag matching '{filters.tag}' found.")
     bundle = ent.name if ent else None
     try:
         total = state.count_documents(
@@ -195,7 +200,8 @@ def list_records(
     scope = resolve_filters(filters)
     if scope.tag_requested and not scope.tag_resolved:
         return ToolResult(tool="list_records", entity=entity, ok=False,
-                          error="tag did not resolve to a known term")
+                          error="tag did not resolve to a known term", error_kind="unresolved",
+                          rendered=f"No tag matching '{filters.tag}' found.")
     bundle = ent.name if ent else None
     try:
         records = state.list_documents(
@@ -318,10 +324,12 @@ def aggregate_records(
     scope = resolve_filters(filters)
     if scope.theme_requested and not scope.theme_resolved:
         return ToolResult(tool="aggregate_records", entity=entity, ok=False,
-                          error="theme did not resolve to a known term")
+                          error="theme did not resolve to a known term", error_kind="unresolved",
+                          rendered=f"No theme matching '{filters.theme}' found.")
     if scope.tag_requested and not scope.tag_resolved:
         return ToolResult(tool="aggregate_records", entity=entity, ok=False,
-                          error="tag did not resolve to a known term")
+                          error="tag did not resolve to a known term", error_kind="unresolved",
+                          rendered=f"No tag matching '{filters.tag}' found.")
     bundle = ent.name if ent else None
     try:
         rows = state.distribution(

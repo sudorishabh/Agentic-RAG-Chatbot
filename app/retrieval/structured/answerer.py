@@ -119,6 +119,21 @@ def _spans_all_content(question: str, bundle: str | None) -> bool:
     return not (label_words & question_words)
 
 
+# error_kind values that mean "the filter was understood but could not be
+# honored" — the answer is the result's `rendered` message, not a cue to guess
+# via semantic search. Every other ok=False (unknown entity, no matching
+# records, a query failure) keeps today's fall-through behavior.
+_TERMINAL_ERROR_KINDS = frozenset({"unresolved", "ambiguous"})
+
+
+def _terminal_result(results: list[ToolResult]) -> ToolResult | None:
+    """The first failed result whose error is terminal, if any."""
+    for result in results:
+        if not result.ok and result.error_kind in _TERMINAL_ERROR_KINDS:
+            return result
+    return None
+
+
 def _compose(results: list[ToolResult]) -> dict[str, Any]:
     """Merge the successful tool results into one structured answer: stack the
     rendered sections and renumber citations sequentially across them. A single
@@ -153,7 +168,9 @@ def answer_structured(
     The unified analysis already extracted the structured slots — reuse it and let
     the planner pick the tool; parse only when no usable analysis came. Returns
     None (fall through to semantic search) on an unusable plan or a guarded/empty
-    tool result.
+    tool result — unless every result failed and one of them is terminal (an
+    unresolved or ambiguous filter), in which case its `rendered` message is
+    the answer (see `_terminal_result`).
     """
     from app.retrieval.structured import planner
 
@@ -178,5 +195,6 @@ def answer_structured(
     results = planner.execute(db_plan, question=question)
     ok = [r for r in results if r.ok]
     if not ok:
-        return None
+        terminal = _terminal_result(results)
+        return _compose([terminal]) if terminal is not None else None
     return _compose(ok)
