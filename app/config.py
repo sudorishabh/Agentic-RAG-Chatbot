@@ -137,6 +137,15 @@ class Settings(BaseSettings):
     # count paired with a list). OFF uses the deterministic single-call v1 plan;
     # any planner failure falls back to v1 as well. Launches OFF; flip after eval.
     database_multi_call_enabled: bool = False
+    # Fuzzy entity resolution (app.retrieval.structured.resolve): scores a
+    # free-text name against known authors/bundles/themes. OFF means an
+    # unresolved theme/tag filter falls through to semantic search exactly as
+    # before (today's behavior); ON makes it a terminal, explicit answer
+    # ("no theme matching 'X' found") instead, and lets the v2 planner
+    # advertise resolve_entity as a callable tool. This is the one switch for
+    # the whole feature's change in fall-through behavior. Launches OFF; flip
+    # after eval.
+    entity_resolution_enabled: bool = False
     reranker_provider: str = "embedding"
     rerank_model: str = ""
     rerank_score_threshold: float = 0.0

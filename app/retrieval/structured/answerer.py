@@ -168,9 +168,11 @@ def answer_structured(
     The unified analysis already extracted the structured slots — reuse it and let
     the planner pick the tool; parse only when no usable analysis came. Returns
     None (fall through to semantic search) on an unusable plan or a guarded/empty
-    tool result — unless every result failed and one of them is terminal (an
-    unresolved or ambiguous filter), in which case its `rendered` message is
-    the answer (see `_terminal_result`).
+    tool result — unless `entity_resolution_enabled` is on and every result
+    failed with one of them terminal (an unresolved or ambiguous filter), in
+    which case its `rendered` message is the answer (see `_terminal_result`).
+    The flag gates only this fall-through change; it does not disable the
+    catalog tools themselves.
     """
     from app.retrieval.structured import planner
 
@@ -195,6 +197,6 @@ def answer_structured(
     results = planner.execute(db_plan, question=question)
     ok = [r for r in results if r.ok]
     if not ok:
-        terminal = _terminal_result(results)
+        terminal = _terminal_result(results) if get_settings().entity_resolution_enabled else None
         return _compose([terminal]) if terminal is not None else None
     return _compose(ok)

@@ -39,10 +39,33 @@ def test_answer_structured_unknown_bundle_falls_through(monkeypatch):
     assert dr.answer_structured("emissions by sector?", analysis=analysis) is None
 
 
+def _enable_entity_resolution(monkeypatch):
+    monkeypatch.setattr(
+        dr, "get_settings",
+        lambda: SimpleNamespace(database_multi_call_enabled=False,
+                                entity_resolution_enabled=True),
+    )
+
+
+def test_answer_structured_unresolved_theme_falls_through_by_default(monkeypatch):
+    """entity_resolution_enabled defaults to False — the rollback path: an
+    unresolved theme falls through exactly as it did before this feature
+    existed, with no settings override needed."""
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr(state, "count_documents", _forbid_count)
+    analysis = qp.QueryAnalysis(
+        search_query="how many events under Mystery?",
+        intent="structured", operation="count", bundle="events", theme="Mystery",
+    )
+    assert dr.answer_structured("how many events under Mystery?", analysis=analysis) is None
+
+
 def test_answer_structured_unresolved_theme_is_terminal_not_a_fallthrough(monkeypatch):
-    """A theme that does not resolve to a known term is understood-but-unanswerable
-    — the answer names it explicitly rather than silently falling through to a
-    vague semantic-search guess (docs/database-retrieval-redesign.md §7)."""
+    """With the flag on, a theme that does not resolve to a known term is
+    understood-but-unanswerable — the answer names it explicitly rather than
+    silently falling through to a vague semantic-search guess
+    (docs/database-retrieval-redesign.md §7)."""
+    _enable_entity_resolution(monkeypatch)
     monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
     monkeypatch.setattr(state, "count_documents", _forbid_count)
     analysis = qp.QueryAnalysis(
@@ -54,6 +77,7 @@ def test_answer_structured_unresolved_theme_is_terminal_not_a_fallthrough(monkey
 
 
 def test_answer_structured_unresolved_tag_is_terminal_not_a_fallthrough(monkeypatch):
+    _enable_entity_resolution(monkeypatch)
     monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
     monkeypatch.setattr(state, "count_documents", _forbid_count)
     analysis = qp.QueryAnalysis(
