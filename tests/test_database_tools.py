@@ -25,6 +25,14 @@ def resolve_theme_ok(monkeypatch):
     )
 
 
+@pytest.fixture
+def resolve_tag_ok(monkeypatch):
+    monkeypatch.setattr(
+        "app.catalog.terms.resolve_terms",
+        lambda name, vocabulary=None: [{"term_uuid": "t1", "name": name}],
+    )
+
+
 # --------------------------------------------------------------------------- #
 # count_records
 # --------------------------------------------------------------------------- #
@@ -58,6 +66,26 @@ def test_count_records_unresolved_theme_is_not_ok(monkeypatch):
     monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 99)
     r = tools.count_records("news", RecordFilters(theme="Mystery"))
     assert r.ok is False  # must not answer a misleading zero/count
+
+
+def test_count_records_passes_tag_scope(monkeypatch, resolve_tag_ok):
+    seen = {}
+
+    def fake_count(**kw):
+        seen.update(kw)
+        return 4
+
+    monkeypatch.setattr("app.catalog.queries.count_documents", fake_count)
+    r = tools.count_records("news", RecordFilters(tag="policy"))
+    assert r.ok and r.data == {"count": 4}
+    assert seen["tag_uuids"] == ["t1"]
+
+
+def test_count_records_unresolved_tag_is_not_ok(monkeypatch):
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 99)
+    r = tools.count_records("news", RecordFilters(tag="nonexistent"))
+    assert r.ok is False  # no fallback column exists for tag; never guess
 
 
 def test_count_records_singular_verb(monkeypatch):
@@ -112,6 +140,28 @@ def test_list_records_table(monkeypatch):
 def test_list_records_empty_is_not_ok(monkeypatch):
     monkeypatch.setattr("app.catalog.queries.list_documents", lambda **k: [])
     r = tools.list_records("news", RecordFilters())
+    assert r.ok is False
+
+
+def test_list_records_passes_tag_scope(monkeypatch, resolve_tag_ok):
+    seen = {}
+
+    def fake_list(**kw):
+        seen.update(kw)
+        return [_rec()]
+
+    monkeypatch.setattr("app.catalog.queries.list_documents", fake_list)
+    r = tools.list_records("news", RecordFilters(tag="policy"))
+    assert r.ok
+    assert seen["tag_uuids"] == ["t1"]
+
+
+def test_list_records_unresolved_tag_is_not_ok(monkeypatch):
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr("app.catalog.queries.list_documents", lambda **k: [_rec()])
+    r = tools.list_records("news", RecordFilters(tag="nonexistent"))
+    # Unlike an unresolved theme (free-text facet fallback), an unresolved tag
+    # has no column to filter on, so listing unfiltered results would be wrong.
     assert r.ok is False
 
 
@@ -208,6 +258,28 @@ def test_aggregate_records_plain(monkeypatch):
     )
     r = tools.aggregate_records(None, "theme", RecordFilters())
     assert r.rendered == "Distribution of items by theme:\n- Climate: 5"
+
+
+def test_aggregate_records_passes_tag_scope(monkeypatch, resolve_tag_ok):
+    seen = {}
+
+    def fake_dist(group_by, **kw):
+        seen.update(kw)
+        return [("Climate", 5)]
+
+    monkeypatch.setattr("app.catalog.queries.distribution", fake_dist)
+    r = tools.aggregate_records(None, "theme", RecordFilters(tag="policy"))
+    assert r.ok
+    assert seen["tag_uuids"] == ["t1"]
+
+
+def test_aggregate_records_unresolved_tag_is_not_ok(monkeypatch):
+    monkeypatch.setattr("app.catalog.terms.resolve_terms", lambda *a, **k: [])
+    monkeypatch.setattr(
+        "app.catalog.queries.distribution", lambda group_by, **k: [("Climate", 5)]
+    )
+    r = tools.aggregate_records(None, "theme", RecordFilters(tag="nonexistent"))
+    assert r.ok is False
 
 
 def test_aggregate_records_content_type_maps_to_bundle(monkeypatch):

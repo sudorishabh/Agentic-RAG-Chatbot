@@ -119,8 +119,11 @@ class ResolvedScope:
 
     def as_kwargs(self) -> dict[str, Any]:
         """Filter kwargs shared by count_documents / list_documents / distribution
-        (author, theme, dates). `title_contains` is passed separately by the tools
-        that use it."""
+        (author, theme, tag, dates). `title_contains` is passed separately by the
+        tools that use it. `tag` (the unresolved display name) never appears here
+        — unlike theme, there is no facet column to filter tag on by name, so a
+        caller must guard on `tag_requested and not tag_resolved` before querying
+        at all (see docs/database-retrieval-redesign.md §4.1)."""
         kwargs: dict[str, Any] = {
             "author": self.author,
             "published_from": self.published_from,
@@ -130,6 +133,8 @@ class ResolvedScope:
             kwargs["term_uuids"] = self.term_uuids
         elif self.theme:
             kwargs["theme"] = self.theme
+        if self.tag_uuids:
+            kwargs["tag_uuids"] = self.tag_uuids
         return {key: value for key, value in kwargs.items() if value is not None}
 
 

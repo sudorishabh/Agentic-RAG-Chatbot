@@ -169,9 +169,7 @@ def test_resolve_filters_resolved_tag(monkeypatch):
     scope = filters.resolve_filters(db.RecordFilters(tag="policy"))
     assert scope.tag_uuids == ["t1"]
     assert scope.tag_requested is True and scope.tag_resolved is True
-    # as_kwargs does not carry tag yet — the catalog readers don't accept it
-    # until the tag join lands (docs/database-retrieval-redesign.md §5).
-    assert scope.as_kwargs() == {}
+    assert scope.as_kwargs() == {"tag_uuids": ["t1"]}
 
 
 def test_resolve_filters_unresolved_tag_has_no_fallback_column(monkeypatch):
@@ -180,6 +178,19 @@ def test_resolve_filters_unresolved_tag_has_no_fallback_column(monkeypatch):
     assert scope.tag_uuids is None
     assert scope.tag == "Mystery"
     assert scope.tag_requested is True and scope.tag_resolved is False
+    # Unlike theme, an unresolved tag never appears in as_kwargs at all — there
+    # is no facet column to filter it on; callers must guard before querying.
+    assert scope.as_kwargs() == {}
+
+
+def test_resolve_filters_theme_and_tag_both_carry_through(monkeypatch):
+    monkeypatch.setattr(
+        "app.catalog.terms.resolve_terms",
+        lambda name, vocabulary=None: [{"term_uuid": f"u-{vocabulary}", "name": name}],
+    )
+    monkeypatch.setattr("app.catalog.terms.descendant_uuids", lambda uuids: list(uuids))
+    scope = filters.resolve_filters(db.RecordFilters(theme="Climate", tag="policy"))
+    assert scope.as_kwargs() == {"term_uuids": ["u-None"], "tag_uuids": ["u-tags"]}
 
 
 def test_resolve_filters_empty_is_empty():

@@ -1,8 +1,9 @@
 """The four parameterized catalog tools the Database Planner invokes.
 
 Each tool wraps an existing read function in `app.catalog.queries` and renders
-a uniform `ToolResult`. An unknown entity, an unresolvable theme, or an empty
-result yields `ok=False` so the caller can fall through to semantic search.
+a uniform `ToolResult`. An unknown entity, an unresolvable theme or tag, or an
+empty result yields `ok=False` so the caller can fall through to semantic
+search.
 
 See docs/database-tool-registry.md.
 """
@@ -115,8 +116,9 @@ def _render_records(
 # --------------------------------------------------------------------------- #
 
 def count_records(entity: str | None, filters: RecordFilters) -> ToolResult:
-    """How many catalog documents match. Unknown entity or a theme that resolves
-    to no term returns ok=False (fall through, never a misleading zero)."""
+    """How many catalog documents match. Unknown entity or a theme/tag that
+    resolves to no term returns ok=False (fall through, never a misleading
+    zero)."""
     ent = get_entity(entity) if entity else None
     if entity and ent is None:
         return ToolResult(tool="count_records", entity=entity, ok=False,
@@ -125,6 +127,9 @@ def count_records(entity: str | None, filters: RecordFilters) -> ToolResult:
     if scope.theme_requested and not scope.theme_resolved:
         return ToolResult(tool="count_records", entity=entity, ok=False,
                           error="theme did not resolve to a known term")
+    if scope.tag_requested and not scope.tag_resolved:
+        return ToolResult(tool="count_records", entity=entity, ok=False,
+                          error="tag did not resolve to a known term")
     bundle = ent.name if ent else None
     try:
         total = state.count_documents(
@@ -155,12 +160,18 @@ def list_records(
     output_format: str = "default",
 ) -> ToolResult:
     """List matching documents, most recent first (the only backing sort today).
-    Empty result returns ok=False."""
+    Empty result returns ok=False. Unlike an unresolved theme (which still has a
+    free-text facet to fall back on), an unresolved tag has no column to filter
+    on at all, so it is guarded here rather than silently listing unfiltered
+    results."""
     ent = get_entity(entity) if entity else None
     if entity and ent is None:
         return ToolResult(tool="list_records", entity=entity, ok=False,
                           error=f"unknown entity {entity!r}")
     scope = resolve_filters(filters)
+    if scope.tag_requested and not scope.tag_resolved:
+        return ToolResult(tool="list_records", entity=entity, ok=False,
+                          error="tag did not resolve to a known term")
     bundle = ent.name if ent else None
     try:
         records = state.list_documents(
@@ -282,6 +293,9 @@ def aggregate_records(
     if scope.theme_requested and not scope.theme_resolved:
         return ToolResult(tool="aggregate_records", entity=entity, ok=False,
                           error="theme did not resolve to a known term")
+    if scope.tag_requested and not scope.tag_resolved:
+        return ToolResult(tool="aggregate_records", entity=entity, ok=False,
+                          error="tag did not resolve to a known term")
     bundle = ent.name if ent else None
     try:
         rows = state.distribution(
