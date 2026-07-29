@@ -123,14 +123,43 @@ Two consequences shape the tool surface:
 
 ## 4. Resolution layer — `app/retrieval/structured/resolve.py` (new)
 
-`resolve_entity` advertises three types — `author | bundle | theme` — per the
-tag decision in §3. Candidate sources, cheapest first:
+`resolve.py` scores names against three types — `author | bundle | theme` — per
+the tag decision in §3. Candidate sources, cheapest first:
 
 | type | source | notes |
 |---|---|---|
 | `bundle` | in-memory `DEFAULT_BUNDLES` + `_BUNDLE_SYNONYMS` + `_BUNDLE_LABELS` | no DB hit; reuse `entities.py` |
-| `theme` | `terms` where `vocabulary='themes'` + `term_aliases` | `terms.list_themes()` is already vocabulary-parameterized |
-| `author` | `SELECT DISTINCT author FROM documents_author WHERE author LIKE %s` | new reader in `queries.py`; `lru_cache` the ranked result |
+| `theme` | `terms` where `vocabulary='themes'`, else the `documents_theme` facet (§4.1) | `terms.list_themes()` is already vocabulary-parameterized |
+| `author` | `SELECT DISTINCT author FROM documents_author` | new reader in `queries.py`; `lru_cache` the ranked result. Deliberately **not** `LIKE`-prefiltered: a misspelling ("rishab negi") is not a substring of the stored name, so a prefilter would exclude the very matches this exists to catch |
+
+### 4.0 Where resolution is applied — the filter path, not a planner step
+
+**Resolution runs inside `filters.resolve_filters()`, on the way to SQL.** An
+earlier design had the planner emit `resolve_entity(...)` and then a filtered
+call using the result; that cannot work, because a `DatabasePlan`'s calls
+execute **in parallel** (`planner.execute` → `ThreadPoolExecutor.map`) with no
+data flow between them. The two-call shape produced self-contradicting answers:
+
+```
+'rishab negi' resolves to Rishabh Negi (author).      <- resolve_entity's section
+There are 0 items by rishab negi matching your query. <- the sibling call, unaffected
+```
+
+Canonicalizing in the filter path instead means every tool benefits regardless
+of plan shape, with no ordering or substitution machinery. `ResolvedScope`
+carries the outcome:
+
+| field | meaning |
+|---|---|
+| `author` / `term_uuids` / `theme` | what reaches SQL — the **canonical** name after matching |
+| `effective` | the same `RecordFilters` with canonical names substituted; tools render and echo `data["applied"]` from this, so an answer names the entity it really filtered on |
+| `ambiguous` | a near-tie; tools return a clarification **before** querying |
+| `author_missed` | fuzzy matching found nothing plausible; becomes a miss only if the query then returns empty (§7) |
+
+`tools.resolve_entity` remains a tool for the one thing this path cannot do:
+answering a question that *is* about which entities match a name ("is there an
+author called Negi?"). The prompt tells the planner to pass names through as
+written and **not** to pre-resolve them.
 
 **Scoring.** Normalize (casefold, collapse whitespace, strip punctuation), then
 take the max of: exact `1.0`; substring/prefix boost;
@@ -328,11 +357,12 @@ single source.
 
 - **Vocabulary map** — articles / items / stories / pieces / entries → post; a
   bundle's own name → `bundle` (users never say "bundle").
-- **Resolve first vs. query directly** — call `resolve_entity` (types
-  `author | bundle | theme`) when a name is a proper noun, partial, or
-  misspelled; skip it for an exact bundle name already in `DEFAULT_BUNDLES`. A
-  tag phrase ("tagged policy") is set directly as `filters.tag` — no resolve
-  step is advertised for tags (§3, §4.1).
+- **Pass names through; do not pre-resolve** — author and theme names go into
+  `filters` exactly as the user wrote them and are canonicalized in the filter
+  path (§4.0). A separate `resolve_entity` call cannot help: its result cannot
+  reach a sibling call. `resolve_entity` is for questions that *are* about
+  matching a name ("is there an author called Negi?"). Tags are matched exactly
+  (§3, §4.1).
 - **Counting vs. aggregating vs. listing** — `count_records` for "how many" of one
   thing; `aggregate_records` for "how many per X" / "which X does Y appear in"
   (one call, never N, `group_by` one of `theme | content_type | author | year`);
@@ -342,21 +372,24 @@ single source.
 
 ### 10.1 Few-shot examples
 
-Each shows the **tool call sequence**, not just the answer.
+Each shows the **tool call**, not the answer. Names go in as written; the filter
+path canonicalizes them (§4.0), so every filtered query is a single call.
 
-| # | Query | Sequence |
+| # | Query | Call |
 |---|---|---|
-| 1 | How many posts are there from Rishabh Negi? | `resolve_entity("Rishabh Negi","author")` → `count_records` |
-| 2 | How many events are there? | `count_records(entity="events")` — exact bundle, no resolve |
+| 1 | How many posts are there from Rishabh Negi? | `count_records(filters={author="Rishabh Negi"})` |
+| 2 | How many events are there? | `count_records(entity="events")` |
 | 3 | How many themes are there? | `list_themes()` — Main/Other sections |
-| 4 | How many events are under Climate Change? | `resolve_entity(…,"theme")` → `count_records(entity="events", filters={theme})` |
-| 5 | How many posts from Rishabh Negi under Environment? | two `resolve_entity` calls → one `count_records` |
-| 6 | Which bundles does Rishabh Negi post in? | `resolve_entity` → `aggregate_records(group_by="content_type")` |
-| 7 | Latest 5 reports under Climate Change with source links | `resolve_entity` → `list_records(limit=5, fields=["title","url","published_at"])` |
-| 8 | How many posts are tagged "policy"? | `count_records(filters={tag="policy"})` — no resolve step; an unresolved tag is a terminal miss, not a guess |
+| 4 | How many events are under Climate Change? | `count_records(entity="events", filters={theme="Climate Change"})` |
+| 5 | How many posts from **rishab negi** under **env theme**? | one `count_records` — the misspelling and abbreviation resolve inside the filter path |
+| 6 | Which bundles does Rishabh Negi post in? | `aggregate_records(group_by="content_type", filters={author=…})` |
+| 7 | Latest 5 reports under Climate Change with source links | `list_records(entity="report", limit=5, filters={theme=…})` |
+| 8 | How many posts are tagged "policy"? | `count_records(filters={tag="policy"})` — tags matched exactly |
+| 9 | Is there an author called Negi? | `resolve_entity("Negi","author")` — the question *is* about matching a name |
 
-Plus two edge cases: **ambiguity** ("rishab" → two candidates → clarify, do not
-pick) and **miss** ("posts by Zzz" → terminal "no author matching 'Zzz' found").
+The two edge cases are handled by the filter path, not by the planner:
+**ambiguity** ("rishab" → clarification question instead of a count) and **miss**
+("posts by Zzz" → "no author matching 'Zzz' found" instead of a misleading zero).
 
 ---
 

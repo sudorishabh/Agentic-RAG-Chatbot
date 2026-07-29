@@ -169,6 +169,16 @@ class EntityCandidate:
     score: float
 
 
+def plausible(candidates: list[EntityCandidate], limit: int = 3) -> list[EntityCandidate]:
+    """The candidates worth offering the user in a clarification — those scoring
+    at or above the ambiguity floor, best first.
+
+    A blind top-N slice is wrong here: with a small candidate pool the 3rd-best
+    match can be an unrelated name (scoring ~0.38 against a 0.75 tie), and
+    offering it as a choice implies a similarity that does not exist."""
+    return [c for c in candidates if c.score >= _AMBIGUOUS_FLOOR][:limit]
+
+
 def _bundle_candidates(query: str) -> list[EntityCandidate]:
     """A recognized bundle name/synonym/plural (`entities.get_entity`) is a
     sure thing — return it alone at score 1.0 rather than also fuzzy-ranking

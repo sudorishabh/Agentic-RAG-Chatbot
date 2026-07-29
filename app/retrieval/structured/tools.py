@@ -71,22 +71,60 @@ def _scope_phrase(filters: RecordFilters) -> str:
     return "".join(parts)
 
 
-def _unresolved_theme_miss(tool: str, entity: str | None, filters: RecordFilters) -> ToolResult:
-    """The terminal "no theme matching X" result, for a theme that resolved to no
-    taxonomy term AND whose display-name fallback then matched no rows.
+def _unresolved_miss(tool: str, entity: str | None, kind: str, value: str | None) -> ToolResult:
+    """The terminal "no <kind> matching X found" result.
 
-    Checked *after* querying, not before: an unresolved theme still gets the
-    `documents_theme` display-name filter (see `ResolvedScope.as_kwargs`), which
-    is a real if fuzzier match — an environment whose taxonomy-term crawl has
-    not run has every theme unresolved while `documents_theme` is fully
-    populated, so refusing up front would deny a theme that plainly exists.
-    Only an empty result leaves "unknown theme" and "genuinely no documents"
-    indistinguishable, and then the honest answer is the miss."""
+    Checked *after* querying for theme and author, not before: an unresolved name
+    still filters (a theme via the `documents_theme` display-name facet, an
+    author via a substring match), which is a real if fuzzier match — an
+    environment whose taxonomy-term crawl has not run has every theme
+    unresolved while `documents_theme` is fully populated, so refusing up front
+    would deny a theme that plainly exists. Only an empty result leaves "unknown
+    name" and "genuinely no documents" indistinguishable, and then the miss is
+    the honest answer. Tags are the exception and are guarded before querying:
+    they have no fallback column, so an unresolved tag would silently widen the
+    query to everything rather than narrow it."""
     return ToolResult(
         tool=tool, entity=entity, ok=False,
-        error="theme did not resolve to a known term", error_kind="unresolved",
-        rendered=f"No theme matching '{filters.theme}' found.",
+        error=f"{kind} did not resolve to a known entity", error_kind="unresolved",
+        rendered=f"No {kind} matching '{value}' found.",
     )
+
+
+def _ambiguous_result(tool: str, entity: str | None, scope: Any) -> ToolResult:
+    """The terminal clarification for a filter name that matched several catalog
+    entities too closely to choose between — asked, never guessed (§4)."""
+    amb = scope.ambiguous
+    options = "\n".join(f"{i}. {name}" for i, name in enumerate(amb.candidates, start=1))
+    return ToolResult(
+        tool=tool, entity=entity, ok=False,
+        error=f"ambiguous {amb.kind}", error_kind="ambiguous",
+        rendered=(
+            f"'{amb.query}' matches more than one {amb.kind}:\n{options}\n"
+            "Which did you mean?"
+        ),
+    )
+
+
+def _scope_guard(tool: str, entity: str | None, scope: Any) -> ToolResult | None:
+    """Pre-query guards shared by the filtered tools: a name too ambiguous to
+    pick, or a tag that cannot be filtered at all. Returns None to proceed."""
+    if scope.ambiguous is not None:
+        return _ambiguous_result(tool, entity, scope)
+    if scope.tag_requested and not scope.tag_resolved:
+        return _unresolved_miss(tool, entity, "tag", scope.effective.tag)
+    return None
+
+
+def _empty_result_miss(tool: str, entity: str | None, scope: Any) -> ToolResult | None:
+    """Post-query: whether an empty result should be reported as an unresolved
+    name rather than a genuine zero. Returns None when the filters all resolved,
+    leaving the caller to answer an honest zero."""
+    if scope.author_missed:
+        return _unresolved_miss(tool, entity, "author", scope.effective.author)
+    if scope.theme_requested and not scope.theme_resolved:
+        return _unresolved_miss(tool, entity, "theme", scope.effective.theme)
+    return None
 
 
 def _applied_filters(bundle: str | None, filters: RecordFilters) -> dict[str, str]:
@@ -193,20 +231,19 @@ def _project_fields(
 
 def count_records(entity: str | None, filters: RecordFilters) -> ToolResult:
     """How many catalog documents match. Unknown entity returns ok=False (fall
-    through, never a misleading zero). A tag that resolves to no term is a
-    terminal miss up front (there is no tag facet to fall back on); an
-    unresolved *theme* still queries via its display-name fallback and only
-    becomes a miss if that finds nothing too (see `_unresolved_theme_miss`).
-    A resolved filter matching no rows is an honest 0, not a miss."""
+    through, never a misleading zero). Names are canonicalized first, so the
+    answer states the entity actually filtered on; a name too ambiguous to pick
+    or a tag that resolves to nothing stops before querying, and an unresolved
+    author/theme becomes a miss only if the query then comes back empty. A
+    resolved filter matching no rows is an honest 0."""
     ent = get_entity(entity) if entity else None
     if entity and ent is None:
         return ToolResult(tool="count_records", entity=entity, ok=False,
                           error=f"unknown entity {entity!r}")
     scope = resolve_filters(filters)
-    if scope.tag_requested and not scope.tag_resolved:
-        return ToolResult(tool="count_records", entity=entity, ok=False,
-                          error="tag did not resolve to a known term", error_kind="unresolved",
-                          rendered=f"No tag matching '{filters.tag}' found.")
+    guarded = _scope_guard("count_records", entity, scope)
+    if guarded is not None:
+        return guarded
     bundle = ent.name if ent else None
     try:
         total = state.count_documents(
@@ -218,16 +255,18 @@ def count_records(entity: str | None, filters: RecordFilters) -> ToolResult:
     except Exception:
         logger.warning("count_records query failed.", exc_info=True)
         return ToolResult(tool="count_records", entity=bundle, ok=False, error="query failed")
-    if not total and scope.theme_requested and not scope.theme_resolved:
-        return _unresolved_theme_miss("count_records", bundle, filters)
-    phrase = _scope_phrase(filters)
+    if not total:
+        missed = _empty_result_miss("count_records", bundle, scope)
+        if missed is not None:
+            return missed
+    phrase = _scope_phrase(scope.effective)
     verb = "is" if total == 1 else "are"
     rendered = (
         f"There {verb} {total} {entity_label(bundle or 'items', total)}{phrase} "
         "matching your query."
     )
     return ToolResult(tool="count_records", entity=bundle, ok=True,
-                      data={"count": total, "applied": _applied_filters(bundle, filters)},
+                      data={"count": total, "applied": _applied_filters(bundle, scope.effective)},
                       rendered=rendered)
 
 
@@ -242,20 +281,18 @@ def list_records(
     fields: Sequence[str] | None = None,
 ) -> ToolResult:
     """List matching documents, most recent first (the only backing sort today).
-    Empty result returns ok=False. Unlike an unresolved theme (which still has a
-    free-text facet to fall back on), an unresolved tag has no column to filter
-    on at all, so it is guarded up front rather than silently listing unfiltered
-    results. `fields` narrows the metadata keys in `data["records"]`; `rendered`
-    is unaffected (see `_project_fields`)."""
+    Empty result returns ok=False. Filter-resolution semantics match
+    `count_records` (see `_scope_guard` / `_empty_result_miss`). `fields` narrows
+    the metadata keys in `data["records"]`; `rendered` is unaffected (see
+    `_project_fields`)."""
     ent = get_entity(entity) if entity else None
     if entity and ent is None:
         return ToolResult(tool="list_records", entity=entity, ok=False,
                           error=f"unknown entity {entity!r}")
     scope = resolve_filters(filters)
-    if scope.tag_requested and not scope.tag_resolved:
-        return ToolResult(tool="list_records", entity=entity, ok=False,
-                          error="tag did not resolve to a known term", error_kind="unresolved",
-                          rendered=f"No tag matching '{filters.tag}' found.")
+    guarded = _scope_guard("list_records", entity, scope)
+    if guarded is not None:
+        return guarded
     bundle = ent.name if ent else None
     try:
         records = state.list_documents(
@@ -271,14 +308,16 @@ def list_records(
         logger.warning("list_records query failed.", exc_info=True)
         return ToolResult(tool="list_records", entity=bundle, ok=False, error="query failed")
     if not records:
-        if scope.theme_requested and not scope.theme_resolved:
-            return _unresolved_theme_miss("list_records", bundle, filters)
+        missed = _empty_result_miss("list_records", bundle, scope)
+        if missed is not None:
+            return missed
         return ToolResult(tool="list_records", entity=bundle, ok=False,
                           error="no matching records")
     rendered, data, citations = _render_records(records, output_format)
     return ToolResult(
         tool="list_records", entity=bundle, ok=True,
-        data={"records": _project_fields(data, fields), "applied": _applied_filters(bundle, filters)},
+        data={"records": _project_fields(data, fields),
+              "applied": _applied_filters(bundle, scope.effective)},
         citations=citations, rendered=rendered,
     )
 
@@ -374,18 +413,16 @@ def aggregate_records(
 ) -> ToolResult:
     """Grouped counts (per theme / content type / author / year). Only the
     'count' aggregation is backed today. Filter-resolution semantics match
-    `count_records`: a tag miss is terminal up front, a theme miss only after
-    its display-name fallback also comes back empty."""
+    `count_records` (see `_scope_guard` / `_empty_result_miss`)."""
     dimension, label = _GROUP_DIMENSIONS.get(group_by or "theme", ("theme", "theme"))
     ent = get_entity(entity) if entity else None
     if entity and ent is None:
         return ToolResult(tool="aggregate_records", entity=entity, ok=False,
                           error=f"unknown entity {entity!r}")
     scope = resolve_filters(filters)
-    if scope.tag_requested and not scope.tag_resolved:
-        return ToolResult(tool="aggregate_records", entity=entity, ok=False,
-                          error="tag did not resolve to a known term", error_kind="unresolved",
-                          rendered=f"No tag matching '{filters.tag}' found.")
+    guarded = _scope_guard("aggregate_records", entity, scope)
+    if guarded is not None:
+        return guarded
     bundle = ent.name if ent else None
     try:
         rows = state.distribution(
@@ -400,8 +437,9 @@ def aggregate_records(
         logger.warning("aggregate_records query failed.", exc_info=True)
         return ToolResult(tool="aggregate_records", entity=bundle, ok=False, error="query failed")
     if not rows:
-        if scope.theme_requested and not scope.theme_resolved:
-            return _unresolved_theme_miss("aggregate_records", bundle, filters)
+        missed = _empty_result_miss("aggregate_records", bundle, scope)
+        if missed is not None:
+            return missed
         return ToolResult(tool="aggregate_records", entity=bundle, ok=False,
                           error="no matching records")
     if output_format == "table":
@@ -412,12 +450,13 @@ def aggregate_records(
     else:
         body = "\n".join(f"- {value}: {n}" for value, n in rows)
     rendered = (
-        f"Distribution of {entity_label(bundle or 'items', 2)}{_scope_phrase(filters)} "
+        f"Distribution of {entity_label(bundle or 'items', 2)}{_scope_phrase(scope.effective)} "
         f"by {label}:\n" + body
     )
     return ToolResult(
         tool="aggregate_records", entity=bundle, ok=True,
-        data={"groups": [[value, n] for value, n in rows], "applied": _applied_filters(bundle, filters)},
+        data={"groups": [[value, n] for value, n in rows],
+              "applied": _applied_filters(bundle, scope.effective)},
         rendered=rendered,
     )
 
@@ -466,11 +505,6 @@ def list_themes(
     )
 
 
-# Candidates shown in an ambiguous clarification — enough to cover a genuine
-# near-tie without dumping the whole ranked list on the user.
-_AMBIGUOUS_DISPLAY_LIMIT = 3
-
-
 def resolve_entity(query: str, type: str | None = None) -> ToolResult:
     """Resolve a free-text name to a ranked catalog entity. A confident top
     match accepts; a genuine near-tie asks the user to pick rather than
@@ -510,7 +544,7 @@ def resolve_entity(query: str, type: str | None = None) -> ToolResult:
                           rendered=f"No {label} matching '{query}' found.")
 
     if band == resolve.AMBIGUOUS:
-        shown = candidates[:_AMBIGUOUS_DISPLAY_LIMIT]
+        shown = resolve.plausible(candidates)
         options = "\n".join(f"{i}. {c.canonical_name}" for i, c in enumerate(shown, start=1))
         return ToolResult(
             tool="resolve_entity", entity=type, ok=False, data=data,

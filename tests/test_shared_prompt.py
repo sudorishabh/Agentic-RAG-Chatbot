@@ -31,9 +31,12 @@ def test_collective_word_warning_names_publications():
     assert "research_papers" in prompt.COLLECTIVE_WORD_WARNING
 
 
-def test_resolve_first_excepts_tag():
-    assert "resolve_entity" in prompt.RESOLVE_FIRST
-    assert "tag" in prompt.RESOLVE_FIRST
+def test_resolve_first_tells_the_planner_not_to_pre_resolve():
+    """Resolution happens in the filter path, so a separate pre-resolve call
+    would be dead weight — its result cannot reach a sibling call."""
+    assert "resolved for you" in prompt.RESOLVE_FIRST
+    assert "resolve_entity" in prompt.RESOLVE_FIRST  # still named, for the ask-about case
+    assert "cannot reach another call" in prompt.RESOLVE_FIRST
 
 
 def test_behavior_covers_ambiguity_and_no_fabrication():
@@ -46,9 +49,18 @@ def test_few_shots_cover_every_worked_example():
     for marker in (
         "Rishabh Negi", "How many events are there", "How many themes",
         "Climate Change", "content_type", "source links", "tagged 'policy'",
-        "Ambiguous:", "Miss:",
+        "clarification question", "no author matching",
     ):
         assert marker in prompt.FEW_SHOTS, marker
+
+
+def test_few_shots_pass_names_through_rather_than_pre_resolving():
+    """Each filtered example is a single call carrying the raw name — the old
+    two-call "resolve then query" shape could not work (parallel execution)."""
+    assert "rishab negi" in prompt.FEW_SHOTS          # misspelling passed straight in
+    assert "do not pre-resolve names yourself" in prompt.FEW_SHOTS
+    # resolve_entity appears once, for the "is there an author called X" case only
+    assert prompt.FEW_SHOTS.count("resolve_entity") == 1
 
 
 # --------------------------------------------------------------------------- #
