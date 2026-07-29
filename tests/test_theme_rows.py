@@ -158,6 +158,38 @@ def test_group_code_matches_on_substring_not_position():
 
 
 # --------------------------------------------------------------------------- #
+# theme_taxonomy.group_of / themes_by_group — Main/Other lookup for the theme
+# listing (list_themes), which needs to label a theme without a document ever
+# carrying it — unlike classify(), which only labels themes a document has.
+# --------------------------------------------------------------------------- #
+
+def test_group_of_known_primary_tags():
+    assert theme_taxonomy.group_of("Energy") == "main"
+    assert theme_taxonomy.group_of("Green Shipping") == "other"
+
+
+def test_group_of_matches_case_and_whitespace_drift():
+    assert theme_taxonomy.group_of("  green   SHIPPING ") == "other"
+
+
+def test_group_of_sub_theme_inherits_primary_tags_group():
+    assert theme_taxonomy.group_of("Air") == "main"  # sub of Environment
+    assert theme_taxonomy.group_of("Education for Youth Empowerment") == "other"
+
+
+def test_group_of_unknown_theme_is_none():
+    assert theme_taxonomy.group_of("Quantum Beekeeping") is None
+
+
+def test_themes_by_group_splits_main_and_other():
+    groups = theme_taxonomy.themes_by_group()
+    assert set(groups) == {"main", "other"}
+    assert "Energy" in groups["main"] and "Air" in groups["main"]
+    assert "Green Shipping" in groups["other"]
+    assert "Energy" not in groups["other"] and "Green Shipping" not in groups["main"]
+
+
+# --------------------------------------------------------------------------- #
 # state — the documents_theme writes.
 # --------------------------------------------------------------------------- #
 

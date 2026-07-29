@@ -191,3 +191,30 @@ def primary_tags() -> list[str]:
     """Every Primary Tag in the map, in file order (diagnostics / docs)."""
     mapping, _ = _load()
     return [name for name, theme_type, _, _ in mapping.values() if theme_type == PRIMARY]
+
+
+def group_of(name: str) -> str | None:
+    """The top-level bucket (``"main"`` / ``"other"``) ``name`` traces back to,
+    or ``None`` when the map has no entry for it — a theme the CMS has but
+    ``data.json`` does not yet know has no group to report, the same as
+    ``classify`` leaving its ``group`` unset. Looks up by the same
+    case-insensitive match key ``classify`` uses, so CMS display drift resolves
+    the same way. Used by the theme listing to split Main from Other without
+    depending on any document actually carrying the theme."""
+    mapping, _ = _load()
+    entry = mapping.get(_key(name))
+    return entry[3] if entry else None
+
+
+def themes_by_group() -> dict[str, list[str]]:
+    """Every mapped theme name (primary tags and sub-themes), split by which
+    top-level bucket it traces back to, each in file order. A diagnostics/docs
+    helper mirroring ``primary_tags`` — the DB-backed theme listing looks up
+    each name individually via ``group_of`` instead, since it must also cover
+    themes ``data.json`` does not know about."""
+    mapping, _ = _load()
+    result: dict[str, list[str]] = {MAIN: [], OTHER: []}
+    for name, _theme_type, _parent, group in mapping.values():
+        if group in result:
+            result[group].append(name)
+    return result
