@@ -111,6 +111,14 @@ def _render_records(
     return "Here is what I found:\n" + body, data, citations
 
 
+def _theme_section(label: str, names: list[str], output_format: str) -> str:
+    """One labelled block of the theme listing (Main themes / Other themes)."""
+    if output_format == "table":
+        rows = "\n".join(["| theme |", "| --- |"] + [f"| {_md_cell(n)} |" for n in names])
+        return f"**{label}**\n{rows}"
+    return f"{label}:\n" + "\n".join(f"- {n}" for n in names)
+
+
 def _project_fields(
     records: list[dict[str, Any]], fields: Sequence[str] | None
 ) -> list[dict[str, Any]]:
@@ -347,11 +355,14 @@ def aggregate_records(
 
 def list_themes(*, limit: int = 200, output_format: str = "default") -> ToolResult:
     """Enumerate the themes the collection covers, from the canonical taxonomy
-    (not the free-text facet). Answers 'what themes/topics do you cover?'. An
-    empty vocabulary or a query failure returns ok=False so the caller can fall
-    through to semantic search."""
+    (not the free-text facet), split into Main themes and Other themes (main
+    first) per app/data.json's top-level buckets. A theme the map does not know
+    about (added in the CMS since) lists under Other rather than being dropped.
+    Answers 'what themes/topics do you cover?' / 'how many themes are there?'.
+    An empty vocabulary or a query failure returns ok=False so the caller can
+    fall through to semantic search."""
     try:
-        from app.catalog import terms
+        from app.catalog import terms, theme_taxonomy
 
         rows = terms.list_themes(limit=limit)
     except Exception:
@@ -360,9 +371,16 @@ def list_themes(*, limit: int = 200, output_format: str = "default") -> ToolResu
     if not rows:
         return ToolResult(tool="list_themes", ok=False, error="no themes found")
     names = [r["name"] for r in rows]
-    if output_format == "table":
-        body = "\n".join(["| theme |", "| --- |"] + [f"| {_md_cell(n)} |" for n in names])
-    else:
-        body = "\n".join(f"- {n}" for n in names)
-    rendered = f"The collection covers {len(names)} themes:\n" + body
-    return ToolResult(tool="list_themes", ok=True, data={"themes": names}, rendered=rendered)
+    main = [n for n in names if theme_taxonomy.group_of(n) == theme_taxonomy.MAIN]
+    other = [n for n in names if n not in main]
+    sections = [("Main themes", main)] if main else []
+    if other:
+        sections.append(("Other themes", other))
+    rendered = f"The collection covers {len(names)} themes:\n\n" + "\n\n".join(
+        _theme_section(label, group_names, output_format) for label, group_names in sections
+    )
+    return ToolResult(
+        tool="list_themes", ok=True,
+        data={"themes": names, "main_themes": main, "other_themes": other},
+        rendered=rendered,
+    )

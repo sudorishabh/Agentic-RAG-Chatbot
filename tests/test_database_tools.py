@@ -250,19 +250,64 @@ def test_list_themes_renders_vocabulary(monkeypatch):
     monkeypatch.setattr(
         "app.catalog.terms.list_themes",
         lambda **kw: [
-            {"term_uuid": "t1", "name": "Climate", "parent_uuid": None},
+            {"term_uuid": "t1", "name": "Climate Change", "parent_uuid": None},
             {"term_uuid": "t2", "name": "Energy", "parent_uuid": None},
         ],
     )
     r = tools.list_themes()
-    assert r.ok and r.data == {"themes": ["Climate", "Energy"]}
-    assert "Climate" in r.rendered and "Energy" in r.rendered
+    assert r.ok
+    assert r.data["themes"] == ["Climate Change", "Energy"]
+    assert "Climate Change" in r.rendered and "Energy" in r.rendered
 
 
 def test_list_themes_empty_falls_through(monkeypatch):
     monkeypatch.setattr("app.catalog.terms.list_themes", lambda **kw: [])
     r = tools.list_themes()
     assert r.ok is False and r.tool == "list_themes"
+
+
+def test_list_themes_splits_main_and_other(monkeypatch):
+    monkeypatch.setattr(
+        "app.catalog.terms.list_themes",
+        lambda **kw: [
+            {"term_uuid": "t1", "name": "Energy", "parent_uuid": None},
+            {"term_uuid": "t2", "name": "Green Shipping", "parent_uuid": None},
+        ],
+    )
+    r = tools.list_themes()
+    assert r.data["main_themes"] == ["Energy"]
+    assert r.data["other_themes"] == ["Green Shipping"]
+    assert r.rendered.index("Main themes:") < r.rendered.index("Other themes:")
+    assert "- Energy" in r.rendered and "- Green Shipping" in r.rendered
+
+
+def test_list_themes_unknown_theme_lists_under_other(monkeypatch):
+    """A theme the CMS has but data.json does not know about groups as None,
+    which must list under Other rather than being dropped."""
+    monkeypatch.setattr(
+        "app.catalog.terms.list_themes",
+        lambda **kw: [
+            {"term_uuid": "t1", "name": "Quantum Beekeeping", "parent_uuid": None},
+        ],
+    )
+    r = tools.list_themes()
+    assert r.data["main_themes"] == []
+    assert r.data["other_themes"] == ["Quantum Beekeeping"]
+    assert "Main themes" not in r.rendered
+    assert "Other themes:\n- Quantum Beekeeping" in r.rendered
+
+
+def test_list_themes_table_format_has_two_labelled_sections(monkeypatch):
+    monkeypatch.setattr(
+        "app.catalog.terms.list_themes",
+        lambda **kw: [
+            {"term_uuid": "t1", "name": "Energy", "parent_uuid": None},
+            {"term_uuid": "t2", "name": "Green Shipping", "parent_uuid": None},
+        ],
+    )
+    r = tools.list_themes(output_format="table")
+    assert "**Main themes**" in r.rendered and "**Other themes**" in r.rendered
+    assert "| Energy |" in r.rendered and "| Green Shipping |" in r.rendered
 
 
 def test_aggregate_records_table_and_dimension(monkeypatch):
