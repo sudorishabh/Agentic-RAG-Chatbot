@@ -513,7 +513,7 @@ def list_themes(
     )
 
 
-def resolve_entity(query: str, type: str | None = None) -> ToolResult:
+def resolve_entity(query: str | None, type: str | None = None) -> ToolResult:
     """Resolve a free-text name to a ranked catalog entity. A confident top
     match accepts; a genuine near-tie asks the user to pick rather than
     silently choosing one (§4 — never guess on ambiguity); nothing plausible is
@@ -521,6 +521,12 @@ def resolve_entity(query: str, type: str | None = None) -> ToolResult:
     `app.retrieval.structured.resolve` for the scoring and banding this wraps."""
     from app.retrieval.structured import resolve
 
+    if not query or not query.strip():
+        # `ToolCall.query` defaults to None, so a planned call that omits it
+        # reaches here — fall through rather than rendering the missing value
+        # into a user-facing "No entity matching 'None' found."
+        return ToolResult(tool="resolve_entity", entity=type, ok=False,
+                          error="no query to resolve")
     try:
         candidates = resolve.resolve_entity(query, type)
     except ValueError as exc:

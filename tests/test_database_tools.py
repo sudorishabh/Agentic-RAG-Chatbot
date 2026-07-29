@@ -632,3 +632,17 @@ def test_resolve_entity_no_type_labels_as_generic_entity(monkeypatch):
     )
     r = tools.resolve_entity("zzznonexistent")
     assert r.rendered == "No entity matching 'zzznonexistent' found."
+
+
+@pytest.mark.parametrize("query", [None, "", "   "])
+def test_resolve_entity_missing_query_falls_through_without_rendering_it(query):
+    """`ToolCall.query` defaults to None, so a planned call that omits it lands
+    here — it must not render the missing value into the answer ("No entity
+    matching 'None' found."). A planner that forgot the query is a bug with
+    nothing useful to tell the user, so this falls through rather than being
+    terminal."""
+    r = tools.resolve_entity(query, "author")
+    assert r.ok is False
+    assert r.rendered == ""
+    assert r.error_kind is None  # fall through, not a terminal answer
+    assert r.error == "no query to resolve"
