@@ -1,13 +1,21 @@
-"""The two-block answer structure: parsing and tag stripping.
+"""The two-block answer structure.
 
-Covers what the frontend renders and what the verification passes see. The tags
-come from a model, so the malformed cases matter as much as the happy path. No
-network.
+Covers the prompt contract, the parsing the frontend and the verification passes
+share, and the sources footer that has to agree with the blocks above it. The
+tags come from a model, so the malformed cases matter as much as the happy path.
+No network.
 """
 
 from __future__ import annotations
 
-from app.generation.prompts import PDF_LEAD, PDF_TAG, WEBSITE_TAG
+from app.core.models.context import ContextBlock
+from app.generation.prompts import (
+    GROUNDED_SYSTEM_PROMPT,
+    PDF_LEAD,
+    PDF_TAG,
+    WEBSITE_TAG,
+    format_directive,
+)
 from app.generation.sections import (
     PDF,
     PLAIN,
@@ -15,6 +23,8 @@ from app.generation.sections import (
     split_sections,
     strip_tags,
 )
+from app.pipeline import query_pipeline as pipe
+from app.retrieval import query_processor as qp
 
 
 def _web(body):
@@ -135,3 +145,112 @@ def test_strip_tags_leaves_an_untagged_answer_alone():
     assert strip_tags("I don't have information on that.") == (
         "I don't have information on that."
     )
+
+
+# --------------------------------------------------------------------------- #
+# The prompt contract. Asserted structurally rather than by prose match, so
+# rewording the rules stays free while the demonstrated shape stays pinned.
+
+
+def _demonstrated_blocks(text, start_at=0):
+    """The span from a website opening tag through the next PDF closing tag."""
+    start = text.index(f"<{WEBSITE_TAG}>", start_at)
+    close = f"</{PDF_TAG}>"
+    return text[start : text.index(close, start) + len(close)]
+
+
+def test_prompt_names_both_block_tags():
+    assert f"<{WEBSITE_TAG}>" in GROUNDED_SYSTEM_PROMPT
+    assert f"<{PDF_TAG}>" in GROUNDED_SYSTEM_PROMPT
+
+
+def test_prompt_states_the_structure_before_demonstrating_it():
+    assert GROUNDED_SYSTEM_PROMPT.index("Answer structure") < (
+        GROUNDED_SYSTEM_PROMPT.index("Example:")
+    )
+
+
+def test_prompt_template_parses_as_the_two_blocks():
+    # The shape the prompt specifies must be the shape the parser reads, or the
+    # prompt teaches a format the frontend cannot render.
+    sections = split_sections(_demonstrated_blocks(GROUNDED_SYSTEM_PROMPT))
+    assert [s.kind for s in sections] == [WEBSITE, PDF]
+    assert sections[1].text.startswith(PDF_LEAD)
+
+
+def test_prompt_worked_example_parses_as_the_two_blocks():
+    example_at = GROUNDED_SYSTEM_PROMPT.index("Example:")
+    demonstrated = _demonstrated_blocks(GROUNDED_SYSTEM_PROMPT, example_at)
+    assert [s.kind for s in split_sections(demonstrated)] == [WEBSITE, PDF]
+
+
+def test_prompt_ends_by_demonstrating_the_dropped_pdf_block():
+    # Omitting the PDF block is the rule a model most readily ignores, so the
+    # prompt has to show it, not just describe it.
+    tail = GROUNDED_SYSTEM_PROMPT[GROUNDED_SYSTEM_PROMPT.rindex(f"</{PDF_TAG}>") :]
+    assert f"<{WEBSITE_TAG}>" in tail
+    assert f"<{PDF_TAG}>" not in tail
+
+
+def test_format_directives_are_scoped_inside_the_blocks():
+    for fmt in ("list", "table", "summary", "detailed", "timeline"):
+        assert WEBSITE_TAG in format_directive(fmt), fmt
+    # The default path stays lean: no directive, so no scope note either.
+    assert format_directive("default") == ""
+
+
+# --------------------------------------------------------------------------- #
+# The sources footer lists what the answer cited, not everything retrieved.
+
+
+def _generation():
+    blocks = [
+        ContextBlock(
+            n=1, text="The programme added 1.2 GW in 2023.",
+            payload={"source_type": "website", "title": "Rooftop Push"},
+        ),
+        ContextBlock(
+            n=2, text="Commercial installations were 60% of capacity.",
+            payload={"source_type": "pdf", "title": "Annual Report"},
+        ),
+    ]
+    return pipe._Generation(
+        pq=qp.ProcessedQuery(
+            understanding=None, original="q", search_query="q", intent="qa"
+        ),
+        blocks=blocks, query_vector=[0.0], tenant_id="default",
+        user_groups=["public"], top_k=6,
+    )
+
+
+def _cited(answer):
+    return [c["n"] for c in pipe._assemble(answer, _generation())["citations"]]
+
+
+def test_footer_lists_both_sources_when_both_blocks_cite():
+    assert _cited(_web("Added 1.2 GW [1].") + _pdf("60% commercial [2].")) == [1, 2]
+
+
+def test_dropped_pdf_block_leaves_no_pdf_chip():
+    # The rule that makes the footer agree with the answer: a PDF the model
+    # rightly left out must not resurface as a source under it.
+    out = pipe._assemble(_web("Added 1.2 GW [1]."), _generation())
+    assert [c["type"] for c in out["citations"]] == ["website"]
+
+
+def test_pdf_only_answer_lists_the_pdf_alone():
+    assert _cited(_pdf("60% commercial [2].")) == [2]
+
+
+def test_uncited_answer_keeps_every_source():
+    assert _cited(_web("The programme added capacity.")) == [1, 2]
+
+
+def test_used_chunks_still_counts_what_retrieval_supplied():
+    out = pipe._assemble(_web("Added 1.2 GW [1]."), _generation())
+    assert out["used_chunks"] == 2
+
+
+def test_tags_do_not_register_as_unverified_figures():
+    out = pipe._assemble(_web("Added 1.2 GW in 2023 [1]."), _generation())
+    assert out["numeric_mismatch"] is False

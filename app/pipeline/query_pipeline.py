@@ -210,14 +210,33 @@ def _prepare(
     )
 
 
+def _cited_blocks(body: str, blocks: list[ContextBlock]) -> list[ContextBlock]:
+    """The blocks the answer actually cites.
+
+    The sources footer lists what the answer used, not everything retrieval
+    pulled: a block the answer left out — an off-topic PDF the model rightly
+    dropped, say — must not resurface as a chip contradicting the answer above
+    it. Falls back to every block when the answer cites nothing (or cites only
+    blocks that are somehow absent), so provenance is never silently lost.
+    """
+    from app.generation.faithfulness import extract_markers
+
+    cited = extract_markers(body)
+    if not cited:
+        return blocks
+    return [b for b in blocks if b.n in cited] or blocks
+
+
 def _assemble(answer: str, gen: _Generation) -> dict[str, Any]:
     from app.generation import faithfulness
     from app.generation.sections import strip_tags
 
+    # The block wrappers are presentation, so every pass that reads the answer as
+    # content works from the tag-free body.
+    body = strip_tags(answer)
     # Deterministic numeric check (~0 ms): observe-only in v1 — flagged and
-    # logged, never auto-corrected. Runs on tag-free text so the block wrappers
-    # are never mistaken for content.
-    mismatches = faithfulness.numeric_mismatches(strip_tags(answer), gen.blocks)
+    # logged, never auto-corrected.
+    mismatches = faithfulness.numeric_mismatches(body, gen.blocks)
     if mismatches:
         logger.info("Numeric claims not found in cited blocks: %s", mismatches)
     # The catalog section is deterministic (not from the blocks), so faithfulness
@@ -225,7 +244,9 @@ def _assemble(answer: str, gen: _Generation) -> dict[str, Any]:
     final = f"{gen.db_prefix}\n\n{answer}" if gen.db_prefix else answer
     return {
         "answer": final,
-        "citations": [c.model_dump() for c in build_citations(gen.blocks)],
+        "citations": [
+            c.model_dump() for c in build_citations(_cited_blocks(body, gen.blocks))
+        ],
         "intent": gen.pq.intent,
         "answer_format": gen.pq.answer_format,
         "used_chunks": len(gen.blocks),
