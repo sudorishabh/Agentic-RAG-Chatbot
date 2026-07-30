@@ -2,11 +2,13 @@
 
 "Summarize the Climate theme / 2024 publications" cannot be served by
 similarity search — the user defined a SET, not a topic. MySQL selects the
-set (newest first, capped), Qdrant supplies each document's lead parent
-chunk, and GPT-4o-mini summarizes hierarchically: per-document bullets in
-parallel batches (map), then one aggregation call (reduce). Small scopes skip
-the map stage entirely. Citations are document-level catalog rows. Any
-failure returns None — the caller falls through to plain semantic RAG.
+set (newest first, capped) and supplies each document's ingest-time abstract;
+Qdrant supplies a lead parent chunk only for documents not yet enriched. The
+model then summarizes hierarchically: per-document bullets in parallel batches
+(map), then one aggregation call (reduce) — though a scope that fits one call
+skips the map stage entirely, which is the usual case once abstracts exist.
+Citations are document-level catalog rows. Any failure returns None — the
+caller falls through to plain semantic RAG.
 
 This is an orchestration use case: it combines retrieval (catalog scope +
 lead-parent fetch) with generation (the LLM summary), so it lives in the
@@ -35,7 +37,11 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 _SCOPE_DOC_CAP = 30      # v1 cap; plan §13.7 raises it with a two-level reduce
-_DIRECT_DOC_LIMIT = 5    # <= this many docs: one grounded call, no map stage
+# Total estimated tokens that still fit one grounded call, skipping the map
+# stage. Sized rather than counted: a scope of ingest-time abstracts (~250
+# tokens each) fits comfortably, while the same number of lead parent chunks
+# (~2000 each) does not — which is the point of enriching at ingest.
+_DIRECT_TOKEN_BUDGET = 12_000
 _MAP_BATCH_TOKENS = 6000
 _MAP_WORKERS = 4
 
@@ -133,6 +139,48 @@ def _doc_from_payload(document_id: str, payload: dict[str, Any]) -> _Doc:
         published=str(payload.get("published_at") or "")[:10],
         text=str(payload.get("chunk_text") or ""),
     )
+
+
+def _doc_from_catalog(document_id: str, row: dict[str, Any]) -> _Doc:
+    return _Doc(
+        document_id=document_id,
+        title=str(row.get("title") or document_id),
+        url=row.get("url"),
+        published=str(row.get("published_at") or "")[:10],
+        text=str(row.get("abstract") or ""),
+    )
+
+
+def _collect_docs(
+    ids: Sequence[str], *, tenant_id: str, user_groups: Sequence[str] | None
+) -> list[_Doc]:
+    """One ``_Doc`` per id, preferring the ingest-time abstract.
+
+    An abstract is built from the whole document; the lead parent chunk is only
+    its *first section*, which for a long report is the cover page or table of
+    contents. Documents not yet enriched keep the lead-chunk fallback, so this
+    degrades to the previous behaviour rather than losing them — and only the
+    un-enriched ones cost a Qdrant round-trip.
+
+    Catalog order (newest first) is preserved across both sources, since the
+    citation numbers follow it.
+    """
+    enriched = catalog.abstracts_for(ids)
+    missing = [i for i in ids if i not in enriched]
+    payloads = (
+        scoped_retrieval.lead_parents(
+            missing, tenant_id=tenant_id, user_groups=user_groups
+        )
+        if missing
+        else {}
+    )
+    docs: list[_Doc] = []
+    for doc_id in ids:
+        if doc_id in enriched:
+            docs.append(_doc_from_catalog(doc_id, enriched[doc_id]))
+        elif doc_id in payloads:
+            docs.append(_doc_from_payload(doc_id, payloads[doc_id]))
+    return [d for d in docs if d.text.strip()]
 
 
 def _est_tokens(text: str) -> int:
@@ -238,14 +286,10 @@ def summarize_scope(
         ids = catalog.document_ids_in_scope(limit=_SCOPE_DOC_CAP, **filters)
         if not ids:
             return None
-        payloads = scoped_retrieval.lead_parents(
-            ids, tenant_id=tenant_id, user_groups=user_groups
-        )
-        docs = [_doc_from_payload(i, payloads[i]) for i in ids if i in payloads]
-        docs = [d for d in docs if d.text.strip()]
+        docs = _collect_docs(ids, tenant_id=tenant_id, user_groups=user_groups)
         if not docs:
             return None
-        if len(docs) <= _DIRECT_DOC_LIMIT:
+        if sum(_est_tokens(d.text) for d in docs) <= _DIRECT_TOKEN_BUDGET:
             answer = _summarize_direct(analysis.search_query, docs)
         else:
             answer = _summarize_map_reduce(analysis.search_query, docs)

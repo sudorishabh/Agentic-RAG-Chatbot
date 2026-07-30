@@ -461,6 +461,55 @@ def document_ids_in_scope(
         return []
 
 
+def abstracts_for(document_ids: Sequence[str]) -> dict[str, dict[str, Any]]:
+    """Ingest-time abstracts plus display fields, keyed by document_id.
+
+    Joins the documents table to the enrichment cache on ``content_hash`` —
+    the cache is keyed by content rather than by document (see
+    :mod:`app.catalog.enrichment`), so this is where the two are brought back
+    together. Documents with no cached abstract are simply absent from the
+    result and the caller falls back to a lead chunk.
+
+    Deliberately does **not** filter on the enrichment version. A version
+    mismatch means the abstract predates the current prompt, not that it is
+    wrong about the document; serving it still beats the fallback, and the next
+    sweep or backfill refreshes it.
+    """
+    ids = [d for d in document_ids if d]
+    if not ids:
+        return {}
+    table = _table()
+    placeholders = ", ".join(["%s"] * len(ids))
+    sql = (
+        f"SELECT s.document_id, s.title, s.url, s.published_at, e.abstract"
+        f" FROM `{table}` s"
+        f" JOIN `{table}_enrichment` e ON e.content_hash = s.content_hash"
+        f" WHERE s.document_id IN ({placeholders}) AND e.abstract IS NOT NULL"
+    )
+    try:
+        with mysql_connection() as conn, conn.cursor() as cur:
+            cur.execute(sql, tuple(ids))
+            rows = cur.fetchall()
+    except Exception:
+        # Includes the enrichment table not existing yet — an un-enriched
+        # deployment must keep summarizing from lead chunks as before.
+        logger.warning("Catalog abstract lookup failed.", exc_info=True)
+        return {}
+    # A blank abstract counts as absent, not as an empty summary: otherwise the
+    # document would be preferred over its own lead chunk and then dropped for
+    # having no text, silently vanishing from the scope.
+    return {
+        row["document_id"]: {
+            "abstract": row["abstract"],
+            "title": row["title"],
+            "url": row["url"],
+            "published_at": row["published_at"],
+        }
+        for row in rows
+        if (row["abstract"] or "").strip()
+    }
+
+
 def attachments_for(document_ids: Sequence[str]) -> dict[str, list[dict[str, Any]]]:
     """Attachment rows keyed by document_id — the website→PDF supplementation
     join. Each row: {file_uuid, origin, url, filename}."""

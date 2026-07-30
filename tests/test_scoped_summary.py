@@ -108,17 +108,29 @@ def test_batch_documents_oversized_doc_gets_own_batch():
 # summarize_scope — path selection, fall-through, result shape.
 # --------------------------------------------------------------------------- #
 
-def _stub_scope(monkeypatch, ids, payloads):
+def _stub_scope(monkeypatch, ids, payloads, abstracts=None):
     monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: [])
     monkeypatch.setattr(
         sm.catalog, "document_ids_in_scope", lambda **kw: ids
+    )
+    monkeypatch.setattr(
+        sm.catalog, "abstracts_for", lambda i: dict(abstracts or {})
     )
     monkeypatch.setattr(
         sm.scoped_retrieval, "lead_parents", lambda i, **kw: payloads
     )
 
 
-def test_small_scope_uses_direct_path(monkeypatch):
+def _abstract(doc_id, text="A whole-document abstract.", published="2024-03-15"):
+    return {
+        "abstract": text,
+        "title": f"Title {doc_id}",
+        "url": f"https://t/{doc_id}",
+        "published_at": published,
+    }
+
+
+def test_a_scope_that_fits_one_call_skips_the_map_stage(monkeypatch):
     ids = ["d1", "d2"]
     _stub_scope(monkeypatch, ids, {i: _payload(i) for i in ids})
     calls = []
@@ -127,7 +139,7 @@ def test_small_scope_uses_direct_path(monkeypatch):
     )
 
     def no_map(q, docs):
-        raise AssertionError("map-reduce must not run for small scopes")
+        raise AssertionError("map-reduce must not run for a scope that fits")
 
     monkeypatch.setattr(sm, "_summarize_map_reduce", no_map)
 
@@ -142,12 +154,16 @@ def test_small_scope_uses_direct_path(monkeypatch):
     assert out["citations"][0]["url"] == "https://t/d1"
 
 
-def test_large_scope_uses_map_reduce(monkeypatch):
+def test_a_scope_too_large_for_one_call_maps_and_reduces(monkeypatch):
+    """Selection is by total size, not document count: eight lead parent chunks
+    do not fit one call, which is exactly what the map stage is for."""
     ids = [f"d{i}" for i in range(8)]
-    _stub_scope(monkeypatch, ids, {i: _payload(i) for i in ids})
+    _stub_scope(
+        monkeypatch, ids, {i: _payload(i, text="x" * 8000) for i in ids}
+    )
 
     def no_direct(q, docs):
-        raise AssertionError("direct path must not run for large scopes")
+        raise AssertionError("direct path must not run for an oversized scope")
 
     monkeypatch.setattr(sm, "_summarize_direct", no_direct)
     monkeypatch.setattr(sm, "_summarize_map_reduce", lambda q, docs: "Thematic summary.")
@@ -155,6 +171,83 @@ def test_large_scope_uses_map_reduce(monkeypatch):
     out = sm.summarize_scope(_analysis(theme="Climate"))
     assert out["answer"] == "Thematic summary."
     assert out["used_chunks"] == 8
+
+
+# --------------------------------------------------------------------------- #
+# Ingest-time abstracts — preferred over the lead-chunk stand-in.
+# --------------------------------------------------------------------------- #
+
+def test_abstracts_are_preferred_and_skip_the_qdrant_fetch(monkeypatch):
+    ids = ["d1", "d2"]
+    _stub_scope(monkeypatch, ids, {}, abstracts={i: _abstract(i) for i in ids})
+
+    def no_lead(i, **kw):
+        raise AssertionError("no lead-chunk fetch when every document is enriched")
+
+    monkeypatch.setattr(sm.scoped_retrieval, "lead_parents", no_lead)
+    seen: list[list[str]] = []
+    monkeypatch.setattr(
+        sm, "_summarize_direct", lambda q, docs: seen.append([d.text for d in docs]) or "S."
+    )
+
+    out = sm.summarize_scope(_analysis(theme="Climate"))
+
+    assert seen == [["A whole-document abstract."] * 2]
+    assert out["citations"][0]["title"] == "Title d1"
+
+
+def test_unenriched_documents_fall_back_to_the_lead_chunk(monkeypatch):
+    """A half-enriched corpus must still summarize the whole scope."""
+    ids = ["d1", "d2"]
+    asked: list[list[str]] = []
+    _stub_scope(monkeypatch, ids, {}, abstracts={"d1": _abstract("d1")})
+    monkeypatch.setattr(
+        sm.scoped_retrieval, "lead_parents",
+        lambda i, **kw: asked.append(list(i)) or {"d2": _payload("d2", text="Lead chunk.")},
+    )
+    seen: list[list[str]] = []
+    monkeypatch.setattr(
+        sm, "_summarize_direct", lambda q, docs: seen.append([d.text for d in docs]) or "S."
+    )
+
+    out = sm.summarize_scope(_analysis(theme="Climate"))
+
+    # Only the un-enriched id is fetched from Qdrant, and catalog order holds.
+    assert asked == [["d2"]]
+    assert seen == [["A whole-document abstract.", "Lead chunk."]]
+    assert [c["document_id"] for c in out["citations"]] == ["d1", "d2"]
+
+
+def test_a_blank_abstract_is_treated_as_absent_by_the_catalog_read():
+    """Filtered in abstracts_for, so a blank abstract can never be preferred
+    over the document's own lead chunk and then dropped for having no text —
+    which would silently remove the document from the scope."""
+    rows = [
+        {"document_id": "d1", "abstract": "   ", "title": "T", "url": None,
+         "published_at": None},
+        {"document_id": "d2", "abstract": "Real.", "title": "T", "url": None,
+         "published_at": None},
+    ]
+    kept = {r["document_id"] for r in rows if (r["abstract"] or "").strip()}
+    assert kept == {"d2"}
+
+
+def test_a_document_with_a_blank_abstract_still_uses_its_lead_chunk(monkeypatch):
+    ids = ["d1"]
+    _stub_scope(
+        monkeypatch, ids,
+        {"d1": _payload("d1", text="Lead chunk.")},
+        abstracts={},  # abstracts_for filtered the blank one out
+    )
+    seen: list[list[str]] = []
+    monkeypatch.setattr(
+        sm, "_summarize_direct", lambda q, docs: seen.append([d.text for d in docs]) or "S."
+    )
+
+    out = sm.summarize_scope(_analysis(theme="Climate"))
+
+    assert seen == [["Lead chunk."]]
+    assert out["used_chunks"] == 1
 
 
 def test_empty_scope_falls_through(monkeypatch):
