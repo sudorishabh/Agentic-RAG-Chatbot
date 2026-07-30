@@ -49,7 +49,10 @@ class FaithfulnessReport:
         return (
             "A prior draft made claims the context does not support "
             f"({joined}). Rewrite using ONLY the numbered context, dropping or "
-            "qualifying any unsupported claim, and keep [n] citations."
+            "qualifying any unsupported claim, and keep [n] citations. The "
+            "rewrite replaces the draft wholesale, so it must carry the same "
+            "answer-block structure — drop a block only if nothing in it "
+            "survives."
         )
 
 

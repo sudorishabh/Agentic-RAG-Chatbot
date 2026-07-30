@@ -212,10 +212,12 @@ def _prepare(
 
 def _assemble(answer: str, gen: _Generation) -> dict[str, Any]:
     from app.generation import faithfulness
+    from app.generation.sections import strip_tags
 
     # Deterministic numeric check (~0 ms): observe-only in v1 — flagged and
-    # logged, never auto-corrected.
-    mismatches = faithfulness.numeric_mismatches(answer, gen.blocks)
+    # logged, never auto-corrected. Runs on tag-free text so the block wrappers
+    # are never mistaken for content.
+    mismatches = faithfulness.numeric_mismatches(strip_tags(answer), gen.blocks)
     if mismatches:
         logger.info("Numeric claims not found in cited blocks: %s", mismatches)
     # The catalog section is deterministic (not from the blocks), so faithfulness
@@ -303,6 +305,7 @@ def stream_answer(
             return
 
         from app.generation import faithfulness
+        from app.generation.sections import strip_tags
 
         parts: list[str] = []
         # Combined answer: stream the deterministic catalog section first, then
@@ -322,7 +325,7 @@ def stream_answer(
             # unfaithful answer gets one regeneration emitted as a correction
             # event, and the corrected version is what gets cached below.
             with span("rag.faithfulness") as fs:
-                report = faithfulness.verify(answer, gen.blocks)
+                report = faithfulness.verify(strip_tags(answer), gen.blocks)
                 fs.set("faithful", report.faithful)
             if not report.faithful:
                 logger.info("Streamed answer flagged unfaithful; correcting once.")
