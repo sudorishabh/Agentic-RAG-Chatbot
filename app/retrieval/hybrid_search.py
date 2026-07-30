@@ -55,7 +55,15 @@ def build_filter(
     user_groups: Sequence[str] | None = None,
     extra: Sequence[Any] | None = None,
     extra_must_not: Sequence[Any] | None = None,
+    exclude_non_searchable: bool = True,
 ) -> Any:
+    """The mandatory tenant/ACL/current filter, plus caller conditions.
+
+    ``exclude_non_searchable`` drops toc/references/glossary chunks and is on
+    for every search. Fetches that must return *something* for a document —
+    rather than the best thing to search — turn it off as a last resort; see
+    :func:`app.retrieval.scoped_retrieval.lead_parents`.
+    """
     from qdrant_client.models import FieldCondition, Filter, MatchAny, MatchValue
 
     must: list[Any] = [
@@ -68,12 +76,16 @@ def build_filter(
         must.append(FieldCondition(key="acl", match=MatchAny(any=groups)))
     if extra:
         must.extend(extra)
-    must_not = [
-        FieldCondition(key="section_type", match=MatchAny(any=list(_NON_SEARCHABLE_SECTIONS)))
-    ]
+    must_not: list[Any] = []
+    if exclude_non_searchable:
+        must_not.append(
+            FieldCondition(
+                key="section_type", match=MatchAny(any=list(_NON_SEARCHABLE_SECTIONS))
+            )
+        )
     if extra_must_not:
         must_not.extend(extra_must_not)
-    return Filter(must=must, must_not=must_not)
+    return Filter(must=must, must_not=must_not or None)
 
 
 def search(

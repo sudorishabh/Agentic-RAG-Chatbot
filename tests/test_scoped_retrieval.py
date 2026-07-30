@@ -17,11 +17,19 @@ def _point(id="c1", score=0.9, payload=None, vector=None):
 
 
 class _FakeClient:
-    def __init__(self, *, query_points_result=None, scroll_points=None, retrieve_records=None):
+    """``scroll_pages`` supplies a different result per successive scroll, for
+    the lead-chunk escalation; ``scroll_points`` answers every call the same."""
+
+    def __init__(
+        self, *, query_points_result=None, scroll_points=None, retrieve_records=None,
+        scroll_pages=None,
+    ):
         self.query_points_result = SimpleNamespace(points=query_points_result or [])
         self.scroll_points = scroll_points or []
+        self.scroll_pages = list(scroll_pages) if scroll_pages is not None else None
         self.retrieve_records = retrieve_records or []
         self.calls: dict[str, dict] = {}
+        self.scroll_calls: list[dict] = []
 
     def collection_exists(self, name):
         return True
@@ -32,7 +40,11 @@ class _FakeClient:
 
     def scroll(self, **kw):
         self.calls["scroll"] = kw
-        return self.scroll_points, None
+        self.scroll_calls.append(kw)
+        if self.scroll_pages is None:
+            return self.scroll_points, None
+        page = self.scroll_pages.pop(0) if self.scroll_pages else []
+        return page, None
 
     def retrieve(self, **kw):
         self.calls["retrieve"] = kw
@@ -109,9 +121,11 @@ def test_lead_parents_hops_to_parent_with_child_fallback(monkeypatch):
     assert out["d1"]["chunk_text"] == "parent 1"
     assert out["d2"]["chunk_text"] == "only child"  # no parent -> child payload
     assert fake.calls["retrieve"]["ids"] == ["p1"]  # one batched retrieve
+    # Every document was answered by the first strategy, so no escalation ran.
+    assert len(fake.scroll_calls) == 1
     conds = _conditions(fake.calls["scroll"]["scroll_filter"])
     assert conds["document_id"].match.any == ["d1", "d2"]
-    assert conds["chunk_index"].match.value == 0
+    assert conds["chunk_index"].match.any == [0]
 
 
 def test_lead_parents_retrieve_failure_degrades_to_children(monkeypatch):
@@ -146,3 +160,76 @@ def test_lead_parents_empty_ids_skip_qdrant(monkeypatch):
 
     monkeypatch.setattr(sr, "get_qdrant_client", no_client)
     assert sr.lead_parents([]) == {}
+
+
+# --------------------------------------------------------------------------- #
+# Front matter must not make a document vanish from the caller's scope.
+# --------------------------------------------------------------------------- #
+
+def _child(doc_id, index, text):
+    return _point(
+        id=f"{doc_id}-{index}",
+        payload={"document_id": doc_id, "chunk_index": index, "chunk_text": text},
+    )
+
+
+def test_lead_parents_looks_past_front_matter(monkeypatch):
+    """A report whose chunk 0 is its table of contents matches nothing on the
+    first pass — the non-searchable filter excludes it — and used to disappear
+    from the scope. It now falls through to its first substantive chunk."""
+    fake = _FakeClient(scroll_pages=[
+        [_child("d1", 0, "real opening")],          # d1 answered; d2 excluded
+        [_child("d2", 3, "after the contents")],    # d2 found past its ToC
+    ])
+    monkeypatch.setattr(sr, "get_qdrant_client", lambda: fake)
+
+    out = sr.lead_parents(["d1", "d2"])
+
+    assert out["d1"]["chunk_text"] == "real opening"
+    assert out["d2"]["chunk_text"] == "after the contents"
+    # The second pass asks only about the document still missing.
+    second = _conditions(fake.scroll_calls[1]["scroll_filter"])
+    assert second["document_id"].match.any == ["d2"]
+    assert second["chunk_index"].match.any == [1, 2, 3, 4]
+
+
+def test_lead_parents_takes_the_earliest_of_several_candidates(monkeypatch):
+    fake = _FakeClient(scroll_pages=[
+        [],
+        [_child("d1", 4, "later"), _child("d1", 2, "earlier")],
+    ])
+    monkeypatch.setattr(sr, "get_qdrant_client", lambda: fake)
+
+    assert sr.lead_parents(["d1"])["d1"]["chunk_text"] == "earlier"
+
+
+def test_lead_parents_falls_back_to_front_matter_rather_than_dropping(monkeypatch):
+    """A document that is *entirely* front matter is still represented. Its
+    table of contents is a poor summary input; vanishing without a word is
+    worse, and the caller cannot tell the difference."""
+    fake = _FakeClient(scroll_pages=[[], [], [_child("d1", 0, "Contents ....... 4")]])
+    monkeypatch.setattr(sr, "get_qdrant_client", lambda: fake)
+
+    out = sr.lead_parents(["d1"])
+
+    assert out["d1"]["chunk_text"] == "Contents ....... 4"
+    # Only the last resort drops the non-searchable exclusion.
+    assert fake.scroll_calls[0]["scroll_filter"].must_not
+    assert not fake.scroll_calls[2]["scroll_filter"].must_not
+
+
+def test_lead_parents_stops_escalating_once_every_document_is_answered(monkeypatch):
+    fake = _FakeClient(scroll_pages=[[_child("d1", 0, "opening")]])
+    monkeypatch.setattr(sr, "get_qdrant_client", lambda: fake)
+
+    sr.lead_parents(["d1"])
+
+    assert len(fake.scroll_calls) == 1
+
+
+def test_lead_parents_gives_up_quietly_when_a_document_has_no_chunks(monkeypatch):
+    fake = _FakeClient(scroll_pages=[[], [], []])
+    monkeypatch.setattr(sr, "get_qdrant_client", lambda: fake)
+
+    assert sr.lead_parents(["d1"]) == {}
+    assert len(fake.scroll_calls) == 3

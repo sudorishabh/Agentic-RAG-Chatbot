@@ -9,7 +9,7 @@ them. Read-only against the documents collection; every path fails open.
 from __future__ import annotations
 
 import logging
-from typing import Any, Sequence
+from typing import Any, Iterable, Sequence
 
 from app.config import get_settings
 from app.core.clients import get_qdrant_client
@@ -50,6 +50,73 @@ def search_within_documents(
         return []
 
 
+# How far into a document to look for a lead chunk once the first one turns out
+# to be unusable. Front matter (a cover page, a multi-page table of contents)
+# can occupy several chunks.
+_LEAD_SCAN_CHUNKS = 5
+
+# Tried in order, each against only the documents still without a lead:
+# the usual single-point fetch; then past the front matter; then, for a
+# document that is *entirely* front matter, its opening chunk regardless.
+# Escalating this way keeps the common case at exactly one point per document.
+_LEAD_STRATEGIES: tuple[tuple[tuple[int, ...], bool], ...] = (
+    ((0,), True),
+    (tuple(range(1, _LEAD_SCAN_CHUNKS)), True),
+    ((0,), False),
+)
+
+
+def _scroll_leads(
+    ids: Sequence[str],
+    indices: Sequence[int],
+    *,
+    exclude_non_searchable: bool,
+    tenant_id: str,
+    user_groups: Sequence[str] | None,
+) -> list[dict[str, Any]]:
+    """Child payloads for ``ids`` restricted to the given chunk indices."""
+    from qdrant_client.models import FieldCondition, MatchAny
+
+    settings = get_settings()
+    scroll_filter = build_filter(
+        tenant_id=tenant_id,
+        user_groups=user_groups,
+        extra=[
+            FieldCondition(key="document_id", match=MatchAny(any=list(ids))),
+            FieldCondition(key="chunk_index", match=MatchAny(any=list(indices))),
+        ],
+        exclude_non_searchable=exclude_non_searchable,
+    )
+    try:
+        points, _ = get_qdrant_client().scroll(
+            collection_name=settings.qdrant_collection,
+            scroll_filter=scroll_filter,
+            limit=len(ids) * len(indices),
+            with_payload=True,
+            with_vectors=False,
+        )
+    except Exception:
+        logger.warning("Lead-child scroll failed.", exc_info=True)
+        return []
+    return [p.payload or {} for p in points]
+
+
+def _earliest_per_document(
+    payloads: Iterable[dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    best: dict[str, dict[str, Any]] = {}
+    for payload in payloads:
+        doc_id = payload.get("document_id")
+        if not doc_id:
+            continue
+        current = best.get(doc_id)
+        if current is None or (payload.get("chunk_index") or 0) < (
+            current.get("chunk_index") or 0
+        ):
+            best[doc_id] = payload
+    return best
+
+
 def lead_parents(
     document_ids: Sequence[str],
     *,
@@ -60,45 +127,45 @@ def lead_parents(
 
     A document's lead parent chunk (~1600 tokens max) is its best one-block
     representation for summarization. Children carry ``chunk_index`` and
-    parents don't, so fetch each document's first child (chunk_index == 0)
-    and hop to its ``parent_chunk_id`` in one batched retrieve. Documents
-    whose first child has no parent fall back to the child payload itself
-    (single-child documents skip parent emission).
-    """
-    from qdrant_client.models import FieldCondition, MatchAny, MatchValue
+    parents don't, so find each document's earliest usable child and hop to its
+    ``parent_chunk_id`` in one batched retrieve. Documents whose lead child has
+    no parent fall back to the child payload itself (single-child documents
+    skip parent emission).
 
+    "Usable" is why this escalates rather than simply taking ``chunk_index ==
+    0``. The mandatory filter excludes toc/references/glossary chunks, so a
+    report whose first chunk is its table of contents used to match nothing and
+    disappear from the caller's scope entirely — silently, since the caller
+    only sees a shorter dict. It now looks past the front matter, and as a last
+    resort takes the opening chunk even if that is all the document has.
+    """
     ids = [d for d in document_ids if d][:_MAX_IDS]
     if not ids:
         return {}
-    settings = get_settings()
-    client = get_qdrant_client()
-    lead_filter = build_filter(
-        tenant_id=tenant_id,
-        user_groups=user_groups,
-        extra=[
-            FieldCondition(key="document_id", match=MatchAny(any=ids)),
-            FieldCondition(key="chunk_index", match=MatchValue(value=0)),
-        ],
-    )
-    try:
-        points, _ = client.scroll(
-            collection_name=settings.qdrant_collection,
-            scroll_filter=lead_filter,
-            limit=len(ids),
-            with_payload=True,
-            with_vectors=False,
-        )
-    except Exception:
-        logger.warning("Lead-child scroll failed.", exc_info=True)
-        return {}
 
-    children = [p.payload or {} for p in points]
-    parent_ids = [c["parent_chunk_id"] for c in children if c.get("parent_chunk_id")]
+    children: dict[str, dict[str, Any]] = {}
+    for indices, exclude_non_searchable in _LEAD_STRATEGIES:
+        missing = [i for i in ids if i not in children]
+        if not missing:
+            break
+        children.update(
+            _earliest_per_document(
+                _scroll_leads(
+                    missing, indices,
+                    exclude_non_searchable=exclude_non_searchable,
+                    tenant_id=tenant_id, user_groups=user_groups,
+                )
+            )
+        )
+
+    parent_ids = [
+        c["parent_chunk_id"] for c in children.values() if c.get("parent_chunk_id")
+    ]
     parents: dict[str, dict[str, Any]] = {}
     if parent_ids:
         try:
-            records = client.retrieve(
-                collection_name=settings.qdrant_collection,
+            records = get_qdrant_client().retrieve(
+                collection_name=get_settings().qdrant_collection,
                 ids=parent_ids,
                 with_payload=True,
                 with_vectors=False,
@@ -107,10 +174,7 @@ def lead_parents(
         except Exception:
             logger.warning("Parent retrieve failed; using child payloads.", exc_info=True)
 
-    out: dict[str, dict[str, Any]] = {}
-    for child in children:
-        doc_id = child.get("document_id")
-        if not doc_id:
-            continue
-        out[doc_id] = parents.get(str(child.get("parent_chunk_id") or "")) or child
-    return out
+    return {
+        doc_id: parents.get(str(child.get("parent_chunk_id") or "")) or child
+        for doc_id, child in children.items()
+    }
