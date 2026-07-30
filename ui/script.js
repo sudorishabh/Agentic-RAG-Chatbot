@@ -103,6 +103,15 @@
     '<circle cx="15" cy="13.5" r="1.4" fill="currentColor" stroke="none"/>' +
     "</svg>";
 
+  // Caption mark for the PDF answer block. Outline and fold only — interior
+  // rules muddy at the 13px the caption renders it.
+  const DOC_ICON =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/>' +
+    '<path d="M14 3v5h5"/>' +
+    "</svg>";
+
   // Guard against double-injection.
   if (document.getElementById("teri-rag-widget")) return;
 
@@ -593,6 +602,14 @@
   const WEBSITE_TAG = "website_answer";
   const PDF_TAG = "pdf_answer";
   const TAG_ALT = WEBSITE_TAG + "|" + PDF_TAG;
+  // Mirrors PDF_LEAD in app/generation/prompts.py. The model emits it as bold
+  // body text; the panel promotes it to a real caption, so the markdown copy is
+  // stripped to avoid captioning the block twice.
+  const PDF_LABEL = "From our documents";
+  const PDF_LEAD_RE = new RegExp(
+    "^\\s*\\*\\*\\s*" + PDF_LABEL + "\\s*\\*\\*\\s*:?\\s*(?:\\r?\\n|$)",
+    "i",
+  );
   // Longest tag we can be part-way through: "</website_answer >".
   const MAX_TAG_LEN = WEBSITE_TAG.length + 4;
   // Built per call — a shared global regex carries lastIndex between calls.
@@ -642,24 +659,36 @@
     return sections;
   }
 
-  // The answer body. Each tagged section gets its own styled container; an
-  // untagged answer (a refusal, chit-chat, a scoped summary) renders bare,
-  // exactly as it did before the blocks existed. The class name comes from our
-  // own constants, never from model text, so it is safe to interpolate.
+  // The supplementary-documents panel: a captioned card. The caption is emitted
+  // by us rather than left as the model's bold first line, so it is always
+  // present and always typeset the same way even when the model forgets the lead.
+  function renderPdfBlock(text) {
+    return (
+      '<div class="answer-block answer-block--pdf">' +
+      '<div class="answer-block__label">' +
+      DOC_ICON +
+      "<span>" +
+      PDF_LABEL +
+      "</span></div>" +
+      renderMarkdown(text.replace(PDF_LEAD_RE, "")) +
+      "</div>"
+    );
+  }
+
+  // The answer body. Website content is the answer proper and reads as plain
+  // prose; only the PDF block is set apart. An untagged answer (a refusal,
+  // chit-chat, a scoped summary) renders bare, exactly as it did before the
+  // blocks existed. Class names come from our own constants, never from model
+  // text, so they are safe to interpolate.
   function renderAnswer(answer) {
     const sections = splitSections(answer);
     if (!sections.length) return "";
     return sections
       .map(function (section) {
+        if (section.kind === "pdf") return renderPdfBlock(section.text);
         const body = renderMarkdown(section.text);
         if (section.kind === "plain") return body;
-        return (
-          '<div class="answer-block answer-block--' +
-          section.kind +
-          '">' +
-          body +
-          "</div>"
-        );
+        return '<div class="answer-block answer-block--website">' + body + "</div>";
       })
       .join("");
   }
@@ -1254,14 +1283,30 @@
     /* ---- Answer blocks ---- */
     /* Website-sourced content is the answer proper, so it carries no container
        of its own — it reads as plain prose on the bubble. Only the supplementary
-       PDF block is marked out, by a tinted ground alone (no rule), which keeps
-       the answer from looking boxed in. */
+       PDF block is set apart, as a captioned card on the same surface + hairline
+       the code blocks and citation chips use, so it reads as part of that family
+       rather than a new device. */
     .answer-block--pdf {
       background: var(--teri-surface);
-      border-radius: 8px;
-      padding: 10px 12px;
-      margin: 0 0 10px;
+      border: 1px solid var(--teri-border);
+      border-radius: 10px;
+      padding: 11px 13px;
+      margin: 2px 0 10px;
     }
+    /* Caption: the uppercase micro-label already used for the source groups, so
+       the panel is identified without competing with the answer's own headings. */
+    .answer-block__label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 7px;
+      font-size: .66rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--teri-dim);
+    }
+    .answer-block__label svg { width: 13px; height: 13px; flex-shrink: 0; }
     /* Markdown blocks carry their own bottom margin; drop the last one so the
        container's padding sets the gap. */
     .answer-block--pdf > :last-child { margin-bottom: 0; }
