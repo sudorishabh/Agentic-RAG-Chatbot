@@ -136,10 +136,14 @@ def detect_drupal_changes(
                         if not file.uuid or file.uuid in seen_pdf:
                             continue
                         seen_pdf.add(file.uuid)
+                        # An in-body uuid already *is* that URL fingerprint
+                        # (`inbody:<sha1 of the absolute URL>`, see
+                        # drupal_extractor._extract_inbody_pdfs), so reuse it
+                        # instead of the raw URL: percent-encoded PDF paths run
+                        # well past the catalog's VARCHAR(128) fingerprint
+                        # column, and the write failed with MySQL 1406.
                         a_fingerprint = (
-                            f"inbody:{file.url}"
-                            if file.origin == "inbody"
-                            else fingerprint
+                            file.uuid if file.origin == "inbody" else fingerprint
                         )
                         a_prev = prior_pdf_all.get(file.uuid)
                         a_status = compute_status(a_prev, a_fingerprint)

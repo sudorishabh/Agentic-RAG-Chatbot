@@ -258,8 +258,9 @@ Yields `ChangeRecord`s with status `NEW` / `CHANGED` / `UNCHANGED` / `DELETED`.
   yields a `website` record fingerprinted on its `changed` timestamp; each attached
   or in-body PDF yields a `pdf_attachment` record. Attachments are fingerprinted on
   the node's changed mark (re-fetched when the node changes); in-body PDFs are
-  fingerprinted on their URL and de-duped per run, so a PDF shared across nodes
-  ingests once. Boilerplate blocks are skipped; delete reconciliation (against live
+  fingerprinted on their URL — reusing the `inbody:<sha1>` uuid, since a raw
+  percent-encoded URL overflows the catalog's 128-char fingerprint column — and
+  de-duped per run, so a PDF shared across nodes ingests once. Boilerplate blocks are skipped; delete reconciliation (against live
   UUIDs) applies to node bundles only. An explicit `bundles` argument is treated as
   node bundles.
 - `content_changed(record, content_hash)` — true if no prior or the content hash differs.
