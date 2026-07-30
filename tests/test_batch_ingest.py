@@ -25,7 +25,7 @@ def _patch_run(monkeypatch, outcomes: dict[str, str], settings) -> list[str]:
     """Stub _run's collaborators; returns the processed-document log."""
     processed: list[str] = []
 
-    def fake_handle(record, build_doc, run_id):
+    def fake_handle(record, build_doc, run_id, note=None):
         processed.append(record.document_id)
         return outcomes.get(record.document_id, "indexed")
 
@@ -41,6 +41,7 @@ class _Settings:
     ingest_batch_size = 0
     ingest_batch_pause_seconds = 0.0
     ingest_workers = 1
+    enrichment_enabled = False
 
 
 def test_budget_stops_at_document_boundary(monkeypatch):

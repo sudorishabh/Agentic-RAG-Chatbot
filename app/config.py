@@ -257,6 +257,17 @@ class Settings(BaseSettings):
     # many documents concurrently (one crawler, a pool of document workers —
     # keep workers below mysql_pool_size); the one-run-at-a-time lock still
     # applies.
+    # Ingest-time LLM enrichment (app/ingestion/enrich.py): a per-document
+    # abstract, generated once per content hash and cached in the
+    # `<state>_enrichment` table. Launches OFF — the first pass over an existing
+    # corpus costs real money, so it should be a deliberate act (flip this, or
+    # run the backfill CLI) rather than something a scheduled sweep discovers.
+    # With it on, the sweep enriches documents as it re-crawls them; documents
+    # that never change are the backfill's job.
+    enrichment_enabled: bool = False
+    # How many times one document may fail enrichment before the sweep stops
+    # retrying it. A version change (new prompt or model) resets the budget.
+    enrichment_max_attempts: int = 3
     ingest_max_docs_per_run: int = 0
     ingest_batch_size: int = 0
     ingest_batch_pause_seconds: float = 0.0

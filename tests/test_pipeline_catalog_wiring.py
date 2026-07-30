@@ -98,6 +98,9 @@ def _patch_persist_order(monkeypatch, order: list[str]):
     # Holds the "no Qdrant, no network" invariant on the unchanged_content path,
     # which refreshes a drifted payload title. Tests that care re-patch it.
     monkeypatch.setattr(pipeline, "refresh_document_title", lambda *a, **k: None)
+    # Same for enrichment: it is off by default, but these tests must not depend
+    # on a deployment's .env for that. See test_pipeline_enrichment.py.
+    monkeypatch.setattr(pipeline, "_enrich", lambda doc, content_hash: "off")
 
 
 def test_handle_saves_the_content_record(monkeypatch):

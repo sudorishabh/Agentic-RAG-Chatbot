@@ -8,6 +8,7 @@ from collections import Counter
 from contextlib import contextmanager
 from typing import Callable, Iterable, Iterator
 
+from app.catalog import enrichment
 from app.catalog import state
 from app.catalog import log as ingest_log
 from app.catalog.models import AttachmentLink, StateRecord
@@ -16,6 +17,7 @@ from app.core.models import CanonicalDocument
 from app.ingestion import change_detection as cd
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus
 from app.ingestion.chunking import chunk_canonical
+from app.ingestion.enrich import abstract_version, generate_abstract
 from app.ingestion.indexer import index_chunks
 from app.core.clients import delete_document, refresh_document_title
 from app.observability.tracing import span
@@ -133,7 +135,55 @@ def _log(
     )
 
 
-def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = None) -> str:
+def _enrich_once(doc: CanonicalDocument, content_hash: str, max_attempts: int) -> str:
+    version = abstract_version()
+    cached = enrichment.get(content_hash, version=version)
+    if cached is not None and cached.abstract:
+        return "hit"
+    if cached is not None and cached.attempts >= max_attempts:
+        return "exhausted"
+
+    try:
+        abstract = generate_abstract(doc)
+    except Exception as exc:
+        # A model failure is worth remembering: without a counter, a document
+        # that always fails is retried at full cost on every sweep forever.
+        logger.warning("Abstract generation failed for %s.", doc.document_id, exc_info=True)
+        enrichment.record_failure(content_hash, version=version, error=str(exc))
+        return "failed"
+
+    if abstract is None:
+        return "skipped"  # too short to be worth summarizing; never retried
+    enrichment.put(content_hash, version=version, abstract=abstract)
+    return "stored"
+
+
+def _enrich(doc: CanonicalDocument, content_hash: str) -> str:
+    """Ensure this content has a cached abstract; report what happened.
+
+    Fails open in every direction, like the rest of the pipeline's external
+    dependencies: a rate-limited deployment or an unreachable catalog leaves the
+    document without an abstract rather than stopping the sweep.
+    """
+    settings = get_settings()
+    if not settings.enrichment_enabled:
+        return "off"
+    try:
+        return _enrich_once(doc, content_hash, settings.enrichment_max_attempts)
+    except Exception:
+        logger.warning(
+            "Enrichment could not run for %s; continuing without an abstract.",
+            doc.document_id, exc_info=True,
+        )
+        return "error"
+
+
+def _handle(
+    record: ChangeRecord,
+    build_doc: DocBuilder,
+    run_id: str | None = None,
+    note: Callable[[str], None] | None = None,
+) -> str:
     prior_version = record.prior.doc_version if record.prior else None
 
     if record.status is ChangeStatus.DELETED:
@@ -164,6 +214,13 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
         return "skipped"
 
     content_hash = doc.ensure_content_hash()
+    # Before the content-changed branch, so an unchanged-content document that
+    # predates enrichment still picks up an abstract as it is re-crawled. The
+    # cache is keyed by this hash, so a hit costs one indexed lookup.
+    enriched = _enrich(doc, content_hash)
+    if note is not None:
+        note(enriched)
+
     if not cd.content_changed(record, content_hash):
         version = prior_version or 1
         _persist(record, doc, content_hash, version, indexed=False)
@@ -209,6 +266,13 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
     except Exception:
         logger.exception("Could not ensure ingest_log table; events will be skipped.")
     settings = get_settings()
+    if settings.enrichment_enabled:
+        try:
+            enrichment.ensure_table()
+        except Exception:
+            logger.exception(
+                "Could not ensure the enrichment table; abstracts will be skipped."
+            )
     max_docs = settings.ingest_max_docs_per_run
     batch_size = settings.ingest_batch_size
     pause = settings.ingest_batch_pause_seconds
@@ -218,9 +282,21 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
     tally: Counter = Counter()
     worked = 0
 
+    # `note` is called from worker threads, unlike account() which the main
+    # loop owns, so the shared Counter needs a lock here.
+    tally_lock = threading.Lock()
+
+    def note(outcome: str) -> None:
+        """Record an enrichment outcome. Hit rate has to be visible: this
+        cache's failure mode is silently re-paying for every document."""
+        if outcome == "off":
+            return
+        with tally_lock:
+            tally[f"enrich_{outcome}"] += 1
+
     def handle(record: ChangeRecord) -> str:
         try:
-            return _handle(record, build_doc, run_id)
+            return _handle(record, build_doc, run_id, note=note)
         except Exception as exc:
             logger.exception("Failed handling %s; skipping.", record.document_id)
             _log(run_id, record, "error", error=str(exc))
