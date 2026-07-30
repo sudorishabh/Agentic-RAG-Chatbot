@@ -31,6 +31,7 @@ from datetime import datetime
 from typing import Any
 
 from app.config import get_settings
+from app.core.dates import parse_iso_date
 from app.retrieval.structured.types import RecordFilters
 
 logger = logging.getLogger(__name__)
@@ -131,13 +132,10 @@ def _resolve_name(kind: str, value: str | None) -> _NameMatch:
     )
 
 
-def _parse_date(value: str | None) -> datetime | None:
-    if not value:
-        return None
-    try:
-        return datetime.fromisoformat(value)
-    except ValueError:
-        return None
+def _parse_date(value: str | None, *, field: str = "date") -> datetime | None:
+    """Thin alias kept for the tools that render a date scope. See
+    :func:`app.core.dates.parse_iso_date`."""
+    return parse_iso_date(value, field=field)
 
 
 def resolve_theme(theme: str | None) -> str | None:
@@ -233,8 +231,8 @@ def resolve_filters(filters: RecordFilters) -> ResolvedScope:
         title_contains=filters.title_contains or None,
         theme=theme.name,
         tag=tag.name,
-        published_from=_parse_date(filters.date_from),
-        published_to=_parse_date(filters.date_to),
+        published_from=_parse_date(filters.date_from, field="date_from"),
+        published_to=_parse_date(filters.date_to, field="date_to"),
         effective=replace(filters, author=author.name, theme=theme.name, tag=tag.name),
         ambiguous=ambiguous,
         # Misses are always *detected* — the flag only decides whether the tools'

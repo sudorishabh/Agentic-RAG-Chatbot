@@ -26,6 +26,7 @@ from typing import TYPE_CHECKING, Any, Sequence
 from pydantic import BaseModel, Field
 
 from app.catalog import queries as catalog
+from app.core.dates import parse_iso_date
 from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 from app.retrieval import scoped_retrieval
 from app.retrieval.structured.entities import normalize_entity
@@ -95,13 +96,8 @@ class BatchSummaries(BaseModel):
     summaries: list[DocSummary] = Field(default_factory=list)
 
 
-def _parse_date(value: str | None) -> datetime | None:
-    if not value:
-        return None
-    try:
-        return datetime.fromisoformat(value)
-    except ValueError:
-        return None
+def _parse_date(value: str | None, *, field: str = "date") -> datetime | None:
+    return parse_iso_date(value, field=field)
 
 
 def _scope_filters(analysis: QueryAnalysis) -> dict[str, Any] | None:
@@ -123,7 +119,8 @@ def _scope_filters(analysis: QueryAnalysis) -> dict[str, Any] | None:
         filters["author"] = analysis.author
     if analysis.title_contains:
         filters["title_contains"] = analysis.title_contains
-    lo, hi = _parse_date(analysis.date_from), _parse_date(analysis.date_to)
+    lo = _parse_date(analysis.date_from, field="date_from")
+    hi = _parse_date(analysis.date_to, field="date_to")
     if lo is not None:
         filters["published_from"] = lo
     if hi is not None:

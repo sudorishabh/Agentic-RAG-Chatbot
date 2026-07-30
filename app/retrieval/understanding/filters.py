@@ -10,20 +10,20 @@ import logging
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any
 
+from app.core.dates import parse_iso_date
+
 if TYPE_CHECKING:
     from app.retrieval.query_processor import QueryAnalysis
 
 logger = logging.getLogger(__name__)
 
 
-def _parse_bound(value: str | None) -> datetime | None:
-    if not value:
-        return None
-    try:
-        dt = datetime.fromisoformat(value)
-    except ValueError:
-        return None
-    return dt.replace(tzinfo=timezone.utc) if dt.tzinfo is None else dt.astimezone(timezone.utc)
+def _parse_bound(value: str | None, *, field: str = "date") -> datetime | None:
+    """A Qdrant date bound: UTC-aware, unlike the naive datetimes the MySQL
+    catalog takes. `DatetimeRange` compares against tz-aware payload values, so
+    the zone has to be attached here."""
+    parsed = parse_iso_date(value, field=field)
+    return parsed.replace(tzinfo=timezone.utc) if parsed else None
 
 
 def _theme_condition(theme: str) -> Any:
@@ -74,7 +74,8 @@ def _facet_filters(analysis: "QueryAnalysis") -> list[Any]:
         conditions.append(
             FieldCondition(key="language", match=MatchValue(value=analysis.language))
         )
-    lo, hi = _parse_bound(analysis.date_from), _parse_bound(analysis.date_to)
+    lo = _parse_bound(analysis.date_from, field="date_from")
+    hi = _parse_bound(analysis.date_to, field="date_to")
     if lo is not None or hi is not None:
         from qdrant_client.models import DatetimeRange
 

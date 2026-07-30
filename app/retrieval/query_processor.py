@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 
 from app.config import get_settings
 from app.core.clients.llm import get_llm, get_structured_llm
+from app.core.dates import IsoDate
 from app.retrieval.understanding.filters import (
     _facet_filters,
     _parse_bound,
@@ -36,8 +37,8 @@ class QueryAnalysis(BaseModel):
     theme: str | None = None
     author: str | None = None
     tags: list[str] = Field(default_factory=list)
-    date_from: str | None = None
-    date_to: str | None = None
+    date_from: IsoDate = None
+    date_to: IsoDate = None
     language: str | None = None
     # structured-only slots (null/defaults on the qa path)
     operation: Operation | None = None
@@ -112,8 +113,11 @@ class QueryScope(BaseModel):
     theme: str | None = None
     author: str | None = None
     tags: list[str] = Field(default_factory=list)
-    date_from: str | None = None
-    date_to: str | None = None
+    # IsoDate, not str: the model routinely trails JSON punctuation into these
+    # two values ("2022-01-01},"), which reaches SQL as a dropped bound and the
+    # answer text as a visible artefact. See app.core.dates.
+    date_from: IsoDate = None
+    date_to: IsoDate = None
     language: str | None = None
 
 

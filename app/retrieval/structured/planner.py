@@ -14,6 +14,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
+from app.core.dates import IsoDate
 from app.retrieval.catalog_prompt import (
     BEHAVIOR,
     BUNDLE_GLOSSARY,
@@ -138,8 +139,8 @@ class _PlannedCall(BaseModel):
     theme: str | None = None
     author: str | None = None
     title_contains: str | None = None
-    date_from: str | None = Field(default=None, description="Inclusive ISO start (YYYY-MM-DD).")
-    date_to: str | None = Field(default=None, description="Exclusive ISO end (YYYY-MM-DD).")
+    date_from: IsoDate = Field(default=None, description="Inclusive ISO start (YYYY-MM-DD).")
+    date_to: IsoDate = Field(default=None, description="Exclusive ISO end (YYYY-MM-DD).")
     group_by: Literal["theme", "content_type", "author", "year"] | None = None
     title: str | None = None
     limit: int = 10

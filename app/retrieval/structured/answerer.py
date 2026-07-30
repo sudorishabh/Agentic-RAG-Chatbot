@@ -22,6 +22,7 @@ from typing import TYPE_CHECKING, Any, Literal, Sequence
 from pydantic import BaseModel
 
 from app.config import get_settings
+from app.core.dates import IsoDate
 from app.retrieval.catalog_prompt import (
     BUNDLE_GLOSSARY,
     BUNDLE_LIST,
@@ -80,8 +81,8 @@ class StructuredQuery(BaseModel):
     author: str | None = None
     theme_children: bool = False
     year: int | None = None
-    date_from: str | None = None
-    date_to: str | None = None
+    date_from: IsoDate = None
+    date_to: IsoDate = None
     limit: int = 10
 
 
