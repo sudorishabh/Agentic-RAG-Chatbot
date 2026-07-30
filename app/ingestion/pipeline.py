@@ -17,7 +17,7 @@ from app.ingestion import change_detection as cd
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus
 from app.ingestion.chunking import chunk_canonical
 from app.ingestion.indexer import index_chunks
-from app.core.clients import delete_document
+from app.core.clients import delete_document, refresh_document_title
 from app.observability.tracing import span
 
 logger = logging.getLogger(__name__)
@@ -167,6 +167,12 @@ def _handle(record: ChangeRecord, build_doc: DocBuilder, run_id: str | None = No
     if not cd.content_changed(record, content_hash):
         version = prior_version or 1
         _persist(record, doc, content_hash, version, indexed=False)
+        # The hash covers body text only, so a title-only edit lands here rather
+        # than re-indexing. The catalog took the new title above; carry it to the
+        # chunk payloads too (one call, no re-embed) so citations don't display
+        # the old one until the body happens to change.
+        if record.prior is not None and record.prior.title != doc.title:
+            refresh_document_title(record.document_id, doc.title)
         logger.info("Unchanged content for %s; fingerprint refreshed.", record.document_id)
         _log(run_id, record, "unchanged_content", doc=doc, version=version)
         return "unchanged_content"

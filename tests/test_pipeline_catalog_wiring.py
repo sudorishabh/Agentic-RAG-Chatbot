@@ -95,6 +95,9 @@ def _patch_persist_order(monkeypatch, order: list[str]):
         pipeline, "_save_state", lambda *a, **k: order.append("save_state")
     )
     monkeypatch.setattr(pipeline, "_log", lambda *a, **k: None)
+    # Holds the "no Qdrant, no network" invariant on the unchanged_content path,
+    # which refreshes a drifted payload title. Tests that care re-patch it.
+    monkeypatch.setattr(pipeline, "refresh_document_title", lambda *a, **k: None)
 
 
 def test_handle_saves_the_content_record(monkeypatch):
@@ -134,6 +137,50 @@ def test_handle_unchanged_content_keeps_the_same_order(monkeypatch):
 
     assert pipeline._handle(record, build_doc=lambda r: doc) == "unchanged_content"
     assert order == ["save_state"]
+
+
+def _unchanged_content_prior(doc: CanonicalDocument, title: str | None) -> StateRecord:
+    return StateRecord(
+        document_id="doc-1",
+        source_type="website",
+        source_key="https://example.org/brief",
+        fingerprint="2024-01-01",
+        content_hash=doc.ensure_content_hash(),  # unchanged content
+        doc_version=3,
+        title=title,
+    )
+
+
+def test_unchanged_content_refreshes_a_drifted_payload_title(monkeypatch):
+    """A title-only edit no longer re-indexes (the hash covers body text only),
+    so the payload title has to be carried over without a re-embed."""
+    _patch_persist_order(monkeypatch, [])
+    calls: list[tuple[str, str | None]] = []
+    monkeypatch.setattr(
+        pipeline, "refresh_document_title",
+        lambda doc_id, title: calls.append((doc_id, title)),
+    )
+
+    doc = _doc(title="A brief, retitled")
+    record = _record(prior=_unchanged_content_prior(doc, "A brief"))
+
+    assert pipeline._handle(record, build_doc=lambda r: doc) == "unchanged_content"
+    assert calls == [("doc-1", "A brief, retitled")]
+
+
+def test_unchanged_content_leaves_an_unchanged_title_alone(monkeypatch):
+    _patch_persist_order(monkeypatch, [])
+    calls: list[tuple[str, str | None]] = []
+    monkeypatch.setattr(
+        pipeline, "refresh_document_title",
+        lambda doc_id, title: calls.append((doc_id, title)),
+    )
+
+    doc = _doc(title="A brief")
+    record = _record(prior=_unchanged_content_prior(doc, "A brief"))
+
+    assert pipeline._handle(record, build_doc=lambda r: doc) == "unchanged_content"
+    assert calls == []
 
 
 def test_handle_skips_both_when_no_document_is_built(monkeypatch):

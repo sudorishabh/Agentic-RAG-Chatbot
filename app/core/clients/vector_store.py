@@ -114,6 +114,44 @@ def delete_document(document_id: str, *, keep_ids: Sequence[str] | None = None) 
     )
 
 
+def refresh_document_title(document_id: str, title: str | None) -> None:
+    """Rewrite ``title`` on a document's existing points, without re-embedding.
+
+    The content hash covers body text only, so a title-only edit resolves to
+    ``unchanged_content`` and never re-indexes — which would leave the payload
+    title (what citations display) stale against the catalog. Rewriting the one
+    field is a single call and costs no embedding.
+
+    Best-effort: a failure here leaves a stale display title, which the
+    document's next real re-index heals anyway.
+    """
+    if not title:
+        return
+    from qdrant_client.models import FieldCondition, Filter, MatchValue
+
+    settings = get_settings()
+    try:
+        client = get_qdrant_client()
+        if not client.collection_exists(settings.qdrant_collection):
+            return
+        client.set_payload(
+            collection_name=settings.qdrant_collection,
+            payload={"title": title},
+            points=Filter(
+                must=[
+                    FieldCondition(
+                        key="document_id", match=MatchValue(value=document_id)
+                    )
+                ]
+            ),
+        )
+    except Exception:
+        logger.warning(
+            "Could not refresh the payload title for %s; it heals on the next "
+            "reindex.", document_id, exc_info=True,
+        )
+
+
 @lru_cache
 def get_vector_store() -> "QdrantVectorStore":
     from langchain_qdrant import QdrantVectorStore

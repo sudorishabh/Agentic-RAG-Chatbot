@@ -93,8 +93,21 @@ class CanonicalDocument:
         return "\n\n".join(parts).strip()
 
     def compute_content_hash(self) -> str:
-        payload = f"{self.title or ''}\n\n{self.full_text()}"
-        return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+        """SHA-256 of the document's body text — and *only* its body text.
+
+        Deliberately excludes the title and every other metadata field, because
+        the hash has to be reproducible from the source bytes alone. Any field
+        that could be derived (a title read off a PDF cover page rather than
+        taken from the CMS) would otherwise make the hash unstable across runs:
+        `content_changed` would fire on every sweep, re-versioning, re-embedding
+        and re-upserting the whole corpus forever, silently and at full cost.
+
+        Metadata still reaches storage — it just does not gate re-indexing.
+        Title drift on an otherwise-unchanged document is carried to the catalog
+        by `_save_state` and to the chunk payloads by `refresh_document_title`,
+        neither of which needs a re-embed.
+        """
+        return hashlib.sha256(self.full_text().encode("utf-8")).hexdigest()
 
     def ensure_content_hash(self) -> str:
         if not self.content_hash:

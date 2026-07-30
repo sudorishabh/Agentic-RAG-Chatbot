@@ -148,14 +148,17 @@ never converges.
 
 ### Failure modes
 
-- Changing what feeds the hash **invalidates every stored `content_hash`**.
-  The first sweep after deploy re-versions the whole corpus once. That is a
-  one-time cost, but it must be planned (run it with
-  `ingest_max_docs_per_run` set, off-peak) rather than discovered.
-- Excluding the title from the hash means a title-only correction in Drupal no
-  longer triggers a re-index. The `fingerprint` (Drupal `changed` mark) still
-  catches it, so this is acceptable — but confirm it against
-  `test_batch_ingest.py` expectations.
+- Changing what feeds the hash invalidates every stored `content_hash`. This is
+  **not** a corpus-wide re-version, though: `compute_status` decides
+  NEW/CHANGED/UNCHANGED on the *fingerprint* alone, and `_handle` returns early
+  on UNCHANGED, so an unchanged document never recomputes its content hash. The
+  real cost is bounded and self-healing — a document whose fingerprint moves but
+  whose body is identical re-indexes **once** instead of taking the
+  `unchanged_content` fast path, and is correct from then on.
+- Excluding the title from the hash means a title-only correction no longer
+  triggers a re-index, which would leave the *payload* title (what citations
+  display) stale against the catalog. Handled by refreshing that one field with
+  a Qdrant `set_payload` on the `unchanged_content` path — no re-embed.
 
 ### Dependencies
 

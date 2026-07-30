@@ -19,7 +19,17 @@ before chunking, so PDFs and articles flow through one pipeline.
   `tenant_id` (default `default`), `acl[]` (default `["public"]`), `published_at`,
   `doc_version` (default 1), `is_current` (default true), `content_hash`, `extra{}`.
 - **Helpers:** `is_paginated`, `full_text()`, `compute_content_hash()` (SHA-256 of
-  `title + full_text`), `ensure_content_hash()` (lazy + cached).
+  `full_text()` — **body text only**), `ensure_content_hash()` (lazy + cached).
+
+> **The content hash deliberately excludes the title and all other metadata.**
+> It must be reproducible from the source bytes alone: any field that could be
+> *derived* rather than read from the source (a title taken off a PDF cover
+> page) would make the hash unstable across runs, so `content_changed` would
+> fire on every sweep and re-version, re-embed and re-upsert the whole corpus
+> forever. Metadata still reaches storage; it just does not gate re-indexing.
+> A title-only edit therefore resolves to `unchanged_content` — the catalog row
+> is updated by `_save_state`, and the chunk payloads by
+> `refresh_document_title` (one Qdrant `set_payload`, no re-embed).
 
 `CanonicalSection`: `text`, `heading`, `page_start`, `page_end`, `order`.
 

@@ -21,6 +21,7 @@ from app.core.clients.vector_store import (
     ensure_collection,
     get_qdrant_client,
     get_vector_store,
+    refresh_document_title,
 )
 
 __all__ = [
@@ -32,6 +33,7 @@ __all__ = [
     "ensure_collection",
     "get_vector_store",
     "delete_document",
+    "refresh_document_title",
     "MySQLPool",
     "get_mysql_pool",
     "mysql_connection",
