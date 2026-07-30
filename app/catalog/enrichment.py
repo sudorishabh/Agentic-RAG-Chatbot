@@ -25,13 +25,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Any
 
 from app.catalog import schema
 from app.catalog.db import now as _now
 from app.catalog.db import state_table as _table
 from app.core.clients import mysql_connection
 
-__all__ = ["Enrichment", "ensure_table", "get", "put", "record_failure"]
+__all__ = ["Enrichment", "ensure_table", "get", "put", "pending", "record_failure"]
 
 
 @dataclass
@@ -85,6 +86,47 @@ def get(content_hash: str, *, version: str) -> Enrichment | None:
         )
         row = cur.fetchone()
     return _row_to_enrichment(row) if row else None
+
+
+def pending(*, version: str, max_attempts: int, limit: int) -> list[dict[str, Any]]:
+    """Indexed documents with no usable abstract at ``version``, newest first.
+
+    The backfill's work list. A document qualifies when its content has no
+    enrichment row at this version, or has one that only records failures and
+    still has attempts left — the same rules the sweep applies per document,
+    asked of the whole catalog at once.
+
+    Restricted to ``indexed_at IS NOT NULL`` because the backfill reconstructs
+    document text from the vector store; a document that was never indexed has
+    no text to read. Results are de-duplicated by content hash, since that is
+    what the cache is keyed by — enriching two documents with identical bodies
+    would write the same row twice.
+    """
+    table = _table()
+    capped = max(1, min(int(limit or 100), 10_000))
+    sql = (
+        f"SELECT s.document_id, s.content_hash, s.title, s.source_type"
+        f" FROM `{table}` s"
+        f" LEFT JOIN `{table}_enrichment` e"
+        f"  ON e.content_hash = s.content_hash AND e.version = %s"
+        f" WHERE s.content_hash <> '' AND s.indexed_at IS NOT NULL"
+        f"  AND (e.content_hash IS NULL OR (e.abstract IS NULL AND e.attempts < %s))"
+        f" ORDER BY s.published_at DESC, s.document_id ASC"
+        f" LIMIT {capped}"
+    )
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(sql, (version, max_attempts))
+        rows = cur.fetchall()
+
+    seen: set[str] = set()
+    out: list[dict[str, Any]] = []
+    for row in rows:
+        content_hash = row["content_hash"]
+        if content_hash in seen:
+            continue
+        seen.add(content_hash)
+        out.append(dict(row))
+    return out
 
 
 def put(content_hash: str, *, version: str, abstract: str) -> None:

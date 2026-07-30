@@ -198,6 +198,51 @@ citations quote and what `content_hash` covers, and neither may drift.
 - `index_canonical(doc, **chunk_kwargs)` — chunk then index a document.
 - `index_documents(docs, **chunk_kwargs)` — loop, catching per-document errors.
 
+## Enrichment — [app/ingestion/enrich.py](../app/ingestion/enrich.py)
+
+An **ingest-time abstract** per document, generated once and cached. Off by
+default (`enrichment_enabled`).
+
+- `generate_abstract(doc)` — adaptive: a document that fits one call gets one
+  call; a longer one is summarized in two stages (notes per ~6k-token window,
+  then one reduce). Returns `None` for a document too short to be worth
+  summarizing, and **raises** on a model failure so the caller can count it.
+- `abstract_version()` — fingerprint of the prompts, sizing and model
+  deployment. Editing a prompt changes it, which invalidates cached abstracts
+  automatically.
+
+**Cache** — [app/catalog/enrichment.py](../app/catalog/enrichment.py), table
+`<state>_enrichment`. Keyed by `content_hash`, *not* `document_id`, so it
+survives a state-table reset and is shared by documents whose body text is
+identical; it therefore has no foreign key to `documents`. A version mismatch
+reads as a miss. Failed attempts are counted, so a document that always fails
+stops being retried after `enrichment_max_attempts`.
+
+The sweep enriches a document as it re-crawls it and tallies
+`enrich_hit` / `enrich_stored` / `enrich_skipped` / `enrich_failed` /
+`enrich_exhausted` / `enrich_error` per run — the hit rate has to be visible,
+because this cache's failure mode is silently re-paying for every document.
+Nothing here can stop a sweep: a rate-limited deployment or an unreachable
+catalog leaves the document without an abstract and moves on.
+
+**Backfill** — documents that never change are never re-crawled, so
+[app/ingestion/enrich_backfill.py](../app/ingestion/enrich_backfill.py) fills
+them in:
+
+```
+python -m app.ingestion.enrich_backfill --dry-run      # how many are pending
+python -m app.ingestion.enrich_backfill --limit 100    # enrich, capped
+```
+
+It reconstructs document text from indexed chunks rather than re-extracting
+from source, is resumable (the work list is whatever is still missing), and
+ignores `enrichment_enabled` so a corpus can be backfilled before the sweep is
+turned on. `--limit` is the spend control.
+
+Abstracts are consumed by
+[`summarize_scope`](../app/pipeline/summarize.py), which prefers them over the
+lead-parent stand-in and falls back per document for anything not yet enriched.
+
 ## Change detection — [app/ingestion/change_detection/](../app/ingestion/change_detection/)
 
 Yields `ChangeRecord`s with status `NEW` / `CHANGED` / `UNCHANGED` / `DELETED`.
