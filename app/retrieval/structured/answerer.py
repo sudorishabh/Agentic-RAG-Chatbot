@@ -22,7 +22,7 @@ from typing import TYPE_CHECKING, Any, Literal, Sequence
 from pydantic import BaseModel
 
 from app.config import get_settings
-from app.core.dates import IsoDate
+from app.core.dates import IsoDate, current_date_directive
 from app.retrieval.catalog_prompt import (
     BUNDLE_GLOSSARY,
     BUNDLE_LIST,
@@ -100,7 +100,7 @@ def parse_structured(
         model = get_structured_llm().with_structured_output(StructuredQuery)
         return model.invoke(
             [
-                ("system", _PARSE_SYSTEM),
+                ("system", _PARSE_SYSTEM + current_date_directive()),
                 ("human", f"Conversation:\n{convo}\n\nRequest: {question}"),
             ]
         )

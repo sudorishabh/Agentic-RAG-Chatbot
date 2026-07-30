@@ -23,7 +23,7 @@ from __future__ import annotations
 
 import logging
 import re
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from typing import Annotated, Any
 
 from pydantic import BeforeValidator
@@ -93,3 +93,42 @@ def parse_iso_date(value: str | None, *, field: str = "date") -> datetime | None
 # each use site means the cleaned value is what gets echoed back to the user,
 # cached, and logged — not just what reaches SQL.
 IsoDate = Annotated[str | None, BeforeValidator(clean_iso_date)]
+
+
+def today_utc() -> date:
+    """Today in UTC — the zone ``published_at`` is stored in (see
+    ``app.catalog.state``), so a bound derived from "today" lines up with the
+    column it is compared against."""
+    return datetime.now(timezone.utc).date()
+
+
+def current_date_directive() -> str:
+    """Prompt block anchoring relative date expressions to the real today.
+
+    Every date-extracting prompt needs this: without it the model resolves "last
+    6 months" or "this year" against its training data, which silently answers a
+    window years away from the one asked for. That failure is invisible — the
+    dates come back well-formed, just wrong.
+
+    Called per request rather than folded into the module-level prompt constants
+    on purpose: the API process can stay up for weeks, and a date captured at
+    import would drift further from reality every day it ran. It is appended
+    *after* the static prompt text so the long stable prefix stays byte-identical
+    and remains prompt-cacheable."""
+    today = today_utc()
+    year = today.year
+    return (
+        "\n\n## Today's date\n"
+        f"Today is {today:%A}, {today:%Y-%m-%d} (UTC). Resolve EVERY relative date "
+        "expression against that date and never against your training data — "
+        "'this year', 'last month', 'recently', 'the past six months' and "
+        "'since March' are all meaningless without it.\n"
+        f"- This year is [{year}-01-01, {year + 1}-01-01).\n"
+        f"- Last year is [{year - 1}-01-01, {year}-01-01).\n"
+        "- For a rolling window ('the last N days/months'), count back from "
+        "today.\n"
+        "- date_to is EXCLUSIVE, so a period running up to and including today "
+        f"ends at {today + timedelta(days=1)}.\n"
+        "If the request names no period at all, leave both dates null — do not "
+        "default to the current year."
+    )

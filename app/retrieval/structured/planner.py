@@ -14,7 +14,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-from app.core.dates import IsoDate
+from app.core.dates import IsoDate, current_date_directive
 from app.retrieval.catalog_prompt import (
     BEHAVIOR,
     BUNDLE_GLOSSARY,
@@ -229,7 +229,7 @@ def plan_multi(question: str, *, output_format: str = "default") -> DatabasePlan
     try:
         model = get_structured_llm().with_structured_output(_MultiPlan)
         result: _MultiPlan = model.invoke(
-            [("system", _PLANNER_SYSTEM), ("human", question)]
+            [("system", _PLANNER_SYSTEM + current_date_directive()), ("human", question)]
         )
     except Exception:
         logger.warning("Multi-call planning failed; falling back to v1.", exc_info=True)
