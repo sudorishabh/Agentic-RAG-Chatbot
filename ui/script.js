@@ -277,7 +277,7 @@
       stopLoader();
       if (epoch !== chatEpoch) return; // conversation was reset mid-flight
       bubble.classList.remove("bubble--pending");
-      if (answer) bubble.innerHTML = renderMarkdown(answer);
+      if (answer) bubble.innerHTML = renderAnswer(answer);
       else bubble.textContent = "(no response)";
       if (sources) renderSources(bubble, sources);
       history.push({ role: "user", content: text });
@@ -318,10 +318,13 @@
     // Live render sink. Tokens append their DELTA to one persistent text node,
     // batched to at most one DOM write + scroll per animation frame — rewriting
     // the full accumulated answer per token (the old behaviour) costs O(n^2)
-    // characters and forces a layout per token on long answers.
+    // characters and forces a layout per token on long answers. Block tags are
+    // filtered out of the live text only; `answer` keeps the raw stream, which
+    // is what gets parsed into blocks, cached, and pushed onto the history.
     let textNode = null;
     let pending = "";
     let raf = 0;
+    const filterTags = createTagFilter();
     const flush = () => {
       raf = 0;
       if (pending && textNode) {
@@ -353,6 +356,11 @@
           }
 
           if (event.type === "token") {
+            answer += event.text;
+            // An opening tag carries no visible text: keep the loader up until
+            // real prose lands rather than flashing an empty bubble.
+            const visible = filterTags(event.text);
+            if (!visible) continue;
             if (!textNode) {
               stopLoader();
               bubble.classList.remove("bubble--pending");
@@ -360,8 +368,7 @@
               textNode = document.createTextNode("");
               bubble.appendChild(textNode);
             }
-            answer += event.text;
-            pending += event.text;
+            pending += visible;
             if (!raf) raf = requestAnimationFrame(flush);
           } else if (event.type === "sources") {
             sources = event;
@@ -573,6 +580,126 @@
       html.push("<p>" + renderInline(para.join("<br>")) + "</p>");
     }
     return html.join("");
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Answer blocks
+   *
+   * Grounded answers arrive wrapped in <website_answer> / <pdf_answer>
+   * tags. Website content is authoritative and always leads; the PDF
+   * block is additive and absent when it has nothing to add. The parsing
+   * rules mirror app/generation/sections.py — keep the two in step.
+   * ---------------------------------------------------------------- */
+  const WEBSITE_TAG = "website_answer";
+  const PDF_TAG = "pdf_answer";
+  const TAG_ALT = WEBSITE_TAG + "|" + PDF_TAG;
+  // Longest tag we can be part-way through: "</website_answer >".
+  const MAX_TAG_LEN = WEBSITE_TAG.length + 4;
+  // Built per call — a shared global regex carries lastIndex between calls.
+  const blockRe = () =>
+    new RegExp("<(" + TAG_ALT + ")\\s*>([\\s\\S]*?)(?:</\\1\\s*>|$)", "gi");
+  const anyTagRe = () => new RegExp("</?(?:" + TAG_ALT + ")\\s*>", "gi");
+
+  function cleanBlockText(text) {
+    return text
+      .replace(anyTagRe(), "")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+  }
+
+  // Parse an answer into the sections to render, in display order. Tolerant by
+  // design: the tags come from a model and a stream can be cut mid-tag, so a
+  // missing or malformed wrapper degrades to plain text instead of losing the
+  // answer. Website always precedes PDF whatever order they arrived in; blocks
+  // of one kind merge; untagged text keeps its position around the blocks.
+  function splitSections(answer) {
+    const leading = [];
+    const trailing = [];
+    const grouped = { website: [], pdf: [] };
+    const re = blockRe();
+    let cursor = 0;
+    let seenBlock = false;
+    let match;
+    while ((match = re.exec(answer)) !== null) {
+      (seenBlock ? trailing : leading).push(answer.slice(cursor, match.index));
+      const kind = match[1].toLowerCase() === WEBSITE_TAG ? "website" : "pdf";
+      grouped[kind].push(match[2]);
+      cursor = re.lastIndex;
+      seenBlock = true;
+    }
+    (seenBlock ? trailing : leading).push(answer.slice(cursor));
+
+    const sections = [];
+    [
+      ["plain", leading],
+      ["website", grouped.website],
+      ["pdf", grouped.pdf],
+      ["plain", trailing],
+    ].forEach(function (entry) {
+      const text = cleanBlockText(entry[1].join("\n\n"));
+      if (text) sections.push({ kind: entry[0], text: text });
+    });
+    return sections;
+  }
+
+  // The answer body. Each tagged section gets its own styled container; an
+  // untagged answer (a refusal, chit-chat, a scoped summary) renders bare,
+  // exactly as it did before the blocks existed. The class name comes from our
+  // own constants, never from model text, so it is safe to interpolate.
+  function renderAnswer(answer) {
+    const sections = splitSections(answer);
+    if (!sections.length) return "";
+    return sections
+      .map(function (section) {
+        const body = renderMarkdown(section.text);
+        if (section.kind === "plain") return body;
+        return (
+          '<div class="answer-block answer-block--' +
+          section.kind +
+          '">' +
+          body +
+          "</div>"
+        );
+      })
+      .join("");
+  }
+
+  // Could this held text still grow into a block tag? Anything longer than a
+  // tag, or already carrying a character no tag contains, cannot.
+  function couldBecomeTag(held) {
+    return held.length <= MAX_TAG_LEN && /^<\/?[a-z_]*\s*$/i.test(held);
+  }
+
+  // Live-stream tag suppressor: the wrappers must not flash on screen as they
+  // stream. A tag can be split across any number of tokens ("<web" +
+  // "site_answer>"), so hold back a trailing fragment that could still become
+  // one and release it once it cannot. Text held when the stream ends is not
+  // lost — the caller re-renders the whole answer from the raw text.
+  function createTagFilter() {
+    let held = "";
+    return function (chunk) {
+      held += chunk;
+      let out = "";
+      for (;;) {
+        const lt = held.indexOf("<");
+        if (lt === -1) {
+          out += held;
+          held = "";
+          break;
+        }
+        out += held.slice(0, lt);
+        held = held.slice(lt);
+        const whole = anyTagRe().exec(held);
+        if (whole && whole.index === 0) {
+          held = held.slice(whole[0].length); // a complete tag: drop it
+          continue;
+        }
+        if (couldBecomeTag(held)) break; // wait for the rest of the tag
+        out += "<"; // a literal "<" in the prose
+        held = held.slice(1);
+      }
+      return out;
+    };
   }
 
   /* ---------------------------------------------------------------- *
@@ -1123,6 +1250,27 @@
     }
     .bubble thead th { background: var(--teri-surface); font-weight: 700; }
     .bubble tbody tr:nth-child(even) { background: rgba(0,0,0,.025); }
+
+    /* ---- Answer blocks ---- */
+    /* Website-sourced content is authoritative and leads; the PDF block is
+       supplementary. A left rule over a tinted ground marks the split without
+       boxing the answer in — the bot bubble itself is borderless. The PDF block
+       drops to neutral grey so the ordering reads as precedence, not just
+       colour. */
+    .answer-block {
+      border-left: 3px solid var(--teri-green);
+      background: var(--teri-green-soft);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 12px;
+      margin: 0 0 10px;
+    }
+    .answer-block--pdf {
+      border-left-color: var(--teri-dim);
+      background: var(--teri-surface);
+    }
+    /* Markdown blocks carry their own bottom margin; drop the last one so the
+       container's padding sets the gap. */
+    .answer-block > :last-child { margin-bottom: 0; }
 
     /* ---- Sources ---- */
     /* A reference block that sits at the bottom of the answer bubble,
