@@ -267,17 +267,62 @@ def test_terminal_result_finds_first_terminal_failure():
         ToolResult(tool="count_records", ok=False, error_kind="unresolved",
                   rendered="No theme matching 'X' found."),
     ]
-    terminal = dr._terminal_result(results)
+    terminal = dr._terminal_result(results, strict=True)
     assert terminal is not None and terminal.rendered == "No theme matching 'X' found."
 
 
 def test_terminal_result_none_when_no_failure_is_terminal():
     results = [ToolResult(tool="count_records", ok=False, error_kind="no_records")]
-    assert dr._terminal_result(results) is None
+    assert dr._terminal_result(results, strict=True) is None
 
 
 def test_terminal_result_none_for_empty_results():
-    assert dr._terminal_result([]) is None
+    assert dr._terminal_result([], strict=True) is None
+
+
+def test_fuzzy_match_failures_are_terminal_only_when_strict():
+    """`entity_resolution_enabled` off keeps the old fall-through for the
+    outcomes fuzzy matching produces."""
+    for kind in ("unresolved", "ambiguous"):
+        results = [ToolResult(tool="count_records", ok=False, error_kind=kind,
+                              rendered="msg")]
+        assert dr._terminal_result(results, strict=True) is not None, kind
+        assert dr._terminal_result(results, strict=False) is None, kind
+
+
+def test_ambiguous_content_type_is_terminal_regardless_of_the_flag():
+    """A word naming several bundles is decided from a curated list, not by
+    similarity, so the flag holding fuzzy matching back does not apply. Falling
+    through would answer "how many projects" from prose."""
+    results = [ToolResult(tool="count_records", ok=False, error_kind="ambiguous_entity",
+                          rendered="'projects' matches more than one content type:")]
+    for strict in (True, False):
+        assert dr._terminal_result(results, strict=strict) is not None, strict
+
+
+def test_answer_structured_surfaces_an_ambiguous_content_type_with_the_flag_off(
+    monkeypatch,
+):
+    """End-to-end shape of the above: the clarification is the answer, not None."""
+    monkeypatch.setattr(
+        dr, "get_settings",
+        lambda: SimpleNamespace(database_multi_call_enabled=False,
+                                entity_resolution_enabled=False),
+    )
+    monkeypatch.setattr(
+        planner, "execute",
+        lambda db_plan, *, question=None: [
+            ToolResult(tool="count_records", ok=False, error_kind="ambiguous_entity",
+                       rendered="'projects' matches more than one content type:\n"
+                                "1. completed projects\n2. ongoing projects\n"
+                                "Which did you mean?"),
+        ],
+    )
+    analysis = qp.QueryAnalysis(search_query="x", intent="structured",
+                                operation="count", bundle="projects")
+    out = dr.answer_structured("how many projects are there", analysis=analysis)
+    assert out is not None
+    assert "Which did you mean?" in out["answer"]
 
 
 def test_answer_structured_falls_back_to_v1_when_multi_none(monkeypatch):

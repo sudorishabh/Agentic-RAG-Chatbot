@@ -6,6 +6,8 @@ No LLM, no network — these check the composed prompt strings only.
 
 from __future__ import annotations
 
+import pytest
+
 from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 from app.retrieval import catalog_prompt as prompt
 from app.retrieval.structured import answerer
@@ -22,8 +24,73 @@ def test_bundle_list_matches_default_bundles():
 
 
 def test_vocabulary_names_synonyms_and_the_bundle_word():
-    assert "articles" in prompt.VOCABULARY and "items" in prompt.VOCABULARY
+    assert "items" in prompt.VOCABULARY and "entries" in prompt.VOCABULARY
     assert "bundle" in prompt.VOCABULARY
+
+
+def test_vocabulary_does_not_call_articles_a_generic_word():
+    """`article` is a real bundle (459 of 2,135 rows). Listing "articles" among
+    the words that name no specific type made "total number of articles" answer
+    with the whole-corpus total instead of the article count."""
+    generic, _, naming = prompt.VOCABULARY.partition("A bundle's own name")
+    assert "articles" not in generic
+    assert "articles" in naming  # named on the "does name a type" side instead
+
+
+# --------------------------------------------------------------------------- #
+# BUNDLE_GLOSSARY — the per-type meanings the bare BUNDLE_LIST left implicit.
+# --------------------------------------------------------------------------- #
+
+def test_every_described_bundle_is_a_real_bundle():
+    """Drift guard: a glossary entry for a bundle that no longer exists would
+    teach the model to set a content type the registry rejects — which counts as
+    zero, not as everything."""
+    for name, _ in prompt.BUNDLE_MEANINGS:
+        assert name in DEFAULT_BUNDLES, name
+
+
+def test_glossary_describes_every_bundle_users_ask_about_by_name():
+    described = {name for name, _ in prompt.BUNDLE_MEANINGS}
+    assert described == {
+        "article", "feature_articles", "news", "events", "press_release",
+        "research_papers", "policy_brief", "report", "completed_projects",
+        "ongoing_projects",
+    }
+
+
+def test_glossary_still_advertises_the_undescribed_bundles_as_valid():
+    """The types nobody asks for by name stay selectable — describing a subset
+    must not silently narrow the set of legal values."""
+    for bundle in DEFAULT_BUNDLES:
+        assert bundle in prompt.BUNDLE_GLOSSARY, bundle
+
+
+def test_glossary_claims_plain_articles_for_the_article_bundle():
+    assert "- article: " in prompt.BUNDLE_GLOSSARY
+    assert "not a generic word" in prompt.BUNDLE_GLOSSARY
+    # feature_articles is fenced off so it cannot absorb a plain "articles"
+    assert "\"feature\"" in prompt.BUNDLE_GLOSSARY
+
+
+def test_glossary_passes_an_ambiguous_project_word_through():
+    """Bare "projects" spans completed_projects and ongoing_projects. The model
+    must neither pick one (reported 0 ongoing while 918 completed existed) nor
+    drop the type (counted articles and papers as projects) — it passes the word
+    through so tools._entity_guard can ask which was meant."""
+    assert "Pass the user's own word through" in prompt.BUNDLE_GLOSSARY
+    assert "the query layer will ask which they meant" in prompt.BUNDLE_GLOSSARY
+    assert "Do not pick one" in prompt.BUNDLE_GLOSSARY
+    assert "do not leave the type off" in prompt.BUNDLE_GLOSSARY
+
+
+def test_the_pass_through_word_is_one_the_guard_actually_recognizes():
+    """The prompt tells the model to send "projects" verbatim; if the registry
+    stopped treating that word as ambiguous the instruction would produce an
+    unknown entity that quietly falls through instead of asking."""
+    from app.retrieval.structured.entities import ambiguous_bundles
+
+    assert "\"projects\"" in prompt.BUNDLE_GLOSSARY
+    assert ambiguous_bundles("projects")
 
 
 def test_collective_word_warning_names_publications():
@@ -73,9 +140,9 @@ def test_planner_system_advertises_resolve_entity_tool():
 
 def test_planner_system_includes_every_shared_block():
     for block in (
-        prompt.BUNDLE_LIST, prompt.VOCABULARY, prompt.RESOLVE_FIRST,
-        prompt.OPERATIONS, prompt.BEHAVIOR, prompt.COLLECTIVE_WORD_WARNING,
-        prompt.FEW_SHOTS,
+        prompt.BUNDLE_LIST, prompt.BUNDLE_GLOSSARY, prompt.VOCABULARY,
+        prompt.RESOLVE_FIRST, prompt.OPERATIONS, prompt.BEHAVIOR,
+        prompt.COLLECTIVE_WORD_WARNING, prompt.FEW_SHOTS,
     ):
         assert block in planner._PLANNER_SYSTEM
 
@@ -90,13 +157,30 @@ def test_parse_system_reuses_shared_bundle_and_vocabulary_blocks():
     assert prompt.BUNDLE_LIST in answerer._PARSE_SYSTEM
     assert prompt.COLLECTIVE_WORD_WARNING in answerer._PARSE_SYSTEM
     assert prompt.VOCABULARY in answerer._PARSE_SYSTEM
+    assert prompt.BUNDLE_GLOSSARY in answerer._PARSE_SYSTEM
     assert "resolve_entity" not in answerer._PARSE_SYSTEM
 
 
 def test_understanding_system_reuses_shared_bundle_block():
     assert prompt.BUNDLE_LIST in understanding_prompts.UNDERSTANDING_SYSTEM
     assert prompt.COLLECTIVE_WORD_WARNING in understanding_prompts.UNDERSTANDING_SYSTEM
+    assert prompt.BUNDLE_GLOSSARY in understanding_prompts.UNDERSTANDING_SYSTEM
     assert "resolve_entity" not in understanding_prompts.UNDERSTANDING_SYSTEM
+
+
+@pytest.mark.parametrize(
+    "system",
+    [
+        pytest.param(lambda: answerer._PARSE_SYSTEM, id="parse"),
+        pytest.param(lambda: planner._PLANNER_SYSTEM, id="planner"),
+    ],
+)
+def test_glossary_precedes_the_vocabulary_block_that_cites_it(system):
+    """VOCABULARY points at "the everyday words listed for it above" — ordering
+    is load-bearing, and appending either block in the wrong place leaves a
+    dangling reference."""
+    text = system()
+    assert text.index(prompt.BUNDLE_GLOSSARY) < text.index(prompt.VOCABULARY)
 
 
 def test_bundle_list_is_not_duplicated_by_hand_in_any_consumer():

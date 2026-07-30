@@ -19,8 +19,14 @@ from typing import Any, Sequence
 
 from app.catalog import queries as state
 from app.catalog.models import StateRecord
-from app.retrieval.structured.entities import entity_label, get_entity
-from app.retrieval.structured.filters import _parse_date, resolve_filters
+from app.retrieval.structured.entities import (
+    ambiguous_bundles,
+    entity_label,
+    get_entity,
+    is_known,
+    normalize_entity,
+)
+from app.retrieval.structured.filters import AmbiguousFilter, _parse_date, resolve_filters
 from app.retrieval.structured.types import GroupBy, RecordFilters, ToolResult
 from app.schemas.query import Citation
 
@@ -90,14 +96,19 @@ def _unresolved_miss(tool: str, entity: str | None, kind: str, value: str | None
     )
 
 
-def _ambiguous_result(tool: str, entity: str | None, scope: Any) -> ToolResult:
-    """The terminal clarification for a filter name that matched several catalog
-    entities too closely to choose between — asked, never guessed (§4)."""
-    amb = scope.ambiguous
+def _ambiguous_result(
+    tool: str, entity: str | None, amb: Any, *, error_kind: str = "ambiguous"
+) -> ToolResult:
+    """The terminal clarification for a name that matched several catalog entities
+    too closely to choose between — asked, never guessed (§4).
+
+    Takes the `AmbiguousFilter` itself rather than the enclosing scope so the
+    content-type guard can reuse it: an ambiguous *bundle* is decided before any
+    filter is resolved, so there is no scope to read it from."""
     options = "\n".join(f"{i}. {name}" for i, name in enumerate(amb.candidates, start=1))
     return ToolResult(
         tool=tool, entity=entity, ok=False,
-        error=f"ambiguous {amb.kind}", error_kind="ambiguous",
+        error=f"ambiguous {amb.kind}", error_kind=error_kind,
         rendered=(
             f"'{amb.query}' matches more than one {amb.kind}:\n{options}\n"
             "Which did you mean?"
@@ -105,11 +116,40 @@ def _ambiguous_result(tool: str, entity: str | None, scope: Any) -> ToolResult:
     )
 
 
+def _entity_guard(tool: str, entity: str | None) -> ToolResult | None:
+    """Pre-query guard on the content type: a word naming several bundles asks
+    which was meant; an unrecognized one falls through to semantic search as
+    before. Returns None when `entity` is empty or a known bundle.
+
+    Ambiguity is terminal (`error_kind`), because collapsing "projects" onto one
+    project type reports that type's total as if it were every project — and
+    leaving the type off instead counts articles and papers as projects.
+
+    It reports as `ambiguous_entity` rather than `ambiguous` so it stays terminal
+    with `entity_resolution_enabled` off: that flag guards *fuzzy* name matching,
+    which can misfire and wants an eval first, while this is a curated list of
+    words that name more than one bundle and cannot resolve to a single one."""
+    if not entity or is_known(normalize_entity(entity)):
+        return None
+    spanned = ambiguous_bundles(entity)
+    if spanned:
+        return _ambiguous_result(
+            tool, entity,
+            AmbiguousFilter(
+                kind="content type", query=entity,
+                candidates=[entity_label(bundle, 2) for bundle in spanned],
+            ),
+            error_kind="ambiguous_entity",
+        )
+    return ToolResult(tool=tool, entity=entity, ok=False,
+                      error=f"unknown entity {entity!r}")
+
+
 def _scope_guard(tool: str, entity: str | None, scope: Any) -> ToolResult | None:
     """The one pre-query guard shared by the filtered tools: a name that matched
     several entities too closely to choose between. Returns None to proceed."""
     if scope.ambiguous is not None:
-        return _ambiguous_result(tool, entity, scope)
+        return _ambiguous_result(tool, entity, scope.ambiguous)
     return None
 
 
@@ -277,10 +317,10 @@ def count_records(entity: str | None, filters: RecordFilters) -> ToolResult:
     or a tag that resolves to nothing stops before querying, and an unresolved
     author/theme becomes a miss only if the query then comes back empty. A
     resolved filter matching no rows is an honest 0."""
+    guarded = _entity_guard("count_records", entity)
+    if guarded is not None:
+        return guarded
     ent = get_entity(entity) if entity else None
-    if entity and ent is None:
-        return ToolResult(tool="count_records", entity=entity, ok=False,
-                          error=f"unknown entity {entity!r}")
     scope = resolve_filters(filters)
     guarded = _scope_guard("count_records", entity, scope)
     if guarded is not None:
@@ -327,10 +367,10 @@ def list_records(
     `count_records` (see `_scope_guard` / `_empty_result_miss`). `fields` narrows
     the metadata keys in `data["records"]`; `rendered` is unaffected (see
     `_project_fields`)."""
+    guarded = _entity_guard("list_records", entity)
+    if guarded is not None:
+        return guarded
     ent = get_entity(entity) if entity else None
-    if entity and ent is None:
-        return ToolResult(tool="list_records", entity=entity, ok=False,
-                          error=f"unknown entity {entity!r}")
     scope = resolve_filters(filters)
     guarded = _scope_guard("list_records", entity, scope)
     if guarded is not None:
@@ -419,6 +459,10 @@ def lookup_record(
         citations=result.citations,
         rendered=result.rendered,
         error=result.error,
+        # Without this the clarification a guard produced arrives as a plain
+        # ok=False and falls through to semantic search, so "which did you mean?"
+        # is replaced by a guess at the very question it was asked about.
+        error_kind=result.error_kind,
     )
 
 
@@ -457,10 +501,10 @@ def aggregate_records(
     'count' aggregation is backed today. Filter-resolution semantics match
     `count_records` (see `_scope_guard` / `_empty_result_miss`)."""
     dimension, label = _GROUP_DIMENSIONS.get(group_by or "theme", ("theme", "theme"))
+    guarded = _entity_guard("aggregate_records", entity)
+    if guarded is not None:
+        return guarded
     ent = get_entity(entity) if entity else None
-    if entity and ent is None:
-        return ToolResult(tool="aggregate_records", entity=entity, ok=False,
-                          error=f"unknown entity {entity!r}")
     scope = resolve_filters(filters)
     guarded = _scope_guard("aggregate_records", entity, scope)
     if guarded is not None:

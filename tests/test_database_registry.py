@@ -35,6 +35,36 @@ def test_is_known_and_get_entity():
     assert entities.get_entity("nonsense") is None
 
 
+def test_ambiguous_bundles_spans_both_project_types():
+    for word in ("projects", "project", "Projects", " projects "):
+        assert entities.ambiguous_bundles(word) == (
+            "completed_projects", "ongoing_projects"
+        ), word
+
+
+def test_ambiguous_bundles_empty_for_a_type_the_user_named():
+    """A registered bundle is never ambiguous, so naming one exactly always wins
+    over the collective word it contains."""
+    for word in ("completed_projects", "completed projects", "ongoing_projects"):
+        assert entities.ambiguous_bundles(word) == (), word
+
+
+def test_ambiguous_bundles_empty_for_unrelated_and_missing_words():
+    # "articles" resolves to the `article` bundle outright — it must not be
+    # treated as spanning article + feature_articles.
+    for word in ("articles", "news", "widgets", "", None):
+        assert entities.ambiguous_bundles(word) == (), word
+
+
+def test_every_spanned_bundle_is_registered():
+    """Drift guard: a clarification offering a bundle the registry rejects would
+    ask the user to choose an option that then counts as zero."""
+    for word, spanned in entities._AMBIGUOUS_BUNDLE_WORDS.items():
+        assert len(spanned) > 1, word  # a single-bundle word is a synonym, not an ambiguity
+        for bundle in spanned:
+            assert entities.is_known(bundle), bundle
+
+
 def test_entity_label_singular_plural():
     assert entities.entity_label("news", 1) == "news item"
     assert entities.entity_label("news", 2) == "news items"

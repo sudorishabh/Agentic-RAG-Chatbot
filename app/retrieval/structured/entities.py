@@ -30,6 +30,19 @@ _BUNDLE_SYNONYMS: dict[str, str] = {
     "press": "press_release",
 }
 
+# Content words that name several bundles at once, so no single one of them can
+# be the answer. Kept deliberately small: a word belongs here only when picking
+# any one bundle would misreport the others, which is why "articles" is absent —
+# it maps to `article` outright (`feature_articles` needs the word "feature").
+#
+# "projects" was silently resolving to one project type, answering "0 ongoing
+# projects" while 918 completed ones existed. Spanning both in one query is not
+# an option either: the catalog tools take a single bundle, so the honest move is
+# to ask (§4 — ask on ambiguity, never guess).
+_AMBIGUOUS_BUNDLE_WORDS: dict[str, tuple[str, ...]] = {
+    "projects": ("completed_projects", "ongoing_projects"),
+}
+
 # Display (singular, plural) forms for count/list answers. Bundle names are
 # inconsistently pluralized, so map the known ones; anything else is humanized.
 _BUNDLE_LABELS: dict[str, tuple[str, str]] = {
@@ -102,6 +115,25 @@ def normalize_entity(raw: str | None) -> str | None:
 def is_known(name: str | None) -> bool:
     """True when `name` (already normalized) is a registered content entity."""
     return bool(name) and name in _REGISTRY
+
+
+def ambiguous_bundles(raw: str | None) -> tuple[str, ...]:
+    """The bundles a free-text content word spans when it names more than one,
+    else empty.
+
+    Checked only for words that are not themselves a registered bundle, so this
+    can never override an exact type the user named. Singular and plural both
+    resolve, matching `normalize_entity`'s tolerance."""
+    if not raw:
+        return ()
+    key = raw.strip().lower().replace(" ", "_").replace("-", "_")
+    if key in _REGISTRY:
+        return ()
+    for variant in (key, f"{key}s", key.rstrip("s")):
+        spanned = _AMBIGUOUS_BUNDLE_WORDS.get(variant)
+        if spanned:
+            return spanned
+    return ()
 
 
 def get_entity(name: str | None) -> Entity | None:

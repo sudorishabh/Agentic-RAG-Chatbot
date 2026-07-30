@@ -157,6 +157,69 @@ def test_count_records_unknown_entity_is_not_ok(monkeypatch):
     assert r.ok is False and "unknown entity" in (r.error or "")
 
 
+def test_count_records_unknown_entity_stays_non_terminal(monkeypatch):
+    """An unrecognized type must keep falling through to semantic search — only
+    a genuinely ambiguous one is terminal."""
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 0)
+    assert tools.count_records("tenders", RecordFilters()).error_kind is None
+
+
+# --------------------------------------------------------------------------- #
+# Ambiguous content type — a word naming several bundles asks instead of picking.
+# --------------------------------------------------------------------------- #
+
+@pytest.mark.parametrize(
+    "tool, call",
+    [
+        ("count_records", lambda: tools.count_records("projects", RecordFilters())),
+        ("list_records", lambda: tools.list_records("projects", RecordFilters())),
+        ("aggregate_records",
+         lambda: tools.aggregate_records("projects", "theme", RecordFilters())),
+        ("lookup_record",
+         lambda: tools.lookup_record("projects", "anything", RecordFilters())),
+    ],
+)
+def test_ambiguous_content_type_asks_which_instead_of_querying(tool, call, monkeypatch):
+    """"projects" spans completed_projects and ongoing_projects. Picking one
+    reported "0 ongoing projects" while 918 completed ones existed; dropping the
+    type instead counted articles and papers as projects."""
+    def boom(**kw):  # the guard must fire before any query runs
+        raise AssertionError("queried despite an ambiguous content type")
+
+    for name in ("count_documents", "list_documents", "distribution"):
+        monkeypatch.setattr(f"app.catalog.queries.{name}", boom)
+
+    r = call()
+    assert r.ok is False
+    assert r.error_kind == "ambiguous_entity"  # terminal even with the flag off
+    assert "matches more than one content type" in r.rendered
+    assert "completed projects" in r.rendered and "ongoing projects" in r.rendered
+    assert r.rendered.endswith("Which did you mean?")
+
+
+def test_ambiguous_content_type_offers_readable_labels():
+    """The options are what a user would type back, not raw bundle keys."""
+    r = tools.count_records("projects", RecordFilters())
+    assert "1. completed projects" in r.rendered
+    assert "completed_projects" not in r.rendered
+
+
+def test_naming_one_project_type_is_not_ambiguous(monkeypatch):
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 918)
+    r = tools.count_records("completed_projects", RecordFilters())
+    assert r.ok and r.error_kind is None
+    assert r.rendered == "There are 918 completed projects matching your query."
+
+
+def test_lookup_record_preserves_a_terminal_error_kind(monkeypatch):
+    """lookup_record delegates to list_records; dropping error_kind on the way
+    back turned a clarification into a plain no-answer that fell through to
+    semantic search — a guess at the very question it had asked about."""
+    monkeypatch.setattr("app.catalog.queries.list_documents", lambda **k: [])
+    r = tools.lookup_record("projects", "anything", RecordFilters())
+    assert r.error_kind == "ambiguous_entity"
+
+
 def test_count_records_unresolved_theme_still_counts_via_name_fallback(monkeypatch):
     """A theme name the vocabulary could not place still filters — matching being
     unsure is not proof of absence, so the query runs and may well find rows."""

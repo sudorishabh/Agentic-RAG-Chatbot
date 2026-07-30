@@ -22,7 +22,12 @@ from typing import TYPE_CHECKING, Any, Literal, Sequence
 from pydantic import BaseModel
 
 from app.config import get_settings
-from app.retrieval.catalog_prompt import BUNDLE_LIST, COLLECTIVE_WORD_WARNING, VOCABULARY
+from app.retrieval.catalog_prompt import (
+    BUNDLE_GLOSSARY,
+    BUNDLE_LIST,
+    COLLECTIVE_WORD_WARNING,
+    VOCABULARY,
+)
 from app.retrieval.structured.types import ToolResult
 
 if TYPE_CHECKING:
@@ -36,13 +41,17 @@ GroupBy = Literal["theme", "content_type", "author", "year"]
 _PARSE_SYSTEM = (
     "Extract structured-query parameters from the user's request about a content "
     "repository of news, articles, reports, projects, events and research papers.\n"
+    # Glossary before the vocabulary block: the latter refers back to the
+    # everyday words listed "above" for each type.
+    + BUNDLE_GLOSSARY + "\n"
     + VOCABULARY + "\n"
     "- operation: 'count' for how-many/aggregate; 'distribution' for a breakdown "
     "per group ('how many per theme', 'spread across content types'); 'lookup' "
     "for a single specific item; 'list' for browse/enumerate; 'list_themes' to "
     "enumerate the themes/topics the collection covers ('what themes are there?').\n"
     "- bundle: the specific content type when the user names one, one of: "
-    + BUNDLE_LIST + ". " + COLLECTIVE_WORD_WARNING + "\n"
+    + BUNDLE_LIST + " — or the user's own word where the content-type glossary "
+    "above says to pass it through. " + COLLECTIVE_WORD_WARNING + "\n"
     "- theme: the thematic area / topic / theme name if the request is scoped "
     "to one (e.g. 'under the Climate theme', 'in the Energy area'); else null.\n"
     "- theme_children: for 'list_themes' only — true when the request asks for "
@@ -126,13 +135,32 @@ def _spans_all_content(question: str, bundle: str | None) -> bool:
 # honored" — the answer is the result's `rendered` message, not a cue to guess
 # via semantic search. Every other ok=False (unknown entity, no matching
 # records, a query failure) keeps today's fall-through behavior.
+#
+# These two come out of fuzzy name matching, so they are terminal only when
+# `entity_resolution_enabled` is on: that flag's job is to hold the matching
+# behaviour back until it has been evaluated.
 _TERMINAL_ERROR_KINDS = frozenset({"unresolved", "ambiguous"})
 
+# Terminal whatever that flag says: nothing fuzzy produced them, so there is no
+# matching quality to evaluate first. An ambiguous content type is a word that
+# names more than one bundle ("projects"), where every alternative to asking is a
+# wrong answer — one type's total reported as all, or the whole corpus counted as
+# projects. Falling through to semantic search instead answers a counting
+# question from prose.
+_ALWAYS_TERMINAL_ERROR_KINDS = frozenset({"ambiguous_entity"})
 
-def _terminal_result(results: list[ToolResult]) -> ToolResult | None:
-    """The first failed result whose error is terminal, if any."""
+
+def _terminal_result(results: list[ToolResult], *, strict: bool) -> ToolResult | None:
+    """The first failed result whose error is terminal, if any. `strict` mirrors
+    `entity_resolution_enabled`, widening what counts as terminal to include the
+    fuzzy-matching outcomes."""
+    kinds = (
+        _TERMINAL_ERROR_KINDS | _ALWAYS_TERMINAL_ERROR_KINDS
+        if strict
+        else _ALWAYS_TERMINAL_ERROR_KINDS
+    )
     for result in results:
-        if not result.ok and result.error_kind in _TERMINAL_ERROR_KINDS:
+        if not result.ok and result.error_kind in kinds:
             return result
     return None
 
@@ -171,9 +199,10 @@ def answer_structured(
     The unified analysis already extracted the structured slots — reuse it and let
     the planner pick the tool; parse only when no usable analysis came. Returns
     None (fall through to semantic search) on an unusable plan or a guarded/empty
-    tool result — unless `entity_resolution_enabled` is on and every result
-    failed with one of them terminal (an unresolved or ambiguous filter), in
-    which case its `rendered` message is the answer (see `_terminal_result`).
+    tool result — unless every result failed and one is terminal, in which case
+    its `rendered` message is the answer (see `_terminal_result`).
+    `entity_resolution_enabled` widens what counts as terminal to the
+    fuzzy-matching outcomes; an ambiguous content type is terminal either way.
     The flag gates only this fall-through change; it does not disable the
     catalog tools themselves.
     """
@@ -200,6 +229,8 @@ def answer_structured(
     results = planner.execute(db_plan, question=question)
     ok = [r for r in results if r.ok]
     if not ok:
-        terminal = _terminal_result(results) if get_settings().entity_resolution_enabled else None
+        terminal = _terminal_result(
+            results, strict=get_settings().entity_resolution_enabled
+        )
         return _compose([terminal]) if terminal is not None else None
     return _compose(ok)

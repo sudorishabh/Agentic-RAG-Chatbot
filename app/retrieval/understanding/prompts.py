@@ -5,7 +5,11 @@ engineering that changes for different reasons than the routing logic.
 """
 from __future__ import annotations
 
-from app.retrieval.catalog_prompt import BUNDLE_LIST, COLLECTIVE_WORD_WARNING
+from app.retrieval.catalog_prompt import (
+    BUNDLE_GLOSSARY,
+    BUNDLE_LIST,
+    COLLECTIVE_WORD_WARNING,
+)
 
 # Multi-label query-understanding prompt (v2). Core decision logic only; the
 # few-shot example bank is appended below. Structured output injects the field
@@ -86,9 +90,13 @@ _SYSTEM = (
     "when a list_themes request asks for sub-themes / children / what sits under "
     "a theme, false for the top-level themes; group_by "
     "('theme', 'content_type', 'author', or 'year') for distribution only; bundle, "
-    "one of: " + BUNDLE_LIST + ", set ONLY when the user names a specific type. "
+    "one of: " + BUNDLE_LIST + " — or the user's own word where Content types "
+    "below says to pass it through — set ONLY when the user names a type. "
     + COLLECTIVE_WORD_WARNING + " title_contains when a title is named or "
     "quoted; limit (default 10).\n"
+    "\n"
+    "## Content types\n"
+    + BUNDLE_GLOSSARY + "\n"
     "\n"
     "## Confidence and rationale\n"
     "- confidence: 0.0-1.0 for how sure THIS label applies. Reserve > 0.85 for "

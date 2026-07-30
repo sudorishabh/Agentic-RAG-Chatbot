@@ -16,6 +16,7 @@ from pydantic import BaseModel, Field
 
 from app.retrieval.catalog_prompt import (
     BEHAVIOR,
+    BUNDLE_GLOSSARY,
     BUNDLE_LIST,
     COLLECTIVE_WORD_WARNING,
     FEW_SHOTS,
@@ -179,6 +180,9 @@ _PLANNER_SYSTEM = (
     "- aggregate_records: counts grouped by group_by "
     "(theme / content_type / author / year).\n"
     "- list_themes: list the themes/topics the collection covers (takes no filters).\n"
+    # Glossary before the vocabulary block, which refers back to the everyday
+    # words listed "above" for each type.
+    + BUNDLE_GLOSSARY + "\n"
     + VOCABULARY + "\n"
     + RESOLVE_FIRST + "\n"
     + OPERATIONS + "\n"

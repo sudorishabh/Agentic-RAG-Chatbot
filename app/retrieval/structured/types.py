@@ -102,7 +102,10 @@ class ToolResult:
     error: str | None = None
     # "unresolved" | "ambiguous" -> terminal: a filter was understood but could
     # not be answered honestly, so `rendered` is shown as the answer rather than
-    # a cue to fall through to semantic search.
+    # a cue to fall through to semantic search. Both come from fuzzy name
+    # matching, so they are terminal only while `entity_resolution_enabled` is on.
+    # "ambiguous_entity" -> terminal unconditionally: a content word naming
+    # several bundles, decided from a curated list rather than by similarity.
     # "no_records" | "unknown_entity" | "query_failed" | None -> today's
     # behaviour: ok=False here still means "fall through".
     error_kind: str | None = None

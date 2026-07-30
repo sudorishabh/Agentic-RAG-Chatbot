@@ -25,11 +25,58 @@ from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 
 BUNDLE_LIST = ", ".join(DEFAULT_BUNDLES)
 
+# What each content type holds and the words users say for it. This exists
+# because a bare list of bundle names left the model guessing which everyday
+# word maps to which type, and it guessed the collective reading: "articles" is
+# a generic word for "records" in most CMSs, but here `article` is a real bundle
+# (459 of 2,135 rows), so "total number of articles" answered 2135. The same
+# trap sits under "reports", "papers" and "briefs", so every type users name
+# gets described rather than only the one that broke.
+#
+# Keyed by bundle so the glossary cannot drift from the source registry —
+# `tests/test_shared_prompt.py` asserts every key is a real bundle and that the
+# undescribed remainder is still advertised as valid.
+BUNDLE_MEANINGS: tuple[tuple[str, str], ...] = (
+    ("article", "standalone articles and blog posts. Plain \"article(s)\" means "
+                "THIS type — it is not a generic word for a record here"),
+    ("feature_articles", "long-form feature pieces — only when the user says "
+                         "\"feature\" or \"featured\""),
+    ("news", "news items, announcements, press coverage, news stories"),
+    ("events", "events, conferences, workshops, seminars, webinars"),
+    ("press_release", "press releases and media releases"),
+    ("research_papers", "research papers, journal papers, studies. \"paper(s)\" "
+                        "means this type"),
+    ("policy_brief", "policy briefs and briefing papers"),
+    ("report", "reports. \"report(s)\" means THIS type, not publications at large"),
+    ("completed_projects", "projects that have finished — \"completed\", "
+                           "\"finished\", \"past\" projects"),
+    ("ongoing_projects", "projects still running — \"ongoing\", \"current\", "
+                         "\"active\" projects"),
+)
+
+_DESCRIBED = tuple(name for name, _ in BUNDLE_MEANINGS)
+_OTHER_BUNDLES = tuple(b for b in DEFAULT_BUNDLES if b not in _DESCRIBED)
+
+BUNDLE_GLOSSARY = (
+    "Content types, with the everyday words users use for each. When the user's "
+    "word appears here, set the content type to that bundle — do not fall back "
+    "to \"no specific type\" just because the word could also be read "
+    "collectively:\n"
+    + "\n".join(f"- {name}: {meaning}." for name, meaning in BUNDLE_MEANINGS)
+    + "\nAlso valid, rarely asked about by name: " + ", ".join(_OTHER_BUNDLES) + ".\n"
+    "\"Projects\" with no completed/ongoing cue spans two of these types. Pass "
+    "the user's own word through as the content type (\"projects\") — the query "
+    "layer will ask which they meant. Do not pick one of the two, and do not "
+    "leave the type off: picking reports one type's total as if it were every "
+    "project, and omitting it counts articles and papers as projects."
+)
+
 VOCABULARY = (
-    "Vocabulary: \"articles\", \"items\", \"stories\", \"pieces\", and \"entries\" "
-    "all mean a catalog record in general — none of them names a specific content "
-    "type. A bundle's own name (e.g. \"events\", \"reports\", \"press releases\") "
-    "does name one; users never say the word \"bundle\" itself."
+    "Vocabulary: \"items\", \"pieces\", \"entries\", \"posts\", and \"records\" "
+    "mean a catalog record in general — none of them names a specific content "
+    "type. A bundle's own name does name one, and so do the everyday words listed "
+    "for it above (\"articles\", \"reports\", \"papers\", \"events\", \"press "
+    "releases\"); users never say the word \"bundle\" itself."
 )
 
 COLLECTIVE_WORD_WARNING = (
