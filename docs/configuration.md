@@ -52,10 +52,10 @@ See [ingestion.md](ingestion.md#extraction) for the extraction pipeline.
 
 ## Chunking
 
-| Setting | Default | Description |
-| --- | --- | --- |
-| `chunk_size` | `1000` | Legacy/base chunk size (the chunker uses token-based presets — see [ingestion.md](ingestion.md#chunking--appingestionchunkerpy)) |
-| `chunk_overlap` | `200` | Legacy/base overlap |
+Chunking has **no environment settings**. Token budgets are preset-driven per
+source type / bundle in
+[app/ingestion/chunking/config.py](../app/ingestion/chunking/config.py) — see
+[ingestion.md](ingestion.md#chunking--appingestionchunking).
 
 ## Retrieval & reranking
 

@@ -74,8 +74,6 @@ class Settings(BaseSettings):
     # filter out once stale; expired points are deleted every N stores (0 disables
     # the opportunistic prune — rely on lookup-time filtering / a scheduled prune).
     semantic_cache_prune_every: int = 200
-    chunk_size: int = 1000
-    chunk_overlap: int = 200
     worker_sweep_interval_seconds: int = 3600
     worker_sweep_reconcile: bool = False
     retrieval_top_k: int = 6
