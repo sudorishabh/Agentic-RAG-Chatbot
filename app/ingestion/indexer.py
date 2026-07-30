@@ -60,7 +60,7 @@ def index_chunks(chunks: Sequence[Chunk], *, batch_size: int = 128, stamp: bool 
 
     children = [c for c in chunks if not c.is_parent]
     with span("ingest.embed", chunks=len(children)):
-        vectors = _embed_children([c.text for c in children], batch_size)
+        vectors = _embed_children([c.embed_text or c.text for c in children], batch_size)
     vec_by_id = {c.chunk_id: v for c, v in zip(children, vectors)}
     dim = len(vectors[0]) if vectors else _probe_dim()
 

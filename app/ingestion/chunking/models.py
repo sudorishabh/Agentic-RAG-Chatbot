@@ -43,6 +43,11 @@ class Chunk:
     text: str
     is_parent: bool
     meta: DocumentMeta
+    # What the embedder actually sees: `text` behind a "title › heading"
+    # breadcrumb. Kept apart from `text` because `text` is what citations quote
+    # and what `content_hash` covers, and neither may drift. Empty on parents,
+    # which are stored as zero vectors and never embedded.
+    embed_text: str = ""
     section_heading: str | None = None
     section_type: str | None = None
     parent_chunk_id: str | None = None

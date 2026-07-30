@@ -14,6 +14,10 @@ class ChunkingConfig:
     parent_target_tokens: int = 1800
     parent_max_tokens: int = 2400
     encoding_name: str = "cl100k_base"
+    # Cap on the "title › heading" trail prefixed to a child's *embedded* text.
+    # Bounded so a runaway title or garbled OCR heading cannot dominate the
+    # embedding of a short chunk.
+    breadcrumb_max_tokens: int = 32
 
 
 _BASE = ChunkingConfig()

@@ -59,6 +59,25 @@ def _hash(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+_BREADCRUMB_SEP = " › "
+
+
+def _breadcrumb(
+    meta: DocumentMeta, heading: str | None, max_tokens: int, enc: Encoder
+) -> str:
+    """The "title › heading" trail prefixed to a child's *embedded* text.
+
+    Headings are lifted out of the block stream into ``Section.heading`` and only
+    ever rejoined onto parent text — and parents are stored as zero vectors, so
+    without this a heading reaches no vector at all and contributes nothing to
+    retrieval. Returns "" when there is neither a title nor a heading to state.
+    """
+    parts = [p.strip() for p in (meta.title, heading) if p and p.strip()]
+    if not parts:
+        return ""
+    return enc.head(_BREADCRUMB_SEP.join(parts), max_tokens)
+
+
 def _parent_text(heading: str | None, blocks: Sequence[Block], part: int) -> str:
     body = join_blocks(blocks)
     if not heading:
@@ -76,6 +95,7 @@ def _build_chunks(
     for section_idx, section in enumerate(sections):
         heading = section.heading
         body = section.blocks
+        crumb = _breadcrumb(meta, heading, config.breadcrumb_max_tokens, enc)
         heading_tokens = enc.count(heading) if heading else 0
         body_tokens = sum(enc.count(b.text) for b in body)
 
@@ -135,6 +155,7 @@ def _build_chunks(
                     Chunk(
                         chunk_id=_uuid(meta, f"child|{child_index}"),
                         text=ctext, is_parent=False, meta=meta,
+                        embed_text=f"{crumb}\n\n{ctext}" if crumb else ctext,
                         section_heading=heading, section_type=classify_section(ctext),
                         parent_chunk_id=parent_id if emit_parent else None,
                         chunk_index=child_index,

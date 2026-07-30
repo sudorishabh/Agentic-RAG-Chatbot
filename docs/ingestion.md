@@ -164,6 +164,17 @@ A `Chunk` becomes a Qdrant point via `to_payload()`. **Parents are stored as
 zero-vectors; only children are embedded** — parents are fetched by id during
 parent-expand at query time (see [retrieval.md](retrieval.md)).
 
+**Children are embedded behind a breadcrumb.** Each child carries an
+`embed_text` of `"{title} › {section_heading}\n\n{text}"`, and that — not the
+bare `text` — is what the indexer sends to the embedder. Headings are lifted out
+of the block stream into `Section.heading` and rejoined only onto *parent* text,
+so without this a heading would reach no vector at all: a child from page 30 of
+a report would be embedded with no trace of which report or section it came
+from. The breadcrumb is capped at `breadcrumb_max_tokens` (default 32) so a
+runaway title or garbled OCR heading cannot dominate a short chunk's embedding.
+The stored `chunk_text` payload is deliberately left untouched — it is what
+citations quote and what `content_hash` covers, and neither may drift.
+
 ## Embedding — [app/ingestion/embedder.py](../app/ingestion/embedder.py)
 
 - `get_embeddings()` — memoized `AzureOpenAIEmbeddings` client.

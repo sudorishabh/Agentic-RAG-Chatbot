@@ -56,6 +56,15 @@ class Encoder:
         size = n * _CHARS_PER_TOKEN
         return text[-size:] if len(text) > size else text
 
+    def head(self, text: str, n: int) -> str:
+        if n <= 0 or not text:
+            return ""
+        if self._enc is not None:
+            ids = self._enc.encode(text)
+            return self._enc.decode(ids[:n]) if len(ids) > n else text
+        size = n * _CHARS_PER_TOKEN
+        return text[:size] if len(text) > size else text
+
 
 @lru_cache(maxsize=4)
 def get_encoder(name: str) -> Encoder:
