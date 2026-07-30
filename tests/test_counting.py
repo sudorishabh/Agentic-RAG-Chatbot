@@ -423,7 +423,9 @@ def test_grounded_prompt_carries_worked_example():
     from app.generation.prompts import GROUNDED_SYSTEM_PROMPT
 
     assert "Example:" in GROUNDED_SYSTEM_PROMPT
-    assert GROUNDED_SYSTEM_PROMPT.rstrip().endswith("Answer concisely and factually.")
+    assert GROUNDED_SYSTEM_PROMPT.rstrip().endswith(
+        "Answer factually, in as much depth as the context genuinely supports."
+    )
 
 
 # --------------------------------------------------------------------------- #

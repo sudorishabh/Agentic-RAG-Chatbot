@@ -1252,25 +1252,19 @@
     .bubble tbody tr:nth-child(even) { background: rgba(0,0,0,.025); }
 
     /* ---- Answer blocks ---- */
-    /* Website-sourced content is authoritative and leads; the PDF block is
-       supplementary. A left rule over a tinted ground marks the split without
-       boxing the answer in — the bot bubble itself is borderless. The PDF block
-       drops to neutral grey so the ordering reads as precedence, not just
-       colour. */
-    .answer-block {
-      border-left: 3px solid var(--teri-green);
-      background: var(--teri-green-soft);
-      border-radius: 0 8px 8px 0;
+    /* Website-sourced content is the answer proper, so it carries no container
+       of its own — it reads as plain prose on the bubble. Only the supplementary
+       PDF block is marked out, by a tinted ground alone (no rule), which keeps
+       the answer from looking boxed in. */
+    .answer-block--pdf {
+      background: var(--teri-surface);
+      border-radius: 8px;
       padding: 10px 12px;
       margin: 0 0 10px;
     }
-    .answer-block--pdf {
-      border-left-color: var(--teri-dim);
-      background: var(--teri-surface);
-    }
     /* Markdown blocks carry their own bottom margin; drop the last one so the
        container's padding sets the gap. */
-    .answer-block > :last-child { margin-bottom: 0; }
+    .answer-block--pdf > :last-child { margin-bottom: 0; }
 
     /* ---- Sources ---- */
     /* A reference block that sits at the bottom of the answer bubble,

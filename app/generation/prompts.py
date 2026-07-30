@@ -37,6 +37,29 @@ _ANSWER_STRUCTURE = (
     "- When neither category helps, follow rule 3: the refusal alone, no tags.\n"
 )
 
+# Depth and shape of the prose inside the blocks. Rides on every QA call, so it
+# stays compact; the query-specific shaping lives in _FORMAT_DIRECTIVES and takes
+# precedence over this. Asking a grounded model for fuller answers raises the
+# pressure to pad, so the anti-padding clause is not optional decoration — it is
+# what keeps the extra length coming from the context.
+_ANSWER_STYLE = (
+    "Answer style:\n"
+    "- Be thorough: cover the relevant context, not only the bare fact asked "
+    "for — what it means, plus the examples, caveats and limits the context "
+    "supports. Scale depth to the question; a simple factual one still gets a "
+    "short answer.\n"
+    "- Structure anything past a couple of sentences: short paragraphs, bullets "
+    "for parallel points, numbered steps for sequences, a Markdown table for "
+    "comparisons across two or more dimensions, and **bold** for the points "
+    "that matter most. No walls of text.\n"
+    "- Depth must come from the context, never from padding: every added "
+    "sentence carries its own [n], and a table or list needs real values for "
+    "every cell it opens. Say less rather than fill space.\n"
+    "- This shapes the prose inside each block. The wrappers, their order and "
+    "their citations are unaffected, and there is no cross-block summary — the "
+    "two blocks are the structure.\n"
+)
+
 # One compact worked demonstration, always present: 4o-mini follows
 # demonstrated behavior far better than described behavior. Kept tiny —
 # it rides on every QA call. The second half reuses the same context to
@@ -85,8 +108,9 @@ GROUNDED_SYSTEM_PROMPT = (
     "8. Never state how many documents/articles/publications exist — the context "
     "is a sample; treat such totals as not contained (rule 3).\n"
     + _ANSWER_STRUCTURE
+    + _ANSWER_STYLE
     + _GROUNDED_EXAMPLE + "\n"
-    "Answer concisely and factually."
+    "Answer factually, in as much depth as the context genuinely supports."
 )
 
 
@@ -140,10 +164,14 @@ _FORMAT_EXEMPLARS: dict[str, str] = {
 
 # Every directive describes the shape of the prose, which is nested inside the
 # block wrappers — without this the "no preamble" and "shape the answer as a
-# table" directives read as licence to drop the structure.
+# table" directives read as licence to drop the structure. The precedence clause
+# settles the other half: a detected shape is an explicit read of what this user
+# asked for, so it outranks the always-on depth guidance (a request to summarize
+# must still produce a summary).
 _FORMAT_SCOPE_NOTE = (
     f"Apply this shape inside each answer block; the <{WEBSITE_TAG}> and "
-    f"<{PDF_TAG}> wrappers stay exactly as described above."
+    f"<{PDF_TAG}> wrappers stay exactly as described above. Where it conflicts "
+    "with the general answer-style guidance, this shape wins."
 )
 
 

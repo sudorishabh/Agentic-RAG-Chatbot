@@ -199,6 +199,25 @@ def test_format_directives_are_scoped_inside_the_blocks():
     assert format_directive("default") == ""
 
 
+def test_format_directives_outrank_the_general_style_guidance():
+    # A detected shape reads this user's explicit intent, so "summarize briefly"
+    # must not lose to the always-on instruction to answer thoroughly.
+    assert "this shape wins" in format_directive("summary")
+
+
+def test_prompt_states_the_style_between_the_structure_and_the_example():
+    structure = GROUNDED_SYSTEM_PROMPT.index("Answer structure")
+    style = GROUNDED_SYSTEM_PROMPT.index("Answer style:")
+    assert structure < style < GROUNDED_SYSTEM_PROMPT.index("Example:")
+
+
+def test_prompt_guards_added_depth_against_padding():
+    # Asking a grounded model for fuller answers invites padding; the guard that
+    # ties every added sentence back to the context has to survive rewording.
+    style = GROUNDED_SYSTEM_PROMPT[GROUNDED_SYSTEM_PROMPT.index("Answer style:") :]
+    assert "never from padding" in style
+
+
 # --------------------------------------------------------------------------- #
 # The sources footer lists what the answer cited, not everything retrieved.
 
