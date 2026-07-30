@@ -276,6 +276,41 @@ def ensure_state_table() -> None:
         conn.commit()
 
 
+# Ingest-time enrichment (LLM-derived per-document output), keyed by the content
+# hash it was derived from rather than by document_id — deliberately NOT a child
+# table of `documents` and deliberately without a foreign key:
+#
+#   * it has to survive a state-table reset, which is the usual way to force a
+#     reindex and exactly when re-paying for enrichment hurts most;
+#   * documents whose body text is identical (the same PDF reached by two URLs,
+#     or linked from several nodes) then share one row and enrich once;
+#   * nothing may cascade-delete it when a document row goes away, because the
+#     same content may come back under a different id.
+#
+# The trade is that orphan rows have to be pruned rather than cascaded. They are
+# small and act as a cache for re-added content, so pruning is a maintenance
+# task, not a correctness one.
+_ENRICHMENT_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_enrichment` (
+    content_hash VARCHAR(64) NOT NULL,
+    version      VARCHAR(64) NOT NULL,
+    abstract     TEXT        NULL,
+    attempts     INT         NOT NULL DEFAULT 0,
+    last_error   TEXT        NULL,
+    updated_at   DATETIME    NOT NULL,
+    PRIMARY KEY (content_hash),
+    KEY idx_version (version)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+
+def ensure_enrichment_table() -> None:
+    table = state_table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(_ENRICHMENT_DDL.format(table=table))
+        conn.commit()
+
+
 _LOG_DDL = """
 CREATE TABLE IF NOT EXISTS `{table}` (
     id             BIGINT        NOT NULL AUTO_INCREMENT,
