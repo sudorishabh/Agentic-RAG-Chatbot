@@ -28,6 +28,7 @@ from app.retrieval.catalog_prompt import (
     BUNDLE_LIST,
     COLLECTIVE_WORD_WARNING,
     VOCABULARY,
+    catalog_inventory_directive,
 )
 from app.retrieval.structured.types import ToolResult
 
@@ -107,7 +108,12 @@ def parse_structured(
         model = get_structured_llm().with_structured_output(StructuredQuery)
         return model.invoke(
             [
-                ("system", _PARSE_SYSTEM + current_date_directive()),
+                (
+                    "system",
+                    _PARSE_SYSTEM
+                    + catalog_inventory_directive()
+                    + current_date_directive(),
+                ),
                 ("human", f"Conversation:\n{convo}\n\nRequest: {question}"),
             ]
         )

@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 from app.config import get_settings
 from app.core.clients.llm import get_llm, get_structured_llm
 from app.core.dates import IsoDate, current_date_directive, exclusive_end
+from app.retrieval.catalog_prompt import catalog_inventory_directive
 from app.retrieval.understanding.filters import (
     _facet_filters,
     _parse_bound,
@@ -349,7 +350,12 @@ def _understanding_messages(
     question: str, history: Sequence[dict[str, str]] | None
 ) -> list[tuple[str, str]]:
     return [
-        ("system", _UNDERSTANDING_SYSTEM + current_date_directive()),
+        (
+            "system",
+            _UNDERSTANDING_SYSTEM
+            + catalog_inventory_directive()
+            + current_date_directive(),
+        ),
         (
             "human",
             f"Conversation so far:\n{_format_history(history)}\n\n"

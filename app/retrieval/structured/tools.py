@@ -24,6 +24,7 @@ from app.retrieval.structured.entities import (
     ambiguous_bundles,
     entity_label,
     get_entity,
+    is_available,
     is_known,
     normalize_entity,
 )
@@ -161,16 +162,34 @@ def _scope_guard(tool: str, entity: str | None, scope: Any) -> ToolResult | None
 
 
 def _empty_result_miss(tool: str, entity: str | None, scope: Any) -> ToolResult | None:
-    """Post-query: whether an empty result should be reported as an unresolved
-    name rather than a genuine zero. Returns None when every name placed, leaving
-    the caller to answer an honest zero.
+    """Post-query: whether an empty result should be reported as something other
+    than a genuine zero. Returns None when every filter placed, leaving the
+    caller to answer an honest zero.
 
     Author, theme and tag are treated identically — each has its own facet table,
     so each filters by name and each can only be judged a miss once the query
-    comes back empty."""
+    comes back empty.
+
+    `entity` is judged the same way and for the same reason. A bundle can be
+    configured (`DEFAULT_BUNDLES`) yet have no rows in this deployment, and
+    filtering on it then reports "0 reports" — a statement about the corpus when
+    the truth is about the vocabulary. Checked here rather than before querying
+    so the tools stay independent of the catalog's inventory whenever the query
+    found something anyway."""
     for kind in ("author", "theme", "tag"):
         if getattr(scope, f"{kind}_missed", False):
             return _unresolved_miss(tool, entity, kind, getattr(scope.effective, kind))
+    if entity and not is_available(entity):
+        logger.info(
+            "Bundle %r is registered but absent from the catalog; falling "
+            "through instead of reporting zero.", entity,
+        )
+        # No error_kind: this must fall through to semantic search like an
+        # unrecognized type, not terminate the way an unresolved name does.
+        return ToolResult(
+            tool=tool, entity=entity, ok=False,
+            error=f"no {entity!r} content in this catalog",
+        )
     return None
 
 

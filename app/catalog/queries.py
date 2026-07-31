@@ -19,6 +19,7 @@ and return empty, so a MySQL outage degrades retrieval instead of failing it.
 from __future__ import annotations
 
 import logging
+import time
 from datetime import datetime
 from typing import Any, Sequence
 
@@ -282,6 +283,57 @@ def distinct_authors(*, limit: int = 2000) -> list[str]:
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(sql)
         return [row["author"] for row in cur.fetchall() if row["author"]]
+
+
+# How long a bundle inventory is trusted. Short enough that an ingest adding a
+# content type shows up without a restart, long enough that the extra query is
+# noise next to the LLM calls on the same request.
+_BUNDLE_INVENTORY_TTL_SECONDS = 600
+_bundle_inventory: tuple[float, tuple[str, ...]] | None = None
+
+
+def available_bundles(*, refresh: bool = False) -> tuple[str, ...]:
+    """The bundles this catalog actually holds content documents for.
+
+    ``DEFAULT_BUNDLES`` is the list ingestion *attempts*, not what a given
+    deployment ended up with — a source that has no press releases, or a bundle
+    that was never crawled, leaves a content type that is advertised to the LLM
+    but can only ever match zero rows. Asking the catalog closes that gap.
+
+    Scoped to website nodes, matching what the entity registry considers a
+    content document (see ``app.retrieval.structured.entities``); PDF
+    attachments reuse their parent's bundle and would otherwise imply a type
+    exists as browsable content when it does not.
+
+    Fails open with an empty tuple: callers must read that as "unknown", never
+    as "the catalog is empty", or a MySQL blip would retract the whole
+    vocabulary.
+
+    Cached here rather than in the callers so the prompt builder and the query
+    guard share one inventory (and one query) per request."""
+    global _bundle_inventory
+    now = time.monotonic()
+    if (
+        not refresh
+        and _bundle_inventory is not None
+        and now - _bundle_inventory[0] < _BUNDLE_INVENTORY_TTL_SECONDS
+    ):
+        return _bundle_inventory[1]
+    table = _table()
+    sql = (
+        f"SELECT DISTINCT bundle FROM `{table}` "
+        "WHERE bundle IS NOT NULL AND source_type = 'website' AND entity_type = 'node'"
+    )
+    try:
+        with mysql_connection() as conn, conn.cursor() as cur:
+            cur.execute(sql)
+            found = tuple(sorted(r["bundle"] for r in cur.fetchall() if r["bundle"]))
+    except Exception:
+        logger.warning("Bundle inventory lookup failed; treating it as unknown.",
+                       exc_info=True)
+        return ()
+    _bundle_inventory = (now, found)
+    return found
 
 
 def theme_vocabulary(*, limit: int = 500) -> list[dict[str, Any]]:

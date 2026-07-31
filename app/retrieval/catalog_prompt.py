@@ -119,6 +119,44 @@ BEHAVIOR = (
     "catch a wrong match."
 )
 
+def catalog_inventory_directive() -> str:
+    """Prompt block naming the content types this deployment actually holds.
+
+    The blocks above describe every *configured* bundle, which is what ingestion
+    tries to fetch — not what it found. A type the catalog has no rows for is
+    still advertised, so the model confidently sets it and the query answers a
+    flat zero that reads like a fact about the corpus rather than about the
+    vocabulary. Naming the real inventory stops the model choosing a type that
+    cannot match.
+
+    Returns "" when the inventory cannot be determined (no database, a MySQL
+    blip) so the prompt falls back to the configured list rather than claiming
+    the catalog is empty.
+
+    Reads the catalog directly rather than through
+    `app.retrieval.structured.entities`: importing any submodule of that package
+    runs its `__init__`, which is the dependency this module exists to avoid (see
+    the module docstring). The import is function-local so module import stays
+    client-free, and calling per request means a new ingest needs no restart."""
+    from app.catalog.queries import available_bundles
+
+    present = tuple(b for b in available_bundles() if b in DEFAULT_BUNDLES)
+    if not present:
+        return ""
+    absent = tuple(b for b in DEFAULT_BUNDLES if b not in present)
+    if not absent:
+        return ""
+    return (
+        "\n\n## Content types actually present\n"
+        f"This catalog currently holds only: {', '.join(present)}.\n"
+        f"These are configured but have NO records: {', '.join(absent)}.\n"
+        "If the user asks for one of the empty types (reports, papers, news, "
+        "events...), leave the content type null so the query spans what does "
+        "exist — do not set a type that cannot match, and do not substitute a "
+        "different one. Filters like theme, author and date still apply."
+    )
+
+
 FEW_SHOTS = (
     "Examples (the tool calls, not the answer). Names go in as written — the "
     "query layer canonicalizes them:\n"

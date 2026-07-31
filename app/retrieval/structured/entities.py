@@ -117,6 +117,35 @@ def is_known(name: str | None) -> bool:
     return bool(name) and name in _REGISTRY
 
 
+def present_bundles() -> tuple[str, ...]:
+    """Registered bundles the catalog actually holds documents for.
+
+    Empty means "could not tell" — the catalog was unreachable, or this is a
+    caller with no database. It never means "nothing is available", because a
+    transient failure must not retract the vocabulary; consumers treat empty as
+    "assume the configured list is fine". The underlying query is cached (see
+    `app.catalog.queries.available_bundles`)."""
+    from app.catalog import queries
+
+    return tuple(b for b in queries.available_bundles() if b in _REGISTRY)
+
+
+def is_available(name: str | None) -> bool:
+    """Whether a registered bundle has any content in *this* catalog.
+
+    Distinct from :func:`is_known`, which only says the type is configured. A
+    known-but-absent bundle is what produced confident zeroes: the query layer
+    happily filtered on `bundle = 'report'` against a catalog holding no reports
+    and answered "0 reports" as though it had counted them.
+
+    True when the inventory is unknown, so a database problem degrades to the
+    previous behaviour rather than rejecting every content type."""
+    if not is_known(name):
+        return False
+    present = present_bundles()
+    return not present or name in present
+
+
 def ambiguous_bundles(raw: str | None) -> tuple[str, ...]:
     """The bundles a free-text content word spans when it names more than one,
     else empty.

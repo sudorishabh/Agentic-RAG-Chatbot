@@ -5,6 +5,7 @@ from __future__ import annotations
 import pytest
 
 from app.catalog.models import StateRecord
+from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
 from app.retrieval.structured import tools
 from app.retrieval.structured.types import RecordFilters
 
@@ -30,10 +31,17 @@ def _theme_vocab(*names, group="main"):
 @pytest.fixture(autouse=True)
 def _offline_catalog(monkeypatch):
     """Themes/tags/authors come from the catalog by name; stub them empty so no
-    test reaches MySQL, and let individual cases override."""
+    test reaches MySQL, and let individual cases override.
+
+    The bundle inventory is stubbed to the full configured list so these tests
+    describe tool logic rather than whichever content types the developer's local
+    ingest happens to hold; `test_absent_bundle_*` overrides it."""
     monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: [])
     monkeypatch.setattr("app.catalog.queries.find_tag", lambda name: None)
     monkeypatch.setattr("app.catalog.queries.distinct_authors", lambda **kw: [])
+    monkeypatch.setattr(
+        "app.catalog.queries.available_bundles", lambda **kw: DEFAULT_BUNDLES
+    )
     from app.retrieval.structured import resolve
 
     resolve.reload_authors()
@@ -270,6 +278,53 @@ def test_count_records_resolved_theme_with_no_rows_is_an_honest_zero(monkeypatch
     r = tools.count_records("news", RecordFilters(theme="Climate Change"))
     assert r.ok is True and r.data["count"] == 0
     assert r.rendered == "There are 0 news items on 'Climate Change' matching your query."
+
+
+@pytest.fixture
+def only_articles(monkeypatch):
+    """A catalog that ingested articles and pages but none of the other
+    configured content types — the shape that produced "0 reports"."""
+    monkeypatch.setattr(
+        "app.catalog.queries.available_bundles", lambda **kw: ("article", "page")
+    )
+
+
+def test_absent_bundle_falls_through_instead_of_counting_zero(monkeypatch, only_articles):
+    """`report` is configured but has no rows here. Answering "0 reports" states
+    a fact about the corpus when the truth is about the vocabulary, so the tool
+    declines and lets semantic search answer."""
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 0)
+    r = tools.count_records("report", RecordFilters())
+    assert r.ok is False
+    assert "no 'report' content in this catalog" in r.error
+    # Not terminal: error_kind is what stops the fall-through to semantic search.
+    assert r.error_kind is None
+
+
+def test_present_bundle_with_no_matches_is_still_an_honest_zero(monkeypatch, only_articles):
+    """The bundle exists, so zero is a real answer about the filters."""
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 0)
+    r = tools.count_records("article", RecordFilters(date_from="2019-01-01"))
+    assert r.ok is True and r.data["count"] == 0
+
+
+def test_absent_bundle_that_still_matched_rows_is_reported_normally(
+    monkeypatch, only_articles
+):
+    """The inventory is consulted only when the result is empty — a stale
+    inventory must never suppress rows the query actually found."""
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 3)
+    r = tools.count_records("report", RecordFilters())
+    assert r.ok is True and r.data["count"] == 3
+
+
+def test_unknown_inventory_keeps_the_previous_behaviour(monkeypatch):
+    """An unreachable catalog returns no inventory; that must read as "cannot
+    tell", not as "every content type is empty"."""
+    monkeypatch.setattr("app.catalog.queries.available_bundles", lambda **kw: ())
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 0)
+    r = tools.count_records("report", RecordFilters())
+    assert r.ok is True and r.data["count"] == 0
 
 
 def test_count_records_passes_tag_scope(monkeypatch, resolve_tag_ok):

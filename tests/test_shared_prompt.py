@@ -214,6 +214,47 @@ def test_shared_prompt_does_not_depend_on_the_structured_package():
     assert not [m for m in imported if m.startswith("app.retrieval.structured")]
 
 
+# --------------------------------------------------------------------------- #
+# catalog_inventory_directive — what this deployment actually holds.
+# --------------------------------------------------------------------------- #
+
+def test_inventory_directive_names_present_and_absent_types(monkeypatch):
+    """DEFAULT_BUNDLES is what ingestion attempts, not what it found. A type with
+    no rows was still advertised, so the model set it and the query answered a
+    flat zero that read like a fact about the corpus."""
+    monkeypatch.setattr(
+        "app.catalog.queries.available_bundles", lambda **kw: ("article", "page")
+    )
+    text = prompt.catalog_inventory_directive()
+    assert "currently holds only: article, page" in text
+    assert "report" in text and "news" in text
+    assert "leave the content type null" in text
+
+
+def test_inventory_directive_is_silent_when_the_catalog_is_unreachable(monkeypatch):
+    """Empty means "cannot tell". Claiming the catalog holds nothing would stop
+    the model setting any content type at all."""
+    monkeypatch.setattr("app.catalog.queries.available_bundles", lambda **kw: ())
+    assert prompt.catalog_inventory_directive() == ""
+
+
+def test_inventory_directive_is_silent_when_everything_is_present(monkeypatch):
+    """Nothing to warn about — don't spend prompt tokens restating the glossary."""
+    monkeypatch.setattr(
+        "app.catalog.queries.available_bundles", lambda **kw: DEFAULT_BUNDLES
+    )
+    assert prompt.catalog_inventory_directive() == ""
+
+
+def test_inventory_directive_ignores_bundles_outside_the_registry(monkeypatch):
+    """A stray bundle in the data is not a content type the model may set."""
+    monkeypatch.setattr(
+        "app.catalog.queries.available_bundles",
+        lambda **kw: ("article", "page", "some_unregistered_thing"),
+    )
+    assert "some_unregistered_thing" not in prompt.catalog_inventory_directive()
+
+
 def test_classifier_prompt_import_stays_client_free():
     """The measurable form of the above: importing the classifier's prompt text
     must not transitively load the DB / vector / LLM clients."""
