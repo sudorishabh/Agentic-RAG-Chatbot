@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 
 from app.config import get_settings
 from app.core.clients.llm import get_llm, get_structured_llm
-from app.core.dates import IsoDate, current_date_directive
+from app.core.dates import IsoDate, current_date_directive, exclusive_end
 from app.retrieval.understanding.filters import (
     _facet_filters,
     _parse_bound,
@@ -114,11 +114,20 @@ class QueryScope(BaseModel):
     author: str | None = None
     tags: list[str] = Field(default_factory=list)
     # IsoDate, not str: the model routinely trails JSON punctuation into these
-    # two values ("2022-01-01},"), which reaches SQL as a dropped bound and the
+    # values ("2022-01-01},"), which reaches SQL as a dropped bound and the
     # answer text as a visible artefact. See app.core.dates.
     date_from: IsoDate = None
-    date_to: IsoDate = None
+    # The LLM is asked for the last date to INCLUDE, never the exclusive bound —
+    # copying a date is reliable, incrementing one is not. `date_to` below derives
+    # the half-open bound the query layers actually take.
+    date_to_inclusive: IsoDate = None
     language: str | None = None
+
+    @property
+    def date_to(self) -> str | None:
+        """Exclusive upper bound — a property, so it stays out of the schema the
+        LLM fills and cannot drift from `date_to_inclusive`."""
+        return exclusive_end(self.date_to_inclusive)
 
 
 class QueryUnderstanding(BaseModel):
@@ -310,7 +319,7 @@ def _merge_understanding(
         author=vote(lambda s: s.scope.author),
         tags=vote(lambda s: s.scope.tags) or [],
         date_from=vote(lambda s: s.scope.date_from),
-        date_to=vote(lambda s: s.scope.date_to),
+        date_to_inclusive=vote(lambda s: s.scope.date_to_inclusive),
         language=vote(lambda s: s.scope.language),
     )
     primary = _primary_intent(intents)

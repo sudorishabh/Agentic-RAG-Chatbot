@@ -19,6 +19,7 @@ from typing import Any, Sequence
 
 from app.catalog import queries as state
 from app.catalog.models import StateRecord
+from app.core.dates import inclusive_end
 from app.retrieval.structured.entities import (
     ambiguous_bundles,
     entity_label,
@@ -44,13 +45,19 @@ def _md_cell(text: str) -> str:
 
 def _period_label(filters: RecordFilters) -> str:
     """Human phrase for a date scope. A whole-calendar-year range reads as
-    'in YYYY' rather than raw bounds."""
+    'in YYYY' rather than raw bounds.
+
+    `date_to` is exclusive, so a two-ended range names the last day it actually
+    covers — echoing the raw bound would claim a day the query excludes ("between
+    2020-01-01 and 2022-01-01" for a 2020-2021 range). 'before' is left as the
+    raw bound, which is already what an exclusive end means."""
     df, dt = filters.date_from, filters.date_to
     lo, hi = _parse_date(df), _parse_date(dt)
     if lo and hi and (lo.month, lo.day) == (1, 1) and hi == datetime(lo.year + 1, 1, 1):
         return f" in {lo.year}"
     if df and dt:
-        return f" between {df} and {dt}"
+        last = inclusive_end(dt) or dt
+        return f" on {df}" if last == df else f" between {df} and {last}"
     if df:
         return f" since {df}"
     if dt:

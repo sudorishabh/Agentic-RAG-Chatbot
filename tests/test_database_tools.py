@@ -87,8 +87,9 @@ def test_scope_phrase_names_the_title_filter():
 def test_scope_phrase_covers_every_filter_that_applied_filters_echoes():
     """The prose and the structured echo must name the same filter set — a
     filter stated in one but not the other is either an unexplained number or
-    an unexplained key. Dates are compared as a period rather than verbatim:
-    a whole calendar year deliberately reads "in 2024", not its raw bounds."""
+    an unexplained key. Dates are compared as a period rather than verbatim: a
+    whole calendar year deliberately reads "in 2024", and the prose names the
+    last day the range covers rather than the exclusive bound."""
     filters = RecordFilters(
         author="Rishabh Negi", theme="Climate Change", tag="policy",
         title_contains="Solar", date_from="2024-03-15", date_to="2024-06-01",
@@ -98,8 +99,20 @@ def test_scope_phrase_covers_every_filter_that_applied_filters_echoes():
     assert set(applied) == {
         "author", "theme", "tag", "title_contains", "date_from", "date_to",
     }
-    for value in applied.values():
-        assert value in phrase, f"{value!r} echoed in data but absent from the prose"
+    for key, value in applied.items():
+        expected = "2024-05-31" if key == "date_to" else value
+        assert expected in phrase, f"{key} echoed in data but absent from the prose"
+
+
+def test_scope_phrase_names_the_last_day_covered_not_the_exclusive_bound():
+    """Echoing the raw bound claimed a day the query excludes."""
+    filters = RecordFilters(date_from="2020-01-01", date_to="2022-01-01")
+    assert tools._scope_phrase(filters) == " between 2020-01-01 and 2021-12-31"
+
+
+def test_scope_phrase_collapses_a_single_day():
+    filters = RecordFilters(date_from="2024-03-15", date_to="2024-03-16")
+    assert tools._scope_phrase(filters) == " on 2024-03-15"
 
 
 def test_scope_phrase_states_a_collapsed_calendar_year():
@@ -298,10 +311,10 @@ def test_count_records_bare_total(monkeypatch):
 def test_count_records_date_range_render(monkeypatch):
     monkeypatch.setattr("app.catalog.queries.count_documents", lambda **k: 2)
     r = tools.count_records(
-        None, RecordFilters(date_from="2024-03-15", date_to="2024-03-16")
+        None, RecordFilters(date_from="2024-03-15", date_to="2024-04-01")
     )
     assert r.rendered == (
-        "There are 2 items between 2024-03-15 and 2024-03-16 matching your query."
+        "There are 2 items between 2024-03-15 and 2024-03-31 matching your query."
     )
 
 

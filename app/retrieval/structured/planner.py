@@ -14,7 +14,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
-from app.core.dates import IsoDate, current_date_directive
+from app.core.dates import IsoDate, current_date_directive, exclusive_end
 from app.retrieval.catalog_prompt import (
     BEHAVIOR,
     BUNDLE_GLOSSARY,
@@ -139,8 +139,16 @@ class _PlannedCall(BaseModel):
     theme: str | None = None
     author: str | None = None
     title_contains: str | None = None
-    date_from: IsoDate = Field(default=None, description="Inclusive ISO start (YYYY-MM-DD).")
-    date_to: IsoDate = Field(default=None, description="Exclusive ISO end (YYYY-MM-DD).")
+    date_from: IsoDate = Field(
+        default=None, description="First date to include (YYYY-MM-DD)."
+    )
+    date_to_inclusive: IsoDate = Field(
+        default=None,
+        description=(
+            "LAST date to include (YYYY-MM-DD) — copy the end date from the "
+            "request as-is; do not add a day to make it exclusive."
+        ),
+    )
     group_by: Literal["theme", "content_type", "author", "year"] | None = None
     title: str | None = None
     limit: int = 10
@@ -157,6 +165,12 @@ class _PlannedCall(BaseModel):
         default=None, description="Free text to resolve, for resolve_entity."
     )
     resolve_type: ResolveType | None = None
+
+    @property
+    def date_to(self) -> str | None:
+        """Exclusive upper bound derived from the inclusive end (see
+        `QueryScope.date_to`)."""
+        return exclusive_end(self.date_to_inclusive)
 
 
 class _MultiPlan(BaseModel):
@@ -188,8 +202,9 @@ _PLANNER_SYSTEM = (
     + RESOLVE_FIRST + "\n"
     + OPERATIONS + "\n"
     + BEHAVIOR + "\n"
-    "Set only the fields that apply. Dates are a half-open [date_from, date_to) "
-    "ISO range. entity is one of the listed content types, or null for all. "
+    "Set only the fields that apply. Dates are the first and last day to include "
+    "(date_from / date_to_inclusive), copied from the request without adding or "
+    "subtracting a day. entity is one of the listed content types, or null for all. "
     + COLLECTIVE_WORD_WARNING + "\n"
     + FEW_SHOTS
 )

@@ -10,6 +10,8 @@ from app.core.dates import (
     IsoDate,
     clean_iso_date,
     current_date_directive,
+    exclusive_end,
+    inclusive_end,
     parse_iso_date,
     today_utc,
 )
@@ -98,6 +100,47 @@ def test_qdrant_bounds_are_utc_aware():
 
 
 # --------------------------------------------------------------------------- #
+# Inclusive ends -> half-open bounds.
+# --------------------------------------------------------------------------- #
+
+@pytest.mark.parametrize(
+    "last_day,bound",
+    [
+        ("2021-12-31", "2022-01-01"),   # year rollover
+        ("2024-02-29", "2024-03-01"),   # leap day
+        ("2023-02-28", "2023-03-01"),   # non-leap February
+        ("2020-06-30", "2020-07-01"),   # month rollover
+        ("2020-02-12", "2020-02-13"),   # ordinary day
+    ],
+)
+def test_an_inclusive_end_becomes_the_next_day(last_day, bound):
+    """The rollovers the model got wrong when it was asked to do this itself."""
+    assert exclusive_end(last_day) == bound
+
+
+def test_inclusive_end_is_the_inverse():
+    assert inclusive_end("2022-01-01") == "2021-12-31"
+    assert inclusive_end(exclusive_end("2021-12-31")) == "2021-12-31"
+
+
+def test_a_single_day_range_is_not_empty():
+    """from == to as an exclusive pair matches nothing; as an inclusive end it
+    is the one day the user asked for."""
+    assert exclusive_end("2020-02-12") == "2020-02-13"
+
+
+@pytest.mark.parametrize("bad", [None, "", "not-a-date", "2024"])
+def test_unusable_ends_yield_no_bound(bad):
+    assert exclusive_end(bad) is None
+    assert inclusive_end(bad) is None
+
+
+def test_a_mangled_inclusive_end_is_salvaged_then_converted():
+    """Both defences compose: strip the JSON junk, then add the day."""
+    assert exclusive_end('2021-12-31},') == "2022-01-01"
+
+
+# --------------------------------------------------------------------------- #
 # current_date_directive — anchoring relative dates to the real today.
 # --------------------------------------------------------------------------- #
 
@@ -122,16 +165,21 @@ def test_directive_states_today(frozen):
 
 def test_directive_supplies_year_anchors(frozen):
     """Year bounds are precomputed rather than left to the model: date arithmetic
-    is exactly what it gets wrong, and these two windows are the common ones."""
+    is exactly what it gets wrong, and these two windows are the common ones.
+    Stated as inclusive ends, matching the field the model fills."""
     frozen(date(2026, 7, 30))
     text = current_date_directive()
-    assert "This year is [2026-01-01, 2027-01-01)" in text
-    assert "Last year is [2025-01-01, 2026-01-01)" in text
+    assert "This year runs 2026-01-01 to 2026-12-31" in text
+    assert "Last year runs 2025-01-01 to 2025-12-31" in text
 
 
-def test_directive_gives_the_exclusive_end_for_today(frozen):
+def test_directive_ends_an_open_period_at_today_not_tomorrow(frozen):
+    """date_to_inclusive is the last day to include, so 'up to now' is today —
+    the +1 day belongs to `exclusive_end`, not the model."""
     frozen(date(2026, 12, 31))
-    assert "ends at 2027-01-01" in current_date_directive()
+    text = current_date_directive()
+    assert "ends 2026-12-31" in text
+    assert "2027-01-01" not in text
 
 
 def test_directive_is_recomputed_each_call(frozen):
@@ -207,6 +255,55 @@ def test_multi_planner_prompt_carries_the_directive(frozen, monkeypatch):
     monkeypatch.setattr("app.core.clients.llm.get_structured_llm", lambda: _Fake())
     planner.plan_multi("reports last month vs this month")
     assert "2026-07-30" in seen[0]
+
+
+# --------------------------------------------------------------------------- #
+# The LLM-facing models expose an exclusive bound derived from the inclusive one.
+# --------------------------------------------------------------------------- #
+
+def test_query_scope_derives_the_exclusive_bound():
+    from app.retrieval.query_processor import QueryScope
+
+    scope = QueryScope(date_from="2020-01-01", date_to_inclusive="2021-12-31")
+    assert scope.date_to == "2022-01-01"
+
+
+def test_structured_query_derives_the_exclusive_bound():
+    from app.retrieval.structured.answerer import StructuredQuery
+
+    assert StructuredQuery(date_to_inclusive="2021-12-31").date_to == "2022-01-01"
+
+
+def test_planned_call_derives_the_exclusive_bound():
+    from app.retrieval.structured.planner import _PlannedCall
+
+    call = _PlannedCall(tool="count_records", date_to_inclusive="2021-12-31")
+    assert call.date_to == "2022-01-01"
+
+
+def test_the_derived_bound_stays_out_of_the_llm_schema():
+    """`date_to` is a property, not a field: if it were in the schema the model
+    could fill it directly and reintroduce the arithmetic this removes."""
+    from app.retrieval.query_processor import QueryScope
+
+    fields = QueryScope.model_json_schema()["properties"]
+    assert "date_to_inclusive" in fields
+    assert "date_to" not in fields
+
+
+def test_a_single_day_scope_survives_to_sql():
+    """End to end: the model copies one date into both ends, and the query still
+    covers that day instead of matching nothing."""
+    from app.retrieval.query_processor import QueryScope
+    from app.retrieval.structured.filters import resolve_filters
+    from app.retrieval.structured.types import RecordFilters
+
+    scope = QueryScope(date_from="2020-02-12", date_to_inclusive="2020-02-12")
+    resolved = resolve_filters(
+        RecordFilters(date_from=scope.date_from, date_to=scope.date_to)
+    )
+    assert resolved.published_from == datetime(2020, 2, 12)
+    assert resolved.published_to == datetime(2020, 2, 13)
 
 
 def test_static_prompt_prefix_stays_stable(frozen):

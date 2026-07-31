@@ -260,9 +260,11 @@ def test_plan_multi_builds_calls_from_llm(monkeypatch):
     fake = planner._MultiPlan(
         calls=[
             planner._PlannedCall(tool="count_records", entity="report",
-                                 date_from="2023-01-01", date_to="2024-01-01"),
+                                 date_from="2023-01-01",
+                                 date_to_inclusive="2023-12-31"),
             planner._PlannedCall(tool="count_records", entity="report",
-                                 date_from="2024-01-01", date_to="2025-01-01"),
+                                 date_from="2024-01-01",
+                                 date_to_inclusive="2024-12-31"),
         ],
         rationale="2023 vs 2024",
     )

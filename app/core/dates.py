@@ -95,6 +95,38 @@ def parse_iso_date(value: str | None, *, field: str = "date") -> datetime | None
 IsoDate = Annotated[str | None, BeforeValidator(clean_iso_date)]
 
 
+def exclusive_end(inclusive_end: str | None) -> str | None:
+    """The half-open upper bound for a period ending on (and including)
+    ``inclusive_end`` — i.e. the day after it.
+
+    The catalog compares ``published_at < %s``, so a bound has to be exclusive;
+    users, however, say inclusive ends ("between Jan 1 and Dec 31", "up to the
+    5th"). Doing that +1 day here rather than asking the LLM for it is the whole
+    point: the model reliably copies a date the user typed but unreliably
+    increments one, and when it forgets, the last day of the range silently
+    disappears from the answer — or, for a single-day query where both bounds are
+    the same date, every row does.
+
+    Returns None for an unusable value, matching :func:`parse_iso_date`: the
+    caller then has no upper bound, which is the pre-existing degrade path."""
+    parsed = parse_iso_date(inclusive_end, field="date_to_inclusive")
+    if parsed is None:
+        return None
+    return (parsed + timedelta(days=1)).date().isoformat()
+
+
+def inclusive_end(exclusive_bound: str | None) -> str | None:
+    """Inverse of :func:`exclusive_end`, for describing a range back to the user.
+
+    A scope echoed as "between 2020-01-01 and 2022-01-01" reads as though 2022 is
+    included when the bound is exclusive; naming the last day actually covered
+    keeps the stated interpretation honest."""
+    parsed = parse_iso_date(exclusive_bound, field="date_to")
+    if parsed is None:
+        return None
+    return (parsed - timedelta(days=1)).date().isoformat()
+
+
 def today_utc() -> date:
     """Today in UTC — the zone ``published_at`` is stored in (see
     ``app.catalog.state``), so a bound derived from "today" lines up with the
@@ -123,12 +155,11 @@ def current_date_directive() -> str:
         "expression against that date and never against your training data — "
         "'this year', 'last month', 'recently', 'the past six months' and "
         "'since March' are all meaningless without it.\n"
-        f"- This year is [{year}-01-01, {year + 1}-01-01).\n"
-        f"- Last year is [{year - 1}-01-01, {year}-01-01).\n"
+        f"- This year runs {year}-01-01 to {year}-12-31.\n"
+        f"- Last year runs {year - 1}-01-01 to {year - 1}-12-31.\n"
         "- For a rolling window ('the last N days/months'), count back from "
         "today.\n"
-        "- date_to is EXCLUSIVE, so a period running up to and including today "
-        f"ends at {today + timedelta(days=1)}.\n"
+        f"- A period running up to now ends {today:%Y-%m-%d}.\n"
         "If the request names no period at all, leave both dates null — do not "
         "default to the current year."
     )

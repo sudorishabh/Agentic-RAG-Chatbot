@@ -22,7 +22,7 @@ from typing import TYPE_CHECKING, Any, Literal, Sequence
 from pydantic import BaseModel
 
 from app.config import get_settings
-from app.core.dates import IsoDate, current_date_directive
+from app.core.dates import IsoDate, current_date_directive, exclusive_end
 from app.retrieval.catalog_prompt import (
     BUNDLE_GLOSSARY,
     BUNDLE_LIST,
@@ -63,11 +63,12 @@ _PARSE_SYSTEM = (
     "- title_contains: a title keyword if the user names/quotes a title; else null.\n"
     "- author: an author/person name if specified; else null.\n"
     "- year: a four-digit year if a specific year is referenced; else null.\n"
-    "- date_from / date_to: an inclusive start and exclusive end ISO date "
-    "(YYYY-MM-DD) bounding any date or period mentioned. For a single day set "
-    "date_from to that day and date_to to the next day; for a month or year span "
-    "it; for 'since'/'after' set only date_from; for 'before'/'until' set only "
-    "date_to; else both null.\n"
+    "- date_from / date_to_inclusive: the FIRST and LAST ISO dates (YYYY-MM-DD) "
+    "to include for any date or period mentioned. Copy the dates the request "
+    "names; never add or subtract a day. For a single day both are that same day; "
+    "for a month or year span it end to end (2024 -> 2024-01-01 / 2024-12-31); "
+    "for 'since'/'after' set only date_from; for 'before'/'until X' set only "
+    "date_to_inclusive, to the day before X; else both null.\n"
     "- limit: how many items to return for list/lookup (default 10)."
 )
 
@@ -82,8 +83,14 @@ class StructuredQuery(BaseModel):
     theme_children: bool = False
     year: int | None = None
     date_from: IsoDate = None
-    date_to: IsoDate = None
+    date_to_inclusive: IsoDate = None
     limit: int = 10
+
+    @property
+    def date_to(self) -> str | None:
+        """Exclusive upper bound derived from the inclusive end the LLM supplies
+        (see `QueryScope.date_to`); `planner._tool_call` reads it duck-typed."""
+        return exclusive_end(self.date_to_inclusive)
 
 
 def parse_structured(
