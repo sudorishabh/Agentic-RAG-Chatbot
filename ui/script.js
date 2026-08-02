@@ -594,20 +594,26 @@
   /* ---------------------------------------------------------------- *
    * Answer blocks
    *
-   * Grounded answers arrive wrapped in <website_answer> / <pdf_answer>
-   * tags. Website content is authoritative and always leads; the PDF
-   * block is additive and absent when it has nothing to add. The parsing
-   * rules mirror app/generation/sections.py — keep the two in step.
+   * An answer grounded in both website and PDF sources arrives wrapped
+   * in <website_answer> / <pdf_answer> tags. Website content is
+   * authoritative and always leads; the PDF block is additive and absent
+   * when it has nothing to add. An answer from one kind of source is
+   * asked for untagged, and a PDF block that arrives without a website
+   * block anyway is demoted to plain prose here — it is the answer, not
+   * a supplement to one. The parsing rules mirror
+   * app/generation/sections.py — keep the two in step.
    * ---------------------------------------------------------------- */
   const WEBSITE_TAG = "website_answer";
   const PDF_TAG = "pdf_answer";
   const TAG_ALT = WEBSITE_TAG + "|" + PDF_TAG;
-  // Mirrors PDF_LEAD in app/generation/prompts.py. The model emits it as bold
-  // body text; the panel promotes it to a real caption, so the markdown copy is
-  // stripped to avoid captioning the block twice.
+  // Mirrors PDF_LABEL / PDF_LEAD in app/generation/prompts.py. The model emits
+  // the lead as bold body text; the panel promotes it to a real caption, so the
+  // markdown copy is stripped to avoid captioning the block twice. A trailing
+  // colon lands inside or outside the bold depending on the model, so both are
+  // matched.
   const PDF_LABEL = "From our documents";
   const PDF_LEAD_RE = new RegExp(
-    "^\\s*\\*\\*\\s*" + PDF_LABEL + "\\s*\\*\\*\\s*:?\\s*(?:\\r?\\n|$)",
+    "^\\s*\\*\\*\\s*" + PDF_LABEL + "\\s*:?\\s*\\*\\*\\s*:?\\s*(?:\\r?\\n|$)",
     "i",
   );
   // Longest tag we can be part-way through: "</website_answer >".
@@ -628,7 +634,8 @@
   // design: the tags come from a model and a stream can be cut mid-tag, so a
   // missing or malformed wrapper degrades to plain text instead of losing the
   // answer. Website always precedes PDF whatever order they arrived in; blocks
-  // of one kind merge; untagged text keeps its position around the blocks.
+  // of one kind merge; untagged text keeps its position around the blocks; a
+  // PDF block with no website block beside it is demoted to plain prose.
   function splitSections(answer) {
     const leading = [];
     const trailing = [];
@@ -646,15 +653,24 @@
     }
     (seenBlock ? trailing : leading).push(answer.slice(cursor));
 
+    const websiteText = cleanBlockText(grouped.website.join("\n\n"));
+    let pdfText = cleanBlockText(grouped.pdf.join("\n\n"));
+    let pdfKind = "pdf";
+    if (!websiteText) {
+      // Standing alone, the PDF block is the answer: demote it, and drop the
+      // lead-in that only read as a label under the caption it no longer gets.
+      pdfKind = "plain";
+      pdfText = pdfText.replace(PDF_LEAD_RE, "").trim();
+    }
+
     const sections = [];
     [
-      ["plain", leading],
-      ["website", grouped.website],
-      ["pdf", grouped.pdf],
-      ["plain", trailing],
+      ["plain", cleanBlockText(leading.join("\n\n"))],
+      ["website", websiteText],
+      [pdfKind, pdfText],
+      ["plain", cleanBlockText(trailing.join("\n\n"))],
     ].forEach(function (entry) {
-      const text = cleanBlockText(entry[1].join("\n\n"));
-      if (text) sections.push({ kind: entry[0], text: text });
+      if (entry[1]) sections.push({ kind: entry[0], text: entry[1] });
     });
     return sections;
   }
@@ -662,6 +678,8 @@
   // The supplementary-documents panel: a captioned card. The caption is emitted
   // by us rather than left as the model's bold first line, so it is always
   // present and always typeset the same way even when the model forgets the lead.
+  // Only reached alongside a website block — splitSections demotes a lone PDF
+  // block, so the card never wraps an entire answer.
   function renderPdfBlock(text) {
     return (
       '<div class="answer-block answer-block--pdf">' +
