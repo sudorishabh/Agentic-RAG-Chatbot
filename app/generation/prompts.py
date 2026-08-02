@@ -13,7 +13,11 @@ REFUSAL = "I don't have information on that in the available sources."
 # are the frontend's styling boundary, so they must be emitted verbatim.
 WEBSITE_TAG = "website_answer"
 PDF_TAG = "pdf_answer"
-PDF_LEAD = "**From our documents**"
+# The label alone (the frontend promotes it to a real caption) and the bold lead
+# the model is asked to emit. Kept as one derived from the other so the caption
+# and the text that gets stripped in its place can never drift apart.
+PDF_LABEL = "From our documents"
+PDF_LEAD = f"**{PDF_LABEL}**"
 
 _MIXED_STRUCTURE = (
     "Answer structure (mandatory):\n"

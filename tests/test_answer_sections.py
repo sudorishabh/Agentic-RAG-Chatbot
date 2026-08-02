@@ -59,8 +59,41 @@ def test_website_only_yields_one_section():
     assert _kinds(_web("Grew 1.2 GW [1].")) == [WEBSITE]
 
 
-def test_pdf_only_yields_one_section():
-    assert _kinds(_pdf("60% commercial [2].")) == [PDF]
+def test_pdf_only_answer_is_demoted_to_plain_prose():
+    # With no website block beside it the PDF block is the answer itself, so it
+    # must not render as a captioned supplement wrapped around the whole reply.
+    sections = split_sections(_pdf("60% commercial [2]."))
+    assert [s.kind for s in sections] == [PLAIN]
+    assert sections[0].text == "60% commercial [2]."
+
+
+def test_demoted_pdf_block_keeps_its_body_intact():
+    # Only the lead line goes; a bold run anywhere else is the model's own
+    # emphasis and stays.
+    sections = split_sections(_pdf("**Rooftop** grew 60% [2].\n\nAnd 1.2 GW [1]."))
+    assert sections[0].text == "**Rooftop** grew 60% [2].\n\nAnd 1.2 GW [1]."
+
+
+def test_demotion_survives_a_missing_or_reworded_lead():
+    assert _kinds(f"<{PDF_TAG}>\n60% commercial [2].\n</{PDF_TAG}>") == [PLAIN]
+    assert split_sections(
+        f"<{PDF_TAG}>\n**From our documents:**\n60% commercial [2].\n</{PDF_TAG}>"
+    )[0].text == "60% commercial [2]."
+
+
+def test_pdf_block_beside_an_empty_website_block_is_still_demoted():
+    # An empty website block is a block the model opened and had nothing for;
+    # the PDF block is alone whether or not the wrapper is present.
+    answer = f"<{WEBSITE_TAG}>\n\n</{WEBSITE_TAG}>" + _pdf("60% commercial [2].")
+    assert _kinds(answer) == [PLAIN]
+
+
+def test_demoted_pdf_block_keeps_its_place_below_a_catalog_prefix():
+    answer = "We hold 4 reports.\n\n" + _pdf("60% commercial [2].")
+    sections = split_sections(answer)
+    assert [s.kind for s in sections] == [PLAIN, PLAIN]
+    assert sections[0].text == "We hold 4 reports."
+    assert sections[1].text == "60% commercial [2]."
 
 
 def test_untagged_answer_is_a_single_plain_section():

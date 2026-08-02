@@ -1,8 +1,12 @@
 """The two-block answer structure.
 
-Grounded answers come back wrapped in the ``<website_answer>`` /
-``<pdf_answer>`` tags that :mod:`app.generation.prompts` demands, so the
+Answers grounded in a mixed context come back wrapped in the ``<website_answer>``
+/ ``<pdf_answer>`` tags that :mod:`app.generation.prompts` demands, so the
 frontend can style website-sourced and PDF-sourced content as distinct blocks.
+A single-kind context is prompted for one untagged answer instead, and any block
+the model emits against that is demoted here — the split only means something
+when there are two kinds of source to divide.
+
 This module is the only reader of that structure: the pipeline strips the tags
 before the verification passes (which reason about claims, not presentation),
 and the frontend parses the same sections out of the answer it renders.
@@ -16,7 +20,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from app.generation.prompts import PDF_TAG, WEBSITE_TAG
+from app.generation.prompts import PDF_LABEL, PDF_TAG, WEBSITE_TAG
 
 WEBSITE = "website"
 PDF = "pdf"
@@ -32,6 +36,14 @@ _BLOCK = re.compile(
 # Stray wrappers left over after the blocks are consumed (an unpaired close tag,
 # a nested repeat) are presentation debris — never shown, never verified.
 _ANY_TAG = re.compile(rf"</?(?:{WEBSITE_TAG}|{PDF_TAG})\s*>", re.IGNORECASE)
+# The bold lead opening a PDF block. Read only when the block is demoted: the
+# label it carries is a caption for a supplement, and there is nothing to
+# supplement. A trailing colon lands inside or outside the bold depending on the
+# model, so both are matched.
+_PDF_LEAD_LINE = re.compile(
+    rf"^\s*\*\*\s*{re.escape(PDF_LABEL)}\s*:?\s*\*\*\s*:?\s*(?:\r?\n|$)",
+    re.IGNORECASE,
+)
 
 
 @dataclass(frozen=True)
@@ -61,6 +73,11 @@ def split_sections(answer: str) -> list[Section]:
     Sections that clean up to nothing are dropped, so an empty block the model
     emitted against instructions never reaches the frontend as a bare
     container.
+
+    A PDF block with no website block beside it is demoted to plain prose: the
+    split exists to set a supplement apart from the answer it supplements, and
+    with nothing above it the block *is* the answer. Left as a PDF section it
+    would render as a captioned aside wrapped around the whole reply.
     """
     leading: list[str] = []
     trailing: list[str] = []
@@ -76,14 +93,22 @@ def split_sections(answer: str) -> list[Section]:
         seen_block = True
     (trailing if seen_block else leading).append(answer[cursor:])
 
+    website_text = _clean("\n\n".join(grouped[WEBSITE]))
+    pdf_text = _clean("\n\n".join(grouped[PDF]))
+    pdf_kind = PDF
+    if not website_text:
+        # Standing alone, the PDF block is the answer: demote it, and drop the
+        # lead-in that only read as a label under the caption it no longer gets.
+        pdf_kind = PLAIN
+        pdf_text = _PDF_LEAD_LINE.sub("", pdf_text).strip()
+
     sections = []
-    for kind, parts in (
-        (PLAIN, leading),
-        (WEBSITE, grouped[WEBSITE]),
-        (PDF, grouped[PDF]),
-        (PLAIN, trailing),
+    for kind, text in (
+        (PLAIN, _clean("\n\n".join(leading))),
+        (WEBSITE, website_text),
+        (pdf_kind, pdf_text),
+        (PLAIN, _clean("\n\n".join(trailing))),
     ):
-        text = _clean("\n\n".join(parts))
         if text:
             sections.append(Section(kind, text))
     return sections
