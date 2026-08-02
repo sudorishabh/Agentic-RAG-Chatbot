@@ -86,6 +86,36 @@ def _db_section(
         return structured["answer"] if structured else ""
 
 
+def _catalog_listing(pq: ProcessedQuery, question: str) -> dict[str, Any] | None:
+    """The catalog's take on a content question retrieval could not ground, or None
+    to refuse as before.
+
+    Framed with `NO_CONTENT_WITH_CATALOG` so a list of titles is never mistaken for
+    the substance asked for. Fail-open by construction: this runs on a path that is
+    already about to refuse, so a catalog error must degrade to that refusal rather
+    than turn it into a 500."""
+    from app.generation.prompts import NO_CONTENT_WITH_CATALOG
+    from app.retrieval.structured.answerer import catalog_fallback
+
+    with span("rag.catalog_fallback") as s:
+        try:
+            result = catalog_fallback(question, analysis=pq.analysis)
+        except Exception:
+            logger.warning("Catalog fallback failed; refusing instead.", exc_info=True)
+            return None
+        s.set("hit", result is not None)
+    if result is None:
+        return None
+    # `intent` stays the question's own: a qa query answered from catalog rows is
+    # still a qa query, and relabelling it would distort the intent metrics.
+    return {
+        **result,
+        "answer": f"{NO_CONTENT_WITH_CATALOG}\n\n{result['answer']}",
+        "intent": pq.intent,
+        "answer_format": pq.answer_format,
+    }
+
+
 def _prepare(
     question: str,
     *,
@@ -118,6 +148,16 @@ def _prepare(
     # deterministic catalog answer and prefix it onto the grounded content answer.
     combined = "database" in caps and bool(caps & _CONTENT_CAPS)
     chained = False
+    # Whether the catalog has already been asked about this query, so the
+    # empty-retrieval fallback at the end doesn't re-run a query that just came
+    # back with nothing. `combined` asks it via `_db_section` below.
+    #
+    # Deliberately not set for a scoped_summary that fell through: it returns None
+    # both for a scope-less request and for one whose documents held no summarizable
+    # text, and in the latter case a listing of those documents is exactly what is
+    # worth showing. When the scope was genuinely empty the listing comes back empty
+    # too, so the redundant case costs one query on a path that is already refusing.
+    db_consulted = combined
 
     if pq.intent == "structured":
         from app.retrieval.structured.answerer import answer_structured
@@ -133,9 +173,13 @@ def _prepare(
                 FieldCondition(key="document_id", match=MatchValue(value=chain_id))
             )
             chained = True
+            # The chain came out of a catalog title lookup, so the catalog has
+            # already placed this document; only its content is missing.
+            db_consulted = True
         elif not combined:
             # Database-only: the deterministic catalog answer is complete.
             structured = answer_structured(question, history, analysis=pq.analysis)
+            db_consulted = True
             if structured is not None:
                 structured.setdefault("answer_format", pq.answer_format)
                 return structured, None
@@ -202,6 +246,13 @@ def _prepare(
         # deterministic catalog answer rather than a blanket refusal.
         if db_prefix:
             return _empty(pq.intent, db_prefix, answer_format=pq.answer_format), None
+        # Retrieval found nothing to ground an answer. Ask the catalog — which
+        # indexes titles and facets rather than passages — but only when it hasn't
+        # already answered nothing for this query.
+        if not db_consulted:
+            listing = _catalog_listing(pq, question)
+            if listing is not None:
+                return listing, None
         return _empty(pq.intent, REFUSAL, answer_format=pq.answer_format), None
 
     return None, _Generation(

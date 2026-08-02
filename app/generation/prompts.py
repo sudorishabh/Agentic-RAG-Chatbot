@@ -7,6 +7,20 @@ if TYPE_CHECKING:
 
 REFUSAL = "I don't have information on that in the available sources."
 
+# Lead-in for the catalog listing offered in place of REFUSAL when retrieval found
+# no passage to ground an answer but the catalog still places documents in the
+# question's scope. It must not imply the listing answers the question: the point
+# is to say what was found *and* what wasn't, so a list of titles is never read as
+# the substance the user asked for.
+#
+# Ends on a full stop, not a colon: the listing arrives with its own "Here is what
+# I found:" lead (see structured.tools._render_records), and two stacked colons
+# read as one broken sentence.
+NO_CONTENT_WITH_CATALOG = (
+    "I don't have content that answers that. The closest I can offer is what the "
+    "catalogue lists for it."
+)
+
 # The two-block contract, used only when the retrieved context actually mixes
 # website and PDF sources. Website content is authoritative and always leads;
 # the PDF block is additive and disappears when it has nothing to add. The tags

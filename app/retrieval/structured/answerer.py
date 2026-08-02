@@ -202,6 +202,51 @@ def _compose(results: list[ToolResult]) -> dict[str, Any]:
     }
 
 
+# Facets that make a catalog listing relevant to what was *asked about*. A bundle
+# or a date alone does not: "the 10 most recent reports" answers no question about
+# a subject, and offering it in place of a refusal implies a relevance the rows do
+# not have. Both still apply as additional filters when the analysis carries them.
+_SUBJECT_FACETS = ("theme", "tags", "author", "title_contains")
+
+
+def catalog_fallback(
+    question: str, *, analysis: QueryAnalysis | None
+) -> dict[str, Any] | None:
+    """Catalog entries matching a content question's scope, for when semantic
+    retrieval found nothing to ground an answer.
+
+    The catalog indexes titles and facets, so it can still place a document the
+    vector store could not surface — a subject whose chunks all fell below the
+    rerank threshold, say. The listing is deterministic, so it states what exists
+    without claiming to answer the question (the caller supplies that framing).
+
+    Returns None whenever there is nothing worth offering, leaving the caller to
+    refuse as before:
+
+    * no analysis — the passthrough fallback carries no facets to scope by;
+    * no subject facet (see `_SUBJECT_FACETS`);
+    * no matching rows.
+
+    Never parses. A qa analysis has no `operation`, so `answer_structured` would
+    spend an LLM call re-deriving slots these facets already hold — on a path that
+    has already failed once and is about to refuse.
+    """
+    from app.retrieval.structured import planner
+
+    if analysis is None:
+        return None
+    if not any(getattr(analysis, facet, None) for facet in _SUBJECT_FACETS):
+        return None
+    # A listing whatever the classifier's operation: a count or a distribution
+    # answers nothing for a question that wanted content.
+    db_plan = planner.plan(
+        analysis.model_copy(update={"operation": "list"}),
+        output_format=analysis.answer_format,
+    )
+    ok = [result for result in planner.execute(db_plan, question=question) if result.ok]
+    return _compose(ok) if ok else None
+
+
 def answer_structured(
     question: str,
     history: Sequence[dict[str, str]] | None = None,

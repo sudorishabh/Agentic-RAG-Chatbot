@@ -28,6 +28,90 @@ def _forbid_count(**kw):
     raise AssertionError("count_documents must not be called")
 
 
+def _rec(title="Solar in India", document_id="d1"):
+    from app.catalog.models import StateRecord
+
+    return StateRecord(
+        document_id=document_id, source_type="website", source_key="k",
+        fingerprint="f", title=title, url="http://a",
+        published_at="2024-05-01T00:00:00", bundle="news",
+    )
+
+
+# --------------------------------------------------------------------------- #
+# catalog_fallback — the catalog's answer when retrieval grounded nothing.
+# --------------------------------------------------------------------------- #
+
+def test_catalog_fallback_without_analysis_is_none():
+    assert dr.catalog_fallback("q", analysis=None) is None
+
+
+def test_catalog_fallback_needs_a_subject_facet(monkeypatch):
+    """A date or bundle alone would list the most recent documents, which answers
+    nothing about a subject — refuse instead of implying relevance."""
+    monkeypatch.setattr(
+        planner, "execute",
+        lambda *a, **k: (_ for _ in ()).throw(AssertionError("must not query")),
+    )
+    analysis = qp.QueryAnalysis(
+        search_query="what happened in 2023?", intent="qa",
+        date_from="2023-01-01", date_to="2024-01-01", bundle="news",
+    )
+    assert dr.catalog_fallback("what happened in 2023?", analysis=analysis) is None
+
+
+def test_catalog_fallback_lists_the_scope(monkeypatch):
+    monkeypatch.setattr(state, "list_documents", lambda **kw: [_rec()])
+    analysis = qp.QueryAnalysis(
+        search_query="what does the solar report say?", intent="qa",
+        title_contains="Solar",
+    )
+    out = dr.catalog_fallback("what does the solar report say?", analysis=analysis)
+    assert "Solar in India" in out["answer"]
+    assert out["citations"][0]["title"] == "Solar in India"
+
+
+def test_catalog_fallback_is_none_when_nothing_matches(monkeypatch):
+    monkeypatch.setattr(state, "list_documents", lambda **kw: [])
+    analysis = qp.QueryAnalysis(
+        search_query="what does the solar report say?", intent="qa",
+        title_contains="Solar",
+    )
+    assert dr.catalog_fallback("q", analysis=analysis) is None
+
+
+def test_catalog_fallback_forces_a_listing(monkeypatch):
+    """Whatever the classifier's operation, the fallback lists: a count answers
+    nothing for a question that wanted content."""
+    seen = {}
+
+    def fake_execute(db_plan, *, question=None):
+        seen["tool"] = db_plan.calls[0].tool
+        return []
+
+    monkeypatch.setattr(planner, "execute", fake_execute)
+    analysis = qp.QueryAnalysis(
+        search_query="how many solar reports?", intent="qa",
+        operation="count", title_contains="Solar",
+    )
+    assert dr.catalog_fallback("how many solar reports?", analysis=analysis) is None
+    assert seen["tool"] == "list_records"
+
+
+def test_catalog_fallback_never_spends_an_llm_parse(monkeypatch):
+    """The facets are already extracted; a parse on the refusal path would buy
+    nothing and cost a call."""
+    monkeypatch.setattr(
+        dr, "parse_structured",
+        lambda *a, **k: (_ for _ in ()).throw(AssertionError("must not parse")),
+    )
+    monkeypatch.setattr(state, "list_documents", lambda **kw: [_rec()])
+    analysis = qp.QueryAnalysis(
+        search_query="q", intent="qa", title_contains="Solar",
+    )
+    assert dr.catalog_fallback("q", analysis=analysis) is not None
+
+
 def test_answer_structured_unknown_bundle_falls_through(monkeypatch):
     monkeypatch.setattr(state, "count_documents", _forbid_count)
     analysis = qp.QueryAnalysis(
