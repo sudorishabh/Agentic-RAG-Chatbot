@@ -8,6 +8,8 @@ No network.
 
 from __future__ import annotations
 
+import pytest
+
 from app.core.models.context import ContextBlock
 from app.generation import answerer
 from app.generation.faithfulness import FaithfulnessReport
@@ -15,6 +17,7 @@ from app.generation.prompts import (
     GROUNDED_SYSTEM_PROMPT,
     PDF_LEAD,
     PDF_TAG,
+    REFUSAL,
     SINGLE_SOURCE_SYSTEM_PROMPT,
     WEBSITE_TAG,
     format_directive,
@@ -144,6 +147,65 @@ def test_unpaired_close_tag_never_reaches_the_output():
 def test_tag_casing_and_inner_whitespace_are_tolerated():
     answer = f"<{WEBSITE_TAG.upper()} >\nGrew 1.2 GW [1].\n</{WEBSITE_TAG} >"
     assert _kinds(answer) == [WEBSITE]
+
+
+# --------------------------------------------------------------------------- #
+# split_sections — the refusal is a whole answer, never a part of one. A model
+# handed a category with nothing useful in it is told to drop that block; when
+# it apologizes in the block instead, the apology reads as a denial of the
+# answer beside it and keeps the PDF block from standing on its own.
+
+
+def test_refusal_in_the_website_block_is_dropped_beside_a_real_answer():
+    # The observed failure: two off-topic website blocks retrieved, so the
+    # model filled the website half with the refusal and answered from the PDFs.
+    answer = _web(REFUSAL) + _pdf("60% commercial [2].")
+    sections = split_sections(answer)
+    assert [s.kind for s in sections] == [PLAIN]
+    assert sections[0].text == "60% commercial [2]."
+
+
+def test_refusal_in_the_pdf_block_is_dropped_beside_a_real_answer():
+    sections = split_sections(_web("Grew 1.2 GW [1].") + _pdf(REFUSAL))
+    assert [s.kind for s in sections] == [WEBSITE]
+    assert sections[0].text == "Grew 1.2 GW [1]."
+
+
+def test_untagged_refusal_is_dropped_beside_a_real_answer():
+    assert _kinds(f"{REFUSAL}\n\n" + _web("Grew 1.2 GW [1].")) == [WEBSITE]
+
+
+def test_refusal_in_every_block_is_answered_once_and_unwrapped():
+    sections = split_sections(_web(REFUSAL) + _pdf(REFUSAL))
+    assert [s.kind for s in sections] == [PLAIN]
+    assert sections[0].text == REFUSAL
+
+
+def test_refusal_alone_survives_as_the_answer():
+    for answer in (REFUSAL, _web(REFUSAL), _pdf(REFUSAL)):
+        assert _kinds(answer) == [PLAIN], answer
+        assert split_sections(answer)[0].text == REFUSAL
+
+
+@pytest.mark.parametrize(
+    "variant",
+    [
+        REFUSAL.rstrip("."),
+        f"**{REFUSAL}**",
+        f'"{REFUSAL}"',
+        REFUSAL.replace("'", "’"),
+        f"  {REFUSAL.upper()}  ",
+    ],
+)
+def test_refusal_is_recognized_through_surface_variation(variant):
+    assert _kinds(_web(variant) + _pdf("60% commercial [2].")) == [PLAIN]
+
+
+def test_an_answer_that_merely_reports_a_gap_is_not_a_refusal():
+    # Matched by equality, not substring: this one carries content and stays.
+    said = f"{REFUSAL} The 2019 report covers Assam only [1]."
+    sections = split_sections(_web(said) + _pdf("60% commercial [2]."))
+    assert [s.kind for s in sections] == [WEBSITE, PDF]
 
 
 # --------------------------------------------------------------------------- #

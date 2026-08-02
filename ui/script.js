@@ -616,6 +616,34 @@
     "^\\s*\\*\\*\\s*" + PDF_LABEL + "\\s*:?\\s*\\*\\*\\s*:?\\s*(?:\\r?\\n|$)",
     "i",
   );
+  // Mirrors REFUSAL in app/generation/prompts.py. Compared after normalizing
+  // away the surface variation a model adds — emphasis, quotes, a smart
+  // apostrophe, a dropped full stop — and by equality, never substring: an
+  // answer that merely says what it could not find still carries content.
+  const REFUSAL = "I don't have information on that in the available sources.";
+  function normalizeText(text) {
+    return text
+      .replace(/[‘’]/g, "'")
+      .replace(/[“”]/g, '"')
+      .replace(/\s+/g, " ")
+      .trim()
+      .replace(/^[*_"'\s]+|[*_"'\s]+$/g, "")
+      .replace(/\.+$/, "")
+      .trim()
+      .toLowerCase();
+  }
+  const REFUSAL_NORM = normalizeText(REFUSAL);
+  // The block body without the caption line a PDF block opens with. The caption
+  // is presentation: renderPdfBlock emits its own when the block keeps its
+  // container, and nothing should carry it once the block loses one.
+  function withoutLead(text) {
+    return text.replace(PDF_LEAD_RE, "").trim();
+  }
+  // The PDF lead is a caption rather than content, so a block holding the
+  // caption and then the refusal is still only a refusal.
+  function isRefusal(text) {
+    return normalizeText(withoutLead(text)) === REFUSAL_NORM;
+  }
   // Longest tag we can be part-way through: "</website_answer >".
   const MAX_TAG_LEN = WEBSITE_TAG.length + 4;
   // Built per call — a shared global regex carries lastIndex between calls.
@@ -635,7 +663,8 @@
   // missing or malformed wrapper degrades to plain text instead of losing the
   // answer. Website always precedes PDF whatever order they arrived in; blocks
   // of one kind merge; untagged text keeps its position around the blocks; a
-  // PDF block with no website block beside it is demoted to plain prose.
+  // block holding nothing but the refusal drops out beside real content; a PDF
+  // block with no website block beside it is demoted to plain prose.
   function splitSections(answer) {
     const leading = [];
     const trailing = [];
@@ -653,22 +682,42 @@
     }
     (seenBlock ? trailing : leading).push(answer.slice(cursor));
 
-    const websiteText = cleanBlockText(grouped.website.join("\n\n"));
+    let leadingText = cleanBlockText(leading.join("\n\n"));
+    let trailingText = cleanBlockText(trailing.join("\n\n"));
+    let websiteText = cleanBlockText(grouped.website.join("\n\n"));
     let pdfText = cleanBlockText(grouped.pdf.join("\n\n"));
+
+    const parts = [leadingText, websiteText, pdfText, trailingText];
+    if (parts.some((t) => t && !isRefusal(t))) {
+      // Something real was found, so every refusal beside it is a block the
+      // model filled rather than dropped. Left in, it contradicts the content
+      // next to it and counts as a website answer the PDF block must defer to.
+      const kept = parts.map((t) => (isRefusal(t) ? "" : t));
+      leadingText = kept[0];
+      websiteText = kept[1];
+      pdfText = kept[2];
+      trailingText = kept[3];
+    } else {
+      // Refusals and blanks only: the refusal is the whole answer, said once
+      // and unwrapped, whichever block the model happened to put it in.
+      const refused = withoutLead(parts.find(Boolean) || "");
+      return refused ? [{ kind: "plain", text: refused }] : [];
+    }
+
     let pdfKind = "pdf";
     if (!websiteText) {
       // Standing alone, the PDF block is the answer: demote it, and drop the
       // lead-in that only read as a label under the caption it no longer gets.
       pdfKind = "plain";
-      pdfText = pdfText.replace(PDF_LEAD_RE, "").trim();
+      pdfText = withoutLead(pdfText);
     }
 
     const sections = [];
     [
-      ["plain", cleanBlockText(leading.join("\n\n"))],
+      ["plain", leadingText],
       ["website", websiteText],
       [pdfKind, pdfText],
-      ["plain", cleanBlockText(trailing.join("\n\n"))],
+      ["plain", trailingText],
     ].forEach(function (entry) {
       if (entry[1]) sections.push({ kind: entry[0], text: entry[1] });
     });
@@ -688,7 +737,7 @@
       "<span>" +
       PDF_LABEL +
       "</span></div>" +
-      renderMarkdown(text.replace(PDF_LEAD_RE, "")) +
+      renderMarkdown(withoutLead(text)) +
       "</div>"
     );
   }
