@@ -8,6 +8,8 @@ No network.
 
 from __future__ import annotations
 
+import re
+
 import pytest
 
 from app.core.models.context import ContextBlock
@@ -284,12 +286,30 @@ def test_prompt_worked_example_parses_as_the_two_blocks():
     assert [s.kind for s in split_sections(demonstrated)] == [WEBSITE, PDF]
 
 
-def test_prompt_ends_by_demonstrating_the_dropped_pdf_block():
-    # Omitting the PDF block is the rule a model most readily ignores, so the
-    # prompt has to show it, not just describe it.
-    tail = GROUNDED_SYSTEM_PROMPT[GROUNDED_SYSTEM_PROMPT.rindex(f"</{PDF_TAG}>") :]
-    assert f"<{WEBSITE_TAG}>" in tail
-    assert f"<{PDF_TAG}>" not in tail
+_DEMO_RUN = re.compile(
+    rf"(?:<(?:{WEBSITE_TAG}|{PDF_TAG})>.*?</(?:{WEBSITE_TAG}|{PDF_TAG})>\s*)+",
+    re.DOTALL,
+)
+
+
+def test_prompt_demonstrates_dropping_either_block():
+    # Omitting a block is the rule a model most readily ignores, so the prompt
+    # shows both removals rather than only describing them: first both blocks,
+    # then the PDF block dropped, then the website block dropped.
+    example = GROUNDED_SYSTEM_PROMPT[GROUNDED_SYSTEM_PROMPT.index("Example:") :]
+    demonstrated = [
+        (WEBSITE_TAG in demo, PDF_TAG in demo) for demo in _DEMO_RUN.findall(example)
+    ]
+    assert demonstrated == [(True, True), (True, False), (False, True)]
+
+
+def test_prompt_demonstrates_dropping_a_block_rather_than_refusing_in_it():
+    # The observed failure: an unhelpful category kept and filled with the
+    # refusal, which then reads as a denial of the answer beside it.
+    assert REFUSAL in GROUNDED_SYSTEM_PROMPT[
+        GROUNDED_SYSTEM_PROMPT.index("Example:") :
+    ]
+    assert "never the content of a block" in GROUNDED_SYSTEM_PROMPT
 
 
 def test_format_directives_are_scoped_inside_the_blocks():

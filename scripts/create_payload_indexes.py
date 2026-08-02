@@ -39,7 +39,7 @@ def create_indexes(dry_run: bool) -> int:
     from qdrant_client.models import PayloadSchemaType
 
     from app.config import get_settings
-    from app.deps import get_qdrant_client
+    from app.core.clients import get_qdrant_client
 
     schema = {"bool": PayloadSchemaType.BOOL, "keyword": PayloadSchemaType.KEYWORD}
     collection = get_settings().qdrant_collection
@@ -57,7 +57,7 @@ def create_indexes(dry_run: bool) -> int:
         elif dry_run:
             print(f"  + {field}: would create ({kind})")
         else:
-            # Best-effort per field (deps._ensure_keyword_index style): one
+            # Best-effort per field (vector_store._ensure_keyword_index style): one
             # failure must not abort the remaining indexes.
             try:
                 client.create_payload_index(

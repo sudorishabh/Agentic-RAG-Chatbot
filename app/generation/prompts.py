@@ -38,7 +38,11 @@ _MIXED_STRUCTURE = (
     "state. When the PDF sources are off-topic or merely repeat the website "
     "block, omit the PDF block entirely, tags included — never emit an empty or "
     "placeholder block, and never mention that documents were searched.\n"
-    "- When only PDF sources help, emit the PDF block on its own.\n"
+    "- When only PDF sources help, emit the PDF block on its own — drop the "
+    "website block rather than filling it with the refusal.\n"
+    "- The refusal in rule 3 is a whole answer, never the content of a block. A "
+    "category with nothing to offer loses its block; it is never apologized for "
+    "beside an answer the other category could give.\n"
     "- When neither category helps, follow rule 3: the refusal alone, no tags.\n"
 )
 
@@ -93,8 +97,10 @@ _SINGLE_STYLE_SCOPE = (
 
 # One compact worked demonstration, always present: 4o-mini follows
 # demonstrated behavior far better than described behavior. Kept tiny —
-# it rides on every QA call. The second half reuses the same context to
-# demonstrate the omitted PDF block, the rule a model most readily ignores.
+# it rides on every QA call. The two follow-ups reuse the same context to
+# demonstrate each block being dropped, the rules a model most readily ignores;
+# the second is the observed failure, where an unhelpful category was kept and
+# filled with the refusal instead.
 _MIXED_EXAMPLE = (
     "Example:\n"
     "Context: [1] (website · Rooftop Solar Push · published 2023-11-02) The "
@@ -115,7 +121,15 @@ _MIXED_EXAMPLE = (
     "adds nothing to the answer, so the PDF block is dropped:\n"
     f"<{WEBSITE_TAG}>\n"
     "The rooftop programme added 1.2 GW of capacity in 2023 [1].\n"
-    f"</{WEBSITE_TAG}>"
+    f"</{WEBSITE_TAG}>\n"
+    "Same context, question 'What share of new capacity was commercial?': [1] "
+    "answers nothing, so the website block is dropped — not kept and filled "
+    f'with "{REFUSAL}", which would deny the answer below it:\n'
+    f"<{PDF_TAG}>\n"
+    f"{PDF_LEAD}\n"
+    "Commercial installations accounted for 60% of the new rooftop capacity "
+    "[2].\n"
+    f"</{PDF_TAG}>"
 )
 
 # The single-source demonstration: two blocks of the same kind answered as one
