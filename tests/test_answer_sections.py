@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from app.core.models.context import ContextBlock
 from app.generation import answerer
+from app.generation.faithfulness import FaithfulnessReport
 from app.generation.prompts import (
     GROUNDED_SYSTEM_PROMPT,
     PDF_LEAD,
@@ -306,6 +307,25 @@ def test_mixed_context_keeps_the_block_structure():
     )
     assert f"<{WEBSITE_TAG}>" in system
     assert f"<{PDF_TAG}>" in system
+
+
+def test_correction_note_defers_to_the_structure_already_in_force():
+    # A retry runs through the same prompt as the draft it replaces, so a note
+    # that named the blocks itself would push a single-source rewrite back into
+    # the split the prompt just forbade.
+    note = FaithfulnessReport(faithful=False, unsupported=["1.2 GW"]).correction_note()
+    for token in (WEBSITE_TAG, PDF_TAG, PDF_LEAD, "answer-block"):
+        assert token not in note, token
+
+
+def test_corrected_pdf_only_answer_is_still_asked_for_one_block():
+    system = answerer._build_system(
+        "table",
+        FaithfulnessReport(faithful=False).correction_note(),
+        mixed=has_mixed_sources(_blocks("pdf", "pdf")),
+    )
+    for token in (WEBSITE_TAG, PDF_TAG, PDF_LEAD):
+        assert token not in system, token
 
 
 def test_history_rule_continues_the_numbering_of_either_variant():

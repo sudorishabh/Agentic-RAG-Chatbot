@@ -45,14 +45,20 @@ class FaithfulnessReport:
     unsupported: list[str] = field(default_factory=list)
 
     def correction_note(self) -> str:
+        """The rewrite instruction appended to the system prompt on a retry.
+
+        Points back at the structure the prompt already specifies rather than
+        naming one: the rewrite runs through the same prompt as the draft, so a
+        single-source answer must not be told to preserve blocks it never had.
+        """
         joined = "; ".join(self.unsupported) or "some claims were not supported"
         return (
             "A prior draft made claims the context does not support "
             f"({joined}). Rewrite using ONLY the numbered context, dropping or "
             "qualifying any unsupported claim, and keep [n] citations. The "
-            "rewrite replaces the draft wholesale, so it must carry the same "
-            "answer-block structure — drop a block only if nothing in it "
-            "survives."
+            "rewrite replaces the draft wholesale, so it must follow the answer "
+            "structure required above in full — omit a part of it only if "
+            "nothing in that part survives."
         )
 
 
