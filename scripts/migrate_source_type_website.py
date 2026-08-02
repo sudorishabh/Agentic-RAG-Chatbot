@@ -41,7 +41,7 @@ def _count(client, collection: str) -> int:
 
 def migrate_qdrant(dry_run: bool) -> None:
     from app.config import get_settings
-    from app.deps import get_qdrant_client
+    from app.core.clients import get_qdrant_client
 
     settings = get_settings()
     collection = settings.qdrant_collection
@@ -66,7 +66,7 @@ def migrate_qdrant(dry_run: bool) -> None:
 
 def migrate_mysql(dry_run: bool) -> None:
     from app.config import get_settings
-    from app.deps import mysql_connection
+    from app.core.clients import mysql_connection
 
     table = get_settings().ingest_state_table
     try:

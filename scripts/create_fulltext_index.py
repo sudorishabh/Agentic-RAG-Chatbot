@@ -25,7 +25,7 @@ def create_index(dry_run: bool) -> int:
     from qdrant_client.models import TextIndexParams, TokenizerType
 
     from app.config import get_settings
-    from app.deps import get_qdrant_client
+    from app.core.clients import get_qdrant_client
 
     collection = get_settings().qdrant_collection
     client = get_qdrant_client()
