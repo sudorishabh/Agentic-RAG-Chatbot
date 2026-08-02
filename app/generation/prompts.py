@@ -305,6 +305,18 @@ def _source_hint(payload: dict) -> str:
     return " · ".join(bits)
 
 
+def has_mixed_sources(blocks: "list[ContextBlock]") -> bool:
+    """True when the context holds both website and non-website blocks.
+
+    Selects the answer structure: the two-block split only describes something
+    real for a context like this, so a single-kind context gets the prompt that
+    asks for one continuous answer. "PDF" is every non-website source_type
+    (``pdf``, ``pdf_attachment``, …), matching how :func:`_is_website_led` and
+    the frontend's source groups divide them.
+    """
+    return len({block.payload.get("source_type") == "website" for block in blocks}) == 2
+
+
 def _is_website_led(blocks: "list[ContextBlock]") -> bool:
     """True when website blocks form a contiguous lead (website* then pdf*) with at
     least one website block — i.e. the context was segregated. Used to decide

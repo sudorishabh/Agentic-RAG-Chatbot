@@ -9,6 +9,7 @@ No network.
 from __future__ import annotations
 
 from app.core.models.context import ContextBlock
+from app.generation import answerer
 from app.generation.prompts import (
     GROUNDED_SYSTEM_PROMPT,
     PDF_LEAD,
@@ -17,6 +18,7 @@ from app.generation.prompts import (
     WEBSITE_TAG,
     format_directive,
     grounded_system_prompt,
+    has_mixed_sources,
 )
 from app.generation.sections import (
     PDF,
@@ -264,6 +266,53 @@ def test_prompt_guards_added_depth_against_padding():
     # ties every added sentence back to the context has to survive rewording.
     style = GROUNDED_SYSTEM_PROMPT[GROUNDED_SYSTEM_PROMPT.index("Answer style:") :]
     assert "never from padding" in style
+
+
+# --------------------------------------------------------------------------- #
+# Which structure a given context asks for. The retrieved blocks decide it —
+# the model is never asked to infer the composition and suppress the split
+# itself, which is what produced a duplicated PDF section on PDF-only pulls.
+
+
+def _blocks(*source_types):
+    return [
+        ContextBlock(n=i, text=f"Passage {i}.", payload={"source_type": st})
+        for i, st in enumerate(source_types, start=1)
+    ]
+
+
+def test_mixed_sources_needs_both_kinds_present():
+    assert has_mixed_sources(_blocks("website", "pdf"))
+    assert has_mixed_sources(_blocks("pdf", "website", "pdf_attachment"))
+    assert not has_mixed_sources(_blocks("pdf", "pdf"))
+    assert not has_mixed_sources(_blocks("website", "website"))
+    # Every non-website kind counts as PDF, so these are single-source.
+    assert not has_mixed_sources(_blocks("pdf", "pdf_attachment"))
+    assert not has_mixed_sources([])
+
+
+def test_pdf_only_context_is_answered_without_the_block_structure():
+    system = answerer._build_system(
+        None, None, mixed=has_mixed_sources(_blocks("pdf", "pdf_attachment"))
+    )
+    assert WEBSITE_TAG not in system
+    assert PDF_TAG not in system
+    assert PDF_LEAD not in system
+
+
+def test_mixed_context_keeps_the_block_structure():
+    system = answerer._build_system(
+        None, None, mixed=has_mixed_sources(_blocks("website", "pdf"))
+    )
+    assert f"<{WEBSITE_TAG}>" in system
+    assert f"<{PDF_TAG}>" in system
+
+
+def test_history_rule_continues_the_numbering_of_either_variant():
+    for mixed in (True, False):
+        system = answerer._build_system(None, None, mixed=mixed, has_history=True)
+        assert "\n9. " in system
+        assert "\n10. " not in system
 
 
 # --------------------------------------------------------------------------- #

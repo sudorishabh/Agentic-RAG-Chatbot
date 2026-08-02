@@ -14,10 +14,11 @@ from app.core.clients.llm import get_llm
 from app.core.models.context import ContextBlock
 from app.generation.prompts import (
     CHITCHAT_SYSTEM_PROMPT,
-    GROUNDED_SYSTEM_PROMPT,
     REFUSAL,
     format_context_blocks,
     format_directive,
+    grounded_system_prompt,
+    has_mixed_sources,
 )
 
 logger = logging.getLogger(__name__)
@@ -84,12 +85,22 @@ def chitchat(question: str, history: list[dict[str, str]] | None) -> str:
 
 
 def _build_system(
-    answer_format: str | None, correction: str | None, *, has_history: bool = False
+    answer_format: str | None,
+    correction: str | None,
+    *,
+    mixed: bool,
+    has_history: bool = False,
 ) -> str:
-    system = GROUNDED_SYSTEM_PROMPT
+    """The grounded system prompt for this call.
+
+    `mixed` says whether the context holds both source kinds; it picks the
+    answer structure and must reach the format directive too, since the
+    directive's scope note refers to whichever structure is in force.
+    """
+    system = grounded_system_prompt(mixed=mixed)
     if has_history:
         system += f"\n{_HISTORY_RULE}"
-    directive = format_directive(answer_format)
+    directive = format_directive(answer_format, mixed=mixed)
     if directive:
         system += f"\n\n{directive}"
     if correction:
@@ -112,7 +123,12 @@ def generate_answer(
         return REFUSAL
 
     messages = _history_messages(history)
-    system = _build_system(answer_format, correction, has_history=bool(messages))
+    system = _build_system(
+        answer_format,
+        correction,
+        mixed=has_mixed_sources(blocks),
+        has_history=bool(messages),
+    )
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system", system),
@@ -141,9 +157,15 @@ def generate_stream(
     from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
     messages = _history_messages(history)
+    system = _build_system(
+        answer_format,
+        None,
+        mixed=has_mixed_sources(blocks),
+        has_history=bool(messages),
+    )
     prompt = ChatPromptTemplate.from_messages(
         [
-            ("system", _build_system(answer_format, None, has_history=bool(messages))),
+            ("system", system),
             MessagesPlaceholder("history"),
             ("human", "Numbered context:\n{context}\n\nQuestion: {question}"),
         ]
