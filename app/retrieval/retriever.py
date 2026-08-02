@@ -30,6 +30,7 @@ from app.retrieval.search.strategies import (
     paraphrase_search,
     paraphrases,
 )
+from app.retrieval.understanding.filters import date_conditions
 
 logger = logging.getLogger(__name__)
 
@@ -211,23 +212,34 @@ def retrieve(
             candidates = _base_search(filters, use_dual=dual)
         s.set("candidates", len(candidates))
 
-    # Facet filters (theme / author / source_type / date) are LLM-extracted and
-    # applied as hard AND conditions. When they lift terms straight out of the
-    # question — a title query parsed into theme="SDG 7", author="TERI" — those
-    # literals rarely equal the stored metadata, and their intersection can be
-    # empty even when the corpus plainly answers the question. A total miss under
-    # facets is never better than the plain semantic pull, so retry once without
-    # them rather than refusing. Precision-preserving: only fires on zero, so a
+    # Facet filters (theme / author / source_type) are LLM-extracted and applied
+    # as hard AND conditions. When they lift terms straight out of the question —
+    # a title query parsed into theme="SDG 7", author="TERI" — those literals
+    # rarely equal the stored metadata, and their intersection can be empty even
+    # when the corpus plainly answers the question. A total miss under facets is
+    # never better than the plain semantic pull, so retry once without them
+    # rather than refusing. Precision-preserving: only fires on zero, so a
     # non-empty facet-scoped result is left exactly as-is.
-    if not candidates and filters:
+    #
+    # A date scope survives the retry (see `date_conditions`): the facets are
+    # guesses at the corpus's labelling, but the period is the user's own
+    # constraint, and answering "reports from 2023" out of 2019 is worse than
+    # answering nothing — the more so because the widening is invisible, recorded
+    # on the span below and never in the answer. When the window genuinely holds
+    # no chunks, empty is honest and the pipeline's refusal path is correct —
+    # which is also why an all-dates filter set skips the retry outright: it would
+    # re-run the pull that just came back empty.
+    kept = date_conditions(filters)
+    if not candidates and filters and len(kept) < len(filters):
         with span("rag.search_relaxed") as s:
             relaxed_dual = bool(settings.prefer_website_enabled) and answer_format != "table"
-            candidates = _base_search(None, use_dual=relaxed_dual)
+            candidates = _base_search(kept or None, use_dual=relaxed_dual)
             s.set("candidates", len(candidates))
             s.set("relaxed", True)
+            s.set("kept_date_scope", bool(kept))
         logger.info(
-            "Facet filters matched no chunks; retried without facets (%d candidates).",
-            len(candidates),
+            "Facet filters matched no chunks; retried without facets%s (%d candidates).",
+            " but within the date scope" if kept else "", len(candidates),
         )
 
     with span("rag.rerank") as s:

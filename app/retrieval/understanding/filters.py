@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime, timezone
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Sequence
 
 from app.core.dates import parse_iso_date
 
@@ -16,6 +16,10 @@ if TYPE_CHECKING:
     from app.retrieval.query_processor import QueryAnalysis
 
 logger = logging.getLogger(__name__)
+
+# The payload field every date scope is expressed over. Named once so the
+# condition builder and `date_conditions` cannot drift apart.
+_DATE_FIELD = "published_at"
 
 
 def _parse_bound(value: str | None, *, field: str = "date") -> datetime | None:
@@ -80,6 +84,23 @@ def _facet_filters(analysis: "QueryAnalysis") -> list[Any]:
         from qdrant_client.models import DatetimeRange
 
         conditions.append(
-            FieldCondition(key="published_at", range=DatetimeRange(gte=lo, lt=hi))
+            FieldCondition(key=_DATE_FIELD, range=DatetimeRange(gte=lo, lt=hi))
         )
     return conditions
+
+
+def date_conditions(filters: Sequence[Any] | None) -> list[Any]:
+    """The subset of ``filters`` that bounds the publication date.
+
+    Lets ``retriever.retrieve`` hold the date scope while dropping the rest on a
+    total miss. The distinction is who chose the constraint: theme, author and
+    source_type are the understanding LLM's guesses at how the corpus happens to
+    be labelled, so discarding them recovers from a bad guess. A period is what
+    the user actually asked for, and widening it answers about years they did not
+    ask about — silently, because the retry is recorded on the trace span and the
+    log, never in the answer text.
+
+    Tolerates entries that aren't ``FieldCondition``s (a nested ``Filter``, as
+    ``_theme_condition`` returns) by matching on the attribute rather than the
+    type."""
+    return [c for c in filters or [] if getattr(c, "key", None) == _DATE_FIELD]
