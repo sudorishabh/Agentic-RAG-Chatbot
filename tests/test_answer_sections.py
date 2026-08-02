@@ -13,8 +13,10 @@ from app.generation.prompts import (
     GROUNDED_SYSTEM_PROMPT,
     PDF_LEAD,
     PDF_TAG,
+    SINGLE_SOURCE_SYSTEM_PROMPT,
     WEBSITE_TAG,
     format_directive,
+    grounded_system_prompt,
 )
 from app.generation.sections import (
     PDF,
@@ -197,6 +199,52 @@ def test_format_directives_are_scoped_inside_the_blocks():
         assert WEBSITE_TAG in format_directive(fmt), fmt
     # The default path stays lean: no directive, so no scope note either.
     assert format_directive("default") == ""
+
+
+# --------------------------------------------------------------------------- #
+# The single-source prompt. A context of one source kind has nothing to split
+# along, so the structure the mixed prompt teaches must be absent entirely —
+# left in, it makes the model manufacture a block and restate the answer in it.
+
+
+def test_single_source_prompt_never_mentions_the_block_structure():
+    for token in (WEBSITE_TAG, PDF_TAG, PDF_LEAD):
+        assert token not in SINGLE_SOURCE_SYSTEM_PROMPT, token
+
+
+def test_single_source_prompt_asks_for_one_continuous_answer():
+    assert "one continuous answer" in SINGLE_SOURCE_SYSTEM_PROMPT
+
+
+def test_single_source_worked_example_parses_as_plain_text():
+    # The demonstrated answer is what the model copies, so it has to read as an
+    # untagged whole to the same parser the frontend mirrors.
+    example = SINGLE_SOURCE_SYSTEM_PROMPT[
+        SINGLE_SOURCE_SYSTEM_PROMPT.index("Example:") :
+    ]
+    assert _kinds(example) == [PLAIN]
+
+
+def test_grounded_system_prompt_selects_by_context_composition():
+    assert grounded_system_prompt(mixed=True) == GROUNDED_SYSTEM_PROMPT
+    assert grounded_system_prompt(mixed=False) == SINGLE_SOURCE_SYSTEM_PROMPT
+
+
+def test_both_prompt_variants_share_the_rule_numbering():
+    # app.generation.answerer appends the history rule as "9.", so neither
+    # variant may add or drop a numbered rule.
+    for prompt in (GROUNDED_SYSTEM_PROMPT, SINGLE_SOURCE_SYSTEM_PROMPT):
+        for n in range(1, 9):
+            assert f"\n{n}. " in f"\n{prompt}", (n, prompt[:40])
+        assert "\n9. " not in prompt
+
+
+def test_single_source_format_directives_name_no_wrappers():
+    for fmt in ("list", "table", "summary", "detailed", "timeline"):
+        directive = format_directive(fmt, mixed=False)
+        assert WEBSITE_TAG not in directive, fmt
+        assert PDF_TAG not in directive, fmt
+        assert "this shape wins" in directive, fmt
 
 
 def test_format_directives_outrank_the_general_style_guidance():

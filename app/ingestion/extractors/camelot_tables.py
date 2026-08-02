@@ -6,13 +6,16 @@ table here; scanned/image pages still go to Azure OCR. Camelot reads ruled
 and each table is rendered to the same ``TableData`` markdown the rest of the
 pipeline already expects.
 
-Camelot needs a file path, so the page content is written to a temp file. If
-Camelot is not installed or finds nothing on a page, the router falls back to
-PyMuPDF text for that page (the table degrades to plain text).
+Camelot needs a file path, so the page content is written to a temp file --
+re-saved through PyMuPDF to drop any permission flags that would otherwise make
+Camelot's backend refuse the document. If Camelot is not installed or finds
+nothing on a page, the router falls back to PyMuPDF text for that page (the
+table degrades to plain text).
 """
 
 from __future__ import annotations
 
+import gc
 import logging
 import os
 import tempfile
@@ -52,14 +55,73 @@ def _table_to_data(table) -> TableData | None:
     )
 
 
+def _is_extraction_forbidden(exc: BaseException) -> bool:
+    """True if the PDF's permission flags blocked Camelot's backend outright."""
+    try:
+        from playa.exceptions import PDFTextExtractionNotAllowed
+    except Exception:
+        return False
+    return isinstance(exc, PDFTextExtractionNotAllowed)
+
+
+def _write_pdf(content: bytes, path: str) -> None:
+    """Write the PDF to ``path`` with any permission flags stripped.
+
+    Plenty of PDFs ship with an owner password that clears the "extract
+    content" bit. PyMuPDF ignores that flag -- which is why classification still
+    yields text -- but Camelot's backend enforces it and refuses the whole
+    document. Re-saving through PyMuPDF drops the encryption dictionary so the
+    tables stay reachable. Falls back to the raw bytes if the re-save fails.
+    """
+    try:
+        import fitz  # PyMuPDF
+
+        with fitz.open(stream=content, filetype="pdf") as doc:
+            doc.save(path, encryption=fitz.PDF_ENCRYPT_NONE)
+        return
+    except Exception:
+        logger.debug("Could not re-save PDF without encryption.", exc_info=True)
+    with open(path, "wb") as fh:
+        fh.write(content)
+
+
+def _remove_temp_pdf(path: str) -> None:
+    """Delete the temp PDF, collecting Camelot's stragglers first if we must.
+
+    On Windows the first ``remove`` loses to WinError 32: Camelot's PDF backend
+    leaves a document object holding an open handle, and it only releases on
+    finalization. A ``gc.collect()`` runs those finalizers, after which the
+    delete succeeds -- without it every extracted page leaks a PDF into the temp
+    dir. POSIX unlinks an open file happily, so the retry never runs there.
+    """
+    if not os.path.exists(path):
+        return
+    try:
+        os.remove(path)
+        return
+    except OSError:
+        gc.collect()
+    try:
+        os.remove(path)
+    except OSError:
+        logger.debug("Could not remove temp PDF %s", path, exc_info=True)
+
+
 def _run_flavor(path: str, pages_arg: str, flavor: str) -> dict[int, list[TableData]]:
     import camelot
 
     out: dict[int, list[TableData]] = {}
     try:
         tables = camelot.read_pdf(path, pages=pages_arg, flavor=flavor, suppress_stdout=True)
-    except Exception:
-        logger.exception("Camelot %s extraction failed.", flavor)
+    except Exception as exc:
+        if _is_extraction_forbidden(exc):
+            logger.warning(
+                "Camelot %s: the PDF forbids text extraction, so these pages fall "
+                "back to local text (their tables degrade to plain text).",
+                flavor,
+            )
+        else:
+            logger.exception("Camelot %s extraction failed.", flavor)
         return out
     for table in tables:
         td = _table_to_data(table)
@@ -90,8 +152,8 @@ def extract_tables(
     tmp_path: str | None = None
     try:
         fd, tmp_path = tempfile.mkstemp(suffix=".pdf")
-        with os.fdopen(fd, "wb") as fh:
-            fh.write(content)
+        os.close(fd)
+        _write_pdf(content, tmp_path)
 
         by_page = _run_flavor(tmp_path, pages_arg, primary)
 
@@ -103,8 +165,5 @@ def extract_tables(
                 by_page.update(_run_flavor(tmp_path, _page_range_str(missing), "stream"))
         return by_page
     finally:
-        if tmp_path and os.path.exists(tmp_path):
-            try:
-                os.remove(tmp_path)
-            except OSError:
-                logger.debug("Could not remove temp PDF %s", tmp_path, exc_info=True)
+        if tmp_path:
+            _remove_temp_pdf(tmp_path)
