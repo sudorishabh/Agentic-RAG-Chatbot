@@ -193,6 +193,40 @@ def _empty_result_miss(tool: str, entity: str | None, scope: Any) -> ToolResult 
     return None
 
 
+# Words showing the user asked about titles as such, rather than a subject the
+# intent layer funnelled into `title_contains`.
+_TITLE_QUESTION = re.compile(r"\b(titles?|titled|called|named|headlines?)\b", re.I)
+# A quoted phrase names a title verbatim ("the report called “Solar India”").
+# Double quotes only: an apostrophe is ordinary prose ("India's energy mix").
+_QUOTED_PHRASE = re.compile(r"[\"“”].+?[\"“”]")
+
+
+def _title_guess_zero(question: str | None, scope: Any) -> bool:
+    """Whether an empty count came from a *guessed* title filter rather than a
+    real absence, so the caller should fall through to semantic search instead of
+    reporting a corpus-wide zero.
+
+    `title_contains` is `title LIKE '%…%'` over one column, so zero under it means
+    "no title holds this phrase" — never "the corpus holds nothing on this
+    subject". The intent layer fills the slot from whatever the question is about,
+    so "how many reports about quantum teleportation" arrives as a title
+    substring, and the body text it does not search is exactly where a subject
+    lives. Answering 0 there states the corpus is silent on a topic when only its
+    titles are, and unlike the author/theme/tag misses above there is no
+    resolution step to catch it: any phrase is a valid substring.
+
+    Not a guess when the question is about titles ("reports titled X", a quoted
+    phrase) — then the zero is what was asked for, and prose from semantic search
+    would be the worse answer. An absent `question` cannot establish that, so it
+    counts as a guess: falling through costs one semantic pull, while a wrong zero
+    costs the answer."""
+    if not scope.effective.title_contains:
+        return False
+    if not question:
+        return True
+    return not (_TITLE_QUESTION.search(question) or _QUOTED_PHRASE.search(question))
+
+
 def _applied_filters(bundle: str | None, filters: RecordFilters) -> dict[str, str]:
     """The filters actually in effect, keyed by name — the structured
     counterpart to `_scope_phrase`, so a caller can check the interpretation
@@ -336,13 +370,17 @@ def _project_fields(
 # Tools.
 # --------------------------------------------------------------------------- #
 
-def count_records(entity: str | None, filters: RecordFilters) -> ToolResult:
+def count_records(
+    entity: str | None, filters: RecordFilters, *, question: str | None = None
+) -> ToolResult:
     """How many catalog documents match. Unknown entity returns ok=False (fall
     through, never a misleading zero). Names are canonicalized first, so the
     answer states the entity actually filtered on; a name too ambiguous to pick
     or a tag that resolves to nothing stops before querying, and an unresolved
     author/theme becomes a miss only if the query then comes back empty. A
-    resolved filter matching no rows is an honest 0."""
+    resolved filter matching no rows is an honest 0 — except under a guessed title
+    substring, which is a claim about titles and not about the corpus
+    (`question` decides which was asked; see `_title_guess_zero`)."""
     guarded = _entity_guard("count_records", entity)
     if guarded is not None:
         return guarded
@@ -367,6 +405,18 @@ def count_records(entity: str | None, filters: RecordFilters) -> ToolResult:
         missed = _empty_result_miss("count_records", bundle, scope)
         if missed is not None:
             return missed
+        if _title_guess_zero(question, scope):
+            logger.info(
+                "Zero count under the guessed title %r; falling through to "
+                "semantic search instead of reporting a corpus-wide zero.",
+                scope.effective.title_contains,
+            )
+            # No error_kind: this falls through like an unrecognized type rather
+            # than terminating the way an unresolved name does.
+            return ToolResult(
+                tool="count_records", entity=bundle, ok=False,
+                error="zero under a guessed title filter",
+            )
     phrase = _scope_phrase(scope.effective)
     verb = "is" if total == 1 else "are"
     rendered = (

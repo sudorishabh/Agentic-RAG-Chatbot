@@ -47,6 +47,33 @@ def _enable_entity_resolution(monkeypatch):
     )
 
 
+def test_answer_structured_zero_under_a_guessed_title_falls_through(monkeypatch):
+    """End-to-end wiring: the question must reach count_records through the planner,
+    so a zero under a title the classifier guessed from a subject phrase falls
+    through to semantic search rather than claiming the corpus has nothing."""
+    monkeypatch.setattr(state, "count_documents", lambda **kw: 0)
+    question = "how many reports about quantum teleportation?"
+    analysis = qp.QueryAnalysis(
+        search_query=question, intent="structured", operation="count",
+        title_contains="quantum teleportation",
+    )
+    assert dr.answer_structured(question, analysis=analysis) is None
+
+
+def test_answer_structured_zero_for_a_title_question_is_answered(monkeypatch):
+    """The same zero, asked about titles, is the answer — not a fall-through."""
+    monkeypatch.setattr(state, "count_documents", lambda **kw: 0)
+    question = "how many reports are titled Solar?"
+    analysis = qp.QueryAnalysis(
+        search_query=question, intent="structured", operation="count",
+        title_contains="Solar",
+    )
+    out = dr.answer_structured(question, analysis=analysis)
+    assert out["answer"] == (
+        "There are 0 items with 'Solar' in the title matching your query."
+    )
+
+
 def test_answer_structured_unresolved_theme_falls_through_by_default(monkeypatch):
     """entity_resolution_enabled defaults to False — the rollback path: a theme
     that resolves to nothing AND matches no rows falls through exactly as it did

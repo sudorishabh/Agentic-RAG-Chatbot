@@ -386,6 +386,63 @@ def test_count_records_applies_the_title_filter(monkeypatch):
     assert r.rendered == "There are 3 reports with 'Solar' in the title matching your query."
 
 
+def test_zero_under_a_guessed_title_falls_through(monkeypatch):
+    """`title_contains` only matches the title column, so a zero under a subject
+    the intent layer put there says nothing about the body text. Reporting it as 0
+    would tell the user the corpus is silent on their topic; fall through to
+    semantic search instead."""
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **kw: 0)
+    r = tools.count_records(
+        "report", RecordFilters(title_contains="quantum teleportation"),
+        question="how many reports about quantum teleportation?",
+    )
+    assert not r.ok
+    assert r.error_kind is None  # falls through; not a terminal answer
+    assert not r.rendered
+
+
+def test_zero_is_honest_when_the_question_is_about_titles(monkeypatch):
+    """Asked about titles, a title-scoped zero is exactly the answer wanted —
+    prose from semantic search would be worse."""
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **kw: 0)
+    for question in (
+        "how many reports are titled 'Solar'?",
+        'how many reports are called "Solar"?',
+    ):
+        r = tools.count_records(
+            "report", RecordFilters(title_contains="Solar"), question=question
+        )
+        assert r.ok, question
+        assert r.rendered == (
+            "There are 0 reports with 'Solar' in the title matching your query."
+        )
+
+
+def test_zero_without_a_title_filter_stays_an_honest_zero(monkeypatch):
+    """The catalog is authoritative for a date- or bundle-scoped count: 0 there is
+    a fact about the corpus, and falling through would answer a counting question
+    from prose."""
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **kw: 0)
+    r = tools.count_records(
+        "report", RecordFilters(date_from="2023-01-01", date_to="2024-01-01"),
+        question="how many reports in 2023?",
+    )
+    assert r.ok
+    assert r.rendered == "There are 0 reports in 2023 matching your query."
+
+
+def test_nonzero_title_count_is_unaffected_by_the_guard(monkeypatch):
+    """The guard reads only the empty case; a real count answers as before even
+    for a guessed title."""
+    monkeypatch.setattr("app.catalog.queries.count_documents", lambda **kw: 3)
+    r = tools.count_records(
+        "report", RecordFilters(title_contains="Solar"),
+        question="how many reports about solar?",
+    )
+    assert r.ok
+    assert r.rendered == "There are 3 reports with 'Solar' in the title matching your query."
+
+
 def test_count_and_list_pass_the_same_filter_set(monkeypatch):
     """Regression guard: whatever narrows a listing must narrow its count too."""
     counted, listed = {}, {}

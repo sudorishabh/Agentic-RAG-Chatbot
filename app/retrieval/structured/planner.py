@@ -266,7 +266,9 @@ def plan_multi(question: str, *, output_format: str = "default") -> DatabasePlan
 
 def _run(call: ToolCall, question: str | None) -> ToolResult:
     if call.tool == "count_records":
-        return count_records(call.entity, call.filters)
+        # The question decides whether a zero under a title substring is the
+        # answer or a guess to fall through on (see tools._title_guess_zero).
+        return count_records(call.entity, call.filters, question=question)
     if call.tool == "list_records":
         return list_records(call.entity, call.filters, sort=call.sort,
                             limit=call.limit, offset=call.offset,

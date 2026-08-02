@@ -136,7 +136,9 @@ def test_plan_explicit_dates_win_over_year():
 def test_execute_routes_to_tool(monkeypatch):
     monkeypatch.setattr(
         planner, "count_records",
-        lambda entity, filters: ToolResult(tool="count_records", entity=entity, data={"count": 7}),
+        lambda entity, filters, *, question=None: ToolResult(
+            tool="count_records", entity=entity, data={"count": 7}
+        ),
     )
     results = planner.execute(DatabasePlan(calls=[ToolCall(tool="count_records", entity="news")]))
     assert len(results) == 1
@@ -206,8 +208,12 @@ def test_execute_routes_to_resolve_entity(monkeypatch):
 
 
 def test_execute_runs_multiple_calls(monkeypatch):
-    monkeypatch.setattr(planner, "count_records",
-                        lambda entity, filters: ToolResult(tool="count_records", entity=entity))
+    monkeypatch.setattr(
+        planner, "count_records",
+        lambda entity, filters, *, question=None: ToolResult(
+            tool="count_records", entity=entity
+        ),
+    )
     monkeypatch.setattr(
         planner, "aggregate_records",
         lambda entity, group_by, filters, aggregation="count", output_format="default":
@@ -235,6 +241,23 @@ def test_execute_passes_question_to_lookup(monkeypatch):
         question="what does it say?",
     )
     assert seen == {"question": "what does it say?", "title": "T"}
+
+
+def test_execute_passes_question_to_count(monkeypatch):
+    """count_records needs the question to tell a title-scoped zero the user asked
+    for from one the classifier guessed (tools._title_guess_zero)."""
+    seen = {}
+
+    def fake_count(entity, filters, *, question=None):
+        seen["question"] = question
+        return ToolResult(tool="count_records", entity=entity)
+
+    monkeypatch.setattr(planner, "count_records", fake_count)
+    planner.execute(
+        DatabasePlan(calls=[ToolCall(tool="count_records", entity="report")]),
+        question="how many reports about solar?",
+    )
+    assert seen == {"question": "how many reports about solar?"}
 
 
 def test_execute_empty_plan():
