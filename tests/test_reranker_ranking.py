@@ -32,6 +32,7 @@ def settings(monkeypatch):
         reranker_provider="embedding",
         rerank_score_threshold=0.0,
         rerank_relevance_tolerance=0.03,
+        rerank_volatile_tolerance_multiplier=2.0,
     )
     monkeypatch.setattr(reranker, "get_settings", lambda: cfg)
     return cfg
@@ -138,6 +139,32 @@ def test_semantic_score_stays_the_raw_provider_score(settings):
     )
     assert out[0].semantic_score == pytest.approx(0.70)
     assert out[0].score == pytest.approx(0.85)
+
+
+def test_a_volatile_topic_widens_the_band(settings):
+    """0.05 apart is two bands at the base tolerance but one at the volatile
+    tolerance, so the newer document leads only on the volatile query."""
+    docs = [_cand("2019", 0.80, "2019-01-01"), _cand("2025", 0.75, "2025-01-01")]
+    assert _ids(reranker.rerank("how does composting work", docs)) == ["2019", "2025"]
+    assert _ids(reranker.rerank("current pricing policy", docs)) == ["2025", "2019"]
+
+
+def test_a_widened_band_still_cannot_outrank_real_relevance(settings):
+    """Doubling the tolerance moves the boundary; it does not remove it."""
+    out = reranker.rerank("latest pricing policy", [
+        _cand("relevant", 0.80, "2019-01-01"),
+        _cand("newer", 0.60, "2025-01-01"),
+    ])
+    assert _ids(out) == ["relevant", "newer"]
+
+
+def test_the_volatile_multiplier_can_be_switched_off(settings):
+    settings.rerank_volatile_tolerance_multiplier = 1.0
+    out = reranker.rerank("current pricing policy", [
+        _cand("2019", 0.80, "2019-01-01"),
+        _cand("2025", 0.75, "2025-01-01"),
+    ])
+    assert _ids(out) == ["2019", "2025"]
 
 
 def test_top_n_caps_the_result(settings):

@@ -84,6 +84,16 @@ band the newest document leads. Two editions of the same annual report land in o
 and the newer one leads, while an older passage that actually answers the question
 still outranks a newer one that merely mentions it.
 
+**Volatile topics get a wider band.** When the query is about something with a shelf
+life — pricing, an API, a regulation, a release, an announcement — or asks for the
+current state of it ("latest", "most recent"), the tolerance is multiplied by
+`rerank_volatile_tolerance_multiplier`, so the recency tie-break is reachable more
+often. Detection is a lexicon match on the rewritten query
+([volatility.py](../app/retrieval/volatility.py)), not an LLM call: it is a ranking
+nudge whose worst case is a slightly mis-sized band, which does not justify a model
+call on every search. Widening moves the band boundary but never removes it — recency
+still cannot cross one.
+
 This replaced a weighted blend of the *normalized* semantic score with recency and
 authority. Normalizing first meant the blend separated candidates most aggressively
 exactly when their scores were closest — when the relevance difference means least —

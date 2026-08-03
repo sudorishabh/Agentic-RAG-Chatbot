@@ -233,7 +233,10 @@ Re-scores candidates with a **semantic** score from the configured provider
 **relevance first, recency as the tie-break**: scores within
 `rerank_relevance_tolerance` of each other form a *band* and are ordered by
 `published_at` (then by a neutral authority, then by relevance). Across bands
-relevance always wins. A `table_boost` is added to a table-bearing chunk's
+relevance always wins. The tolerance is multiplied by
+`rerank_volatile_tolerance_multiplier` for queries about topics that go stale
+(`app/retrieval/volatility.py`), so the tie-break fires more often there. A
+`table_boost` is added to a table-bearing chunk's
 relevance when `answer_format == "table"`, so it can lift the chunk a band.
 Candidates below `rerank_score_threshold` are dropped. Each survivor keeps its
 **raw** semantic score in `semantic_score` for the website floor later.

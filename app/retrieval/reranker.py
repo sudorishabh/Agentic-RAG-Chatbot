@@ -27,6 +27,7 @@ from pydantic import BaseModel, Field
 
 from app.config import get_settings
 from app.retrieval.hybrid_search import Candidate
+from app.retrieval.volatility import is_volatile
 
 logger = logging.getLogger(__name__)
 
@@ -116,6 +117,19 @@ class _Ranked(NamedTuple):
     relevance: float   # semantic score plus any table boost; the band is cut from this
     semantic: float    # raw provider score, carried through for the context floors
     candidate: Candidate
+
+
+def _tolerance(query: str, settings) -> float:
+    """Band width for this query — widened when the topic goes stale.
+
+    Recency cannot cross a band however wide it gets, so this only changes how
+    often the tie-break is reachable, never whether relevance wins."""
+    tolerance = settings.rerank_relevance_tolerance
+    if not is_volatile(query):
+        return tolerance
+    widened = tolerance * settings.rerank_volatile_tolerance_multiplier
+    logger.debug("Volatile topic; relevance band widened to %.3f.", widened)
+    return widened
 
 
 def _sort_key(r: _Ranked) -> tuple[float, ...]:
@@ -257,7 +271,7 @@ def rerank(
 
     bands = _relevance_bands(
         [relevance for _, relevance, _, _, _ in kept],
-        tolerance=settings.rerank_relevance_tolerance,
+        tolerance=_tolerance(query, settings),
     )
     ranked = sorted(
         (

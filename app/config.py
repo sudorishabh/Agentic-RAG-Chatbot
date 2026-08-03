@@ -154,6 +154,12 @@ class Settings(BaseSettings):
     # raise it for cross_encoder, whose scores are unbounded logits. Widen to let
     # recency decide more often, narrow to make it decide less.
     rerank_relevance_tolerance: float = 0.03
+    # Multiplier on that tolerance when the query is about something that goes
+    # out of date — pricing, an API, a regulation, an announcement (see
+    # app.retrieval.volatility). A wider band lets the recency tie-break fire
+    # more often; it never lets recency cross a band, so relevance still decides.
+    # Set to 1.0 to rank volatile and stable topics identically.
+    rerank_volatile_tolerance_multiplier: float = 2.0
     # Additive boost to a candidate's blended score when it contains a table and
     # the user asked for a table-shaped answer. Soft (not a filter) so a table
     # request still returns non-table results when no table matches.
