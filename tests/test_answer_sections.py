@@ -349,12 +349,31 @@ def test_grounded_system_prompt_selects_by_context_composition():
 
 
 def test_both_prompt_variants_share_the_rule_numbering():
-    # app.generation.answerer appends the history rule as "9.", so neither
+    # app.generation.answerer appends the history rule as "10.", so neither
     # variant may add or drop a numbered rule.
     for prompt in (GROUNDED_SYSTEM_PROMPT, SINGLE_SOURCE_SYSTEM_PROMPT):
-        for n in range(1, 9):
+        for n in range(1, 10):
             assert f"\n{n}. " in f"\n{prompt}", (n, prompt[:40])
-        assert "\n9. " not in prompt
+        assert "\n10. " not in prompt
+
+
+def test_both_prompt_variants_settle_a_conflict_on_the_publication_date():
+    # The date reaches the model only through the block header (_source_hint),
+    # so the rule has to point at it rather than at the payload field name.
+    for prompt in (GROUNDED_SYSTEM_PROMPT, SINGLE_SOURCE_SYSTEM_PROMPT):
+        rule = prompt[prompt.index("\n9. ") : prompt.index("\nAnswer structure")]
+        assert "published" in rule
+        assert "later" in rule
+        # Recency must not quietly overrule the website precedence in rule 5.
+        assert "rule 5" in rule
+
+
+def test_the_conflict_rule_forbids_inventing_a_missing_date():
+    # Most PDFs carry no published_at, so an undated block is the common case,
+    # not the exception — reading one as "the current version" is the failure.
+    for prompt in (GROUNDED_SYSTEM_PROMPT, SINGLE_SOURCE_SYSTEM_PROMPT):
+        rule = prompt[prompt.index("\n9. ") : prompt.index("\nAnswer structure")]
+        assert "no date shown" in rule
 
 
 def test_single_source_format_directives_name_no_wrappers():
@@ -446,8 +465,8 @@ def test_corrected_pdf_only_answer_is_still_asked_for_one_block():
 def test_history_rule_continues_the_numbering_of_either_variant():
     for mixed in (True, False):
         system = answerer._build_system(None, None, mixed=mixed, has_history=True)
-        assert "\n9. " in system
-        assert "\n10. " not in system
+        assert "\n10. " in system
+        assert "\n11. " not in system
 
 
 # --------------------------------------------------------------------------- #

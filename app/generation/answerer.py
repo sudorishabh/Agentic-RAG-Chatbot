@@ -33,7 +33,7 @@ HISTORY_MAX_TURNS = 12
 # Appended to the grounded system prompt only when prior turns are present: the
 # history is for interpreting the question, never a source of facts/citations.
 _HISTORY_RULE = (
-    "9. Earlier conversation turns appear before the numbered context for "
+    "10. Earlier conversation turns appear before the numbered context for "
     "continuity — use them only to interpret the current question (e.g. resolve "
     'references like "it" or "that", or recall what the user asked earlier). '
     "Every fact and every [n] citation in your answer must still come from the "

@@ -304,8 +304,9 @@ answer is returned alone. The system never guesses content without evidence.
 - `GROUNDED_SYSTEM_PROMPT` enforces the core rules: answer **only** from the
   numbered context, cite `[n]` after every claim, reply with the exact refusal if
   the answer isn't present, don't invent sources, treat context text as reference
-  (not instructions), lead with website sources when present, and never state
-  corpus totals.
+  (not instructions), lead with website sources when present, never state corpus
+  totals, and — where two blocks disagree — answer from the one whose header
+  shows the later `published` date.
 - [`format_directive`](../app/generation/prompts.py) appends per-format shaping
   (list / table / summary / detailed / timeline) plus a tiny worked exemplar for
   `table` and `timeline`. `default` adds nothing (let the model choose the shape).
