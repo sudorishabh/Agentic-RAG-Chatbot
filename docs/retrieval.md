@@ -74,15 +74,27 @@ Candidates whose relevance sits within `rerank_relevance_tolerance` of each othe
 "similarly relevant" and share a **band**; the ranking key is then:
 
 ```
-(band, -recency, -authority, -relevance)      # band 0 = most relevant
+(relevance_band, substance_band, -recency, -authority, -relevance)   # band 0 = best
 ```
 
 A band starts at its leader and holds everything within the tolerance of *it* (not of
 the previous candidate, so a chain of small steps cannot drift a weak candidate into
-the top band). Across bands relevance always wins, however old the winner is; inside a
-band the newest document leads. Two editions of the same annual report land in one band
-and the newer one leads, while an older passage that actually answers the question
-still outranks a newer one that merely mentions it.
+the top band). Across bands relevance always wins, however old or full the winner is.
+Two editions of the same annual report land in one band and — unless one is a
+fragment — the newer one leads, while an older passage that actually answers the
+question still outranks a newer one that merely mentions it.
+
+**Completeness sits between relevance and recency.** Within a relevance band,
+candidates are banded a second time on passage length, log-scaled so the tolerance
+reads as a ratio: a passage holding `rerank_substance_ratio` (default 1.5) times the
+text of another says substantially more and leads it, while comparable ones fall
+through to the date. Length is an admitted proxy — accuracy is not measurable at
+ranking time — but it separates the case that matters, a chunk cut short at a document
+boundary against a full one. The log scale is deliberate: on a linear scale, min-max
+normalization would inflate the gap between 1,400 and 1,500 characters into a decisive
+one, which is the same mistake the old relevance blend made. The second banding runs
+*within* each relevance band, so a long passage from a much less relevant document
+cannot place the boundary that splits two similarly relevant ones.
 
 **Volatile topics get a wider band.** When the query is about something with a shelf
 life — pricing, an API, a regulation, a release, an announcement — or asks for the

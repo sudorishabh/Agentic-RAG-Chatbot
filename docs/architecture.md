@@ -155,9 +155,9 @@ process()  ── query_processor: LLM classifies intent + rewrites + extracts f
         │            (When prefer_website_enabled and no explicit source_type / non-table:
         │             TWO pulls — website + "not website" — merged; see retrieval.md §6)
         ▼
-     rerank()        reranker: semantic score (provider) → relevance bands, newest
-        │            first inside a band, threshold-filtered, truncated to top_k
-        │            (raw score kept)
+     rerank()        reranker: semantic score (provider) → relevance bands, fuller
+        │            then newer inside a band, threshold-filtered, truncated to
+        │            top_k (raw score kept)
         ▼
      build_context() context_builder: parent-expand → cosine dedup → conflict flag →
         │            (attention reorder, OR website-first segregation when preferring

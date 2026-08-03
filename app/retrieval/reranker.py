@@ -8,17 +8,26 @@ difference means least — while a fixed recency weight small enough not to
 overrule a genuinely better passage is also too small to break the ties it is
 there for.
 
-So candidates are grouped into *relevance bands* instead. Scores within
-``rerank_relevance_tolerance`` of each other are "similarly relevant" and settle
-their order on recency; a candidate a band below never climbs past one above it,
-however new it is. Two editions of the same annual report land in one band and
-the newer leads, while an older passage that actually answers the question still
-outranks a newer one that merely mentions it.
+So candidates are *banded* instead, and ranked on the bands in priority order:
+
+1. **relevance** — scores within ``rerank_relevance_tolerance`` are "similarly
+   relevant" and go on to compete on the keys below; a candidate a band lower
+   never climbs past one above it, however new or full it is;
+2. **completeness** — within a relevance band, a passage holding
+   ``rerank_substance_ratio`` times the text of another says substantially more
+   and leads it;
+3. **recency** — comparable passages settle on publication date, newest first;
+4. **authority** — a `source_authority` payload override, if one is ever written.
+
+Two editions of the same annual report land in one relevance band, and unless one
+is a fragment the newer leads. An older passage that actually answers the
+question still outranks a newer one that merely mentions it.
 """
 
 from __future__ import annotations
 
 import logging
+import math
 from datetime import datetime
 from functools import lru_cache
 from typing import NamedTuple, Sequence
@@ -84,46 +93,74 @@ def _authority_scores(candidates: Sequence[Candidate]) -> list[float]:
     return scores
 
 
-def _relevance_bands(relevance: Sequence[float], *, tolerance: float) -> list[int]:
-    """Band index per candidate, 0 being the most relevant band.
+def _substance_scores(candidates: Sequence[Candidate]) -> list[float]:
+    """Log-scaled passage length — the stand-in for "completeness".
 
-    A band starts at its leader and holds every candidate within `tolerance` of
-    it; the first candidate that falls further than that opens the next band.
-    Grown greedily down the relevance-sorted order rather than cut into
-    fixed-width buckets, so two near-identical scores can never land either side
-    of an arbitrary boundary — and measured against the *leader* rather than the
-    previous candidate, so a long chain of small steps cannot drift an
-    arbitrarily weak candidate into the top band."""
-    if not relevance:
+    Accuracy cannot be measured at ranking time and neither, strictly, can
+    completeness; what is visible is how much a passage actually says, and a
+    chunk cut short at a document boundary does carry less of an answer than a
+    full one.
+
+    Log scale so the band tolerance reads as a *ratio*: one passage says
+    substantially more than another when it holds `rerank_substance_ratio` times
+    the text. That claim survives the fact that chunks are already roughly
+    uniform in size, where a linear scale would not — min-max normalization would
+    inflate the gap between 1,400 and 1,500 characters into a decisive one, which
+    is the mistake the relevance blend used to make.
+
+    Measured on the child chunk that matched; the parent expansion happens later,
+    in the context builder."""
+    return [math.log1p(len(c.text)) for c in candidates]
+
+
+def _bands(values: Sequence[float], *, tolerance: float) -> list[int]:
+    """Band index per value, 0 being the highest band.
+
+    A band starts at its leader and holds every value within `tolerance` of it;
+    the first value that falls further than that opens the next band. Grown
+    greedily down the sorted order rather than cut into fixed-width buckets, so
+    two near-identical values can never land either side of an arbitrary
+    boundary — and measured against the *leader* rather than the previous value,
+    so a long chain of small steps cannot drift an arbitrarily weak value into
+    the top band."""
+    if not values:
         return []
-    order = sorted(range(len(relevance)), key=lambda i: relevance[i], reverse=True)
-    bands = [0] * len(relevance)
+    order = sorted(range(len(values)), key=lambda i: values[i], reverse=True)
+    bands = [0] * len(values)
     band = 0
-    leader = relevance[order[0]]
+    leader = values[order[0]]
     for i in order:
-        if leader - relevance[i] > tolerance:
+        if leader - values[i] > tolerance:
             band += 1
-            leader = relevance[i]
+            leader = values[i]
         bands[i] = band
     return bands
 
 
-class _Ranked(NamedTuple):
-    """A candidate with everything the ranking sorts it on."""
+class _Scored(NamedTuple):
+    """A candidate's ranking signals, before they are cut into bands."""
 
-    band: int          # 0 is the most relevant band
-    recency: float
-    authority: float
+    candidate: Candidate
     relevance: float   # semantic score plus any table boost; the band is cut from this
     semantic: float    # raw provider score, carried through for the context floors
-    candidate: Candidate
+    substance: float
+    recency: float
+    authority: float
 
 
-def _tolerance(query: str, settings) -> float:
-    """Band width for this query — widened when the topic goes stale.
+class _Ranked(NamedTuple):
+    """A scored candidate placed in the ranking."""
 
-    Recency cannot cross a band however wide it gets, so this only changes how
-    often the tie-break is reachable, never whether relevance wins."""
+    relevance_band: int   # 0 is the most relevant band
+    substance_band: int   # 0 is the fullest band, cut within the relevance band
+    scored: _Scored
+
+
+def _relevance_tolerance(query: str, settings) -> float:
+    """Relevance band width for this query — widened when the topic goes stale.
+
+    Nothing can cross a band however wide it gets, so this only changes how often
+    the lower-priority keys are reachable, never whether relevance wins."""
     tolerance = settings.rerank_relevance_tolerance
     if not is_volatile(query):
         return tolerance
@@ -132,12 +169,43 @@ def _tolerance(query: str, settings) -> float:
     return widened
 
 
+def _substance_tolerance(settings) -> float:
+    """Completeness band width, as the log of the configured length ratio — see
+    `_substance_scores`. A ratio at or below 1 would make every difference in
+    length substantial, so it is clamped away."""
+    return math.log(max(float(settings.rerank_substance_ratio), 1.0))
+
+
+def _substance_bands(
+    scored: Sequence[_Scored], relevance_bands: Sequence[int], *, tolerance: float
+) -> list[int]:
+    """Completeness band per candidate, cut *within* each relevance band.
+
+    Banding across the whole set would let a long passage from a much less
+    relevant document place the boundary that splits two similarly relevant ones.
+    Completeness is only ever a question between candidates that already tied on
+    relevance."""
+    bands = [0] * len(scored)
+    for relevance_band in set(relevance_bands):
+        members = [i for i, b in enumerate(relevance_bands) if b == relevance_band]
+        within = _bands([scored[i].substance for i in members], tolerance=tolerance)
+        for i, band in zip(members, within):
+            bands[i] = band
+    return bands
+
+
 def _sort_key(r: _Ranked) -> tuple[float, ...]:
     """The ranking priority, most significant first: relevance band, then
-    recency, then authority, then the fine-grained relevance within the band —
-    a deterministic last resort, and by construction a sub-tolerance difference
-    that the band already declared immaterial."""
-    return (r.band, -r.recency, -r.authority, -r.relevance)
+    completeness band, then recency, then authority, then the fine-grained
+    relevance within the band — a deterministic last resort, and by construction
+    a sub-tolerance difference that the band already declared immaterial."""
+    return (
+        r.relevance_band,
+        r.substance_band,
+        -r.scored.recency,
+        -r.scored.authority,
+        -r.scored.relevance,
+    )
 
 
 class _Relevance(BaseModel):
@@ -256,35 +324,45 @@ def rerank(
 
     semantic = _semantic_scores(query, candidates, provider)
     threshold = settings.rerank_score_threshold
+    substance = _substance_scores(candidates)
     recency = _recency_scores(candidates)
     authority = _authority_scores(candidates)
 
-    kept: list[tuple[Candidate, float, float, float, float]] = []
-    for cand, sem, rec, auth in zip(candidates, semantic, recency, authority):
+    kept: list[_Scored] = []
+    for cand, sem, sub, rec, auth in zip(
+        candidates, semantic, substance, recency, authority
+    ):
         if threshold and sem < threshold:
             continue
         # The boost lifts relevance rather than a final score, so a table-bearing
         # chunk can climb a band when the answer wants a table. Still a nudge and
         # not a filter — and inert when it is smaller than the band tolerance.
         boost = table_boost if table_boost and cand.payload.get("has_table") else 0.0
-        kept.append((cand, sem + boost, sem, rec, auth))
+        kept.append(
+            _Scored(
+                candidate=cand, relevance=sem + boost, semantic=sem,
+                substance=sub, recency=rec, authority=auth,
+            )
+        )
 
-    bands = _relevance_bands(
-        [relevance for _, relevance, _, _, _ in kept],
-        tolerance=_tolerance(query, settings),
+    relevance_bands = _bands(
+        [s.relevance for s in kept], tolerance=_relevance_tolerance(query, settings)
+    )
+    substance_bands = _substance_bands(
+        kept, relevance_bands, tolerance=_substance_tolerance(settings)
     )
     ranked = sorted(
         (
-            _Ranked(band=band, recency=rec, authority=auth, relevance=relevance,
-                    semantic=sem, candidate=cand)
-            for band, (cand, relevance, sem, rec, auth) in zip(bands, kept)
+            _Ranked(relevance_band=rb, substance_band=sb, scored=s)
+            for rb, sb, s in zip(relevance_bands, substance_bands, kept)
         ),
         key=_sort_key,
     )
     out = [
         Candidate(
-            id=r.candidate.id, score=r.relevance, payload=r.candidate.payload,
-            vector=r.candidate.vector, semantic_score=r.semantic,
+            id=r.scored.candidate.id, score=r.scored.relevance,
+            payload=r.scored.candidate.payload, vector=r.scored.candidate.vector,
+            semantic_score=r.scored.semantic,
         )
         for r in ranked
     ]

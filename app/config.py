@@ -160,6 +160,13 @@ class Settings(BaseSettings):
     # more often; it never lets recency cross a band, so relevance still decides.
     # Set to 1.0 to rank volatile and stable topics identically.
     rerank_volatile_tolerance_multiplier: float = 2.0
+    # How much more text one passage must hold than another before it counts as
+    # "substantially more complete" and leads it — the completeness tier, which
+    # sits below relevance and above recency. Length is a proxy: accuracy is not
+    # measurable at ranking time, but a chunk cut short carries less of an answer
+    # than a full one. Raise it to make completeness matter less; a very large
+    # value hands every relevance tie to recency.
+    rerank_substance_ratio: float = 1.5
     # Additive boost to a candidate's blended score when it contains a table and
     # the user asked for a table-shaped answer. Soft (not a filter) so a table
     # request still returns non-table results when no table matches.

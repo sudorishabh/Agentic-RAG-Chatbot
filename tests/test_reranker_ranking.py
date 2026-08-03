@@ -15,8 +15,21 @@ from app.retrieval import reranker
 from app.retrieval.hybrid_search import Candidate
 
 
-def _cand(id: str, score: float, published: str | None = None, **payload) -> Candidate:
-    body = {"chunk_text": f"text {id}", **payload}
+# Passage length is the completeness signal, so every candidate gets the same
+# text by default — a test that does not say otherwise is not making a claim
+# about completeness, and must not accidentally make one via the length of an id.
+_DEFAULT_CHARS = 400
+
+
+def _cand(
+    id: str,
+    score: float,
+    published: str | None = None,
+    *,
+    chars: int = _DEFAULT_CHARS,
+    **payload,
+) -> Candidate:
+    body = {"chunk_text": "x" * chars, **payload}
     if published:
         body["published_at"] = published
     return Candidate(id=id, score=score, payload=body, vector=[0.1])
@@ -33,6 +46,7 @@ def settings(monkeypatch):
         rerank_score_threshold=0.0,
         rerank_relevance_tolerance=0.03,
         rerank_volatile_tolerance_multiplier=2.0,
+        rerank_substance_ratio=1.5,
     )
     monkeypatch.setattr(reranker, "get_settings", lambda: cfg)
     return cfg
@@ -139,6 +153,58 @@ def test_semantic_score_stays_the_raw_provider_score(settings):
     )
     assert out[0].semantic_score == pytest.approx(0.70)
     assert out[0].score == pytest.approx(0.85)
+
+
+def test_a_substantially_fuller_passage_leads_a_newer_fragment(settings):
+    """Completeness outranks recency: the newer chunk is a stub, the older one
+    holds three times the text."""
+    out = reranker.rerank("q", [
+        _cand("stub", 0.80, "2025-01-01", chars=200),
+        _cand("full", 0.79, "2019-01-01", chars=600),
+    ])
+    assert _ids(out) == ["full", "stub"]
+
+
+def test_comparable_passages_still_settle_on_recency(settings):
+    """A 20% difference in length is not "substantially more complete" at a 1.5
+    ratio, so the date decides as before."""
+    out = reranker.rerank("q", [
+        _cand("old", 0.80, "2019-01-01", chars=600),
+        _cand("new", 0.79, "2025-01-01", chars=500),
+    ])
+    assert _ids(out) == ["new", "old"]
+
+
+def test_completeness_cannot_cross_a_relevance_band(settings):
+    """A long passage that answers less well stays below a short one that
+    answers the question."""
+    out = reranker.rerank("q", [
+        _cand("on-point", 0.80, chars=200),
+        _cand("rambling", 0.60, chars=3000),
+    ])
+    assert _ids(out) == ["on-point", "rambling"]
+
+
+def test_completeness_is_judged_within_a_relevance_band(settings):
+    """The long low-relevance passage must not set the boundary that splits the
+    two similarly relevant ones — they are comparable to each other, so their
+    order is still the newer first."""
+    out = reranker.rerank("q", [
+        _cand("old", 0.80, "2019-01-01", chars=550),
+        _cand("new", 0.79, "2025-01-01", chars=500),
+        _cand("bulky", 0.50, chars=5000),
+    ])
+    assert _ids(out) == ["new", "old", "bulky"]
+
+
+def test_the_substance_ratio_can_be_relaxed(settings):
+    """A ratio nothing can reach hands every relevance tie back to recency."""
+    settings.rerank_substance_ratio = 1000.0
+    out = reranker.rerank("q", [
+        _cand("full", 0.80, "2019-01-01", chars=600),
+        _cand("stub", 0.79, "2025-01-01", chars=200),
+    ])
+    assert _ids(out) == ["stub", "full"]
 
 
 def test_a_volatile_topic_widens_the_band(settings):

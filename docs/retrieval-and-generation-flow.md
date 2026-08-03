@@ -231,9 +231,11 @@ expansion is reserved for open-ended `qa`. The rest is driven by `answer_format`
 Re-scores candidates with a **semantic** score from the configured provider
 (`embedding` dense score / `cross_encoder` / `cohere` / `llm`), then ranks them
 **relevance first, recency as the tie-break**: scores within
-`rerank_relevance_tolerance` of each other form a *band* and are ordered by
-`published_at` (then by a neutral authority, then by relevance). Across bands
-relevance always wins. The tolerance is multiplied by
+`rerank_relevance_tolerance` of each other form a *band*, and inside it are
+banded again on passage length (a passage holding `rerank_substance_ratio` times
+the text of another leads it) before being ordered by `published_at`, then a
+neutral authority, then relevance. Across bands relevance always wins. The
+relevance tolerance is multiplied by
 `rerank_volatile_tolerance_multiplier` for queries about topics that go stale
 (`app/retrieval/volatility.py`), so the tie-break fires more often there. A
 `table_boost` is added to a table-bearing chunk's
