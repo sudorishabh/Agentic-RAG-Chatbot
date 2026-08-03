@@ -18,6 +18,27 @@ any error it returns the original question with `intent="qa"`. The multi-label r
 is then collapsed to the single-label route the rest of the pipeline consumes. Full
 taxonomy, boundaries, and rules: [intent-classification-design.md](intent-classification-design.md).
 
+The system prompt is assembled per request as
+`_UNDERSTANDING_SYSTEM + catalog_inventory_directive() + catalog_coverage_directive() +
+current_date_directive()` — the same three-block tail the structured planner and
+slot-extraction prompts use. Ordering is deliberate: the two catalog blocks change only
+when the corpus does, so they stay inside the cacheable prefix ahead of the date block,
+which changes daily.
+
+- `catalog_inventory_directive` ([catalog_prompt.py](../app/retrieval/catalog_prompt.py))
+  names the content types the deployment actually holds, so the model cannot set a
+  bundle that can only match zero rows.
+- `catalog_coverage_directive` names the real `published_at` span
+  (`catalog.queries.published_range`, TTL-cached, fails open). Two jobs: stop the model
+  scoping to a period the catalog cannot reach — "this year" against an archive that
+  ends two years ago answers a confident zero that reads as a fact about the world —
+  and stop it turning a bare **"the latest" / "most recent"** into a date bound. A
+  guessed bound *excludes*, and the documents that answer the question go first;
+  recency is handled by ranking instead (§3), so the correct extraction is no date.
+- `current_date_directive` ([dates.py](../app/core/dates.py)) anchors genuinely
+  relative expressions ("last six months") to the real today rather than to the model's
+  training data.
+
 `ProcessedQuery`:
 
 | Field | Meaning |

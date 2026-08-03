@@ -24,6 +24,7 @@ from app.retrieval.catalog_prompt import (
     OPERATIONS,
     RESOLVE_FIRST,
     VOCABULARY,
+    catalog_coverage_directive,
     catalog_inventory_directive,
 )
 from app.retrieval.structured.tools import (
@@ -250,6 +251,7 @@ def plan_multi(question: str, *, output_format: str = "default") -> DatabasePlan
                     "system",
                     _PLANNER_SYSTEM
                     + catalog_inventory_directive()
+                    + catalog_coverage_directive()
                     + current_date_directive(),
                 ),
                 ("human", question),

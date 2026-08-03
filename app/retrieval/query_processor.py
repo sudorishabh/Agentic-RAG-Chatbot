@@ -10,7 +10,10 @@ from pydantic import BaseModel, Field
 from app.config import get_settings
 from app.core.clients.llm import get_llm, get_structured_llm
 from app.core.dates import IsoDate, current_date_directive, exclusive_end
-from app.retrieval.catalog_prompt import catalog_inventory_directive
+from app.retrieval.catalog_prompt import (
+    catalog_coverage_directive,
+    catalog_inventory_directive,
+)
 from app.retrieval.understanding.filters import (
     _facet_filters,
     _parse_bound,
@@ -354,6 +357,7 @@ def _understanding_messages(
             "system",
             _UNDERSTANDING_SYSTEM
             + catalog_inventory_directive()
+            + catalog_coverage_directive()
             + current_date_directive(),
         ),
         (

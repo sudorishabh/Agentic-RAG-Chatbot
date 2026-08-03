@@ -285,11 +285,12 @@ def distinct_authors(*, limit: int = 2000) -> list[str]:
         return [row["author"] for row in cur.fetchall() if row["author"]]
 
 
-# How long a bundle inventory is trusted. Short enough that an ingest adding a
-# content type shows up without a restart, long enough that the extra query is
-# noise next to the LLM calls on the same request.
-_BUNDLE_INVENTORY_TTL_SECONDS = 600
+# How long an inventory read is trusted. Short enough that an ingest adding a
+# content type — or a newer document — shows up without a restart, long enough
+# that the extra query is noise next to the LLM calls on the same request.
+_INVENTORY_TTL_SECONDS = 600
 _bundle_inventory: tuple[float, tuple[str, ...]] | None = None
+_published_range: tuple[float, tuple[str | None, str | None]] | None = None
 
 
 def available_bundles(*, refresh: bool = False) -> tuple[str, ...]:
@@ -316,7 +317,7 @@ def available_bundles(*, refresh: bool = False) -> tuple[str, ...]:
     if (
         not refresh
         and _bundle_inventory is not None
-        and now - _bundle_inventory[0] < _BUNDLE_INVENTORY_TTL_SECONDS
+        and now - _bundle_inventory[0] < _INVENTORY_TTL_SECONDS
     ):
         return _bundle_inventory[1]
     table = _table()
@@ -333,6 +334,58 @@ def available_bundles(*, refresh: bool = False) -> tuple[str, ...]:
                        exc_info=True)
         return ()
     _bundle_inventory = (now, found)
+    return found
+
+
+def _as_iso_date(value: Any) -> str | None:
+    """A ``published_at`` bound as a bare ISO date, or None when unusable."""
+    if isinstance(value, datetime):
+        return value.date().isoformat()
+    text = str(value or "")[:10]
+    return text or None
+
+
+def published_range(*, refresh: bool = False) -> tuple[str | None, str | None]:
+    """The oldest and newest publication dates the catalog holds, as ISO dates.
+
+    The date-extracting prompts anchor relative expressions to *today*, which is
+    right for reading the user ("last six months" means the last six months) and
+    wrong for the corpus: an archive whose newest document is two years old
+    answers "what changed this year" with a confident zero that reads as a fact
+    about the world rather than about the catalog. Naming the real span lets the
+    model scope to a period that can actually match — the same gap
+    ``available_bundles`` closes for content types.
+
+    Unscoped, unlike ``available_bundles``: a bundle is a browsable-type concept
+    that only applies to website nodes, whereas any indexed document can carry a
+    date and be retrieved by one.
+
+    Fails open with ``(None, None)``, which callers must read as "unknown" — a
+    MySQL blip must not tell the model the catalog covers nothing."""
+    global _published_range
+    now = time.monotonic()
+    if (
+        not refresh
+        and _published_range is not None
+        and now - _published_range[0] < _INVENTORY_TTL_SECONDS
+    ):
+        return _published_range[1]
+    table = _table()
+    sql = (
+        f"SELECT MIN(published_at) AS lo, MAX(published_at) AS hi FROM `{table}` "
+        "WHERE published_at IS NOT NULL"
+    )
+    try:
+        with mysql_connection() as conn, conn.cursor() as cur:
+            cur.execute(sql)
+            rows = cur.fetchall()
+        row = rows[0] if rows else {}
+        found = (_as_iso_date(row.get("lo")), _as_iso_date(row.get("hi")))
+    except Exception:
+        logger.warning("Published-range lookup failed; treating it as unknown.",
+                       exc_info=True)
+        return (None, None)
+    _published_range = (now, found)
     return found
 
 

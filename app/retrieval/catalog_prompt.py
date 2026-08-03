@@ -157,6 +157,52 @@ def catalog_inventory_directive() -> str:
     )
 
 
+def catalog_coverage_directive() -> str:
+    """Prompt block naming the period this deployment's documents actually span.
+
+    The date prompts anchor relative expressions to today, which reads the user
+    correctly and describes the corpus badly: an archive whose newest document is
+    from 2024 answers "what changed this year" with a confident zero, and a zero
+    about a period the catalog never covered reads as a fact about the world.
+    Naming the real span lets the model scope to something that can match.
+
+    It also settles what a bare "the latest" means. Left to itself the model
+    turns it into a date bound, and a guessed bound *excludes* — the documents
+    that answer the question are the first to go. Ranking already prefers the
+    newest of several comparable documents (see
+    :mod:`app.retrieval.reranker`), so the correct extraction is no date at all.
+
+    Returns "" when the range cannot be determined (no database, a MySQL blip),
+    so an outage falls back to today's-date reasoning rather than claiming the
+    catalog covers nothing. Same posture, and same per-request call, as
+    :func:`catalog_inventory_directive`.
+
+    Meant to be appended *before* ``current_date_directive`` — its own text says
+    it overrides what follows — so the blocks that change only with the corpus
+    stay in the cacheable prefix ahead of the one that changes daily."""
+    from app.catalog.queries import published_range
+
+    oldest, newest = published_range()
+    if not oldest or not newest:
+        return ""
+    return (
+        "\n\n## What the catalog covers\n"
+        f"Every document in it was published between {oldest} and {newest}; there "
+        f"is nothing newer than {newest}. Both points below override the "
+        "relative-date guidance that follows.\n"
+        f"- A bound past {newest} matches nothing. When the user asks about a "
+        "period the catalog does not reach — including \"this year\" once the "
+        "year has run past that date — scope to the part it does reach, or leave "
+        "the dates null when none of it is covered.\n"
+        "- \"The latest\", \"the most recent\" and \"the newest\" name no period "
+        "on their own: leave BOTH dates null for them. Ranking already prefers "
+        "the newest of the documents that answer the question, whereas a date "
+        "guessed from the two above would exclude them.\n"
+        "A period the user names themselves (\"in 2023\", \"since March\") is "
+        "still theirs and still applies."
+    )
+
+
 FEW_SHOTS = (
     "Examples (the tool calls, not the answer). Names go in as written — the "
     "query layer canonicalizes them:\n"

@@ -255,6 +255,49 @@ def test_inventory_directive_ignores_bundles_outside_the_registry(monkeypatch):
     assert "some_unregistered_thing" not in prompt.catalog_inventory_directive()
 
 
+# --------------------------------------------------------------------------- #
+# catalog_coverage_directive — the period this deployment actually spans.
+# --------------------------------------------------------------------------- #
+
+def _range(monkeypatch, value):
+    monkeypatch.setattr("app.catalog.queries.published_range", lambda **kw: value)
+
+
+def test_coverage_directive_names_the_real_span(monkeypatch):
+    """Today's date reads the user correctly and describes the corpus badly: an
+    archive ending in 2024 answers "this year" with a zero that reads as a fact
+    about the world."""
+    _range(monkeypatch, ("2011-03-04", "2024-11-30"))
+    text = prompt.catalog_coverage_directive()
+    assert "between 2011-03-04 and 2024-11-30" in text
+    assert "nothing newer than 2024-11-30" in text
+    assert "scope to the part it does reach" in text
+
+
+def test_coverage_directive_forbids_turning_latest_into_a_date(monkeypatch):
+    """A guessed bound excludes, and the documents that answer the question are
+    the first to go — ranking already prefers the newest of them."""
+    _range(monkeypatch, ("2011-03-04", "2024-11-30"))
+    text = prompt.catalog_coverage_directive()
+    assert "leave BOTH dates null" in text
+    assert "A period the user names themselves" in text
+
+
+def test_coverage_directive_overrides_the_date_block_that_follows(monkeypatch):
+    """It is appended before `current_date_directive`, so it has to say which of
+    the two wins."""
+    _range(monkeypatch, ("2011-03-04", "2024-11-30"))
+    assert "override the relative-date guidance" in prompt.catalog_coverage_directive()
+
+
+def test_coverage_directive_is_silent_when_the_range_is_unknown(monkeypatch):
+    """A MySQL blip must fall back to today's-date reasoning, not announce that
+    the catalog covers nothing."""
+    for unknown in ((None, None), (None, "2024-11-30"), ("2011-03-04", None)):
+        _range(monkeypatch, unknown)
+        assert prompt.catalog_coverage_directive() == ""
+
+
 def test_classifier_prompt_import_stays_client_free():
     """The measurable form of the above: importing the classifier's prompt text
     must not transitively load the DB / vector / LLM clients."""
