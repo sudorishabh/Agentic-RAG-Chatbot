@@ -229,12 +229,14 @@ expansion is reserved for open-ended `qa`. The rest is driven by `answer_format`
 **Code:** [`reranker.py::rerank`](../app/retrieval/reranker.py).
 
 Re-scores candidates with a **semantic** score from the configured provider
-(`embedding` dense score / `cross_encoder` / `cohere` / `llm`), normalizes to
-[0,1], then **blends** with recency and a neutral authority baseline
-(weights `rerank_recency_weight` / `rerank_authority_weight`). A `table_boost` is
-added to table-bearing chunks when `answer_format == "table"`. Candidates below
-`rerank_score_threshold` are dropped. Each survivor keeps its **raw** semantic
-score in `semantic_score` for the website floor later.
+(`embedding` dense score / `cross_encoder` / `cohere` / `llm`), then ranks them
+**relevance first, recency as the tie-break**: scores within
+`rerank_relevance_tolerance` of each other form a *band* and are ordered by
+`published_at` (then by a neutral authority, then by relevance). Across bands
+relevance always wins. A `table_boost` is added to a table-bearing chunk's
+relevance when `answer_format == "table"`, so it can lift the chunk a band.
+Candidates below `rerank_score_threshold` are dropped. Each survivor keeps its
+**raw** semantic score in `semantic_score` for the website floor later.
 
 ### 6.4 Corrective loop (one shot)
 
@@ -405,7 +407,7 @@ All in [`app/config.py`](../app/config.py) / `.env`:
 | `prefer_website_enabled`, `website_candidate_k`, `website_max_slots`, `website_chunk_floor` | dual pull + website-first context |
 | `multi_query_enabled`, `multi_query_paraphrases` | paraphrase recall expansion |
 | `keyword_leg_enabled` | exact-match full-text leg |
-| `reranker_provider`, `rerank_model`, `rerank_score_threshold`, `rerank_recency_weight`, `rerank_authority_weight`, `rerank_table_boost` | reranking |
+| `reranker_provider`, `rerank_model`, `rerank_score_threshold`, `rerank_relevance_tolerance`, `rerank_table_boost` | reranking |
 | `corrective_loop_enabled`, `corrective_min_score` | one-shot corrective requery |
 | `context_token_budget`, `dedup_cosine_threshold` | context building |
 | `faithfulness_check` | claim-level verify + one regeneration |

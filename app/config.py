@@ -147,8 +147,13 @@ class Settings(BaseSettings):
     reranker_provider: str = "embedding"
     rerank_model: str = ""
     rerank_score_threshold: float = 0.0
-    rerank_recency_weight: float = 0.05
-    rerank_authority_weight: float = 0.05
+    # How far apart two candidates' relevance scores may sit and still count as
+    # "similarly relevant" — the width of a ranking band. Inside a band the newer
+    # document leads; across bands relevance always wins, however old the winner
+    # is. Sized for the 0..1 scale the embedding, llm and cohere providers return;
+    # raise it for cross_encoder, whose scores are unbounded logits. Widen to let
+    # recency decide more often, narrow to make it decide less.
+    rerank_relevance_tolerance: float = 0.03
     # Additive boost to a candidate's blended score when it contains a table and
     # the user asked for a table-shaped answer. Soft (not a filter) so a table
     # request still returns non-table results when no table matches.

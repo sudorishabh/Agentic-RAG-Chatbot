@@ -278,7 +278,8 @@ Today `from_pdf` sets `title` to the filename and nothing else. No authors, no
 metadata is degraded as a result:
 
 - `_recency_scores` ([`reranker.py:28`](../app/retrieval/reranker.py)) returns
-  a flat `0.5` for every PDF, so `rerank_recency_weight` is inert across most
+  a flat `_UNKNOWN` (0.5) for every PDF, so the recency tie-break inside a
+  relevance band cannot separate them — it is inert across most
   of the corpus.
 - `documents_theme` gets no rows, so PDFs are invisible to theme-scoped
   retrieval and to per-theme counts.

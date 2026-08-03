@@ -67,18 +67,38 @@ relevance floor.
 
 `rerank(query, candidates, *, top_n=None, table_boost=0.0) -> list[Candidate]`
 
-Computes a **semantic** score (per provider), normalizes it to [0,1], then blends it
-with recency and authority (and adds `table_boost` to table-bearing chunks when the
-answer format is `table`). Each returned `Candidate` also carries its **raw** semantic
-score in `semantic_score` (used downstream for the website relevance floor):
+Computes a **semantic** score (per provider), then ranks on it in priority order:
+**relevance first, recency only as a tie-break.**
+
+Candidates whose relevance sits within `rerank_relevance_tolerance` of each other are
+"similarly relevant" and share a **band**; the ranking key is then:
 
 ```
-ws = max(0, 1 - rerank_recency_weight - rerank_authority_weight)
-blended = ws*semantic_norm + rerank_recency_weight*recency + rerank_authority_weight*authority
+(band, -recency, -authority, -relevance)      # band 0 = most relevant
 ```
 
-Candidates below `rerank_score_threshold` are dropped; the rest are sorted and the top
-`top_n` (default `retrieval_top_k`) returned with `score` set to the blended value.
+A band starts at its leader and holds everything within the tolerance of *it* (not of
+the previous candidate, so a chain of small steps cannot drift a weak candidate into
+the top band). Across bands relevance always wins, however old the winner is; inside a
+band the newest document leads. Two editions of the same annual report land in one band
+and the newer one leads, while an older passage that actually answers the question
+still outranks a newer one that merely mentions it.
+
+This replaced a weighted blend of the *normalized* semantic score with recency and
+authority. Normalizing first meant the blend separated candidates most aggressively
+exactly when their scores were closest — when the relevance difference means least —
+so a recency weight small enough not to overrule a better passage was also too small to
+break the ties it existed for.
+
+`table_boost` is added to a table-bearing chunk's relevance (not to a final score) when
+the answer format is `table`, so it can lift a chunk a band: still a nudge, not a
+filter, and inert below the tolerance.
+
+Candidates below `rerank_score_threshold` are dropped; the top `top_n` (default
+`retrieval_top_k`) are returned with `score` set to the banded relevance and the **raw**
+semantic score in `semantic_score` (used downstream for the website relevance floor).
+`score` is deliberately *not* monotone with the returned order — inside a band the order
+is by date.
 
 Providers (`reranker_provider`):
 
@@ -92,8 +112,14 @@ Providers (`reranker_provider`):
 Authority is **neutral** (0.5 for all source types) unless a payload carries an
 explicit `source_authority` override. The old source-type authority map (which
 penalized website content) was **removed** — website preference is now handled by the
-dual pull + segregation (§6), not by a scoring tilt. Recency is derived from
-`published_at`.
+dual pull + segregation (§6), not by a scoring tilt. Nothing writes `source_authority`
+today, so authority is a constant and cannot reorder anything; it stays as the
+lowest-priority key so a corpus that starts stamping it needs no further change.
+
+Recency is derived from `published_at`, scaled across the candidate set so that an
+**undated** candidate reads as mid-set — neutral, neither leading nor trailing its band
+on a fact we do not have. Note that loose PDFs carry no `published_at` at all
+(`from_pdf` does not set one), so recency cannot separate them.
 
 ## 4. Context building — [app/retrieval/context_builder.py](../app/retrieval/context_builder.py)
 

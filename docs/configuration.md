@@ -67,8 +67,7 @@ source type / bundle in
 | `reranker_provider` | `embedding` | `embedding` / `llm` / `cross_encoder` / `cohere` |
 | `rerank_model` | `""` | Model id; defaults per provider when blank (`BAAI/bge-reranker-v2-m3` for cross-encoder, `rerank-3.5` for Cohere) |
 | `rerank_score_threshold` | `0.0` | Drop candidates scoring below this after rerank (applied pre-segregation; keep at 0 unless tuned per source group) |
-| `rerank_recency_weight` | `0.05` | Weight of recency in the blended score |
-| `rerank_authority_weight` | `0.05` | Weight of source authority in the blended score. Authority is now **neutral** (0.5) unless a payload sets `source_authority`; the source-type map was removed (see [retrieval.md](retrieval.md#3-reranking--appretrievalrerankerpy)) |
+| `rerank_relevance_tolerance` | `0.03` | How close two relevance scores must be to count as "similarly relevant" — the width of a ranking band. Inside a band the newest document leads; across bands relevance always wins. Widen to let recency decide more often. Sized for the 0..1 scale of the `embedding`/`llm`/`cohere` providers; raise it for `cross_encoder` (unbounded logits). Replaces the old `rerank_recency_weight`/`rerank_authority_weight` blend (see [retrieval.md](retrieval.md#3-reranking--appretrievalrerankerpy)) |
 | `rerank_table_boost` | `0.15` | Additive boost for table-bearing candidates when the user asked for a table-shaped answer (soft, not a filter) |
 | `dedup_cosine_threshold` | `0.92` | Cosine threshold for query-time deduplication |
 | `context_token_budget` | `9000` | Max tokens of retrieved context sent to the LLM. Blocks are parent chunks (~1800 tokens each), so this gates ~5 passages; sized so the website-preference split (2 website + ~3 PDF) fits. Lower toward 6000 for faster single-source answers |

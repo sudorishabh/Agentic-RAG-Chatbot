@@ -165,9 +165,9 @@ Feature-gated legs, run concurrently (`ThreadPoolExecutor(4)`) when >1 active:
 7. **Context build** (§3.8), then **attachment supplementation** (§3.9) for `detailed` answers.
 
 ### 3.7 Reranking
-- **Purpose:** Re-score fused candidates: semantic signal blended with recency + authority, threshold filter, table boost.
-- **Implementation:** `app/retrieval/reranker.py` `rerank` (:152). Providers via `reranker_provider`: `embedding` (default — reuse dense scores), `llm` (structured 0–1 scores over ≤40 candidates, 600-char snippets, fallback to dense), `cross_encoder` (`sentence_transformers`, default `BAAI/bge-reranker-v2-m3`, cached), `cohere` (`rerank-3.5`, `COHERE_API_KEY`). Blend: `ws*norm_semantic + 0.05*recency + 0.05*authority` (+ table boost); authority is neutral 0.5 unless a payload `source_authority` override exists (the source-type authority map was removed). Raw `semantic_score` is preserved on candidates — it feeds the corrective trigger and the website floor.
-- **Config:** `reranker_provider` ("embedding"), `rerank_model`, `rerank_score_threshold` (0.0 = off), `rerank_recency_weight`/`rerank_authority_weight` (0.05), `rerank_table_boost` (0.15).
+- **Purpose:** Rank fused candidates by relevance, with recency as the tie-break between similarly relevant ones; threshold filter, table boost.
+- **Implementation:** `app/retrieval/reranker.py` `rerank`. Providers via `reranker_provider`: `embedding` (default — reuse dense scores), `llm` (structured 0–1 scores over ≤40 candidates, 600-char snippets, fallback to dense), `cross_encoder` (`sentence_transformers`, default `BAAI/bge-reranker-v2-m3`, cached), `cohere` (`rerank-3.5`, `COHERE_API_KEY`). Ordering: candidates within `rerank_relevance_tolerance` of a band leader share a *band* and sort by `published_at`, then authority, then relevance; across bands relevance always wins. The table boost lifts relevance, so it can move a chunk a band. Authority is neutral 0.5 unless a payload `source_authority` override exists (the source-type authority map was removed). Raw `semantic_score` is preserved on candidates — it feeds the corrective trigger and the website floor.
+- **Config:** `reranker_provider` ("embedding"), `rerank_model`, `rerank_score_threshold` (0.0 = off), `rerank_relevance_tolerance` (0.03), `rerank_table_boost` (0.15).
 
 ### 3.8 Context building
 - **Purpose:** Ranked candidates → bounded, deduped, parent-expanded, optionally website-segregated numbered `ContextBlock`s within a token budget; conflict flagging.
