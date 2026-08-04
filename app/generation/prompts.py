@@ -82,19 +82,30 @@ _SINGLE_STRUCTURE = (
 # this. Asking a grounded model for fuller answers raises the pressure to pad, so
 # the anti-padding clause is not optional decoration — it is what keeps the extra
 # length coming from the context.
+#
+# The length target is stated as a range rather than "be thorough" because the
+# abstract instruction lost to the model's own pull toward one-line answers: a
+# question worth several sentences of context was coming back as the bare fact.
+# The floor names what to add (the specifics already in the context), so the
+# extra length has somewhere to come from other than filler.
 _ANSWER_STYLE = (
     "Answer style:\n"
-    "- Be thorough: cover the relevant context, not only the bare fact asked "
-    "for — what it means, plus the examples, caveats and limits the context "
-    "supports. Scale depth to the question; a simple factual one still gets a "
-    "short answer.\n"
+    "- Answer at a useful length: lead with the direct answer, then give the "
+    "specifics the context carries around it — the figures, dates, names, "
+    "scope, caveats and limits that make the answer usable. An ordinary "
+    "question is worth roughly 4-8 sentences or 3-6 bullets. Even a one-fact "
+    "question gets its fact plus a sentence of surrounding detail, never a bare "
+    "clause.\n"
     "- Structure anything past a couple of sentences: short paragraphs, bullets "
     "for parallel points, numbered steps for sequences, a Markdown table for "
     "comparisons across two or more dimensions, and **bold** for the points "
     "that matter most. No walls of text.\n"
     "- Depth must come from the context, never from padding: every added "
-    "sentence carries its own [n], and a table or list needs real values for "
-    "every cell it opens. Say less rather than fill space.\n"
+    "sentence carries its own [n] and says something the earlier ones did not, "
+    "and a table or list needs real values for every cell it opens. Where the "
+    "context runs out before the length target does, stop there — never restate "
+    "a point, pad with generalities, or close with a summary of what you just "
+    "said.\n"
 )
 
 # How the style above relates to the structure demanded above it — the two
@@ -110,55 +121,68 @@ _SINGLE_STYLE_SCOPE = (
 )
 
 # One compact worked demonstration, always present: 4o-mini follows
-# demonstrated behavior far better than described behavior. Kept tiny —
-# it rides on every QA call. The two follow-ups reuse the same context to
+# demonstrated behavior far better than described behavior — which is also why
+# the demonstrated answers use every fact the example context offers rather than
+# one sentence per block. A one-line exemplar taught one-line answers, whatever
+# _ANSWER_STYLE asked for above it. Still kept as small as the lesson allows,
+# since it rides on every QA call. The two follow-ups reuse the same context to
 # demonstrate each block being dropped, the rules a model most readily ignores;
 # the second is the observed failure, where an unhelpful category was kept and
 # filled with the refusal instead.
 _MIXED_EXAMPLE = (
     "Example:\n"
     "Context: [1] (website · Rooftop Solar Push · published 2023-11-02) The "
-    "rooftop programme added 1.2 GW of capacity in 2023.\n"
+    "rooftop programme added 1.2 GW of capacity in 2023, up from 0.8 GW in "
+    "2022. Subsidy applications closed in March.\n"
     "[2] (pdf · Annual Energy Report · p.4) Commercial installations accounted "
-    "for 60% of new rooftop capacity.\n"
+    "for 60% of new rooftop capacity, concentrated in five states.\n"
     "Question: How did rooftop solar grow in 2023?\n"
     "Answer:\n"
     f"<{WEBSITE_TAG}>\n"
-    "The rooftop programme added 1.2 GW of capacity in 2023 [1].\n"
+    "The rooftop programme added **1.2 GW of new capacity in 2023**, up from "
+    "0.8 GW the year before [1]. Subsidy applications for that year closed in "
+    "March [1].\n"
     f"</{WEBSITE_TAG}>\n"
     f"<{PDF_TAG}>\n"
     f"{PDF_LEAD}\n"
-    "Commercial installations accounted for 60% of the new rooftop capacity "
-    "[2].\n"
+    "Commercial installations drove most of the growth, accounting for 60% of "
+    "the new rooftop capacity [2]. Those additions were concentrated in five "
+    "states [2].\n"
     f"</{PDF_TAG}>\n"
     "Same context, question 'When did the rooftop programme add 1.2 GW?': [2] "
-    "adds nothing to the answer, so the PDF block is dropped:\n"
+    "adds nothing to the answer, so the PDF block is dropped — but the one fact "
+    "asked for still arrives with the detail around it:\n"
     f"<{WEBSITE_TAG}>\n"
-    "The rooftop programme added 1.2 GW of capacity in 2023 [1].\n"
+    "The programme added the 1.2 GW during **2023**, up from 0.8 GW in 2022 "
+    "[1]. Subsidy applications for that year closed in March [1].\n"
     f"</{WEBSITE_TAG}>\n"
     "Same context, question 'What share of new capacity was commercial?': [1] "
     "answers nothing, so the website block is dropped — not kept and filled "
     f'with "{REFUSAL}", which would deny the answer below it:\n'
     f"<{PDF_TAG}>\n"
     f"{PDF_LEAD}\n"
-    "Commercial installations accounted for 60% of the new rooftop capacity "
-    "[2].\n"
+    "Commercial installations accounted for **60% of the new rooftop capacity** "
+    "[2]. Those additions were concentrated in five states rather than spread "
+    "nationally [2].\n"
     f"</{PDF_TAG}>"
 )
 
 # The single-source demonstration: two blocks of the same kind answered as one
 # flowing passage, so the shape the model copies is a whole answer, not a stack
-# of per-source sections.
+# of per-source sections. Carries the same depth as its mixed counterpart — the
+# passage is continuous, not brief.
 _SINGLE_EXAMPLE = (
     "Example:\n"
     "Context: [1] (pdf · Annual Energy Report · p.4) The rooftop programme added "
-    "1.2 GW of capacity in 2023.\n"
+    "1.2 GW of capacity in 2023, up from 0.8 GW in 2022.\n"
     "[2] (pdf · Annual Energy Report · p.5) Commercial installations accounted "
-    "for 60% of new rooftop capacity.\n"
+    "for 60% of new rooftop capacity, concentrated in five states.\n"
     "Question: How did rooftop solar grow in 2023?\n"
     "Answer:\n"
-    "The rooftop programme added 1.2 GW of capacity in 2023 [1], with commercial "
-    "installations accounting for 60% of that new capacity [2]."
+    "The rooftop programme added **1.2 GW of capacity in 2023**, up from 0.8 GW "
+    "the year before [1]. Commercial installations drove most of that growth, "
+    "accounting for 60% of the new capacity [2], and those additions were "
+    "concentrated in five states [2]."
 )
 
 # Rules 1-4 and 7-9 hold whatever the context contains; 5 and 6 are the two that

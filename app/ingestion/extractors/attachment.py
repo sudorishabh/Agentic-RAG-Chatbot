@@ -43,6 +43,21 @@ def fetch_attachment(
     return response.content, url
 
 
+def dead_link_status(exc: "requests.RequestException") -> int | None:
+    """The HTTP status if this failure was a client error, else None.
+
+    A 4xx means the server answered and the file is not there: old body HTML
+    links tender notices and RFQs that were taken down once they closed, and no
+    amount of retrying brings them back. Those are worth one quiet line.
+    Timeouts, DNS failures and 5xx can clear on their own, so they keep the
+    full traceback that tells you which one it was.
+    """
+    status = getattr(getattr(exc, "response", None), "status_code", None)
+    if isinstance(status, int) and 400 <= status < 500:
+        return status
+    return None
+
+
 def build_attachment_doc(
     record: "ChangeRecord", session: "requests.Session"
 ) -> CanonicalDocument | None:
@@ -64,8 +79,14 @@ def build_attachment_doc(
         content, fetched_url = fetch_attachment(
             session, file.url, settings.drupal_request_timeout
         )
-    except requests.RequestException:
-        logger.exception("Could not download attachment %s; skipping.", file.url)
+    except requests.RequestException as exc:
+        status = dead_link_status(exc)
+        if status is not None:
+            logger.warning(
+                "Attachment %s is unavailable (HTTP %d); skipping.", file.url, status
+            )
+        else:
+            logger.exception("Could not download attachment %s; skipping.", file.url)
         return None
     if not content:
         logger.warning("Empty attachment body for %s; skipping.", file.url)

@@ -403,6 +403,50 @@ def test_prompt_guards_added_depth_against_padding():
     assert "never from padding" in style
 
 
+def test_prompt_states_a_length_floor_and_not_only_a_ceiling():
+    # "Be thorough" on its own lost to the model's pull toward one-line replies,
+    # so the style names a concrete target and rules out the bare-clause answer.
+    style = GROUNDED_SYSTEM_PROMPT[GROUNDED_SYSTEM_PROMPT.index("Answer style:") :]
+    assert re.search(r"\d+-\d+ sentences", style)
+    assert "never a bare clause" in style
+
+
+def _demonstrated_answers(prompt: str) -> list[str]:
+    """Each answer body the worked example demonstrates, tags and the PDF
+    caption stripped. Falls back to the untagged passage after "Answer:" for the
+    single-source prompt, which demonstrates no blocks."""
+    example = prompt[prompt.index("Example:") :]
+    runs = _DEMO_RUN.findall(example)
+    if not runs:
+        _, _, passage = example.partition("Answer:\n")
+        return [passage.strip()]
+    return [
+        section.text.replace(PDF_LEAD, "").strip()
+        for run in runs
+        for section in split_sections(run)
+    ]
+
+
+@pytest.mark.parametrize(
+    "prompt", [GROUNDED_SYSTEM_PROMPT, SINGLE_SOURCE_SYSTEM_PROMPT]
+)
+def test_worked_examples_demonstrate_the_depth_the_style_asks_for(prompt):
+    # The exemplar outweighs the described style for 4o-mini, so a one-sentence
+    # demonstration teaches one-sentence answers however thorough the style
+    # section above it reads — including in the follow-ups, where a dropped block
+    # must not also mean a stripped-down answer. Cited sentences specifically:
+    # the depth being taught has to be the grounded kind.
+    bodies = _demonstrated_answers(prompt)
+    assert bodies
+    for body in bodies:
+        cited = [
+            part
+            for part in re.split(r"(?<=[.!?])\s+", body)
+            if re.search(r"\[\d+\]", part)
+        ]
+        assert len(cited) >= 2, body
+
+
 # --------------------------------------------------------------------------- #
 # Which structure a given context asks for. The retrieved blocks decide it —
 # the model is never asked to infer the composition and suppress the split
