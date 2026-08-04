@@ -58,6 +58,29 @@ def dead_link_status(exc: "requests.RequestException") -> int | None:
     return None
 
 
+def _mark_dead(record: "ChangeRecord", url: str, status: int) -> None:
+    """Remember a client error so the crawl stops re-fetching this attachment.
+
+    Fails open, like the rest of the pipeline's catalog writes: an unreachable
+    database costs one warning and a download retried next sweep, which is what
+    happened before the markers existed — never a failed sweep.
+    """
+    from app.catalog import dead_links
+
+    try:
+        dead_links.record(
+            record.document_id,
+            fingerprint=record.fingerprint,
+            url=url,
+            status=status,
+        )
+    except Exception:
+        logger.warning(
+            "Could not record %s as a dead link; it will be retried.",
+            url, exc_info=True,
+        )
+
+
 def build_attachment_doc(
     record: "ChangeRecord", session: "requests.Session"
 ) -> CanonicalDocument | None:
@@ -85,6 +108,7 @@ def build_attachment_doc(
             logger.warning(
                 "Attachment %s is unavailable (HTTP %d); skipping.", file.url, status
             )
+            _mark_dead(record, file.url, status)
         else:
             logger.exception("Could not download attachment %s; skipping.", file.url)
         return None

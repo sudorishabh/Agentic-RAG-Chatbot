@@ -7,7 +7,7 @@ import logging
 from datetime import datetime
 from typing import Iterable, Iterator
 
-from app.catalog import state
+from app.catalog import dead_links, state
 from app.config import get_settings
 from app.ingestion.change_detection.base import (
     ChangeRecord,
@@ -26,6 +26,23 @@ def _to_unix(changed: str | None) -> int | None:
         return int(datetime.fromisoformat(changed.replace("Z", "+00:00")).timestamp())
     except ValueError:
         return None
+
+
+def _load_dead_links() -> dict[str, dead_links.DeadLink]:
+    """Attachments already known to answer with a client error.
+
+    Falls open to an empty skip list: without it the crawl re-downloads a
+    handful of dead URLs — exactly what it did before the markers existed, and
+    no reason to abandon a sweep over.
+    """
+    try:
+        dead_links.ensure_table()
+        return dead_links.load()
+    except Exception:
+        logger.warning(
+            "Could not load dead attachment links; retrying them all.", exc_info=True
+        )
+        return {}
 
 
 def detect_drupal_changes(
@@ -49,8 +66,10 @@ def detect_drupal_changes(
     # load both to keep change detection incremental across the transition.
     prior_all = {**state.load("article"), **state.load("website")}
     prior_pdf_all = state.load("pdf_attachment")
+    dead_pdf = _load_dead_links()
     # Per-run dedup so an in-body PDF linked from several records ingests once.
     seen_pdf: set[str] = set()
+    suppressed = 0
 
     # A "source" is (entity_type, bundle, incremental). Node bundles support the
     # changed-since high-water mark; the small taxonomy/block sets are fetched in
@@ -145,6 +164,14 @@ def detect_drupal_changes(
                         a_fingerprint = (
                             file.uuid if file.origin == "inbody" else fingerprint
                         )
+                        # A URL the site answered 4xx for stays out of the run
+                        # entirely while the fingerprint that failed is still
+                        # current: yielding it would only buy the same 404 and
+                        # the same skip, once an hour, forever.
+                        marker = dead_pdf.get(file.uuid)
+                        if marker is not None and marker.fingerprint == a_fingerprint:
+                            suppressed += 1
+                            continue
                         a_prev = prior_pdf_all.get(file.uuid)
                         a_status = compute_status(a_prev, a_fingerprint)
                         yield ChangeRecord(
@@ -200,3 +227,8 @@ def detect_drupal_changes(
                         )
     finally:
         session.close()
+        if suppressed:
+            logger.info(
+                "Skipped %d attachment(s) the site last answered with a client "
+                "error; clear their dead-link markers to retry.", suppressed
+            )
