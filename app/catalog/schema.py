@@ -311,6 +311,36 @@ def ensure_enrichment_table() -> None:
         conn.commit()
 
 
+# Attachment URLs the site answers 4xx for. Like the enrichment table this is
+# deliberately not a child of `documents` and carries no foreign key: a dead
+# link never becomes a document row, so there is no parent to hang off.
+#
+# Keyed by document_id (the attachment's file uuid) and qualified by the
+# fingerprint that was current when the download failed, so the marker expires
+# exactly when the thing it describes could have changed: edit the node and its
+# real attachments are retried, edit the body link and the in-body PDF's
+# URL-derived id changes into a row that was never marked dead.
+_DEAD_LINK_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_dead_link` (
+    document_id VARCHAR(255)  NOT NULL,
+    fingerprint VARCHAR(128)  NOT NULL,
+    url         VARCHAR(1024) NULL,
+    status      SMALLINT      NOT NULL,
+    attempts    INT           NOT NULL DEFAULT 1,
+    first_seen  DATETIME      NOT NULL,
+    updated_at  DATETIME      NOT NULL,
+    PRIMARY KEY (document_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+
+def ensure_dead_link_table() -> None:
+    table = state_table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(_DEAD_LINK_DDL.format(table=table))
+        conn.commit()
+
+
 _LOG_DDL = """
 CREATE TABLE IF NOT EXISTS `{table}` (
     id             BIGINT        NOT NULL AUTO_INCREMENT,
