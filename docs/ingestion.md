@@ -3,8 +3,8 @@
 How documents become searchable: **extract → canonical → chunk → embed → index**,
 with incremental change detection backed by a MySQL manifest.
 
-**Drupal is the only source.** Node bodies, taxonomy-term descriptions and custom
-blocks are ingested as text; the PDFs attached to or linked from them are
+**Drupal is the only source.** Node bodies and custom blocks are ingested as
+text; the PDFs attached to or linked from them are
 downloaded and ingested as their own documents. Nothing is read from local disk.
 
 ## The canonical model
@@ -99,8 +99,8 @@ layer (they need visual OCR) and are left as-is.
 ### Drupal — [app/ingestion/extractors/drupal_extractor.py](../app/ingestion/extractors/drupal_extractor.py)
 
 Crawls the JSON:API at `drupal_jsonapi_base`. The crawl is **entity-type aware**:
-the same iterators fetch node bundles, taxonomy-term vocabularies, and custom
-blocks from `/jsonapi/{entity_type}/{bundle}`.
+the same iterators fetch node bundles and custom blocks from
+`/jsonapi/{entity_type}/{bundle}`.
 
 - `iter_records(bundles=None, *, published_only=True, changed_since=None, session=None)`
   — yields `DrupalRecord`s across node bundles (convenience / CLI entry point).
@@ -115,24 +115,15 @@ blocks from `/jsonapi/{entity_type}/{bundle}`.
 - `DEFAULT_BUNDLES` (nodes): news, feature_articles, completed_projects, events,
   press_release, research_papers, ongoing_projects, article, policy_brief, videos,
   infographics, services, report, people, page, **carousel**.
-- `DEFAULT_TAXONOMIES` (`taxonomy_term`): **themes, extra_pages, regional_centre** —
-  their `description` prose (thematic / landing-page content that lives nowhere in
-  the nodes) is ingested as body text. Plus the facet vocabularies referenced by
-  node fields: **tags, partners, programs_units, related_terms, stakeholders,
-  division, division_areas, region, language**. Those are crawled for their
-  *names*, not their prose — most carry no body, so they populate the `terms`
-  catalog without producing vector points.
-
-  Crawling these is what lets a `documents_term` link resolve to a name, so a
-  run scoped with `--bundle` to node bundles alone leaves `terms` empty and
-  silently breaks theme grouping/resolution. Re-populate a scoped deployment with
-  `--bundle taxonomy_term:<vocabulary>` per vocabulary (a default `--drupal` run
-  with no `--bundle` already covers them all).
 - `DEFAULT_BLOCKS` (`block_content`): **basic** — substantial custom-block bodies;
   boilerplate shorter than `drupal_block_min_chars` (with no PDF) is skipped.
 
-Non-node records tag `entity_type` in metadata; the title falls back to `name`
-(taxonomy) / `info` (block); blocks have no canonical URL.
+Taxonomy vocabularies are **not** crawled. Term names still reach the pipeline as
+resolved labels on the node relationships that reference them (`EntityRef`), so
+theme and tag facets are populated from node records alone.
+
+Non-node records tag `entity_type` in metadata; a block's title falls back to
+`info`, and blocks have no canonical URL.
 
 `DrupalRecord` carries `uuid`, `bundle`, `nid`, `title`, `url`, `body`, `created`,
 `changed`, `metadata`, `files[]`, with `to_text()`, `to_metadata()`, and `pdf_url`

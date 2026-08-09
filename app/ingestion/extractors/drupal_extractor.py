@@ -33,8 +33,8 @@ DEFAULT_BUNDLES: tuple[str, ...] = (
     "infographics",
     "services",
     "report",
-    "people",
-    "carousel",
+    "people", # 
+    # "carousel",
     )
 
 
@@ -150,8 +150,8 @@ def iter_bundle_records(
     ascending: bool = False,
 ) -> Iterator[DrupalRecord]:
     """Yield records for one resource bundle. ``entity_type`` is the JSON:API
-    entity ("node", "taxonomy_term", "block_content"); the resource is fetched
-    from /jsonapi/{entity_type}/{bundle}. ``ascending`` crawls oldest-first —
+    entity ("node", "block_content"); the resource is fetched from
+    /jsonapi/{entity_type}/{bundle}. ``ascending`` crawls oldest-first —
     used by capped batch runs so the changed high-water mark advances only
     past documents that were actually processed (a resume cursor)."""
     settings = get_settings()
@@ -161,12 +161,6 @@ def iter_bundle_records(
     fields = _discover_relationship_fields(
         session, base, bundle, published_only, entity_type=entity_type
     )
-    # Taxonomy terms carry their tree via the `parent` relationship (not a
-    # field_*), so it is excluded above. Include it explicitly so the parent
-    # term is embedded and its name is resolvable — this is what preserves the
-    # thematic-area hierarchy (e.g. "Air" under "Environment").
-    if entity_type == "taxonomy_term" and "parent" not in fields:
-        fields.append("parent")
     params: dict[str, Any] = {
         "page[limit]": settings.drupal_page_size,
         "sort": "changed" if ascending else "-changed",

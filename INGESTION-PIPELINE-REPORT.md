@@ -97,21 +97,20 @@ Drupal JSON:API ──► detect_drupal_changes()
 
 Base: `drupal_jsonapi_base`, default `https://teriin.org/jsonapi`. **Anonymous GET only** — no auth header. Header: `Accept: application/vnd.api+json` (`drupal_extractor.py:19`).
 
-Session (`drupal_extractor.py:237 _build_session`): `urllib3.Retry(total=drupal_max_retries (3), backoff_factor=1.0, status_forcelist=(429,500,502,503,504), allowed_methods={"GET"}, respect_retry_after_header=True)`. Timeout `drupal_request_timeout` = 60s. Page size `drupal_page_size` = 50.
+Session (`drupal_extractor.py:210 _build_session`): `urllib3.Retry(total=drupal_max_retries (3), backoff_factor=1.0, status_forcelist=(429,500,502,503,504), allowed_methods={"GET"}, respect_retry_after_header=True)`. Timeout `drupal_request_timeout` = 60s. Page size `drupal_page_size` = 50.
 
 ### What is crawled
 
-Three entity types, all through `/jsonapi/{entity_type}/{bundle}`:
+Two entity types, both through `/jsonapi/{entity_type}/{bundle}`:
 
-**`node`** (`DEFAULT_BUNDLES`, `drupal_extractor.py:44`) — 16 bundles:
+**`node`** (`DEFAULT_BUNDLES`, `drupal_extractor.py:21`) — 16 bundles:
 `article, page, research_papers, completed_projects, feature_articles, ongoing_projects, news, events, press_release, policy_brief, videos, infographics, services, report, people, carousel`
 
-**`taxonomy_term`** (`DEFAULT_TAXONOMIES`, `drupal_extractor.py:25`) — 13 vocabularies:
-`themes, extra_pages, regional_centre` (crawled for their `description` prose) plus `tags, partners, programs_units, related_terms, stakeholders, division, division_areas, region, language` (crawled mostly for names).
+**`block_content`** (`DEFAULT_BLOCKS`, `drupal_extractor.py:43`) — `basic` only.
 
-**`block_content`** (`DEFAULT_BLOCKS`) — `basic` only.
+Taxonomy vocabularies are **not** crawled. Term names reach the pipeline only as resolved labels on node relationships (`EntityRef`); no term is ever a document.
 
-### Query construction (`drupal_extractor.py:164 iter_bundle_records`)
+### Query construction (`drupal_extractor.py:143 iter_bundle_records`)
 
 ```
 GET {base}/{entity_type}/{bundle}
@@ -124,7 +123,7 @@ GET {base}/{entity_type}/{bundle}
   &filter[changed][condition][value]=<high-water unix ts>
 ```
 
-Pagination follows `links.next.href` (`_iter_pages`, line 252) until absent.
+Pagination follows `links.next.href` (`_iter_pages`, line 225) until absent.
 
 **Ascending sort is deliberate** (`change_detection/drupal.py:88`): the high-water mark `MAX(changed_mark)` then only ever covers documents actually processed, so a capped/interrupted run resumes correctly. Newest-first would strand older documents behind the filter permanently.
 
@@ -413,7 +412,7 @@ Presets (`chunking/config.py:25`), tokens via `tiktoken` `cl100k_base`:
 
 `small_pdf`'s enormous parent budget means a short PDF becomes **one parent** holding the whole document.
 
-Bundles not in the table (e.g. `carousel`, or any taxonomy vocabulary crawled as `taxonomy_term:themes`) fall through `config_for` to `_BASE`.
+Bundles not in the table (e.g. `carousel`, or a `block_content` bundle) fall through `config_for` to `_BASE`.
 
 If `tiktoken` is unavailable, `Encoder` (`packer.py:18`) degrades to a **~4 chars/token heuristic** with one warning — all budgets then become approximate.
 
@@ -994,7 +993,7 @@ The **attachment's** fingerprint is the node's changed mark, so it too becomes `
 
 15. **No dead-letter queue.** Failures are `ingest_log` rows with `status="error"`; there is no retry budget, no escalation, and no alerting. A document that fails every sweep fails silently forever. (Contrast enrichment, which *does* have an attempt counter, and dead links, which *do* have markers.)
 
-16. **`prior` sets are keyed by bundle name only, ignoring `entity_type`** (`drupal.py:96`). Today `DEFAULT_BUNDLES` and `DEFAULT_TAXONOMIES` don't collide, but a future `node/tags` bundle would silently merge its priors with the `taxonomy_term/tags` vocabulary's and corrupt the high-water mark.
+16. **`prior` sets are keyed by bundle name only, ignoring `entity_type`** (`drupal.py:93`). Today `DEFAULT_BUNDLES` and `DEFAULT_BLOCKS` don't collide, but a node bundle sharing a name with a `block_content` bundle would silently merge their priors and corrupt the high-water mark.
 
 17. **`POST /ingest/article` writes no state row.** An ad-hoc article gets Qdrant points and a log row but no catalog row, so it is invisible to change detection, to `/reindex`, and to catalog count/list queries. It is now the only such path left.
 
@@ -1005,7 +1004,7 @@ The **attachment's** fingerprint is the node's changed mark, so it too becomes `
 - Actual per-run tallies from `GET /ingest/log` — specifically the ratio of `unchanged_content` to `indexed` on Drupal sweeps, which measures how much of gap (11) you are paying.
 - Whether `include=` with every discovered `field_*` is hitting Drupal's response-size limits on the wide bundles; a bundle-level failure there is logged as `Drupal fetch failed for node/X; skipping bundle` and is easy to miss.
 - How many `pdf_attachment` rows in `documents` have no corresponding row in `documents_attachment` — that count is the size of gap (1).
-- Whether `carousel` and the ten taxonomy vocabularies are producing useful chunks or just catalog noise; both fall through to the `_BASE` chunking preset.
+- Whether `carousel` and the `basic` custom blocks are producing useful chunks or just catalog noise; both fall through to the `_BASE` chunking preset.
 
 ---
 
