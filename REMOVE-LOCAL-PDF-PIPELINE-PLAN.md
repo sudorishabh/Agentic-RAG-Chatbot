@@ -2,7 +2,10 @@
 
 **Goal:** Drupal becomes the single source of truth. The filesystem scan of `PDF_SOURCE_PATH` / `PDF_SOURCE_DIRS` and everything that exists only to serve it is deleted.
 
-**Status:** plan only — nothing has been changed yet.
+**Status: DONE (2026-08-09).** Executed in six commits. Phase 6 (the data purge) was
+not needed — the source folder was empty, so the sweep's own delete reconciliation
+had already cleared any rows. See §12 of `INGESTION-PIPELINE-REPORT.md` for what
+actually shipped, including one path this plan missed (`indexer --pdf`).
 **Baseline:** `main` @ `5c27c95`.
 
 ---

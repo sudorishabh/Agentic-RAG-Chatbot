@@ -1,5 +1,10 @@
 # Agentic RAG Chatbot — Complete Technical Functionality Report
 
+> **Partially stale.** Local-PDF references were removed on 2026-08-09 when Drupal
+> became the only ingestion source. Other sections still predate later refactors
+> (Celery, the split `change_detection/` package, `chunker.chunk_pdf`) — verify
+> against the code before relying on them.
+
 Generated 2026-07-20 from a full trace of the codebase (all `app/`, `scripts/`, `tests/`, `ui/`, `docs/`, and tooling files were read and execution flows verified — nothing below is inferred from names alone).
 
 ---
@@ -42,8 +47,8 @@ Overall data flow: `change_detection` (ChangeRecord stream) → `pipeline._handl
 
 ### 2.1 Ingestion pipeline / incremental run engine
 - **Purpose:** Central per-document driver: build/chunk/embed/index changed docs, delete removed ones, persist catalog + logs, with version-safe swap, budgets, throttling, optional parallelism, single-run mutual exclusion.
-- **Implementation:** `app/ingestion/pipeline.py`. `_run_lock` + `_exclusive()` (lines 33–47) raise `IngestBusyError` (→ HTTP 409) if a run is active. `_handle` (156–212): DELETED → `delete_document` + `state.delete` (+ `terms.delete_terms`); UNCHANGED → refresh stat; else extract (`span("ingest.extract")`), compute `content_hash`, skip as `unchanged_content` if canonical text identical; otherwise **index-new-then-delete-old swap** — chunk ids are `uuid5` version-scoped so new points never collide, old version stays searchable until swap, mid-failure leaves the old version intact (199–212). `_run` (222–312): batch budget (`ingest_max_docs_per_run`, unchanged scans free, attachments never split from their node), pause throttling, serial or `ThreadPoolExecutor` parallel mode (in-flight ≤ workers×2). Attachment fetching upgrades `http→https` (337–357); attachment docs **inherit node facets/refs** so theme filters reach PDFs (360–405). CLI: `python -m app.ingestion.pipeline --pdf/--drupal/...`.
-- **Used by:** `app/workers/tasks.py` (`ingest_pdfs`/`ingest_drupal`/`sweep`), ingest API, CLI.
+- **Implementation:** `app/ingestion/pipeline.py`. `_run_lock` + `_exclusive()` (lines 33–47) raise `IngestBusyError` (→ HTTP 409) if a run is active. `_handle` (156–212): DELETED → `delete_document` + `state.delete` (+ `terms.delete_terms`); UNCHANGED → no-op; else extract (`span("ingest.extract")`), compute `content_hash`, skip as `unchanged_content` if canonical text identical; otherwise **index-new-then-delete-old swap** — chunk ids are `uuid5` version-scoped so new points never collide, old version stays searchable until swap, mid-failure leaves the old version intact (199–212). `_run` (222–312): batch budget (`ingest_max_docs_per_run`, unchanged scans free, attachments never split from their node), pause throttling, serial or `ThreadPoolExecutor` parallel mode (in-flight ≤ workers×2). Attachment fetching upgrades `http→https` (337–357); attachment docs **inherit node facets/refs** so theme filters reach PDFs (360–405). CLI: `python -m app.ingestion.pipeline [--bundle ...] [--reconcile]`.
+- **Used by:** `app/workers/tasks.py` (`ingest_drupal`/`sweep`), ingest API, CLI.
 - **Dependencies:** requests (attachments), qdrant-client, internal modules.
 - **Config:** `ingest_max_docs_per_run` (0), `ingest_batch_size` (0), `ingest_batch_pause_seconds` (0.0), `ingest_workers` (1; keep < `mysql_pool_size`=5), `ingest_log_unchanged` (False).
 - **I/O:** In: `Iterator[ChangeRecord]` + doc builder. Out: `Counter` tally (`indexed/unchanged/unchanged_content/deleted/skipped/error/budget_stop`).
@@ -51,8 +56,8 @@ Overall data flow: `change_detection` (ChangeRecord stream) → `pipeline._handl
 
 ### 2.2 Change detection (incremental crawl)
 - **Purpose:** Diff sources against the catalog; emit NEW/CHANGED/UNCHANGED/DELETED without re-reading unchanged content.
-- **Implementation:** `app/ingestion/change_detection.py`. **Two-tier signals:** cheap `fingerprint` (whole-file SHA-256 for PDFs; Drupal `changed` timestamp) vs deep `content_hash` (canonical title+text SHA-256). PDFs (`detect_file_changes`, 133–221): walks `pdf_source_dirs`, size+mtime pre-filter avoids reads; missing ids → DELETED. Drupal (`detect_drupal_changes`, 233–411): node bundles crawl **incrementally from a `changed` high-water mark, oldest-first** (the mark doubles as a resume cursor for capped runs); taxonomies/blocks are full-fetch; boilerplate blocks under `drupal_block_min_chars` dropped; **each attached/in-body PDF yields its own `pdf_attachment` record** (in-body keyed `inbody:{url}` → ingested once across nodes); delete reconciliation (optional) enumerates live UUIDs.
-- **Config:** `pdf_source_dirs/pdf_source_path/pdf_ignore_globs`, `drupal_block_min_chars` (200), `drupal_page_size` (50).
+- **Implementation:** `app/ingestion/change_detection.py`. **Two-tier signals:** cheap `fingerprint` (Drupal `changed` timestamp) vs deep `content_hash` (canonical title+text SHA-256). Drupal (`detect_drupal_changes`, 233–411): node bundles crawl **incrementally from a `changed` high-water mark, oldest-first** (the mark doubles as a resume cursor for capped runs); taxonomies/blocks are full-fetch; boilerplate blocks under `drupal_block_min_chars` dropped; **each attached/in-body PDF yields its own `pdf_attachment` record** (in-body keyed `inbody:{url}` → ingested once across nodes); delete reconciliation (optional) enumerates live UUIDs.
+- **Config:** `drupal_block_min_chars` (200), `drupal_page_size` (50).
 - **Interactions:** Consumes/produces `state.StateRecord`s; feeds the pipeline.
 
 ### 2.3 Drupal JSON:API extraction
@@ -109,10 +114,10 @@ Overall data flow: `change_detection` (ChangeRecord stream) → `pipeline._handl
 - **Implementation:** `app/ingestion/payload_refresh.py` `refresh_renamed_term` (21–56): `state.documents_for_term` → per doc `rename_category_facet` + `client.set_payload`. Best-effort from `pipeline._sync_term` (failure swallowed; "heals on next reindex").
 
 ### 2.13 Upload handling (manual ingest)
-- **Purpose:** Ingest one uploaded PDF/text file or directly supplied article body — always indexes, not incremental.
-- **Implementation:** `app/ingestion/upload.py`. `ingest_upload` (41–46, pdf→extract, else utf-8 text doc); `ingest_article` (49–67 via `from_drupal_export`); `_index` (98–116) indexes, logs, **bumps corpus version** (cache invalidation).
+- **Purpose:** Ingest a directly supplied article body — always indexes, not incremental.
+- **Implementation:** `app/ingestion/upload.py`. `ingest_article` (via `from_drupal_export`); `_index` indexes and logs.
 - **Notable gap:** **bypasses `ingest_state`** — uploaded docs get Qdrant points + log rows but no catalog row, so structured counts/lists exclude them and re-uploads can duplicate points (always `doc_version=1`).
-- **Used by:** `POST /ingest/pdf`, `POST /ingest/article`.
+- **Used by:** `POST /ingest/article`.
 
 ### 2.14 Backfill (catalog from payloads)
 - **Purpose:** Reconstruct document facets in MySQL for docs indexed before those columns existed, by scrolling Qdrant payloads.
@@ -192,11 +197,7 @@ Feature-gated legs, run concurrently (`ThreadPoolExecutor(4)`) when >1 active:
 
 ### 3.13 Citations
 - **Purpose:** Map context blocks to openable `Citation` models with page anchors and alternate-format sources.
-- **Implementation:** `app/retrieval/citations.py` `build_citations` (:81). Website blocks → `type="website"` + source URL; PDFs → `{source_base_url}/source/{id}#page=N` (or real attached `file_url#page=`); `also_available` from near-dup payloads. Schemas: `Citation`/`CitationSource` (`app/schemas/query.py:24–42`).
-
-### 3.14 Source file location
-- **Purpose:** Resolve a document/pdf id to an on-disk PDF path, ACL-scoped, traversal-guarded — backs `GET /source/{id}`.
-- **Implementation:** `app/retrieval/source_locator.py` `resolve_source_file` (:81): Qdrant scroll matching `document_id OR pdf_id` AND tenant AND acl (a doc invisible to the caller can't be fetched by id) → `pdf_path` → must resolve within `_allowed_roots` (from `pdf_source_dirs`) and exist. None → 404 (absent indistinguishable from forbidden).
+- **Implementation:** `app/retrieval/citations.py` `build_citations` (:81). Website blocks → `type="website"` + source URL; PDFs → the attachment's `file_url#page=N`; `also_available` from near-dup payloads. Schemas: `Citation`/`CitationSource` (`app/schemas/query.py:24–42`).
 
 ---
 
@@ -253,12 +254,10 @@ Three layers, all keyed off a shared **corpus version** + **preference fingerpri
 |---|---|---|---|
 | `POST /chat` | :8000 | `require_principal` | SSE stream (§6.4) |
 | `POST /search` | :8000 | `require_principal` | retrieval-only `search_blocks` via threadpool → `SearchResponse` (intent, answer_format, search_query, scored blocks) |
-| `GET /source/{id}` | :8000 | `require_principal` | ACL-scoped PDF `FileResponse` (inline, honors `#page=N`); None → 404 (no existence leak) |
 | `GET /health` | both | none | liveness `{"status":"ok"}` |
 | `GET /ready` | both | none | Qdrant probe (+Redis when `ops_detail_enabled`); 503 on failure; bodies gated (fingerprinting) |
 | `GET /metrics`, `/metrics/timings` | both | `optional_principal` | hidden as **404** unless `ops_detail_enabled` or (auth on + `ops_admin_group` ∈ groups) |
-| `POST /ingest/pdf` | :8001 | **none** | validated upload (filename/.pdf/size 413/`%PDF-` magic 415, 1-MiB-chunk capped read) → `ingest_upload` |
-| `POST /ingest/pdfs`, `/ingest/run`, `/ingest/article` | :8001 | none | corpus runs via `_run_exclusive` (409 on `IngestBusyError`) |
+| `POST /ingest/run`, `/ingest/article` | :8001 | none | corpus runs via `_run_exclusive` (409 on `IngestBusyError`) |
 | `GET /ingest/log` | :8001 | none | recent log entries (filters: source_type/document_id/status) |
 | `POST /reindex` | :8001 | none | sweep or per-doc reset (delete points + state + cache bump) |
 
@@ -282,8 +281,8 @@ Events (`data: <json>\n\n`): `token` (append), `correction` (full replacement, r
 - `app/workers/scheduler.py` `_sweep_loop` (11–48): immediately and every `worker_sweep_interval_seconds` (3600; ≤0 disables) runs `sweep` in a thread (skips on `IngestBusyError`), then semantic-cache prune, then ingest-log prune; every step guarded; started/stopped by the ingestion server lifespan.
 
 ### 8.2 Task layer + optional Celery (scaffolding)
-- `app/workers/tasks.py`: `ingest_pdfs`/`ingest_drupal`/`sweep`/`ingest_upload(b64)`/`reindex_document`, each Celery-registered **iff** a broker is configured (`_build_celery`: queue `ingest`, beat schedule) else plain functions. `_bump_cache_if_changed` bumps the corpus version when indexed/deleted > 0. CLI `python -m app.workers.tasks sweep|pdfs|drupal`.
-- **Status:** **no `.delay()`/`.apply_async()` call exists anywhere** — all invocations are inline/synchronous; Celery dispatch only happens if an operator manually runs `celery -A app.workers.tasks worker/beat`. The b64 `ingest_upload` task is unused by the HTTP path.
+- `app/workers/tasks.py`: `ingest_drupal`/`sweep`/`reindex_document`, each Celery-registered **iff** a broker is configured (`_build_celery`: queue `ingest`, beat schedule) else plain functions. `_bump_cache_if_changed` bumps the corpus version when indexed/deleted > 0. CLI `python -m app.workers.tasks sweep|drupal`.
+- **Status:** **no `.delay()`/`.apply_async()` call exists anywhere** — all invocations are inline/synchronous; Celery dispatch only happens if an operator manually runs `celery -A app.workers.tasks worker/beat`. 
 
 ---
 
@@ -354,7 +353,7 @@ Documented baseline: **85 passing tests** (HANDOFF.md).
 
 - **What:** a dependency-free, no-build embeddable chat widget (`ui/script.js`, one IIFE, ~1100 lines) in an **open Shadow DOM**; host page adds one `<script>` tag with `data-api-base` / `data-title` (default "TERI AI SARTHI") / `data-top-k`. `ui/index.html` is a local mock host; intended production host is teriin.org (Drupal).
 - **Streaming:** `streamChat` (:281–369) — `fetch POST /chat`, manual SSE frame parsing (`\n\n` split), handles `token` (frame-batched via `requestAnimationFrame` — explicit O(n²) rewrite fix), `sources`, `done`, `error`; missing `done` at EOF → "connection interrupted" (no silent truncation).
-- **Rendering:** hand-rolled safe markdown subset (`renderMarkdown` :447 — full `escapeHtml` first incl. quotes, then tables/lists/headings/code/links http(s)-only); citations as a horizontal card strip (`renderCitation` :577) with `resolveUrl` allowlist (root-relative resolved against `API_BASE` so `/source/<id>#page=N` opens cross-origin; `javascript:`/`data:` rejected).
+- **Rendering:** hand-rolled safe markdown subset (`renderMarkdown` :447 — full `escapeHtml` first incl. quotes, then tables/lists/headings/code/links http(s)-only); citations as a horizontal card strip (`renderCitation` :577) with `resolveUrl` allowlist (root-relative resolved against `API_BASE` so citation links open cross-origin; `javascript:`/`data:` rejected).
 - **Session:** purely in-memory `history`; "New chat" aborts in-flight fetch (`AbortController`) with an epoch guard against stream/reset races. Mixed-content auto-upgrade `http→https` for non-loopback API bases.
 - **Gaps (documented-but-unimplemented):** **no auth** (HANDOFF says frontend manages auth; no `Authorization` header exists — breaks against `AUTH_ENABLED=true`); **no two-section website/PDF citation grouping** (a "LOCKED" frontend task in the website-preference design); `conflict`/`intent`/`used_chunks` from the `sources` event ignored; no `correction` event branch; no `response_id`/feedback UI (Phase 4).
 
@@ -362,7 +361,7 @@ Documented baseline: **85 passing tests** (HANDOFF.md).
 
 ## 14. Configuration (`app/config.py` — pydantic-settings, `.env`, `@lru_cache` per process)
 
-Groups (field : default): **Azure OpenAI** (`azure_openai_*`, api_version 2024-06-01, `llm_structured_temperature` None) · **Embeddings** (`azure_openai_embedding_*`, dims 3072) · **Azure DI / PDF** (`extraction_mode` hybrid, `pdf_scanned_char_threshold` 100, `camelot_flavor` lattice, table-detection flags off, `pdf_drop_number_soup` True) · **Qdrant** (`qdrant_url` localhost:6333, `qdrant_collection` documents) · **Caches** (`redis_url` "", response 86400s, embedding 604800s, semantic threshold 0.995 / prune 200) · **Retrieval** (`retrieval_top_k` 6, `retrieval_candidate_k` 40, website prefs off, `multi_query_enabled` False, `analysis_votes` 1, `corrective_loop_enabled` False, `keyword_leg_enabled` False, `hybrid_use_sparse` False *unused*, reranker embedding/thresholds/weights, `dedup_cosine_threshold` 0.92, `context_token_budget` 9000, `faithfulness_check` False) · **Observability** (`metrics_log_enabled` True, `quality_monitor_enabled` False, `otel_enabled`/`langfuse_enabled` False, `chat_stream_max_concurrency` 64) · **API/auth** (`cors_allow_origins` "*", `auth_enabled` False, `jwt_*`, `ops_detail_enabled` False, `ops_admin_group` "") · **MySQL** (pool 5, timeout 30) · **Drupal** (teriin.org, page 50, retries 3, external PDFs off) · **Ingest** (state/log tables, retention 90d, batching 0s, workers 1, `max_upload_bytes` 50 MiB) · **Workers** (sweep 3600s, reconcile False, Celery URLs "").
+Groups (field : default): **Azure OpenAI** (`azure_openai_*`, api_version 2024-06-01, `llm_structured_temperature` None) · **Embeddings** (`azure_openai_embedding_*`, dims 3072) · **Azure DI / PDF** (`extraction_mode` hybrid, `pdf_scanned_char_threshold` 100, `camelot_flavor` lattice, table-detection flags off, `pdf_drop_number_soup` True) · **Qdrant** (`qdrant_url` localhost:6333, `qdrant_collection` documents) · **Caches** (`redis_url` "", response 86400s, embedding 604800s, semantic threshold 0.995 / prune 200) · **Retrieval** (`retrieval_top_k` 6, `retrieval_candidate_k` 40, website prefs off, `multi_query_enabled` False, `analysis_votes` 1, `corrective_loop_enabled` False, `keyword_leg_enabled` False, `hybrid_use_sparse` False *unused*, reranker embedding/thresholds/weights, `dedup_cosine_threshold` 0.92, `context_token_budget` 9000, `faithfulness_check` False) · **Observability** (`metrics_log_enabled` True, `quality_monitor_enabled` False, `otel_enabled`/`langfuse_enabled` False, `chat_stream_max_concurrency` 64) · **API/auth** (`cors_allow_origins` "*", `auth_enabled` False, `jwt_*`, `ops_detail_enabled` False, `ops_admin_group` "") · **MySQL** (pool 5, timeout 30) · **Drupal** (teriin.org, page 50, retries 3, external PDFs off) · **Ingest** (state/log tables, retention 90d, batching 0s, workers 1) · **Workers** (sweep 3600s, reconcile False, Celery URLs "").
 
 Note: `.env.example` ships `AZURE_OPENAI_EMBEDDING_DIMENSIONS=1536` (differs from the code default 3072) and does not enumerate every retrieval-tuning flag.
 
@@ -392,7 +391,7 @@ All integrations wire in one tool — the **code-review-graph MCP server** (`uvx
 
 **Designed but not wired:** server-side sparse vectors + native hybrid fusion (`hybrid_use_sparse` config never read); multi-tenant `is_tenant` partitioning; Phase-4 feedback loop (`POST /feedback`, `response_id`), author "did-you-mean", HyDE leg.
 
-**Dead / unused code:** `catalog.authors_matching` (no caller); `catalog.distribution_scoped` (tests only); `drupal_reconcile_every` setting (never referenced); `state.iter_records` (no caller); `QueryRequest.stream` field (endpoint always streams); `QueryResponse` model (never returned by a route); `tasks.ingest_upload` b64 wrapper (HTTP path bypasses it); Celery beat/worker path (no `.delay()` anywhere); `chunker.chunk_pdf/chunk_drupal_record` (CLI/test helpers only); `reranker` per-doc `source_authority` hook (nothing sets it); `answer_query` buffered entrypoint (no live route — eval/tests only); Langfuse client (initialized, never consumed); `probe_pdf_extractor.py` + `data-retrieve.py` (self-described temporary/throwaway).
+**Dead / unused code:** `catalog.authors_matching` (no caller); `catalog.distribution_scoped` (tests only); `drupal_reconcile_every` setting (never referenced); `state.iter_records` (no caller); `QueryRequest.stream` field (endpoint always streams); `QueryResponse` model (never returned by a route); Celery beat/worker path (no `.delay()` anywhere); `chunker.chunk_pdf/chunk_drupal_record` (CLI/test helpers only); `reranker` per-doc `source_authority` hook (nothing sets it); `answer_query` buffered entrypoint (no live route — eval/tests only); Langfuse client (initialized, never consumed); `probe_pdf_extractor.py` + `data-retrieve.py` (self-described temporary/throwaway).
 
 **Known gaps / risks (from code + docs):**
 1. Ingestion server endpoints are **fully unauthenticated** — security depends on network isolation.

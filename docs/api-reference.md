@@ -3,7 +3,7 @@
 The service runs as **two servers**:
 
 - **Retrieval server** ([app/main.py](../app/main.py)) — public-facing:
-  `/chat`, `/search`, `/source/{id}`, plus health probes.
+  `/chat`, `/search`, plus health probes.
 - **Ingestion server** ([app/ingest_main.py](../app/ingest_main.py)) — private
   (network-isolated, no in-app auth): `/ingest/*`, `/reindex`, plus health probes
   and the background sweep scheduler.
@@ -20,10 +20,7 @@ Schemas live in [app/schemas/query.py](../app/schemas/query.py) and
 | retrieval | GET | `/metrics/timings` | Per-stage timing aggregates (only when `ops_detail_enabled`) |
 | retrieval | POST | `/chat` | Ask a question; **streams** the answer (SSE) |
 | retrieval | POST | `/search` | Retrieval only — ranked context blocks, no generation |
-| retrieval | GET | `/source/{document_id}` | Serve a cited document's source PDF inline |
-| ingestion | POST | `/ingest/pdf` | Upload and ingest a single PDF |
-| ingestion | POST | `/ingest/pdfs` | Scan + ingest the configured PDF source dirs |
-| ingestion | POST | `/ingest/run` | Incremental ingest: PDFs + Drupal |
+| ingestion | POST | `/ingest/run` | Incremental Drupal ingest |
 | ingestion | POST | `/ingest/article` | Ingest an article inline, or crawl Drupal bundles |
 | ingestion | GET | `/ingest/log` | Recent ingestion audit events |
 | ingestion | POST | `/reindex` | Reset a document for re-ingest, or run a full sweep |
@@ -32,8 +29,8 @@ Schemas live in [app/schemas/query.py](../app/schemas/query.py) and
 
 ## Authentication
 
-When `auth_enabled` is on, the public endpoints (`/chat`, `/search`,
-`/source/{id}`) require an `Authorization: Bearer <JWT>` header. The backend
+When `auth_enabled` is on, the public endpoints (`/chat`, `/search`) require an
+`Authorization: Bearer <JWT>` header. The backend
 verifies the signature (`jwt_secret` / `jwt_algorithms`, plus audience/issuer when
 configured) and derives the caller's **tenant** and **groups** from the token's
 claims (`jwt_tenant_claim` / `jwt_groups_claim`). A missing or invalid token is a
@@ -175,44 +172,12 @@ build) but **no generation**. Body — `SearchRequest` (`question`, `history`,
 
 ---
 
-## Source files
-
-### `GET /source/{document_id}`
-Serves the document's source PDF inline (`application/pdf`) so citation links open
-in the browser's viewer (which honours the `#page=N` fragment). The id may be a
-`document_id` or `pdf_id`.
-
-Scoped to the caller's tenant/ACL — the same visibility rule as search, checked
-against the point payload. A document outside the caller's scope, an unknown id, a
-missing file, or a stored path outside the configured source roots all return the
-same `404` (no existence disclosure).
-
----
-
 ## Ingest (private server)
 
-### `POST /ingest/pdf`
-`multipart/form-data` with a `file` field. Validates before buffering the payload:
-
-- `400` — missing filename, non-`.pdf` suffix, or empty file
-- `413` — larger than `max_upload_bytes` (default 50 MiB)
-- `415` — content does not start with the `%PDF-` magic bytes
-
-Extracts, chunks, embeds, and indexes the PDF immediately (inline — no
-change-detection bookkeeping). Returns `IngestResponse`:
-
-```json
-{ "filename": "policy.pdf", "document_id": "policy", "chunks_ingested": 37 }
-```
-
-### `POST /ingest/pdfs`
-Runs the incremental PDF scan over the configured source dirs
-(`pdf_source_dirs` / `pdf_source_path`; `400` when neither is set). Returns the
-per-status tally.
-
 ### `POST /ingest/run`
-Body — `DirectIngestRequest` (`bundles`, `reconcile`, both optional). Runs the PDF
-scan (when a source is configured) then the Drupal crawl. Returns both tallies.
+Body — `DirectIngestRequest` (`bundles`, `reconcile`, both optional). Runs the
+incremental Drupal crawl — nodes, taxonomy terms, custom blocks, and the PDFs
+attached to or linked from them. Returns `{ "drupal": { "<status>": <count>, ... } }`.
 
 ### `POST /ingest/article`
 Body — `ArticleIngestRequest`. Two modes:
@@ -231,15 +196,15 @@ Query params: `limit` (default 100, max 1000), `source_type`, `document_id`,
 ### `POST /reindex`
 Body — `ReindexRequest`. Two modes:
 
-- **Sweep mode** — `sweep: true` runs a full incremental sweep (PDFs + Drupal) and
-  returns `{ "status": "swept", "detail": { "pdfs": {...}, "drupal": {...} } }`.
+- **Sweep mode** — `sweep: true` runs a full incremental Drupal sweep and returns
+  `{ "status": "swept", "detail": { "drupal": {...} } }`.
 - **Single document** — provide `document_id` (and optional `source_type`, default
   `"website"`) to delete it from Qdrant + the manifest so the next sweep re-ingests
   it. Returns `{ "status": "reset", "detail": {...} }`.
 
 Errors: `400` if `document_id` is missing and `sweep` is not set.
 
-> **One run at a time.** Corpus-wide runs (`/ingest/pdfs`, `/ingest/run`, crawl
+> **One run at a time.** Corpus-wide runs (`/ingest/run`, crawl
 > mode, sweep mode) are mutually exclusive with each other and with the background
 > sweep — a second concurrent trigger returns `409 Conflict`. Ingest routes run the
 > blocking work in a threadpool; when a Celery broker is configured they can be

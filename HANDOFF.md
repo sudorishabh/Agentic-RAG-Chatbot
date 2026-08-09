@@ -41,7 +41,7 @@ operational (see §4).
   MySQL pool reserve-then-connect with bounded wait; PDF stat pre-filter before
   hashing; upload cap + `%PDF-` validation (413/415); structured list/lookup
   answered from the local catalog (`state.list_documents`/`count_documents`);
-  `/source/{id}` scoped to the caller's tenant/ACL (H2).
+  tenant/ACL scoping on the public retrieval API (H2).
 - **Medium:** Drupal high-water `>=`; shared HTTP session for attachment
   downloads; `ensure_collection`/`collection_exists` once per process; O(n²)
   window-coalescing fixed; PDF parsed once in hybrid extraction (text captured at
@@ -74,7 +74,7 @@ operational (see §4).
    disclosed.
 3. **End-to-end test** (needs Azure OpenAI + Qdrant + MySQL; Redis optional):
    start Qdrant, run `app.main:app` (:8000) + `app.ingest_main:app` (:8001),
-   ingest a PDF via `/ingest/pdf`, then `/search` → `/chat`. See
+   crawl a bundle via `/ingest/article`, then `/search` → `/chat`. See
    `docs/setup.md`.
 4. At deployment: pin `CORS_ALLOW_ORIGINS`; decide `AUTH_ENABLED` + `JWT_*`;
    set `OPS_DETAIL_ENABLED=true` only on private/dev instances.

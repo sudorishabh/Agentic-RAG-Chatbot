@@ -95,7 +95,7 @@ See [retrieval.md](retrieval.md) for how these combine.
 
 ## Authentication (public retrieval API)
 
-When enabled, `/chat`, `/search` and `/source/{id}` require a **Bearer JWT**; the
+When enabled, `/chat` and `/search` require a **Bearer JWT**; the
 caller's tenant and groups come from its verified claims — never from the request
 body. Disabled (the default) means the anonymous principal: tenant `default`,
 groups `["public"]`. See [api-reference.md](api-reference.md#authentication).
@@ -118,7 +118,6 @@ groups `["public"]`. See [api-reference.md](api-reference.md#authentication).
 | `ops_detail_enabled` | `false` | Expose infrastructure detail (collection name, point counts, tuning values, error strings) on `/ready`, `/metrics` and `/metrics/timings`. Off: `/ready` is status-only and both metrics endpoints return 404 |
 | `ops_admin_group` | `""` | JWT group whose members may read `/metrics` and `/metrics/timings` even when `ops_detail_enabled` is off (e.g. `admin`). Requires `auth_enabled`; non-members still get 404, never 401 — the endpoints stay invisible |
 | `chat_stream_max_concurrency` | `64` | Max chat generations driven concurrently on the dedicated chat thread limiter; keeps long streams from starving the shared request threadpool |
-| `source_base_url` | `""` | Absolute base URL of the retrieval API as reached from the browser; when set, citation links become `{base}/source/{id}#page=N`. Empty = relative `/source/...` paths |
 
 ## Caching
 
@@ -186,19 +185,10 @@ See [operations.md](operations.md#caching).
 | `drupal_ingest_external_pdfs` | `false` | Also download/extract in-body PDF links on external (non-teriin.org) domains. Off keeps the corpus TERI-authored; the external URL still survives in the body text |
 | `drupal_block_min_chars` | `200` | Custom blocks (`block_content`) with a stripped body shorter than this and no PDF are treated as boilerplate and skipped |
 
-## PDF source discovery (sweeps)
-
-| Setting | Default | Description |
-| --- | --- | --- |
-| `pdf_source_dirs` | `""` | Directories scanned for PDFs (path-list) |
-| `pdf_source_path` | `""` | Single folder fallback when `pdf_source_dirs` is not set |
-| `pdf_ignore_globs` | `""` | Glob patterns to exclude |
-
 ## Ingestion API & audit log
 
 | Setting | Default | Description |
 | --- | --- | --- |
-| `max_upload_bytes` | `52428800` | Max size accepted by `/ingest/pdf` (50 MiB); larger uploads are rejected with `413` before the payload is fully buffered |
 | `ingest_log_table` | `ingest_log` | Append-only audit table of ingestion events (one row per file/record per run) |
 | `ingest_log_enabled` | `true` | Write ingestion events to the audit log |
 | `ingest_log_unchanged` | `false` | Also log a row for every UNCHANGED doc. Off by default: on an incremental sweep almost every doc is unchanged, so per-doc rows are write amplification; the run tally already reports the count |

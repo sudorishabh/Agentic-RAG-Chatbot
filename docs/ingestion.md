@@ -3,14 +3,18 @@
 How documents become searchable: **extract → canonical → chunk → embed → index**,
 with incremental change detection backed by a MySQL manifest.
 
+**Drupal is the only source.** Node bodies, taxonomy-term descriptions and custom
+blocks are ingested as text; the PDFs attached to or linked from them are
+downloaded and ingested as their own documents. Nothing is read from local disk.
+
 ## The canonical model
 
 Everything is normalized to a `CanonicalDocument` ([app/core/models.py](../app/core/models.py))
-before chunking, so PDFs and articles flow through one pipeline.
+before chunking, so node text and attached PDFs flow through one pipeline.
 
 `CanonicalDocument` fields (abridged):
 
-- **Identity:** `document_id`, `source_type` (`pdf` / `website` / `pdf_attachment`), `title`, `sections[]`.
+- **Identity:** `document_id`, `source_type` (`website` / `pdf_attachment`), `title`, `sections[]`.
   *(`website` covers all Drupal content; it was historically named `article` — the
   migration script `scripts/migrate_source_type_website.py` renames stored data.)*
 - **Source refs:** `source_url`, `pdf_id`, `pdf_path`, `article_uuid`,
@@ -35,8 +39,8 @@ before chunking, so PDFs and articles flow through one pipeline.
 
 Builders in [app/ingestion/canonical.py](../app/ingestion/canonical.py):
 
-- `from_pdf(result, *, document_id=None, source_type="pdf", **overrides)` — maps
-  extracted pages to one section per page (1-indexed).
+- `from_pdf(result, *, document_id=None, source_type="pdf_attachment", **overrides)` —
+  maps extracted pages to one section per page (1-indexed).
 - `from_drupal_record(record, **overrides)` — from a crawled `DrupalRecord`.
 - `from_drupal_export(item, **overrides)` — from an ad-hoc article dict
   (`text`/`title`/`url`/`uuid`/`bundle`). Metadata keys containing theme/tag/
@@ -247,11 +251,6 @@ lead-parent stand-in and falls back per document for anything not yet enriched.
 
 Yields `ChangeRecord`s with status `NEW` / `CHANGED` / `UNCHANGED` / `DELETED`.
 
-- `detect_file_changes(roots=None, ignore_globs=None)` — walks PDF roots; fingerprint
-  is the file's SHA-256. A **stat pre-filter** skips the read+hash entirely when the
-  stored `size` + `mtime_ns` match (a touched-but-identical file refreshes its stored
-  stat so the next scan stays cheap). De-dupes repeated `document_id`s within a scan;
-  detects deletes by comparing prior manifest keys to the current scan.
 - `detect_drupal_changes(bundles=None, *, published_only=True, reconcile_deletes=False)`
   — crawls node bundles (incremental via a `changed_since` high-water mark) plus the
   taxonomy and block sources (fetched in full each run). Each node/taxonomy/block
@@ -277,13 +276,12 @@ for what has been ingested — and doubles as the **document catalog** that answ
 the structured count/list/lookup path (see
 [retrieval.md](retrieval.md#structured-path--appretrievalstructuredanswererpy)).
 `StateRecord` columns: `document_id` (PK), `source_type`, `source_key`,
-`fingerprint`, `content_hash`, `doc_version`, `bundle`, `changed_mark`, `size`,
-`mtime_ns` (the PDF stat pre-filter), `title`, `url`, `published_at`, `authors`,
-`categories`, `indexed_at`. Public functions: `ensure_table()`, `load(source_type)`,
-`get(document_id)`, `upsert(record, *, mark_indexed=True)`, `delete(document_ids)`,
-`update_stat(document_id, size, mtime_ns)`, `high_water(source_type, bundle=None)`,
-`keys(source_type, bundle=None)`, `iter_records(source_type)`,
-`count_documents(...)`, `list_documents(...)`. Upserts use
+`fingerprint`, `content_hash`, `doc_version`, `bundle`, `entity_type`,
+`changed_mark`, `title`, `url`, `published_at`, `authors`, `categories`, `tags`,
+`indexed_at`. Public functions: `ensure_table()`, `load(source_type)`,
+`get(document_id)`, `upsert(record, *, mark_indexed=True)`, `delete(document_ids)`.
+The analytical reads (`count_documents`, `list_documents`, `distribution`) live in
+[app/catalog/queries.py](../app/catalog/queries.py). Upserts use
 `INSERT … ON DUPLICATE KEY UPDATE`. Rows created before the catalog columns
 existed get `title`/`url` via the one-time
 `python -m app.ingestion.backfill` (from Qdrant payloads).
@@ -335,31 +333,27 @@ document's next ingest.
 
 ### Incremental — [app/ingestion/pipeline.py](../app/ingestion/pipeline.py)
 
-- `ingest_pdfs(roots=None, ignore_globs=None) -> Counter`
 - `ingest_drupal(bundles=None, *, published_only=True, reconcile_deletes=False) -> Counter`
 
-Each: detect changes → build canonical → check content hash / bump version → chunk +
+Detect changes → build canonical → check content hash / bump version → chunk +
 embed + **index the new version first** → delete the prior version's points (chunk ids
 are version-scoped, so the document stays searchable through the swap and a mid-index
-failure leaves the old version intact) → upsert the manifest → mirror a
-taxonomy-term record into `terms`. The content record is deliberately persisted
-**before** any theme/term work, so a term-catalog or payload-refresh problem can
-never leave extracted content unsaved. The returned
-`Counter` tallies `{new, changed, unchanged, unchanged_content, indexed, deleted,
-skipped, error}` (keys present as they occur). Errors are counted per document; the
-sweep continues. Corpus-wide runs are mutually exclusive within the process
-(`IngestBusyError` → HTTP 409 / a logged sweep skip).
+failure leaves the old version intact) → upsert the manifest with its theme/tag/
+author/attachment rows in one transaction. The returned `Counter` tallies the
+per-document outcomes — `indexed`, `deleted`, `skipped`, `unchanged`,
+`unchanged_content`, `error`, plus `budget_stop` and the `enrich_*` counters (keys
+present as they occur). Errors are counted per document; the sweep continues.
+Corpus-wide runs are mutually exclusive within the process (`IngestBusyError` →
+HTTP 409 / a logged sweep skip).
 
-### Inline upload — [app/ingestion/upload.py](../app/ingestion/upload.py)
+### Inline article — [app/ingestion/upload.py](../app/ingestion/upload.py)
 
-Used by the HTTP ingest routes — no change-detection bookkeeping, indexes immediately
-and bumps the corpus version so caches refresh.
+Used by `POST /ingest/article` for ad-hoc content — no change-detection
+bookkeeping, indexed immediately and not tracked for later re-crawls.
 
-- `ingest_upload(filename, content) -> (document_id, point_count)` — PDF (by suffix) or
-  plain text.
 - `ingest_article(*, title, body, url=None, uuid=None, bundle="article") -> (document_id, point_count)`.
 
 ### Workers / CLI
 
-The same orchestration is exposed as Celery tasks with an inline fallback and a CLI —
+The same orchestration is exposed as plain worker functions and a CLI —
 see [operations.md](operations.md#background-workers).

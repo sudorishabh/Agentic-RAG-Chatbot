@@ -851,11 +851,11 @@
     container.appendChild(group);
   }
 
-  // The backend emits root-relative source links (e.g. "/source/<id>#page=N")
-  // when SOURCE_BASE_URL is unset. Resolve those against the API origin so they
-  // open the locally-served PDF even when the widget is embedded on another
-  // origin. Absolute URLs (remote article pages, configured SOURCE_BASE_URL)
-  // are left untouched.
+  // Citation links are absolute today: a web page cites its own URL and a PDF
+  // cites the attachment URL it was downloaded from. The root-relative branch
+  // stays as a generic resolver in case the backend ever emits one. Anything
+  // else — including a citation with no URL at all — resolves to "" so
+  // linkOrText renders plain text rather than a dead or hostile link.
   function resolveUrl(url) {
     if (!url) return "";
     // Absolute http(s) or protocol-relative — safe to open as-is.

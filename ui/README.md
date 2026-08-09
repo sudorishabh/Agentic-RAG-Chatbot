@@ -89,8 +89,9 @@ CORS_ALLOW_ORIGINS=https://teriin.org,https://www.teriin.org,http://localhost:55
 | --- | --- |
 | `POST /chat` | Streamed answer (SSE: `token` / `sources` / `done`; a terminal `error` event when generation fails mid-stream) |
 
-Citation links for locally served PDFs point at `GET /source/{id}` on the API
-origin.
+Citation links are absolute and point at the source site: a web page cites its
+own URL, a PDF cites the attachment URL it was downloaded from (plus `#page=N`).
+A citation with no resolvable URL renders as plain text, not a dead link.
 
 ## Files
 

@@ -42,17 +42,14 @@ Tasks:
 
 | Task | Signature | Does |
 | --- | --- | --- |
-| `ingest_pdfs` | `(dirs=None) -> dict` | incremental PDF ingest; bumps corpus version on change |
 | `ingest_drupal` | `(bundles=None, reconcile=False) -> dict` | incremental Drupal ingest |
-| `sweep` | `() -> dict` | runs both (`drupal` with `reconcile=worker_sweep_reconcile`) |
-| `ingest_upload` | `(filename, content_b64) -> dict` | decode + inline upload ingest |
+| `sweep` | `() -> dict` | runs `ingest_drupal` with `reconcile=worker_sweep_reconcile` |
 | `reindex_document` | `(document_id, source_type="website") -> dict` | delete from Qdrant + manifest, bump version |
 
 **Inline CLI** (no broker needed):
 
 ```bash
-python -m app.workers.tasks sweep                 # PDFs + Drupal, once
-python -m app.workers.tasks pdfs
+python -m app.workers.tasks sweep                 # Drupal, once
 python -m app.workers.tasks drupal --bundle news --bundle report --reconcile
 ```
 
@@ -146,8 +143,6 @@ so they are off by default on the public API. See
 - **Ingest audit log is bounded.** Rows older than `ingest_log_retention_days`
   (90) are pruned after each sweep; per-doc `unchanged` rows are not written
   unless `ingest_log_unchanged` is set.
-- **Uploads are capped.** `/ingest/pdf` rejects files over `max_upload_bytes`
-  (413) and non-PDF content (415) before buffering the payload.
 
 ## Offline test runners
 

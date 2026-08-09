@@ -25,8 +25,7 @@ app/
 │   ├── auth.py              Bearer-JWT principal (tenant + groups) for the public API
 │   ├── chat.py              POST /chat (SSE)
 │   ├── search.py            POST /search   (retrieval only, no generation)
-│   ├── source.py            GET /source/{id} (cited PDFs, tenant/ACL-scoped)
-│   ├── ingest.py            POST /ingest/pdf(s), /ingest/run, /ingest/article, /reindex; GET /ingest/log
+│   ├── ingest.py            POST /ingest/run, /ingest/article, /reindex; GET /ingest/log
 │   └── health.py            GET /health, /ready, /metrics
 ├── schemas/                 Request/response models (query.py, ingest.py)
 ├── retrieval/
@@ -35,7 +34,6 @@ app/
 │   ├── reranker.py          Rerank: embedding / LLM / cross-encoder + recency·authority (§6.3, §9.4)
 │   ├── context_builder.py   Parent-expand, cosine dedup, conflict flag, token budget (§6.4, §9)
 │   ├── citations.py         Build numbered citations from chunk payloads (§8)
-│   ├── source_locator.py    document_id → on-disk PDF (roots + tenant/ACL guarded)
 │   └── drupal_router.py     Structured lookup/list/count from the local catalog (§7)
 ├── generation/
 │   ├── llm_client.py        Azure chat / structured LLM factories
@@ -112,10 +110,7 @@ on demand). The first sweep runs at startup.
 |---|---|---|---|
 | Retrieval | `POST` | `/chat` | Ask a question. **Streams** the grounded answer as SSE: `token` events, then a `sources` event with citations, then `done` (or a terminal `error`). |
 | Retrieval | `POST` | `/search` | Retrieval only — returns the ranked context blocks, no generation. |
-| Retrieval | `GET` | `/source/{id}` | Serve a cited document's source PDF inline (tenant/ACL-scoped). |
-| Ingestion | `POST` | `/ingest/pdf` | Multipart upload (≤ 50 MiB, `%PDF-` validated); extract → chunk → embed → index. |
-| Ingestion | `POST` | `/ingest/pdfs` | Incremental scan of the configured PDF source dirs. |
-| Ingestion | `POST` | `/ingest/run` | Incremental ingest: PDFs + Drupal. |
+| Ingestion | `POST` | `/ingest/run` | Incremental Drupal ingest (nodes, terms, blocks + their PDFs). |
 | Ingestion | `POST` | `/ingest/article` | Index an inline article (`title`/`body`/`url`), or crawl live Drupal `bundles`. |
 | Ingestion | `GET` | `/ingest/log` | Recent ingestion audit events. |
 | Ingestion | `POST` | `/reindex` | Reset one `document_id` for re-ingest, or run a full incremental `sweep`. |
@@ -134,12 +129,6 @@ Ingest an inline article:
 curl -X POST http://127.0.0.1:8001/ingest/article \
   -H "Content-Type: application/json" \
   -d '{"title":"Solar Mini-Grid Pilot 2025","body":"The pilot connected 1,240 households...","url":"https://example.org/a"}'
-```
-
-Ingest a PDF:
-
-```bash
-curl -X POST http://127.0.0.1:8001/ingest/pdf -F "file=@document.pdf"
 ```
 
 Ask a question (SSE stream):

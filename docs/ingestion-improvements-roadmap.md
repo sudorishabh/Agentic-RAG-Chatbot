@@ -1,5 +1,9 @@
 # Ingestion pipeline — improvement roadmap
 
+> **Note (2026-08-09):** the `POST /ingest/pdf` upload route was removed when
+> Drupal became the only ingestion source. Items below that weigh added latency
+> against that endpoint's contract no longer apply — the sweep is the only path.
+
 An analysis of proposed changes to the ingestion pipeline
 ([app/ingestion/](../app/ingestion/)), including where an LLM would add real
 value and where it would not. Each item states what changes, why, how hard it

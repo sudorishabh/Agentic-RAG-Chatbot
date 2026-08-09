@@ -1,6 +1,12 @@
 # Ingestion Pipeline — Implementation Report
 
-Based on the code at `main` (5c27c95). Everything below describes what the code does today; §9 lists where `docs/ingestion.md` disagrees with it.
+Based on the code after the local-PDF-pipeline removal (2026-08-09). Everything below describes what the code does today; §9 lists where the surrounding docs disagree with it.
+
+> **Drupal is the only source.** The filesystem PDF scan (`PDF_SOURCE_DIRS`), the
+> `POST /ingest/pdf` upload route, `GET /source/{id}` and the `indexer --pdf` CLI
+> were all removed. PDFs still flow through the pipeline in volume — they just
+> arrive as Drupal **attachments** and in-body links rather than off local disk.
+> PDF *extraction* (PyMuPDF, Azure OCR, Camelot, normalization) is untouched.
 
 ---
 
@@ -12,18 +18,18 @@ Based on the code at `main` (5c27c95). Everything below describes what the code 
 |---|---|---|
 | Ingestion server | `app/ingest_main.py` | Background sweep loop + `/ingest/*`, `/reindex`, `/ingest/log` routes |
 | Retrieval server | `app/main.py` | `/chat`, `/search` — reads Qdrant + MySQL, never writes them |
-| CLI | `python -m app.ingestion.pipeline --pdf --drupal` | Same orchestration, run manually |
+| CLI | `python -m app.ingestion.pipeline [--bundle B] [--reconcile]` | Same orchestration, run manually |
 
 `app/ingest_main.py:19` starts `start_sweep_scheduler()`, which runs `app/workers/scheduler.py:11 _sweep_loop` forever: `sweep()` → prune semantic cache → prune ingest log → sleep `worker_sweep_interval_seconds` (default **3600s**). The first sweep runs immediately at boot.
 
-`app/workers/tasks.py:28 sweep()` = `ingest_pdfs()` then `ingest_drupal(reconcile=worker_sweep_reconcile)` (default `False`).
+`app/workers/tasks.py sweep()` = `ingest_drupal(reconcile=worker_sweep_reconcile)` (default `False`), returning `{"drupal": {...}}`.
 
 ### The pipeline stages
 
 ```
                     ┌─────────────────── CHANGE DETECTION ───────────────────┐
-Drupal JSON:API ──► detect_drupal_changes() ──┐
-Local filesystem ─► detect_file_changes()   ──┤
+Drupal JSON:API ──► detect_drupal_changes()
+                                              │
                                               ▼
                                     Iterator[ChangeRecord]
                                               │
@@ -35,12 +41,11 @@ Local filesystem ─► detect_file_changes()   ──┤
                                     pipeline._handle(record)
                                               │
         DELETED ──► delete_document() + state.delete()      [stop]
-        UNCHANGED ─► maybe update_stat()                    [stop]
+        UNCHANGED ─► (nothing to do)                        [stop]
         NEW/CHANGED ▼
                         build_doc(record)          ── EXTRACTION
                         ├─ Drupal node   → canonical.from_drupal_record()
-                        ├─ Drupal PDF    → attachment.build_attachment_doc() → extract_pdf()
-                        └─ local PDF     → extract_pdf() → canonical.from_pdf()
+                        └─ Drupal PDF    → attachment.build_attachment_doc() → extract_pdf()
                                               ▼
                                    CanonicalDocument
                                               │
@@ -67,7 +72,7 @@ Local filesystem ─► detect_file_changes()   ──┤
 
 | Stage | Module |
 |---|---|
-| Change detection | `app/ingestion/change_detection/{base,drupal,files}.py` |
+| Change detection | `app/ingestion/change_detection/{base,drupal}.py` |
 | Drupal crawl | `app/ingestion/extractors/drupal_extractor.py` |
 | PDF extraction | `app/ingestion/extractors/{pdf_extractor,pymupdf_local,camelot_tables,text_normalize}.py` |
 | Attachment download | `app/ingestion/extractors/attachment.py` |
@@ -281,14 +286,15 @@ CanonicalDocument(
 
 ## 4. PDF Handling
 
-### Two sources, one extractor
+### One source, one extractor
 
 | Source | `source_type` | `document_id` | Entry |
 |---|---|---|---|
-| Local filesystem (`pdf_source_dirs`, `os.pathsep`-separated) | `pdf` | `slugify(rel_path_without_ext)` | `pipeline.py:373 _build_pdf_doc` |
-| Drupal attachment / in-body link | `pdf_attachment` | file UUID, or `inbody:<sha1(abs_url)>` | `attachment.py:84 build_attachment_doc` |
+| Drupal `field_*` file attachment | `pdf_attachment` | the `file--file` UUID | `attachment.py:84 build_attachment_doc` |
+| Drupal in-body `<a href="…pdf">` link | `pdf_attachment` | `inbody:<sha1(abs_url)>` | same |
 
-Both call `extract_pdf(content: bytes, filename: str) -> ExtractionResult`.
+Both call `extract_pdf(content: bytes, filename: str) -> ExtractionResult`. There is
+no longer any path that reads a PDF from local disk.
 
 ### Download (`attachment.py:23 fetch_attachment`)
 
@@ -369,10 +375,10 @@ For **attachments** (`attachment.py:124`) the overrides add: `title = file.descr
 
 ### PDF limitations in the current implementation
 
-- **No PDF document metadata is read.** The XMP / Info dictionary (Title, Author, Subject, CreationDate) is never touched. A local PDF's title is its filename; its `published_at` is `NULL`; it has no themes, tags or authors at all.
+- **No PDF document metadata is read.** The XMP / Info dictionary (Title, Author, Subject, CreationDate) is never touched. This no longer costs much: an attachment inherits its node's title, themes, tags, authors and date, so nothing depends on the PDF's own metadata.
 - **`ExtractionResult.metadata` is discarded.** `extraction_mode`, `route` (`"azure+camelot+local"`), `page_signals` (which pages went where) and `engine` are populated and logged, then dropped — never persisted to MySQL or Qdrant. You cannot query "which documents were OCR'd".
 - **Scanned tables are flattened.** With the default `prebuilt-read`, a scanned page carrying a table is OCR'd as prose. Structure requires switching to `prebuilt-layout` (~6× cost).
-- **No page limit / size limit** on attachment downloads (the 50 MiB `max_upload_bytes` cap applies only to the `/ingest/pdf` upload route).
+- **No page or size limit on attachment downloads.** `fetch_attachment` reads the whole response into memory with no cap — a very large PDF on the site is ingested at whatever size it is.
 - **A fully scanned PDF with Azure unconfigured indexes as an empty document** and is then pinned there — see §8 and §11.
 
 ---
@@ -611,7 +617,7 @@ Upsert in batches of 128 (`indexer.py:72`).
 
 | Table | Key | Contents |
 |---|---|---|
-| `documents` | `document_id` (PK) | `source_type, source_key, bundle, entity_type, fingerprint, content_hash, doc_version, changed_mark, size, mtime_ns, published_at, title, url, raw_meta (JSON), indexed_at, updated_at` |
+| `documents` | `document_id` (PK) | `source_type, source_key, bundle, entity_type, fingerprint, content_hash, doc_version, changed_mark, published_at, title, url, raw_meta (JSON), indexed_at, updated_at` (the legacy `size` / `mtime_ns` columns survive in the DDL but are no longer read or written) |
 | `documents_author` | (doc, author) | one row per author, FK CASCADE |
 | `documents_tag` | (doc, tag) | one row per tag, FK CASCADE |
 | `documents_theme` | (doc, theme) PK | `theme_type ENUM('primary','sub')`, `parent`, `theme_group ENUM('main','other')` — classified by `theme_taxonomy.classify()` against `app/data.json` |
@@ -643,7 +649,6 @@ Order matters: the document never disappears from search mid-swap, and a failure
 
 | Trigger | Handled? |
 |---|---|
-| Local PDF removed from disk | ✅ `files.py:154` — prior manifest keys not seen in the scan yield `DELETED` |
 | Drupal node deleted / unpublished | ⚠️ **Only when `reconcile_deletes=True`.** Default is `False` (`worker_sweep_reconcile: bool = False`), so by default unpublished/deleted nodes stay searchable indefinitely. When on, `iter_node_uuids` enumerates live UUIDs per bundle and prior rows not in that set yield `DELETED` |
 | Taxonomy term / block removed | ✅ under reconcile — these are full-fetched, so the yielded set *is* the live set |
 | **Attachment PDF removed from a node** | ❌ **Never.** `detect_drupal_changes` yields `DELETED` only for `source_type="website"`. See §11 |
@@ -655,7 +660,7 @@ Order matters: the document never disappears from search mid-swap, and a failure
 
 **Incremental, on two levels** (`pipeline.py:196` and `:224`):
 
-1. **Fingerprint match → skip extraction entirely.** Fingerprint = the node's `changed` ISO timestamp (Drupal), the file's SHA-256 (local PDF), the node's changed mark (attachment) or `inbody:<sha1(url)>` (in-body PDF). For local PDFs a **stat pre-filter** (`size` + `mtime_ns`) skips even the read + hash.
+1. **Fingerprint match → skip extraction entirely.** Fingerprint = the node's `changed` ISO timestamp (node/term/block), the node's changed mark (attachment), or `inbody:<sha1(url)>` (in-body PDF).
 2. **Fingerprint changed but content hash matches → `unchanged_content`.** The fingerprint is refreshed, the catalog row updated (picking up new title/facets/dates), `refresh_document_title` rewrites the payload title, and **nothing is re-embedded**.
 
 Full-refresh paths: taxonomy/block sources are fetched in full every run (cheap, small); truncating `documents` or calling `/reindex` per document forces re-extraction.
@@ -664,9 +669,7 @@ Full-refresh paths: taxonomy/block sources are fetched in full every run (cheap,
 
 | Route | Behaviour |
 |---|---|
-| `POST /ingest/pdf` (multipart) | Validates `.pdf` suffix, `≤ max_upload_bytes` (50 MiB, checked incrementally in 1 MiB reads), `%PDF-` magic. → `upload.ingest_upload` → extract → chunk → index. **Writes no state row** |
-| `POST /ingest/pdfs` | Runs the full local-PDF sweep |
-| `POST /ingest/run` | Local PDFs (if configured) + Drupal, with optional `bundles`/`reconcile` |
+| `POST /ingest/run` | Runs the Drupal crawl, with optional `bundles`/`reconcile` |
 | `POST /ingest/article` | Either crawl `bundles`, or index an ad-hoc `{title, body, url, uuid, bundle}` via `from_drupal_export`. **Writes no state row** |
 | `GET /ingest/log` | Recent audit rows, filterable |
 | `POST /reindex` | `{"sweep": true}` or `{"document_id": …}` |
@@ -687,7 +690,6 @@ All corpus-wide routes go through `_run_exclusive`, which maps `IngestBusyError`
 | Attachment download **4xx** | One WARNING (no traceback) + a `documents_dead_link` row → suppressed on future runs while the fingerprint holds; document skipped | `attachment.py:105` |
 | Attachment download timeout / DNS / 5xx | Full `logger.exception` (so you can see which), document skipped, **retried next sweep** | `attachment.py:113` |
 | Attachment body empty | WARNING, `return None` → status `skipped` | `attachment.py:115` |
-| PDF stat/read fails (local) | `logger.exception`, file skipped, no record yielded | `files.py:110`, `:136` |
 | Azure OCR fails / unconfigured | WARNING; pages degrade to PyMuPDF text | `pdf_extractor.py:246`, `:276` |
 | Camelot missing / forbidden / crashes | WARNING or exception log; page keeps only its PyMuPDF text | `camelot_tables.py:117` |
 | `classify_document` raises | Whole document biased to Azure | `pdf_extractor.py:366` |
@@ -711,7 +713,6 @@ All corpus-wide routes go through `_run_exclusive`, which maps `IngestBusyError`
 |---|---|
 | `build_doc` returns `None` (empty attachment, download failure) | status `skipped`, **no state row** → retried next sweep |
 | Document with empty body | `sections=[]` → `full_text()=""` → `chunk_canonical` → 0 chunks → `index_chunks` returns 0 → **still recorded as `indexed`** with the hash of the empty string |
-| Duplicate local PDF `document_id` (same slug from different dirs) | WARNING, first wins, later ones skipped (`files.py:100`) |
 | Same in-body PDF linked from many nodes | De-duped per run by `seen_pdf`; fingerprint is URL-derived so it ingests once and inherits the **first-seen** node's facets |
 | Boilerplate block (<200 chars, no PDF) | Dropped before yielding a record |
 | Non-PDF attachment | Skipped; document types (`.docx`, `.xlsx`, …) get a WARNING so the miss is visible |
@@ -739,7 +740,7 @@ All corpus-wide routes go through `_run_exclusive`, which maps `IngestBusyError`
 | §Orchestration: tally keys `{new, changed, unchanged, unchanged_content, indexed, deleted, skipped, error}` | `new` and `changed` are **never** tally keys — the tally counts `_handle`'s return values: `indexed`, `deleted`, `skipped`, `unchanged`, `unchanged_content`, `error`, plus `budget_stop` and `enrich_*` |
 | §Inline upload "…and **bumps the corpus version so caches refresh**" | `upload.py` does no version bump and touches no cache |
 | §PDFs: "All page text is normalized to expand standard ligature glyphs" | Understated — normalization also repairs dropped ligatures and CO₂/H₂ subscripts, strips HTML comments and `<figure>`s, drops page-number bars, garbage tables, number soup and chart regions, and strips cross-page running headers/footers |
-| §Change detection: "detects deletes by comparing prior manifest keys" | True for local PDFs and for Drupal *nodes/terms/blocks* under reconcile — but **not for attachments**, which are never reconciled |
+| §Change detection: "detects deletes by comparing prior manifest keys" | True for Drupal *nodes/terms/blocks* under reconcile — but **not for attachments**, which are never reconciled |
 | §Chunking config: gives only the base defaults (400/512/120/60, 1800/2400) | Ten bundle-specific presets exist; PDFs use 450/560 and `small_pdf` uses a 100 000-token parent |
 
 Also unstated in the docs: the `documents_dead_link` table and its whole suppression mechanism (added in the two most recent commits), and the `carousel` bundle.
@@ -917,22 +918,23 @@ The **attachment's** fingerprint is the node's changed mark, so it too becomes `
 ### Architecture at a glance
 
 ```
-┌───────────────┐   ┌─────────────────┐
-│ Drupal        │   │ Local filesystem│
-│ JSON:API      │   │ pdf_source_dirs │
-└───────┬───────┘   └────────┬────────┘
-        │ iter_bundle_records │ os.walk + size/mtime + SHA-256
-        ▼                     ▼
- detect_drupal_changes   detect_file_changes        change_detection/
-        └──────────┬──────────┘
-                   ▼  Iterator[ChangeRecord]  (NEW|CHANGED|UNCHANGED|DELETED)
+┌────────────────────────────┐
+│ Drupal JSON:API            │
+│ nodes · taxonomy · blocks  │
+│ + their attached PDFs      │
+└─────────────┬──────────────┘
+              │ iter_bundle_records (changed-since high-water, oldest-first)
+              ▼
+      detect_drupal_changes                            change_detection/
+              │
+              ▼  Iterator[ChangeRecord]  (NEW|CHANGED|UNCHANGED|DELETED)
         ┌──────────────────────┐
         │ pipeline._run        │  _run_lock (process-local) │ ingest_workers pool
         └──────────┬───────────┘  ingest_max_docs_per_run / batch pause
                    ▼ pipeline._handle
      ┌─────────────┴──────────────┬──────────────────┐
      ▼                            ▼                  ▼
- DrupalRecord            extract_pdf(bytes)     [DELETED]
+ DrupalRecord            fetch + extract_pdf    [DELETED]
  _html_to_text            hybrid router:         delete_document
  _partition_attributes    ├ scanned → Azure DI   state.delete
  _resolve_relationships   ├ table   → Camelot
@@ -962,7 +964,7 @@ The **attachment's** fingerprint is the node's changed mark, so it too becomes `
 
 2. **Delete reconciliation is off by default.** `worker_sweep_reconcile = False`, so the scheduled sweep never reconciles. Unpublished and deleted Drupal nodes remain searchable indefinitely until someone runs `--reconcile` or `POST /ingest/run {"reconcile": true}`.
 
-3. **Pipeline configuration changes invalidate nothing.** Neither the fingerprint nor the content hash reflects `EXTRACTION_MODE`, the Azure DI model, chunking presets, or the embedding model/dimensions. Configure Azure after ingesting a scanned corpus and those PDFs stay at their empty/garbled extraction — the fingerprint hasn't changed, so they never re-extract. Same for a chunk-size retune or an embedding model swap. The only remedy is a manual `/reindex` per document or truncating `documents`. Consider folding an extraction/chunking/embedding version into the state row and treating a mismatch as `CHANGED`.
+3. **Pipeline configuration changes invalidate nothing.** Neither the fingerprint nor the content hash reflects `EXTRACTION_MODE`, the Azure DI model, chunking presets, or the embedding model/dimensions. Configure Azure after ingesting a scanned corpus and those PDFs stay at their empty/garbled extraction — the fingerprint hasn't changed, so they never re-extract. Same for a chunk-size retune or an embedding model swap. The only remedy is a manual `/reindex` per document or truncating `documents`. Consider folding an extraction/chunking/embedding version into the state row and treating a mismatch as `CHANGED`. **Now the highest-value fix in this list** — it is the only remaining way content can sit permanently mis-extracted.
 
 4. **A scanned PDF with Azure unconfigured indexes as an empty document**, is marked `indexed` with `chunks_indexed=0`, and is then pinned there by (3). Nothing flags this — `_handle` doesn't check whether chunking produced anything. A zero-chunk `indexed` outcome deserves its own status.
 
@@ -973,8 +975,6 @@ The **attachment's** fingerprint is the node's changed mark, so it too becomes `
 6. **`_discover_relationship_fields` samples exactly one record per bundle** to build the `include=` list. Any `field_*` empty on that record is never included → its file attachments are silently skipped and its entity refs get `label=None`. Which record is sampled depends on default ordering, so coverage is non-deterministic. Consider sampling N records, or maintaining an explicit per-bundle include map (which is what `field_audit.py` was built to inform).
 
 7. **`ExtractionResult.metadata` is discarded.** Route, OCR page numbers and page signals are computed, logged once, and dropped. There is no way to answer "which documents needed OCR?" or "how many pages went to Azure last month?" from the stores. Cheap to persist into `raw_meta` or the log row.
-
-8. **Local filesystem PDFs get no metadata at all** — title = filename, no `published_at`, no themes/tags/authors. They therefore never appear in theme-scoped catalog counts and sort last on any date filter. No PDF Info/XMP dictionary is ever read.
 
 9. **`authors` uses `_pick_list` (first matching field only), while `categories`/`tags` use `_union_list`.** A bundle with both `field_author` and `field_co_author` loses one. Likely unintentional asymmetry — worth confirming against `field_audit` output.
 
@@ -996,7 +996,7 @@ The **attachment's** fingerprint is the node's changed mark, so it too becomes `
 
 16. **`prior` sets are keyed by bundle name only, ignoring `entity_type`** (`drupal.py:96`). Today `DEFAULT_BUNDLES` and `DEFAULT_TAXONOMIES` don't collide, but a future `node/tags` bundle would silently merge its priors with the `taxonomy_term/tags` vocabulary's and corrupt the high-water mark.
 
-17. **`/ingest/pdf` and `/ingest/article` write no state row.** Uploaded documents are invisible to change detection, to `/reindex`, and to catalog count/list queries — and a later filesystem sweep can re-ingest the same file under a *different* `document_id` (`slugify(rel_path)` vs `slugify(stem)`), duplicating it.
+17. **`POST /ingest/article` writes no state row.** An ad-hoc article gets Qdrant points and a log row but no catalog row, so it is invisible to change detection, to `/reindex`, and to catalog count/list queries. It is now the only such path left.
 
 18. **`dead_links.load()` is read once at crawl start**, so markers written during a run aren't honoured until the next one. Harmless at current volumes.
 
@@ -1006,3 +1006,39 @@ The **attachment's** fingerprint is the node's changed mark, so it too becomes `
 - Whether `include=` with every discovered `field_*` is hitting Drupal's response-size limits on the wide bundles; a bundle-level failure there is logged as `Drupal fetch failed for node/X; skipping bundle` and is easy to miss.
 - How many `pdf_attachment` rows in `documents` have no corresponding row in `documents_attachment` — that count is the size of gap (1).
 - Whether `carousel` and the ten taxonomy vocabularies are producing useful chunks or just catalog noise; both fall through to the `_BASE` chunking preset.
+
+---
+
+## 12. Change log
+
+**2026-08-09 — local PDF pipeline removed.** Drupal became the only ingestion
+source. Six commits, ~700 lines net removed, `pytest` green (856) at every step.
+
+| Removed | Why it existed |
+|---|---|
+| `change_detection/files.py` | Walked `PDF_SOURCE_DIRS`, size+mtime pre-filter, SHA-256 fingerprints, delete reconciliation |
+| `pipeline.ingest_pdfs`, `_build_pdf_doc`, `--pdf`/`--dir` CLI | The local sweep's entry points |
+| `tasks.ingest_pdfs`; the PDF leg of `sweep()` | Worker wiring |
+| `POST /ingest/pdfs`, `POST /ingest/pdf`, `_read_capped` | HTTP triggers and the upload guard |
+| `upload.ingest_upload`, `_pdf_document`, `_text_document` | File-based ad-hoc ingest |
+| `GET /source/{id}`, `api/source.py`, `retrieval/source_locator.py`, `citations._pdf_link` | Served PDFs off disk for citation links |
+| `indexer --pdf` | Indexed a disk PDF straight into Qdrant, bypassing change detection |
+| `ChangeRecord.size/.mtime_ns`, `StateRecord.size/.mtime_ns`, `state.update_stat` | The stat pre-filter's plumbing |
+| `pdf_source_dirs`, `pdf_source_path`, `pdf_ignore_globs`, `max_upload_bytes`, `source_base_url` | Settings with no remaining reader |
+
+`from_pdf`'s default `source_type` moved `"pdf"` → `"pdf_attachment"`, so no code
+path can mint a `"pdf"` document any more.
+
+**Deliberately kept:** the entire PDF *extraction* stack (`pdf_extractor`,
+`pymupdf_local`, `camelot_tables`, `text_normalize`, `canonical.from_pdf`, the
+`pdf` / `small_pdf` chunking presets) — attachments depend on all of it. Also the
+read-only diagnostics `python -m app.ingestion.extractors.pdf_extractor <file>`
+and `python -m app.ingestion.chunking <file>`, which write nothing.
+
+**Deferred:** the `size` / `mtime_ns` columns remain in `documents` (nullable,
+unwritten). Dropping them needs a migration and was kept out of a pure-removal
+change; see §11 for the rest of the open list.
+
+**Breaking API changes:** `POST /ingest/pdf`, `POST /ingest/pdfs` and
+`GET /source/{id}` now return 404; `POST /ingest/run` and
+`POST /reindex {"sweep": true}` no longer carry `pdfs` / `pdf_source` keys.

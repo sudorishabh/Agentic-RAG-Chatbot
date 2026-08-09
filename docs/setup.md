@@ -89,12 +89,6 @@ Interactive API docs: `http://localhost:8000/docs` and `http://localhost:8001/do
 
 Ingestion endpoints live on the **ingestion server** (port 8001 above).
 
-**Single PDF (HTTP):**
-
-```bash
-curl -F "file=@policy.pdf" http://localhost:8001/ingest/pdf
-```
-
 **Crawl Drupal bundles (HTTP):**
 
 ```bash
@@ -107,13 +101,11 @@ curl -X POST http://localhost:8001/ingest/article \
 
 ```bash
 python -m app.workers.tasks sweep
-python -m app.workers.tasks pdfs
 python -m app.workers.tasks drupal --bundle news --reconcile
 ```
 
-PDF directory sweeps read `PDF_SOURCE_DIRS` (and `PDF_IGNORE_GLOBS`). See
-[ingestion.md](ingestion.md) for the full pipeline and [operations.md](operations.md)
-for running Celery workers instead of inline.
+See [ingestion.md](ingestion.md) for the full pipeline and
+[operations.md](operations.md) for scheduling.
 
 ## 6. Ask a question
 
@@ -129,8 +121,7 @@ curl -N -X POST http://localhost:8000/chat \
 ## 7. Enable authentication (optional)
 
 The public retrieval API accepts anonymous callers by default (tenant `default`,
-groups `["public"]`). To require a **Bearer JWT** on `/chat`, `/search`, and
-`/source/{id}`:
+groups `["public"]`). To require a **Bearer JWT** on `/chat` and `/search`:
 
 ```env
 AUTH_ENABLED=true

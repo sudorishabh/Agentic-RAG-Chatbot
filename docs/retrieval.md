@@ -206,9 +206,9 @@ marker. Per block:
 
 - **website** → `title` + the page URL (`file_url` if an attached file exists, else
   `source_url`).
-- **pdf** → `title` + a deep link `"{source_base_url}/source/<pdf_id>#page=<page>"`
-  (pdf_id from `pdf_id` or `document_id`; `file_url` used directly when present),
-  plus `page` and `section`.
+- **pdf** → `title` + the attachment's `file_url` with a `#page=<page>` fragment,
+  plus `page` and `section`. A PDF with no `file_url` yields no link rather than
+  a placeholder.
 - Any `also_available` entries become secondary `CitationSource`s.
 
 `Citation` (in [app/schemas/query.py](../app/schemas/query.py)): `n`, `type`, `title`,

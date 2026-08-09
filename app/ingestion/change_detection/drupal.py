@@ -1,6 +1,6 @@
 """Drupal change detection: incremental node crawl (changed-since high-water
-mark), full-fetch taxonomy/block sources, attached-PDF fan-out, and optional
-delete reconciliation."""
+mark), full-fetch block sources, attached-PDF fan-out, and optional delete
+reconciliation."""
 from __future__ import annotations
 
 import logging
@@ -54,7 +54,6 @@ def detect_drupal_changes(
     from app.ingestion.extractors.drupal_extractor import (
         DEFAULT_BLOCKS,
         DEFAULT_BUNDLES,
-        DEFAULT_TAXONOMIES,
         _build_session,
         iter_bundle_records,
         iter_node_uuids,
@@ -72,18 +71,16 @@ def detect_drupal_changes(
     suppressed = 0
 
     # A "source" is (entity_type, bundle, incremental). Node bundles support the
-    # changed-since high-water mark; the small taxonomy/block sets are fetched in
-    # full and change-detected purely on their fingerprint. An explicit
-    # ``bundles`` argument is treated as node bundles (preserves --bundle);
-    # an "entity_type:bundle" spec (e.g. taxonomy_term:themes) scopes others.
+    # changed-since high-water mark; the small block set is fetched in full and
+    # change-detected purely on its fingerprint. An explicit ``bundles`` argument
+    # is treated as node bundles (preserves --bundle); an "entity_type:bundle"
+    # spec (e.g. block_content:basic) scopes others.
     if bundles is not None:
         sources = [_parse_bundle_spec(spec) for spec in bundles]
     else:
-        sources = (
-            [("node", b, True) for b in DEFAULT_BUNDLES]
-            + [("taxonomy_term", b, False) for b in DEFAULT_TAXONOMIES]
-            + [("block_content", b, False) for b in DEFAULT_BLOCKS]
-        )
+        sources = [("node", b, True) for b in DEFAULT_BUNDLES] + [
+            ("block_content", b, False) for b in DEFAULT_BLOCKS
+        ]
 
     # Always crawl oldest-first: the MAX(changed_mark) high-water then only
     # ever covers documents that were actually processed, so it acts as a

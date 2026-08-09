@@ -19,8 +19,7 @@ app/
 │   ├── auth.py              Bearer-JWT principal (tenant + groups) for the public API
 │   ├── chat.py              POST /chat (SSE stream on a dedicated thread limiter)
 │   ├── search.py            POST /search   (retrieval only, no generation)
-│   ├── source.py            GET /source/{id} (cited PDFs, tenant/ACL-scoped)
-│   ├── ingest.py            POST /ingest/pdf(s), /ingest/run, /ingest/article, /reindex; GET /ingest/log
+│   ├── ingest.py            POST /ingest/run, /ingest/article, /reindex; GET /ingest/log
 │   └── health.py            GET /health, /ready, /metrics
 ├── schemas/                 Pydantic request/response models (query.py, ingest.py)
 ├── core/
@@ -42,7 +41,6 @@ app/
 │   ├── reranker.py          Rerank (embedding/llm/cross_encoder/cohere) + recency·authority
 │   ├── context_builder.py   Parent-expand, cosine dedup, conflict flag, token budget, website-first segregation → ContextBlock[]
 │   ├── citations.py         Build numbered citations from chunk payloads
-│   ├── source_locator.py    document_id → on-disk PDF (roots + tenant/ACL guarded)
 │   ├── scoped_retrieval.py  Id-scoped Qdrant reads for scoped summarization
 │   └── structured/          Catalog (database-intent) capability: entities.py, filters.py,
 │                            planner.py, tools.py, types.py, answerer.py (the query-pipeline adapter)
@@ -177,7 +175,7 @@ Key invariants:
 - **Identity comes from the verified principal, never the body.** With
   `auth_enabled`, tenant/groups are claims of a backend-verified Bearer JWT;
   otherwise the anonymous principal (`default` / `["public"]`). The same identity
-  scopes `/chat`, `/search`, and `/source/{id}`.
+  scopes `/chat` and `/search`.
 - **Citations come from payloads, not the model.** The LLM only emits `[n]` markers;
   [app/retrieval/citations.py](../app/retrieval/citations.py) maps each marker to real
   metadata, and [app/generation/faithfulness.py](../app/generation/faithfulness.py)
