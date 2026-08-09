@@ -11,12 +11,6 @@ def _clean_bundles(value: list[str] | None) -> list[str] | None:
     return cleaned or None
 
 
-class IngestResponse(BaseModel):
-    filename: str
-    document_id: str
-    chunks_ingested: int
-
-
 class DirectIngestRequest(BaseModel):
     bundles: list[str] | None = Field(default=None, examples=[["news"]])
     reconcile: bool = False

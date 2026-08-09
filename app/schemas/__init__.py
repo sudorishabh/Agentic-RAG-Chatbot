@@ -1,7 +1,6 @@
 from app.schemas.ingest import (
     ArticleIngestRequest,
     ArticleIngestResponse,
-    IngestResponse,
     ReindexRequest,
     ReindexResponse,
 )
@@ -16,7 +15,6 @@ from app.schemas.query import (
 )
 
 __all__ = [
-    "IngestResponse",
     "ArticleIngestRequest",
     "ArticleIngestResponse",
     "ReindexRequest",

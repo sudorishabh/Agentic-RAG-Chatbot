@@ -1,44 +1,18 @@
+"""Direct, out-of-band article ingest for the ``/ingest/article`` route.
+
+Unlike the sweep this keeps no change-detection state: the document is chunked,
+embedded and indexed immediately and is not tracked for later re-crawls.
+"""
 from __future__ import annotations
 
 import logging
 import uuid
-from pathlib import Path
 
 from app.catalog import log as ingest_log
-from app.core.models import CanonicalDocument, CanonicalSection
+from app.core.models import CanonicalDocument
 from app.ingestion.indexer import index_canonical
-from app.ingestion.textutil import slugify as _slugify
 
 logger = logging.getLogger(__name__)
-
-
-def _pdf_document(filename: str, content: bytes) -> CanonicalDocument:
-    from app.ingestion.canonical import from_pdf
-    from app.ingestion.extractors.pdf_extractor import extract_pdf
-
-    result = extract_pdf(content, filename)
-    return from_pdf(result, document_id=_slugify(Path(filename).stem), title=filename)
-
-
-def _text_document(filename: str, content: bytes) -> CanonicalDocument:
-    text = content.decode("utf-8", errors="ignore")
-    doc = CanonicalDocument(
-        document_id=_slugify(Path(filename).stem),
-        source_type="pdf",
-        title=filename,
-        sections=[CanonicalSection(text=text, order=0)],
-        pdf_path=filename,
-    )
-    doc.ensure_content_hash()
-    return doc
-
-
-def ingest_upload(filename: str, content: bytes) -> tuple[str, int]:
-    if Path(filename).suffix.lower() == ".pdf":
-        doc = _pdf_document(filename, content)
-    else:
-        doc = _text_document(filename, content)
-    return _index(doc, label=filename)
 
 
 def ingest_article(
@@ -70,15 +44,13 @@ def _log_doc(
     chunks: int | None = None,
     error: str | None = None,
 ) -> None:
-    is_pdf = doc.source_type == "pdf"
     ingest_log.record(
         ingest_log.LogEntry(
             run_id=run_id,
             document_id=doc.document_id,
             source_type=doc.source_type,
             status=status,
-            source_path=doc.pdf_path if is_pdf else None,
-            source_url=None if is_pdf else doc.source_url,
+            source_url=doc.source_url,
             bundle=(doc.extra or {}).get("bundle"),
             tags=", ".join(doc.tags) if doc.tags else None,
             title=doc.title,
