@@ -67,7 +67,7 @@ def from_pdf(
     result: _PdfResult,
     *,
     document_id: str | None = None,
-    source_type: str = "pdf",
+    source_type: str = "pdf_attachment",
     **overrides: Any,
 ) -> CanonicalDocument:
     doc_id = document_id or _slugify(getattr(result, "source", "") or "")

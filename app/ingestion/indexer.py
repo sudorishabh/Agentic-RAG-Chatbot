@@ -106,9 +106,8 @@ def _main(argv: list[str] | None = None) -> int:
     import json
     from pathlib import Path
 
-    parser = argparse.ArgumentParser(description="Index PDF / Drupal content into Qdrant.")
+    parser = argparse.ArgumentParser(description="Index Drupal content into Qdrant.")
     parser.add_argument("--drupal-json", help="A drupal_extractor --json dump to index.")
-    parser.add_argument("--pdf", action="append", default=[], help="PDF file(s) to extract + index.")
     parser.add_argument("--bundle", action="append", default=[], help="Live Drupal bundle(s) to crawl + index.")
     parser.add_argument("--encoding", default="utf-8", help="Encoding of --drupal-json (default: utf-8).")
     args = parser.parse_args(argv)
@@ -121,14 +120,6 @@ def _main(argv: list[str] | None = None) -> int:
 
         items = json.loads(Path(args.drupal_json).read_text(encoding=args.encoding))
         total += index_documents(from_drupal_export(item) for item in items)
-
-    for pdf_path in args.pdf:
-        from app.ingestion.canonical import from_pdf
-        from app.ingestion.extractors.pdf_extractor import extract_pdf
-
-        path = Path(pdf_path)
-        result = extract_pdf(path.read_bytes(), path.name)
-        total += index_canonical(from_pdf(result))
 
     if args.bundle:
         from app.ingestion.canonical import from_drupal_record

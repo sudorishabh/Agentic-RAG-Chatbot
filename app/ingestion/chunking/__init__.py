@@ -284,7 +284,9 @@ def _main(argv: list[str] | None = None) -> int:
         doc = from_pdf(extract_pdf(path.read_bytes(), path.name))
         chunks = chunk_canonical(doc)
     else:
-        meta = DocumentMeta(document_id=slugify(path.stem), source_type="pdf", title=path.name)
+        meta = DocumentMeta(
+            document_id=slugify(path.stem), source_type="pdf_attachment", title=path.name
+        )
         chunks = chunk_document(path.read_text(encoding="utf-8", errors="ignore"), meta)
 
     parents = [c for c in chunks if c.is_parent]

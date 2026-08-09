@@ -199,11 +199,6 @@ class Settings(BaseSettings):
     # be meaningless. Empty (default) disables the group grant entirely.
     ops_admin_group: str = ""
     cors_allow_origins: str = "*"
-    # Absolute base URL of the retrieval API as reached from the browser
-    # (e.g. "http://localhost:8000"). When set, citation links to locally
-    # served PDFs become "{base}/source/{id}#page=N" so a separate-origin
-    # frontend can open them. Empty = emit a relative "/source/..." path.
-    source_base_url: str = ""
     # Authentication for the public retrieval API (/chat, /search). When enabled,
     # requests must carry a Bearer JWT that the backend verifies; tenant_id and
     # user_groups are taken from the token's claims, never from the request body.
@@ -247,11 +242,6 @@ class Settings(BaseSettings):
     # as chrome/boilerplate (Search box, "Follow us" strip) and skipped — unless
     # they carry a harvestable PDF link.
     drupal_block_min_chars: int = 200
-    pdf_source_dirs: str = ""
-    # Single folder scanned by the PDF-only ingestion API. Used as the PDF
-    # source when pdf_source_dirs is not set.
-    pdf_source_path: str = ""
-    pdf_ignore_globs: str = ""
     ingest_state_table: str = "documents"
     # Append-only audit log of every ingestion event (one row per file/record
     # per run), separate from the overwrite-in-place documents table.
@@ -290,9 +280,6 @@ class Settings(BaseSettings):
     ingest_batch_size: int = 0
     ingest_batch_pause_seconds: float = 0.0
     ingest_workers: int = 1
-    # Max size (bytes) accepted by the direct PDF upload endpoint (/ingest/pdf).
-    # Larger uploads are rejected with 413 before the payload is fully buffered.
-    max_upload_bytes: int = 52_428_800  # 50 MiB
 
 
 @lru_cache
