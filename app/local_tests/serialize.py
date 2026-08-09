@@ -22,8 +22,6 @@ def record_to_dict(record: Any) -> dict[str, Any]:
         "entity_type": record.entity_type,
         "fingerprint": record.fingerprint,
         "changed_mark": record.changed_mark,
-        "size": record.size,
-        "mtime_ns": record.mtime_ns,
         "filename": record.filename,
         "prior": None if prior is None else {
             "doc_version": prior.doc_version,

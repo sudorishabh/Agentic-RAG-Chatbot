@@ -1,6 +1,6 @@
-"""Shared change-detection types: the record/status contract both the
-filesystem PDF scan and the Drupal crawl yield, and the NEW/CHANGED/UNCHANGED
-decision they both make (previously duplicated three times)."""
+"""Shared change-detection types: the record/status contract the Drupal crawl
+yields for nodes and their attached PDFs alike, and the NEW/CHANGED/UNCHANGED
+decision it makes for both."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -30,10 +30,8 @@ class ChangeRecord:
     prior: StateRecord | None = None
     payload: Any = None
     filename: str | None = None
-    size: int | None = None
-    mtime_ns: int | None = None
     # JSON:API entity type ("node", "taxonomy_term", "block_content") for
-    # Drupal records; None for filesystem PDFs and attachment documents.
+    # Drupal records; None for attachment documents.
     entity_type: str | None = None
 
     @property
@@ -61,8 +59,8 @@ def next_version(record: ChangeRecord) -> int:
 
 
 def compute_status(prev: StateRecord | None, fingerprint: str) -> ChangeStatus:
-    """The NEW/CHANGED/UNCHANGED decision shared by the file scan and the
-    Drupal crawl (nodes and attachments alike): unseen before is NEW, a
+    """The NEW/CHANGED/UNCHANGED decision shared by every Drupal record (nodes,
+    taxonomy terms, blocks and attachments alike): unseen before is NEW, a
     changed fingerprint is CHANGED, otherwise UNCHANGED."""
     if prev is None:
         return ChangeStatus.NEW

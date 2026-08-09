@@ -27,7 +27,6 @@ __all__ = [
     "load",
     "get",
     "upsert",
-    "update_stat",
     "delete",
     "backfill_facets",
     "rename_theme_facet",
@@ -123,8 +122,6 @@ def _row_to_record(row: dict) -> StateRecord:
         bundle=row.get("bundle"),
         entity_type=row.get("entity_type"),
         changed_mark=row.get("changed_mark"),
-        size=row.get("size"),
-        mtime_ns=row.get("mtime_ns"),
         title=row.get("title"),
         url=row.get("url"),
         indexed_at=indexed.isoformat() if isinstance(indexed, datetime) else indexed,
@@ -160,10 +157,9 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
             f"""
             INSERT INTO `{table}`
                 (document_id, source_type, source_key, bundle, entity_type,
-                 fingerprint, content_hash, doc_version, changed_mark, size,
-                 mtime_ns, published_at, title, url, raw_meta, indexed_at,
-                 updated_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                 fingerprint, content_hash, doc_version, changed_mark,
+                 published_at, title, url, raw_meta, indexed_at, updated_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE
                 source_type  = VALUES(source_type),
                 source_key   = VALUES(source_key),
@@ -173,8 +169,6 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 content_hash = VALUES(content_hash),
                 doc_version  = VALUES(doc_version),
                 changed_mark = VALUES(changed_mark),
-                size         = VALUES(size),
-                mtime_ns     = VALUES(mtime_ns),
                 published_at = VALUES(published_at),
                 title        = VALUES(title),
                 url          = VALUES(url),
@@ -192,8 +186,6 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 record.content_hash,
                 record.doc_version,
                 record.changed_mark,
-                record.size,
-                record.mtime_ns,
                 _to_datetime(record.published_at),
                 record.title,
                 record.url,
@@ -208,21 +200,6 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
         _replace_facet(cur, table, "tag", record.document_id, record.tags)
         _replace_themes(cur, table, record.document_id, record.categories)
         _replace_attachment_links(cur, table, record.document_id, record.attachments)
-        conn.commit()
-
-
-def update_stat(document_id: str, size: int | None, mtime_ns: int | None) -> None:
-    """Refresh only the cheap change-detection stat (size + mtime) for a document
-    whose content is unchanged, so a later scan can skip re-hashing it after a
-    metadata-only touch."""
-    if size is None and mtime_ns is None:
-        return
-    table = _table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"UPDATE `{table}` SET size = %s, mtime_ns = %s WHERE document_id = %s",
-            (size, mtime_ns, document_id),
-        )
         conn.commit()
 
 

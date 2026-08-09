@@ -1,8 +1,9 @@
 """Incremental change detection: diff the corpus against stored state and
 yield NEW/CHANGED/UNCHANGED/DELETED records.
 
-Two independent sources share the record/status contract in :mod:`.base`:
-:mod:`.files` walks local PDF directories; :mod:`.drupal` crawls the JSON:API.
+:mod:`.drupal` crawls the JSON:API — nodes, taxonomy terms and custom blocks,
+plus the PDFs attached to or linked from them — against the record/status
+contract in :mod:`.base`.
 """
 from app.ingestion.change_detection.base import (
     ChangeRecord,
@@ -12,13 +13,11 @@ from app.ingestion.change_detection.base import (
     next_version,
 )
 from app.ingestion.change_detection.drupal import detect_drupal_changes
-from app.ingestion.change_detection.files import _parse_roots, detect_file_changes
 
 __all__ = [
     "ChangeRecord",
     "ChangeStatus",
     "content_changed",
     "next_version",
-    "detect_file_changes",
     "detect_drupal_changes",
 ]

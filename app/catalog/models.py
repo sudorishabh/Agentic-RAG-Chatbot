@@ -26,14 +26,10 @@ class StateRecord:
     doc_version: int = 1
     bundle: str | None = None
     # JSON:API entity type ("node", "taxonomy_term", "block_content") for
-    # Drupal records; None for filesystem PDFs and attachment documents.
+    # Drupal records; None for attachment documents.
     # Content counts filter on it so facet terms don't count as documents.
     entity_type: str | None = None
     changed_mark: int | None = None
-    # Cheap file-change signal for local PDFs: byte size + mtime (ns). Lets a scan
-    # skip re-reading/hashing a file whose size and mtime are unchanged.
-    size: int | None = None
-    mtime_ns: int | None = None
     indexed_at: str | None = None
     published_at: str | None = None
     # Display fields so structured list/lookup queries can be answered from the

@@ -66,8 +66,6 @@ def _save_state(
             bundle=record.bundle,
             entity_type=record.entity_type,
             changed_mark=record.changed_mark,
-            size=record.size,
-            mtime_ns=record.mtime_ns,
             published_at=doc.published_at,
             title=doc.title,
             url=doc.source_url,
@@ -113,7 +111,6 @@ def _log(
     chunks: int | None = None,
     error: str | None = None,
 ) -> None:
-    is_pdf = record.source_type == "pdf"
     prior_hash = record.prior.content_hash if record.prior else None
     ingest_log.record(
         ingest_log.LogEntry(
@@ -121,8 +118,7 @@ def _log(
             document_id=record.document_id,
             source_type=record.source_type,
             status=status,
-            source_path=record.source_key if is_pdf else None,
-            source_url=None if is_pdf else record.source_key,
+            source_url=record.source_key,
             bundle=record.bundle,
             tags=", ".join(doc.tags) if doc and doc.tags else None,
             title=doc.title if doc else None,
@@ -194,12 +190,6 @@ def _handle(
         return "deleted"
 
     if record.status is ChangeStatus.UNCHANGED:
-        # A touched-but-identical file re-hashes to UNCHANGED with a new size/mtime;
-        # refresh the stored stat so the next scan skips it via the pre-filter.
-        if record.size is not None and record.prior is not None and (
-            record.prior.size != record.size or record.prior.mtime_ns != record.mtime_ns
-        ):
-            state.update_stat(record.document_id, record.size, record.mtime_ns)
         if get_settings().ingest_log_unchanged:
             _log(run_id, record, "unchanged", version=prior_version)
         return "unchanged"
