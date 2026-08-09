@@ -15,7 +15,6 @@ from app.schemas.ingest import (
     DirectIngestResponse,
     IngestLogResponse,
     IngestResponse,
-    PdfIngestRunResponse,
     ReindexRequest,
     ReindexResponse,
 )
@@ -64,28 +63,13 @@ async def ingest_pdf(file: UploadFile) -> IngestResponse:
     return IngestResponse(filename=file.filename, document_id=document_id, chunks_ingested=chunks)
 
 
-@router.post("/ingest/pdfs", response_model=PdfIngestRunResponse)
-async def ingest_pdfs_route() -> PdfIngestRunResponse:
-    settings = get_settings()
-    source = settings.pdf_source_dirs or settings.pdf_source_path
-    if not source:
-        raise HTTPException(status_code=400, detail="PDF_SOURCE_PATH is not configured")
-    from app.workers.tasks import ingest_pdfs
-
-    tally = await _run_exclusive(ingest_pdfs)
-    return PdfIngestRunResponse(source=source, tally=tally)
-
-
 @router.post("/ingest/run", response_model=DirectIngestResponse)
 async def ingest_run_route(request: DirectIngestRequest | None = None) -> DirectIngestResponse:
     request = request or DirectIngestRequest()
-    settings = get_settings()
-    source = settings.pdf_source_dirs or settings.pdf_source_path
-    from app.workers.tasks import ingest_drupal, ingest_pdfs
+    from app.workers.tasks import ingest_drupal
 
-    pdfs = await _run_exclusive(ingest_pdfs) if source else {}
     drupal = await _run_exclusive(ingest_drupal, request.bundles, request.reconcile)
-    return DirectIngestResponse(pdf_source=source or None, pdfs=pdfs, drupal=drupal)
+    return DirectIngestResponse(drupal=drupal)
 
 
 @router.post("/ingest/article", response_model=ArticleIngestResponse)

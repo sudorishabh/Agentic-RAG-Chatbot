@@ -8,16 +8,6 @@ from app.config import get_settings
 logger = logging.getLogger(__name__)
 
 
-def ingest_pdfs(dirs: list[str] | None = None) -> dict[str, int]:
-    from pathlib import Path
-
-    from app.ingestion.pipeline import ingest_pdfs as run
-
-    roots = [Path(d) for d in dirs] if dirs else None
-    tally = run(roots)
-    return dict(tally)
-
-
 def ingest_drupal(bundles: list[str] | None = None, reconcile: bool = False) -> dict[str, int]:
     from app.ingestion.pipeline import ingest_drupal as run
 
@@ -27,9 +17,7 @@ def ingest_drupal(bundles: list[str] | None = None, reconcile: bool = False) -> 
 
 def sweep() -> dict[str, dict[str, int]]:
     settings = get_settings()
-    pdfs = ingest_pdfs()
-    drupal = ingest_drupal(reconcile=settings.worker_sweep_reconcile)
-    result = {"pdfs": pdfs, "drupal": drupal}
+    result = {"drupal": ingest_drupal(reconcile=settings.worker_sweep_reconcile)}
     logger.info("Sweep complete: %s", result)
     return result
 
@@ -48,17 +36,16 @@ def _main(argv: list[str] | None = None) -> int:
     import argparse
 
     parser = argparse.ArgumentParser(description="Run an ingestion worker task inline.")
-    parser.add_argument("task", choices=["sweep", "pdfs", "drupal"], help="Task to run.")
+    parser.add_argument("task", choices=["sweep", "drupal"], help="Task to run.")
     parser.add_argument("--bundle", action="append", default=[], help="Limit Drupal to bundle(s).")
     parser.add_argument("--reconcile", action="store_true", help="Reconcile Drupal deletes.")
     args = parser.parse_args(argv)
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
-    fn = {"sweep": sweep, "pdfs": ingest_pdfs, "drupal": ingest_drupal}[args.task]
     if args.task == "drupal":
         print(ingest_drupal(args.bundle or None, reconcile=args.reconcile))
     else:
-        print(fn())
+        print(sweep())
     return 0
 
 

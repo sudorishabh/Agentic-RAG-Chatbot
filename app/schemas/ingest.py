@@ -17,11 +17,6 @@ class IngestResponse(BaseModel):
     chunks_ingested: int
 
 
-class PdfIngestRunResponse(BaseModel):
-    source: str
-    tally: dict[str, int] = Field(default_factory=dict)
-
-
 class DirectIngestRequest(BaseModel):
     bundles: list[str] | None = Field(default=None, examples=[["news"]])
     reconcile: bool = False
@@ -30,8 +25,6 @@ class DirectIngestRequest(BaseModel):
 
 
 class DirectIngestResponse(BaseModel):
-    pdf_source: str | None = None
-    pdfs: dict[str, int] = Field(default_factory=dict)
     drupal: dict[str, int] = Field(default_factory=dict)
 
 

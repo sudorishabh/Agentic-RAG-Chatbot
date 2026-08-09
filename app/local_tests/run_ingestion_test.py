@@ -2,10 +2,8 @@
 change detection, extraction, canonical mapping, chunking, indexing, and
 exactly what landed in MySQL.
 
-Two sources:
-  --source drupal   (default) crawl live Drupal nodes of one bundle plus the
-                    PDFs attached to / linked from them (pdf_attachment docs)
-  --source pdf      scan a local folder of PDF files
+Crawls live Drupal nodes of one bundle plus the PDFs attached to / linked from
+them (pdf_attachment docs).
 
 Isolated by default: all writes go to ``local_test_*`` MySQL tables and a
 ``local_test_documents`` Qdrant collection, never the real catalog. Documents
@@ -14,7 +12,6 @@ exercises the real ingestion code path.
 
 Usage:
     python -m app.local_tests.run_ingestion_test --bundle article --max-docs 3
-    python -m app.local_tests.run_ingestion_test --source pdf --make-sample
     python -m app.local_tests.run_ingestion_test --cleanup
 
 Run it twice to see change detection in action: the second run reports the
@@ -81,65 +78,6 @@ def _safe_name(document_id: str) -> str:
 
 
 # --------------------------------------------------------------------------- #
-# Sample data (--source pdf --make-sample)
-# --------------------------------------------------------------------------- #
-
-_SAMPLE_PAGES = [
-    (
-        "Renewable Energy Adoption in India: A Sample Report\n\n"
-        "1. Introduction\n\n"
-        "The Energy and Resources Institute tracks the adoption of renewable "
-        "energy across Indian states. This sample document exists only to "
-        "exercise the local ingestion pipeline: extraction, canonical mapping, "
-        "chunking, and catalog writes. Every sentence here is synthetic test "
-        "content. The report is organised into short numbered sections so the "
-        "chunker's heading detection has something realistic to work with.\n\n"
-        "2. Solar Capacity Trends\n\n"
-        "Installed solar capacity grew steadily between 2015 and 2025, driven "
-        "by falling module prices and competitive auctions. Utility-scale "
-        "parks contributed the bulk of new additions, while rooftop programs "
-        "expanded more slowly in the residential segment. Several states "
-        "introduced net metering reforms that improved payback periods for "
-        "commercial consumers. Storage-paired tenders emerged as a mechanism "
-        "to firm up daytime generation for evening demand."
-    ),
-    (
-        "3. Grid Integration Challenges\n\n"
-        "High renewable penetration introduces variability that the grid must "
-        "absorb through flexible resources. Thermal plants increasingly "
-        "operate in load-following mode, and interstate transmission corridors "
-        "carry surplus generation to demand centres. Forecasting errors "
-        "shrink as weather models improve, but ramping events around sunset "
-        "remain the hardest interval to balance.\n\n"
-        "4. Policy Recommendations\n\n"
-        "First, align renewable purchase obligations with realistic state-level "
-        "resource assessments. Second, expand time-of-day tariffs so demand "
-        "shifts toward solar hours. Third, fund distribution-grid upgrades "
-        "before rooftop targets are raised further.\n\n"
-        "5. Conclusion\n\n"
-        "The sample report ends here. If this text appears in your chunk "
-        "payloads and MySQL rows, the ingestion pipeline carried it through "
-        "every stage intact."
-    ),
-]
-
-
-def make_sample_pdf(directory: Path) -> Path:
-    """Write a small two-page PDF into the data dir using PyMuPDF."""
-    import fitz
-
-    path = directory / "sample_energy_report.pdf"
-    doc = fitz.open()
-    for text in _SAMPLE_PAGES:
-        page = doc.new_page()
-        rect = fitz.Rect(72, 72, page.rect.width - 72, page.rect.height - 72)
-        page.insert_textbox(rect, text, fontsize=11)
-    doc.save(str(path))
-    doc.close()
-    return path
-
-
-# --------------------------------------------------------------------------- #
 # Pipeline execution with stage capture
 # --------------------------------------------------------------------------- #
 
@@ -161,8 +99,6 @@ def _process(
             from app.ingestion.extractors.attachment import build_attachment_doc
 
             cap.doc = build_attachment_doc(rec, session)
-        elif rec.source_type == "pdf":
-            cap.doc = pipeline._build_pdf_doc(rec)
         else:
             cap.doc = pipeline._build_drupal_doc(rec)
         return cap.doc
@@ -276,25 +212,13 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
         description="Exercise the ingestion pipeline against isolated test tables."
     )
     parser.add_argument(
-        "--source", choices=["drupal", "pdf"], default="drupal",
-        help="Ingest live Drupal nodes (+ attached PDFs) or a local PDF folder.",
-    )
-    parser.add_argument(
         "--bundle", default="article",
         help="Drupal node bundle to crawl (default: article).",
     )
     parser.add_argument(
         "--max-docs", type=int, default=5,
-        help="Max nodes/PDF files to process (0 = no limit; attached PDFs "
-        "ride along with their node and do not count). Default: 5.",
-    )
-    parser.add_argument(
-        "--dir", default=str(Path(__file__).parent / "data"),
-        help="[pdf] Folder of PDFs to ingest (default: app/local_tests/data).",
-    )
-    parser.add_argument(
-        "--make-sample", action="store_true",
-        help="[pdf] Generate a small sample PDF into the data dir first.",
+        help="Max nodes to process (0 = no limit; attached PDFs ride along "
+        "with their node and do not count). Default: 5.",
     )
     parser.add_argument(
         "--skip-index", action="store_true",
@@ -317,18 +241,10 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
 
 
 def _iter_records(args: argparse.Namespace) -> tuple[Iterator[Any], Any]:
-    """Change-record stream for the chosen source, plus the shared HTTP
-    session used for attachment downloads (None for the pdf source)."""
+    """Change-record stream for the Drupal crawl, plus the shared HTTP session
+    used for attachment downloads."""
     from app.config import get_settings
     from app.ingestion import change_detection as cd
-
-    if args.source == "pdf":
-        data_dir = Path(args.dir).resolve()
-        data_dir.mkdir(parents=True, exist_ok=True)
-        if args.make_sample:
-            rep.emit(f"Sample PDF written: {make_sample_pdf(data_dir)}")
-        return cd.detect_file_changes([data_dir], []), None
-
     from app.ingestion.extractors.drupal_extractor import _build_session
 
     session = _build_session(get_settings().drupal_max_retries)
@@ -384,9 +300,8 @@ def _write_summary(
         "run_id": run_id,
         "started_at": started.isoformat(timespec="seconds"),
         "finished_at": datetime.now().isoformat(timespec="seconds"),
-        "source": args.source,
-        "bundle": args.bundle if args.source == "drupal" else None,
-        "pdf_dir": str(Path(args.dir).resolve()) if args.source == "pdf" else None,
+        "source": "drupal",
+        "bundle": args.bundle,
         "max_docs": args.max_docs,
         "skip_index": args.skip_index,
         "extraction_mode": settings.extraction_mode,
@@ -418,12 +333,9 @@ def _run(args: argparse.Namespace, run_dir: Path, started: datetime) -> int:
     settings = get_settings()
 
     rep.header("INGESTION LOCAL TEST")
-    rep.kv("source", args.source)
-    if args.source == "drupal":
-        rep.kv("bundle", args.bundle)
-        rep.kv("jsonapi base", settings.drupal_jsonapi_base)
-    else:
-        rep.kv("PDF source dir", Path(args.dir).resolve())
+    rep.kv("source", "drupal")
+    rep.kv("bundle", args.bundle)
+    rep.kv("jsonapi base", settings.drupal_jsonapi_base)
     rep.kv("max docs", args.max_docs or "no limit")
     rep.kv("results dir", run_dir)
     rep.kv("MySQL state table", settings.ingest_state_table)
@@ -455,7 +367,7 @@ def _run(args: argparse.Namespace, run_dir: Path, started: datetime) -> int:
     checks = rep.Checks()
     tally: Counter = Counter()
     documents: list[dict[str, Any]] = []
-    primary_done = 0  # nodes / local PDF files processed (attachments excluded)
+    primary_done = 0  # nodes processed (attachments excluded)
 
     rep.section("Processing (full raw dump written per document)")
     try:

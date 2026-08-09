@@ -370,14 +370,6 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
     return tally
 
 
-def _build_pdf_doc(record: ChangeRecord) -> CanonicalDocument | None:
-    from app.ingestion.canonical import from_pdf
-    from app.ingestion.extractors.pdf_extractor import extract_pdf
-
-    result = extract_pdf(record.payload, record.filename or record.document_id)
-    return from_pdf(result, document_id=record.document_id, pdf_path=record.source_key)
-
-
 def _build_drupal_doc(record: ChangeRecord) -> CanonicalDocument | None:
     from app.ingestion.canonical import from_drupal_record
 
@@ -392,14 +384,6 @@ def _build_drupal_or_attachment(
 
         return build_attachment_doc(record, session)
     return _build_drupal_doc(record)
-
-
-def ingest_pdfs(roots=None, ignore_globs=None) -> Counter:
-    with _exclusive("PDF ingestion"):
-        logger.info("PDF ingestion started (roots=%s)", roots or "configured PDF source")
-        tally = _run(cd.detect_file_changes(roots, ignore_globs), _build_pdf_doc)
-        logger.info("PDF ingestion finished: %s", dict(tally))
-        return tally
 
 
 def ingest_drupal(
@@ -431,17 +415,13 @@ def ingest_drupal(
 def _main(argv: list[str] | None = None) -> int:
     import argparse
     import sys
-    from pathlib import Path
 
     try:
         sys.stdout.reconfigure(encoding="utf-8")
     except (AttributeError, ValueError):
         pass
 
-    parser = argparse.ArgumentParser(description="Incremental ingest of PDFs / Drupal into Qdrant.")
-    parser.add_argument("--pdf", action="store_true", help="Ingest changed PDFs from the source dirs.")
-    parser.add_argument("--drupal", action="store_true", help="Ingest changed Drupal nodes (incremental).")
-    parser.add_argument("--dir", action="append", default=[], help="Override PDF source dir(s).")
+    parser = argparse.ArgumentParser(description="Incremental ingest of Drupal content into Qdrant.")
     parser.add_argument("--bundle", action="append", default=[], help="Limit Drupal crawl to bundle(s).")
     parser.add_argument("--reconcile", action="store_true", help="Also reconcile Drupal deletes/unpublishes.")
     parser.add_argument("--include-unpublished", action="store_true", help="Include unpublished Drupal nodes.")
@@ -449,22 +429,12 @@ def _main(argv: list[str] | None = None) -> int:
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 
-    if not (args.pdf or args.drupal):
-        parser.error("choose at least one of --pdf / --drupal")
-
-    if args.pdf:
-        roots = [Path(d) for d in args.dir] or None
-        tally = ingest_pdfs(roots)
-        print(f"PDFs: {dict(tally)}")
-
-    if args.drupal:
-        tally = ingest_drupal(
-            args.bundle or None,
-            published_only=not args.include_unpublished,
-            reconcile_deletes=args.reconcile,
-        )
-        print(f"Drupal: {dict(tally)}")
-
+    tally = ingest_drupal(
+        args.bundle or None,
+        published_only=not args.include_unpublished,
+        reconcile_deletes=args.reconcile,
+    )
+    print(f"Drupal: {dict(tally)}")
     return 0
 
 
