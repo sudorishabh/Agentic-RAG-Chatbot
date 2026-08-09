@@ -1,10 +1,10 @@
 """Audit which Drupal JSON:API fields the ingestion pipeline keeps or drops.
 
-Samples raw records from every configured source (node bundles, taxonomy
-vocabularies, custom blocks) and reports per field: how the extractor
-partitions it (body / metadata / core / ignored), which canonical facet the
-current substring heuristics route it to (categories / tags / authors — or
-nothing, i.e. dropped), the observed fill rate, and relationship target types.
+Samples raw records from every configured source (node bundles, custom blocks)
+and reports per field: how the extractor partitions it (body / metadata / core
+/ ignored), which canonical facet the current substring heuristics route it to
+(categories / tags / authors — or nothing, i.e. dropped), the observed fill
+rate, and relationship target types.
 The JSON report is the ground truth for designing explicit per-bundle field
 mappings.
 
@@ -31,7 +31,6 @@ from app.ingestion.canonical import (
 from app.ingestion.extractors.drupal_extractor import (
     DEFAULT_BLOCKS,
     DEFAULT_BUNDLES,
-    DEFAULT_TAXONOMIES,
     _build_session,
     _iter_pages,
     _partition_attributes,
@@ -199,11 +198,9 @@ def build_report(sample: int, bundles: list[str] | None = None) -> dict[str, Any
     if bundles:
         sources = [("node", b) for b in bundles]
     else:
-        sources = (
-            [("node", b) for b in DEFAULT_BUNDLES]
-            + [("taxonomy_term", t) for t in DEFAULT_TAXONOMIES]
-            + [("block_content", b) for b in DEFAULT_BLOCKS]
-        )
+        sources = [("node", b) for b in DEFAULT_BUNDLES] + [
+            ("block_content", b) for b in DEFAULT_BLOCKS
+        ]
 
     session = _build_session(get_settings().drupal_max_retries)
     audited: list[dict[str, Any]] = []
