@@ -18,3 +18,14 @@ pdf_examples/
 .code-review-graph/
 # VSCodeCounter extension output (generated line-count reports)
 .VSCodeCounter/
+# Bulk inputs and per-version snapshots of the shadow date analysis. The
+# reports, the current decision set and the corpus metadata stay tracked; these
+# are the parts that are large and rebuildable:
+#   drupal_metadata*.json      -> scripts.shadow_corpus_report --refresh
+#   prototype_decisions.v*.csv -> superseded snapshots, kept only for the
+#                                 version comparison that has already been written
+reports/phase0/drupal_metadata*.json
+reports/phase0/prototype_decisions.v*.csv
+reports/**/*.log
+# Ad-hoc CSV exports (scripts.report_date_candidates --csv ...)
+/moves.csv
