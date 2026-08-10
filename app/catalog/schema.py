@@ -341,6 +341,85 @@ def ensure_dead_link_table() -> None:
         conn.commit()
 
 
+# Shadow-mode measurement of attachment publication dates (Phase 0). Deliberately
+# its own table and not a column on `documents`: the point of the exercise is to
+# compare a proposed date against the one in use without touching the row that
+# holds the one in use, so a bad reading can never leak into retrieval. Keyed by
+# document_id and overwritten per sweep — this is a current-state snapshot to
+# query, not an audit trail (`ingest_log` already is one).
+_DATE_SHADOW_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_date_candidate` (
+    document_id   VARCHAR(255)  NOT NULL,
+    origin        VARCHAR(16)   NOT NULL,
+    node_created  DATETIME      NULL,
+    file_created  DATETIME      NULL,
+    pdf_created   DATETIME      NULL,
+    pdf_modified  DATETIME      NULL,
+    current_date_ DATETIME      NULL,
+    proposed_date DATETIME      NULL,
+    source        VARCHAR(32)   NOT NULL,
+    rule          VARCHAR(32)   NOT NULL,
+    delta_days    INT           NULL,
+    would_move    TINYINT(1)    NOT NULL DEFAULT 0,
+    url           VARCHAR(1024) NULL,
+    filename      VARCHAR(512)  NULL,
+    updated_at    DATETIME      NOT NULL,
+    PRIMARY KEY (document_id),
+    KEY idx_rule (rule),
+    KEY idx_would_move (would_move)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+
+def ensure_date_shadow_table() -> None:
+    table = state_table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(_DATE_SHADOW_DDL.format(table=table))
+        conn.commit()
+
+
+# Shadow output of the evidence-based resolver (deterministic rules + LLM
+# interpretation). Separate from both `documents` and `{table}_date_candidate`:
+# the first must not be touched at all, and the second records the simpler
+# node/file/DocInfo comparison it supersedes. Nothing reads this back into
+# ingestion or retrieval — it exists to be reviewed.
+_DATE_DECISION_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_date_decision` (
+    document_id     VARCHAR(255)  NOT NULL,
+    origin          VARCHAR(16)   NOT NULL,
+    bundle          VARCHAR(128)  NULL,
+    node_uuid       VARCHAR(255)  NULL,
+    page_pdf_count  INT           NOT NULL DEFAULT 1,
+    current_published_at DATETIME NULL,
+    candidate_date  DATETIME      NULL,
+    date_type       VARCHAR(16)   NOT NULL,
+    edition_label   VARCHAR(64)   NULL,
+    candidate_source VARCHAR(32)  NOT NULL,
+    confidence      DECIMAL(4,3)  NOT NULL DEFAULT 0,
+    action          VARCHAR(24)   NOT NULL,
+    rule            VARCHAR(48)   NOT NULL,
+    decided_by      VARCHAR(16)   NOT NULL,
+    evidence        TEXT          NULL,
+    llm_raw         JSON          NULL,
+    prompt_version  VARCHAR(32)   NULL,
+    url             VARCHAR(1024) NULL,
+    filename        VARCHAR(512)  NULL,
+    updated_at      DATETIME      NOT NULL,
+    PRIMARY KEY (document_id),
+    KEY idx_action (action),
+    KEY idx_decided_by (decided_by),
+    KEY idx_rule (rule)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+
+def ensure_date_decision_table() -> None:
+    table = state_table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(_DATE_DECISION_DDL.format(table=table))
+        conn.commit()
+
+
 _LOG_DDL = """
 CREATE TABLE IF NOT EXISTS `{table}` (
     id             BIGINT        NOT NULL AUTO_INCREMENT,

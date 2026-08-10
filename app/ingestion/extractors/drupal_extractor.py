@@ -64,6 +64,12 @@ class DrupalFile:
     # "attachment" = referenced file--file entity; "inbody" = harvested from a
     # rich-text field (see R7 in docs/drupal-coverage-analysis.md).
     origin: str = "attachment"
+    # The file entity's own `created` (when the file was added to Drupal), as
+    # distinct from the node's. Always None for in-body PDFs: those are bare
+    # URLs in rich text with no file entity behind them — on this site 77% of
+    # them do not even sit under the managed public:// scheme. Measured only
+    # (see app.ingestion.date_candidates); nothing dates a document by it yet.
+    created: str | None = None
 
 
 @dataclass
@@ -369,6 +375,7 @@ def _resolve_files(
                     filename=filename,
                     description=(meta.get("description") or None),
                     uuid=ref.get("id") or "",
+                    created=(attrs.get("created") or None),
                 )
             )
     return out

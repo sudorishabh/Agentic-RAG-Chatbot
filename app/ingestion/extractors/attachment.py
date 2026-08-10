@@ -81,6 +81,43 @@ def _mark_dead(record: "ChangeRecord", url: str, status: int) -> None:
         )
 
 
+def _record_date_candidates(
+    record: "ChangeRecord", node, file, content: bytes, assigned: str | None
+) -> None:
+    """Measure what every date source says for this PDF, and store it aside.
+
+    Shadow mode (Phase 0): ``assigned`` is what the document actually keeps —
+    this only writes a row to ``{state}_date_candidate`` for comparison. Fails
+    open like the dead-link markers: an unreachable database costs one warning
+    and a measurement, never an ingestion.
+    """
+    from app.catalog import date_shadow
+    from app.ingestion.date_candidates import read_pdf_docinfo, resolve
+
+    try:
+        pdf_created, pdf_modified = read_pdf_docinfo(content)
+        candidates = resolve(
+            document_id=record.document_id,
+            origin=getattr(file, "origin", "attachment"),
+            node_created=node.created,
+            file_created=getattr(file, "created", None),
+            pdf_created=pdf_created,
+            pdf_modified=pdf_modified,
+            url=file.url,
+            filename=file.filename,
+        )
+        # The rules model a change to `published_at`; nothing applies them, so
+        # what the document keeps must be what it always kept.
+        candidates.current = assigned
+        date_shadow.ensure_table()
+        date_shadow.record(candidates)
+    except Exception:
+        logger.warning(
+            "Could not record date candidates for %s; measurement skipped.",
+            record.document_id, exc_info=True,
+        )
+
+
 def build_attachment_doc(
     record: "ChangeRecord", session: "requests.Session"
 ) -> CanonicalDocument | None:
@@ -121,7 +158,7 @@ def build_attachment_doc(
     # retrieval and per-theme counts reach the attached content too. In-body
     # PDFs linked from several nodes inherit from the first-seen node.
     refs = list(getattr(node, "refs", None) or [])
-    return from_pdf(
+    doc = from_pdf(
         result,
         document_id=record.document_id,
         source_type="pdf_attachment",
@@ -134,3 +171,8 @@ def build_attachment_doc(
         entity_refs=refs,
         **drupal_facets(node.metadata or {}, refs),
     )
+    # Observational only, and after the document is built so it can record the
+    # date actually assigned. Nothing below may modify `doc`.
+    if settings.date_shadow_enabled:
+        _record_date_candidates(record, node, file, content, doc.published_at)
+    return doc

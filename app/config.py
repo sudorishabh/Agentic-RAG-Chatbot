@@ -242,6 +242,12 @@ class Settings(BaseSettings):
     # as chrome/boilerplate (Search box, "Follow us" strip) and skipped — unless
     # they carry a harvestable PDF link.
     drupal_block_min_chars: int = 200
+    # Shadow-mode measurement of attachment publication dates (Phase 0). Records
+    # what each date source would say, beside the date actually assigned, into
+    # `{state}_date_candidate`. Purely observational: no document's published_at
+    # changes while this is the only thing switched on. Costs one extra PDF
+    # header read per attachment, so it is a setting rather than a constant.
+    date_shadow_enabled: bool = True
     ingest_state_table: str = "documents"
     # Append-only audit log of every ingestion event (one row per file/record
     # per run), separate from the overwrite-in-place documents table.
