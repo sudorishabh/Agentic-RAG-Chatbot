@@ -1,0 +1,15 @@
+{
+ "total PDFs": 3779,
+ "keep_page_date": 3745,
+ "review": 28,
+ "automatic overrides": 6,
+ "deterministic overrides": 0,
+ "LLM overrides": 6,
+ "PDFs sent to LLM": 315,
+ "LLM calls": 315,
+ "LLM fetch failures": 122,
+ "estimated cost USD": 0.0858,
+ "edition labels": 144,
+ "unreadable/unavailable PDFs": 128,
+ "no-date cases": 240
+}
