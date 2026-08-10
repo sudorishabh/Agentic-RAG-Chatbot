@@ -216,9 +216,9 @@ def test_attachment_doc_inherits_node_refs_and_facets(monkeypatch):
 
     monkeypatch.setattr(attachment, "fetch_attachment", lambda s, url, t: (b"%PDF-", url))
     monkeypatch.setattr(pdf_extractor, "extract_pdf", lambda content, name: _FakePdfResult())
-    # Shadow-mode date measurement is orthogonal to what this test asserts, and
+    # Recording the date decision is orthogonal to what this test asserts, and
     # it writes to MySQL; silence it so the test stays offline.
-    monkeypatch.setattr(attachment, "_record_date_candidates", lambda *a, **k: None)
+    monkeypatch.setattr(attachment, "_record_date_decision", lambda *a, **k: None)
 
     node = SimpleNamespace(
         uuid="node-1",

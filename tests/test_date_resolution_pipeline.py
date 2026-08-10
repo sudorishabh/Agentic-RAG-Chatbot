@@ -262,3 +262,95 @@ def test_a_node_without_a_date_never_invents_one():
     got = resolve(_evidence(node=_node(created=None)), content=b"%PDF-")
     assert got.published_at is None
     assert got.overridden is False
+
+
+# --------------------------------------------------------------------------- #
+# The production path: build_attachment_doc must carry the decision through
+# --------------------------------------------------------------------------- #
+
+class _FakePage:
+    page_number = 1
+    text = "PDF body text."
+
+
+class _FakePdfResult:
+    source = "a.pdf"
+    pages = [_FakePage()]
+
+
+def _build_doc(monkeypatch, *, node, file, resolved):
+    """Run build_attachment_doc with the resolver stubbed and no I/O."""
+    from app.ingestion.extractors import attachment, pdf_extractor
+
+    monkeypatch.setattr(attachment, "fetch_attachment",
+                        lambda s, url, t: (b"%PDF-", url))
+    monkeypatch.setattr(pdf_extractor, "extract_pdf",
+                        lambda content, name: _FakePdfResult())
+    recorded: list = []
+    monkeypatch.setattr("app.catalog.date_decisions.ensure_table", lambda: None)
+    monkeypatch.setattr("app.catalog.date_decisions.record", recorded.append)
+    monkeypatch.setattr(attachment, "_resolve_date",
+                        lambda record, n, f, content: resolved)
+    record = SimpleNamespace(document_id="f1", source_type="pdf_attachment",
+                             payload=(node, file), fingerprint="fp")
+    return attachment.build_attachment_doc(record, session=None), recorded
+
+
+def test_an_override_reaches_the_document(monkeypatch):
+    from app.ingestion.date_resolution import ResolvedDate
+    from app.ingestion.date_rules import DateDecision
+
+    resolved = ResolvedDate(
+        published_at="2025-03-31",
+        decision=DateDecision(document_id="f1", action="propose_override",
+                              candidate_date="2025-03-31", date_type="publication",
+                              source="llm_publication", confidence=0.95,
+                              rule="llm_interpreted", decided_by="llm"),
+    )
+    node = _node(metadata={}, refs=[], files=[_file()])
+    doc, recorded = _build_doc(monkeypatch, node=node, file=_file(), resolved=resolved)
+    assert doc.published_at == "2025-03-31"
+    assert len(recorded) == 1 and recorded[0].action == "propose_override"
+
+
+def test_an_edition_label_lands_in_extra_without_moving_the_date(monkeypatch):
+    from app.ingestion.date_resolution import ResolvedDate
+    from app.ingestion.date_rules import DateDecision
+
+    resolved = ResolvedDate(
+        published_at=NODE_DATE, edition_label="2024-2025",
+        decision=DateDecision(document_id="f1", action="keep_page_date",
+                              candidate_date=NODE_DATE, date_type="edition",
+                              edition_label="2024-2025", rule="llm_interpreted",
+                              decided_by="llm"),
+    )
+    node = _node(metadata={}, refs=[], files=[_file()])
+    doc, _ = _build_doc(monkeypatch, node=node, file=_file(), resolved=resolved)
+    assert doc.published_at == NODE_DATE
+    assert doc.extra["edition_label"] == "2024-2025"
+    assert doc.extra["bundle"] == "page"
+
+
+def test_no_edition_label_means_no_key_in_extra(monkeypatch):
+    from app.ingestion.date_resolution import ResolvedDate
+
+    resolved = ResolvedDate(published_at=NODE_DATE)
+    node = _node(metadata={}, refs=[], files=[_file()])
+    doc, _ = _build_doc(monkeypatch, node=node, file=_file(), resolved=resolved)
+    assert "edition_label" not in doc.extra
+
+
+def test_the_feature_flag_falls_back_to_the_node_date(monkeypatch):
+    """With resolution off, a PDF inherits its node's date, as it did before."""
+    from app.config import get_settings
+    from app.ingestion.extractors import attachment
+
+    settings = get_settings()
+    monkeypatch.setattr(settings, "date_resolution_enabled", False)
+    monkeypatch.setattr("app.ingestion.date_resolution.resolve",
+                        lambda *_a, **_k: pytest.fail("resolver must not run"))
+    node = _node(files=[_file()])
+    got = attachment._resolve_date(
+        SimpleNamespace(document_id="f1"), node, _file(), b"%PDF-")
+    assert got.published_at == NODE_DATE
+    assert got.decision is None

@@ -81,39 +81,42 @@ def _mark_dead(record: "ChangeRecord", url: str, status: int) -> None:
         )
 
 
-def _record_date_candidates(
-    record: "ChangeRecord", node, file, content: bytes, assigned: str | None
+def _record_date_decision(
+    record: "ChangeRecord", node, file, resolved
 ) -> None:
-    """Measure what every date source says for this PDF, and store it aside.
+    """Store how this PDF's date was decided, and the evidence behind it.
 
-    Shadow mode (Phase 0): ``assigned`` is what the document actually keeps —
-    this only writes a row to ``{state}_date_candidate`` for comparison. Fails
-    open like the dead-link markers: an unreachable database costs one warning
-    and a measurement, never an ingestion.
+    Kept out of the document itself: the payload gets the date and the edition
+    label, while the confidence, the quoted statement and the rule live in
+    ``{state}_date_decision``. That table is also the review queue — a case the
+    resolver could not settle safely lands there rather than moving a date.
+
+    ``current_published_at`` records the page's own date, so a row reads as
+    "would have been X, assigned Y". Fails open like the dead-link markers: an
+    unreachable database costs one warning, never an ingestion.
     """
-    from app.catalog import date_shadow
-    from app.ingestion.date_candidates import read_pdf_docinfo, resolve
+    if resolved.decision is None:
+        return
+    from app.catalog import date_decisions
+    from app.ingestion.date_llm import prompt_version
 
     try:
-        pdf_created, pdf_modified = read_pdf_docinfo(content)
-        candidates = resolve(
-            document_id=record.document_id,
+        date_decisions.ensure_table()
+        date_decisions.record(date_decisions.from_decision(
+            resolved.decision,
             origin=getattr(file, "origin", "attachment"),
-            node_created=node.created,
-            file_created=getattr(file, "created", None),
-            pdf_created=pdf_created,
-            pdf_modified=pdf_modified,
+            bundle=node.bundle,
+            node_uuid=(node.uuid or None),
+            page_pdf_count=len(getattr(node, "files", None) or []) or 1,
+            current_published_at=node.created,
             url=file.url,
             filename=file.filename,
-        )
-        # The rules model a change to `published_at`; nothing applies them, so
-        # what the document keeps must be what it always kept.
-        candidates.current = assigned
-        date_shadow.ensure_table()
-        date_shadow.record(candidates)
+            llm_raw=resolved.llm_raw,
+            prompt_version=prompt_version() if resolved.llm_raw else None,
+        ))
     except Exception:
         logger.warning(
-            "Could not record date candidates for %s; measurement skipped.",
+            "Could not record the date decision for %s; ingestion continues.",
             record.document_id, exc_info=True,
         )
 
@@ -154,10 +157,21 @@ def build_attachment_doc(
         return None
 
     result = extract_pdf(content, file.filename or record.document_id)
+
+    # Decide the publication date. The node's date is the default and the
+    # fallback; only evidence inside the document itself can replace it, and
+    # `resolve` reads the bytes already in hand rather than fetching anything.
+    resolved = _resolve_date(record, node, file, content)
+
     # The PDF inherits its node's entity refs and facets so theme-scoped
     # retrieval and per-theme counts reach the attached content too. In-body
     # PDFs linked from several nodes inherit from the first-seen node.
     refs = list(getattr(node, "refs", None) or [])
+    extra: dict[str, object] = {"bundle": node.bundle}
+    # A reporting period is a label, never a date: "Annual Report 2024-2025"
+    # sets this and leaves published_at alone.
+    if resolved.edition_label:
+        extra["edition_label"] = resolved.edition_label
     doc = from_pdf(
         result,
         document_id=record.document_id,
@@ -166,13 +180,26 @@ def build_attachment_doc(
         source_url=node.url,
         file_url=fetched_url,
         linked_article_uuid=(node.uuid or None),
-        published_at=node.created,
-        extra={"bundle": node.bundle},
+        published_at=resolved.published_at,
+        extra=extra,
         entity_refs=refs,
         **drupal_facets(node.metadata or {}, refs),
     )
-    # Observational only, and after the document is built so it can record the
-    # date actually assigned. Nothing below may modify `doc`.
-    if settings.date_shadow_enabled:
-        _record_date_candidates(record, node, file, content, doc.published_at)
+    _record_date_decision(record, node, file, resolved)
     return doc
+
+
+def _resolve_date(record: "ChangeRecord", node, file, content: bytes):
+    """This PDF's date, and the reasoning behind it.
+
+    Delegates to the one canonical resolver. With the feature off, or if
+    anything goes wrong, the node's date stands — the behaviour that predates
+    the resolver.
+    """
+    from app.config import get_settings
+    from app.ingestion.date_resolution import ResolvedDate, build_evidence, resolve
+
+    if not get_settings().date_resolution_enabled:
+        return ResolvedDate(published_at=node.created)
+    evidence = build_evidence(document_id=record.document_id, node=node, file=file)
+    return resolve(evidence, content)

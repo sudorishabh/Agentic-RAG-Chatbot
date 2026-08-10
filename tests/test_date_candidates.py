@@ -192,21 +192,26 @@ class _FakePdfResult:
     pages = [_FakePage()]
 
 
-def test_shadow_mode_does_not_change_published_at(monkeypatch):
-    """Measuring must not move the document. This is the whole of Phase 0."""
+def test_a_docinfo_only_date_does_not_re_date_the_document(monkeypatch):
+    """The production guarantee for the migration-era shape.
+
+    Node and file both stamped 2018 by the import; the PDF's own metadata says
+    2015. A DocInfo date is authoring evidence and can never move a date on its
+    own, so the document keeps the node's date. (This replaces the Phase 0
+    assertion that *nothing* could move a date — production can now, but only on
+    a grounded publication statement, which this PDF has not got.)
+    """
     from app.ingestion.extractors import attachment, pdf_extractor
 
     monkeypatch.setattr(attachment, "fetch_attachment", lambda s, url, t: (b"%PDF-", url))
     monkeypatch.setattr(pdf_extractor, "extract_pdf", lambda content, name: _FakePdfResult())
-    # A PDF whose own metadata says 2015 while the node says 2018: exactly the
-    # case the migration correction would move, if anything applied it.
     monkeypatch.setattr(
         "app.ingestion.date_candidates.read_pdf_docinfo",
         lambda content: (PDF_MIGRATED, PDF_MIGRATED),
     )
     recorded: list = []
-    monkeypatch.setattr("app.catalog.date_shadow.ensure_table", lambda: None)
-    monkeypatch.setattr("app.catalog.date_shadow.record", recorded.append)
+    monkeypatch.setattr("app.catalog.date_decisions.ensure_table", lambda: None)
+    monkeypatch.setattr("app.catalog.date_decisions.record", recorded.append)
 
     node = SimpleNamespace(
         uuid="node-1", title="A report", url="https://example.org/report",
@@ -223,15 +228,14 @@ def test_shadow_mode_does_not_change_published_at(monkeypatch):
 
     doc = attachment.build_attachment_doc(record, session=None)
 
-    assert doc.published_at == NODE_MIGRATED, "shadow mode must not re-date the document"
-    assert len(recorded) == 1
-    measured = recorded[0]
-    assert measured.current == NODE_MIGRATED      # what the document actually kept
-    assert measured.proposed == PDF_MIGRATED      # what a correction would pick
-    assert measured.would_move is True
+    assert doc.published_at == NODE_MIGRATED, "a DocInfo date must not re-date a PDF"
+    assert len(recorded) == 1, "the decision and its evidence must be recorded"
+    stored = recorded[0]
+    assert stored.action == "keep_page_date"
+    assert stored.current_published_at == NODE_MIGRATED
 
 
-def test_a_failed_measurement_never_fails_the_ingestion(monkeypatch):
+def test_a_failed_decision_write_never_fails_the_ingestion(monkeypatch):
     from app.ingestion.extractors import attachment, pdf_extractor
 
     monkeypatch.setattr(attachment, "fetch_attachment", lambda s, url, t: (b"%PDF-", url))
@@ -240,7 +244,7 @@ def test_a_failed_measurement_never_fails_the_ingestion(monkeypatch):
     def _boom() -> None:
         raise RuntimeError("no database")
 
-    monkeypatch.setattr("app.catalog.date_shadow.ensure_table", _boom)
+    monkeypatch.setattr("app.catalog.date_decisions.ensure_table", _boom)
 
     node = SimpleNamespace(
         uuid="node-1", title="A report", url="https://example.org/report",
