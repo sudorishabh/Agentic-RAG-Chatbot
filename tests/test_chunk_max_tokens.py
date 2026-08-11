@@ -164,9 +164,9 @@ def test_window_texts_splits_a_window_that_exceeds_the_cap():
     text = "\n\n".join(_text(300) for _ in range(4))  # ~1200 tokens as one window
     out = window_texts([[Block("text", text, 0, 1)]], overlap=60, max_tokens=MAX, enc=ENC)
     assert len(out) > 1
-    assert all(ENC.count(t) <= MAX for _, t in out), [ENC.count(t) for _, t in out]
+    assert all(ENC.count(c.text) <= MAX for c in out), [ENC.count(c.text) for c in out]
     # Nothing dropped: every word of the source survives somewhere.
-    joined = " ".join(t for _, t in out)
+    joined = " ".join(c.text for c in out)
     assert all(word in joined for word in set(text.split()))
 
 
@@ -175,7 +175,7 @@ def test_split_pieces_keep_their_window_blocks():
     block = Block("table", "\n\n".join(_text(300) for _ in range(3)), 0, 21)
     out = window_texts([[block]], overlap=0, max_tokens=MAX, enc=ENC)
     assert len(out) > 1
-    assert all(blocks == [block] for blocks, _ in out)
+    assert all(c.blocks == [block] for c in out)
 
 
 @pytest.mark.parametrize("preset", ["pdf", "article", "report", "policy", "small_pdf"])

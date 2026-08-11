@@ -47,5 +47,7 @@ def build_payload(chunk: "Chunk") -> dict[str, Any]:
         payload["page_number"] = chunk.page_number
     if chunk.page_range is not None:
         payload["page_range"] = list(chunk.page_range)
+    if chunk.overlap_page_range is not None:
+        payload["overlap_page_range"] = list(chunk.overlap_page_range)
     payload.update(m.extra)
     return {k: v for k, v in payload.items() if v not in (None, "", [])}

@@ -18,6 +18,7 @@ from app.ingestion.chunking.classifier import classify_section
 from app.ingestion.chunking.config import ChunkingConfig, config_for
 from app.ingestion.chunking.models import Chunk, DocumentMeta
 from app.ingestion.chunking.packer import (
+    ChildText,
     Encoder,
     coalesce_windows,
     get_encoder,
@@ -125,20 +126,20 @@ def _build_chunks(
             child_windows = coalesce_windows(
                 child_windows, config.child_min_tokens, config.child_max_tokens, enc
             )
-            pairs = window_texts(
+            children = window_texts(
                 child_windows, overlap=config.child_overlap_tokens,
                 max_tokens=config.child_max_tokens, enc=enc,
             )
-            if not pairs:
+            if not children:
                 # Nothing packed, so this section is a heading with no body to
-                # window. Emit the heading as its own child: an empty `pairs` is
+                # window. Emit the heading as its own child: an empty result is
                 # the last point at which extracted text can silently vanish.
-                pairs = [([], ptext)]
+                children = [ChildText([], ptext)]
 
             # A parent with a single child is a near-duplicate of it: skip the
             # parent and let the child stand alone (context falls back to child
             # text when there is no parent).
-            emit_parent = len(pairs) > 1
+            emit_parent = len(children) > 1
             if emit_parent:
                 parent_tables = table_markdown(parent_blocks)
                 chunks.append(
@@ -151,9 +152,10 @@ def _build_chunks(
                     )
                 )
 
-            for window, ctext in pairs:
-                pages = page_range(window)
-                child_tables = table_markdown(window)
+            for child in children:
+                ctext = child.text
+                pages = page_range(child.blocks)
+                child_tables = table_markdown(child.blocks)
                 tokens = enc.count(ctext)
                 if tokens > config.child_max_tokens:  # pragma: no cover
                     # window_texts caps every text it returns, so this is a
@@ -172,7 +174,9 @@ def _build_chunks(
                         parent_chunk_id=parent_id if emit_parent else None,
                         chunk_index=child_index,
                         page_number=pages[0] if pages else None,
-                        page_range=pages, token_count=tokens,
+                        page_range=pages,
+                        overlap_page_range=child.overlap_pages,
+                        token_count=tokens,
                         content_hash=_hash(ctext),
                         has_table=bool(child_tables), table_markdown=child_tables,
                     )

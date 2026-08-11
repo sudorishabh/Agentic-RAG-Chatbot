@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import math
 import re
+from dataclasses import dataclass
 from functools import lru_cache
 from typing import Sequence
 
@@ -13,6 +14,9 @@ from app.ingestion.chunking.segmenter import Block, join_blocks
 logger = logging.getLogger(__name__)
 
 _CHARS_PER_TOKEN = 4
+# Width of the separator `join_blocks` puts between blocks ("\n\n"), needed to
+# walk a joined string back onto the blocks it came from.
+_JOIN_LEN = 2
 
 
 class Encoder:
@@ -185,14 +189,15 @@ def overlap_carry(prev: str, overlap: int, enc: Encoder) -> str:
 
 def _with_carry(
     prev: str, text: str, overlap: int, max_tokens: int, enc: Encoder
-) -> str:
-    """*text* behind as much of *prev*'s tail as fits within *max_tokens*.
+) -> tuple[str, str]:
+    """``(merged, carry)``: *text* behind as much of *prev*'s tail as fits.
 
     The carry is what gives way, never the chunk: the budget handed to
     :func:`overlap_carry` shrinks until the result fits, so a trimmed carry still
     starts on a sentence boundary. ``enc.tail`` is not an exact round trip and
     the sentence advance moves the boundary, so the fit is measured rather than
-    predicted.
+    predicted. The carry is returned alongside the text because it comes from a
+    different place in the document and callers must be able to say where.
     """
     budget = min(overlap, max_tokens - enc.count(text) - 1)  # -1: the joining space
     while budget > 0:
@@ -202,9 +207,9 @@ def _with_carry(
         merged = f"{carry} {text}".strip()
         excess = enc.count(merged) - max_tokens
         if excess <= 0:
-            return merged
+            return merged, carry
         budget -= excess
-    return text
+    return text, ""
 
 
 def apply_overlap(
@@ -214,13 +219,49 @@ def apply_overlap(
         return texts
     out = [texts[0]]
     for prev, text in zip(texts, texts[1:]):
-        out.append(_with_carry(prev, text, overlap, max_tokens, enc))
+        out.append(_with_carry(prev, text, overlap, max_tokens, enc)[0])
     return out
+
+
+def _tail_pages(blocks: Sequence[Block], chars: int) -> tuple[int, int] | None:
+    """Pages covered by the last *chars* characters of ``join_blocks(blocks)``.
+
+    The carry is a tail, so it is attributed by walking the blocks backwards and
+    consuming each one's text (plus the separator ``join_blocks`` inserts) until
+    the carry is accounted for. Using only the last block's page would misreport
+    a carry that reaches back across a page boundary.
+    """
+    if chars <= 0:
+        return None
+    pages: list[int] = []
+    remaining = chars
+    for block in reversed(blocks):
+        if block.page is not None:
+            pages.append(block.page)
+        remaining -= len(block.text) + _JOIN_LEN
+        if remaining <= 0:
+            break
+    return (min(pages), max(pages)) if pages else None
+
+
+@dataclass(frozen=True)
+class ChildText:
+    """One emitted child: its own blocks, its text, and where the text it did not
+    author came from.
+
+    ``text`` is ``overlap carry + own content``, so ``blocks`` alone cannot
+    describe it. ``overlap_pages`` records the carry's origin so page attribution
+    can stay truthful about both halves.
+    """
+
+    blocks: list[Block]
+    text: str
+    overlap_pages: tuple[int, int] | None = None
 
 
 def window_texts(
     windows: Sequence[Sequence[Block]], *, overlap: int, max_tokens: int, enc: Encoder
-) -> list[tuple[list[Block], str]]:
+) -> list[ChildText]:
     """Coalesced windows to ``(blocks, text)`` pairs, each text within *max_tokens*.
 
     The single point at which ``child_max_tokens`` becomes a hard limit rather
@@ -244,6 +285,14 @@ def window_texts(
             for piece in _split_text_recursive(text, max_tokens, enc)
             if piece.strip()
         )
+    if not pieces:
+        return []
 
-    texts = apply_overlap([t for _, t in pieces], overlap, enc, max_tokens=max_tokens)
-    return [(blocks, text) for (blocks, _), text in zip(pieces, texts)]
+    out = [ChildText(pieces[0][0], pieces[0][1])]
+    for (prev_blocks, prev_text), (blocks, text) in zip(pieces, pieces[1:]):
+        if overlap <= 0:
+            out.append(ChildText(blocks, text))
+            continue
+        merged, carry = _with_carry(prev_text, text, overlap, max_tokens, enc)
+        out.append(ChildText(blocks, merged, _tail_pages(prev_blocks, len(carry))))
+    return out

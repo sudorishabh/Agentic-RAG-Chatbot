@@ -52,8 +52,14 @@ class Chunk:
     section_type: str | None = None
     parent_chunk_id: str | None = None
     chunk_index: int | None = None
+    # `page_number` and `page_range` describe the chunk's OWN content, so a
+    # citation resolves to where the substance is. A child's text is prefixed
+    # with an overlap carry from the previous chunk, which may come from an
+    # earlier page; `overlap_page_range` records that origin so the leading text
+    # is not silently attributed to this chunk's page.
     page_number: int | None = None
     page_range: tuple[int, int] | None = None
+    overlap_page_range: tuple[int, int] | None = None
     token_count: int = 0
     content_hash: str = ""
     has_table: bool = False
