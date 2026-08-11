@@ -147,6 +147,22 @@ def test_a_split_window_never_spans_more_pages_than_its_text():
     assert spans == sorted(spans), spans
 
 
+def test_window_index_maps_each_child_back_to_its_window():
+    """One window can yield several children, so callers need the mapping."""
+    small = [Block("text", _prose("alpha", 3), 0, 1)]
+    big = [Block("text", _prose(f"page{p}", 12), 0, p) for p in (4, 5, 6, 7)]
+    out = window_texts([small, big], overlap=0, max_tokens=200, enc=ENC)
+
+    assert [c.window_index for c in out] == sorted(c.window_index for c in out)
+    assert {c.window_index for c in out} == {0, 1}
+    assert sum(1 for c in out if c.window_index == 0) == 1
+    assert sum(1 for c in out if c.window_index == 1) > 1
+    # The mapping must agree with the blocks each child reports.
+    for child in out:
+        expected = small if child.window_index == 0 else big
+        assert all(b in expected for b in child.blocks)
+
+
 def test_every_child_text_is_accounted_for_by_its_page_metadata():
     """The end-to-end invariant: a child's text may only contain content from
     pages named by `page_range` or `overlap_page_range` — nothing unattributed."""

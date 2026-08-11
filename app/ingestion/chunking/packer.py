@@ -296,12 +296,15 @@ class ChildText:
 
     ``text`` is ``overlap carry + own content``, so ``blocks`` alone cannot
     describe it. ``overlap_pages`` records the carry's origin so page attribution
-    can stay truthful about both halves.
+    can stay truthful about both halves. ``window_index`` points back at the
+    window this child came from, because one window can yield several children
+    and the caller needs to know which is which.
     """
 
     blocks: list[Block]
     text: str
     overlap_pages: tuple[int, int] | None = None
+    window_index: int = 0
 
 
 def window_texts(
@@ -319,17 +322,24 @@ def window_texts(
     Every returned :class:`ChildText` carries the blocks its own text was joined
     from, so page and table metadata always describe the text beside them.
     """
-    pieces: list[tuple[list[Block], str]] = []
-    for window in windows:
-        pieces.extend(_fit_groups(window, max_tokens, enc))
+    pieces: list[tuple[int, list[Block], str]] = []
+    for index, window in enumerate(windows):
+        pieces.extend(
+            (index, blocks, text) for blocks, text in _fit_groups(window, max_tokens, enc)
+        )
     if not pieces:
         return []
 
-    out = [ChildText(pieces[0][0], pieces[0][1])]
-    for (prev_blocks, prev_text), (blocks, text) in zip(pieces, pieces[1:]):
+    first = pieces[0]
+    out = [ChildText(first[1], first[2], window_index=first[0])]
+    for (_, prev_blocks, prev_text), (index, blocks, text) in zip(pieces, pieces[1:]):
         if overlap <= 0:
-            out.append(ChildText(blocks, text))
+            out.append(ChildText(blocks, text, window_index=index))
             continue
         merged, carry = _with_carry(prev_text, text, overlap, max_tokens, enc)
-        out.append(ChildText(blocks, merged, _tail_pages(prev_blocks, len(carry))))
+        out.append(
+            ChildText(
+                blocks, merged, _tail_pages(prev_blocks, len(carry)), window_index=index
+            )
+        )
     return out
