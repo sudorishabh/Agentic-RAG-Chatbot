@@ -7,7 +7,15 @@ with no body, which packed to zero chunks and lost every line.
 
 from __future__ import annotations
 
-from app.ingestion.chunking import DocumentMeta, chunk_document
+import re
+from collections import Counter
+
+import pytest
+
+from app.ingestion.chunking import DocumentMeta, chunk_document, chunk_pages
+from app.ingestion.chunking.config import config_for
+from app.ingestion.chunking.packer import get_encoder
+from app.ingestion.chunking.segmenter import blocks_from_text
 
 META = DocumentMeta(document_id="d", source_type="pdf", title="Panaji Case Study")
 
@@ -84,3 +92,109 @@ def test_heading_still_titles_its_section_when_a_body_follows():
     assert children
     assert children[0].section_heading == "4 Transition Pathway"
     assert "Transition Pathway" not in children[0].text
+
+
+# --- general losslessness invariant ---------------------------------------- #
+
+# Threading block IDs from `blocks_from_text` through to `Chunk` would be the
+# stronger assertion, but `apply_overlap` reduces windows to plain strings, so
+# block identity is already gone by the time chunks exist. Until that is
+# reworked, coverage is asserted on normalized text.
+
+_WORD = re.compile(r"[^\W_]+")
+ENC = get_encoder("cl100k_base")
+
+
+def _words(text: str) -> Counter:
+    return Counter(w.lower() for w in _WORD.findall(text))
+
+
+def _flat(text: str) -> str:
+    return " ".join(text.split())
+
+
+def assert_lossless(pages, *, config=None) -> None:
+    """Every block `blocks_from_text` produced must reach at least one chunk.
+
+    Overlap makes chunk text deliberately repetitive, so this is containment,
+    never equality: the output may repeat the source, but must not lose it.
+    """
+    blocks = [b for page, text in pages for b in blocks_from_text(text, page)]
+    assert blocks, "fixture produced no source blocks"
+    surface = _surface(chunk_pages(pages, META, config=config))
+
+    # Splitting an oversized block consumes the separator it split on, so
+    # compare words rather than punctuation: no word may go missing anywhere.
+    lost = _words("\n".join(b.text for b in blocks)) - _words(surface)
+    assert not lost, f"words dropped: {dict(lost)}"
+
+    # A block under the child target is never split, so it must survive whole.
+    cap = (config or config_for(META.source_type)).child_target_tokens
+    flat_surface = _flat(surface)
+    for block in blocks:
+        if ENC.count(block.text) <= cap:
+            assert _flat(block.text) in flat_surface, (
+                f"{block.kind} block absent from every chunk: {block.text[:80]!r}"
+            )
+
+
+PROSE = "Coastal infrastructure needs sustained adaptation investment. " * 10
+
+# Shapes drawn from the failure patterns seen in the extracted corpus.
+SHAPES = {
+    "heading_run_only": "\n".join(ZONE_TABLE) + "\n",
+    "all_headings_no_body": "\n".join(ALL_HEADINGS) + "\n",
+    "lone_heading": "Water Supply\n",
+    "prose_without_heading": PROSE,
+    "heading_then_prose": f"3.1 Interventions Proposed\n\n{PROSE}",
+    "heading_run_then_prose": "\n".join(ZONE_TABLE) + f"\n\n{PROSE}",
+    "trailing_heading": f"{PROSE}\n\nReferences\n",
+    "atx_markdown": f"## Scope of the Study\n\n{PROSE}\n\n### Key Findings\n\n{PROSE}",
+    "markdown_table": (
+        "Parameters | Case I | Case II\n"
+        "--- | --- | ---\n"
+        "Capacity kWp | 10 | 25\n"
+        "Annual units | 14000 | 35000\n"
+    ),
+    "code_fence": "```\nfor zone in zones:\n    assess(zone)\n```\n",
+    "toc_dot_leaders": (
+        "Contents\n"
+        "Introduction ........ 4\n"
+        "Methodology ......... 9\n"
+        "Recommendations .... 21\n"
+        "References ......... 44\n"
+    ),
+    "roman_numeral_list": "i) Sewerage Zones\nii) Pumping Stations\niii) Discharge Points\n",
+    "allcaps_run": "EXECUTIVE SUMMARY\nKEY FINDINGS\nRECOMMENDATIONS\n",
+    "oversized_block_is_split": PROSE * 6,
+}
+
+
+@pytest.mark.parametrize("shape", sorted(SHAPES))
+def test_no_source_block_is_lost(shape):
+    assert_lossless([(1, SHAPES[shape])])
+
+
+def test_no_source_block_is_lost_across_pages():
+    """Blocks are cut per page, so the page seam is its own loss risk."""
+    assert_lossless(
+        [
+            (1, "INTRODUCTION: PANAJI\n\nPanaji has been identified as one of the coastal"),
+            (2, f"cities vulnerable to flooding.\n\nScope of the Study\n\n{PROSE}"),
+            (3, "Zone Vulnerabilities\nWater Supply\nTransport\n"),
+        ]
+    )
+
+
+def test_no_source_block_is_lost_in_a_whole_document():
+    """The shapes interleaved, as they arrive in a real report."""
+    assert_lossless(
+        [
+            (1, f"EXECUTIVE SUMMARY\n\n{PROSE}"),
+            (2, SHAPES["toc_dot_leaders"]),
+            (3, "\n".join(ZONE_TABLE) + f"\n\n{PROSE}"),
+            (4, SHAPES["markdown_table"] + f"\n{PROSE}"),
+            (5, f"3.2 Estimated Energy Savings\n\n{PROSE * 4}"),
+            (6, "References\n"),
+        ]
+    )
