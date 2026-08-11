@@ -71,6 +71,26 @@ def _looks_like_prose(s: str) -> bool:
     return bool(tokens) and tokens[-1].lower() in _STOPWORD_END
 
 
+# Fewer words than this is a label or a wrap fragment, not running text. PDF
+# text is hard-wrapped, so body lines routinely carry no closing punctuation.
+_MIN_BODY_WORDS = 4
+
+
+def _is_body_line(s: str) -> bool:
+    """Whether *s* reads as body content rather than another short label.
+
+    Corroborates the capitalisation-only rules: a real heading introduces body
+    content, whereas a flattened table cell is followed by the next cell. The
+    inner call passes ``next_line=None``, so it never recurses further.
+    """
+    s = s.strip()
+    if not s:
+        return False
+    if line_heading_level(s, at_block_start=True, next_line=None) is not None:
+        return False  # another label, not the body a heading would introduce
+    return len(s.split()) >= _MIN_BODY_WORDS or s.endswith(_TERMINAL)
+
+
 def _is_junk_heading(s: str) -> bool:
     """Reject extraction artifacts that should never be treated as a heading:
     ToC/LoF/LoT dot leaders, HTML-comment fragments, table/formula rows with a
@@ -103,7 +123,16 @@ def _clean_heading(line: str) -> str:
     return line.strip()
 
 
-def line_heading_level(line: str, *, at_block_start: bool) -> int | None:
+def line_heading_level(
+    line: str, *, at_block_start: bool, next_line: str | None = None
+) -> int | None:
+    """The heading level of *line*, or None when it is not a heading.
+
+    ``next_line`` is the next non-blank line of the same page, used only to
+    corroborate the capitalisation-only rules. Pass ``None`` when no context is
+    available — absence of context is not evidence against a heading — and ``""``
+    when nothing follows.
+    """
     s = line.strip()
     if not s:
         return None
@@ -135,6 +164,12 @@ def line_heading_level(line: str, *, at_block_start: bool) -> int | None:
     if not at_block_start:
         return None
 
+    # The two rules below rest on capitalisation alone, which a flattened table
+    # cell ("Water Supply") shares with a real heading. Require the line to
+    # actually introduce something before trusting that shape.
+    if next_line is not None and not _is_body_line(next_line):
+        return None
+
     letters = [c for c in s if c.isalpha()]
     if letters and len(words) <= 8 and sum(c.isupper() for c in letters) / len(letters) > 0.85:
         return 2
@@ -153,6 +188,14 @@ def line_heading_level(line: str, *, at_block_start: bool) -> int | None:
         return 3
 
     return None
+
+
+def _next_content_line(lines: Sequence[str], i: int) -> str:
+    """The next non-blank line after *i*, or "" when the text ends there."""
+    for line in lines[i + 1 :]:
+        if line.strip():
+            return line
+    return ""
 
 
 def blocks_from_text(text: str, page: int | None) -> list[Block]:
@@ -202,7 +245,9 @@ def blocks_from_text(text: str, page: int | None) -> list[Block]:
             blocks.append(Block("table", "\n".join(tbl).strip(), 0, page))
             continue
 
-        level = line_heading_level(stripped, at_block_start=not buf)
+        level = line_heading_level(
+            stripped, at_block_start=not buf, next_line=_next_content_line(lines, i)
+        )
         if level is not None:
             flush_text()
             blocks.append(Block("heading", _clean_heading(stripped), level, page))

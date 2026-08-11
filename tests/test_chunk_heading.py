@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from app.ingestion.chunking.segmenter import line_heading_level
+from app.ingestion.chunking.segmenter import blocks_from_text, line_heading_level
 
 
 def _is_heading(s: str) -> bool:
@@ -155,3 +155,78 @@ def test_rejects_titlecase_line_with_an_uncapitalised_content_word():
 )
 def test_numbered_heading_level(line, level):
     assert line_heading_level(line, at_block_start=True) == level
+
+
+# --- surrounding structure disambiguates a capitalisation-only line --------- #
+#
+# "Water Supply" is a real heading in one document and a flattened table cell in
+# another. The line alone cannot say which, so the following line is consulted.
+
+BODY = "The study assessed vulnerability of coastal infrastructure in Panaji."
+
+
+def test_titlecase_line_is_a_heading_when_body_follows():
+    assert line_heading_level("Water Supply", at_block_start=True, next_line=BODY) == 3
+
+
+def test_titlecase_line_is_not_a_heading_when_another_label_follows():
+    assert line_heading_level("Water Supply", at_block_start=True, next_line="Transport") is None
+
+
+def test_titlecase_line_is_not_a_heading_when_nothing_follows():
+    assert line_heading_level("Water Supply", at_block_start=True, next_line="") is None
+
+
+def test_allcaps_line_also_needs_corroboration():
+    assert line_heading_level("KEY FINDINGS", at_block_start=True, next_line=BODY) == 2
+    assert line_heading_level("KEY FINDINGS", at_block_start=True, next_line="SLR") is None
+
+
+def test_missing_context_is_not_evidence_against_a_heading():
+    """`next_line=None` means the caller has no context, so the check is skipped."""
+    assert line_heading_level("Water Supply", at_block_start=True) == 3
+
+
+@pytest.mark.parametrize(
+    "line",
+    ["3.1 Energy Savings", "1. Introduction", "Chapter 2 Methodology", "## Overview"],
+)
+def test_strong_signals_do_not_need_corroboration(line):
+    """ATX, numbered and labelled patterns stand on their own."""
+    assert line_heading_level(line, at_block_start=True, next_line="Transport") is not None
+
+
+def test_flattened_table_run_yields_no_headings():
+    """The real page-18 shape: a layout table PyMuPDF flattened one cell per line."""
+    text = (
+        "Ecologically Sensitive Areas\nWater Supply\nTransport\n"
+        "Energy and Telecommunication\nAltinho\nTourism and Heritage\nSLR\nFlood prone\n"
+    )
+    blocks = blocks_from_text(text, 18)
+    assert not [b for b in blocks if b.kind == "heading"]
+
+
+def test_heading_above_prose_still_opens_a_section():
+    blocks = blocks_from_text(f"Scope of the Study\n\n{BODY}\n", 3)
+    assert [(b.kind, b.text) for b in blocks][0] == ("heading", "Scope of the Study")
+
+
+# --- existing block structure already shields tables and code -------------- #
+
+def test_pipe_table_cell_is_never_a_heading():
+    """`blocks_from_text` claims pipe rows as a table before heading detection."""
+    text = "| Parameters | Case I | Case II |\n| --- | --- | --- |\n| Water Supply | 10 | 25 |\n"
+    kinds = {b.kind for b in blocks_from_text(text, 5)}
+    assert kinds == {"table"}
+
+
+def test_table_cell_text_survives_in_the_table_block():
+    text = "| Water Supply | 10 |\n| Transport | 25 |\n"
+    blocks = blocks_from_text(text, 5)
+    assert "Water Supply" in blocks[0].text
+
+
+def test_fenced_code_line_is_never_a_heading():
+    text = "```\n## Setup\nWater Supply\n```\n"
+    kinds = {b.kind for b in blocks_from_text(text, 5)}
+    assert kinds == {"code"}
