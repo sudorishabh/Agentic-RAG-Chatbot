@@ -145,12 +145,18 @@ def coalesce_windows(
         if len(windows) == 1 or sizes[i] >= min_tokens:
             i += 1
             continue
+        # `min_tokens` is a target but `max_tokens` is a hard limit, so an
+        # undersized window is acceptable where an oversized one is not: merge
+        # into the smaller neighbour that still fits, else leave this one short.
         candidates = sorted(
-            (sizes[i] + sizes[j] > max_tokens, sizes[i] + sizes[j], j)
+            (sizes[i] + sizes[j], j)
             for j in (i - 1, i + 1)
-            if 0 <= j < len(windows)
+            if 0 <= j < len(windows) and sizes[i] + sizes[j] <= max_tokens
         )
-        j = candidates[0][2]
+        if not candidates:
+            i += 1
+            continue
+        j = candidates[0][1]
         lo, hi = sorted((i, j))
         windows[lo] = windows[lo] + windows[hi]
         sizes[lo] = enc.count(join_blocks(windows[lo]))
