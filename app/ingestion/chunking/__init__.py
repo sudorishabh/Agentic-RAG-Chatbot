@@ -112,8 +112,17 @@ def _build_chunks(
                 parent_windows, config.child_min_tokens, config.parent_max_tokens, enc
             )
 
+        # Every child window of this section, in document order, tagged with the
+        # parent it belongs to. A parent boundary *inside* a section exists only
+        # because the section outgrew parent_max_tokens — those splits land
+        # mid-sentence — so the overlap chain runs across the whole section
+        # rather than restarting per parent. A section boundary is semantic and
+        # still starts a fresh chain, so no heading's text bleeds into the next.
+        parts: list[tuple[str, str, list[Block]]] = []
+        section_windows: list[list[Block]] = []
+        window_owner: list[int] = []
+
         for part, parent_blocks in enumerate(parent_windows):
-            parent_id = _uuid(meta, f"parent|{section_idx}.{part}")
             ptext = _parent_text(heading, parent_blocks, part)
             if not ptext.strip():
                 continue
@@ -126,15 +135,29 @@ def _build_chunks(
             child_windows = coalesce_windows(
                 child_windows, config.child_min_tokens, config.child_max_tokens, enc
             )
-            children = window_texts(
-                child_windows, overlap=config.child_overlap_tokens,
-                max_tokens=config.child_max_tokens, enc=enc,
+            window_owner.extend([len(parts)] * len(child_windows))
+            section_windows.extend(child_windows)
+            parts.append(
+                (
+                    _uuid(meta, f"parent|{section_idx}.{part}"),
+                    ptext,
+                    list(parent_blocks),
+                )
             )
-            if not children:
-                # Nothing packed, so this section is a heading with no body to
-                # window. Emit the heading as its own child: an empty result is
-                # the last point at which extracted text can silently vanish.
-                children = [ChildText([], ptext)]
+
+        section_children = window_texts(
+            section_windows, overlap=config.child_overlap_tokens,
+            max_tokens=config.child_max_tokens, enc=enc,
+        )
+        by_part: dict[int, list[ChildText]] = {}
+        for child in section_children:
+            by_part.setdefault(window_owner[child.window_index], []).append(child)
+
+        for owner, (parent_id, ptext, parent_blocks) in enumerate(parts):
+            # No children means a heading with no body to window. Emit the
+            # heading itself: this is the last point at which extracted text
+            # can silently vanish.
+            children = by_part.get(owner) or [ChildText([], ptext)]
 
             # A parent with a single child is a near-duplicate of it: skip the
             # parent and let the child stand alone (context falls back to child
