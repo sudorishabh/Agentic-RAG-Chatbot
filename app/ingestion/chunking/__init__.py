@@ -130,7 +130,10 @@ def _build_chunks(
             )
             pairs = [(w, t) for w, t in zip(child_windows, texts) if t.strip()]
             if not pairs:
-                continue
+                # Nothing packed, so this section is a heading with no body to
+                # window. Emit the heading as its own child: an empty `pairs` is
+                # the last point at which extracted text can silently vanish.
+                pairs = [([], ptext)]
 
             # A parent with a single child is a near-duplicate of it: skip the
             # parent and let the child stand alone (context falls back to child

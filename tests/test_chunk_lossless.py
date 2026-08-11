@@ -61,6 +61,22 @@ def test_demoted_heading_lines_reach_chunk_text_not_only_the_heading():
         assert line in body, f"{line!r} never reached any child chunk's text"
 
 
+def test_lone_heading_document_still_chunks():
+    """A section with no body packs to zero windows. `merge_small_sections`
+    folds it into a sibling when one exists — but a document that is *only* a
+    heading line has no sibling, so chunk creation must not skip it."""
+    for source in ("Water Supply", "EXECUTIVE SUMMARY", "4.1 Alternative Fuel Cost"):
+        chunks = chunk_document(source + "\n", META)
+        assert chunks, f"{source!r} produced zero chunks"
+        assert source in _surface(chunks)
+
+
+def test_lone_heading_child_stands_alone_without_a_parent():
+    chunks = chunk_document("EXECUTIVE SUMMARY\n", META)
+    assert [c.is_parent for c in chunks] == [False]
+    assert chunks[0].parent_chunk_id is None
+
+
 def test_heading_still_titles_its_section_when_a_body_follows():
     """The fix must not stop real headings from owning their section."""
     text = "4 Transition Pathway\n\n" + "Alternative fuels need port infrastructure. " * 8
