@@ -27,11 +27,31 @@ class Section:
 
 _FENCE = re.compile(r"^(```|~~~)")
 _ATX = re.compile(r"^(#{1,6})\s+(.+?)\s*#*$")
-_NUMBERED = re.compile(r"^(\d+(?:\.\d+)*)[.)]?\s+(.+)$")
+# A section number: "1", "1.", "4.1", "1.3.2". A closing paren ("1)") marks an
+# enumerated list item, not a section, so it is deliberately not accepted here.
+_NUMBERED = re.compile(r"^(\d+(?:\.\d+)*)\.?\s+(.+)$")
 _LABELED = re.compile(
     r"^(section|chapter|article|clause|appendix|annex|part)\b", re.IGNORECASE
 )
 _TERMINAL = (".", "!", "?", ",", ";", ":")
+
+# A list marker opening the line — "i)", "iv)", "a)", "1)", "(2)". These label
+# items within a section; they never introduce one.
+_LIST_MARKER = re.compile(r"^\(?(?:\d{1,2}|[ivxlcdm]{1,5}|[a-z])\)", re.IGNORECASE)
+
+# A URL is content (a footnote, a citation), never a heading. PDF footnote
+# markers make "1 http://host/paper.pdf" look exactly like a numbered heading.
+_URL = re.compile(r"https?://|www\.", re.IGNORECASE)
+
+# Words that carry no capitalization signal in a Title Case heading, so they
+# must not count against it. Kept separate from `_STOPWORD_END`, which is the
+# broader set of words a heading cannot *end* on (it includes verbs and
+# pronouns — those do signal prose mid-heading).
+_TITLE_MINOR_WORDS = frozenset({
+    "a", "an", "the", "and", "or", "of", "to", "in", "on", "for", "with", "by",
+    "at", "from", "as", "into", "over", "under", "per", "via", "vs", "but",
+    "nor", "so", "than", "upon", "within", "between", "across",
+})
 
 _STOPWORD_END = frozenset({
     "a", "an", "the", "and", "or", "of", "to", "in", "on", "for", "with", "by",
@@ -92,7 +112,9 @@ def line_heading_level(line: str, *, at_block_start: bool) -> int | None:
     if m:
         return len(m.group(1))
 
-    if _is_junk_heading(s):
+    # Negative signals that outrank every heuristic below. Checked after ATX so
+    # an authored "## See http://host for detail" still stands as a heading.
+    if _is_junk_heading(s) or _URL.search(s) or _LIST_MARKER.match(s):
         return None
 
     words = s.split()
@@ -102,7 +124,9 @@ def line_heading_level(line: str, *, at_block_start: bool) -> int | None:
     m = _NUMBERED.match(s)
     if m and not s.endswith(_TERMINAL) and _plausible_section_number(m.group(1)):
         title = m.group(2).strip()
-        if title and title[0].isalpha() and len(title.split()) <= 8 and not _looks_like_prose(title):
+        # A numbered heading titles something ("4 Transition Pathway"); a bare
+        # number opening a sentence does not ("4 way segregation centres").
+        if title[:1].isupper() and len(title.split()) <= 8 and not _looks_like_prose(title):
             return min(m.group(1).count(".") + 1, 6)
 
     if _LABELED.match(s) and not s.endswith(_TERMINAL) and not _looks_like_prose(s):
@@ -115,11 +139,16 @@ def line_heading_level(line: str, *, at_block_start: bool) -> int | None:
     if letters and len(words) <= 8 and sum(c.isupper() for c in letters) / len(letters) > 0.85:
         return 2
 
+    # Title Case: every *content* word capitalised. Minor words are skipped
+    # rather than counted against the line, so "Scope of the Study" qualifies
+    # while ordinary prose — which capitalises only its first word — does not.
+    content = [w for w in words if w.strip(".,;:()").lower() not in _TITLE_MINOR_WORDS]
     if (
         len(words) <= 8
+        and content  # a line of only minor words titles nothing
+        and all(w[:1].isupper() for w in content)
         and not s.endswith(_TERMINAL)
         and not _looks_like_prose(s)
-        and sum(w[:1].isupper() for w in words if w[:1].isalpha()) >= max(1, len(words) - 1)
     ):
         return 3
 
