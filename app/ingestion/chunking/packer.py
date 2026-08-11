@@ -216,3 +216,34 @@ def apply_overlap(
     for prev, text in zip(texts, texts[1:]):
         out.append(_with_carry(prev, text, overlap, max_tokens, enc))
     return out
+
+
+def window_texts(
+    windows: Sequence[Sequence[Block]], *, overlap: int, max_tokens: int, enc: Encoder
+) -> list[tuple[list[Block], str]]:
+    """Coalesced windows to ``(blocks, text)`` pairs, each text within *max_tokens*.
+
+    The single point at which ``child_max_tokens`` becomes a hard limit rather
+    than a target. :func:`pack` sizes a window by summing its atoms' counts while
+    the emitted text is the joined string, and re-tokenising that join does not
+    always agree with the sum — so each window is re-split here, on the same
+    paragraph/sentence boundaries :func:`_expand_atoms` uses, never truncated.
+    Overlap is then applied within the same budget.
+
+    Pieces of a split window keep that window's blocks: page and table metadata
+    come from the blocks, not from the text.
+    """
+    pieces: list[tuple[list[Block], str]] = []
+    for window in windows:
+        text = join_blocks(window)
+        if not text:
+            continue
+        blocks = list(window)
+        pieces.extend(
+            (blocks, piece)
+            for piece in _split_text_recursive(text, max_tokens, enc)
+            if piece.strip()
+        )
+
+    texts = apply_overlap([t for _, t in pieces], overlap, enc, max_tokens=max_tokens)
+    return [(blocks, text) for (blocks, _), text in zip(pieces, texts)]

@@ -19,10 +19,10 @@ from app.ingestion.chunking.config import ChunkingConfig, config_for
 from app.ingestion.chunking.models import Chunk, DocumentMeta
 from app.ingestion.chunking.packer import (
     Encoder,
-    apply_overlap,
     coalesce_windows,
     get_encoder,
     pack,
+    window_texts,
 )
 from app.ingestion.chunking.segmenter import (
     Block,
@@ -125,11 +125,10 @@ def _build_chunks(
             child_windows = coalesce_windows(
                 child_windows, config.child_min_tokens, config.child_max_tokens, enc
             )
-            texts = apply_overlap(
-                [join_blocks(w) for w in child_windows], config.child_overlap_tokens, enc,
-                max_tokens=config.child_max_tokens,
+            pairs = window_texts(
+                child_windows, overlap=config.child_overlap_tokens,
+                max_tokens=config.child_max_tokens, enc=enc,
             )
-            pairs = [(w, t) for w, t in zip(child_windows, texts) if t.strip()]
             if not pairs:
                 # Nothing packed, so this section is a heading with no body to
                 # window. Emit the heading as its own child: an empty `pairs` is
@@ -155,6 +154,15 @@ def _build_chunks(
             for window, ctext in pairs:
                 pages = page_range(window)
                 child_tables = table_markdown(window)
+                tokens = enc.count(ctext)
+                if tokens > config.child_max_tokens:  # pragma: no cover
+                    # window_texts caps every text it returns, so this is a
+                    # tripwire for a future regression in packing, not a
+                    # reachable branch. Content is kept either way.
+                    logger.warning(
+                        "Child %d of %s is %d tokens, over the %d-token limit.",
+                        child_index, meta.document_id, tokens, config.child_max_tokens,
+                    )
                 chunks.append(
                     Chunk(
                         chunk_id=_uuid(meta, f"child|{child_index}"),
@@ -164,7 +172,7 @@ def _build_chunks(
                         parent_chunk_id=parent_id if emit_parent else None,
                         chunk_index=child_index,
                         page_number=pages[0] if pages else None,
-                        page_range=pages, token_count=enc.count(ctext),
+                        page_range=pages, token_count=tokens,
                         content_hash=_hash(ctext),
                         has_table=bool(child_tables), table_markdown=child_tables,
                     )

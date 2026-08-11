@@ -8,7 +8,16 @@ the joined string. These tests pin the limit at each path and on the final child
 
 from __future__ import annotations
 
-from app.ingestion.chunking.packer import apply_overlap, coalesce_windows, get_encoder
+import pytest
+
+from app.ingestion.chunking import DocumentMeta, chunk_document, chunk_pages
+from app.ingestion.chunking.config import ChunkingConfig, config_for
+from app.ingestion.chunking.packer import (
+    apply_overlap,
+    coalesce_windows,
+    get_encoder,
+    window_texts,
+)
 from app.ingestion.chunking.segmenter import Block, join_blocks
 
 ENC = get_encoder("cl100k_base")
@@ -123,3 +132,92 @@ def test_overlap_still_starts_on_a_sentence_boundary_when_trimmed():
     out = apply_overlap([_text(300), _text(515)], 60, ENC, max_tokens=MAX)
     carry = out[1][: len(out[1]) - len(_text(515))]
     assert carry.strip().startswith("Coastal"), carry
+
+
+# --- the invariant on the final emitted children ---------------------------- #
+#
+# Coalescing and overlap are both capped above, but `pack` sizes a window by
+# summing atom counts while the emitted text is the joined string. These tests
+# go through the whole path and assert on real Chunk objects.
+
+
+def _children(chunks):
+    return [c for c in chunks if not c.is_parent]
+
+
+def _assert_within_cap(chunks, config) -> None:
+    children = _children(chunks)
+    assert children
+    worst = max(c.token_count for c in children)
+    assert worst <= config.child_max_tokens, (
+        f"largest child {worst} tokens exceeds child_max_tokens "
+        f"{config.child_max_tokens}"
+    )
+    # token_count must describe the text that is actually stored.
+    for child in children:
+        assert child.token_count == ENC.count(child.text)
+
+
+def test_window_texts_splits_a_window_that_exceeds_the_cap():
+    """`pack` can hand over an oversized window; the enforcement point splits it
+    on existing boundaries instead of truncating."""
+    text = "\n\n".join(_text(300) for _ in range(4))  # ~1200 tokens as one window
+    out = window_texts([[Block("text", text, 0, 1)]], overlap=60, max_tokens=MAX, enc=ENC)
+    assert len(out) > 1
+    assert all(ENC.count(t) <= MAX for _, t in out), [ENC.count(t) for _, t in out]
+    # Nothing dropped: every word of the source survives somewhere.
+    joined = " ".join(t for _, t in out)
+    assert all(word in joined for word in set(text.split()))
+
+
+def test_split_pieces_keep_their_window_blocks():
+    """Page and table metadata come from blocks, so pieces must keep them."""
+    block = Block("table", "\n\n".join(_text(300) for _ in range(3)), 0, 21)
+    out = window_texts([[block]], overlap=0, max_tokens=MAX, enc=ENC)
+    assert len(out) > 1
+    assert all(blocks == [block] for blocks, _ in out)
+
+
+@pytest.mark.parametrize("preset", ["pdf", "article", "report", "policy", "small_pdf"])
+def test_no_emitted_child_exceeds_the_cap_for_any_preset(preset):
+    config = config_for(preset)
+    meta = DocumentMeta(document_id="d", source_type="pdf", title="Panaji Case Study")
+    body = "Coastal infrastructure needs sustained adaptation investment now. " * 400
+    text = f"1. Introduction\n\n{body}\n\n2. Methodology\n\n{body}"
+    _assert_within_cap(chunk_document(text, meta, config=config), config)
+
+
+def test_no_emitted_child_exceeds_the_cap_with_a_table_at_the_limit():
+    """The reported shape: a table atom packed to the cap beside a short note."""
+    config = config_for("pdf")
+    meta = DocumentMeta(document_id="d", source_type="pdf", title="T")
+    rows = "\n".join(f"| Zone {i} | Water Supply | {i * 7} |" for i in range(120))
+    text = f"3.1 Zone Vulnerabilities\n\n{rows}\n\nA short trailing note.\n"
+    _assert_within_cap(chunk_pages([(21, text)], meta, config=config), config)
+
+
+_WORDS = (
+    "supply", "zone", "assessment", "sewerage", "transport", "altinho",
+    "flood", "prone", "elevation", "heritage", "khazan", "mangrove",
+)
+
+
+def _uneven_paragraphs(n: int) -> str:
+    """Many short paragraphs of uneven token length — the shape that makes
+    `pack`'s sum-of-atoms sizing drift from the joined text's real count."""
+    return "\n\n".join(
+        " ".join(_WORDS[(i * 7 + j) % len(_WORDS)] for j in range(1 + i % 5))
+        for i in range(n)
+    )
+
+
+def test_no_emitted_child_exceeds_the_cap_when_target_equals_max():
+    """With no headroom, `pack`'s sum-based sizing drifts past the cap: summing
+    atom counts is not the same as counting the joined window. Without the
+    enforcement point this document emits children of ~690 tokens."""
+    config = ChunkingConfig(
+        child_target_tokens=MAX, child_max_tokens=MAX, child_min_tokens=MIN,
+        child_overlap_tokens=60,
+    )
+    meta = DocumentMeta(document_id="d", source_type="pdf", title="T")
+    _assert_within_cap(chunk_document(_uneven_paragraphs(700), meta, config=config), config)
