@@ -126,7 +126,8 @@ def _build_chunks(
                 child_windows, config.child_min_tokens, config.child_max_tokens, enc
             )
             texts = apply_overlap(
-                [join_blocks(w) for w in child_windows], config.child_overlap_tokens, enc
+                [join_blocks(w) for w in child_windows], config.child_overlap_tokens, enc,
+                max_tokens=config.child_max_tokens,
             )
             pairs = [(w, t) for w, t in zip(child_windows, texts) if t.strip()]
             if not pairs:

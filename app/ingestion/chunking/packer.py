@@ -183,11 +183,36 @@ def overlap_carry(prev: str, overlap: int, enc: Encoder) -> str:
     return carry[m.end():] if m else carry
 
 
-def apply_overlap(texts: list[str], overlap: int, enc: Encoder) -> list[str]:
+def _with_carry(
+    prev: str, text: str, overlap: int, max_tokens: int, enc: Encoder
+) -> str:
+    """*text* behind as much of *prev*'s tail as fits within *max_tokens*.
+
+    The carry is what gives way, never the chunk: the budget handed to
+    :func:`overlap_carry` shrinks until the result fits, so a trimmed carry still
+    starts on a sentence boundary. ``enc.tail`` is not an exact round trip and
+    the sentence advance moves the boundary, so the fit is measured rather than
+    predicted.
+    """
+    budget = min(overlap, max_tokens - enc.count(text) - 1)  # -1: the joining space
+    while budget > 0:
+        carry = overlap_carry(prev, budget, enc)
+        if not carry:
+            break
+        merged = f"{carry} {text}".strip()
+        excess = enc.count(merged) - max_tokens
+        if excess <= 0:
+            return merged
+        budget -= excess
+    return text
+
+
+def apply_overlap(
+    texts: list[str], overlap: int, enc: Encoder, *, max_tokens: int
+) -> list[str]:
     if overlap <= 0 or len(texts) < 2:
         return texts
     out = [texts[0]]
     for prev, text in zip(texts, texts[1:]):
-        carry = overlap_carry(prev, overlap, enc)
-        out.append(f"{carry} {text}".strip() if carry else text)
+        out.append(_with_carry(prev, text, overlap, max_tokens, enc))
     return out

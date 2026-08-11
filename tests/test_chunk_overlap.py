@@ -16,7 +16,7 @@ def test_overlap_starts_at_sentence_boundary():
 def test_apply_overlap_child_starts_cleanly():
     prev = "Some earlier prose. This sentence completes the prior chunk."
     nxt = "Next chunk body begins here."
-    out = apply_overlap([prev, nxt], 60, ENC)
+    out = apply_overlap([prev, nxt], 60, ENC, max_tokens=560)
     assert out[1].startswith("This sentence completes")
 
 
