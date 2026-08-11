@@ -159,9 +159,15 @@ def _build_chunks(
             # can silently vanish.
             children = by_part.get(owner) or [ChildText([], ptext)]
 
-            # A parent with a single child is a near-duplicate of it: skip the
-            # parent and let the child stand alone (context falls back to child
-            # text when there is no parent).
+            # A parent is emitted only when it adds context beyond a single
+            # child. A window with exactly one child intentionally has no parent
+            # record: the child already carries that window's whole body, so the
+            # parent would differ only by the heading — which reaches the reader
+            # anyway through `section_heading`. `context_builder._admit` falls
+            # back to child text when `parent_chunk_id` is absent, so such a
+            # child is not degraded, and skipping the record avoids a
+            # near-duplicate point per single-child section.
+            # Rationale and the measured corpus evidence: tests/test_chunk_orphans.py.
             emit_parent = len(children) > 1
             if emit_parent:
                 parent_tables = table_markdown(parent_blocks)
