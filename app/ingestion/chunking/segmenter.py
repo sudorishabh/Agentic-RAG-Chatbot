@@ -188,16 +188,26 @@ def blocks_from_text(text: str, page: int | None) -> list[Block]:
 
 
 def assemble_sections(blocks: Iterable[Block]) -> list[Section]:
+    """Group blocks into the sections their headings own.
+
+    Heading detection is a heuristic, so a run of short lines — an extracted
+    table column, a bare list — can arrive as consecutive heading blocks. Only
+    the first titles the section; the rest are demoted to body text. Folding
+    them into the heading string instead kept them out of every chunk's *text*,
+    and left a section with no body at all, which packs to zero chunks and drops
+    the text entirely.
+    """
     sections: list[Section] = []
     current = Section(heading=None, level=0)
 
     for block in blocks:
         if block.kind == "heading":
-            if not current.blocks:
-                if current.heading:
-                    current.heading = f"{current.heading} — {block.text}"
-                else:
-                    current.heading, current.level = block.text, block.level
+            if current.heading is None and not current.blocks:
+                current.heading, current.level = block.text, block.level
+            elif not current.blocks:
+                # Heading-classified but nothing to title: keep it as content
+                # rather than trusting the classification and losing the line.
+                current.blocks.append(Block("text", block.text, 0, block.page))
             else:
                 sections.append(current)
                 current = Section(heading=block.text, level=block.level)
