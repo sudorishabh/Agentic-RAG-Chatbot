@@ -14,6 +14,10 @@ from __future__ import annotations
 
 from app.ingestion.chunking import DocumentMeta, chunk_pages
 from app.ingestion.chunking.config import ChunkingConfig
+from app.ingestion.chunking.packer import get_encoder, window_texts
+from app.ingestion.chunking.segmenter import Block, join_blocks
+
+ENC = get_encoder("cl100k_base")
 
 META = DocumentMeta(document_id="d", source_type="pdf", title="Panaji Case Study")
 
@@ -112,3 +116,52 @@ def test_overlap_page_range_reaches_the_payload():
 def test_payload_omits_overlap_range_when_there_is_none():
     child = _children(chunk_pages([(5, _prose("alpha", 6))], META, config=CONFIG))[0]
     assert "overlap_page_range" not in child.to_payload()
+
+
+# --- interaction with the P1-5 split ---------------------------------------- #
+#
+# `window_texts` may emit several children per window. Each must describe the
+# text it actually holds, not the whole window's span.
+
+
+def test_a_split_window_gives_each_child_its_own_pages():
+    """One window spanning pages 4-7 must not label every piece (4, 7)."""
+    blocks = [Block("text", _prose(f"page{page}", 12), 0, page) for page in (4, 5, 6, 7)]
+    out = window_texts([blocks], overlap=0, max_tokens=200, enc=ENC)
+
+    assert len(out) > 1, "the fixture must force a split"
+    for child in out:
+        pages = {b.page for b in child.blocks}
+        # The text is exactly the join of the blocks recorded beside it.
+        assert child.text == join_blocks(child.blocks)
+        # ...so every page marker present belongs to a block this child owns.
+        for page in (4, 5, 6, 7):
+            assert (f"Page{page}" in child.text) == (page in pages)
+
+
+def test_a_split_window_never_spans_more_pages_than_its_text():
+    blocks = [Block("text", _prose(f"page{page}", 12), 0, page) for page in (4, 5, 6, 7)]
+    out = window_texts([blocks], overlap=0, max_tokens=200, enc=ENC)
+    spans = [(min(b.page for b in c.blocks), max(b.page for b in c.blocks)) for c in out]
+    assert spans != [(4, 7)] * len(out), "pieces must not all inherit the window span"
+    assert spans == sorted(spans), spans
+
+
+def test_every_child_text_is_accounted_for_by_its_page_metadata():
+    """The end-to-end invariant: a child's text may only contain content from
+    pages named by `page_range` or `overlap_page_range` — nothing unattributed."""
+    pages = [(page, _prose(f"page{page}", 10)) for page in (2, 3, 4, 5)]
+    children = _children(chunk_pages(pages, META, config=CONFIG))
+    assert len(children) > 4, "fixture must produce several overlapping children"
+
+    for child in children:
+        owned = set(range(child.page_range[0], child.page_range[1] + 1))
+        if child.overlap_page_range:
+            lo, hi = child.overlap_page_range
+            owned |= set(range(lo, hi + 1))
+        present = {page for page in (2, 3, 4, 5) if f"Page{page}" in child.text}
+        assert present <= owned, (
+            f"child {child.chunk_index} holds text from {sorted(present - owned)} "
+            f"but is attributed to page_range={child.page_range} "
+            f"overlap_page_range={child.overlap_page_range}"
+        )

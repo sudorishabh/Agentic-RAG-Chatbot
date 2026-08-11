@@ -223,6 +223,51 @@ def apply_overlap(
     return out
 
 
+def _fit_groups(
+    window: Sequence[Block], max_tokens: int, enc: Encoder
+) -> list[tuple[list[Block], str]]:
+    """*window* as ``(blocks, text)`` groups whose text fits within *max_tokens*.
+
+    Regrouping the blocks, rather than cutting the joined string, is what keeps
+    page attribution honest: each group's text is exactly the join of the blocks
+    recorded beside it, so a group that lands wholly on page 7 is not labelled
+    with the whole window's span.
+    """
+    text = join_blocks(window)
+    if not text:
+        return []
+    if enc.count(text) <= max_tokens:
+        return [(list(window), text)]
+
+    groups: list[tuple[list[Block], str]] = []
+    cur: list[Block] = []
+    for block in window:
+        if cur and enc.count(join_blocks(cur + [block])) > max_tokens:
+            groups.append((cur, join_blocks(cur)))
+            cur = [block]
+        else:
+            cur.append(block)
+    if cur:
+        groups.append((cur, join_blocks(cur)))
+
+    out: list[tuple[list[Block], str]] = []
+    for blocks, group_text in groups:
+        if not group_text.strip():
+            continue
+        if enc.count(group_text) <= max_tokens:
+            out.append((blocks, group_text))
+            continue
+        # A lone block larger than the cap cannot be regrouped, so split its text
+        # on the boundaries `_expand_atoms` uses. The pieces keep that one block,
+        # so their page attribution is still exact.
+        out.extend(
+            (blocks, piece)
+            for piece in _split_text_recursive(group_text, max_tokens, enc)
+            if piece.strip()
+        )
+    return out
+
+
 def _tail_pages(blocks: Sequence[Block], chars: int) -> tuple[int, int] | None:
     """Pages covered by the last *chars* characters of ``join_blocks(blocks)``.
 
@@ -267,24 +312,16 @@ def window_texts(
     The single point at which ``child_max_tokens`` becomes a hard limit rather
     than a target. :func:`pack` sizes a window by summing its atoms' counts while
     the emitted text is the joined string, and re-tokenising that join does not
-    always agree with the sum — so each window is re-split here, on the same
-    paragraph/sentence boundaries :func:`_expand_atoms` uses, never truncated.
-    Overlap is then applied within the same budget.
+    always agree with the sum — so an oversized window is broken up here by
+    :func:`_fit_groups`, never truncated. Overlap is then applied within the same
+    budget, and each carry is attributed to the pages it came from.
 
-    Pieces of a split window keep that window's blocks: page and table metadata
-    come from the blocks, not from the text.
+    Every returned :class:`ChildText` carries the blocks its own text was joined
+    from, so page and table metadata always describe the text beside them.
     """
     pieces: list[tuple[list[Block], str]] = []
     for window in windows:
-        text = join_blocks(window)
-        if not text:
-            continue
-        blocks = list(window)
-        pieces.extend(
-            (blocks, piece)
-            for piece in _split_text_recursive(text, max_tokens, enc)
-            if piece.strip()
-        )
+        pieces.extend(_fit_groups(window, max_tokens, enc))
     if not pieces:
         return []
 
