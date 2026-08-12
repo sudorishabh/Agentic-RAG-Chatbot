@@ -224,6 +224,12 @@ def chunk_pages(
     config = config or config_for(meta.source_type)
     enc = get_encoder(config.encoding_name)
 
+    # Blockified one page at a time, so a paragraph broken by a page break
+    # becomes two blocks and reads as a paragraph break. Stitching those back
+    # together is deliberately not attempted: the only available signal — the
+    # previous page not ending in punctuation — is dominated by page furniture
+    # and figure captions, which sit exactly at that boundary. Rationale and the
+    # measured corpus evidence: tests/test_chunk_page_boundaries.py.
     blocks: list[Block] = []
     for page_number, text in pages:
         blocks.extend(blocks_from_text(text, page_number))
