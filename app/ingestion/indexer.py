@@ -27,16 +27,23 @@ def _embed_children(texts: Sequence[str], batch_size: int) -> list[list[float]]:
 
 
 def _reusable_vectors(children: Sequence[Chunk]) -> dict[str, list[float]]:
-    """Stored vectors for these chunk ids whose content is unchanged.
+    """Stored vectors for these chunk ids whose embedding input is unchanged.
 
     A chunk id is derived from its owned content, so an unchanged chunk keeps its
-    id across re-index. ``content_hash`` covers the exact stored text — overlap
-    carry included — so a matching hash means the stored vector still describes
-    this text and the embedding call can be skipped. A chunk that kept its id but
-    changed its carry has a different hash and is re-embedded.
+    id across re-index. ``embed_hash`` covers the exact string the embedder was
+    handed — overlap carry and "title › heading" breadcrumb included — so a
+    matching hash means the stored vector still describes what this chunk would
+    embed to, and the call can be skipped. Anything that moves that string
+    re-embeds: an edit to the chunk, to its carry, to the document title, or to
+    the heading above it.
+
+    Deliberately not ``content_hash``: that covers ``text`` alone, so keying on
+    it reused a vector built from the old title whenever a document was renamed.
 
     Best-effort: any failure reading the store falls back to embedding
-    everything, which is what the pipeline did before this existed.
+    everything, which is what the pipeline did before this existed. A point
+    stored before ``embed_hash`` existed has none to match and is re-embedded,
+    which is the safe direction.
     """
     if not children:
         return {}
@@ -45,12 +52,12 @@ def _reusable_vectors(children: Sequence[Chunk]) -> dict[str, list[float]]:
     from app.core.clients import get_qdrant_client
 
     settings = get_settings()
-    want = {c.chunk_id: c.content_hash for c in children}
+    want = {c.chunk_id: c.embed_hash for c in children}
     try:
         records = get_qdrant_client().retrieve(
             collection_name=settings.qdrant_collection,
             ids=list(want),
-            with_payload=["content_hash"],
+            with_payload=["embed_hash"],
             with_vectors=True,
         )
     except Exception:  # pragma: no cover - store hiccup / collection missing
@@ -62,7 +69,7 @@ def _reusable_vectors(children: Sequence[Chunk]) -> dict[str, list[float]]:
         vector = getattr(record, "vector", None)
         if not isinstance(vector, list) or not vector:
             continue
-        stored = (getattr(record, "payload", None) or {}).get("content_hash")
+        stored = (getattr(record, "payload", None) or {}).get("embed_hash")
         chunk_id = str(record.id)
         if stored and stored == want.get(chunk_id):
             reusable[chunk_id] = list(vector)
@@ -105,7 +112,7 @@ def index_chunks(chunks: Sequence[Chunk], *, batch_size: int = 128, stamp: bool 
     reused = _reusable_vectors(children)
     pending = [c for c in children if c.chunk_id not in reused]
     with span("ingest.embed", chunks=len(pending), reused=len(reused)):
-        vectors = _embed_children([c.embed_text or c.text for c in pending], batch_size)
+        vectors = _embed_children([c.embed_input for c in pending], batch_size)
     vec_by_id = dict(reused)
     vec_by_id.update(zip((c.chunk_id for c in pending), vectors))
     dim = len(next(iter(vec_by_id.values()))) if vec_by_id else _probe_dim()

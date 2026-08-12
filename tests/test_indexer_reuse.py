@@ -167,9 +167,9 @@ def test_a_chunk_whose_carry_changed_is_re_embedded(store):
 
 def test_reuse_requires_a_matching_hash(store):
     _index(_doc(A, B, C, D))
-    # Corrupt one stored hash: that point must be re-embedded next time.
+    # Corrupt one stored reuse key: that point must be re-embedded next time.
     victim = next(pid for pid, p in store.points.items() if not p.payload["is_parent"])
-    store.points[victim].payload["content_hash"] = "stale"
+    store.points[victim].payload["embed_hash"] = "stale"
     _reset(store)
     _index(_doc(A, B, C, D))
     assert _embedded(store) == 1

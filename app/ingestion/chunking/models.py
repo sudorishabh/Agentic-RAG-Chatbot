@@ -2,6 +2,7 @@
 and the chunk itself."""
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -64,6 +65,28 @@ class Chunk:
     content_hash: str = ""
     has_table: bool = False
     table_markdown: str = ""
+
+    @property
+    def embed_input(self) -> str:
+        """Exactly the string the embedder is handed.
+
+        The single definition of that, so the vector, its fingerprint and the
+        payload can never disagree about what was embedded.
+        """
+        return self.embed_text or self.text
+
+    @property
+    def embed_hash(self) -> str:
+        """Fingerprint of :attr:`embed_input` — the vector-reuse key.
+
+        Distinct from ``content_hash`` on purpose. That one covers ``text``:
+        what citations quote and what dedup compares, and it says nothing about
+        the breadcrumb. The embedder sees the breadcrumb too, so retitling a
+        document — or correcting one heading — changes what would be embedded
+        while leaving ``content_hash`` byte-identical. Reuse has to key on what
+        was embedded, or those edits silently keep a vector of the old title.
+        """
+        return hashlib.sha256(self.embed_input.encode("utf-8")).hexdigest()
 
     def to_payload(self) -> dict[str, Any]:
         from app.ingestion.chunking.payload import build_payload

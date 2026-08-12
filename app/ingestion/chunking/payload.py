@@ -46,6 +46,10 @@ def build_payload(chunk: "Chunk") -> dict[str, Any]:
         "linked_article_uuid": m.linked_article_uuid,
     }
     if not chunk.is_parent:
+        # Only children carry a real vector, so only they carry the fingerprint
+        # of the text it was built from — the key `_reusable_vectors` checks
+        # before skipping an embedding call.
+        payload["embed_hash"] = chunk.embed_hash
         payload["parent_chunk_id"] = chunk.parent_chunk_id
         payload["chunk_index"] = chunk.chunk_index
         payload["page_number"] = chunk.page_number
