@@ -2,9 +2,10 @@
 
 Chunk ids are derived from owned content (see tests/test_chunk_identity.py), so
 an unchanged chunk keeps its id across a re-index. `index_chunks` now reads the
-stored vectors for those ids and skips the embedding call when `content_hash`
-still matches — the hash covers the exact stored text, carry included, so a
-chunk whose overlap shifted is re-embedded rather than reusing a stale vector.
+stored vectors for those ids and skips the embedding call when `embed_hash`
+still matches — the hash covers the exact string the embedder was handed, carry
+and "title › heading" breadcrumb included, so anything that moves that string is
+re-embedded rather than reusing a stale vector.
 
 The store and the embedder are stubbed; no network. Embedding calls are counted
 as *texts embedded*, which is what the Azure bill tracks.
@@ -200,6 +201,111 @@ def test_a_store_failure_falls_back_to_embedding_everything(store, monkeypatch):
     children = [c for c in chunk_document(_doc(A, B, C, D), META, config=CONFIG)
                 if not c.is_parent]
     assert _embedded(store) == len(children)
+
+
+# --- the breadcrumb is part of what gets embedded --------------------------- #
+#
+# A child's id and its `content_hash` both cover its own text only, so a title
+# or heading edit leaves them byte-identical while changing the string the
+# embedder is handed. Keying reuse on `content_hash` therefore kept a vector
+# built from the old title — silently, since the payload title was refreshed.
+# Each test below asserts the ids did NOT churn, so the re-embed can only be
+# the reuse key doing its job.
+
+OLD_TITLE = "Coastal Erosion Report 2019"
+NEW_TITLE = "Marine Sediment Loss Study 2024"
+
+
+def _meta(title: str) -> DocumentMeta:
+    """Same document, different title — ids stay put, the breadcrumb moves."""
+    return DocumentMeta(document_id="doc-1", source_type="pdf", title=title)
+
+
+def _index_as(text: str, *, title: str) -> int:
+    return indexer.index_chunks(chunk_document(text, _meta(title), config=CONFIG))
+
+
+def _children_of(text: str, title: str) -> list:
+    return [c for c in chunk_document(text, _meta(title), config=CONFIG) if not c.is_parent]
+
+
+def _child_ids(store) -> set[str]:
+    return {pid for pid, p in store.points.items() if not p.payload["is_parent"]}
+
+
+def test_an_unchanged_document_and_title_reuses_every_vector(store):
+    _index_as(_doc(A, B, C), title=OLD_TITLE)
+    _reset(store)
+    _index_as(_doc(A, B, C), title=OLD_TITLE)
+    assert _embedded(store) == 0
+
+
+def test_a_body_edit_re_embeds_that_chunk_with_the_title_held_still(store):
+    _index_as(_doc(A, B, C), title=OLD_TITLE)
+    _reset(store)
+    _index_as(_doc(A, B, C.replace("sewerage", "drainage")), title=OLD_TITLE)
+
+    assert _embedded(store) == 1
+    assert "drainage" in store.embedder.texts[0]
+
+
+def test_a_title_edit_re_embeds_every_child(store):
+    _index_as(_doc(A, B, C), title=OLD_TITLE)
+    before = _child_ids(store)
+    _reset(store)
+    _index_as(_doc(A, B, C), title=NEW_TITLE)
+
+    assert _embedded(store) == len(_children_of(_doc(A, B, C), NEW_TITLE))
+    assert all(NEW_TITLE in text for text in store.embedder.texts)
+    assert _child_ids(store) == before, "the ids must not churn; only the input did"
+
+
+def test_a_heading_edit_re_embeds_the_children_under_it(store):
+    before_text = _doc("# Groundwater Salinity", A, B, C)
+    after_text = _doc("# Aquifer Contamination", A, B, C)
+
+    _index_as(before_text, title=OLD_TITLE)
+    before = _child_ids(store)
+    _reset(store)
+    _index_as(after_text, title=OLD_TITLE)
+
+    assert _embedded(store) == len(_children_of(after_text, OLD_TITLE))
+    assert all("Aquifer Contamination" in text for text in store.embedder.texts)
+    assert _child_ids(store) == before, "the ids must not churn; only the input did"
+
+
+def test_repeated_identical_paragraphs_each_keep_reusing(store):
+    """The same text twice in one document is two chunks, ordinal-separated.
+    Both must reuse, and neither may collapse onto the other's point."""
+    text = _doc(A, B, A, C)
+    _index_as(text, title=OLD_TITLE)
+    before = _child_ids(store)
+    assert len(before) == len(_children_of(text, OLD_TITLE))
+
+    _reset(store)
+    _index_as(text, title=OLD_TITLE)
+
+    assert _embedded(store) == 0
+    assert _child_ids(store) == before
+
+
+def test_a_child_records_the_hash_of_what_was_embedded(store):
+    _index_as(_doc(A, B, C), title=OLD_TITLE)
+    child = next(p for p in store.points.values() if not p.payload["is_parent"])
+
+    assert child.payload["embed_hash"] != child.payload["content_hash"], (
+        "text behind a breadcrumb embeds something other than the text itself"
+    )
+
+
+def test_parents_carry_no_embedding_hash(store):
+    """They hold zero vectors and are never embedded, so there is no input to
+    fingerprint — a hash there would describe a call that never happened."""
+    _index_as(_doc(A, B, C), title=OLD_TITLE)
+    parents = [p for p in store.points.values() if p.payload["is_parent"]]
+
+    assert parents, "the fixture must produce a parent for this to mean anything"
+    assert all("embed_hash" not in p.payload for p in parents)
 
 
 # --- stale cleanup ---------------------------------------------------------- #
