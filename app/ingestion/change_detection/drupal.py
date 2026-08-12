@@ -63,6 +63,41 @@ def _load_retry_floors() -> dict[str, int]:
         return {}
 
 
+def _searchable_sources(
+    sources: list[tuple[str, str, bool]]
+) -> list[tuple[str, str, bool]]:
+    """Drop every source the searchable crawl must not turn into a document.
+
+    Taxonomy terms are what this exists for. A term is a label a document
+    carries, not a document: its uuid already travels in the payload of every
+    content chunk that references it (``term_ids`` / ``theme_ids``), and that is
+    what theme and tag filtering match on. Crawling the term as well records the
+    same fact a second time as a near-empty document — most vocabularies carry no
+    description at all — and puts it in front of retrieval, where it can be
+    returned in place of the content it was only ever meant to label.
+
+    Enforced here, on the single path that reaches chunking and Qdrant, rather
+    than by leaving them out of the default list: ``--bundle`` and the ingest API
+    both take an arbitrary "entity_type:bundle" spec, so a default list is a
+    convention while this is the rule. Metadata is untouched — this drops
+    taxonomy *sources*, never the taxonomy references on content records.
+    """
+    from app.ingestion.extractors.drupal_extractor import SEARCHABLE_ENTITY_TYPES
+
+    kept, dropped = [], []
+    for source in sources:
+        (kept if source[0] in SEARCHABLE_ENTITY_TYPES else dropped).append(source)
+    if dropped:
+        logger.warning(
+            "Not crawling %s: %s are metadata on content documents, never "
+            "searchable documents of their own. Their uuids still reach "
+            "retrieval through the payloads of the content that references them.",
+            ", ".join(f"{entity}/{bundle}" for entity, bundle, _ in dropped),
+            ", ".join(sorted({entity for entity, _, _ in dropped})),
+        )
+    return kept
+
+
 def detect_drupal_changes(
     bundles: Iterable[str] | None = None,
     *,
@@ -100,6 +135,9 @@ def detect_drupal_changes(
         sources = [("node", b, True) for b in DEFAULT_BUNDLES] + [
             ("block_content", b, False) for b in DEFAULT_BLOCKS
         ]
+    # Applied to the caller's list as well as the default one: a spec arriving
+    # from --bundle or POST /ingest/run gets the same answer as the default.
+    sources = _searchable_sources(sources)
 
     # Always crawl oldest-first: the MAX(changed_mark) high-water then only
     # ever covers documents that were actually processed, so it acts as a

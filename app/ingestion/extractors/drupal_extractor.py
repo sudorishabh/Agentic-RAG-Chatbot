@@ -33,14 +33,26 @@ DEFAULT_BUNDLES: tuple[str, ...] = (
     "infographics",
     "services",
     "report",
-    "people", # 
-    # "carousel",
-    )
+    "people",
+)
+
+# `carousel` is left out deliberately: those nodes are homepage promo slides
+# carrying a title and no body, so they chunk to nothing, and both of the live
+# ones name subjects already covered by real news and event content.
 
 
 # Custom blocks are not node bundles, but their bodies are prime corpus content
 # the node crawl never reaches. Fetched under /jsonapi/{entity_type}/{bundle}.
 DEFAULT_BLOCKS: tuple[str, ...] = ("basic",)
+
+# The entity types the searchable crawl may fetch. An allowlist, not a list of
+# exclusions: anything not deliberately admitted here stays out, so a new
+# JSON:API entity type cannot become a searchable document by default.
+#
+# Taxonomy terms are the case this exists for. A term is a label a document
+# carries, not a document in its own right — see
+# app.ingestion.change_detection.drupal._searchable_sources.
+SEARCHABLE_ENTITY_TYPES: frozenset[str] = frozenset({"node", "block_content"})
 
 
 LONG_TEXT_THRESHOLD = 255

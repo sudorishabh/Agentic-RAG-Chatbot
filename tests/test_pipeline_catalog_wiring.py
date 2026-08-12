@@ -14,9 +14,12 @@ from app.catalog.models import AttachmentLink, StateRecord
 
 
 def test_parse_bundle_spec():
+    """Parsing only. Whether a parsed source may be crawled is decided later,
+    by `_searchable_sources` — see tests/test_searchable_sources.py — so an
+    entity type the crawl refuses still parses cleanly here."""
     assert _parse_bundle_spec("report") == ("node", "report", True)
-    assert _parse_bundle_spec("taxonomy_term:themes") == ("taxonomy_term", "themes", False)
     assert _parse_bundle_spec("block_content:basic") == ("block_content", "basic", False)
+    assert _parse_bundle_spec("taxonomy_term:themes") == ("taxonomy_term", "themes", False)
 
 
 def _record(**kwargs) -> ChangeRecord:
@@ -112,8 +115,8 @@ def test_handle_saves_the_content_record(monkeypatch):
     monkeypatch.setattr(pipeline, "index_chunks", lambda chunks: 0)
     monkeypatch.setattr(pipeline, "delete_document", lambda doc_id, keep_ids=None: None)
 
-    record = _record(document_id="t-air", bundle="themes", entity_type="taxonomy_term")
-    doc = _doc(document_id="t-air", title="Air")
+    record = _record(document_id="n-air", bundle="research_papers", entity_type="node")
+    doc = _doc(document_id="n-air", title="Air quality in Indian cities")
 
     assert pipeline._handle(record, build_doc=lambda r: doc) == "indexed"
     assert order == ["save_state"]
@@ -125,17 +128,17 @@ def test_handle_unchanged_content_keeps_the_same_order(monkeypatch):
     order: list[str] = []
     _patch_persist_order(monkeypatch, order)
 
-    doc = _doc(document_id="t-air", title="Air")
+    doc = _doc(document_id="n-air", title="Air quality in Indian cities")
     prior = StateRecord(
-        document_id="t-air",
+        document_id="n-air",
         source_type="website",
-        source_key="https://example.org/themes/air",
+        source_key="https://example.org/research/air",
         fingerprint="2024-01-01",
         content_hash=doc.ensure_content_hash(),  # unchanged content
         doc_version=3,
     )
     record = _record(
-        document_id="t-air", bundle="themes", entity_type="taxonomy_term", prior=prior
+        document_id="n-air", bundle="research_papers", entity_type="node", prior=prior
     )
 
     assert pipeline._handle(record, build_doc=lambda r: doc) == "unchanged_content"

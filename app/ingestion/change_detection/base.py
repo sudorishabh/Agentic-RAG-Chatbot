@@ -40,8 +40,13 @@ class ChangeRecord:
 
 
 def _parse_bundle_spec(spec: str) -> tuple[str, str, bool]:
-    """Parse a --bundle value: 'report' is a node bundle; 'taxonomy_term:themes'
-    scopes another entity type. Only node bundles crawl incrementally."""
+    """Parse a --bundle value: 'report' is a node bundle; 'block_content:basic'
+    scopes another entity type. Only node bundles crawl incrementally.
+
+    Parsing only — whether a parsed source may be crawled at all is decided by
+    ``change_detection.drupal._searchable_sources``, so an unsupported entity
+    type still parses cleanly and is refused there with a reason.
+    """
     entity_type, sep, bundle = spec.partition(":")
     if not sep:
         entity_type, bundle = "node", spec
