@@ -20,8 +20,12 @@ def build_payload(chunk: "Chunk") -> dict[str, Any]:
         "chunk_text": chunk.text,
         "content_hash": chunk.content_hash,
         "token_count": chunk.token_count,
+        # `has_table` is read by the prompt builder and the rerank table boost.
+        # The table markdown itself is deliberately NOT stored: `join_blocks`
+        # already put every table row into `chunk_text`, so persisting it again
+        # duplicated ~10% of the payload for no reader. It stays on the Chunk
+        # for tooling and to derive `has_table`. See tests/test_chunk_payload.py.
         "has_table": chunk.has_table or None,
-        "table_markdown": chunk.table_markdown,
         "doc_version": m.doc_version,
         "is_current": m.is_current,
         "tenant_id": m.tenant_id,
