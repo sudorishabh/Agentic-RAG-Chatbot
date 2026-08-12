@@ -187,7 +187,9 @@ def test_capped_runs_crawl_oldest_first(monkeypatch):
     monkeypatch.setattr(de, "_iter_pages", fake_iter_pages)
     monkeypatch.setattr(de, "_discover_relationship_fields", lambda *a, **k: [])
 
+    # The serial id rides along as a tie-breaker so paging stays exhaustive;
+    # see tests/test_drupal_pagination.py.
     list(de.iter_bundle_records(None, "report", ascending=True))
-    assert captured["sort"] == "changed"
+    assert captured["sort"] == "changed,drupal_internal__nid"
     list(de.iter_bundle_records(None, "report"))
-    assert captured["sort"] == "-changed"
+    assert captured["sort"] == "-changed,-drupal_internal__nid"

@@ -45,6 +45,16 @@ DEFAULT_BLOCKS: tuple[str, ...] = ("basic",)
 
 LONG_TEXT_THRESHOLD = 255
 
+# Each entity type exposes its serial id under its own name. It is the only
+# per-resource field guaranteed unique, so it is what can make a sort total —
+# and a name that does not exist on the resource is a 400 that costs the whole
+# bundle, so this is a verified map rather than a guess.
+_SERIAL_ID_FIELD: dict[str, str] = {
+    "node": "drupal_internal__nid",
+    "block_content": "drupal_internal__id",
+    "taxonomy_term": "drupal_internal__tid",
+}
+
 # MIME types / extensions of document attachments we do not extract today but
 # want visibility into (R5). Images/media are intentionally excluded elsewhere.
 _DOC_EXTS = (".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".csv")
@@ -146,6 +156,29 @@ def iter_records(
             session.close()
 
 
+def _sort_key(entity_type: str, *, ascending: bool) -> str:
+    """The crawl's page ordering, made total by a unique tie-breaker.
+
+    Thousands of records share a single ``changed`` value from the 2017 site
+    migration, and offset pagination over a non-unique sort has no defined order
+    among the ties. The order it happens to pick differs between page requests,
+    so rows shift across page boundaries: some come back on two pages and others
+    on none — silently, and the same records every run. Measured on the live
+    site, a plain ``changed`` sort never returned 137 of 1,167 completed_projects
+    while returning 126 others twice.
+
+    Appending the entity's serial id breaks every tie, which is enough to make
+    the order total and the walk exhaustive. An entity type whose id field is
+    not known here keeps the plain ``changed`` sort: a sort field the resource
+    does not have answers 400 and loses the whole bundle, which is worse than
+    the duplicate-and-skip it would have fixed.
+    """
+    field = _SERIAL_ID_FIELD.get(entity_type)
+    if ascending:
+        return f"changed,{field}" if field else "changed"
+    return f"-changed,-{field}" if field else "-changed"
+
+
 def iter_bundle_records(
     session: requests.Session,
     bundle: str,
@@ -169,7 +202,7 @@ def iter_bundle_records(
     )
     params: dict[str, Any] = {
         "page[limit]": settings.drupal_page_size,
-        "sort": "changed" if ascending else "-changed",
+        "sort": _sort_key(entity_type, ascending=ascending),
     }
     if fields:
         params["include"] = ",".join(fields)
