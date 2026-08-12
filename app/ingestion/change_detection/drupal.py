@@ -63,6 +63,54 @@ def _load_retry_floors() -> dict[str, int]:
         return {}
 
 
+def _deletions_are_plausible(
+    entity_type: str, bundle: str, *, catalogued: int, live: int, missing: int
+) -> bool:
+    """Whether this bundle's live enumeration can be trusted enough to delete by.
+
+    Reconciliation infers deletion from absence, so an enumeration that merely
+    came back short is indistinguishable from a bundle that was really emptied.
+    What follows is not reversible: the points, the catalog row and every facet
+    row hanging off it go, with no tombstone to restore from. A fetch that
+    *fails* already skips the bundle; this is for the responses that arrive
+    successfully and incomplete — a renamed bundle, a filter that stopped
+    matching, a cache serving an empty page, a walk that lost one page of fifty.
+
+    Two rules, both per bundle so one bad source cannot stop the others:
+
+    * a live set that is empty while the catalog is not is never believed —
+      whatever emptied a whole bundle at once, it is worth a human look;
+    * otherwise the missing share may not reach
+      ``ingest_reconcile_max_missing_ratio``, with an absolute allowance of
+      ``ingest_reconcile_min_deletions`` so a small bundle can still lose a
+      document or two. That allowance sits far below one page of results, so it
+      cannot mask the truncation it is guarding against.
+    """
+    settings = get_settings()
+    ratio = missing / catalogued if catalogued else 0.0
+
+    if catalogued and not live:
+        reason = "the live enumeration returned nothing at all"
+    elif missing >= catalogued * settings.ingest_reconcile_max_missing_ratio and (
+        missing > settings.ingest_reconcile_min_deletions
+    ):
+        reason = (
+            f"{ratio:.1%} of the bundle is missing, at or above the "
+            f"{settings.ingest_reconcile_max_missing_ratio:.1%} limit"
+        )
+    else:
+        return True
+
+    logger.warning(
+        "Refusing to reconcile deletes for %s/%s: %s. Catalogued %d, live %d, "
+        "missing %d. No documents were deleted; the rest of the run is "
+        "unaffected. Re-check the source, then raise "
+        "ingest_reconcile_max_missing_ratio if the drop is real.",
+        entity_type, bundle, reason, catalogued, live, missing,
+    )
+    return False
+
+
 def _searchable_sources(
     sources: list[tuple[str, str, bool]]
 ) -> list[tuple[str, str, bool]]:
@@ -278,17 +326,26 @@ def detect_drupal_changes(
                         continue
                 else:
                     live = live_uuids
-                for uuid, record in prior.items():
-                    if uuid not in live:
-                        yield ChangeRecord(
-                            status=ChangeStatus.DELETED,
-                            document_id=uuid,
-                            source_type="website",
-                            source_key=record.source_key,
-                            bundle=bundle,
-                            prior=record,
-                            entity_type=entity_type,
-                        )
+
+                missing = {u: r for u, r in prior.items() if u not in live}
+                # Checked before anything is yielded, so a bundle whose live set
+                # looks incomplete loses nothing at all — not even the deletions
+                # that would have been correct.
+                if missing and not _deletions_are_plausible(
+                    entity_type, bundle,
+                    catalogued=len(prior), live=len(live), missing=len(missing),
+                ):
+                    continue
+                for uuid, record in missing.items():
+                    yield ChangeRecord(
+                        status=ChangeStatus.DELETED,
+                        document_id=uuid,
+                        source_type="website",
+                        source_key=record.source_key,
+                        bundle=bundle,
+                        prior=record,
+                        entity_type=entity_type,
+                    )
     finally:
         session.close()
         if suppressed:

@@ -242,11 +242,19 @@ def iter_node_uuids(
 ) -> Iterator[str]:
     settings = get_settings()
     base = settings.drupal_jsonapi_base.rstrip("/")
+    field = _SERIAL_ID_FIELD.get(entity_type, "drupal_internal__nid")
     params: dict[str, Any] = {
         "page[limit]": settings.drupal_page_size,
-        f"fields[{entity_type}--{bundle}]": "drupal_internal__nid",
+        f"fields[{entity_type}--{bundle}]": field,
+        # Ordered by the entity's serial id, which is unique — so the ordering is
+        # total and offset pagination cannot shuffle rows between pages. Delete
+        # reconciliation removes whatever this walk fails to return, which makes
+        # an exhaustive walk a correctness requirement rather than a nicety.
+        # Deliberately the id alone and no `changed` filter: this is the complete
+        # live set, not the incremental window the crawl walks.
+        "sort": field,
     }
-    
+
     if published_only:
         params["filter[status]"] = 1
 

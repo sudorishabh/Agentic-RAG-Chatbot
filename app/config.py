@@ -287,6 +287,20 @@ class Settings(BaseSettings):
     ingest_batch_size: int = 0
     ingest_batch_pause_seconds: float = 0.0
     ingest_workers: int = 1
+    # Delete reconciliation infers deletion from absence, so a live enumeration
+    # that merely came back short is indistinguishable from a bundle that was
+    # really emptied — and the deletion is immediate and total (points, catalog
+    # row, facet rows) with nothing to restore from. HTTP failures already skip
+    # the bundle; these two bound the damage a *successful* short response can do.
+    #
+    # A bundle is left alone when the share of its catalogued documents missing
+    # from the live set reaches this fraction: 0.10 means one run may never
+    # remove a tenth of a bundle.
+    ingest_reconcile_max_missing_ratio: float = 0.10
+    # ...except for this many documents, so a genuinely small bundle can still
+    # lose one. Kept far below `drupal_page_size`, since the failure being
+    # guarded against loses whole pages — an allowance this small cannot hide it.
+    ingest_reconcile_min_deletions: int = 2
 
 
 @lru_cache
