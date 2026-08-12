@@ -58,6 +58,10 @@ def _patch(monkeypatch, *, files, markers, load_raises=False):
 
     monkeypatch.setattr(drupal.dead_links, "ensure_table", lambda: None)
     monkeypatch.setattr(drupal.dead_links, "load", _load)
+    # Retry floors are exercised in tests/test_retry_floor.py; this module
+    # stubs the catalog out entirely.
+    monkeypatch.setattr(drupal.retries, "ensure_table", lambda: None)
+    monkeypatch.setattr(drupal.retries, "floors", dict)
 
 
 class _Session:

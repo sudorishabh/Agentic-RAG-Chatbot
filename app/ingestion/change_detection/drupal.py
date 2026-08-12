@@ -7,7 +7,7 @@ import logging
 from datetime import datetime
 from typing import Iterable, Iterator
 
-from app.catalog import dead_links, state
+from app.catalog import dead_links, retries, state
 from app.config import get_settings
 from app.ingestion.change_detection.base import (
     ChangeRecord,
@@ -45,6 +45,24 @@ def _load_dead_links() -> dict[str, dead_links.DeadLink]:
         return {}
 
 
+def _load_retry_floors() -> dict[str, int]:
+    """The earliest unresolved failure per bundle, as a crawl position.
+
+    Falls open to no floors: without them the crawl behaves exactly as it did
+    before they existed — which strands failures, but is no reason to abandon a
+    sweep over an unreachable table.
+    """
+    try:
+        retries.ensure_table()
+        return retries.floors()
+    except Exception:
+        logger.warning(
+            "Could not load retry floors; failed documents may stay out of "
+            "this run's window.", exc_info=True
+        )
+        return {}
+
+
 def detect_drupal_changes(
     bundles: Iterable[str] | None = None,
     *,
@@ -66,6 +84,7 @@ def detect_drupal_changes(
     prior_all = {**state.load("article"), **state.load("website")}
     prior_pdf_all = state.load("pdf_attachment")
     dead_pdf = _load_dead_links()
+    retry_floor = _load_retry_floors()
     # Per-run dedup so an in-body PDF linked from several records ingests once.
     seen_pdf: set[str] = set()
     suppressed = 0
@@ -99,6 +118,16 @@ def detect_drupal_changes(
                 if incremental
                 else None
             )
+            # The high-water mark is a maximum over documents that *succeeded*,
+            # which only resumes correctly if every document below it succeeded
+            # too. One error or skip in the middle breaks that, and oldest-first
+            # ordering does not help: the documents after it still raise the
+            # mark above the hole. Pull the window back to the earliest
+            # unresolved failure so it stays inside it. Only ever lowers the
+            # bound, so the crawl can return more than before but never less.
+            floor = retry_floor.get(bundle)
+            if high is not None and floor is not None:
+                high = min(high, floor)
             # Live document UUIDs yielded this run. For full-fetch sources this is
             # the complete live set, used for delete reconciliation below.
             live_uuids: set[str] = set()

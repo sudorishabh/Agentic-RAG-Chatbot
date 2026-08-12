@@ -13,6 +13,8 @@ as *texts embedded*, which is what the Azure bill tracks.
 
 from __future__ import annotations
 
+from types import SimpleNamespace
+
 import pytest
 
 from app.core import clients as core_clients
@@ -323,3 +325,100 @@ def test_upserted_ids_are_exactly_the_new_chunk_ids(store):
     stale = set(store.points) - keep
     assert all("Bravo" not in store.points[pid].payload.get("chunk_text", "") for pid in keep)
     assert stale, "the fixture must leave B behind for delete_document to remove"
+
+
+# --- the model that produced the vector ------------------------------------- #
+#
+# The same text embedded by a different model is a different vector, so matching
+# text is not enough to reuse one. Nothing about the chunk records which model
+# ran, which is why `embed_model` is stamped at index time and compared here.
+# Each test pins the ids as unchanged, so the re-embed is attributable to the
+# model check and not to chunk identity moving.
+
+LARGE = "text-embedding-3-large"
+SMALL = "text-embedding-3-small"
+
+
+def _use_model(monkeypatch, deployment: str, dimensions: int | None = 3072) -> None:
+    """Point the indexer at an embedding deployment, as the settings would."""
+    from app.core.clients import embeddings as embeddings_client
+
+    monkeypatch.setattr(
+        embeddings_client,
+        "get_settings",
+        lambda: SimpleNamespace(
+            azure_openai_embedding_model=deployment,
+            azure_openai_embedding_dimensions=dimensions,
+        ),
+    )
+
+
+def _all_children(store) -> int:
+    return len(_children_of(_doc(A, B, C), META.title))
+
+
+def test_unchanged_content_reuses_while_the_model_stays_put(store, monkeypatch):
+    _use_model(monkeypatch, LARGE)
+    _index(_doc(A, B, C))
+    _reset(store)
+    _index(_doc(A, B, C))
+
+    assert _embedded(store) == 0
+
+
+def test_unchanged_content_re_embeds_under_a_different_model(store, monkeypatch):
+    """The dimension is held equal, so only the deployment can explain it —
+    a same-size swap is exactly the one a vector length cannot catch."""
+    _use_model(monkeypatch, LARGE, dimensions=1536)
+    _index(_doc(A, B, C))
+    before = _child_ids(store)
+    _reset(store)
+
+    _use_model(monkeypatch, SMALL, dimensions=1536)
+    _index(_doc(A, B, C))
+
+    assert _embedded(store) == _all_children(store)
+    assert _child_ids(store) == before, "the ids must not churn; only the model did"
+
+
+def test_a_dimension_change_re_embeds_on_the_same_deployment(store, monkeypatch):
+    _use_model(monkeypatch, LARGE, dimensions=3072)
+    _index(_doc(A, B, C))
+    _reset(store)
+
+    _use_model(monkeypatch, LARGE, dimensions=1536)
+    _index(_doc(A, B, C))
+
+    assert _embedded(store) == _all_children(store)
+
+
+def test_a_point_that_names_no_model_is_never_reused(store, monkeypatch):
+    """Everything indexed before this key existed. Nothing says which model
+    produced those vectors, so they are re-embedded rather than trusted."""
+    _use_model(monkeypatch, LARGE)
+    _index(_doc(A, B, C))
+    for point in store.points.values():
+        point.payload.pop("embed_model", None)
+    _reset(store)
+
+    _index(_doc(A, B, C))
+
+    assert _embedded(store) == _all_children(store)
+
+
+def test_a_child_records_the_model_that_embedded_it(store, monkeypatch):
+    _use_model(monkeypatch, LARGE, dimensions=1536)
+    _index(_doc(A, B, C))
+
+    child = next(p for p in store.points.values() if not p.payload["is_parent"])
+    assert child.payload["embed_model"] == f"{LARGE}:1536"
+
+
+def test_parents_name_no_model(store, monkeypatch):
+    """Zero vectors: no model produced them, so none is claimed."""
+    _use_model(monkeypatch, LARGE)
+    _index(_doc(A, B, C))
+
+    parents = [p for p in store.points.values() if p.payload["is_parent"]]
+    assert parents, "the fixture must produce a parent for this to mean anything"
+    assert all("embed_model" not in p.payload for p in parents)

@@ -8,8 +8,20 @@ Collaborators are stubbed; no MySQL, Qdrant, or network.
 
 from __future__ import annotations
 
+import pytest
+
 from app.ingestion import pipeline
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus
+
+
+@pytest.fixture(autouse=True)
+def _no_retry_catalog(monkeypatch):
+    """Retry markers have their own tests (tests/test_retry_floor.py); this
+    module is about the run loop, and claims to reach no MySQL."""
+    monkeypatch.setattr(pipeline.retries, "ensure_table", lambda: None)
+    monkeypatch.setattr(pipeline.retries, "load", dict)
+    monkeypatch.setattr(pipeline.retries, "record", lambda *a, **k: None)
+    monkeypatch.setattr(pipeline.retries, "clear", lambda ids: 0)
 
 
 def _record(doc_id: str, source_type: str = "website") -> ChangeRecord:

@@ -9,6 +9,7 @@ from contextlib import contextmanager
 from typing import Callable, Iterable, Iterator
 
 from app.catalog import enrichment
+from app.catalog import retries
 from app.catalog import state
 from app.catalog import log as ingest_log
 from app.catalog.models import AttachmentLink, StateRecord
@@ -242,11 +243,64 @@ def _handle(
     return "indexed"
 
 
+# Outcomes that leave a document unindexed, and the ones that settle it. A
+# document that reached processing must end in one set or the other, or the
+# crawl cursor loses track of it (see app.catalog.retries). "unchanged" is in
+# neither: it never reached a build, and a document that is unchanged already
+# has the catalog row that positions the cursor.
+_UNRESOLVED_OUTCOMES = frozenset({"error", "skipped"})
+_RESOLVED_OUTCOMES = frozenset({"indexed", "unchanged_content", "deleted"})
+
+
+def _track_retry(record: ChangeRecord, outcome: str, pending: frozenset[str]) -> None:
+    """Keep the crawl's retry floor in step with what this document did.
+
+    ``pending`` is the unresolved set as it stood at the start of the run, so a
+    document that was never failing costs no write at all — the common case is
+    every document in a healthy sweep.
+
+    Fails open, like every other catalog write on this path: an unreachable
+    database costs one warning and the behaviour that predates the floor.
+    """
+    try:
+        if outcome in _UNRESOLVED_OUTCOMES:
+            retries.record(
+                record.document_id,
+                source_type=record.source_type,
+                bundle=record.bundle,
+                changed_mark=record.changed_mark,
+                outcome=outcome,
+            )
+        elif outcome in _RESOLVED_OUTCOMES and record.document_id in pending:
+            retries.clear([record.document_id])
+    except Exception:
+        logger.warning(
+            "Could not update the retry marker for %s; the crawl cursor may "
+            "skip it.", record.document_id, exc_info=True,
+        )
+
+
 # Outcomes that consumed real work (downloads, extraction, embedding). Only
 # these count against the batch budget — unchanged scans are free and must
 # never exhaust it, or a caught-up capped run would stall before reaching the
 # documents that actually changed.
 _WORKED_OUTCOMES = frozenset({"indexed", "deleted", "skipped", "error"})
+
+
+def _pending_retries() -> frozenset[str]:
+    """Documents that came into this run already carrying a retry marker.
+
+    Read once, so a healthy sweep never issues a delete per document: a document
+    that is not in here has nothing to clear.
+    """
+    try:
+        retries.ensure_table()
+        return frozenset(retries.load())
+    except Exception:
+        logger.exception(
+            "Could not read retry markers; failures this run will still be recorded."
+        )
+        return frozenset()
 
 
 def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
@@ -263,6 +317,7 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
             logger.exception(
                 "Could not ensure the enrichment table; abstracts will be skipped."
             )
+    pending_retries = _pending_retries()
     max_docs = settings.ingest_max_docs_per_run
     batch_size = settings.ingest_batch_size
     pause = settings.ingest_batch_pause_seconds
@@ -286,11 +341,15 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
 
     def handle(record: ChangeRecord) -> str:
         try:
-            return _handle(record, build_doc, run_id, note=note)
+            outcome = _handle(record, build_doc, run_id, note=note)
         except Exception as exc:
             logger.exception("Failed handling %s; skipping.", record.document_id)
             _log(run_id, record, "error", error=str(exc))
-            return "error"
+            outcome = "error"
+        # Here rather than inside _handle: this is the only place that sees
+        # every outcome, the raised ones included.
+        _track_retry(record, outcome, pending_retries)
+        return outcome
 
     def account(outcome: str) -> None:
         nonlocal worked

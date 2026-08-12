@@ -341,6 +341,41 @@ def ensure_dead_link_table() -> None:
         conn.commit()
 
 
+# Documents a run reached but did not index, and the crawl position each one
+# sits at. The incremental cursor is derived from `documents` — MAX(changed_mark)
+# over rows that exist, and a row exists only on success — so a failure leaves no
+# trace and the next run's cursor advances straight past it. These rows are that
+# trace: the crawl floors its cursor at the earliest one per bundle.
+#
+# Deliberately NOT a row in `documents`. A placeholder there would count as a
+# catalogued document in every analytical read (bundle counts, list_documents,
+# theme distributions) — a document that was never indexed showing up as one that
+# was. `changed_mark` mirrors the column it is compared against; `bundle` is what
+# the cursor is computed per.
+_RETRY_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_retry` (
+    document_id  VARCHAR(255) NOT NULL,
+    source_type  VARCHAR(32)  NOT NULL,
+    bundle       VARCHAR(128) NULL,
+    changed_mark BIGINT       NULL,
+    outcome      VARCHAR(16)  NOT NULL,
+    attempts     INT          NOT NULL DEFAULT 1,
+    error        TEXT         NULL,
+    first_seen   DATETIME     NOT NULL,
+    updated_at   DATETIME     NOT NULL,
+    PRIMARY KEY (document_id),
+    KEY idx_retry_floor (bundle, changed_mark)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+
+def ensure_retry_table() -> None:
+    table = state_table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(_RETRY_DDL.format(table=table))
+        conn.commit()
+
+
 # Shadow-mode measurement of attachment publication dates (Phase 0). Deliberately
 # its own table and not a column on `documents`: the point of the exercise is to
 # compare a proposed date against the one in use without touching the row that
