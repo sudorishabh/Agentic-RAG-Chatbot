@@ -114,6 +114,125 @@ def test_strips_footer_fragmented_mid_word():
     assert all(p.startswith("Body of page") for p in out)
 
 
+# --- recto/verso running heads ------------------------------------------ #
+#
+# Print layouts routinely put a running head on one side only. A recto-only
+# footer cannot reach half of *all* pages — an 8-page booklet has 4 recto pages
+# against a threshold of 4 — so it is measured against its own side instead, and
+# only when it never appears on the other side.
+
+
+# Bodies must differ by *letters*: `_running_key` strips digits, so pages that
+# vary only by a number collapse to one key and look like furniture themselves.
+_BODIES = [
+    "Coastal erosion reshaped the northern shoreline considerably.",
+    "Groundwater salinity rose across the eastern wards this decade.",
+    "Sewerage capacity remained unchanged despite population growth.",
+    "Tourist arrivals peaked during the winter festival season.",
+    "Mangrove cover declined near the estuary mouth.",
+    "Road drainage failed repeatedly under monsoon loading.",
+    "Heritage precincts require separate conservation funding.",
+    "Solid waste collection routes were consolidated last year.",
+    "Energy demand tracked commercial floor space closely.",
+    "Ferry services absorbed most cross-river commuter traffic.",
+    "Schools reported flooding on low-lying approach roads.",
+    "Hospital access routes need elevation above surge level.",
+]
+
+
+def _booklet(footer: str, n: int = 8, *, on_recto: bool = True) -> list[str]:
+    """n pages, `footer` printed on one side only (page 1 is recto)."""
+    pages = []
+    for i in range(n):
+        recto = i % 2 == 0
+        body = _BODIES[i % len(_BODIES)]
+        pages.append(f"{body}\n{footer}" if recto == on_recto else body)
+    return pages
+
+
+def test_strips_a_recto_only_running_footer():
+    """H2: a footer on odd pages only, which never reaches half of all pages."""
+    pages = _booklet("Case study brief: Panaji (goa, india)")
+    out = strip_running_lines(pages)
+    assert all("Case study brief" not in p for p in out)
+    assert all(_BODIES[i % len(_BODIES)] in p for i, p in enumerate(out))
+
+
+def test_strips_a_verso_only_running_header():
+    """H1: the same, printed on even pages instead."""
+    pages = _booklet("City Development Plan 2021", on_recto=False)
+    out = strip_running_lines(pages)
+    assert all("City Development Plan" not in p for p in out)
+    assert all(_BODIES[i % len(_BODIES)] in p for i, p in enumerate(out))
+
+
+def test_page_number_beside_the_footer_goes_with_it():
+    """The number and the footer are one piece of furniture: the window join
+    spans both, so neither is left stranded in the body text."""
+    pages = []
+    for i in range(8):
+        body = _BODIES[i]
+        pages.append(f"{body}\n{i + 1}\nCase study brief: Panaji (goa, india)" if i % 2 == 0 else body)
+    out = strip_running_lines(pages)
+    assert all("Case study brief" not in p for p in out)
+    for i, page in enumerate(out):
+        assert page.strip() == _BODIES[i]
+
+
+def test_repeated_content_on_both_sides_is_kept():
+    """H3: a label repeating on both recto and verso is content, not furniture.
+
+    It sits under the all-pages threshold, and because it appears on both sides
+    the recto/verso rule must not rescue it into the boilerplate set.
+    """
+    pages = []
+    for i in range(12):
+        body = _BODIES[i % len(_BODIES)]
+        # pages 1, 2 and 5 — mixed parity, 3/12 of the document
+        pages.append(f"{body}\nEcologically Sensitive Areas" if i in (0, 1, 4) else body)
+    out = strip_running_lines(pages)
+    assert sum("Ecologically Sensitive Areas" in p for p in out) == 3
+    assert all(_BODIES[i % len(_BODIES)] in p for i, p in enumerate(out))
+
+
+def test_one_sided_content_below_the_side_threshold_is_kept():
+    """H3: appearing on one side is not enough — it must dominate that side."""
+    pages = []
+    for i in range(12):  # 6 recto pages; put the line on only 2 of them
+        body = _BODIES[i % len(_BODIES)]
+        pages.append(f"{body}\nWater Supply" if i in (0, 2) else body)
+    out = strip_running_lines(pages)
+    assert sum("Water Supply" in p for p in out) == 2
+    assert all(_BODIES[i % len(_BODIES)] in p for i, p in enumerate(out))
+
+
+def test_a_line_appearing_once_is_never_stripped():
+    """H4: one occurrence is not a running head."""
+    pages = [f"Body unique to page {i + 1}." for i in range(8)]
+    pages[0] += "\nCase study brief: Panaji (goa, india)"
+    out = strip_running_lines(pages)
+    assert "Case study brief" in out[0]
+
+
+def test_side_rule_respects_the_absolute_minimum_count():
+    """Two occurrences never qualify, however one-sided they look."""
+    pages = [_BODIES[i] for i in range(4)]
+    for i in (0, 2):
+        pages[i] += "\nSome Repeated Label Here"
+    out = strip_running_lines(pages)
+    assert sum("Some Repeated Label Here" in p for p in out) == 2
+
+
+def test_stripping_preserves_page_count_and_order():
+    """H5: page furniture removal must not disturb which page text sits on —
+    page attribution downstream is derived from that position."""
+    pages = _booklet("Case study brief: Panaji (goa, india)", n=10)
+    out = strip_running_lines(pages)
+    assert len(out) == len(pages)
+    for i, page in enumerate(out):
+        assert _BODIES[i % len(_BODIES)] in page
+
+
 def test_keeps_short_repeated_real_heading_is_acceptable_loss():
     # Sanity: long body sentences (> max_line_words) are never candidates.
     long_line = "This is a genuinely long body sentence that recurs but must never be stripped as a header."

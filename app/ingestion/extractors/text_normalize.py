@@ -255,6 +255,7 @@ def strip_running_lines(
     min_key_len: int = 12,
     max_key_len: int = 90,
     max_line_words: int = 12,
+    side_fraction: float = 0.7,
 ) -> list[str]:
     """Remove running headers/footers: short lines repeated across most pages.
 
@@ -263,6 +264,13 @@ def strip_running_lines(
     "…for Ma" + "ritime Application-" vs "…for M" + "aritime Application-")
     still matches. A window appearing on >= the page threshold is dropped from
     every page. No-op for short documents or min_fraction <= 0.
+
+    Print layouts routinely put a running head on one side only, so a recto-only
+    footer cannot reach half of *all* pages — a 28-page booklet has 14 recto
+    pages against a threshold of 14. Such a key is therefore also measured
+    against its own side, and only when it is absent from the other side
+    entirely: real page furniture alternates strictly, whereas repeated body
+    text lands on both sides.
     """
     n = len(pages)
     if n < min_pages or min_fraction <= 0:
@@ -280,12 +288,29 @@ def strip_running_lines(
                     yield a, w + 1, joined
 
     page_counts: Counter = Counter()
-    for text in pages:
+    # Keyed by page parity: index 0 is page 1 (recto), index 1 is page 2 (verso).
+    side_counts: tuple[Counter, Counter] = (Counter(), Counter())
+    for index, text in enumerate(pages):
         elig = _eligible_lines(text.splitlines(), max_line_words)
-        page_counts.update({key for _, _, key in window_keys(elig)})
+        keys = {key for _, _, key in window_keys(elig)}
+        page_counts.update(keys)
+        side_counts[index % 2].update(keys)
 
+    side_totals = ((n + 1) // 2, n // 2)
     threshold = max(min_count, math.ceil(min_fraction * n))
-    boilerplate = {key for key, c in page_counts.items() if c >= threshold}
+
+    def is_boilerplate(key: str, count: int) -> bool:
+        if count >= threshold:
+            return True
+        for side, total in enumerate(side_totals):
+            here, other = side_counts[side][key], side_counts[1 - side][key]
+            if other or not total:
+                continue  # appears on both sides — repeated content, not furniture
+            if here >= min_count and here / total >= side_fraction:
+                return True
+        return False
+
+    boilerplate = {key for key, c in page_counts.items() if is_boilerplate(key, c)}
     if not boilerplate:
         return pages
 
