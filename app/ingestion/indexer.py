@@ -26,6 +26,49 @@ def _embed_children(texts: Sequence[str], batch_size: int) -> list[list[float]]:
     return vectors
 
 
+def _reusable_vectors(children: Sequence[Chunk]) -> dict[str, list[float]]:
+    """Stored vectors for these chunk ids whose content is unchanged.
+
+    A chunk id is derived from its owned content, so an unchanged chunk keeps its
+    id across re-index. ``content_hash`` covers the exact stored text — overlap
+    carry included — so a matching hash means the stored vector still describes
+    this text and the embedding call can be skipped. A chunk that kept its id but
+    changed its carry has a different hash and is re-embedded.
+
+    Best-effort: any failure reading the store falls back to embedding
+    everything, which is what the pipeline did before this existed.
+    """
+    if not children:
+        return {}
+
+    from app.config import get_settings
+    from app.core.clients import get_qdrant_client
+
+    settings = get_settings()
+    want = {c.chunk_id: c.content_hash for c in children}
+    try:
+        records = get_qdrant_client().retrieve(
+            collection_name=settings.qdrant_collection,
+            ids=list(want),
+            with_payload=["content_hash"],
+            with_vectors=True,
+        )
+    except Exception:  # pragma: no cover - store hiccup / collection missing
+        logger.debug("Could not read stored vectors; embedding every chunk.", exc_info=True)
+        return {}
+
+    reusable: dict[str, list[float]] = {}
+    for record in records:
+        vector = getattr(record, "vector", None)
+        if not isinstance(vector, list) or not vector:
+            continue
+        stored = (getattr(record, "payload", None) or {}).get("content_hash")
+        chunk_id = str(record.id)
+        if stored and stored == want.get(chunk_id):
+            reusable[chunk_id] = list(vector)
+    return reusable
+
+
 def _build_points(
     chunks: Sequence[Chunk],
     vec_by_id: dict[str, list[float]],
@@ -59,10 +102,13 @@ def index_chunks(chunks: Sequence[Chunk], *, batch_size: int = 128, stamp: bool 
     ensure_collection()
 
     children = [c for c in chunks if not c.is_parent]
-    with span("ingest.embed", chunks=len(children)):
-        vectors = _embed_children([c.embed_text or c.text for c in children], batch_size)
-    vec_by_id = {c.chunk_id: v for c, v in zip(children, vectors)}
-    dim = len(vectors[0]) if vectors else _probe_dim()
+    reused = _reusable_vectors(children)
+    pending = [c for c in children if c.chunk_id not in reused]
+    with span("ingest.embed", chunks=len(pending), reused=len(reused)):
+        vectors = _embed_children([c.embed_text or c.text for c in pending], batch_size)
+    vec_by_id = dict(reused)
+    vec_by_id.update(zip((c.chunk_id for c in pending), vectors))
+    dim = len(next(iter(vec_by_id.values()))) if vec_by_id else _probe_dim()
 
     points = _build_points(chunks, vec_by_id, dim, stamp=stamp)
 
@@ -75,8 +121,9 @@ def index_chunks(chunks: Sequence[Chunk], *, batch_size: int = 128, stamp: bool 
                 points=points[start : start + batch_size],
             )
     logger.info(
-        "Indexed %d points (%d children, %d parents) into %r",
-        len(points), len(children), len(points) - len(children), settings.qdrant_collection,
+        "Indexed %d points (%d children: %d embedded, %d reused; %d parents) into %r",
+        len(points), len(children), len(pending), len(reused),
+        len(points) - len(children), settings.qdrant_collection,
     )
     return len(points)
 

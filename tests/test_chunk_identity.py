@@ -162,20 +162,78 @@ def test_page_number_still_recorded_even_though_it_is_not_in_the_identity():
 
 # --- duplicates must not collapse ------------------------------------------- #
 
+# A boilerplate paragraph long enough to own a whole child on its own: at 30
+# tokens it cannot pack together with a neighbouring paragraph under CONFIG, so
+# repeating it really does produce two chunks with byte-identical owned content.
+# (A short phrase would fall under `child_min_tokens` and merge into its
+# neighbour, leaving no duplicate for the ordinal to disambiguate.)
+REPEATED = (
+    "This section is not applicable to the present assessment because the relevant "
+    "infrastructure lies wholly outside the study boundary that was formally agreed "
+    "with the city corporation during inception."
+)
+
+# Overlap off, so each child's stored text *is* its owned content and the
+# fixture can assert on it directly.
+NO_OVERLAP = ChunkingConfig(
+    child_target_tokens=40, child_max_tokens=60, child_min_tokens=10,
+    child_overlap_tokens=0, parent_target_tokens=100_000, parent_max_tokens=100_000,
+)
+
+DUPLICATED = _doc(A, REPEATED, B, REPEATED, C)
+
+
+def _owned(config=NO_OVERLAP, version=1):
+    return [
+        c for c in chunk_document(DUPLICATED, _meta(version), config=config)
+        if not c.is_parent
+    ]
+
+
+def test_the_fixture_really_produces_two_identical_chunks():
+    """Guards the test below: without this, asserting 'ids differ' proves nothing."""
+    twins = [c for c in _owned() if c.text.strip() == REPEATED]
+    assert len(twins) == 2, "fixture must yield two chunks whose owned content is equal"
+
+
 def test_identical_text_in_two_places_gets_two_ids():
-    repeated = "Not applicable."
-    text = _doc(A, repeated, B, repeated, C)
-    chunks = [c for c in chunk_document(text, _meta(), config=CONFIG) if not c.is_parent]
-    ids = [c.chunk_id for c in chunks]
+    twins = [c for c in _owned() if c.text.strip() == REPEATED]
+    assert len(twins) == 2
+    assert twins[0].text == twins[1].text          # same owned content...
+    assert twins[0].chunk_id != twins[1].chunk_id  # ...but distinct identities
+    ids = [c.chunk_id for c in _owned()]
     assert len(ids) == len(set(ids)), "duplicate content must not collapse onto one id"
 
 
+def test_the_ordinal_is_what_separates_them():
+    """The two ids differ only by occurrence: same document, same kind, same
+    owned content. Rebuilding one id with the other's ordinal collides."""
+    from app.ingestion.chunking import _chunk_id
+
+    meta = _meta()
+    twins = [c for c in _owned() if c.text.strip() == REPEATED]
+    assert [_chunk_id(meta, "child", REPEATED, i) for i in (0, 1)] == [
+        twins[0].chunk_id, twins[1].chunk_id
+    ]
+    # Collapsing the ordinal to a constant is exactly what would merge them.
+    assert _chunk_id(meta, "child", REPEATED, 0) == _chunk_id(meta, "child", REPEATED, 0)
+
+
 def test_duplicate_ordinals_are_stable_across_reindexing():
-    repeated = "Not applicable."
-    text = _doc(A, repeated, B, repeated, C)
-    first = [c.chunk_id for c in chunk_document(text, _meta(), config=CONFIG)]
-    second = [c.chunk_id for c in chunk_document(text, _meta(2), config=CONFIG)]
+    first = [c.chunk_id for c in _owned(version=1)]
+    second = [c.chunk_id for c in _owned(version=7)]
     assert first == second
+    twins = [c.chunk_id for c in _owned() if c.text.strip() == REPEATED]
+    assert twins == [c.chunk_id for c in _owned(version=7) if c.text.strip() == REPEATED]
+
+
+def test_duplicates_keep_distinct_ids_with_overlap_on():
+    """Overlap changes the stored text but not the owned content, so the pair
+    must still be two ids — the same two."""
+    with_overlap = [
+        c for c in chunk_document(DUPLICATED, _meta(), config=CONFIG) if not c.is_parent
+    ]
+    assert [c.chunk_id for c in with_overlap] == [c.chunk_id for c in _owned()]
 
 
 # --- scoping ----------------------------------------------------------------- #
