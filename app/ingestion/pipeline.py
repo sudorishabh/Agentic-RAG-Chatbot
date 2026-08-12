@@ -6,7 +6,7 @@ import time
 import uuid
 from collections import Counter
 from contextlib import contextmanager
-from typing import Callable, Iterable, Iterator
+from typing import Callable, Iterable, Iterator, Sequence
 
 from app.catalog import enrichment
 from app.catalog import retries
@@ -175,6 +175,64 @@ def _enrich(doc: CanonicalDocument, content_hash: str) -> str:
         return "error"
 
 
+def _delete_orphaned_attachments(
+    linked: Sequence[str], parent: ChangeRecord, run_id: str | None
+) -> list[str]:
+    """Remove the attachments that just lost their last parent.
+
+    A PDF is its own document, and one PDF is often reachable from several pages
+    — 84 of them are. Deleting a page must therefore not delete its attachments,
+    only end that page's claim on them; the attachment goes when the last claim
+    does. `documents_attachment` holds every claim, and the deleted parent's rows
+    have already cascaded away by the time this runs, so an id with no rows left
+    has no parent left.
+
+    Without this an attachment outlives every page that referenced it and stays
+    searchable forever: nothing else in the pipeline ever deletes one, because
+    the crawl only reaches an attachment through a parent it no longer has.
+
+    Fails open. An attachment that survives a failure here is the behaviour that
+    predates this function, and is worth far less than the parent delete that
+    already succeeded.
+    """
+    if not linked:
+        return []
+    try:
+        orphans = state.orphaned_attachments(linked)
+    except Exception:
+        logger.warning(
+            "Could not check whether %s's attachments still have a parent; "
+            "leaving them in place.", parent.document_id, exc_info=True,
+        )
+        return []
+
+    for orphan in orphans:
+        try:
+            delete_document(orphan)
+            state.delete([orphan])
+        except Exception:
+            logger.warning("Could not delete orphaned attachment %s.", orphan, exc_info=True)
+            continue
+        _log(
+            run_id,
+            ChangeRecord(
+                status=ChangeStatus.DELETED,
+                document_id=orphan,
+                source_type="pdf_attachment",
+                source_key=parent.source_key,
+                bundle=parent.bundle,
+            ),
+            "deleted",
+        )
+
+    kept = len(linked) - len(orphans)
+    logger.info(
+        "Deleted %d attachment(s) orphaned by %s; %d still linked elsewhere.",
+        len(orphans), parent.document_id, kept,
+    )
+    return orphans
+
+
 def _handle(
     record: ChangeRecord,
     build_doc: DocBuilder,
@@ -184,10 +242,14 @@ def _handle(
     prior_version = record.prior.doc_version if record.prior else None
 
     if record.status is ChangeStatus.DELETED:
+        # Captured before the delete: the document's link rows cascade away with
+        # it, and they are what says which attachments to re-examine afterwards.
+        linked = state.attachment_ids_for(record.document_id)
         delete_document(record.document_id)
         state.delete([record.document_id])
         logger.info("Deleted %s (%s)", record.document_id, record.source_key)
         _log(run_id, record, "deleted", version=prior_version)
+        _delete_orphaned_attachments(linked, record, run_id)
         return "deleted"
 
     if record.status is ChangeStatus.UNCHANGED:

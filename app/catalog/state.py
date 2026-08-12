@@ -28,6 +28,8 @@ __all__ = [
     "get",
     "upsert",
     "delete",
+    "attachment_ids_for",
+    "orphaned_attachments",
     "backfill_facets",
     "rename_theme_facet",
     "reclassify_theme_rows",
@@ -146,6 +148,51 @@ def get(document_id: str) -> StateRecord | None:
         )
         row = cur.fetchone()
     return _row_to_record(row) if row else None
+
+
+def attachment_ids_for(document_id: str) -> list[str]:
+    """The attachments this document links to.
+
+    Read *before* the document is deleted: its link rows cascade away with it,
+    which is exactly the information :func:`orphaned_attachments` then needs a
+    candidate list for.
+    """
+    if not document_id:
+        return []
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"SELECT file_uuid FROM `{_table()}_attachment` WHERE document_id = %s",
+            (document_id,),
+        )
+        return [row["file_uuid"] for row in cur.fetchall()]
+
+
+def orphaned_attachments(file_uuids: Iterable[str]) -> list[str]:
+    """Which of these attachments no longer hang off any document at all.
+
+    An attachment is shared: 84 of them are reachable from more than one page,
+    so losing one parent is not losing the attachment. The link table is the
+    whole truth about that, so the question is asked of it directly — after the
+    parent's rows have gone, an attachment with no rows left has no parent left.
+
+    Restricted to ids that are attachment documents in their own right, so a
+    file that was linked but never successfully ingested costs no delete call.
+    """
+    ids = [f for f in dict.fromkeys(file_uuids) if f]
+    if not ids:
+        return []
+    table = _table()
+    placeholders = ", ".join(["%s"] * len(ids))
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"SELECT d.document_id FROM `{table}` d "
+            f"WHERE d.document_id IN ({placeholders}) "
+            f"  AND d.source_type = 'pdf_attachment' "
+            f"  AND NOT EXISTS (SELECT 1 FROM `{table}_attachment` a "
+            f"                  WHERE a.file_uuid = d.document_id)",
+            tuple(ids),
+        )
+        return [row["document_id"] for row in cur.fetchall()]
 
 
 def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:

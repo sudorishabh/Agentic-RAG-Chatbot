@@ -262,6 +262,9 @@ def test_handle_deleted_removes_vectors_and_state(monkeypatch):
     )
     monkeypatch.setattr(pipeline.state, "delete", lambda ids: calls.update(state=list(ids)))
     monkeypatch.setattr(pipeline, "_log", lambda *a, **k: None)
+    # A document with no attachments: orphan cleanup has its own tests
+    # (tests/test_attachment_orphans.py) and reaches no catalog here.
+    monkeypatch.setattr(pipeline.state, "attachment_ids_for", lambda doc_id: [])
 
     record = _record(status=ChangeStatus.DELETED, document_id="d-1", entity_type="node")
     assert pipeline._handle(record, build_doc=lambda r: None) == "deleted"
