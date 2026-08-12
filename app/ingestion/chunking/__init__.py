@@ -52,12 +52,44 @@ __all__ = [
 _NAMESPACE = uuid.UUID("6f2a1d3e-8b4c-4a9f-9e7d-2c5b1a0f3e64")
 
 
-def _uuid(meta: DocumentMeta, suffix: str) -> str:
-    return str(uuid.uuid5(_NAMESPACE, f"{meta.document_id}|v{meta.doc_version}|{suffix}"))
-
-
 def _hash(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def _chunk_id(meta: DocumentMeta, kind: str, owned: str, ordinal: int) -> str:
+    """A chunk's identity: its own content, within its document.
+
+    Deliberately independent of everything transient, so an unchanged chunk
+    keeps its id and its stored vector can be reused:
+
+    * no ``doc_version`` — a version bump alone must not churn every id;
+    * no positional index — inserting or deleting text elsewhere in the
+      document must not shift the ids of chunks that did not change;
+    * no page number — repagination (a cover page added) is not a content edit;
+    * *owned* text, never the overlap carry — the carry belongs to the previous
+      chunk, and overlap settings are configuration, not content.
+
+    ``ordinal`` separates genuinely repeated text ("Not applicable." twice in
+    one document) so two distinct chunks can never collapse onto one id.
+
+    Identity is not the re-embed test: `Chunk.content_hash` still covers the
+    exact stored text, carry included, so a chunk whose carry changed keeps its
+    id but is correctly re-embedded rather than reusing a stale vector.
+    """
+    return str(uuid.uuid5(_NAMESPACE, f"{meta.document_id}|{kind}|{_hash(owned)}|{ordinal}"))
+
+
+class _Ordinals:
+    """Per-document occurrence counter for identical owned content."""
+
+    def __init__(self) -> None:
+        self._seen: dict[tuple[str, str], int] = {}
+
+    def next(self, kind: str, owned: str) -> int:
+        key = (kind, owned)
+        seen = self._seen.get(key, 0)
+        self._seen[key] = seen + 1
+        return seen
 
 
 _BREADCRUMB_SEP = " › "
@@ -92,8 +124,9 @@ def _build_chunks(
 ) -> list[Chunk]:
     chunks: list[Chunk] = []
     child_index = 0
+    ordinals = _Ordinals()
 
-    for section_idx, section in enumerate(sections):
+    for section in sections:
         heading = section.heading
         body = section.blocks
         crumb = _breadcrumb(meta, heading, config.breadcrumb_max_tokens, enc)
@@ -139,7 +172,7 @@ def _build_chunks(
             section_windows.extend(child_windows)
             parts.append(
                 (
-                    _uuid(meta, f"parent|{section_idx}.{part}"),
+                    _chunk_id(meta, "parent", ptext, ordinals.next("parent", ptext)),
                     ptext,
                     list(parent_blocks),
                 )
@@ -194,9 +227,14 @@ def _build_chunks(
                         "Child %d of %s is %d tokens, over the %d-token limit.",
                         child_index, meta.document_id, tokens, config.child_max_tokens,
                     )
+                # Identity is the child's OWN content — the text it authored,
+                # without the carry the previous chunk lent it.
+                owned = join_blocks(child.blocks) or ctext
                 chunks.append(
                     Chunk(
-                        chunk_id=_uuid(meta, f"child|{child_index}"),
+                        chunk_id=_chunk_id(
+                            meta, "child", owned, ordinals.next("child", owned)
+                        ),
                         text=ctext, is_parent=False, meta=meta,
                         embed_text=f"{crumb}\n\n{ctext}" if crumb else ctext,
                         section_heading=heading, section_type=classify_section(ctext),
