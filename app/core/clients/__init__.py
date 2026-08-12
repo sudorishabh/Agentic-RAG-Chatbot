@@ -14,7 +14,11 @@ from app.core.clients.database import (
     mysql_connection,
     new_mysql_connection,
 )
-from app.core.clients.embeddings import embed_query, get_embeddings
+from app.core.clients.embeddings import (
+    embed_query,
+    embedding_version,
+    get_embeddings,
+)
 from app.core.clients.llm import get_llm, get_structured_llm
 from app.core.clients.vector_store import (
     delete_document,
@@ -26,6 +30,7 @@ from app.core.clients.vector_store import (
 
 __all__ = [
     "embed_query",
+    "embedding_version",
     "get_embeddings",
     "get_llm",
     "get_structured_llm",

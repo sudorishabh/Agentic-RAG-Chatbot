@@ -40,24 +40,30 @@ def _reusable_vectors(children: Sequence[Chunk]) -> dict[str, list[float]]:
     Deliberately not ``content_hash``: that covers ``text`` alone, so keying on
     it reused a vector built from the old title whenever a document was renamed.
 
+    The same input embedded by a different model is a different vector, so
+    ``embed_model`` has to agree too. Without that check, repointing the
+    deployment leaves the collection a silent mix of two models' vectors that no
+    re-index repairs — re-indexing is exactly what reuses them.
+
     Best-effort: any failure reading the store falls back to embedding
     everything, which is what the pipeline did before this existed. A point
-    stored before ``embed_hash`` existed has none to match and is re-embedded,
+    stored before either key existed has nothing to match and is re-embedded,
     which is the safe direction.
     """
     if not children:
         return {}
 
     from app.config import get_settings
-    from app.core.clients import get_qdrant_client
+    from app.core.clients import embedding_version, get_qdrant_client
 
     settings = get_settings()
     want = {c.chunk_id: c.embed_hash for c in children}
+    model = embedding_version()
     try:
         records = get_qdrant_client().retrieve(
             collection_name=settings.qdrant_collection,
             ids=list(want),
-            with_payload=["embed_hash"],
+            with_payload=["embed_hash", "embed_model"],
             with_vectors=True,
         )
     except Exception:  # pragma: no cover - store hiccup / collection missing
@@ -69,7 +75,10 @@ def _reusable_vectors(children: Sequence[Chunk]) -> dict[str, list[float]]:
         vector = getattr(record, "vector", None)
         if not isinstance(vector, list) or not vector:
             continue
-        stored = (getattr(record, "payload", None) or {}).get("embed_hash")
+        payload = getattr(record, "payload", None) or {}
+        if payload.get("embed_model") != model:
+            continue
+        stored = payload.get("embed_hash")
         chunk_id = str(record.id)
         if stored and stored == want.get(chunk_id):
             reusable[chunk_id] = list(vector)
@@ -85,7 +94,10 @@ def _build_points(
 ) -> list[Any]:
     from qdrant_client.models import PointStruct
 
+    from app.core.clients import embedding_version
+
     timestamp = _now_iso()
+    model = embedding_version()
     zero = [0.0] * dim
     points: list[Any] = []
     for chunk in chunks:
@@ -93,6 +105,10 @@ def _build_points(
         if stamp:
             payload.setdefault("created_at", timestamp)
             payload["updated_at"] = timestamp
+        if not chunk.is_parent:
+            # Which configuration produced this vector. Identity, not a stamp,
+            # so it is written even when timestamping is off — reuse compares it.
+            payload["embed_model"] = model
         vector = zero if chunk.is_parent else vec_by_id[chunk.chunk_id]
         points.append(PointStruct(id=chunk.chunk_id, vector=vector, payload=payload))
     return points
