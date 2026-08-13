@@ -43,9 +43,6 @@ def ensure_collection() -> None:
             vectors_config=VectorParams(size=dimension, distance=Distance.COSINE),
         )
     _ensure_datetime_index(client, settings.qdrant_collection, "published_at")
-    # Term-UUID filters (rename-proof theme/taxonomy filtering).
-    _ensure_keyword_index(client, settings.qdrant_collection, "term_ids")
-    _ensure_keyword_index(client, settings.qdrant_collection, "theme_ids")
     # Recorded only after the collection is confirmed/created so a transient
     # failure above retries on the next call rather than being cached as done.
     _ensured_collections.add(settings.qdrant_collection)

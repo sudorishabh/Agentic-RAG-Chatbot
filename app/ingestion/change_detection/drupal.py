@@ -155,8 +155,8 @@ def _searchable_sources(
     """Drop every source the searchable crawl must not turn into a document.
 
     Taxonomy terms are what this exists for. A term is a label a document
-    carries, not a document: its uuid already travels in the payload of every
-    content chunk that references it (``term_ids`` / ``theme_ids``), and that is
+    carries, not a document: its name already travels in the payload of every
+    content chunk that references it (``categories`` / ``tags``), and that is
     what theme and tag filtering match on. Crawling the term as well records the
     same fact a second time as a near-empty document — most vocabularies carry no
     description at all — and puts it in front of retrieval, where it can be

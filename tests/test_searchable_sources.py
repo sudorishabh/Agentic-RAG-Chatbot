@@ -163,9 +163,10 @@ def test_a_crawled_node_keeps_its_taxonomy_references(monkeypatch, fetched):
     assert [r.uuid for r in record.payload.refs] == ["t-energy", "t-solar"]
 
 
-def test_taxonomy_uuids_survive_into_the_chunk_payload(monkeypatch, fetched):
-    """All the way to what Qdrant stores: theme and tag filtering match on these
-    ids, so they must outlive the decision to stop crawling the terms."""
+def test_theme_names_survive_into_the_chunk_payload(monkeypatch, fetched):
+    """All the way to what Qdrant stores. Theme scoping matches `categories` by
+    name, so the names must outlive the decision to stop crawling the terms —
+    the term UUIDs themselves are not stored, having never been filtered on."""
     from app.ingestion.canonical import from_drupal_record
     from app.ingestion.chunking import chunk_canonical
 
@@ -183,6 +184,6 @@ def test_taxonomy_uuids_survive_into_the_chunk_payload(monkeypatch, fetched):
     doc = from_drupal_record(record.payload)
     payload = next(c for c in chunk_canonical(doc) if not c.is_parent).to_payload()
 
-    assert payload["term_ids"] == ["t-energy", "t-solar"], "every vocabulary"
-    assert payload["theme_ids"] == ["t-energy"], "themes only, for theme filters"
     assert "Energy" in payload["categories"]
+    assert "term_ids" not in payload
+    assert "theme_ids" not in payload

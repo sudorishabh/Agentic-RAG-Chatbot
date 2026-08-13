@@ -33,10 +33,10 @@ def _parse_bound(value: str | None, *, field: str = "date") -> datetime | None:
 def _theme_condition(theme: str) -> Any:
     """Filter for a theme scope, by display name.
 
-    Qdrant payloads carry `categories` (theme names) alongside `theme_ids`; the
-    catalog is keyed by name now, so the name leg is the whole filter — there is
-    no MySQL term table to translate a name into UUIDs. Casing variants are
-    ORed because payloads store whatever the CMS supplied."""
+    Qdrant payloads carry `categories` (theme names); the catalog is keyed by
+    name, so the name leg is the whole filter — there is no MySQL term table to
+    translate a name into UUIDs. Casing variants are ORed because payloads store
+    whatever the CMS supplied."""
     from qdrant_client.models import FieldCondition, Filter, MatchAny
 
     names = sorted({theme, theme.title(), theme.strip()})

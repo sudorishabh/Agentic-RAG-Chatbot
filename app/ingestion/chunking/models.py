@@ -23,11 +23,6 @@ class DocumentMeta:
     tags: list[str] = field(default_factory=list)
     categories: list[str] = field(default_factory=list)
     authors: list[str] = field(default_factory=list)
-    # Taxonomy term UUIDs (theme_ids = category vocabularies only). Filters
-    # join on these; the name lists above are display-only and may go stale
-    # between a term rename and the payload refresh.
-    term_ids: list[str] = field(default_factory=list)
-    theme_ids: list[str] = field(default_factory=list)
     language: str | None = "en"
     tenant_id: str | None = None
     acl: list[str] = field(default_factory=list)

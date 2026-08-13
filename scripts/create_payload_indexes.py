@@ -1,8 +1,8 @@
 """Create the Qdrant payload indexes the query path filters on.
 
 Every search filters on is_parent / is_current / tenant_id / acl and often
-source_type, language and section_type, but only published_at, term_ids and
-theme_ids are indexed at ingest time. Index creation runs server-side over
+source_type, language and section_type, but only published_at is indexed at
+ingest time. Index creation runs server-side over
 existing points — nothing is re-ingested or re-embedded — but it does alter
 the collection, so run this only while no ingestion run is in progress.
 

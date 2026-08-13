@@ -33,8 +33,6 @@ def build_payload(chunk: "Chunk") -> dict[str, Any]:
         "tags": m.tags,
         "categories": m.categories,
         "authors": m.authors,
-        "term_ids": m.term_ids,
-        "theme_ids": m.theme_ids,
         "language": m.language,
         "source_url": m.source_url,
         "file_url": m.file_url,

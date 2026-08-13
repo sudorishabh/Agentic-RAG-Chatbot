@@ -284,12 +284,6 @@ def chunk_document(
 
 
 def _meta_from_canonical(doc: CanonicalDocument) -> DocumentMeta:
-    from app.ingestion.canonical import CATEGORY_VOCABULARIES
-
-    term_ids = [r.uuid for r in doc.entity_refs if r.vocabulary]
-    theme_ids = [
-        r.uuid for r in doc.entity_refs if r.vocabulary in CATEGORY_VOCABULARIES
-    ]
     return DocumentMeta(
         document_id=doc.document_id,
         source_type=doc.source_type,
@@ -304,8 +298,6 @@ def _meta_from_canonical(doc: CanonicalDocument) -> DocumentMeta:
         tags=list(doc.tags),
         categories=list(doc.categories),
         authors=list(doc.authors),
-        term_ids=list(dict.fromkeys(term_ids)),
-        theme_ids=list(dict.fromkeys(theme_ids)),
         language=doc.language,
         tenant_id=doc.tenant_id,
         acl=list(doc.acl),
