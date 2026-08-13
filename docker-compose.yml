@@ -8,5 +8,30 @@ services:
       - qdrant_storage:/qdrant/storage
     restart: unless-stopped
 
+  # Knowledge graph. Pinned rather than :latest because the schema in
+  # app/knowledge/graph/schema.py is written against what this edition actually
+  # supports — Community rejects NODE KEY and existence constraints, and the
+  # schema designs around that. A silent major-version bump would change which
+  # DDL is legal.
+  #
+  # The external volume name matches the container that was previously started
+  # by hand (`docker run -v neo4j_data:/data`), so adopting compose keeps the
+  # existing graph rather than starting an empty one. Stop and remove that
+  # container before `docker compose up`, or the port bindings collide.
+  neo4j:
+    image: neo4j:2026.07.1-community
+    ports:
+      - "7474:7474"   # HTTP / browser
+      - "7687:7687"   # Bolt
+    environment:
+      # Must match NEO4J_USER / NEO4J_PASSWORD in .env.
+      NEO4J_AUTH: "${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:?set NEO4J_PASSWORD in .env}"
+    volumes:
+      - neo4j_data:/data
+    restart: unless-stopped
+
 volumes:
   qdrant_storage:
+  neo4j_data:
+    external: true
+    name: neo4j_data

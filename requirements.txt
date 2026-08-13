@@ -9,6 +9,7 @@ langchain-qdrant
 langchain-community
 langchain-text-splitters
 qdrant-client
+neo4j                          # knowledge graph driver (app/core/clients/graph.py)
 pymysql
 cryptography
 requests

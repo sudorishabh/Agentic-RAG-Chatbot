@@ -219,6 +219,26 @@ class Settings(BaseSettings):
     otel_enabled: bool = False
     otel_service_name: str = "agentic-rag"
     otel_exporter_otlp_endpoint: str = ""
+    # Neo4j backs the knowledge graph (canonical entities, aliases, claims,
+    # provenance). It is a rebuildable projection of MySQL + Qdrant, never a
+    # system of record, so an outage degrades the knowledge layer and loses
+    # nothing. Community edition offers no role-based access control, so the
+    # read-only boundary for retrieval is enforced in code (see
+    # app/core/clients/graph.py) rather than by a restricted database user.
+    neo4j_uri: str = "bolt://localhost:7687"
+    neo4j_user: str = "neo4j"
+    neo4j_password: str = ""
+    # Community supports exactly one user database, named "neo4j".
+    neo4j_database: str = "neo4j"
+    neo4j_connection_timeout: float = 10.0
+    # Master switch for the knowledge layer (entity/claim extraction, graph
+    # projection). OFF: with this false nothing in the app opens a Neo4j
+    # connection and ingestion/retrieval behave exactly as they do today.
+    # Per-stage flags arrive with the stages they gate.
+    knowledge_enabled: bool = False
+    # Graph-backed retrieval. Separate from knowledge_enabled because the graph
+    # must be built and verified long before any query is allowed to read it.
+    graph_retrieval_enabled: bool = False
     mysql_host: str = "localhost"
     mysql_port: int = 3306
     mysql_user: str = ""

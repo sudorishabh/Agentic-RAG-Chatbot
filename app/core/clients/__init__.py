@@ -14,6 +14,13 @@ from app.core.clients.database import (
     mysql_connection,
     new_mysql_connection,
 )
+from app.core.clients.graph import (
+    get_graph_driver,
+    graph_available,
+    read_session,
+    reset_graph_driver,
+    write_session,
+)
 from app.core.clients.embeddings import (
     embed_query,
     embedding_version,
@@ -35,6 +42,11 @@ __all__ = [
     "get_llm",
     "get_structured_llm",
     "get_qdrant_client",
+    "get_graph_driver",
+    "graph_available",
+    "read_session",
+    "write_session",
+    "reset_graph_driver",
     "ensure_collection",
     "get_vector_store",
     "delete_document",

@@ -38,6 +38,37 @@ def _qdrant_status() -> dict:
             "collection_exists": exists, "points": points}
 
 
+def _neo4j_status() -> dict:
+    """Knowledge-graph reachability, plus how much is in it.
+
+    Reports ``enabled: False`` and stops when ``knowledge_enabled`` is off — the
+    default — so a deployment that has not adopted the knowledge layer never
+    opens a Neo4j connection just to answer a probe. Reachability is a value
+    rather than an exception because the graph is a rebuildable projection: it
+    being down is a degraded knowledge layer, never an unready service.
+    """
+    settings = get_settings()
+    if not settings.knowledge_enabled:
+        return {"enabled": False}
+    from app.core.clients import graph_available, read_session
+
+    if not graph_available():
+        return {"enabled": True, "reachable": False}
+    try:
+        with read_session() as session:
+            nodes = session.run("MATCH (n) RETURN count(n) AS n").single()["n"]
+            rels = session.run(
+                "MATCH ()-[r]->() RETURN count(r) AS n"
+            ).single()["n"]
+        return {
+            "enabled": True, "reachable": True,
+            "database": settings.neo4j_database, "nodes": nodes,
+            "relationships": rels,
+        }
+    except Exception:
+        return {"enabled": True, "reachable": False}
+
+
 def _redis_status() -> dict:
     from app.core.clients import get_redis
 
@@ -67,7 +98,10 @@ async def ready() -> JSONResponse:
     if not detail:
         return JSONResponse(content={"status": "ready"})
     redis = await run_in_threadpool(_redis_status)
-    return JSONResponse(content={"status": "ready", "qdrant": qdrant, "redis": redis})
+    neo4j = await run_in_threadpool(_neo4j_status)
+    return JSONResponse(
+        content={"status": "ready", "qdrant": qdrant, "redis": redis, "neo4j": neo4j}
+    )
 
 
 @router.get("/metrics/timings")
@@ -100,6 +134,7 @@ async def metrics(principal: Principal = Depends(optional_principal)) -> dict:
         "service": settings.otel_service_name,
         "qdrant": qdrant,
         "redis": await run_in_threadpool(_redis_status),
+        "neo4j": await run_in_threadpool(_neo4j_status),
         "reranker_provider": settings.reranker_provider,
         "retrieval": {
             "candidate_k": settings.retrieval_candidate_k,
