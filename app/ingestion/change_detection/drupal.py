@@ -111,6 +111,44 @@ def _deletions_are_plausible(
     return False
 
 
+def _safe_to_delete(uuid: str, bundle: str) -> bool:
+    """Whether this candidate is really gone, or just filed somewhere else now.
+
+    The prior snapshot is read once at the start of a run, so it keeps filing a
+    document under the bundle it has since left. If the new bundle was crawled
+    earlier in this same run the document has already been re-indexed under it,
+    and deleting on the strength of the stale snapshot takes a live, freshly
+    indexed document straight back out — invisible until the next sweep repairs
+    it. One catalog read per candidate settles it.
+
+    A missing row means there is nothing left to protect and the delete goes
+    ahead as before. Anything else leaves the document alone, a read that fails
+    included: not deleting costs one more sweep, deleting wrongly costs a
+    document out of the index until then.
+
+    Only ever removes candidates from a batch the completeness guard has already
+    approved, so it cannot loosen that check.
+    """
+    try:
+        current = state.get(uuid)
+    except Exception:
+        logger.warning(
+            "Could not confirm the current bundle of %s; leaving it in place "
+            "rather than deleting on a stale read.", uuid, exc_info=True,
+        )
+        return False
+
+    if current is None:
+        return True
+    if current.bundle != bundle:
+        logger.info(
+            "Not deleting %s: it is catalogued under %r now, not %r, so it moved "
+            "bundles rather than disappearing.", uuid, current.bundle, bundle,
+        )
+        return False
+    return True
+
+
 def _searchable_sources(
     sources: list[tuple[str, str, bool]]
 ) -> list[tuple[str, str, bool]]:
@@ -353,6 +391,10 @@ def detect_drupal_changes(
                 ):
                     continue
                 for uuid, record in missing.items():
+                    # Confirmed one at a time, against the catalog as it stands
+                    # now rather than as it stood when the run began.
+                    if not _safe_to_delete(uuid, bundle):
+                        continue
                     yield ChangeRecord(
                         status=ChangeStatus.DELETED,
                         document_id=uuid,

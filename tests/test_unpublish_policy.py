@@ -86,6 +86,9 @@ def site(monkeypatch):
         drupal.state, "load",
         lambda source_type: (dict(world.catalog) if source_type == "website" else {}),
     )
+    # Delete candidates are confirmed against the current catalog, which
+    # distinguishes a document that moved bundles from one that is gone.
+    monkeypatch.setattr(drupal.state, "get", lambda uuid: world.catalog.get(uuid))
     monkeypatch.setattr(drupal.dead_links, "ensure_table", lambda: None)
     monkeypatch.setattr(drupal.dead_links, "load", dict)
     monkeypatch.setattr(drupal.retries, "ensure_table", lambda: None)
