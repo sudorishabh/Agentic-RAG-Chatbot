@@ -1,0 +1,755 @@
+{
+  "version": "v1-draft",
+  "reviewed": false,
+  "status": "DRAFT - NOT GOLD. These labels are the extractor's own output over real chunks, recorded so a human has something to correct rather than a blank file. Scoring against them is circular and this script refuses to do it until 'reviewed' is true. Add the mentions the extractor MISSED (that is what measures recall) and delete the ones it should not have made.",
+  "chunks": [
+    {
+      "chunk_id": "00003a07-9123-5f86-89e1-040476fabeea",
+      "document_id": "inbody:891289c24e9c355e43b6555d67c3aa2ce1fc8661",
+      "title": "WSDS 2026 Thematic Track: Accelerating AgriPV in India: From Pilots to Policy-Led Scale-Up",
+      "text": "Averting rising crop losses requires developing \npolicies and programs that help the agricultural \nsector\u2014and particularly small-scale producers in \nthe Global South\u2014adapt to climate impacts and \nreduce GHG emissions. Public extension services are key to this effort; they can help farmers \nsurvive climate-induced disasters and become \nmore climate-resilient. Thus, they are crucial both \nto climate action and to broader agricultural and \nfood system transformation. Developing climate-\nresilient agriculture requires a multidisciplinary \napproach.\nHaving been impacted by the vicissitudes of \nclimate change, the agricultural sector is also \na significant contributor to GHG emissions. As\n\nhttps://www.mdpi.com/2227-9717/11/3/948\n3\t\nhttps://www.ise.fraunhofer.de/en/publications/studies/\nagrivoltaics-opportunities-for-agriculture-and-the-energy-\ntransition.html\nper the Third Biennial Update Report submitted \nby the Government of India in early 2021 to \nthe United Nations Framework Convention on \nClimate Change (UNFCCC), the agriculture sector \ncontributes 14% of the total GHG emissions \n(energy 75.01%; industrial process and product \nuse 8%; and waste 2.7%, as per 2016 data). \nReducing agricultural-related GHG emissions \nmay require diversification of cropping patterns, \nelimination of dependence on fossil fuels in \nagricultural activities, and management of crop \nresidue burning, among other techniques to tackle \nemissions reduction.\nThe Potential Solution: Multi-land Use for \nEnergy and Food Security\nAgrivoltaics\u2014or the co-location of photovoltaics \nand agriculture\u2014 emerges as one of the \nconcepts promoting RE with a people-centric \napproach, offering various advantages over \nconventional solar PV plants.\u00a0 The simultaneous \nproduction of electricity through PV deployment \non elevated structures and agriculture through \ncontinuing cropping underneath the panels \nnot only has the potential to offer increased \nland productivity by 60%,2 but also reduce \nwater evapotranspiration levels\u2014offering \nenhanced protection to crops in arid/semi-\narid regions. With lower water needs due to \nreduced evaporation, Agri-PV decreases energy \nconsumption for irrigation pumps, indirectly \nreducing emissions. Agri-PV enhances climate \nresilience by providing partial shade, reducing \nheat stress, conserving soil moisture, and \nprotecting crops from extreme weather events \nlike strong winds and hail. It also maintains soil \nhealth through reduced heat stress and better \nmoisture retention. Additionally, agrivoltaics \nhas the potential to empower the farmers \nby diversifying their incomes, enhancing \nparticipatory governance and increasing \nthe community\u2019s role in energy transition.",
+      "mentions": [
+        {
+          "surface": "United Nations Framework Convention on \nClimate Change",
+          "type": "ORGANIZATION",
+          "start": 963,
+          "end": 1017,
+          "method": "gazetteer"
+        }
+      ]
+    },
+    {
+      "chunk_id": "0001e47f-644e-58e2-bdaa-7b40192ff14c",
+      "document_id": "inbody:e4fdc8db95fbe5282ee022a6c59eac21fe9cdbbe",
+      "title": "India prepares to host UN conference to curb land degradation",
+      "text": "(Figure 2.8)\n\nFigure 2.8 Base Case Land Use Change. All figures in hectares:  1992-2030 Economics of Desertification, Land Degradation and Drought (DLDD) in India - Vol II: Six micro-economic case\n\n1:\n1:\nThe period 2004-2008 shows a dip in area under Prosopis and an increase in area under \ngrassland. This is due to the lifting of the ban on charcoal-making which caused an \nescalation in removal of Prosopis. Because of this, the grasses recovered, increasing the area \nunder grassland. After the ban was again imposed, it led to growth in area under Prosopis \nwhile the grasslands continued to shrink. \nOur base case simulation runs indicate that the net livestock income is projected to fall in \nfuture years and become negative for year 2020 due to two continuous low rainfall years- \n2019-20 (Figure 2.9). The decline in net livestock income is mainly due to falling livestock \npopulation and increase in livestock input costs, mainly feed and fodder (due to an \nincreased fodder deficit). These input costs spike due to fodder deficit which increases in the \nlater years due to reducing area under grassland. The input costs are projected to go up \nmainly because of external increase in inputs of feed to reduce the fodder deficit.\n\nFigure 2.9 Base Case Net Livestock Income: 1992-2003 \nGrassland biomass depends on the extent of rainfall and grassland productivity. The \nvariation in rainfall greatly influences the extent of grassland productivity and ultimately \nhow much grass grows in that particular year. As can be seen in figure (Fig 2.10) the fodder \ndeficit is expected to spike and rise in future years. This is mainly due to reducing grassland \narea coupled with some low rainfall years which lead to low grass production. The future \ntrend indicates increase in fodder deficit.\n\n|  |  | 1 |  |  |\n| --- | --- | --- | --- | --- |\n|  | 1 |  |  | 1 |\n\nEconomics of Desertification, Land Degradation and Drought (DLDD) in India - Vol II: Six micro-economic case",
+      "mentions": []
+    },
+    {
+      "chunk_id": "0002735f-4629-5c75-99c2-d0df1a1c45ce",
+      "document_id": "6f28ec08-3a64-4683-ab05-4993ab36338d",
+      "title": "Launch of report 'Practices and Solutions: Accelerating Indian Industry Decarbonisation'",
+      "text": "Prices | Northwich, United Kingdom | Solution\nDescription\nIn August 2021, the UK operations of Tata Chemicals \nsuccessfully commissioned a carbon capture and utilisation \nplant (CCU). The plant captures CO2 emitted from the gas-\nfired combined heat and power plant (CHP) at Winnington, \nNorthwich, United Kingdom. \nAs part of the process, the CO2 is then purified to the \nrequirements of the European Industrial Gases Association \n(EIGA) Food and Beverages Grade standards, and is \nsubsequently used to manufacture high-purity, API-grade \nnet zero sodium bicarbonate. \nTata Chemicals Limited \nThe plant had achieved nearly 15 kilotonnes of CO2 emissions \nreductions in FY 2021/22, and had demonstrated a proven \ncapacity to reduce the plants\u2019s CO2 emissions by 40,000 \ntonnes per annum (~11% of its total emissions). \nThe plant has benefited sodium bicarbonate business by \nsecuring CO2 cost advantages and is specifically beneficial for \nbusinesses given the high volatility of the CO2 market.\nOther Company Initiatives: Carbon \nCapture, Utilisation, and Storage \nJSW Steel Limited\n\u2022\t JSW Steel has been engaging with a variety \nof knowledge partners to enrich their own \nunderstanding of low-carbon steel production. Their \npartners include technology companies, academia, \ncross sector organisations, and government bodies, \nand they work with them for the development of \ndeep decarbonisation technologies like use of green \nhydrogen, innovative blast furnace\u2013basic oxygen \nfurnace (BF\u2013BOF), and carbon capture and storage. \n\u2022\t A few examples of the collaborations include an \nagreement signed with Shell India Markets Private \nLimited and Larsen and Toubro (L&T) for intensive \nexploration and evaluation of various carbon capture, \nusage and storage (CCUS) technologies and their \napplications in the steel industry.\nJain Irrigation Systems Limited (JISL)\n\u2022\t The organisation has planted 300,000 trees over the \nlast few decades. The forest patches created so far",
+      "mentions": [
+        {
+          "surface": "European Industrial Gases Association",
+          "type": "ORGANIZATION",
+          "start": 392,
+          "end": 429,
+          "method": "pattern"
+        },
+        {
+          "surface": "Tata Chemicals Limited",
+          "type": "ORGANIZATION",
+          "start": 569,
+          "end": 591,
+          "method": "gazetteer"
+        },
+        {
+          "surface": "JSW Steel Limited",
+          "type": "ORGANIZATION",
+          "start": 1065,
+          "end": 1082,
+          "method": "gazetteer"
+        },
+        {
+          "surface": "Jain Irrigation Systems Limited",
+          "type": "ORGANIZATION",
+          "start": 1823,
+          "end": 1854,
+          "method": "pattern"
+        },
+        {
+          "surface": "JISL",
+          "type": "ORGANIZATION",
+          "start": 1856,
+          "end": 1860,
+          "method": "pattern"
+        }
+      ]
+    },
+    {
+      "chunk_id": "00035626-5d7f-55c9-89a0-2046de7243cc",
+      "document_id": "3fb44e2c-8b5a-4fca-b177-6259cc32d244",
+      "title": "Sectoral Manual - Copper industry",
+      "text": "The stakeholder details specific to the copper sector are briefly described as follows:\n\uf0b7\nPrimary producers involved in manufacturing of copper concentrate, copper cathodes\nand other copper products. These include (i) Hindustan Copper Ltd (ii) Hindalco\nIndustries Ltd and (iii) Sterlite Industries Ltd\n\uf0b7\nSecondary producers involved in recycling copper from copper wastes and production\nof other copper products. These include (i) Jhagadia Copper Ltd and (ii) Other large,\nmedium and small scale industries (around 310 registered re-processors)\n\uf0b7\nGovernment \u2013 Operates the major public sector enterprise (Hindustan Copper Ltd). It\nalso defines trade policies and public private share in the industry.\n\uf0b7\nCopper bodies and associations\n(i)\nInternational Copper Study Group: It is an intergovernmental organization\nwhich provides platform for the government and associations to discuss various\nissues of copper sector.\n(ii)\nInternational Copper Promotion Council: Focuses on promoting usage of copper\nfor safety, health, environment and energy savings.\n(iii)\nIndian Copper Development Centre: Helps in promoting the right and efficient\nuse of copper and its alloys. It is involved in developing the market for copper\nand provides guidance to the Indian copper industries.",
+      "mentions": [
+        {
+          "surface": "Hindustan Copper Ltd",
+          "type": "ORGANIZATION",
+          "start": 218,
+          "end": 238,
+          "method": "pattern"
+        },
+        {
+          "surface": "Industries Ltd",
+          "type": "ORGANIZATION",
+          "start": 253,
+          "end": 267,
+          "method": "pattern"
+        },
+        {
+          "surface": "Sterlite Industries Ltd",
+          "type": "ORGANIZATION",
+          "start": 278,
+          "end": 301,
+          "method": "pattern"
+        },
+        {
+          "surface": "Jhagadia Copper Ltd",
+          "type": "ORGANIZATION",
+          "start": 431,
+          "end": 450,
+          "method": "pattern"
+        },
+        {
+          "surface": "Hindustan Copper Ltd",
+          "type": "ORGANIZATION",
+          "start": 605,
+          "end": 625,
+          "method": "pattern"
+        },
+        {
+          "surface": "International Copper Promotion Council",
+          "type": "ORGANIZATION",
+          "start": 921,
+          "end": 959,
+          "method": "pattern"
+        },
+        {
+          "surface": "Indian Copper Development Centre",
+          "type": "ORGANIZATION",
+          "start": 1056,
+          "end": 1088,
+          "method": "pattern"
+        }
+      ]
+    },
+    {
+      "chunk_id": "00035dc4-eadf-59b2-a635-8bf73e9602c5",
+      "document_id": "inbody:012683ed628fb1bc8a71a2f6020c9dc7c0d6c630",
+      "title": "Study on Implementation of Compensatory Afforestation in India",
+      "text": "Additionally, the replacement land often consists of fragmented \n\nparcels, hindering effective ecological restoration. Underutilization of funds is another critical | Report on \u201cA Study on Implementation of Compensatory Afforestation in India\u201d |  |\n| --- | --- |\n| Uttarakhand CAMPA (Compensatory Afforestation Fund Management and Planning Authority) |  |\n| was established in 2009 and has undergone multiple restructurings, including after the CAF Act |  |\n| of 2016. The governance structure includes a Governing Body chaired by the Chief Minister, a |  |\n| Steering Committee led by the Chief Secretary, and an Executive Committee under the Principal |  |\n| Chief Conservator of Forests. These committees meet regularly to oversee the planning and |  |\n| implementation of CAMPA activities. |  |\n| Uttarakhand's recorded forest area constitutes 71.2% of its geographical area. However, the state |  |\n| struggles to adequately compensate for forest diversion due to the scarcity of non-forest land for |  |\n| afforestation. Most diverted lands have not been fully compensated, with afforestation often |  |\n| taking place on degraded forest lands. The state has seen significant forest diversion, especially |  |\n| for infrastructure projects like roads and bridges, which contribute to forest fragmentation, |  |\n| habitat loss, and increased human-wildlife conflicts. |  |\n| Since 2009, Uttarakhand has received substantial financial support under CAMPA, with funds |  |\n| allocated for afforestation, forest protection, wildlife conservation, and | infrastructure |\n| development. Despite challenges, the state achieved 85.2% of its physical targets and 77.6% of its |  |\n| financial targets from FY 2011-2021, contributing to an increase in forest cover by 1,035 sq. km. |  |\n| Uttarakhand CAMPA has been less consistent in monitoring and evaluating its activities. There |  |\n| are no available reports on the state's CAMPA website indicating internal or external evaluations |  |\n| of the funded activities. |  |\n| RS-GIS Based Assessment of Forest Cover Quality and Land Use Pattern in Uttarakhand |  |\n| The results from the analysis of Land Use and Land Cover (LULC), Fractional Vegetation Cover |  |\n| (FVC), and forest canopy cover change detection reveal significant insights into the dynamic |  |\n| changes within CAMPA sites of the selected forest circle. |  |\n| The analysis of temporal variation in LULC within CAMPA sites of Garhwal Circle | in |\n| Uttarakhand from 2016 to 2023 shows a slight decrease in Tree Cover, reducing by 0.59 sq. km |  |",
+      "mentions": [
+        {
+          "surface": "Compensatory Afforestation Fund Management and Planning Authority",
+          "type": "ORGANIZATION",
+          "start": 284,
+          "end": 349,
+          "method": "pattern"
+        }
+      ]
+    },
+    {
+      "chunk_id": "000367bb-e342-5551-9f0e-628e211d2f6e",
+      "document_id": "d35e518e-784d-4ba9-b75f-573625927d27",
+      "title": "Loss and Damage Discussion Paper",
+      "text": "Climate Finance: An Overview. Environment: Science and Policy for Sustainable Development, 65(4), pp.18-26. | Operationalization of the Loss and Damage Fund: Challenges and Opportunities\t\n11\nrecipients of the fund as \u201cdeveloping countries that are particularly vulnerable\u201d30 to losses and damages \nfrom climate change. Under the existing UNFCCC categorization, which has not been amended since 1998, \ncountries are divided into \u201cdeveloped\u201d and \u201cdeveloping\u201d nations. Annex-I refers to 43 \u201cdeveloped countries\u201d, \nwho have the responsibility to contribute to the US$ 100 billion goal and are called Annex-I countries. Also, \nunder this categorization, there are 155 \u201cdeveloping countries\u201d, who are in receipt of these funds, and are \nknown as Non-Annex-I countries.\nThis section explores the various challenges involved in the establishment and operationalization of the \nloss and damage fund, from three different perspectives. There remain political and diplomatic challenges \naround the division of donors, beneficiaries, and responsibilities under the UNFCCC system, as well as the \nclimate finance challenges that deal with the scale, additionality, and the technical modalities of the loss and \ndamage fund. Lastly, there are also challenges in ensuring adequate technical resources and knowledge that \nwould be needed in the development and adoption of vulnerability and attribution metrics, as proposed by \nthe EU during the COP27 discussions. These challenges remain part of the discussions and decisions around \nloss and damage financing at COP28, as we move towards the recommendations and way forward chalked \nout by the transnational committee.\nThe establishment of the Loss and Damage Fund follows from a year that saw the occurrence of multiple \ndestructive extreme weather events, such as the extreme floods in Pakistan, Bangladesh, China, and Australia, \nmultiyear droughts in Kenya and East Africa, extreme heat waves in Europe and India, Hurricane Ian in the \nUSA, and Hurricane Fiona in the Caribbean and Canada. In 2022, 29 climate disasters were recorded, with \nthe loss and damage estimated\u00a0at over USD 1 billion31. These outlooks and the IPCC AR6 warnings32 that \nhighlighted that extreme events, especially heat waves and tropical cyclones are likely to become\u00a0more",
+      "mentions": []
+    },
+    {
+      "chunk_id": "00037a98-58ca-5766-b2f0-52fe79bf3be6",
+      "document_id": "444ccdb3-4ca8-4250-a092-8cfbb68415f6",
+      "title": "Sectoral Manual - Zinc industry",
+      "text": "The beneficiation method(s) selected varies with mining operations and depends on ore \ncharacteristics and economic considerations. A suitable smelter grade concentrate is produced \nin this process. The unwanted gangue is majorly removed and the sulphide ores are \nconcentrated. Efficient beneficiation process helps in saving large quantity of electrical and \nthermal energy along with using reduced optimum furnace capacity. Beneficiation of zinc ore is \na very complex process as it involves separation of lead concentrates and zinc concentrates. \nEffective treatment is required in order to achieve both the lead and zinc metals. Other \nassociated materials include minerals like silica, oxides and carbonates of other metals. Other \nmetals include, copper, arsenic, bismuth, antimony, etc. For an economic extraction, zinc \ncontent in the ore should be a minimum of 48 %.",
+      "mentions": []
+    },
+    {
+      "chunk_id": "00040fa2-dc44-5946-a1af-61995f07cb8e",
+      "document_id": "inbody:4414060fd5833fb6a2ba6873d884ae1fbd5bbae7",
+      "title": "Air and Water Quality Status Report of Maharashtra",
+      "text": "Annual Average of SO2, NOX & PM10 - MIDC Office Hingana Road Nagpur \nAverage of SO\u2082\nAverage of NO\u2093\nAverage of PM\u2081\u2080\nAnnual Average SO\u2082 Std (CPCB 2009)\nAnnual Average of NO\u2093 Std (CPCB 2009)\nAnnual Average of PM\u2081\u2080 Std (CPCB 2009)\n\n| Station Name | Year | Average of SO\u2082 | Average of NO\u2093 | Average of PM\u2081\u2080 |\n| --- | --- | --- | --- | --- |\n|  |  | 50 | 40 | 60 |\n| MIDC Office Hingana Road Nagpur | 18-19 | 13 | 39 | 118 |\n|  | 19-20 | 14 | 41 | 116 |\n|  | 20-21 | 9 | 24 | 96 |\n|  | 21-22 | 7 | 20 | 90 |\n|  | 22-23 | 6 | 26 | 131 |\n\nMIET, Gondia \nTable No. 197: Data for Monthly average concentration recorded at MIET, Gondia\n\nFigure No. 241: Monthly average concentration recorded at MIET, Gondia\n\nMonthly Average Trend of SO\u2082, NO\u2093 and PM\u2081\u2080 (2022-23) - MIET, Gondia\nAverage of SO\u2082\nAverage of No\u2093\nAverage of PM\u2081\u2080",
+      "mentions": []
+    },
+    {
+      "chunk_id": "0004678c-fd31-5723-84ae-b54ccdbd428f",
+      "document_id": "inbody:5a7efcf258dc592f7687c575185a28cf512b4553",
+      "title": "Air Pollution Emissions Inventory, Source Apportionment and Atmospheric Carrying Capacity Study of Kolkata in West Bengal",
+      "text": "36\nAir Pollution Source Apportionment and Atmospheric Carrying Capacity study in \nKolkata Municipal Corporation Area of West Bengal\nstoves, use of coal in roadside eateries etc. are important sources of atmospheric EC.  The ratio of EC \nfraction in PM2.5 to PM10 at most of the AQM locations during the measurement period was above 0.7, \nindicating local combustion sources viz. fuel combustion in eateries, industries, vehicles etc. However, \nthe ratio was around 0.5 at the KOA_5 location, this may be attributed to lesser combustion activities \nin the vicinity of the residential location. \nElemental profile of the atmospheric particulate matter\nThe elemental concentration in atmospheric PM10 is generally higher than that in PM2.5 during the \nmeasurement period (Figure 15). Regardless of the AQM locations in the KMC area, Fe, Si, Al, and \nS were the dominating elements in atmospheric PM10; nevertheless, K, Zn, and Pb were also found \nin low concentrations in the elemental mass of the atmospheric PM10.  In the W1, summer, and W2 \nseasons measurement periods, the fraction of Fe in the elemental concentration of the atmospheric \nPM10 ranged from 29% to 39%, 20% to 39%, and 19% to 36%, respectively (Figure 18). The fraction of \nSi in the elemental concentration of atmospheric PM10 varied between 16% and 29%, 20% and 37%, \nand 17% and 27% throughout the W1, summer, and W2 measurement periods, respectively (Figure 18). \nDuring the air quality measurement period, the proportions of Al and S in the elemental concentration \nof atmospheric PM10 varied from 6% to 17% and 6% to 17%, respectively.\nThe presence of crustal elements like Fe, Si, K, and Al in atmospheric PM10 indicates sources like soil and \nroad dust, while construction activities contribute to atmospheric Si and Al. Abraded vehicular part-",
+      "mentions": [
+        {
+          "surface": "Kolkata Municipal Corporation",
+          "type": "ORGANIZATION",
+          "start": 82,
+          "end": 111,
+          "method": "pattern"
+        }
+      ]
+    },
+    {
+      "chunk_id": "000589af-9dd5-5c6c-a30a-4177155a234e",
+      "document_id": "b8bdc1de-ac0d-49a5-bd02-eb2088234ba7",
+      "title": "Source Apportionment of PM2.5 & PM10 of Delhi NCR for Identification of Major Sources",
+      "text": "0.48 | 5.42 | 0.94 | 0.20 | 0.38 | 4.00 | 1.40 | 7.60 | 2.31 | 3.66 | 4.37 | 4.12 | | \uf06dg/m3 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n|  | PM2.5 Mass | OC | EC | Al | Si | Ca | Fe | Ti | K | S | Pb | Zn | Cl- | NO3- | SO4- - | Na+ | NH4+ | K+ | Ca++ |\n| Mean | 90 | 15.69 | 15.00 | 0.45 | 1.48 | 2.64 | 0.75 | 0.20 | 5.01 | 1.13 | 0.56 | 0.74 | 2.35 | 2.13 | 7.57 | 0.54 | 4.22 | 4.24 | 0.50 |\n| SD | 12 | 4.54 | 2.18 | 0.31 | 0.84 | 1.05 | 0.11 | 0.10 | 0.90 | 0.14 | 0.27 | 0.26 | 0.76 | 0.44 | 0.92 | 0.30 | 1.01 | 0.53 | 0.09 |\n| Min | 77 | 11.25 | 11.66 | 0.26 | 0.81 | 1.78 | 0.63 | 0.11 | 4.28 | 0.89 | 0.17 | 0.40 | 1.57 | 1.66 | 6.68 | 0.26 | 3.30 | 3.69 | 0.35 |\n| Max | 108 | 21.91 | 16.68 | 0.99 | 2.93 | 4.35 | 0.87 | 0.36 | 6.48 | 1.24 | 0.82 | 0.99 | 3.33 | 2.70 | 8.87 | 1.05 | 5.90 | 4.96 | 0.58 |",
+      "mentions": []
+    },
+    {
+      "chunk_id": "000597fb-73e8-5ca5-a4e7-6362b8c917a2",
+      "document_id": "inbody:ae4a1f4348418a6df80ae9c16c685b172f120499",
+      "title": "\u0915\u094b\u0935\u093f\u0921-19 \u0915\u0947 \u0926\u094c\u0930\u093e\u0928 \u0938\u0940\u090f\u0938\u0906\u0930: \u0905\u0928\u0941\u092d\u0935 \u0914\u0930 \u0938\u0940\u0916",
+      "text": "SDG India: Index and Dashboard 2020-21.\nHeymann, D. L. and N. Shindo. 2020. COVID-19: what is next for public health? Lancet 395(10224): 542\u2013\n545. Hong, B., Z. Li, and D. Mindavidor. 2016. Corporate governance and executive compensation for \ncorporate social responsibility. Journal of Business Ethics 136(1): 199\u2013213.\nHuang, C-J. 2010. Corporate governance, corporate social responsibility and corporate performance. \nJournal of Management & Organization 16: 641\u2013655.\nLeitheiser, E., S. N. Hossain, S. Sen, G. Tasnim, J. Moon, J. S. Knudsen, and S. Rahman. 2020. Early \nImpacts of Coronavirus on Bangladesh Apparel Supply Chains. RISC Briefing. \nMao, Y., J. He, A. M. Morrison, and J. A. Coca-Stefaniak. 2020. Effects of tourism CSR on employee \npsychological capital in the COVID-19 crisis: from the perspective of conservation of resources \ntheory. Current Issues in Tourism 1\u201319.\nShekhar, D. J. 2021. Inside the reshaping of CSR in India during Covid-19. Forbes, May 6.\nThakur, 2014, The rise of Modi Government and future of CSR. CSR Times, June 2014, pp. 14\u201316.",
+      "mentions": [
+        {
+          "surface": "Forbes",
+          "type": "ORGANIZATION",
+          "start": 959,
+          "end": 965,
+          "method": "gazetteer"
+        }
+      ]
+    },
+    {
+      "chunk_id": "00064662-0405-565b-9919-daf107c7b882",
+      "document_id": "7c533b44-8bd1-4a26-bfb4-371ca51db361",
+      "title": "Decarbonisation of iron and steel sectors",
+      "text": "Adoption of plant-specific energy-efficiency options, \nfor instance switch over to iron ore pellets, artificial neural network for accretion control, decentralized variable frequency drive (VFD) for shell air fans, would help in reducing the SEC level by as high as \n2.3 Gcal/t-DRI. \nThis technology compendium provides techno-economic details for a range of energy-efficient \ntechnologies for rotary kiln-based DRI industries. It will enable DRI industries to select and implement \nthe technologies based on their prioritization. The compendium also discusses the potential of \nfuturistic technologies such as coal gasification and hydrogen-based processes, which are either already \ncommercialized or under development to enable their adoption in the future.\nEXECUTIVE \nSUMMARY",
+      "mentions": []
+    },
+    {
+      "chunk_id": "0006e87d-c551-5142-bc0a-858e802b9838",
+      "document_id": "inbody:7e97b6d5a5c542d868e965a912228fe8fa412e3a",
+      "title": "Technical Assistance to the Resource Efficiency Initiative (REI) of the European Union",
+      "text": "The estimated weight of silver used is 170 mg/cell as was the practice in 2015. It has been found in the \nreport by ITRPV, that the median consumption of silver for the year 2017 has come down to 100 mg/\ncell and is 90 mg/cell for 2018. It is expected that by 2030 the weight will be reduced further to 50mg/\ncell. Copper (or other alloys), being relatively less expensive materials are expected to be used as a \nsubstitutes for silver. The trend in silver consumption between the two scenarios is depicted in figure \n2.6.\nFigure 2.6: Estimated material consumption by substituting silver with copper or other conducting materials\nSource: TERI calculations",
+      "mentions": []
+    },
+    {
+      "chunk_id": "0007e5a6-6056-5584-a0fb-4b4af7e47ab2",
+      "document_id": "inbody:73c4c805ce72c6cd34f6b10a3a948927ec639447",
+      "title": "Goa becomes India's first state to have resource efficiency strategy; measures suggested for tourism, construction sectors, and tackling marine litter",
+      "text": "Examples from across the world include:\n\u2022\t Non-biodegradable cutlery in US National Parks: \nMany of the national public parks run by the US \nNational Park Service require all food vendors to use biodegradable plates, cups, and other \ndisposable food containers as opposed to items \nmade from polystyrene. The vendors are also \ninstructed not to distribute straws with drinks \nunless specifically requested by the customer. \nEven then, only paper straws are allowed.\nPromote voluntary initiatives\nFishing for litter: Fishermen voluntarily collect and \nbring ashore all waste that has been \u2018bycaught\u2019 \nduring their normal fishing operations. This is \ncommon practice in United Kingdom, Netherland \nand is being adopted in many other places\nUnderwater clean-ups in hotspot areas: Divers \nremove abandoned, lost, or otherwise discarded \nfishing gear (ALDFG) from accumulation areas (e.g. \nwrecks), with additional benefit of reducing the \nimpact of ghost fishing. Divers can do this on a \nvoluntary basis or be paid to do so. Example: NL, \nHealthy Seas Initiative.\n\n\uf06e  85",
+      "mentions": []
+    },
+    {
+      "chunk_id": "00083a74-72b2-5cf1-b83c-6ce5e44b05e6",
+      "document_id": "5d9d6e91-742d-4c02-b5cd-acd5f70fcbd5",
+      "title": "Used Beverage Carton Management Study",
+      "text": "From |  |  |  |  |\n|  |  | 40 | 0 | 0.000% |\n| a total of 351 kg of baled material analysed, 0.013 |  |  |  |  | |  |  | 18 | 0 | 0.000% |\n| kg of UBCs were found, resulting in an average UBC |  |  |  |  |\n|  |  | 21 | 0 | 0.000% |\n| recycling rate of 0.004%. Among 7 large-scale scrap |  |  |  |  |\n| dealers 29% of the respondents were collecting UBCs, |  | 25 | 0 | 0.000% |\n| while the rest of 71% were not dealing with UBC. An |  |  |  |  |\n|  |  | 18.3 | 0 | 0.000% |\n| analysis of 286.6 kg of baled material from this group |  |  |  |  |\n|  |  | 51 | 0 | 0.000% |\n| revealed 5.66 kg of UBCs, indicating a recycling rate |  |  |  |  |\n|  |  | 32 | 0 | 0.000% |\n| of 1.98%. |  |  |  |  |\n|  | Total | 350.9 | 0.013 | 0.004% |\n| Additionally, a MRF analysis was conducted at |  |  |  |  |\n|  |  | TABLE 32 Bale analysis of Large-scale dealers |  |  |\n| the Dharamshala MRF. Three trucks representing |  |  |  |  |\n|  |  | conducted in Dharamshala |  |  |\n| residential, commercial, and institutional waste |  |  |  |  |\n| sources sampled. A sample size of 450 kg was | Category | Weight | UBC | Percentage |\n| analysed, revealing a total of 37.1 kg of mixed paper |  | of bale | found | UBC (%) |\n| waste and 0.968 kg of UBCs, indicating an average |  | analysed | in Bale |  |\n| UBC presence of 0.215%. |  | (Kgs) | (Kgs) |  |\n|  | Large Scale | 17 | 0 | 0.00% |\n|  | Scrap |  |  |  |\n|  |  | 36 | 0 | 0.00% |\n|  | Dealers |  |  |  |\n|  |  | 45 | 0.0102 | 0.02% |",
+      "mentions": []
+    },
+    {
+      "chunk_id": "000869ca-fe5c-59f4-9f72-1c19d16582f5",
+      "document_id": "1b25d478-499b-4ddd-843a-ac70e2a09013",
+      "title": "Explicating the ICJ Advisory Opinion on Obligations of States in respect of Climate Change",
+      "text": "[embedded: https://www.youtube.com/embed/hZd-63Xtje0?si=Xuph6JwSuglWGlMe]\n\nThe International Court of Justice (ICJ) issued its landmark Advisory Opinion on the Obligations of States in respect of Climate Change on 23 July 2025, marking a pivotal moment in international climate law. The ICJ clearly acknowledged climate change as an existential threat to both humanity and the planet, highlighting the urgency for legal and policy actions. It pointed out that States have binding obligations under international law\u2014not just aspirational goals\u2014to prevent serious environmental damage, collaborate globally, safeguard human rights in relation to climate change, and other related matters. The key suggestion is to consider failure to act decisively or properly as an internationally wrongful act, which can lead to consequences under the law of state responsibility, in line with the principle of Common but Differentiated Responsibility. It also broadens the States' responsibilities to regulate private entities.\n\nWhat are the normative and substantive implications of this advisory opinion? What bearing would it have on the interpretation of environmental law and agreements governing global climate governance? What implications might it have for the ambition in climate commitments of countries when they revise their NDCs? Will it create pressure on developed countries for scaling up their contributions to the Green Climate Fund and the Loss and Damage Fund? Does it strengthen or weaken the case for unilateral measures, such as CBAM? What does it mean for developing countries? What implications might it have on international trade? Does it open any new avenues for promoting climate justice in international negotiations? Would it have any trickle-down effect on national legal frameworks for climate change? Let\u2019s hear from the legal experts and the climate negotiators.\n\nSession Moderator: Dr Prodipto Ghosh, Distinguished Fellow, TERI\n\nSpeakers:\n\n1. Prof Bharat Desai, Humboldt Award Professor, Institute of International Law, University of Bonn\n2. Prof Anirudh Rajput, Distinguished Professor of Law, National Law University, Delhi\n3. Ms Anuradha R V, Partner, Clarus Law Associates\n4. Adv Jatinder Cheema, Advocate, the Supreme Court of India\n5. Amb Manjeev Puri, Distinguished Fellow, TERI\n6. Mr RR Rashmi, Distinguished Fellow, TERI\n\nWatch Here:",
+      "mentions": [
+        {
+          "surface": "Dr Prodipto Ghosh",
+          "type": "PERSON",
+          "start": 1904,
+          "end": 1921,
+          "method": "gazetteer"
+        },
+        {
+          "surface": "Bharat Desai",
+          "type": "PERSON",
+          "start": 1970,
+          "end": 1982,
+          "method": "pattern"
+        },
+        {
+          "surface": "Anirudh Rajput",
+          "type": "PERSON",
+          "start": 2069,
+          "end": 2083,
+          "method": "pattern"
+        },
+        {
+          "surface": "National Law University",
+          "type": "ORGANIZATION",
+          "start": 2117,
+          "end": 2140,
+          "method": "pattern"
+        },
+        {
+          "surface": "Anuradha",
+          "type": "PERSON",
+          "start": 2154,
+          "end": 2162,
+          "method": "pattern"
+        }
+      ]
+    },
+    {
+      "chunk_id": "000933d9-0f53-5f0f-8880-a033902487f4",
+      "document_id": "6fcad5b9-5c8f-436c-ae7c-09a84f256624",
+      "title": "Report Launch and Panel Discussion on \u2018Water Sustainability Assessment of Chennai",
+      "text": "On  \nWater Sustainability Assessment of Chennai \n5th June, 2021 (Thursday), 1030 hrs\n\n10:30 Hrs - 10:40 Hrs \nWelcome remarks \n- Mr Sanjay Seth, Senior Director, The Energy and Resources Institute \n(TERI)\n\n10:40 Hrs - 10:50 Hrs \nOpening remarks \n- Mr. Viral Oza, Chief Marketing Officer,  Mahindra Lifespace \nDevelopers Ltd. (MLDL)\n\n10:50 Hrs - 11:00Hrs \nInaugural address  \nDr. T. Prabhushankar, I.A.S. Executive Director, Chennai Metro \nWater Supply and Sewerage Board\n\n11:00 Hrs \u2013 11:05 Hrs \nLaunch of the Report\n\n11:05 Hrs - 11:20 Hrs \nPresentation on Findings of Water Sustainability Assessment \nReports of Chennai  \n\uf0b7 Area at a glance \n\uf0b7 Domains with description and issues \n\uf0b7 Potential risks for sustainable water management \n\uf0b7 Recommendations for sustainable water management  \n- Mr. Akashdeep, Senior Manager \n- Ms. Tarishi Kaushik, Research Associate, TERI\n\n11:20 Hrs - 12:20 Hrs \nPanel discussion moderated by Mr. Sanjay Seth, Senior Director, \nTERI",
+      "mentions": [
+        {
+          "surface": "Water Sustainability Assessment of Chennai",
+          "type": "PROJECT",
+          "start": 5,
+          "end": 47,
+          "method": "gazetteer"
+        },
+        {
+          "surface": "Mr Sanjay Seth",
+          "type": "PERSON",
+          "start": 128,
+          "end": 142,
+          "method": "gazetteer"
+        },
+        {
+          "surface": "Viral Oza",
+          "type": "PERSON",
+          "start": 251,
+          "end": 260,
+          "method": "pattern"
+        },
+        {
+          "surface": "Developers Ltd",
+          "type": "ORGANIZATION",
+          "start": 308,
+          "end": 322,
+          "method": "pattern"
+        },
+        {
+          "surface": "T. Prabhushankar",
+          "type": "PERSON",
+          "start": 378,
+          "end": 394,
+          "method": "pattern"
+        },
+        {
+          "surface": "Water Supply and Sewerage Board",
+          "type": "ORGANIZATION",
+          "start": 438,
+          "end": 469,
+          "method": "pattern"
+        },
+        {
+          "surface": "Akashdeep",
+          "type": "PERSON",
+          "start": 791,
+          "end": 800,
+          "method": "pattern"
+        },
+        {
+          "surface": "Tarishi Kaushik",
+          "type": "PERSON",
+          "start": 824,
+          "end": 839,
+          "method": "pattern"
+        },
+        {
+          "surface": "Sanjay Seth",
+          "type": "PERSON",
+          "start": 924,
+          "end": 935,
+          "method": "pattern"
+        }
+      ]
+    },
+    {
+      "chunk_id": "000a6328-b083-5bce-821a-0b153baf3c92",
+      "document_id": "inbody:016a388da93a816eeb6c34045709a299b9fd1bc6",
+      "title": "HFCs",
+      "text": "jsf\u00ddtsjsaV~l okys :e ,;j daMh'kujksa dh mfpr lfoZl fof/k;ka vkSj \nlaLFkkiu\u201c rduhf\u2019k;u dh gLriqfLrdk1\n1\t\nhttp://ozonecell.in/wp-content/themes/twentyseventeen-child/Documentation/assets/\npdf/Technician%20Handbook.pd\n\nU;twV\u00aaSd  | vad  11 | flrEcj 2020 e 5 \nl\u00c6o\u00c7lx ds csgrjhu rjhds  \nrkfydk 1% O;kolkf;d :i ls \u00e7;q\u00e4 jsf\u00ddtjsaV~l dh rqyukRed fo\u2019ks\"krk,\u00a1\nfMt+kbu n\u2019kk esa ok\u201dfi= nkc \u00bc,eih\u00bd\nfMt+kbu n'kk esa la?kuu nkc \u00bc,eih,\u00bd\nvkj-22 ds lkis{k 'khryu {kerk\nvkstksu {k;dkjh {kerk (vksMhih) \noSf\u2019od rkiu {kerk (thMCY;wih)\n1810\n677\n3\n2090\nToyu'khyrk *\nvToyu'khy (A1)\ngYdk Toyu'khy (A2L)\nToyu'khy (A3)\nvToyu'khy (A1)\nfo\u201dkk\u00e4rk\nfuEu\nfuEu\nfuEu\nfuEu\n**,,l,pvkj,bZ ekud. 34 inuke (,,l,pvkj,bZ, 2013)",
+      "mentions": []
+    },
+    {
+      "chunk_id": "000ab662-b1d6-539a-98f4-8d33feb51ee1",
+      "document_id": "99bdf791-8d00-46b6-b3d6-6839636e3bce",
+      "title": "First Environment Technologies Conference sees industry pioneers  brainstorming on water, waste and air pollution",
+      "text": "Inaugurating the conference on Tuesday, September 26, 2017, Mr Vijay Shivtare, Minister of state for Water resources and Water conservation, Maharashtra said, \"India continues to face multiple challenges, in the areas of the environment, water and waste management etc. Mumbai and Pune together, generate over 12,000 tonnes of waste, which could be a great opportunity for the Industry to get into a BOT (Build, Operate and Transfer) kind of an arrangement to recycle and/or transform waste to energy. India, being a largely agricultural economy, would also look at innovative solutions, which would also need to be sustainable and affordable.\"",
+      "mentions": [
+        {
+          "surface": "Vijay Shivtare",
+          "type": "PERSON",
+          "start": 63,
+          "end": 77,
+          "method": "pattern"
+        }
+      ]
+    },
+    {
+      "chunk_id": "000b6bf8-e550-5fc4-a3a5-4e0c2d2368b1",
+      "document_id": "b915c5c2-234b-461a-b6df-1b7444ae0004",
+      "title": "Enhancing Circular Economy of Waste Tyres in India",
+      "text": "India\u2019s tyre industry plays a crucial role in the global market, ranking 7th in global tyre \nproduction with a 3% share. The industry has been witnessing steady growth at an annual \nrate of 10%, driven by increasing demand from various vehicle segments and a focus on \nexpanding production capacity. For the financial year 2024-25 (FY 24), India\u2019s total domestic \ntyre production stands at 4.2 million metric tonnes (MMT). Of this, 2.5 MMT is absorbed for \nthe domestic market along with 0.2 MMT of inner tubes and flaps, while 1.5 MMT is exported, \nshowcasing India\u2019s strong presence in the global tyre market. Import of new tyres remains \nrelatively low at just 0.07 MMT, indicating a self-sufficient industry with minimal reliance on \nforeign supply. (Figure 2)\nFigure 2: Tyre Production for FY 2024, in MMT (Values provided by ATMA)\nThe two and three-wheeler segment contributes the most to tyre production, accounting for \n53% of total output. This dominance is driven by the high demand for two-wheelers in India, \nparticularly in urban and rural mobility. Other major contributors include passenger cars \n(26%), followed by truck and bus tyres (11%), light commercial vehicles (5%), and agricultural \nand farm tyres (4%). The remaining 1% of production serves miscellaneous vehicle categories. \n(Figure 3)",
+      "mentions": []
+    },
+    {
+      "chunk_id": "000cdaea-6dc9-5adc-90d4-026a8f71cd01",
+      "document_id": "80884ad1-53e8-48c4-b7d4-14318dbf71d2",
+      "title": "DRUM Training Programme on \"Regulation of Distribution Business\"",
+      "text": "1. All the assets and liabilities of DVB are acquired by GNCTD\nto Holding Company, entire Equity of Holding Company Is issued to GNCTD\nGoNCT\nHolding Co.\n3. All the assets are transferred from GNCTD to successor entities. Assets will be assigned a value equal to serviceable liabilities\n-\n-\n-\n-\n-\n1\n1\n1\n-\n.\n-\n1\n-\nGenco\nTransco\nD1\nD2\nD3\nFig. 7.3.1 DVB Financial Restructuring\n. It would be necessary to value the assets without having up-to-date asset registers or even annual accounts for the past several years, and without the possibility of waiting for these to be prepared. It was equally necessary to ensure that the valuation of assets reflected their earning capacity and did not impose an undue burden on the tariff.\n\u00b7 The new distribution companies must not be saddled with any of DVB's liabilities, including its receivables.\n\u00b7 The interests of personnel to be transferred to the new companies, particularly the distribution companies that were to be privatized, must be protected in order to ensure a smooth transition. Moreover, it was necessary to give comfort, both to the employees and to the investors, that the latter would not be responsible for the retirement benefits of the former.\n. Finally, it was vitally important to ensure both that there should be no 'tariff shock.' and that the investors would be assured of a reasonable return if they achieved reasonable efficiency improvements.\nThe main features of the package that was finally evolved over the period of the reform process. addressing the above identified issues, were briefly as follows:\n\u00b7 The projected time frame of reform did not permit the involvement of external agencies like the World Bank. SBI Capital Markets were engaged on the basis of their work in Kanpur.\n\u00b7 Aggregate technical and economic (AT&C) loss, being the difference between units of energy input and units for which payment is actually recovered. was adopted as the measure of commercial efficiency instead of the conventional",
+      "mentions": [
+        {
+          "surface": "Equity of Holding Company",
+          "type": "ORGANIZATION",
+          "start": 90,
+          "end": 115,
+          "method": "pattern"
+        }
+      ]
+    },
+    {
+      "chunk_id": "000cfd6f-97f0-5d49-be53-ff37e51801ff",
+      "document_id": "66a5f908-9305-4756-99bb-1833cc61def2",
+      "title": "What would make Indians buy EVs? Our survey has some answers",
+      "text": "Brand awareness also impacts consumers' idea of EVs available in the market. In our survey, 47.61% of the respondents said they were likely to purchase an EV from established brands only. However, 52.39% showed willingness to buying an EV from a new entrant or a lesser-known brand if adequate customer support is provided. This suggests that there is an opportunity for new brands to enter and compete with the established players. This market is still relatively new and those who can understand and respond to consumer needs will have an advantage over competitors.\n\nAn encouraging finding was also that, around 37% of the survey respondents revealed that they are considering buying an EV in the near future while 28% are certain that they will buy one in the future\n\n[image: Electric vehicles] Nearly 37% of respondents said they will definitely buy an EV in future.\nChallenges to purchasing an EV\n\nHigh Upfront Cost\n\nThe survey showed more than 70% of the respondents believe that the running cost of EVs is cheaper than that of the available petrol/CNG/diesel variants. However, Indian customers are very price sensitive and the high upfront costs make EVs unattractive to many. For their mass adoption, especially among middle-class consumers, the difference between the upfront cost of EVs and ICE vehicles will have to come down.",
+      "mentions": []
+    },
+    {
+      "chunk_id": "000d48eb-4caf-589a-bf25-61ee22aa501e",
+      "document_id": "cdca21d9-2965-42e5-8552-5e07982069bc",
+      "title": "Learning by example: Solar PVs in Bengaluru\u2019s schools",
+      "text": "The first PV system was \nconnected to the grid on 9 October, 2015. The others were soon to follow. The principal tasks carried out for the project were:  \n\u2022 Selection of schools/colleges and getting their commitment letters  \n\u2022 Selection of solar system supplier through bidding process  \n\u2022 Need assessment reports of individual educational institutions (schools/colleges)  \n\u2022 Engineering report pertaining to individual SRTPV systems for educational institutions \n\u2022 Obtaining approval from BESCOM for net metering for individual institutions  \n\u2022 Update on installation of PV systems and commissioning progress of work\n\nOnce the institutions were selected, a need-assessment study was conducted to identify energy \nconservation opportunities and estimate the solar PV requirement.\n\nS.No. Name of the Public Institutions \nMonthly Energy Cons. kWh \nMin \nMax \nAvg \n1 \nGovt. First Grade College, Krishnarajapuram \nGovt. High School, Doddanekundi  \nGovt. Science College, Nrupathunga Road \nSmt. V.H.D. Central Institute of Home Science, Seshadri Road \nMaharani\u2019s Science College for Women, Palace Road  \nMaharani\u2019s Science College Hostel, Seshadri Road  \nGovt. High School Sanguravanahalli, Basaveshwaranagar \nGovt. Primary School, Babusapalya, Kalyan Nagar \nGovt. High School, Chikkabidarakallu \n46 \n101 \n74 \n10 Govt. Primary School, Chikkabidarakallu \n10 \n77 \n55 \n11 Govt .High School, Agrahara Dasarahalli, Basaveshwaranagar  \nGovt. Primary School, Agrahara \nDasarahalli,Basaveshwaranagar \n6 \n86 \n30 \n13 Govt. P U College for Boys, Malleshwaram \n1109 \n2730 \n1708\n\nNote: 1) Sl.No. 5 & 6 are situated in same campus but with different metering installations \n          2)  Sl.No. 9 & 10 are situated in same campus but with different metering installations \n          3)  Sl.No. 11 & 12 are situated in same campus but with different metering installations\n\nDuring the need assessment study itself, some energy saving measures were identified and \nconveyed to the respective institutions. These were:",
+      "mentions": [
+        {
+          "surface": "Govt. First Grade College",
+          "type": "ORGANIZATION",
+          "start": 865,
+          "end": 890,
+          "method": "pattern"
+        },
+        {
+          "surface": "Govt. High School",
+          "type": "ORGANIZATION",
+          "start": 910,
+          "end": 927,
+          "method": "pattern"
+        },
+        {
+          "surface": "Govt. Science College",
+          "type": "ORGANIZATION",
+          "start": 944,
+          "end": 965,
+          "method": "pattern"
+        },
+        {
+          "surface": "Smt. V.H.D. Central Institute",
+          "type": "ORGANIZATION",
+          "start": 985,
+          "end": 1014,
+          "method": "pattern"
+        },
+        {
+          "surface": "Govt. High School",
+          "type": "ORGANIZATION",
+          "start": 1150,
+          "end": 1167,
+          "method": "pattern"
+        },
+        {
+          "surface": "Govt. Primary School",
+          "type": "ORGANIZATION",
+          "start": 1205,
+          "end": 1225,
+          "method": "pattern"
+        },
+        {
+          "surface": "Govt. High School",
+          "type": "ORGANIZATION",
+          "start": 1254,
+          "end": 1271,
+          "method": "pattern"
+        },
+        {
+          "surface": "Govt. Primary School",
+          "type": "ORGANIZATION",
+          "start": 1308,
+          "end": 1328,
+          "method": "pattern"
+        },
+        {
+          "surface": "Govt. Primary School",
+          "type": "ORGANIZATION",
+          "start": 1425,
+          "end": 1445,
+          "method": "pattern"
+        },
+        {
+          "surface": "Govt. P U College",
+          "type": "ORGANIZATION",
+          "start": 1502,
+          "end": 1519,
+          "method": "pattern"
+        }
+      ]
+    },
+    {
+      "chunk_id": "000de70f-1bb8-5498-bf40-baf4dbe71a52",
+      "document_id": "inbody:0464576d61ec54ac497d02a40e20e6dc30abe830",
+      "title": "TERI CBS Knowledge Library & Archives",
+      "text": "espite \nthe \ndiversity \nin \nscale, competence and \noutcomes, G20 countries \nhave reasonable technical \ncapacity, technological capability and \nmarkets for new technologies. They all \nhave their own versions of technological \nRD&D strategies. Without judging their \nefficiency, all of them have sectoral and \nnational innovation systems. We propose \nthat a technological \u201ccoalition\u201d connecting \nthese dispersed innovation systems and \nmarkets for new technologies can offer a \nhigher sustainability dividend at a lower \ncost than merely mobilising finance \nfor rapid technological deployment. \nOf course, this does not mean that the \nquestion of finance is secondary. In fact, \nadequate sustained financial support \nwould be required for such an initiative \nto bear fruit. Further, and in addition to \nadequate sustained financing provision, \nwe recommend a number of principles \nto guide the \u201ccoalition\u201d that connects \ninnovation systems and markets across \nG20 countries. \nPrinciple 1: A robust and \nsustainable global technology \nsupply chain\nMost \ntechnological \nsystems \nare \nassembled \nby \nsourcing \ndifferent \nsub-systems or parts from different \nsuppliers, often located in different \ncountries. \nTherefore, \na \nsmoothly \nfunctioning global supply chain of a \ntechnological system is essential for \nthe rapid diffusion of technologies. \nInconsistencies and friction in the global \nsupply chain increase the transaction \ncost of acquiring technology from \nthe open market and cause delays in \ndeployment. The proposed \u201ccoalition\u201d \nshould \ntherefore \nidentify \npotential \nsources of hiccups and frictions in \nthe global supply chain of emerging \ntechnologies and address them to \nreduce capital costs, transaction costs \nand time till final assembly. One way to \noperationalise this is by combining the \ncomparative advantages of countries in \ntechnology supply change. For example, \nthe transition in the manufacturing \nsector that can support the pace and \ndirection of low carbon transition needs \nproduction \ncapacity \nenhancement \nas well as design innovations. While \nemerging economies can scale up \nproduction capacity, they lack the",
+      "mentions": []
+    },
+    {
+      "chunk_id": "000e02aa-a190-5fe7-a699-1c700d80239a",
+      "document_id": "b3808dfb-31c3-4222-98f6-7b39404e4122",
+      "title": "Air Quality Status Report of Maharashtra 2016-17",
+      "text": "Ozone precursors come from fuel combustion from automobiles; oil \nbased and paint industries, power plant, oil refineries, and electronic \nequipment such as photocopiers. \nEffects \n\uf0b7 \nHuman Health: Reduce lung function, respiratory illness, premature \ndeath, asthma, bronchitis, heart attack, and other cardiopulmonary \nproblems. \n\uf0b7 \nEnvironment: Photochemical Smog\n\n16United States Air and Radiation EPA-452/K-99-001&Environmental Protection Washington, DC 20460 July \n1999AgencySmog-Who does it hurt, Page2. \n17 O. Cooper, ESRL, Tropospheric Ozone Global distribution and Radiative Forcing(2007), Slide 5\n\n| Common Molecular Life span in air Nature name formula |  |  |  |  |\n| --- | --- | --- | --- | --- |\n|  | Ozone | O3 | 22 +/- 2days17 | Polar |\n| Molecular structure |  |  |  |  |\n| Sources | Ozone precursors come from fuel combustion from automobiles; oil based and paint industries, power plant, oil refineries, and electronic equipment such as photocopiers. |  |  |  |\n| Effects | \uf0b7 Human Health: Reduce lung function, respiratory illness, premature death, asthma, bronchitis, heart attack, and other cardiopulmonary problems. \uf0b7 Environment: Photochemical Smog |  |  |  |\n\n21\n\nFigure No. 8: 8- hourly average O3 concentrations recorded by CAAQMS in Maharashtra\n\n8- hourly average ozone concentrations recorded by CAAQMS across Maharashtra\nAurangabad\nBandra\nChandrapur\nDombivali\nNagpur\nNashik\nPune\nSolapur\nCPCB Standard",
+      "mentions": []
+    },
+    {
+      "chunk_id": "000ec274-57fe-5d84-95bb-b6ba979e91c5",
+      "document_id": "3cf2103c-c216-443e-884d-37b0c42c4d14",
+      "title": "National Transport Decarbonization Council",
+      "text": "Table 1: Phases of Biodiesel in India\nPolicy/Guidelines\nYear\nSummary/Objective\nBiodiesel Purchase\nPolicy\n2006\nThe policy sets out measures to support activities for blending  \nbio-diesel in diesel and marketing of such blended fuel.\nNational Mission \non Biodiesel\n2009\nObjectives were to bring unutilized wasteland into productive use by \npromoting Jatropha and Pongamia Plantation for 20% blending with \nHSD.\nNotification 1\nAugust2015\nThe government allowed the direct sale of Biodiesel (B100) for blending \nwith diesel to Bulk Consumers.\nNational Biofuel\nPolicy\n2018\nIndia sets its target of achieving 5% blending (B5) of biodiesel with \nconventional diesel by 2030.\nNotification 2\nJune2017\nThe government allowed the sale of biodiesel to all consumers for \nblending with diesel.\nGuidelines\nApril 2019\nThe government has notified guidelines for the sale of biodiesel for \nblending with HSD for transportation purposes and has granted \npermission exclusively for the sale of biodiesel (B-100) only and not for \nany mixture thereof of whatever percentage.",
+      "mentions": []
+    },
+    {
+      "chunk_id": "000f5d80-d937-5170-ab14-e0deba9b8ca1",
+      "document_id": "2a884324-414c-403a-86d7-05b19f1b1e5c",
+      "title": "Financing Low Carbon Tranistion for India MSME Sector",
+      "text": "A back-ended subsidy refers to the subsidy amount that \nwill be adjusted on completion of the project and interest on the subsidy component is not charged \nto the loan amount. Provisions of back-ended subsidies can lead to a reduction of debts which would likely lead to better investment opportunities for switching from old technologies to energy-efficient \nand RE products for the MSME clusters in the state. For instance, the government of Tamil Nadu \nrecently launched a back-ended subsidy scheme for MSMEs at a 3 percent interest rate to enhance \nenergy efficiency at clusters which showed exceptional response from beneficiaries (Micro, Small and \nMedium Enterprises Department, 2011) . A similar initiative can be taken up by Maharashtra to include \nprovisions of back-ended subsidy in the next revision of the industrial policy.  \nAdditionally, the state policy does not have major provisions of financial instruments to promote the \nadoption of alternative clean technologies across the MSME clusters except for promoting the use of \nbiofuels. This divergence from the central schemes suggests that trade-finance particular to supply \nchain finance can be a provision that can be added to the existing or upcoming industrial or MSME-\nspecific policies. Due to its potential to link players and reduce the risk associated with the transaction \nacross the value chain, supply chain finance is anticipated to play a crucial role in addressing the \nMSME sector for the state of Maharashtra. However, in order to close the funding gap and promote \nbroadly inclusive and sustainable growth for various trade finance ecosystem stakeholders, there \nneeds to be considerable R&D and innovation for utilizing clean technology products and greening \nthe operational processes. This will also lead to improving market access where the MSME clusters \ncan sell their products that are green to a certain extent, which can also solve the problem of demand \nfor green products. Furthermore, it will also reduce the transaction costs and improve the viability \nof penetrating green alternative technologies in the MSME clusters across the state.  Therefore, \nprovisions with respect to financial assistance to support market accessibility, generate demand and \nfacilitate investments are vital elements to assist in MSME\u2019s low carbon transition in Maharashtra. \nLastly, capacity building, a critical element on the road to LCTs and one of the key focus areas of the \nnationally implemented policies and schemes, is lacking in the state industrial policy of Maharashtra. \nDue to the unorganized nature of clusters, there lacks a formal awareness and information",
+      "mentions": [
+        {
+          "surface": "Medium",
+          "type": "ORGANIZATION",
+          "start": 655,
+          "end": 661,
+          "method": "gazetteer"
+        }
+      ]
+    },
+    {
+      "chunk_id": "000f8711-e707-57fb-ae6a-71e99a3d96dd",
+      "document_id": "inbody:fa58de3007e3054f7130ba4da27b1f65ab687982",
+      "title": "SDG Blueprint for Sustainable Agriculture",
+      "text": "facilitate access to clean energy research and \ntechnology, \nincluding \nrenewable \nenergy, \nenergy \nefficiency, \nand \nadvanced \nand \ncleaner \nfossil-fuel \ntechnology, \nand \npromote \ninvestment \nin \nenergy \ninfrastructure and clean energy technology |  | Indian Council on \u2022 Agricultural Research (ICAR) Energy Efficiency \u2022 Services Limited (EESL) |  |  |  |\n| --- | --- | --- | --- | --- |\n| Integrated Power Development Scheme (IPDS) | Ministry of Power \u2022 Rural Electrification \u2022 Corporation Limited Power Finance \u2022 Corporation | X | X | X |\n| Sub-mission on Agricultural Mechanization (under National Mission on Agricultural Extension and Technology) | Ministry of \u2022 Agriculture and Farmer\u2019s Welfare |  |  | X |\n\n| Targets | Synergy | Trade-off |\n| --- | --- | --- |\n| Target 7.1: By 2030, ensure universal access to affordable, reliable, and modern energy services |  |  |\n| Target 7.2: By 2030, increase substantially the share of renewable energy in the global energy mix |  |  |\n| Target 7.3: By 2030, double the global rate of improvement in energy efficiency |  |  |\n| Target 7.a: By 2030, enhance international cooperation to facilitate access to clean energy research and technology, including renewable energy, energy efficiency, and advanced and cleaner fossil-fuel technology, and promote investment in energy infrastructure and clean energy technology |  |  |\n\nTarget 7.b: By 2030, expand infrastructure and upgrade \ntechnology for supplying modern and sustainable energy \nservices for all in developing countries, in particular least \ndeveloped countries, small island developing states, and \nlandlocked developing countries, in accordance with \ntheir respective programmes of support",
+      "mentions": [
+        {
+          "surface": "Services Limited",
+          "type": "ORGANIZATION",
+          "start": 323,
+          "end": 339,
+          "method": "pattern"
+        },
+        {
+          "surface": "Ministry of Power",
+          "type": "ORGANIZATION",
+          "start": 437,
+          "end": 454,
+          "method": "gazetteer"
+        }
+      ]
+    },
+    {
+      "chunk_id": "000f9b5d-6469-5de8-aed0-c320f43323bf",
+      "document_id": "inbody:2e518c6077f826f347f772d0521f1485a147646c",
+      "title": "B-EPICC- Brazil East \u200bAfrica Peru India Climate Capacities Strengthening Resilience against Climate Change",
+      "text": "\ufffd\u0940\u0935\u093f\u0915\u093e \u0915\u094b \u092a\u094d\u0930\u0924\u094d\u092f\u0915\u094d\u0937 \u0930\u0942\u092a \u0938\u0947 \u092a\u094d\u0930\u092d\u093e\u0935\u093f\u0924 \u0915\u0930\u0924\u0947 \u0939\u0948\u0902 (Planning \nCommission, GU, 2017, p. 51)\u0964\n3 \u0909\u0924\u094d\u0924\u0930\u093e\u0916\u0902\u0921 \u092e\u0947\u0902 \u0905\u0935\u0932\u094b\u0915\u093f\u0924 \u0914\u0930 \n\u092a\u0942\u0930\u094d\u0935\u093e\u0928\u0941\u092e\u093e\u0928\u093f\u0924 \u091c\u0932\u0935\u093e\u092f\u0941 \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928\n20\t \u092a\u0930\u094d\u0935\u0924\u0940\u092f \u0938\u094c\u0902\u0926\u0930\u094d\u092f \u2018\u0915\u094d\u0930\u093e\u092f\u094b\u0938\u094d\u092b\u0940\u0940\u092f\u0930 (\u0939\u093f\u092e\u092e\u0902\u0921\u0932) \u0915\u0947 \u0938\u094c\u0902\u0926\u0930\u094d\u092f \u092e\u0942\u0932\u094d\u092f \u0938\u0947 \u0938\u0902\u092c\u0902\u0927\u093f\u0924 \u0939\u0948 \u091c\u094b \u0915\u094d\u0930\u093e\u092f\u094b\u0938\u092b\u0947\u0930\u093f\u0915 (\u0939\u093f\u092e\u093e\u0935\u0930\u0923) \u092a\u0930\u094d\u092f\u091f\u0928 \u0915\u094b \u092a\u094d\u0930\u094b\u0924\u094d\u0938\u093e\u0939\u093f\u0924\n \u0915\u0930\u0924\u093e \u0939\u0948\u0964 \u0938\u094c\u0902\u0926\u0930\u094d\u092f \u092e\u0942\u0932\u094d\u092f \u092e\u0941\u0916\u094d\u092f\u0924\u092f\u093e \u0939\u093f\u092e\u092e\u0902\u0921\u0932\u0940\u092f \u092d\u0942\u0926\u0943\u0936\u092f \u0915\u0940 \u0915\u0932\u093e\u0924\u094d\u092e\u0915 \n\u0935\u093f\u0936\u093f\u0937\u094d\u091f\u0924\u093e\u0913\u0902 (\u0909\u0926\u093e. \u0906\u0915\u0943\u0924\u093f \u0914\u0930 \u0930\u0902\u0917), \u0938\u094d\u0925\u093f\u0924\u093f \u0914\u0930 \u092e\u0939\u0924\u094d\u0935 (\u0909\u0926\u093e. \u0935\u093f\u0935\u093f\u0927\u0924\u093e, \u0935\u093f\u0937\u092e\u0924\u093e, \u0906\u0928\u0902\u0926 \u0914\u0930 \u0905\u0916\u0902\u0921\u0924\u093e) \u0938\u0947 \u0938\u0902\u0926\u0930\u094d\u092d\u093f\u0924 \u0939\u0948\u0964 \u0938\u094c\u0902\u0926\u0930\u094d\u092f \u092e\u093e\u0928 \u092a\u0930 \u0935\u093f\u0936\u093f\u0937\u094d\u091f \u090f\u0915\u093e\u0927\u093f\u0915\u093e\u0930 \u0915\u0947 \u0938\u093e\u0925 \u0939\u093f\u092e\u092e\u0902\u0921\u0932\u0940\u092f \u092d\u0942\u0926\u0943\u0936\u092f \u0915\u094b \u092a\u094d\u0930\u0924\u093f\u0915\u0943\u0924",
+      "mentions": [
+        {
+          "surface": "Planning \nCommission",
+          "type": "ORGANIZATION",
+          "start": 46,
+          "end": 66,
+          "method": "gazetteer"
+        }
+      ]
+    },
+    {
+      "chunk_id": "00110911-97a9-57c4-81de-ed5f0b6073fd",
+      "document_id": "8d58e765-ecb8-4538-967f-a428a44665eb",
+      "title": "GRIHA Rating: Construction of Hall of Residence for girls, IIT Kanpur",
+      "text": "The proposed building has an area of 6311 m2. It is coming up in Indian Institute of Technology, Kanpur, Uttar Pradesh.\n\nIt is a 6 storied hostel building consisting of 164 double seated rooms. The ground floor consists of parking and Warden / Caretaker and office rooms. It has two lifts, each with a capacity to carry 8 people.\n\nThe green features of the project are as follows:\n\na) Energy Conservation\n\nb) Use of PPC with additional fly ash\n\nc) No smoking zone during construction\n\nd) Daylight Utilisation\n\ne) Optimization of water usage",
+      "mentions": [
+        {
+          "surface": "Indian Institute of Technology",
+          "type": "ORGANIZATION",
+          "start": 65,
+          "end": 95,
+          "method": "gazetteer"
+        }
+      ]
+    },
+    {
+      "chunk_id": "0011c65a-fbb6-5d5f-b901-2abef4124455",
+      "document_id": "c3211d7c-cac4-43fd-b0e7-66b8f8cb37b2",
+      "title": "TERI @ COP30",
+      "text": "iin.org/event/climate-development-nexus-equity-development-and-finance-net-zero-pathways) | Dr Vibha Dhawan\nDr Ritu Mathur\nDr Manish Shrivastava | November 19, 2025\nTime: 10:30 \u2013 11:30\nVenue: The Solar Hub, ISA Pavilion (C-79) | Panel Discussion: Scaling Built-Environment Efficiency and Grid Flexibility (https://teriin.org/event/panel-discussion-scaling-built-environment-efficiency-and-grid-flexibility) | Dr Vibha Dhawan\n\n| November 20, 2025\nTime: 11:30\u201313:00\nVenue: Side Event Room 4 | All Hands on Deck: Opportunities for Global Cooperation | Dr Manish Shrivastava\nDr Ritu Mathur\n\n| November 20, 2025\nTime: 12:00\u201313:00 hrs (BRT)\nVenue: The Solar Hub Pavilion (C-79) | Youth Driving the Energy Transition: Voices, Innovation, and Pathways to 2030 (https://teriin.org/event/youth-driving-energy-transition-voices-innovation-and-pathways-2030) | Dr Vibha Dhawan\nDr Arunendra K Tiwari\n\n| November 20, 2025\nTime: 16:45\u201418:15\nVenue: Side Event Room 5 | Overshoot, Justice and Multilateral Sovereign Guarantee Mechanisms in Climate Policy and Finance (https://teriin.org/event/overshoot-justice-and-multilateral-sovereign-guarantee-mechanisms-climate-policy-and-finance) | Mr Dipak Dasgupta\nDr Manish Kumar Shrivastava\n\n| November 21, 2025\nTime: 19:00 onwards\nVenue: Climate Wisdom Studio | Integrating Ethics, Science, and Innovation for Climate Resilience (https://teriin.org/event/integrating-ethics-science-and-innovation-climate-resilience) | Dr Vibha Dhawan",
+      "mentions": [
+        {
+          "surface": "Vibha Dhawan\nDr Ritu",
+          "type": "PERSON",
+          "start": 95,
+          "end": 115,
+          "method": "pattern"
+        },
+        {
+          "surface": "Manish Shrivastava",
+          "type": "PERSON",
+          "start": 126,
+          "end": 144,
+          "method": "pattern"
+        },
+        {
+          "surface": "Dr Vibha Dhawan",
+          "type": "PERSON",
+          "start": 409,
+          "end": 424,
+          "method": "gazetteer"
+        },
+        {
+          "surface": "Manish Shrivastava\nDr Ritu",
+          "type": "PERSON",
+          "start": 552,
+          "end": 578,
+          "method": "pattern"
+        },
+        {
+          "surface": "Vibha Dhawan\nDr Arunendra",
+          "type": "PERSON",
+          "start": 852,
+          "end": 877,
+          "method": "pattern"
+        },
+        {
+          "surface": "Dr Manish Kumar Shrivastava",
+          "type": "PERSON",
+          "start": 1190,
+          "end": 1217,
+          "method": "gazetteer"
+        },
+        {
+          "surface": "Dr Vibha Dhawan",
+          "type": "PERSON",
+          "start": 1447,
+          "end": 1462,
+          "method": "gazetteer"
+        }
+      ]
+    },
+    {
+      "chunk_id": "0012c1cf-ecd4-5ba1-8b59-9567236c43a5",
+      "document_id": "inbody:8334262a79317051a20f4477d348eb32ccf30d70",
+      "title": "Strengthening national MRV systems - Options and approaches for India",
+      "text": "Table 10 highlights the proposed data collection \nmechanism for the key parameters required for \nassessing GHG impact. It also suggests roles \nand responsibilities of different entities at the \nstate and national levels for supporting data \ncollection. Notably, as data availability has been \na challenge till now in the country, the table does \nnot list out current sources of data presuming \nthat documentation is yet to occur. The table \nonly suggests likely sources for data collection in \naccordance with the Energy Conservation Building \nCode Rules, 2018. \nConsidering the Rules, 2018 and lessons drawn \nfrom the cases of Andhra Pradesh, Karnataka, \nand Maharashtra, which are amongst the first few \nstates to adopt a mandatory implementation of the \nECBC, an MRV framework is proposed to facilitate \ndata collection. This framework was discussed in \nTable 10 Proposed data collection mechanism and roles and responsibilities\nS. No.\nData parameter\nReported to \nReported by \nResponsibility of the reporter \n1\nBuilt-up area\nUrban local \nbodies \n(ULBs) \nEmpanelled \nenergy auditor \n(EEA)\nThe EEA will conduct on-site audits to calculate \nthe EPI from the data gathered from building \nowners. The EEA would issue the ECBC Compliance \nCertificate on provision of relevant compliance \ndocuments by building owners.\n2\nSub-sector-wise energy \nperformance index \n(kWh/m2 for the year) \nand built-up area \nState \ndesignated \nagency \n(SDA)\nEmpanelled \nenergy auditor \n(EEA) \nDevelopers or building owners would submit \ncompliance documents to EEA (empanelled by \nBEE) for verification of code compliance\n3\nTotal energy \nconsumption of the \ncommercial building \nsector for year t (MWh)\nBureau \nof Energy \nEfficiency \n(BEE), \nMinistry of \nPower\nState \ndesignated \nagency (SDA)\nAll SDAs will report state-specific data on total \ncommercial building energy consumption (verified \nby EEAs)\n4\nWeighted average \nemissions factor for \nIndian grid in a year",
+      "mentions": [
+        {
+          "surface": "Bureau \nof Energy \nEfficiency",
+          "type": "ORGANIZATION",
+          "start": 1680,
+          "end": 1709,
+          "method": "gazetteer"
+        },
+        {
+          "surface": "Ministry of \nPower",
+          "type": "ORGANIZATION",
+          "start": 1719,
+          "end": 1737,
+          "method": "gazetteer"
+        }
+      ]
+    },
+    {
+      "chunk_id": "0012d061-f792-5b32-8b7a-3bc3ba0889fa",
+      "document_id": "f8295243-5bc8-46e6-b896-6e40faffa3b9",
+      "title": "When alternatives can be the solution",
+      "text": "In all this, a clear \noutcome orientation should drive processes. At the same time, we also need to take cognisance of those technologies that will hit the \nglobal market prior to our engagement with the research or development process. Thus, \nillustratively, if solar photovoltaic-based power generation technology would enable us to \ngenerate electricity at 12 cents/unit (< Rs 5/unit), it would be an attractive option for retail \nrural supply. How do we keep track of these developments and their price expectations? \nWhat policies/facilities need to be put in place? What support infrastructure, including \nmanpower, do we need to plan for? What kinds of customised applications could we \nstart seeding? How does regulation respond?\n\nThe opportunities arising out of the renewable energy and related industry are not only \nrestricted to India. Last year, most of Indian manufacturing capacity of solar PV cells, \nalthough small, was dedicated to meeting the demands from Germany.\n\nSimilar was the case with China. China\u2019s emergence as a major manufacturing hub for \nsolar and wind technologies was spurred by demand from Europe. To convert the \nchallenge of energy security into an opportunity, India and Indian industry need to act \nand react in a strategic manner that is almost cold-blooded in its calculation\u2014or lose \ninexorably to stiff competition all around! Gone are the days of dole-based, evenhanded \nand casual research and development that yielded results, if one were lucky!",
+      "mentions": []
+    },
+    {
+      "chunk_id": "0013dd89-fba2-5c0e-bd1b-306935c9a313",
+      "document_id": "08c1f42c-0d14-415a-9d14-28f2ad19a37a",
+      "title": "Discussion paper on India\u2019s Journey to Net Zero: A Conceptual Framework  for Analysis",
+      "text": "xii India's Journey to Net Zero: A Conceptual Framework for Analysis\n\n1\nINTRODUCTION\nIn the landmark 2015 Paris Agreement on Climate Change adopted at The Conference of the Parties to the United Nations Framework Convention on Climate Change (UNFCCC) 21, or COP 21, all the 196 nations parties to the UNFCCC resolved to limit global mean temperature rise to well below 2\u2103 and pursue efforts towards restricting temperature rise to 1.5\u2103. According to the Intergovernmental Panel on Climate Change (IPCC), temperature rise should not cross 1.5\u2103 (IPCC, 2023).\nAt COP28 in November 2023, the IPCC warned that with current policies, global warming was set to cross 3\u00baC (UNEP, 2023). This would be an unmitigated disaster. To avoid this, immediate and deep emissions reductions were imperative. The G20 Summit held under India's Presidency in September 2023 in its declaration reiterated \" ... commitment to achieve global net zero GHG emissions/carbon neutrality by or around mid-century ... \"\nAt COP26, held at Glasgow in 2021, Prime Minister Shri Narendra Modi announced that by 2030 India would create 500 GW of fossil fuel free power generating capacity and would reduce the emissions intensity of its GDP by 45% from its 2005 level (MEA, 2023). This is one of the highest increases in ambition of responsible climate leadership in the short run.\nThe Prime Minister also announced that India would become net zero by 2070. This gives India an additional 10 years from 2060, the year that China has announced for achieving net zero. This is reasonable as India is still at an early stage of development.\nFigures 1 and 2 represent per capita and total emissions on a global level (Crippa et al., 2023).\nFigure 1: Country-wise per-capita GHG emissions\n\nRussia and the USA have one of highest per capita emissions followed by China. India's per capita emissions are much lower than the global average of 6.76 tCO2eq. India is still a developing nation and has a long journey ahead in becoming a developed country. China leads the global emissions share followed by the USA. India has the third largest emissions while the European Union (EU) is a close fourth.\nFigure 2: Total GHG emissions at the global level",
+      "mentions": [
+        {
+          "surface": "United Nations Framework Convention on Climate Change",
+          "type": "ORGANIZATION",
+          "start": 188,
+          "end": 241,
+          "method": "gazetteer"
+        },
+        {
+          "surface": "Narendra Modi",
+          "type": "PERSON",
+          "start": 1044,
+          "end": 1057,
+          "method": "pattern"
+        }
+      ]
+    },
+    {
+      "chunk_id": "0013f8b7-3fa6-5bcb-82e3-b645068a815e",
+      "document_id": "inbody:60697e895aa73a835a909c8bd19927b5aa9a9fc9",
+      "title": "TERI CBS Knowledge Library & Archives",
+      "text": "Role of finance in promoting circular economy and existing financial mechanisms\nTransition to a circular economy presents enormous challenges and opportunities for policymakers \nand businesses alike to innovate and introduce enabling policies and disruptive business models. This unique transformation of moving away from a linear way of doing business requires financial \ninstitutions to also innovate and respond, thereby acting as a catalyst facilitating this transition. \nFrom a financial institution perspective, the success lies in maximizing the returns on investment, \nwhile minimizing the risks involved in making the switch happen. The financial industry as a key \nenabler can mainly contribute in two ways by facilitating the companies in this transition through \nfinancial support and greening their internal operations to embed the principles of circular \neconomy. \nFinancial community needs to be aware about both the risks and opportunities that the transition \nwould bring. Opportunities include leveraging the new business avenues created and serving \nnew markets (like Consumer to Consumer and Consumer to Business) by developing innovative \nfinancial mechanisms and instruments that go beyond the conventional lending. The projected \nannual benefits from three key sectors of Indian economy transitioning to circular economy path is \nequivalent to 30% of India\u2019s current GDP  . Investments in sectors which deliver environmental, social \nand economic benefits requires increased understanding of the inherent risks in these emerging \nsectors to develop new pricing and valuation tools, thereby leading to internal capacity building. \nBy developing this competence, banks can meaningfully contribute to the national growth story by",
+      "mentions": []
+    },
+    {
+      "chunk_id": "00142091-a9ba-57c2-b6ce-72439fccd591",
+      "document_id": "64dc8175-c6c3-4a2f-9e24-977bf0ab1eb3",
+      "title": "Download",
+      "text": "2. Establish links with private sector entrepreneurs who could help in exploiting the \nmarket potential \n3. Disseminate appropriate information and technology to farmers to help them to \nenter into production \n4. Co- finance with farmers (on a one time subsidy basis) for establishment costs. \n5. Co- finance with private sector entrepreneurs (on one time subsidy basis) for storage, \nprocessing and marketing infrastructure needed to exploit the market potential. \nThe performance of DSA was better where project activities were started in the early phase \nof UDWDP (2004-05, 05-06). Due to networking and forward and backward linkages \nestablished by DSAs, their performance has been good. They have detailed village wise \nstatus of agribusiness and have made production plans for Rabi and Kharif crops, which \nhelped in forward and backward linkages.",
+      "mentions": []
+    },
+    {
+      "chunk_id": "001464bc-23fe-5032-b366-ec22db2c3442",
+      "document_id": "4b29af39-83c9-41b1-bcaf-748a62c8e9ae",
+      "title": "Introducing the concept of Nutri-gardens to Address Rural Malnutrition by Involving Kisan Seva Kendras",
+      "text": "Picture No. 19: Dr. Anjali Parasnis, Associate Director, TERI explaining the importance of healthy \nand balanced diet to the villagers at Khanivali at IOCL\u2019s Gurukripa KSK \nPicture No. 20: Dr. Anjali interacting with the mothers of malnourished children at Vikramgad \nKSK\n\nIntroducing the concept of Nutri-gardens to Address Rural Malnutrition by Involving IOCL\u2019s Kisan Seva Kendras \n27 | P a g e\n\nPicture No. 21: Ms Swati Tomar, Research Associate, TERI interacting with aanganwadi sevikas \nand getting their feedback\n\nPicture No. 22: Dr. Milind Chavan examining a six-month old SAM child\n\nIntroducing the concept of Nutri-gardens to Address Rural Malnutrition by Involving IOCL\u2019s Kisan Seva Kendras \n28 | P a g e\n\nPicture No. 23: Release of the Nutri-kit at the hands of Mr. Srinivas\n\nPicture No. 24: Officials of IOCL, TERI in discussion with the Sarpanch and Doctors of Khaniwali \nvillage at PHC\n\nIntroducing the concept of Nutri-gardens to Address Rural Malnutrition by Involving IOCL\u2019s Kisan Seva Kendras \n29 | P a g e\n\nPicture No. 25: Regular monitoring of the malnourished children during the program period\n\nPicture No. 26: Anganwadi workers and mothers of SAM and MAM children at Khanivali PHC \nattending the ProtineX distribution workshop\n\nIntroducing the concept of Nutri-gardens to Address Rural Malnutrition by Involving IOCL\u2019s Kisan Seva Kendras \n30 | P a g e\n\nAnnex 1: List of the SAM and MAM Children  \nTable No 5 : ProtineX distribution in September\n\n13.6 \nSAM \n28 \nTilgaon \nLalit Gurunath Diva \n5\n\n9.6 \nSAM \n31 \nSaverkhand \nVaishali Naresh \nChowdhary \n3\n\n11.61 \nSAM \n32 \nSaverkhand \nShivam Rajesh  Babar \n4\n\n9.95 \nSAM \n33 \nTilgaon \nGanesh Ananta Bhoir \n5",
+      "mentions": [
+        {
+          "surface": "Anjali Parasnis",
+          "type": "PERSON",
+          "start": 20,
+          "end": 35,
+          "method": "pattern"
+        },
+        {
+          "surface": "Anjali",
+          "type": "PERSON",
+          "start": 193,
+          "end": 199,
+          "method": "pattern"
+        },
+        {
+          "surface": "Ms Swati Tomar",
+          "type": "PERSON",
+          "start": 414,
+          "end": 428,
+          "method": "gazetteer"
+        },
+        {
+          "surface": "Milind Chavan",
+          "type": "PERSON",
+          "start": 540,
+          "end": 553,
+          "method": "pattern"
+        },
+        {
+          "surface": "Srinivas\n\nPicture No",
+          "type": "PERSON",
+          "start": 777,
+          "end": 797,
+          "method": "pattern"
+        }
+      ]
+    },
+    {
+      "chunk_id": "0014bf77-1077-56f3-87a8-7ceaaa713e8e",
+      "document_id": "inbody:f8c4d1a7bb9e758ae8afd2a9137366104ad51b19",
+      "title": "A People\u2019s Biodiversity Register of Village Ghukhuyi, Z\u00fcnheboto, Nagaland",
+      "text": "According to Huton \n(1921) \u201cit is customary for the eldest son of a Sema chief to take, when he is old enough to manage it, \na colony from his father's village and found a new village at a convenient distance in which his authority is permanent. If the parent village is large enough, other sons will take other colonies in \nother directions, leaving a younger brother to succeed their father in the original village.\u201d Ghukhuyi \nis situated within 3kms (NW) of Sukhai village and was the first village to branch out of the \nparental village. The selection of the village chief is mostly hereditary in the Sema \ncommunity.According to the village heads, Sukhai (head of the parent village) surveyed the \narea before demarcating the village boundary, based on factors such as water availability \nand safety. The highest expanse of land was considered appropriate for the main settlement, \nwith jhum land surrounding it. \nDuring British rule, Nagaland was one of the districts of Assam with Kohima as its district \nheadquarters and Mokokchung as its subdivision. The British used to collect tax in addition \nto exploitation of the forests of the Nagas. To administer the village, the British appointed \ntwo chieftans (Figure 3 and Figure 4). Chieftans were the traditional heads of the village. \nLater the Indian Government recognized the traditional governance structure of Nagaland \nby enacting the Village Council Act, 1978. \nFigure 2: History of Ghukhuyi village explained in Sema language",
+      "mentions": []
+    },
+    {
+      "chunk_id": "0014c255-2ad2-55c4-98d5-d2c5dc86c102",
+      "document_id": "367b5e71-c265-46da-a5b9-80d3c6e8ddb4",
+      "title": "White Paper of E-waste Management",
+      "text": "Umicore is a precious refining company - \nextracting precious metals from complex \nprecious metals which is operational in several \ncountries. The main plant in Belgium \nprocesses 500-1000 TPD of e-waste. More than \n200 types of materials processed. \n- Centralized e-waste recycling is better in terms of maximizing resource efficiency and \nresource recovery as it used the best available technologies and the companies \nspecializing in recycling the specific WEEE can undertake its recycling. \n- Decentralized e-waste recycling is good for critical raw material extraction, but it may \nnot be effective from resource efficiency and environmental perspectives as the formal \nrecyclers may not possess the right technologies for dealing with intricate e-waste. \n- One of the major challenges in proper e-waste management in India is that the \nmajority of e-waste is falling into the hands of informal sector, or formalized recyclers \nthat do not have the right technology to handle e-waste. To tackle this, the government \nof India should allow exporting of e-waste to developed countries where the processing \ntechnologies are readily available. \n- Lack of proper monitoring of e-waste quantities falling into the hands of formal and \ninformal recyclers is a major issue in India. Proper quantification of e-waste flow will \nclearly illustrate which sector requires immediate technological intervention. \n- For properly implementing EPR in India, collection and processing chain needs to be \nformalized. Additionally, proper transparency needs to be provided as to what happens \nto the collected e-waste under EPR mandate. India has set EPR collection targets but \nthere is no strict monitoring as to whether brands are actually doing it and how this \ncollected waste is being treated.",
+      "mentions": [
+        {
+          "surface": "e-waste management in India",
+          "type": "PROJECT",
+          "start": 801,
+          "end": 828,
+          "method": "gazetteer"
+        }
+      ]
+    },
+    {
+      "chunk_id": "001536c4-105a-5027-adcd-a85fafb3a3c2",
+      "document_id": "99e46946-23c0-4dbd-9327-d75da72b34c0",
+      "title": "Forests in India are net source of GHG emissions",
+      "text": "2015\n[1] Forest cover corrected for change of scale reported in IFSR 2009\n[2] Forest cover corrected for change of scale reported in IFSR 2009 The chart shows that there is reduction in the growing stock from 2003-2015 and will be further reduced if policy and programmes are implemented as business as usual. The forestry sector will continue to be the net source of GHG emissions in the future due to unsustainable harvest of fuel wood and other Minor Forest Products, forest fire, overgrazing and poor regeneration. The overdependence on forests for livelihood and domestic consumption must be substituted with natural resource based livelihood and irrigated agriculture, and assisted natural regeneration which requires 6,153 million US $ per year. This is in addition to other interventions such as community based forest governance, capacity building of frontline staff and community, and engagement with private sector. This will help India in not only achieving its Nationally Determined Contributions related to the forestry sector - mitigating climate change, poverty alleviation, biodiversity conservation and improvement in the quality of forests - and national biodiversity targets, but also contributing towards fulfilling the global targets of SDG 13,14,15, and Aichi Targets.",
+      "mentions": []
+    }
+  ]
+}

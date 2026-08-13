@@ -488,3 +488,68 @@ def ensure_log_table() -> None:
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(_LOG_DDL.format(table=table))
         conn.commit()
+
+
+# Entity mentions: one row per sighting of a name in a chunk. An append-heavy
+# audit log — this is the largest table the knowledge layer adds — which is why
+# it stays relational rather than becoming nodes in the graph.
+#
+# Deliberately NOT a child of `documents`:
+#   * chunk ids are version-scoped, so a re-index replaces a document's whole
+#     mention set anyway, by (document_id, doc_version);
+#   * the same guard the enrichment table documents applies — content that comes
+#     back under a different id must not lose its rows to a cascade.
+#
+# UNIQUE(chunk_id, start_offset, end_offset, normalized_text) is what makes
+# repeated extraction idempotent: re-running writes the same rows, so retries
+# and re-sweeps cannot duplicate knowledge. No entity_id column exists here —
+# a mention is a sighting, and resolution owns identity.
+_ENTITY_MENTION_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_entity_mention` (
+    id                BIGINT       NOT NULL AUTO_INCREMENT,
+    chunk_id          VARCHAR(64)  NOT NULL,
+    document_id       VARCHAR(255) NOT NULL,
+    doc_version       INT          NULL,
+    start_offset      INT          NOT NULL,
+    end_offset        INT          NOT NULL,
+    surface_text      VARCHAR(512) NOT NULL,
+    normalized_text   VARCHAR(512) NOT NULL,
+    entity_type       VARCHAR(32)  NOT NULL,
+    extraction_method VARCHAR(32)  NOT NULL,
+    extractor_version VARCHAR(64)  NOT NULL,
+    confidence        FLOAT        NOT NULL,
+    created_at        DATETIME     NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_span (chunk_id, start_offset, end_offset, normalized_text),
+    KEY idx_document (document_id, doc_version),
+    KEY idx_normalized (entity_type, normalized_text),
+    KEY idx_method (extraction_method)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+# The extraction cost cache, modelled on `{table}_enrichment`: keyed by the
+# chunk's own content hash (not its id) so a re-index whose paragraphs are
+# unchanged still hits, and qualified by a key covering the extractor version
+# and the gazetteer, so newer code never serves output it would not produce.
+_ENTITY_EXTRACTION_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_entity_extraction` (
+    content_hash      VARCHAR(64) NOT NULL,
+    extraction_key    VARCHAR(64) NOT NULL,
+    extractor_version VARCHAR(64) NOT NULL,
+    mention_count     INT         NOT NULL DEFAULT 0,
+    attempts          INT         NOT NULL DEFAULT 0,
+    last_error        TEXT        NULL,
+    updated_at        DATETIME    NOT NULL,
+    PRIMARY KEY (content_hash),
+    KEY idx_key (extraction_key)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+
+def ensure_entity_tables() -> None:
+    """Create the mention log and its extraction cache. Idempotent."""
+    table = state_table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(_ENTITY_MENTION_DDL.format(table=table))
+        cur.execute(_ENTITY_EXTRACTION_DDL.format(table=table))
+        conn.commit()
