@@ -306,8 +306,24 @@ def detect_drupal_changes(
 
             # Delete reconciliation. Node bundles are crawled incrementally, so
             # the changed set doesn't reveal what is still live — enumerate their
-            # UUIDs separately. Taxonomy/block sets are fetched in full every run,
-            # so the documents we just yielded ARE the live set.
+            # UUIDs separately. Block sets are fetched in full every run, so the
+            # documents we just yielded ARE the live set.
+            #
+            # "Live" means *published*, and unpublishing is deliberately handled
+            # the same way as deletion. It is not a choice the code could make
+            # differently: the site's JSON:API serves an anonymous client nothing
+            # but published content — `filter[status]=0` comes back empty and an
+            # unfiltered walk returns exactly the published set — so an
+            # unpublished document is simply absent, indistinguishable from one
+            # that was removed outright.
+            #
+            # The index is meant to hold what the site currently publishes, so
+            # absent means gone from search. Nothing here records the document as
+            # permanently deleted: the catalog row goes and its retry marker is
+            # cleared, so if it is published again it comes back through the
+            # ordinary crawl as NEW. Republishing saves the node, which moves
+            # `changed` to now — above any bundle's high-water mark — so the very
+            # next run picks it up.
             if reconcile_deletes and prior:
                 if incremental:
                     try:
