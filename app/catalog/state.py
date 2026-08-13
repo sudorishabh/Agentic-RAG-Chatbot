@@ -167,7 +167,9 @@ def attachment_ids_for(document_id: str) -> list[str]:
         return [row["file_uuid"] for row in cur.fetchall()]
 
 
-def orphaned_attachments(file_uuids: Iterable[str]) -> list[str]:
+def orphaned_attachments(
+    file_uuids: Iterable[str], *, ignoring_parents: Iterable[str] = ()
+) -> list[str]:
     """Which of these attachments no longer hang off any document at all.
 
     An attachment is shared: 84 of them are reachable from more than one page,
@@ -175,22 +177,32 @@ def orphaned_attachments(file_uuids: Iterable[str]) -> list[str]:
     whole truth about that, so the question is asked of it directly — after the
     parent's rows have gone, an attachment with no rows left has no parent left.
 
+    ``ignoring_parents`` answers the same question a step earlier: treat these
+    parents as though they were already gone. That is what lets a dry run report
+    the attachments a deletion *would* orphan without deleting anything to find
+    out, using this query rather than a second copy of its reasoning.
+
     Restricted to ids that are attachment documents in their own right, so a
     file that was linked but never successfully ingested costs no delete call.
     """
     ids = [f for f in dict.fromkeys(file_uuids) if f]
     if not ids:
         return []
+    ignored = [p for p in dict.fromkeys(ignoring_parents) if p]
     table = _table()
-    placeholders = ", ".join(["%s"] * len(ids))
+    params = list(ids)
+    unless_gone = ""
+    if ignored:
+        unless_gone = f" AND a.document_id NOT IN ({', '.join(['%s'] * len(ignored))})"
+        params.extend(ignored)
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(
             f"SELECT d.document_id FROM `{table}` d "
-            f"WHERE d.document_id IN ({placeholders}) "
+            f"WHERE d.document_id IN ({', '.join(['%s'] * len(ids))}) "
             f"  AND d.source_type = 'pdf_attachment' "
             f"  AND NOT EXISTS (SELECT 1 FROM `{table}_attachment` a "
-            f"                  WHERE a.file_uuid = d.document_id)",
-            tuple(ids),
+            f"                  WHERE a.file_uuid = d.document_id{unless_gone})",
+            tuple(params),
         )
         return [row["document_id"] for row in cur.fetchall()]
 

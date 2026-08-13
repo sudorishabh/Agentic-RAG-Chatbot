@@ -562,6 +562,107 @@ def ingest_drupal(
         return tally
 
 
+def reconcile_dry_run(
+    bundles: Iterable[str] | None = None, *, published_only: bool = True
+) -> dict:
+    """Report what a reconciling sweep would delete, without deleting anything.
+
+    Runs the real thing as far as the decision and stops there: the same crawl,
+    the same enumeration, the same completeness guard, the same per-candidate
+    bundle-move confirmation, and the same query that decides which attachments
+    an eviction would orphan. What it does not do is hand any record to
+    ``_handle``, which is where every write lives — so no document is indexed, no
+    row is written or deleted, no vector is touched, no retry marker moves, and
+    the high-water mark, derived from rows that do not change, stays put.
+
+    A bundle move needs one adjustment to be recognised here. The real run
+    re-indexes the moved document under its new bundle, and the confirmation step
+    then reads that back; a dry run indexes nothing, so the catalog still files
+    it under the bundle it left. The crawl has already yielded it live under the
+    new bundle by the end of the run, though, so the record of the run is enough
+    to tell a move from a disappearance.
+
+    Takes the one-run-at-a-time lock: this walks the whole site, and doing that
+    alongside a real sweep helps nobody.
+    """
+    with _exclusive("Reconcile dry run"):
+        logger.info(
+            "DRY RUN starting (bundles=%s). Nothing will be deleted.",
+            bundles or "default",
+        )
+        live_bundle: dict[str, str] = {}
+        candidates: list[ChangeRecord] = []
+        for record in cd.detect_drupal_changes(
+            bundles, published_only=published_only, reconcile_deletes=True
+        ):
+            if record.status is ChangeStatus.DELETED:
+                candidates.append(record)
+            elif record.bundle is not None:
+                live_bundle[record.document_id] = record.bundle
+
+        moved = [
+            c for c in candidates
+            if live_bundle.get(c.document_id) not in (None, c.bundle)
+        ]
+        moved_ids = {c.document_id for c in moved}
+        deleting = [c for c in candidates if c.document_id not in moved_ids]
+
+        parents = [c.document_id for c in deleting]
+        linked: list[str] = []
+        for parent in parents:
+            try:
+                linked.extend(state.attachment_ids_for(parent))
+            except Exception:
+                logger.warning(
+                    "Could not read %s's attachments; its PDFs are missing from "
+                    "this report.", parent, exc_info=True,
+                )
+        try:
+            orphaned = state.orphaned_attachments(linked, ignoring_parents=parents)
+        except Exception:
+            logger.warning("Could not resolve attachment orphans.", exc_info=True)
+            orphaned = []
+
+        by_bundle = Counter(c.bundle for c in deleting)
+        report = {
+            "dry_run": True,
+            "documents": [
+                {"document_id": c.document_id, "bundle": c.bundle,
+                 "source_key": c.source_key}
+                for c in deleting
+            ],
+            "attachments": orphaned,
+            "moved": [
+                {"document_id": c.document_id, "from_bundle": c.bundle,
+                 "to_bundle": live_bundle[c.document_id]}
+                for c in moved
+            ],
+            "by_bundle": dict(by_bundle),
+            "linked_attachments_surviving": len(set(linked)) - len(orphaned),
+        }
+
+        logger.warning(
+            "DRY RUN complete — nothing was deleted. Would remove %d document(s) "
+            "and %d attachment(s). %d candidate(s) moved bundle and were spared; "
+            "%d linked attachment(s) would survive on another parent. Per bundle: %s",
+            len(deleting), len(orphaned), len(moved),
+            report["linked_attachments_surviving"], dict(by_bundle) or "{}",
+        )
+        for entry in report["documents"]:
+            logger.info(
+                "DRY RUN would delete %s (%s) %s",
+                entry["document_id"], entry["bundle"], entry["source_key"],
+            )
+        for attachment in orphaned:
+            logger.info("DRY RUN would delete attachment %s (last parent going)", attachment)
+        for entry in report["moved"]:
+            logger.info(
+                "DRY RUN sparing %s: moved %s -> %s",
+                entry["document_id"], entry["from_bundle"], entry["to_bundle"],
+            )
+        return report
+
+
 def _main(argv: list[str] | None = None) -> int:
     import argparse
     import sys
@@ -575,9 +676,25 @@ def _main(argv: list[str] | None = None) -> int:
     parser.add_argument("--bundle", action="append", default=[], help="Limit Drupal crawl to bundle(s).")
     parser.add_argument("--reconcile", action="store_true", help="Also reconcile Drupal deletes/unpublishes.")
     parser.add_argument("--include-unpublished", action="store_true", help="Include unpublished Drupal nodes.")
+    parser.add_argument(
+        "--dry-run-reconcile", action="store_true",
+        help="Report what reconciliation would delete, and delete nothing. Ingests nothing either.",
+    )
     args = parser.parse_args(argv)
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
+
+    if args.dry_run_reconcile:
+        report = reconcile_dry_run(
+            args.bundle or None, published_only=not args.include_unpublished
+        )
+        print(
+            f"DRY RUN (nothing deleted): {len(report['documents'])} document(s), "
+            f"{len(report['attachments'])} attachment(s), "
+            f"{len(report['moved'])} spared as bundle moves. "
+            f"Per bundle: {report['by_bundle']}"
+        )
+        return 0
 
     tally = ingest_drupal(
         args.bundle or None,
