@@ -170,44 +170,109 @@ def corrective_requery(
 
 
 # Salient-term patterns for the keyword leg: the query features dense vectors
-# handle worst — exact phrases, acronyms, years, proper nouns.
+# handle worst — exact phrases, acronyms, alphanumeric codes, years, proper nouns.
 _QUOTED = re.compile(r"\"([^\"]{2,})\"|'([^']{2,})'")
 _CAP_BIGRAM = re.compile(r"\b([A-Z][a-z]+(?: [A-Z][a-z]+)+)\b")
-_ACRONYM = re.compile(r"\b[A-Z]{2,}\b")
-_YEAR = re.compile(r"\b\d{4}\b")
+# An acronym, optionally carrying the number that qualifies it: SDG 7, COP26.
+# The number is part of the term because "SDG" alone matches every one of them.
+_ACRONYM = re.compile(r"\b([A-Z]{2,}(?:[ -]?\d+)?)\b")
+# A token mixing letters and digits — PM2.5, CO2, 1.5C. Dense embeddings blur
+# these into their nearest word; they are exact by nature.
+_ALNUM = re.compile(r"\b([A-Za-z]+\d+(?:\.\d+)?[A-Za-z]*)\b")
+_YEAR = re.compile(r"\b((?:19|20)\d{2})\b")
+
+# Words that carry no retrieval signal. Small and deliberately conservative:
+# this list only has to strip the scaffolding of a question, since the content
+# fallback below is a last resort rather than the primary source of terms.
+_STOPWORDS = frozenset(
+    """
+    a an and are as at be been by can could did do does for from had has have how
+    in into is it its me my of on or say says should show that the their there
+    these this those to us was were what when where which who whom whose why will
+    with would you your about after before between during over under more most
+    tell give find list
+    """.split()
+)
+# Lowercase content words, used only when nothing more precise was found. Three
+# characters is the floor rather than four: "air" and "gas" name whole domains
+# in this corpus, and dropping them lost the point of the phrase.
+_CONTENT = re.compile(r"\b([a-z][a-z-]{2,})\b")
 
 
-def extract_key_terms(query: str) -> str | None:
-    """Deterministic salient terms for a MatchText pull; None when the query
-    has none (the keyword leg is skipped, not run over stopwords)."""
+def extract_key_terms(query: str) -> list[str] | None:
+    """Deterministic salient terms for the keyword pull; None when the query has
+    none at all.
+
+    Ordered most to least precise. The lowercase content-word pass is a
+    *fallback*, reached only when no quoted phrase, proper noun, acronym, code
+    or year was found — because a query like "life cycle analysis of transport
+    modes" names something exactly without capitalising any of it, and skipping
+    the leg entirely there was the single biggest hole in the lexical path.
+    Running it alongside the precise patterns instead would drown them in
+    ordinary vocabulary.
+    """
     terms: list[str] = [m.group(1) or m.group(2) for m in _QUOTED.finditer(query)]
     terms.extend(_CAP_BIGRAM.findall(query))
+    terms.extend(_ALNUM.findall(query))
     terms.extend(_ACRONYM.findall(query))
     terms.extend(_YEAR.findall(query))
+    if not terms:
+        terms = [
+            word for word in _CONTENT.findall(query.lower())
+            if word not in _STOPWORDS
+        ]
     unique: list[str] = []
     seen: set[str] = set()
     for term in terms:
-        if term.lower() not in seen:
-            seen.add(term.lower())
-            unique.append(term)
-    return " ".join(unique) or None
+        cleaned = term.strip()
+        if cleaned and cleaned.lower() not in seen:
+            seen.add(cleaned.lower())
+            unique.append(cleaned)
+    # Drop any term that is merely the opening of another one already kept. The
+    # patterns overlap by design — "PM2.5" is also read as the acronym "PM2",
+    # and "SDG 7" as the acronym "SDG" — and the shorter form is always the
+    # less selective of the two.
+    return [
+        term
+        for term in unique
+        if not any(
+            other != term and other.lower().startswith(term.lower())
+            for other in unique
+        )
+    ] or None
 
 
 def keyword_search(
     search_query: str,
-    terms_text: str,
+    terms: list[str],
     *,
     filters: list[Any] | None,
     query_vector: list[float],
     limit: int,
 ) -> list[Any]:
     """One MatchText-filtered pull (dense ranking within keyword matches).
-    Fails open to [] — notably while the chunk_text full-text index doesn't
-    exist yet (scripts/create_fulltext_index.py)."""
-    try:
-        from qdrant_client.models import FieldCondition, MatchText
 
-        cond = FieldCondition(key="chunk_text", match=MatchText(text=terms_text))
+    The terms are OR-ed, one ``MatchText`` each. A single ``MatchText`` carrying
+    several words is an AND across all of them, which made the leg brittle in
+    exactly the case it exists for: "Emission Inventorisation for Faridabad
+    Town" returned nothing, because no one chunk held all four words. OR-ing
+    degrades toward the dense pull instead of collapsing to zero, and the
+    ranking within the matched set is still dense similarity.
+
+    Fails open to [] — notably while the chunk_text full-text index doesn't
+    exist yet (scripts/create_fulltext_index.py).
+    """
+    if not terms:
+        return []
+    try:
+        from qdrant_client.models import FieldCondition, Filter, MatchText
+
+        cond = Filter(
+            should=[
+                FieldCondition(key="chunk_text", match=MatchText(text=term))
+                for term in terms
+            ]
+        )
         return search(
             search_query, limit=limit,
             extra_filter=list(filters or []) + [cond], query_vector=query_vector,
