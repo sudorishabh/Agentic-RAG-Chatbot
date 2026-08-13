@@ -1,0 +1,64 @@
+{
+  "version": "v1",
+  "status": "DRAFT - NOT AUTHORITATIVE. Queries were authored against the live corpus (real titles, themes, authors, acronyms and years sampled from MySQL and Qdrant), but they have not been reviewed by anyone who knows what users actually ask. Correct, delete or add freely; this file is meant to be edited by hand.",
+  "purpose": "Compare retrieval configurations (dense-only vs dense + the existing MatchText keyword leg) per query category. Judgments live alongside in judgments_v1.draft.json.",
+  "categories": {
+    "semantic": "Open-ended meaning questions. Dense retrieval should dominate.",
+    "exact_term": "A literal phrase or title that must be matched verbatim.",
+    "identifier": "A specific coded reference (ISBN, standard number, target number).",
+    "acronym": "A short all-caps token dense embeddings tend to blur.",
+    "entity_name": "A person or organization by name.",
+    "project": "A named project or programme.",
+    "relational": "A relationship between entities. Needs the graph layer; recorded now as a baseline for later phases.",
+    "temporal": "Scoped to a period or year.",
+    "mixed": "Combines two or more of the above."
+  },
+  "queries": [
+    {"id": "sem-01", "category": "semantic", "query": "What are the environmental impacts of solar energy?"},
+    {"id": "sem-02", "category": "semantic", "query": "How does climate change affect water availability in India?"},
+    {"id": "sem-03", "category": "semantic", "query": "What approaches reduce air pollution in Indian cities?"},
+    {"id": "sem-04", "category": "semantic", "query": "Why does sustainable agriculture matter for smallholder farmers?"},
+    {"id": "sem-05", "category": "semantic", "query": "How can buildings be made more energy efficient?"},
+
+    {"id": "exact-01", "category": "exact_term", "query": "Best Practice Guide for Energy Efficiency in Municipal Water Pumping in India"},
+    {"id": "exact-02", "category": "exact_term", "query": "Emission Inventorisation for Faridabad Town"},
+    {"id": "exact-03", "category": "exact_term", "query": "Life cycle analysis of transport modes"},
+    {"id": "exact-04", "category": "exact_term", "query": "continuous ambient air quality monitoring station"},
+
+    {"id": "ident-01", "category": "identifier", "query": "SDG 7"},
+    {"id": "ident-02", "category": "identifier", "query": "PM2.5 annual average concentration"},
+    {"id": "ident-03", "category": "identifier", "query": "ISBN of the climate synergies report"},
+    {"id": "ident-04", "category": "identifier", "query": "SDG 11 sustainable cities"},
+
+    {"id": "acro-01", "category": "acronym", "query": "What is CAAQMS?"},
+    {"id": "acro-02", "category": "acronym", "query": "GRIHA rating for green buildings"},
+    {"id": "acro-03", "category": "acronym", "query": "What does CPCB monitor?"},
+    {"id": "acro-04", "category": "acronym", "query": "NDC commitments"},
+    {"id": "acro-05", "category": "acronym", "query": "GHG emissions inventory"},
+
+    {"id": "ent-01", "category": "entity_name", "query": "Dr R K Pachauri"},
+    {"id": "ent-02", "category": "entity_name", "query": "What has Dr Leena Srivastava written about?"},
+    {"id": "ent-03", "category": "entity_name", "query": "Dr Shailly Kedia research"},
+    {"id": "ent-04", "category": "entity_name", "query": "Dr Debajit Palit energy access"},
+
+    {"id": "proj-01", "category": "project", "query": "Green building design consultancy and GRIHA facilitation for Sattva Mysore Road"},
+    {"id": "proj-02", "category": "project", "query": "Himalayan Adaptation, Water and Resilience research"},
+    {"id": "proj-03", "category": "project", "query": "Feasibility report and DPR for rooftop grid connected power"},
+    {"id": "proj-04", "category": "project", "query": "Information Education and Communication strategy for Karnataka NRDWS"},
+
+    {"id": "rel-01", "category": "relational", "query": "Which projects is TERI a partner on?"},
+    {"id": "rel-02", "category": "relational", "query": "Who leads TERI's energy programme?"},
+    {"id": "rel-03", "category": "relational", "query": "Which organizations fund TERI's water projects?"},
+    {"id": "rel-04", "category": "relational", "query": "Who authored the reports on air quality?"},
+
+    {"id": "temp-01", "category": "temporal", "query": "What did TERI publish in 2020?"},
+    {"id": "temp-02", "category": "temporal", "query": "India's 2030 renewable energy targets"},
+    {"id": "temp-03", "category": "temporal", "query": "air quality findings from 2019"},
+    {"id": "temp-04", "category": "temporal", "query": "climate commitments made in 2015"},
+
+    {"id": "mix-01", "category": "mixed", "query": "What did the 2019 report say about PM2.5 in Delhi NCR?"},
+    {"id": "mix-02", "category": "mixed", "query": "Which GRIHA rated projects did TERI work on after 2018?"},
+    {"id": "mix-03", "category": "mixed", "query": "What has Dr Pachauri said about GHG emissions and climate policy?"},
+    {"id": "mix-04", "category": "mixed", "query": "SDG 7 progress on energy access in rural India"}
+  ]
+}

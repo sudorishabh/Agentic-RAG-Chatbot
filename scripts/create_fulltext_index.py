@@ -51,10 +51,23 @@ def create_index(dry_run: bool) -> int:
             ),
             wait=True,
         )
-        print(f"  + {_FIELD}: created (text, word tokenizer, lowercase)")
     except Exception:
-        logger.warning("Could not create text index on %r.", _FIELD, exc_info=True)
-        return 1
+        # Building a text index over a whole collection routinely outlives the
+        # client's request timeout, and Qdrant carries on server-side regardless.
+        # A read-back is therefore the only honest test of what happened: the
+        # request failing does not mean the index did.
+        logger.info(
+            "Index request on %r did not return in time; checking whether the "
+            "server built it anyway.", _FIELD,
+        )
+        if _FIELD not in set(client.get_collection(collection).payload_schema or {}):
+            logger.warning(
+                "Could not create text index on %r.", _FIELD, exc_info=True
+            )
+            return 1
+        print(f"  + {_FIELD}: created (the request timed out; the index landed)")
+        return 0
+    print(f"  + {_FIELD}: created (text, word tokenizer, lowercase)")
     return 0
 
 
