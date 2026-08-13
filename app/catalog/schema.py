@@ -11,10 +11,11 @@ Table names were simplified from their legacy ``ingest_state*`` forms to
 the new ones instead of being recreated empty.
 
 The taxonomy-term tables (``terms``, ``term_aliases``, ``documents_term``) were
-retired: the catalog is keyed by name, so themes live in ``documents_theme`` and
-tags in ``documents_tag``, and taxonomy UUIDs exist only in Qdrant payloads. Run
-``scripts.drop_term_tables`` once to remove the leftover tables — see
-docs/retire-term-tables-plan.md.
+retired and dropped: the catalog is keyed by name, so themes live in
+``documents_theme`` and tags in ``documents_tag``. Taxonomy no longer reaches
+storage at all — terms are not crawled as documents, and the term uuids that
+once rode every chunk payload were removed once nothing filtered on them. See
+docs/retire-term-tables-plan.md for the original retirement.
 
 The theme facet was likewise renamed from ``category``. That one is handled here
 rather than by the script, in ``migrate_renamed_facets``, because it also has to
