@@ -56,7 +56,7 @@ def _wire(monkeypatch, client):
 
 def _lookup(fingerprint):
     return sc.lookup(
-        [0.1], tenant_id="default", user_groups=["public"], top_k=6,
+        [0.1], top_k=6,
         fingerprint=fingerprint,
     )
 
@@ -123,12 +123,12 @@ def test_store_persists_facets(monkeypatch):
     monkeypatch.setattr(sc, "_maybe_prune", lambda c, name: None)
 
     sc.store(
-        [0.1], {"answer": "a"}, tenant_id="default", user_groups=["public"],
+        [0.1], {"answer": "a"},
         top_k=6, fingerprint={"theme": "energy"},
     )
     assert client.upserts[0].payload["facets"] == {"theme": "energy"}
 
     sc.store(
-        [0.1], {"answer": "a"}, tenant_id="default", user_groups=["public"], top_k=6,
+        [0.1], {"answer": "a"}, top_k=6,
     )
     assert client.upserts[1].payload["facets"] == {}

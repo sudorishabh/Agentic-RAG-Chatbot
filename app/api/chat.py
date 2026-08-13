@@ -78,13 +78,16 @@ async def _sse(events: Iterator[dict]) -> AsyncIterator[str]:
 
 @router.post("/chat")
 async def chat(
-    request: QueryRequest, principal: Principal = Depends(require_principal)
+    request: QueryRequest,
+    # Kept for its side effect: this is the authentication gate, rejecting a
+    # missing or invalid token when auth_enabled. The identity it returns no
+    # longer scopes retrieval — the corpus is public and every caller sees it
+    # whole — so nothing downstream reads it.
+    _principal: Principal = Depends(require_principal),
 ) -> StreamingResponse:
     events = stream_answer(
         request.question,
         history=[turn.model_dump() for turn in request.history],
-        tenant_id=principal.tenant_id,
-        user_groups=principal.groups,
         top_k=request.top_k,
     )
     return StreamingResponse(

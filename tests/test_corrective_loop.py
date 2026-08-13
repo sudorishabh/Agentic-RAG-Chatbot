@@ -99,7 +99,7 @@ def test_requery_fuses_and_reranks_once(monkeypatch):
     )
 
     out = strategies.corrective_requery(
-        "original", ranked, tenant_id="default", user_groups=["public"],
+        "original", ranked,
         filters=None, limit=40, table_boost=0.0,
     )
 
@@ -119,7 +119,7 @@ def test_requery_fail_open_paths(monkeypatch):
 
     monkeypatch.setattr(strategies, "search", no_search)
     assert strategies.corrective_requery(
-        "q", ranked, tenant_id="d", user_groups=["public"], filters=None,
+        "q", ranked, filters=None,
         limit=40, table_boost=0.0,
     ) is ranked
 
@@ -133,7 +133,7 @@ def test_requery_fail_open_paths(monkeypatch):
 
     monkeypatch.setattr(strategies, "rerank", no_rerank)
     assert strategies.corrective_requery(
-        "q", ranked, tenant_id="d", user_groups=["public"], filters=None,
+        "q", ranked, filters=None,
         limit=40, table_boost=0.0,
     ) is ranked
 
@@ -143,7 +143,7 @@ def test_requery_fail_open_paths(monkeypatch):
 
     monkeypatch.setattr(strategies, "search", boom)
     assert strategies.corrective_requery(
-        "q", ranked, tenant_id="d", user_groups=["public"], filters=None,
+        "q", ranked, filters=None,
         limit=40, table_boost=0.0,
     ) is ranked
 

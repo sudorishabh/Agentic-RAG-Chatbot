@@ -12,6 +12,15 @@ def test_filter_excludes_non_searchable_sections():
 
 
 def test_filter_keeps_core_must_conditions():
-    f = build_filter(tenant_id="default", user_groups=["public"])
+    f = build_filter()
     keys = {c.key for c in f.must}
-    assert {"is_parent", "is_current", "tenant_id", "acl"} <= keys
+    assert {"is_parent", "is_current"} <= keys
+
+
+def test_filter_does_not_scope_by_tenant_or_acl():
+    """The corpus is public: every caller retrieves over all of it. An identity
+    leg here would silently narrow results with nothing to widen them again."""
+    f = build_filter()
+    keys = {c.key for c in f.must}
+    assert "tenant_id" not in keys
+    assert "acl" not in keys

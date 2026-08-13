@@ -105,8 +105,7 @@ def test_verify_fails_open(monkeypatch):
 
 def _gen(blocks):
     pq = ProcessedQuery(original="q", search_query="q")
-    return pipe._Generation(pq=pq, blocks=blocks, query_vector=[0.1],
-                            tenant_id="default", user_groups=["public"], top_k=6)
+    return pipe._Generation(pq=pq, blocks=blocks, query_vector=[0.1], top_k=6)
 
 
 def _wire_stream(monkeypatch, *, check_on, faithful, persisted):

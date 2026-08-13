@@ -53,7 +53,7 @@ def test_keyword_search_builds_matchtext_condition(monkeypatch):
 
     monkeypatch.setattr(strategies, "search", fake_search)
     out = strategies.keyword_search(
-        "q", "GHG 2024", tenant_id="default", user_groups=["public"],
+        "q", "GHG 2024",
         filters=["prior"], query_vector=[0.1], limit=40,
     )
 
@@ -70,7 +70,7 @@ def test_keyword_search_fails_open_without_index(monkeypatch):
 
     monkeypatch.setattr(strategies, "search", boom)
     out = strategies.keyword_search(
-        "q", "GHG", tenant_id="default", user_groups=["public"],
+        "q", "GHG",
         filters=None, query_vector=[0.1], limit=40,
     )
     assert out == []

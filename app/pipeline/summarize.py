@@ -148,9 +148,7 @@ def _doc_from_catalog(document_id: str, row: dict[str, Any]) -> _Doc:
     )
 
 
-def _collect_docs(
-    ids: Sequence[str], *, tenant_id: str, user_groups: Sequence[str] | None
-) -> list[_Doc]:
+def _collect_docs(ids: Sequence[str]) -> list[_Doc]:
     """One ``_Doc`` per id, preferring the ingest-time abstract.
 
     An abstract is built from the whole document; the lead parent chunk is only
@@ -164,13 +162,7 @@ def _collect_docs(
     """
     enriched = catalog.abstracts_for(ids)
     missing = [i for i in ids if i not in enriched]
-    payloads = (
-        scoped_retrieval.lead_parents(
-            missing, tenant_id=tenant_id, user_groups=user_groups
-        )
-        if missing
-        else {}
-    )
+    payloads = scoped_retrieval.lead_parents(missing) if missing else {}
     docs: list[_Doc] = []
     for doc_id in ids:
         if doc_id in enriched:
@@ -269,9 +261,6 @@ def _summarize_map_reduce(question: str, docs: list[_Doc]) -> str:
 
 def summarize_scope(
     analysis: QueryAnalysis | None,
-    *,
-    tenant_id: str = "default",
-    user_groups: Sequence[str] | None = None,
 ) -> dict[str, Any] | None:
     """Answer a scoped-summary query, or None to fall through to semantic RAG."""
     if analysis is None:
@@ -283,7 +272,7 @@ def summarize_scope(
         ids = catalog.document_ids_in_scope(limit=_SCOPE_DOC_CAP, **filters)
         if not ids:
             return None
-        docs = _collect_docs(ids, tenant_id=tenant_id, user_groups=user_groups)
+        docs = _collect_docs(ids)
         if not docs:
             return None
         if sum(_est_tokens(d.text) for d in docs) <= _DIRECT_TOKEN_BUDGET:

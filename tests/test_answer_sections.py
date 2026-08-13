@@ -532,8 +532,7 @@ def _generation():
         pq=qp.ProcessedQuery(
             understanding=None, original="q", search_query="q", intent="qa"
         ),
-        blocks=blocks, query_vector=[0.0], tenant_id="default",
-        user_groups=["public"], top_k=6,
+        blocks=blocks, query_vector=[0.0], top_k=6,
     )
 
 

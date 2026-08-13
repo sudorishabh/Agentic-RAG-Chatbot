@@ -99,8 +99,6 @@ def facet_fingerprint(pq: Any) -> dict[str, Any]:
 def lookup(
     query_vector: Sequence[float],
     *,
-    tenant_id: str,
-    user_groups: Sequence[str],
     top_k: int,
     answer_format: str = "default",
     fingerprint: dict[str, Any] | None = None,
@@ -113,7 +111,7 @@ def lookup(
         return None
 
     name = settings.semantic_cache_collection
-    scope = semantic_partition(tenant_id, user_groups, top_k, answer_format)
+    scope = semantic_partition(top_k, answer_format)
     try:
         if not client.collection_exists(name):
             return None
@@ -152,8 +150,6 @@ def store(
     query_vector: Sequence[float],
     result: dict[str, Any],
     *,
-    tenant_id: str,
-    user_groups: Sequence[str],
     top_k: int,
     answer_format: str = "default",
     fingerprint: dict[str, Any] | None = None,
@@ -168,7 +164,7 @@ def store(
     from qdrant_client.models import PointStruct
 
     name = settings.semantic_cache_collection
-    scope = semantic_partition(tenant_id, user_groups, top_k, answer_format)
+    scope = semantic_partition(top_k, answer_format)
     point = PointStruct(
         id=str(uuid.uuid4()),
         vector=list(query_vector),

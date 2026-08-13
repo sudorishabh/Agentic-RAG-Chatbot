@@ -50,8 +50,6 @@ def _supplement_attachments(
     *,
     search_query: str,
     query_vector: list[float],
-    tenant_id: str,
-    user_groups: list[str],
     n: int,
     segregate: bool,
 ) -> list[ContextBlock]:
@@ -89,10 +87,7 @@ def _supplement_attachments(
         ))
         if not file_uuids:
             return blocks
-        extra = search_within_documents(
-            query_vector, file_uuids, limit=10,
-            tenant_id=tenant_id, user_groups=user_groups,
-        )
+        extra = search_within_documents(query_vector, file_uuids, limit=10)
         seen = {c.id for c in ranked}
         new = [c for c in extra if c.id not in seen]
         if not new:
@@ -108,8 +103,6 @@ def _supplement_attachments(
 def retrieve(
     search_query: str,
     *,
-    tenant_id: str = "default",
-    user_groups: list[str] | None = None,
     filters: list[Any] | None = None,
     n: int | None = None,
     query_vector: list[float] | None = None,
@@ -119,7 +112,6 @@ def retrieve(
 ) -> list[ContextBlock]:
     settings = get_settings()
     n = n or settings.retrieval_top_k
-    user_groups = user_groups or ["public"]
 
     # Prefer website content only when the feature is on, the user didn't pin a
     # source (explicit intent → honor their filter with a single pull, else the
@@ -147,14 +139,12 @@ def retrieve(
     def _base_search(active_filters: list[Any] | None, *, use_dual: bool) -> list[Any]:
         if use_dual:
             return dual_search(
-                search_query, tenant_id=tenant_id, user_groups=user_groups,
-                filters=active_filters, query_vector=query_vector, settings=settings,
+                search_query, filters=active_filters,
+                query_vector=query_vector, settings=settings,
             )
         return search(
             search_query,
             limit=settings.retrieval_candidate_k,
-            tenant_id=tenant_id,
-            user_groups=user_groups,
             extra_filter=active_filters or None,
             query_vector=query_vector,
         )
@@ -176,7 +166,6 @@ def retrieve(
                 keyword_future = (
                     pool.submit(
                         keyword_search, search_query, keyword_terms,
-                        tenant_id=tenant_id, user_groups=user_groups,
                         filters=filters, query_vector=query_vector,
                         limit=settings.retrieval_candidate_k,
                     )
@@ -192,8 +181,7 @@ def retrieve(
                             r
                             for r in pool.map(
                                 lambda q: paraphrase_search(
-                                    q, tenant_id=tenant_id, user_groups=user_groups,
-                                    limit=settings.retrieval_candidate_k,
+                                    q, limit=settings.retrieval_candidate_k,
                                 ),
                                 queries,
                             )
@@ -254,7 +242,7 @@ def retrieve(
         with span("rag.corrective") as s:
             score_before = ranked[0].semantic_score
             ranked = corrective_requery(
-                search_query, ranked, tenant_id=tenant_id, user_groups=user_groups,
+                search_query, ranked,
                 filters=filters, limit=settings.retrieval_candidate_k,
                 table_boost=table_boost,
             )
@@ -279,6 +267,6 @@ def retrieve(
         with span("rag.attachment_pull"):
             blocks = _supplement_attachments(
                 blocks, ranked, search_query=search_query, query_vector=query_vector,
-                tenant_id=tenant_id, user_groups=user_groups, n=n, segregate=dual,
+                n=n, segregate=dual,
             )
     return blocks

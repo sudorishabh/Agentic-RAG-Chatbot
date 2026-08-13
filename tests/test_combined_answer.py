@@ -36,8 +36,7 @@ def _gen(db_prefix=""):
         )
     ]
     return pipe._Generation(
-        pq=_pq(intent="qa"), blocks=blocks, query_vector=[0.0],
-        tenant_id="default", user_groups=["public"], top_k=6, db_prefix=db_prefix,
+        pq=_pq(intent="qa"), blocks=blocks, query_vector=[0.0], top_k=6, db_prefix=db_prefix,
     )
 
 
@@ -150,7 +149,7 @@ def test_empty_retrieval_offers_the_catalog_listing(monkeypatch):
 
     calls = _wire_prepare(monkeypatch, _qa_pq())
     result, generation = pipe._prepare(
-        "q", history=None, tenant_id="default", user_groups=["public"], top_k=None
+        "q", history=None, top_k=None
     )
     assert generation is None
     assert len(calls) == 1
@@ -161,7 +160,7 @@ def test_empty_retrieval_offers_the_catalog_listing(monkeypatch):
 def test_empty_retrieval_refuses_when_the_catalog_has_nothing(monkeypatch):
     calls = _wire_prepare(monkeypatch, _qa_pq(), fallback=None)
     result, _ = pipe._prepare(
-        "q", history=None, tenant_id="default", user_groups=["public"], top_k=None
+        "q", history=None, top_k=None
     )
     assert len(calls) == 1
     assert result["answer"] == pipe.REFUSAL
@@ -175,7 +174,7 @@ def test_catalog_error_degrades_to_the_refusal(monkeypatch):
         lambda *a, **k: (_ for _ in ()).throw(RuntimeError("MySQL down")),
     )
     result, _ = pipe._prepare(
-        "q", history=None, tenant_id="default", user_groups=["public"], top_k=None
+        "q", history=None, top_k=None
     )
     assert result["answer"] == pipe.REFUSAL
 
@@ -191,7 +190,7 @@ def test_combined_query_does_not_re_ask_the_catalog(monkeypatch):
     calls = _wire_prepare(monkeypatch, pq)
     monkeypatch.setattr(pipe, "_db_section", lambda *a, **k: "")
     result, _ = pipe._prepare(
-        "q", history=None, tenant_id="default", user_groups=["public"], top_k=None
+        "q", history=None, top_k=None
     )
     assert calls == []  # the catalog was consulted once, upstream
     assert result["answer"] == pipe.REFUSAL
@@ -213,7 +212,7 @@ def test_structured_fallthrough_does_not_re_ask_the_catalog(monkeypatch):
         lambda q, h, *, analysis: None,
     )
     result, _ = pipe._prepare(
-        "q", history=None, tenant_id="default", user_groups=["public"], top_k=None
+        "q", history=None, top_k=None
     )
     assert calls == []
     assert result["answer"] == pipe.REFUSAL
@@ -224,7 +223,7 @@ def test_grounded_answer_never_asks_the_catalog(monkeypatch):
     blocks = [ContextBlock(n=1, text="Solar grew.", payload={"source_type": "website"})]
     calls = _wire_prepare(monkeypatch, _qa_pq(), blocks=blocks)
     result, generation = pipe._prepare(
-        "q", history=None, tenant_id="default", user_groups=["public"], top_k=None
+        "q", history=None, top_k=None
     )
     assert result is None and generation is not None
     assert calls == []

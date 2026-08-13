@@ -70,9 +70,9 @@ def test_scoped_search_filters_by_document_ids(monkeypatch):
     assert kw["limit"] == 5 and kw["query"] == [0.1, 0.2]
     conds = _conditions(kw["query_filter"])
     assert conds["document_id"].match.any == ["d1", "d2"]
-    # Tenant/ACL mandatory filter still applies to scoped pulls.
+    # The mandatory shape filter still applies to scoped pulls.
     assert conds["is_parent"].match.value is False
-    assert conds["tenant_id"].match.value == "default"
+    assert conds["is_current"].match.value is True
 
 
 def test_scoped_search_empty_ids_skip_qdrant(monkeypatch):

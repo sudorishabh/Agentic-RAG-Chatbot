@@ -51,8 +51,6 @@ class _Generation:
     pq: ProcessedQuery
     blocks: list[ContextBlock]
     query_vector: list[float]
-    tenant_id: str
-    user_groups: list[str]
     top_k: int
     # Deterministic catalog section prefixed onto a combined (database + content)
     # answer; "" for single-source answers.
@@ -120,8 +118,6 @@ def _prepare(
     question: str,
     *,
     history: list[dict[str, str]] | None,
-    tenant_id: str,
-    user_groups: list[str] | None,
     top_k: int | None,
 ) -> tuple[dict[str, Any] | None, _Generation | None]:
     """Shared front-matter for both answer entrypoints.
@@ -136,7 +132,6 @@ def _prepare(
 
     settings = get_settings()
     n = top_k or settings.retrieval_top_k
-    user_groups = user_groups or ["public"]
 
     with span("rag.query_understanding"):
         pq: ProcessedQuery = process(question, history)
@@ -188,9 +183,7 @@ def _prepare(
         from app.pipeline.summarize import summarize_scope
 
         with span("rag.scoped_summary"):
-            summary = summarize_scope(
-                pq.analysis, tenant_id=tenant_id, user_groups=user_groups
-            )
+            summary = summarize_scope(pq.analysis)
         if summary is not None:
             summary.setdefault("answer_format", pq.answer_format)
             return summary, None
@@ -200,8 +193,7 @@ def _prepare(
         query_vector = embed_query(pq.search_query)
     with span("rag.semantic_cache") as s:
         semantic = semantic_cache.lookup(
-            query_vector, tenant_id=tenant_id, user_groups=user_groups,
-            top_k=n, answer_format=pq.answer_format,
+            query_vector, top_k=n, answer_format=pq.answer_format,
             fingerprint=semantic_cache.facet_fingerprint(pq),
         )
         s.set("hit", semantic is not None)
@@ -213,8 +205,6 @@ def _prepare(
     def _run_retrieve() -> list[ContextBlock]:
         return retrieve(
             pq.search_query,
-            tenant_id=tenant_id,
-            user_groups=user_groups,
             filters=pq.filters,
             n=n,
             query_vector=query_vector,
@@ -257,7 +247,7 @@ def _prepare(
 
     return None, _Generation(
         pq=pq, blocks=blocks, query_vector=query_vector,
-        tenant_id=tenant_id, user_groups=user_groups, top_k=n, db_prefix=db_prefix,
+        top_k=n, db_prefix=db_prefix,
     )
 
 
@@ -312,8 +302,7 @@ def _persist(gen: _Generation, result: dict[str, Any]) -> None:
 
     with span("rag.semantic_cache_store"):
         semantic_cache.store(
-            gen.query_vector, result, tenant_id=gen.tenant_id,
-            user_groups=gen.user_groups, top_k=gen.top_k,
+            gen.query_vector, result, top_k=gen.top_k,
             answer_format=gen.pq.answer_format,
             fingerprint=semantic_cache.facet_fingerprint(gen.pq),
         )
@@ -356,8 +345,6 @@ def stream_answer(
     question: str,
     *,
     history: list[dict[str, str]] | None = None,
-    tenant_id: str = "default",
-    user_groups: list[str] | None = None,
     top_k: int | None = None,
 ) -> Iterator[dict[str, Any]]:
     # Spans after the first yield only reach the global aggregates, not this
@@ -366,10 +353,7 @@ def stream_answer(
     # stages, which is where retrieval time goes.
     stages: dict[str, float] = {}
     with collect_into(stages), span("rag.stream_answer") as s:
-        result, gen = _prepare(
-            question, history=history, tenant_id=tenant_id,
-            user_groups=user_groups, top_k=top_k,
-        )
+        result, gen = _prepare(question, history=history, top_k=top_k)
         # Cache hit, chit-chat, structured lookup, or refusal — already complete.
         if result is not None:
             yield from _stream_result(result)
@@ -441,13 +425,11 @@ def search_blocks(
     question: str,
     *,
     history: list[dict[str, str]] | None = None,
-    tenant_id: str = "default",
-    user_groups: list[str] | None = None,
     top_k: int | None = None,
 ) -> dict[str, Any]:
     pq = process(question, history)
     blocks = retrieve(
-        pq.search_query, tenant_id=tenant_id, user_groups=user_groups,
+        pq.search_query,
         filters=pq.filters, n=top_k, answer_format=pq.answer_format,
         source_type=pq.source_type, capabilities=_capabilities(pq),
     )

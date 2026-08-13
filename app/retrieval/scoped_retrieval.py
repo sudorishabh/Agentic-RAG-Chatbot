@@ -27,8 +27,6 @@ def search_within_documents(
     document_ids: Sequence[str],
     *,
     limit: int,
-    tenant_id: str = "default",
-    user_groups: Sequence[str] | None = None,
 ) -> list[Candidate]:
     """Dense search constrained to the given document ids."""
     from qdrant_client.models import FieldCondition, MatchAny
@@ -40,8 +38,6 @@ def search_within_documents(
         return search(
             "",  # query text unused when query_vector is supplied
             limit=limit,
-            tenant_id=tenant_id,
-            user_groups=user_groups,
             extra_filter=[FieldCondition(key="document_id", match=MatchAny(any=ids))],
             query_vector=query_vector,
         )
@@ -71,16 +67,12 @@ def _scroll_leads(
     indices: Sequence[int],
     *,
     exclude_non_searchable: bool,
-    tenant_id: str,
-    user_groups: Sequence[str] | None,
 ) -> list[dict[str, Any]]:
     """Child payloads for ``ids`` restricted to the given chunk indices."""
     from qdrant_client.models import FieldCondition, MatchAny
 
     settings = get_settings()
     scroll_filter = build_filter(
-        tenant_id=tenant_id,
-        user_groups=user_groups,
         extra=[
             FieldCondition(key="document_id", match=MatchAny(any=list(ids))),
             FieldCondition(key="chunk_index", match=MatchAny(any=list(indices))),
@@ -119,9 +111,6 @@ def _earliest_per_document(
 
 def lead_parents(
     document_ids: Sequence[str],
-    *,
-    tenant_id: str = "default",
-    user_groups: Sequence[str] | None = None,
 ) -> dict[str, dict[str, Any]]:
     """document_id -> the best single payload to represent the document.
 
@@ -153,7 +142,6 @@ def lead_parents(
                 _scroll_leads(
                     missing, indices,
                     exclude_non_searchable=exclude_non_searchable,
-                    tenant_id=tenant_id, user_groups=user_groups,
                 )
             )
         )

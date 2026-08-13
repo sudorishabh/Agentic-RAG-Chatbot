@@ -51,13 +51,16 @@ class Candidate:
 
 def build_filter(
     *,
-    tenant_id: str = "default",
-    user_groups: Sequence[str] | None = None,
     extra: Sequence[Any] | None = None,
     extra_must_not: Sequence[Any] | None = None,
     exclude_non_searchable: bool = True,
 ) -> Any:
-    """The mandatory tenant/ACL/current filter, plus caller conditions.
+    """The mandatory shape filter, plus caller conditions.
+
+    The corpus is public: every caller may see all of it, so there is no tenant
+    or ACL leg here. What remains mandatory is what keeps retrieval pointed at
+    the *searchable* view of the corpus — current child chunks, since parents
+    hold no vector of their own and superseded versions are not the answer.
 
     ``exclude_non_searchable`` drops toc/references/glossary chunks and is on
     for every search. Fetches that must return *something* for a document —
@@ -69,11 +72,7 @@ def build_filter(
     must: list[Any] = [
         FieldCondition(key="is_parent", match=MatchValue(value=False)),
         FieldCondition(key="is_current", match=MatchValue(value=True)),
-        FieldCondition(key="tenant_id", match=MatchValue(value=tenant_id)),
     ]
-    groups = list(user_groups or ["public"])
-    if groups:
-        must.append(FieldCondition(key="acl", match=MatchAny(any=groups)))
     if extra:
         must.extend(extra)
     must_not: list[Any] = []
@@ -92,8 +91,6 @@ def search(
     query: str,
     *,
     limit: int | None = None,
-    tenant_id: str = "default",
-    user_groups: Sequence[str] | None = None,
     extra_filter: Sequence[Any] | None = None,
     extra_must_not: Sequence[Any] | None = None,
     query_vector: Sequence[float] | None = None,
@@ -108,10 +105,7 @@ def search(
         return []
 
     vector = list(query_vector) if query_vector is not None else get_embeddings().embed_query(query)
-    query_filter = build_filter(
-        tenant_id=tenant_id, user_groups=user_groups, extra=extra_filter,
-        extra_must_not=extra_must_not,
-    )
+    query_filter = build_filter(extra=extra_filter, extra_must_not=extra_must_not)
 
     response = client.query_points(
         collection_name=settings.qdrant_collection,

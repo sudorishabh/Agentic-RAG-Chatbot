@@ -44,8 +44,7 @@ def _attachment(file_uuid="f1"):
 
 
 def _supplement(blocks, ranked, **overrides):
-    kw = dict(search_query="q", query_vector=[0.1], tenant_id="default",
-              user_groups=["public"], n=5, segregate=False)
+    kw = dict(search_query="q", query_vector=[0.1], n=5, segregate=False)
     kw.update(overrides)
     return retriever._supplement_attachments(blocks, ranked, **kw)
 

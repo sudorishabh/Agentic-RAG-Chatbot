@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import hashlib
-from typing import Sequence
 
 from app.config import get_settings
 
@@ -29,19 +28,13 @@ def _pref_fingerprint() -> str:
     )
 
 
-def _identity_scope(tenant_id: str, user_groups: Sequence[str], top_k: int) -> str:
-    return f"{tenant_id}|{','.join(sorted(user_groups))}|{top_k}"
-
-
-def semantic_partition(
-    tenant_id: str, user_groups: Sequence[str], top_k: int, answer_format: str
-) -> str:
+def semantic_partition(top_k: int, answer_format: str) -> str:
     """Partition key for the semantic cache: retrieval-preference fingerprint +
-    caller identity + answer format. A cached answer is only valid within the
-    same partition, so retuning the preference knobs or crossing an ACL/tenant
-    boundary self-invalidates it."""
-    return _sha(
-        _pref_fingerprint(),
-        _identity_scope(tenant_id, user_groups, top_k),
-        answer_format,
-    )
+    result width + answer format. A cached answer is only valid within the same
+    partition, so retuning the preference knobs self-invalidates it.
+
+    Caller identity is deliberately absent. The corpus is public and every
+    caller retrieves over all of it, so two callers asking the same question
+    are owed the same answer — partitioning by identity would only fragment
+    the cache."""
+    return _sha(_pref_fingerprint(), str(top_k), answer_format)

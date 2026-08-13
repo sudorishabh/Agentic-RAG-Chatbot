@@ -23,8 +23,6 @@ logger = logging.getLogger(__name__)
 def dual_search(
     search_query: str,
     *,
-    tenant_id: str,
-    user_groups: list[str],
     filters: list[Any] | None,
     query_vector: list[float] | None,
     settings: Any,
@@ -40,16 +38,12 @@ def dual_search(
     website = search(
         search_query,
         limit=settings.website_candidate_k,
-        tenant_id=tenant_id,
-        user_groups=user_groups,
         extra_filter=base + [website_cond],
         query_vector=query_vector,
     )
     others = search(
         search_query,
         limit=settings.retrieval_candidate_k,
-        tenant_id=tenant_id,
-        user_groups=user_groups,
         extra_filter=base or None,
         extra_must_not=[website_cond],
         query_vector=query_vector,
@@ -92,13 +86,12 @@ def paraphrases(search_query: str, n: int) -> list[str]:
 
 
 def paraphrase_search(
-    query: str, *, tenant_id: str, user_groups: list[str], limit: int
+    query: str, *, limit: int
 ) -> list[Any]:
     """One paraphrase's dense pull (cached embed); [] on failure."""
     try:
         return search(
-            query, limit=limit, tenant_id=tenant_id, user_groups=user_groups,
-            query_vector=embed_query(query),
+            query, limit=limit, query_vector=embed_query(query),
         )
     except Exception:
         logger.warning("Paraphrase search failed for %r.", query, exc_info=True)
@@ -150,8 +143,6 @@ def corrective_requery(
     search_query: str,
     ranked: list[Any],
     *,
-    tenant_id: str,
-    user_groups: list[str],
     filters: list[Any] | None,
     limit: int,
     table_boost: float,
@@ -165,8 +156,7 @@ def corrective_requery(
             return ranked
 
         extra = search(
-            reformulated, limit=limit, tenant_id=tenant_id, user_groups=user_groups,
-            extra_filter=filters or None,
+            reformulated, limit=limit, extra_filter=filters or None,
             query_vector=embed_query(reformulated),
         )
         seen = {c.id for c in ranked}
@@ -207,8 +197,6 @@ def keyword_search(
     search_query: str,
     terms_text: str,
     *,
-    tenant_id: str,
-    user_groups: list[str],
     filters: list[Any] | None,
     query_vector: list[float],
     limit: int,
@@ -221,7 +209,7 @@ def keyword_search(
 
         cond = FieldCondition(key="chunk_text", match=MatchText(text=terms_text))
         return search(
-            search_query, limit=limit, tenant_id=tenant_id, user_groups=user_groups,
+            search_query, limit=limit,
             extra_filter=list(filters or []) + [cond], query_vector=query_vector,
         )
     except Exception:
