@@ -10,8 +10,8 @@ class ChatTurn(BaseModel):
 
 
 class QueryRequest(BaseModel):
-    # tenant_id / user_groups are intentionally absent: the caller's tenant and
-    # authorization groups come from the authenticated principal (see
+    # user_groups is intentionally absent: the caller's authorization groups
+    # come from the authenticated principal (see
     # app/api/auth.py), never from the request body.
     question: str = Field(min_length=1)
     history: list[ChatTurn] = Field(default_factory=list)

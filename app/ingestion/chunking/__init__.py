@@ -299,8 +299,6 @@ def _meta_from_canonical(doc: CanonicalDocument) -> DocumentMeta:
         categories=list(doc.categories),
         authors=list(doc.authors),
         language=doc.language,
-        tenant_id=doc.tenant_id,
-        acl=list(doc.acl),
         doc_version=doc.doc_version,
         is_current=doc.is_current,
         published_at=doc.published_at,

@@ -62,8 +62,6 @@ class CanonicalDocument:
     tags: list[str] = field(default_factory=list)
     categories: list[str] = field(default_factory=list)
     language: str = "en"
-    tenant_id: str = "default"
-    acl: list[str] = field(default_factory=lambda: ["public"])
 
     published_at: str | None = None
     doc_version: int = 1

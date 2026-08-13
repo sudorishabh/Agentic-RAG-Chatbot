@@ -47,7 +47,7 @@ def _canonical(data: dict[str, Any] | None) -> None:
     for key in (
         "document_id", "source_type", "title", "source_url", "file_url",
         "pdf_id", "pdf_path", "article_uuid", "linked_pdf_id",
-        "linked_article_uuid", "language", "tenant_id", "acl", "published_at",
+        "linked_article_uuid", "language", "published_at",
         "doc_version", "is_current", "content_hash", "is_paginated",
         "authors", "tags", "categories", "extra",
     ):

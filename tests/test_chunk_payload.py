@@ -27,7 +27,6 @@ from app.ingestion.chunking.config import ChunkingConfig
 
 META = DocumentMeta(
     document_id="doc-1", source_type="pdf_attachment", title="Panaji Case Study",
-    tenant_id="default", acl=["public"],
 )
 
 CONFIG = ChunkingConfig(
@@ -83,7 +82,7 @@ def test_the_chunk_object_still_carries_the_markdown_for_tooling():
     "field",
     [
         "chunk_id", "document_id", "is_parent", "source_type", "title",
-        "chunk_text", "is_current", "tenant_id", "acl", "doc_version",
+        "chunk_text", "is_current", "doc_version",
     ],
 )
 def test_required_field_is_present_on_every_chunk(field):

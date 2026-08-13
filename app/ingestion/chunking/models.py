@@ -24,8 +24,6 @@ class DocumentMeta:
     categories: list[str] = field(default_factory=list)
     authors: list[str] = field(default_factory=list)
     language: str | None = "en"
-    tenant_id: str | None = None
-    acl: list[str] = field(default_factory=list)
     doc_version: int = 1
     is_current: bool = True
     published_at: str | None = None

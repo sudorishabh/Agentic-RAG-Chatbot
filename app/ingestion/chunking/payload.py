@@ -28,8 +28,6 @@ def build_payload(chunk: "Chunk") -> dict[str, Any]:
         "has_table": chunk.has_table or None,
         "doc_version": m.doc_version,
         "is_current": m.is_current,
-        "tenant_id": m.tenant_id,
-        "acl": m.acl,
         "tags": m.tags,
         "categories": m.categories,
         "authors": m.authors,

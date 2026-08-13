@@ -1,10 +1,10 @@
 """Create the Qdrant payload indexes the query path filters on.
 
-Every search filters on is_parent / is_current / tenant_id / acl and often
-source_type, language and section_type, but only published_at is indexed at
-ingest time. Index creation runs server-side over
-existing points — nothing is re-ingested or re-embedded — but it does alter
-the collection, so run this only while no ingestion run is in progress.
+Every search filters on is_parent / is_current, and often source_type, language
+and section_type, but only published_at is indexed at ingest time. Index
+creation runs server-side over existing points — nothing is re-ingested or
+re-embedded — but it does alter the collection, so run this only while no
+ingestion run is in progress.
 
 Idempotent; safe to re-run (already-indexed fields are reported and skipped).
 
@@ -24,8 +24,6 @@ logger = logging.getLogger("create_payload_indexes")
 _INDEX_FIELDS: dict[str, str] = {
     "is_parent": "bool",
     "is_current": "bool",
-    "tenant_id": "keyword",
-    "acl": "keyword",
     "source_type": "keyword",
     "language": "keyword",
     "section_type": "keyword",

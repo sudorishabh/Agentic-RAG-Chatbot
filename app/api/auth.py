@@ -9,7 +9,6 @@ from app.config import get_settings
 
 logger = logging.getLogger(__name__)
 
-_ANONYMOUS_TENANT = "default"
 _ANONYMOUS_GROUPS: tuple[str, ...] = ("public",)
 
 # auto_error=False so a missing Authorization header is handled here: allowed
@@ -18,18 +17,18 @@ _bearer = HTTPBearer(auto_error=False)
 
 
 class Principal:
-    """The authenticated caller. Retrieval scopes every query to this identity —
-    tenant and groups come from a verified token (or the anonymous default when
-    auth is disabled), never from the request body."""
+    """The authenticated caller.
 
-    __slots__ = ("tenant_id", "user_groups")
+    Groups come from a verified token (or the anonymous default when auth is
+    disabled), never from the request body. They do not scope retrieval — the
+    corpus is public and every caller reads all of it — and are used only to
+    widen access to the ops endpoints (see settings.ops_admin_group)."""
+
+    __slots__ = ("user_groups",)
 
     def __init__(
-        self,
-        tenant_id: str = _ANONYMOUS_TENANT,
-        user_groups: tuple[str, ...] = _ANONYMOUS_GROUPS,
+        self, user_groups: tuple[str, ...] = _ANONYMOUS_GROUPS
     ) -> None:
-        self.tenant_id = tenant_id
         self.user_groups = user_groups
 
     @property
@@ -39,7 +38,6 @@ class Principal:
 
 def _principal_from_claims(claims: dict) -> Principal:
     settings = get_settings()
-    tenant = claims.get(settings.jwt_tenant_claim) or _ANONYMOUS_TENANT
     raw_groups = claims.get(settings.jwt_groups_claim)
     if isinstance(raw_groups, str):
         groups = [g.strip() for g in raw_groups.split(",") if g.strip()]
@@ -47,7 +45,7 @@ def _principal_from_claims(claims: dict) -> Principal:
         groups = [str(g) for g in raw_groups if str(g).strip()]
     else:
         groups = []
-    return Principal(str(tenant), tuple(groups) or _ANONYMOUS_GROUPS)
+    return Principal(tuple(groups) or _ANONYMOUS_GROUPS)
 
 
 def _unauthorized(detail: str) -> HTTPException:
@@ -65,7 +63,7 @@ def require_principal(
 
     Disabled auth returns the anonymous principal. Enabled auth requires a valid
     Bearer JWT and derives the identity from its claims. Either way the request
-    body cannot influence the tenant or groups used for retrieval.
+    body cannot influence the caller's groups.
     """
     settings = get_settings()
     if not settings.auth_enabled:

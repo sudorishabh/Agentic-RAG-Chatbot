@@ -200,10 +200,10 @@ class Settings(BaseSettings):
     ops_admin_group: str = ""
     cors_allow_origins: str = "*"
     # Authentication for the public retrieval API (/chat, /search). When enabled,
-    # requests must carry a Bearer JWT that the backend verifies; tenant_id and
-    # user_groups are taken from the token's claims, never from the request body.
-    # Off by default (anonymous caller = tenant "default", groups ["public"]);
-    # turn on in any deployment that serves non-public content.
+    # requests must carry a Bearer JWT that the backend verifies; user_groups
+    # are taken from the token's claims, never from the request body. Groups do
+    # not scope retrieval (the corpus is public) — they only widen access to the
+    # ops endpoints. Off by default (anonymous caller = groups ["public"]).
     auth_enabled: bool = False
     # Key used to verify the JWT signature. For HS* algorithms this is the shared
     # secret; for RS*/ES* it is the PEM-encoded public key.
@@ -214,8 +214,7 @@ class Settings(BaseSettings):
     # Optional audience / issuer to enforce when set (empty = not checked).
     jwt_audience: str = ""
     jwt_issuer: str = ""
-    # Claim names carrying the caller's tenant and authorization groups.
-    jwt_tenant_claim: str = "tenant_id"
+    # Claim name carrying the caller's authorization groups.
     jwt_groups_claim: str = "groups"
     otel_enabled: bool = False
     otel_service_name: str = "agentic-rag"
