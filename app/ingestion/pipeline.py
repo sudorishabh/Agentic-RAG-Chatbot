@@ -85,6 +85,29 @@ def _save_state(
     )
 
 
+def _linked_attachments(record: ChangeRecord) -> list[str]:
+    """What this document linked to before it is rewritten.
+
+    ``state.upsert`` replaces a document's link rows wholesale, so once it has
+    run there is no record of what the document used to reference — this has to
+    be read first or not at all.
+
+    Skipped for a document the catalog has never seen: link rows are foreign-keyed
+    to the document, so one that has no row can have no links, and a first
+    ingestion should not pay for a lookup that can only come back empty.
+    """
+    if record.prior is None:
+        return []
+    try:
+        return state.attachment_ids_for(record.document_id)
+    except Exception:
+        logger.warning(
+            "Could not read %s's attachment links; any it drops in this update "
+            "will be left in place.", record.document_id, exc_info=True,
+        )
+        return []
+
+
 def _persist(
     record: ChangeRecord,
     doc: CanonicalDocument,
@@ -92,14 +115,30 @@ def _persist(
     version: int,
     *,
     indexed: bool,
+    run_id: str | None = None,
 ) -> None:
     """Persist the content record and the facet rows derived from it.
 
     The document row is the primary fact — and the FK target every facet row
     hangs off — so it is written first, with its theme/author/tag/attachment rows
     following inside the same transaction.
+
+    A page that drops a PDF is the other way an attachment loses its last parent,
+    alongside the page being deleted outright: the link row simply stops being
+    written, and nothing else in the pipeline would ever notice. So the links
+    this document is about to replace are read first, and whichever of them it no
+    longer claims are re-examined once the write has landed.
+
+    The ordering is the whole trick. ``orphaned_attachments`` asks the catalog on
+    its own connection, so it can only see committed rows — run before the write
+    it would still find the old link and conclude the attachment is spoken for.
     """
+    previously_linked = _linked_attachments(record)
     _save_state(record, doc, content_hash, version, indexed=indexed)
+
+    still_claimed = {link.uuid for link in doc.file_links}
+    released = [f for f in previously_linked if f not in still_claimed]
+    _delete_orphaned_attachments(released, record, run_id)
 
 
 def _log(
@@ -276,7 +315,7 @@ def _handle(
 
     if not cd.content_changed(record, content_hash):
         version = prior_version or 1
-        _persist(record, doc, content_hash, version, indexed=False)
+        _persist(record, doc, content_hash, version, indexed=False, run_id=run_id)
         # The hash covers body text only, so a title-only edit lands here rather
         # than re-indexing. The catalog took the new title above; carry it to the
         # chunk payloads too (one call, no re-embed) so citations don't display
@@ -297,7 +336,7 @@ def _handle(
         new_chunks = chunk_canonical(doc)
     chunks = index_chunks(new_chunks)
     delete_document(record.document_id, keep_ids=[c.chunk_id for c in new_chunks])
-    _persist(record, doc, content_hash, version, indexed=True)
+    _persist(record, doc, content_hash, version, indexed=True, run_id=run_id)
     logger.info(
         "%s %s -> v%d", record.status.value, record.document_id, version
     )

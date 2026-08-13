@@ -104,6 +104,10 @@ def _patch_persist_order(monkeypatch, order: list[str]):
     # Same for enrichment: it is off by default, but these tests must not depend
     # on a deployment's .env for that. See test_pipeline_enrichment.py.
     monkeypatch.setattr(pipeline, "_enrich", lambda doc, content_hash: "off")
+    # A document that already exists has its links read before they are replaced,
+    # so that a PDF it drops can be released. Covered by
+    # tests/test_attachment_orphans.py; here it must reach no catalog.
+    monkeypatch.setattr(pipeline.state, "attachment_ids_for", lambda doc_id: [])
 
 
 def test_handle_saves_the_content_record(monkeypatch):
