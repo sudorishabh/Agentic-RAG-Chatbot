@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import pytest
 
-from app.retrieval.structured import resolve
+from app.retrieval.structured import entities, resolve
 
 
 @pytest.fixture(autouse=True)
@@ -37,7 +37,10 @@ def test_bundle_unknown_query_scores_against_every_bundle():
     candidates = resolve._bundle_candidates("evnts")
     names = {c.id for c in candidates}
     assert "events" in names
-    assert len(candidates) == 16  # every DEFAULT_BUNDLES entry is scored
+    # Every DEFAULT_BUNDLES entry is scored. Counted from the tuple rather than
+    # written as a literal: the crawl's bundle list is edited as sources are
+    # admitted or withdrawn, and a literal rots into a false failure.
+    assert len(candidates) == len(entities.DEFAULT_BUNDLES)
     top = max(candidates, key=lambda c: c.score)
     assert top.id == "events"
 
