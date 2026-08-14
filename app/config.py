@@ -239,6 +239,26 @@ class Settings(BaseSettings):
     # Graph-backed retrieval. Separate from knowledge_enabled because the graph
     # must be built and verified long before any query is allowed to read it.
     graph_retrieval_enabled: bool = False
+    # THE KILL SWITCH for graph routing. With this false no query is answered
+    # from the graph, whatever the class list below says, and the graph package
+    # is not imported on the request path. Flipping it back to false is the
+    # complete rollback -- nothing else has to be undone, because existing
+    # retrieval was never replaced, only bypassed for classes with evidence.
+    #
+    # ON as of Phase 11, for the four measured classes only. The evidence:
+    # answer coverage 0.00 -> 1.00 against existing retrieval on those classes,
+    # routing precision 1.00 (no false routes on the 24-query benchmark),
+    # citation validity 1.00, and latency roughly halved. Every other class,
+    # `historical` included, still falls through to existing retrieval.
+    graph_routing_enabled: bool = True
+    # Query classes routing may use, comma-separated. Empty means the built-in
+    # default (see app.retrieval.graph.policy.DEFAULT_ENABLED_CLASSES).
+    # `historical` is intentionally not in that default: it stays in shadow
+    # until a larger reviewed historical benchmark exists.
+    graph_routing_classes: str | None = None
+    # Wall-clock budget for a whole graph attempt. Exceeding it falls back to
+    # existing retrieval; measured p95 is far below this.
+    graph_routing_budget_seconds: float = 3.0
     # Shadow mode: run graph retrieval beside production and log the comparison,
     # without touching the answer. Separate from graph_retrieval_enabled because
     # the point is to gather evidence on live traffic *before* routing anything.

@@ -82,6 +82,12 @@ _lock = threading.Lock()
 _stages: dict[str, _StageStats] = {}
 _since = datetime.now(timezone.utc)
 
+# Outcome counters, keyed family -> outcome -> count. Stage timings answer "how
+# long"; these answer "how often, and how did it end" — which is the question a
+# fallback path raises. A route that silently fell back looks identical to one
+# that was never attempted unless the two are counted apart.
+_events: dict[str, dict[str, int]] = {}
+
 _breakdown: ContextVar[dict[str, float] | None] = ContextVar(
     "stage_breakdown", default=None
 )
@@ -96,6 +102,33 @@ def record_stage(name: str, elapsed_ms: float) -> None:
     per_request = _breakdown.get()
     if per_request is not None:
         per_request[name] = per_request.get(name, 0.0) + elapsed_ms
+
+
+def record_event(family: str, outcome: str) -> None:
+    """Count one outcome in a family, e.g. ``("graph_routing", "zero_result")``."""
+    with _lock:
+        bucket = _events.get(family)
+        if bucket is None:
+            bucket = _events[family] = {}
+        bucket[outcome] = bucket.get(outcome, 0) + 1
+
+
+def events() -> dict[str, dict[str, int]]:
+    """Outcome counters, with a total and a share per family."""
+    with _lock:
+        copied = {family: dict(counts) for family, counts in _events.items()}
+    out: dict[str, dict[str, Any]] = {}
+    for family, counts in sorted(copied.items()):
+        total = sum(counts.values())
+        out[family] = {
+            "total": total,
+            "counts": dict(sorted(counts.items(), key=lambda kv: -kv[1])),
+            "share_pct": {
+                name: round(100.0 * count / total, 1)
+                for name, count in sorted(counts.items(), key=lambda kv: -kv[1])
+            } if total else {},
+        }
+    return out
 
 
 @contextmanager
@@ -171,6 +204,7 @@ def snapshot() -> dict[str, Any]:
         "window": _WINDOW,
         "components": components,
         "stages": stages,
+        "events": events(),
     }
 
 
@@ -178,4 +212,5 @@ def reset() -> None:
     global _since
     with _lock:
         _stages.clear()
+        _events.clear()
         _since = datetime.now(timezone.utc)

@@ -1,0 +1,1075 @@
+{
+  "k": 8,
+  "summary": {
+    "classes": {
+      "ambiguous": {
+        "n": 1,
+        "existing_coverage": 1.0,
+        "graph_coverage": 1.0,
+        "existing_evidence_recall": 1.0,
+        "graph_evidence_recall": 1.0,
+        "existing_latency_ms": 546.9513999996707,
+        "graph_latency_ms": 0.6357000092975795,
+        "route_correct": 1,
+        "routed_coverage": 1.0,
+        "routed_latency_ms": 598.5297000152059,
+        "graph_used": 0,
+        "citation_validity": null
+      },
+      "current_funding": {
+        "n": 4,
+        "existing_coverage": 0.0,
+        "graph_coverage": 1.0,
+        "existing_evidence_recall": 0.0,
+        "graph_evidence_recall": 0.8,
+        "existing_latency_ms": 1301.1654999863822,
+        "graph_latency_ms": 241.2939249916235,
+        "route_correct": 4,
+        "routed_coverage": 1.0,
+        "routed_latency_ms": 62.0763250044547,
+        "graph_used": 4,
+        "citation_validity": 1.0
+      },
+      "funders_of_project": {
+        "n": 3,
+        "existing_coverage": 0.6666666666666666,
+        "graph_coverage": 0.6666666666666666,
+        "existing_evidence_recall": 1.0,
+        "graph_evidence_recall": 0.6666666666666666,
+        "existing_latency_ms": 594.385233319675,
+        "graph_latency_ms": 22.401599989583094,
+        "route_correct": 2,
+        "routed_coverage": 1.0,
+        "routed_latency_ms": 221.59696663341796,
+        "graph_used": 2,
+        "citation_validity": 1.0
+      },
+      "historical": {
+        "n": 3,
+        "existing_coverage": 0.0,
+        "graph_coverage": 0.8333333333333334,
+        "existing_evidence_recall": 0.0,
+        "graph_evidence_recall": 0.20887445887445888,
+        "existing_latency_ms": 607.9056666737112,
+        "graph_latency_ms": 44.88633332463602,
+        "route_correct": 3,
+        "routed_coverage": 0.0,
+        "routed_latency_ms": 667.4424333420271,
+        "graph_used": 0,
+        "citation_validity": 1.0
+      },
+      "leadership": {
+        "n": 3,
+        "existing_coverage": 0.06060606060606061,
+        "graph_coverage": 1.0,
+        "existing_evidence_recall": 0.0,
+        "graph_evidence_recall": 0.7287878787878789,
+        "existing_latency_ms": 624.5505333257219,
+        "graph_latency_ms": 44.07393332803622,
+        "route_correct": 3,
+        "routed_coverage": 1.0,
+        "routed_latency_ms": 39.358266648681216,
+        "graph_used": 3,
+        "citation_validity": 1.0
+      },
+      "multi_hop": {
+        "n": 3,
+        "existing_coverage": 0.027777777777777776,
+        "graph_coverage": 1.0,
+        "existing_evidence_recall": 0.0,
+        "graph_evidence_recall": 0.8888888888888888,
+        "existing_latency_ms": 567.3980666712547,
+        "graph_latency_ms": 28.14480000718807,
+        "route_correct": 3,
+        "routed_coverage": 1.0,
+        "routed_latency_ms": 36.487499989258744,
+        "graph_used": 3,
+        "citation_validity": 1.0
+      },
+      "no_result": {
+        "n": 2,
+        "existing_coverage": 1.0,
+        "graph_coverage": 1.0,
+        "existing_evidence_recall": 1.0,
+        "graph_evidence_recall": 1.0,
+        "existing_latency_ms": 618.1194499658886,
+        "graph_latency_ms": 7.172999990871176,
+        "route_correct": 2,
+        "routed_coverage": 1.0,
+        "routed_latency_ms": 625.8528999751434,
+        "graph_used": 0,
+        "citation_validity": null
+      },
+      "non_relational": {
+        "n": 5,
+        "existing_coverage": 1.0,
+        "graph_coverage": 1.0,
+        "existing_evidence_recall": 1.0,
+        "graph_evidence_recall": 1.0,
+        "existing_latency_ms": 560.4637600132264,
+        "graph_latency_ms": 3.6301399930380285,
+        "route_correct": 5,
+        "routed_coverage": 1.0,
+        "routed_latency_ms": 591.80863997899,
+        "graph_used": 0,
+        "citation_validity": null
+      }
+    },
+    "outcomes": {
+      "answered": 12,
+      "not_routed": 7,
+      "class_disabled": 5
+    },
+    "routing": {
+      "should_route": 18,
+      "should_not_route": 6,
+      "routed": 17,
+      "false_routes": [],
+      "missed_routes": [
+        "funder-02"
+      ],
+      "precision": 1.0,
+      "recall": 0.9444444444444444,
+      "template_correct": 23,
+      "total": 24
+    }
+  },
+  "results": [
+    {
+      "id": "fund-01",
+      "class": "current_funding",
+      "query": "What projects are currently funded by Department of Biotechnology?",
+      "should_route": true,
+      "gold_answers": 20,
+      "existing": {
+        "blocks": 7,
+        "answer_coverage": 0.0,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 3318.355800001882
+      },
+      "graph": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "evidence_recall": 0.4,
+        "evidence_precision": 1.0,
+        "latency_ms": 860.6715999776497,
+        "routed": true,
+        "template": "projects_funded_by_org",
+        "mode": "current",
+        "rows": 20,
+        "reason": "projects funded by an organization",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "latency_ms": 117.15609999373555,
+        "source": "graph",
+        "outcome": "answered",
+        "class": "current_funding"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "fund-02",
+      "class": "current_funding",
+      "query": "What projects are currently funded by Department of Science & Technology?",
+      "should_route": true,
+      "gold_answers": 10,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 0.0,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 619.2681000102311
+      },
+      "graph": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "evidence_recall": 0.8,
+        "evidence_precision": 1.0,
+        "latency_ms": 30.543499975465238,
+        "routed": true,
+        "template": "projects_funded_by_org",
+        "mode": "current",
+        "rows": 10,
+        "reason": "projects funded by an organization",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "latency_ms": 31.58190002432093,
+        "source": "graph",
+        "outcome": "answered",
+        "class": "current_funding"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "fund-03",
+      "class": "current_funding",
+      "query": "What projects are currently funded by Shakti Sustainable Energy Foundation?",
+      "should_route": true,
+      "gold_answers": 7,
+      "existing": {
+        "blocks": 7,
+        "answer_coverage": 0.0,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 641.6369999642484
+      },
+      "graph": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 39.27920002024621,
+        "routed": true,
+        "template": "projects_funded_by_org",
+        "mode": "current",
+        "rows": 7,
+        "reason": "projects funded by an organization",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "latency_ms": 56.87050003325567,
+        "source": "graph",
+        "outcome": "answered",
+        "class": "current_funding"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "fund-04",
+      "class": "current_funding",
+      "query": "What projects are currently funded by The World Bank?",
+      "should_route": true,
+      "gold_answers": 7,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 0.0,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 625.4010999691673
+      },
+      "graph": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 34.6813999931328,
+        "routed": true,
+        "template": "projects_funded_by_org",
+        "mode": "current",
+        "rows": 7,
+        "reason": "projects funded by an organization",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "latency_ms": 42.69679996650666,
+        "source": "graph",
+        "outcome": "answered",
+        "class": "current_funding"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "hop-01",
+      "class": "multi_hop",
+      "query": "Who leads projects funded by Department of Biotechnology?",
+      "should_route": true,
+      "gold_answers": 12,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 0.08333333333333333,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 563.5570000158623
+      },
+      "graph": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "evidence_recall": 0.6666666666666666,
+        "evidence_precision": 1.0,
+        "latency_ms": 38.0956000299193,
+        "routed": true,
+        "template": "people_leading_projects_funded_by_org",
+        "mode": "current",
+        "rows": 12,
+        "reason": "people leading projects funded by an organization",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "latency_ms": 45.22139998152852,
+        "source": "graph",
+        "outcome": "answered",
+        "class": "multi_hop"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "hop-02",
+      "class": "multi_hop",
+      "query": "Who leads projects funded by Shakti Sustainable Energy Foundation?",
+      "should_route": true,
+      "gold_answers": 5,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 0.0,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 514.6125000319444
+      },
+      "graph": {
+        "blocks": 6,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 14.988999988418072,
+        "routed": true,
+        "template": "people_leading_projects_funded_by_org",
+        "mode": "current",
+        "rows": 5,
+        "reason": "people leading projects funded by an organization",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 6,
+        "answer_coverage": 1.0,
+        "latency_ms": 39.066099969204515,
+        "source": "graph",
+        "outcome": "answered",
+        "class": "multi_hop"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "hop-03",
+      "class": "multi_hop",
+      "query": "Who leads projects funded by European Commission?",
+      "should_route": true,
+      "gold_answers": 4,
+      "existing": {
+        "blocks": 6,
+        "answer_coverage": 0.0,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 624.0246999659576
+      },
+      "graph": {
+        "blocks": 5,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 31.349800003226846,
+        "routed": true,
+        "template": "people_leading_projects_funded_by_org",
+        "mode": "current",
+        "rows": 4,
+        "reason": "people leading projects funded by an organization",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 5,
+        "answer_coverage": 1.0,
+        "latency_ms": 25.175000017043203,
+        "source": "graph",
+        "outcome": "answered",
+        "class": "multi_hop"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "lead-01",
+      "class": "leadership",
+      "query": "What projects does Mr R Suresh lead?",
+      "should_route": true,
+      "gold_answers": 11,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 0.18181818181818182,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 597.3546999739483
+      },
+      "graph": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "evidence_recall": 0.6363636363636364,
+        "evidence_precision": 1.0,
+        "latency_ms": 42.01189999002963,
+        "routed": true,
+        "template": "projects_led_by_person",
+        "mode": "current",
+        "rows": 11,
+        "reason": "projects led by a person",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "latency_ms": 33.94499997375533,
+        "source": "graph",
+        "outcome": "answered",
+        "class": "leadership"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "lead-02",
+      "class": "leadership",
+      "query": "What projects does Mr Prosanto Pal lead?",
+      "should_route": true,
+      "gold_answers": 10,
+      "existing": {
+        "blocks": 6,
+        "answer_coverage": 0.0,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 674.742300005164
+      },
+      "graph": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "evidence_recall": 0.8,
+        "evidence_precision": 1.0,
+        "latency_ms": 25.943599990569055,
+        "routed": true,
+        "template": "projects_led_by_person",
+        "mode": "current",
+        "rows": 10,
+        "reason": "projects led by a person",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "latency_ms": 26.439699984621257,
+        "source": "graph",
+        "outcome": "answered",
+        "class": "leadership"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "lead-03",
+      "class": "leadership",
+      "query": "What projects does Mr Sharif Qamar lead?",
+      "should_route": true,
+      "gold_answers": 8,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 0.0,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 601.5545999980532
+      },
+      "graph": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "evidence_recall": 0.75,
+        "evidence_precision": 1.0,
+        "latency_ms": 64.26630000350997,
+        "routed": true,
+        "template": "projects_led_by_person",
+        "mode": "current",
+        "rows": 8,
+        "reason": "projects led by a person",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "latency_ms": 57.690099987667054,
+        "source": "graph",
+        "outcome": "answered",
+        "class": "leadership"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "funder-01",
+      "class": "funders_of_project",
+      "query": "Who funded the project \"Demonstration of Aquaphonic and Cage fish culture in Goa\"?",
+      "should_route": true,
+      "gold_answers": 1,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 0.14285714285714285,
+        "latency_ms": 576.5470000333153
+      },
+      "graph": {
+        "blocks": 2,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 32.3221999569796,
+        "routed": true,
+        "template": "funders_of_project",
+        "mode": "current",
+        "rows": 1,
+        "reason": "funders of a project",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 2,
+        "answer_coverage": 1.0,
+        "latency_ms": 31.22909995727241,
+        "source": "graph",
+        "outcome": "answered",
+        "class": "funders_of_project"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "funder-02",
+      "class": "funders_of_project",
+      "query": "Who funded the project \"A stakeholder forum for key actors in the electricity distribution sector (Phase-2)\"?",
+      "should_route": true,
+      "gold_answers": 1,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 0.2,
+        "latency_ms": 585.650299966801
+      },
+      "graph": {
+        "blocks": 0,
+        "answer_coverage": 0.0,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 1.632500032428652,
+        "routed": false,
+        "template": null,
+        "mode": null,
+        "rows": 0,
+        "reason": "no entity in the question resolved to a canonical identity",
+        "disputed": false,
+        "facts_block": false,
+        "citation_validity": null
+      },
+      "routed_system": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "latency_ms": 619.5460999733768,
+        "source": "fallback",
+        "outcome": "not_routed",
+        "class": null
+      },
+      "route_correct": false,
+      "template_correct": false
+    },
+    {
+      "id": "funder-03",
+      "class": "funders_of_project",
+      "query": "Who funded the project \"Accelerating Industrial Decarbonisation in India\"?",
+      "should_route": true,
+      "gold_answers": 1,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 0.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 0.14285714285714285,
+        "latency_ms": 620.9583999589086
+      },
+      "graph": {
+        "blocks": 2,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 33.25009997934103,
+        "routed": true,
+        "template": "funders_of_project",
+        "mode": "current",
+        "rows": 1,
+        "reason": "funders of a project",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 2,
+        "answer_coverage": 1.0,
+        "latency_ms": 14.015699969604611,
+        "source": "graph",
+        "outcome": "answered",
+        "class": "funders_of_project"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "hist-01",
+      "class": "historical",
+      "query": "What projects has Department of Biotechnology funded in the past?",
+      "should_route": true,
+      "gold_answers": 44,
+      "existing": {
+        "blocks": 7,
+        "answer_coverage": 0.0,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 645.8834999939427
+      },
+      "graph": {
+        "blocks": 9,
+        "answer_coverage": 0.5,
+        "evidence_recall": 0.022727272727272728,
+        "evidence_precision": 0.125,
+        "latency_ms": 65.37649995880201,
+        "routed": true,
+        "template": "org_funding_history",
+        "mode": "historical",
+        "rows": 64,
+        "reason": "the history of an entity",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 7,
+        "answer_coverage": 0.0,
+        "latency_ms": 635.6169999926351,
+        "source": "fallback",
+        "outcome": "class_disabled",
+        "class": "historical"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "hist-02",
+      "class": "historical",
+      "query": "What projects has Ministry of New and Renewable Energy funded in the past?",
+      "should_route": true,
+      "gold_answers": 22,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 0.0,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 564.4864999921992
+      },
+      "graph": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "evidence_recall": 0.3181818181818182,
+        "evidence_precision": 0.875,
+        "latency_ms": 30.782999994698912,
+        "routed": true,
+        "template": "org_funding_history",
+        "mode": "historical",
+        "rows": 25,
+        "reason": "the history of an entity",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 8,
+        "answer_coverage": 0.0,
+        "latency_ms": 710.5965000228025,
+        "source": "fallback",
+        "outcome": "class_disabled",
+        "class": "historical"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "hist-03",
+      "class": "historical",
+      "query": "What projects has Ministry of Environment and Forests funded in the past?",
+      "should_route": true,
+      "gold_answers": 21,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 0.0,
+        "evidence_recall": 0.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 613.3470000349917
+      },
+      "graph": {
+        "blocks": 9,
+        "answer_coverage": 1.0,
+        "evidence_recall": 0.2857142857142857,
+        "evidence_precision": 1.0,
+        "latency_ms": 38.49950002040714,
+        "routed": true,
+        "template": "org_funding_history",
+        "mode": "historical",
+        "rows": 21,
+        "reason": "the history of an entity",
+        "disputed": false,
+        "facts_block": true,
+        "citation_validity": 1.0
+      },
+      "routed_system": {
+        "blocks": 8,
+        "answer_coverage": 0.0,
+        "latency_ms": 656.1138000106439,
+        "source": "fallback",
+        "outcome": "class_disabled",
+        "class": "historical"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "none-01",
+      "class": "no_result",
+      "query": "Which organisation does Mr R Suresh work at?",
+      "should_route": true,
+      "gold_answers": 0,
+      "existing": {
+        "blocks": 5,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 636.9687999831513
+      },
+      "graph": {
+        "blocks": 0,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 6.688800000119954,
+        "routed": true,
+        "template": "person_works_at",
+        "mode": "current",
+        "rows": 0,
+        "reason": "graph query returned no rows",
+        "disputed": false,
+        "facts_block": false,
+        "citation_validity": null
+      },
+      "routed_system": {
+        "blocks": 5,
+        "answer_coverage": 1.0,
+        "latency_ms": 672.7757999906316,
+        "source": "fallback",
+        "outcome": "class_disabled",
+        "class": "employment"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "none-02",
+      "class": "no_result",
+      "query": "Which organisation does Mr Prosanto Pal work at?",
+      "should_route": true,
+      "gold_answers": 0,
+      "existing": {
+        "blocks": 5,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 599.270099948626
+      },
+      "graph": {
+        "blocks": 0,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 7.657199981622398,
+        "routed": true,
+        "template": "person_works_at",
+        "mode": "current",
+        "rows": 0,
+        "reason": "graph query returned no rows",
+        "disputed": false,
+        "facts_block": false,
+        "citation_validity": null
+      },
+      "routed_system": {
+        "blocks": 5,
+        "answer_coverage": 1.0,
+        "latency_ms": 578.9299999596551,
+        "source": "fallback",
+        "outcome": "class_disabled",
+        "class": "employment"
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "noroute-01",
+      "class": "non_relational",
+      "query": "What are the environmental impacts of solar energy?",
+      "should_route": false,
+      "gold_answers": 0,
+      "existing": {
+        "blocks": 7,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 542.2831000178121
+      },
+      "graph": {
+        "blocks": 0,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 3.0217000166885555,
+        "routed": false,
+        "template": null,
+        "mode": null,
+        "rows": 0,
+        "reason": "no entity in the question resolved to a canonical identity",
+        "disputed": false,
+        "facts_block": false,
+        "citation_validity": null
+      },
+      "routed_system": {
+        "blocks": 7,
+        "answer_coverage": 1.0,
+        "latency_ms": 561.7594999494031,
+        "source": "fallback",
+        "outcome": "not_routed",
+        "class": null
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "noroute-02",
+      "class": "non_relational",
+      "query": "How does India's energy policy address climate change?",
+      "should_route": false,
+      "gold_answers": 0,
+      "existing": {
+        "blocks": 7,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 630.0686000031419
+      },
+      "graph": {
+        "blocks": 0,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 9.8230000003241,
+        "routed": false,
+        "template": null,
+        "mode": null,
+        "rows": 0,
+        "reason": "no entity in the question resolved to a canonical identity",
+        "disputed": false,
+        "facts_block": false,
+        "citation_validity": null
+      },
+      "routed_system": {
+        "blocks": 7,
+        "answer_coverage": 1.0,
+        "latency_ms": 646.27319999272,
+        "source": "fallback",
+        "outcome": "not_routed",
+        "class": null
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "noroute-03",
+      "class": "non_relational",
+      "query": "Tell me about the Department of Biotechnology",
+      "should_route": false,
+      "gold_answers": 0,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 534.5074000069872
+      },
+      "graph": {
+        "blocks": 0,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 1.4042999828234315,
+        "routed": false,
+        "template": null,
+        "mode": null,
+        "rows": 0,
+        "reason": "entity resolved but the question is not relational",
+        "disputed": false,
+        "facts_block": false,
+        "citation_validity": null
+      },
+      "routed_system": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "latency_ms": 482.5088999932632,
+        "source": "fallback",
+        "outcome": "not_routed",
+        "class": null
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "noroute-04",
+      "class": "non_relational",
+      "query": "What is the Department of Biotechnology's mission statement?",
+      "should_route": false,
+      "gold_answers": 0,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 583.2870000158437
+      },
+      "graph": {
+        "blocks": 0,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 1.502899976912886,
+        "routed": false,
+        "template": null,
+        "mode": null,
+        "rows": 0,
+        "reason": "entity resolved but the question is not relational",
+        "disputed": false,
+        "facts_block": false,
+        "citation_validity": null
+      },
+      "routed_system": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "latency_ms": 745.2255999669433,
+        "source": "fallback",
+        "outcome": "not_routed",
+        "class": null
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "noroute-05",
+      "class": "non_relational",
+      "query": "Summarise TERI's work on air quality",
+      "should_route": false,
+      "gold_answers": 0,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 512.1727000223473
+      },
+      "graph": {
+        "blocks": 0,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 2.3987999884411693,
+        "routed": false,
+        "template": null,
+        "mode": null,
+        "rows": 0,
+        "reason": "no entity in the question resolved to a canonical identity",
+        "disputed": false,
+        "facts_block": false,
+        "citation_validity": null
+      },
+      "routed_system": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "latency_ms": 523.2759999926202,
+        "source": "fallback",
+        "outcome": "not_routed",
+        "class": null
+      },
+      "route_correct": true,
+      "template_correct": true
+    },
+    {
+      "id": "ambig-01",
+      "class": "ambiguous",
+      "query": "What projects are funded by TERI?",
+      "should_route": false,
+      "gold_answers": 0,
+      "existing": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 0.0,
+        "latency_ms": 546.9513999996707
+      },
+      "graph": {
+        "blocks": 0,
+        "answer_coverage": 1.0,
+        "evidence_recall": 1.0,
+        "evidence_precision": 1.0,
+        "latency_ms": 0.6357000092975795,
+        "routed": false,
+        "template": null,
+        "mode": null,
+        "rows": 0,
+        "reason": "no entity in the question resolved to a canonical identity",
+        "disputed": false,
+        "facts_block": false,
+        "citation_validity": null
+      },
+      "routed_system": {
+        "blocks": 8,
+        "answer_coverage": 1.0,
+        "latency_ms": 598.5297000152059,
+        "source": "fallback",
+        "outcome": "not_routed",
+        "class": null
+      },
+      "route_correct": true,
+      "template_correct": true
+    }
+  ]
+}

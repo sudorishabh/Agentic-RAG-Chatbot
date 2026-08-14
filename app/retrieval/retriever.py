@@ -100,6 +100,31 @@ def _supplement_attachments(
         return blocks
 
 
+def _try_graph(search_query: str, *, n: int) -> list[ContextBlock]:
+    """Blocks from the graph, or ``[]`` to carry on with existing retrieval.
+
+    The whole contract in one line: an empty list means "fall back", and every
+    outcome that is not a useful graph answer produces one. The policy layer
+    catches its own exceptions, so the ``except`` here is defence in depth for
+    the import and the flag read — a graph problem must never reach a caller
+    that was only asking a question.
+    """
+    if not getattr(get_settings(), "graph_routing_enabled", False):
+        return []
+    try:
+        from app.retrieval.graph import policy
+
+        with span("rag.graph_route") as s:
+            attempt = policy.attempt(search_query, top_k=n)
+            s.set("outcome", attempt.outcome)
+            s.set("class", attempt.query_class or "-")
+            s.set("rows", attempt.rows)
+        return attempt.blocks if attempt.used else []
+    except Exception:  # pragma: no cover - defence in depth
+        logger.warning("Graph routing hook failed; using retrieval.", exc_info=True)
+        return []
+
+
 def _observe_in_shadow(search_query: str, blocks: list[ContextBlock]) -> None:
     """Hand the question to graph shadow mode, if it is enabled.
 
@@ -135,6 +160,19 @@ def retrieve(
 ) -> list[ContextBlock]:
     settings = get_settings()
     n = n or settings.retrieval_top_k
+
+    # The graph leg, for the narrow set of relational question classes Phase 10
+    # measured. It answers or it declines; every other outcome — not routed, an
+    # empty graph, an error, a timeout — falls through to the retrieval below,
+    # which is unchanged and remains the fallback for everything.
+    #
+    # Skipped whenever the caller pinned a scope: the graph does not apply
+    # `filters` or `source_type`, so answering from it would quietly discard an
+    # explicit user restriction.
+    if not filters and not source_type:
+        graph_blocks = _try_graph(search_query, n=n)
+        if graph_blocks:
+            return graph_blocks
 
     # Prefer website content only when the feature is on, the user didn't pin a
     # source (explicit intent → honor their filter with a single pull, else the

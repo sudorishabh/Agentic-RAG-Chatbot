@@ -118,10 +118,13 @@ def _write(record: dict[str, Any]) -> None:
 def _run(question: str, production_documents: list[str]) -> None:
     global _in_flight
     try:
-        from app.retrieval.graph import pipeline
+        from app.retrieval.graph import pipeline, policy
 
         started = time.perf_counter()
-        answer = pipeline.answer(question)
+        # The cached index, for the same reason routing uses it: rebuilding it
+        # per observation would make the shadow cost more than the thing it
+        # observes.
+        answer = pipeline.answer(question, index=policy.entity_index())
         elapsed = (time.perf_counter() - started) * 1000
         _write(_record(question, answer, production_documents, elapsed))
     except Exception:

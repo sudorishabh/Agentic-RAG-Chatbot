@@ -201,10 +201,51 @@ def run_graph(query: str, *, k: int, index: Any) -> dict[str, Any]:
     }
 
 
+def run_routed(query: str, *, k: int, allowed: tuple[str, ...]) -> dict[str, Any]:
+    """Production as Phase 11 ships it: the graph for enabled classes, existing
+    retrieval for everything else and for every graph outcome that is not a
+    useful answer.
+
+    This is the configuration a user would experience, so it is the one that
+    should decide whether a class is worth enabling — a class the graph declines
+    half the time still scores well here if the fallback covers it.
+    """
+    from app.retrieval.graph import policy
+
+    started = time.perf_counter()
+    attempt = policy.attempt(query, top_k=k, settings=_RoutingSettings(allowed))
+    if attempt.used:
+        return {
+            "blocks": attempt.blocks,
+            "elapsed_ms": (time.perf_counter() - started) * 1000,
+            "source": "graph", "outcome": attempt.outcome,
+            "class": attempt.query_class,
+        }
+    existing = run_existing(query, k=k)
+    return {
+        "blocks": existing["blocks"],
+        "elapsed_ms": (time.perf_counter() - started) * 1000,
+        "source": "fallback", "outcome": attempt.outcome,
+        "class": attempt.query_class,
+    }
+
+
+class _RoutingSettings:
+    """A settings stand-in so one run can evaluate one class set."""
+
+    def __init__(self, allowed: tuple[str, ...]):
+        self.graph_routing_enabled = True
+        self.graph_routing_classes = ",".join(allowed)
+        self.graph_routing_budget_seconds = 15.0
+
+
 # --------------------------------------------------------------------------- #
 
 
-def evaluate(queries: list[dict[str, Any]], *, k: int) -> list[dict[str, Any]]:
+def evaluate(
+    queries: list[dict[str, Any]], *, k: int,
+    routed_classes: tuple[str, ...] | None = None,
+) -> list[dict[str, Any]]:
     from app.knowledge.candidates import EntityIndex
 
     index = EntityIndex.load()
@@ -246,6 +287,16 @@ def evaluate(queries: list[dict[str, Any]], *, k: int) -> list[dict[str, Any]]:
             "facts_block": answer.facts,
             "citation_validity": _citation_validity(answer),
         }
+        if routed_classes is not None:
+            routed = run_routed(spec["query"], k=k, allowed=routed_classes)
+            row["routed_system"] = {
+                "blocks": len(routed["blocks"]),
+                "answer_coverage": _coverage(routed["blocks"], gold_names),
+                "latency_ms": routed["elapsed_ms"],
+                "source": routed["source"], "outcome": routed["outcome"],
+                "class": routed["class"],
+            }
+
         row["route_correct"] = graph["routed"] == spec["should_route"]
         row["template_correct"] = (
             route.template_id == spec["expected_template"] if route
@@ -279,6 +330,18 @@ def summarize(results: list[dict[str, Any]]) -> dict[str, Any]:
             "existing_latency_ms": _mean([r["existing"]["latency_ms"] for r in rows]),
             "graph_latency_ms": _mean([r["graph"]["latency_ms"] for r in rows]),
             "route_correct": sum(r["route_correct"] for r in rows),
+            "routed_coverage": (
+                _mean([r["routed_system"]["answer_coverage"] for r in rows])
+                if "routed_system" in rows[0] else None
+            ),
+            "routed_latency_ms": (
+                _mean([r["routed_system"]["latency_ms"] for r in rows])
+                if "routed_system" in rows[0] else None
+            ),
+            "graph_used": sum(
+                1 for r in rows
+                if r.get("routed_system", {}).get("source") == "graph"
+            ),
             # None, not 0.0, when nothing was cited: a class that correctly
             # declines to answer has no citations to be wrong about, and
             # scoring it zero would read as a failure.
@@ -296,8 +359,15 @@ def summarize(results: list[dict[str, Any]]) -> dict[str, Any]:
     false_routes = [r for r in should_not if r["graph"]["routed"]]
     missed_routes = [r for r in should if not r["graph"]["routed"]]
 
+    outcomes: dict[str, int] = {}
+    for row in results:
+        outcome = row.get("routed_system", {}).get("outcome")
+        if outcome:
+            outcomes[outcome] = outcomes.get(outcome, 0) + 1
+
     return {
         "classes": classes,
+        "outcomes": outcomes,
         "routing": {
             "should_route": len(should),
             "should_not_route": len(should_not),
@@ -342,6 +412,31 @@ def _print(results: list[dict[str, Any]], summary: dict[str, Any]) -> None:
             f"{stats['existing_latency_ms']:9.0f} {stats['graph_latency_ms']:9.0f}"
         )
 
+    if summary.get("outcomes"):
+        print(
+            "\nRouted system "
+            "(graph where enabled, existing retrieval otherwise)\n"
+        )
+        header = (
+            f"{'class':19} {'n':>3} {'existing':>9} {'routed':>8} "
+            f"{'graph used':>11} {'routed ms':>10}"
+        )
+        print(header)
+        print("-" * len(header))
+        for name, stats in summary["classes"].items():
+            if stats.get("routed_coverage") is None:
+                continue
+            print(
+                f"{name:19} {stats['n']:3d} {stats['existing_coverage']:9.2f} "
+                f"{stats['routed_coverage']:8.2f} "
+                f"{stats['graph_used']:>4}/{stats['n']:<6} "
+                f"{stats['routed_latency_ms']:10.0f}"
+            )
+        print("\nOutcomes: " + ", ".join(
+            f"{name}={count}" for name, count in
+            sorted(summary["outcomes"].items(), key=lambda kv: -kv[1])
+        ))
+
     routing = summary["routing"]
     print(
         f"\nRouting  precision={routing['precision']:.2f} "
@@ -360,6 +455,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--class", dest="klass", help="evaluate one class only")
     parser.add_argument("--json", type=Path, help="write machine-readable results")
     parser.add_argument("--queries", type=Path, default=_QUERIES)
+    parser.add_argument(
+        "--routed", action="store_true",
+        help="also evaluate the routed production system (graph + fallback)",
+    )
+    parser.add_argument(
+        "--classes",
+        help="comma-separated classes to enable for --routed (default: policy default)",
+    )
     args = parser.parse_args(argv)
 
     logging.basicConfig(level=logging.WARNING)
@@ -371,7 +474,16 @@ def main(argv: list[str] | None = None) -> int:
         print("No queries selected.", file=sys.stderr)
         return 2
 
-    results = evaluate(queries, k=args.k)
+    routed_classes = None
+    if args.routed:
+        from app.retrieval.graph import policy
+
+        routed_classes = (
+            tuple(c.strip() for c in args.classes.split(",") if c.strip())
+            if args.classes else policy.DEFAULT_ENABLED_CLASSES
+        )
+        print(f"Routed configuration enables: {', '.join(routed_classes)}")
+    results = evaluate(queries, k=args.k, routed_classes=routed_classes)
     summary = summarize(results)
     _print(results, summary)
 
