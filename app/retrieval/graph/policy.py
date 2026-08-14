@@ -114,6 +114,7 @@ NO_EVIDENCE = "no_evidence"        # rows, but nothing renderable or hydratable
 FAILED = "failed"                  # graph error
 TIMED_OUT = "timed_out"            # graph exceeded its budget
 CIRCUIT_OPEN = "circuit_open"      # skipped: the graph is failing, don't wait
+SCOPE_UNSUPPORTED = "scope_unsupported"  # query is scoped in a way no template honours
 
 # Outcomes that mean "the graph could not answer", as opposed to "the graph
 # answered that there is nothing". Only these trip the breaker: a zero result is
@@ -122,7 +123,7 @@ BREAKING_OUTCOMES = frozenset({FAILED, TIMED_OUT})
 
 FALLBACK_OUTCOMES = frozenset(
     {DISABLED, NOT_ROUTED, CLASS_DISABLED, ZERO_RESULT, NO_EVIDENCE,
-     FAILED, TIMED_OUT, CIRCUIT_OPEN}
+     FAILED, TIMED_OUT, CIRCUIT_OPEN, SCOPE_UNSUPPORTED}
 )
 
 
@@ -140,6 +141,7 @@ class GraphAttempt:
     elapsed_ms: float = 0.0
     reason: str = ""
     answer: Any = None
+    scope: str = "no scope"
 
     @property
     def used(self) -> bool:
@@ -156,7 +158,7 @@ class GraphAttempt:
             "template_id": self.template_id, "mode": self.mode,
             "entity": self.entity, "rows": self.rows,
             "blocks": len(self.blocks), "elapsed_ms": round(self.elapsed_ms, 1),
-            "reason": self.reason,
+            "scope": self.scope, "reason": self.reason,
         }
 
 
@@ -328,17 +330,27 @@ def attempt(
     top_k: int | None = None,
     budget_seconds: float | None = None,
     settings: Any = None,
+    filters: Any = None,
+    source_type: str | None = None,
 ) -> GraphAttempt:
     """Try to answer from the graph. Never raises; never blocks past its budget.
 
     Returns an attempt whose ``blocks`` are empty unless the outcome is
     ``ANSWERED``, so a caller that simply checks ``used`` cannot accidentally
     answer from a failed or empty graph query.
+
+    ``filters`` and ``source_type`` are the query's scope. They are checked here
+    rather than at the call site so a caller cannot forget them: a scope no
+    template can honour declines the graph outright.
     """
+    from app.retrieval.graph import scope as scoping
+
     started = time.perf_counter()
+    query_scope = scoping.describe(filters, source_type)
 
     def _finish(result: GraphAttempt) -> GraphAttempt:
         result.elapsed_ms = (time.perf_counter() - started) * 1000
+        result.scope = query_scope.describe()
         _note_outcome(result.outcome)
         _record(result.outcome, result.query_class)
         logger.info("graph routing: %s", result.summary())
@@ -356,6 +368,19 @@ def attempt(
             return _finish(GraphAttempt(DISABLED, reason="graph routing is off"))
         if not question or not question.strip():
             return _finish(GraphAttempt(NOT_ROUTED, reason="empty question"))
+        if not query_scope.is_supported:
+            # The question was narrowed in a way no template expresses. Answering
+            # anyway would drop the constraint silently, which is worse than not
+            # using the graph: existing retrieval honours it exactly.
+            return _finish(
+                GraphAttempt(
+                    SCOPE_UNSUPPORTED,
+                    reason=(
+                        "query scope not supported by any graph template: "
+                        + ", ".join(sorted(query_scope.unsupported))
+                    ),
+                )
+            )
         if circuit_is_open():
             # Skipped without waiting. During an outage this is what keeps the
             # graph from taxing every relational query with a doomed attempt.

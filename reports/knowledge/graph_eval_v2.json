@@ -8,11 +8,11 @@
         "graph_coverage": 1.0,
         "existing_evidence_recall": 1.0,
         "graph_evidence_recall": 1.0,
-        "existing_latency_ms": 546.9513999996707,
-        "graph_latency_ms": 0.6357000092975795,
+        "existing_latency_ms": 577.3650999763049,
+        "graph_latency_ms": 2.046199981123209,
         "route_correct": 1,
         "routed_coverage": 1.0,
-        "routed_latency_ms": 598.5297000152059,
+        "routed_latency_ms": 623.4847999876365,
         "graph_used": 0,
         "citation_validity": null
       },
@@ -22,11 +22,11 @@
         "graph_coverage": 1.0,
         "existing_evidence_recall": 0.0,
         "graph_evidence_recall": 0.8,
-        "existing_latency_ms": 1301.1654999863822,
-        "graph_latency_ms": 241.2939249916235,
+        "existing_latency_ms": 1644.685799983563,
+        "graph_latency_ms": 359.1237000073306,
         "route_correct": 4,
         "routed_coverage": 1.0,
-        "routed_latency_ms": 62.0763250044547,
+        "routed_latency_ms": 56.74567499954719,
         "graph_used": 4,
         "citation_validity": 1.0
       },
@@ -36,11 +36,11 @@
         "graph_coverage": 0.6666666666666666,
         "existing_evidence_recall": 1.0,
         "graph_evidence_recall": 0.6666666666666666,
-        "existing_latency_ms": 594.385233319675,
-        "graph_latency_ms": 22.401599989583094,
+        "existing_latency_ms": 604.8791999928653,
+        "graph_latency_ms": 17.89976666138197,
         "route_correct": 2,
         "routed_coverage": 1.0,
-        "routed_latency_ms": 221.59696663341796,
+        "routed_latency_ms": 234.84426666982472,
         "graph_used": 2,
         "citation_validity": 1.0
       },
@@ -50,11 +50,11 @@
         "graph_coverage": 0.8333333333333334,
         "existing_evidence_recall": 0.0,
         "graph_evidence_recall": 0.20887445887445888,
-        "existing_latency_ms": 607.9056666737112,
-        "graph_latency_ms": 44.88633332463602,
+        "existing_latency_ms": 726.135200005956,
+        "graph_latency_ms": 33.616266679018736,
         "route_correct": 3,
         "routed_coverage": 0.0,
-        "routed_latency_ms": 667.4424333420271,
+        "routed_latency_ms": 674.5503666655471,
         "graph_used": 0,
         "citation_validity": 1.0
       },
@@ -64,11 +64,11 @@
         "graph_coverage": 1.0,
         "existing_evidence_recall": 0.0,
         "graph_evidence_recall": 0.7287878787878789,
-        "existing_latency_ms": 624.5505333257219,
-        "graph_latency_ms": 44.07393332803622,
+        "existing_latency_ms": 630.8076666706862,
+        "graph_latency_ms": 40.272466683139406,
         "route_correct": 3,
         "routed_coverage": 1.0,
-        "routed_latency_ms": 39.358266648681216,
+        "routed_latency_ms": 28.736399991127353,
         "graph_used": 3,
         "citation_validity": 1.0
       },
@@ -78,11 +78,11 @@
         "graph_coverage": 1.0,
         "existing_evidence_recall": 0.0,
         "graph_evidence_recall": 0.8888888888888888,
-        "existing_latency_ms": 567.3980666712547,
-        "graph_latency_ms": 28.14480000718807,
+        "existing_latency_ms": 612.3552999924868,
+        "graph_latency_ms": 39.38836668385193,
         "route_correct": 3,
         "routed_coverage": 1.0,
-        "routed_latency_ms": 36.487499989258744,
+        "routed_latency_ms": 22.756466642022133,
         "graph_used": 3,
         "citation_validity": 1.0
       },
@@ -92,11 +92,11 @@
         "graph_coverage": 1.0,
         "existing_evidence_recall": 1.0,
         "graph_evidence_recall": 1.0,
-        "existing_latency_ms": 618.1194499658886,
-        "graph_latency_ms": 7.172999990871176,
+        "existing_latency_ms": 701.068900001701,
+        "graph_latency_ms": 7.790100004058331,
         "route_correct": 2,
         "routed_coverage": 1.0,
-        "routed_latency_ms": 625.8528999751434,
+        "routed_latency_ms": 714.8433499969542,
         "graph_used": 0,
         "citation_validity": null
       },
@@ -106,11 +106,11 @@
         "graph_coverage": 1.0,
         "existing_evidence_recall": 1.0,
         "graph_evidence_recall": 1.0,
-        "existing_latency_ms": 560.4637600132264,
-        "graph_latency_ms": 3.6301399930380285,
+        "existing_latency_ms": 651.9328199909069,
+        "graph_latency_ms": 3.7737400038167834,
         "route_correct": 5,
         "routed_coverage": 1.0,
-        "routed_latency_ms": 591.80863997899,
+        "routed_latency_ms": 612.7380000078119,
         "graph_used": 0,
         "citation_validity": null
       }
@@ -146,14 +146,14 @@
         "answer_coverage": 0.0,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 3318.355800001882
+        "latency_ms": 4557.320999971125
       },
       "graph": {
         "blocks": 9,
         "answer_coverage": 1.0,
         "evidence_recall": 0.4,
         "evidence_precision": 1.0,
-        "latency_ms": 860.6715999776497,
+        "latency_ms": 1331.1306000105105,
         "routed": true,
         "template": "projects_funded_by_org",
         "mode": "current",
@@ -166,7 +166,7 @@
       "routed_system": {
         "blocks": 9,
         "answer_coverage": 1.0,
-        "latency_ms": 117.15609999373555,
+        "latency_ms": 168.1873999768868,
         "source": "graph",
         "outcome": "answered",
         "class": "current_funding"
@@ -185,14 +185,14 @@
         "answer_coverage": 0.0,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 619.2681000102311
+        "latency_ms": 647.5025999825448
       },
       "graph": {
         "blocks": 9,
         "answer_coverage": 1.0,
         "evidence_recall": 0.8,
         "evidence_precision": 1.0,
-        "latency_ms": 30.543499975465238,
+        "latency_ms": 31.044700008351356,
         "routed": true,
         "template": "projects_funded_by_org",
         "mode": "current",
@@ -205,7 +205,7 @@
       "routed_system": {
         "blocks": 9,
         "answer_coverage": 1.0,
-        "latency_ms": 31.58190002432093,
+        "latency_ms": 24.2629999993369,
         "source": "graph",
         "outcome": "answered",
         "class": "current_funding"
@@ -224,14 +224,14 @@
         "answer_coverage": 0.0,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 641.6369999642484
+        "latency_ms": 706.9673999794759
       },
       "graph": {
         "blocks": 8,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 39.27920002024621,
+        "latency_ms": 46.096500009298325,
         "routed": true,
         "template": "projects_funded_by_org",
         "mode": "current",
@@ -244,7 +244,7 @@
       "routed_system": {
         "blocks": 8,
         "answer_coverage": 1.0,
-        "latency_ms": 56.87050003325567,
+        "latency_ms": 17.264500027522445,
         "source": "graph",
         "outcome": "answered",
         "class": "current_funding"
@@ -263,14 +263,14 @@
         "answer_coverage": 0.0,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 625.4010999691673
+        "latency_ms": 666.9522000011057
       },
       "graph": {
         "blocks": 8,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 34.6813999931328,
+        "latency_ms": 28.22300000116229,
         "routed": true,
         "template": "projects_funded_by_org",
         "mode": "current",
@@ -283,7 +283,7 @@
       "routed_system": {
         "blocks": 8,
         "answer_coverage": 1.0,
-        "latency_ms": 42.69679996650666,
+        "latency_ms": 17.267799994442612,
         "source": "graph",
         "outcome": "answered",
         "class": "current_funding"
@@ -302,14 +302,14 @@
         "answer_coverage": 0.08333333333333333,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 563.5570000158623
+        "latency_ms": 606.5181000158191
       },
       "graph": {
         "blocks": 9,
         "answer_coverage": 1.0,
         "evidence_recall": 0.6666666666666666,
         "evidence_precision": 1.0,
-        "latency_ms": 38.0956000299193,
+        "latency_ms": 62.14710004860535,
         "routed": true,
         "template": "people_leading_projects_funded_by_org",
         "mode": "current",
@@ -322,7 +322,7 @@
       "routed_system": {
         "blocks": 9,
         "answer_coverage": 1.0,
-        "latency_ms": 45.22139998152852,
+        "latency_ms": 33.17019995301962,
         "source": "graph",
         "outcome": "answered",
         "class": "multi_hop"
@@ -341,14 +341,14 @@
         "answer_coverage": 0.0,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 514.6125000319444
+        "latency_ms": 520.3304999740794
       },
       "graph": {
         "blocks": 6,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 14.988999988418072,
+        "latency_ms": 35.757799982093275,
         "routed": true,
         "template": "people_leading_projects_funded_by_org",
         "mode": "current",
@@ -361,7 +361,7 @@
       "routed_system": {
         "blocks": 6,
         "answer_coverage": 1.0,
-        "latency_ms": 39.066099969204515,
+        "latency_ms": 18.537099997047335,
         "source": "graph",
         "outcome": "answered",
         "class": "multi_hop"
@@ -380,14 +380,14 @@
         "answer_coverage": 0.0,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 624.0246999659576
+        "latency_ms": 710.217299987562
       },
       "graph": {
         "blocks": 5,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 31.349800003226846,
+        "latency_ms": 20.260200020857155,
         "routed": true,
         "template": "people_leading_projects_funded_by_org",
         "mode": "current",
@@ -400,7 +400,7 @@
       "routed_system": {
         "blocks": 5,
         "answer_coverage": 1.0,
-        "latency_ms": 25.175000017043203,
+        "latency_ms": 16.562099975999445,
         "source": "graph",
         "outcome": "answered",
         "class": "multi_hop"
@@ -419,14 +419,14 @@
         "answer_coverage": 0.18181818181818182,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 597.3546999739483
+        "latency_ms": 628.6293999874033
       },
       "graph": {
         "blocks": 9,
         "answer_coverage": 1.0,
         "evidence_recall": 0.6363636363636364,
         "evidence_precision": 1.0,
-        "latency_ms": 42.01189999002963,
+        "latency_ms": 33.31580001395196,
         "routed": true,
         "template": "projects_led_by_person",
         "mode": "current",
@@ -439,7 +439,7 @@
       "routed_system": {
         "blocks": 9,
         "answer_coverage": 1.0,
-        "latency_ms": 33.94499997375533,
+        "latency_ms": 19.736999995075166,
         "source": "graph",
         "outcome": "answered",
         "class": "leadership"
@@ -458,14 +458,14 @@
         "answer_coverage": 0.0,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 674.742300005164
+        "latency_ms": 681.6948000341654
       },
       "graph": {
         "blocks": 9,
         "answer_coverage": 1.0,
         "evidence_recall": 0.8,
         "evidence_precision": 1.0,
-        "latency_ms": 25.943599990569055,
+        "latency_ms": 30.394000001251698,
         "routed": true,
         "template": "projects_led_by_person",
         "mode": "current",
@@ -478,7 +478,7 @@
       "routed_system": {
         "blocks": 9,
         "answer_coverage": 1.0,
-        "latency_ms": 26.439699984621257,
+        "latency_ms": 33.656699990388006,
         "source": "graph",
         "outcome": "answered",
         "class": "leadership"
@@ -497,14 +497,14 @@
         "answer_coverage": 0.0,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 601.5545999980532
+        "latency_ms": 582.0987999904901
       },
       "graph": {
         "blocks": 9,
         "answer_coverage": 1.0,
         "evidence_recall": 0.75,
         "evidence_precision": 1.0,
-        "latency_ms": 64.26630000350997,
+        "latency_ms": 57.107600034214556,
         "routed": true,
         "template": "projects_led_by_person",
         "mode": "current",
@@ -517,7 +517,7 @@
       "routed_system": {
         "blocks": 9,
         "answer_coverage": 1.0,
-        "latency_ms": 57.690099987667054,
+        "latency_ms": 32.815499987918884,
         "source": "graph",
         "outcome": "answered",
         "class": "leadership"
@@ -536,14 +536,14 @@
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 0.14285714285714285,
-        "latency_ms": 576.5470000333153
+        "latency_ms": 635.6583999586292
       },
       "graph": {
         "blocks": 2,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 32.3221999569796,
+        "latency_ms": 31.94479999365285,
         "routed": true,
         "template": "funders_of_project",
         "mode": "current",
@@ -556,7 +556,7 @@
       "routed_system": {
         "blocks": 2,
         "answer_coverage": 1.0,
-        "latency_ms": 31.22909995727241,
+        "latency_ms": 25.777800008654594,
         "source": "graph",
         "outcome": "answered",
         "class": "funders_of_project"
@@ -575,14 +575,14 @@
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 0.2,
-        "latency_ms": 585.650299966801
+        "latency_ms": 576.0021000169218
       },
       "graph": {
         "blocks": 0,
         "answer_coverage": 0.0,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 1.632500032428652,
+        "latency_ms": 1.4727999805472791,
         "routed": false,
         "template": null,
         "mode": null,
@@ -595,7 +595,7 @@
       "routed_system": {
         "blocks": 8,
         "answer_coverage": 1.0,
-        "latency_ms": 619.5460999733768,
+        "latency_ms": 659.568999952171,
         "source": "fallback",
         "outcome": "not_routed",
         "class": null
@@ -614,14 +614,14 @@
         "answer_coverage": 0.0,
         "evidence_recall": 1.0,
         "evidence_precision": 0.14285714285714285,
-        "latency_ms": 620.9583999589086
+        "latency_ms": 602.977100003045
       },
       "graph": {
         "blocks": 2,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 33.25009997934103,
+        "latency_ms": 20.28170000994578,
         "routed": true,
         "template": "funders_of_project",
         "mode": "current",
@@ -634,7 +634,7 @@
       "routed_system": {
         "blocks": 2,
         "answer_coverage": 1.0,
-        "latency_ms": 14.015699969604611,
+        "latency_ms": 19.186000048648566,
         "source": "graph",
         "outcome": "answered",
         "class": "funders_of_project"
@@ -653,14 +653,14 @@
         "answer_coverage": 0.0,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 645.8834999939427
+        "latency_ms": 828.2857000012882
       },
       "graph": {
         "blocks": 9,
         "answer_coverage": 0.5,
         "evidence_recall": 0.022727272727272728,
         "evidence_precision": 0.125,
-        "latency_ms": 65.37649995880201,
+        "latency_ms": 31.44690004410222,
         "routed": true,
         "template": "org_funding_history",
         "mode": "historical",
@@ -673,7 +673,7 @@
       "routed_system": {
         "blocks": 7,
         "answer_coverage": 0.0,
-        "latency_ms": 635.6169999926351,
+        "latency_ms": 697.8838000213727,
         "source": "fallback",
         "outcome": "class_disabled",
         "class": "historical"
@@ -692,14 +692,14 @@
         "answer_coverage": 0.0,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 564.4864999921992
+        "latency_ms": 688.0605000187643
       },
       "graph": {
         "blocks": 9,
         "answer_coverage": 1.0,
         "evidence_recall": 0.3181818181818182,
         "evidence_precision": 0.875,
-        "latency_ms": 30.782999994698912,
+        "latency_ms": 41.80380003526807,
         "routed": true,
         "template": "org_funding_history",
         "mode": "historical",
@@ -712,7 +712,7 @@
       "routed_system": {
         "blocks": 8,
         "answer_coverage": 0.0,
-        "latency_ms": 710.5965000228025,
+        "latency_ms": 726.4072999823838,
         "source": "fallback",
         "outcome": "class_disabled",
         "class": "historical"
@@ -731,14 +731,14 @@
         "answer_coverage": 0.0,
         "evidence_recall": 0.0,
         "evidence_precision": 0.0,
-        "latency_ms": 613.3470000349917
+        "latency_ms": 662.0593999978155
       },
       "graph": {
         "blocks": 9,
         "answer_coverage": 1.0,
         "evidence_recall": 0.2857142857142857,
         "evidence_precision": 1.0,
-        "latency_ms": 38.49950002040714,
+        "latency_ms": 27.598099957685918,
         "routed": true,
         "template": "org_funding_history",
         "mode": "historical",
@@ -751,7 +751,7 @@
       "routed_system": {
         "blocks": 8,
         "answer_coverage": 0.0,
-        "latency_ms": 656.1138000106439,
+        "latency_ms": 599.3599999928847,
         "source": "fallback",
         "outcome": "class_disabled",
         "class": "historical"
@@ -770,14 +770,14 @@
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 0.0,
-        "latency_ms": 636.9687999831513
+        "latency_ms": 738.4595000185072
       },
       "graph": {
         "blocks": 0,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 6.688800000119954,
+        "latency_ms": 7.134700019378215,
         "routed": true,
         "template": "person_works_at",
         "mode": "current",
@@ -790,7 +790,7 @@
       "routed_system": {
         "blocks": 5,
         "answer_coverage": 1.0,
-        "latency_ms": 672.7757999906316,
+        "latency_ms": 726.1178999906406,
         "source": "fallback",
         "outcome": "class_disabled",
         "class": "employment"
@@ -809,14 +809,14 @@
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 0.0,
-        "latency_ms": 599.270099948626
+        "latency_ms": 663.6782999848947
       },
       "graph": {
         "blocks": 0,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 7.657199981622398,
+        "latency_ms": 8.445499988738447,
         "routed": true,
         "template": "person_works_at",
         "mode": "current",
@@ -829,7 +829,7 @@
       "routed_system": {
         "blocks": 5,
         "answer_coverage": 1.0,
-        "latency_ms": 578.9299999596551,
+        "latency_ms": 703.5688000032678,
         "source": "fallback",
         "outcome": "class_disabled",
         "class": "employment"
@@ -848,14 +848,14 @@
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 0.0,
-        "latency_ms": 542.2831000178121
+        "latency_ms": 672.5255000055768
       },
       "graph": {
         "blocks": 0,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 3.0217000166885555,
+        "latency_ms": 2.1015999955125153,
         "routed": false,
         "template": null,
         "mode": null,
@@ -868,7 +868,7 @@
       "routed_system": {
         "blocks": 7,
         "answer_coverage": 1.0,
-        "latency_ms": 561.7594999494031,
+        "latency_ms": 610.1476000039838,
         "source": "fallback",
         "outcome": "not_routed",
         "class": null
@@ -887,14 +887,14 @@
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 0.0,
-        "latency_ms": 630.0686000031419
+        "latency_ms": 625.4549999721348
       },
       "graph": {
         "blocks": 0,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 9.8230000003241,
+        "latency_ms": 10.67950000287965,
         "routed": false,
         "template": null,
         "mode": null,
@@ -907,7 +907,7 @@
       "routed_system": {
         "blocks": 7,
         "answer_coverage": 1.0,
-        "latency_ms": 646.27319999272,
+        "latency_ms": 668.4841000242159,
         "source": "fallback",
         "outcome": "not_routed",
         "class": null
@@ -926,14 +926,14 @@
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 0.0,
-        "latency_ms": 534.5074000069872
+        "latency_ms": 603.028199984692
       },
       "graph": {
         "blocks": 0,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 1.4042999828234315,
+        "latency_ms": 0.9799000108614564,
         "routed": false,
         "template": null,
         "mode": null,
@@ -946,7 +946,7 @@
       "routed_system": {
         "blocks": 8,
         "answer_coverage": 1.0,
-        "latency_ms": 482.5088999932632,
+        "latency_ms": 555.1679999916814,
         "source": "fallback",
         "outcome": "not_routed",
         "class": null
@@ -965,14 +965,14 @@
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 0.0,
-        "latency_ms": 583.2870000158437
+        "latency_ms": 716.0073000122793
       },
       "graph": {
         "blocks": 0,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 1.502899976912886,
+        "latency_ms": 1.6516000032424927,
         "routed": false,
         "template": null,
         "mode": null,
@@ -985,7 +985,7 @@
       "routed_system": {
         "blocks": 8,
         "answer_coverage": 1.0,
-        "latency_ms": 745.2255999669433,
+        "latency_ms": 594.2334000137635,
         "source": "fallback",
         "outcome": "not_routed",
         "class": null
@@ -1004,14 +1004,14 @@
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 0.0,
-        "latency_ms": 512.1727000223473
+        "latency_ms": 642.6480999798514
       },
       "graph": {
         "blocks": 0,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 2.3987999884411693,
+        "latency_ms": 3.4561000065878034,
         "routed": false,
         "template": null,
         "mode": null,
@@ -1024,7 +1024,7 @@
       "routed_system": {
         "blocks": 8,
         "answer_coverage": 1.0,
-        "latency_ms": 523.2759999926202,
+        "latency_ms": 635.6569000054151,
         "source": "fallback",
         "outcome": "not_routed",
         "class": null
@@ -1043,14 +1043,14 @@
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 0.0,
-        "latency_ms": 546.9513999996707
+        "latency_ms": 577.3650999763049
       },
       "graph": {
         "blocks": 0,
         "answer_coverage": 1.0,
         "evidence_recall": 1.0,
         "evidence_precision": 1.0,
-        "latency_ms": 0.6357000092975795,
+        "latency_ms": 2.046199981123209,
         "routed": false,
         "template": null,
         "mode": null,
@@ -1063,7 +1063,7 @@
       "routed_system": {
         "blocks": 8,
         "answer_coverage": 1.0,
-        "latency_ms": 598.5297000152059,
+        "latency_ms": 623.4847999876365,
         "source": "fallback",
         "outcome": "not_routed",
         "class": null

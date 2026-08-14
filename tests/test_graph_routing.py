@@ -495,18 +495,26 @@ def test_a_hook_exception_falls_back(monkeypatch):
     assert retriever._try_graph("q", n=5) == []
 
 
-def test_a_pinned_scope_skips_the_graph(monkeypatch):
-    """The graph applies neither `filters` nor `source_type`, so answering from
-    it would quietly discard a restriction the caller asked for."""
-    from app.retrieval import retriever
+def test_a_pinned_scope_is_forwarded_to_the_policy_layer(monkeypatch):
+    """`retrieve` no longer decides this itself.
 
+    It used to skip the graph inline whenever `filters` or `source_type` was
+    set. That worked but was fragile: a scope dimension added later would have
+    been silently ignored at this call site. The scope is now passed down and
+    refused by the policy layer, which fails closed on any key no template
+    supports. See tests/test_graph_scope.py.
+    """
     from qdrant_client.models import FieldCondition, MatchValue
 
+    from app.retrieval import retriever
+
     _enable(monkeypatch)
-    called = []
+    seen = []
     monkeypatch.setattr(
         retriever, "_try_graph",
-        lambda q, *, n: called.append(q) or ["graph"],
+        lambda q, *, n, filters=None, source_type=None: (
+            seen.append((filters, source_type)) or []
+        ),
     )
     monkeypatch.setattr(retriever, "search", lambda *a, **kw: [])
     monkeypatch.setattr(retriever, "dual_search", lambda *a, **kw: [])
@@ -514,15 +522,18 @@ def test_a_pinned_scope_skips_the_graph(monkeypatch):
 
     pinned = FieldCondition(key="source_type", match=MatchValue(value="website"))
     retriever.retrieve("q", filters=[pinned], n=3)
-    assert called == [], "a filtered query must not be answered from the graph"
+    assert seen[-1] == ([pinned], None)
 
     retriever.retrieve("q", source_type="website", n=3)
-    assert called == [], "a source-pinned query must not be answered from the graph"
+    assert seen[-1] == (None, "website")
 
 
 def test_an_unscoped_query_may_use_the_graph(monkeypatch):
     from app.retrieval import retriever
 
     _enable(monkeypatch)
-    monkeypatch.setattr(retriever, "_try_graph", lambda q, *, n: ["graph"])
+    monkeypatch.setattr(
+        retriever, "_try_graph",
+        lambda q, *, n, filters=None, source_type=None: ["graph"],
+    )
     assert retriever.retrieve("What projects are funded by DBT?", n=3) == ["graph"]
