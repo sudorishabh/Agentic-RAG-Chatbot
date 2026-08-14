@@ -707,6 +707,14 @@ CREATE TABLE IF NOT EXISTS `{table}_assertion` (
     chunk_id           VARCHAR(64)  NULL,
     evidence_kind      VARCHAR(16)  NOT NULL,
     source_field       VARCHAR(64)  NULL,
+    -- The literal CMS value that produced a cms_field claim, and a hash of it.
+    -- NOT part of claim identity: the value already reaches the id through the
+    -- object, so an edited field yields a *different* claim rather than
+    -- silently changing this one's meaning. Recorded for explainability ("why
+    -- does the system believe this?") and so a re-extraction can tell a value
+    -- that was edited from one that was removed.
+    source_value       VARCHAR(512) NULL,
+    source_value_hash  VARCHAR(64)  NULL,
     quote              TEXT         NULL,
     quote_start        INT          NULL,
     quote_end          INT          NULL,
@@ -755,10 +763,36 @@ CREATE TABLE IF NOT EXISTS `{table}_assertion_rejection` (
 """
 
 
+# Directed links between claims: one supersedes another, or two contradict.
+# A separate table rather than columns because a claim may contradict several
+# others, and because a contradiction is a fact worth inspecting on its own
+# rather than something implied by two status flags.
+_ASSERTION_LINK_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_assertion_link` (
+    from_claim_id VARCHAR(64)  NOT NULL,
+    to_claim_id   VARCHAR(64)  NOT NULL,
+    kind          VARCHAR(16)  NOT NULL,
+    reason        VARCHAR(255) NULL,
+    detector      VARCHAR(64)  NOT NULL,
+    created_at    DATETIME     NOT NULL,
+    PRIMARY KEY (from_claim_id, to_claim_id, kind),
+    KEY idx_to (to_claim_id),
+    KEY idx_kind (kind)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+
 def ensure_assertion_tables() -> None:
     """Create the assertion staging tables. Idempotent."""
     table = state_table()
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(_ASSERTION_DDL.format(table=table))
         cur.execute(_ASSERTION_REJECTION_DDL.format(table=table))
+        cur.execute(_ASSERTION_LINK_DDL.format(table=table))
+        # Added after the table shipped.
+        for column, ddl in (
+            ("source_value", "source_value VARCHAR(512) NULL"),
+            ("source_value_hash", "source_value_hash VARCHAR(64) NULL"),
+        ):
+            _ensure_column(cur, f"{table}_assertion", column, ddl)
         conn.commit()

@@ -70,9 +70,23 @@ STATUSES = (STATUS_ACTIVE, STATUS_SUPERSEDED, STATUS_DISPUTED, STATUS_RETRACTED)
 # `document` means it was inferred from the document's date and is deliberately
 # recorded as the weaker basis rather than being silently upgraded.
 BASIS_STATED = "stated"
+# Validity taken from the subject's own CMS-stated period — a project's start
+# and end dates. An explicit, documented rule (see app.knowledge.claims.temporal
+# .subject_period), kept distinct from `stated` so nothing mistakes it for the
+# source having dated the relationship itself.
+BASIS_SUBJECT_PERIOD = "subject_period"
+# Inferred from the document's publication date. Deliberately unused: no rule
+# approves it, and it is what turns "reported in 2024" into "true from 2024".
 BASIS_DOCUMENT = "document"
 BASIS_UNKNOWN = "unknown"
-TEMPORAL_BASES = (BASIS_STATED, BASIS_DOCUMENT, BASIS_UNKNOWN)
+TEMPORAL_BASES = (
+    BASIS_STATED, BASIS_SUBJECT_PERIOD, BASIS_DOCUMENT, BASIS_UNKNOWN,
+)
+
+# Bases strong enough for a claim to become a derived current-state edge later.
+# `document` is absent because it is an inference nobody approved; `unknown`
+# because a relationship with no validity cannot be asserted as current.
+CURRENT_STATE_BASES = (BASIS_STATED, BASIS_SUBJECT_PERIOD)
 
 # Dates outside this range are extraction noise rather than facts about the
 # world. Mirrors the bounds app.ingestion.date_llm already enforces.
@@ -144,6 +158,14 @@ class Assertion:
     object_literal: str | None = None
     chunk_id: str | None = None
     source_field: str | None = None
+
+    # --- CMS provenance (recorded, never part of identity) ---
+    # The literal field value that produced a cms_field claim. The value already
+    # reaches the id through the object, so an edited field yields a *different*
+    # claim rather than silently changing this one; these are kept for
+    # explainability and to tell an edited value from a removed one.
+    source_value: str | None = None
+    source_value_hash: str | None = None
 
     # --- evidence (mutable; re-extraction may improve it) ---
     quote: str | None = None
