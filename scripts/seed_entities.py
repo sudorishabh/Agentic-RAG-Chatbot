@@ -60,6 +60,10 @@ def main(argv: list[str] | None = None) -> int:
         "--skip-acronyms", action="store_true",
         help="Skip the corpus scan for acronym glosses (needs Qdrant).",
     )
+    parser.add_argument(
+        "--skip-promotion", action="store_true",
+        help="Leave every PI name provisional.",
+    )
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(name)s: %(message)s")
 
@@ -89,6 +93,19 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  mined {written} acronym aliases from observed glosses")
 
     print(f"  marked {store.mark_ambiguous_aliases()} alias rows ambiguous")
+
+    # Promotion runs last: it needs the alias ambiguity marks above, and the
+    # full person population to judge how crowded a surname is.
+    if not args.skip_promotion:
+        from app.knowledge.pi_promotion import apply_promotions, evaluate_promotions
+
+        decisions = evaluate_promotions()
+        promoted = apply_promotions(decisions)
+        considered = len(decisions)
+        print(
+            f"  PI promotion: {considered} names considered, "
+            f"{sum(1 for d in decisions if d.promote)} passed, {promoted} raised"
+        )
     for entity_type, count in sorted(store.counts_by_type().items()):
         print(f"    {entity_type:14} {count}")
     print("Done.")

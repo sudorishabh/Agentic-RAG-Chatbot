@@ -14,9 +14,11 @@ ORGANIZATION  ``field_completed_sponsors``, ``field_news_source``,
               references, so unaffected by taxonomy removal. No CMS uuid, so
               these are ``trust='derived'`` and keyed by their normalized name.
 PERSON        the ``people`` bundle (**8** nodes, ``trust='authoritative'``),
-              then ``field_authors`` and the ``documents_author`` facet
-              (``trust='derived'``). PERSON is the open-world type here and the
-              seed reflects that: almost none of it is authoritative.
+              then ``field_authors``, the two ``field_*_pi_name`` fields and the
+              ``documents_author`` facet — all seeded ``provisional``, because
+              the corpus supplies names rather than people. A PI name earns
+              *consideration* for promotion (app.knowledge.pi_promotion), never
+              eligibility on its own.
 
 ``entity_id`` is derived deterministically from the seed source, so re-seeding a
 clean corpus reproduces the same ids instead of minting new ones. That is what
@@ -88,7 +90,15 @@ TRUST_PROVISIONAL = "provisional"
 # Only these may be a claim subject/object or a graph-retrieval target. A
 # provisional identity is deliberately excluded: attaching a claim to it would
 # assert something about a person the corpus has not distinguished.
-CLAIM_ELIGIBLE_TRUST = frozenset({TRUST_AUTHORITATIVE, TRUST_DERIVED})
+# A name the CMS names as a project's principal investigator, which then
+# survived every discriminating test in app.knowledge.pi_promotion. Stronger
+# than a bare facet name, weaker than a CMS person record — kept as its own
+# level so a promotion stays auditable and reversible.
+TRUST_PI_ATTESTED = "pi_attested"
+
+CLAIM_ELIGIBLE_TRUST = frozenset(
+    {TRUST_AUTHORITATIVE, TRUST_DERIVED, TRUST_PI_ATTESTED}
+)
 
 
 def is_claim_eligible(trust: str) -> bool:
@@ -163,7 +173,14 @@ def _seed_projects(cur, table: str) -> list[SeedEntity]:
             meta = json.loads(raw) if raw else {}
         except (TypeError, ValueError):
             meta = {}
-        code = str(meta.get("field_completed_project_code") or "").strip()
+        code = next(
+            (
+                str(meta.get(f) or "").strip()
+                for f in ("field_completed_project_code", "field_ongoing_project_code")
+                if str(meta.get(f) or "").strip()
+            ),
+            "",
+        )
         if _PROJECT_CODE_RE.match(code):
             entity.identifiers.append((PROJECT_CODE_SCHEME, code))
             # The code is also a surface people write in text ("TERI Report No.
@@ -246,15 +263,17 @@ def _seed_people(cur, table: str) -> list[SeedEntity]:
 
 
 def _author_sources(cur, table: str) -> Iterable[tuple[str, list[str]]]:
-    cur.execute(
-        f"SELECT JSON_EXTRACT(raw_meta, %s) AS v FROM `{table}` "
-        "WHERE JSON_EXTRACT(raw_meta, %s) IS NOT NULL",
-        ("$.field_authors", "$.field_authors"),
-    )
-    values: list[str] = []
-    for row in cur.fetchall():
-        values.extend(_json_values(row["v"]))
-    yield "field_authors", values
+    for field_name in ("field_authors", "field_completed_pi_name",
+                       "field_ongoing_pi_name"):
+        cur.execute(
+            f"SELECT JSON_EXTRACT(raw_meta, %s) AS v FROM `{table}` "
+            "WHERE JSON_EXTRACT(raw_meta, %s) IS NOT NULL",
+            (f"$.{field_name}", f"$.{field_name}"),
+        )
+        values: list[str] = []
+        for row in cur.fetchall():
+            values.extend(_json_values(row["v"]))
+        yield field_name, values
 
     cur.execute(f"SELECT DISTINCT author FROM `{table}_author`")
     yield "documents_author", [

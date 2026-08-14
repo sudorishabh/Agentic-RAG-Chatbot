@@ -96,9 +96,9 @@
       "id": "p-08",
       "type": "PERSON",
       "surface": "Dr Shailly Kedia",
-      "category": "provisional+corroborated",
-      "expected": "NO_CANONICAL",
-      "note": "author-facet name; corroborated but still only a name",
+      "category": "pi_attested+corroborated",
+      "expected": "NAME:Dr Shailly Kedia",
+      "note": "promoted in Phase 7.1: PI on 13 projects, 9 coded, one division, 12-year span. Was NO_CANONICAL while she was only an author-facet name.",
       "doc_authors": [
         "Dr Shailly Kedia"
       ],
@@ -109,9 +109,9 @@
       "id": "p-09",
       "type": "PERSON",
       "surface": "Dr Debajit Palit",
-      "category": "provisional+corroborated",
+      "category": "pi_multi_division_refused",
       "expected": "NO_CANONICAL",
-      "note": "author-facet name",
+      "note": "a PI, but across two division areas \u2014 promotion refuses him, so he stays provisional. The discriminating half of the rule.",
       "doc_authors": [
         "Dr Debajit Palit"
       ],
@@ -122,9 +122,9 @@
       "id": "p-10",
       "type": "PERSON",
       "surface": "Dr Ritu Mathur",
-      "category": "provisional+corroborated",
-      "expected": "NO_CANONICAL",
-      "note": "author-facet name",
+      "category": "pi_attested+corroborated",
+      "expected": "NAME:Dr Ritu Mathur",
+      "note": "promoted: PI on 10 projects, all coded, one division, 15-year span",
       "doc_authors": [
         "Dr Ritu Mathur"
       ],
@@ -309,8 +309,8 @@
       "type": "PERSON",
       "surface": "Prof Shailly Kedia",
       "category": "honorific_variant",
-      "expected": "NO_CANONICAL",
-      "note": "a different honorific on the same name must not change the outcome",
+      "expected": "NAME:Dr Shailly Kedia",
+      "note": "a different honorific on the same name must not change the outcome \u2014 which now means reaching the same promoted identity",
       "doc_authors": [
         "Dr Shailly Kedia"
       ],
@@ -411,6 +411,156 @@
       "category": "single_token",
       "expected": "NO_LINK",
       "note": "'Dr Neha' is a real facet value; one token cannot identify anyone",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "pi-01",
+      "type": "PERSON",
+      "surface": "Dr Anjali Parasnis",
+      "category": "pi_unique_name+project_context",
+      "expected": "NAME:Dr Anjali Parasnis",
+      "note": "PI on coded projects within one division; corroborated by the document",
+      "doc_authors": [
+        "Dr Anjali Parasnis"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "pi-02",
+      "type": "PERSON",
+      "surface": "Dr Arindam Datta",
+      "category": "pi_unique_name+project_code",
+      "expected": "NAME:Dr Arindam Datta",
+      "note": "anchored to an authoritative project code",
+      "doc_authors": [
+        "Dr Arindam Datta"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "pi-03",
+      "type": "PERSON",
+      "surface": "Dr Alak Chandra Deka",
+      "category": "pi_three_token_name",
+      "expected": "NAME:Dr Alak Chandra Deka",
+      "note": "three tokens; low collision risk",
+      "doc_authors": [
+        "Dr Alak Chandra Deka"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "pi-04",
+      "type": "PERSON",
+      "surface": "Dr Anjali Parasnis",
+      "category": "pi_no_context",
+      "expected": "NO_CANONICAL",
+      "note": "promotion does not remove the corroboration requirement",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "pi-05",
+      "type": "PERSON",
+      "surface": "Dr Anjali Parasnis",
+      "category": "pi_contradictory_project_context",
+      "expected": "NO_LINK",
+      "note": "the document names a different author",
+      "doc_authors": [
+        "Mr Ajay Shankar"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "pi-06",
+      "type": "PERSON",
+      "surface": "Mr Amit Kumar",
+      "category": "pi_common_name",
+      "expected": "NO_CANONICAL",
+      "note": "a PI, but 23 people share the surname \u2014 stays provisional",
+      "doc_authors": [
+        "Mr Amit Kumar"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "pi-07",
+      "type": "PERSON",
+      "surface": "Ms Aakansha Jain",
+      "category": "pi_common_name",
+      "expected": "NO_CANONICAL",
+      "note": "a PI whose surname is shared by 6 others",
+      "doc_authors": [
+        "Ms Aakansha Jain"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "pi-08",
+      "type": "PERSON",
+      "surface": "Dr Anandita Singh",
+      "category": "pi_common_surname",
+      "expected": "NO_CANONICAL",
+      "note": "28 Singhs in the person population",
+      "doc_authors": [
+        "Dr Anandita Singh"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "pi-09",
+      "type": "PERSON",
+      "surface": "Dr Alok Adholeya",
+      "category": "pi_multi_division",
+      "expected": "NO_CANONICAL",
+      "note": "PI across two division areas; context is not coherent enough",
+      "doc_authors": [
+        "Dr Alok Adholeya"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "pi-10",
+      "type": "PERSON",
+      "surface": "A K",
+      "category": "pi_initials",
+      "expected": "NO_LINK",
+      "note": "initials are never an identity, PI field or not",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "pi-11",
+      "type": "PERSON",
+      "surface": "Dr Anjali Parasnis",
+      "category": "pi_with_org_context",
+      "expected": "NO_CANONICAL",
+      "note": "an organization in the chunk still says nothing about which person",
+      "doc_authors": [],
+      "doc_orgs": [
+        "TERI"
+      ],
+      "co_projects": []
+    },
+    {
+      "id": "pi-12",
+      "type": "PERSON",
+      "surface": "Dr Nonexistent Investigator",
+      "category": "pi_no_candidate",
+      "expected": "NO_LINK",
+      "note": "never named by the CMS as anything",
       "doc_authors": [],
       "doc_orgs": [],
       "co_projects": []

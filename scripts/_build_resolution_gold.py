@@ -55,13 +55,19 @@ CASES = [
       "the document is by someone else entirely", ["Mr Ajay Shankar"]),
 
     # --- PROVISIONAL people: may group, must never be canonical --------------
-    c("p-08", P, "Dr Shailly Kedia", "provisional+corroborated", "NO_CANONICAL",
-      "author-facet name; corroborated but still only a name",
+    c("p-08", P, "Dr Shailly Kedia", "pi_attested+corroborated",
+      "NAME:Dr Shailly Kedia",
+      "promoted in Phase 7.1: PI on 13 projects, 9 coded, one division, 12-year "
+      "span. Was NO_CANONICAL while she was only an author-facet name.",
       ["Dr Shailly Kedia"]),
-    c("p-09", P, "Dr Debajit Palit", "provisional+corroborated", "NO_CANONICAL",
-      "author-facet name", ["Dr Debajit Palit"]),
-    c("p-10", P, "Dr Ritu Mathur", "provisional+corroborated", "NO_CANONICAL",
-      "author-facet name", ["Dr Ritu Mathur"]),
+    c("p-09", P, "Dr Debajit Palit", "pi_multi_division_refused", "NO_CANONICAL",
+      "a PI, but across two division areas — promotion refuses him, so he stays "
+      "provisional. The discriminating half of the rule.",
+      ["Dr Debajit Palit"]),
+    c("p-10", P, "Dr Ritu Mathur", "pi_attested+corroborated",
+      "NAME:Dr Ritu Mathur",
+      "promoted: PI on 10 projects, all coded, one division, 15-year span",
+      ["Dr Ritu Mathur"]),
     c("p-11", P, "Mr Ajay Shankar", "provisional+corroborated", "NO_CANONICAL",
       "the most prolific author in the facet", ["Mr Ajay Shankar"]),
     c("p-12", P, "Dr Prodipto Ghosh", "provisional+no_context", "NO_CANONICAL",
@@ -97,8 +103,10 @@ CASES = [
     c("p-25", P, "S S", "initials_only", "NO_LINK", "33 people share these initials"),
 
     # --- honorific variants ---------------------------------------------------
-    c("p-26", P, "Prof Shailly Kedia", "honorific_variant", "NO_CANONICAL",
-      "a different honorific on the same name must not change the outcome",
+    c("p-26", P, "Prof Shailly Kedia", "honorific_variant",
+      "NAME:Dr Shailly Kedia",
+      "a different honorific on the same name must not change the outcome — "
+      "which now means reaching the same promoted identity",
       ["Dr Shailly Kedia"]),
     c("p-27", P, "Shri Ajay Shankar", "honorific_variant", "NO_CANONICAL",
       "Indic honorifics fold too", ["Mr Ajay Shankar"]),
@@ -124,6 +132,43 @@ CASES = [
       "never asserted by the CMS"),
     c("p-34", P, "Neha", "single_token", "NO_LINK",
       "'Dr Neha' is a real facet value; one token cannot identify anyone"),
+
+    # --- PI-attested people (Phase 7.1) -------------------------------------------
+    # Promotion makes these claim-eligible, so a corroborated mention may now be
+    # canonical. Everything else about PERSON resolution is unchanged: the name
+    # still needs corroboration, and a crowded or ambiguous one still cannot link.
+    c("pi-01", P, "Dr Anjali Parasnis", "pi_unique_name+project_context",
+      "NAME:Dr Anjali Parasnis",
+      "PI on coded projects within one division; corroborated by the document",
+      ["Dr Anjali Parasnis"]),
+    c("pi-02", P, "Dr Arindam Datta", "pi_unique_name+project_code",
+      "NAME:Dr Arindam Datta",
+      "anchored to an authoritative project code", ["Dr Arindam Datta"]),
+    c("pi-03", P, "Dr Alak Chandra Deka", "pi_three_token_name",
+      "NAME:Dr Alak Chandra Deka",
+      "three tokens; low collision risk", ["Dr Alak Chandra Deka"]),
+    c("pi-04", P, "Dr Anjali Parasnis", "pi_no_context", "NO_CANONICAL",
+      "promotion does not remove the corroboration requirement"),
+    c("pi-05", P, "Dr Anjali Parasnis", "pi_contradictory_project_context",
+      "NO_LINK", "the document names a different author",
+      ["Mr Ajay Shankar"]),
+    c("pi-06", P, "Mr Amit Kumar", "pi_common_name", "NO_CANONICAL",
+      "a PI, but 23 people share the surname — stays provisional",
+      ["Mr Amit Kumar"]),
+    c("pi-07", P, "Ms Aakansha Jain", "pi_common_name", "NO_CANONICAL",
+      "a PI whose surname is shared by 6 others", ["Ms Aakansha Jain"]),
+    c("pi-08", P, "Dr Anandita Singh", "pi_common_surname", "NO_CANONICAL",
+      "28 Singhs in the person population", ["Dr Anandita Singh"]),
+    c("pi-09", P, "Dr Alok Adholeya", "pi_multi_division", "NO_CANONICAL",
+      "PI across two division areas; context is not coherent enough",
+      ["Dr Alok Adholeya"]),
+    c("pi-10", P, "A K", "pi_initials", "NO_LINK",
+      "initials are never an identity, PI field or not"),
+    c("pi-11", P, "Dr Anjali Parasnis", "pi_with_org_context", "NO_CANONICAL",
+      "an organization in the chunk still says nothing about which person",
+      None, ["TERI"]),
+    c("pi-12", P, "Dr Nonexistent Investigator", "pi_no_candidate", "NO_LINK",
+      "never named by the CMS as anything"),
 
     # --- ORGANIZATION ------------------------------------------------------------
     c("o-01", O, "The Energy and Resources Institute", "acronym_gloss_expansion",
