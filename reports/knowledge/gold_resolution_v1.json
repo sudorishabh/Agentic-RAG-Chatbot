@@ -1,0 +1,233 @@
+{
+  "version": "v1",
+  "reviewed": true,
+  "status": "Human-reviewed. Every case names a real seeded entity or a real corpus surface. 'expected' is an entity_id when linking is correct, or NO_LINK when any link is a false merge. NO_LINK cases are the safety half: a resolver that links them is wrong regardless of its other numbers. Expectations are written as NAME:<canonical name> so the set survives a reseed; ids for CMS-backed entities derive from record uuids.",
+  "cases": [
+    {
+      "id": "p-01",
+      "type": "PERSON",
+      "surface": "Dr Shailly Kedia",
+      "category": "exact+corroborated",
+      "doc_authors": [
+        "Dr Shailly Kedia"
+      ],
+      "expected": "NAME:Dr Shailly Kedia",
+      "note": "the document's own CMS metadata names her"
+    },
+    {
+      "id": "p-02",
+      "type": "PERSON",
+      "surface": "Shailly Kedia",
+      "category": "exact+no_context",
+      "doc_authors": [],
+      "expected": "NO_LINK",
+      "note": "one seeded name is not proof every mention of it is that person"
+    },
+    {
+      "id": "p-03",
+      "type": "PERSON",
+      "surface": "Dr Vibha Dhawan",
+      "category": "authoritative+corroborated",
+      "doc_authors": [
+        "Dr Vibha Dhawan"
+      ],
+      "expected": "NAME:Dr Vibha Dhawan",
+      "note": "people-bundle node; its id derives from the CMS uuid, so the expectation names the entity instead"
+    },
+    {
+      "id": "p-04",
+      "type": "PERSON",
+      "surface": "Dr Ritu Mathur",
+      "category": "honorific",
+      "doc_authors": [
+        "Dr Ritu Mathur"
+      ],
+      "expected": "NAME:Dr Ritu Mathur",
+      "note": "honorific folds away before comparison"
+    },
+    {
+      "id": "p-05",
+      "type": "PERSON",
+      "surface": "Prodipto Ghosh",
+      "category": "exact+no_context",
+      "doc_authors": [],
+      "expected": "NO_LINK",
+      "note": "no corroboration available"
+    },
+    {
+      "id": "p-06",
+      "type": "PERSON",
+      "surface": "Dr Shailly Kedia",
+      "category": "contradictory_context",
+      "doc_authors": [
+        "Mr Ajay Shankar"
+      ],
+      "expected": "NO_LINK",
+      "note": "the document says it is by someone else entirely"
+    },
+    {
+      "id": "p-07",
+      "type": "PERSON",
+      "surface": "A. K.",
+      "category": "initials_only",
+      "doc_authors": [],
+      "expected": "NO_LINK",
+      "note": "names nobody in particular"
+    },
+    {
+      "id": "p-08",
+      "type": "PERSON",
+      "surface": "R K",
+      "category": "initials_only",
+      "doc_authors": [],
+      "expected": "NO_LINK",
+      "note": "initials are not an identity"
+    },
+    {
+      "id": "p-09",
+      "type": "PERSON",
+      "surface": "Divya Sharma",
+      "category": "shared_surname",
+      "doc_authors": [
+        "Dr Divya Sharma"
+      ],
+      "expected": "NAME:Dr Divya Sharma",
+      "note": "17 Sharmas exist; the full name plus corroboration still identifies"
+    },
+    {
+      "id": "p-10",
+      "type": "PERSON",
+      "surface": "Sharma",
+      "category": "surname_only",
+      "doc_authors": [],
+      "expected": "NO_LINK",
+      "note": "a bare surname shared by 17 people"
+    },
+    {
+      "id": "p-11",
+      "type": "PERSON",
+      "surface": "Kumar",
+      "category": "surname_only",
+      "doc_authors": [],
+      "expected": "NO_LINK",
+      "note": "24 people share it"
+    },
+    {
+      "id": "p-12",
+      "type": "PERSON",
+      "surface": "Wholly Unknown Person",
+      "category": "no_candidate",
+      "doc_authors": [],
+      "expected": "NO_LINK",
+      "note": "the CMS never asserted this name"
+    },
+    {
+      "id": "p-13",
+      "type": "PERSON",
+      "surface": "& Sharma",
+      "category": "junk_surface",
+      "doc_authors": [],
+      "expected": "NO_LINK",
+      "note": "a real facet fragment, not a person"
+    },
+    {
+      "id": "o-01",
+      "type": "ORGANIZATION",
+      "surface": "The Energy and Resources Institute",
+      "category": "exact_name",
+      "doc_authors": [],
+      "expected": "NAME:TERI",
+      "note": "the CMS seeds this organization as 'TERI'; the full name should reach it through the acronym gloss the corpus writes"
+    },
+    {
+      "id": "o-02",
+      "type": "ORGANIZATION",
+      "surface": "Ministry of External Affairs",
+      "category": "exact_name",
+      "doc_authors": [],
+      "expected": "NAME:Ministry of External Affairs",
+      "note": "real sponsor"
+    },
+    {
+      "id": "o-03",
+      "type": "ORGANIZATION",
+      "surface": "MINISTRY OF EXTERNAL AFFAIRS",
+      "category": "case_variant",
+      "doc_authors": [],
+      "expected": "NAME:Ministry of External Affairs",
+      "note": "casing folds"
+    },
+    {
+      "id": "o-04",
+      "type": "ORGANIZATION",
+      "surface": "The Economic Times",
+      "category": "exact_name",
+      "doc_authors": [],
+      "expected": "NAME:The Economic Times",
+      "note": "news source, 396 of these are seeded"
+    },
+    {
+      "id": "o-05",
+      "type": "ORGANIZATION",
+      "surface": "Utterly Fictional Holdings",
+      "category": "no_candidate",
+      "doc_authors": [],
+      "expected": "NO_LINK",
+      "note": "unknown org"
+    },
+    {
+      "id": "o-06",
+      "type": "ORGANIZATION",
+      "surface": "Water Resources",
+      "category": "generic_name",
+      "doc_authors": [],
+      "expected": "NAME:Water Resources",
+      "note": "a real division name; ambiguity marking is what protects it, not the resolver"
+    },
+    {
+      "id": "j-01",
+      "type": "PROJECT",
+      "surface": "2004RP23",
+      "category": "project_code",
+      "doc_authors": [],
+      "expected": "CODE",
+      "note": "tier 0 identifier"
+    },
+    {
+      "id": "j-02",
+      "type": "PROJECT",
+      "surface": "2099ZZ99",
+      "category": "unknown_code",
+      "doc_authors": [],
+      "expected": "NO_LINK",
+      "note": "well-formed but unseeded"
+    },
+    {
+      "id": "j-03",
+      "type": "PROJECT",
+      "surface": "Steel",
+      "category": "descriptive_title",
+      "doc_authors": [],
+      "expected": "NO_LINK",
+      "note": "a real title and an ordinary word"
+    },
+    {
+      "id": "j-04",
+      "type": "PROJECT",
+      "surface": "Summary",
+      "category": "descriptive_title",
+      "doc_authors": [],
+      "expected": "NO_LINK",
+      "note": "a real title and a heading"
+    },
+    {
+      "id": "j-05",
+      "type": "PROJECT",
+      "surface": "Environmental status report for Navi Mumbai",
+      "category": "same_title_many_entities",
+      "doc_authors": [],
+      "expected": "NO_LINK",
+      "note": "three CMS nodes share this title; no basis to choose"
+    }
+  ]
+}

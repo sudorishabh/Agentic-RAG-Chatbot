@@ -553,3 +553,109 @@ def ensure_entity_tables() -> None:
         cur.execute(_ENTITY_MENTION_DDL.format(table=table))
         cur.execute(_ENTITY_EXTRACTION_DDL.format(table=table))
         conn.commit()
+
+
+# ---------------------------------------------------------------------------
+# Canonical entities and the resolution audit trail.
+#
+# Entities are the things mentions may resolve *to*. They are seeded from CMS
+# records, so most carry a `cms_uuid` and are authoritative; a few are created
+# provisionally from text. `entity_id` is opaque and derived deterministically
+# from the seed source, so re-seeding a clean corpus reproduces the same ids
+# rather than minting new ones.
+#
+# Nothing here cascades from `documents`: deleting one news item must not
+# destroy the identity of a person named in three hundred PDFs. Orphaned
+# entities are reportable and prunable, never cascaded.
+# ---------------------------------------------------------------------------
+_ENTITY_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_entity` (
+    entity_id       VARCHAR(64)  NOT NULL,
+    entity_type     VARCHAR(32)  NOT NULL,
+    canonical_name  VARCHAR(512) NOT NULL,
+    normalized_name VARCHAR(512) NOT NULL,
+    source          VARCHAR(64)  NOT NULL,
+    cms_uuid        VARCHAR(255) NULL,
+    trust           VARCHAR(16)  NOT NULL DEFAULT 'derived',
+    status          VARCHAR(16)  NOT NULL DEFAULT 'active',
+    merged_into     VARCHAR(64)  NULL,
+    created_at      DATETIME     NOT NULL,
+    updated_at      DATETIME     NOT NULL,
+    PRIMARY KEY (entity_id),
+    UNIQUE KEY uq_cms_uuid (cms_uuid),
+    KEY idx_normalized (entity_type, normalized_name),
+    KEY idx_status (status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+# Every surface form that may denote an entity. `autolink` carries the Phase 4
+# eligibility rule forward: a surface too short, too generic, or attested for
+# more than one entity is a resolution *candidate* but never an automatic match.
+_ENTITY_ALIAS_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_entity_alias` (
+    entity_id    VARCHAR(64)  NOT NULL,
+    normalized   VARCHAR(512) NOT NULL,
+    surface      VARCHAR(512) NOT NULL,
+    alias_type   VARCHAR(32)  NOT NULL,
+    autolink     TINYINT(1)   NOT NULL DEFAULT 1,
+    is_ambiguous TINYINT(1)   NOT NULL DEFAULT 0,
+    source       VARCHAR(64)  NOT NULL,
+    PRIMARY KEY (entity_id, normalized, alias_type),
+    KEY idx_normalized (normalized),
+    KEY idx_ambiguous (is_ambiguous)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+# Exact identifiers. PRIMARY KEY (scheme, value) states "this identifier denotes
+# exactly one entity" as a database invariant - the strongest correctness
+# guarantee in the entity layer, and what makes Tier 0 a lookup rather than an
+# inference. Project codes live here.
+_ENTITY_IDENTIFIER_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_entity_identifier` (
+    scheme    VARCHAR(32)  NOT NULL,
+    value     VARCHAR(255) NOT NULL,
+    entity_id VARCHAR(64)  NOT NULL,
+    source    VARCHAR(64)  NOT NULL,
+    PRIMARY KEY (scheme, value),
+    KEY idx_entity (entity_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+# One row per resolution attempt: what was decided, and everything needed to
+# explain why. `candidates` holds the scored shortlist as JSON so a decision can
+# be re-read without re-running the resolver. Deliberately append-only.
+_ENTITY_DECISION_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_entity_resolution_decision` (
+    id                BIGINT       NOT NULL AUTO_INCREMENT,
+    chunk_id          VARCHAR(64)  NOT NULL,
+    start_offset      INT          NOT NULL,
+    end_offset        INT          NOT NULL,
+    surface_text      VARCHAR(512) NOT NULL,
+    normalized_text   VARCHAR(512) NOT NULL,
+    entity_type       VARCHAR(32)  NOT NULL,
+    decision          VARCHAR(16)  NOT NULL,
+    entity_id         VARCHAR(64)  NULL,
+    tier              VARCHAR(24)  NOT NULL,
+    score             FLOAT        NULL,
+    margin            FLOAT        NULL,
+    reason            VARCHAR(255) NOT NULL,
+    candidates        JSON         NULL,
+    resolver_version  VARCHAR(64)  NOT NULL,
+    created_at        DATETIME     NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_mention (chunk_id, start_offset, end_offset, normalized_text),
+    KEY idx_decision (entity_type, decision),
+    KEY idx_entity (entity_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+
+def ensure_resolution_tables() -> None:
+    """Create the canonical entity store and the decision log. Idempotent."""
+    table = state_table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(_ENTITY_DDL.format(table=table))
+        cur.execute(_ENTITY_ALIAS_DDL.format(table=table))
+        cur.execute(_ENTITY_IDENTIFIER_DDL.format(table=table))
+        cur.execute(_ENTITY_DECISION_DDL.format(table=table))
+        conn.commit()
