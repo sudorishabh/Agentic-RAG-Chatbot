@@ -166,12 +166,78 @@ _HISTORICAL_EQUIVALENT = {
 }
 
 
+# Tiers that mean "exactly one candidate survived scoring". Anything else that
+# comes back AMBIGUOUS had a genuine choice to make, and a query must not make
+# it silently.
+_SINGLE_CANDIDATE_TIERS = ("tier1_exact_name", "tier2_alias")
+
+# Trust levels a query may target. `provisional` is excluded: those identities
+# are not in the graph, so routing to one could only ever return nothing.
+_ROUTABLE_TRUST = ("authoritative", "pi_attested", "derived")
+
+
+@dataclass(frozen=True)
+class _QueryMatch:
+    """A resolver decision accepted for routing, canonical or query-only."""
+
+    entity_id: str
+    entity_type: str
+    surface_text: str
+    score: float
+
+
+def _accept_unique_match(decision: Any) -> _QueryMatch | None:
+    """Accept a name the resolver left AMBIGUOUS *only* for lack of context.
+
+    PERSON resolution requires corroboration — a co-occurring employer or
+    project — because one seeded "Ritu Sharma" does not make every "Ritu Sharma"
+    that person. During ingestion that rule is essential: a wrong link is
+    written into the graph and outlives the mistake.
+
+    A question is a one-line document. It has no co-mentions by construction, so
+    that same rule rejects **every** person question, which is why the benchmark
+    showed leadership queries never routing. The rule is right; applying it
+    unchanged to a query is not.
+
+    So the query side accepts a decision when, and only when, the resolver found
+    *exactly one* surviving candidate and withheld it purely for missing
+    context. Uniqueness in the entity store is the corroboration. Two candidates,
+    any veto, an ineligible entity or a provisional identity still decline —
+    a wrong answer is worse than falling back to ordinary retrieval.
+
+    The resolver is not modified; this reads its audit trail and decides what a
+    *query* may do with it.
+    """
+    if decision.decision != "AMBIGUOUS" or decision.tier not in _SINGLE_CANDIDATE_TIERS:
+        return None
+    if not decision.claim_eligible:
+        return None
+    audit = decision.candidate_audit or []
+    if len(audit) != 1:
+        return None
+    candidate = audit[0]
+    if candidate.get("vetoes"):
+        return None
+    if candidate.get("trust") not in _ROUTABLE_TRUST:
+        return None
+    entity_id = candidate.get("entity_id")
+    if not entity_id:
+        return None
+    return _QueryMatch(
+        entity_id=entity_id,
+        entity_type=decision.entity_type,
+        surface_text=decision.surface_text,
+        score=decision.score or 0.0,
+    )
+
+
 def _resolve_entities(question: str, index: Any) -> tuple[list[Any], list[str]]:
     """Entities named in the question, via the ingest-path resolver.
 
     Reusing ``app.knowledge`` extraction and resolution rather than a query-time
     matcher is what keeps one name meaning one thing on both sides: a surface
-    too ambiguous to link during ingestion is equally unusable here.
+    too ambiguous to link during ingestion is equally unusable here. The one
+    query-side departure is `_accept_unique_match`, and it is narrow.
     """
     from app.knowledge.candidates import ResolutionContext
     from app.knowledge.extract import extract_mentions
@@ -189,6 +255,10 @@ def _resolve_entities(question: str, index: Any) -> tuple[list[Any], list[str]]:
         decision = resolve_mention(mention, index, context)
         if decision.canonical and decision.entity_id:
             resolved.append(decision)
+            continue
+        accepted = _accept_unique_match(decision)
+        if accepted is not None:
+            resolved.append(accepted)
         elif decision.decision in ("AMBIGUOUS", "PROVISIONAL"):
             ambiguous.append(mention.surface_text)
     return resolved, ambiguous

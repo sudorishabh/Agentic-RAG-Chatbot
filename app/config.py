@@ -239,6 +239,15 @@ class Settings(BaseSettings):
     # Graph-backed retrieval. Separate from knowledge_enabled because the graph
     # must be built and verified long before any query is allowed to read it.
     graph_retrieval_enabled: bool = False
+    # Shadow mode: run graph retrieval beside production and log the comparison,
+    # without touching the answer. Separate from graph_retrieval_enabled because
+    # the point is to gather evidence on live traffic *before* routing anything.
+    # The observation runs on a background thread and returns nothing, so with
+    # this on the user's answer is still exactly what production produced.
+    graph_shadow_enabled: bool = False
+    # Optional JSONL destination for shadow observations. Unset: they go to the
+    # application log only.
+    graph_shadow_log_path: str | None = None
     # LLM claim extraction. The single most expensive step in the knowledge
     # layer -- one model call per eligible chunk -- so it is gated separately
     # from knowledge_enabled and launches OFF. The deterministic CMS-field

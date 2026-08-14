@@ -100,6 +100,29 @@ def _supplement_attachments(
         return blocks
 
 
+def _observe_in_shadow(search_query: str, blocks: list[ContextBlock]) -> None:
+    """Hand the question to graph shadow mode, if it is enabled.
+
+    Deliberately the only contact production retrieval has with the graph, and
+    it is one-way: the call returns nothing, runs its work on a background
+    thread, and swallows every error, so neither the blocks above nor the
+    latency of this request can be affected by it.
+
+    The import is local so that with the flag off — the default — the graph
+    package is never even loaded.
+    """
+    from app.config import get_settings
+
+    if not getattr(get_settings(), "graph_shadow_enabled", False):
+        return
+    try:
+        from app.retrieval.graph import shadow
+
+        shadow.observe(search_query, blocks)
+    except Exception:  # pragma: no cover - defence in depth
+        logger.warning("Graph shadow hook failed.", exc_info=True)
+
+
 def retrieve(
     search_query: str,
     *,
@@ -260,6 +283,7 @@ def retrieve(
                 "improved" if score_after > score_before else "no gain",
             )
     if not ranked:
+        _observe_in_shadow(search_query, [])
         return []
     with span("rag.context_build"):
         blocks = build_context(ranked, limit=n, segregate=dual)
@@ -269,4 +293,5 @@ def retrieve(
                 blocks, ranked, search_query=search_query, query_vector=query_vector,
                 n=n, segregate=dual,
             )
+    _observe_in_shadow(search_query, blocks)
     return blocks

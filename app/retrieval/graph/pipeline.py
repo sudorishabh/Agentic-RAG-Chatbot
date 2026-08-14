@@ -27,6 +27,10 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
+# Row budget for a historical question, where the answer is a timeline rather
+# than a present state. Clamped by the registry to `templates.MAX_LIMIT`.
+HISTORICAL_LIMIT = 100
+
 
 @dataclass
 class GraphAnswer:
@@ -36,6 +40,7 @@ class GraphAnswer:
     route: Any = None
     result: Any = None
     hydrated: int = 0
+    facts: bool = False
     elapsed_ms: float = 0.0
     stage_ms: dict[str, float] = field(default_factory=dict)
     reason: str = ""
@@ -70,6 +75,7 @@ class GraphAnswer:
             ),
             "rows": len(self.result.rows) if self.result else 0,
             "hydrated_chunks": self.hydrated,
+            "facts_block": self.facts,
             "blocks": len(self.blocks),
             "disputed": self.disputed,
             "elapsed_ms": round(self.elapsed_ms, 1),
@@ -89,6 +95,7 @@ def answer(
 ) -> GraphAnswer:
     """Answer one question from the graph, or return empty and explain why."""
     from app.config import get_settings
+    from app.retrieval.graph import facts
     from app.retrieval.graph import hydrate as hydration
     from app.retrieval.graph import router as routing
     from app.retrieval.graph import traverse
@@ -112,8 +119,17 @@ def answer(
         return out
     out.route = outcome.route
 
+    # History is inherently larger than the present, and the history templates
+    # order by recency — so at the current-state default an organization with
+    # many records returns its recent rows and almost none of its ended ones.
+    # Measured: DBT at limit 25 yields 6 ended relationships of 44, at limit 100
+    # all 44. A historical question therefore gets the larger budget.
+    effective_limit = limit
+    if effective_limit is None and outcome.route.is_historical:
+        effective_limit = HISTORICAL_LIMIT
+
     result = traverse.run_template(
-        outcome.route.template_id, outcome.route.parameters, limit=limit
+        outcome.route.template_id, outcome.route.parameters, limit=effective_limit
     )
     mark = _mark("neo4j", mark)
     out.result = result
@@ -131,15 +147,10 @@ def answer(
     candidates = hydration.hydrate(result)
     mark = _mark("qdrant", mark)
     out.hydrated = len(candidates)
-    if not candidates:
-        out.reason = "no source evidence could be hydrated"
-        out.stage_ms = stage
-        out.elapsed_ms = (time.perf_counter() - started) * 1000
-        return out
 
     settings = get_settings()
     ranked = candidates
-    if rerank_results:
+    if candidates and rerank_results:
         from app.retrieval.reranker import rerank
 
         # The existing reranker, unchanged. A graph answer is ranked the same way
@@ -149,9 +160,32 @@ def answer(
 
     from app.retrieval.context_builder import build_context
 
-    out.blocks = build_context(
-        ranked, limit=top_k or settings.retrieval_top_k, segregate=False
+    evidence = (
+        build_context(ranked, limit=top_k or settings.retrieval_top_k,
+                      segregate=False)
+        if ranked else []
     )
+
+    # The rows are the answer; the passages are the citation. Hydration returns
+    # only the latter, and for a CMS-derived claim the passage frequently does
+    # not contain the fact at all - it lived in a structured field. Stating the
+    # verified rows first, then the evidence, is what makes a relational answer
+    # both correct and checkable.
+    facts_block = facts.as_block(result, outcome.route)
+    if facts_block is None and not evidence:
+        out.reason = "graph rows could not be rendered or hydrated"
+        out.stage_ms = stage
+        out.elapsed_ms = (time.perf_counter() - started) * 1000
+        return out
+
+    blocks = []
+    if facts_block is not None:
+        blocks.append(facts_block)
+    for block in evidence:
+        block.n = len(blocks) + 1
+        blocks.append(block)
+    out.blocks = blocks
+    out.facts = facts_block is not None
     _mark("context", mark)
     out.stage_ms = stage
     out.elapsed_ms = (time.perf_counter() - started) * 1000

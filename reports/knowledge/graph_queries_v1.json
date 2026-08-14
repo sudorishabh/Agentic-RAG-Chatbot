@@ -1,0 +1,1643 @@
+{
+  "version": "graph_v1",
+  "status": "reviewed",
+  "built": "2026-08-14",
+  "purpose": "Compare existing dense/lexical retrieval against graph retrieval on relational questions, and measure routing precision and recall.",
+  "gold_provenance": "Expected answers derive from human-authored Drupal fields (field_ongoing_sponsors, field_ongoing_pi_name and their completed counterparts) via MySQL and the graph projection. No model output.",
+  "known_limits": [
+    "Evidence-document recall is tautological for graph retrieval: the gold documents are the ones its claims cite. Only answer-entity coverage, routing and latency compare the two methods fairly.",
+    "No superseded or disputed claims exist in the corpus (all 1,653 are active), so those paths are covered by fixtures, not benchmarked.",
+    "No claim carries chunk-level evidence, so the chunk hydration path is tested rather than benchmarked."
+  ],
+  "classes": [
+    "current_funding",
+    "multi_hop",
+    "leadership",
+    "funders_of_project",
+    "historical",
+    "no_result",
+    "non_relational",
+    "ambiguous"
+  ],
+  "queries": [
+    {
+      "id": "fund-01",
+      "class": "current_funding",
+      "query": "What projects are currently funded by Department of Biotechnology?",
+      "should_route": true,
+      "expected_template": "projects_funded_by_org",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "org_fe5c9534f61e",
+        "name": "Department of Biotechnology"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "project_eff1a01e8e5f",
+          "name": "BIGASTORE: Biogas driven cold storages for Sub Zero applications in India"
+        },
+        {
+          "entity_id": "project_2f0d0273ccd4",
+          "name": "Banana fiber extraction by mycogenic pectinase and surface modification through laccase enzymes thereafter - an eco-friendly approach"
+        },
+        {
+          "entity_id": "project_ed7ae6251a59",
+          "name": "Bio-toilets in schools of the North-eastern States of India for hygiene and technology dissemination"
+        },
+        {
+          "entity_id": "project_55958603b497",
+          "name": "Biohydrogen production from second generation feedstock"
+        },
+        {
+          "entity_id": "project_a42d4df27962",
+          "name": "Cleaning up our rivers"
+        },
+        {
+          "entity_id": "project_9cc8b9170cba",
+          "name": "DBT-TERI Centre of Excellence in Advanced Biofuels and Bio-commodities"
+        },
+        {
+          "entity_id": "project_7c477cb0ebae",
+          "name": "Development of Epicuticular fatty acids catabolizing fungi enriched biopesticide formulation: validation of Beta oxidation enhanced pathogenicity in Citrus aphids"
+        },
+        {
+          "entity_id": "project_f3d0146c4193",
+          "name": "Development of Okra varieties resistant to YVMV using marker assisted selection"
+        },
+        {
+          "entity_id": "project_12fb868d96d0",
+          "name": "Development of tailor made nanozeolite carrier for slow release and targeted delivery of nitrogen for sustainable crop production"
+        },
+        {
+          "entity_id": "project_88a5e5fba6e4",
+          "name": "Development of technologies for measuring and maintaining ecosystem services from forests"
+        },
+        {
+          "entity_id": "project_fc3811a8c14b",
+          "name": "Ericulture for upliftment of socio-economic condition of rural women in tribal villages of Assam"
+        },
+        {
+          "entity_id": "project_f49dc8b1ab7f",
+          "name": "Ethnobotanical survey for antiulcer drug"
+        },
+        {
+          "entity_id": "project_c7017f4f5c1a",
+          "name": "Exploiting beneficial algal-microbial interactions to increase cultivation yield"
+        },
+        {
+          "entity_id": "project_88df4e459e3d",
+          "name": "India-UK Nitrogen Fixation Centre (IUNFC)"
+        },
+        {
+          "entity_id": "project_4bac891612e9",
+          "name": "Innovation and Demonstration of Technologies for Improved Production and Enhanced Shelf life of Tomato and Onion"
+        },
+        {
+          "entity_id": "project_95b9184f6087",
+          "name": "Orchid bioresources of North East India - Conservation, database development and information networking"
+        },
+        {
+          "entity_id": "project_e661843ff28c",
+          "name": "Smart/bioactivated nano-probes for extraction and characterization of bioactive compounds from marine resources: macro and micro algae"
+        },
+        {
+          "entity_id": "project_ded73113f94d",
+          "name": "Toxicity of nano particles against the earthworm and its potential  as bio-transformation agent"
+        },
+        {
+          "entity_id": "project_b1636c98ed36",
+          "name": "Traffic and air quality in India: Technologies and attitudes (TAQIITA) (Indo-Finland collaborative project)"
+        },
+        {
+          "entity_id": "project_8cfa7d00ad10",
+          "name": "Unlocking wastewater treatment, water re-use and resource recovery opportunities for urban and peri-urban areas in India"
+        }
+      ],
+      "expected_claims": [
+        "claim_4406effcb30ea9eb627ddb59",
+        "claim_31cd658fcb7d745226ec24ed",
+        "claim_52bbe61be46dd781b3e423f1",
+        "claim_5f54cbc0832b2f5ea3d13d3e",
+        "claim_dfc7be48c4499dfcb998711e",
+        "claim_cc6630d0ea7f242c550cda60",
+        "claim_296c7bc64454f3da555c601b",
+        "claim_9d79acb2360e9c50143fe8e0",
+        "claim_9b97fb6491465bbc6cf8c70a",
+        "claim_a1438178f4934ababa865f3d",
+        "claim_50e3bb4138773d8928a86e32",
+        "claim_984147d5350d9d9512343c4e",
+        "claim_005f1e069395e2f515d14ec8",
+        "claim_16c5334e5473f4c5d5898980",
+        "claim_e45059f0b30a6ba71f548e7e",
+        "claim_8e45d383f7f6d5ad051edff4",
+        "claim_4a3ccbb785db8fb3e4b2692f",
+        "claim_6893197ca4125c28d69f50f6",
+        "claim_10898160c7cb26468633f07e",
+        "claim_db6313a5aa6d656930ff62a2"
+      ],
+      "expected_evidence_documents": [
+        "b09c5bab-358c-46b2-ae07-75638d251f13",
+        "85933c6e-240d-4e54-9edd-f47ab915c82b",
+        "c68253b7-5f72-4f4d-be38-3fc89073a2a2",
+        "b30e7611-8ab7-46e0-92cc-458a30bc4d1f",
+        "62fdc4dd-8dad-44a0-a8a4-bc7d06323431",
+        "965602d0-7247-40dd-89d4-f9bef3d38d11",
+        "8969a1fc-55dd-4177-a3ac-6a0efe35b750",
+        "cf86e3ca-97a5-4d97-b675-e7757b136936",
+        "30fce700-9fd9-41a8-a2ff-7b5159668c39",
+        "6f413e15-a244-4247-9fab-763148e88f79",
+        "40895635-6bd3-453c-8851-d06a70e96b33",
+        "a4efc36c-596f-433a-bb80-6efb4bb1336b",
+        "f2775e32-effa-4963-9e84-96a5a0ec2da8",
+        "8c163eaf-db99-4e6d-874c-12e8ea079a4c",
+        "2c9db650-3ed5-463d-a6b1-1ee9762b0e10",
+        "123533f6-e40b-4f67-ad73-55047b7f0bae",
+        "da9b5f0e-e946-4cfb-a268-861f905d2716",
+        "18209c32-3e8c-4312-8554-fb3c04912bd5",
+        "cf381b85-be59-43ac-bda1-c254addc549f",
+        "5e1d97eb-80ed-4213-81ca-8e1589b5ee0d"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_be_projects": true,
+        "must_not_present_ended_funding_as_current": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "fund-02",
+      "class": "current_funding",
+      "query": "What projects are currently funded by Department of Science & Technology?",
+      "should_route": true,
+      "expected_template": "projects_funded_by_org",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "org_88e3266d8acb",
+        "name": "Department of Science & Technology"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "project_87158ae18354",
+          "name": "An assessment of socio-economic impacts due to melt water variability in Himalayan States"
+        },
+        {
+          "entity_id": "project_2a5919752cc4",
+          "name": "Analysing adverse health effects of outdoor air pollution in Delhi"
+        },
+        {
+          "entity_id": "project_ac7946acc45f",
+          "name": "Directory of R&D institutions"
+        },
+        {
+          "entity_id": "project_d9ef65a83aee",
+          "name": "Enzymatic degradation of antibiotics and phenolic residues waste components at low concentration in surface waters and industrial wastewater using modified membrane bioreactor"
+        },
+        {
+          "entity_id": "project_4ae8f787b292",
+          "name": "Habitat Model for Efficiency and Comfort"
+        },
+        {
+          "entity_id": "project_43f2f5fb9b6a",
+          "name": "Identification of elite mutants in Jatropha curcas using TILLING and Eco-TILLING"
+        },
+        {
+          "entity_id": "project_2cd500e74dba",
+          "name": "Improving Sustainable Energy Access among SC/ST households in Chamarajanagar District of Karnataka – A pilot study"
+        },
+        {
+          "entity_id": "project_1971748dbf01",
+          "name": "Off the grid sensor controlled irrigation using bank filtration  technology"
+        },
+        {
+          "entity_id": "project_19519418edb3",
+          "name": "Preparation of National Survey on R&D Resources 2018-19  covering the time duration of 2015-16, 2016-2017 and 2017-18"
+        },
+        {
+          "entity_id": "project_498d15d62322",
+          "name": "Recycling of sugar factory ash to ceramic filters for application in sewage treatment"
+        }
+      ],
+      "expected_claims": [
+        "claim_d921e72faf2dbb66f3cd42c5",
+        "claim_25e25005faafb7527b2d8b22",
+        "claim_a4a6cfc4eef152ebfac64e9c",
+        "claim_d8e14a1b19a0048a3af1649f",
+        "claim_16a5cd1f71f3a89f85d8349e",
+        "claim_9c80ff00158e46ea727e8e1b",
+        "claim_60bab8c9ae52d6d06a4f7a4e",
+        "claim_68cd01966198e3743b2dcd61",
+        "claim_9c798f660c740cab64a8259a",
+        "claim_076a4bdbc67ed9a5ee1ce7ef"
+      ],
+      "expected_evidence_documents": [
+        "c166c7ff-e609-4cfa-a361-0606b4afd16c",
+        "9053a964-2453-4a68-9f0b-d85c8d1df241",
+        "700018f9-c722-4946-aaaf-3a766548ef6b",
+        "8dcdb040-6a2e-4d86-b030-07e3f7dd9e9c",
+        "fb7e1f10-7c62-4acb-aa98-27b5dbf52b8f",
+        "0a85f617-c2c5-4af2-8347-047c5c55d8de",
+        "1e1dc8b2-e305-4cad-a947-fa8be1313ace",
+        "88f88df6-4ce4-4a2a-a0f7-859f5073eb1c",
+        "3a2a36f0-c91c-452e-9603-a0715159d062",
+        "0f4e8f86-62b8-43bc-8011-4bb1ed6a3858"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_be_projects": true,
+        "must_not_present_ended_funding_as_current": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "fund-03",
+      "class": "current_funding",
+      "query": "What projects are currently funded by Shakti Sustainable Energy Foundation?",
+      "should_route": true,
+      "expected_template": "projects_funded_by_org",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "org_58d3cc33fc9e",
+        "name": "Shakti Sustainable Energy Foundation"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "project_02fb267c6284",
+          "name": "A stakeholder forum for key actors in the electricity distribution sector (Phase-2)"
+        },
+        {
+          "entity_id": "project_077b5a4a83d4",
+          "name": "Advancing energy efficiency in the Micro, Small and Medium Enterprises (MSME) sector in India"
+        },
+        {
+          "entity_id": "project_12cc45a619c7",
+          "name": "Assessing the co-benefits of a low carbon development pathway for India"
+        },
+        {
+          "entity_id": "project_5c984e91e38d",
+          "name": "Clean energy roadmap for Lakshadweep and Andaman & Nicobar Islands"
+        },
+        {
+          "entity_id": "project_f2b251914f21",
+          "name": "Designing and demonstrating an ESCO business model to promote energy-efficient electric motors in chemical industries in Gujarat"
+        },
+        {
+          "entity_id": "project_e8a023367b60",
+          "name": "Inter Model Comparisons of different transportation sector policies in India in support of NDC implementation"
+        },
+        {
+          "entity_id": "project_1c613b0a8279",
+          "name": "Scaling up the switch to cleaner fuels (Renewable Energy & Electrification) in industrial processes - Phase-II"
+        }
+      ],
+      "expected_claims": [
+        "claim_7bd18f0dca60dcedeedc4619",
+        "claim_d7e9fae412deec39dea45b4d",
+        "claim_5e26ee2c085c8c58870ee4ed",
+        "claim_189fb660f7f65e69d6efd7c7",
+        "claim_0cc5a81749577f3076194fca",
+        "claim_7d700dd10c62290025efd8d2",
+        "claim_0483be95b467b5d40599a593"
+      ],
+      "expected_evidence_documents": [
+        "e8b61687-4705-41b3-8b8f-1a31d69acedf",
+        "87451b7e-4400-4530-9419-0b5d270c0038",
+        "52a353b4-c738-41cd-bdf4-c075d8d874fb",
+        "ff540482-5396-4c5c-a4ee-e527d388f1ed",
+        "a3774ba5-cdc2-4f30-8a77-5bff72222700",
+        "83bcac3d-094e-4012-b814-604935a275d2",
+        "a222b801-52c4-4402-ad23-4cb2a95d7a27"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_be_projects": true,
+        "must_not_present_ended_funding_as_current": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "fund-04",
+      "class": "current_funding",
+      "query": "What projects are currently funded by The World Bank?",
+      "should_route": true,
+      "expected_template": "projects_funded_by_org",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "org_f49e864bd9f6",
+        "name": "The World Bank"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "project_3526cff92b44",
+          "name": "Brahmaputra Symposium: Knowledge beyond Disciplines"
+        },
+        {
+          "entity_id": "project_eed6d7f5ed21",
+          "name": "Enhancing Energy Access through Women Entrepreneurs in Bihar - Clean Cookstove Program"
+        },
+        {
+          "entity_id": "project_3d352792901d",
+          "name": "India Energy Efficiency Scale Up Program - TCAF – Program Information Note"
+        },
+        {
+          "entity_id": "project_beddf4336c27",
+          "name": "Punjab: pilot implementation of DBTE (Direct Benefit Transfer for Electricity) to agriculture"
+        },
+        {
+          "entity_id": "project_98db31a3e4c6",
+          "name": "Studying the urban Indian mobility to Indian mitigate emissions"
+        },
+        {
+          "entity_id": "project_23c05f2e61e0",
+          "name": "Support the valuation of mountain forests and mangroves in the Kingdom of Saudi Arabia"
+        },
+        {
+          "entity_id": "project_fafa76f9464b",
+          "name": "Technology Evaluation for Green Housing Scale Up in India (IFC Eco-cities SHLC)"
+        }
+      ],
+      "expected_claims": [
+        "claim_31aad2bc18c08d0846016fea",
+        "claim_81a7ff28f2222c969f6c8c80",
+        "claim_94a112d908dfa571ff7ea536",
+        "claim_bef6769a175709b51d712521",
+        "claim_2cc8ef6aeaa5e12160db4f44",
+        "claim_f0773ebffd4e97d97d853582",
+        "claim_18f0ac03f183e695e481684e"
+      ],
+      "expected_evidence_documents": [
+        "c6775521-4d23-48cf-92f9-93b5b7b3a2cc",
+        "dd64ff29-b63a-43fd-84aa-d6e11378b53a",
+        "74281204-8adc-49fe-bff7-4b47c35f8ac2",
+        "97ccfba9-a69a-4f3e-81d4-1d924d4f1b30",
+        "7b5affcf-33cd-4f70-ad9d-ab96d0bda19c",
+        "e9ab88cb-dfde-4a9f-b54e-915851c00200",
+        "2eaa51cc-43db-4af1-9260-57b9f83651f2"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_be_projects": true,
+        "must_not_present_ended_funding_as_current": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "hop-01",
+      "class": "multi_hop",
+      "query": "Who leads projects funded by Department of Biotechnology?",
+      "should_route": true,
+      "expected_template": "people_leading_projects_funded_by_org",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "org_fe5c9534f61e",
+        "name": "Department of Biotechnology"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "person_8ff7dbc24ef9",
+          "name": "Dr Alak Chandra Deka"
+        },
+        {
+          "entity_id": "person_2f4155e35b15",
+          "name": "Dr Arindam Datta"
+        },
+        {
+          "entity_id": "person_821f6e290b4e",
+          "name": "Dr Braj Raj Singh"
+        },
+        {
+          "entity_id": "person_116e2f95608f",
+          "name": "Dr Meeta Lavania"
+        },
+        {
+          "entity_id": "person_dc40ec091644",
+          "name": "Dr Naba Kumar Goswami"
+        },
+        {
+          "entity_id": "person_cae0252e0896",
+          "name": "Dr P Raman"
+        },
+        {
+          "entity_id": "person_5e8584778e60",
+          "name": "Dr Sanjukta Subudhi"
+        },
+        {
+          "entity_id": "person_f142c7945de0",
+          "name": "Dr Sapna Johnson"
+        },
+        {
+          "entity_id": "person_c9c9cf816dd4",
+          "name": "Dr Sunil Kumar Deshmukh"
+        },
+        {
+          "entity_id": "person_87acf2520827",
+          "name": "Dr Vibha Dhawan"
+        },
+        {
+          "entity_id": "person_0bf8ef4a40aa",
+          "name": "Ms Indrani Sarma"
+        },
+        {
+          "entity_id": "person_a6810260264c",
+          "name": "Ms Kavita Vithal Patil"
+        }
+      ],
+      "expected_claims": [
+        "claim_65c3fe241270bb04f9f8d4d6",
+        "claim_b1c1144bb17c51c204e491ce",
+        "claim_6c558669a732f263becf56e7",
+        "claim_3fe9425ec1c10d0e1dcc9d4a",
+        "claim_b6f80e2a0938f0cb0f58ec25",
+        "claim_90acc043bb8fc8315e6745de",
+        "claim_c12eb8a86e4cdbaec75ec85e",
+        "claim_d394ad6907b75d57901a80c2",
+        "claim_1a681ba98c594bc1816643e0",
+        "claim_9f790c84505d2e001b3c3f75",
+        "claim_4a20a233f65377b1d0c3cd16",
+        "claim_f707df6a59f419f4069ac3f4"
+      ],
+      "expected_evidence_documents": [
+        "8969a1fc-55dd-4177-a3ac-6a0efe35b750",
+        "cf381b85-be59-43ac-bda1-c254addc549f",
+        "30fce700-9fd9-41a8-a2ff-7b5159668c39",
+        "2c9db650-3ed5-463d-a6b1-1ee9762b0e10",
+        "40895635-6bd3-453c-8851-d06a70e96b33",
+        "b09c5bab-358c-46b2-ae07-75638d251f13",
+        "b30e7611-8ab7-46e0-92cc-458a30bc4d1f",
+        "da9b5f0e-e946-4cfb-a268-861f905d2716",
+        "18209c32-3e8c-4312-8554-fb3c04912bd5",
+        "965602d0-7247-40dd-89d4-f9bef3d38d11",
+        "85933c6e-240d-4e54-9edd-f47ab915c82b",
+        "62fdc4dd-8dad-44a0-a8a4-bc7d06323431"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_be_people": true,
+        "answer_requires_two_relationships": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "hop-02",
+      "class": "multi_hop",
+      "query": "Who leads projects funded by Shakti Sustainable Energy Foundation?",
+      "should_route": true,
+      "expected_template": "people_leading_projects_funded_by_org",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "org_58d3cc33fc9e",
+        "name": "Shakti Sustainable Energy Foundation"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "person_f00f59a0d6cb",
+          "name": "Mr Anand Upadhyay"
+        },
+        {
+          "entity_id": "person_45612adb4d9f",
+          "name": "Mr Girish Sethi"
+        },
+        {
+          "entity_id": "person_12ab12da7c3b",
+          "name": "Mr Pawan Kumar Tiwari"
+        },
+        {
+          "entity_id": "person_b2d6a06b8441",
+          "name": "Mr Prosanto Pal"
+        },
+        {
+          "entity_id": "person_8b6a3969482f",
+          "name": "Mr Sharif Qamar"
+        }
+      ],
+      "expected_claims": [
+        "claim_416e487f2568860c61e28258",
+        "claim_d7df4b552f078a1aad795be6",
+        "claim_242ed5b0c4dc97217dd4aac4",
+        "claim_0f89cea98400c3a418a3b11e",
+        "claim_85490a1e257bfe4bb2299478"
+      ],
+      "expected_evidence_documents": [
+        "ff540482-5396-4c5c-a4ee-e527d388f1ed",
+        "87451b7e-4400-4530-9419-0b5d270c0038",
+        "a3774ba5-cdc2-4f30-8a77-5bff72222700",
+        "a222b801-52c4-4402-ad23-4cb2a95d7a27",
+        "83bcac3d-094e-4012-b814-604935a275d2"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_be_people": true,
+        "answer_requires_two_relationships": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "hop-03",
+      "class": "multi_hop",
+      "query": "Who leads projects funded by European Commission?",
+      "should_route": true,
+      "expected_template": "people_leading_projects_funded_by_org",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "org_de67ac051b04",
+        "name": "European Commission"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "person_8e67926d3020",
+          "name": "Dr Malini Balakrishnan"
+        },
+        {
+          "entity_id": "person_7e964bf057f3",
+          "name": "Dr Ritu Mathur"
+        },
+        {
+          "entity_id": "person_78f9d852675d",
+          "name": "Mr Prahlad Kumar Tewari"
+        },
+        {
+          "entity_id": "person_74040b208847",
+          "name": "Ms Akshima Tejas Ghate"
+        }
+      ],
+      "expected_claims": [
+        "claim_1150cf63a768f26557ae5211",
+        "claim_fb10f8dd34dbf77b50336b8b",
+        "claim_696e628b19d9fe36d0b38587",
+        "claim_e3d9e912c0e3559b69800d92"
+      ],
+      "expected_evidence_documents": [
+        "8bedf00f-d18c-4b82-b6f8-c278838a510a",
+        "b5055c06-4c8c-4c94-8c7d-b1d452733d55",
+        "571221b6-7801-4604-8786-6b7cf156bbea",
+        "96f95d1d-c6b4-4c7c-a242-f8bc86200bba"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_be_people": true,
+        "answer_requires_two_relationships": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "lead-01",
+      "class": "leadership",
+      "query": "What projects does Mr R Suresh lead?",
+      "should_route": true,
+      "expected_template": "projects_led_by_person",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "person_403e7b704e1c",
+        "name": "Mr R Suresh"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "project_242ac9f234a7",
+          "name": "Air Pollution Source Apportionment Study at Kanhia Open Cast Coal Mine Area, Odisha"
+        },
+        {
+          "entity_id": "project_1183754bc533",
+          "name": "Assessment of ambient air quality in the vicinity of well Baghjan 5, Oil India Limited, Duliajan, Assam"
+        },
+        {
+          "entity_id": "project_3d4c125c6e78",
+          "name": "Carrying out Source Apportionment and Emission Inventory study for Kashipur City, Uttarakhand"
+        },
+        {
+          "entity_id": "project_12b5460e6648",
+          "name": "Carrying out Source Apportionment and Emission Inventory study for Rishikesh City, Uttarakhand"
+        },
+        {
+          "entity_id": "project_547c5f0ae204",
+          "name": "Environmental consultancy for Diesel Locomotive Emission Standards Project for Indian Railways"
+        },
+        {
+          "entity_id": "project_f61112541864",
+          "name": "Evaluation of modelling techniques for air quality management in Delhi"
+        },
+        {
+          "entity_id": "project_0fcd6d146ad6",
+          "name": "Preparing action plan against air pollution in Ludhiana, Punjab"
+        },
+        {
+          "entity_id": "project_da457dad3f9c",
+          "name": "Real-Time Source Apportionment and Forecasting for Advance Air Pollution Management in Delhi"
+        },
+        {
+          "entity_id": "project_f926a0d4ce33",
+          "name": "Scope and Role of Natural Gas in Mitigating Industrial Air Pollution"
+        },
+        {
+          "entity_id": "project_cde0ef4c36d2",
+          "name": "Scoping and needs assessment related to environmental technologies for reduction of air pollution in three selected cities"
+        },
+        {
+          "entity_id": "project_715f6a5c5a4e",
+          "name": "Strengthening Clean Air Action Plans"
+        }
+      ],
+      "expected_claims": [
+        "claim_7c724f35245060de8dc7a54b",
+        "claim_a05ea614e88edcbeaed01dfc",
+        "claim_cb72923b6fdd9dc8edd8ce5e",
+        "claim_e1bcc1c594e28fcba0f1dea0",
+        "claim_774d884e398a6a3a9fcd3eb2",
+        "claim_eb8c681fe3d7cd01a5a6b062",
+        "claim_2c5f5ee8e3fba20f97a610cd",
+        "claim_93ceb1ffe45f0c09f1f613a7",
+        "claim_d023988a58ba398f4f78900c",
+        "claim_ad620ce8332368736321c6ab",
+        "claim_6c0b7c539d63fb1855c14771"
+      ],
+      "expected_evidence_documents": [
+        "2cbd3b47-20ce-4b4c-bd37-e57abfd8f70f",
+        "99c06037-fac4-44fa-a90d-f63d15a82adc",
+        "aab2025d-356a-4b93-86d7-91dbce64612c",
+        "d523671d-1b5f-4710-b117-7849dc545fc7",
+        "3ec0c07b-e559-4cfd-9a80-ccbf9817616d",
+        "755c60ac-860f-42d8-9f9b-17e6fed48ed2",
+        "90e395b0-4e47-4499-8165-e223d63dc0ba",
+        "b0cb6b2d-4a6e-4635-8609-68b38beea39f",
+        "ec45fc32-e531-486b-af3e-f3e46e074866",
+        "ff278ee9-3956-40a2-ab6a-90be5f1ca558",
+        "1e179fad-b279-4724-afb2-65b46de0b62e"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_be_projects": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "lead-02",
+      "class": "leadership",
+      "query": "What projects does Mr Prosanto Pal lead?",
+      "should_route": true,
+      "expected_template": "projects_led_by_person",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "person_b2d6a06b8441",
+        "name": "Mr Prosanto Pal"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "project_e95795469d78",
+          "name": "Capacity building of LSPs under GEF-UNIDO-BEE project in Ceramic and Dairy sectors"
+        },
+        {
+          "entity_id": "project_c76a413f3cde",
+          "name": "Facilitating Green Economic Recovery: Improving the uptake of cleaner technologies among MSMEs in Eastern India"
+        },
+        {
+          "entity_id": "project_822c95a9023f",
+          "name": "IGES Strategic activities in India in 2021"
+        },
+        {
+          "entity_id": "project_67cc1f100fe1",
+          "name": "IGES Strategic activities in India in 2021"
+        },
+        {
+          "entity_id": "project_107b9c8b0c9b",
+          "name": "IGES-survey and workshops on green innovation"
+        },
+        {
+          "entity_id": "project_01e896355840",
+          "name": "SRF Project 2021: Strategic Research Fund Project in India"
+        },
+        {
+          "entity_id": "project_1c613b0a8279",
+          "name": "Scaling up the switch to cleaner fuels (Renewable Energy & Electrification) in industrial processes - Phase-II"
+        },
+        {
+          "entity_id": "project_181e03f62b54",
+          "name": "Study on the future carbon market in India"
+        },
+        {
+          "entity_id": "project_5ab7dc687903",
+          "name": "Technical Assistance During Implementation of a Line of Credit for Energy Efficiency Measures"
+        },
+        {
+          "entity_id": "project_af5f2cb3f27a",
+          "name": "Technology Assessment and Matchmaking in India Project (FY 2017)"
+        }
+      ],
+      "expected_claims": [
+        "claim_eafe3e2877c2f2de7e214d5f",
+        "claim_3d536a5a2cfa96a5d3fd2f85",
+        "claim_2aff8c3c0b7cc4a2babf89ad",
+        "claim_114175ea8ccbabd281aeffab",
+        "claim_be683647b2e36fbf1bb050c4",
+        "claim_af74d18cf391cbf9e70ac9c0",
+        "claim_0f89cea98400c3a418a3b11e",
+        "claim_d842b1154302dc75cceb9a14",
+        "claim_67d10bf697b9c0d0c92b4bab",
+        "claim_6f3159671ba1bb553067c7db"
+      ],
+      "expected_evidence_documents": [
+        "f3f83add-8510-4597-9b1d-fa8df5d2d992",
+        "8c56d319-b0ef-4141-a81e-ef93752b28c5",
+        "b2a2c3f7-f00a-4d31-9fba-2c7e7a1bb7ed",
+        "9b10134f-de49-44e3-92c2-92e041e51915",
+        "3c914247-3619-40be-a632-fb492dcf407d",
+        "fecf9038-8c3f-40e0-ab76-1d74ad9e91ab",
+        "a222b801-52c4-4402-ad23-4cb2a95d7a27",
+        "3144f9f0-f9a2-4254-9e90-c5758409add9",
+        "28c0f7d1-6c09-448e-951e-c74849e2ce04",
+        "a7944f68-1bd4-43ec-b0f1-c00d644f974f"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_be_projects": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "lead-03",
+      "class": "leadership",
+      "query": "What projects does Mr Sharif Qamar lead?",
+      "should_route": true,
+      "expected_template": "projects_led_by_person",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "person_8b6a3969482f",
+        "name": "Mr Sharif Qamar"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "project_e6c2e06dbfbf",
+          "name": "Baseline Study for Non-Urban Road Transport"
+        },
+        {
+          "entity_id": "project_882db551fce5",
+          "name": "EV planning and capacity assessment"
+        },
+        {
+          "entity_id": "project_f1832107810d",
+          "name": "Freight Greenhouse Gas Calculator"
+        },
+        {
+          "entity_id": "project_e8a023367b60",
+          "name": "Inter Model Comparisons of different transportation sector policies in India in support of NDC implementation"
+        },
+        {
+          "entity_id": "project_c328cc33a5a2",
+          "name": "National Transport Decarbonization Council"
+        },
+        {
+          "entity_id": "project_2283d50a913e",
+          "name": "Strategies to Increase Railway's Share in Freight Transportation"
+        },
+        {
+          "entity_id": "project_131a7ee580e7",
+          "name": "Sustainable Urban Freight Initiative"
+        },
+        {
+          "entity_id": "project_d3ebe8c552cb",
+          "name": "Transformative Climate Action using Participatory data driven decision making platforms (T-CAP)"
+        }
+      ],
+      "expected_claims": [
+        "claim_772744225e26e361bb3a6e47",
+        "claim_7d24c217fb52e108126c92d8",
+        "claim_da48ad3614f7112fb38d8739",
+        "claim_85490a1e257bfe4bb2299478",
+        "claim_38669efa76b0002604ee1dbb",
+        "claim_f8d2712092bdb6519b7e24fe",
+        "claim_0f6cf1aefe189305b0f27e1c",
+        "claim_368e67ecfd280a96d888d69f"
+      ],
+      "expected_evidence_documents": [
+        "2c6d8bce-beb0-453c-baba-6001f88c70c7",
+        "081117e2-910c-43c2-879f-8b1bd5488dd7",
+        "0ab481b1-5840-49d7-a334-4083709d207a",
+        "83bcac3d-094e-4012-b814-604935a275d2",
+        "ae075aa8-db69-44a7-9b08-ccfe9dc49c56",
+        "9c3f4e3e-4fea-422f-aca0-60e190515c56",
+        "de3d2fbb-89f6-40aa-b0d1-8d680e325b6e",
+        "6e66f49e-3a8f-4b80-83fc-ae336bab5266"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_be_projects": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "funder-01",
+      "class": "funders_of_project",
+      "query": "Who funded the project \"Demonstration of Aquaphonic and Cage fish culture in Goa\"?",
+      "should_route": true,
+      "expected_template": "funders_of_project",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "project_9250cd941db0",
+        "name": "Demonstration of Aquaphonic and Cage fish culture in Goa"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "org_103386018090",
+          "name": "National Bank for Agriculture and Rural Development"
+        }
+      ],
+      "expected_claims": [
+        "claim_6f620c733de70424961558f5"
+      ],
+      "expected_evidence_documents": [
+        "eff8e21f-78f8-4217-acef-23fe9be567e8"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_be_organizations": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "funder-02",
+      "class": "funders_of_project",
+      "query": "Who funded the project \"A stakeholder forum for key actors in the electricity distribution sector (Phase-2)\"?",
+      "should_route": true,
+      "expected_template": "funders_of_project",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "project_02fb267c6284",
+        "name": "A stakeholder forum for key actors in the electricity distribution sector (Phase-2)"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "org_58d3cc33fc9e",
+          "name": "Shakti Sustainable Energy Foundation"
+        }
+      ],
+      "expected_claims": [
+        "claim_7bd18f0dca60dcedeedc4619"
+      ],
+      "expected_evidence_documents": [
+        "e8b61687-4705-41b3-8b8f-1a31d69acedf"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_be_organizations": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "funder-03",
+      "class": "funders_of_project",
+      "query": "Who funded the project \"Accelerating Industrial Decarbonisation in India\"?",
+      "should_route": true,
+      "expected_template": "funders_of_project",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "project_fc2edba6ef79",
+        "name": "Accelerating Industrial Decarbonisation in India"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "org_7764fca5e015",
+          "name": "Childrens Investment Fund Foundation"
+        }
+      ],
+      "expected_claims": [
+        "claim_159e0207c1961d0871c9cd26"
+      ],
+      "expected_evidence_documents": [
+        "c519f60b-7442-4f84-99fa-d732bd36201d"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_be_organizations": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "hist-01",
+      "class": "historical",
+      "query": "What projects has Department of Biotechnology funded in the past?",
+      "should_route": true,
+      "expected_template": "org_funding_history",
+      "expected_mode": "historical",
+      "expected_subject": {
+        "entity_id": "org_fe5c9534f61e",
+        "name": "Department of Biotechnology"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "project_a21d78bfd1bf",
+          "name": "Development of Fungal Biopesticides from endophytes isolated from medicinal plants"
+        },
+        {
+          "entity_id": "project_59978fd161ca",
+          "name": "Diversity studies in Indian earthworms using DNA barcodes"
+        },
+        {
+          "entity_id": "project_04d1d9964bfb",
+          "name": "Photobioreactor Design and Harvest Technology for Algal Biofuels"
+        },
+        {
+          "entity_id": "project_86f2f476c498",
+          "name": "Characterization and Consolidation of Hippophae Genetic Resources and Propagation of Elite Genotypes for Varietal Evaluation"
+        },
+        {
+          "entity_id": "project_f07124898336",
+          "name": "Water4Crops"
+        },
+        {
+          "entity_id": "project_1e03bff6d915",
+          "name": "High throughout metagenomic approach for probiotic lactic acid bacteria from camel milk"
+        },
+        {
+          "entity_id": "project_8248fb3c9100",
+          "name": "Understanding molecular mechanism of sheath blight resistance in rice"
+        },
+        {
+          "entity_id": "project_2a737ea1128b",
+          "name": "Biotechnological interventions for viscosity reduction of petroleum hydrocarbon"
+        },
+        {
+          "entity_id": "project_eea93d01a2fb",
+          "name": "DNA Clubs-DBT-TERI Mentoring the Schools of North-East"
+        },
+        {
+          "entity_id": "project_bfc2aa88ae47",
+          "name": "DBT Mission for Quality Planting Material Production and Utilization for the North-East: Highlights 2008-11"
+        },
+        {
+          "entity_id": "project_4f9a3861077e",
+          "name": "Bioleaching of heavy metals from spent catalyst used in petroleum refineries and scale-up studies"
+        },
+        {
+          "entity_id": "project_9ae6ffcc77ba",
+          "name": "Identification and screening for potential biodiesel yielding microalgae from North-East India"
+        },
+        {
+          "entity_id": "project_751c50565013",
+          "name": "Vegetative and Micropropagation of Selected Clones of Seabuckthorn and Field Performance Evaluation in Arunachal Pradesh"
+        },
+        {
+          "entity_id": "project_34f3309f6a33",
+          "name": "Development of integrated genetic linkage map and marker assisted selection in tea"
+        },
+        {
+          "entity_id": "project_32b48a9b3ddd",
+          "name": "Validation, testing, and locational trials of micro/macro propagated planting stock of selected bamboo species in Northeast India"
+        },
+        {
+          "entity_id": "project_bf95eac90843",
+          "name": "Training programme on entrepreneurship development for production of superior quality planting materials using in vitro technology in North-east"
+        },
+        {
+          "entity_id": "project_a53fe635d8b6",
+          "name": "Empowerment of Agrarian Population through Training and demonstration for Cultivation of High Value Plantation Crops"
+        },
+        {
+          "entity_id": "project_0963f06b70ab",
+          "name": "An agri-horti-medi-culture approach for sustainable development of women in adjoining Ramgarh and Dhari blocks of Nainital district, Uttaranchal"
+        },
+        {
+          "entity_id": "project_24761ba8fe0b",
+          "name": "Exploitation of metagenomic approach for the production of polyhydroxyalkanoates (PHAs) from hydrocarbon-contaminated sites"
+        },
+        {
+          "entity_id": "project_39ffc4e1f2d2",
+          "name": "Genetic enhancement of Jatropha"
+        },
+        {
+          "entity_id": "project_a6c58f268dab",
+          "name": "Chemical characterization of Jatropha specifies for identification of trees with high oil content and variable fatty acid"
+        },
+        {
+          "entity_id": "project_22990d42381c",
+          "name": "Microbiologically improved compost for control of abiotic stress in plant production"
+        },
+        {
+          "entity_id": "project_312c2b3ec3ce",
+          "name": "Synthesis of nanoparticles using microorganisms"
+        },
+        {
+          "entity_id": "project_1ebb4753472e",
+          "name": "DNA barcoding in Bambusa spp. using internal transcribed spacer region of the nuclear ribosomal RNA"
+        },
+        {
+          "entity_id": "project_84376998c951",
+          "name": "Molecular charaterization of elite bamboo germplasm"
+        },
+        {
+          "entity_id": "project_570def7db89d",
+          "name": "Molecular characterization of Jatropha curcas germplasm"
+        },
+        {
+          "entity_id": "project_edbf24604f44",
+          "name": "Isolation of key regulatory elements controlling development of flowering traits in Brassica species"
+        },
+        {
+          "entity_id": "project_83197e29c462",
+          "name": "Training Programme on Plant Tissue Culture for Meghalaya officials"
+        },
+        {
+          "entity_id": "project_bcd198816fdf",
+          "name": "Bulk production of Jatropha Curcas at Nursery Level"
+        },
+        {
+          "entity_id": "project_5399845a1627",
+          "name": "Development of broad-spectrum (AMF and EM) next generation technology for higher plants and agroforestry systems"
+        },
+        {
+          "entity_id": "project_ecd7f9f92722",
+          "name": "Regional Resource Agency for coordination of DNA Clubs in NE states"
+        },
+        {
+          "entity_id": "project_ce9732ecdd35",
+          "name": "Detection and control of microbial-induced corrosion in oil and gas pipelines through a biotechnological approach"
+        },
+        {
+          "entity_id": "project_3eef5b34b02b",
+          "name": "Characterization and evalulation of CMCC germplasm for their specific applications"
+        },
+        {
+          "entity_id": "project_1841f85b4862",
+          "name": "Molecular characterization of tea germplasm"
+        },
+        {
+          "entity_id": "project_c679ff57b35f",
+          "name": "Training on \"Biotechnological techniques for quality, conservation and multiplication of medicinal plants\""
+        },
+        {
+          "entity_id": "project_8ce476a06efb",
+          "name": "Biotechnological interventions for propagation and improvement of apple rootstocks"
+        },
+        {
+          "entity_id": "project_9db663649c7a",
+          "name": "Evaluation of arbuscular mycorrhizal fungi and entomopathogenic nematode cruisers interaction on the reproduction and development of root knot nematode, M. incognita on tomato"
+        },
+        {
+          "entity_id": "project_cbf3bfcb715d",
+          "name": "Programme for micropropagation research and technology development"
+        },
+        {
+          "entity_id": "project_1af4f4cc63d6",
+          "name": "Scouting for natural alternatives"
+        },
+        {
+          "entity_id": "project_5981942ce9ad",
+          "name": "Training Course on \"Advanced Techniques in Mycorrhizal Research \""
+        },
+        {
+          "entity_id": "project_f9568ea0d4fb",
+          "name": "Development of hyphal fusion mechanism in arbuscular mycorrhizal fungi in vitro"
+        },
+        {
+          "entity_id": "project_6b0a4a169a4e",
+          "name": "Preserving the Invisible - Microbial biodiversity of crude oil spill degrading microorganisms"
+        },
+        {
+          "entity_id": "project_90571a677c8d",
+          "name": "Bioremediation of pesticide-contaminated soils and its effect on soil functionality"
+        },
+        {
+          "entity_id": "project_bba4e900b29e",
+          "name": "Inventory of microbial resources in India"
+        }
+      ],
+      "expected_claims": [
+        "claim_ec73daf56df42a8e76eed822",
+        "claim_97133366e71ffb6ca02d7937",
+        "claim_a56e03b6b3274a00ea98c931",
+        "claim_2cb86a4f168fa1c769993827",
+        "claim_72bd81d1771a59e310089a31",
+        "claim_8a6768d389cd5d3afa52acb9",
+        "claim_139125feb895c8bc1aaee06e",
+        "claim_9037a0a4ef91d8a0a967ff27",
+        "claim_d01f1cee6af7b9c6a0b324b6",
+        "claim_c4df6f22206712d940ff07fa",
+        "claim_d4c0f4fd4a2d4e4c7a483be7",
+        "claim_401d0d769ea1dcb0c28b1d84",
+        "claim_4c709c2bf30ed2cfba67d2c7",
+        "claim_2bd3bea8d65ea81d9f81cad6",
+        "claim_6ee75271716aced0007395c2",
+        "claim_75e45040032d301ffdb00a57",
+        "claim_6bac9518312662b2e185aefd",
+        "claim_0d41a494b3d2cfec5f41abf9",
+        "claim_823bc787e1e6060a750da258",
+        "claim_fa52fa2b2f303d2e26323614",
+        "claim_cba700836dab0b4eca86c302",
+        "claim_6fc81ce2149c7fdd9b404f18",
+        "claim_03e3b0afb764df4a3867797d",
+        "claim_350d456e63628cd2170355fc",
+        "claim_dbf6ea2fd7cad7a4236be5b3",
+        "claim_506ada80d5eada64fb25d759",
+        "claim_c4113118e70d8c2bdc299f2e",
+        "claim_ab28691fce152c9cbcc7083a",
+        "claim_ae75a300d6872225519e4217",
+        "claim_b53d7cc354cd4a28fc46255a",
+        "claim_0aaedce990e566c14f34a38a",
+        "claim_2765240c0f6b477daf1fb8c5",
+        "claim_ca71c431f7d36f03b11796df",
+        "claim_3a2613275ff810beb25dfe21",
+        "claim_3a5bb8adda27918d21a7ef01",
+        "claim_02aeabffffae517ef5975a37",
+        "claim_9099be34f0adc19de5765acf",
+        "claim_e6cec754661ed804d4a43dd3",
+        "claim_23472be1539cd5ce2cb30e47",
+        "claim_d44986516a4fe0474d3c6fcf",
+        "claim_36fe44ab4bbc44124e7deca3",
+        "claim_c3df860e2b54f90821e591f7",
+        "claim_d812662148b9a78f92b7ac35",
+        "claim_448c599c7f7829a6dbc6a17d"
+      ],
+      "expected_evidence_documents": [
+        "19fda607-32a0-481d-8d0a-f46b7ca00f86",
+        "e02183fc-99d0-419e-8d8c-24610131cfcd",
+        "c8d33109-f07d-4dc3-8378-67123877be75",
+        "10a26c00-f7fb-4c1f-9ce5-01d53effb193",
+        "daf2639f-8456-4e52-b391-05cb8b3de128",
+        "71004525-f1ba-4a14-be37-f928c9a40fe1",
+        "10e052c9-9140-458a-acdb-736aeada53bd",
+        "5e6cd61d-a2b5-4cbd-930d-86dcd52fe503",
+        "18f750a2-b20f-4cfe-a2dc-6f29d285f490",
+        "c1749576-55a7-44c8-9334-24b3c0a227df",
+        "900d3d7b-fc0f-47c7-a2e9-43f272ac8c11",
+        "8e73e25e-c1f7-4476-beeb-e114eed3d18e",
+        "ae98209e-c8c0-4f61-8be1-9c06efdf7e4d",
+        "fb05d4bc-9e71-44be-857e-b8e1c2e97d0e",
+        "1ae48b31-a0e6-48de-91eb-42c21a14a333",
+        "2168026e-3a25-4681-8988-097c27bf4c43",
+        "aa0d8c41-9003-498b-aff6-829e8c8c35f0",
+        "608f5fd8-0743-4279-a7f3-7e69ae050bea",
+        "492b8f2a-e6bc-4392-8a57-bca1421019df",
+        "5807adb8-c801-4570-94f0-fb461d5947d8",
+        "2960e587-7f57-4f40-9ce8-5c0df500495d",
+        "b17d808c-fbed-4362-9ba8-8ed6c891b883",
+        "22c23de1-b330-46b0-9242-97bce4625bca",
+        "a91241fa-5136-48ed-97a2-347dcb95c7a4",
+        "92edddc4-117e-495a-9cca-a03e5adf01a7",
+        "c8018a57-16ad-45a1-96c0-133f1dcc3cc0",
+        "06eedcff-4171-4c27-931b-0c65042b5c12",
+        "7212b924-cda5-451a-ba69-efe194ec57d6",
+        "c4a1a9b2-8a4a-491b-b107-9b0417c6f1d5",
+        "8092eadd-dedc-432b-8c4b-f6a20adee183",
+        "9d6ccb7f-f363-457d-8106-1dfa39a55ba7",
+        "5dbc47c5-02ad-477e-8f9e-fce53aadb390",
+        "bd6aae98-37df-4753-aa1a-9e4455f36e18",
+        "f3a4f926-2234-4308-9cd1-73b07782fd63",
+        "86b4c703-9af3-4986-8486-8922430b3af1",
+        "aab86d9e-de18-456a-a7bc-4c09c0fd3cb3",
+        "7b588883-17d1-4666-826b-c54d4ef35b9c",
+        "01eaeefc-bd8a-48f7-a8da-56ac246204c7",
+        "4a7ab93c-44a5-4c3b-8ec6-02e1d2235896",
+        "bbdd359c-4284-483b-84b8-a23c2d08ca20",
+        "332e4a5d-ebf7-4195-8fc0-92d1a75f285b",
+        "0558a43c-b8e4-4d0d-ae86-7b0a0b5d2514",
+        "65062005-603f-495b-a7fd-5781f1f59440",
+        "b2f97dbf-b891-45ff-879f-7202713f6d16"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_include_ended_relationships": true,
+        "must_not_present_ended_funding_as_current": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "hist-02",
+      "class": "historical",
+      "query": "What projects has Ministry of New and Renewable Energy funded in the past?",
+      "should_route": true,
+      "expected_template": "org_funding_history",
+      "expected_mode": "historical",
+      "expected_subject": {
+        "entity_id": "org_221431e32475",
+        "name": "Ministry of New and Renewable Energy"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "project_a22aea24820a",
+          "name": "GRIHA Rating: Construction of Hall of Residence for girls, IIT Kanpur"
+        },
+        {
+          "entity_id": "project_27bc1ea0d7c8",
+          "name": "Testing and long-term performance evaluation of SPV lighting systems"
+        },
+        {
+          "entity_id": "project_be2325e2b49f",
+          "name": "Orientation courses on solar charging stations for senior officials of the LWE-affected districts"
+        },
+        {
+          "entity_id": "project_8e20f9ec896b",
+          "name": "Developing solar technicians-cum-entrepreneurs through appropriate capacity development"
+        },
+        {
+          "entity_id": "project_0d12971e1409",
+          "name": "GRIHA Rating for MTNL Exchange Building, Malad, Mumbai"
+        },
+        {
+          "entity_id": "project_bbc24fb0cba3",
+          "name": "Conducting Exposure cum Sensitization Visits to the Solar (Lantern) Charging Stations set up by TERI under its Lighting a Billion Lives (LaBL) campaign"
+        },
+        {
+          "entity_id": "project_65405afd3bb0",
+          "name": "Detailed Project Report for setting up clean energy enabled multi-utility charging stations for enhanced livelihood opportunities"
+        },
+        {
+          "entity_id": "project_f7069c878290",
+          "name": "Evaluation and refinement of existing micropropagation protocol of Jatropha curcas of DRDO for mass production of superior planting stock"
+        },
+        {
+          "entity_id": "project_2f96aeb63236",
+          "name": "Detailed survey regarding present status of Jatropha plantation in nine states of India"
+        },
+        {
+          "entity_id": "project_18776cda51ac",
+          "name": "Development of GRIHA Training Manual Volumes 1-5"
+        },
+        {
+          "entity_id": "project_0be05e852ae4",
+          "name": "Biomass for sustainable development"
+        },
+        {
+          "entity_id": "project_8620f525321b",
+          "name": "Regional contract for project design and development and capacity building and outreach"
+        },
+        {
+          "entity_id": "project_aa857821a2b8",
+          "name": "Monitoring and evaluation of Renewable Energy for Rural Livelihoods project under GOI/UNDP Country Cooperation Framework-II"
+        },
+        {
+          "entity_id": "project_ac3965b9a9ee",
+          "name": "Rajiv Gandhi Akshay Urja Diwas-2008"
+        },
+        {
+          "entity_id": "project_678261d039f1",
+          "name": "Information brochure (for public dissemination) for energy efficiency in new homes and existing homes."
+        },
+        {
+          "entity_id": "project_64eb8e7d953f",
+          "name": "Development, field testing, and demonstration of gasifier system for arecanut processing in Assam"
+        },
+        {
+          "entity_id": "project_70496b063904",
+          "name": "Development and testing of low cost membrane filters from biomass ash for clean up of producer gas for gasifier-based power plants"
+        },
+        {
+          "entity_id": "project_25b0c03caef2",
+          "name": "Training programs on solar passive architecture and GRIHA under the MNES Solar Buildings Program"
+        },
+        {
+          "entity_id": "project_9e9ba990c14e",
+          "name": "Development of technology for treatment of wastewater generated in biomass gasifier systems"
+        },
+        {
+          "entity_id": "project_c307efa728bb",
+          "name": "Cost-benefit appraisal of renewable energy technologies for power generation"
+        },
+        {
+          "entity_id": "project_127fa06e2d00",
+          "name": "Regional training workshop on remote village electrification"
+        },
+        {
+          "entity_id": "project_8f565de2a2b2",
+          "name": "Baselines for renewable energy projects under the clean development mechanism"
+        }
+      ],
+      "expected_claims": [
+        "claim_52e230482cc0d2a4226db3d1",
+        "claim_a21f38ecd665a647f1a8691f",
+        "claim_640f57925512a2fee4439ae4",
+        "claim_6b93925ebd82ea980dcc744d",
+        "claim_e149f8b7cac5614cf4f14158",
+        "claim_9be97f5df20353bfedd700e1",
+        "claim_6f3fc4be7fcbfec683784b54",
+        "claim_fde72cee473017fc50ff5272",
+        "claim_92f10cc489afac61e4ebc1a8",
+        "claim_677b3f7dddb167c41e74c5ef",
+        "claim_7c63f0e2d84f351bb0f60e73",
+        "claim_79b1d354e369842e0dbaa428",
+        "claim_ecba065e57412d55caed9643",
+        "claim_b004e722466f1625e6064f09",
+        "claim_e584a95acc84dc5440e655ab",
+        "claim_c65d693b40bc982c84ce79a9",
+        "claim_d99ed2cfff37d4b9c78939b2",
+        "claim_38551b652c86651f4304e1b6",
+        "claim_32fc89884a18c5d4d1e0e034",
+        "claim_f607fe6f2a50977033ea5146",
+        "claim_722158975a37fb14c04fd1d4",
+        "claim_a5516194a6c6781528995983"
+      ],
+      "expected_evidence_documents": [
+        "8d58e765-ecb8-4538-967f-a428a44665eb",
+        "455117f9-c002-4b03-8f00-f6d16b24ada9",
+        "b6a2c47f-d5b2-4fa8-a088-f6509a62ccb3",
+        "155ad60f-45be-4306-ae22-6ce5785371e7",
+        "0e7f26ad-45a9-4050-b2fb-a484830e1c9a",
+        "1a149a39-22bd-4262-b19f-82ef640c6ec3",
+        "fce37dc8-37b0-4fdd-9c03-1347d73f33dd",
+        "279c0eb9-e3e0-476c-b0e5-25e8d63ce4c7",
+        "4ace3529-a0a8-4888-bfcc-54437d1c73fd",
+        "3da40b7d-3987-4a1b-8721-694e7834713e",
+        "28033d89-6e64-446c-80d9-e57be8e08ccb",
+        "1ddab17c-fd9b-4f13-835e-2df48bc80a94",
+        "7be6a5d2-c75d-4b81-8202-3c103d650dc4",
+        "5aa92700-de43-4082-8c57-deb463c2f5a9",
+        "15b7f860-0c31-402d-bd66-d54cb27c48da",
+        "44ba1c35-3b08-4726-8ee2-32032e10d6cb",
+        "ea9eb858-d348-4e92-afbe-d76a7a2406f9",
+        "0863615d-ff82-4920-83fb-0486f1c789ab",
+        "5591880c-9aa1-42de-b01d-6f75eb69917b",
+        "ea7b6442-f252-4312-9370-9d9eb651b5db",
+        "156c35fd-4094-4f07-8794-fe04b1b47b45",
+        "074975f6-e519-43b8-8a84-01f45f9e86c0"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_include_ended_relationships": true,
+        "must_not_present_ended_funding_as_current": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "hist-03",
+      "class": "historical",
+      "query": "What projects has Ministry of Environment and Forests funded in the past?",
+      "should_route": true,
+      "expected_template": "org_funding_history",
+      "expected_mode": "historical",
+      "expected_subject": {
+        "entity_id": "org_1158b27b5209",
+        "name": "Ministry of Environment and Forests"
+      },
+      "expected_answer_entities": [
+        {
+          "entity_id": "project_3365a26184ee",
+          "name": "Study on Institutional Framework for Sustainable Development: Inputs for UNCSD"
+        },
+        {
+          "entity_id": "project_33eb2090df8c",
+          "name": "Report to People on Environment"
+        },
+        {
+          "entity_id": "project_37fa857fc7b7",
+          "name": "India's inputs for the United Nations Conference on Sustainable Development"
+        },
+        {
+          "entity_id": "project_7db9381aa582",
+          "name": "National Report of India to be submitted to the 18th Session of the UN Commission on Sustainable Development"
+        },
+        {
+          "entity_id": "project_dd6353349ff3",
+          "name": "Warming in the North East: developing adaptation strategies"
+        },
+        {
+          "entity_id": "project_db8e0e1dd22a",
+          "name": "Research on key issues in climate change negotiations"
+        },
+        {
+          "entity_id": "project_d9d6a12fe03c",
+          "name": "Sustaining resources and livelihoods: Samaspur Bird Sanctuary"
+        },
+        {
+          "entity_id": "project_2d9dc9a44735",
+          "name": "Barriers to use of fly ash"
+        },
+        {
+          "entity_id": "project_5dd61a894c2d",
+          "name": "Improved implementation of municipal solid waste management"
+        },
+        {
+          "entity_id": "project_ce0e657d9582",
+          "name": "Training workshop on \"Ecosystem Services - Valuation and Policy Issues\""
+        },
+        {
+          "entity_id": "project_1452ef009e9e",
+          "name": "Training course on CDM projects under LULUCF"
+        },
+        {
+          "entity_id": "project_6cbab963cd68",
+          "name": "World Wetland Day Celebrations"
+        },
+        {
+          "entity_id": "project_f71da3d45ac2",
+          "name": "Is India tunnelling through the Environemntal Kuznets Curve"
+        },
+        {
+          "entity_id": "project_54de7447f3b6",
+          "name": "National Strategy on Climate Change in India"
+        },
+        {
+          "entity_id": "project_28166544d56f",
+          "name": "Training for IFS officers on Development of Project Design Document (PDD) for Forestry Clean Development Mechanisms (CDM) projects"
+        },
+        {
+          "entity_id": "project_94c411e5b5cc",
+          "name": "Training Course on \"Development of Clean Development Mechanism Projects under Land Use, Land Use Change and Forestry: Theory and Practice\""
+        },
+        {
+          "entity_id": "project_a3cf514c70c5",
+          "name": "Taxonomy capacity building project"
+        },
+        {
+          "entity_id": "project_ba8028a4d39c",
+          "name": "National Programme of Action for Coastal Pollution"
+        },
+        {
+          "entity_id": "project_939c6f293d31",
+          "name": "Energy-Economic-Environment modelling to support climate change assessment and policy-making in India"
+        },
+        {
+          "entity_id": "project_b849bec4d803",
+          "name": "Energy for the future: making development sustainable"
+        },
+        {
+          "entity_id": "project_00496b13decc",
+          "name": "Hydrological and hydro-chemical studies at Najafgarh drain catchment (Delhi) and its impact on River Yamuna"
+        }
+      ],
+      "expected_claims": [
+        "claim_9a596afd159467b0d74aed0f",
+        "claim_ab6abf25ffb6cf5a7b3b1de7",
+        "claim_ef9565b00f2fb6aa92e3cfd9",
+        "claim_45827d737c4d9d8e812c3a0a",
+        "claim_ef053f448778f1634cf7032b",
+        "claim_6aa9087cc1a55d6a5ff1fd14",
+        "claim_f8181ccf01803433b526d0b6",
+        "claim_354888e66574f92404b6329f",
+        "claim_8a2a9351521a8d0b05694331",
+        "claim_c4d3409410370c4d8b8c24f9",
+        "claim_a8111df7c76f2ccd280e9ac5",
+        "claim_44ce1a13073a0c40f210bce0",
+        "claim_c036d9c84ab3ddfad2731711",
+        "claim_df68d8a9b62b3d0043472db8",
+        "claim_845de709178689f071138b2a",
+        "claim_3806c739b14a90aef0a61146",
+        "claim_46a3f02278c44a0d10cc630d",
+        "claim_bc933d0f0f38c369bcf8d662",
+        "claim_727bcbdb4594298bcb1a3ec1",
+        "claim_f6383928d1b5dea2147d9f9d",
+        "claim_26b7f4ff971fadc46dc33d47"
+      ],
+      "expected_evidence_documents": [
+        "ccc0ef37-c120-457d-9035-65b752571bb1",
+        "5fa7e9e4-35dc-4851-a15b-c6a4dbab73f3",
+        "daac7e11-b818-4121-9fb6-248b3c5926f9",
+        "ab9fb412-d210-4ecb-8ecb-89d8d22e9a10",
+        "3ad7a6c0-346d-4247-a7db-2754cec6a548",
+        "ee23b8eb-79a0-48d5-b0ae-fd24360547e2",
+        "8ad91748-25a4-4e65-a25e-0715aace5024",
+        "402d22ea-d4bf-4e8d-bb68-d6fbd946f0a6",
+        "73fd7501-6941-4abb-a64e-a483042cf474",
+        "69218940-f085-4946-8f97-5df5bfa607d9",
+        "8cfcd301-843c-49dd-8d0a-b8729044b9c0",
+        "4d4cc9c0-44a0-42e7-b054-3897debe722f",
+        "dee9d500-d05f-436d-9b8a-59f7b7e9dad7",
+        "57be7368-c958-4520-bd29-eba333d48d4a",
+        "194e7e28-138b-43a5-ad75-e89bf8bfac6b",
+        "1906c502-8c08-4268-8ab1-35de962b9242",
+        "e91b2fc6-d39a-48bc-acd0-5c937c060e12",
+        "49ee10ee-6865-4784-a4fa-8dd3812590b3",
+        "f30739f4-b9ba-456a-95ed-52345ec89f4d",
+        "df5504c3-bcbf-440f-9ef1-7f479f905666",
+        "bdf66f43-2b3f-4993-8e14-50c7562de693"
+      ],
+      "answer_characteristics": {
+        "must_name_at_least": 1,
+        "must_include_ended_relationships": true,
+        "must_not_present_ended_funding_as_current": true,
+        "must_cite_evidence": true
+      }
+    },
+    {
+      "id": "none-01",
+      "class": "no_result",
+      "query": "Which organisation does Mr R Suresh work at?",
+      "should_route": true,
+      "expected_template": "person_works_at",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "person_403e7b704e1c",
+        "name": "Mr R Suresh"
+      },
+      "expected_answer_entities": [],
+      "expected_claims": [],
+      "expected_evidence_documents": [],
+      "answer_characteristics": {
+        "must_name_at_least": 0,
+        "must_return_no_graph_rows": true,
+        "must_not_fabricate_an_employer": true
+      }
+    },
+    {
+      "id": "none-02",
+      "class": "no_result",
+      "query": "Which organisation does Mr Prosanto Pal work at?",
+      "should_route": true,
+      "expected_template": "person_works_at",
+      "expected_mode": "current",
+      "expected_subject": {
+        "entity_id": "person_b2d6a06b8441",
+        "name": "Mr Prosanto Pal"
+      },
+      "expected_answer_entities": [],
+      "expected_claims": [],
+      "expected_evidence_documents": [],
+      "answer_characteristics": {
+        "must_name_at_least": 0,
+        "must_return_no_graph_rows": true,
+        "must_not_fabricate_an_employer": true
+      }
+    },
+    {
+      "id": "noroute-01",
+      "class": "non_relational",
+      "query": "What are the environmental impacts of solar energy?",
+      "should_route": false,
+      "why_not": "no entity named",
+      "expected_template": null,
+      "expected_mode": null,
+      "expected_subject": null,
+      "expected_answer_entities": [],
+      "expected_claims": [],
+      "expected_evidence_documents": [],
+      "answer_characteristics": {
+        "must_fall_back_to_existing_retrieval": true
+      }
+    },
+    {
+      "id": "noroute-02",
+      "class": "non_relational",
+      "query": "How does India's energy policy address climate change?",
+      "should_route": false,
+      "why_not": "no entity named",
+      "expected_template": null,
+      "expected_mode": null,
+      "expected_subject": null,
+      "expected_answer_entities": [],
+      "expected_claims": [],
+      "expected_evidence_documents": [],
+      "answer_characteristics": {
+        "must_fall_back_to_existing_retrieval": true
+      }
+    },
+    {
+      "id": "noroute-03",
+      "class": "non_relational",
+      "query": "Tell me about the Department of Biotechnology",
+      "should_route": false,
+      "why_not": "entity, but topical",
+      "expected_template": null,
+      "expected_mode": null,
+      "expected_subject": null,
+      "expected_answer_entities": [],
+      "expected_claims": [],
+      "expected_evidence_documents": [],
+      "answer_characteristics": {
+        "must_fall_back_to_existing_retrieval": true
+      }
+    },
+    {
+      "id": "noroute-04",
+      "class": "non_relational",
+      "query": "What is the Department of Biotechnology's mission statement?",
+      "should_route": false,
+      "why_not": "entity, but not a relationship in the vocabulary",
+      "expected_template": null,
+      "expected_mode": null,
+      "expected_subject": null,
+      "expected_answer_entities": [],
+      "expected_claims": [],
+      "expected_evidence_documents": [],
+      "answer_characteristics": {
+        "must_fall_back_to_existing_retrieval": true
+      }
+    },
+    {
+      "id": "noroute-05",
+      "class": "non_relational",
+      "query": "Summarise TERI's work on air quality",
+      "should_route": false,
+      "why_not": "ambiguous entity, topical",
+      "expected_template": null,
+      "expected_mode": null,
+      "expected_subject": null,
+      "expected_answer_entities": [],
+      "expected_claims": [],
+      "expected_evidence_documents": [],
+      "answer_characteristics": {
+        "must_fall_back_to_existing_retrieval": true
+      }
+    },
+    {
+      "id": "ambig-01",
+      "class": "ambiguous",
+      "query": "What projects are funded by TERI?",
+      "should_route": false,
+      "why_not": "'TERI' resolves to more than one entity type",
+      "expected_template": null,
+      "expected_mode": null,
+      "expected_subject": null,
+      "expected_answer_entities": [],
+      "expected_claims": [],
+      "expected_evidence_documents": [],
+      "answer_characteristics": {
+        "must_not_guess_an_entity": true,
+        "must_fall_back_to_existing_retrieval": true
+      }
+    }
+  ]
+}

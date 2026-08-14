@@ -785,8 +785,36 @@ def test_graph_retrieval_is_disabled_by_default():
     assert settings.knowledge_enabled is False
 
 
-def test_the_default_retrieval_path_does_not_import_graph_retrieval():
-    """The flag is a policy; this is the structural guarantee behind it."""
+def test_importing_production_retrieval_does_not_load_the_graph_package():
+    """The flag is a policy; this is the structural guarantee behind it.
+
+    Shadow mode gives `retriever.py` one reference to the graph, so "no module
+    mentions it" is no longer the property to check. The property that matters
+    is stronger and tested directly: importing production retrieval must not
+    *load* the graph package. Every reference to it is inside a function, behind
+    a flag that is off, so with shadow disabled the code is never reached.
+    """
+    import subprocess
+    import sys
+
+    program = (
+        "import sys;"
+        "import app.retrieval.retriever, app.retrieval.hybrid_search,"
+        " app.retrieval.context_builder;"
+        "leaked=[m for m in sys.modules if m.startswith('app.retrieval.graph')];"
+        "print(','.join(leaked))"
+    )
+    completed = subprocess.run(
+        [sys.executable, "-c", program],
+        capture_output=True, text=True, timeout=180,
+    )
+    assert completed.returncode == 0, completed.stderr[-2000:]
+    leaked = completed.stdout.strip()
+    assert leaked == "", f"graph package loaded by production retrieval: {leaked}"
+
+
+def test_only_the_shadow_hook_references_the_graph_from_production_retrieval():
+    """One doorway, and it is the observing one."""
     import pathlib
 
     root = pathlib.Path(__file__).resolve().parents[1]
@@ -794,9 +822,11 @@ def test_the_default_retrieval_path_does_not_import_graph_retrieval():
     for path in list((root / "app" / "retrieval").rglob("*.py")) + list(
         (root / "app" / "pipeline").rglob("*.py")
     ):
-        if "retrieval" in path.parts and "graph" in path.parts:
+        if "graph" in path.parts:
             continue
-        if "app.retrieval.graph" in path.read_text(encoding="utf-8"):
+        if "app.retrieval.graph" not in path.read_text(encoding="utf-8"):
+            continue
+        if path.name != "retriever.py":
             offenders.append(str(path.relative_to(root)))
     assert offenders == [], f"graph retrieval leaked into: {offenders}"
 
