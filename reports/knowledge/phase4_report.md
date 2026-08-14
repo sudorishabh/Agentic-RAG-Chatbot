@@ -71,42 +71,65 @@ chars) yielded no deterministic mention at all.
 
 ## 4. Extraction quality by entity type
 
-Measured by hand over a 40-chunk real-corpus sample (`gold_mentions_v1.draft.json`),
-judging each unique surface. **These are precision estimates on a small sample;
-recall is not yet measurable** — that requires the labels a human adds for what
-the extractor *missed*, which is exactly what the draft file is for.
+Measured against `gold_mentions_v1.json` — **8 chunks, 44 mentions, exhaustively
+annotated**. Every PERSON/ORGANIZATION/PROJECT mention in each chunk is listed
+independent of what the extractor found, which is what makes recall real rather
+than circular. Locations, technologies, measurement acronyms and role titles are
+deliberately absent: they are outside the closed vocabulary.
 
-| Type | Mentions | Unique | Judged correct | Precision (est.) |
-|---|---|---|---|---|
-| ORGANIZATION | 36 | 28 | ~24 | **~0.86** |
-| PERSON | 25 | 21 | ~20 | **~0.95** |
-| PROJECT | 2 | 2 | 2 | **~1.00** (tiny n) |
+Category coverage: acronym glosses, bare acronyms, line-wrapped organization
+names, titles and initials, a project code in body text, descriptive project
+titles, repeated-boilerplate PDF captions, and negative cases (`BOT`, `CCU`,
+`WASP`, `PM2.5`).
 
-Precision was raised from a much worse starting point by five fixes, each
-prompted by reading the actual output:
+### Frozen deterministic v1.1
 
-| Defect found | Fix | Effect |
+| Type | P | R | F1 | TP | FP | FN |
+|---|---|---|---|---|---|---|
+| PERSON | **1.000** | **1.000** | **1.000** | 11 | 0 | 0 |
+| PROJECT | **1.000** | **1.000** | **1.000** | 2 | 0 | 0 |
+| ORGANIZATION | **0.955** | 0.677 | 0.792 | 21 | 1 | 10 |
+
+Progression during the review (ORGANIZATION): F1 **0.553 → 0.583 → 0.769 → 0.792**.
+
+### Fixes made, each supported by a reviewed example
+
+| Defect | Example | Fix |
 |---|---|---|
-| Org pattern ran across line breaks, swallowing prose (`"Tata Chemicals\nsuccessfully commissioned a"`) | separators forbid newlines | removed |
-| Acronym gloss read every concept as a body (`"Land Degradation and Drought (DLDD)"`, `"...plant (CCU)"`) | expansion must end in an org indicator | removed |
-| Gloss middle words unconstrained — swallowed a whole sentence (`"India has the third largest emissions while the European Union (EU)"`) | inner words must be capitalised or closed-list connectors | removed |
-| Project titles are descriptive (`"Steel"`, `"Summary"`, `"fly ash"`, `"energy security"`) | titles need ≥3 tokens and ≥12 chars to autolink | PROJECT 9 → 2 |
-| Short CMS names collide with nouns (`"Medium"`, `"Water Resources"`, `"the environment"`) | ≤3-token surfaces match case-sensitively | removed |
-| Method rank truncated names (publication `"Hindustan"` beat `"Hindustan Copper Ltd"`) | dedupe ranks length before method | corrected |
-| Lowercase connectors cut names (`"Resources Institute"` from *The Energy and Resources Institute*) | connectors admitted inside the run | corrected |
+| Person name ran past the line end | `Mr. Srinivas` + blank line + `Picture No. 24` → `"Srinivas  Picture No"` | person separators forbid newlines |
+| Organization truncated at a line wrap | `Hindalco` / `Industries Ltd` split over two lines → `"Industries Ltd"` | one line wrap allowed inside org names |
+| Acronym gloss missed across a line | `Institute` then `(TERI)` on the next line | gloss separator allows one wrap |
+| Acronym gloss missed after a period | `Developers Ltd. (MLDL)` | optional `.` before the bracket |
+| `Group` not an indicator | `International Copper Study Group` | added to the weak list |
 
-### Known remaining limitations
+The line-wrap change is the largest single win: it removed three false positives
+(`Industries Ltd`, `Developers Ltd`, `Water Supply and Sewerage Board`) and six
+false negatives at once, because a truncation produces *both* errors from one
+name.
 
-- **Truncated org names** where the head is not adjacent: `"Industries Ltd"`,
-  `"Services Limited"`. The head is usually a proper noun the pattern cannot
-  reach past punctuation.
-- **`"Medium"`** — a real publication in `field_news_source` that also matches
-  "Micro, Small and **Medium** Enterprises". Only resolution can settle this.
-- **PROJECT recall is near zero from titles.** Deliberate: descriptive titles
-  produced almost only false positives, so the code pattern carries the type.
-- **Recall is unmeasured for every type.**
+### False positives (1)
 
----
+- `"Storage  JSW Steel Limited"` — a heading (`…Utilisation, and Storage`)
+  followed by a name on the next line. **This is the known cost of allowing line
+  wraps**, and it also suppresses the `JSW Steel Limited` mention beneath it.
+  Left unfixed deliberately: a heading ending in `Storage` followed by `JSW…`,
+  and a name split as `Hindalco` / `Industries…`, are structurally identical —
+  no rule separates them without a dictionary, and the change is strongly
+  net-positive.
+
+### False negatives (10), all ORGANIZATION
+
+| Cause | Examples |
+|---|---|
+| Bare acronym, no gloss in that chunk | `TERI`, `IOCL`, `KMC`, `CEB` |
+| Name carries no structural indicator | `Tata Chemicals`, `JSW Steel`, `Larsen and Toubro`, `L&T` |
+| Suppressed by the FP above | `JSW Steel Limited` |
+
+Both causes are deliberate. A bare all-caps pattern would catch the acronyms and
+also every unit, standard and heading in the corpus; a bare capitalised-bigram
+pattern would catch the indicator-less names and also every place name. Recall
+here is the resolution phase's to recover — from an alias index seeded by the
+glosses actually observed — not extraction's to guess at.
 
 ## 5. Performance
 

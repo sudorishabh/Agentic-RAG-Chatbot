@@ -33,7 +33,11 @@ from typing import Any
 logger = logging.getLogger("eval_entity_extraction")
 
 _REPORT_DIR = Path("reports/knowledge")
-_GOLD = _REPORT_DIR / "gold_mentions_v1.draft.json"
+# The reviewed set is authoritative; the draft is only a labelling aid that
+# --sample writes. Scoring falls back to the draft only so the refusal message
+# below can explain why the numbers would be meaningless.
+_GOLD = _REPORT_DIR / "gold_mentions_v1.json"
+_DRAFT = _REPORT_DIR / "gold_mentions_v1.draft.json"
 
 
 def _sample_chunks(limit: int) -> list[dict[str, Any]]:
@@ -136,23 +140,35 @@ def _score(gold: dict[str, Any]) -> dict[str, dict[str, float]]:
     tp: dict[str, int] = defaultdict(int)
     fp: dict[str, int] = defaultdict(int)
     fn: dict[str, int] = defaultdict(int)
+    # Kept alongside the counts because a count says a rule is wrong while an
+    # example says *which* rule — and only the second is actionable.
+    fp_examples: dict[str, list[str]] = defaultdict(list)
+    fn_examples: dict[str, list[str]] = defaultdict(list)
 
     for chunk in gold["chunks"]:
         expected = {
             (normalize_for(m["type"], m["surface"]), m["type"])
             for m in chunk.get("mentions", [])
         }
-        found = {
-            (m.normalized_text, m.entity_type)
-            for m in extract_mentions(
-                chunk["text"], chunk_id=chunk["chunk_id"],
-                document_id=chunk.get("document_id", ""), gazetteer=gazetteer,
-            )
+        surfaces = {
+            (normalize_for(m["type"], m["surface"]), m["type"]): m["surface"]
+            for m in chunk.get("mentions", [])
         }
+        found_mentions = extract_mentions(
+            chunk["text"], chunk_id=chunk["chunk_id"],
+            document_id=chunk.get("document_id", ""), gazetteer=gazetteer,
+        )
+        found_surfaces = {
+            (m.normalized_text, m.entity_type): m.surface_text
+            for m in found_mentions
+        }
+        found = set(found_surfaces)
         for key in found - expected:
             fp[key[1]] += 1
+            fp_examples[key[1]].append(found_surfaces[key].replace("\n", " "))
         for key in expected - found:
             fn[key[1]] += 1
+            fn_examples[key[1]].append(surfaces[key])
         for key in found & expected:
             tp[key[1]] += 1
 
@@ -163,6 +179,8 @@ def _score(gold: dict[str, Any]) -> dict[str, dict[str, float]]:
         recall = t / (t + n) if (t + n) else None
         out[entity_type] = {
             "tp": t, "fp": f, "fn": n,
+            "false_positives": fp_examples[entity_type],
+            "false_negatives": fn_examples[entity_type],
             "precision": precision, "recall": recall,
             "f1": (
                 2 * precision * recall / (precision + recall)
@@ -190,6 +208,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.sample:
         return _write_draft(args.sample)
 
+    if not _GOLD.exists() and _DRAFT.exists():
+        globals()["_GOLD"] = _DRAFT
     if not _GOLD.exists():
         raise SystemExit(
             f"{_GOLD} not found. Run with --sample N to write a draft to review."
@@ -211,6 +231,16 @@ def main(argv: list[str] | None = None) -> int:
             f"  {entity_type:14} {_fmt(s['precision']):>7} {_fmt(s['recall']):>7} "
             f"{_fmt(s['f1']):>7} {s['tp']:>5} {s['fp']:>5} {s['fn']:>5}"
         )
+    for entity_type, s in scores.items():
+        if s["false_positives"]:
+            print(f"\n  {entity_type} false positives ({s['fp']}):")
+            for surface in sorted(set(s["false_positives"])):
+                print(f"    - {surface[:70]}")
+        if s["false_negatives"]:
+            print(f"\n  {entity_type} false negatives ({s['fn']}):")
+            for surface in sorted(set(s["false_negatives"])):
+                print(f"    - {surface[:70]}")
+
     if not gold.get("reviewed"):
         print(
             "\nWARNING: scored against unreviewed labels. Precision is 1.000 by "

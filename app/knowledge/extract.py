@@ -45,7 +45,7 @@ logger = logging.getLogger(__name__)
 # for the same text. Stored beside every cached result and every mention row, so
 # stale output reads as a miss instead of being served by newer code. Mirrors
 # app.ingestion.enrich.abstract_version.
-EXTRACTOR_VERSION = "entity-extract-v1"
+EXTRACTOR_VERSION = "entity-extract-v1.1"
 
 # Confidence by method. Not probabilities — a deliberate ordering that later
 # stages (resolution, review) can threshold on. A CMS-asserted name found in the
@@ -69,11 +69,23 @@ _METHOD_RANK = {method: i for i, method in enumerate(EXTRACTION_METHODS)}
 # Anchored on word boundaries and case-sensitive, so it cannot fire on prose.
 _PROJECT_CODE = re.compile(r"\b((?:19|20)\d{2}[A-Z]{2}\d{2})\b")
 
+# Whitespace that may separate the words of one name: ordinary spaces, or a
+# single line wrap. A blank line is two newlines and does not match, which is
+# what keeps a name from running into the next paragraph.
+_WS = r"(?:[^\S\n]*\n[^\S\n]*|[^\S\n]+)"
+
 # An honorific followed by a name. The honorific is what makes this safe: bare
 # capitalised bigrams match every place name and section heading in the corpus.
+#
+# Separators here are `[^\S\n]+` — no line breaks at all, unlike organizations.
+# A caption reading "Mr. Srinivas\n\nPicture No. 24" otherwise produced the
+# person "Srinivas  Picture No", because the name ran past the line end into the
+# next caption. Personal names wrap across lines rarely enough that forbidding
+# it costs little and prevents that whole class of error.
 _PERSON_TITLED = re.compile(
-    r"\b(?:Dr|Mr|Mrs|Ms|Prof|Professor|Shri|Smt|Sh|Er)\.?\s+"
-    r"((?:[A-Z]\.?\s+){0,3}[A-Z][a-z]+(?:\s+(?:[A-Z]\.?\s+)*[A-Z][a-z]+){0,3})"
+    r"\b(?:Dr|Mr|Mrs|Ms|Prof|Professor|Shri|Smt|Sh|Er)\.?[^\S\n]+"
+    r"((?:[A-Z]\.?[^\S\n]+){0,3}[A-Z][a-z]+"
+    r"(?:[^\S\n]+(?:[A-Z]\.?[^\S\n]+)*[A-Z][a-z]+){0,3})"
 )
 
 # Words that mark a name as naming an *organization* rather than a concept,
@@ -92,7 +104,7 @@ _ORG_STRONG = (
 )
 _ORG_WEAK = (
     "Council|Authority|Department|Society|Bank|Board|Centre|Center|Alliance|"
-    "Partnership|College|School|Company|Trust|Union|Committee"
+    "Partnership|College|School|Company|Trust|Union|Committee|Group"
 )
 _ORG_INDICATORS = _ORG_STRONG + "|" + _ORG_WEAK
 
@@ -103,20 +115,24 @@ _ORG_HEAD_BANNED = frozenset(
     w.lower() for w in _ORG_INDICATORS.split("|")
 ) | {"other", "holding", "medium", "high", "the"}
 
-# An organization named by its structural suffix. `[^\S\n]` (whitespace that is
-# not a newline) separates the words, so a match cannot run across a line break
-# — without it the pattern swept up the prose that followed, storing "Tata
-# Chemicals\nsuccessfully commissioned a" as an organization name.
+# An organization named by its structural suffix.
+#
+# Connectors are admitted between the capitalised words, but the name must still
+# *start* with one: "The Energy and Resources Institute" was otherwise cut to
+# "Resources Institute", because the lowercase "and" ended the run. They are a
+# closed list of short function words, so a verb still stops the match.
+#
+# `_WS` lets a name wrap across one line. Long organization names in PDFs
+# routinely do — "Hindalco\nIndustries Ltd", "Chennai Metro\nWater Supply and
+# Sewerage Board" — and forbidding the break truncated them to their tails,
+# producing both a miss and a false positive from the same name. Prose is held
+# out by the capitalisation requirement, not by the newline ban: "Tata
+# Chemicals\nsuccessfully commissioned" still stops at the lowercase verb.
 _ORG_GLOSS_CONNECTORS = "of|and|for|the|in|on|de|van|von|del"
-# Connectors are admitted between the capitalised words, but the name must
-# still *start* with one: "The Energy and Resources Institute" was otherwise cut
-# to "Resources Institute", because the lowercase "and" ended the run. They are
-# a closed list of short function words, so a verb like "has" still stops the
-# match and prose cannot be swallowed.
 _ORG_SUFFIX = re.compile(
     r"\b([A-Z][\w&.'-]*"
-    r"(?:[^\S\n]+(?:[A-Z][\w&.'-]*|(?:" + _ORG_GLOSS_CONNECTORS + r"))){0,6}"
-    r"[^\S\n]+(?:" + _ORG_INDICATORS + r"))\b"
+    r"(?:" + _WS + r"(?:[A-Z][\w&.'-]*|(?:" + _ORG_GLOSS_CONNECTORS + r"))){0,6}"
+    + _WS + r"(?:" + _ORG_INDICATORS + r"))\b"
 )
 
 
@@ -142,10 +158,13 @@ def _org_suffix_is_credible(surface: str) -> bool:
 # "for"). Allowing any word there let the pattern swallow whole sentences:
 # "India has the third largest emissions while the European Union (EU)" was
 # being captured as one organization name.
+# The gloss's bracket may also sit on the next line — "The Energy and Resources
+# Institute\n(TERI)" is how the corpus most often writes it — so `_WS` separates
+# the expansion from its acronym too.
 _ORG_ACRONYM_GLOSS = re.compile(
     r"\b([A-Z][\w&.'-]*"
-    r"(?:[^\S\n]+(?:[A-Z][\w&.'-]*|(?:" + _ORG_GLOSS_CONNECTORS + r"))){1,8}"
-    r"[^\S\n]+(?:" + _ORG_INDICATORS + r"))[^\S\n]*\(([A-Z]{2,8})\)"
+    r"(?:" + _WS + r"(?:[A-Z][\w&.'-]*|(?:" + _ORG_GLOSS_CONNECTORS + r"))){1,8}"
+    + _WS + r"(?:" + _ORG_INDICATORS + r"))\.?" + _WS + r"?\(([A-Z]{2,8})\)"
 )
 
 

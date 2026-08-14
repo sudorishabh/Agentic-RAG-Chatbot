@@ -1,0 +1,247 @@
+{
+  "version": "v1",
+  "reviewed": true,
+  "status": "Human-reviewed. Every PERSON/ORGANIZATION/PROJECT mention in each chunk is listed, independent of what the extractor found, so recall is measurable. Locations, technologies, measurement acronyms and role titles are deliberately absent: they are outside the closed entity vocabulary.",
+  "chunks": [
+    {
+      "chunk_id": "0002735f-4629-5c75-99c2-d0df1a1c45ce",
+      "document_id": "6f28ec08-3a64-4683-ab05-4993ab36338d",
+      "note": "acronym glosses (EIGA, L&T, JISL); technology acronyms CCU/CHP/CCUS/BF-BOF are NOT entities; line-wrapped 'Shell India Markets Private\nLimited'",
+      "text": "Prices | Northwich, United Kingdom | Solution\nDescription\nIn August 2021, the UK operations of Tata Chemicals \nsuccessfully commissioned a carbon capture and utilisation \nplant (CCU). The plant captures CO2 emitted from the gas-\nfired combined heat and power plant (CHP) at Winnington, \nNorthwich, United Kingdom. \nAs part of the process, the CO2 is then purified to the \nrequirements of the European Industrial Gases Association \n(EIGA) Food and Beverages Grade standards, and is \nsubsequently used to manufacture high-purity, API-grade \nnet zero sodium bicarbonate. \nTata Chemicals Limited \nThe plant had achieved nearly 15 kilotonnes of CO2 emissions \nreductions in FY 2021/22, and had demonstrated a proven \ncapacity to reduce the plants\u2019s CO2 emissions by 40,000 \ntonnes per annum (~11% of its total emissions). \nThe plant has benefited sodium bicarbonate business by \nsecuring CO2 cost advantages and is specifically beneficial for \nbusinesses given the high volatility of the CO2 market.\nOther Company Initiatives: Carbon \nCapture, Utilisation, and Storage \nJSW Steel Limited\n\u2022\t JSW Steel has been engaging with a variety \nof knowledge partners to enrich their own \nunderstanding of low-carbon steel production. Their \npartners include technology companies, academia, \ncross sector organisations, and government bodies, \nand they work with them for the development of \ndeep decarbonisation technologies like use of green \nhydrogen, innovative blast furnace\u2013basic oxygen \nfurnace (BF\u2013BOF), and carbon capture and storage. \n\u2022\t A few examples of the collaborations include an \nagreement signed with Shell India Markets Private \nLimited and Larsen and Toubro (L&T) for intensive \nexploration and evaluation of various carbon capture, \nusage and storage (CCUS) technologies and their \napplications in the steel industry.\nJain Irrigation Systems Limited (JISL)\n\u2022\t The organisation has planted 300,000 trees over the \nlast few decades. The forest patches created so far",
+      "mentions": [
+        {
+          "surface": "Tata Chemicals",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "European Industrial Gases Association",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "EIGA",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "Tata Chemicals Limited",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "JSW Steel Limited",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "JSW Steel",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "Shell India Markets Private Limited",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "Larsen and Toubro",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "L&T",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "Jain Irrigation Systems Limited",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "JISL",
+          "type": "ORGANIZATION"
+        }
+      ]
+    },
+    {
+      "chunk_id": "00035626-5d7f-55c9-89a0-2046de7243cc",
+      "document_id": "3fb44e2c-8b5a-4fca-b177-6259cc32d244",
+      "note": "line-break organization: 'Hindalco\nIndustries Ltd'; repeated Hindustan Copper Ltd",
+      "text": "The stakeholder details specific to the copper sector are briefly described as follows:\n\uf0b7\nPrimary producers involved in manufacturing of copper concentrate, copper cathodes\nand other copper products. These include (i) Hindustan Copper Ltd (ii) Hindalco\nIndustries Ltd and (iii) Sterlite Industries Ltd\n\uf0b7\nSecondary producers involved in recycling copper from copper wastes and production\nof other copper products. These include (i) Jhagadia Copper Ltd and (ii) Other large,\nmedium and small scale industries (around 310 registered re-processors)\n\uf0b7\nGovernment \u2013 Operates the major public sector enterprise (Hindustan Copper Ltd). It\nalso defines trade policies and public private share in the industry.\n\uf0b7\nCopper bodies and associations\n(i)\nInternational Copper Study Group: It is an intergovernmental organization\nwhich provides platform for the government and associations to discuss various\nissues of copper sector.\n(ii)\nInternational Copper Promotion Council: Focuses on promoting usage of copper\nfor safety, health, environment and energy savings.\n(iii)\nIndian Copper Development Centre: Helps in promoting the right and efficient\nuse of copper and its alloys. It is involved in developing the market for copper\nand provides guidance to the Indian copper industries.",
+      "mentions": [
+        {
+          "surface": "Hindustan Copper Ltd",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "Hindalco Industries Ltd",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "Sterlite Industries Ltd",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "Jhagadia Copper Ltd",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "International Copper Study Group",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "International Copper Promotion Council",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "Indian Copper Development Centre",
+          "type": "ORGANIZATION"
+        }
+      ]
+    },
+    {
+      "chunk_id": "0004678c-fd31-5723-84ae-b54ccdbd428f",
+      "document_id": "inbody:5a7efcf258dc592f7687c575185a28cf512b4553",
+      "note": "acronym KMC used for Kolkata Municipal Corporation; AQM/EC/PM2.5/PM10 are measurements, not entities",
+      "text": "36\nAir Pollution Source Apportionment and Atmospheric Carrying Capacity study in \nKolkata Municipal Corporation Area of West Bengal\nstoves, use of coal in roadside eateries etc. are important sources of atmospheric EC.  The ratio of EC \nfraction in PM2.5 to PM10 at most of the AQM locations during the measurement period was above 0.7, \nindicating local combustion sources viz. fuel combustion in eateries, industries, vehicles etc. However, \nthe ratio was around 0.5 at the KOA_5 location, this may be attributed to lesser combustion activities \nin the vicinity of the residential location. \nElemental profile of the atmospheric particulate matter\nThe elemental concentration in atmospheric PM10 is generally higher than that in PM2.5 during the \nmeasurement period (Figure 15). Regardless of the AQM locations in the KMC area, Fe, Si, Al, and \nS were the dominating elements in atmospheric PM10; nevertheless, K, Zn, and Pb were also found \nin low concentrations in the elemental mass of the atmospheric PM10.  In the W1, summer, and W2 \nseasons measurement periods, the fraction of Fe in the elemental concentration of the atmospheric \nPM10 ranged from 29% to 39%, 20% to 39%, and 19% to 36%, respectively (Figure 18). The fraction of \nSi in the elemental concentration of atmospheric PM10 varied between 16% and 29%, 20% and 37%, \nand 17% and 27% throughout the W1, summer, and W2 measurement periods, respectively (Figure 18). \nDuring the air quality measurement period, the proportions of Al and S in the elemental concentration \nof atmospheric PM10 varied from 6% to 17% and 6% to 17%, respectively.\nThe presence of crustal elements like Fe, Si, K, and Al in atmospheric PM10 indicates sources like soil and \nroad dust, while construction activities contribute to atmospheric Si and Al. Abraded vehicular part-",
+      "mentions": [
+        {
+          "surface": "Kolkata Municipal Corporation",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "KMC",
+          "type": "ORGANIZATION"
+        }
+      ]
+    },
+    {
+      "chunk_id": "000933d9-0f53-5f0f-8880-a033902487f4",
+      "document_id": "6fcad5b9-5c8f-436c-ae7c-09a84f256624",
+      "note": "titles+initials (Dr. T. Prabhushankar); glosses TERI/MLDL; line-wrapped org names; project title",
+      "text": "On  \nWater Sustainability Assessment of Chennai \n5th June, 2021 (Thursday), 1030 hrs\n\n10:30 Hrs - 10:40 Hrs \nWelcome remarks \n- Mr Sanjay Seth, Senior Director, The Energy and Resources Institute \n(TERI)\n\n10:40 Hrs - 10:50 Hrs \nOpening remarks \n- Mr. Viral Oza, Chief Marketing Officer,  Mahindra Lifespace \nDevelopers Ltd. (MLDL)\n\n10:50 Hrs - 11:00Hrs \nInaugural address  \nDr. T. Prabhushankar, I.A.S. Executive Director, Chennai Metro \nWater Supply and Sewerage Board\n\n11:00 Hrs \u2013 11:05 Hrs \nLaunch of the Report\n\n11:05 Hrs - 11:20 Hrs \nPresentation on Findings of Water Sustainability Assessment \nReports of Chennai  \n\uf0b7 Area at a glance \n\uf0b7 Domains with description and issues \n\uf0b7 Potential risks for sustainable water management \n\uf0b7 Recommendations for sustainable water management  \n- Mr. Akashdeep, Senior Manager \n- Ms. Tarishi Kaushik, Research Associate, TERI\n\n11:20 Hrs - 12:20 Hrs \nPanel discussion moderated by Mr. Sanjay Seth, Senior Director, \nTERI",
+      "mentions": [
+        {
+          "surface": "Sanjay Seth",
+          "type": "PERSON"
+        },
+        {
+          "surface": "Viral Oza",
+          "type": "PERSON"
+        },
+        {
+          "surface": "T. Prabhushankar",
+          "type": "PERSON"
+        },
+        {
+          "surface": "Akashdeep",
+          "type": "PERSON"
+        },
+        {
+          "surface": "Tarishi Kaushik",
+          "type": "PERSON"
+        },
+        {
+          "surface": "The Energy and Resources Institute",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "TERI",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "Mahindra Lifespace Developers Ltd.",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "MLDL",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "Chennai Metro Water Supply and Sewerage Board",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "Water Sustainability Assessment of Chennai",
+          "type": "PROJECT"
+        }
+      ]
+    },
+    {
+      "chunk_id": "000ab662-b1d6-539a-98f4-8d33feb51ee1",
+      "document_id": "99bdf791-8d00-46b6-b3d6-6839636e3bce",
+      "note": "BOT (Build, Operate and Transfer) is a gloss but NOT an organization - negative case for the gloss pattern",
+      "text": "Inaugurating the conference on Tuesday, September 26, 2017, Mr Vijay Shivtare, Minister of state for Water resources and Water conservation, Maharashtra said, \"India continues to face multiple challenges, in the areas of the environment, water and waste management etc. Mumbai and Pune together, generate over 12,000 tonnes of waste, which could be a great opportunity for the Industry to get into a BOT (Build, Operate and Transfer) kind of an arrangement to recycle and/or transform waste to energy. India, being a largely agricultural economy, would also look at innovative solutions, which would also need to be sustainable and affordable.\"",
+      "mentions": [
+        {
+          "surface": "Vijay Shivtare",
+          "type": "PERSON"
+        }
+      ]
+    },
+    {
+      "chunk_id": "00110911-97a9-57c4-81de-ed5f0b6073fd",
+      "document_id": "8d58e765-ecb8-4538-967f-a428a44665eb",
+      "note": "single org; Kanpur/Uttar Pradesh are locations, out of vocabulary",
+      "text": "The proposed building has an area of 6311 m2. It is coming up in Indian Institute of Technology, Kanpur, Uttar Pradesh.\n\nIt is a 6 storied hostel building consisting of 164 double seated rooms. The ground floor consists of parking and Warden / Caretaker and office rooms. It has two lifts, each with a capacity to carry 8 people.\n\nThe green features of the project are as follows:\n\na) Energy Conservation\n\nb) Use of PPC with additional fly ash\n\nc) No smoking zone during construction\n\nd) Daylight Utilisation\n\ne) Optimization of water usage",
+      "mentions": [
+        {
+          "surface": "Indian Institute of Technology",
+          "type": "ORGANIZATION"
+        }
+      ]
+    },
+    {
+      "chunk_id": "001464bc-23fe-5032-b366-ec22db2c3442",
+      "document_id": "4b29af39-83c9-41b1-bcaf-748a62c8e9ae",
+      "note": "difficult format: repeated boilerplate headers, picture captions; short-form second reference 'Dr. Anjali'",
+      "text": "Picture No. 19: Dr. Anjali Parasnis, Associate Director, TERI explaining the importance of healthy \nand balanced diet to the villagers at Khanivali at IOCL\u2019s Gurukripa KSK \nPicture No. 20: Dr. Anjali interacting with the mothers of malnourished children at Vikramgad \nKSK\n\nIntroducing the concept of Nutri-gardens to Address Rural Malnutrition by Involving IOCL\u2019s Kisan Seva Kendras \n27 | P a g e\n\nPicture No. 21: Ms Swati Tomar, Research Associate, TERI interacting with aanganwadi sevikas \nand getting their feedback\n\nPicture No. 22: Dr. Milind Chavan examining a six-month old SAM child\n\nIntroducing the concept of Nutri-gardens to Address Rural Malnutrition by Involving IOCL\u2019s Kisan Seva Kendras \n28 | P a g e\n\nPicture No. 23: Release of the Nutri-kit at the hands of Mr. Srinivas\n\nPicture No. 24: Officials of IOCL, TERI in discussion with the Sarpanch and Doctors of Khaniwali \nvillage at PHC\n\nIntroducing the concept of Nutri-gardens to Address Rural Malnutrition by Involving IOCL\u2019s Kisan Seva Kendras \n29 | P a g e\n\nPicture No. 25: Regular monitoring of the malnourished children during the program period\n\nPicture No. 26: Anganwadi workers and mothers of SAM and MAM children at Khanivali PHC \nattending the ProtineX distribution workshop\n\nIntroducing the concept of Nutri-gardens to Address Rural Malnutrition by Involving IOCL\u2019s Kisan Seva Kendras \n30 | P a g e\n\nAnnex 1: List of the SAM and MAM Children  \nTable No 5 : ProtineX distribution in September\n\n13.6 \nSAM \n28 \nTilgaon \nLalit Gurunath Diva \n5\n\n9.6 \nSAM \n31 \nSaverkhand \nVaishali Naresh \nChowdhary \n3\n\n11.61 \nSAM \n32 \nSaverkhand \nShivam Rajesh  Babar \n4\n\n9.95 \nSAM \n33 \nTilgaon \nGanesh Ananta Bhoir \n5",
+      "mentions": [
+        {
+          "surface": "Anjali Parasnis",
+          "type": "PERSON"
+        },
+        {
+          "surface": "Anjali",
+          "type": "PERSON"
+        },
+        {
+          "surface": "Swati Tomar",
+          "type": "PERSON"
+        },
+        {
+          "surface": "Milind Chavan",
+          "type": "PERSON"
+        },
+        {
+          "surface": "Srinivas",
+          "type": "PERSON"
+        },
+        {
+          "surface": "TERI",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "IOCL",
+          "type": "ORGANIZATION"
+        }
+      ]
+    },
+    {
+      "chunk_id": "0262faf8-6bbc-5080-8026-f6d5eb3f2137",
+      "document_id": "9fc0a14b-25e0-4641-97c9-87fe46c9326b",
+      "note": "project code in body text ('TERI Report No. 2004RP23'); WASP is a planning model and SPPs a category, neither is an entity",
+      "text": "The two consecutive simulations of the generation planning model (WASP) can help in computing per unit capacity and energy charges, separately.\nDisadvantages This method would be more appropriate if the proposed purchase from SPPs represents a significant proportion of the installed capacity of the system. However, the allowable capacity of SPPs connected to the CEB grid is limited due to reasons of economic operation, supply quality, system and network stability (approx. in the range of 5-6% of demand) and the amount of purchase is not assured (not dispatchable on demand). Further, in the current context, this capacity cannot significantly postpone any investment for future plants. Keeping these in\n1 Due to unavailability of the Capacity Credit Committee Report. these conclusions have been taken from the 'Report on Study on Grid Connected Small Power Tariff, Sri Lanka, June 2001'\nTERI Report No. 2004RP23\nVersion 4. December 20, 2005",
+      "mentions": [
+        {
+          "surface": "TERI",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "CEB",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "Capacity Credit Committee",
+          "type": "ORGANIZATION"
+        },
+        {
+          "surface": "2004RP23",
+          "type": "PROJECT"
+        }
+      ]
+    }
+  ]
+}

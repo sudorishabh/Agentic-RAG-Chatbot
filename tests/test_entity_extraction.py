@@ -310,6 +310,82 @@ def test_repeated_extraction_is_identical():
     assert len({(m.chunk_id, m.span, m.normalized_text) for m in first}) == len(first)
 
 
+# --------------------------------------------------------------------------- #
+# Regressions from the Phase 4.1 gold review. Each case is a real span from the
+# corpus that the extractor got wrong; they are pinned so the fix cannot rot.
+# --------------------------------------------------------------------------- #
+
+def test_organization_name_may_wrap_one_line():
+    """PDF text wraps long names. Forbidding the break truncated them to their
+    tails — a miss and a false positive from the same name."""
+    text = "These include (i) Hindalco\nIndustries Ltd and (ii) others"
+    found = _extract(text)
+    assert [m.surface_text for m in found] == ["Hindalco\nIndustries Ltd"]
+    _assert_spans_hold(found, text)
+
+
+def test_organization_name_does_not_cross_a_blank_line():
+    """One wrap is a name; a blank line is a new paragraph. Allowing both would
+    let a heading merge into the body beneath it."""
+    text = "Carbon Capture and Storage\n\nTata Chemicals Limited runs it"
+    surfaces = {m.surface_text for m in _extract(text)}
+    assert "Tata Chemicals Limited" in surfaces
+    assert not any("Storage" in s for s in surfaces)
+
+
+def test_prose_still_stops_an_organization_match_at_a_line_break():
+    """Capitalisation, not the newline ban, is what holds prose out — the guard
+    that made allowing line wraps safe."""
+    text = "the UK operations of Tata Chemicals\nsuccessfully commissioned a plant"
+    assert _extract(text) == []
+
+
+def test_acronym_gloss_survives_a_period_and_a_line_break():
+    """"Developers Ltd. (MLDL)" and "Institute\n(TERI)" are how the corpus
+    actually writes glosses; both forms were missing the acronym."""
+    text = "by Mahindra Lifespace\nDevelopers Ltd. (MLDL) today"
+    surfaces = {m.surface_text for m in _extract(text)}
+    assert "MLDL" in surfaces
+    assert "Mahindra Lifespace\nDevelopers Ltd" in surfaces
+
+
+def test_a_glossed_concept_is_still_not_an_organization():
+    """The gloss pattern must not reopen on concepts: "(BOT)" and "(CCU)" gloss
+    a contract type and a technology, not bodies."""
+    assert _extract("a BOT (Build, Operate and Transfer) arrangement") == []
+    assert _extract("a carbon capture and utilisation plant (CCU) was built") == []
+
+
+def test_group_names_a_body_with_enough_proper_noun():
+    text = "International Copper Study Group: an intergovernmental organization"
+    assert "International Copper Study Group" in {
+        m.surface_text for m in _extract(text)
+    }
+    # ...but the bare noun phrase does not.
+    assert _extract("the working group met") == []
+
+
+def test_a_leading_article_is_not_treated_as_part_of_a_name():
+    """"the World Bank" is the bank; the article belongs to the sentence. A name
+    that genuinely begins with "The" is recognised through its acronym gloss
+    instead, which is how the corpus writes those."""
+    assert _extract("funded by the World Bank last year") == []
+    surfaces = {
+        m.surface_text
+        for m in _extract("by The Energy and Resources Institute (TERI) today")
+    }
+    assert "The Energy and Resources Institute" in surfaces and "TERI" in surfaces
+
+
+def test_person_name_does_not_run_past_the_line_end():
+    """A caption ending "Mr. Srinivas" followed by the next caption produced the
+    person "Srinivas  Picture No"."""
+    text = "Release of the kit at the hands of Mr. Srinivas\n\nPicture No. 24: Officials"
+    found = [m for m in _extract(text) if m.entity_type == "PERSON"]
+    assert [m.surface_text for m in found] == ["Srinivas"]
+    _assert_spans_hold(found, text)
+
+
 def test_candidate_prefilter_never_hides_a_real_match():
     """`candidates()` exists for speed (~4.75x), so it must be exact: anything
     it filters out could not have matched anyway. Checked by running the full
