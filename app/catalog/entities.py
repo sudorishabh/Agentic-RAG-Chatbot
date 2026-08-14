@@ -236,7 +236,7 @@ def load_index() -> dict[str, Any]:
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(
             f"SELECT entity_id, entity_type, canonical_name, normalized_name, "
-            f"trust, source, claim_eligible FROM `{table}_entity` "
+            f"trust, source, claim_eligible, cms_uuid FROM `{table}_entity` "
             "WHERE status='active'"
         )
         entities = {r["entity_id"]: r for r in cur.fetchall()}

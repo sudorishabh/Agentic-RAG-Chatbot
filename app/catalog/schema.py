@@ -681,3 +681,84 @@ def ensure_resolution_tables() -> None:
             "claim_eligible TINYINT(1) NOT NULL DEFAULT 1",
         )
         conn.commit()
+
+
+# ---------------------------------------------------------------------------
+# Assertion staging.
+#
+# Claims live here first and only here: projection to Neo4j is a separate,
+# retryable pass, so a graph outage costs a retry rather than a re-extraction,
+# and no transaction ever has to span two databases.
+#
+# `claim_id` is the primary key and is derived from what the source *states*
+# (evidence + subject + predicate + object) and nothing about how it was read.
+# Re-extracting the same chunk therefore updates the row rather than forking it
+# -- see app.knowledge.claims.types for why validity and confidence are
+# deliberately excluded from the identity.
+# ---------------------------------------------------------------------------
+_ASSERTION_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_assertion` (
+    claim_id           VARCHAR(64)  NOT NULL,
+    subject_entity_id  VARCHAR(64)  NOT NULL,
+    predicate          VARCHAR(64)  NOT NULL,
+    object_entity_id   VARCHAR(64)  NULL,
+    object_literal     VARCHAR(255) NULL,
+    document_id        VARCHAR(255) NOT NULL,
+    chunk_id           VARCHAR(64)  NULL,
+    evidence_kind      VARCHAR(16)  NOT NULL,
+    source_field       VARCHAR(64)  NULL,
+    quote              TEXT         NULL,
+    quote_start        INT          NULL,
+    quote_end          INT          NULL,
+    valid_from         DATE         NULL,
+    valid_until        DATE         NULL,
+    temporal_basis     VARCHAR(16)  NOT NULL DEFAULT 'unknown',
+    confidence         FLOAT        NOT NULL DEFAULT 0,
+    status             VARCHAR(16)  NOT NULL DEFAULT 'active',
+    extraction_method  VARCHAR(32)  NOT NULL,
+    extractor_version  VARCHAR(64)  NOT NULL,
+    vocabulary_version VARCHAR(64)  NOT NULL,
+    model              VARCHAR(128) NULL,
+    prompt_version     VARCHAR(64)  NULL,
+    asserted_at        DATETIME     NOT NULL,
+    created_at         DATETIME     NOT NULL,
+    updated_at         DATETIME     NOT NULL,
+    PRIMARY KEY (claim_id),
+    KEY idx_subject (subject_entity_id, predicate),
+    KEY idx_object (object_entity_id),
+    KEY idx_document (document_id),
+    KEY idx_chunk (chunk_id),
+    KEY idx_status (status),
+    KEY idx_predicate (predicate)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+# Why an assertion was refused. Append-only and deliberately separate from the
+# staged claims: "the model produced fewer claims today" is only diagnosable if
+# the refusals were recorded, and a rejected claim must never sit in the same
+# table as an accepted one.
+_ASSERTION_REJECTION_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_assertion_rejection` (
+    id                BIGINT       NOT NULL AUTO_INCREMENT,
+    code              VARCHAR(48)  NOT NULL,
+    detail            VARCHAR(255) NULL,
+    subject_entity_id VARCHAR(64)  NULL,
+    predicate         VARCHAR(64)  NULL,
+    document_id       VARCHAR(255) NULL,
+    chunk_id          VARCHAR(64)  NULL,
+    extraction_method VARCHAR(32)  NULL,
+    created_at        DATETIME     NOT NULL,
+    PRIMARY KEY (id),
+    KEY idx_code (code),
+    KEY idx_chunk (chunk_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+
+def ensure_assertion_tables() -> None:
+    """Create the assertion staging tables. Idempotent."""
+    table = state_table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(_ASSERTION_DDL.format(table=table))
+        cur.execute(_ASSERTION_REJECTION_DDL.format(table=table))
+        conn.commit()

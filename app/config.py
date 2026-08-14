@@ -239,6 +239,17 @@ class Settings(BaseSettings):
     # Graph-backed retrieval. Separate from knowledge_enabled because the graph
     # must be built and verified long before any query is allowed to read it.
     graph_retrieval_enabled: bool = False
+    # LLM claim extraction. The single most expensive step in the knowledge
+    # layer -- one model call per eligible chunk -- so it is gated separately
+    # from knowledge_enabled and launches OFF. The deterministic CMS-field
+    # extractor needs no flag: it costs nothing and calls no model.
+    claim_extraction_enabled: bool = False
+    # A claim below this confidence is rejected rather than staged. CMS-field
+    # claims assert 1.0, so this only ever bites model-proposed ones.
+    claim_min_confidence: float = 0.6
+    # Ceiling on model calls in one claim-extraction run, so an accidental
+    # full-corpus pass cannot spend without bound. 0 disables the extractor.
+    claim_llm_max_calls_per_run: int = 200
     mysql_host: str = "localhost"
     mysql_port: int = 3306
     mysql_user: str = ""
