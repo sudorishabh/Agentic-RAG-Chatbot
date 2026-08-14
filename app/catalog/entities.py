@@ -60,7 +60,7 @@ def save_entities(entities: Sequence[Any]) -> dict[str, int]:
         (
             e.entity_id, e.entity_type, e.canonical_name[:512],
             e.normalized_name[:512], e.source, e.cms_uuid, e.trust, "active",
-            None, now, now,
+            1 if e.claim_eligible else 0, None, now, now,
         )
         for e in entities
     ]
@@ -83,11 +83,11 @@ def save_entities(entities: Sequence[Any]) -> dict[str, int]:
         cur.executemany(
             f"INSERT INTO `{table}_entity` "
             "(entity_id, entity_type, canonical_name, normalized_name, source, "
-            " cms_uuid, trust, status, merged_into, created_at, updated_at) "
-            "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) "
+            " cms_uuid, trust, status, claim_eligible, merged_into, created_at, "
+            " updated_at) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) "
             "ON DUPLICATE KEY UPDATE canonical_name=VALUES(canonical_name), "
             " normalized_name=VALUES(normalized_name), trust=VALUES(trust), "
-            " updated_at=VALUES(updated_at)",
+            " claim_eligible=VALUES(claim_eligible), updated_at=VALUES(updated_at)",
             entity_rows,
         )
         counts["entities"] = len(entity_rows)
@@ -236,7 +236,8 @@ def load_index() -> dict[str, Any]:
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(
             f"SELECT entity_id, entity_type, canonical_name, normalized_name, "
-            f"trust, source FROM `{table}_entity` WHERE status='active'"
+            f"trust, source, claim_eligible FROM `{table}_entity` "
+            "WHERE status='active'"
         )
         entities = {r["entity_id"]: r for r in cur.fetchall()}
         cur.execute(
@@ -264,7 +265,7 @@ def save_decisions(decisions: Sequence[Any]) -> int:
         (
             d.chunk_id, d.start_offset, d.end_offset, d.surface_text[:512],
             d.normalized_text[:512], d.entity_type, d.decision, d.entity_id,
-            d.tier, d.score, d.margin, d.reason[:255],
+            1 if d.claim_eligible else 0, d.tier, d.score, d.margin, d.reason[:255],
             json.dumps(d.candidate_audit), d.resolver_version, now,
         )
         for d in decisions
@@ -273,11 +274,12 @@ def save_decisions(decisions: Sequence[Any]) -> int:
         cur.executemany(
             f"INSERT INTO `{table}_entity_resolution_decision` "
             "(chunk_id, start_offset, end_offset, surface_text, normalized_text, "
-            " entity_type, decision, entity_id, tier, score, margin, reason, "
-            " candidates, resolver_version, created_at) "
-            "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) "
+            " entity_type, decision, entity_id, claim_eligible, tier, score, "
+            " margin, reason, candidates, resolver_version, created_at) "
+            "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) "
             "ON DUPLICATE KEY UPDATE decision=VALUES(decision), "
-            " entity_id=VALUES(entity_id), tier=VALUES(tier), score=VALUES(score), "
+            " entity_id=VALUES(entity_id), claim_eligible=VALUES(claim_eligible), "
+            " tier=VALUES(tier), score=VALUES(score), "
             " margin=VALUES(margin), reason=VALUES(reason), "
             " candidates=VALUES(candidates), "
             " resolver_version=VALUES(resolver_version), created_at=VALUES(created_at)",

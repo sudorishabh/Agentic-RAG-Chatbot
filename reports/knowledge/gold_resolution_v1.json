@@ -1,233 +1,617 @@
 {
-  "version": "v1",
+  "version": "v2",
   "reviewed": true,
-  "status": "Human-reviewed. Every case names a real seeded entity or a real corpus surface. 'expected' is an entity_id when linking is correct, or NO_LINK when any link is a false merge. NO_LINK cases are the safety half: a resolver that links them is wrong regardless of its other numbers. Expectations are written as NAME:<canonical name> so the set survives a reseed; ids for CMS-backed entities derive from record uuids.",
+  "status": "Human-reviewed. Every case names a real seeded entity or a real corpus surface. Expectations: NAME:<canonical> must link to that entity; NO_LINK must not link at all; NO_CANONICAL may group provisionally but must not assert a canonical identity; CODE must use the Tier-0 path. NO_LINK and NO_CANONICAL together are the safety half of the set.",
   "cases": [
     {
       "id": "p-01",
       "type": "PERSON",
-      "surface": "Dr Shailly Kedia",
-      "category": "exact+corroborated",
+      "surface": "Dr Vibha Dhawan",
+      "category": "authoritative+corroborated",
+      "expected": "NAME:Dr Vibha Dhawan",
+      "note": "people-bundle node; the CMS asserts this identity",
       "doc_authors": [
-        "Dr Shailly Kedia"
+        "Dr Vibha Dhawan"
       ],
-      "expected": "NAME:Dr Shailly Kedia",
-      "note": "the document's own CMS metadata names her"
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "p-02",
       "type": "PERSON",
-      "surface": "Shailly Kedia",
-      "category": "exact+no_context",
-      "doc_authors": [],
-      "expected": "NO_LINK",
-      "note": "one seeded name is not proof every mention of it is that person"
+      "surface": "Mr Nitin Desai",
+      "category": "authoritative+corroborated",
+      "expected": "NAME:Mr Nitin Desai",
+      "note": "people-bundle node",
+      "doc_authors": [
+        "Mr Nitin Desai"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "p-03",
       "type": "PERSON",
-      "surface": "Dr Vibha Dhawan",
-      "category": "authoritative+corroborated",
+      "surface": "Ms Vaishali Nigam Sinha",
+      "category": "authoritative+honorific",
+      "expected": "NAME:Ms Vaishali Nigam Sinha",
+      "note": "honorific folds before comparison",
       "doc_authors": [
-        "Dr Vibha Dhawan"
+        "Ms Vaishali Nigam Sinha"
       ],
-      "expected": "NAME:Dr Vibha Dhawan",
-      "note": "people-bundle node; its id derives from the CMS uuid, so the expectation names the entity instead"
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "p-04",
       "type": "PERSON",
-      "surface": "Dr Ritu Mathur",
-      "category": "honorific",
+      "surface": "Vaishali Nigam Sinha",
+      "category": "authoritative+no_honorific",
+      "expected": "NAME:Ms Vaishali Nigam Sinha",
+      "note": "same person written without the honorific",
       "doc_authors": [
-        "Dr Ritu Mathur"
+        "Ms Vaishali Nigam Sinha"
       ],
-      "expected": "NAME:Dr Ritu Mathur",
-      "note": "honorific folds away before comparison"
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "p-05",
       "type": "PERSON",
-      "surface": "Prodipto Ghosh",
-      "category": "exact+no_context",
-      "doc_authors": [],
-      "expected": "NO_LINK",
-      "note": "no corroboration available"
+      "surface": "Mr M S Unnikrishnan",
+      "category": "authoritative+initials_in_name",
+      "expected": "NAME:Mr M S Unnikrishnan",
+      "note": "initials inside an otherwise full name are part of it",
+      "doc_authors": [
+        "Mr M S Unnikrishnan"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "p-06",
       "type": "PERSON",
-      "surface": "Dr Shailly Kedia",
-      "category": "contradictory_context",
-      "doc_authors": [
-        "Mr Ajay Shankar"
-      ],
-      "expected": "NO_LINK",
-      "note": "the document says it is by someone else entirely"
+      "surface": "Dr Vibha Dhawan",
+      "category": "authoritative+no_context",
+      "expected": "NO_CANONICAL",
+      "note": "even an authoritative name needs corroboration before it links",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "p-07",
       "type": "PERSON",
-      "surface": "A. K.",
-      "category": "initials_only",
-      "doc_authors": [],
+      "surface": "Dr Vibha Dhawan",
+      "category": "authoritative+contradicted",
       "expected": "NO_LINK",
-      "note": "names nobody in particular"
+      "note": "the document is by someone else entirely",
+      "doc_authors": [
+        "Mr Ajay Shankar"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "p-08",
       "type": "PERSON",
-      "surface": "R K",
-      "category": "initials_only",
-      "doc_authors": [],
-      "expected": "NO_LINK",
-      "note": "initials are not an identity"
+      "surface": "Dr Shailly Kedia",
+      "category": "provisional+corroborated",
+      "expected": "NO_CANONICAL",
+      "note": "author-facet name; corroborated but still only a name",
+      "doc_authors": [
+        "Dr Shailly Kedia"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "p-09",
       "type": "PERSON",
-      "surface": "Divya Sharma",
-      "category": "shared_surname",
+      "surface": "Dr Debajit Palit",
+      "category": "provisional+corroborated",
+      "expected": "NO_CANONICAL",
+      "note": "author-facet name",
       "doc_authors": [
-        "Dr Divya Sharma"
+        "Dr Debajit Palit"
       ],
-      "expected": "NAME:Dr Divya Sharma",
-      "note": "17 Sharmas exist; the full name plus corroboration still identifies"
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "p-10",
       "type": "PERSON",
-      "surface": "Sharma",
-      "category": "surname_only",
-      "doc_authors": [],
-      "expected": "NO_LINK",
-      "note": "a bare surname shared by 17 people"
+      "surface": "Dr Ritu Mathur",
+      "category": "provisional+corroborated",
+      "expected": "NO_CANONICAL",
+      "note": "author-facet name",
+      "doc_authors": [
+        "Dr Ritu Mathur"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "p-11",
       "type": "PERSON",
-      "surface": "Kumar",
-      "category": "surname_only",
-      "doc_authors": [],
-      "expected": "NO_LINK",
-      "note": "24 people share it"
+      "surface": "Mr Ajay Shankar",
+      "category": "provisional+corroborated",
+      "expected": "NO_CANONICAL",
+      "note": "the most prolific author in the facet",
+      "doc_authors": [
+        "Mr Ajay Shankar"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "p-12",
       "type": "PERSON",
-      "surface": "Wholly Unknown Person",
-      "category": "no_candidate",
+      "surface": "Dr Prodipto Ghosh",
+      "category": "provisional+no_context",
+      "expected": "NO_CANONICAL",
+      "note": "no corroboration, and provisional either way",
       "doc_authors": [],
-      "expected": "NO_LINK",
-      "note": "the CMS never asserted this name"
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "p-13",
       "type": "PERSON",
+      "surface": "Dr Anjali Parasnis",
+      "category": "provisional+no_context",
+      "expected": "NO_CANONICAL",
+      "note": "no corroboration",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-14",
+      "type": "PERSON",
+      "surface": "Mr Sanjay Seth",
+      "category": "provisional+no_context",
+      "expected": "NO_CANONICAL",
+      "note": "no corroboration",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-15",
+      "type": "PERSON",
+      "surface": "Dr Leena Srivastava",
+      "category": "provisional+no_context",
+      "expected": "NO_CANONICAL",
+      "note": "no corroboration",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-16",
+      "type": "PERSON",
+      "surface": "Sharma",
+      "category": "surname_only",
+      "expected": "NO_LINK",
+      "note": "17 people in the facet share this surname",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-17",
+      "type": "PERSON",
+      "surface": "Kumar",
+      "category": "surname_only",
+      "expected": "NO_LINK",
+      "note": "24 people share it",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-18",
+      "type": "PERSON",
+      "surface": "Singh",
+      "category": "surname_only",
+      "expected": "NO_LINK",
+      "note": "28 people share it",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-19",
+      "type": "PERSON",
+      "surface": "Dr Narayan Singh",
+      "category": "shared_surname+full_name",
+      "expected": "NO_CANONICAL",
+      "note": "the full name distinguishes among 28 Singhs, but stays provisional",
+      "doc_authors": [
+        "Dr Narayan Singh"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-20",
+      "type": "PERSON",
+      "surface": "Dr Prasoon Singh",
+      "category": "shared_surname+full_name",
+      "expected": "NO_CANONICAL",
+      "note": "a different Singh; must not collapse into the previous one",
+      "doc_authors": [
+        "Dr Prasoon Singh"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-21",
+      "type": "PERSON",
+      "surface": "Mr Siddharth Sharma",
+      "category": "authoritative_vs_surname",
+      "expected": "NAME:Mr Siddharth Sharma",
+      "note": "an authoritative Sharma; the other 17 must not interfere",
+      "doc_authors": [
+        "Mr Siddharth Sharma"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-22",
+      "type": "PERSON",
+      "surface": "A. K.",
+      "category": "initials_only",
+      "expected": "NO_LINK",
+      "note": "names nobody in particular",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-23",
+      "type": "PERSON",
+      "surface": "R K",
+      "category": "initials_only",
+      "expected": "NO_LINK",
+      "note": "initials are not an identity",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-24",
+      "type": "PERSON",
+      "surface": "M S",
+      "category": "initials_only",
+      "expected": "NO_LINK",
+      "note": "shares initials with the authoritative M S Unnikrishnan and must not link",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-25",
+      "type": "PERSON",
+      "surface": "S S",
+      "category": "initials_only",
+      "expected": "NO_LINK",
+      "note": "33 people share these initials",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-26",
+      "type": "PERSON",
+      "surface": "Prof Shailly Kedia",
+      "category": "honorific_variant",
+      "expected": "NO_CANONICAL",
+      "note": "a different honorific on the same name must not change the outcome",
+      "doc_authors": [
+        "Dr Shailly Kedia"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-27",
+      "type": "PERSON",
+      "surface": "Shri Ajay Shankar",
+      "category": "honorific_variant",
+      "expected": "NO_CANONICAL",
+      "note": "Indic honorifics fold too",
+      "doc_authors": [
+        "Mr Ajay Shankar"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-28",
+      "type": "PERSON",
+      "surface": "Dr Shailly Kedia",
+      "category": "contradictory_context",
+      "expected": "NO_LINK",
+      "note": "the document names a different author",
+      "doc_authors": [
+        "Mr R R Rashmi"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-29",
+      "type": "PERSON",
+      "surface": "Dr Debajit Palit",
+      "category": "contradictory_context",
+      "expected": "NO_LINK",
+      "note": "document by someone else",
+      "doc_authors": [
+        "Dr Leena Srivastava"
+      ],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-30",
+      "type": "PERSON",
+      "surface": "Dr Shailly Kedia",
+      "category": "org_context_only",
+      "expected": "NO_CANONICAL",
+      "note": "an organization in the chunk says nothing about which person this is",
+      "doc_authors": [],
+      "doc_orgs": [
+        "TERI"
+      ],
+      "co_projects": []
+    },
+    {
+      "id": "p-31",
+      "type": "PERSON",
+      "surface": "Dr Ritu Mathur",
+      "category": "project_context_only",
+      "expected": "NO_CANONICAL",
+      "note": "a project co-mention is not evidence of person identity",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": [
+        "Water Sustainability Assessment of Chennai"
+      ]
+    },
+    {
+      "id": "p-32",
+      "type": "PERSON",
       "surface": "& Sharma",
       "category": "junk_surface",
-      "doc_authors": [],
       "expected": "NO_LINK",
-      "note": "a real facet fragment, not a person"
+      "note": "a real facet fragment, not a person",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-33",
+      "type": "PERSON",
+      "surface": "Wholly Unknown Person",
+      "category": "no_candidate",
+      "expected": "NO_LINK",
+      "note": "never asserted by the CMS",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "p-34",
+      "type": "PERSON",
+      "surface": "Neha",
+      "category": "single_token",
+      "expected": "NO_LINK",
+      "note": "'Dr Neha' is a real facet value; one token cannot identify anyone",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "o-01",
       "type": "ORGANIZATION",
       "surface": "The Energy and Resources Institute",
-      "category": "exact_name",
-      "doc_authors": [],
+      "category": "acronym_gloss_expansion",
       "expected": "NAME:TERI",
-      "note": "the CMS seeds this organization as 'TERI'; the full name should reach it through the acronym gloss the corpus writes"
+      "note": "the CMS seeds this as 'TERI'; the gloss supplies the full name",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "o-02",
       "type": "ORGANIZATION",
-      "surface": "Ministry of External Affairs",
-      "category": "exact_name",
+      "surface": "TERI",
+      "category": "acronym",
+      "expected": "NAME:TERI",
+      "note": "the seeded canonical form",
       "doc_authors": [],
-      "expected": "NAME:Ministry of External Affairs",
-      "note": "real sponsor"
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "o-03",
       "type": "ORGANIZATION",
-      "surface": "MINISTRY OF EXTERNAL AFFAIRS",
-      "category": "case_variant",
-      "doc_authors": [],
+      "surface": "Ministry of External Affairs",
+      "category": "exact_name",
       "expected": "NAME:Ministry of External Affairs",
-      "note": "casing folds"
+      "note": "a real sponsor",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "o-04",
       "type": "ORGANIZATION",
-      "surface": "The Economic Times",
-      "category": "exact_name",
+      "surface": "MINISTRY OF EXTERNAL AFFAIRS",
+      "category": "case_variant",
+      "expected": "NAME:Ministry of External Affairs",
+      "note": "casing folds",
       "doc_authors": [],
-      "expected": "NAME:The Economic Times",
-      "note": "news source, 396 of these are seeded"
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "o-05",
       "type": "ORGANIZATION",
-      "surface": "Utterly Fictional Holdings",
-      "category": "no_candidate",
+      "surface": "The Economic Times",
+      "category": "exact_name",
+      "expected": "NAME:The Economic Times",
+      "note": "a real news source",
       "doc_authors": [],
-      "expected": "NO_LINK",
-      "note": "unknown org"
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "o-06",
       "type": "ORGANIZATION",
-      "surface": "Water Resources",
-      "category": "generic_name",
+      "surface": "Utterly Fictional Holdings",
+      "category": "no_candidate",
+      "expected": "NO_LINK",
+      "note": "an organization the CMS never asserted",
       "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "o-07",
+      "type": "ORGANIZATION",
+      "surface": "Environment & Waste Management",
+      "category": "ampersand",
+      "expected": "NAME:Environment & Waste Management",
+      "note": "a real TERI division; the ampersand folds to 'and'",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "o-08",
+      "type": "ORGANIZATION",
+      "surface": "Water Resources",
+      "category": "generic_but_real",
       "expected": "NAME:Water Resources",
-      "note": "a real division name; ambiguity marking is what protects it, not the resolver"
+      "note": "a real division; extraction's case-sensitivity is the guard, not the resolver",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "o-09",
+      "type": "ORGANIZATION",
+      "surface": "Medium",
+      "category": "generic_but_real",
+      "expected": "NAME:Medium",
+      "note": "a real publication in field_news_source, and also an ordinary noun",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "o-10",
+      "type": "ORGANIZATION",
+      "surface": "Forbes",
+      "category": "short_but_real",
+      "expected": "NAME:Forbes",
+      "note": "a real publication",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "j-01",
       "type": "PROJECT",
       "surface": "2004RP23",
       "category": "project_code",
-      "doc_authors": [],
       "expected": "CODE",
-      "note": "tier 0 identifier"
+      "note": "tier 0 identifier",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "j-02",
       "type": "PROJECT",
       "surface": "2099ZZ99",
       "category": "unknown_code",
-      "doc_authors": [],
       "expected": "NO_LINK",
-      "note": "well-formed but unseeded"
+      "note": "well-formed but unseeded",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "j-03",
       "type": "PROJECT",
       "surface": "Steel",
       "category": "descriptive_title",
-      "doc_authors": [],
       "expected": "NO_LINK",
-      "note": "a real title and an ordinary word"
+      "note": "a real title and an ordinary word",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "j-04",
       "type": "PROJECT",
       "surface": "Summary",
       "category": "descriptive_title",
-      "doc_authors": [],
       "expected": "NO_LINK",
-      "note": "a real title and a heading"
+      "note": "a real title and a heading",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
     },
     {
       "id": "j-05",
       "type": "PROJECT",
       "surface": "Environmental status report for Navi Mumbai",
       "category": "same_title_many_entities",
-      "doc_authors": [],
       "expected": "NO_LINK",
-      "note": "three CMS nodes share this title; no basis to choose"
+      "note": "three CMS nodes share this title; there is no basis to choose",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "j-06",
+      "type": "PROJECT",
+      "surface": "A national energy map for India - Technology vision up to 2030",
+      "category": "specific_title",
+      "expected": "NAME:A national energy map for India - Technology vision up to 2030",
+      "note": "a genuinely seeded project node with a title unique across all entities",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "j-07",
+      "type": "PROJECT",
+      "surface": "Water Sustainability Assessment of Chennai",
+      "category": "project_name_without_a_node",
+      "expected": "NO_LINK",
+      "note": "a real project name the CMS holds only on a PDF attachment and a news item, never as a project node -- extraction finds the mention, and resolution correctly has nothing canonical to link it to",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
+    },
+    {
+      "id": "j-08",
+      "type": "PROJECT",
+      "surface": "Water Sustainability Assessment of Gurugram",
+      "category": "attachment_title_not_a_node",
+      "expected": "NO_LINK",
+      "note": "reads like a project but the row is a pdf_attachment inheriting its parent's bundle; only nodes become PROJECT entities",
+      "doc_authors": [],
+      "doc_orgs": [],
+      "co_projects": []
     }
   ]
 }

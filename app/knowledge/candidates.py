@@ -51,6 +51,11 @@ class Candidate:
     normalized_name: str
     trust: str
     source: str
+    # False for a provisional identity — a name the corpus attests but has not
+    # shown to denote one real thing. Such a candidate may still be *linked*,
+    # to group sightings by name, but nothing downstream may treat that link as
+    # a canonical identity (see seed.is_claim_eligible).
+    claim_eligible: bool = True
     # False when the alias that produced this candidate is shared with another
     # entity, or is too generic to link on its own.
     autolink: bool = True
@@ -130,6 +135,7 @@ class EntityIndex:
             normalized_name=row["normalized_name"],
             trust=row["trust"],
             source=source,
+            claim_eligible=bool(row.get("claim_eligible", 1)),
             autolink=bool(alias["autolink"]) if alias else True,
             is_ambiguous=bool(alias["is_ambiguous"]) if alias else False,
             alias_type=alias["alias_type"] if alias else None,

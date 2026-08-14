@@ -17,7 +17,14 @@ from app.knowledge.candidates import (
     ResolutionContext,
     generate,
 )
-from app.knowledge.resolver import AMBIGUOUS, AUTO, UNRESOLVED, resolve_mention, resolve_mentions
+from app.knowledge.resolver import (
+    AMBIGUOUS,
+    AUTO,
+    PROVISIONAL,
+    UNRESOLVED,
+    resolve_mention,
+    resolve_mentions,
+)
 from app.knowledge.seed import PROJECT_CODE_SCHEME, entity_id_for
 from app.knowledge.types import Mention
 
@@ -42,6 +49,8 @@ def _index(entities=(), aliases=(), identifiers=()):
     """Build an index from (entity_id, type, canonical, trust) tuples."""
     from app.knowledge.normalize import normalize_for
 
+    from app.knowledge.seed import is_claim_eligible
+
     entity_rows = {}
     for entity_id, entity_type, canonical, trust in entities:
         entity_rows[entity_id] = {
@@ -49,6 +58,9 @@ def _index(entities=(), aliases=(), identifiers=()):
             "canonical_name": canonical,
             "normalized_name": normalize_for(entity_type, canonical),
             "trust": trust, "source": "test",
+            # Derived from trust exactly as seeding derives it, so the fixture
+            # cannot accidentally make a provisional identity claim-eligible.
+            "claim_eligible": 1 if is_claim_eligible(trust) else 0,
         }
     alias_rows = []
     for entity_id, surface, alias_type, autolink, ambiguous in aliases:
@@ -453,3 +465,88 @@ def test_repeating_a_name_in_a_chunk_is_not_corroboration():
     for decision in resolve_mentions(mentions, index):
         assert decision.decision == AMBIGUOUS
         assert decision.entity_id is None
+
+
+# --------------------------------------------------------------------------- #
+# Provisional identity. The corpus gives *names* for people, not people: two
+# different "Arun Kumar"s are one row. That conflation cannot be undone, so the
+# model's job is to stop anything treating such a row as a canonical person.
+# --------------------------------------------------------------------------- #
+
+def _person_index(trust):
+    return _index(entities=[(SHARMA_A, "PERSON", "Ritu Sharma", trust)])
+
+
+def _corroborating_context():
+    context = ResolutionContext(document_id=DOC)
+    context.cms_names["PERSON"].add("ritu sharma")
+    return context
+
+
+def test_provisional_person_links_but_is_not_canonical():
+    """The link is still useful — it groups every sighting of the name — but it
+    asserts nothing about identity, so it cannot become a claim subject."""
+    decision = resolve_mention(
+        _mention("Ritu Sharma", "PERSON"), _person_index("provisional"),
+        _corroborating_context(),
+    )
+    assert decision.decision == PROVISIONAL
+    assert decision.entity_id == SHARMA_A
+    assert decision.linked is True
+    assert decision.canonical is False
+    assert decision.claim_eligible is False
+
+
+def test_authoritative_person_is_canonical():
+    decision = resolve_mention(
+        _mention("Ritu Sharma", "PERSON"), _person_index("authoritative"),
+        _corroborating_context(),
+    )
+    assert decision.decision == AUTO
+    assert decision.canonical is True
+    assert decision.claim_eligible is True
+
+
+def test_only_auto_counts_as_canonical():
+    """Claims and graph projection read `canonical`, never the raw entity_id —
+    so PROVISIONAL must not slip through as an identity."""
+    from app.knowledge.resolver import CANONICAL_DECISIONS
+
+    assert CANONICAL_DECISIONS == (AUTO,)
+    assert PROVISIONAL not in CANONICAL_DECISIONS
+
+
+def test_trust_levels_decide_claim_eligibility():
+    from app.knowledge.seed import (
+        TRUST_AUTHORITATIVE, TRUST_DERIVED, TRUST_PROVISIONAL, is_claim_eligible,
+    )
+
+    assert is_claim_eligible(TRUST_AUTHORITATIVE)
+    assert is_claim_eligible(TRUST_DERIVED)
+    assert not is_claim_eligible(TRUST_PROVISIONAL)
+
+
+def test_author_derived_people_are_seeded_provisional():
+    """The seed-level fix: a name from the author facet is a name, not a person.
+    Marking it authoritative would re-create the conflation this phase exists to
+    remove."""
+    from app.knowledge.seed import TRUST_PROVISIONAL, SeedEntity
+
+    entity = SeedEntity(
+        entity_id=SHARMA_A, entity_type="PERSON", canonical_name="Ritu Sharma",
+        normalized_name="ritu sharma", source="documents_author",
+        trust=TRUST_PROVISIONAL,
+    )
+    assert entity.claim_eligible is False
+
+
+def test_provisional_still_obeys_every_veto():
+    """Being provisional is not a licence to link loosely — the vetoes apply
+    first, so contradictory context still refuses outright."""
+    context = ResolutionContext(document_id=DOC)
+    context.cms_names["PERSON"].add("someone else")
+    decision = resolve_mention(
+        _mention("Ritu Sharma", "PERSON"), _person_index("provisional"), context
+    )
+    assert decision.decision == UNRESOLVED
+    assert decision.entity_id is None

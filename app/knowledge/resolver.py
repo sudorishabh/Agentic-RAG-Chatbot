@@ -17,10 +17,23 @@ Tier     Rule                                                        May link?
 5        LLM adjudication (flagged, OFF, not implemented)             no
 =======  ==========================================================  =========
 
-Decisions are ``AUTO`` / ``AMBIGUOUS`` / ``UNRESOLVED`` / ``NEW``. There is no
-``REVIEW`` state: a review band is worth nothing without a reviewer, and this
-repository has no such workflow, so a case that would have been queued is simply
-left ``AMBIGUOUS`` — which is the safe direction anyway.
+Decision states
+---------------
+``AUTO``         linked to a **canonical** identity: may carry claims, may be a
+                 graph-retrieval target.
+``PROVISIONAL``  linked to a name the corpus attests but has not shown to denote
+                 one real-world thing. Groups sightings by name and asserts no
+                 identity, so it may **not** carry claims. Person names from the
+                 author facet are what this exists for: two different people
+                 called "Arun Kumar" are one row, and calling that row a person
+                 would be a false merge committed at seed time.
+``AMBIGUOUS``    plausible but undecided.
+``UNRESOLVED``   no candidate, or every candidate vetoed.
+``NEW``          reserved for a deliberate promotion step; never written here.
+
+There is no ``REVIEW`` state: a review band is worth nothing without a reviewer,
+and this repository has no such workflow, so a case that would have been queued
+is simply left ``AMBIGUOUS`` — which is the safe direction anyway.
 
 The rule the whole design serves: **a false merge is worse than an unresolved
 mention.** Every threshold, veto and margin here is set to fail toward
@@ -45,10 +58,21 @@ logger = logging.getLogger(__name__)
 RESOLVER_VERSION = "entity-resolve-v1"
 
 AUTO = "AUTO"
+# Linked, but to a *provisional* identity — a name the corpus attests without
+# having shown it denotes one real-world thing. Useful for grouping sightings by
+# name; explicitly NOT a canonical identity, so it may not carry claims or be a
+# graph-retrieval target. Kept as its own state rather than folded into AUTO so
+# that "we know who this is" and "we know what this is called" cannot be
+# confused by anything reading the decision log.
+PROVISIONAL = "PROVISIONAL"
 AMBIGUOUS = "AMBIGUOUS"
 UNRESOLVED = "UNRESOLVED"
 NEW = "NEW"
-DECISIONS = (AUTO, AMBIGUOUS, UNRESOLVED, NEW)
+DECISIONS = (AUTO, PROVISIONAL, AMBIGUOUS, UNRESOLVED, NEW)
+
+# The states that assert a canonical identity. Claims and graph projection read
+# this, never the raw `entity_id`.
+CANONICAL_DECISIONS = (AUTO,)
 
 
 @dataclass
@@ -70,15 +94,47 @@ class Decision:
     candidate_audit: list[dict[str, Any]] = field(default_factory=list)
     resolver_version: str = RESOLVER_VERSION
 
+    # False when the link is to a provisional identity. Carried on the decision
+    # itself so a consumer never has to re-look-up the entity to find out.
+    claim_eligible: bool = True
+
     @property
     def linked(self) -> bool:
-        return self.decision == AUTO and self.entity_id is not None
+        """Linked to anything at all, canonical or provisional."""
+        return self.decision in (AUTO, PROVISIONAL) and self.entity_id is not None
+
+    @property
+    def canonical(self) -> bool:
+        """Linked to an identity that may carry claims and answer graph queries."""
+        return self.decision in CANONICAL_DECISIONS and self.entity_id is not None
+
+
+def _link(
+    mention: Any, candidate: Any, *, tier: str, reason: str,
+    scored: list[Scored] | None = None, score: float | None = None,
+    gap: float | None = None,
+) -> "Decision":
+    """A link, downgraded to PROVISIONAL when the target is not canonical.
+
+    The single place a link is built, so the provisional distinction cannot be
+    forgotten by a tier that decides to link.
+    """
+    eligible = getattr(candidate, "claim_eligible", True)
+    return _decide(
+        mention,
+        decision=AUTO if eligible else PROVISIONAL,
+        tier=tier,
+        reason=reason if eligible else f"{reason} (provisional identity)",
+        entity_id=candidate.entity_id, scored=scored, score=score, gap=gap,
+        claim_eligible=eligible,
+    )
 
 
 def _decide(
     mention: Any, *, decision: str, tier: str, reason: str,
     entity_id: str | None = None, scored: list[Scored] | None = None,
     score: float | None = None, gap: float | None = None,
+    claim_eligible: bool = True,
 ) -> Decision:
     return Decision(
         chunk_id=mention.chunk_id,
@@ -93,6 +149,7 @@ def _decide(
         entity_id=entity_id,
         score=score,
         margin=gap,
+        claim_eligible=claim_eligible,
         # Capped: the audit is for explaining a decision, not for storing the
         # whole index in every row.
         candidate_audit=[s.audit() for s in (scored or [])][:8],
@@ -140,10 +197,9 @@ def resolve_mention(
     # ------------------------------------------------------------------ #
     identifier_hits = [c for c in candidates if c.source == "identifier"]
     if identifier_hits:
-        return _decide(
-            mention, decision=AUTO, tier="tier0_identifier",
-            reason="exact identifier match", entity_id=identifier_hits[0].entity_id,
-            score=1.0, gap=1.0,
+        return _link(
+            mention, identifier_hits[0], tier="tier0_identifier",
+            reason="exact identifier match", score=1.0, gap=1.0,
         )
 
     scored = score_candidates(mention, candidates, context)
@@ -175,11 +231,10 @@ def resolve_mention(
                 reason="unique name match but no corroborating context",
                 scored=survivors, score=best.score, gap=gap,
             )
-        return _decide(
-            mention, decision=AUTO, tier=tier,
+        return _link(
+            mention, best.candidate, tier=tier,
             reason="unique exact match" if exact else "unique alias match",
-            entity_id=best.candidate.entity_id, scored=survivors,
-            score=best.score, gap=gap,
+            scored=survivors, score=best.score, gap=gap,
         )
 
     # ------------------------------------------------------------------ #
@@ -191,12 +246,11 @@ def resolve_mention(
 
     if clears_score and clears_margin and corroborated:
         tier = "tier3_corroborated" if best.corroborated else "tier4_scored"
-        return _decide(
-            mention, decision=AUTO, tier=tier,
+        return _link(
+            mention, best.candidate, tier=tier,
             reason=f"score {best.score:.2f} >= {thresholds.auto_score} "
                    f"and margin {gap:.2f} >= {thresholds.auto_margin}",
-            entity_id=best.candidate.entity_id, scored=survivors,
-            score=best.score, gap=gap,
+            scored=survivors, score=best.score, gap=gap,
         )
 
     if best.score >= thresholds.ambiguous_floor:

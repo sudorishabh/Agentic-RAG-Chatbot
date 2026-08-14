@@ -55,12 +55,18 @@ def _context_for(case: dict[str, Any]) -> Any:
     context = ResolutionContext(document_id=f"doc-{case['id']}")
     for name in case.get("doc_authors") or []:
         context.cms_names["PERSON"].add(normalize_for("PERSON", name))
+    # Organization and project context, so the "context that is not about this
+    # person" cases are genuinely exercised rather than merely asserted.
+    for name in case.get("doc_orgs") or []:
+        context.co_mentions["ORGANIZATION"].add(normalize_for("ORGANIZATION", name))
+    for name in case.get("co_projects") or []:
+        context.co_mentions["PROJECT"].add(normalize_for("PROJECT", name))
     return context
 
 
 def evaluate(cases: list[dict[str, Any]]) -> dict[str, Any]:
     from app.knowledge.candidates import EntityIndex
-    from app.knowledge.resolver import AUTO, resolve_mention
+    from app.knowledge.resolver import PROVISIONAL, resolve_mention
 
     index = EntityIndex.load()
     # Expectations are written as NAME:<canonical name>. Ids for CMS-backed
@@ -77,9 +83,11 @@ def evaluate(cases: list[dict[str, Any]]) -> dict[str, Any]:
         return expected
     per_type: dict[str, dict[str, Any]] = defaultdict(
         lambda: {
-            "n": 0, "auto": 0, "ambiguous": 0, "unresolved": 0, "new": 0,
+            "n": 0, "auto": 0, "provisional": 0, "ambiguous": 0,
+            "unresolved": 0, "new": 0,
             "correct_link": 0, "false_merge": 0, "missed_link": 0,
-            "false_merges": [], "declined": [],
+            "canonical_leak": 0,
+            "false_merges": [], "canonical_leaks": [], "declined": [],
         }
     )
     rows: list[dict[str, Any]] = []
@@ -91,8 +99,27 @@ def evaluate(cases: list[dict[str, Any]]) -> dict[str, Any]:
         stats[decision.decision.lower()] += 1
 
         expected = _expected_id(case["expected"])
-        linked = decision.decision == AUTO and decision.entity_id is not None
-        if expected == "NO_LINK":
+        # `linked` covers a provisional link too: for a NO_LINK case, grouping a
+        # surface under a name is still a claim the corpus does not support.
+        linked = decision.linked
+        canonical = decision.canonical
+
+        if expected == "NO_CANONICAL":
+            # The requirement that a provisional identity can never become a
+            # claim subject. A provisional link is fine and expected; a
+            # canonical one is the failure this expectation exists to catch.
+            if canonical:
+                stats["canonical_leak"] += 1
+                stats["canonical_leaks"].append(
+                    f"{case['id']} {case['surface']!r} -> {decision.entity_id} "
+                    f"AUTO ({case['category']})"
+                )
+            else:
+                stats["declined"].append(
+                    f"{case['id']} {case['surface']!r} {decision.decision} "
+                    f"({case['category']}: {decision.reason[:58]})"
+                )
+        elif expected == "NO_LINK":
             # Any link here is a false merge: the case says nothing should be
             # linked, so a link is an identity the corpus does not support.
             if linked:
@@ -142,6 +169,8 @@ def evaluate(cases: list[dict[str, Any]]) -> dict[str, Any]:
         links = stats["correct_link"] + stats["false_merge"]
         stats["precision"] = stats["correct_link"] / links if links else None
         stats["false_merge_rate"] = stats["false_merge"] / n
+        stats["canonical_leak_rate"] = stats["canonical_leak"] / n
+        stats["provisional_rate"] = stats["provisional"] / n
         stats["auto_rate"] = stats["auto"] / n
         stats["ambiguous_rate"] = stats["ambiguous"] / n
         stats["unresolved_rate"] = stats["unresolved"] / n
@@ -171,17 +200,30 @@ def main(argv: list[str] | None = None) -> int:
 
     print(f"Cases: {len(cases)}   reviewed: {bool(gold.get('reviewed'))}")
     print(
-        f"\n  {'type':14} {'n':>3} {'FALSE-MERGE':>12} {'prec':>7} "
-        f"{'auto':>7} {'ambig':>7} {'unres':>7}"
+        f"\n  {'type':14} {'n':>3} {'FALSE-MERGE':>12} {'LEAK':>6} {'prec':>7} "
+        f"{'auto':>7} {'prov':>7} {'ambig':>7} {'unres':>7}"
     )
     for entity_type in sorted(per_type):
         s = per_type[entity_type]
         print(
             f"  {entity_type:14} {s['n']:>3} {_fmt(s['false_merge_rate']):>12} "
-            f"{_fmt(s['precision']):>7} {_fmt(s['auto_rate']):>7} "
+            f"{_fmt(s['canonical_leak_rate']):>6} {_fmt(s['precision']):>7} "
+            f"{_fmt(s['auto_rate']):>7} {_fmt(s['provisional_rate']):>7} "
             f"{_fmt(s['ambiguous_rate']):>7} {_fmt(s['unresolved_rate']):>7}"
         )
+    print(
+        "\n  FALSE-MERGE = linked to the wrong entity, or linked at all where "
+        "nothing should link."
+        "\n  LEAK        = asserted a canonical identity for a provisional one "
+        "(a claim subject that is only a name)."
+    )
 
+    for entity_type in sorted(per_type):
+        s = per_type[entity_type]
+        if s["canonical_leaks"]:
+            print(f"\n  {entity_type} CANONICAL LEAKS ({s['canonical_leak']}):")
+            for line in s["canonical_leaks"]:
+                print(f"    ! {line}")
     for entity_type in sorted(per_type):
         s = per_type[entity_type]
         if s["false_merges"]:
@@ -200,10 +242,12 @@ def main(argv: list[str] | None = None) -> int:
         print(f"\nWrote {args.json_out}")
 
     worst = max((s["false_merge_rate"] for s in per_type.values()), default=0.0)
-    passed = worst <= MAX_FALSE_MERGE_RATE
+    leak = max((s["canonical_leak_rate"] for s in per_type.values()), default=0.0)
+    passed = worst <= MAX_FALSE_MERGE_RATE and leak <= MAX_FALSE_MERGE_RATE
     print(
-        f"\nSAFETY GATE: false-merge rate {worst:.3f} "
-        f"<= {MAX_FALSE_MERGE_RATE:.3f} -> {'PASS' if passed else 'FAIL'}"
+        f"\nSAFETY GATE: false-merge {worst:.3f}, canonical-leak {leak:.3f} "
+        f"(both must be <= {MAX_FALSE_MERGE_RATE:.3f}) -> "
+        f"{'PASS' if passed else 'FAIL'}"
     )
     if not passed:
         print("Graph projection must not proceed while this fails.")

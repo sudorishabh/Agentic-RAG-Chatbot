@@ -296,6 +296,19 @@ def load_rows() -> list[tuple[str, str, str]]:
                     (value, entity_type, field_name)
                     for value in _json_values(row["v"])
                 )
+        # Deliberately NOT restricted to `entity_type='node'`, unlike the seeder
+        # (app.knowledge.seed._seed_projects), which creates a PROJECT entity
+        # only for a node. A PDF attachment inherits its parent's bundle, so
+        # this picks up ~159 further titles that have no canonical entity —
+        # "Water Sustainability Assessment of Chennai" among them, which is a
+        # real project name the CMS happens to hold only as an event and a news
+        # item.
+        #
+        # Those mentions are extracted and then resolve to UNRESOLVED, and that
+        # is the intended division of labour: extraction reports sightings,
+        # resolution decides identity. Filtering them here would trade a real
+        # mention for nothing, since junk titles like "Download" are already
+        # excluded by the minimum-token rule in `_eligible`.
         placeholders = ", ".join(["%s"] * len(_PROJECT_BUNDLES))
         cur.execute(
             f"SELECT title FROM `{table}` WHERE bundle IN ({placeholders}) "

@@ -70,6 +70,32 @@ def entity_id_for(entity_type: str, seed_key: str) -> str:
     return f"{_PREFIX[entity_type]}_{digest[:12]}"
 
 
+# Identity confidence, and what each level licenses.
+#
+# AUTHORITATIVE  a CMS record asserts this thing exists and is distinct. Safe to
+#                carry claims and to answer graph queries about.
+# DERIVED        no CMS record of its own, but the name is discriminative enough
+#                that one name reliably denotes one thing. Organizations sit
+#                here: "Ministry of External Affairs" names one ministry.
+# PROVISIONAL    a name the corpus attests, which has NOT been shown to denote
+#                exactly one real-world thing. Person names from the author
+#                facet are the case this exists for: two different people called
+#                "Arun Kumar" are one row, so the row is a *name*, not a person.
+TRUST_AUTHORITATIVE = "authoritative"
+TRUST_DERIVED = "derived"
+TRUST_PROVISIONAL = "provisional"
+
+# Only these may be a claim subject/object or a graph-retrieval target. A
+# provisional identity is deliberately excluded: attaching a claim to it would
+# assert something about a person the corpus has not distinguished.
+CLAIM_ELIGIBLE_TRUST = frozenset({TRUST_AUTHORITATIVE, TRUST_DERIVED})
+
+
+def is_claim_eligible(trust: str) -> bool:
+    """Whether an identity at this trust level may carry claims."""
+    return trust in CLAIM_ELIGIBLE_TRUST
+
+
 @dataclass
 class SeedEntity:
     entity_id: str
@@ -78,9 +104,13 @@ class SeedEntity:
     normalized_name: str
     source: str
     cms_uuid: str | None = None
-    trust: str = "derived"
+    trust: str = TRUST_DERIVED
     aliases: list[tuple[str, str, str]] = field(default_factory=list)  # surface, type, source
     identifiers: list[tuple[str, str]] = field(default_factory=list)   # scheme, value
+
+    @property
+    def claim_eligible(self) -> bool:
+        return is_claim_eligible(self.trust)
 
 
 def _is_name_like(normalized: str) -> bool:
@@ -123,7 +153,7 @@ def _seed_projects(cur, table: str) -> list[SeedEntity]:
             normalized_name=normalized,
             source="cms_project_node",
             cms_uuid=uuid,
-            trust="authoritative",
+            trust=TRUST_AUTHORITATIVE,
             aliases=[(title, "title", "cms_project_node")],
         )
         raw = row["raw_meta"]
@@ -163,13 +193,23 @@ def _seed_people(cur, table: str) -> list[SeedEntity]:
                 normalized_name=normalized,
                 source="cms_people_node",
                 cms_uuid=row["document_id"],
-                trust="authoritative",
+                trust=TRUST_AUTHORITATIVE,
                 aliases=[(name, "full_name", "cms_people_node")],
             )
         )
 
-    # Derived: author names. Keyed by the normalized name, so the same person
-    # written three ways collapses to one entity here rather than three.
+    # Everything below is PROVISIONAL, and the distinction is the whole point.
+    #
+    # The author facet gives *names*, not people. Keying by normalized name
+    # means one row per name, so two different people called "Arun Kumar" are
+    # one row — and that conflation is unavoidable, because the corpus carries
+    # nothing that would tell them apart. What can be avoided is *lying about
+    # it*: these rows are marked provisional, so nothing downstream may treat a
+    # name-level grouping as a canonical person.
+    #
+    # An author name that matches an authoritative people-node becomes an alias
+    # of that node instead, which is how the 8 real identities absorb their own
+    # spelling variants.
     seen: dict[str, SeedEntity] = {e.normalized_name: e for e in out}
     for source, values in _author_sources(cur, table):
         for name in values:
@@ -197,6 +237,7 @@ def _seed_people(cur, table: str) -> list[SeedEntity]:
                 canonical_name=name,
                 normalized_name=normalized,
                 source=source,
+                trust=TRUST_PROVISIONAL,
                 aliases=[(name, "full_name", source)],
             )
             seen[normalized] = entity

@@ -578,6 +578,13 @@ CREATE TABLE IF NOT EXISTS `{table}_entity` (
     cms_uuid        VARCHAR(255) NULL,
     trust           VARCHAR(16)  NOT NULL DEFAULT 'derived',
     status          VARCHAR(16)  NOT NULL DEFAULT 'active',
+    -- Whether this entity may be the subject or object of a claim, and a target
+    -- for graph retrieval. 0 for a *provisional* identity: a name the corpus
+    -- attests but has not shown to denote exactly one real-world thing. The
+    -- author facet is full of these -- two different people called "Arun Kumar"
+    -- are one row here -- so linking a mention to such a row groups sightings
+    -- by name and asserts nothing about identity.
+    claim_eligible  TINYINT(1)   NOT NULL DEFAULT 1,
     merged_into     VARCHAR(64)  NULL,
     created_at      DATETIME     NOT NULL,
     updated_at      DATETIME     NOT NULL,
@@ -635,6 +642,10 @@ CREATE TABLE IF NOT EXISTS `{table}_entity_resolution_decision` (
     entity_type       VARCHAR(32)  NOT NULL,
     decision          VARCHAR(16)  NOT NULL,
     entity_id         VARCHAR(64)  NULL,
+    -- Whether the linked identity may carry claims. Denormalized onto the
+    -- decision so a consumer never has to join back to the entity to find out,
+    -- and so the log stays readable after a later promotion changes the entity.
+    claim_eligible    TINYINT(1)   NOT NULL DEFAULT 1,
     tier              VARCHAR(24)  NOT NULL,
     score             FLOAT        NULL,
     margin            FLOAT        NULL,
@@ -658,4 +669,15 @@ def ensure_resolution_tables() -> None:
         cur.execute(_ENTITY_ALIAS_DDL.format(table=table))
         cur.execute(_ENTITY_IDENTIFIER_DDL.format(table=table))
         cur.execute(_ENTITY_DECISION_DDL.format(table=table))
+        # Added after the table shipped: a deployment created before the
+        # provisional-identity distinction existed has every entity implicitly
+        # claim-eligible, which is the unsafe default the column exists to fix.
+        _ensure_column(
+            cur, f"{table}_entity", "claim_eligible",
+            "claim_eligible TINYINT(1) NOT NULL DEFAULT 1",
+        )
+        _ensure_column(
+            cur, f"{table}_entity_resolution_decision", "claim_eligible",
+            "claim_eligible TINYINT(1) NOT NULL DEFAULT 1",
+        )
         conn.commit()
