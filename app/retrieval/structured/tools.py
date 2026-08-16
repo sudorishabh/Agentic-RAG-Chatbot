@@ -632,10 +632,42 @@ def aggregate_records(
 THEME_VOCABULARY_LIMIT = 200
 
 
+# What a theme listing is allowed to expose. `main` is the default because a
+# generic "what themes do you cover?" is a question about the organisation's
+# thematic areas, not an inventory of every vocabulary term the CMS happens to
+# hold; Other themes are real but peripheral, and answer a different question.
+SCOPE_MAIN = "main"
+SCOPE_OTHER = "other"
+SCOPE_ALL = "all"
+THEME_SCOPES = (SCOPE_MAIN, SCOPE_OTHER, SCOPE_ALL)
+
+
+def _split_by_group(primary: list[dict[str, Any]]) -> dict[str, list[str]]:
+    """Top-level themes bucketed by `theme_group`, as a positive allow-list.
+
+    Matching each group by equality rather than testing `!= 'main'` matters: a
+    theme the map does not know carries `NULL`, and `NULL != 'main'` would file
+    it under Other — presenting a term discovered in Drupal as part of a curated
+    structure it was never added to. Unclassified themes get their own bucket so
+    they can be reported without being dressed up as something they are not.
+    """
+    buckets: dict[str, list[str]] = {SCOPE_MAIN: [], SCOPE_OTHER: [], "unclassified": []}
+    for row in primary:
+        group = row.get("theme_group")
+        if group == SCOPE_MAIN:
+            buckets[SCOPE_MAIN].append(row["theme"])
+        elif group == SCOPE_OTHER:
+            buckets[SCOPE_OTHER].append(row["theme"])
+        else:
+            buckets["unclassified"].append(row["theme"])
+    return buckets
+
+
 def list_themes(
     *,
     children: bool = False,
     parent: str | None = None,
+    scope: str = SCOPE_MAIN,
     limit: int = THEME_VOCABULARY_LIMIT,
     output_format: str = "default",
 ) -> ToolResult:
@@ -644,8 +676,7 @@ def list_themes(
     Three shapes, because "what themes are there", "show them with their
     children" and "what's under Environment" are different questions:
 
-    * default — the **top-level themes only** (`theme_type='primary'`), split
-      into Main themes then Other themes per the `theme_group` column. Sub-themes
+    * default — the **top-level themes only** (`theme_type='primary'`). Sub-themes
       are excluded: mixing "Air" and "Waste" in with "Climate Change" and
       "Energy" both overstates the count and flattens the hierarchy the taxonomy
       exists to express.
@@ -655,10 +686,21 @@ def list_themes(
     * `children=True, parent=X` — only X's sub-themes. The surrounding sentence
       names X, so it is not repeated as an entry.
 
-    Reads `documents_theme`, so it lists what documents actually carry. A theme
-    whose group was never classified (`NULL`) lists under Other rather than being
-    dropped. An empty result or a query failure returns ok=False so the caller can
-    fall through to semantic search."""
+    ``scope`` selects which groups are exposed, and defaults to Main:
+
+    * ``"main"`` — Main themes only, and the reported total counts only those.
+      A generic theme question gets the curated thematic areas and nothing else.
+    * ``"other"`` — Other themes only, for a question that explicitly asks for
+      them.
+    * ``"all"`` — every group, including themes the map has not classified,
+      which are labelled as such rather than folded into Other.
+
+    Reads `documents_theme`, so it lists what documents actually carry, with the
+    grouping `app.catalog.theme_taxonomy` materialized at ingest. An empty result
+    or a query failure returns ok=False so the caller can fall through to
+    semantic search."""
+    if scope not in THEME_SCOPES:
+        scope = SCOPE_MAIN
     try:
         rows = state.theme_vocabulary(limit=limit)
     except Exception:
@@ -673,41 +715,69 @@ def list_themes(
     primary = [r for r in rows if r["theme_type"] == "primary"]
     if not primary:
         return ToolResult(tool="list_themes", ok=False, error="no themes found")
-    main = [r["theme"] for r in primary if r["theme_group"] == "main"]
-    other = [r["theme"] for r in primary if r["theme_group"] != "main"]
-    total = len(main) + len(other)
+
+    buckets = _split_by_group(primary)
+    main, other = buckets[SCOPE_MAIN], buckets[SCOPE_OTHER]
+    unclassified = buckets["unclassified"]
+
+    if scope == SCOPE_MAIN:
+        sections = [("Main themes", main)]
+    elif scope == SCOPE_OTHER:
+        sections = [("Other themes", other)]
+    else:
+        sections = [("Main themes", main), ("Other themes", other),
+                    ("Unclassified themes", unclassified)]
+    sections = [(label, names) for label, names in sections if names]
+    if not sections:
+        # The requested group is empty — "show me the other themes" when there
+        # are none. ok=False so the caller falls through rather than rendering a
+        # heading over nothing.
+        return ToolResult(
+            tool="list_themes", ok=False, error=f"no {scope} themes found"
+        )
+
+    listed = [name for _, names in sections for name in names]
+    total = len(listed)
 
     by_parent: dict[str, list[str]] = {}
     for row in rows:
         if row["theme_type"] == "sub" and row["parent"]:
             by_parent.setdefault(row["parent"], []).append(row["theme"])
+    # Only the sub-themes of themes actually being listed, so a Main-scoped
+    # answer cannot reach an Other theme's children.
+    shown_parents = {name: kids for name, kids in by_parent.items() if name in listed}
+
+    data: dict[str, Any] = {
+        "themes": listed, "scope": scope,
+        "main_themes": main if scope in (SCOPE_MAIN, SCOPE_ALL) else [],
+        "other_themes": other if scope in (SCOPE_OTHER, SCOPE_ALL) else [],
+    }
+    # A single-group answer needs no group heading; the sentence already says
+    # which themes these are, and a lone "Main themes:" label implies a second
+    # section that is deliberately absent.
+    labelled = len(sections) > 1
 
     if children:
-        sections = [("Main themes", main)] if main else []
-        if other:
-            sections.append(("Other themes", other))
         body = "\n\n".join(
-            _theme_tree_section(label, names, by_parent, output_format)
+            _theme_tree_section(
+                label if labelled else "", names, shown_parents, output_format
+            )
             for label, names in sections
         )
-        subs = [s for names in by_parent.values() for s in names]
-        return ToolResult(
-            tool="list_themes", ok=True,
-            data={"themes": main + other, "main_themes": main, "other_themes": other,
-                  "sub_themes": subs, "by_parent": by_parent},
-            rendered=f"The collection covers {total} themes:\n\n{body}",
+        data["sub_themes"] = [s for names in shown_parents.values() for s in names]
+        data["by_parent"] = shown_parents
+    else:
+        body = "\n\n".join(
+            _theme_section(label if labelled else "", names, output_format)
+            for label, names in sections
         )
 
-    sections = [("Main themes", main)] if main else []
-    if other:
-        sections.append(("Other themes", other))
-    rendered = f"The collection covers {total} themes:\n\n" + "\n\n".join(
-        _theme_section(label, group_names, output_format) for label, group_names in sections
-    )
+    noun = {
+        SCOPE_MAIN: "main themes", SCOPE_OTHER: "other themes", SCOPE_ALL: "themes",
+    }[scope]
     return ToolResult(
-        tool="list_themes", ok=True,
-        data={"themes": main + other, "main_themes": main, "other_themes": other},
-        rendered=rendered,
+        tool="list_themes", ok=True, data=data,
+        rendered=f"The collection covers {total} {noun}:\n\n{body}",
     )
 
 

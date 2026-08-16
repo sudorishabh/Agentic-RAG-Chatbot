@@ -673,7 +673,7 @@ def test_list_themes_reports_the_whole_vocabulary_not_a_page(monkeypatch):
     r = tools.list_themes()
     assert seen["limit"] == tools.THEME_VOCABULARY_LIMIT
     assert len(r.data["themes"]) == 30
-    assert r.rendered.startswith("The collection covers 30 themes:")
+    assert r.rendered.startswith("The collection covers 30 main themes:")
 
 
 
@@ -702,11 +702,12 @@ def test_list_themes_excludes_sub_themes_from_the_default_listing(monkeypatch):
     sub-themes both overstates the total and flattens the hierarchy."""
     monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
     r = tools.list_themes()
-    assert r.data["themes"] == ["Energy", "Green Shipping"]
+    assert r.data["themes"] == ["Energy"]
     assert r.data["main_themes"] == ["Energy"]
-    assert r.data["other_themes"] == ["Green Shipping"]
-    assert r.rendered.startswith("The collection covers 2 themes:")
+    assert r.data["other_themes"] == []
+    assert r.rendered.startswith("The collection covers 1 main themes:")
     assert "Energy Access" not in r.rendered
+    assert "Green Shipping" not in r.rendered
 
 
 def test_list_themes_children_renders_the_full_tree(monkeypatch):
@@ -715,8 +716,23 @@ def test_list_themes_children_renders_the_full_tree(monkeypatch):
     monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
     r = tools.list_themes(children=True)
     assert r.ok
-    assert r.data["themes"] == ["Energy", "Green Shipping"]
+    assert r.data["themes"] == ["Energy"]
     assert r.data["by_parent"] == {"Energy": ["Energy Access", "Energy Efficiency"]}
+    # One section needs no group heading: a lone "Main themes:" label implies
+    # a second section that is deliberately absent.
+    assert r.rendered == (
+        "The collection covers 1 main themes:\n\n"
+        "- Energy\n"
+        "    - Energy Access\n"
+        "    - Energy Efficiency"
+    )
+
+
+def test_list_themes_children_renders_both_groups_when_scope_is_all(monkeypatch):
+    """Asked for everything, the tree keeps the Main/Other split and labels it."""
+    monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
+    r = tools.list_themes(children=True, scope="all")
+    assert r.data["themes"] == ["Energy", "Green Shipping"]
     assert r.rendered == (
         "The collection covers 2 themes:\n\n"
         "Main themes:\n"
@@ -732,8 +748,8 @@ def test_list_themes_children_keeps_themes_that_have_none(monkeypatch):
     """The count must not shrink between "how many themes" and "with their
     children" — a childless theme still appears, just without a nested list."""
     monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
-    plain = tools.list_themes()
-    tree = tools.list_themes(children=True)
+    plain = tools.list_themes(scope="all")
+    tree = tools.list_themes(children=True, scope="all")
     assert tree.data["themes"] == plain.data["themes"]
     assert tree.rendered.startswith("The collection covers 2 themes:")
     assert "- Green Shipping" in tree.rendered  # no children, still listed
@@ -743,7 +759,7 @@ def test_list_themes_children_as_a_table_groups_rows_under_one_theme(monkeypatch
     """The theme is named on its first row only. Repeating it down the column
     reads as unrelated pairs instead of one theme owning several sub-themes."""
     monkeypatch.setattr("app.catalog.queries.theme_vocabulary", lambda **kw: _mixed_vocab())
-    r = tools.list_themes(children=True, output_format="table")
+    r = tools.list_themes(children=True, scope="all", output_format="table")
     assert r.rendered == (
         "The collection covers 2 themes:\n\n"
         "**Main themes**\n"
@@ -807,25 +823,75 @@ def test_list_themes_splits_main_and_other(monkeypatch):
         "app.catalog.queries.theme_vocabulary",
         lambda **kw: _theme_vocab("Energy", ("Green Shipping", "other")),
     )
-    r = tools.list_themes()
+    r = tools.list_themes(scope="all")
     assert r.data["main_themes"] == ["Energy"]
     assert r.data["other_themes"] == ["Green Shipping"]
     assert r.rendered.index("Main themes:") < r.rendered.index("Other themes:")
     assert "- Energy" in r.rendered and "- Green Shipping" in r.rendered
 
 
-def test_list_themes_ungrouped_theme_lists_under_other(monkeypatch):
-    """theme_group is NULL for a theme ingestion never classified — it must list
-    under Other rather than being dropped."""
+def test_a_generic_listing_never_exposes_other_themes(monkeypatch):
+    """The requirement in one test: the default listing is the curated
+    thematic structure, not an inventory of every term the CMS holds."""
     monkeypatch.setattr(
         "app.catalog.queries.theme_vocabulary",
-        lambda **kw: _theme_vocab(("Quantum Beekeeping", None)),
+        lambda **kw: _theme_vocab("Energy", ("Green Shipping", "other")),
     )
     r = tools.list_themes()
+    assert r.data["themes"] == ["Energy"]
+    assert "Green Shipping" not in r.rendered
+    assert "Other themes" not in r.rendered
+
+
+def test_an_explicit_other_request_returns_only_other_themes(monkeypatch):
+    monkeypatch.setattr(
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: _theme_vocab("Energy", ("Green Shipping", "other")),
+    )
+    r = tools.list_themes(scope="other")
+    assert r.data["themes"] == ["Green Shipping"]
     assert r.data["main_themes"] == []
-    assert r.data["other_themes"] == ["Quantum Beekeeping"]
-    assert "Main themes" not in r.rendered
-    assert "Other themes:\n- Quantum Beekeeping" in r.rendered
+    assert "Energy" not in r.rendered
+    assert r.rendered.startswith("The collection covers 1 other themes:")
+
+
+def test_asking_for_other_themes_when_there_are_none_falls_through(monkeypatch):
+    """Better to fall through to semantic search than render a heading over
+    an empty list."""
+    monkeypatch.setattr(
+        "app.catalog.queries.theme_vocabulary", lambda **kw: _theme_vocab("Energy"),
+    )
+    r = tools.list_themes(scope="other")
+    assert r.ok is False and r.error == "no other themes found"
+
+
+def test_an_unknown_scope_falls_back_to_main(monkeypatch):
+    """Fail safe: an unrecognised scope must not widen the answer."""
+    monkeypatch.setattr(
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: _theme_vocab("Energy", ("Green Shipping", "other")),
+    )
+    assert tools.list_themes(scope="everything").data["themes"] == ["Energy"]
+
+
+def test_an_ungrouped_theme_is_not_presented_as_an_other_theme(monkeypatch):
+    """`theme_group` is NULL for a theme discovered in Drupal that the theme
+    map does not define. Filing it under Other would present a term nobody
+    curated as part of a curated structure. Testing for inequality against
+    the main group is how that happens, since NULL is not equal to it.
+
+    It is not dropped: `scope="all"` reports it, labelled for what it is.
+    """
+    monkeypatch.setattr(
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: _theme_vocab("Energy", ("Quantum Beekeeping", None)),
+    )
+    assert "Quantum Beekeeping" not in tools.list_themes().rendered
+    assert tools.list_themes(scope="other").ok is False
+
+    everything = tools.list_themes(scope="all")
+    assert everything.data["other_themes"] == []
+    assert "Unclassified themes:\n- Quantum Beekeeping" in everything.rendered
 
 
 
@@ -834,7 +900,7 @@ def test_list_themes_table_format_has_two_labelled_sections(monkeypatch):
         "app.catalog.queries.theme_vocabulary",
         lambda **kw: _theme_vocab("Energy", ("Green Shipping", "other")),
     )
-    r = tools.list_themes(output_format="table")
+    r = tools.list_themes(scope="all", output_format="table")
     assert "**Main themes**" in r.rendered and "**Other themes**" in r.rendered
     assert "| Energy |" in r.rendered and "| Green Shipping |" in r.rendered
 
