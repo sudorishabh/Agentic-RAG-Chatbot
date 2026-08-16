@@ -24,6 +24,13 @@ ResolveType = Literal["author", "bundle", "theme"]
 # the tool: theme->theme, content_type->bundle, author, year).
 GroupBy = Literal["theme", "content_type", "author", "year"]
 
+# What a count counts. "records" is the documents themselves; the others
+# count distinct values of that facet, which is a different question with a
+# different noun in the answer — "264 authors work on Energy" is not "264
+# articles". Same vocabulary as GroupBy so one dimension means one thing
+# whether it is counted or grouped on.
+CountOf = Literal["records", "theme", "content_type", "author", "year"]
+
 
 @dataclass
 class RecordFilters:
@@ -34,6 +41,10 @@ class RecordFilters:
     """
 
     theme: str | None = None
+    # Restrict to themes from one bucket of the theme map ("main"/"other").
+    # Set from the question by `theme_scope.detect`, and left None whenever
+    # the user named a theme — a named Other theme must stay countable.
+    theme_group: str | None = None
     tag: str | None = None
     author: str | None = None
     title_contains: str | None = None
@@ -52,7 +63,12 @@ class ToolCall:
     filters: RecordFilters = field(default_factory=RecordFilters)
     # aggregate_records
     group_by: GroupBy | None = None
+    # A second grouping dimension, making the key the *pair*: "which authors
+    # write about which themes" is one question, not a breakdown per author.
+    secondary_group_by: GroupBy | None = None
     aggregation: str = "count"
+    # count_records: count distinct values of this facet instead of documents.
+    count_of: CountOf = "records"
     # lookup_record
     title: str | None = None
     # list_records / lookup_record

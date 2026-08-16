@@ -592,3 +592,91 @@ def test_process_passthrough_has_no_analysis(monkeypatch):
     pq = qp.process("hello")
     assert pq.analysis is None
     assert pq.intent == "qa"
+
+
+# --------------------------------------------------------------------------- #
+# A count and a breakdown of the same scope must agree.
+#
+# They diverged in two places, and both were invisible because every registered
+# bundle is currently a website node:
+#
+#   * `distribution` defaulted `source_type` to "website" while its two sibling
+#     functions defaulted to None, so the same author was 35 documents in a
+#     breakdown and 46 in a count;
+#   * `aggregate_records` hardcoded source_type/entity_type instead of reading
+#     them off the entity the way `count_records` does.
+#
+# The numbers a user is told are the product this system sells, so the invariant
+# is asserted directly rather than left to the two call sites to keep in step.
+# --------------------------------------------------------------------------- #
+
+
+def test_distribution_defaults_to_no_source_filter_like_its_siblings():
+    """Every other parameter of these functions means "no filter" when unset."""
+    import inspect
+
+    from app.catalog import queries
+
+    defaults = {
+        fn.__name__: inspect.signature(fn).parameters["source_type"].default
+        for fn in (queries.count_documents, queries.list_documents,
+                   queries.distribution)
+    }
+    assert set(defaults.values()) == {None}, defaults
+
+
+def test_aggregate_records_scopes_from_the_entity_not_a_hardcoded_default(
+    monkeypatch,
+):
+    """A bundle that is not a website node must scope the breakdown to what it
+    actually is — otherwise a count and its breakdown answer differently."""
+    from app.retrieval.structured import tools
+    from app.retrieval.structured.types import RecordFilters
+
+    class _Entity:
+        name = "report"
+        source_type = "pdf_attachment"
+        entity_type = "file"
+
+    seen = {}
+
+    def _fake_distribution(dimension, **kwargs):
+        seen.update(kwargs)
+        return [("Energy", 3)]
+
+    # A registered bundle name, so `_entity_guard` lets it through, standing in
+    # for one whose source kind is not a website node.
+    monkeypatch.setattr(tools, "get_entity", lambda name: _Entity())
+    monkeypatch.setattr(tools.state, "distribution", _fake_distribution)
+    tools.aggregate_records("report", "theme", RecordFilters())
+
+    assert seen["source_type"] == "pdf_attachment"
+    assert seen["entity_type"] == "file"
+
+
+def test_count_and_aggregate_scope_the_same_entity_identically(monkeypatch):
+    """The two tools must derive their scope the same way, so a total and a
+    breakdown of that total can never disagree."""
+    from app.retrieval.structured import tools
+    from app.retrieval.structured.types import RecordFilters
+
+    class _Entity:
+        name = "report"
+        source_type = "pdf"
+        entity_type = "file"
+
+    counted, grouped = {}, {}
+    monkeypatch.setattr(tools, "get_entity", lambda name: _Entity())
+    monkeypatch.setattr(
+        tools.state, "count_documents",
+        lambda **kw: counted.update(kw) or 7,
+    )
+    monkeypatch.setattr(
+        tools.state, "distribution",
+        lambda dimension, **kw: grouped.update(kw) or [("Energy", 7)],
+    )
+    tools.count_records("report", RecordFilters())
+    tools.aggregate_records("report", "theme", RecordFilters())
+
+    for key in ("source_type", "entity_type", "bundle"):
+        assert counted[key] == grouped[key], (key, counted[key], grouped[key])

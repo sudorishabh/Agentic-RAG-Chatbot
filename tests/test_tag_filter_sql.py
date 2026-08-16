@@ -95,7 +95,7 @@ def test_distribution_scoped_by_tag_is_not_a_group_dimension(monkeypatch):
     cursor = _FakeCursor(fetchall_results=[[{"k": "report", "n": 2}]])
     _patch(monkeypatch, cursor)
 
-    rows = state.distribution("bundle", tag="solar")
+    rows = state.distribution("bundle", source_type="website", tag="solar")
     assert rows == [("report", 2)]
     sql, params = cursor.calls[0]
     assert "_tag` t" in sql and "t.tag = %s" in sql

@@ -30,6 +30,11 @@ Intent = Literal["qa", "structured", "scoped_summary", "chitchat"]
 AnswerFormat = Literal["default", "list", "table", "summary", "detailed", "timeline"]
 Operation = Literal["count", "list", "lookup", "distribution", "list_themes"]
 GroupBy = Literal["theme", "content_type", "author", "year"]
+# What a count counts: the documents, or the distinct values of one facet.
+# Mirrors `app.retrieval.structured.types.CountOf`, defined here for the same
+# reason `GroupBy` is — this module is the upstream contract and does not import
+# from the structured package.
+CountOf = Literal["records", "theme", "content_type", "author", "year"]
 
 
 class QueryAnalysis(BaseModel):
@@ -48,6 +53,10 @@ class QueryAnalysis(BaseModel):
     operation: Operation | None = None
     bundle: str | None = None
     group_by: GroupBy | None = None
+    # Second grouping dimension (pairs), and what a count counts. Both
+    # default to today's behaviour when unset.
+    secondary_group_by: GroupBy | None = None
+    count_of: CountOf = "records"
     # list_themes: the user asked for sub-themes/children rather than the
     # top-level themes.
     theme_children: bool = False

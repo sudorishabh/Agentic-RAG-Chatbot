@@ -50,6 +50,7 @@ def _catalog_filters(
     title_contains: str | None = None,
     author: str | None = None,
     theme: str | None = None,
+    theme_group: str | None = None,
     tag: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
@@ -105,6 +106,17 @@ def _catalog_filters(
         clauses.append("(c.theme = %s OR c.parent = %s)")
         params.extend((theme, theme))
         distinct = True
+    if theme_group:
+        # Documents carrying at least one theme from this group. Matched by
+        # equality, never as "not the other group": a theme the theme map does
+        # not define has a NULL group, and `<> 'other'` is not true of NULL — nor
+        # should an uncurated CMS term be counted as part of a curated one.
+        # Joined separately from `theme` so "under Energy" and "in a main theme"
+        # combine as AND rather than fighting over one alias.
+        joins.append(f" JOIN `{table}_theme` g ON g.document_id = s.document_id")
+        clauses.append("g.theme_group = %s")
+        params.append(theme_group)
+        distinct = True
     if tag:
         joins.append(f" JOIN `{table}_tag` t ON t.document_id = s.document_id")
         clauses.append("t.tag = %s")
@@ -121,6 +133,7 @@ def count_documents(
     title_contains: str | None = None,
     author: str | None = None,
     theme: str | None = None,
+    theme_group: str | None = None,
     tag: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
@@ -136,7 +149,7 @@ def count_documents(
     table = _table()
     joins, clauses, params, distinct = _catalog_filters(
         source_type, bundle, entity_type=entity_type, title_contains=title_contains,
-        author=author, theme=theme, tag=tag,
+        author=author, theme=theme, theme_group=theme_group, tag=tag,
         published_from=published_from, published_to=published_to,
     )
     count_expr = "COUNT(DISTINCT s.document_id)" if distinct else "COUNT(*)"
@@ -156,6 +169,7 @@ def list_documents(
     title_contains: str | None = None,
     author: str | None = None,
     theme: str | None = None,
+    theme_group: str | None = None,
     tag: str | None = None,
     published_from: datetime | None = None,
     published_to: datetime | None = None,
@@ -172,7 +186,7 @@ def list_documents(
     joins, clauses, params, needs_distinct = _catalog_filters(
         source_type, bundle, entity_type=entity_type,
         title_contains=title_contains, author=author,
-        theme=theme, tag=tag,
+        theme=theme, theme_group=theme_group, tag=tag,
         published_from=published_from, published_to=published_to,
     )
     distinct = "DISTINCT " if needs_distinct else ""
@@ -197,12 +211,13 @@ _DISTRIBUTION_DIMENSIONS = ("bundle", "author", "theme", "year")
 
 def distribution(
     group_by: str,
-    source_type: str | None = "website",
+    source_type: str | None = None,
     bundle: str | None = None,
     *,
     entity_type: str | None = None,
     author: str | None = None,
     theme: str | None = None,
+    theme_group: str | None = None,
     tag: str | None = None,
     title_contains: str | None = None,
     published_from: datetime | None = None,
@@ -216,14 +231,27 @@ def distribution(
     and ``list_documents`` (via :func:`_catalog_filters`), so a breakdown can be
     narrowed to one theme, tag, author, period, etc. — ``tag`` is a scope filter
     here, not a groupable dimension (see ``_DISTRIBUTION_DIMENSIONS``). A
-    document that fans out across a facet join is counted once per group."""
+    document that fans out across a facet join is counted once per group.
+
+    ``source_type`` defaults to None — no filter — for the same reason every
+    other parameter here does, and to match ``count_documents`` and
+    ``list_documents``. It previously defaulted to ``"website"``, which made a
+    breakdown silently narrower than a count of the same scope: the same author
+    was 35 documents here and 46 there. Callers that want one source kind pass
+    it, as the tool layer does."""
     if group_by not in _DISTRIBUTION_DIMENSIONS:
         raise ValueError(f"group_by must be one of {_DISTRIBUTION_DIMENSIONS}")
     table = _table()
+    # Grouping by theme applies `theme_group` to the *group* join below instead.
+    # As a scope filter it would only require the document to carry some theme
+    # from the group, so a document tagged both "Energy" (main) and "Green
+    # Shipping" (other) would still contribute a row under Green Shipping — the
+    # breakdown has to restrict the themes it groups on, not the documents.
+    scope_group = None if group_by == "theme" else theme_group
     scope_joins, clauses, params, scoped = _catalog_filters(
         source_type, bundle, entity_type=entity_type,
         title_contains=title_contains, author=author,
-        theme=theme, tag=tag,
+        theme=theme, theme_group=scope_group, tag=tag,
         published_from=published_from, published_to=published_to,
     )
 
@@ -241,6 +269,9 @@ def distribution(
         placeholders = ", ".join(["%s"] * len(_NON_THEME_VALUES))
         clauses.append(f"gt.theme <> '' AND gt.theme NOT IN ({placeholders})")
         params.extend(_NON_THEME_VALUES)
+        if theme_group:
+            clauses.append("gt.theme_group = %s")
+            params.append(theme_group)
     else:  # author -> multi-valued facet table
         group_join = f" JOIN `{table}_{group_by}` f ON f.document_id = s.document_id"
         key = f"f.{group_by}"
@@ -264,6 +295,145 @@ def distribution(
         cur.execute(sql, tuple(params))
         rows = cur.fetchall()
     return [(str(row["k"]), int(row["n"])) for row in rows if row["k"] is not None]
+
+
+def _dimension_sql(dimension: str, table: str, alias: str) -> tuple[str, str]:
+    """(join, key expression) for one groupable/countable dimension.
+
+    Shared by :func:`count_distinct_values` and :func:`cross_distribution` so a
+    dimension means the same thing however it is used — the alias is the
+    caller's so two dimensions can appear in one query without colliding.
+    """
+    if dimension == "bundle":
+        return "", "s.bundle"
+    if dimension == "year":
+        return "", "YEAR(s.published_at)"
+    if dimension in ("author", "theme"):
+        return (
+            f" JOIN `{table}_{dimension}` {alias}"
+            f" ON {alias}.document_id = s.document_id",
+            f"{alias}.{dimension}",
+        )
+    raise ValueError(f"dimension must be one of {_DISTRIBUTION_DIMENSIONS}")
+
+
+def count_distinct_values(
+    dimension: str,
+    source_type: str | None = None,
+    bundle: str | None = None,
+    *,
+    entity_type: str | None = None,
+    title_contains: str | None = None,
+    author: str | None = None,
+    theme: str | None = None,
+    theme_group: str | None = None,
+    tag: str | None = None,
+    published_from: datetime | None = None,
+    published_to: datetime | None = None,
+) -> int:
+    """How many distinct values of ``dimension`` the filtered scope contains.
+
+    Answers "how many authors are associated with Theme X" and "how many themes
+    does Author Y publish in" — questions about the *facet*, where
+    :func:`count_documents` counts documents and would report the wrong noun.
+
+    Takes the same filter set as the other three readers, so it can be narrowed
+    by anything they can be narrowed by.
+    """
+    if dimension not in _DISTRIBUTION_DIMENSIONS:
+        raise ValueError(f"dimension must be one of {_DISTRIBUTION_DIMENSIONS}")
+    table = _table()
+    joins, clauses, params, _ = _catalog_filters(
+        source_type, bundle, entity_type=entity_type, title_contains=title_contains,
+        author=author, theme=theme, theme_group=theme_group, tag=tag,
+        published_from=published_from, published_to=published_to,
+    )
+    # A dedicated alias: the scope filters may already join the same facet table
+    # for a *different* purpose ("themes that Author X writes in" filters on
+    # author and counts themes), and reusing their alias would count only the
+    # rows that matched the filter.
+    join, key = _dimension_sql(dimension, table, "dv")
+    if dimension == "year":
+        clauses.append("s.published_at IS NOT NULL")
+    if dimension == "theme":
+        placeholders = ", ".join(["%s"] * len(_NON_THEME_VALUES))
+        clauses.append(f"dv.theme <> '' AND dv.theme NOT IN ({placeholders})")
+        params.extend(_NON_THEME_VALUES)
+    where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
+    sql = (
+        f"SELECT COUNT(DISTINCT {key}) AS n FROM `{table}` s{joins}{join}{where}"
+    )
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(sql, tuple(params))
+        row = cur.fetchone()
+    return int(row["n"]) if row and row["n"] is not None else 0
+
+
+def cross_distribution(
+    first: str,
+    second: str,
+    source_type: str | None = None,
+    bundle: str | None = None,
+    *,
+    entity_type: str | None = None,
+    title_contains: str | None = None,
+    author: str | None = None,
+    theme: str | None = None,
+    theme_group: str | None = None,
+    tag: str | None = None,
+    published_from: datetime | None = None,
+    published_to: datetime | None = None,
+    limit: int = 50,
+) -> list[tuple[str, str, int]]:
+    """Document counts grouped by two dimensions at once, largest first.
+
+    "Which authors write about which themes" is one question, not a list of
+    per-author breakdowns: it needs the pair as the grouping key. Returns
+    (first value, second value, count) triples.
+
+    A separate function rather than a second argument to :func:`distribution`
+    because the row shape differs, and a caller that gets a triple where it
+    expected a pair fails silently in the direction of a wrong number.
+    """
+    if first == second:
+        raise ValueError("cross_distribution needs two different dimensions")
+    table = _table()
+    joins, clauses, params, _ = _catalog_filters(
+        source_type, bundle, entity_type=entity_type, title_contains=title_contains,
+        author=author, theme=theme, theme_group=theme_group, tag=tag,
+        published_from=published_from, published_to=published_to,
+    )
+    join_a, key_a = _dimension_sql(first, table, "ga")
+    join_b, key_b = _dimension_sql(second, table, "gb")
+    for dimension, alias in ((first, "ga"), (second, "gb")):
+        if dimension == "year":
+            clauses.append("s.published_at IS NOT NULL")
+        elif dimension == "theme":
+            placeholders = ", ".join(["%s"] * len(_NON_THEME_VALUES))
+            clauses.append(
+                f"{alias}.theme <> '' AND {alias}.theme NOT IN ({placeholders})"
+            )
+            params.extend(_NON_THEME_VALUES)
+            if theme_group:
+                # Same reasoning as `distribution`: grouping by theme restricts
+                # the themes grouped on, not merely the documents scoped.
+                clauses.append(f"{alias}.theme_group = %s")
+                params.append(theme_group)
+    where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
+    capped = max(1, min(int(limit or 50), 500))
+    sql = (
+        f"SELECT {key_a} AS a, {key_b} AS b, COUNT(DISTINCT s.document_id) AS n "
+        f"FROM `{table}` s{joins}{join_a}{join_b}{where} "
+        f"GROUP BY a, b ORDER BY n DESC, a ASC, b ASC LIMIT {capped}"
+    )
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(sql, tuple(params))
+        rows = cur.fetchall()
+    return [
+        (str(row["a"]), str(row["b"]), int(row["n"]))
+        for row in rows
+        if row["a"] is not None and row["b"] is not None
+    ]
 
 
 def distinct_authors(*, limit: int = 2000) -> list[str]:

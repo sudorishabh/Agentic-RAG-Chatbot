@@ -175,6 +175,7 @@ class ResolvedScope:
     author: str | None = None
     title_contains: str | None = None
     theme: str | None = None
+    theme_group: str | None = None
     tag: str | None = None
     published_from: datetime | None = None
     published_to: datetime | None = None
@@ -191,6 +192,7 @@ class ResolvedScope:
         kwargs: dict[str, Any] = {
             "author": self.author,
             "theme": self.theme,
+            "theme_group": self.theme_group,
             "tag": self.tag,
             "published_from": self.published_from,
             "published_to": self.published_to,
@@ -230,6 +232,10 @@ def resolve_filters(filters: RecordFilters) -> ResolvedScope:
         author=author.name,
         title_contains=filters.title_contains or None,
         theme=theme.name,
+        # A named theme wins: "how many under Green Shipping" must answer even
+        # though Green Shipping is an Other theme. The group restriction only
+        # shapes questions that name no theme at all.
+        theme_group=None if theme.name else filters.theme_group,
         tag=tag.name,
         published_from=_parse_date(filters.date_from, field="date_from"),
         published_to=_parse_date(filters.date_to, field="date_to"),

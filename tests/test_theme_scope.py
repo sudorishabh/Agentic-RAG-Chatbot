@@ -227,3 +227,44 @@ def test_theme_resolution_still_reaches_other_themes(monkeypatch):
     names = {c.canonical_name for c in resolve._theme_candidates("Green Shipping")}
     assert "Green Shipping" in names, "an Other theme must stay resolvable"
     assert "Energy" in names
+
+
+# --------------------------------------------------------------------------- #
+# The same rule, applied to counts
+# --------------------------------------------------------------------------- #
+
+
+@pytest.mark.parametrize(
+    "question,expected",
+    [
+        ("How many articles are there?", "main"),
+        ("How many articles under each main theme?", "main"),
+        ("How many articles are under the other themes?", "other"),
+        ("How many articles across all themes?", None),
+    ],
+)
+def test_counts_carry_the_theme_group_the_question_asked_for(question, expected):
+    call = planner.plan(_CountSlots(), question=question).calls[0]
+    assert call.filters.theme_group == expected
+
+
+def test_naming_a_theme_lifts_the_group_restriction():
+    """"How many articles under Green Shipping?" must answer, even though Green
+    Shipping is an Other theme. The restriction shapes questions that name no
+    theme; a named one is always countable."""
+    from app.retrieval.structured.filters import resolve_filters
+
+    slots = _CountSlots()
+    slots.theme = "Green Shipping"
+    call = planner.plan(slots, question="How many articles under Green Shipping?").calls[0]
+    assert resolve_filters(call.filters).theme_group is None
+
+
+class _CountSlots:
+    operation = "count"
+    bundle = "article"
+    theme = None
+    theme_children = False
+    author = title_contains = group_by = None
+    date_from = date_to = year = tags = None
+    limit = 10

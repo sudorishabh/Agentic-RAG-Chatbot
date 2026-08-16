@@ -59,6 +59,17 @@ def _year_dates(year: Any) -> tuple[str | None, str | None]:
     return f"{y:04d}-01-01", f"{y + 1:04d}-01-01"
 
 
+def _theme_group_for(question: str | None) -> str | None:
+    """The `theme_group` a question's counts should be restricted to.
+
+    "all" means no restriction rather than a third group, so an explicit request
+    for everything counts across main, other and the themes the map has not
+    classified — which is what "every theme" means.
+    """
+    scope = theme_scope.detect(question)
+    return None if scope == theme_scope.SCOPE_ALL else scope
+
+
 def _tool_call(
     slots: Any, output_format: str, question: str | None = None
 ) -> ToolCall:
@@ -82,6 +93,11 @@ def _tool_call(
     tags = getattr(slots, "tags", None)
     filters = RecordFilters(
         theme=getattr(slots, "theme", None),
+        # The same rule the theme *listing* follows, applied to counts: a
+        # question that names no theme is answered over the main structure
+        # unless it asks otherwise. `resolve_filters` drops this whenever a
+        # theme was named, so a named Other theme stays countable.
+        theme_group=_theme_group_for(question),
         tag=tags[0] if tags else None,
         author=getattr(slots, "author", None),
         title_contains=getattr(slots, "title_contains", None),
@@ -93,10 +109,13 @@ def _tool_call(
     limit = getattr(slots, "limit", 10) or 10
     if operation == "count":
         return ToolCall(tool="count_records", entity=bundle, filters=filters,
+                        count_of=getattr(slots, "count_of", None) or "records",
                         output_format=output_format)
     if operation == "distribution":
         return ToolCall(tool="aggregate_records", entity=bundle, filters=filters,
                         group_by=getattr(slots, "group_by", None),
+                        secondary_group_by=getattr(
+                            slots, "secondary_group_by", None),
                         output_format=output_format)
     if operation == "lookup":
         return ToolCall(tool="lookup_record", entity=bundle, filters=filters,
@@ -163,6 +182,25 @@ class _PlannedCall(BaseModel):
         ),
     )
     group_by: Literal["theme", "content_type", "author", "year"] | None = None
+    secondary_group_by: Literal[
+        "theme", "content_type", "author", "year"
+    ] | None = Field(
+        default=None,
+        description=(
+            "A second grouping dimension, for \"which X does which Y\" — the "
+            "answer is pairs. Null for an ordinary per-X breakdown."
+        ),
+    )
+    count_of: Literal[
+        "records", "theme", "content_type", "author", "year"
+    ] = Field(
+        default="records",
+        description=(
+            "What count_records counts. \"records\" (default) counts documents; "
+            "name a facet to count its distinct values instead — \"how many "
+            "authors work on X\" is count_of=author, not a document count."
+        ),
+    )
     title: str | None = None
     limit: int = 10
     fields: list[str] | None = Field(
@@ -234,12 +272,17 @@ def _to_tool_call(
         entity=call.entity,
         filters=RecordFilters(
             theme=call.theme,
+            # Not an LLM-settable field: the group restriction comes from
+            # the question text by the same rule the v1 planner uses.
+            theme_group=_theme_group_for(question),
             author=call.author,
             title_contains=call.title_contains,
             date_from=call.date_from,
             date_to=call.date_to,
         ),
         group_by=call.group_by,
+        secondary_group_by=call.secondary_group_by,
+        count_of=call.count_of,
         title=call.title or call.title_contains,
         limit=limit,
         fields=call.fields or None,
@@ -291,7 +334,8 @@ def _run(call: ToolCall, question: str | None) -> ToolResult:
     if call.tool == "count_records":
         # The question decides whether a zero under a title substring is the
         # answer or a guess to fall through on (see tools._title_guess_zero).
-        return count_records(call.entity, call.filters, question=question)
+        return count_records(call.entity, call.filters, question=question,
+                             count_of=call.count_of)
     if call.tool == "list_records":
         return list_records(call.entity, call.filters, sort=call.sort,
                             limit=call.limit, offset=call.offset,
@@ -301,6 +345,7 @@ def _run(call: ToolCall, question: str | None) -> ToolResult:
                              output_format=call.output_format, question=question)
     if call.tool == "aggregate_records":
         return aggregate_records(call.entity, call.group_by, call.filters,
+                                 secondary_group_by=call.secondary_group_by,
                                  aggregation=call.aggregation,
                                  output_format=call.output_format)
     if call.tool == "list_themes":

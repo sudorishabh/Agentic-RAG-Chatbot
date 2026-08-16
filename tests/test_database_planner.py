@@ -138,7 +138,7 @@ def test_plan_explicit_dates_win_over_year():
 def test_execute_routes_to_tool(monkeypatch):
     monkeypatch.setattr(
         planner, "count_records",
-        lambda entity, filters, *, question=None: ToolResult(
+        lambda entity, filters, *, question=None, count_of="records": ToolResult(
             tool="count_records", entity=entity, data={"count": 7}
         ),
     )
@@ -212,13 +212,14 @@ def test_execute_routes_to_resolve_entity(monkeypatch):
 def test_execute_runs_multiple_calls(monkeypatch):
     monkeypatch.setattr(
         planner, "count_records",
-        lambda entity, filters, *, question=None: ToolResult(
+        lambda entity, filters, *, question=None, count_of="records": ToolResult(
             tool="count_records", entity=entity
         ),
     )
     monkeypatch.setattr(
         planner, "aggregate_records",
-        lambda entity, group_by, filters, aggregation="count", output_format="default":
+        lambda entity, group_by, filters, secondary_group_by=None,
+        aggregation="count", output_format="default":
             ToolResult(tool="aggregate_records", entity=entity),
     )
     plan_obj = DatabasePlan(calls=[
@@ -250,7 +251,7 @@ def test_execute_passes_question_to_count(monkeypatch):
     for from one the classifier guessed (tools._title_guess_zero)."""
     seen = {}
 
-    def fake_count(entity, filters, *, question=None):
+    def fake_count(entity, filters, *, question=None, count_of="records"):
         seen["question"] = question
         return ToolResult(tool="count_records", entity=entity)
 
@@ -348,3 +349,123 @@ def test_plan_multi_falls_back_on_error(monkeypatch):
 
     monkeypatch.setattr("app.core.clients.llm.get_structured_llm", boom)
     assert planner.plan_multi("q") is None
+
+
+# --------------------------------------------------------------------------- #
+# The four count/aggregate shapes.
+#
+# The operation vocabulary stays at five; what changes is the *subject* of a
+# count and the *arity* of a grouping. Unset slots reproduce the old behaviour
+# exactly, so every existing plan is unaffected:
+#
+#   1. document count          count       count_of unset          -> count_documents
+#   2. distinct entity count   count       count_of=author|theme|… -> count_distinct_values
+#   3. single-dim distribution distribution group_by=X             -> distribution
+#   4. two-dim distribution    distribution group_by=X, secondary=Y -> cross_distribution
+# --------------------------------------------------------------------------- #
+
+
+def test_case1_document_count_is_the_default():
+    call = planner.plan(_slots(operation="count", bundle="article")).calls[0]
+    assert call.tool == "count_records"
+    assert call.count_of == "records"
+
+
+def test_case2_distinct_entity_count_carries_the_facet():
+    call = planner.plan(
+        _slots(operation="count", bundle="article", count_of="author", theme="Energy")
+    ).calls[0]
+    assert call.tool == "count_records"
+    assert call.count_of == "author"
+    assert call.filters.theme == "Energy"
+
+
+def test_case3_single_dimension_distribution_has_no_second():
+    call = planner.plan(
+        _slots(operation="distribution", bundle="article", group_by="theme")
+    ).calls[0]
+    assert call.tool == "aggregate_records"
+    assert call.group_by == "theme" and call.secondary_group_by is None
+
+
+def test_case4_two_dimension_distribution_carries_both():
+    call = planner.plan(
+        _slots(operation="distribution", bundle="article",
+               group_by="author", secondary_group_by="theme")
+    ).calls[0]
+    assert call.tool == "aggregate_records"
+    assert (call.group_by, call.secondary_group_by) == ("author", "theme")
+
+
+def test_slots_without_the_new_fields_still_plan():
+    """`_slots` here has no count_of/secondary_group_by attributes at all — the
+    duck-typed read must fall back rather than raise, because the parse fallback
+    and the unified analysis are different classes."""
+    call = planner.plan(_slots(operation="count")).calls[0]
+    assert call.count_of == "records"
+    call = planner.plan(_slots(operation="distribution", group_by="year")).calls[0]
+    assert call.secondary_group_by is None
+
+
+def test_execute_forwards_count_of_to_the_tool(monkeypatch):
+    seen = {}
+
+    def fake_count(entity, filters, *, question=None, count_of="records"):
+        seen["count_of"] = count_of
+        return ToolResult(tool="count_records", entity=entity)
+
+    monkeypatch.setattr(planner, "count_records", fake_count)
+    planner.execute(planner.plan(_slots(operation="count", count_of="author")))
+    assert seen["count_of"] == "author"
+
+
+def test_execute_forwards_both_dimensions_to_the_tool(monkeypatch):
+    seen = {}
+
+    def fake_aggregate(entity, group_by, filters, *, secondary_group_by=None,
+                       aggregation="count", output_format="default"):
+        seen.update(group_by=group_by, secondary_group_by=secondary_group_by)
+        return ToolResult(tool="aggregate_records", entity=entity)
+
+    monkeypatch.setattr(planner, "aggregate_records", fake_aggregate)
+    planner.execute(
+        planner.plan(
+            _slots(operation="distribution", group_by="author",
+                   secondary_group_by="theme")
+        )
+    )
+    assert seen == {"group_by": "author", "secondary_group_by": "theme"}
+
+
+def test_the_llm_planner_can_set_both_new_fields():
+    planned = planner._PlannedCall(
+        tool="aggregate_records", group_by="author", secondary_group_by="theme"
+    )
+    call = planner._to_tool_call(planned, "default")
+    assert (call.group_by, call.secondary_group_by) == ("author", "theme")
+
+    planned = planner._PlannedCall(tool="count_records", count_of="theme")
+    assert planner._to_tool_call(planned, "default").count_of == "theme"
+
+
+def test_the_new_shapes_keep_the_theme_group_rule():
+    """Step 2's main-vs-other restriction must survive the new operations: a
+    generic distinct count or pair breakdown is still about the main structure."""
+    generic = planner.plan(
+        _slots(operation="count", count_of="author"),
+        question="How many authors are there?",
+    ).calls[0]
+    assert generic.filters.theme_group == "main"
+
+    paired = planner.plan(
+        _slots(operation="distribution", group_by="author",
+               secondary_group_by="theme"),
+        question="Which authors write about which themes?",
+    ).calls[0]
+    assert paired.filters.theme_group == "main"
+
+    explicit = planner.plan(
+        _slots(operation="count", count_of="author"),
+        question="How many authors work on the other themes?",
+    ).calls[0]
+    assert explicit.filters.theme_group == "other"

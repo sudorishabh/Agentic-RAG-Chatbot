@@ -38,6 +38,9 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
+CountOf = Literal[
+    "records", "theme", "content_type", "author", "year"
+]
 Operation = Literal["lookup", "list", "count", "distribution", "list_themes"]
 GroupBy = Literal["theme", "content_type", "author", "year"]
 
@@ -71,6 +74,17 @@ _PARSE_SYSTEM = (
     "for a month or year span it end to end (2024 -> 2024-01-01 / 2024-12-31); "
     "for 'since'/'after' set only date_from; for 'before'/'until X' set only "
     "date_to_inclusive, to the day before X; else both null.\n"
+    "- count_of: what a 'count' counts. 'records' (the default) counts "
+    "documents. Name a facet — author, theme, content_type, year — to count its "
+    "DISTINCT values instead: 'how many authors work on Energy' is "
+    "count_of='author' with theme='Energy', NOT a document count. A bare 'how "
+    "many themes are there?' stays the 'list_themes' operation; use "
+    "count_of='theme' only when the count is scoped by something else (an "
+    "author, a period, a content type).\n"
+    "- secondary_group_by: a SECOND grouping dimension for 'distribution', when "
+    "the question pairs two of them — 'which authors write about which themes' "
+    "is group_by='author' plus secondary_group_by='theme'. Null for an ordinary "
+    "per-X breakdown.\n"
     "- limit: how many items to return for list/lookup (default 10)."
 )
 
@@ -80,6 +94,8 @@ class StructuredQuery(BaseModel):
     bundle: str | None = None
     theme: str | None = None
     group_by: GroupBy | None = None
+    secondary_group_by: GroupBy | None = None
+    count_of: CountOf = "records"
     title_contains: str | None = None
     author: str | None = None
     theme_children: bool = False

@@ -371,7 +371,8 @@ def _project_fields(
 # --------------------------------------------------------------------------- #
 
 def count_records(
-    entity: str | None, filters: RecordFilters, *, question: str | None = None
+    entity: str | None, filters: RecordFilters, *, question: str | None = None,
+    count_of: str = "records",
 ) -> ToolResult:
     """How many catalog documents match. Unknown entity returns ok=False (fall
     through, never a misleading zero). Names are canonicalized first, so the
@@ -380,7 +381,14 @@ def count_records(
     author/theme becomes a miss only if the query then comes back empty. A
     resolved filter matching no rows is an honest 0 — except under a guessed title
     substring, which is a claim about titles and not about the corpus
-    (`question` decides which was asked; see `_title_guess_zero`)."""
+    (`question` decides which was asked; see `_title_guess_zero`).
+
+    ``count_of`` changes *what* is counted, not what is filtered: "records"
+    counts documents, any other dimension counts distinct values of that
+    facet within the same scope. "How many authors work on Energy" and "how
+    many articles are under Energy" share every filter and differ only
+    here — and answering one with the other's number is the failure this
+    parameter exists to prevent."""
     guarded = _entity_guard("count_records", entity)
     if guarded is not None:
         return guarded
@@ -390,13 +398,19 @@ def count_records(
     if guarded is not None:
         return guarded
     bundle = ent.name if ent else None
+    dimension = _GROUP_DIMENSIONS.get(count_of, (None, None))[0]
+    common = dict(
+        source_type=ent.source_type if ent else "website",
+        bundle=bundle,
+        entity_type=ent.entity_type if ent else "node",
+        title_contains=scope.title_contains,
+        **scope.as_kwargs(),
+    )
     try:
-        total = state.count_documents(
-            source_type=ent.source_type if ent else "website",
-            bundle=bundle,
-            entity_type=ent.entity_type if ent else "node",
-            title_contains=scope.title_contains,
-            **scope.as_kwargs(),
+        total = (
+            state.count_distinct_values(dimension, **common)
+            if dimension
+            else state.count_documents(**common)
         )
     except Exception:
         logger.warning("count_records query failed.", exc_info=True)
@@ -419,13 +433,23 @@ def count_records(
             )
     phrase = _scope_phrase(scope.effective)
     verb = "is" if total == 1 else "are"
-    rendered = (
-        f"There {verb} {total} {entity_label(bundle or 'items', total)}{phrase} "
-        "matching your query."
+    if dimension:
+        singular, plural = _COUNT_OF_NOUNS[count_of]
+        noun = singular if total == 1 else plural
+    else:
+        noun = entity_label(bundle or "items", total)
+    rendered = f"There {verb} {total} {noun}{phrase} matching your query."
+    data: dict[str, Any] = {
+        "count": total, "applied": _applied_filters(bundle, scope.effective),
+    }
+    if dimension:
+        # Only when it is not the default, so a document count's payload is
+        # exactly what it has always been and no consumer has to learn a new key
+        # to keep reading it.
+        data["count_of"] = count_of
+    return ToolResult(
+        tool="count_records", entity=bundle, ok=True, data=data, rendered=rendered,
     )
-    return ToolResult(tool="count_records", entity=bundle, ok=True,
-                      data={"count": total, "applied": _applied_filters(bundle, scope.effective)},
-                      rendered=rendered)
 
 
 def list_records(
@@ -564,19 +588,41 @@ _GROUP_DIMENSIONS: dict[str, tuple[str, str]] = {
     "year": ("year", "year"),
 }
 
+# Plural nouns for a distinct-facet count, so the answer names what was actually
+# counted. Getting this wrong is the whole risk of the operation: "264 articles
+# work on Energy" would be a confident, wrong sentence built from a right number.
+_COUNT_OF_NOUNS: dict[str, tuple[str, str]] = {
+    "theme": ("theme", "themes"),
+    "content_type": ("content type", "content types"),
+    "author": ("author", "authors"),
+    "year": ("year", "years"),
+}
+
 
 def aggregate_records(
     entity: str | None,
     group_by: GroupBy | None,
     filters: RecordFilters,
     *,
+    secondary_group_by: GroupBy | None = None,
     aggregation: str = "count",
     output_format: str = "default",
 ) -> ToolResult:
     """Grouped counts (per theme / content type / author / year). Only the
     'count' aggregation is backed today. Filter-resolution semantics match
-    `count_records` (see `_scope_guard` / `_empty_result_miss`)."""
+    `count_records` (see `_scope_guard` / `_empty_result_miss`).
+
+    ``secondary_group_by`` makes the grouping key the *pair* of dimensions:
+    "which authors write about which themes" is one question whose answer is
+    a set of author-theme pairs, not a per-author breakdown repeated. Ignored
+    when it names the same dimension as ``group_by`` — a pair of one thing is
+    the single-dimension question, and refusing would be pedantry."""
     dimension, label = _GROUP_DIMENSIONS.get(group_by or "theme", ("theme", "theme"))
+    second, second_label = _GROUP_DIMENSIONS.get(
+        secondary_group_by or "", (None, None)
+    )
+    if second == dimension:
+        second, second_label = None, None
     guarded = _entity_guard("aggregate_records", entity)
     if guarded is not None:
         return guarded
@@ -586,14 +632,23 @@ def aggregate_records(
     if guarded is not None:
         return guarded
     bundle = ent.name if ent else None
+    common = dict(
+            # Taken from the entity, exactly as `count_records` does. Hardcoding
+            # "website"/"node" here agreed with it only because every registered
+            # bundle happens to be a website node today; the first bundle that
+            # is not would make a breakdown disagree with a count of the same
+            # scope, silently and in the direction of under-reporting.
+        source_type=ent.source_type if ent else "website",
+        bundle=bundle,
+        entity_type=ent.entity_type if ent else "node",
+        title_contains=scope.title_contains,
+        **scope.as_kwargs(),
+    )
     try:
-        rows = state.distribution(
-            dimension,
-            source_type="website",
-            bundle=bundle,
-            entity_type="node",
-            title_contains=scope.title_contains,
-            **scope.as_kwargs(),
+        rows = (
+            state.cross_distribution(dimension, second, **common)
+            if second
+            else state.distribution(dimension, **common)
         )
     except Exception:
         logger.warning("aggregate_records query failed.", exc_info=True)
@@ -604,21 +659,42 @@ def aggregate_records(
             return missed
         return ToolResult(tool="aggregate_records", entity=bundle, ok=False,
                           error="no matching records")
-    if output_format == "table":
-        body = "\n".join(
-            [f"| {label} | count |", "| --- | --- |"]
-            + [f"| {_md_cell(str(value))} | {n} |" for value, n in rows]
-        )
+    if second:
+        if output_format == "table":
+            body = "\n".join(
+                [f"| {label} | {second_label} | count |", "| --- | --- | --- |"]
+                + [
+                    f"| {_md_cell(str(a))} | {_md_cell(str(b))} | {n} |"
+                    for a, b, n in rows
+                ]
+            )
+        else:
+            body = "\n".join(f"- {a} — {b}: {n}" for a, b, n in rows)
+        by = f"by {label} and {second_label}"
+        groups = [[a, b, n] for a, b, n in rows]
     else:
-        body = "\n".join(f"- {value}: {n}" for value, n in rows)
+        if output_format == "table":
+            body = "\n".join(
+                [f"| {label} | count |", "| --- | --- |"]
+                + [f"| {_md_cell(str(value))} | {n} |" for value, n in rows]
+            )
+        else:
+            body = "\n".join(f"- {value}: {n}" for value, n in rows)
+        by = f"by {label}"
+        groups = [[value, n] for value, n in rows]
     rendered = (
         f"Distribution of {entity_label(bundle or 'items', 2)}{_scope_phrase(scope.effective)} "
-        f"by {label}:\n" + body
+        f"{by}:\n" + body
     )
     return ToolResult(
         tool="aggregate_records", entity=bundle, ok=True,
-        data={"groups": [[value, n] for value, n in rows],
-              "applied": _applied_filters(bundle, scope.effective)},
+        data={
+            "groups": groups,
+            "dimensions": [
+                d for d in (group_by or "theme", secondary_group_by) if d
+            ],
+            "applied": _applied_filters(bundle, scope.effective),
+        },
         rendered=rendered,
     )
 
