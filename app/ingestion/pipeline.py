@@ -404,6 +404,46 @@ def _pending_retries() -> frozenset[str]:
         return frozenset()
 
 
+def _prewarm_clients(settings) -> None:
+    """Build the process-wide cached clients once, before any worker needs one.
+
+    ``functools.lru_cache`` does not hold its lock across the wrapped call, so
+    two workers that miss at the same time both construct a client and one is
+    silently discarded — with its connection pool unclosed. Warming on this
+    thread makes every worker a cache hit, which is only worth doing on the
+    parallel path: the sequential loop cannot race itself.
+
+    ``get_mysql_pool`` deliberately isn't here — ``state.ensure_table()`` above
+    already warmed it on this thread, and it is the one whose double
+    construction would actually cost something (two pools, twice the
+    connections).
+
+    Best-effort in every direction, like the collection pre-create beside it: a
+    client that cannot be built now is built by whichever worker needs it first,
+    which is exactly the behaviour that predates this function.
+    """
+    from app.core.clients import get_embeddings
+    from app.ingestion.chunking.packer import get_encoder
+
+    def warm(what: str, build: Callable[[], object]) -> None:
+        try:
+            build()
+        except Exception:
+            logger.debug("Could not pre-warm %s; a worker will build it.", what, exc_info=True)
+
+    warm("the embeddings client", get_embeddings)
+    # tiktoken downloads its BPE table on a cold cache; four threads racing that
+    # is four downloads.
+    warm("the tokenizer", lambda: get_encoder("cl100k_base"))
+    if getattr(settings, "enrichment_enabled", False):
+        from app.core.clients.llm import get_llm
+
+        warm(
+            "the LLM client",
+            lambda: get_llm(temperature=getattr(settings, "llm_structured_temperature", None)),
+        )
+
+
 def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
     state.ensure_table()
     try:
@@ -427,9 +467,12 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
     run_id = uuid.uuid4().hex
     tally: Counter = Counter()
     worked = 0
+    started = time.perf_counter()
 
-    # `note` is called from worker threads, unlike account() which the main
-    # loop owns, so the shared Counter needs a lock here.
+    # `note` runs on worker threads and `account` on the main loop, so every
+    # write to the shared Counter takes this. The two touch disjoint keys, so
+    # CPython would get away without it — but "disjoint" is an invariant no
+    # caller is told about, and the lock is uncontended either way.
     tally_lock = threading.Lock()
 
     def note(outcome: str) -> None:
@@ -439,6 +482,34 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
             return
         with tally_lock:
             tally[f"enrich_{outcome}"] += 1
+
+    def report_throughput() -> None:
+        """One run-level line, in the terms that comparing worker counts needs.
+
+        Deliberately not per-document latency: the ``ingest.*`` spans measure
+        that already, and it gets *worse* under concurrency even as the run gets
+        faster — workers contend, so each document takes longer while more of
+        them finish per minute. Throughput is the number that moves in the
+        direction the setting is meant to move it.
+
+        ``documents_processed`` is the budget's notion of work (``_WORKED_OUTCOMES``),
+        so unchanged scans — which cost nothing and would otherwise inflate the
+        rate — are excluded, and two runs over different-sized changed sets stay
+        comparable.
+        """
+        elapsed = time.perf_counter() - started
+        per_minute = (worked / elapsed * 60.0) if elapsed > 0 else 0.0
+        logger.info(
+            "ingest_throughput workers=%d elapsed_seconds=%.1f "
+            "documents_processed=%d documents_per_minute=%.1f errors=%d "
+            "enrichment_failures=%d",
+            workers,
+            elapsed,
+            worked,
+            per_minute,
+            tally["error"],
+            tally["enrich_failed"] + tally["enrich_error"],
+        )
 
     def handle(record: ChangeRecord) -> str:
         try:
@@ -454,7 +525,10 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
 
     def account(outcome: str) -> None:
         nonlocal worked
-        tally[outcome] += 1
+        with tally_lock:
+            tally[outcome] += 1
+        # Outside the lock: `note` must not wait on a batch pause, and `worked`
+        # is only ever touched here, on the main loop.
         if outcome in _WORKED_OUTCOMES:
             worked += 1
             if pause > 0 and batch_size > 0 and worked % batch_size == 0:
@@ -481,6 +555,7 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
             if budget_reached(record, pending=0):
                 break
             account(handle(record))
+        report_throughput()
         return tally
 
     # Parallel mode: the crawler stays single-threaded (per-run dedup and
@@ -498,6 +573,7 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
         ensure_collection()
     except Exception:
         logger.exception("Could not pre-create the collection; workers will retry.")
+    _prewarm_clients(settings)
 
     with ThreadPoolExecutor(max_workers=workers, thread_name_prefix="ingest") as pool:
         in_flight: set = set()
@@ -517,6 +593,7 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
             finished, _ = wait(in_flight)
             for future in finished:
                 account(future.result())
+    report_throughput()
     return tally
 
 
