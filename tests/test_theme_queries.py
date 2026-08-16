@@ -473,3 +473,51 @@ def test_cross_distribution_restricts_the_theme_side_whichever_it_is(monkeypatch
         state.cross_distribution(first, second, theme_group="main")
         sql, _ = cursor.calls[0]
         assert f"{alias}.theme_group = %s" in sql, (first, second)
+
+
+# --------------------------------------------------------------------------- #
+# cross_distribution argument handling. The two dimensions are positional, so a
+# third positional argument reads as a third dimension — and used to bind to
+# `source_type` instead, filtering to a source type that does not exist.
+# --------------------------------------------------------------------------- #
+
+
+def test_a_third_positional_argument_is_rejected():
+    """It used to filter on a source type called "year", match nothing and
+    return [] — a wrong answer wearing an empty one's clothes."""
+    with pytest.raises(TypeError):
+        state.cross_distribution("author", "theme", "year")  # type: ignore[misc]
+
+
+def test_scope_arguments_must_be_passed_by_keyword():
+    with pytest.raises(TypeError):
+        state.cross_distribution(  # type: ignore[misc]
+            "author", "theme", "website", "article"
+        )
+
+
+@pytest.mark.parametrize(
+    "first,second",
+    [("colour", "theme"), ("author", "colour"), ("document", "author")],
+)
+def test_an_unsupported_dimension_is_rejected(first, second):
+    """Refused before any SQL is built, so an unknown name cannot reach the
+    database as an empty result."""
+    with pytest.raises(ValueError):
+        state.cross_distribution(first, second)
+
+
+def test_the_error_names_the_offending_dimension():
+    with pytest.raises(ValueError) as excinfo:
+        state.cross_distribution("author", "colour")
+    assert "colour" in str(excinfo.value)
+
+
+def test_valid_keyword_calls_are_unchanged(monkeypatch):
+    cursor = _FakeCursor(fetchall_results=[[{"a": "Sharma", "b": "Waste", "n": 4}]])
+    _patch(monkeypatch, state, cursor)
+
+    rows = state.cross_distribution(
+        "author", "theme", source_type="website", bundle="article"
+    )
+    assert rows == [("Sharma", "Waste", 4)]

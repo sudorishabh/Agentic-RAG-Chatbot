@@ -398,7 +398,20 @@ def count_records(
     if guarded is not None:
         return guarded
     bundle = ent.name if ent else None
-    dimension = _GROUP_DIMENSIONS.get(count_of, (None, None))[0]
+    dimension, valid = _dimension_or_reject(count_of, allow_records=True)
+    if not valid:
+        # Refuse rather than guess. Falling through to semantic search cannot
+        # fabricate a total (see the grounded prompt's rule 8), whereas
+        # defaulting to a document count would answer a different question in a
+        # sentence that looks right.
+        logger.warning(
+            "count_records got an unsupported count_of %r; expected one of %s.",
+            count_of, sorted(VALID_COUNT_OF),
+        )
+        return ToolResult(
+            tool="count_records", entity=entity, ok=False,
+            error=f"unsupported count_of {count_of!r}",
+        )
     common = dict(
         source_type=ent.source_type if ent else "website",
         bundle=bundle,
@@ -598,6 +611,32 @@ _COUNT_OF_NOUNS: dict[str, tuple[str, str]] = {
     "year": ("year", "years"),
 }
 
+# The only value of `count_of` that means "the documents themselves".
+COUNT_RECORDS = "records"
+
+# Every dimension a count or a grouping may name. Derived from the mapping
+# rather than restated, so the allow-list cannot drift from what the tool can
+# actually dispatch.
+VALID_DIMENSIONS: frozenset[str] = frozenset(_GROUP_DIMENSIONS)
+VALID_COUNT_OF: frozenset[str] = VALID_DIMENSIONS | {COUNT_RECORDS}
+
+
+def _dimension_or_reject(value: Any, *, allow_records: bool) -> tuple[str | None, bool]:
+    """Resolve a dimension name to its catalog column. Returns (column, ok).
+
+    Unset means the default; **unrecognised means refuse**. Collapsing the two
+    is what made `count_of="document"` — a plausible spelling, and the one an
+    unfamiliar caller reaches for first — answer "62 articles" to "how many
+    authors work on Energy". A wrong noun on a right number is a confident wrong
+    answer, which is worse than no answer.
+    """
+    if value is None or value == "" or (allow_records and value == COUNT_RECORDS):
+        return None, True
+    mapped = _GROUP_DIMENSIONS.get(value)
+    if mapped is None:
+        return None, False
+    return mapped[0], True
+
 
 def aggregate_records(
     entity: str | None,
@@ -617,12 +656,37 @@ def aggregate_records(
     a set of author-theme pairs, not a per-author breakdown repeated. Ignored
     when it names the same dimension as ``group_by`` — a pair of one thing is
     the single-dimension question, and refusing would be pedantry."""
+    # Unset groups by theme, which is the documented default. An unrecognised
+    # name is refused instead: "group_by='Author'" quietly becoming a theme
+    # breakdown is a wrong answer wearing a right one's shape.
+    if group_by is not None and group_by not in _GROUP_DIMENSIONS:
+        logger.warning(
+            "aggregate_records got an unsupported group_by %r; expected one of %s.",
+            group_by, sorted(VALID_DIMENSIONS),
+        )
+        return ToolResult(
+            tool="aggregate_records", entity=entity, ok=False,
+            error=f"unsupported group_by {group_by!r}",
+        )
     dimension, label = _GROUP_DIMENSIONS.get(group_by or "theme", ("theme", "theme"))
-    second, second_label = _GROUP_DIMENSIONS.get(
-        secondary_group_by or "", (None, None)
-    )
-    if second == dimension:
-        second, second_label = None, None
+
+    # The secondary is optional, so an unusable one degrades to the
+    # single-dimension breakdown — a narrower *correct* answer, unlike the cases
+    # above which would have been wrong ones. It is logged, and `dimensions`
+    # below reports what was actually grouped on rather than what was asked for.
+    second, second_label = None, None
+    if secondary_group_by:
+        mapped = _GROUP_DIMENSIONS.get(secondary_group_by)
+        if mapped is None:
+            logger.warning(
+                "aggregate_records ignoring unsupported secondary_group_by %r.",
+                secondary_group_by,
+            )
+        elif mapped[0] == dimension:
+            # A pair of one thing is the single-dimension question.
+            pass
+        else:
+            second, second_label = mapped
     guarded = _entity_guard("aggregate_records", entity)
     if guarded is not None:
         return guarded
@@ -672,6 +736,7 @@ def aggregate_records(
             body = "\n".join(f"- {a} — {b}: {n}" for a, b, n in rows)
         by = f"by {label} and {second_label}"
         groups = [[a, b, n] for a, b, n in rows]
+        dimensions = [group_by or "theme", secondary_group_by]
     else:
         if output_format == "table":
             body = "\n".join(
@@ -682,6 +747,9 @@ def aggregate_records(
             body = "\n".join(f"- {value}: {n}" for value, n in rows)
         by = f"by {label}"
         groups = [[value, n] for value, n in rows]
+        # What was grouped on, not what was requested: a dropped secondary must
+        # not leave a caller parsing pairs out of single-dimension rows.
+        dimensions = [group_by or "theme"]
     rendered = (
         f"Distribution of {entity_label(bundle or 'items', 2)}{_scope_phrase(scope.effective)} "
         f"{by}:\n" + body
@@ -690,9 +758,7 @@ def aggregate_records(
         tool="aggregate_records", entity=bundle, ok=True,
         data={
             "groups": groups,
-            "dimensions": [
-                d for d in (group_by or "theme", secondary_group_by) if d
-            ],
+            "dimensions": dimensions,
             "applied": _applied_filters(bundle, scope.effective),
         },
         rendered=rendered,

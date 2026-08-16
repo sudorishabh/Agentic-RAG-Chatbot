@@ -381,9 +381,9 @@ def count_distinct_values(
 def cross_distribution(
     first: str,
     second: str,
+    *,
     source_type: str | None = None,
     bundle: str | None = None,
-    *,
     entity_type: str | None = None,
     title_contains: str | None = None,
     author: str | None = None,
@@ -403,7 +403,20 @@ def cross_distribution(
     A separate function rather than a second argument to :func:`distribution`
     because the row shape differs, and a caller that gets a triple where it
     expected a pair fails silently in the direction of a wrong number.
+
+    Everything after the two dimensions is keyword-only. The dimensions being
+    positional makes a third positional argument read as a third dimension, and
+    it used to bind to ``source_type`` instead: ``cross_distribution("author",
+    "theme", "year")`` filtered to a source type called "year", matched nothing
+    and returned ``[]`` — a wrong answer that looks like an empty one. Now it
+    raises ``TypeError``.
     """
+    for name, dimension in (("first", first), ("second", second)):
+        if dimension not in _DISTRIBUTION_DIMENSIONS:
+            raise ValueError(
+                f"cross_distribution {name} dimension must be one of "
+                f"{_DISTRIBUTION_DIMENSIONS}, got {dimension!r}"
+            )
     if first == second:
         raise ValueError("cross_distribution needs two different dimensions")
     table = _table()
