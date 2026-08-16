@@ -6,7 +6,7 @@ import time
 import uuid
 from collections import Counter
 from contextlib import contextmanager
-from typing import Callable, Iterable, Iterator, Sequence
+from typing import Callable, Iterable, Iterator, Mapping, Sequence
 
 from app.catalog import enrichment
 from app.catalog import retries
@@ -700,6 +700,7 @@ def ingest_drupal(
     *,
     published_only: bool = True,
     reconcile_deletes: bool = False,
+    extra_floors: "Mapping[str, int] | None" = None,
 ) -> Counter:
     from functools import partial
 
@@ -708,7 +709,10 @@ def ingest_drupal(
     with _exclusive("Drupal ingestion"):
         logger.info("Drupal ingestion started (bundles=%s, reconcile=%s)", bundles or "default", reconcile_deletes)
         records = cd.detect_drupal_changes(
-            bundles, published_only=published_only, reconcile_deletes=reconcile_deletes
+            bundles,
+            published_only=published_only,
+            reconcile_deletes=reconcile_deletes,
+            extra_floors=extra_floors,
         )
         # One session for the whole run: attachment downloads reuse its connection
         # pool rather than opening a new one per PDF.

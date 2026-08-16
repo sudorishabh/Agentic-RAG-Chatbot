@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime
-from typing import Iterable, Iterator
+from typing import Iterable, Iterator, Mapping
 
 from app.catalog import dead_links, retries, state
 from app.config import get_settings
@@ -189,7 +189,16 @@ def detect_drupal_changes(
     *,
     published_only: bool = True,
     reconcile_deletes: bool = False,
+    extra_floors: Mapping[str, int] | None = None,
 ) -> Iterator[ChangeRecord]:
+    """Yield NEW/CHANGED/UNCHANGED/DELETED records for the configured sources.
+
+    ``extra_floors`` widens the incremental window for named bundles, exactly as
+    an unresolved retry marker does — the lowest floor wins. It is how a
+    catalog-driven pass (:mod:`app.ingestion.reprocess`) reaches documents the
+    changed-since cursor has long since passed, without writing a marker row per
+    document or bypassing the ordinary crawl.
+    """
     from app.ingestion.extractors.drupal_extractor import (
         DEFAULT_BLOCKS,
         DEFAULT_BUNDLES,
@@ -206,6 +215,9 @@ def detect_drupal_changes(
     prior_pdf_all = state.load("pdf_attachment")
     dead_pdf = _load_dead_links()
     retry_floor = _load_retry_floors()
+    for bundle, mark in (extra_floors or {}).items():
+        held = retry_floor.get(bundle)
+        retry_floor[bundle] = mark if held is None else min(held, mark)
     # Per-run dedup so an in-body PDF linked from several records ingests once.
     seen_pdf: set[str] = set()
     suppressed = 0

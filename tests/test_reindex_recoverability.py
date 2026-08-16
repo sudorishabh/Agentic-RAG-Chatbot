@@ -24,6 +24,7 @@ import pytest
 from app.catalog.models import StateRecord
 from app.ingestion.change_detection import ChangeStatus, drupal
 from app.ingestion.extractors import drupal_extractor
+from app.ingestion.version import PIPELINE_VERSION
 from app.workers import tasks
 
 BUNDLE = "news"
@@ -55,6 +56,10 @@ class _Catalog:
             doc_version=4,
             bundle=BUNDLE,
             changed_mark=mark,
+            # Built by the current pipeline: a stale version is itself a reason
+            # to re-crawl (tests/test_pipeline_version.py), and this module is
+            # about what a *reindex request* does.
+            pipeline_version=PIPELINE_VERSION,
         )
         self.rows[document_id] = row
         return row

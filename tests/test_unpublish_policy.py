@@ -26,6 +26,7 @@ from app.catalog.models import StateRecord
 from app.ingestion import pipeline
 from app.ingestion.change_detection import ChangeStatus, drupal
 from app.ingestion.extractors import drupal_extractor as de
+from app.ingestion.version import PIPELINE_VERSION
 
 BUNDLE = "news"
 
@@ -65,6 +66,9 @@ class _Site:
             source_key=f"https://teriin.org/{document_id}",
             fingerprint="2026-08-01T00:00:00+00:00", content_hash="h", doc_version=1,
             bundle=bundle, entity_type="node", changed_mark=1785000000,
+            # Indexed by the current pipeline, so only the unpublish/republish
+            # cycle under test can change its status.
+            pipeline_version=PIPELINE_VERSION,
         )
         self.points.add(document_id)
 

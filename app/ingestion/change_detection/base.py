@@ -59,19 +59,22 @@ def content_changed(record: ChangeRecord, content_hash: str) -> bool:
     return record.prior.content_hash != content_hash
 
 
-def pipeline_changed(record: ChangeRecord) -> bool:
-    """Whether this document was built by a pipeline that is no longer current.
+def pipeline_stale(prev: StateRecord | None) -> bool:
+    """Whether this catalogued document was built by a superseded pipeline.
 
-    A document never seen before has nothing to compare, and is rebuilt anyway.
     A stored version of None — a row written before versions were stamped — is
     deliberately *not* current: unknown must read as stale, or the corpus that
-    most needs rebuilding is the one that never gets it.
+    most needs rebuilding is the one that never gets it. A document with no row
+    at all is not stale; it is unseen, and is built anyway.
     """
     from app.ingestion.version import PIPELINE_VERSION
 
-    if record.prior is None:
-        return False
-    return record.prior.pipeline_version != PIPELINE_VERSION
+    return prev is not None and prev.pipeline_version != PIPELINE_VERSION
+
+
+def pipeline_changed(record: ChangeRecord) -> bool:
+    """:func:`pipeline_stale` for a record the crawl has just yielded."""
+    return pipeline_stale(record.prior)
 
 
 def needs_rebuild(record: ChangeRecord, content_hash: str) -> bool:
@@ -94,9 +97,24 @@ def next_version(record: ChangeRecord) -> int:
 def compute_status(prev: StateRecord | None, fingerprint: str) -> ChangeStatus:
     """The NEW/CHANGED/UNCHANGED decision shared by every Drupal record (nodes,
     taxonomy terms, blocks and attachments alike): unseen before is NEW, a
-    changed fingerprint is CHANGED, otherwise UNCHANGED."""
+    changed fingerprint is CHANGED, otherwise UNCHANGED.
+
+    A superseded pipeline version counts as CHANGED. Without that the version
+    check downstream is unreachable for exactly the documents it exists for: an
+    UNCHANGED record is never built, so its content hash and its stored version
+    are never compared to anything, and a chunker fix would still never reach a
+    document whose source has not been edited since.
+
+    The cost is deliberate and bounded — after a version bump, every document the
+    crawl *reaches* is rebuilt — and which documents it reaches is still decided
+    by the incremental window. A corpus-wide reprocess is therefore a matter of
+    widening that window (see :mod:`app.ingestion.reprocess`), not of a second
+    code path that re-implements ingestion.
+    """
     if prev is None:
         return ChangeStatus.NEW
     if prev.fingerprint != fingerprint:
+        return ChangeStatus.CHANGED
+    if pipeline_stale(prev):
         return ChangeStatus.CHANGED
     return ChangeStatus.UNCHANGED
