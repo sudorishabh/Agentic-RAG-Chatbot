@@ -12,7 +12,7 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Iterable
 
-from app.catalog import schema, theme_taxonomy
+from app.catalog import author_names, schema, theme_taxonomy
 from app.catalog.db import now as _now
 from app.catalog.db import state_table as _table
 from app.catalog.models import AttachmentLink, StateRecord
@@ -58,6 +58,34 @@ def _replace_facet(
     if rows:
         cur.executemany(
             f"INSERT INTO `{table}_{facet}` (document_id, {facet}) VALUES (%s, %s)", rows
+        )
+
+
+def _replace_authors(
+    cur: Any, table: str, document_id: str, values: Iterable[str]
+) -> None:
+    """Rewrite a document's author rows, each with its normalized form beside it.
+
+    `author` is exactly what Drupal sent and is never rewritten — it is what an
+    answer displays and what makes a count traceable to the source.
+    `author_norm` is the formatting-normalized form (see
+    :mod:`app.catalog.author_names`), which is what a *distinct name* count
+    should group on: "Dr Jayanta Mitra" and "Dr. Jayanta Mitra" are one name
+    written two ways.
+
+    It is emphatically not a person id. Two people called "Arun Kumar" share a
+    normalized form here, exactly as they already share a raw one.
+    """
+    cur.execute(f"DELETE FROM `{table}_author` WHERE document_id = %s", (document_id,))
+    rows = [
+        (document_id, value[:255], author_names.normalize(value)[:255] or None)
+        for value in dict.fromkeys(v for v in values if v)
+    ]
+    if rows:
+        cur.executemany(
+            f"INSERT INTO `{table}_author` (document_id, author, author_norm) "
+            "VALUES (%s, %s, %s)",
+            rows,
         )
 
 
@@ -255,7 +283,7 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 now,
             ),
         )
-        _replace_facet(cur, table, "author", record.document_id, record.authors)
+        _replace_authors(cur, table, record.document_id, record.authors)
         _replace_facet(cur, table, "tag", record.document_id, record.tags)
         _replace_themes(cur, table, record.document_id, record.categories)
         _replace_attachment_links(cur, table, record.document_id, record.attachments)
@@ -301,7 +329,7 @@ def backfill_facets(
             f"WHERE document_id = %s",
             (_to_datetime(published_at), title, url, document_id),
         )
-        _replace_facet(cur, table, "author", document_id, authors)
+        _replace_authors(cur, table, document_id, authors)
         _replace_themes(cur, table, document_id, categories)
         conn.commit()
     return True

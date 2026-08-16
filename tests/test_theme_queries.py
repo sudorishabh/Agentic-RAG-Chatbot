@@ -195,7 +195,9 @@ def test_distribution_by_theme_groups_on_the_facet(monkeypatch):
     rows = state.distribution("theme", source_type="website")
     assert rows == [("Climate Change", 12), ("Energy", 5)]
     sql, params = cursor.calls[0]
-    assert "GROUP BY k ORDER BY n DESC" in sql
+    # Grouped on the key expression rather than the output alias: for authors
+    # the two differ, and MySQL will not group on an aggregate alias.
+    assert "GROUP BY gt.theme ORDER BY n DESC" in sql
     assert "_theme` gt" in sql and "gt.theme AS k" in sql
     assert "COUNT(DISTINCT s.document_id)" in sql
     # Same artefact exclusion as theme_vocabulary, so a breakdown and a listing
@@ -359,7 +361,7 @@ def test_count_distinct_counts_the_facet_not_the_documents(monkeypatch):
 
     assert state.count_distinct_values("author", theme="Energy") == 264
     sql, params = cursor.calls[0]
-    assert "COUNT(DISTINCT dv.author)" in sql
+    assert "COUNT(DISTINCT COALESCE(dv.author_norm, dv.author))" in sql
     assert "Energy" in params
 
 
@@ -402,8 +404,8 @@ def test_cross_distribution_groups_on_the_pair(monkeypatch):
     rows = state.cross_distribution("author", "theme", bundle="article")
     assert rows == [("Sharma", "Waste", 16)]
     sql, _ = cursor.calls[0]
-    assert "GROUP BY a, b" in sql
-    assert "ga.author AS a" in sql and "gb.theme AS b" in sql
+    assert "GROUP BY COALESCE(ga.author_norm, ga.author), gb.theme" in sql
+    assert "MIN(ga.author) AS a" in sql and "gb.theme AS b" in sql
     assert "COUNT(DISTINCT s.document_id)" in sql
 
 
@@ -462,7 +464,7 @@ def test_counting_a_non_theme_dimension_keeps_theme_group_as_a_document_scope(
     state.count_distinct_values("author", theme_group="main")
     sql, _ = cursor.calls[0]
     assert " g ON g.document_id" in sql and "g.theme_group = %s" in sql
-    assert "COUNT(DISTINCT dv.author)" in sql
+    assert "COUNT(DISTINCT COALESCE(dv.author_norm, dv.author))" in sql
 
 
 def test_cross_distribution_restricts_the_theme_side_whichever_it_is(monkeypatch):
@@ -521,3 +523,15 @@ def test_valid_keyword_calls_are_unchanged(monkeypatch):
         "author", "theme", source_type="website", bundle="article"
     )
     assert rows == [("Sharma", "Waste", 4)]
+
+
+def test_distribution_by_author_groups_on_the_normalized_name(monkeypatch):
+    """One name written two ways is one row, labelled with a raw spelling rather
+    than the lowercased key it grouped on."""
+    cursor = _FakeCursor(fetchall_results=[[{"k": "Dr Jayanta Mitra", "n": 7}]])
+    _patch(monkeypatch, state, cursor)
+
+    state.distribution("author")
+    sql, _ = cursor.calls[0]
+    assert "MIN(f.author) AS k" in sql
+    assert "GROUP BY COALESCE(f.author_norm, f.author)" in sql

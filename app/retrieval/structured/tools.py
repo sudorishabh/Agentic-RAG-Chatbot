@@ -446,12 +446,17 @@ def count_records(
             )
     phrase = _scope_phrase(scope.effective)
     verb = "is" if total == 1 else "are"
+    source_labels = count_of in _SOURCE_LABEL_DIMENSIONS
     if dimension:
         singular, plural = _COUNT_OF_NOUNS[count_of]
         noun = singular if total == 1 else plural
     else:
         noun = entity_label(bundle or "items", total)
-    rendered = f"There {verb} {total} {noun}{phrase} matching your query."
+    # A count of labels says where the labels come from. "955 authors" claims an
+    # identity resolution nobody has done; "955 distinct author names recorded
+    # in the source data" is what the query actually established.
+    tail = "recorded in the source data." if source_labels else "matching your query."
+    rendered = f"There {verb} {total} {noun}{phrase} {tail}"
     data: dict[str, Any] = {
         "count": total, "applied": _applied_filters(bundle, scope.effective),
     }
@@ -460,6 +465,12 @@ def count_records(
         # exactly what it has always been and no consumer has to learn a new key
         # to keep reading it.
         data["count_of"] = count_of
+        # What the number is a count of, spelled out for any consumer that
+        # renders it themselves rather than using `rendered`.
+        data["counts"] = (
+            "distinct_author_names_in_source" if source_labels
+            else f"distinct_{count_of}"
+        )
     return ToolResult(
         tool="count_records", entity=bundle, ok=True, data=data, rendered=rendered,
     )
@@ -604,12 +615,25 @@ _GROUP_DIMENSIONS: dict[str, tuple[str, str]] = {
 # Plural nouns for a distinct-facet count, so the answer names what was actually
 # counted. Getting this wrong is the whole risk of the operation: "264 articles
 # work on Energy" would be a confident, wrong sentence built from a right number.
+#
+# "author" is deliberately **not** "authors". Drupal stores authors as free
+# text; there is no author id, email or reference anywhere in the payload, and
+# the knowledge graph's person entities for authors are all provisional. So the
+# catalog can count distinct author *names* and cannot count people: two people
+# called "Arun Kumar" are one name, and one person written "Datta Debajit" and
+# "Debajit Datta" is two. Saying "authors" would assert an identity resolution
+# that has not been done — see reports/knowledge/ Step 6.
 _COUNT_OF_NOUNS: dict[str, tuple[str, str]] = {
     "theme": ("theme", "themes"),
     "content_type": ("content type", "content types"),
-    "author": ("author", "authors"),
+    "author": ("distinct author name", "distinct author names"),
     "year": ("year", "years"),
 }
+
+# Dimensions whose count is a count of *labels in the source*, not of the real
+# things behind them. The answer says so rather than leaving the reader to
+# assume otherwise.
+_SOURCE_LABEL_DIMENSIONS: frozenset[str] = frozenset({"author"})
 
 # The only value of `count_of` that means "the documents themselves".
 COUNT_RECORDS = "records"

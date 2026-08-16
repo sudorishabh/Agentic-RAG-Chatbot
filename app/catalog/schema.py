@@ -205,6 +205,38 @@ def migrate_renamed_facets(cur: Any, table: str, *, dry_run: bool = False) -> li
     return applied
 
 
+def migrate_author_names(cur: Any, table: str, *, dry_run: bool = False) -> list[str]:
+    """Add the derived `author_norm` column to ``documents_author``.
+
+    The raw Drupal value stays in `author`, untouched; `author_norm` holds its
+    formatting-normalized form (see :mod:`app.catalog.author_names`) so a count
+    of distinct author *names* is not inflated by spacing, punctuation, case or
+    a courtesy title. Exactly the arrangement `documents_theme` already uses:
+    the value as the CMS wrote it, plus what classification derived from it.
+
+    Nullable and unindexed-until-populated: existing rows keep NULL until
+    something fills them (``scripts.backfill_author_names``, or the document's
+    next ingest), so adding the column changes no answer on its own.
+
+    Idempotent. Returns the statements applied (or, under ``dry_run``, the ones
+    that would be).
+    """
+    author_table = f"{table}_author"
+    applied: list[str] = []
+    if not _table_exists(cur, author_table):
+        return applied
+    if _column_exists(cur, author_table, "author_norm"):
+        return applied
+    stmt = (
+        f"ALTER TABLE `{author_table}` ADD COLUMN author_norm VARCHAR(255) NULL, "
+        "ADD KEY idx_author_norm (author_norm)"
+    )
+    applied.append(stmt)
+    if not dry_run:
+        cur.execute(stmt)
+    return applied
+
+
 def migrate_theme_hierarchy(cur: Any, table: str, *, dry_run: bool = False) -> list[str]:
     """Bring a pre-hierarchy ``documents_theme`` up to the current shape.
 
@@ -268,6 +300,7 @@ def ensure_state_table() -> None:
         migrate_renamed_facets(cur, table)
         for facet in STATE_FACETS:
             cur.execute(_STATE_CHILD_DDL.format(table=table, facet=facet))
+        migrate_author_names(cur, table)
         # Create then migrate: a fresh install gets the hierarchy from the DDL
         # and the migration no-ops; a legacy table survives CREATE IF NOT EXISTS
         # untouched and gets its columns from the migration.

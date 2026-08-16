@@ -255,6 +255,10 @@ def distribution(
         published_from=published_from, published_to=published_to,
     )
 
+    # `label` is what the row is called; `key` is what it groups on. They
+    # differ only for authors, where the grouping key is a normalized name
+    # and the label a raw spelling of it.
+    label = None
     if group_by == "bundle":
         group_join, key = "", "s.bundle"
     elif group_by == "year":
@@ -274,7 +278,12 @@ def distribution(
             params.append(theme_group)
     else:  # author -> multi-valued facet table
         group_join = f" JOIN `{table}_{group_by}` f ON f.document_id = s.document_id"
-        key = f"f.{group_by}"
+        # Grouped on the normalized name so spellings of one name are one row,
+        # but labelled with a raw spelling so the answer echoes the source
+        # rather than a lowercased key. MIN is arbitrary among spellings but
+        # deterministic, which is what a repeated query needs.
+        key = _author_key("f")
+        label = "MIN(f.author)"
 
     # A facet join — from the scope filters or the group key itself — can repeat
     # a document across rows, so count distinct documents unless the query stays
@@ -287,9 +296,9 @@ def distribution(
     where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
     capped = max(1, min(int(limit or 20), 100))
     sql = (
-        f"SELECT {key} AS k, {count_expr} AS n "
+        f"SELECT {label or key} AS k, {count_expr} AS n "
         f"FROM `{table}` s{scope_joins}{group_join}{where} "
-        f"GROUP BY k ORDER BY n DESC, k ASC LIMIT {capped}"
+        f"GROUP BY {key} ORDER BY n DESC, k ASC LIMIT {capped}"
     )
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(sql, tuple(params))
@@ -297,23 +306,45 @@ def distribution(
     return [(str(row["k"]), int(row["n"])) for row in rows if row["k"] is not None]
 
 
-def _dimension_sql(dimension: str, table: str, alias: str) -> tuple[str, str]:
-    """(join, key expression) for one groupable/countable dimension.
+# Author identity for counting and grouping. `author_norm` is the
+# formatting-normalized form written beside the raw value (see
+# `app.catalog.author_names`); COALESCE keeps a row written before the column
+# existed countable under its raw spelling rather than collapsing every such row
+# into a single NULL group.
+#
+# It groups author *names*, not people: two people called "Arun Kumar" share a
+# normalized form exactly as they already shared a raw one, and name-order
+# variants ("Datta Debajit" / "Debajit Datta") remain separate because deciding
+# they are one person is an inference this layer does not make.
+def _author_key(alias: str) -> str:
+    return f"COALESCE({alias}.author_norm, {alias}.author)"
+
+
+def _dimension_sql(
+    dimension: str, table: str, alias: str
+) -> tuple[str, str, str]:
+    """(join, group key, display label) for one dimension.
+
+    Key and label are the same expression everywhere except authors, where
+    rows group on the normalized name but are labelled with a raw spelling
+    so an answer echoes the source rather than a lowercased key.
 
     Shared by :func:`count_distinct_values` and :func:`cross_distribution` so a
     dimension means the same thing however it is used — the alias is the
     caller's so two dimensions can appear in one query without colliding.
     """
     if dimension == "bundle":
-        return "", "s.bundle"
+        return "", "s.bundle", "s.bundle"
     if dimension == "year":
-        return "", "YEAR(s.published_at)"
+        return "", "YEAR(s.published_at)", "YEAR(s.published_at)"
     if dimension in ("author", "theme"):
-        return (
+        join = (
             f" JOIN `{table}_{dimension}` {alias}"
-            f" ON {alias}.document_id = s.document_id",
-            f"{alias}.{dimension}",
+            f" ON {alias}.document_id = s.document_id"
         )
+        if dimension == "author":
+            return join, _author_key(alias), f"MIN({alias}.author)"
+        return join, f"{alias}.{dimension}", f"{alias}.{dimension}"
     raise ValueError(f"dimension must be one of {_DISTRIBUTION_DIMENSIONS}")
 
 
@@ -358,7 +389,7 @@ def count_distinct_values(
     # for a *different* purpose ("themes that Author X writes in" filters on
     # author and counts themes), and reusing their alias would count only the
     # rows that matched the filter.
-    join, key = _dimension_sql(dimension, table, "dv")
+    join, key, _label = _dimension_sql(dimension, table, "dv")
     if dimension == "year":
         clauses.append("s.published_at IS NOT NULL")
     if dimension == "theme":
@@ -425,8 +456,8 @@ def cross_distribution(
         author=author, theme=theme, theme_group=theme_group, tag=tag,
         published_from=published_from, published_to=published_to,
     )
-    join_a, key_a = _dimension_sql(first, table, "ga")
-    join_b, key_b = _dimension_sql(second, table, "gb")
+    join_a, key_a, label_a = _dimension_sql(first, table, "ga")
+    join_b, key_b, label_b = _dimension_sql(second, table, "gb")
     for dimension, alias in ((first, "ga"), (second, "gb")):
         if dimension == "year":
             clauses.append("s.published_at IS NOT NULL")
@@ -444,9 +475,9 @@ def cross_distribution(
     where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
     capped = max(1, min(int(limit or 50), 500))
     sql = (
-        f"SELECT {key_a} AS a, {key_b} AS b, COUNT(DISTINCT s.document_id) AS n "
+        f"SELECT {label_a} AS a, {label_b} AS b, COUNT(DISTINCT s.document_id) AS n "
         f"FROM `{table}` s{joins}{join_a}{join_b}{where} "
-        f"GROUP BY a, b ORDER BY n DESC, a ASC, b ASC LIMIT {capped}"
+        f"GROUP BY {key_a}, {key_b} ORDER BY n DESC, a ASC, b ASC LIMIT {capped}"
     )
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(sql, tuple(params))
