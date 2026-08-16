@@ -28,6 +28,7 @@ __all__ = [
     "get",
     "upsert",
     "delete",
+    "clear_change_markers",
     "attachment_ids_for",
     "orphaned_attachments",
     "backfill_facets",
@@ -302,6 +303,44 @@ def delete(document_ids: Iterable[str]) -> int:
         )
         conn.commit()
     return int(removed or 0)
+
+
+def clear_change_markers(document_id: str) -> bool:
+    """Make the next crawl treat this document as changed — without deleting it.
+
+    Two independent signals gate re-indexing, and anything asking for a document
+    to be rebuilt has to clear both:
+
+    * ``fingerprint`` is the *crawl's* change test (:func:`compute_status`).
+      While it still matches the source's ``changed`` value the record resolves
+      UNCHANGED and the document is never even built, so the content hash below
+      would never be consulted.
+    * ``content_hash`` is the *pipeline's* test, which decides between refreshing
+      the fingerprint and re-indexing for real.
+
+    ``changed_mark`` is deliberately left in place. It is the document's position
+    in the crawl, and the retry marker written alongside this call needs it to
+    pull the window back far enough to reach the document at all — clearing it
+    would strand exactly the document being repaired.
+
+    Nothing else is touched: the row, its facets, its attachments links and its
+    indexed vectors all survive, so the document stays searchable and correctly
+    catalogued right up until its replacement is indexed.
+
+    Returns False when no such document is catalogued.
+    """
+    table = _table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(f"SELECT 1 FROM `{table}` WHERE document_id = %s", (document_id,))
+        if cur.fetchone() is None:
+            return False
+        cur.execute(
+            f"UPDATE `{table}` SET fingerprint = '', content_hash = '', "
+            f"updated_at = %s WHERE document_id = %s",
+            (_now(), document_id),
+        )
+        conn.commit()
+    return True
 
 
 def backfill_facets(

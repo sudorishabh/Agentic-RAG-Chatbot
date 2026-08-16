@@ -78,6 +78,18 @@ async def ingest_log_route(
 
 @router.post("/reindex", response_model=ReindexResponse)
 async def reindex(request: ReindexRequest) -> ReindexResponse:
+    """Queue a document to be rebuilt, or run a full sweep.
+
+    Deletes nothing. A document reindex records a retry marker and clears the
+    document's change markers, so the next crawl reaches it and rebuilds it; its
+    catalog row and its existing vectors stay in place and are replaced only once
+    the new version has been indexed. ``status="queued"`` says the request was
+    recorded, not that the rebuild has happened — the next sweep does that.
+
+    404 when the document is not catalogued: there is nothing to queue, and
+    answering 200 would repeat the false-confidence the old ``status="reset"``
+    gave for a document it had just made unrecoverable.
+    """
     if request.sweep:
         from app.workers.tasks import sweep
 
@@ -89,4 +101,9 @@ async def reindex(request: ReindexRequest) -> ReindexResponse:
     from app.workers.tasks import reindex_document
 
     detail = await run_in_threadpool(reindex_document, request.document_id, request.source_type)
-    return ReindexResponse(status="reset", detail=detail)
+    if detail.get("status") == "unknown":
+        raise HTTPException(
+            status_code=404,
+            detail=f"{request.document_id} is not catalogued; nothing to reindex.",
+        )
+    return ReindexResponse(status=detail.get("status", "queued"), detail=detail)

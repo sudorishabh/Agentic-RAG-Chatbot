@@ -22,14 +22,70 @@ def sweep() -> dict[str, dict[str, int]]:
     return result
 
 
-def reindex_document(document_id: str, source_type: str = "website") -> dict[str, Any]:
-    from app.catalog import state
-    from app.core.clients import delete_document
+# What a reindex request is called in `documents_retry.outcome`. Its own value
+# rather than "error": the document did not fail, an operator asked for it back,
+# and a retry queue that cannot tell those apart cannot be triaged.
+REINDEX_OUTCOME = "reindex"
 
-    delete_document(document_id)
-    removed = state.delete([document_id])
-    logger.info("Reindex reset %s (%s); %d manifest rows removed", document_id, source_type, removed)
-    return {"document_id": document_id, "manifest_rows_removed": removed}
+
+def reindex_document(document_id: str, source_type: str = "website") -> dict[str, Any]:
+    """Queue a document to be rebuilt on the next crawl. Deletes nothing.
+
+    This used to delete the document's vectors *and* its catalog row. The row is
+    what positions the incremental crawl — the window is
+    ``changed >= MAX(changed_mark)`` per bundle — so removing it put every
+    document whose ``changed`` predated its bundle's high-water mark permanently
+    out of reach: the repair tool was the most destructive operation in the
+    system, and it reported ``status="reset"`` as though it were recoverable.
+
+    What it does instead is state two facts and let the ordinary pipeline act on
+    them:
+
+    * a retry marker, which floors the crawl window at this document's position
+      so the next sweep actually reaches it;
+    * cleared change markers, so the crawl calls it CHANGED and the pipeline
+      re-indexes it rather than refreshing a fingerprint.
+
+    The vectors stay exactly where they are. They are replaced by the swap in
+    ``_handle`` — new points upserted first, everything else for the document
+    deleted after — so the document is searchable throughout, and a failed or
+    interrupted rebuild leaves the version it already had.
+
+    ``source_type`` is accepted for the API's shape and logged; the catalogued
+    row is authoritative for what the document actually is.
+    """
+    from app.catalog import retries, state
+
+    prior = state.get(document_id)
+    if prior is None:
+        logger.warning(
+            "Reindex requested for %s, which is not catalogued; nothing to queue.",
+            document_id,
+        )
+        return {"document_id": document_id, "status": "unknown"}
+
+    retries.ensure_table()
+    retries.record(
+        document_id,
+        source_type=prior.source_type,
+        bundle=prior.bundle,
+        changed_mark=prior.changed_mark,
+        outcome=REINDEX_OUTCOME,
+        error="reindex requested by an operator",
+    )
+    state.clear_change_markers(document_id)
+    logger.info(
+        "Reindex queued for %s (%s/%s, changed_mark=%s); nothing was deleted.",
+        document_id, prior.source_type, prior.bundle, prior.changed_mark,
+    )
+    return {
+        "document_id": document_id,
+        "status": "queued",
+        "source_type": prior.source_type,
+        "bundle": prior.bundle,
+        "changed_mark": prior.changed_mark,
+        "doc_version": prior.doc_version,
+    }
 
 
 def _main(argv: list[str] | None = None) -> int:
