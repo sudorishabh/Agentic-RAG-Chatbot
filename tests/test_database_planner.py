@@ -451,11 +451,13 @@ def test_the_llm_planner_can_set_both_new_fields():
 def test_the_new_shapes_keep_the_theme_group_rule():
     """Step 2's main-vs-other restriction must survive the new operations: a
     generic distinct count or pair breakdown is still about the main structure."""
+    # No theme dimension and no mention of themes: no restriction. Applying
+    # one would drop every author whose documents carry no theme.
     generic = planner.plan(
         _slots(operation="count", count_of="author"),
         question="How many authors are there?",
     ).calls[0]
-    assert generic.filters.theme_group == "main"
+    assert generic.filters.theme_group is None
 
     paired = planner.plan(
         _slots(operation="distribution", group_by="author",

@@ -237,7 +237,7 @@ def test_theme_resolution_still_reaches_other_themes(monkeypatch):
 @pytest.mark.parametrize(
     "question,expected",
     [
-        ("How many articles are there?", "main"),
+        ("How many articles are there?", None),
         ("How many articles under each main theme?", "main"),
         ("How many articles are under the other themes?", "other"),
         ("How many articles across all themes?", None),

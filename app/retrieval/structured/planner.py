@@ -59,13 +59,22 @@ def _year_dates(year: Any) -> tuple[str | None, str | None]:
     return f"{y:04d}-01-01", f"{y + 1:04d}-01-01"
 
 
-def _theme_group_for(question: str | None) -> str | None:
+def _theme_group_for(question: str | None, *, applies: bool = True) -> str | None:
     """The `theme_group` a question's counts should be restricted to.
+
+    ``applies`` is whether a theme restriction belongs on this query at all.
+    Themes scope a question that concerns themes; imposing them on one that does
+    not is a silent narrowing, because the filter is a join against
+    `documents_theme` and a document carrying no theme then disappears. Measured
+    when that was the behaviour: "how many authors are there?" answered 876
+    instead of 955, and a plain document count lost 2,620 untagged documents.
 
     "all" means no restriction rather than a third group, so an explicit request
     for everything counts across main, other and the themes the map has not
     classified — which is what "every theme" means.
     """
+    if not applies:
+        return None
     scope = theme_scope.detect(question)
     return None if scope == theme_scope.SCOPE_ALL else scope
 
@@ -91,20 +100,32 @@ def _tool_call(
     if not date_from and not date_to:
         date_from, date_to = _year_dates(getattr(slots, "year", None))
     tags = getattr(slots, "tags", None)
+    operation = getattr(slots, "operation", None) or "list"
+    # A theme restriction belongs on a query that concerns themes: one whose
+    # answer is broken down or counted *by* theme, or one whose wording is about
+    # themes. On anything else it would silently drop every untagged document.
+    themed = (
+        operation == "list_themes"
+        or "theme" in (
+            getattr(slots, "group_by", None),
+            getattr(slots, "secondary_group_by", None),
+            getattr(slots, "count_of", None),
+        )
+        or theme_scope.mentions_themes(question)
+    )
     filters = RecordFilters(
         theme=getattr(slots, "theme", None),
         # The same rule the theme *listing* follows, applied to counts: a
         # question that names no theme is answered over the main structure
         # unless it asks otherwise. `resolve_filters` drops this whenever a
         # theme was named, so a named Other theme stays countable.
-        theme_group=_theme_group_for(question),
+        theme_group=_theme_group_for(question, applies=themed),
         tag=tags[0] if tags else None,
         author=getattr(slots, "author", None),
         title_contains=getattr(slots, "title_contains", None),
         date_from=date_from,
         date_to=date_to,
     )
-    operation = getattr(slots, "operation", None) or "list"
     bundle = getattr(slots, "bundle", None)
     limit = getattr(slots, "limit", 10) or 10
     if operation == "count":
@@ -273,8 +294,17 @@ def _to_tool_call(
         filters=RecordFilters(
             theme=call.theme,
             # Not an LLM-settable field: the group restriction comes from
-            # the question text by the same rule the v1 planner uses.
-            theme_group=_theme_group_for(question),
+            # the question text by the same rule the v1 planner uses, and
+            # only when the query concerns themes at all.
+            theme_group=_theme_group_for(
+                question,
+                applies=(
+                    call.tool == "list_themes"
+                    or "theme" in (call.group_by, call.secondary_group_by,
+                                   call.count_of)
+                    or theme_scope.mentions_themes(question)
+                ),
+            ),
             author=call.author,
             title_contains=call.title_contains,
             date_from=call.date_from,

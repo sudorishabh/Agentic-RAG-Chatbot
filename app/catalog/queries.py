@@ -343,9 +343,15 @@ def count_distinct_values(
     if dimension not in _DISTRIBUTION_DIMENSIONS:
         raise ValueError(f"dimension must be one of {_DISTRIBUTION_DIMENSIONS}")
     table = _table()
+    # Counting themes applies `theme_group` to the counted themes, not to the
+    # documents — exactly as `distribution` does when grouping by theme. As a
+    # document scope it would count every theme on any document that carries at
+    # least one main theme, so "how many main themes are there" answered 30,
+    # eight of which were Other themes.
+    scope_group = None if dimension == "theme" else theme_group
     joins, clauses, params, _ = _catalog_filters(
         source_type, bundle, entity_type=entity_type, title_contains=title_contains,
-        author=author, theme=theme, theme_group=theme_group, tag=tag,
+        author=author, theme=theme, theme_group=scope_group, tag=tag,
         published_from=published_from, published_to=published_to,
     )
     # A dedicated alias: the scope filters may already join the same facet table
@@ -359,6 +365,9 @@ def count_distinct_values(
         placeholders = ", ".join(["%s"] * len(_NON_THEME_VALUES))
         clauses.append(f"dv.theme <> '' AND dv.theme NOT IN ({placeholders})")
         params.extend(_NON_THEME_VALUES)
+        if theme_group:
+            clauses.append("dv.theme_group = %s")
+            params.append(theme_group)
     where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
     sql = (
         f"SELECT COUNT(DISTINCT {key}) AS n FROM `{table}` s{joins}{join}{where}"

@@ -31,7 +31,31 @@ import re
 
 from app.retrieval.structured.tools import SCOPE_ALL, SCOPE_MAIN, SCOPE_OTHER
 
-__all__ = ["detect", "SCOPE_MAIN", "SCOPE_OTHER", "SCOPE_ALL"]
+__all__ = [
+    "detect", "mentions_themes", "SCOPE_MAIN", "SCOPE_OTHER", "SCOPE_ALL",
+]
+
+# Words that make a question *about* themes. `detect` says which group a theme
+# question wants; this says whether it is a theme question at all — and the two
+# are different jobs. Conflating them applied a Main-theme restriction to every
+# count, so "how many authors are there?" quietly excluded every author whose
+# documents carry no main theme (955 -> 876) and a plain document count lost
+# 2,620 untagged documents.
+_ABOUT_THEMES = re.compile(
+    r"\b(?:theme|themes|thematic|topic|topics|subject\s+area|focus\s+area)\w*\b",
+    re.IGNORECASE,
+)
+
+
+def mentions_themes(question: str | None) -> bool:
+    """Whether the question is about themes at all.
+
+    A theme restriction is only ever right for a question that concerns themes.
+    For anything else the honest scope is the whole catalog — a document with no
+    theme is still a document, and an author with no themed work is still an
+    author.
+    """
+    return bool(_ABOUT_THEMES.search(question or ""))
 
 # An explicit request for the themes *outside* the main structure.
 #

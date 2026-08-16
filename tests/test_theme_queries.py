@@ -430,3 +430,46 @@ def test_cross_distribution_clamps_its_limit(monkeypatch):
     state.cross_distribution("author", "theme", limit=100_000)
     sql, _ = cursor.calls[0]
     assert "LIMIT 500" in sql
+
+
+def test_counting_themes_restricts_the_counted_themes_not_the_documents(monkeypatch):
+    """The same scope-versus-dimension trap `distribution` had, found in the
+    Step 5 review on the distinct-count path.
+
+    As a document scope, `theme_group='main'` only requires a document to carry
+    *some* main theme — so counting distinct themes over those documents also
+    counted their Other themes. "How many main themes are there?" answered 30,
+    eight of which were Other themes.
+    """
+    cursor = _FakeCursor(fetchall_results=[], fetchone_results=[{"n": 22}])
+    _patch(monkeypatch, state, cursor)
+
+    state.count_distinct_values("theme", theme_group="main")
+    sql, params = cursor.calls[0]
+    assert "dv.theme_group = %s" in sql, "must filter the counted alias"
+    assert " g ON g.document_id" not in sql, "and not add a document scope join"
+    assert "main" in params
+
+
+def test_counting_a_non_theme_dimension_keeps_theme_group_as_a_document_scope(
+    monkeypatch,
+):
+    """"How many authors work on main-theme documents" — here the group really
+    is a property of the documents, so the separate join is the right shape."""
+    cursor = _FakeCursor(fetchall_results=[], fetchone_results=[{"n": 5}])
+    _patch(monkeypatch, state, cursor)
+
+    state.count_distinct_values("author", theme_group="main")
+    sql, _ = cursor.calls[0]
+    assert " g ON g.document_id" in sql and "g.theme_group = %s" in sql
+    assert "COUNT(DISTINCT dv.author)" in sql
+
+
+def test_cross_distribution_restricts_the_theme_side_whichever_it_is(monkeypatch):
+    """Either order must restrict the theme dimension itself."""
+    for first, second, alias in (("author", "theme", "gb"), ("theme", "author", "ga")):
+        cursor = _FakeCursor(fetchall_results=[[]])
+        _patch(monkeypatch, state, cursor)
+        state.cross_distribution(first, second, theme_group="main")
+        sql, _ = cursor.calls[0]
+        assert f"{alias}.theme_group = %s" in sql, (first, second)
