@@ -19,6 +19,7 @@ import gc
 import logging
 import os
 import tempfile
+import threading
 
 from app.config import get_settings
 from app.ingestion.extractors.pdf_extractor import (
@@ -30,6 +31,26 @@ from app.ingestion.extractors.pdf_extractor import (
 logger = logging.getLogger(__name__)
 
 __all__ = ["extract_tables"]
+
+# Camelot's PDF backend is pypdfium2, which keeps its open-document bookkeeping
+# in module-level state -- an `ObjectTracker` dict, plus a `_kids` set per
+# object -- and takes no lock over any of it (pypdfium2/internal/bases.py:81-88,
+# 151-180). Two worker threads inside `read_pdf` therefore race that
+# bookkeeping. Measured under `ingest_workers` > 1: "Some kids weakrefs have not
+# been cleaned up", an AssertionError raised from the object finalizer, and --
+# once the underlying PDFium objects are freed twice -- an intermittent hard
+# crash of the whole process with STATUS_HEAP_CORRUPTION (0xC0000374). Seen at
+# 2 and 4 workers, never at 1, and the frequency scales with the worker count.
+#
+# `_remove_temp_pdf`'s `gc.collect()` compounds it: running the finalizers is
+# exactly what trips the race.
+#
+# Serializing table extraction is the smallest change that makes
+# `ingest_workers > 1` safe. Everything else in the per-document path --
+# download, Azure OCR, embedding, upsert, catalog writes -- stays concurrent,
+# and Camelot holds the GIL throughout anyway, so almost no parallelism is
+# given up. Module-level, because the state being guarded is the library's own.
+_camelot_lock = threading.Lock()
 
 
 def _table_to_data(table) -> TableData | None:
@@ -149,21 +170,25 @@ def extract_tables(
     primary = (settings.camelot_flavor or "lattice").strip().lower()
     pages_arg = _page_range_str(page_numbers) if page_numbers else "all"
 
-    tmp_path: str | None = None
-    try:
-        fd, tmp_path = tempfile.mkstemp(suffix=".pdf")
-        os.close(fd)
-        _write_pdf(content, tmp_path)
+    # Held across the temp file's whole life, not just `read_pdf`: the backend's
+    # objects outlive the call and are torn down by the finalizers that
+    # `_remove_temp_pdf` forces, so the cleanup races too.
+    with _camelot_lock:
+        tmp_path: str | None = None
+        try:
+            fd, tmp_path = tempfile.mkstemp(suffix=".pdf")
+            os.close(fd)
+            _write_pdf(content, tmp_path)
 
-        by_page = _run_flavor(tmp_path, pages_arg, primary)
+            by_page = _run_flavor(tmp_path, pages_arg, primary)
 
-        # Pages that produced nothing under "lattice" (no ruled borders) get a
-        # second pass with the borderless "stream" flavor.
-        if primary == "lattice" and page_numbers:
-            missing = [n for n in page_numbers if n not in by_page]
-            if missing:
-                by_page.update(_run_flavor(tmp_path, _page_range_str(missing), "stream"))
-        return by_page
-    finally:
-        if tmp_path:
-            _remove_temp_pdf(tmp_path)
+            # Pages that produced nothing under "lattice" (no ruled borders) get a
+            # second pass with the borderless "stream" flavor.
+            if primary == "lattice" and page_numbers:
+                missing = [n for n in page_numbers if n not in by_page]
+                if missing:
+                    by_page.update(_run_flavor(tmp_path, _page_range_str(missing), "stream"))
+            return by_page
+        finally:
+            if tmp_path:
+                _remove_temp_pdf(tmp_path)
