@@ -3,9 +3,10 @@ import hashlib
 import logging
 import re
 from dataclasses import dataclass, field
+from html import unescape
 from html.parser import HTMLParser
 from typing import Any, Iterable, Iterator
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -417,7 +418,10 @@ def _resolve_files(
             rel_url = uri.get("url") if isinstance(uri, dict) else None
             if not rel_url:
                 continue
-            abs_url = rel_url if rel_url.startswith("http") else f"{site}{rel_url}"
+            # The same resolution the in-body links get, so one file reached both
+            # ways de-duplicates — and so a uri.url that is scheme-relative or
+            # lacks its leading slash cannot be concatenated into nonsense.
+            abs_url = _normalize_link(rel_url, site, from_html=False)
             if abs_url in seen:
                 continue
             seen.add(abs_url)
@@ -448,6 +452,36 @@ def _iter_rich_text(attributes: dict) -> Iterator[str]:
             yield value
 
 
+def _normalize_link(raw: str, site: str, *, from_html: bool = True) -> str:
+    """One link as the browser would resolve it: an absolute, usable URL.
+
+    Two things stood between the regex's capture and that, and each cost real
+    documents:
+
+    * **HTML entities.** The regex lifts the attribute value verbatim, so
+      ``Receipts_&amp;_Payments.pdf`` stayed escaped and every download 404'd.
+      Fifteen attachment links carried ``&amp;``; the decoded URLs all answer
+      200. ``unescape`` handles the numeric forms (``&#38;``) too.
+    * **Surrounding whitespace.** ``href=" https://…"`` did not start with
+      "http" once the space was counted, so an absolute URL was resolved as a
+      relative one and concatenated onto the site base — producing
+      ``https://teriin.org/ https://www.ceew.in/….pdf``, which cannot resolve.
+      Worse, the bare-URL regex matched the same link correctly, so the page
+      emitted *two* documents: one that worked and one that never could.
+
+    Resolution is ``urljoin`` rather than a hand-rolled prefix test, so an
+    absolute URL, a scheme-relative ``//host/path``, a root-relative ``/path``
+    and a plain relative path each resolve the way they do in a browser. The
+    string comparison this replaces got the first two wrong.
+
+    ``from_html=False`` for a value that came out of JSON:API rather than out of
+    markup. There are no entities to decode there, and a file whose name really
+    does contain the characters "&amp;" must not have them rewritten.
+    """
+    cleaned = unescape(raw).strip() if from_html else raw.strip()
+    return urljoin(site, cleaned)
+
+
 def _extract_inbody_pdfs(
     attributes: dict, site: str, seen_urls: set[str]
 ) -> list[DrupalFile]:
@@ -465,11 +499,19 @@ def _extract_inbody_pdfs(
     out: list[DrupalFile] = []
     local_seen = set(seen_urls)
     for html in _iter_rich_text(attributes):
-        candidates = set(_HREF_PDF_RE.findall(html)) | set(_BARE_PDF_RE.findall(html))
+        # Sorted, not set-ordered: two spellings of one link normalise to the
+        # same URL and the same identity, but the order documents are emitted in
+        # should not vary between runs over identical input.
+        candidates = sorted(
+            set(_HREF_PDF_RE.findall(html)) | set(_BARE_PDF_RE.findall(html))
+        )
         for raw in candidates:
-            if not raw.split("?")[0].lower().endswith(".pdf"):
+            # Normalised before anything is decided about it: the ".pdf" test,
+            # the internal-host test, the de-duplication and the identity below
+            # all have to see the URL that will actually be fetched.
+            abs_url = _normalize_link(raw, site)
+            if not abs_url.split("?")[0].lower().endswith(".pdf"):
                 continue
-            abs_url = raw if raw.lower().startswith("http") else f"{site}{raw if raw.startswith('/') else '/' + raw}"
             host = urlparse(abs_url).netloc.lower().removeprefix("www.")
             is_internal = (not host) or host == site_host or "teriin.org" in host or "teri.res.in" in host
             if not is_internal and not ingest_external:
