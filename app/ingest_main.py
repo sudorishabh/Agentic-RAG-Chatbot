@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from app.api.health import require_for_readiness
 from app.api.health import router as health_router
 from app.api.ingest import router as ingest_router
 from app.app_factory import create_base_app
@@ -26,6 +27,11 @@ async def lifespan(app: FastAPI):
 # Ingestion server: background change-detection sweep + ingest/reindex control
 # endpoints. Run separately from the retrieval server, e.g.:
 #   uvicorn app.ingest_main:app --port 8001
+# MySQL is the system of record for ingestion — the crawl cursor, the retry
+# floor and every write live in it — so this server is not ready without it.
+# The retrieval server makes no such claim: it answers from Qdrant.
+require_for_readiness("mysql")
+
 app = create_base_app("Agentic RAG Ingestion", lifespan=lifespan)
 
 app.include_router(health_router)

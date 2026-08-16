@@ -38,6 +38,33 @@ def _qdrant_status() -> dict:
             "collection_exists": exists, "points": points}
 
 
+def _mysql_status() -> dict:
+    """Catalog reachability. One round trip, no table scan."""
+    from app.core.clients import mysql_connection
+
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute("SELECT 1")
+        cur.fetchone()
+    return {"reachable": True, "database": get_settings().mysql_database}
+
+
+# Stores this process cannot serve its purpose without. Qdrant is always one.
+# MySQL is added by the ingestion server (app.ingest_main): it is the system of
+# record there — the crawl cursor, the retry floor and every write live in it —
+# so an ingestion server that cannot reach it is not ready by any definition.
+#
+# The retrieval server deliberately does not require it: dense retrieval answers
+# from Qdrant alone, and taking the whole API out of a load balancer over a
+# catalog blip would turn a degraded feature into an outage. It still reports
+# MySQL's state in the detail body.
+_REQUIRED_STORES: set[str] = set()
+
+
+def require_for_readiness(*stores: str) -> None:
+    """Declare which optional stores this process must be able to reach."""
+    _REQUIRED_STORES.update(stores)
+
+
 def _neo4j_status() -> dict:
     """Knowledge-graph reachability, plus how much is in it.
 
@@ -88,20 +115,30 @@ async def ready() -> JSONResponse:
     carries infrastructure detail only when ``ops_detail_enabled`` — error
     strings and point counts fingerprint the deployment on the public API."""
     detail = get_settings().ops_detail_enabled
-    try:
-        qdrant = await run_in_threadpool(_qdrant_status)
-    except Exception as exc:
+    probes: dict[str, dict] = {}
+    failed: dict[str, str] = {}
+
+    for name, probe in (("qdrant", _qdrant_status), ("mysql", _mysql_status)):
+        if name != "qdrant" and name not in _REQUIRED_STORES and not detail:
+            # Not required here and nobody will read the body: don't pay for it.
+            continue
+        try:
+            probes[name] = await run_in_threadpool(probe)
+        except Exception as exc:
+            probes[name] = {"reachable": False, "error": str(exc)}
+            if name == "qdrant" or name in _REQUIRED_STORES:
+                failed[name] = str(exc)
+
+    if failed:
         content: dict = {"status": "not_ready"}
         if detail:
-            content["qdrant"] = {"reachable": False, "error": str(exc)}
+            content.update(probes)
         return JSONResponse(status_code=503, content=content)
     if not detail:
         return JSONResponse(content={"status": "ready"})
-    redis = await run_in_threadpool(_redis_status)
-    neo4j = await run_in_threadpool(_neo4j_status)
-    return JSONResponse(
-        content={"status": "ready", "qdrant": qdrant, "redis": redis, "neo4j": neo4j}
-    )
+    probes["redis"] = await run_in_threadpool(_redis_status)
+    probes["neo4j"] = await run_in_threadpool(_neo4j_status)
+    return JSONResponse(content={"status": "ready", **probes})
 
 
 @router.get("/metrics/timings")
@@ -130,8 +167,19 @@ async def metrics(principal: Principal = Depends(optional_principal)) -> dict:
         qdrant = await run_in_threadpool(_qdrant_status)
     except Exception as exc:
         qdrant = {"reachable": False, "error": str(exc)}
+    # The last reconciliation this process ran, never a fresh one: the checks
+    # scroll the whole collection, which is not something a metrics scrape may
+    # trigger. Absent until the first sweep has finished one.
+    from app.ingestion.reconcile import last_report
+
+    report = last_report()
     return {
         "service": settings.otel_service_name,
+        "corpus_reconciliation": (
+            {"ok": report.ok, "documents": report.documents, "points": report.points,
+             "drift": {c.name: c.count for c in report.drift}}
+            if report is not None else None
+        ),
         "qdrant": qdrant,
         "redis": await run_in_threadpool(_redis_status),
         "neo4j": await run_in_threadpool(_neo4j_status),

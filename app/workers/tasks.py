@@ -19,6 +19,16 @@ def sweep() -> dict[str, dict[str, int]]:
     settings = get_settings()
     result = {"drupal": ingest_drupal(reconcile=settings.worker_sweep_reconcile)}
     logger.info("Sweep complete: %s", result)
+    # After the ingestion, not inside it: reconciliation compares the finished
+    # state of the stores, and it must never be able to affect the run whose
+    # result was just logged above.
+    from app.ingestion.reconcile import reconcile_after_sweep
+
+    report = reconcile_after_sweep()
+    if report is not None:
+        result["reconciliation"] = {
+            check.name: check.count for check in report.checks if not check.skipped
+        }
     return result
 
 

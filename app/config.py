@@ -76,6 +76,12 @@ class Settings(BaseSettings):
     semantic_cache_prune_every: int = 200
     worker_sweep_interval_seconds: int = 3600
     worker_sweep_reconcile: bool = False
+    # Cross-store reconciliation (app.ingestion.reconcile) after each sweep:
+    # MySQL against Qdrant against the graph, logged and kept for /metrics. It
+    # scrolls the whole collection, so it costs one pass over the points per
+    # sweep — the price of not discovering silent drift months later. It only
+    # ever reads, and never fails a sweep.
+    verify_corpus_after_sweep: bool = True
     retrieval_top_k: int = 6
     retrieval_candidate_k: int = 40
     # Website-content preference (see docs/website-preference-retrieval.md).
