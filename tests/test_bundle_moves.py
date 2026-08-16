@@ -107,8 +107,16 @@ def world(monkeypatch):
     monkeypatch.setattr(pipeline.state, "attachment_ids_for", lambda doc_id: [])
     monkeypatch.setattr(pipeline.state, "delete", lambda ids: [site.catalog.pop(i, None) for i in ids])
     monkeypatch.setattr(pipeline, "delete_document", lambda doc_id, keep_ids=None: site.points.discard(doc_id))
-    monkeypatch.setattr(pipeline, "chunk_canonical", lambda doc: [])
-    monkeypatch.setattr(pipeline, "index_chunks", lambda chunks: 0)
+    # One real chunk: a document that chunks to nothing is an error outcome now
+    # (tests/test_empty_extraction.py), and a moved document must still be
+    # indexed under its new bundle for these tests to mean anything.
+    monkeypatch.setattr(
+        pipeline, "chunk_canonical",
+        lambda doc: [SimpleNamespace(
+            chunk_id=f"{doc.document_id}-c1", text="Body text.", is_parent=False
+        )],
+    )
+    monkeypatch.setattr(pipeline, "index_chunks", lambda chunks: len(chunks))
     return site
 
 

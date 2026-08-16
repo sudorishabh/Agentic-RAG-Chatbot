@@ -177,7 +177,7 @@ def _run(corpus, monkeypatch, outcomes: dict[str, str], *, workers: int = 1,
     reached: list[str] = []
     lock = threading.Lock()
 
-    def handle(record, build_doc, run_id, note=None):
+    def handle(record, build_doc, run_id, note=None, fail=None):
         with lock:
             reached.append(record.document_id)
         outcome = outcomes.get(record.document_id, "indexed")

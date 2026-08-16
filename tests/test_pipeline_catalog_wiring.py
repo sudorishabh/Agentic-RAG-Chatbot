@@ -42,6 +42,13 @@ def _doc(**kwargs) -> CanonicalDocument:
     return CanonicalDocument(**defaults)
 
 
+def _chunk(chunk_id: str = "chunk-1", text: str = "Body text worth indexing."):
+    """The smallest thing the swap accepts: an id to spare, and real text."""
+    from types import SimpleNamespace
+
+    return SimpleNamespace(chunk_id=chunk_id, text=text, is_parent=False)
+
+
 # --------------------------------------------------------------------------- #
 # _save_state — doc fields land on the StateRecord.
 # --------------------------------------------------------------------------- #
@@ -115,8 +122,11 @@ def test_handle_saves_the_content_record(monkeypatch):
     written before anything derived from it."""
     order: list[str] = []
     _patch_persist_order(monkeypatch, order)
-    monkeypatch.setattr(pipeline, "chunk_canonical", lambda doc: [])
-    monkeypatch.setattr(pipeline, "index_chunks", lambda chunks: 0)
+    # One real chunk, not zero: a document that chunks to nothing is an error
+    # outcome now (tests/test_empty_extraction.py), and this test is about the
+    # write ordering on the path that succeeds.
+    monkeypatch.setattr(pipeline, "chunk_canonical", lambda doc: [_chunk()])
+    monkeypatch.setattr(pipeline, "index_chunks", lambda chunks: len(chunks))
     monkeypatch.setattr(pipeline, "delete_document", lambda doc_id, keep_ids=None: None)
 
     record = _record(document_id="n-air", bundle="research_papers", entity_type="node")

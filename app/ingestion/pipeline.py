@@ -17,7 +17,7 @@ from app.config import get_settings
 from app.core.models import CanonicalDocument
 from app.ingestion import change_detection as cd
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus
-from app.ingestion.chunking import chunk_canonical
+from app.ingestion.chunking import Chunk, chunk_canonical
 from app.ingestion.enrich import abstract_version, generate_abstract
 from app.ingestion.indexer import index_chunks
 from app.core.clients import delete_document, refresh_document_title
@@ -272,13 +272,35 @@ def _delete_orphaned_attachments(
     return orphans
 
 
+def _extraction_is_empty(chunks: Sequence[Chunk]) -> bool:
+    """Whether this document produced nothing worth indexing.
+
+    Not merely ``not chunks``: a chunk carrying only whitespace is the same
+    outcome reached by a different route — a body of non-breaking spaces, a PDF
+    whose text layer yields blank lines — and indexing it would replace real
+    content with an empty point just as surely.
+    """
+    return not any(chunk.text.strip() for chunk in chunks)
+
+
 def _handle(
     record: ChangeRecord,
     build_doc: DocBuilder,
     run_id: str | None = None,
     note: Callable[[str], None] | None = None,
+    fail: Callable[[str], None] | None = None,
 ) -> str:
+    """Process one change record and report the outcome.
+
+    ``fail`` receives the reason for an unresolved outcome, so the retry marker
+    can say *why* a document is unresolved rather than only that it is.
+    """
     prior_version = record.prior.doc_version if record.prior else None
+
+    def failed(reason: str) -> str:
+        if fail is not None:
+            fail(reason)
+        return reason
 
     if record.status is ChangeStatus.DELETED:
         # Captured before the delete: the document's link rows cascade away with
@@ -302,7 +324,9 @@ def _handle(
     with span("ingest.extract", source_type=record.source_type):
         doc = build_doc(record)
     if doc is None:
-        _log(run_id, record, "skipped")
+        _log(run_id, record, "skipped", error=failed(
+            "the document could not be built (download or extraction returned nothing)"
+        ))
         return "skipped"
 
     content_hash = doc.ensure_content_hash()
@@ -334,6 +358,27 @@ def _handle(
     # until the swap, and a mid-index failure leaves it fully intact.
     with span("ingest.chunk"):
         new_chunks = chunk_canonical(doc)
+
+    # The swap's precondition: there is something to swap *in*. An empty
+    # extraction is a failure of this run, not a statement that the document is
+    # now empty — a blanked body at source, an unreadable PDF text layer, an
+    # extractor regression. Nothing below this point runs, so the previous
+    # version keeps its vectors, its catalog row and its indexed_at, and the
+    # retry marker written from the outcome brings the document back next run.
+    if _extraction_is_empty(new_chunks):
+        reason = failed(
+            f"extraction produced no indexable content ({len(new_chunks)} chunks); "
+            f"keeping version {prior_version or 0}"
+        )
+        logger.error(
+            "%s (%s) extracted to nothing; keeping the previous version rather "
+            "than replacing it with an empty one.",
+            record.document_id, record.source_key,
+        )
+        _log(run_id, record, "error", doc=doc, version=prior_version, chunks=0,
+             error=reason)
+        return "error"
+
     chunks = index_chunks(new_chunks)
     delete_document(record.document_id, keep_ids=[c.chunk_id for c in new_chunks])
     _persist(record, doc, content_hash, version, indexed=True, run_id=run_id)
@@ -353,12 +398,22 @@ _UNRESOLVED_OUTCOMES = frozenset({"error", "skipped"})
 _RESOLVED_OUTCOMES = frozenset({"indexed", "unchanged_content", "deleted"})
 
 
-def _track_retry(record: ChangeRecord, outcome: str, pending: frozenset[str]) -> None:
+def _track_retry(
+    record: ChangeRecord,
+    outcome: str,
+    pending: frozenset[str],
+    error: str | None = None,
+) -> None:
     """Keep the crawl's retry floor in step with what this document did.
 
     ``pending`` is the unresolved set as it stood at the start of the run, so a
     document that was never failing costs no write at all — the common case is
     every document in a healthy sweep.
+
+    ``error`` is why the document is unresolved. Without it the retry queue is a
+    list of ids that says nothing about whether they are one broken host, one
+    bad extractor or ninety separate problems — which is the difference between
+    a queue an operator can triage and one they can only stare at.
 
     Fails open, like every other catalog write on this path: an unreachable
     database costs one warning and the behaviour that predates the floor.
@@ -371,6 +426,7 @@ def _track_retry(record: ChangeRecord, outcome: str, pending: frozenset[str]) ->
                 bundle=record.bundle,
                 changed_mark=record.changed_mark,
                 outcome=outcome,
+                error=error,
             )
         elif outcome in _RESOLVED_OUTCOMES and record.document_id in pending:
             retries.clear([record.document_id])
@@ -512,15 +568,24 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
         )
 
     def handle(record: ChangeRecord) -> str:
+        # Why this document ended unresolved, captured wherever it was decided:
+        # `_handle` reports the reasons it can name, and the except below reports
+        # the ones it cannot. Both end up on the retry row.
+        reason: str | None = None
+
+        def fail(message: str) -> None:
+            nonlocal reason
+            reason = message
+
         try:
-            outcome = _handle(record, build_doc, run_id, note=note)
+            outcome = _handle(record, build_doc, run_id, note=note, fail=fail)
         except Exception as exc:
             logger.exception("Failed handling %s; skipping.", record.document_id)
             _log(run_id, record, "error", error=str(exc))
-            outcome = "error"
+            outcome, reason = "error", str(exc)
         # Here rather than inside _handle: this is the only place that sees
         # every outcome, the raised ones included.
-        _track_retry(record, outcome, pending_retries)
+        _track_retry(record, outcome, pending_retries, error=reason)
         return outcome
 
     def account(outcome: str) -> None:

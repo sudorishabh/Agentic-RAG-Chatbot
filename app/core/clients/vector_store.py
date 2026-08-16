@@ -83,6 +83,16 @@ def delete_document(document_id: str, *, keep_ids: Sequence[str] | None = None) 
 
     Reindexing upserts the new version's points first and then calls this with
     their ids, so the document never disappears from search mid-swap.
+
+    ``keep_ids=None`` means "delete the document outright" — the delete path and
+    the orphan collector. An **empty list is refused**, because it can only ever
+    arrive from a swap that indexed nothing, and "replace this document with
+    nothing" is never what a swap means. It read as "spare no point" and wiped
+    the document while the caller believed it had just re-indexed it.
+
+    The refusal and the ``is not None`` test below are deliberately redundant:
+    one makes the mistake loud at the boundary, the other keeps the filter
+    correct even if some future caller is allowed to pass an empty list.
     """
     from qdrant_client.models import (
         FieldCondition,
@@ -91,6 +101,16 @@ def delete_document(document_id: str, *, keep_ids: Sequence[str] | None = None) 
         HasIdCondition,
         MatchValue,
     )
+
+    if not document_id:
+        raise ValueError("delete_document needs a document_id.")
+    if keep_ids is not None and not keep_ids:
+        raise ValueError(
+            f"delete_document(keep_ids=[]) would delete every point for "
+            f"{document_id!r}. Pass keep_ids=None to delete the document "
+            f"deliberately; a replacement that produced no points must not "
+            f"delete the version it failed to replace."
+        )
 
     settings = get_settings()
     client = get_qdrant_client()
@@ -105,7 +125,11 @@ def delete_document(document_id: str, *, keep_ids: Sequence[str] | None = None) 
                         key="document_id", match=MatchValue(value=document_id)
                     )
                 ],
-                must_not=[HasIdCondition(has_id=list(keep_ids))] if keep_ids else None,
+                must_not=(
+                    [HasIdCondition(has_id=list(keep_ids))]
+                    if keep_ids is not None
+                    else None
+                ),
             )
         ),
     )

@@ -1,4 +1,4 @@
-"""Unit tests for the ingestion pipeline's enrichment step.
+﻿"""Unit tests for the ingestion pipeline's enrichment step.
 
 Covers the cache hit/miss/skip/failure outcomes, the attempt budget that stops a
 hopeless document costing money on every sweep, the fail-open behaviour that
@@ -27,6 +27,13 @@ def _doc() -> CanonicalDocument:
         title="A Report",
         sections=[CanonicalSection(text="Body text of the report.", order=0)],
     )
+
+
+def _chunk(chunk_id: str = "chunk-1", text: str = "Body text of the report."):
+    """The smallest thing the swap accepts: an id to spare, and real text."""
+    from types import SimpleNamespace
+
+    return SimpleNamespace(chunk_id=chunk_id, text=text, is_parent=False)
 
 
 class _FakeCache:
@@ -108,7 +115,7 @@ def test_a_miss_generates_and_stores(monkeypatch):
 
 
 def test_a_skipped_document_stores_nothing(monkeypatch):
-    """Too short to summarize is not a failure — it must not consume the
+    """Too short to summarize is not a failure â€” it must not consume the
     attempt budget, and it must not be cached as an empty abstract."""
     cache = _patch(monkeypatch, generate=lambda doc: None)
 
@@ -160,14 +167,17 @@ def test_an_unreachable_catalog_does_not_stop_the_sweep(monkeypatch):
 
 
 # --------------------------------------------------------------------------- #
-# Counters — the hit rate has to be observable.
+# Counters â€” the hit rate has to be observable.
 # --------------------------------------------------------------------------- #
 
 def test_handle_reports_the_enrichment_outcome(monkeypatch):
     monkeypatch.setattr(pipeline, "_save_state", lambda *a, **k: None)
     monkeypatch.setattr(pipeline, "_log", lambda *a, **k: None)
-    monkeypatch.setattr(pipeline, "chunk_canonical", lambda doc: [])
-    monkeypatch.setattr(pipeline, "index_chunks", lambda chunks: 0)
+    # A document that chunks to nothing is an error outcome now
+    # (tests/test_empty_extraction.py); these tests are about the enrichment
+    # counter on the path that indexes.
+    monkeypatch.setattr(pipeline, "chunk_canonical", lambda doc: [_chunk()])
+    monkeypatch.setattr(pipeline, "index_chunks", lambda chunks: len(chunks))
     monkeypatch.setattr(pipeline, "delete_document", lambda doc_id, keep_ids=None: None)
     monkeypatch.setattr(pipeline, "_enrich", lambda doc, content_hash: "stored")
 
@@ -190,8 +200,11 @@ def test_handle_works_without_a_note_callback(monkeypatch):
     """The CLI and tests call _handle directly; counting is opt-in."""
     monkeypatch.setattr(pipeline, "_save_state", lambda *a, **k: None)
     monkeypatch.setattr(pipeline, "_log", lambda *a, **k: None)
-    monkeypatch.setattr(pipeline, "chunk_canonical", lambda doc: [])
-    monkeypatch.setattr(pipeline, "index_chunks", lambda chunks: 0)
+    # A document that chunks to nothing is an error outcome now
+    # (tests/test_empty_extraction.py); these tests are about the enrichment
+    # counter on the path that indexes.
+    monkeypatch.setattr(pipeline, "chunk_canonical", lambda doc: [_chunk()])
+    monkeypatch.setattr(pipeline, "index_chunks", lambda chunks: len(chunks))
     monkeypatch.setattr(pipeline, "delete_document", lambda doc_id, keep_ids=None: None)
     monkeypatch.setattr(pipeline, "_enrich", lambda doc, content_hash: "stored")
 
