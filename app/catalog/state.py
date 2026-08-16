@@ -150,6 +150,7 @@ def _row_to_record(row: dict) -> StateRecord:
         fingerprint=row["fingerprint"],
         content_hash=row.get("content_hash") or "",
         doc_version=int(row.get("doc_version") or 1),
+        pipeline_version=row.get("pipeline_version") or None,
         bundle=row.get("bundle"),
         entity_type=row.get("entity_type"),
         changed_mark=row.get("changed_mark"),
@@ -245,9 +246,10 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
             f"""
             INSERT INTO `{table}`
                 (document_id, source_type, source_key, bundle, entity_type,
-                 fingerprint, content_hash, doc_version, changed_mark,
-                 published_at, title, url, raw_meta, indexed_at, updated_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                 fingerprint, content_hash, doc_version, pipeline_version,
+                 changed_mark, published_at, title, url, raw_meta, indexed_at,
+                 updated_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE
                 source_type  = VALUES(source_type),
                 source_key   = VALUES(source_key),
@@ -256,6 +258,12 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 fingerprint  = VALUES(fingerprint),
                 content_hash = VALUES(content_hash),
                 doc_version  = VALUES(doc_version),
+                -- COALESCE, like entity_type and indexed_at: only a write that
+                -- actually re-chunked the document may claim its pipeline
+                -- version. A fingerprint refresh (`indexed=False`) passes NULL
+                -- and keeps the stored one, so a document that has not been
+                -- rebuilt still reads as stale and is rebuilt later.
+                pipeline_version = COALESCE(VALUES(pipeline_version), pipeline_version),
                 changed_mark = VALUES(changed_mark),
                 published_at = VALUES(published_at),
                 title        = VALUES(title),
@@ -273,6 +281,7 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 record.fingerprint,
                 record.content_hash,
                 record.doc_version,
+                record.pipeline_version,
                 record.changed_mark,
                 _to_datetime(record.published_at),
                 record.title,

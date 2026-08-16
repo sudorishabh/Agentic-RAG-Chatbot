@@ -59,6 +59,34 @@ def content_changed(record: ChangeRecord, content_hash: str) -> bool:
     return record.prior.content_hash != content_hash
 
 
+def pipeline_changed(record: ChangeRecord) -> bool:
+    """Whether this document was built by a pipeline that is no longer current.
+
+    A document never seen before has nothing to compare, and is rebuilt anyway.
+    A stored version of None — a row written before versions were stamped — is
+    deliberately *not* current: unknown must read as stale, or the corpus that
+    most needs rebuilding is the one that never gets it.
+    """
+    from app.ingestion.version import PIPELINE_VERSION
+
+    if record.prior is None:
+        return False
+    return record.prior.pipeline_version != PIPELINE_VERSION
+
+
+def needs_rebuild(record: ChangeRecord, content_hash: str) -> bool:
+    """Whether this document must be chunked, embedded and indexed again.
+
+    Two independent reasons, and the second is the one the pipeline lacked: the
+    *content* changed, or the *code* did. Gating re-indexing on content alone
+    pinned every document to whatever the pipeline did on the day it was first
+    seen — chunker fixes, a chunk-id scheme change and a payload cleanup all
+    landed and none of them ever reached the corpus, because the body text they
+    would have been applied to had not changed.
+    """
+    return content_changed(record, content_hash) or pipeline_changed(record)
+
+
 def next_version(record: ChangeRecord) -> int:
     return record.prior.doc_version + 1 if record.prior else 1
 

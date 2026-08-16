@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from app.core.models import CanonicalDocument, EntityRef, FileLink
 from app.ingestion import pipeline
+from app.ingestion.version import PIPELINE_VERSION
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus, _parse_bundle_spec
 from app.catalog.models import AttachmentLink, StateRecord
 
@@ -150,6 +151,10 @@ def test_handle_unchanged_content_keeps_the_same_order(monkeypatch):
         fingerprint="2024-01-01",
         content_hash=doc.ensure_content_hash(),  # unchanged content
         doc_version=3,
+        # ...and built by the current pipeline. Without this the document is
+        # rebuilt on the version mismatch instead, which is the point of
+        # tests/test_pipeline_version.py.
+        pipeline_version=PIPELINE_VERSION,
     )
     record = _record(
         document_id="n-air", bundle="research_papers", entity_type="node", prior=prior
@@ -167,6 +172,8 @@ def _unchanged_content_prior(doc: CanonicalDocument, title: str | None) -> State
         fingerprint="2024-01-01",
         content_hash=doc.ensure_content_hash(),  # unchanged content
         doc_version=3,
+        # ...and the current pipeline built it, so nothing else forces a rebuild.
+        pipeline_version=PIPELINE_VERSION,
         title=title,
     )
 

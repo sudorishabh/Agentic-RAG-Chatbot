@@ -1,0 +1,55 @@
+"""What the ingestion pipeline was, when it produced a document.
+
+A document is re-indexed when its *content* changes. Nothing watched the *code*,
+so a corpus was pinned to whatever the pipeline did on the day each document was
+first seen: four chunker correctness fixes, a chunk-id scheme change and a
+payload cleanup all landed after the corpus was built and none of them ever
+reached it, because `content_hash` covers body text and body text had not
+changed. Roughly 99% of stored chunks came from a chunker with known, fixed
+defects, and no mechanism existed to re-apply them.
+
+This module is that missing signal. The version is stamped into the catalog row
+and into every point's payload, and a document whose stored version differs from
+:data:`PIPELINE_VERSION` is rebuilt on its next crawl even when its content is
+byte-identical.
+
+Bumping
+-------
+Bump the component whose behaviour changed, in the same commit as the change.
+The test is simple: **would identical input now produce different output?**
+
+* :data:`CHUNKING` — segmentation, packing, overlap, heading handling, section
+  classification. Different chunks for the same text.
+* :data:`CHUNK_IDENTITY` — how a chunk id is derived. Different ids for the same
+  chunks, which also means stored vectors can no longer be found for reuse.
+* :data:`PAYLOAD` — the fields written to each point. A reader expecting a field
+  that old points lack, or points carrying a field the code no longer writes.
+* :data:`EMBED_INPUT` — the exact string handed to the embedder (breadcrumb,
+  overlap carry). Different vectors for the same chunk.
+
+Do **not** bump for a refactor, a log line, a comment or a performance change
+that leaves the output identical: every bump costs a full corpus reprocess, so a
+bump that changes nothing is a bill with no benefit.
+
+Components rather than one number so a reader can see *what* changed, and so the
+reconciliation report can say "these points predate the payload change" rather
+than only "these points are old".
+"""
+from __future__ import annotations
+
+CHUNKING = 1
+CHUNK_IDENTITY = 1
+PAYLOAD = 1
+EMBED_INPUT = 1
+
+#: The version stamped on everything this pipeline writes. Short by design: it
+#: lives on a VARCHAR(32) column and on every point payload in the collection.
+PIPELINE_VERSION = f"c{CHUNKING}.i{CHUNK_IDENTITY}.p{PAYLOAD}.e{EMBED_INPUT}"
+
+__all__ = [
+    "CHUNKING",
+    "CHUNK_IDENTITY",
+    "PAYLOAD",
+    "EMBED_INPUT",
+    "PIPELINE_VERSION",
+]

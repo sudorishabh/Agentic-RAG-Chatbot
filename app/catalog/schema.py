@@ -46,6 +46,12 @@ CREATE TABLE IF NOT EXISTS `{table}` (
     fingerprint  VARCHAR(128)  NOT NULL,
     content_hash VARCHAR(64)   NOT NULL DEFAULT '',
     doc_version  INT           NOT NULL DEFAULT 1,
+    -- Which pipeline produced the indexed content (app.ingestion.version).
+    -- Nullable: a row written before this column existed has no answer, and
+    -- "unknown" must read as "not current" so it gets rebuilt rather than
+    -- assumed fresh. Indexed because the corpus reprocessor's whole query is
+    -- "which documents are not on the current version".
+    pipeline_version VARCHAR(32) NULL,
     changed_mark BIGINT        NULL,
     size         BIGINT        NULL,
     mtime_ns     BIGINT        NULL,
@@ -56,7 +62,8 @@ CREATE TABLE IF NOT EXISTS `{table}` (
     updated_at   DATETIME      NOT NULL,
     PRIMARY KEY (document_id),
     KEY idx_source_type (source_type),
-    KEY idx_bundle (source_type, bundle)
+    KEY idx_bundle (source_type, bundle),
+    KEY idx_pipeline_version (pipeline_version)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 """
 
@@ -162,6 +169,33 @@ def _ensure_column(cur: Any, table: str, column: str, ddl: str) -> None:
     migration for deployments created before the column existed)."""
     if not _column_exists(cur, table, column):
         cur.execute(f"ALTER TABLE `{table}` ADD COLUMN {ddl}")
+
+
+def _index_exists(cur: Any, table: str, index: str) -> bool:
+    cur.execute(
+        "SELECT 1 FROM information_schema.STATISTICS "
+        "WHERE table_schema = DATABASE() AND table_name = %s AND index_name = %s",
+        (table, index),
+    )
+    return cur.fetchone() is not None
+
+
+def _ensure_index(cur: Any, table: str, index: str, columns: str) -> None:
+    """Add an index to an existing table only if it is missing.
+
+    The fresh-install DDL declares it; this carries it to a table that predates
+    it. Best-effort — an index is a performance property, and failing to add one
+    must not stop ``ensure_state_table`` from doing everything else.
+    """
+    if _index_exists(cur, table, index):
+        return
+    try:
+        cur.execute(f"ALTER TABLE `{table}` ADD KEY `{index}` {columns}")
+    except Exception:
+        logger.warning(
+            "Could not add index %s on `%s`; queries that use it will be slower.",
+            index, table, exc_info=True,
+        )
 
 
 def migrate_renamed_facets(cur: Any, table: str, *, dry_run: bool = False) -> list[str]:
@@ -297,6 +331,13 @@ def ensure_state_table() -> None:
         _ensure_column(cur, table, "url", "url VARCHAR(1024) NULL")
         _ensure_column(cur, table, "raw_meta", "raw_meta JSON NULL")
         _ensure_column(cur, table, "entity_type", "entity_type VARCHAR(32) NULL")
+        # NULL on every existing row, which is exactly right: nothing already
+        # indexed was produced by a pipeline that stamped a version, so all of it
+        # reads as stale and is rebuilt as it is next crawled.
+        _ensure_column(
+            cur, table, "pipeline_version", "pipeline_version VARCHAR(32) NULL"
+        )
+        _ensure_index(cur, table, "idx_pipeline_version", "(pipeline_version)")
         migrate_renamed_facets(cur, table)
         for facet in STATE_FACETS:
             cur.execute(_STATE_CHILD_DDL.format(table=table, facet=facet))

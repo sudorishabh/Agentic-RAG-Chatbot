@@ -8,10 +8,18 @@ if TYPE_CHECKING:
 
 
 def build_payload(chunk: "Chunk") -> dict[str, Any]:
+    from app.ingestion.version import PIPELINE_VERSION
+
     m = chunk.meta
     payload: dict[str, Any] = {
         "chunk_id": chunk.chunk_id,
         "document_id": m.document_id,
+        # What built this point. On the payload as well as the catalog row so
+        # drift is answerable from the store that holds the data: "which points
+        # predate the chunker fix" is a question about points, and the catalog
+        # cannot answer it for a document whose row says one thing while its
+        # points say another.
+        "pipeline_version": PIPELINE_VERSION,
         "is_parent": chunk.is_parent,
         "source_type": m.source_type,
         "title": m.title,

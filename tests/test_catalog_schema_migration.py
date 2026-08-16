@@ -33,9 +33,11 @@ class _FakeCursor:
         tables: dict[str, list[str]],
         pks: set[str] | None = None,
         fail_on: str | None = None,
+        indexes: set[tuple[str, str]] | None = None,
     ):
         self.tables = {t: list(cols) for t, cols in tables.items()}
         self.pks = set(pks or ())
+        self.indexes = set(indexes or ())
         self.fail_on = fail_on
         self.statements: list[str] = []
         self._result: tuple | None = None
@@ -50,7 +52,12 @@ class _FakeCursor:
             self._result = (1,) if column in self.tables.get(table, []) else None
             return
         if "information_schema.STATISTICS" in flat:
-            self._result = (1,) if params[0] in self.pks else None
+            # Two probes share this table: the primary-key one passes just the
+            # table, the named-index one passes (table, index_name).
+            if len(params) == 2:
+                self._result = (1,) if tuple(params) in self.indexes else None
+            else:
+                self._result = (1,) if params[0] in self.pks else None
             return
         self._result = None
         self.statements.append(flat)
@@ -69,6 +76,8 @@ class _FakeCursor:
             self.pks.add(words[2])
         elif "ADD COLUMN" in stmt:
             self.tables.setdefault(words[2], []).append(words[5])
+        elif "ADD KEY" in stmt:
+            self.indexes.add((words[2], words[5]))
         elif stmt.startswith("CREATE TABLE IF NOT EXISTS"):
             self.tables.setdefault(words[5], [])
 
@@ -321,3 +330,73 @@ def test_ensure_state_table_migrates_before_creating_facet_tables(monkeypatch):
         "document_id", "theme", "theme_type", "parent", "theme_group",
     ]
     assert f"{TABLE}_category" not in cursor.tables
+
+
+# --------------------------------------------------------------------------- #
+# pipeline_version — the column and index a corpus reprocess is driven from.
+# --------------------------------------------------------------------------- #
+
+def _legacy_state_table() -> dict[str, list[str]]:
+    """A `documents` table from before either was added."""
+    return {
+        TABLE: ["document_id", "published_at", "size", "mtime_ns", "title",
+                "url", "raw_meta", "entity_type"],
+    }
+
+
+def test_an_existing_table_gains_the_pipeline_version_column(monkeypatch):
+    cursor = _FakeCursor(_legacy_state_table())
+    monkeypatch.setattr(schema, "state_table", lambda: TABLE)
+    monkeypatch.setattr(schema, "mysql_connection", lambda: _FakeConn(cursor))
+
+    schema.ensure_state_table()
+
+    assert "pipeline_version" in cursor.tables[TABLE]
+    assert (TABLE, "idx_pipeline_version") in cursor.indexes
+
+
+def test_the_column_arrives_null_so_existing_rows_read_as_stale(monkeypatch):
+    """Nothing already indexed was produced by a pipeline that stamped a
+    version, so all of it must be rebuilt as it is next crawled. A DEFAULT would
+    have declared the whole corpus current in one statement."""
+    cursor = _FakeCursor(_legacy_state_table())
+    monkeypatch.setattr(schema, "state_table", lambda: TABLE)
+    monkeypatch.setattr(schema, "mysql_connection", lambda: _FakeConn(cursor))
+
+    schema.ensure_state_table()
+
+    added = next(s for s in cursor.statements if "ADD COLUMN pipeline_version" in s)
+    assert "NULL" in added and "DEFAULT" not in added
+
+
+def test_the_migration_is_idempotent(monkeypatch):
+    cursor = _FakeCursor(_legacy_state_table())
+    monkeypatch.setattr(schema, "state_table", lambda: TABLE)
+    monkeypatch.setattr(schema, "mysql_connection", lambda: _FakeConn(cursor))
+
+    schema.ensure_state_table()
+    first = len(cursor.statements)
+    schema.ensure_state_table()
+
+    # CREATE TABLE IF NOT EXISTS carries the column in its DDL and is a no-op on
+    # the second run; what must not repeat is the ALTER.
+    altered = [
+        s for s in cursor.statements[first:]
+        if "pipeline_version" in s and not s.startswith("CREATE TABLE")
+    ]
+    assert altered == []
+
+
+def test_an_index_that_cannot_be_added_is_not_fatal(monkeypatch):
+    """An index is a performance property. Failing to add one must not stop
+    ensure_state_table from creating the tables everything else needs."""
+    # Only the ALTER that adds the index: the CREATE DDL names it too, and
+    # refusing that would be testing something else entirely.
+    cursor = _FakeCursor(_legacy_state_table(), fail_on=f"`{TABLE}` ADD KEY")
+    monkeypatch.setattr(schema, "state_table", lambda: TABLE)
+    monkeypatch.setattr(schema, "mysql_connection", lambda: _FakeConn(cursor))
+
+    schema.ensure_state_table()  # must not raise
+
+    assert "pipeline_version" in cursor.tables[TABLE]
+    assert f"{TABLE}_theme" in cursor.tables, "the rest of the schema still landed"

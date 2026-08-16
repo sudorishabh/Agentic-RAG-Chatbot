@@ -10,7 +10,9 @@ from app.ingestion.change_detection.base import (
     ChangeStatus,
     _parse_bundle_spec,
     content_changed,
+    needs_rebuild,
     next_version,
+    pipeline_changed,
 )
 from app.ingestion.change_detection.drupal import detect_drupal_changes
 
@@ -18,6 +20,8 @@ __all__ = [
     "ChangeRecord",
     "ChangeStatus",
     "content_changed",
+    "pipeline_changed",
+    "needs_rebuild",
     "next_version",
     "detect_drupal_changes",
 ]

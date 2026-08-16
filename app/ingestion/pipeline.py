@@ -20,6 +20,7 @@ from app.ingestion.change_detection import ChangeRecord, ChangeStatus
 from app.ingestion.chunking import Chunk, chunk_canonical
 from app.ingestion.enrich import abstract_version, generate_abstract
 from app.ingestion.indexer import index_chunks
+from app.ingestion.version import PIPELINE_VERSION
 from app.core.clients import delete_document, refresh_document_title
 from app.observability.tracing import span
 
@@ -64,6 +65,11 @@ def _save_state(
             fingerprint=record.fingerprint,
             content_hash=content_hash,
             doc_version=version,
+            # Only a write that actually re-chunked the document may claim the
+            # current pipeline version. A fingerprint refresh leaves the stored
+            # one alone (the upsert COALESCEs None), so a document that has not
+            # been rebuilt keeps reading as stale until it is.
+            pipeline_version=PIPELINE_VERSION if indexed else None,
             bundle=record.bundle,
             entity_type=record.entity_type,
             changed_mark=record.changed_mark,
@@ -337,7 +343,7 @@ def _handle(
     if note is not None:
         note(enriched)
 
-    if not cd.content_changed(record, content_hash):
+    if not cd.needs_rebuild(record, content_hash):
         version = prior_version or 1
         _persist(record, doc, content_hash, version, indexed=False, run_id=run_id)
         # The hash covers body text only, so a title-only edit lands here rather
@@ -349,6 +355,17 @@ def _handle(
         logger.info("Unchanged content for %s; fingerprint refreshed.", record.document_id)
         _log(run_id, record, "unchanged_content", doc=doc, version=version)
         return "unchanged_content"
+
+    if not cd.content_changed(record, content_hash):
+        # Same text, different pipeline. Worth a line of its own: during a corpus
+        # reprocess this is every document, and "why is it re-embedding unchanged
+        # content?" should be answerable from the log.
+        logger.info(
+            "Rebuilding %s: content unchanged but pipeline version moved %s -> %s.",
+            record.document_id,
+            (record.prior.pipeline_version if record.prior else None) or "unstamped",
+            PIPELINE_VERSION,
+        )
 
     version = cd.next_version(record)
     doc.doc_version = version

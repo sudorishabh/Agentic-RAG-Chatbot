@@ -24,6 +24,12 @@ class StateRecord:
     fingerprint: str
     content_hash: str = ""
     doc_version: int = 1
+    # Which ingestion pipeline produced the indexed content (see
+    # app.ingestion.version). A row whose version differs from the running
+    # pipeline's is rebuilt on its next crawl even when its content is
+    # unchanged — content hashes cannot see a code change. None on a row written
+    # before the column existed, which is treated as "not the current version".
+    pipeline_version: str | None = None
     bundle: str | None = None
     # JSON:API entity type ("node", "taxonomy_term", "block_content") for
     # Drupal records; None for attachment documents.
