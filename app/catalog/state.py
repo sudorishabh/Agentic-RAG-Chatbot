@@ -51,11 +51,30 @@ def _to_datetime(value: str | None) -> datetime | None:
     return dt.astimezone(timezone.utc).replace(tzinfo=None) if dt.tzinfo else dt
 
 
+# Facet value columns are VARCHAR(255); anything longer is stored truncated.
+_FACET_WIDTH = 255
+
+
+def _stored_values(values: Iterable[str], width: int = _FACET_WIDTH) -> list[str]:
+    """The distinct values as they will actually be stored.
+
+    Truncate first, de-duplicate second. The other order de-duplicates strings
+    the database will never hold: two tags differing only past character 255 are
+    distinct as read and identical as written, so the old order emitted two rows
+    the table then had no constraint to reject. 144 duplicate (document, tag)
+    pairs came from exactly that.
+
+    Order is preserved — it is the order the source listed them in, and a facet
+    list that reshuffles itself between ingests is noise in every diff.
+    """
+    return list(dict.fromkeys(v[:width] for v in values if v))
+
+
 def _replace_facet(
     cur: Any, table: str, facet: str, document_id: str, values: Iterable[str]
 ) -> None:
     cur.execute(f"DELETE FROM `{table}_{facet}` WHERE document_id = %s", (document_id,))
-    rows = [(document_id, v[:255]) for v in dict.fromkeys(x for x in values if x)]
+    rows = [(document_id, value) for value in _stored_values(values)]
     if rows:
         cur.executemany(
             f"INSERT INTO `{table}_{facet}` (document_id, {facet}) VALUES (%s, %s)", rows
@@ -78,9 +97,12 @@ def _replace_authors(
     normalized form here, exactly as they already share a raw one.
     """
     cur.execute(f"DELETE FROM `{table}_author` WHERE document_id = %s", (document_id,))
+    # De-duplicated on the stored (truncated) spelling for the same reason tags
+    # are, and normalized from that same stored value so the pair in one row
+    # always describes one string.
     rows = [
-        (document_id, value[:255], author_names.normalize(value)[:255] or None)
-        for value in dict.fromkeys(v for v in values if v)
+        (document_id, value, author_names.normalize(value)[:_FACET_WIDTH] or None)
+        for value in _stored_values(values)
     ]
     if rows:
         cur.executemany(

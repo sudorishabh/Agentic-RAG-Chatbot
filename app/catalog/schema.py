@@ -85,7 +85,15 @@ _STATE_CHILD_DDL = """
 CREATE TABLE IF NOT EXISTS `{table}_{facet}` (
     document_id VARCHAR(255) NOT NULL,
     {facet}     VARCHAR(255) NOT NULL,
-    KEY idx_doc (document_id),
+    -- One row per (document, value). The facet is a set, and nothing but this
+    -- said so: with only the two lookup keys it replaces, a writer that emitted
+    -- the same pair twice was simply believed, and every COUNT over the table
+    -- was wrong by the duplication. `documents_theme` has had the equivalent as
+    -- its primary key from the start.
+    --
+    -- It also subsumes the old `idx_doc`: document_id is its leftmost column, so
+    -- per-document lookups and the foreign key below are served by this alone.
+    UNIQUE KEY uq_{facet} (document_id, {facet}),
     KEY idx_val ({facet}),
     CONSTRAINT `fk_{table}_{facet}` FOREIGN KEY (document_id)
         REFERENCES `{table}` (document_id) ON DELETE CASCADE
@@ -271,6 +279,76 @@ def migrate_author_names(cur: Any, table: str, *, dry_run: bool = False) -> list
     return applied
 
 
+def migrate_facet_uniqueness(
+    cur: Any, table: str, facet: str, *, dry_run: bool = False
+) -> list[str]:
+    """Collapse duplicate (document, value) rows, then forbid them.
+
+    The write path de-duplicated before truncating, so two values differing only
+    past character 255 became two identical stored rows — and with no unique key
+    the table accepted them. Adding the key to a table that already holds such
+    rows fails, so they are collapsed first.
+
+    Collapsed by deleting each duplicated pair outright and re-inserting it once.
+    A facet row has no primary key or surrogate id, so there is no way to say
+    "delete all but one" in a single statement; the caller's transaction is what
+    makes the pair of statements atomic. Only pairs with more than one row are
+    touched, so a clean table is read and left alone.
+
+    Idempotent — the key's presence is the guard. Returns the statements applied
+    (or, under ``dry_run``, the ones that would be).
+    """
+    child = f"{table}_{facet}"
+    applied: list[str] = []
+    if not _table_exists(cur, child) or _index_exists(cur, child, f"uq_{facet}"):
+        return applied
+
+    extra = "author_norm" if facet == "author" else None
+    cur.execute(
+        f"SELECT document_id, `{facet}` AS value, COUNT(*) AS copies"
+        + (f", MIN(`{extra}`) AS extra" if extra else "")
+        + f" FROM `{child}` GROUP BY document_id, `{facet}` HAVING COUNT(*) > 1"
+    )
+    duplicates = cur.fetchall()
+    if duplicates:
+        lost = sum(int(row["copies"]) - 1 for row in duplicates)
+        applied.append(
+            f"-- collapse {len(duplicates)} duplicated pair(s) in `{child}` "
+            f"({lost} redundant row(s))"
+        )
+        logger.info(
+            "Collapsing %d duplicated (document_id, %s) pair(s) in `%s`; %d "
+            "redundant row(s) removed.", len(duplicates), facet, child, lost,
+        )
+        if not dry_run:
+            for row in duplicates:
+                cur.execute(
+                    f"DELETE FROM `{child}` WHERE document_id = %s AND `{facet}` = %s",
+                    (row["document_id"], row["value"]),
+                )
+                columns = f"document_id, `{facet}`" + (f", `{extra}`" if extra else "")
+                values = "%s, %s" + (", %s" if extra else "")
+                params = [row["document_id"], row["value"]]
+                if extra:
+                    params.append(row.get("extra"))
+                cur.execute(
+                    f"INSERT INTO `{child}` ({columns}) VALUES ({values})", tuple(params)
+                )
+
+    stmt = f"ALTER TABLE `{child}` ADD UNIQUE KEY `uq_{facet}` (document_id, `{facet}`)"
+    applied.append(stmt)
+    if not dry_run:
+        try:
+            cur.execute(stmt)
+        except Exception:
+            logger.warning(
+                "Could not add the unique key to `%s`; duplicates remain possible "
+                "there. The table still works — collapse whatever blocked it and "
+                "re-run.", child, exc_info=True,
+            )
+    return applied
+
+
 def migrate_theme_hierarchy(cur: Any, table: str, *, dry_run: bool = False) -> list[str]:
     """Bring a pre-hierarchy ``documents_theme`` up to the current shape.
 
@@ -342,6 +420,10 @@ def ensure_state_table() -> None:
         for facet in STATE_FACETS:
             cur.execute(_STATE_CHILD_DDL.format(table=table, facet=facet))
         migrate_author_names(cur, table)
+        # After the author column exists: collapsing a duplicated author pair
+        # has to carry `author_norm` with it.
+        for facet in STATE_FACETS:
+            migrate_facet_uniqueness(cur, table, facet)
         # Create then migrate: a fresh install gets the hierarchy from the DDL
         # and the migration no-ops; a legacy table survives CREATE IF NOT EXISTS
         # untouched and gets its columns from the migration.
