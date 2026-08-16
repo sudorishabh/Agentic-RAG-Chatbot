@@ -360,23 +360,30 @@ def test_clear_change_markers_reports_an_unknown_document(monkeypatch):
 # API semantics.
 # --------------------------------------------------------------------------- #
 
-def _client():
+def _client(monkeypatch):
+    """The route, with authentication out of the way.
+
+    Who may call it is tests/test_ingest_api_auth.py's subject; what it answers
+    is this module's.
+    """
     from fastapi import FastAPI
     from fastapi.testclient import TestClient
 
     from app.api.ingest import router
+    from app.config import get_settings
 
+    monkeypatch.setattr(get_settings(), "ingest_auth_enabled", False)
     app = FastAPI()
     app.include_router(router)
     return TestClient(app)
 
 
-def test_the_api_reports_queued_rather_than_reset(catalog):
+def test_the_api_reports_queued_rather_than_reset(catalog, monkeypatch):
     """"reset" implied the document had been cleared and would come back. It
     said that while making it unrecoverable."""
     catalog.add("doc-old", OLD_MARK)
 
-    response = _client().post("/reindex", json={"document_id": "doc-old"})
+    response = _client(monkeypatch).post("/reindex", json={"document_id": "doc-old"})
 
     assert response.status_code == 200
     body = response.json()
@@ -384,8 +391,8 @@ def test_the_api_reports_queued_rather_than_reset(catalog):
     assert body["detail"]["changed_mark"] == OLD_MARK
 
 
-def test_the_api_answers_404_for_a_document_it_does_not_have(catalog):
-    response = _client().post("/reindex", json={"document_id": "never-seen"})
+def test_the_api_answers_404_for_a_document_it_does_not_have(catalog, monkeypatch):
+    response = _client(monkeypatch).post("/reindex", json={"document_id": "never-seen"})
 
     assert response.status_code == 404
     assert "not catalogued" in response.json()["detail"]

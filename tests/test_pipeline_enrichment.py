@@ -115,7 +115,7 @@ def test_a_miss_generates_and_stores(monkeypatch):
 
 
 def test_a_skipped_document_stores_nothing(monkeypatch):
-    """Too short to summarize is not a failure â€” it must not consume the
+    """Too short to summarize is not a failure — it must not consume the
     attempt budget, and it must not be cached as an empty abstract."""
     cache = _patch(monkeypatch, generate=lambda doc: None)
 
@@ -167,7 +167,7 @@ def test_an_unreachable_catalog_does_not_stop_the_sweep(monkeypatch):
 
 
 # --------------------------------------------------------------------------- #
-# Counters â€” the hit rate has to be observable.
+# Counters — the hit rate has to be observable.
 # --------------------------------------------------------------------------- #
 
 def test_handle_reports_the_enrichment_outcome(monkeypatch):

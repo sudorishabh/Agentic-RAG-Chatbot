@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.concurrency import run_in_threadpool
 
+from app.api.auth import require_ingest_admin, require_ingest_principal
 from app.ingestion.pipeline import IngestBusyError
 from app.ingestion.upload import ingest_article
 from app.schemas.ingest import (
@@ -15,7 +16,14 @@ from app.schemas.ingest import (
     ReindexResponse,
 )
 
-router = APIRouter(tags=["ingest"])
+# Authentication applies to the whole control plane, including the read-only
+# log — it carries internal document ids, titles, source URLs and error strings.
+# Authorization is per route: the mutating ones additionally require the
+# operations group (see app.api.auth.require_ingest_admin).
+router = APIRouter(tags=["ingest"], dependencies=[Depends(require_ingest_principal)])
+
+# The routes that change the corpus or spend money crawling it.
+_ADMIN_ONLY = [Depends(require_ingest_admin)]
 
 
 async def _run_exclusive(fn, *args):
@@ -27,7 +35,7 @@ async def _run_exclusive(fn, *args):
         raise HTTPException(status_code=409, detail=str(exc))
 
 
-@router.post("/ingest/run", response_model=DirectIngestResponse)
+@router.post("/ingest/run", response_model=DirectIngestResponse, dependencies=_ADMIN_ONLY)
 async def ingest_run_route(request: DirectIngestRequest | None = None) -> DirectIngestResponse:
     request = request or DirectIngestRequest()
     from app.workers.tasks import ingest_drupal
@@ -36,7 +44,7 @@ async def ingest_run_route(request: DirectIngestRequest | None = None) -> Direct
     return DirectIngestResponse(drupal=drupal)
 
 
-@router.post("/ingest/article", response_model=ArticleIngestResponse)
+@router.post("/ingest/article", response_model=ArticleIngestResponse, dependencies=_ADMIN_ONLY)
 async def ingest_article_route(request: ArticleIngestRequest) -> ArticleIngestResponse:
     if request.bundles:
         from app.workers.tasks import ingest_drupal
@@ -76,7 +84,7 @@ async def ingest_log_route(
     return IngestLogResponse(count=len(rows), entries=rows)
 
 
-@router.post("/reindex", response_model=ReindexResponse)
+@router.post("/reindex", response_model=ReindexResponse, dependencies=_ADMIN_ONLY)
 async def reindex(request: ReindexRequest) -> ReindexResponse:
     """Queue a document to be rebuilt, or run a full sweep.
 

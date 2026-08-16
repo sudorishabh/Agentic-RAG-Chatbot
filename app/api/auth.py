@@ -68,11 +68,25 @@ def require_principal(
     settings = get_settings()
     if not settings.auth_enabled:
         return Principal()
+    return _verified_principal(credentials)
 
+
+def _verified_principal(
+    credentials: HTTPAuthorizationCredentials | None,
+) -> Principal:
+    """Verify a bearer token and derive the caller from its claims.
+
+    The one implementation of "who is this?", shared by the public retrieval API
+    and the ingestion control plane. They differ only in *whether* identity is
+    required (:data:`Settings.auth_enabled` vs
+    :data:`Settings.ingest_auth_enabled`), never in how it is established — two
+    verifiers would be two chances to get token handling wrong.
+    """
+    settings = get_settings()
     if credentials is None or not credentials.credentials:
         raise _unauthorized("Missing bearer token")
     if not settings.jwt_secret:
-        logger.error("auth_enabled is true but jwt_secret is not configured.")
+        logger.error("Authentication is required but jwt_secret is not configured.")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Authentication is misconfigured",
@@ -97,6 +111,66 @@ def require_principal(
         raise _unauthorized("Invalid or expired token")
 
     return _principal_from_claims(claims)
+
+
+def ingest_admin_group() -> str:
+    """The group a caller must hold to drive ingestion. "" means none is set.
+
+    Falls back to ``ops_admin_group`` so a deployment that already names an
+    operations group does not have to name a second one, while a deployment that
+    wants ingestion held to a narrower group can say so.
+    """
+    settings = get_settings()
+    return settings.ingest_admin_group or settings.ops_admin_group
+
+
+def require_ingest_principal(
+    credentials: HTTPAuthorizationCredentials | None = Depends(_bearer),
+) -> Principal:
+    """Identity for the ingestion control plane. Every route, read or write.
+
+    Gated on ``ingest_auth_enabled`` rather than ``auth_enabled``: these routes
+    crawl the whole corpus, inject documents into the answer set, queue rebuilds
+    and read back internal ids, titles and error strings. That is a different
+    exposure from the public retrieval API, so it is protected independently and
+    by default — a deployment that has not enabled retrieval auth is exactly the
+    one most likely to have left this open.
+    """
+    if not get_settings().ingest_auth_enabled:
+        return Principal()
+    return _verified_principal(credentials)
+
+
+def require_ingest_admin(
+    principal: Principal = Depends(require_ingest_principal),
+) -> Principal:
+    """Authorization for the *mutating* ingestion routes.
+
+    Read access (the ingest log) is for anyone the deployment authenticates;
+    starting a crawl, injecting an article and queueing a reindex are operational
+    actions and are held to a group.
+
+    When no group is configured the check cannot mean anything — there is nothing
+    to compare a claim against — so any authenticated caller may proceed, and the
+    gap is logged rather than silently assumed to be intentional. This mirrors
+    ``ops_admin_group``, where an unset group likewise disables the grant.
+    """
+    if not get_settings().ingest_auth_enabled:
+        return principal
+    group = ingest_admin_group()
+    if not group:
+        logger.warning(
+            "No ingest_admin_group (or ops_admin_group) is configured, so any "
+            "authenticated caller may start a crawl or queue a reindex. Set one "
+            "to hold these routes to an operations group."
+        )
+        return principal
+    if group not in principal.user_groups:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=f"This operation requires membership of the {group!r} group.",
+        )
+    return principal
 
 
 def optional_principal(

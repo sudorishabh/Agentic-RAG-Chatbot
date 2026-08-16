@@ -216,6 +216,21 @@ class Settings(BaseSettings):
     jwt_issuer: str = ""
     # Claim name carrying the caller's authorization groups.
     jwt_groups_claim: str = "groups"
+    # Authentication for the ingestion control plane (/ingest/*, /reindex),
+    # verified with the same JWT machinery as the retrieval API. Deliberately a
+    # separate switch from `auth_enabled`, and deliberately ON: these routes
+    # crawl the corpus, inject documents into the answer set, queue rebuilds and
+    # read back internal ids and error strings. A deployment that has not enabled
+    # retrieval auth is precisely the one that would otherwise leave them open.
+    # Turn this off only for an ingestion server on a private interface whose
+    # operators accept that anyone who can reach it may drive it.
+    ingest_auth_enabled: bool = True
+    # JWT group required for the *mutating* ingestion routes (crawl, article
+    # injection, reindex). Falls back to `ops_admin_group`; when neither is set
+    # the group check cannot mean anything, so any authenticated caller may
+    # proceed and the gap is logged. Reading the ingest log needs authentication
+    # but no group.
+    ingest_admin_group: str = ""
     otel_enabled: bool = False
     otel_service_name: str = "agentic-rag"
     otel_exporter_otlp_endpoint: str = ""
