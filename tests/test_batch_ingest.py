@@ -47,6 +47,14 @@ def _patch_run(monkeypatch, outcomes: dict[str, str], settings) -> list[str]:
     monkeypatch.setattr(pipeline.ingest_log, "ensure_table", lambda: None)
     monkeypatch.setattr(pipeline, "_handle", fake_handle)
     monkeypatch.setattr(pipeline, "get_settings", lambda: settings)
+    # The audit log and the retry table are real writes on the paths `_run`
+    # takes when a handler raises. Left unstubbed, a failing test in this module
+    # writes rows for its fixture ids ("n0", "bad-1", …) into the deployment's
+    # ingest_log — which is the table app.ingestion.recovery reads to decide
+    # what is stranded, so the pollution outlives the test run.
+    monkeypatch.setattr(pipeline, "_log", lambda *a, **k: None)
+    monkeypatch.setattr(pipeline, "_track_retry", lambda *a, **k: None)
+    monkeypatch.setattr(pipeline, "_pending_retries", frozenset)
     return processed
 
 
@@ -160,6 +168,10 @@ def test_parallel_worker_exception_becomes_error(monkeypatch):
     monkeypatch.setattr(pipeline.ingest_log, "ensure_table", lambda: None)
     monkeypatch.setattr(pipeline, "_handle", exploding_handle)
     monkeypatch.setattr(pipeline, "_log", lambda *a, **k: None)
+    # Every raised outcome writes a retry marker; keep it out of the deployment's
+    # table, for the same reason the audit log is stubbed above.
+    monkeypatch.setattr(pipeline, "_track_retry", lambda *a, **k: None)
+    monkeypatch.setattr(pipeline, "_pending_retries", frozenset)
     monkeypatch.setattr(pipeline, "get_settings", lambda: settings)
     import app.core.clients as deps
 
