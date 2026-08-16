@@ -89,12 +89,12 @@ CREATE TABLE IF NOT EXISTS `{table}_{facet}` (
 # document's main theme is stored as the primary tag and every other theme as a
 # sub-theme naming the primary tag it hangs off. `parent` is NULL for a primary
 # tag and for a sub-theme no parent is known for. `theme_group` is which
-# top-level data.json bucket ("main" / "other", from theme_taxonomy._group_code)
+# top-level theme_structure.json bucket ("main" / "other", from _group_code)
 # the theme traces back to -- tracked separately from theme_type/parent because
 # two primary tags (e.g. "Energy" and "Green Shipping") can have the same
 # theme_type/parent (primary, NULL) while coming from different buckets; a
 # sub-theme inherits its primary tag's group. Values are classified by
-# app.catalog.theme_taxonomy against app/data.json; only themes the document is
+# app.catalog.theme_taxonomy against app/theme_structure.json; only themes the document is
 # actually tagged with get a row -- a parent is a reference, never its own row.
 _STATE_THEME_DDL = """
 CREATE TABLE IF NOT EXISTS `{table}_theme` (

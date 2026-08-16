@@ -396,10 +396,10 @@ def theme_vocabulary(*, limit: int = 500) -> list[dict[str, Any]]:
     ``documents_theme`` is the source of truth for what themes exist: it stores
     the theme *name* alongside the ``theme_type`` / ``parent`` / ``theme_group``
     that ``app.catalog.theme_taxonomy`` materialized at ingest. Nothing here
-    reads app/data.json — that file shapes the columns during ingestion, and the
+    reads app/theme_structure.json — that file shapes the columns during ingestion, and the
     columns answer queries afterwards.
 
-    A theme carrying more than one hierarchy variant (data.json changed between
+    A theme carrying more than one hierarchy variant (the theme map changed between
     ingests, so some rows are stale) collapses to the variant the most documents
     agree on, ties broken by name, so callers always see exactly one row per
     theme. ``documents`` is that variant's document count. ``limit`` clamps to

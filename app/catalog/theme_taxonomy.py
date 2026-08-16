@@ -1,8 +1,9 @@
 """Theme hierarchy: the primary-tag / sub-theme map behind a document's themes.
 
-[app/data.json](../data.json) is the authority for which themes are **Primary
-Tags** and which are **Sub-Themes** hanging off one. Its top level ("Main
-Themes" / "Other Themes") is a grouping bucket rather than a theme, so:
+[app/theme_structure.json](../theme_structure.json) is the authority for which
+themes are **Primary Tags** and which are **Sub-Themes** hanging off one. Its top
+level ("Main Themes" / "Other Themes") is a grouping bucket rather than a theme,
+so:
 
 * a bucket's children are Primary Tags (``parent`` is NULL);
 * anything below a Primary Tag is a Sub-Theme whose ``parent`` is that tag;
@@ -48,8 +49,9 @@ OTHER = "other"
 # whose theme was the literal string "False".
 _NOT_A_THEME: frozenset[str] = frozenset({"false", "true", "none", "null", "nan"})
 
-# app/data.json — a sibling of the app package root, not of this module.
-TAXONOMY_PATH = Path(__file__).resolve().parent.parent / "data.json"
+# app/theme_structure.json — a sibling of the app package root, not of this
+# module.
+TAXONOMY_PATH = Path(__file__).resolve().parent.parent / "theme_structure.json"
 
 _WHITESPACE = re.compile(r"\s+")
 
@@ -91,7 +93,7 @@ def _group_code(bucket_name: str) -> str:
     """Fixed ``"main"``/``"other"`` code for a top-level bucket's display name.
 
     Matched on substring rather than position, so reordering the two buckets in
-    ``data.json`` doesn't flip which is which. Any bucket not named after "main"
+    the theme map doesn't flip which is which. Any bucket not named after "main"
     (a third bucket added later, a rename) falls to ``"other"`` rather than
     raising — the two-value split is deliberately the ceiling here; a document
     is never denied a theme row over an unrecognized bucket label."""
@@ -129,18 +131,28 @@ def _walk(
 
 @lru_cache(maxsize=1)
 def _load() -> tuple[dict[str, _Entry], frozenset[str]]:
-    """Parse data.json once per process into (theme map, bucket keys).
+    """Parse the theme map once per process into (theme map, bucket keys).
 
     A missing or malformed file is logged, not raised: themes then all fall
     through to unparented sub-themes, which keeps ingestion running instead of
-    failing every document on a data-file problem."""
+    failing every document on a data-file problem.
+
+    That tolerance is a liability during ingestion, which is why
+    :func:`require_taxonomy` exists. An unreadable map does not merely lose the
+    hierarchy for one run — it rewrites every theme row with a NULL group, and
+    the Main/Other split is then gone from the data as well as the file. The log
+    is CRITICAL for the same reason: this degradation is silent, cheap to cause
+    (renaming the file is enough) and expensive to notice."""
     try:
         raw = json.loads(TAXONOMY_PATH.read_text(encoding="utf-8"))
     except (OSError, ValueError):
-        logger.exception(
-            "Could not read the theme map at %s; every theme falls back to an "
-            "unparented sub-theme.",
+        logger.critical(
+            "Could not read the theme map at %s. Every theme now classifies as "
+            "an unparented sub-theme with no Main/Other group; re-ingesting in "
+            "this state will overwrite the stored hierarchy. Fix the file before "
+            "ingesting.",
             TAXONOMY_PATH,
+            exc_info=True,
         )
         return {}, frozenset()
 
@@ -158,8 +170,40 @@ def _load() -> tuple[dict[str, _Entry], frozenset[str]]:
 
 
 def reload_taxonomy() -> None:
-    """Drop the cached map (tests / after editing data.json in place)."""
+    """Drop the cached map (tests / after editing the theme map in place)."""
     _load.cache_clear()
+
+
+class TaxonomyUnavailable(RuntimeError):
+    """The theme map could not be loaded, so classification would be wrong."""
+
+
+def is_loaded() -> bool:
+    """Whether the theme map parsed into at least one theme."""
+    mapping, _ = _load()
+    return bool(mapping)
+
+
+def require_taxonomy() -> None:
+    """Raise unless the theme map is usable. Call before writing theme rows.
+
+    The preflight that turns a silent data problem into a loud one. Classifying
+    against an empty map does not fail — it succeeds and writes the wrong
+    answer for every document, which is the worse outcome and the one that
+    actually happened: the map's filename changed and nothing complained until
+    the Main/Other split was already missing from every runtime lookup.
+
+    Deliberately not called from :func:`classify`. Per-document classification
+    stays tolerant, so a mid-run problem degrades one document rather than
+    aborting a long ingest; this is for the start of a run, where refusing costs
+    nothing and prevents a rewrite.
+    """
+    if not is_loaded():
+        raise TaxonomyUnavailable(
+            f"No themes could be read from {TAXONOMY_PATH}. Ingesting now would "
+            "clear the Main/Other grouping on every theme row. Fix or restore "
+            "the theme map first."
+        )
 
 
 def classify(names: Iterable[str] | None) -> list[ThemeAssignment]:
@@ -203,7 +247,7 @@ def primary_tags() -> list[str]:
 def group_of(name: str) -> str | None:
     """The top-level bucket (``"main"`` / ``"other"``) ``name`` traces back to,
     or ``None`` when the map has no entry for it — a theme the CMS has but
-    ``data.json`` does not yet know has no group to report, the same as
+    the theme map does not yet know has no group to report, the same as
     ``classify`` leaving its ``group`` unset. Looks up by the same
     case-insensitive match key ``classify`` uses, so CMS display drift resolves
     the same way. Used by the theme listing to split Main from Other without
@@ -218,7 +262,7 @@ def themes_by_group() -> dict[str, list[str]]:
     top-level bucket it traces back to, each in file order. A diagnostics/docs
     helper mirroring ``primary_tags`` — the DB-backed theme listing looks up
     each name individually via ``group_of`` instead, since it must also cover
-    themes ``data.json`` does not know about."""
+    themes the theme map does not know about."""
     mapping, _ = _load()
     result: dict[str, list[str]] = {MAIN: [], OTHER: []}
     for name, _theme_type, _parent, group in mapping.values():

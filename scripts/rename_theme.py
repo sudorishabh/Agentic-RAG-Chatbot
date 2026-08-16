@@ -8,7 +8,7 @@ notices and ``documents_theme`` keeps the old name indefinitely.
 **Two steps are needed, and this script is only the first:**
 
 1. ``python -m scripts.rename_theme "Old Name" "New Name" --apply``
-2. Edit ``app/data.json`` to use the new name.
+2. Edit ``app/theme_structure.json`` to use the new name.
 
 Skipping step 2 leaves the new name unclassified, so documents ingested *after*
 the rename get ``theme_group = NULL`` and list under "Other themes" instead of
@@ -66,9 +66,9 @@ def main(argv: list[str] | None = None) -> int:
 
         if theme_taxonomy.group_of(args.new) is None:
             print(
-                f"\nWARNING: app/data.json does not know {args.new!r}, so newly "
+                f"\nWARNING: app/theme_structure.json does not know {args.new!r}, so newly "
                 "ingested documents would get no theme_group and list under "
-                "'Other themes'. Update app/data.json as well (step 2)."
+                "'Other themes'. Update app/theme_structure.json as well (step 2)."
             )
 
         if not args.apply:
@@ -82,7 +82,7 @@ def main(argv: list[str] | None = None) -> int:
             f"UPDATE `{table}` SET parent = %s WHERE parent = %s", (args.new, args.old)
         )
         conn.commit()
-    print(f"\nRenamed. Remember step 2: update app/data.json to use {args.new!r}.")
+    print(f"\nRenamed. Remember step 2: update app/theme_structure.json to use {args.new!r}.")
     return 0
 
 

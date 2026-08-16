@@ -1,7 +1,7 @@
 """Unit tests for theme classification and the theme rows it writes.
 
 Two layers: :mod:`app.catalog.theme_taxonomy` turning raw theme names into
-primary-tag / sub-theme assignments against ``app/data.json``, and the
+primary-tag / sub-theme assignments against ``app/theme_structure.json``, and the
 ``documents_theme`` writes in :mod:`app.catalog.state` that persist them. The SQL
 runs against a scripted fake cursor; the real statements run in
 ``app/local_tests``.
@@ -20,7 +20,7 @@ TABLE = "documents"
 
 
 # --------------------------------------------------------------------------- #
-# theme_taxonomy.classify — the data.json hierarchy.
+# theme_taxonomy.classify — the theme_structure.json hierarchy.
 # --------------------------------------------------------------------------- #
 
 def _rows(names) -> list[tuple[str, str, str | None, str | None]]:
@@ -356,3 +356,79 @@ def test_reclassify_dry_run_writes_nothing(cursor):
 def test_reclassify_on_an_empty_table_does_nothing(cursor):
     assert state.reclassify_theme_rows() == {"names": 0, "updated": 0, "deleted": 0}
     assert _theme_sql(cursor, "UPDATE") == [] and _theme_sql(cursor, "DELETE") == []
+
+
+# --------------------------------------------------------------------------- #
+# The shipped theme map must actually load.
+#
+# These are regression tests for a real outage: `TAXONOMY_PATH` pointed at
+# `app/data.json` after the file had been renamed to `app/theme_structure.json`.
+# Nothing raised. `_load` logged and returned an empty map, so every theme
+# classified as an unparented sub-theme with no group, `themes_by_group()` went
+# empty, and the next ingest would have rewritten all 11,138 theme rows with a
+# NULL group — erasing the Main/Other split from the data as well as the file.
+#
+# Every other test in this module supplies its own map via `tmp_path`, which is
+# why none of them noticed. These deliberately assert against the *shipped* file.
+# --------------------------------------------------------------------------- #
+
+
+def test_the_shipped_theme_map_exists_and_loads():
+    theme_taxonomy.reload_taxonomy()
+    assert theme_taxonomy.TAXONOMY_PATH.exists(), (
+        f"{theme_taxonomy.TAXONOMY_PATH} is missing — classification silently "
+        "degrades to ungrouped themes."
+    )
+    assert theme_taxonomy.is_loaded()
+
+
+def test_the_shipped_map_defines_both_groups():
+    """An empty side means the bucket names stopped matching `_group_code`."""
+    theme_taxonomy.reload_taxonomy()
+    groups = theme_taxonomy.themes_by_group()
+    assert groups[theme_taxonomy.MAIN], "no Main themes loaded"
+    assert groups[theme_taxonomy.OTHER], "no Other themes loaded"
+
+
+def test_the_shipped_map_groups_a_known_theme_each_way():
+    """Pins the contract the theme listing depends on, at the values in the
+    file: a Main sub-theme resolves to `main`, an Other primary tag to `other`."""
+    theme_taxonomy.reload_taxonomy()
+    assert theme_taxonomy.group_of("Energy") == theme_taxonomy.MAIN
+    assert theme_taxonomy.group_of("Water") == theme_taxonomy.MAIN
+    assert theme_taxonomy.group_of("Green Shipping") == theme_taxonomy.OTHER
+
+
+def test_a_theme_the_map_does_not_know_has_no_group():
+    """Themes discovered in Drupal but absent from the map stay ungrouped, so a
+    `theme_group = 'main'` filter cannot surface them."""
+    theme_taxonomy.reload_taxonomy()
+    assert theme_taxonomy.group_of("A Theme Nobody Has Defined") is None
+
+
+def test_require_taxonomy_passes_with_the_shipped_map():
+    theme_taxonomy.reload_taxonomy()
+    theme_taxonomy.require_taxonomy()
+
+
+def test_require_taxonomy_raises_when_the_map_is_missing(monkeypatch, tmp_path):
+    """The preflight ingestion needs: classifying against an empty map does not
+    fail, it succeeds and writes the wrong answer for every document."""
+    monkeypatch.setattr(
+        theme_taxonomy, "TAXONOMY_PATH", tmp_path / "does-not-exist.json"
+    )
+    theme_taxonomy.reload_taxonomy()
+    assert theme_taxonomy.is_loaded() is False
+    with pytest.raises(theme_taxonomy.TaxonomyUnavailable, match="theme map"):
+        theme_taxonomy.require_taxonomy()
+    theme_taxonomy.reload_taxonomy()
+
+
+def test_require_taxonomy_raises_on_a_malformed_map(monkeypatch, tmp_path):
+    bad = tmp_path / "theme_structure.json"
+    bad.write_text("{not json", encoding="utf-8")
+    monkeypatch.setattr(theme_taxonomy, "TAXONOMY_PATH", bad)
+    theme_taxonomy.reload_taxonomy()
+    with pytest.raises(theme_taxonomy.TaxonomyUnavailable):
+        theme_taxonomy.require_taxonomy()
+    theme_taxonomy.reload_taxonomy()

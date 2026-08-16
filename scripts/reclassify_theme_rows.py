@@ -4,7 +4,7 @@
 ``app.catalog.schema.migrate_theme_hierarchy`` adds the ``theme_type``,
 ``parent``, and ``theme_group`` columns, but existing rows can only take the
 column defaults — an unparented sub-theme with no group. This re-applies the
-theme map (:mod:`app.catalog.theme_taxonomy`, backed by ``app/data.json``) to
+theme map (:mod:`app.catalog.theme_taxonomy`, backed by ``app/theme_structure.json``) to
 those rows so main themes become primary tags, sub-themes point at their
 parent, and every row is tagged with the Main Themes / Other Themes bucket
 it traces back to.
