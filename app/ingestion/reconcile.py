@@ -234,14 +234,31 @@ def _graph_check() -> Check:
             )
         # The graph's own MySQL-vs-graph diff, rather than a second opinion
         # written here.
+        from app.ingestion.graph_sync import freshness, is_stale
         from app.knowledge.graph.verify import verify
 
         report = verify()
+        problems = list(report.problems)
+
+        # Content agreeing is not the same as the projection still running. A
+        # graph that stopped being projected months ago agrees with MySQL about
+        # everything it was told, and is wrong about everything since.
+        state = freshness()
+        if is_stale(state):
+            hours = (state.get("age_seconds") or 0) / 3600
+            problems.append(
+                f"projection last ran {hours:.0f}h ago "
+                f"({state.get('projected_at')}); the scheduled refresh may have "
+                f"stopped"
+            )
+        elif not state.get("projected_at"):
+            problems.append("the graph carries no projection stamp; it may never have been projected")
+
         return Check(
             "graph_projection",
-            len(report.problems),
-            "; ".join(report.problems[:3]) or "projection matches MySQL",
-            samples=report.problems[:SAMPLE_LIMIT],
+            len(problems),
+            "; ".join(problems[:3]) or "projection matches MySQL and is current",
+            samples=problems[:SAMPLE_LIMIT],
         )
     except Exception as exc:
         return Check(

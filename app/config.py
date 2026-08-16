@@ -257,6 +257,16 @@ class Settings(BaseSettings):
     # connection and ingestion/retrieval behave exactly as they do today.
     # Per-stage flags arrive with the stages they gate.
     knowledge_enabled: bool = False
+    # Refresh the graph projection at the end of each sweep, so it stops drifting
+    # the moment nobody remembers to run scripts.project_graph. Gated by
+    # knowledge_enabled, so it is inert on a deployment without a graph, and
+    # fail-open in every direction: an unreachable Neo4j costs a log line and
+    # never touches the ingestion that already succeeded.
+    graph_project_after_sweep: bool = True
+    # How old a projection may be before reconciliation calls it stale. Sized
+    # well above the sweep interval so an ordinary missed run is not an alarm;
+    # what it catches is projection having stopped happening at all.
+    graph_projection_max_age_seconds: int = 86400
     # Graph-backed retrieval. Separate from knowledge_enabled because the graph
     # must be built and verified long before any query is allowed to read it.
     graph_retrieval_enabled: bool = False

@@ -19,10 +19,19 @@ def sweep() -> dict[str, dict[str, int]]:
     settings = get_settings()
     result = {"drupal": ingest_drupal(reconcile=settings.worker_sweep_reconcile)}
     logger.info("Sweep complete: %s", result)
-    # After the ingestion, not inside it: reconciliation compares the finished
-    # state of the stores, and it must never be able to affect the run whose
-    # result was just logged above.
+    # Both of these run after the ingestion, not inside it, and neither can fail
+    # it: the documents are already written and the result above is already
+    # decided. Projection first, so reconciliation reports the graph as it stands
+    # after this sweep rather than as it stood before.
+    from app.ingestion.graph_sync import project_after_sweep
     from app.ingestion.reconcile import reconcile_after_sweep
+
+    projection = project_after_sweep()
+    if projection is not None:
+        result["graph_projection"] = {
+            "version": projection.get("projection_version"),
+            **projection.get("nodes", {}),
+        }
 
     report = reconcile_after_sweep()
     if report is not None:

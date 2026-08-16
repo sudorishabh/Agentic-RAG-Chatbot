@@ -74,6 +74,75 @@ RETURN e.entity_id AS entity_id, e.trust AS trust LIMIT 25
 """
 
 
+# When the graph was last projected. Every projected node carries the stamp of
+# the generation that wrote it (see project.make_projection_version), whose
+# timestamp component sorts lexically — so the newest stamp is the maximum, and
+# no extra bookkeeping node is needed to answer "how old is this projection?".
+LATEST_PROJECTION = """
+MATCH (e:Entity)
+WHERE e.projection_version IS NOT NULL
+RETURN max(e.projection_version) AS version
+"""
+
+
+@dataclass
+class ProjectionFreshness:
+    """How old the projection is, as far as the graph itself can say."""
+
+    version: str | None = None
+    projected_at: Any = None
+    age_seconds: float | None = None
+
+    @property
+    def known(self) -> bool:
+        return self.projected_at is not None
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "version": self.version,
+            "projected_at": self.projected_at.isoformat() if self.known else None,
+            "age_seconds": round(self.age_seconds) if self.age_seconds else None,
+        }
+
+
+def projection_freshness(*, session: Any = None) -> ProjectionFreshness:
+    """Read the newest projection stamp in the graph. Never writes.
+
+    An empty graph, or one whose nodes predate the stamp, reports an unknown
+    age rather than an age of zero — "never projected" and "just projected" must
+    not look the same.
+    """
+    from datetime import datetime, timezone
+
+    from app.core.clients.graph import read_session
+
+    def _read(open_session: Any) -> str | None:
+        record = open_session.run(LATEST_PROJECTION).single()
+        return record["version"] if record else None
+
+    if session is not None:
+        version = _read(session)
+    else:
+        with read_session() as open_session:
+            version = _read(open_session)
+
+    if not version:
+        return ProjectionFreshness()
+    # "graph-project-v1:20260814T065651:9f2c1a08"
+    parts = version.split(":")
+    if len(parts) < 2:
+        return ProjectionFreshness(version=version)
+    try:
+        moment = datetime.strptime(parts[1], "%Y%m%dT%H%M%S").replace(tzinfo=timezone.utc)
+    except ValueError:
+        return ProjectionFreshness(version=version)
+    return ProjectionFreshness(
+        version=version,
+        projected_at=moment,
+        age_seconds=(datetime.now(timezone.utc) - moment).total_seconds(),
+    )
+
+
 def verify(*, session: Any = None, as_of: str | None = None) -> VerificationReport:
     """Diff MySQL against the graph. Never writes."""
     from app.catalog import assertions as store
