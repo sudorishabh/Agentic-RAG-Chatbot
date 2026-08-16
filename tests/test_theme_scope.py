@@ -177,3 +177,53 @@ def test_the_scope_reaches_the_tool(monkeypatch):
     plan = planner.plan(_Slots(), question="What other themes are there?")
     planner.execute(plan, question="What other themes are there?")
     assert seen["scope"] == SCOPE_OTHER
+
+
+# --------------------------------------------------------------------------- #
+# The prompt backstop, and the line it must not cross
+# --------------------------------------------------------------------------- #
+
+
+def test_the_grounded_prompt_forbids_assembling_a_theme_list_from_context():
+    """The catalog path renders theme answers deterministically, with no model
+    involved. The semantic path has no such guarantee: a question that does not
+    route to `list_themes` reaches generation with a sample of pages, and the
+    themes those pages happen to mention are not the thematic structure.
+
+    This is the same argument rule 8 makes about document totals, applied to the
+    other thing a sample cannot support a claim about.
+    """
+    from app.generation.prompts import (
+        GROUNDED_SYSTEM_PROMPT,
+        SINGLE_SOURCE_SYSTEM_PROMPT,
+    )
+
+    for prompt in (GROUNDED_SYSTEM_PROMPT, SINGLE_SOURCE_SYSTEM_PROMPT):
+        assert "thematic areas" in prompt
+        assert "sample of pages" in prompt
+        # The restriction is on generalising, not on mentioning a theme at all.
+        assert "belongs to is fine" in prompt
+
+
+def test_theme_resolution_still_reaches_other_themes(monkeypatch):
+    """The separation the whole design rests on.
+
+    Page data is not the thematic structure: a user asking for content under an
+    Other theme must still find it. Only the *listing* is narrowed to Main —
+    resolving a theme the user named by name spans every group, or the pages
+    behind Other themes become unreachable.
+    """
+    from app.retrieval.structured import resolve
+
+    monkeypatch.setattr(
+        "app.catalog.queries.theme_vocabulary",
+        lambda **kw: [
+            {"theme": "Energy", "theme_type": "primary", "parent": None,
+             "theme_group": "main", "documents": 10},
+            {"theme": "Green Shipping", "theme_type": "primary", "parent": None,
+             "theme_group": "other", "documents": 2},
+        ],
+    )
+    names = {c.canonical_name for c in resolve._theme_candidates("Green Shipping")}
+    assert "Green Shipping" in names, "an Other theme must stay resolvable"
+    assert "Energy" in names
