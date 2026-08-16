@@ -1,12 +1,16 @@
 """Create the Qdrant payload indexes the query path filters on.
 
-Every search filters on is_parent / is_current, and often source_type, language
-and section_type, but only published_at is indexed at ingest time. Index
-creation runs server-side over existing points — nothing is re-ingested or
-re-embedded — but it does alter the collection, so run this only while no
-ingestion run is in progress.
+`ensure_collection()` now provisions all of them, so a fresh deployment needs
+nothing from this script. It remains for an existing collection that predates a
+new index, and for checking one without changing it (`--dry-run`).
 
-Idempotent; safe to re-run (already-indexed fields are reported and skipped).
+The index list lives in `app.core.clients.vector_store.PAYLOAD_INDEXES` and this
+applies exactly that — the two used to keep separate lists, which is how nine of
+them came to exist only where someone had remembered to run this.
+
+Index creation runs server-side over existing points — nothing is re-ingested or
+re-embedded — but it does alter the collection, so run it while no ingestion is
+in progress. Idempotent; already-indexed fields are skipped.
 
 Usage:  python -m scripts.create_payload_indexes [--dry-run]
 """
@@ -18,57 +22,26 @@ import sys
 
 logger = logging.getLogger("create_payload_indexes")
 
-# Field -> payload schema kind. Booleans filter as BOOL; the rest are
-# exact-match keyword filters (document_id is filtered by delete_document
-# today and by the Phase 2 id-scoped retrieval).
-_INDEX_FIELDS: dict[str, str] = {
-    "is_parent": "bool",
-    "is_current": "bool",
-    "source_type": "keyword",
-    "language": "keyword",
-    "section_type": "keyword",
-    "authors": "keyword",
-    "tags": "keyword",
-    "document_id": "keyword",
-}
-
 
 def create_indexes(dry_run: bool) -> int:
-    from qdrant_client.models import PayloadSchemaType
-
     from app.config import get_settings
     from app.core.clients import get_qdrant_client
+    from app.core.clients.vector_store import PAYLOAD_INDEXES, ensure_payload_indexes
 
-    schema = {"bool": PayloadSchemaType.BOOL, "keyword": PayloadSchemaType.KEYWORD}
     collection = get_settings().qdrant_collection
     client = get_qdrant_client()
     if not client.collection_exists(collection):
         logger.error("Qdrant collection %r does not exist; nothing to index.", collection)
         return 1
 
-    existing = set(client.get_collection(collection).payload_schema or {})
-    print(f"Collection {collection!r}: ensuring {len(_INDEX_FIELDS)} payload indexes")
-    failures = 0
-    for field, kind in _INDEX_FIELDS.items():
-        if field in existing:
-            print(f"  = {field}: already indexed")
-        elif dry_run:
-            print(f"  + {field}: would create ({kind})")
+    print(f"Collection {collection!r}: ensuring {len(PAYLOAD_INDEXES)} payload indexes")
+    created = ensure_payload_indexes(client, collection, dry_run=dry_run)
+    for field, kind in PAYLOAD_INDEXES.items():
+        if field in created:
+            print(f"  + {field}: {'would create' if dry_run else 'created'} ({kind})")
         else:
-            # Best-effort per field (vector_store._ensure_keyword_index style): one
-            # failure must not abort the remaining indexes.
-            try:
-                client.create_payload_index(
-                    collection_name=collection,
-                    field_name=field,
-                    field_schema=schema[kind],
-                    wait=True,
-                )
-                print(f"  + {field}: created ({kind})")
-            except Exception:
-                failures += 1
-                logger.warning("Could not create %s index on %r.", kind, field, exc_info=True)
-    return 1 if failures else 0
+            print(f"  = {field}: already indexed")
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:

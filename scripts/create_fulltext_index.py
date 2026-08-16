@@ -1,12 +1,15 @@
 """Create the Qdrant full-text index on chunk_text for the keyword leg.
 
-Enables MatchText filtering (acronyms, proper nouns, exact figures — the
-classic dense-retrieval failure modes) without ingest-time sparse vectors.
-The index is built server-side over existing points — nothing is re-ingested
-or re-embedded — but this is the heaviest index the retrieval plan creates,
-so run it only while no ingestion run is active.
+`ensure_collection()` now provisions this alongside every other payload index,
+so a fresh deployment needs nothing from here. It remains for an existing
+collection that predates it, and because this is the one index worth being able
+to build on its own: it is the heaviest, and the lexical path (`keyword_leg_enabled`)
+degrades silently to dense-only while it is missing.
 
-Idempotent; safe to re-run (an existing index is reported and skipped).
+MatchText filtering is what covers the classic dense-retrieval failures —
+acronyms, proper nouns, exact figures — without ingest-time sparse vectors. The
+index is built server-side over existing points; nothing is re-ingested or
+re-embedded, but run it while no ingestion is active.
 
 Usage:  python -m scripts.create_fulltext_index [--dry-run]
 """
@@ -22,10 +25,9 @@ _FIELD = "chunk_text"
 
 
 def create_index(dry_run: bool) -> int:
-    from qdrant_client.models import TextIndexParams, TokenizerType
-
     from app.config import get_settings
     from app.core.clients import get_qdrant_client
+    from app.core.clients.vector_store import ensure_payload_indexes
 
     collection = get_settings().qdrant_collection
     client = get_qdrant_client()
@@ -33,42 +35,23 @@ def create_index(dry_run: bool) -> int:
         logger.error("Qdrant collection %r does not exist; nothing to index.", collection)
         return 1
 
-    existing = set(client.get_collection(collection).payload_schema or {})
-    if _FIELD in existing:
+    if _FIELD in set(client.get_collection(collection).payload_schema or {}):
         print(f"  = {_FIELD}: already indexed")
         return 0
     if dry_run:
         print(f"  + {_FIELD}: would create (text, word tokenizer, lowercase)")
         return 0
-    try:
-        client.create_payload_index(
-            collection_name=collection,
-            field_name=_FIELD,
-            field_schema=TextIndexParams(
-                type="text",
-                tokenizer=TokenizerType.WORD,
-                lowercase=True,
-            ),
-            wait=True,
-        )
-    except Exception:
-        # Building a text index over a whole collection routinely outlives the
-        # client's request timeout, and Qdrant carries on server-side regardless.
-        # A read-back is therefore the only honest test of what happened: the
-        # request failing does not mean the index did.
-        logger.info(
-            "Index request on %r did not return in time; checking whether the "
-            "server built it anyway.", _FIELD,
-        )
-        if _FIELD not in set(client.get_collection(collection).payload_schema or {}):
-            logger.warning(
-                "Could not create text index on %r.", _FIELD, exc_info=True
-            )
-            return 1
-        print(f"  + {_FIELD}: created (the request timed out; the index landed)")
+
+    # The shared helper owns the schema and the read-back that distinguishes "the
+    # request timed out" from "the index was not built" — a text index over a
+    # whole collection routinely outlives the client timeout while Qdrant carries
+    # on server-side.
+    created = ensure_payload_indexes(client, collection)
+    if _FIELD in created:
+        print(f"  + {_FIELD}: created (text, word tokenizer, lowercase)")
         return 0
-    print(f"  + {_FIELD}: created (text, word tokenizer, lowercase)")
-    return 0
+    logger.warning("Could not create the text index on %r.", _FIELD)
+    return 1
 
 
 def main(argv: list[str] | None = None) -> int:
