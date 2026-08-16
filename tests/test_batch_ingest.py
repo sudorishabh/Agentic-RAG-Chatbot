@@ -37,9 +37,11 @@ def _patch_run(monkeypatch, outcomes: dict[str, str], settings) -> list[str]:
     """Stub _run's collaborators; returns the processed-document log."""
     processed: list[str] = []
 
-    # `fail` reports why an outcome was unresolved, so the retry marker can
-    # carry the reason; the budget tests care only about the outcome itself.
-    def fake_handle(record, build_doc, run_id, note=None, fail=None):
+    # `**_` absorbs `_run`'s optional reporting callbacks (note, fail, flag).
+    # These tests are about the budget and the outcome tally; a stub that named
+    # each callback had to be edited every time one was added, which is churn
+    # that proves nothing.
+    def fake_handle(record, build_doc, run_id, **_):
         processed.append(record.document_id)
         return outcomes.get(record.document_id, "indexed")
 
@@ -161,7 +163,7 @@ def test_parallel_worker_exception_becomes_error(monkeypatch):
     settings = _Settings()
     settings.ingest_workers = 2
 
-    def exploding_handle(record, build_doc, run_id, note=None, fail=None):
+    def exploding_handle(record, build_doc, run_id, **_):
         raise RuntimeError("boom")
 
     monkeypatch.setattr(pipeline.state, "ensure_table", lambda: None)

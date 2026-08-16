@@ -131,6 +131,10 @@ def _sweep(world, bundles: list[str]) -> list[str]:
             build_doc=lambda r: SimpleNamespace(
                 document_id=r.document_id, file_links=[], doc_version=1,
                 title="t", tags=[], ensure_content_hash=lambda: "h2",
+                # A real CanonicalDocument always carries a date, even when it
+                # is None; the pipeline reports an undated one rather than
+                # assuming the attribute is there.
+                published_at="2026-01-01T00:00:00+00:00",
             ),
         )
         if record.status is ChangeStatus.DELETED:

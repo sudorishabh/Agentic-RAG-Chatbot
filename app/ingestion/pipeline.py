@@ -295,11 +295,15 @@ def _handle(
     run_id: str | None = None,
     note: Callable[[str], None] | None = None,
     fail: Callable[[str], None] | None = None,
+    flag: Callable[[str], None] | None = None,
 ) -> str:
     """Process one change record and report the outcome.
 
     ``fail`` receives the reason for an unresolved outcome, so the retry marker
-    can say *why* a document is unresolved rather than only that it is.
+    can say *why* a document is unresolved rather than only that it is. ``flag``
+    receives run-level observations that are not outcomes — a document indexed
+    without a publication date, say, which is neither a success worth hiding nor
+    a failure worth retrying.
     """
     prior_version = record.prior.doc_version if record.prior else None
 
@@ -395,6 +399,19 @@ def _handle(
         _log(run_id, record, "error", doc=doc, version=prior_version, chunks=0,
              error=reason)
         return "error"
+
+    if not doc.published_at:
+        # Not an error — some sources genuinely state no date, and inventing one
+        # would be worse than having none. But an undated document is *invisible*
+        # to every date-range filter rather than merely ranked low, so it must not
+        # pass silently.
+        if flag is not None:
+            flag("undated")
+        logger.warning(
+            "Indexing %s (%s/%s) with no publication date; it will be excluded "
+            "from date-filtered results.",
+            record.document_id, record.source_type, record.bundle,
+        )
 
     chunks = index_chunks(new_chunks)
     delete_document(record.document_id, keep_ids=[c.chunk_id for c in new_chunks])
@@ -556,6 +573,11 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
         with tally_lock:
             tally[f"enrich_{outcome}"] += 1
 
+    def flag(observation: str) -> None:
+        """Count something worth knowing about a run that is not an outcome."""
+        with tally_lock:
+            tally[observation] += 1
+
     def report_throughput() -> None:
         """One run-level line, in the terms that comparing worker counts needs.
 
@@ -575,13 +597,14 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
         logger.info(
             "ingest_throughput workers=%d elapsed_seconds=%.1f "
             "documents_processed=%d documents_per_minute=%.1f errors=%d "
-            "enrichment_failures=%d",
+            "enrichment_failures=%d indexed_without_date=%d",
             workers,
             elapsed,
             worked,
             per_minute,
             tally["error"],
             tally["enrich_failed"] + tally["enrich_error"],
+            tally["undated"],
         )
 
     def handle(record: ChangeRecord) -> str:
@@ -595,7 +618,7 @@ def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
             reason = message
 
         try:
-            outcome = _handle(record, build_doc, run_id, note=note, fail=fail)
+            outcome = _handle(record, build_doc, run_id, note=note, fail=fail, flag=flag)
         except Exception as exc:
             logger.exception("Failed handling %s; skipping.", record.document_id)
             _log(run_id, record, "error", error=str(exc))

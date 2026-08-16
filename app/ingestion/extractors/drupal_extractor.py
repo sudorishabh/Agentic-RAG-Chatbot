@@ -369,12 +369,35 @@ def _build_record(
         title=title,
         url=_node_url(attributes, site),
         body="\n\n".join(body_parts),
-        created=attributes.get("created"),
+        created=_created_at(attributes),
         changed=attributes.get("changed"),
         metadata=metadata,
         files=files,
         refs=refs,
     )
+
+
+def _created_at(attributes: dict) -> str | None:
+    """When the source says this record came into being.
+
+    Nodes carry ``created``. ``block_content`` does not carry it at all — only
+    ``changed`` and ``revision_created`` — so every block and every PDF hanging
+    off one was catalogued with no date whatsoever: 109 documents, invisible to
+    every date-filtered query and to recency ranking, rather than merely ranked
+    low.
+
+    ``revision_created`` is the timestamp of the revision being served. On a
+    first revision that *is* the creation date; on a later one it is when that
+    revision was made, so for an edited block this reads later than the truth. It
+    is used only where ``created`` is absent, and it is a real timestamp the
+    source states about this record — the alternative is not a better date, it is
+    no date. ``changed`` is deliberately not a third fallback: it moves on every
+    edit, so it would describe the document's last touch rather than its origin.
+
+    Nothing is synthesised. A record exposing neither field stays undated, is
+    logged as such by the pipeline, and is counted by the reconciliation report.
+    """
+    return attributes.get("created") or attributes.get("revision_created") or None
 
 
 _PDF_MIME = "application/pdf"
