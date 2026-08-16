@@ -65,6 +65,11 @@ class ToolCall:
     # list_themes: list sub-themes instead of top-level themes. The parent to
     # narrow to travels in `filters.theme`.
     children: bool = False
+    # list_themes: which theme groups may be exposed ("main"/"other"/"all").
+    # Decided deterministically from the question by
+    # `app.retrieval.structured.theme_scope`, and carried on the call so a plan
+    # states what it will expose rather than leaving it to the tool's default.
+    theme_scope: str = "main"
     # rendering shape for list/aggregate output (table/timeline/list/default)
     output_format: str = "default"
     # resolve_entity

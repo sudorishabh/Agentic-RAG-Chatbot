@@ -244,6 +244,7 @@ def catalog_fallback(
     db_plan = planner.plan(
         analysis.model_copy(update={"operation": "list"}),
         output_format=analysis.answer_format,
+        question=question,
     )
     ok = [result for result in planner.execute(db_plan, question=question) if result.ok]
     return _compose(ok) if ok else None
@@ -286,7 +287,9 @@ def answer_structured(
     if get_settings().database_multi_call_enabled:
         db_plan = planner.plan_multi(question, output_format=output_format)
     if db_plan is None:  # disabled, or the LLM planner produced nothing usable
-        db_plan = planner.plan(slots, output_format=output_format)
+        db_plan = planner.plan(
+            slots, output_format=output_format, question=question
+        )
     results = planner.execute(db_plan, question=question)
     ok = [r for r in results if r.ok]
     if not ok:

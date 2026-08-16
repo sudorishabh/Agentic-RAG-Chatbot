@@ -36,6 +36,7 @@ from app.retrieval.structured.tools import (
     lookup_record,
     resolve_entity,
 )
+from app.retrieval.structured import theme_scope
 from app.retrieval.structured.types import (
     DatabasePlan,
     RecordFilters,
@@ -58,7 +59,9 @@ def _year_dates(year: Any) -> tuple[str | None, str | None]:
     return f"{y:04d}-01-01", f"{y + 1:04d}-01-01"
 
 
-def _tool_call(slots: Any, output_format: str) -> ToolCall:
+def _tool_call(
+    slots: Any, output_format: str, question: str | None = None
+) -> ToolCall:
     """Map a slots object (analysis or StructuredQuery — duck-typed on operation,
     bundle, theme, author, title_contains, group_by, date_from, date_to, limit,
     and optionally year/tags) to one tool call.
@@ -66,7 +69,12 @@ def _tool_call(slots: Any, output_format: str) -> ToolCall:
     `tags` (plural, a list — the query-understanding classifier already extracts
     it for the qa/vector path) maps to `RecordFilters.tag` (singular, the only
     tag scope the catalog tools support today) by taking the first tag; there is
-    no multi-tag AND/OR support to map the rest onto."""
+    no multi-tag AND/OR support to map the rest onto.
+
+    `question` is the raw text, used only to decide which theme groups a
+    theme listing may expose (see `theme_scope`). Optional so an existing
+    caller that has only slots keeps working — it then gets the Main-only
+    default, which is the safe side."""
     date_from = getattr(slots, "date_from", None)
     date_to = getattr(slots, "date_to", None)
     if not date_from and not date_to:
@@ -103,14 +111,17 @@ def _tool_call(slots: Any, output_format: str) -> ToolCall:
         theme = getattr(slots, "theme", None)
         return ToolCall(tool="list_themes", filters=filters,
                         children=bool(getattr(slots, "theme_children", False) or theme),
+                        theme_scope=theme_scope.detect(question),
                         limit=THEME_VOCABULARY_LIMIT, output_format=output_format)
     return ToolCall(tool="list_records", entity=bundle, filters=filters, limit=limit,
                     output_format=output_format)
 
 
-def plan(slots: Any, *, output_format: str = "default") -> DatabasePlan:
+def plan(
+    slots: Any, *, output_format: str = "default", question: str | None = None
+) -> DatabasePlan:
     """v1 deterministic plan: one tool call derived from the extracted slots."""
-    call = _tool_call(slots, output_format)
+    call = _tool_call(slots, output_format, question)
     return DatabasePlan(
         calls=[call], rationale=f"{call.tool} for {call.entity or 'all content'}"
     )
@@ -212,7 +223,9 @@ _PLANNER_SYSTEM = (
 )
 
 
-def _to_tool_call(call: _PlannedCall, output_format: str) -> ToolCall:
+def _to_tool_call(
+    call: _PlannedCall, output_format: str, question: str | None = None
+) -> ToolCall:
     # A vocabulary enumeration must not inherit the LLM's content-row limit
     # (which it habitually leaves at 10) — see THEME_VOCABULARY_LIMIT.
     limit = THEME_VOCABULARY_LIMIT if call.tool == "list_themes" else (call.limit or 10)
@@ -233,6 +246,11 @@ def _to_tool_call(call: _PlannedCall, output_format: str) -> ToolCall:
         output_format=output_format,
         query=call.query,
         resolve_type=call.resolve_type,
+        # Not a field the LLM may set: which theme groups are exposed is
+        # decided from the question text by the same deterministic rule the
+        # v1 planner uses, so both planners answer a generic theme question
+        # identically.
+        theme_scope=theme_scope.detect(question),
     )
 
 
@@ -260,7 +278,10 @@ def plan_multi(question: str, *, output_format: str = "default") -> DatabasePlan
     except Exception:
         logger.warning("Multi-call planning failed; falling back to v1.", exc_info=True)
         return None
-    calls = [_to_tool_call(c, output_format) for c in result.calls[:_MAX_CALLS]]
+    calls = [
+        _to_tool_call(c, output_format, question)
+        for c in result.calls[:_MAX_CALLS]
+    ]
     if not calls:
         return None
     return DatabasePlan(calls=calls, rationale=result.rationale or "multi-call plan")
@@ -284,7 +305,8 @@ def _run(call: ToolCall, question: str | None) -> ToolResult:
                                  output_format=call.output_format)
     if call.tool == "list_themes":
         return list_themes(children=call.children, parent=call.filters.theme,
-                           limit=call.limit, output_format=call.output_format)
+                           scope=call.theme_scope, limit=call.limit,
+                           output_format=call.output_format)
     if call.tool == "resolve_entity":
         return resolve_entity(call.query, call.resolve_type)
     return ToolResult(tool=call.tool, entity=call.entity, ok=False,

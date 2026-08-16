@@ -72,13 +72,15 @@ def test_plan_list_themes_naming_a_theme_implies_its_children():
 def test_execute_passes_children_and_parent_to_list_themes(monkeypatch):
     seen = {}
 
-    def fake_list_themes(*, children, parent, limit, output_format):
-        seen.update(children=children, parent=parent)
+    def fake_list_themes(*, children, parent, scope, limit, output_format):
+        seen.update(children=children, parent=parent, scope=scope)
         return ToolResult(tool="list_themes")
 
     monkeypatch.setattr(planner, "list_themes", fake_list_themes)
     planner.execute(planner.plan(_slots(operation="list_themes", theme="Energy")))
     assert seen["children"] is True and seen["parent"] == "Energy"
+    # No question was supplied, so the listing stays on the safe side.
+    assert seen["scope"] == "main"
 
 
 def test_plan_multi_list_themes_ignores_the_llm_row_limit():
@@ -148,7 +150,7 @@ def test_execute_routes_to_tool(monkeypatch):
 def test_execute_routes_to_list_themes(monkeypatch):
     monkeypatch.setattr(
         planner, "list_themes",
-        lambda *, children, parent, limit, output_format: ToolResult(
+        lambda *, children, parent, scope, limit, output_format: ToolResult(
             tool="list_themes", data={"themes": ["Climate"]}
         ),
     )
