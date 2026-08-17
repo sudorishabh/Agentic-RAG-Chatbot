@@ -22,6 +22,14 @@ class Settings(BaseSettings):
     # and search cost vs 3-large's native 3072 with negligible retrieval loss.
     # Set to None (leave blank) for ada-002, which does not accept this param.
     azure_openai_embedding_dimensions: int | None = 3072
+    # Retries the OpenAI SDK spends on one embedding call before it raises. It
+    # retries 429 with exponential backoff, honouring Azure's `retry-after`, so
+    # this is the whole defence against provisioned-throughput throttling — the
+    # library's own `retry_min_seconds`/`retry_max_seconds` are declared but
+    # never read. The SDK default of 2 is short of the "retry after 3 seconds"
+    # Azure asks for under sustained load; 8 rides out a throttling window
+    # instead of losing the document to `documents_retry`.
+    azure_openai_embedding_max_retries: int = 8
     azure_document_intelligence_endpoint: str = ""
     azure_document_intelligence_key: str = ""
     # "prebuilt-read" is the OCR-only (basic) model: cheap, text only, no table
