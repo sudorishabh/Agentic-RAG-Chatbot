@@ -6,7 +6,7 @@ from functools import lru_cache
 from typing import Any, Sequence
 
 from app.config import get_settings
-from app.core.models.context import ContextBlock
+from app.core.models.context import ContextBlock, source_kind
 from app.core.clients import get_qdrant_client
 from app.retrieval.hybrid_search import _NON_SEARCHABLE_SECTIONS, Candidate
 
@@ -174,10 +174,36 @@ def _block_payload(
     return payload
 
 
+def _same_document(a: dict[str, Any], b: dict[str, Any]) -> bool:
+    """True when both payloads describe one and the same document."""
+    return bool(_ids(a) & _ids(b))
+
+
 def _same_source_two_formats(a: dict[str, Any], b: dict[str, Any]) -> bool:
     """True when the pair is a website node and its own attached PDF — the same
-    content in two formats, not a genuine conflict."""
-    return {a.get("source_type"), b.get("source_type")} == {"website", "pdf_attachment"} and _linked(a, b)
+    content in two formats, not a genuine conflict.
+
+    Compares the *normalized* kind, so a legacy ``article`` point pairs with its
+    attachment exactly as a ``website`` one does; matching on the raw value let
+    that pair through as a contradiction.
+    """
+    return {source_kind(a), source_kind(b)} == {"website", "pdf_attachment"} and _linked(a, b)
+
+
+def _conflicting(a: dict[str, Any], b: dict[str, Any]) -> bool:
+    """Whether two blocks are sources that might contradict each other.
+
+    A conflict is a disagreement *between sources*, so it takes two distinct
+    documents. ``_ids`` unions ``document_id``/``pdf_id``/``article_uuid``, and
+    an overlap on any of them means one document reached two ways — most often
+    two sections of one report, since ``_admit`` deduplicates by parent rather
+    than by document. Flagging those marked the majority of live answers as
+    self-contradictory, which is both wrong and load-bearing: the flag reaches
+    the API response and the prompt's "prefer the later published date" rule.
+    """
+    if _same_document(a, b):
+        return False
+    return _linked(a, b) and not _same_source_two_formats(a, b)
 
 
 def _admit(
@@ -327,5 +353,5 @@ def build_context(
 def _flag_conflicts(blocks: list[ContextBlock]) -> None:
     for i, a in enumerate(blocks):
         for b in blocks[i + 1 :]:
-            if _linked(a.payload, b.payload) and not _same_source_two_formats(a.payload, b.payload):
+            if _conflicting(a.payload, b.payload):
                 a.conflict = b.conflict = True

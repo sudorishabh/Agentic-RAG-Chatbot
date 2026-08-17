@@ -22,6 +22,19 @@ class ContextBlock:
     also_available: list[dict[str, Any]] = field(default_factory=list)
 
 
+# Storage values that all mean "a page on the website". ``website`` is
+# canonical; ``article`` is what points indexed before the rename carry. Defined
+# here so retrieval and generation share one list — a copy that forgets the alias
+# reads a legacy point as a different kind of source than its neighbours do.
+WEBSITE_SOURCE_TYPES: tuple[str, ...] = ("website", "article")
+
+
+def source_kind(payload: dict[str, Any]) -> str | None:
+    """The payload's source type with the legacy website alias folded in."""
+    source_type = payload.get("source_type")
+    return "website" if source_type in WEBSITE_SOURCE_TYPES else source_type
+
+
 def page_span(payload: dict[str, Any]) -> tuple[int | None, int | None]:
     """The (first, last) page the payload's text covers, or (None, None).
 

@@ -70,6 +70,26 @@ def _stored_values(values: Iterable[str], width: int = _FACET_WIDTH) -> list[str
     return list(dict.fromkeys(v[:width] for v in values if v))
 
 
+# Every facet table keys on (document_id, value), and MySQL compares that key
+# under the column collation — utf8mb4_0900_ai_ci here, which folds case and
+# accents. `_stored_values` de-duplicates in Python, which folds neither, so a
+# source that tags one document both "Climate Variability" and "climate
+# variability" offers two values the index accepts as one. Without this the
+# second row raises 1062 and takes the whole document's transaction down with
+# it — the document does not persist at all over a repeated tag.
+#
+# Letting the database decide which values are the same string is the point:
+# Python cannot restate that rule without reimplementing Unicode collation, and
+# would drift from it the moment the column is altered. First spelling wins,
+# and `_stored_values` preserves source order, so which one that is stays
+# stable across ingests.
+#
+# `document_id = document_id` rather than INSERT IGNORE: this absorbs a
+# duplicate key and nothing else. IGNORE would equally downgrade a foreign-key
+# violation or an over-long value to a warning, hiding real corruption.
+_KEEP_FIRST = " ON DUPLICATE KEY UPDATE document_id = document_id"
+
+
 def _replace_facet(
     cur: Any, table: str, facet: str, document_id: str, values: Iterable[str]
 ) -> None:
@@ -77,7 +97,9 @@ def _replace_facet(
     rows = [(document_id, value) for value in _stored_values(values)]
     if rows:
         cur.executemany(
-            f"INSERT INTO `{table}_{facet}` (document_id, {facet}) VALUES (%s, %s)", rows
+            f"INSERT INTO `{table}_{facet}` (document_id, {facet}) "
+            f"VALUES (%s, %s){_KEEP_FIRST}",
+            rows,
         )
 
 
@@ -107,7 +129,7 @@ def _replace_authors(
     if rows:
         cur.executemany(
             f"INSERT INTO `{table}_author` (document_id, author, author_norm) "
-            "VALUES (%s, %s, %s)",
+            f"VALUES (%s, %s, %s){_KEEP_FIRST}",
             rows,
         )
 
@@ -134,7 +156,7 @@ def _replace_themes(
         cur.executemany(
             f"INSERT INTO `{table}_theme` "
             "(document_id, theme, theme_type, parent, theme_group) "
-            "VALUES (%s, %s, %s, %s, %s)",
+            f"VALUES (%s, %s, %s, %s, %s){_KEEP_FIRST}",
             rows,
         )
 

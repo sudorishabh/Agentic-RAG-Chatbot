@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from app.core.models.context import page_span
+from app.core.models.context import WEBSITE_SOURCE_TYPES, page_span, source_kind
 from app.retrieval.context_builder import ContextBlock
 from app.schemas.query import Citation, CitationSource
 
@@ -15,8 +15,9 @@ def _with_page(url: str | None, payload: dict[str, Any]) -> str | None:
 
 
 # Canonical source_type for Drupal content is "website"; "article" still appears
-# on points indexed before the rename (until the migration script runs).
-_WEBSITE_TYPES = ("website", "article")
+# on points indexed before the rename (until the migration script runs). The
+# list itself lives in the core model, shared with the conflict check.
+_WEBSITE_TYPES = WEBSITE_SOURCE_TYPES
 
 
 def _primary_url(payload: dict[str, Any]) -> str | None:
@@ -40,10 +41,7 @@ def _source_type(payload: dict[str, Any]) -> str:
     translate into, which is how the same PDF used to come back as
     ``pdf_attachment`` in one slot and ``pdf`` in another.
     """
-    source_type = payload.get("source_type")
-    if source_type in _WEBSITE_TYPES:
-        return "website"
-    return source_type or "pdf_attachment"
+    return source_kind(payload) or "pdf_attachment"
 
 
 def _source_from_payload(payload: dict[str, Any]) -> CitationSource:
