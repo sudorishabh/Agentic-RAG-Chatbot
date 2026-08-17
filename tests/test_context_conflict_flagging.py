@@ -131,6 +131,71 @@ def test_a_flagged_pair_marks_only_that_pair():
 
 
 # --------------------------------------------------------------------------- #
+# Editions: two attachments hanging off one node.
+# --------------------------------------------------------------------------- #
+
+def test_two_attachments_of_one_node_conflict():
+    """The case the "prefer the later published date" rule exists for. Annual
+    report editions share a single Drupal node, so they reach retrieval as two
+    attachment documents whose only common ground is the node they hang off."""
+    assert _flag(
+        _block(1, "file-2022", linked_article_uuid="node-1"),
+        _block(2, "file-2023", linked_article_uuid="node-1"),
+    ) == [True, True]
+
+
+def test_three_editions_all_flag():
+    assert _flag(
+        _block(1, "file-2021", linked_article_uuid="node-1"),
+        _block(2, "file-2022", linked_article_uuid="node-1"),
+        _block(3, "file-2023", linked_article_uuid="node-1"),
+    ) == [True, True, True]
+
+
+def test_attachments_of_different_nodes_do_not_conflict():
+    assert _flag(
+        _block(1, "file-a", linked_article_uuid="node-1"),
+        _block(2, "file-b", linked_article_uuid="node-2"),
+    ) == [False, False]
+
+
+def test_two_pages_sharing_one_attachment_conflict():
+    """The symmetric shape: distinct documents whose only common ground is the
+    document they both point at."""
+    assert _flag(
+        _block(1, "node-1", source_type="website", linked_pdf_id="file-9"),
+        _block(2, "node-2", source_type="website", linked_pdf_id="file-9"),
+    ) == [True, True]
+
+
+def test_an_edition_and_its_own_node_are_still_one_source():
+    """A node beside one of its attachments stays the two-formats case; only
+    attachment-vs-attachment is an edition disagreement."""
+    assert _flag(
+        _block(1, "node-1", source_type="website", linked_pdf_id="file-2023"),
+        _block(2, "file-2023", linked_article_uuid="node-1"),
+    ) == [False, False]
+
+
+def test_editions_flag_without_disturbing_an_unrelated_block():
+    a, b, c = (
+        _block(1, "file-2022", linked_article_uuid="node-1"),
+        _block(2, "file-2023", linked_article_uuid="node-1"),
+        _block(3, "file-other", linked_article_uuid="node-9"),
+    )
+    assert _flag(a, b, c) == [True, True, False]
+
+
+def test_sections_of_one_edition_still_do_not_conflict():
+    """Two chunks of the *same* attachment share both a document id and a parent
+    node; identity wins, so they are one source, not two editions."""
+    assert _flag(
+        _block(1, "file-2023", linked_article_uuid="node-1"),
+        _block(2, "file-2023", linked_article_uuid="node-1"),
+    ) == [False, False]
+
+
+# --------------------------------------------------------------------------- #
 # The realistic mixed context: nothing spurious.
 # --------------------------------------------------------------------------- #
 

@@ -190,6 +190,19 @@ def _same_source_two_formats(a: dict[str, Any], b: dict[str, Any]) -> bool:
     return {source_kind(a), source_kind(b)} == {"website", "pdf_attachment"} and _linked(a, b)
 
 
+def _siblings(a: dict[str, Any], b: dict[str, Any]) -> bool:
+    """Two distinct documents hanging off the same parent.
+
+    Editions of a publication share one Drupal node — the annual reports carry
+    the same title and the same ``published_at``, and only the filename says
+    which year — so they arrive as separate attachment documents whose sole
+    common ground is the node they point at. Neither holds the other's id, so
+    ``_linked`` cannot see the relationship; the shared *link target* is the
+    only evidence that they are two versions of one thing.
+    """
+    return bool(_links(a) & _links(b))
+
+
 def _conflicting(a: dict[str, Any], b: dict[str, Any]) -> bool:
     """Whether two blocks are sources that might contradict each other.
 
@@ -200,10 +213,16 @@ def _conflicting(a: dict[str, Any], b: dict[str, Any]) -> bool:
     than by document. Flagging those marked the majority of live answers as
     self-contradictory, which is both wrong and load-bearing: the flag reaches
     the API response and the prompt's "prefer the later published date" rule.
+
+    What remains is a genuine disagreement between two documents: siblings under
+    one node (see :func:`_siblings`), or a cross-link that is not simply one
+    source published in two formats.
     """
     if _same_document(a, b):
         return False
-    return _linked(a, b) and not _same_source_two_formats(a, b)
+    if _same_source_two_formats(a, b):
+        return False
+    return _siblings(a, b) or _linked(a, b)
 
 
 def _admit(
