@@ -1,10 +1,14 @@
 """Semantic response cache backed by a dedicated Qdrant collection.
 
 A near-duplicate question is answered from a prior result via nearest-neighbor
-search on the query embedding, gated by a cosine threshold. Entries are scoped
-to the caller's identity (so ACLs are respected) and self-invalidate on corpus
-or preference changes via the partition key. Qdrant has no native TTL, so each
-point carries an ``expires_at`` that lookups filter out and ``prune`` deletes.
+search on the query embedding, gated by a cosine threshold. Entries self-
+invalidate on corpus *or* preference changes via the partition key, which names
+the indexed corpus's revision alongside the retrieval settings (see
+``app.cache.cache_keys``) — so an answer stops being servable the moment
+ingestion changes what it was grounded in, rather than at the end of its TTL.
+Entries are not scoped to a caller: the corpus is public and every caller
+retrieves over all of it. Qdrant has no native TTL, so each point carries an
+``expires_at`` that lookups filter out and ``prune`` deletes.
 
 Every operation degrades gracefully: any Qdrant error disables the cache for that
 call rather than failing the query.
@@ -112,6 +116,10 @@ def lookup(
 
     name = settings.semantic_cache_collection
     scope = semantic_partition(top_k, answer_format)
+    if scope is None:
+        # The corpus revision is unreadable, so no stored answer can be shown to
+        # still match the corpus. Answer it fresh.
+        return None
     try:
         if not client.collection_exists(name):
             return None
@@ -157,6 +165,11 @@ def store(
     settings = get_settings()
     if not settings.semantic_cache_enabled or not query_vector:
         return
+    scope = semantic_partition(top_k, answer_format)
+    if scope is None:
+        # Storing under a key that does not name the corpus would make this
+        # entry unservable-but-present at best, and stale-servable at worst.
+        return
     client = _client()
     if client is None or not _ensure_collection(client, len(query_vector)):
         return
@@ -164,7 +177,6 @@ def store(
     from qdrant_client.models import PointStruct
 
     name = settings.semantic_cache_collection
-    scope = semantic_partition(top_k, answer_format)
     point = PointStruct(
         id=str(uuid.uuid4()),
         vector=list(query_vector),

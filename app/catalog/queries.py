@@ -515,6 +515,63 @@ _INVENTORY_TTL_SECONDS = 600
 _bundle_inventory: tuple[float, tuple[str, ...]] | None = None
 _published_range: tuple[float, tuple[str | None, str | None]] | None = None
 
+# The corpus revision is read on every cached query rather than on the
+# occasional catalog answer, and it decides whether a cached answer may be
+# served at all — so it is trusted for far less time than the inventory reads
+# above. This is the ceiling on how long a re-indexed or deleted document can
+# still be answered from cache; below the LLM latency it replaces, and one
+# cheap aggregate either way.
+_CORPUS_REVISION_TTL_SECONDS = 30
+_corpus_revision: tuple[float, str | None] | None = None
+
+
+def corpus_revision(*, refresh: bool = False) -> str | None:
+    """An opaque marker of the indexed corpus's current state, or None.
+
+    ``MAX(indexed_at)`` moves whenever a document is actually re-chunked and
+    re-indexed (``state.upsert`` COALESCEs the column, so a fingerprint-only
+    refresh deliberately does not move it), and the row count moves whenever a
+    document is added or deleted. Together they change for every ingestion that
+    could alter what retrieval returns, and for nothing else — which is exactly
+    the condition under which a cached answer stops being valid.
+
+    ``None`` means *unknown*, and callers must treat it as "do not use the
+    cache". Failing open to a placeholder would be the one unsafe direction
+    here: it would let a MySQL outage pin the partition key while ingestion
+    carried on changing the corpus underneath it.
+    """
+    global _corpus_revision
+    now = time.monotonic()
+    if (
+        not refresh
+        and _corpus_revision is not None
+        and now - _corpus_revision[0] < _CORPUS_REVISION_TTL_SECONDS
+    ):
+        return _corpus_revision[1]
+
+    table = _table()
+    sql = (
+        f"SELECT MAX(indexed_at) AS latest, COUNT(*) AS documents FROM `{table}`"
+    )
+    try:
+        with mysql_connection() as conn, conn.cursor() as cur:
+            cur.execute(sql)
+            rows = cur.fetchall()
+        row = rows[0] if rows else {}
+        latest = row.get("latest")
+        found = (
+            f"{latest.isoformat() if isinstance(latest, datetime) else (latest or 'never')}"
+            f"|{int(row.get('documents') or 0)}"
+        )
+    except Exception:
+        logger.warning(
+            "Corpus revision lookup failed; the semantic cache will be bypassed "
+            "until it recovers.", exc_info=True,
+        )
+        return None
+    _corpus_revision = (now, found)
+    return found
+
 
 def available_bundles(*, refresh: bool = False) -> tuple[str, ...]:
     """The bundles this catalog actually holds content documents for.
