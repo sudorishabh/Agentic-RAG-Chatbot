@@ -31,17 +31,32 @@ def _primary_url(payload: dict[str, Any]) -> str | None:
     return _with_page(payload.get("file_url"), payload)
 
 
+def _source_type(payload: dict[str, Any]) -> str:
+    """The citation's type name: ingestion's own ``source_type`` vocabulary.
+
+    Ingestion writes exactly two values — ``website`` and ``pdf_attachment`` —
+    so those are the names a citation carries; the pre-rename ``article`` alias
+    folds into ``website``. There is deliberately no second vocabulary to
+    translate into, which is how the same PDF used to come back as
+    ``pdf_attachment`` in one slot and ``pdf`` in another.
+    """
+    source_type = payload.get("source_type")
+    if source_type in _WEBSITE_TYPES:
+        return "website"
+    return source_type or "pdf_attachment"
+
+
 def _source_from_payload(payload: dict[str, Any]) -> CitationSource:
-    if payload.get("source_type") in _WEBSITE_TYPES:
-        return CitationSource(
-            type="website",
-            title=payload.get("title"),
-            url=_primary_url(payload),
-            section=payload.get("section_heading"),
-        )
+    """The single description of one source.
+
+    Both the primary citation and the ``also_available`` alternates are built
+    from this, so a payload cannot describe itself two ways depending on which
+    slot it lands in. Website payloads simply carry no page fields, so the one
+    shape covers both kinds without a branch.
+    """
     start, end = page_span(payload)
     return CitationSource(
-        type="pdf",
+        type=_source_type(payload),
         title=payload.get("title"),
         url=_primary_url(payload),
         page=start,
@@ -51,29 +66,20 @@ def _source_from_payload(payload: dict[str, Any]) -> CitationSource:
 
 
 def _citation_from_block(block: ContextBlock) -> Citation:
-    p = block.payload
-    also = [_source_from_payload(alt) for alt in block.also_available]
-    if p.get("source_type") in _WEBSITE_TYPES:
-        return Citation(
-            n=block.n,
-            type="website",
-            title=p.get("title"),
-            url=_primary_url(p),
-            section=p.get("section_heading"),
-            document_id=p.get("document_id"),
-            also_available=also,
-        )
-    start, end = page_span(p)
+    """A numbered citation, described by exactly the same rules as the
+    alternates listed beneath it — the block only adds its number and the
+    document the answer should resolve to."""
+    source = _source_from_payload(block.payload)
     return Citation(
         n=block.n,
-        type=p.get("source_type") or "pdf",
-        title=p.get("title"),
-        url=_primary_url(p),
-        page=start,
-        page_end=end,
-        section=p.get("section_heading"),
-        document_id=p.get("document_id"),
-        also_available=also,
+        type=source.type,
+        title=source.title,
+        url=source.url,
+        page=source.page,
+        page_end=source.page_end,
+        section=source.section,
+        document_id=block.payload.get("document_id"),
+        also_available=[_source_from_payload(alt) for alt in block.also_available],
     )
 
 
