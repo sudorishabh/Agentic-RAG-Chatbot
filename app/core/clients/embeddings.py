@@ -1,14 +1,55 @@
+import logging
 from functools import lru_cache
 
+import httpx
 from langchain_openai import AzureOpenAIEmbeddings
 
 from app.config import get_settings
+from app.observability.metrics import record_event
+
+logger = logging.getLogger(__name__)
+
+
+def _record_response(response: httpx.Response) -> None:
+    """Count every embedding response, and say so when Azure throttles.
+
+    The SDK swallows a retried 429: the call succeeds and nothing upstream ever
+    learns the deployment is at its quota, until the retry budget runs out and
+    a document lands in ``documents_retry`` instead. This is the hook that makes
+    throttling visible while it is still only costing time.
+
+    Called by httpx before the body is read, so it touches the status and
+    headers only — reading the payload here would consume a streamed response.
+    """
+    if response.status_code == 429:
+        record_event("embedding_http", "throttled")
+        logger.warning(
+            "Embedding request throttled (429); Azure asked for %s seconds. "
+            "Retrying within the configured budget of %d.",
+            response.headers.get("retry-after", "an unstated number of"),
+            get_settings().azure_openai_embedding_max_retries,
+        )
+    elif response.status_code >= 400:
+        record_event("embedding_http", "error")
+    else:
+        record_event("embedding_http", "ok")
 
 
 @lru_cache
 def get_embeddings() -> AzureOpenAIEmbeddings:
     settings = get_settings()
+    # Supplying the transport is what buys the hook above, so it also takes on
+    # the SDK's own defaults — reusing its constants rather than restating them,
+    # so this client stays configured like every other one the SDK builds.
+    from openai._constants import DEFAULT_CONNECTION_LIMITS, DEFAULT_TIMEOUT
+
+    http_client = httpx.Client(
+        timeout=DEFAULT_TIMEOUT,
+        limits=DEFAULT_CONNECTION_LIMITS,
+        event_hooks={"response": [_record_response]},
+    )
     return AzureOpenAIEmbeddings(
+        http_client=http_client,
         azure_endpoint=settings.azure_openai_embedding_endpoint,
         api_key=settings.azure_openai_embedding_key,
         api_version=settings.azure_openai_embedding_api_version,

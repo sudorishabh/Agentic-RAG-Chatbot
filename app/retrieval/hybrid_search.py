@@ -30,15 +30,35 @@ def _collection_ready(client: Any, name: str) -> bool:
 
 @dataclass
 class Candidate:
+    """One retrieved chunk, carrying three scores that must not be conflated.
+
+    ``score``          the *current ranking* value, whatever stage produced it:
+                       the dense similarity out of Qdrant, then the fused value
+                       after ``fusion.rrf``, then the banded relevance after
+                       ``reranker.rerank``. Ordering only — never compare it to
+                       a configured threshold.
+    ``semantic_score`` the *raw semantic relevance*, on the scale the active
+                       scorer works in (Qdrant cosine, or the reranker
+                       provider's own 0-1 score). Set once at search time and
+                       preserved through fusion, because every configured
+                       threshold — ``website_chunk_floor``,
+                       ``pdf_high_confidence_floor``, ``corrective_min_score``,
+                       ``rerank_score_threshold`` — is calibrated against it.
+    ``fusion_score``   the reciprocal-rank value from ``fusion.rrf``, on its own
+                       ~0.016-0.033 scale; 0.0 when no fusion ran.
+
+    Keeping these apart is the fix for a real defect: ``rrf`` used to overwrite
+    ``score`` and the floors read it, so enabling the keyword or multi-query leg
+    put every candidate an order of magnitude below ``website_chunk_floor`` and
+    silently emptied the website group (see tests/test_fusion_score_integrity.py).
+    """
 
     id: str
     score: float
     payload: dict[str, Any] = field(default_factory=dict)
     vector: list[float] = field(default_factory=list)
-    # Raw semantic relevance score (pre-blend / pre-normalization) carried through
-    # rerank() so the context builder can apply the website relevance floor.
-    # Defaults to `score` until rerank() populates it.
     semantic_score: float = 0.0
+    fusion_score: float = 0.0
 
     @property
     def parent_id(self) -> str | None:
@@ -123,9 +143,15 @@ def _to_candidate(point: Any) -> Candidate:
     if isinstance(raw, dict):
         raw = raw.get("dense") or next(iter(raw.values()), None)
     vector = [float(x) for x in raw] if isinstance(raw, (list, tuple)) else []
+    score = float(point.score or 0.0)
     return Candidate(
         id=str(point.id),
-        score=float(point.score or 0.0),
+        score=score,
         payload=point.payload or {},
         vector=vector,
+        # The dense similarity is the semantic relevance until a reranker
+        # provider replaces it. Stamped here — the one place a candidate is born
+        # from a real search — so it is already on the payload before any fusion
+        # can rewrite `score`.
+        semantic_score=score,
     )

@@ -291,8 +291,20 @@ def _cohere_semantic(query: str, candidates: Sequence[Candidate]) -> list[float]
         return None
 
 
+def _dense_scores(candidates: Sequence[Candidate]) -> list[float]:
+    """The candidates' semantic relevance, on the scale the floors expect.
+
+    Reads ``semantic_score`` rather than ``score``: after ``fusion.rrf`` the
+    latter holds a reciprocal-rank value, and using it here propagated that
+    scale to every downstream threshold. Falls back to ``score`` for candidates
+    built outside the search layer (the graph hydration path, and tests), which
+    leave ``semantic_score`` at its default.
+    """
+    return [c.semantic_score or c.score for c in candidates]
+
+
 def _semantic_scores(query: str, candidates: Sequence[Candidate], provider: str) -> list[float]:
-    dense = [c.score for c in candidates]
+    dense = _dense_scores(candidates)
     if provider == "llm" and len(candidates) <= _MAX_LLM_CANDIDATES:
         return _llm_semantic(query, candidates) or dense
     if provider == "cross_encoder":
@@ -363,6 +375,9 @@ def rerank(
             id=r.scored.candidate.id, score=r.scored.relevance,
             payload=r.scored.candidate.payload, vector=r.scored.candidate.vector,
             semantic_score=r.scored.semantic,
+            # Carried, not recomputed: how this candidate was fused stays
+            # readable downstream for tracing a ranking.
+            fusion_score=r.scored.candidate.fusion_score,
         )
         for r in ranked
     ]
