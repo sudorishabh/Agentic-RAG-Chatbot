@@ -131,25 +131,36 @@ def test_a_flagged_pair_marks_only_that_pair():
 
 
 # --------------------------------------------------------------------------- #
-# Editions: two attachments hanging off one node.
+# Sharing a parent node is not, on its own, a disagreement.
+#
+# Attachments under one node are two different things depending on the node:
+# editions of a publication (which a "prefer the later date" rule would want to
+# know about) and the contents of a catalogue page (which it must not touch).
+# The payload cannot tell them apart — same node, same title, same published_at
+# — and on this corpus catalogue pages dominate, the largest carrying 69, 68 and
+# 43 attachments. Flagging the relationship marked ~28% of sampled answers,
+# mostly wrongly, so it does not flag at all.
+#
+# These tests pin that deliberate choice. Revisiting it needs a content signal
+# and a threshold measured on a labelled set; if that lands, these are the cases
+# to revise rather than delete.
 # --------------------------------------------------------------------------- #
 
-def test_two_attachments_of_one_node_conflict():
-    """The case the "prefer the later published date" rule exists for. Annual
-    report editions share a single Drupal node, so they reach retrieval as two
-    attachment documents whose only common ground is the node they hang off."""
+def test_two_attachments_of_one_node_do_not_conflict():
     assert _flag(
         _block(1, "file-2022", linked_article_uuid="node-1"),
         _block(2, "file-2023", linked_article_uuid="node-1"),
-    ) == [True, True]
+    ) == [False, False]
 
 
-def test_three_editions_all_flag():
-    assert _flag(
-        _block(1, "file-2021", linked_article_uuid="node-1"),
-        _block(2, "file-2022", linked_article_uuid="node-1"),
-        _block(3, "file-2023", linked_article_uuid="node-1"),
-    ) == [True, True, True]
+def test_a_catalogue_page_of_many_attachments_is_clean():
+    """The shape that made the rule unusable: one node, many unrelated files."""
+    blocks = [
+        _block(i, f"file-{i}", linked_article_uuid="node-brochures")
+        for i in range(1, 9)
+    ]
+    _flag_conflicts(blocks)
+    assert not any(b.conflict for b in blocks)
 
 
 def test_attachments_of_different_nodes_do_not_conflict():
@@ -159,36 +170,25 @@ def test_attachments_of_different_nodes_do_not_conflict():
     ) == [False, False]
 
 
-def test_two_pages_sharing_one_attachment_conflict():
+def test_two_pages_sharing_one_attachment_do_not_conflict():
     """The symmetric shape: distinct documents whose only common ground is the
     document they both point at."""
     assert _flag(
         _block(1, "node-1", source_type="website", linked_pdf_id="file-9"),
         _block(2, "node-2", source_type="website", linked_pdf_id="file-9"),
-    ) == [True, True]
+    ) == [False, False]
 
 
-def test_an_edition_and_its_own_node_are_still_one_source():
-    """A node beside one of its attachments stays the two-formats case; only
-    attachment-vs-attachment is an edition disagreement."""
+def test_an_attachment_beside_its_own_node_is_one_source():
     assert _flag(
         _block(1, "node-1", source_type="website", linked_pdf_id="file-2023"),
         _block(2, "file-2023", linked_article_uuid="node-1"),
     ) == [False, False]
 
 
-def test_editions_flag_without_disturbing_an_unrelated_block():
-    a, b, c = (
-        _block(1, "file-2022", linked_article_uuid="node-1"),
-        _block(2, "file-2023", linked_article_uuid="node-1"),
-        _block(3, "file-other", linked_article_uuid="node-9"),
-    )
-    assert _flag(a, b, c) == [True, True, False]
-
-
-def test_sections_of_one_edition_still_do_not_conflict():
+def test_sections_of_one_attachment_do_not_conflict():
     """Two chunks of the *same* attachment share both a document id and a parent
-    node; identity wins, so they are one source, not two editions."""
+    node; identity alone already settles it."""
     assert _flag(
         _block(1, "file-2023", linked_article_uuid="node-1"),
         _block(2, "file-2023", linked_article_uuid="node-1"),

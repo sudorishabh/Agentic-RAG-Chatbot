@@ -190,19 +190,6 @@ def _same_source_two_formats(a: dict[str, Any], b: dict[str, Any]) -> bool:
     return {source_kind(a), source_kind(b)} == {"website", "pdf_attachment"} and _linked(a, b)
 
 
-def _siblings(a: dict[str, Any], b: dict[str, Any]) -> bool:
-    """Two distinct documents hanging off the same parent.
-
-    Editions of a publication share one Drupal node — the annual reports carry
-    the same title and the same ``published_at``, and only the filename says
-    which year — so they arrive as separate attachment documents whose sole
-    common ground is the node they point at. Neither holds the other's id, so
-    ``_linked`` cannot see the relationship; the shared *link target* is the
-    only evidence that they are two versions of one thing.
-    """
-    return bool(_links(a) & _links(b))
-
-
 def _conflicting(a: dict[str, Any], b: dict[str, Any]) -> bool:
     """Whether two blocks are sources that might contradict each other.
 
@@ -214,15 +201,22 @@ def _conflicting(a: dict[str, Any], b: dict[str, Any]) -> bool:
     self-contradictory, which is both wrong and load-bearing: the flag reaches
     the API response and the prompt's "prefer the later published date" rule.
 
-    What remains is a genuine disagreement between two documents: siblings under
-    one node (see :func:`_siblings`), or a cross-link that is not simply one
-    source published in two formats.
+    Sharing a *parent node* is deliberately not a conflict. Editions of one
+    publication do arrive that way — separate attachment documents under a
+    single node — but so does every catalogue page, and on this corpus the
+    latter dominates: the largest such nodes carry 69 financial statements, 68
+    announcements, 43 brochures. The two shapes are indistinguishable from the
+    payload (same node, same title, same ``published_at``), so treating the
+    relationship as a disagreement flagged roughly a quarter of answers, mostly
+    wrongly. Separating them needs a content signal and a threshold measured
+    against a labelled set, not guessed; until then the honest reading of two
+    files on one page is that they are two files on one page.
     """
     if _same_document(a, b):
         return False
     if _same_source_two_formats(a, b):
         return False
-    return _siblings(a, b) or _linked(a, b)
+    return _linked(a, b)
 
 
 def _admit(
