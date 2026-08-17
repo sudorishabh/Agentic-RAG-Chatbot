@@ -216,6 +216,117 @@ class Build:
                 stage.counts["raised"] = apply_promotions(decisions)
 
     # ------------------------------------------------------------------ #
+    # 7-10. Claims. Extraction reads CMS fields directly, so this path does
+    #       not depend on mentions; validation is what enforces trust and
+    #       eligibility, and it is never bypassed.
+    # ------------------------------------------------------------------ #
+
+    def claims(self) -> list[Any]:
+        """Extract, validate and stage CMS claims. Returns what was staged."""
+        from app.config import get_settings
+        from app.knowledge.claims.extract_cms import extract_cms_claims
+        from app.knowledge.claims.validate import dedupe, validate
+
+        with self._stage("claims") as stage:
+            built = extract_cms_claims(self.index(), limit=self.o.limit)
+            stage.counts["built"] = len(built)
+            if not built:
+                return []
+
+            # The gates that decide what may become a claim live here, and this
+            # module does not get a say in them: a provisional PERSON is refused
+            # as `object_not_claim_eligible` exactly as it is on the ingest path.
+            result = validate(
+                built,
+                index=self.index(),
+                # CMS-field claims quote a metadata value, not a passage, so
+                # there is no chunk text for quote verification to locate.
+                chunk_texts={},
+                min_confidence=get_settings().claim_min_confidence,
+            )
+            accepted = dedupe(result.accepted)
+            stage.counts["accepted"] = len(accepted)
+            stage.counts["rejected"] = len(result.rejected)
+            for code, count in sorted(result.counts.items()):
+                stage.counts[f"rejected_{code}"] = count
+
+            if self.writes:
+                from app.catalog import assertions as store
+
+                stage.counts["staged"] = store.stage(accepted)
+                stage.counts["rejections_recorded"] = store.record_rejections(
+                    result.rejected
+                )
+            return accepted
+
+    def conflicts(self, staged: list[Any]) -> None:
+        """Supersession and dispute verdicts over the staged claims.
+
+        ``detect`` reads assertion objects, and the staged rows are dicts with
+        no reverse mapping, so a pass can only examine the batch this run built.
+        On a full run that batch *is* every CMS claim, which is every staged
+        claim the corpus has — the coverage check below proves it rather than
+        assuming it, and says so when it does not hold.
+
+        Under ``--limit`` the batch is a sample by construction. Its verdicts
+        are still correct about the claims it saw, but they are not a statement
+        about the corpus, and this run refuses to present them as one.
+        """
+        from app.knowledge.claims import conflicts as detector
+
+        with self._stage("conflicts") as stage:
+            if not staged:
+                stage.notes.append("no claims to examine")
+                return
+            report = detector.detect(staged)
+            stage.counts["examined"] = report.examined
+            stage.counts["groups"] = report.groups
+            stage.counts["links"] = len(report.links)
+            stage.counts["disputed"] = len(report.disputed)
+            stage.counts["superseded"] = len(report.superseded)
+
+            if self.o.limit is not None:
+                stage.counts["partial"] = 1
+                stage.notes.append(PARTIAL_CONFLICTS)
+            else:
+                self._check_global_coverage(stage, len(staged))
+
+            if self.writes:
+                from app.catalog import assertions as store
+
+                stage.counts["links_saved"] = store.save_links(
+                    report.links, detector=detector.DETECTOR_VERSION
+                )
+                stage.counts["status_applied"] = store.apply_status(
+                    report.status_changes
+                )
+
+    def _check_global_coverage(self, stage: Stage, examined: int) -> None:
+        """On a full run, confirm the batch really was every staged claim.
+
+        Claims staged by some other provenance — a future text extractor, or a
+        previous limited run whose documents this one no longer reaches — would
+        sit in the table unexamined. That is worth an error rather than a
+        silent partial pass, because the caller asked for a corpus-wide verdict.
+        """
+        from app.catalog import assertions as store
+
+        try:
+            total = store.total()
+        except Exception as exc:  # pragma: no cover - store hiccup
+            stage.notes.append(f"could not confirm coverage: {exc}")
+            return
+        if total > examined:
+            stage.counts["unexamined"] = total - examined
+            stage.notes.append(
+                f"{total - examined} staged claim(s) were not examined: conflict "
+                "detection covered this run's batch, not the whole table"
+            )
+            stage.errors.append(
+                {"id": "conflicts", "error": "coverage is not corpus-wide"}
+            )
+
+    # ------------------------------------------------------------------ #
     # 11. Projection.
     # ------------------------------------------------------------------ #
 
@@ -255,7 +366,11 @@ class Build:
         self.acronyms()
         self.ambiguity()
         self.promotion()
+        # Everything below resolves against what seeding just wrote, including
+        # the promotions — a PI raised above is claim-eligible from here on.
         self.index(refresh=True)
+        staged = self.claims()
+        self.conflicts(staged)
         self.project()
         return self.exit_code()
 
