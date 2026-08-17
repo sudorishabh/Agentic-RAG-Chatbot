@@ -1,4 +1,7 @@
+import email.utils
 import logging
+import threading
+import time
 from functools import lru_cache
 
 import httpx
@@ -8,6 +11,73 @@ from app.config import get_settings
 from app.observability.metrics import record_event
 
 logger = logging.getLogger(__name__)
+
+
+class _ThrottleGate:
+    """A deployment-wide pause, honoured by every thread sharing this client.
+
+    Retries alone do not stop `ingest_workers` from re-colliding: each worker
+    backs off privately, so while one waits the others keep spending the very
+    quota it is waiting for, and the deployment stays saturated. The gate makes
+    one worker's 429 pause all of them — the quota is a property of the Azure
+    deployment, so the backoff has to be too.
+
+    Held as a deadline rather than a countdown so concurrent 429s collapse into
+    a single wait instead of stacking into a multiple of it.
+    """
+
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._not_before = 0.0
+
+    def hold(self, seconds: float) -> None:
+        """Bar requests for `seconds`. Never shortens an existing hold."""
+        until = time.monotonic() + seconds
+        with self._lock:
+            self._not_before = max(self._not_before, until)
+
+    def wait(self) -> float:
+        """Block until the hold expires. Returns the seconds actually slept."""
+        with self._lock:
+            delay = self._not_before - time.monotonic()
+        # Deliberately outside the lock: a thread sleeping here must not stop
+        # another from recording a longer hold.
+        if delay <= 0:
+            return 0.0
+        time.sleep(delay)
+        return delay
+
+
+_gate = _ThrottleGate()
+
+
+def _retry_after_seconds(response: httpx.Response, ceiling: float) -> float:
+    """`retry-after` as seconds, clamped to `ceiling`.
+
+    The header is either a count of seconds or an HTTP-date; Azure sends the
+    former, but both are legal and a misread one would either stall the run or
+    fail to hold at all. An absent or unparseable value falls back to the
+    ceiling — pausing too long is recoverable, pausing too little is what got
+    us throttled.
+    """
+    raw = response.headers.get("retry-after")
+    if raw is None:
+        return ceiling
+    try:
+        seconds = float(raw)
+    except ValueError:
+        try:
+            seconds = email.utils.parsedate_to_datetime(raw).timestamp() - time.time()
+        except (TypeError, ValueError):
+            return ceiling
+    return max(0.0, min(seconds, ceiling))
+
+
+def _await_gate(request: httpx.Request) -> None:
+    """Hold every outgoing embedding request behind the shared pause."""
+    slept = _gate.wait()
+    if slept > 0:
+        logger.info("Held an embedding request %.1fs behind the throttle gate.", slept)
 
 
 def _record_response(response: httpx.Response) -> None:
@@ -22,12 +92,17 @@ def _record_response(response: httpx.Response) -> None:
     headers only — reading the payload here would consume a streamed response.
     """
     if response.status_code == 429:
+        settings = get_settings()
+        pause = _retry_after_seconds(
+            response, settings.azure_openai_embedding_max_throttle_seconds
+        )
+        _gate.hold(pause)
         record_event("embedding_http", "throttled")
         logger.warning(
-            "Embedding request throttled (429); Azure asked for %s seconds. "
+            "Embedding request throttled (429); pausing all embedding for %.1fs. "
             "Retrying within the configured budget of %d.",
-            response.headers.get("retry-after", "an unstated number of"),
-            get_settings().azure_openai_embedding_max_retries,
+            pause,
+            settings.azure_openai_embedding_max_retries,
         )
     elif response.status_code >= 400:
         record_event("embedding_http", "error")
@@ -46,7 +121,7 @@ def get_embeddings() -> AzureOpenAIEmbeddings:
     http_client = httpx.Client(
         timeout=DEFAULT_TIMEOUT,
         limits=DEFAULT_CONNECTION_LIMITS,
-        event_hooks={"response": [_record_response]},
+        event_hooks={"request": [_await_gate], "response": [_record_response]},
     )
     return AzureOpenAIEmbeddings(
         http_client=http_client,

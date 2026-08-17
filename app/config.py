@@ -30,6 +30,11 @@ class Settings(BaseSettings):
     # Azure asks for under sustained load; 8 rides out a throttling window
     # instead of losing the document to `documents_retry`.
     azure_openai_embedding_max_retries: int = 8
+    # Ceiling on one throttle pause, and the fallback when a 429 arrives without
+    # a usable `retry-after`. Caps the damage a wrong or hostile header can do:
+    # every embedding thread waits on this, so an unclamped value would stall
+    # the whole run rather than one request.
+    azure_openai_embedding_max_throttle_seconds: float = 60.0
     azure_document_intelligence_endpoint: str = ""
     azure_document_intelligence_key: str = ""
     # "prebuilt-read" is the OCR-only (basic) model: cheap, text only, no table
