@@ -2,12 +2,15 @@ from __future__ import annotations
 
 from typing import Any
 
+from app.core.models.context import page_span
 from app.retrieval.context_builder import ContextBlock
 from app.schemas.query import Citation, CitationSource
 
 
 def _with_page(url: str | None, payload: dict[str, Any]) -> str | None:
-    page = payload.get("page_number")
+    """Anchor the link at the first page of the evidence, so opening it lands
+    where the quoted passage begins rather than somewhere inside it."""
+    page = page_span(payload)[0]
     return f"{url}#page={page}" if (url and page) else url
 
 
@@ -36,11 +39,13 @@ def _source_from_payload(payload: dict[str, Any]) -> CitationSource:
             url=_primary_url(payload),
             section=payload.get("section_heading"),
         )
+    start, end = page_span(payload)
     return CitationSource(
         type="pdf",
         title=payload.get("title"),
         url=_primary_url(payload),
-        page=payload.get("page_number"),
+        page=start,
+        page_end=end,
         section=payload.get("section_heading"),
     )
 
@@ -58,12 +63,14 @@ def _citation_from_block(block: ContextBlock) -> Citation:
             document_id=p.get("document_id"),
             also_available=also,
         )
+    start, end = page_span(p)
     return Citation(
         n=block.n,
         type=p.get("source_type") or "pdf",
         title=p.get("title"),
         url=_primary_url(p),
-        page=p.get("page_number"),
+        page=start,
+        page_end=end,
         section=p.get("section_heading"),
         document_id=p.get("document_id"),
         also_available=also,

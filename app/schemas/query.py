@@ -25,7 +25,11 @@ class CitationSource(BaseModel):
     type: str
     title: str | None = None
     url: str | None = None
+    # The first and last page of the cited evidence. Equal for a single-page
+    # passage; a parent-expanded block genuinely spans several, and citing only
+    # the first would claim a narrower source than the text supports.
     page: int | None = None
+    page_end: int | None = None
     section: str | None = None
 
 
@@ -35,7 +39,11 @@ class Citation(BaseModel):
     type: str
     title: str | None = None
     url: str | None = None
+    # The first and last page of the cited evidence. Equal for a single-page
+    # passage; a parent-expanded block genuinely spans several, and citing only
+    # the first would claim a narrower source than the text supports.
     page: int | None = None
+    page_end: int | None = None
     section: str | None = None
     document_id: str | None = None
     also_available: list[CitationSource] = Field(default_factory=list)

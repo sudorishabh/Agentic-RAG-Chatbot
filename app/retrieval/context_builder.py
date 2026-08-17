@@ -97,6 +97,39 @@ def _is_website(payload: dict[str, Any]) -> bool:
     return payload.get("source_type") == "website"
 
 
+# Page fields that describe the *child* chunk specifically, and are therefore
+# wrong for a block that carries its parent's text instead.
+_CHILD_PAGE_FIELDS = ("page_number", "page_range", "overlap_page_range")
+
+
+def _block_payload(
+    child: dict[str, Any], parent: dict[str, Any] | None
+) -> dict[str, Any]:
+    """The child's payload, re-pointed at the pages of the text being shown.
+
+    Identity stays the child's — the chunk that matched is the chunk the
+    citation resolves to — but provenance has to follow the text. Parent
+    expansion swaps in a passage spanning the whole parent window, and citing
+    the child's single page for it claims a narrower source than the evidence:
+    the reader is pointed at page 7 for a statement that may live on page 9.
+
+    A parent that carries no ``page_range`` (an unpaginated source) leaves the
+    block with no page at all, rather than keeping the child's. That is the only
+    honest option — the alternative is stretching one page number over text it
+    does not describe.
+    """
+    payload = dict(child)
+    if parent is None:
+        return payload
+    for field_name in _CHILD_PAGE_FIELDS:
+        payload.pop(field_name, None)
+    span = parent.get("page_range")
+    if isinstance(span, (list, tuple)) and len(span) == 2:
+        payload["page_range"] = list(span)
+        payload["page_number"] = span[0]
+    return payload
+
+
 def _same_source_two_formats(a: dict[str, Any], b: dict[str, Any]) -> bool:
     """True when the pair is a website node and its own attached PDF — the same
     content in two formats, not a genuine conflict."""
@@ -144,7 +177,10 @@ def _admit(
             continue
 
         parent_payload = parents.get(cand.parent_id or "")
-        text = (parent_payload or {}).get("chunk_text") or cand.text
+        parent_text = (parent_payload or {}).get("chunk_text") or ""
+        # Which text won decides whose provenance the block carries, so the two
+        # are resolved together and never separately.
+        text = parent_text or cand.text
         if not text.strip():
             continue
         cost = _count_tokens(text)
@@ -157,7 +193,9 @@ def _admit(
             ContextBlock(
                 n=len(blocks) + 1,
                 text=text,
-                payload=dict(cand.payload),
+                payload=_block_payload(
+                    cand.payload, parent_payload if parent_text else None
+                ),
                 score=cand.score,
             )
         )

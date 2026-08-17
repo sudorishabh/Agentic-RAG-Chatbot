@@ -353,13 +353,18 @@ CHITCHAT_SYSTEM_PROMPT = (
 
 
 def _source_hint(payload: dict) -> str:
+    from app.core.models.context import page_span
+
     bits: list[str] = []
     stype = payload.get("source_type") or "source"
     bits.append(stype)
     if payload.get("title"):
         bits.append(str(payload["title"]))
-    if payload.get("page_number"):
-        bits.append(f"p.{payload['page_number']}")
+    # The span the block's text actually covers, so the header cannot tell the
+    # model "p.7" for a passage running from page 6 to page 9.
+    start, end = page_span(payload)
+    if start:
+        bits.append(f"p.{start}" if end == start else f"pp.{start}-{end}")
     if payload.get("section_heading"):
         bits.append(str(payload["section_heading"]))
     if payload.get("has_table"):
