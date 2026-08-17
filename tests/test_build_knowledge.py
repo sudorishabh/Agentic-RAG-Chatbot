@@ -130,7 +130,7 @@ def test_dry_run_still_runs_every_stage(wired):
     build, _ = _run(dry_run=True, skip_project=True)
     assert [s.name for s in build.stages if not s.skipped] == [
         "seed", "acronyms", "ambiguity", "pi-promotion", "claims", "conflicts",
-    ]
+    ]  # mentions is skipped unless --with-mentions
     assert _stage(build, "seed").counts["entities"] == 2
     assert _stage(build, "claims").counts["built"] == 2
     assert _stage(build, "claims").counts["accepted"] == 2
@@ -160,8 +160,8 @@ def test_write_run_calls_the_writers_in_order(wired):
 def test_stage_order_is_fixed(wired):
     build, _ = _run(skip_project=True)
     assert [s.name for s in build.stages] == [
-        "seed", "acronyms", "ambiguity", "pi-promotion", "claims", "conflicts",
-        "project",
+        "seed", "acronyms", "ambiguity", "pi-promotion", "mentions", "claims",
+        "conflicts", "project",
     ]
 
 
@@ -170,7 +170,7 @@ def test_skips_are_honoured(wired):
                     skip_project=True)
     assert "save_entities" not in wired.calls
     assert {s.name for s in build.stages if s.skipped} == {
-        "seed", "acronyms", "pi-promotion", "project"
+        "seed", "acronyms", "pi-promotion", "mentions", "project"
     }
 
 
@@ -298,6 +298,122 @@ def test_a_later_stage_failing_leaves_earlier_writes_intact(wired, monkeypatch):
         build.run()
     assert "stage" in wired.calls
     assert [a.claim_id for a in wired.staged] == ["c1", "c2"]
+
+
+# --------------------------------------------------------------------------- #
+# Mentions: off by default, resumable, and isolated per document.
+# --------------------------------------------------------------------------- #
+
+@pytest.fixture
+def mention_wiring(monkeypatch, wired):
+    """Stub the per-chunk path. Returns the recorder plus a knob for failures."""
+    from app.catalog import mentions as mention_store
+    from app.knowledge import extract, gazetteer, resolver
+
+    state = SimpleNamespace(cached=set(), failing=set(), saved=[], recorded=[])
+
+    monkeypatch.setattr(gazetteer, "get_gazetteer", lambda: object())
+    monkeypatch.setattr(gazetteer, "gazetteer_version", lambda g: "gaz-1")
+    monkeypatch.setattr(extract, "extraction_key", lambda h, f: f"{h}:{f}")
+
+    def _extract(text, *, chunk_id, document_id, gazetteer=None):
+        if document_id in state.failing:
+            raise RuntimeError("unreadable payload")
+        return [SimpleNamespace(chunk_id=chunk_id, surface_text=text)]
+
+    monkeypatch.setattr(extract, "extract_mentions", _extract)
+    monkeypatch.setattr(resolver, "resolve_mentions",
+                        lambda mentions, index, context: list(mentions))
+    monkeypatch.setattr(
+        mention_store, "cached_extraction",
+        lambda content_hash, key: 1 if content_hash in state.cached else None,
+    )
+    monkeypatch.setattr(
+        mention_store, "save_mentions",
+        lambda mentions, doc_version=None: state.saved.extend(mentions) or len(mentions),
+    )
+    monkeypatch.setattr(
+        mention_store, "record_extraction",
+        lambda *a, **k: state.recorded.append(a[0]),
+    )
+    monkeypatch.setattr(entity_store, "save_decisions", wired.writer("save_decisions"))
+    monkeypatch.setattr(bk.Build, "_document_context", lambda self, d, f: None)
+
+    def _documents(self):
+        docs = [("doc-a", [{"chunk_id": "a1", "chunk_text": "x", "content_hash": "ha"}]),
+                ("doc-b", [{"chunk_id": "b1", "chunk_text": "y", "content_hash": "hb"}])]
+        limit = self.o.limit
+        return iter(docs[:limit] if limit is not None else docs)
+
+    monkeypatch.setattr(bk.Build, "_documents", _documents)
+    return state
+
+
+def test_mentions_are_off_by_default(mention_wiring):
+    build, _ = _run(skip_project=True)
+    assert _stage(build, "mentions").skipped
+    assert mention_wiring.saved == []
+
+
+def test_mentions_run_when_asked(mention_wiring):
+    build, _ = _run(with_mentions=True, skip_project=True)
+    stage = _stage(build, "mentions")
+    assert stage.counts["documents"] == 2
+    assert stage.counts["chunks"] == 2
+    assert stage.counts["mentions"] == 2
+    assert stage.counts["decisions"] == 2
+    assert len(mention_wiring.saved) == 2
+
+
+def test_dry_run_extracts_but_saves_no_mentions(mention_wiring):
+    build, _ = _run(with_mentions=True, dry_run=True, skip_project=True)
+    assert _stage(build, "mentions").counts["mentions"] == 2
+    assert mention_wiring.saved == []
+    assert mention_wiring.recorded == []
+
+
+def test_already_extracted_chunks_are_skipped(mention_wiring):
+    """The resume path: a cached (content_hash, extraction_key) is not redone."""
+    mention_wiring.cached.add("ha")
+    build, _ = _run(with_mentions=True, skip_project=True)
+    stage = _stage(build, "mentions")
+    assert stage.counts["cached"] == 1
+    assert stage.counts["mentions"] == 1
+    assert [m.chunk_id for m in mention_wiring.saved] == ["b1"]
+
+
+def test_a_failing_document_does_not_stop_the_others(mention_wiring):
+    """The isolation guarantee: doc-a fails, doc-b is still processed and its
+    mentions are still written."""
+    mention_wiring.failing.add("doc-a")
+    build, code = _run(with_mentions=True, skip_project=True)
+    stage = _stage(build, "mentions")
+
+    assert stage.errors == [{"id": "doc-a", "error": "unreadable payload"}]
+    assert [m.chunk_id for m in mention_wiring.saved] == ["b1"]
+    assert stage.counts["documents"] == 2
+    assert code == bk.EXIT_ERRORS
+
+
+def test_a_failing_document_does_not_undo_earlier_writes(mention_wiring):
+    """doc-a succeeds, doc-b fails: doc-a's mentions stay written."""
+    mention_wiring.failing.add("doc-b")
+    build, code = _run(with_mentions=True, skip_project=True)
+    assert [m.chunk_id for m in mention_wiring.saved] == ["a1"]
+    assert [e["id"] for e in _stage(build, "mentions").errors] == ["doc-b"]
+    assert code == bk.EXIT_ERRORS
+
+
+def test_a_failing_document_does_not_stop_later_stages(mention_wiring):
+    """Claims still run: they read CMS fields, not mentions."""
+    mention_wiring.failing.add("doc-a")
+    build, _ = _run(with_mentions=True, skip_project=True)
+    assert _stage(build, "claims").counts["built"] == 2
+
+
+def test_limit_caps_the_documents_processed(mention_wiring):
+    build, _ = _run(with_mentions=True, limit=1, skip_project=True)
+    assert _stage(build, "mentions").counts["documents"] == 1
 
 
 # --------------------------------------------------------------------------- #

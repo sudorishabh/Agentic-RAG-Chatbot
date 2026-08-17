@@ -51,6 +51,9 @@ EXIT_OK = 0
 EXIT_ERRORS = 1      # finished, but individual documents failed
 EXIT_FATAL = 2       # could not run: a store was unreachable or a stage is unusable
 
+# Points per Qdrant scroll while grouping chunks into documents.
+_SCROLL_BATCH = 1000
+
 # Reported whenever the claim set this run examined is not the whole staged set.
 PARTIAL_CONFLICTS = (
     "conflict detection is partial when --limit is used: supersession and "
@@ -216,6 +219,142 @@ class Build:
                 stage.counts["raised"] = apply_promotions(decisions)
 
     # ------------------------------------------------------------------ #
+    # 5-6. Mentions and resolution. Off by default: nothing reads these tables
+    #      at query time (the router extracts from the *question* and resolves
+    #      against the entity index), and this is by far the most expensive
+    #      stage. They are audit and evaluation material, and the input a text
+    #      claim extractor would need.
+    # ------------------------------------------------------------------ #
+
+    def mentions(self) -> None:
+        """Extract and resolve mentions, one document at a time.
+
+        Per document rather than per chunk because a document is the unit that
+        can fail: one unreadable payload should cost its own document and
+        nothing else. Resolution runs per chunk inside that, because it shares
+        co-occurrence context across a chunk's mentions.
+
+        Resumable without bookkeeping of its own: a chunk whose
+        ``(content_hash, extraction_key)`` is already recorded is skipped, so an
+        interrupted run continues where it stopped, and a re-run after a
+        re-index still hits cache for every paragraph whose text is unchanged.
+        """
+        from app.catalog import mentions as mention_store
+        from app.knowledge.candidates import context_for_document
+        from app.knowledge.extract import EXTRACTOR_VERSION, extract_mentions, extraction_key
+        from app.knowledge.gazetteer import gazetteer_version, get_gazetteer
+        from app.knowledge.resolver import resolve_mentions
+
+        with self._stage("mentions", skip=not self.o.with_mentions) as stage:
+            if stage.skipped:
+                return
+            gazetteer = get_gazetteer()
+            fingerprint = gazetteer_version(gazetteer)
+            index = self.index()
+            counts = {
+                "documents": 0, "chunks": 0, "cached": 0,
+                "mentions": 0, "decisions": 0,
+            }
+
+            for document_id, chunks in self._documents():
+                counts["documents"] += 1
+                try:
+                    context = self._document_context(document_id, context_for_document)
+                    for chunk in chunks:
+                        counts["chunks"] += 1
+                        content_hash = chunk.get("content_hash") or ""
+                        key = extraction_key(content_hash, fingerprint)
+                        if content_hash and mention_store.cached_extraction(
+                            content_hash, key
+                        ) is not None:
+                            counts["cached"] += 1
+                            continue
+
+                        found = extract_mentions(
+                            chunk.get("chunk_text") or "",
+                            chunk_id=chunk["chunk_id"],
+                            document_id=document_id,
+                            gazetteer=gazetteer,
+                        )
+                        counts["mentions"] += len(found)
+                        decisions = resolve_mentions(found, index, context)
+                        counts["decisions"] += len(decisions)
+
+                        if self.writes:
+                            mention_store.save_mentions(
+                                found, doc_version=chunk.get("doc_version")
+                            )
+                            if decisions:
+                                from app.catalog import entities as entity_store
+
+                                entity_store.save_decisions(decisions)
+                            if content_hash:
+                                mention_store.record_extraction(
+                                    content_hash, key, EXTRACTOR_VERSION, len(found)
+                                )
+                except Exception as exc:
+                    # One document's failure is that document's failure. The
+                    # documents already written stay written — every writer here
+                    # commits per call — and the id is reported so the run can
+                    # be repeated for it alone.
+                    logger.warning("Document %s failed: %s", document_id, exc)
+                    stage.errors.append({"id": document_id, "error": str(exc)})
+
+            stage.counts.update(counts)
+
+    def _document_context(self, document_id: str, context_for_document: Any) -> Any:
+        """Corroboration from the document's own CMS metadata, or an empty one."""
+        from app.catalog import state
+
+        record = state.get(document_id)
+        return context_for_document(document_id, getattr(record, "raw_meta", None))
+
+    def _documents(self) -> Iterator[tuple[str, list[dict[str, Any]]]]:
+        """Current child chunks from Qdrant, grouped by document, capped by
+        ``--limit``.
+
+        The filter is written here rather than borrowed from retrieval on
+        purpose: retrieval excludes tables of contents and bibliographies
+        because they pollute *search*, but a bibliography is exactly where
+        author names live, so extraction wants them.
+        """
+        from qdrant_client.models import FieldCondition, Filter, MatchValue
+
+        from app.config import get_settings
+        from app.core.clients import get_qdrant_client
+
+        client = get_qdrant_client()
+        collection = get_settings().qdrant_collection
+        scroll_filter = Filter(
+            must=[
+                FieldCondition(key="is_parent", match=MatchValue(value=False)),
+                FieldCondition(key="is_current", match=MatchValue(value=True)),
+            ]
+        )
+
+        grouped: dict[str, list[dict[str, Any]]] = {}
+        offset = None
+        while True:
+            points, offset = client.scroll(
+                collection_name=collection, scroll_filter=scroll_filter,
+                limit=_SCROLL_BATCH, with_payload=True, with_vectors=False,
+                offset=offset,
+            )
+            for point in points:
+                payload = point.payload or {}
+                document_id = payload.get("document_id")
+                if not document_id:
+                    continue
+                if document_id not in grouped:
+                    if self.o.limit is not None and len(grouped) >= self.o.limit:
+                        continue
+                    grouped[document_id] = []
+                grouped[document_id].append({**payload, "chunk_id": str(point.id)})
+            if offset is None:
+                break
+        yield from grouped.items()
+
+    # ------------------------------------------------------------------ #
     # 7-10. Claims. Extraction reads CMS fields directly, so this path does
     #       not depend on mentions; validation is what enforces trust and
     #       eligibility, and it is never bypassed.
@@ -369,6 +508,7 @@ class Build:
         # Everything below resolves against what seeding just wrote, including
         # the promotions — a PI raised above is claim-eligible from here on.
         self.index(refresh=True)
+        self.mentions()
         staged = self.claims()
         self.conflicts(staged)
         self.project()
