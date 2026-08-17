@@ -8,7 +8,7 @@ from typing import Any, Sequence
 from app.config import get_settings
 from app.core.models.context import ContextBlock
 from app.core.clients import get_qdrant_client
-from app.retrieval.hybrid_search import Candidate
+from app.retrieval.hybrid_search import _NON_SEARCHABLE_SECTIONS, Candidate
 
 logger = logging.getLogger(__name__)
 
@@ -102,6 +102,50 @@ def _is_website(payload: dict[str, Any]) -> bool:
 _CHILD_PAGE_FIELDS = ("page_number", "page_range", "overlap_page_range")
 
 
+def _is_excluded(payload: dict[str, Any] | None) -> bool:
+    """Whether this chunk is one of the non-substantive sections search drops.
+
+    Shares ``hybrid_search``'s list rather than repeating it: the query filter
+    and this check have to name the same sections, or the exclusion holds on the
+    way in and leaks on the way out.
+    """
+    return bool(payload) and payload.get("section_type") in _NON_SEARCHABLE_SECTIONS
+
+
+def _admissible_text(
+    cand: Candidate, parents: dict[str, dict[str, Any]]
+) -> tuple[str, dict[str, Any] | None] | None:
+    """The text this candidate contributes and the parent it came from, or None.
+
+    Section exclusion has to be decided on the text that ends up in the block,
+    not on the candidate that carried it. ``build_filter`` drops toc /
+    references / glossary chunks from every search, but parent expansion then
+    replaces the matched text wholesale — so a body child inside a bibliography
+    window used to carry the whole bibliography past a filter that had already
+    excluded it.
+
+    Order of preference, each step falling to the next:
+
+    1. the parent's text, when there is a parent and it is substantive;
+    2. the child's own text, when *it* is substantive — this is both the orphan
+       case and the excluded-parent case, where the child is the largest
+       admissible passage available;
+    3. nothing: neither is substantive, so the candidate contributes no context.
+
+    An excluded child under a substantive parent still expands (case 1). The
+    classifier reads content rather than headings, so a citation-dense run
+    inside a findings section is a fragment of that section; the section is what
+    the block carries, and it is admissible.
+    """
+    parent = parents.get(cand.parent_id or "") or None
+    parent_text = (parent or {}).get("chunk_text") or ""
+    if parent_text and not _is_excluded(parent):
+        return parent_text, parent
+    if _is_excluded(cand.payload):
+        return None
+    return cand.text, None
+
+
 def _block_payload(
     child: dict[str, Any], parent: dict[str, Any] | None
 ) -> dict[str, Any]:
@@ -176,11 +220,12 @@ def _admit(
                 duplicate_of.also_available.append(dict(cand.payload))
             continue
 
-        parent_payload = parents.get(cand.parent_id or "")
-        parent_text = (parent_payload or {}).get("chunk_text") or ""
         # Which text won decides whose provenance the block carries, so the two
         # are resolved together and never separately.
-        text = parent_text or cand.text
+        admissible = _admissible_text(cand, parents)
+        if admissible is None:
+            continue
+        text, parent_payload = admissible
         if not text.strip():
             continue
         cost = _count_tokens(text)
@@ -193,9 +238,7 @@ def _admit(
             ContextBlock(
                 n=len(blocks) + 1,
                 text=text,
-                payload=_block_payload(
-                    cand.payload, parent_payload if parent_text else None
-                ),
+                payload=_block_payload(cand.payload, parent_payload),
                 score=cand.score,
             )
         )
