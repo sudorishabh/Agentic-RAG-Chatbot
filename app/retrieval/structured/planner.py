@@ -14,6 +14,7 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
+from app.config import get_settings
 from app.core.dates import IsoDate, current_date_directive, exclusive_end
 from app.retrieval.catalog_prompt import (
     BEHAVIOR,
@@ -37,6 +38,7 @@ from app.retrieval.structured.tools import (
     resolve_entity,
 )
 from app.retrieval.structured import theme_scope
+from app.retrieval.structured import topic
 from app.retrieval.structured.types import (
     DatabasePlan,
     RecordFilters,
@@ -79,6 +81,27 @@ def _theme_group_for(question: str | None, *, applies: bool = True) -> str | Non
     return None if scope == theme_scope.SCOPE_ALL else scope
 
 
+def _applied_theme(requested: str | None) -> str | None:
+    """The theme that will survive resolution, or None if it will be dropped.
+
+    Asks the resolver the same question the tools will ask it, so planning and
+    execution agree on which facets are actually doing work. Resolution failures
+    return None, which only ever *widens* the residual — the safe direction,
+    since an over-constrained list falls through to semantic retrieval while an
+    under-constrained one answers wrongly.
+    """
+    if not requested:
+        return None
+    try:
+        from app.retrieval.structured.filters import resolve_theme
+
+        resolved = resolve_theme(requested)
+    except Exception:
+        logger.debug("Theme resolution unavailable at plan time.", exc_info=True)
+        return None
+    return requested if resolved and topic.faithful_theme(requested, resolved) else None
+
+
 def _tool_call(
     slots: Any, output_format: str, question: str | None = None
 ) -> ToolCall:
@@ -113,7 +136,30 @@ def _tool_call(
         )
         or theme_scope.mentions_themes(question)
     )
+    # Subject matter the facets above do not account for. A list is only
+    # trustworthy when nothing topical is left unconstrained, so whatever remains
+    # becomes an explicit constraint on the rows rather than being dropped (see
+    # `app.retrieval.structured.topic`). Computed for the row-returning
+    # operations only: a count or a distribution is *about* the facets, and
+    # narrowing it by title words would answer a different question.
+    topic_terms: tuple[str, ...] = ()
+    if (question and operation in ("list", "lookup")
+            and topic.enabled()):
+        topic_terms = tuple(topic.residual_topic(
+            question,
+            bundle=getattr(slots, "bundle", None),
+            # The *applied* theme, not the requested one. A theme the resolver
+            # will drop for being broader than the question covers nothing, and
+            # crediting it would leave the question's real subject unconstrained
+            # — which is exactly how "reports on climate change adaptation"
+            # became "the two most recent reports".
+            theme=_applied_theme(getattr(slots, "theme", None)),
+            tag=tags[0] if tags else None,
+            author=getattr(slots, "author", None),
+            title_contains=getattr(slots, "title_contains", None),
+        ))
     filters = RecordFilters(
+        topic_terms=topic_terms,
         theme=getattr(slots, "theme", None),
         # The same rule the theme *listing* follows, applied to counts: a
         # question that names no theme is answered over the main structure

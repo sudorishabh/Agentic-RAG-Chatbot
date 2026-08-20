@@ -48,6 +48,12 @@ class RecordFilters:
     tag: str | None = None
     author: str | None = None
     title_contains: str | None = None
+    # Subject words the closed facet set cannot express, kept so a list can still
+    # be constrained by what the question is actually about. Any one of them must
+    # appear in the title; rows matching more of them rank higher. See
+    # `app.retrieval.structured.topic` for why a list without this degenerates
+    # into "the newest N rows of a large bucket".
+    topic_terms: tuple[str, ...] = ()
     date_from: str | None = None
     date_to: str | None = None
 

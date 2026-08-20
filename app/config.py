@@ -163,6 +163,14 @@ class Settings(BaseSettings):
     # the whole feature's change in fall-through behavior. Launches OFF; flip
     # after eval.
     entity_resolution_enabled: bool = False
+    # Constrain a structured list by the part of the question the catalog's
+    # facets cannot express, instead of answering from the bucket the facets
+    # picked. OFF reproduces the previous behaviour exactly — a topic is snapped
+    # onto the nearest theme, an unexpressed topic is dropped, a person question
+    # is answered with documents, and a truncated list does not say what it
+    # truncated. Kept as a switch so the two can be A/B'd on one build; see
+    # `app.retrieval.structured.topic`.
+    structured_topic_constraint_enabled: bool = True
     reranker_provider: str = "embedding"
     rerank_model: str = ""
     rerank_score_threshold: float = 0.0

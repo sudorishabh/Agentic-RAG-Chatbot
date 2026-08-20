@@ -227,3 +227,131 @@ def test_grounded_answer_never_asks_the_catalog(monkeypatch):
     )
     assert result is None and generation is not None
     assert calls == []
+
+
+# --------------------------------------------------------------------------- #
+# The graph leg on the structured path
+#
+# The graph leg lives inside `retriever.retrieve`. A `structured` intent whose
+# catalog answer is complete returns *before* `retrieve` is ever called, so a
+# relational question that understanding labelled `structured` never saw the
+# graph at all. Measured against the live corpus: 4 of 14 graph-answerable
+# benchmark questions, every one of them the "which projects did PERSON lead"
+# shape — answered by the catalog with "'projects' matches more than one content
+# type" while the graph held the rows.
+# --------------------------------------------------------------------------- #
+
+def _structured_pq():
+    return _pq(
+        [("database", 0.9)], intent="structured",
+        analysis=qp.QueryAnalysis(
+            search_query="q", intent="structured", operation="list",
+            bundle="projects", author="Dr Banwari Lal",
+        ),
+    )
+
+
+def _graph_block():
+    return ContextBlock(
+        n=1, text='- "A project" is led by Dr Banwari Lal (2004-10-31 until 2006-08-25)',
+        payload={"kind": "graph_facts", "mode": "historical",
+                 "claim_ids": ["claim_x"], "document_ids": ["doc-1"]},
+        score=1.0,
+    )
+
+
+def _wire_structured(monkeypatch, *, structured, graph_blocks):
+    """Stub the structured branch's two collaborators and record the calls."""
+    seen: dict = {"graph": 0, "structured": 0}
+
+    def fake_structured(question, history, *, analysis):
+        seen["structured"] += 1
+        return dict(structured) if structured is not None else None
+
+    def fake_graph(search_query, *, n, filters=None, source_type=None):
+        seen["graph"] += 1
+        seen["n"] = n
+        seen["filters"] = filters
+        seen["source_type"] = source_type
+        return list(graph_blocks)
+
+    monkeypatch.setattr(pipe, "process", lambda q, h: _structured_pq())
+    monkeypatch.setattr(pipe, "retrieve", lambda *a, **k: [])
+    monkeypatch.setattr("app.core.clients.embeddings.embed_query", lambda q: [0.1])
+    monkeypatch.setattr("app.cache.semantic_cache.lookup", lambda *a, **k: None)
+    monkeypatch.setattr(
+        "app.retrieval.structured.answerer.answer_structured", fake_structured
+    )
+    monkeypatch.setattr(
+        "app.retrieval.structured.tools.resolve_lookup_chain", lambda a, q: None
+    )
+    monkeypatch.setattr("app.retrieval.retriever.graph_blocks_for", fake_graph)
+    return seen
+
+
+def test_a_relational_structured_question_reaches_the_graph(monkeypatch):
+    """The regression: the catalog's answer no longer wins by arriving first."""
+    seen = _wire_structured(
+        monkeypatch,
+        structured={"answer": "'projects' matches more than one content type"},
+        graph_blocks=[_graph_block()],
+    )
+    result, generation = pipe._prepare("q", history=None, top_k=6)
+
+    assert result is None, "the catalog answer must not be returned"
+    assert generation is not None
+    assert seen["graph"] == 1
+    assert [b.payload.get("kind") for b in generation.blocks] == ["graph_facts"]
+    # A graph answer still has to be cacheable and generatable like any other.
+    assert generation.query_vector == [0.1]
+    assert generation.top_k == 6
+    assert generation.db_prefix == ""
+
+
+def test_the_catalog_answer_still_wins_when_the_graph_declines(monkeypatch):
+    """The whole fallback contract: `[]` from the graph changes nothing."""
+    seen = _wire_structured(
+        monkeypatch, structured={"answer": "1. completed projects"},
+        graph_blocks=[],
+    )
+    result, generation = pipe._prepare("q", history=None, top_k=6)
+
+    assert generation is None
+    assert result["answer"] == "1. completed projects"
+    assert result["answer_format"] == "default"
+    assert seen["graph"] == 1
+
+
+def test_the_graph_is_attempted_once_per_query(monkeypatch):
+    """When the catalog has nothing the branch falls through to `retrieve`, whose
+    own graph leg is the one attempt. Trying here as well would double the cost
+    of every unanswerable structured query."""
+    seen = _wire_structured(monkeypatch, structured=None, graph_blocks=[_graph_block()])
+    pipe._prepare("q", history=None, top_k=6)
+
+    assert seen["structured"] == 1
+    assert seen["graph"] == 0, "retrieve() owns the attempt on the fall-through path"
+
+
+def test_the_structured_graph_attempt_carries_the_query_scope(monkeypatch):
+    """A scope no template can honour must decline the graph rather than be
+    silently dropped, so the scope has to reach the policy layer from this call
+    site too."""
+    from qdrant_client.models import FieldCondition, MatchValue
+
+    condition = FieldCondition(key="source_type", match=MatchValue(value="website"))
+
+    def _scoped_pq():
+        pq = _structured_pq()
+        pq.filters.append(condition)
+        pq.source_type = "website"
+        return pq
+
+    seen = _wire_structured(
+        monkeypatch, structured={"answer": "x"}, graph_blocks=[],
+    )
+    monkeypatch.setattr(pipe, "process", lambda q, h: _scoped_pq())
+    pipe._prepare("q", history=None, top_k=6)
+
+    assert seen["filters"] == [condition]
+    assert seen["source_type"] == "website"

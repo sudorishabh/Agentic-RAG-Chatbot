@@ -17,6 +17,7 @@ from dataclasses import replace
 from datetime import datetime
 from typing import Any, Sequence
 
+from app.config import get_settings
 from app.catalog import queries as state
 from app.catalog.models import StateRecord
 from app.core.dates import inclusive_end
@@ -28,6 +29,7 @@ from app.retrieval.structured.entities import (
     is_known,
     normalize_entity,
 )
+from app.retrieval.structured import topic
 from app.retrieval.structured.filters import AmbiguousFilter, _parse_date, resolve_filters
 from app.retrieval.structured.types import GroupBy, RecordFilters, ToolResult
 from app.schemas.query import Citation
@@ -476,6 +478,27 @@ def count_records(
     )
 
 
+def _scope_total(ent: Any, bundle: str | None, scope: Any) -> int | None:
+    """How many documents the list's own filters match in total, or None.
+
+    Same filters, same tool call — so "showing 10 of 594" cannot contradict the
+    rows above it. Failure is not an error: the list is still a good answer
+    without a total, so a counting problem degrades to saying nothing.
+    """
+    try:
+        return state.count_documents(
+            source_type=ent.source_type if ent else "website",
+            bundle=bundle,
+            entity_type=ent.entity_type if ent else "node",
+            title_contains=scope.title_contains,
+            topic_terms=scope.topic_terms or None,
+            **scope.as_kwargs(),
+        )
+    except Exception:
+        logger.debug("Could not total the list scope.", exc_info=True)
+        return None
+
+
 def list_records(
     entity: str | None,
     filters: RecordFilters,
@@ -506,6 +529,7 @@ def list_records(
             bundle=bundle,
             entity_type=ent.entity_type if ent else "node",
             title_contains=scope.title_contains,
+            topic_terms=scope.topic_terms or None,
             limit=limit,
             offset=offset,
             **scope.as_kwargs(),
@@ -520,9 +544,22 @@ def list_records(
         return ToolResult(tool="list_records", entity=bundle, ok=False,
                           error="no matching records")
     rendered, data, citations = _render_records(records, output_format)
+    # A list cut off at `limit` says nothing about how much it cut off, so a
+    # user cannot tell ten from six hundred. Count the same scope and say so
+    # whenever the page is full — the count is over exactly the filters that
+    # produced the rows, so the two can never disagree.
+    total = None
+    if len(records) >= limit and topic.enabled():
+        total = _scope_total(ent, bundle, scope)
+        if total and total > len(records):
+            rendered = (
+                f"{rendered}\n\nShowing the {len(records)} most recent of "
+                f"{total} {entity_label(bundle or 'record', total)}."
+            )
     return ToolResult(
         tool="list_records", entity=bundle, ok=True,
         data={"records": _project_fields(data, fields),
+              "total_matching": total,
               "applied": _applied_filters(bundle, scope.effective)},
         citations=citations, rendered=rendered,
     )

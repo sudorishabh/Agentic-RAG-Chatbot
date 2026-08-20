@@ -48,6 +48,7 @@ def _catalog_filters(
     *,
     entity_type: str | None = None,
     title_contains: str | None = None,
+    topic_terms: Sequence[str] | None = None,
     author: str | None = None,
     theme: str | None = None,
     theme_group: str | None = None,
@@ -90,6 +91,17 @@ def _catalog_filters(
     if title_contains:
         clauses.append("s.title LIKE %s")
         params.append(_like(title_contains))
+    if topic_terms:
+        # OR, not AND: a title rarely carries every word of a topic phrase
+        # ("Who is adapting and how?" is a climate-adaptation paper whose title
+        # contains neither "climate" nor "adaptation" in full). Requiring all of
+        # them returns nothing; requiring one, and letting the caller order by
+        # how many matched, puts the squarely-on-topic rows first while still
+        # excluding the rest of the bucket. Distinct from `title_contains`,
+        # which is a phrase the user named and stays an exact requirement.
+        ors = " OR ".join(["s.title LIKE %s"] * len(topic_terms))
+        clauses.append(f"({ors})")
+        params.extend(_like(term) for term in topic_terms)
     if published_from is not None:
         clauses.append("s.published_at >= %s")
         params.append(published_from)
@@ -131,6 +143,7 @@ def count_documents(
     *,
     entity_type: str | None = None,
     title_contains: str | None = None,
+    topic_terms: Sequence[str] | None = None,
     author: str | None = None,
     theme: str | None = None,
     theme_group: str | None = None,
@@ -149,7 +162,8 @@ def count_documents(
     table = _table()
     joins, clauses, params, distinct = _catalog_filters(
         source_type, bundle, entity_type=entity_type, title_contains=title_contains,
-        author=author, theme=theme, theme_group=theme_group, tag=tag,
+        topic_terms=topic_terms, author=author, theme=theme,
+        theme_group=theme_group, tag=tag,
         published_from=published_from, published_to=published_to,
     )
     count_expr = "COUNT(DISTINCT s.document_id)" if distinct else "COUNT(*)"
@@ -167,6 +181,7 @@ def list_documents(
     *,
     entity_type: str | None = None,
     title_contains: str | None = None,
+    topic_terms: Sequence[str] | None = None,
     author: str | None = None,
     theme: str | None = None,
     theme_group: str | None = None,
@@ -185,7 +200,7 @@ def list_documents(
     table = _table()
     joins, clauses, params, needs_distinct = _catalog_filters(
         source_type, bundle, entity_type=entity_type,
-        title_contains=title_contains, author=author,
+        title_contains=title_contains, topic_terms=topic_terms, author=author,
         theme=theme, theme_group=theme_group, tag=tag,
         published_from=published_from, published_to=published_to,
     )
@@ -194,9 +209,21 @@ def list_documents(
     capped = max(1, min(int(limit or 10), 100))
     capped_offset = max(0, int(offset or 0))
     offset_clause = f" OFFSET {capped_offset}" if capped_offset else ""
+    # Under a topic constraint, recency alone is the wrong order: the WHERE only
+    # requires *one* term to match, so the newest single-term match would lead a
+    # list whose best row matches every term. Rank by how much of the topic each
+    # title carries, and keep recency as the tie-break — which leaves the
+    # no-topic ordering exactly as it was. The extra placeholders go after the
+    # WHERE ones because ORDER BY comes later in the statement.
+    relevance = ""
+    if topic_terms:
+        scored = " + ".join(["(s.title LIKE %s)"] * len(topic_terms))
+        relevance = f"({scored}) DESC, "
+        params = list(params) + [_like(term) for term in topic_terms]
     sql = (
         f"SELECT {distinct}s.* FROM `{table}` s{joins}{where} "
-        f"ORDER BY s.published_at DESC, s.document_id ASC LIMIT {capped}{offset_clause}"
+        f"ORDER BY {relevance}s.published_at DESC, s.document_id ASC "
+        f"LIMIT {capped}{offset_clause}"
     )
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(sql, tuple(params))

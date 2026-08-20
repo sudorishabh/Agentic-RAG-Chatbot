@@ -31,6 +31,7 @@ from app.retrieval.catalog_prompt import (
     catalog_coverage_directive,
     catalog_inventory_directive,
 )
+from app.retrieval.structured import topic
 from app.retrieval.structured.types import ToolResult
 
 if TYPE_CHECKING:
@@ -304,6 +305,22 @@ def answer_structured(
         else parse_structured(question, history)
     )
     if slots is None:
+        return None
+    # A question about people is not a question about documents. The catalog
+    # stores authorship, which is a different claim from "works on" — so unless
+    # the question named the person to look up, listing documents at it produces
+    # a confident non-answer. Measured: "Which researchers work on AI and
+    # sustainability?" returned an opinion piece on education, a memorial lecture
+    # and a solar-industry news item, and named nobody, while semantic retrieval
+    # had the two AI papers whose recorded authors are the answer. Declining
+    # hands it to the layer that can use them.
+    if (topic.enabled()
+            and topic.wants_person(question)
+            and not getattr(slots, "author", None)):
+        logger.info(
+            "Declining the structured path for a person question; the catalog "
+            "lists documents, not people."
+        )
         return None
     # A generic "publications / works" ask must count across every content type;
     # drop a bundle the classifier inferred from that collective word so the total

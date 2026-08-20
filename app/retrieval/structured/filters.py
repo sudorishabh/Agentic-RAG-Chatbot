@@ -32,6 +32,7 @@ from typing import Any
 
 from app.config import get_settings
 from app.core.dates import parse_iso_date
+from app.retrieval.structured import topic
 from app.retrieval.structured.types import RecordFilters
 
 logger = logging.getLogger(__name__)
@@ -174,6 +175,7 @@ class ResolvedScope:
 
     author: str | None = None
     title_contains: str | None = None
+    topic_terms: tuple[str, ...] = ()
     theme: str | None = None
     theme_group: str | None = None
     tag: str | None = None
@@ -184,11 +186,17 @@ class ResolvedScope:
     author_missed: bool = False
     theme_missed: bool = False
     tag_missed: bool = False
+    # The theme the question's topic would have been widened onto, when one was
+    # dropped for being broader than what was asked. Diagnostic only.
+    theme_widened: str | None = None
 
     def as_kwargs(self) -> dict[str, Any]:
         """Filter kwargs shared by count_documents / list_documents /
-        distribution (author, theme, tag, dates). `title_contains` is passed
-        separately by the tools that use it."""
+        distribution (author, theme, tag, dates). `title_contains` and
+        `topic_terms` are passed separately by the tools that use them — only the
+        row-returning list takes a topic constraint, because a count or a
+        breakdown is about the facets and narrowing it by title words would
+        answer a different question."""
         kwargs: dict[str, Any] = {
             "author": self.author,
             "theme": self.theme,
@@ -228,18 +236,41 @@ def resolve_filters(filters: RecordFilters) -> ResolvedScope:
                 )
                 break
 
+    # A theme is only a legitimate stand-in for the question's topic when it
+    # actually says the same thing. Resolution is fuzzy so that "climate" reaches
+    # "Climate Change", but the same fuzziness snapped "Sustainable Development
+    # Goals" onto "Resources & Sustainable Development" and "climate change
+    # adaptation" onto "Climate Change" — themes an order of magnitude broader
+    # than the ask. Filtering on those is worse than not filtering: it looks
+    # precise and returns the newest rows of a huge bucket. When the substitution
+    # widens the question, drop the theme and let the caller constrain by the
+    # words instead (see `topic.residual_topic`).
+    theme_name = theme.name
+    widened = None
+    if (theme_name and topic.enabled()
+            and not topic.faithful_theme(filters.theme, theme_name)):
+        logger.info(
+            "Theme %r resolved to the broader %r; filtering on the topic words "
+            "instead so the list is not widened to the whole theme.",
+            filters.theme, theme_name,
+        )
+        widened, theme_name = theme_name, None
+
     return ResolvedScope(
         author=author.name,
         title_contains=filters.title_contains or None,
-        theme=theme.name,
+        topic_terms=tuple(filters.topic_terms or ()),
+        theme=theme_name,
         # A named theme wins: "how many under Green Shipping" must answer even
         # though Green Shipping is an Other theme. The group restriction only
         # shapes questions that name no theme at all.
-        theme_group=None if theme.name else filters.theme_group,
+        theme_group=None if theme_name else filters.theme_group,
         tag=tag.name,
         published_from=_parse_date(filters.date_from, field="date_from"),
         published_to=_parse_date(filters.date_to, field="date_to"),
-        effective=replace(filters, author=author.name, theme=theme.name, tag=tag.name),
+        # `effective` states what was really filtered on, so a dropped theme must
+        # not be reported as applied.
+        effective=replace(filters, author=author.name, theme=theme_name, tag=tag.name),
         ambiguous=ambiguous,
         # Misses are always *detected* — the flag only decides whether the tools'
         # resulting no-answer is surfaced as a terminal message or falls through
@@ -247,6 +278,10 @@ def resolve_filters(filters: RecordFilters) -> ResolvedScope:
         # unconditionally is what keeps flag-off behaviour identical to before:
         # an unrecognized filter falls through rather than answering a bare 0.
         author_missed=author.band == _resolve.MISS,
+        # A theme that resolved to something too broad is not a *miss* — the name
+        # matched, it just did not mean the same thing — so it must not be
+        # reported as an unrecognized filter. It is recorded separately.
         theme_missed=theme.band == _resolve.MISS,
+        theme_widened=widened,
         tag_missed=tag.band == _resolve.MISS,
     )
