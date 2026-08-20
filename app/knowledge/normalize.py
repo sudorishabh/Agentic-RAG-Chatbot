@@ -133,6 +133,38 @@ def normalize_for(entity_type: str, text: str) -> str:
     return NORMALIZERS.get(entity_type, normalize)(text)
 
 
+def is_honorific(token: str) -> bool:
+    """Whether one raw token is a personal title. Case- and period-insensitive."""
+    folded = token.casefold().strip(".,")
+    return folded in _HONORIFICS or f"{folded}." in _HONORIFICS
+
+
+def strip_honorifics(text: str) -> str:
+    """A personal name with any leading titles removed, **casing preserved**.
+
+    The counterpart to :func:`normalize_person` for the one job normalization
+    cannot do: producing a *surface* rather than a key.
+
+    ``normalize_person`` already folds "Dr Banwari Lal" and "Banwari Lal" onto
+    the same comparison key, so resolution has never had trouble with
+    honorifics. Recognition did. Every claim-eligible person in this corpus is
+    stored under a canonical name that begins with one ("Dr Banwari Lal",
+    "Ms Suruchi Bhadwal"), and the gazetteer matches *surfaces* — so the bare
+    form a question actually uses matched nothing, no mention was produced, and
+    resolution was never reached. Measured: 102 of 102 claim-eligible people
+    were unreachable without their title.
+
+    Casing is preserved because short surfaces are matched case-sensitively
+    (see ``gazetteer.surface_pattern``): "Banwari Lal" must stay capitalised to
+    keep that guard working. Returns "" when the name is nothing but titles.
+    """
+    tokens = (text or "").split()
+    index = 0
+    while index < len(tokens) and is_honorific(tokens[index]):
+        index += 1
+    return " ".join(tokens[index:])
+
+
 def initials_of(normalized_person: str) -> str:
     """First letters of a normalized personal name — the blocking key that lets
     "r k pachauri" and "rajendra kumar pachauri" be *considered* as candidates.

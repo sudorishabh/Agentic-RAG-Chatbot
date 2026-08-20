@@ -7,6 +7,7 @@ tags, source type, language, date range) into Qdrant ``FieldCondition`` /
 from __future__ import annotations
 
 import logging
+import re
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING, Any, Sequence
 
@@ -20,6 +21,44 @@ logger = logging.getLogger(__name__)
 # The payload field every date scope is expressed over. Named once so the
 # condition builder and `date_conditions` cannot drift apart.
 _DATE_FIELD = "published_at"
+
+# Words that make a date phrase about *documents* rather than about a
+# relationship. "Reports published between 2005 and 2010" is a publication-date
+# scope; "what did X fund between 2005 and 2010" is not.
+_PUBLICATION_LANGUAGE = re.compile(
+    r"\b(?:publish(?:ed|ing)?|publication|issued|released|"
+    r"(?:document|report|paper|article|study|studies|publication)s?\s+"
+    r"(?:from|in|of|between|dated)|dated)\b",
+    re.IGNORECASE,
+)
+
+
+def _is_relationship_time(analysis: "QueryAnalysis") -> bool:
+    """Whether this query's dates bound a *relationship*, not a publication date.
+
+    Both readings arrive here as the same two slots. Applying the document
+    reading to the other one is not a near miss: `published_at` is a fact about
+    when a page was posted, and on this corpus it holds no value before 2010 at
+    all, so scoping "what did the Department of Biotechnology fund between 2005
+    and 2010" by it selects almost nothing. It also carries a second cost — a
+    scope no graph template expresses makes graph routing fail closed
+    (`graph.scope`), so the one path that *can* answer a validity question by
+    interval overlap is the path the misreading shuts off. Measured: every
+    year-range relational question in the benchmark reached
+    `scope_unsupported`.
+
+    The test is deterministic and narrow: the question names an approved
+    predicate, and says nothing about publishing. A predicate cue is what makes
+    "between 2005 and 2010" modify a relationship — there is one to modify.
+    Anything else keeps the existing document scope exactly as it was, which is
+    why "which documents were published between 2005 and 2010" is untouched.
+    """
+    from app.retrieval.understanding.relational import read_relational
+
+    question = getattr(analysis, "search_query", "") or ""
+    if not question or _PUBLICATION_LANGUAGE.search(question):
+        return False
+    return read_relational(question).is_relational
 
 
 def _parse_bound(value: str | None, *, field: str = "date") -> datetime | None:
@@ -80,7 +119,7 @@ def _facet_filters(analysis: "QueryAnalysis") -> list[Any]:
         )
     lo = _parse_bound(analysis.date_from, field="date_from")
     hi = _parse_bound(analysis.date_to, field="date_to")
-    if lo is not None or hi is not None:
+    if (lo is not None or hi is not None) and not _is_relationship_time(analysis):
         from qdrant_client.models import DatetimeRange
 
         conditions.append(

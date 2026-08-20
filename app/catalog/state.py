@@ -260,6 +260,72 @@ def raw_meta_for(document_id: str) -> dict | None:
     return raw if isinstance(raw, dict) else None
 
 
+def website_titles() -> list[tuple[str, str, str | None]]:
+    """``(document_id, title, bundle)`` for every website node that has a title.
+
+    Serves the title-anchored retrieval leg (``app.retrieval.title_leg``), which
+    needs to find the page a question names when that page's *text* is a list of
+    link labels no embedding matches.
+
+    The whole set rather than a filtered slice, deliberately. A ``LIKE`` per term
+    looks cheaper but is not usable here: the organisation's own name appears in
+    thousands of titles, so any row budget is spent on it before the page actually
+    being asked for is reached — the first version of this returned two rows for
+    "annual reports" and neither was the Annual Reports page. Titles are short and
+    there are ~12k website nodes, so one scan is a few hundred KB and the caller
+    caches it; matching and scoring then happen in Python where word boundaries
+    can be respected (``LIKE '%vision%'`` matches "Visionary").
+
+    Website nodes only: an attachment inherits its parent's title, so including
+    them would return one page many times over. Read-only.
+    """
+    table = _table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"SELECT document_id, title, bundle FROM `{table}` "
+            f"WHERE source_type = 'website' AND title IS NOT NULL AND title <> ''"
+        )
+        rows = cur.fetchall() or []
+    return [
+        (str(r["document_id"]), str(r.get("title") or ""), r.get("bundle"))
+        for r in rows
+    ]
+
+
+def event_start_dates(document_ids: Iterable[str]) -> dict[str, str]:
+    """``field_event_start_date`` per document, for those that have one.
+
+    Batched deliberately: the caller is retrieval, gating an "upcoming" question
+    against the candidate set, and one round trip for the whole set is the
+    difference between a usable filter and a per-block query storm. Reads the
+    same ``raw_meta`` blob as :func:`raw_meta_for` but pulls only the one key, so
+    a document without an event date simply does not appear in the result.
+
+    Read-only, and returns the stored string unparsed — the caller owns date
+    interpretation.
+    """
+    ids = [d for d in dict.fromkeys(document_ids) if d]
+    if not ids:
+        return {}
+    table = _table()
+    placeholders = ",".join(["%s"] * len(ids))
+    sql = (
+        f"SELECT document_id, JSON_UNQUOTE("
+        f"  JSON_EXTRACT(raw_meta, '$.field_event_start_date')) AS start_date "
+        f"FROM `{table}` WHERE document_id IN ({placeholders}) "
+        f"AND JSON_EXTRACT(raw_meta, '$.field_event_start_date') IS NOT NULL"
+    )
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(sql, tuple(ids))
+        rows = cur.fetchall() or []
+    out: dict[str, str] = {}
+    for row in rows:
+        value = row.get("start_date")
+        if value and str(value).lower() != "null":
+            out[str(row["document_id"])] = str(value)
+    return out
+
+
 def authors_for(document_id: str) -> list[str]:
     """A document's author names, as the source wrote them.
 

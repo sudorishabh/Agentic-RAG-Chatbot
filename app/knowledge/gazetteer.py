@@ -39,6 +39,7 @@ from app.knowledge.normalize import (
     normalize_org,
     normalize_person,
     normalize_project,
+    strip_honorifics,
 )
 
 logger = logging.getLogger(__name__)
@@ -62,7 +63,30 @@ _MIN_PROJECT_TOKENS = 3
 _MIN_PROJECT_CHARS = 12
 
 # Beyond this many words a CMS field value is a description, not a name.
+#
+# Applies to values pulled out of free-text CMS *fields* — `field_news_source`
+# really does contain whole sentences — where length is good evidence that the
+# value is prose.
 _MAX_SURFACE_TOKENS = 10
+
+# Project titles are exempt from that cap, and get their own much looser one.
+#
+# A project title is not a field value that might be prose; it is the `title`
+# column of a project-bundle node, which is a title by construction. Applying
+# the ten-word rule to it was a category error with a large measured cost: 395
+# of 847 distinct project titles were rejected for length alone, so nearly half
+# the projects in the corpus could not be recognised by their own full name.
+#
+# Length is also the *opposite* of a risk here. A false positive needs a run of
+# consecutive tokens to match verbatim, and the longer the title the less
+# plausible that is; "Ecological footprint: establishing a tool to measure and
+# manage urban energy use in India and China" cannot be matched by accident.
+# The bound is kept only so a pathological value cannot become a surface at all
+# (the longest real title is 32 tokens).
+#
+# The grammatical checks in `_looks_like_prose` still apply to titles: a title
+# containing a finite verb is descriptive, and 8 of them are, so those stay out.
+_MAX_PROJECT_TITLE_TOKENS = 40
 
 # At or below this many words, a gazetteer surface is matched case-sensitively.
 # See `surface_pattern` for why: short names collide with ordinary nouns, and
@@ -181,7 +205,7 @@ class Gazetteer:
         return sum(len(b) for b in self.entries.values())
 
 
-def _looks_like_prose(surface: str) -> bool:
+def _looks_like_prose(surface: str, entity_type: str = "") -> bool:
     """Whether a CMS field value is a sentence rather than a name.
 
     These fields are free text and really do contain prose — one
@@ -189,9 +213,17 @@ def _looks_like_prose(surface: str) -> bool:
     the European Union...". Matching that as an organization name is worse than
     useless, and no length rule alone catches it, so the test is grammatical:
     a name does not contain a finite verb or run past a full stop.
+
+    ``entity_type`` selects the length bound only. See
+    ``_MAX_PROJECT_TITLE_TOKENS`` for why a project title gets a different one;
+    every other test below applies to every type unchanged.
     """
     tokens = surface.split()
-    if len(tokens) > _MAX_SURFACE_TOKENS:
+    limit = (
+        _MAX_PROJECT_TITLE_TOKENS if entity_type == "PROJECT"
+        else _MAX_SURFACE_TOKENS
+    )
+    if len(tokens) > limit:
         return True
     if any(t in _PROSE_MARKERS for t in (w.lower().strip(".,") for w in tokens)):
         return True
@@ -205,7 +237,7 @@ def _eligible(surface: str, normalized: str, entity_type: str) -> bool:
         return False
     if normalized in _STOP_SURFACES:
         return False
-    if _looks_like_prose(surface):
+    if _looks_like_prose(surface, entity_type):
         return False
     if entity_type == "PERSON":
         if is_initials_only(normalized):
@@ -218,6 +250,32 @@ def _eligible(surface: str, normalized: str, entity_type: str) -> bool:
         if len(normalized) < _MIN_PROJECT_CHARS:
             return False
     return True
+
+
+def surface_variants(surface: str, entity_type: str) -> list[str]:
+    """Further *spellings of the same name* that should also be recognised.
+
+    Strictly a recognition aid. Every variant folds to the **same normalized
+    key** as the surface it came from, so it produces the same candidates, the
+    same scores, the same vetoes and the same decision — it only widens the set
+    of strings in prose that can become a mention in the first place. Nothing
+    here can create an identity, and nothing here weakens a guard: each variant
+    is put through ``_eligible`` on its own, so a variant that is too short, too
+    generic or initials-only is dropped exactly as a primary surface would be.
+
+    PERSON, honorific-stripped
+        The whole of the measured recognition gap. All 102 claim-eligible people
+        are stored as "Dr X" / "Mr X" / "Ms X", and questions say "X".
+
+    Deliberately *not* generated: initials expansions, surname-only forms,
+    reversed word order, acronyms. Each of those changes which person a string
+    could denote, which is a resolution question and not this function's to
+    answer.
+    """
+    if entity_type != "PERSON":
+        return []
+    bare = strip_honorifics(surface)
+    return [bare] if bare and bare != surface else []
 
 
 def build_gazetteer(rows: Iterable[tuple[str, str, str]]) -> Gazetteer:
@@ -246,6 +304,17 @@ def build_gazetteer(rows: Iterable[tuple[str, str, str]]) -> Gazetteer:
                 source=source, autolink=_eligible(surface, normalized, entity_type),
             )
         )
+        for variant in surface_variants(surface, entity_type):
+            # Same normalized key by construction, so `finalize` marks it
+            # ambiguous with its parent and it can never link where the parent
+            # would not.
+            gazetteer.add(
+                GazetteerEntry(
+                    normalized=normalized, surface=variant,
+                    entity_type=entity_type, source=source,
+                    autolink=_eligible(variant, normalized, entity_type),
+                )
+            )
     return gazetteer.finalize()
 
 
@@ -260,6 +329,18 @@ _META_SOURCES: tuple[tuple[str, str], ...] = (
     ("field_news_source", "ORGANIZATION"),
     ("field_division", "ORGANIZATION"),
     ("field_authors", "PERSON"),
+    # The principal-investigator fields. Added because leaving them out was the
+    # larger half of the person-recognition gap: 50 of the 102 claim-eligible
+    # people had no gazetteer surface *at all*, with or without their title,
+    # and every one of them is `pi_attested` — an identity minted from these
+    # very fields by `app.knowledge.pi_promotion`.
+    #
+    # So the corpus was in the position of trusting `field_completed_pi_name`
+    # enough to create a canonical, claim-eligible person from it, while not
+    # trusting it enough to recognise that person's name in text. Adding it
+    # here introduces no new trust; it removes an inconsistency.
+    ("field_completed_pi_name", "PERSON"),
+    ("field_ongoing_pi_name", "PERSON"),
 )
 
 _PROJECT_BUNDLES = ("ongoing_projects", "completed_projects")

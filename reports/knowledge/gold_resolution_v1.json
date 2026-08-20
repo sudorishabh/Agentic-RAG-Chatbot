@@ -111,7 +111,7 @@
       "surface": "Dr Debajit Palit",
       "category": "pi_multi_division_refused",
       "expected": "NO_CANONICAL",
-      "note": "a PI, but across two division areas \u2014 promotion refuses him, so he stays provisional. The discriminating half of the rule.",
+      "note": "a PI, but across two division areas — promotion refuses him, so he stays provisional. The discriminating half of the rule.",
       "doc_authors": [
         "Dr Debajit Palit"
       ],
@@ -310,7 +310,7 @@
       "surface": "Prof Shailly Kedia",
       "category": "honorific_variant",
       "expected": "NAME:Dr Shailly Kedia",
-      "note": "a different honorific on the same name must not change the outcome \u2014 which now means reaching the same promoted identity",
+      "note": "a different honorific on the same name must not change the outcome — which now means reaching the same promoted identity",
       "doc_authors": [
         "Dr Shailly Kedia"
       ],
@@ -484,7 +484,7 @@
       "surface": "Mr Amit Kumar",
       "category": "pi_common_name",
       "expected": "NO_CANONICAL",
-      "note": "a PI, but 23 people share the surname \u2014 stays provisional",
+      "note": "a PI, but 23 people share the surname — stays provisional",
       "doc_authors": [
         "Mr Amit Kumar"
       ],
@@ -521,9 +521,9 @@
       "id": "pi-09",
       "type": "PERSON",
       "surface": "Dr Alok Adholeya",
-      "category": "pi_multi_division",
-      "expected": "NO_CANONICAL",
-      "note": "PI across two division areas; context is not coherent enough",
+      "category": "pi_single_division",
+      "expected": "NAME:Dr Alok Adholeya",
+      "note": "re-reviewed 2026-08-18 against the live CMS: this PI now has exactly one division area (\"Centre for Resource Efficiency & Governance\") across 17 projects, so pi_promotion.MAX_DIVISION_AREAS is satisfied and the store holds him as pi_attested. The old NO_CANONICAL label recorded a two-division reading of data that has since changed; it was failing the canonical-leak gate against a resolver that was behaving correctly. p-09 (Dr Debajit Palit, genuinely 2 divisions) remains the discriminating negative for this rule.",
       "doc_authors": [
         "Dr Alok Adholeya"
       ],

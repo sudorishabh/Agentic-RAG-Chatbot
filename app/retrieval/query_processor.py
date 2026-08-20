@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from collections import Counter
 from dataclasses import dataclass, field
 from typing import Any, Literal, Sequence
@@ -460,6 +461,171 @@ def _to_legacy_analysis(question: str, u: QueryUnderstanding) -> QueryAnalysis:
     )
 
 
+def _names_entity_and_relationship(question: str) -> bool:
+    """Whether the question names a known entity *and* an approved relationship.
+
+    Deliberately weaker than routing: it asks recognition and the cue vocabulary,
+    not the resolver or the planner. Knowing a question is *not small talk* needs
+    far less evidence than answering it, and this way intent classification does
+    not reach into graph retrieval — the one-doorway rule
+    (tests/test_graph_retrieval.py) keeps that to `retriever.py`, and it is worth
+    keeping.
+
+    Both halves are required. A greeting names neither. "Thanks for the funding
+    update" names a cue but no entity, and stays chitchat.
+    """
+    try:
+        from app.retrieval.understanding.approved_aliases import get_index
+        from app.retrieval.understanding.relational import read_relational
+
+        if not read_relational(question).is_relational:
+            return False
+        return bool(get_index().match(question))
+    except Exception:  # pragma: no cover - a probe must not break understanding
+        logger.debug("Relational-shape probe failed.", exc_info=True)
+        return False
+
+
+# --------------------------------------------------------------------------- #
+# A second, independent way to recognise "this is not small talk": lexical
+# structure rather than entity resolution. `_names_entity_and_relationship`
+# only rescues a question that names a *known* entity and an *approved*
+# predicate — a narrow, high-precision net that Q079
+# ("What technologies are available for waste valorization?") falls straight
+# through, since it names neither. Measured over three repeats of one build,
+# Q079 drew qa/chitchat/chitchat, Q091 drew chitchat/qa/chitchat, and Q077 drew
+# qa/chitchat/qa: none of the three names a resolvable entity, but all three
+# are plainly information requests by their wording alone.
+#
+# The two probes are combined with OR in `_corrected_intent`, so between them a
+# question is rescued if it is either "about a known thing" (relational) or
+# "shaped like a question" (this one) — whichever evidence is available.
+# --------------------------------------------------------------------------- #
+
+# Canonical small talk and meta-questions about the assistant itself — the
+# actual definition of chitchat (see the understanding prompt). Matched
+# anywhere in the text, not just at the start, so a leading greeting in front
+# of a real request ("hi, how many news items are there?") does not itself
+# count as evidence *against* a real request — it only withholds evidence *for*
+# one when nothing else in the turn does either.
+_SOCIAL_OR_META = re.compile(
+    r"^\s*(hi|hello|hey|hiya|greetings|good\s*(morning|afternoon|evening))\b"
+    r"|\b(thanks?|thank\s*you|thx|cheers|much\s*appreciated)\b"
+    r"|\b(bye|goodbye|see\s*you|take\s*care)\b"
+    r"|\bhow\s*are\s*you\b|\bwhat'?s\s*up\b"
+    r"|\bwho\s*are\s*you\b|\bwhat\s*can\s*you\s*do\b"
+    r"|\bare\s*you\s*(a\s*)?(bot|ai|human|real)\b"
+    r"|\bwhat\s*is\s*your\s*name\b|\bhow\s*do\s*you\s*work\b",
+    re.IGNORECASE,
+)
+# The interrogative shapes an information request actually takes: a WH-word or
+# question-forming auxiliary, or an imperative that asks for content ("list
+# the...", "tell me about..."), or a literal question mark.
+_WH_OR_AUX = re.compile(
+    r"\b(what|which|who|whom|whose|when|where|why|how|"
+    r"is|are|was|were|do|does|did|can|could|will|would|should|has|have|had)\b",
+    re.IGNORECASE,
+)
+_IMPERATIVE_LEAD = re.compile(
+    r"^\s*(tell|describe|explain|list|show|give|provide|summarize|summarise|"
+    r"outline|name|identify|compare|elaborate)\b",
+    re.IGNORECASE,
+)
+_WORD = re.compile(r"[a-z][a-z'-]{2,}")
+_STOPWORDS = frozenset(
+    """
+    the a an of to in on for and or with by from as at is are was were be been
+    being this that these those it its their our we us you your they them he
+    she his her which who whom whose what when where why how not no also more
+    most other another such than then there here into over under about across
+    during within without between among per via both each any all some many few
+    much less least own same so too very can could may might must shall should
+    will would do does did done have has had having tell describe explain list
+    show give provide summarize summarise outline name identify compare
+    elaborate
+    """.split()
+)
+
+
+def _looks_like_real_question(question: str) -> bool:
+    """Lexical evidence that the turn is an information request, not chitchat.
+
+    Deliberately structural rather than semantic: no entity resolution, no
+    corpus lookup, just the shape of the sentence. That makes it a pure
+    function of the text, so it is exactly as deterministic across repeated
+    calls as the question itself — the property this guard exists to buy back
+    from a stochastic classifier.
+
+    Requires (a) an interrogative or content-requesting shape, (b) at least one
+    real content word so a bare "what's up?" cannot pass on structure alone,
+    and (c) no match against the canonical social/meta phrases, which is
+    checked last and wins regardless of the other two — "how are you?" has
+    both a WH-word and a content-free "you", but it is a greeting and must
+    never be rescued from chitchat.
+    """
+    text = (question or "").strip()
+    if not text or _SOCIAL_OR_META.search(text):
+        return False
+    shaped = "?" in text or _WH_OR_AUX.search(text) or _IMPERATIVE_LEAD.match(text)
+    if not shaped:
+        return False
+    return any(
+        len(w) >= 4 and w not in _STOPWORDS for w in _WORD.findall(text.lower())
+    )
+
+
+# Counting phrases are the one case where the *route*, not just "is this
+# chitchat", is decidable from wording alone: "how many X are there" has no
+# reliable qa answer (prose does not carry a trustworthy count), and the
+# few-shot bank already pins "how many research papers were published in
+# 2024?" to [database]. Kept to this one unambiguous shape rather than the
+# brief's broader "list / which projects" suggestion — that one was tried
+# against this benchmark and made Q096 worse (a training-programmes question,
+# lexically "what programmes...", answered better as prose than as a bundle
+# listing), which is the concrete reason a wider rule is not safe here.
+_COUNTING = re.compile(r"\bhow\s+many\b|\bnumber\s+of\b|\bcount\s+of\b", re.IGNORECASE)
+
+
+def _corrected_intent(question: str, intent: Intent) -> Intent:
+    """``chitchat``, unless the question is demonstrably a real question.
+
+    ``analysis_votes`` defaults to 1, so a single stochastic sample decides the
+    route, and ``chitchat`` is the one label with no way back: `_prepare` answers
+    it from a canned string and never reaches retrieval. Measured over five
+    identical runs, "Who led the Eco-city Project- Phase I?" came back chitchat
+    twice and qa three times, and "Which documents were published between 2005
+    and 2010?" chitchat twice of five. Both are ordinary questions the corpus can
+    answer; on the chitchat draws the user got "I'm here to help…".
+
+    Two independent probes feed the override, combined with OR: naming a known
+    entity and an approved relationship (`_names_entity_and_relationship`), or
+    simply reading as an information request by its wording
+    (`_looks_like_real_question`). Either is sufficient; the second exists
+    because the first alone left Q079/Q091/Q077-shaped questions unrescued —
+    none of them names a resolvable entity, but none of them is small talk.
+
+    A counting question ("how many X are there") is routed to ``structured``
+    directly rather than ``qa``, because no prose answer to a "how many" claim
+    is trustworthy the way a database count is. Everything else the guard
+    rescues lands on ``qa``, matching the pre-existing behaviour.
+
+    The override is deliberately one-directional: a greeting resolves neither
+    probe and is untouched, which is the property the test suite pins.
+
+    The probes cost a cached-index lookup and a few regex scans, and run only
+    on the chitchat branch.
+    """
+    if intent != "chitchat":
+        return intent
+    if _COUNTING.search(question or ""):
+        logger.info("Overriding a chitchat classification: counting question.")
+        return "structured"
+    if not (_names_entity_and_relationship(question) or _looks_like_real_question(question)):
+        return intent
+    logger.info("Overriding a chitchat classification: the question is relational.")
+    return "qa"
+
+
 def process(question: str, history: Sequence[dict[str, str]] | None = None) -> ProcessedQuery:
     passthrough = ProcessedQuery(original=question, search_query=question, intent="qa")
     settings = get_settings()
@@ -482,6 +648,9 @@ def process(question: str, history: Sequence[dict[str, str]] | None = None) -> P
 
     understanding = _merge_understanding(samples, threshold=threshold)
     analysis = _to_legacy_analysis(question, understanding)
+    # A chitchat draw on a real question is unrecoverable downstream, so it is
+    # checked against the corpus here rather than trusted. See `_corrected_intent`.
+    analysis.intent = _corrected_intent(question, analysis.intent)
     logger.info(
         "intent: %s -> route=%s%s",
         [f"{p.label}:{p.confidence}" for p in understanding.intents],

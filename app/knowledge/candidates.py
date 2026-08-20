@@ -23,6 +23,7 @@ from __future__ import annotations
 import logging
 from collections import defaultdict
 from dataclasses import dataclass, field
+from functools import lru_cache
 from typing import Any, Iterable
 
 from app.knowledge.normalize import initials_of, normalize_for
@@ -239,23 +240,84 @@ def generate(mention: Any, index: EntityIndex) -> CandidateSet:
     return CandidateSet(deduped)
 
 
-def context_for_document(document_id: str, raw_meta: dict[str, Any] | None) -> ResolutionContext:
-    """Corroboration drawn from a document's own CMS metadata."""
+@lru_cache(maxsize=1)
+def get_entity_index() -> EntityIndex:
+    """The process-wide entity index, loaded once.
+
+    ``EntityIndex.load`` reads the whole entity table. The corpus builder pays
+    that once per run and holds the result; the per-document knowledge stage
+    runs once per ingested document and cannot, so the cache lives here rather
+    than in either caller. Follows ``app.knowledge.gazetteer.get_gazetteer``,
+    which exists for exactly the same reason on the same hot path.
+
+    Staleness is bounded by process lifetime and is safe in the conservative
+    direction: an index that has not yet seen an entity yields
+    ``unknown_subject`` or ``UNRESOLVED``, never a wrong link. Seeding is a
+    global act (see :mod:`app.knowledge.seed`), so the corpus builder calls
+    :func:`reload_entity_index` after it writes.
+    """
+    return EntityIndex.load()
+
+
+def reload_entity_index() -> EntityIndex:
+    """Forget the cached index and rebuild it.
+
+    Called after seeding, promotion or any other write to the entity store,
+    because everything downstream resolves against what those just wrote.
+    """
+    get_entity_index.cache_clear()
+    return get_entity_index()
+
+
+def context_for_document(
+    document_id: str,
+    raw_meta: dict[str, Any] | None,
+    *,
+    authors: Iterable[str] = (),
+) -> ResolutionContext:
+    """Corroboration drawn from a document's own CMS metadata and facets.
+
+    ``authors`` is supplied by the caller rather than read here, and both halves
+    of that matter.
+
+    *Supplied*, because author names no longer live in the metadata blob. They
+    were moved to the ``documents_author`` facet, which holds 1,860 rows while
+    ``raw_meta.field_authors`` holds **none** — so reading only the metadata
+    left ``PERSON`` corroboration permanently empty. That failed in the
+    expensive direction and silently: PERSON is the one type the resolver
+    requires corroboration for, so a uniquely-matching name landed on
+    ``AMBIGUOUS`` — "unique name match but no corroborating context" — instead
+    of ``AUTO``, and no count said why.
+
+    *By the caller*, because this function stays pure. It is called once per
+    document inside the extraction loop, and the callers already differ in
+    where the names are: ingestion has them in memory on the canonical
+    document, while a CLI or retry pass reads them from the facet with
+    ``state.authors_for``. A query in here would impose one of those on both.
+
+    ``field_authors`` is still read, so a corpus that repopulates the metadata
+    key keeps working; the two sources are unioned rather than either winning.
+    """
     context = ResolutionContext(document_id=document_id)
-    if not raw_meta:
-        return context
     fields = {
         "PERSON": ("field_authors",),
         "ORGANIZATION": (
             "field_completed_sponsors", "field_news_source", "field_division",
         ),
     }
-    for entity_type, names in fields.items():
-        for field_name in names:
-            value = raw_meta.get(field_name)
-            items = value if isinstance(value, list) else [value] if value else []
-            for item in items:
-                text = str(item).strip()
-                if text:
-                    context.cms_names[entity_type].add(normalize_for(entity_type, text))
+    if raw_meta:
+        for entity_type, names in fields.items():
+            for field_name in names:
+                value = raw_meta.get(field_name)
+                items = value if isinstance(value, list) else [value] if value else []
+                for item in items:
+                    text = str(item).strip()
+                    if text:
+                        context.cms_names[entity_type].add(
+                            normalize_for(entity_type, text)
+                        )
+    for author in authors or ():
+        text = str(author).strip()
+        if text:
+            context.cms_names["PERSON"].add(normalize_for("PERSON", text))
     return context

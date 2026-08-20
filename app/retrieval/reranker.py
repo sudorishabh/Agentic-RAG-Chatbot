@@ -13,15 +13,34 @@ So candidates are *banded* instead, and ranked on the bands in priority order:
 1. **relevance** — scores within ``rerank_relevance_tolerance`` are "similarly
    relevant" and go on to compete on the keys below; a candidate a band lower
    never climbs past one above it, however new or full it is;
-2. **completeness** — within a relevance band, a passage holding
+2. **authority** — within a relevance band, a canonical source (an organisation's
+   own service or hub page) leads a secondary retelling of the same material;
+3. **completeness** — within an authority band, a passage holding
    ``rerank_substance_ratio`` times the text of another says substantially more
    and leads it;
-3. **recency** — comparable passages settle on publication date, newest first;
-4. **authority** — a `source_authority` payload override, if one is ever written.
+4. **recency** — comparable passages settle on publication date, newest first.
 
 Two editions of the same annual report land in one relevance band, and unless one
 is a fragment the newer leads. An older passage that actually answers the
 question still outranks a newer one that merely mentions it.
+
+Why authority sits above completeness
+-------------------------------------
+It used to sit below, and below recency, reading only a ``source_authority``
+payload key that nothing ever wrote — so it was a constant that could not
+reorder anything. That left completeness, a *length* proxy, as the first
+tie-break inside a relevance band, and length is exactly the axis on which a
+canonical page loses: the 60-word "Water, soil and sludge testing" service node
+carries the authoritative answer, and a 450-token annual-report chunk that
+mentions testing in passing outranked it on substance every time.
+
+Measured on the 86-question organisational benchmark: the authoritative page the
+reference set names reached retrieval for 42% of questions, and nine questions
+retrieved none of it at all. So authority is now *derived* from the metadata the
+corpus already carries (:func:`_derived_authority`) rather than waiting for an
+ingest-time stamp, and it is banded like the others so only a material
+difference reorders anything. An explicit ``source_authority`` payload value
+still wins, so a corpus that does stamp authority keeps control.
 """
 
 from __future__ import annotations
@@ -30,7 +49,7 @@ import logging
 import math
 from datetime import datetime
 from functools import lru_cache
-from typing import NamedTuple, Sequence
+from typing import Any, NamedTuple, Sequence
 
 from pydantic import BaseModel, Field
 
@@ -75,21 +94,109 @@ def _recency_scores(candidates: Sequence[Candidate]) -> list[float]:
     ]
 
 
-def _authority_scores(candidates: Sequence[Candidate]) -> list[float]:
-    """Source trustworthiness in [0,1], from an optional `source_authority`
-    payload value.
+# How far apart two authority scores must be to count as different kinds of
+# source. The scale below is laid out in steps of 0.15, so a tolerance under that
+# separates every tier while keeping candidates inside one tier together.
+_AUTHORITY_TOLERANCE = 0.10
 
-    Nothing writes that key today — the source-type authority map was removed and
-    website preference is handled by the dual pull and segregation, not a scoring
-    tilt — so every candidate scores `_UNKNOWN`, a constant that cannot reorder
-    anything. It stays as the lowest-priority ranking key so a corpus that does
-    start stamping authority gets the behavior without another ranking change."""
+# Authority by the bundle a website node belongs to. The ordering is editorial
+# provenance, not topic: a page the organisation maintains *as its statement* on
+# something outranks a dated announcement about the same thing, which outranks a
+# PDF attachment that happens to mention it.
+#
+# Deliberately not a website/PDF switch. A PDF attachment is the right source for
+# plenty of questions (a report's findings, a table), and this must not bury it —
+# which is why every tier sits inside one relevance band and only reorders
+# candidates the relevance step already called equivalent.
+_CANONICAL_BUNDLES = frozenset({
+    # Pages and service nodes the organisation maintains as its own description
+    # of itself: mission, contact, thematic hubs, centre-of-excellence hubs, the
+    # service catalogue. These are short, which is why they lost before.
+    "page", "services", "basic",
+})
+_PRIMARY_BUNDLES = frozenset({
+    # The organisation's own published output.
+    "report", "policy_brief", "research_papers", "infographics",
+})
+_PROJECT_BUNDLES = frozenset({"ongoing_projects", "completed_projects"})
+_SECONDARY_BUNDLES = frozenset({
+    # Dated announcements and third-party coverage. Correct for "what did you
+    # launch in March", weak for "what do you offer".
+    "news", "press_release", "events", "feature_articles", "article", "videos",
+})
+
+_AUTHORITY_CANONICAL = 0.90
+_AUTHORITY_PRIMARY = 0.75
+_AUTHORITY_PROJECT = 0.60
+_AUTHORITY_SECONDARY = 0.45
+_AUTHORITY_ATTACHMENT = 0.35
+
+
+def _derived_authority(payload: dict) -> float:
+    """Editorial authority in [0,1] inferred from metadata already in the payload.
+
+    Reads ``source_type`` and ``bundle`` only — both are stamped on every chunk at
+    ingest, so this needs no new field, no reprojection and no ingest change.
+
+    A note on the attachment tier: ``source_type == "pdf_attachment"`` is scored
+    below its own bundle because the attachment is a *derived* artefact of the
+    node it hangs off. The clearest case in this corpus is the annual reports,
+    where every edition from 2015-16 to 2024-25 hangs off one Drupal node and so
+    shares one title and one date; a chunk from deep inside one of them is poor
+    evidence for "what does the organisation do", and excellent evidence for a
+    figure in that report — which the relevance band, not this, decides.
+    """
+    if is_graph_facts_payload(payload):
+        # Verified relationships, not a retelling of prose. Top of the scale so a
+        # facts block is never displaced by a page that merely mentions the same
+        # entity.
+        return 1.0
+    bundle = str(payload.get("bundle") or "").strip().lower()
+    source_type = str(payload.get("source_type") or "").strip().lower()
+
+    if source_type == "website":
+        if bundle in _CANONICAL_BUNDLES:
+            return _AUTHORITY_CANONICAL
+        if bundle in _PRIMARY_BUNDLES:
+            return _AUTHORITY_PRIMARY
+        if bundle in _PROJECT_BUNDLES:
+            return _AUTHORITY_PROJECT
+        if bundle in _SECONDARY_BUNDLES:
+            return _AUTHORITY_SECONDARY
+        return _UNKNOWN
+    if source_type:
+        # Attachments and anything else non-website. Keep the bundle's ordering
+        # inside the tier so a policy-brief PDF still leads a news PDF.
+        if bundle in _CANONICAL_BUNDLES or bundle in _PRIMARY_BUNDLES:
+            return _AUTHORITY_ATTACHMENT + 0.05
+        return _AUTHORITY_ATTACHMENT
+    return _UNKNOWN
+
+
+def is_graph_facts_payload(payload: dict) -> bool:
+    """Local, import-light check for the graph's verified-relationships block."""
+    from app.core.models.context import is_graph_facts
+
+    try:
+        return bool(is_graph_facts(payload))
+    except Exception:  # pragma: no cover - defence in depth
+        return False
+
+
+def _authority_scores(candidates: Sequence[Candidate]) -> list[float]:
+    """Source trustworthiness in [0,1].
+
+    An explicit ``source_authority`` payload value is authoritative and is used
+    as given; otherwise it is derived from ``source_type``/``bundle`` by
+    :func:`_derived_authority`. Before, the absent key meant every candidate
+    scored ``_UNKNOWN`` and the key could never reorder anything.
+    """
     scores: list[float] = []
     for c in candidates:
         try:
             scores.append(min(1.0, max(0.0, float(c.payload["source_authority"]))))
         except (KeyError, TypeError, ValueError):
-            scores.append(_UNKNOWN)
+            scores.append(_derived_authority(c.payload))
     return scores
 
 
@@ -152,7 +259,8 @@ class _Ranked(NamedTuple):
     """A scored candidate placed in the ranking."""
 
     relevance_band: int   # 0 is the most relevant band
-    substance_band: int   # 0 is the fullest band, cut within the relevance band
+    authority_band: int   # 0 is the most authoritative, cut within the relevance band
+    substance_band: int   # 0 is the fullest band, cut within the authority band
     scored: _Scored
 
 
@@ -176,34 +284,64 @@ def _substance_tolerance(settings) -> float:
     return math.log(max(float(settings.rerank_substance_ratio), 1.0))
 
 
-def _substance_bands(
-    scored: Sequence[_Scored], relevance_bands: Sequence[int], *, tolerance: float
+def _nested_bands(
+    values: Sequence[float], outer: Sequence[Any], *, tolerance: float
 ) -> list[int]:
-    """Completeness band per candidate, cut *within* each relevance band.
+    """Band ``values`` separately inside each group of ``outer``.
 
-    Banding across the whole set would let a long passage from a much less
-    relevant document place the boundary that splits two similarly relevant ones.
-    Completeness is only ever a question between candidates that already tied on
-    relevance."""
-    bands = [0] * len(scored)
-    for relevance_band in set(relevance_bands):
-        members = [i for i, b in enumerate(relevance_bands) if b == relevance_band]
-        within = _bands([scored[i].substance for i in members], tolerance=tolerance)
+    Banding across the whole set would let a candidate from a much less relevant
+    group place the boundary that splits two similarly relevant ones. Both the
+    authority and completeness steps are only ever questions between candidates
+    that already tied above them, so both use this.
+    """
+    bands = [0] * len(values)
+    for group in set(outer):
+        members = [i for i, b in enumerate(outer) if b == group]
+        within = _bands([values[i] for i in members], tolerance=tolerance)
         for i, band in zip(members, within):
             bands[i] = band
     return bands
 
 
+def _substance_bands(
+    scored: Sequence[_Scored], enclosing: Sequence[Any], *, tolerance: float
+) -> list[int]:
+    """Completeness band per candidate, cut *within* each enclosing band."""
+    return _nested_bands(
+        [s.substance for s in scored], enclosing, tolerance=tolerance
+    )
+
+
+def _authority_bands(
+    scored: Sequence[_Scored], relevance_bands: Sequence[int]
+) -> list[int]:
+    """Authority band per candidate, cut *within* each relevance band.
+
+    Negated because :func:`_bands` numbers from the highest value down and
+    authority is better when higher, matching relevance and unlike substance
+    where the raw value is already "more text".
+    """
+    return _nested_bands(
+        [s.authority for s in scored], relevance_bands, tolerance=_AUTHORITY_TOLERANCE
+    )
+
+
 def _sort_key(r: _Ranked) -> tuple[float, ...]:
     """The ranking priority, most significant first: relevance band, then
-    completeness band, then recency, then authority, then the fine-grained
+    authority band, then completeness band, then recency, then the fine-grained
     relevance within the band — a deterministic last resort, and by construction
-    a sub-tolerance difference that the band already declared immaterial."""
+    a sub-tolerance difference that the band already declared immaterial.
+
+    Authority moved above completeness because completeness is a length proxy and
+    a canonical page is short: see the module docstring for the measurement that
+    prompted it. It stays *below* relevance, so a canonical page that does not
+    answer the question still cannot climb over a passage that does.
+    """
     return (
         r.relevance_band,
+        r.authority_band,
         r.substance_band,
         -r.scored.recency,
-        -r.scored.authority,
         -r.scored.relevance,
     )
 
@@ -360,13 +498,22 @@ def rerank(
     relevance_bands = _bands(
         [s.relevance for s in kept], tolerance=_relevance_tolerance(query, settings)
     )
+    authority_bands = _authority_bands(kept, relevance_bands)
+    # Completeness is cut inside the authority band, not the relevance band: two
+    # candidates only compete on length once they are the same *kind* of source,
+    # otherwise a long attachment would still set the boundary that splits two
+    # canonical pages.
     substance_bands = _substance_bands(
-        kept, relevance_bands, tolerance=_substance_tolerance(settings)
+        kept,
+        [(rb, ab) for rb, ab in zip(relevance_bands, authority_bands)],
+        tolerance=_substance_tolerance(settings),
     )
     ranked = sorted(
         (
-            _Ranked(relevance_band=rb, substance_band=sb, scored=s)
-            for rb, sb, s in zip(relevance_bands, substance_bands, kept)
+            _Ranked(relevance_band=rb, authority_band=ab, substance_band=sb, scored=s)
+            for rb, ab, sb, s in zip(
+                relevance_bands, authority_bands, substance_bands, kept
+            )
         ),
         key=_sort_key,
     )

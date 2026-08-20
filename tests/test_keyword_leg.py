@@ -158,7 +158,15 @@ def test_keyword_leg_fuses_with_dense_pull(monkeypatch):
 
     out = retriever.retrieve("what happened at COP in 2024", query_vector=[0.1])
 
-    assert pulls == [["COP", "2024"]]
+    # The precise pull still happens with exactly the salient terms.
+    assert ["COP", "2024"] in pulls
+    # A second lexical pull over the query's plain content words now runs beside
+    # it (see `extract_content_terms`): the precise pass is skipped whenever any
+    # precise pattern matched, which on a corpus with one ubiquitous name left the
+    # leg contributing nothing. It is a separate pull on purpose, so the precise
+    # terms above are not diluted by ordinary vocabulary.
+    assert len(pulls) == 2
+    assert ["COP", "2024"] != pulls[-1]
     assert [b.id for b in out][0] == "b"  # consensus candidate leads after RRF
     assert {b.id for b in out} == {"a", "b", "k"}
 

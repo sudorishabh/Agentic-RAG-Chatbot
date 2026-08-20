@@ -242,6 +242,41 @@ def extract_key_terms(query: str) -> list[str] | None:
     ] or None
 
 
+def extract_content_terms(query: str) -> list[str] | None:
+    """Lowercase content words of a query, unconditionally.
+
+    The companion to :func:`extract_key_terms`, and the answer to a hole that
+    function has on any corpus with one ubiquitous name. Its content-word pass is
+    a *fallback*, skipped whenever a precise pattern matched — and the
+    organisation's own acronym matches almost every question asked of it. So
+    "What are TERI's flagship initiatives and centres of excellence?" yielded the
+    single term ``['TERI']``, which under the OR semantics of
+    :func:`keyword_search` matches nearly the whole corpus and leaves the lexical
+    leg contributing nothing the dense pull did not already have. Measured: every
+    organisational question in the 86-question benchmark extracted exactly
+    ``['TERI']``.
+
+    Diluting the precise list by merging content words into it would be the wrong
+    repair — OR-ing a ubiquitous term with a selective one keeps the ubiquitous
+    match. Instead this is pulled as its *own* ranking and fused, so the topical
+    words ("initiatives", "centres", "excellence") select a small, on-subject set
+    that RRF can promote out of, while the precise pull keeps doing its own job.
+
+    Returns None when the query has no content words, so callers can skip the leg.
+    """
+    words = [
+        word for word in _CONTENT.findall((query or "").lower())
+        if word not in _STOPWORDS
+    ]
+    unique: list[str] = []
+    seen: set[str] = set()
+    for word in words:
+        if word not in seen:
+            seen.add(word)
+            unique.append(word)
+    return unique or None
+
+
 def keyword_search(
     search_query: str,
     terms: list[str],

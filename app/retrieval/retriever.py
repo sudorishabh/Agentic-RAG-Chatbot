@@ -25,19 +25,28 @@ from app.retrieval.reranker import rerank
 from app.retrieval.search.strategies import (
     corrective_requery,
     dual_search,
+    extract_content_terms,
     extract_key_terms,
     keyword_search,
     paraphrase_search,
     paraphrases,
 )
+from app.retrieval.title_leg import title_search
 from app.retrieval.understanding.filters import date_conditions
 
 logger = logging.getLogger(__name__)
 
-# `retrieve` is the retrieval engine's sole public entry point; the stages it
+# `retrieve` is the retrieval engine's main public entry point; the stages it
 # composes here (and in app.retrieval.search.strategies) are internal and free
-# to change. The rest of the app depends only on this name.
-__all__ = ["retrieve"]
+# to change. The rest of the app depends only on these names.
+#
+# `graph_blocks_for` is exported alongside it because one caller legitimately
+# needs the graph leg without the rest: `app.pipeline.query_pipeline` returns a
+# deterministic catalog answer for some queries *before* it ever calls
+# `retrieve`, and a relational question that lands there would otherwise never
+# see the graph at all. Exposing the leg is what keeps that call site running the
+# same code with the same fallback contract, rather than a second copy of it.
+__all__ = ["retrieve", "graph_blocks_for"]
 
 # Content capabilities (from query understanding) whose open-ended search
 # benefits from multi-query recall expansion; a pure `database` lookup does not.
@@ -100,7 +109,7 @@ def _supplement_attachments(
         return blocks
 
 
-def _try_graph(
+def graph_blocks_for(
     search_query: str,
     *,
     n: int,
@@ -133,6 +142,110 @@ def _try_graph(
     except Exception:  # pragma: no cover - defence in depth
         logger.warning("Graph routing hook failed; using retrieval.", exc_info=True)
         return []
+
+
+# Context slots kept for ordinary retrieval whenever the graph has also
+# answered. The graph states *that* something is true and cites the documents
+# its claims were read from; those documents frequently do not describe the
+# subject at all, so without a reserved share the prose that does is never
+# fetched.
+#
+# Two is the smallest number that helps and the largest that is free: with the
+# default top_k of 6 the graph still keeps a facts block and three evidence
+# passages, which is more evidence than any measured graph answer used.
+SEMANTIC_MIN_SLOTS = 2
+
+
+def _block_key(block: ContextBlock) -> str:
+    """Identity for de-duplication across the two legs.
+
+    The parent is preferred because the context builder admits by parent: the
+    graph can hydrate one child of a parent while the semantic pull admits a
+    different child of the same parent, and printing both is printing the same
+    passage twice.
+    """
+    payload = block.payload
+    return str(
+        payload.get("parent_chunk_id")
+        or payload.get("chunk_id")
+        or payload.get("document_id")
+        or id(block)
+    )
+
+
+def _merge_graph_and_retrieval(
+    graph_blocks: list[ContextBlock],
+    semantic_blocks: list[ContextBlock],
+    *,
+    limit: int,
+    token_budget: int,
+) -> list[ContextBlock]:
+    """One context from both legs: the graph's answer, and the corpus's prose.
+
+    The graph used to *replace* retrieval — ``if graph_blocks: return`` — which
+    is right when the rows are the whole answer and wrong the moment they are
+    only part of it. Measured: "a brief history of TERI" routes to
+    ``entity_timeline``, the graph answers with eleven funding and partnership
+    rows, and the six evidence passages are the project pages those claims came
+    from. None of them says when TERI was founded. The Annual Report chunk that
+    opens "TERI was established in 1974" sits at 0.77 similarity and was never
+    fetched, because the semantic leg never ran. The answer was the refusal —
+    correctly, since nothing in the context supported one.
+
+    Order is meaning here. The facts block leads because it is what the graph
+    verified; graph evidence follows because it is the provenance for those
+    rows; ordinary retrieval fills the rest. Both legs are de-duplicated against
+    each other, and the token budget is now shared rather than spent twice —
+    which also closes the older gap where the facts block was appended after
+    ``build_context`` had already spent its allowance.
+    """
+    from app.core.models.context import is_graph_facts
+    from app.retrieval.context_builder import _count_tokens
+
+    leading = graph_blocks[0] if graph_blocks else None
+    facts = leading if leading is not None and is_graph_facts(leading.payload) else None
+    graph_evidence = graph_blocks[1:] if facts is not None else list(graph_blocks)
+
+    merged: list[ContextBlock] = []
+    seen: set[str] = set()
+    spent = 0
+
+    def admit(block: ContextBlock) -> bool:
+        key = _block_key(block)
+        if key in seen or len(merged) >= limit:
+            return False
+        cost = _count_tokens(block.text)
+        # The first block is admitted whatever it costs: a context of nothing is
+        # worse than a context slightly over budget.
+        if merged and spent + cost > token_budget:
+            return False
+        seen.add(key)
+        merged.append(block)
+        return True
+
+    if facts is not None and admit(facts):
+        spent += _count_tokens(facts.text)
+
+    # Reserve the tail for prose before the graph's own evidence is allowed to
+    # fill the context, but never reserve slots nothing can occupy.
+    reserved = min(SEMANTIC_MIN_SLOTS, len(semantic_blocks))
+    graph_allowance = max(0, limit - len(merged) - reserved)
+    for block in graph_evidence[:graph_allowance]:
+        if admit(block):
+            spent += _count_tokens(block.text)
+
+    for block in semantic_blocks:
+        if admit(block):
+            spent += _count_tokens(block.text)
+
+    # Anything the reservation left unused goes back to the graph.
+    for block in graph_evidence[graph_allowance:]:
+        if admit(block):
+            spent += _count_tokens(block.text)
+
+    for i, block in enumerate(merged, start=1):
+        block.n = i
+    return merged
 
 
 def _observe_in_shadow(search_query: str, blocks: list[ContextBlock]) -> None:
@@ -171,19 +284,22 @@ def retrieve(
     settings = get_settings()
     n = n or settings.retrieval_top_k
 
-    # The graph leg, for the narrow set of relational question classes Phase 10
-    # measured. It answers or it declines; every other outcome — not routed, an
-    # empty graph, a scope it cannot honour, an error, a timeout — falls through
-    # to the retrieval below, which is unchanged and remains the fallback for
-    # everything.
+    # The graph leg. It answers or it declines; every outcome that is not a
+    # useful answer — not routed, an empty graph, a scope it cannot honour, an
+    # error, a timeout — leaves this empty and the retrieval below is unchanged.
+    #
+    # What it no longer does is *replace* retrieval. A graph answer used to
+    # return from here, so a question the graph could answer only partly lost
+    # the corpus entirely: "a brief history of TERI" got eleven funding rows and
+    # the project pages behind them, while the Annual Report chunk beginning
+    # "TERI was established in 1974" was never fetched. Both legs now run and
+    # `_merge_graph_and_retrieval` composes one context from them.
     #
     # The query's scope is handed to the policy layer rather than checked here,
     # so a scope dimension added later cannot be forgotten at this call site.
-    graph_blocks = _try_graph(
+    graph_blocks = graph_blocks_for(
         search_query, n=n, filters=filters, source_type=source_type
     )
-    if graph_blocks:
-        return graph_blocks
 
     # Prefer website content only when the feature is on, the user didn't pin a
     # source (explicit intent → honor their filter with a single pull, else the
@@ -224,9 +340,33 @@ def retrieve(
     keyword_terms = (
         extract_key_terms(search_query) if settings.keyword_leg_enabled else None
     )
+    # A second lexical pull over the query's plain content words, fused as its own
+    # ranking. `extract_key_terms` skips its content-word pass whenever any precise
+    # pattern matched, and the organisation's acronym matches nearly every question
+    # asked of it — so the precise list collapsed to ['TERI'] and, OR-ed, selected
+    # most of the corpus. Kept separate rather than merged: OR-ing a ubiquitous
+    # term with a selective one keeps the ubiquitous match, whereas a pull over
+    # {initiatives, centres, excellence} alone lands on the hub page the dense
+    # vectors miss because its text is mostly link labels. Skipped when it would
+    # only repeat the precise terms.
+    content_terms = (
+        extract_content_terms(search_query) if settings.keyword_leg_enabled else None
+    )
+    if content_terms and keyword_terms and {
+        c.lower() for c in content_terms
+    } <= {k.lower() for k in keyword_terms}:
+        content_terms = None
+
+    # Title-anchored leg. Neither ranking nor the lexical legs can retrieve a
+    # canonical page whose *text* is a list of link labels — see
+    # `app.retrieval.title_leg`. Runs whenever the question names something
+    # specific enough to match a page title; contributes one more ranking and
+    # nothing else, so RRF decides what it is worth. Skipped for a pinned source
+    # type, whose single filtered pull the caller has already narrowed.
+    use_title_leg = not source_type
 
     with span("rag.search") as s:
-        if multi or keyword_terms:
+        if multi or keyword_terms or content_terms or use_title_leg:
             from concurrent.futures import ThreadPoolExecutor
 
             rankings: list[list[Any]] = []
@@ -242,6 +382,23 @@ def retrieve(
                         limit=settings.retrieval_candidate_k,
                     )
                     if keyword_terms
+                    else None
+                )
+                content_future = (
+                    pool.submit(
+                        keyword_search, search_query, content_terms,
+                        filters=filters, query_vector=query_vector,
+                        limit=settings.retrieval_candidate_k,
+                    )
+                    if content_terms
+                    else None
+                )
+                title_future = (
+                    pool.submit(
+                        title_search, search_query, query_vector,
+                        limit=settings.retrieval_candidate_k,
+                    )
+                    if use_title_leg
                     else None
                 )
                 if multi:
@@ -266,6 +423,19 @@ def retrieve(
                         kw.set("hits", len(keyword_hits))
                     if keyword_hits:
                         rankings.append(keyword_hits)
+                if content_future is not None:
+                    with span("rag.content_term_leg") as ct:
+                        content_hits = content_future.result()
+                        ct.set("hits", len(content_hits))
+                        ct.set("terms", len(content_terms or []))
+                    if content_hits:
+                        rankings.append(content_hits)
+                if title_future is not None:
+                    with span("rag.title_leg") as tl:
+                        title_hits = title_future.result()
+                        tl.set("hits", len(title_hits))
+                    if title_hits:
+                        rankings.append(title_hits)
                 base = base_future.result()
             candidates = rrf([base] + rankings) if rankings else base
         else:
@@ -332,8 +502,10 @@ def retrieve(
                 "improved" if score_after > score_before else "no gain",
             )
     if not ranked:
+        # Nothing from the corpus. A graph answer still stands on its own, which
+        # is the behaviour this leg has always had when retrieval came up empty.
         _observe_in_shadow(search_query, [])
-        return []
+        return list(graph_blocks)
     with span("rag.context_build"):
         blocks = build_context(ranked, limit=n, segregate=dual)
     if answer_format == "detailed" and blocks:
@@ -342,5 +514,45 @@ def retrieve(
                 blocks, ranked, search_query=search_query, query_vector=query_vector,
                 n=n, segregate=dual,
             )
+    if graph_blocks:
+        # Merged last, so attachment supplementation above still operates on the
+        # retrieval blocks alone — it rebuilds context from `ranked` and would
+        # otherwise drop the facts block it knows nothing about.
+        with span("rag.graph_merge") as s:
+            blocks = _merge_graph_and_retrieval(
+                graph_blocks, blocks, limit=n,
+                token_budget=settings.context_token_budget,
+            )
+            s.set("graph_blocks", len(graph_blocks))
+            s.set("merged", len(blocks))
+    # Temporal gate, last of all: an "upcoming" question must not be answered
+    # from events that have already happened. Applied here rather than as a
+    # vector pre-filter because an event's own start date lives in the CMS
+    # (`documents.raw_meta`) and is not in the Qdrant payload — the only date on
+    # a chunk is `published_at`, which is when the page went up, not when the
+    # event runs. Removal-only and it never empties the context, so the worst it
+    # can do is leave the context exactly as it was.
+    blocks = _gate_temporal(search_query, blocks)
     _observe_in_shadow(search_query, blocks)
     return blocks
+
+
+def _gate_temporal(search_query: str, blocks: list[ContextBlock]) -> list[ContextBlock]:
+    """Apply the question's temporal scope to the finished context."""
+    if not blocks:
+        return blocks
+    try:
+        from app.retrieval import temporal_gate
+
+        mode = temporal_gate.detect_mode(search_query)
+        if mode != temporal_gate.UPCOMING:
+            return blocks
+        with span("rag.temporal_gate") as s:
+            gated = temporal_gate.gate_upcoming(blocks)
+            s.set("mode", mode)
+            s.set("dropped", len(blocks) - len(gated))
+        return gated
+    except Exception:  # pragma: no cover - defence in depth
+        # A temporal filter must never cost an answer.
+        logger.warning("Temporal gate failed; using the ungated context.", exc_info=True)
+        return blocks
