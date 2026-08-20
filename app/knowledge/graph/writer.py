@@ -121,7 +121,8 @@ SET a.normalized   = row.normalized,
     a.alias_type   = row.alias_type,
     a.autolink     = row.autolink,
     a.is_ambiguous = row.is_ambiguous,
-    a.entity_id    = row.entity_id
+    a.entity_id    = row.entity_id,
+    a.projection_version = $projection_version
 MERGE (e)-[:HAS_ALIAS]->(a)
 """
 
@@ -246,6 +247,107 @@ MATCH ()-[r]->()
 WHERE r.current = true AND r.projection_version <> $projection_version
 DELETE r
 """
+
+# The scoped counterpart, for a projection that only looked at some claims.
+#
+# DELETE_STALE_CURRENT_STATE above is correct only for a pass that examined the
+# WHOLE staged set: it deletes every current edge this generation did not
+# re-stamp, so a per-document run would wipe the rest of the corpus's current
+# state. This one names the claims instead. A claim that stopped being
+# current-state eligible — retracted, disputed, superseded, out of window —
+# loses its edge, and nothing else is touched.
+#
+# Matched on `claim_id` rather than on endpoints because that property is what
+# ties an edge to the claim that justifies it, and it is set by
+# PROJECT_CURRENT_STATE on every edge this system creates.
+DELETE_CURRENT_STATE_FOR_CLAIMS = """
+UNWIND $rows AS row
+MATCH ()-[r {claim_id: row.claim_id}]->()
+WHERE r.current = true
+DELETE r
+"""
+
+# --------------------------------------------------------------------------- #
+# Retiring nodes an older generation left behind
+#
+# `DELETE_STALE_CURRENT_STATE` above retires *relationships*, and for a long time
+# that was the only retirement the projector did. It was not enough. Every write
+# above is a MERGE over the rows MySQL currently says are projectable, so a row
+# that *stops* being projectable is never visited again: nothing updates it and
+# nothing removes it. An entity demoted from `pi_attested` to `provisional` kept
+# a graph node still claiming `pi_attested, claim_eligible: true`, and the claims
+# naming it kept their nodes too — measured on the live graph as 2 entities, 17
+# claims and 2 aliases stranded on a projection generation four hours older than
+# the rest of the graph.
+#
+# The rule is the one the current-state edges already use: a whole-corpus pass
+# re-stamps `projection_version` on everything that should exist (the SET clauses
+# above are unconditional, so a MATCH is re-stamped exactly like a CREATE), so
+# after it runs, anything still carrying an older stamp is by construction
+# something MySQL no longer projects.
+#
+# Only a whole-corpus pass may use these. A scoped pass re-stamps one document's
+# rows, so "everything else" is the rest of the corpus — see the note on
+# `DELETE_CURRENT_STATE_FOR_CLAIMS` for the same distinction, and
+# `project.project_claims`, which deliberately does not call these.
+#
+# Claims go first, then entities: deleting a claim detaches its SUBJECT/OBJECT
+# before the entity sweep runs, so neither sweep depends on the other's leftovers.
+
+DELETE_STALE_CLAIMS = """
+MATCH (c:Claim)
+WHERE c.projection_version <> $projection_version
+DETACH DELETE c
+"""
+
+# DETACH also removes HAS_ALIAS, and any current-state edge the entity still had.
+DELETE_STALE_ENTITIES = """
+MATCH (e:Entity)
+WHERE e.projection_version <> $projection_version
+DETACH DELETE e
+"""
+
+# Stamped like entities and claims, so an alias *removed from MySQL* is retired
+# on the same rule as one whose entity was demoted. Without the stamp only the
+# second case was reachable, because the first leaves the alias attached to an
+# entity that is still perfectly valid.
+DELETE_STALE_ALIASES = """
+MATCH (a:Alias)
+WHERE a.projection_version IS NULL
+   OR a.projection_version <> $projection_version
+DETACH DELETE a
+"""
+
+# Evidence stubs are not stamped, because they are shared: one document backs
+# many claims, and a scoped pass legitimately re-merges a document whose other
+# claims it never looked at. They are retired by reachability instead — a stub
+# exists only to be evidence, so one that no longer backs anything is spent.
+DELETE_ORPHAN_CHUNKS = """
+MATCH (c:Chunk)
+WHERE NOT EXISTS { MATCH (:Claim)-[:SUPPORTED_BY]->(c) }
+DETACH DELETE c
+"""
+
+# Checked after the chunks, and against both routes to a document: a claim may
+# cite it directly, or cite a chunk that is PART_OF it.
+DELETE_ORPHAN_DOCUMENTS = """
+MATCH (d:Document)
+WHERE NOT EXISTS { MATCH (:Claim)-[:SUPPORTED_BY]->(d) }
+  AND NOT EXISTS { MATCH (:Chunk)-[:PART_OF]->(d) }
+DETACH DELETE d
+"""
+
+
+def run_sweep(session: Any, statement: str, **params: Any) -> int:
+    """Run a retirement statement and report how many nodes it removed.
+
+    Separate from :func:`run_batches` because a sweep takes no ``$rows``: it is
+    defined by what is *absent* from this generation, which is the whole reason
+    it can retire something no batch will ever mention.
+    """
+    summary = session.run(statement, **params).consume()
+    return summary.counters.nodes_deleted
+
 
 COUNT_NODES = "MATCH (n) RETURN labels(n) AS labels, count(*) AS n"
 COUNT_RELATIONSHIPS = "MATCH ()-[r]->() RETURN type(r) AS type, count(*) AS n"

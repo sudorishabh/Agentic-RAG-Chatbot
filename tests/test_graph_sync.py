@@ -25,12 +25,24 @@ from app.ingestion import graph_sync
 
 @pytest.fixture
 def knowledge(monkeypatch):
-    """Turn the knowledge layer on; return a handle to what the graph answers."""
+    """Turn the knowledge layer on; return a handle to what the graph answers.
+
+    The per-document catch-up is stubbed out. It is a sweep collaborator like
+    ``ingest_drupal`` and ``reconcile_after_sweep``, which the sweep tests
+    already stub, and leaving it live made this module reach real MySQL and
+    process real documents — the opposite of what a file whose docstring says
+    "Neo4j is never contacted here" should do. Its own behaviour is covered in
+    tests/test_knowledge_hook.py; what this file cares about is that it cannot
+    hold the sweep back, which the two tests at the end assert.
+    """
     import app.core.clients as clients
+
+    from app.ingestion import knowledge_sync
 
     settings = get_settings()
     monkeypatch.setattr(settings, "knowledge_enabled", True)
     monkeypatch.setattr(settings, "graph_project_after_sweep", True)
+    monkeypatch.setattr(knowledge_sync, "catch_up", lambda *a, **kw: None)
     state = {"reachable": True}
     monkeypatch.setattr(clients, "graph_available", lambda: state["reachable"])
     return state
@@ -204,3 +216,67 @@ def test_a_current_matching_projection_passes(knowledge, monkeypatch):
     check = rc._graph_check()
 
     assert check.ok and "current" in check.detail
+
+
+# --------------------------------------------------------------------------- #
+# The per-document catch-up is a sweep collaborator, and equally subordinate.
+# --------------------------------------------------------------------------- #
+
+def test_the_catch_up_result_is_reported_by_the_sweep(knowledge, monkeypatch):
+    from app.ingestion import knowledge_sync
+    from app.workers import tasks
+
+    monkeypatch.setattr(tasks, "ingest_drupal", lambda reconcile=False: {"indexed": 3})
+    monkeypatch.setattr("app.ingestion.reconcile.reconcile_after_sweep", lambda: None)
+    monkeypatch.setattr("app.ingestion.graph_sync.project_after_sweep", lambda: None)
+    monkeypatch.setattr(
+        knowledge_sync, "catch_up",
+        lambda *a, **kw: {"examined": 2, "ok": 1, "failed": 1},
+    )
+
+    result = tasks.sweep()
+    assert result["drupal"] == {"indexed": 3}
+    assert result["knowledge_catch_up"] == {"examined": 2, "ok": 1, "failed": 1}
+
+
+def test_an_idle_catch_up_adds_nothing_to_the_report(knowledge, monkeypatch):
+    """Nothing to retry is the normal case; it must not clutter every sweep."""
+    from app.ingestion import knowledge_sync
+    from app.workers import tasks
+
+    monkeypatch.setattr(tasks, "ingest_drupal", lambda reconcile=False: {"indexed": 3})
+    monkeypatch.setattr("app.ingestion.reconcile.reconcile_after_sweep", lambda: None)
+    monkeypatch.setattr("app.ingestion.graph_sync.project_after_sweep", lambda: None)
+    monkeypatch.setattr(
+        knowledge_sync, "catch_up", lambda *a, **kw: {"examined": 0, "ok": 0, "failed": 0}
+    )
+
+    assert tasks.sweep() == {"drupal": {"indexed": 3}}
+
+
+def test_a_catch_up_explosion_cannot_hold_back_the_sweep(knowledge, monkeypatch):
+    """`sweep()` calls catch_up bare, exactly as it calls project_after_sweep,
+    so the never-raises contract has to hold for everything inside it — a
+    failed import as much as a store call with its own handler."""
+    from app.catalog import knowledge_runs
+    from app.ingestion import knowledge_sync
+    from app.workers import tasks
+
+    monkeypatch.setattr(tasks, "ingest_drupal", lambda reconcile=False: {"indexed": 3})
+    monkeypatch.setattr("app.ingestion.reconcile.reconcile_after_sweep", lambda: None)
+    monkeypatch.setattr("app.ingestion.graph_sync.project_after_sweep", lambda: None)
+    monkeypatch.setattr(knowledge_sync, "enabled", lambda: True)
+
+    def _boom(**kwargs):
+        raise RuntimeError("the retry queue is on fire")
+
+    monkeypatch.setattr(knowledge_runs, "pending", _boom)
+    assert tasks.sweep() == {"drupal": {"indexed": 3}}
+
+    # And the same when the failure is not a store call at all.
+    def _explode(limit):
+        raise ImportError("no module named anything")
+
+    monkeypatch.setattr(knowledge_sync, "_catch_up", _explode)
+    assert knowledge_sync.catch_up() is None
+    assert tasks.sweep() == {"drupal": {"indexed": 3}}

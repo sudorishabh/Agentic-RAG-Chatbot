@@ -169,6 +169,44 @@ def for_document(document_id: str) -> list[dict[str, Any]]:
         return list(cur.fetchall())
 
 
+def for_subject_predicates(
+    pairs: Sequence[tuple[str, str]]
+) -> list[dict[str, Any]]:
+    """Staged claims for the given ``(subject_entity_id, predicate)`` pairs.
+
+    The read a per-document conflict pass cannot do without. Conflict detection
+    groups by exactly this pair, and a functional predicate's contradictions are
+    inherently cross-document — two documents naming different principal
+    investigators for one project is the case the detector exists for, and a
+    batch scoped to one document would never see the pair.
+
+    Batched into chunks of ``IN`` tuples so a document touching many subjects
+    still costs a bounded number of statements, and ordered by ``claim_id`` so a
+    detection pass over the result is deterministic.
+    """
+    _ensure()
+    unique = sorted({(s, p) for s, p in pairs if s and p})
+    if not unique:
+        return []
+    table = state_table()
+    out: list[dict[str, Any]] = []
+    with mysql_connection() as conn, conn.cursor() as cur:
+        for start in range(0, len(unique), 200):
+            batch = unique[start : start + 200]
+            placeholders = ", ".join(["(%s, %s)"] * len(batch))
+            params: list[str] = []
+            for subject, predicate in batch:
+                params.extend((subject, predicate))
+            cur.execute(
+                f"SELECT * FROM `{table}_assertion` "
+                f"WHERE (subject_entity_id, predicate) IN ({placeholders}) "
+                "ORDER BY claim_id",
+                params,
+            )
+            out.extend(cur.fetchall())
+    return out
+
+
 def total() -> int:
     _ensure()
     table = state_table()
@@ -275,6 +313,55 @@ def counts_by_status() -> dict[str, int]:
             f"SELECT status, COUNT(*) AS n FROM `{table}_assertion` GROUP BY status"
         )
         return {r["status"]: int(r["n"]) for r in cur.fetchall()}
+
+
+def by_claim_ids(claim_ids: Sequence[str]) -> list[dict[str, Any]]:
+    """Staged claims by id, for a scoped projection pass."""
+    _ensure()
+    unique = sorted({c for c in claim_ids if c})
+    if not unique:
+        return []
+    table = state_table()
+    out: list[dict[str, Any]] = []
+    with mysql_connection() as conn, conn.cursor() as cur:
+        for start in range(0, len(unique), 500):
+            batch = unique[start : start + 500]
+            placeholders = ", ".join(["%s"] * len(batch))
+            cur.execute(
+                f"SELECT * FROM `{table}_assertion` "
+                f"WHERE claim_id IN ({placeholders}) ORDER BY claim_id",
+                batch,
+            )
+            out.extend(cur.fetchall())
+    return out
+
+
+def links_among(claim_ids: Sequence[str]) -> list[dict[str, Any]]:
+    """Links whose **both** ends are in the given set.
+
+    Both ends deliberately: a scoped projection can only create a relationship
+    between two claims it actually projected, so a link reaching a claim outside
+    the scope would match nothing and is not worth carrying.
+    """
+    _ensure()
+    unique = sorted({c for c in claim_ids if c})
+    if not unique:
+        return []
+    table = state_table()
+    out: list[dict[str, Any]] = []
+    with mysql_connection() as conn, conn.cursor() as cur:
+        for start in range(0, len(unique), 500):
+            batch = unique[start : start + 500]
+            placeholders = ", ".join(["%s"] * len(batch))
+            cur.execute(
+                f"SELECT from_claim_id, to_claim_id, kind, reason "
+                f"FROM `{table}_assertion_link` "
+                f"WHERE from_claim_id IN ({placeholders})",
+                batch,
+            )
+            out.extend(cur.fetchall())
+    wanted = set(unique)
+    return [row for row in out if row["to_claim_id"] in wanted]
 
 
 def all_staged() -> list[dict[str, Any]]:

@@ -7,14 +7,18 @@ and it is always available because nothing in the graph is a system of record.
 What is checked
 ---------------
 * every claim-eligible entity is present, and no ineligible one is;
+* **every graph entity's trust, eligibility and status match the MySQL row it
+  was derived from** — the check that a count comparison cannot make, and the
+  one that catches a demotion the projector failed to retire;
 * every projectable claim is present;
 * current-state edges exist only for claims that are still eligible for one —
   in particular **no disputed claim has a current edge**, which is the safety
   property the whole conflict layer exists to produce;
 * every current-state edge carries a ``claim_id`` that resolves to a real claim.
 
-The last two are the ones worth having: the first two would be caught by a
-recount, but a disputed claim quietly keeping an edge would not.
+The presence checks would mostly be caught by a recount. The three that earn
+their place are the state comparison, a disputed claim quietly keeping an edge,
+and an edge citing a claim that no longer exists — none of which changes a count.
 """
 from __future__ import annotations
 
@@ -67,10 +71,27 @@ RETURN r.claim_id AS claim_id LIMIT 25
 """
 
 # No provisional identity may exist in the graph at all.
+#
+# Necessary but not sufficient, and the insufficiency mattered: this reads the
+# graph's *own* copy of `claim_eligible`, so it can only catch an entity the
+# projector wrote as ineligible — which the projector never does. A demoted
+# entity keeps a stale `claim_eligible: true` and sails past. `ENTITY_STATE`
+# below is the check that compares the two stores.
 INELIGIBLE_ENTITIES = """
 MATCH (e:Entity)
 WHERE e.claim_eligible <> true
 RETURN e.entity_id AS entity_id, e.trust AS trust LIMIT 25
+"""
+
+# Every graph entity's trust and eligibility, to compare against MySQL. The
+# comparison is done in Python rather than by shipping the authoritative set
+# into Cypher: MySQL is the one that knows, and asking the graph to judge itself
+# is exactly the mistake above.
+ENTITY_STATE = """
+MATCH (e:Entity)
+RETURN e.entity_id AS entity_id, e.trust AS trust,
+       e.claim_eligible AS claim_eligible, e.status AS status,
+       e.projection_version AS projection_version
 """
 
 
@@ -206,6 +227,36 @@ def verify(*, session: Any = None, as_of: str | None = None) -> VerificationRepo
             report.problems.append(
                 f"ineligible entity {row['entity_id']} ({row['trust']}) is in the graph"
             )
+        # The authoritative comparison: every graph entity against the MySQL row
+        # it was derived from. A count match is not enough — two entities could
+        # drop out while two others appear — and a demotion changes no count at
+        # all once the projector retires properly, so this is what proves the
+        # trust model in the graph is the trust model in the catalog.
+        by_id = {e["entity_id"]: e for e in entities}
+        for row in open_session.run(ENTITY_STATE):
+            entity_id = row["entity_id"]
+            authoritative = by_id.get(entity_id)
+            if authoritative is None:
+                report.problems.append(
+                    f"entity {entity_id} is in the graph but is not projectable "
+                    "in MySQL (demoted, retracted, merged or deleted)"
+                )
+                continue
+            if row["trust"] != authoritative["trust"]:
+                report.problems.append(
+                    f"entity {entity_id} trust: MySQL says "
+                    f"{authoritative['trust']!r}, graph says {row['trust']!r}"
+                )
+            if row["claim_eligible"] is not True:
+                report.problems.append(
+                    f"entity {entity_id} claim_eligible: graph says "
+                    f"{row['claim_eligible']!r}, must be true to be projected"
+                )
+            if row["status"] != authoritative["status"]:
+                report.problems.append(
+                    f"entity {entity_id} status: MySQL says "
+                    f"{authoritative['status']!r}, graph says {row['status']!r}"
+                )
 
     if session is not None:
         _check(session)

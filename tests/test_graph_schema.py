@@ -220,10 +220,28 @@ def test_reset_closes_and_forgets_a_built_driver(monkeypatch):
     assert graph.get_graph_driver.cache_info().currsize == 0
 
 
-@pytest.mark.parametrize("flag", ["knowledge_enabled", "graph_retrieval_enabled"])
+@pytest.mark.parametrize(
+    "flag",
+    [
+        "knowledge_enabled",
+        "graph_retrieval_enabled",
+        "knowledge_process_after_index",
+    ],
+)
 def test_knowledge_flags_default_off(flag):
-    """Every new capability in this codebase launches OFF; with these false the
-    app must not open a Neo4j connection at all."""
+    """Every new capability in this codebase launches OFF.
+
+    Asserted against the **field default**, not a loaded ``Settings()``.
+    ``Settings()`` reads ``.env``, so the previous form conflated two different
+    claims — "this ships off" and "this machine has it off" — and could only
+    ever fail on a developer box that had deliberately enabled the feature.
+    It did, constantly, for anyone running the knowledge layer locally; the
+    failure carried no information and cost a diagnostic detour every run.
+
+    ``.env`` is gitignored and cannot be shipped, so the loaded value was never
+    the thing worth guarding. The shipped default is, and that is what this now
+    reads.
+    """
     from app.config import Settings
 
-    assert getattr(Settings(), flag) is False
+    assert Settings.model_fields[flag].default is False
