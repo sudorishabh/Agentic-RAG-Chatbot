@@ -61,20 +61,68 @@ def _answered(query_class="current_funding", blocks=None):
 # --------------------------------------------------------------------------- #
 
 
-def test_the_shipped_configuration_is_narrow():
-    """Routing is on, for four measured classes and nothing else.
+def test_the_shipped_configuration_enables_every_class():
+    """Routing is on, and the class list no longer narrows what may be asked.
 
-    Phase 11 turns this on deliberately, so the test records what "on" means:
-    every other class — `historical` included — still falls through to existing
-    retrieval, and the graph is never consulted for it.
+    This test used to assert the opposite — four classes and nothing else — and
+    that list turned out to be the bug. All four route to current-state
+    templates; every claim in this corpus has an end date in the past; so the
+    shipped configuration could only ever return zero rows, while `historical`,
+    the one class whose templates read the Claim nodes that hold the data, was
+    switched off.
+
+    A class is no longer what makes a question safe to answer. Safety comes from
+    the closed predicate vocabulary, the reviewed templates, the parameter
+    validation and the scope check, and all of those apply whatever class a
+    route lands in. `GRAPH_ROUTING_CLASSES` survives as a rollout switch — the
+    tests below still prove it gates — but it does not decide what the graph
+    knows.
+
+    Asserted against what the repository *ships*: the field defaults and
+    ``DEFAULT_ENABLED_CLASSES``, not a loaded ``Settings()``, which would
+    reflect a developer's gitignored ``.env``.
     """
-    from app.config import get_settings
+    from app.config import Settings
 
-    settings = get_settings()
-    assert settings.graph_routing_enabled is True
-    assert set(policy.enabled_classes(settings)) == {
-        "current_funding", "leadership", "multi_hop", "funders_of_project",
-    }
+    assert Settings.model_fields["graph_routing_enabled"].default is True
+    # Unset means the built-in default, which is now every known class.
+    assert Settings.model_fields["graph_routing_classes"].default is None
+    assert set(policy.DEFAULT_ENABLED_CLASSES) == set(policy.ALL_CLASSES)
+    assert set(policy.enabled_classes(_Settings(classes=None))) == set(
+        policy.ALL_CLASSES
+    )
+
+
+def test_history_is_routed_by_default():
+    """The inclusion that makes the graph useful on this corpus.
+
+    Its own test, so that re-narrowing the default fails here and says which
+    class went missing rather than only showing a set mismatch.
+    """
+    from app.retrieval.graph import plans
+
+    assert "historical" in policy.DEFAULT_ENABLED_CLASSES
+    assert plans.CLASS_HISTORY in policy.DEFAULT_ENABLED_CLASSES
+    assert plans.CLASS_CURRENT in policy.DEFAULT_ENABLED_CLASSES
+    assert plans.CLASS_MULTI_HOP in policy.DEFAULT_ENABLED_CLASSES
+    assert plans.CLASS_TIMELINE in policy.DEFAULT_ENABLED_CLASSES
+
+
+def test_a_new_approved_predicate_needs_no_new_routing_class():
+    """The acceptance criterion, stated as a property of the class set.
+
+    Capability classes describe the *shape* of a retrieval — one hop, two hops,
+    current, historical — never its subject matter. So there is no predicate
+    name anywhere in the class set, and a predicate added to the vocabulary
+    lands in a class that already exists and is already enabled.
+    """
+    from app.knowledge.claims import predicates as vocab
+    from app.retrieval.graph import plans
+
+    for predicate in vocab.PREDICATE_NAMES:
+        assert predicate.lower() not in {c.lower() for c in plans.CAPABILITY_CLASSES}
+    for capability in plans.CAPABILITY_CLASSES:
+        assert capability in policy.DEFAULT_ENABLED_CLASSES
 
 
 def test_the_kill_switch_stops_everything(monkeypatch):
@@ -116,21 +164,27 @@ def test_unknown_class_names_are_dropped_not_silently_honoured():
 # --------------------------------------------------------------------------- #
 
 
-def test_only_classes_with_benchmark_evidence_are_enabled_by_default():
-    assert set(policy.DEFAULT_ENABLED_CLASSES) == {
-        "current_funding", "leadership", "multi_hop", "funders_of_project",
-    }
+def test_the_legacy_class_names_survive_for_backward_compatibility():
+    """An existing deployment's `GRAPH_ROUTING_CLASSES` keeps its meaning.
+
+    The legacy names still exist and still gate exactly the hand-written
+    templates they always gated, so pinning `current_funding` narrows routing to
+    that template rather than erroring or silently widening.
+    """
+    for legacy in ("current_funding", "leadership", "multi_hop",
+                   "funders_of_project", "historical", "employment", "explain"):
+        assert legacy in policy.ALL_CLASSES
+    assert policy.class_of("projects_funded_by_org") == "current_funding"
+    assert policy.enabled_classes(
+        _Settings(classes="current_funding")
+    ) == ("current_funding",)
 
 
-def test_historical_routing_is_not_enabled_by_default():
-    """0.83 coverage on three queries is a signal, not a mandate. History stays
-    in shadow until a larger reviewed benchmark exists."""
-    assert "historical" not in policy.DEFAULT_ENABLED_CLASSES
-
-
-def test_unbenchmarked_classes_are_not_enabled_by_default():
-    assert "employment" not in policy.DEFAULT_ENABLED_CLASSES
-    assert "explain" not in policy.DEFAULT_ENABLED_CLASSES
+def test_a_class_can_still_be_narrowed_for_a_staged_rollout():
+    """The switch still switches; it is just no longer the whole vocabulary."""
+    allowed = policy.enabled_classes(_Settings(classes="relational_history"))
+    assert allowed == ("relational_history",)
+    assert "relational_current" not in allowed
 
 
 def test_every_template_has_a_class():
@@ -140,6 +194,12 @@ def test_every_template_has_a_class():
 
 
 def test_a_routed_but_disabled_class_falls_back(monkeypatch):
+    """The gate still gates, when a deployment actually narrows it.
+
+    Driven from an explicit class list rather than from the default, which no
+    longer excludes anything — the mechanism is what is under test, not which
+    classes happen to ship enabled.
+    """
     def _historical(question, *, top_k, allowed):
         assert "historical" not in allowed
         return policy.GraphAttempt(
@@ -148,8 +208,10 @@ def test_a_routed_but_disabled_class_falls_back(monkeypatch):
         )
 
     _fake_attempt(monkeypatch, _historical)
-    attempt = policy.attempt("What did DBT fund in the past?",
-                             settings=_Settings())
+    attempt = policy.attempt(
+        "What did DBT fund in the past?",
+        settings=_Settings(classes="current_funding,leadership"),
+    )
     assert attempt.outcome == policy.CLASS_DISABLED
     assert attempt.used is False and attempt.fell_back is True
 
@@ -357,7 +419,10 @@ def test_routing_shares_one_index_between_the_probe_and_the_answer(monkeypatch):
     from app.retrieval.graph import pipeline, router
 
     sentinel = object()
-    monkeypatch.setattr(policy, "entity_index", lambda: sentinel)
+    # `_attempt` reads the index through the non-blocking accessor so a cold
+    # index is built off the request path; the sharing contract this test exists
+    # for is unchanged, only the seam it is read through.
+    monkeypatch.setattr(policy, "entity_index_or_warm", lambda: sentinel)
     seen = []
 
     def _route(question, *, index=None, **kwargs):
@@ -448,7 +513,7 @@ def test_the_hook_returns_nothing_when_routing_is_off(monkeypatch):
     _enable(monkeypatch, graph_routing_enabled=False)
     called = []
     monkeypatch.setattr(policy, "attempt", lambda *a, **kw: called.append(1))
-    assert retriever._try_graph("What projects are funded by DBT?", n=5) == []
+    assert retriever.graph_blocks_for("What projects are funded by DBT?", n=5) == []
     assert called == []
 
 
@@ -462,7 +527,7 @@ def test_the_hook_returns_blocks_only_when_the_graph_answered(monkeypatch):
             policy.ANSWERED, blocks=["a", "b"], query_class="current_funding"
         ),
     )
-    assert retriever._try_graph("q", n=5) == ["a", "b"]
+    assert retriever.graph_blocks_for("q", n=5) == ["a", "b"]
 
 
 @pytest.mark.parametrize(
@@ -480,7 +545,7 @@ def test_every_non_answer_outcome_falls_back(monkeypatch, outcome):
         policy, "attempt",
         lambda *a, **kw: policy.GraphAttempt(outcome, blocks=["leaked"]),
     )
-    assert retriever._try_graph("q", n=5) == []
+    assert retriever.graph_blocks_for("q", n=5) == []
 
 
 def test_a_hook_exception_falls_back(monkeypatch):
@@ -492,7 +557,7 @@ def test_a_hook_exception_falls_back(monkeypatch):
         raise RuntimeError("policy exploded")
 
     monkeypatch.setattr(policy, "attempt", _boom)
-    assert retriever._try_graph("q", n=5) == []
+    assert retriever.graph_blocks_for("q", n=5) == []
 
 
 def test_a_pinned_scope_is_forwarded_to_the_policy_layer(monkeypatch):
@@ -511,7 +576,7 @@ def test_a_pinned_scope_is_forwarded_to_the_policy_layer(monkeypatch):
     _enable(monkeypatch)
     seen = []
     monkeypatch.setattr(
-        retriever, "_try_graph",
+        retriever, "graph_blocks_for",
         lambda q, *, n, filters=None, source_type=None: (
             seen.append((filters, source_type)) or []
         ),
@@ -529,11 +594,26 @@ def test_a_pinned_scope_is_forwarded_to_the_policy_layer(monkeypatch):
 
 
 def test_an_unscoped_query_may_use_the_graph(monkeypatch):
+    """A graph answer reaches the context.
+
+    It used to be returned *verbatim* — `retrieve` short-circuited on it — and
+    that is what this test pinned. It no longer does: a graph answer that is only
+    part of the answer used to lose the corpus entirely (see
+    `retriever._merge_graph_and_retrieval`), so both legs now run and are merged.
+    What still has to hold, and is what this asserts, is that the graph's blocks
+    are in the result and lead it.
+    """
+    from app.core.models.context import ContextBlock
     from app.retrieval import retriever
 
     _enable(monkeypatch)
+    facts = ContextBlock(n=1, text="graph facts", payload={"kind": "graph_facts"})
     monkeypatch.setattr(
-        retriever, "_try_graph",
-        lambda q, *, n, filters=None, source_type=None: ["graph"],
+        retriever, "graph_blocks_for",
+        lambda q, *, n, filters=None, source_type=None: [facts],
     )
-    assert retriever.retrieve("What projects are funded by DBT?", n=3) == ["graph"]
+    # With no corpus results the graph answer still stands alone.
+    monkeypatch.setattr(retriever, "search", lambda *a, **kw: [])
+    monkeypatch.setattr(retriever, "dual_search", lambda *a, **kw: [])
+    monkeypatch.setattr(retriever, "embed_query", lambda *a, **kw: [0.0])
+    assert retriever.retrieve("What projects are funded by DBT?", n=3) == [facts]

@@ -287,18 +287,26 @@ class Settings(BaseSettings):
     # from the graph, whatever the class list below says, and the graph package
     # is not imported on the request path. Flipping it back to false is the
     # complete rollback -- nothing else has to be undone, because existing
-    # retrieval was never replaced, only bypassed for classes with evidence.
+    # retrieval was never replaced, only bypassed where the graph can answer.
     #
-    # ON as of Phase 11, for the four measured classes only. The evidence:
-    # answer coverage 0.00 -> 1.00 against existing retrieval on those classes,
-    # routing precision 1.00 (no false routes on the 24-query benchmark),
-    # citation validity 1.00, and latency roughly halved. Every other class,
-    # `historical` included, still falls through to existing retrieval.
+    # ON as of Phase 11, and since Phase 12 for every approved predicate rather
+    # than four hand-written question shapes. Routing is now derived from the
+    # closed predicate vocabulary and each predicate's declared domain and
+    # range (app.retrieval.graph.plans), so a predicate that is approved into
+    # the vocabulary becomes queryable without a new template, route or class.
     graph_routing_enabled: bool = True
     # Query classes routing may use, comma-separated. Empty means the built-in
-    # default (see app.retrieval.graph.policy.DEFAULT_ENABLED_CLASSES).
-    # `historical` is intentionally not in that default: it stays in shadow
-    # until a larger reviewed historical benchmark exists.
+    # default, which is now *every* known class -- see the note on
+    # app.retrieval.graph.policy.DEFAULT_ENABLED_CLASSES for why the previous
+    # four-class default could only ever return zero rows on this corpus.
+    #
+    # The setting survives as a rollout switch: naming classes here still
+    # narrows routing to them, which is how a deployment stages the change or
+    # isolates one class while debugging. It is no longer the definition of
+    # what the graph knows -- that comes from the vocabulary, the reviewed
+    # templates and the parameter validation, all of which apply whatever class
+    # a route lands in. Legacy class names still gate the legacy templates, so
+    # an existing value keeps its exact meaning.
     graph_routing_classes: str | None = None
     # Wall-clock budget for a whole graph attempt. Exceeding it falls back to
     # existing retrieval; measured p95 is far below this.

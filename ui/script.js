@@ -816,8 +816,14 @@
     if (!citations.length) return;
 
     // Segregate sources by kind so web pages and PDFs read as distinct groups.
+    // The knowledge graph is its own kind: it is not a document, and the
+    // "everything that isn't a website is a PDF" split used to file it under
+    // PDFs and label the chip with the literal string "pdf_attachment".
+    const graph = citations.filter((c) => c.type === "knowledge_graph");
     const webPages = citations.filter((c) => c.type === "website");
-    const pdfs = citations.filter((c) => c.type !== "website");
+    const pdfs = citations.filter(
+      (c) => c.type !== "website" && c.type !== "knowledge_graph",
+    );
 
     // A self-contained reference block pinned to the bottom of the answer.
     const section = document.createElement("div");
@@ -828,6 +834,7 @@
     // title.textContent = "Sources";
     // section.appendChild(title);
 
+    renderSourceGroup(section, "Knowledge graph", graph);
     renderSourceGroup(section, "Web pages", webPages);
     renderSourceGroup(section, "PDFs", pdfs);
     bubble.appendChild(section);

@@ -683,27 +683,57 @@ class _Decision:
         self.decision = "AUTO"
 
 
-def _routes_as(monkeypatch, resolved, ambiguous=()):
+def _routes_as(monkeypatch, resolved, ambiguous=(), spans=(), resolved_spans=None):
+    """Stub resolution. `spans` is every mention (what masking blanks);
+    `resolved_spans` is index-aligned with `resolved` and says where each anchor
+    sits, which is what the two-hop chain is ordered by.
+
+    Defaulting each anchor to offset 0 makes `_nearest_first` order the
+    predicates by cue offset ascending — the question's own word order, which is
+    what these tests asserted before the anchor position was available."""
+    anchored = (
+        list(resolved_spans) if resolved_spans is not None
+        else [(0, 0)] * len(resolved)
+    )
     monkeypatch.setattr(
-        router, "_resolve_entities", lambda q, index: (resolved, list(ambiguous))
+        router, "_resolve_entities",
+        lambda q, index: (resolved, list(ambiguous), list(spans), anchored),
     )
 
 
 @pytest.mark.parametrize(
-    "question,expected",
+    "question,predicate,template_id",
     [
+        # Two relationships named, so the chain between them is the question.
         ("Who leads projects funded by the Department of Biotechnology?",
-         "people_leading_projects_funded_by_org"),
-        ("What projects are funded by DBT?", "projects_funded_by_org"),
-        ("Which programmes has DBT sponsored?", "projects_funded_by_org"),
+         "FUNDED_BY", "relationship_two_hop"),
+        ("What projects are funded by DBT?",
+         "FUNDED_BY", "relationship_by_object"),
+        ("Which programmes has DBT sponsored?",
+         "FUNDED_BY", "relationship_by_object"),
+        # A predicate that had no route at all before: no template named it, so
+        # the claims the graph held for it were unreachable from any question.
+        ("Who has DBT partnered with?", "PARTNER_OF", "relationship_by_object"),
     ],
 )
-def test_relational_questions_route_to_a_template(monkeypatch, question, expected):
+def test_relational_questions_route_to_a_template(
+    monkeypatch, question, predicate, template_id
+):
+    """Routing is by predicate now, not by memorised question shape.
+
+    The template ids changed with the architecture: a question that names no
+    period is answered from Claim nodes rather than from current-state edges,
+    because the edges deliberately hold only what is true *now* and the question
+    did not ask about now. What the caller gets is unchanged in kind — the same
+    rows, the same claim ids, the same evidence — and each row now carries the
+    validity window that says which it is.
+    """
     _routes_as(monkeypatch, [_Decision(ORG, "ORGANIZATION", "DBT")])
     outcome = router.route(question)
     assert outcome.routed
-    assert outcome.route.template_id == expected
-    assert outcome.route.parameters == {"entity_id": ORG}
+    assert outcome.route.template_id == template_id
+    assert outcome.route.parameters["entity_id"] == ORG
+    assert outcome.route.parameters["predicate"] == predicate
 
 
 def test_a_historical_question_routes_to_a_historical_template(monkeypatch):
@@ -714,10 +744,38 @@ def test_a_historical_question_routes_to_a_historical_template(monkeypatch):
     assert outcome.route.is_historical
 
 
-def test_a_present_tense_question_routes_to_a_current_template(monkeypatch):
+def test_an_explicitly_current_question_routes_to_a_current_template(monkeypatch):
+    """Only an explicit statement of currency asks for current state.
+
+    This test used to accept the present tense — "what projects *are* funded by
+    DBT" — as meaning "now", and route to a current-state template. That reading
+    is what made the graph useless on this corpus: every claim in it has an end
+    date in the past, so the most natural phrasing of a funding question was
+    answered "nothing is known" by a graph that holds 839 funding relationships.
+
+    The present tense is now read as unspecified (see the test below). A
+    question that actually says "currently" still gets current state, and still
+    gets it from the cheap derived edges.
+    """
     _routes_as(monkeypatch, [_Decision(ORG, "ORGANIZATION", "DBT")])
-    outcome = router.route("What projects are funded by DBT?")
+    outcome = router.route("What projects are currently funded by DBT?")
     assert outcome.route.mode == reg.MODE_CURRENT
+    assert outcome.route.template_id == "projects_funded_by_org"
+
+
+def test_an_unspecified_question_filters_by_no_window_at_all(monkeypatch):
+    """The safest reading of a question that states no period.
+
+    Neither "now" (which would hide every ended relationship, i.e. all of them)
+    nor "the past" (which would hide an ongoing one). No temporal filter is
+    applied, results come back newest-first, and every row carries its own
+    validity window so the answer can say which relationships have ended.
+    """
+    _routes_as(monkeypatch, [_Decision(ORG, "ORGANIZATION", "DBT")])
+    outcome = router.route("Which projects has DBT funded?")
+    assert outcome.route.parameters["window_start"] is None
+    assert outcome.route.parameters["window_end"] is None
+    assert outcome.route.parameters["current_only"] is False
 
 
 def test_a_question_naming_nobody_does_not_route(monkeypatch):
@@ -751,15 +809,37 @@ def test_an_empty_question_does_not_route(question):
     assert not router.route(question).routed
 
 
-def test_the_entity_type_selects_the_template(monkeypatch):
-    """The same question shape means different things for a project and an org."""
+def test_the_entity_type_selects_the_direction(monkeypatch):
+    """The same question shape means different things for a project and an org.
+
+    It always did; what has changed is that the direction is now *derived* from
+    the predicate's declared domain and range rather than looked up in a table
+    of question shapes. `FUNDED_BY` runs PROJECT -> ORGANIZATION, so a project
+    anchors the subject end and an organization the object end, and one pair of
+    templates serves both readings.
+    """
     _routes_as(monkeypatch, [_Decision(PROJECT, "PROJECT", "Some Project")])
     outcome = router.route("Who funded Some Project?")
-    assert outcome.route.template_id == "funders_of_project"
+    assert outcome.route.template_id == "relationship_by_subject"
+    assert outcome.route.parameters["predicate"] == "FUNDED_BY"
 
     _routes_as(monkeypatch, [_Decision(ORG, "ORGANIZATION", "DBT")])
     outcome = router.route("What has DBT funded?")
-    assert outcome.route.template_id == "projects_funded_by_org"
+    assert outcome.route.template_id == "relationship_by_object"
+    assert outcome.route.parameters["predicate"] == "FUNDED_BY"
+
+
+def test_an_entity_type_the_predicate_forbids_does_not_route(monkeypatch):
+    """The claim type system governs questions as well as assertions.
+
+    `FUNDED_BY` joins PROJECT to ORGANIZATION and nothing else, so there is no
+    direction in which a person could anchor it. Declining is right: such a
+    query could only ever return nothing, and existing retrieval may well find
+    the answer in prose.
+    """
+    _routes_as(monkeypatch, [_Decision(PERSON, "PERSON", "A Person")])
+    outcome = router.route("Who funded A Person?")
+    assert not outcome.routed
 
 
 def test_every_routable_template_id_exists_in_the_registry():
@@ -778,11 +858,17 @@ def test_every_routable_template_id_exists_in_the_registry():
 
 
 def test_graph_retrieval_is_disabled_by_default():
-    from app.config import get_settings
+    """Both flags ship off.
 
-    settings = get_settings()
-    assert settings.graph_retrieval_enabled is False
-    assert settings.knowledge_enabled is False
+    Read from the field defaults rather than a loaded ``Settings()``: the
+    latter reflects the local ``.env``, which is gitignored and therefore never
+    the thing being guarded. See the same argument in
+    tests/test_graph_schema.py::test_knowledge_flags_default_off.
+    """
+    from app.config import Settings
+
+    assert Settings.model_fields["graph_retrieval_enabled"].default is False
+    assert Settings.model_fields["knowledge_enabled"].default is False
 
 
 def test_importing_production_retrieval_does_not_load_the_graph_package():
@@ -856,10 +942,12 @@ def test_live_graph_smoke():
         for template_id in reg.TEMPLATE_IDS:
             template = reg.TEMPLATES[template_id]
             params = {"entity_id": ORG, "claim_id": "claim_none",
-                      "predicate": "LED_BY", "as_of": "2020-01-01"}
+                      "predicate": "LED_BY", "predicate2": "FUNDED_BY",
+                      "as_of": "2020-01-01", "current_only": False,
+                      "window_start": None, "window_end": None}
             result = traverse.run_template(
                 template_id,
-                {k: params[k] for k in template.parameters},
+                {k: params[k] for k in template.all_parameters},
                 limit=5, session=session,
             )
             assert result.error is None, f"{template_id}: {result.error}"

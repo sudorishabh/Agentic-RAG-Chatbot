@@ -44,7 +44,24 @@ MAX_CHARS = 8000
 
 
 def _validity(row: dict[str, Any]) -> str:
-    """A human phrase for the validity window, or '' when unbounded."""
+    """A human phrase for the validity window. Never empty.
+
+    An undated claim used to render as a bare sentence, and every phrase in
+    ``_PREDICATE_PHRASES`` is present tense ("is funded by", "is a partner of"),
+    so the line asserted a present fact about a relationship whose dates are
+    simply unknown. Measured on the live corpus: "Who are the partners of
+    Framework for mainstreaming eco-housing in Pune?" produced "The Framework
+    ... **is a partner of** TERI" from a claim carrying no dates at all.
+
+    The prompt already carries a rule for this case, but a rule that has to
+    correct the context is weaker than a context that does not need correcting —
+    and here the absence of a parenthetical was the only signal, which is the
+    easiest kind for a model to read past. So the line now states the absence
+    instead of expressing it by omission.
+
+    Every claim in this corpus with no window has ``temporal_basis='unknown'``
+    (9 of 1,143), which is exactly the set that is never current-state eligible.
+    """
     start, end = row.get("valid_from"), row.get("valid_until")
     start = str(start)[:10] if start else None
     end = str(end)[:10] if end else None
@@ -54,7 +71,7 @@ def _validity(row: dict[str, Any]) -> str:
         return f" (until {end})"
     if start:
         return f" (since {start})"
-    return ""
+    return " (no recorded dates)"
 
 
 def _status(row: dict[str, Any]) -> str:
@@ -69,16 +86,39 @@ def _status(row: dict[str, Any]) -> str:
     return f" [{status}]"
 
 
+# Readable form of each approved predicate, in its canonical direction
+# (subject first). A predicate with no phrase here still renders, as "is related
+# to" — a missing phrase costs prose quality, never correctness, so an approved
+# predicate is never unrenderable.
+_PREDICATE_PHRASES = {
+    "FUNDED_BY": "is funded by",
+    "LED_BY": "is led by",
+    "WORKS_AT": "works at",
+    "MEMBER_OF": "is a member of",
+    "PARTNER_OF": "is a partner of",
+    "PARENT_OF": "is the parent of",
+    "HAS_ROLE": "has the role",
+}
+
+
 def _predicate_phrase(predicate: str | None) -> str:
-    return {
-        "FUNDED_BY": "is funded by",
-        "LED_BY": "is led by",
-        "WORKS_AT": "works at",
-        "MEMBER_OF": "is a member of",
-        "PARTNER_OF": "is a partner of",
-        "PARENT_OF": "is the parent of",
-        "HAS_ROLE": "has the role",
-    }.get(predicate or "", "is related to")
+    return _PREDICATE_PHRASES.get(predicate or "", "is related to")
+
+
+def _leg(subject: str | None, predicate: str | None, obj: str | None,
+         *, subject_first: bool) -> str | None:
+    """One relationship of a chain, written the way round the row says it runs.
+
+    ``subject_first`` comes from the graph, not from a guess: the two-hop
+    template matches direction-agnostically (the useful chains run both ways
+    through the middle entity) and returns which end each claim's subject sat
+    at. Rendering without it would turn "Alok Adholeya works at TERI" into
+    "TERI works at Alok Adholeya" on half the rows.
+    """
+    if not subject or not obj:
+        return None
+    left, right = (subject, obj) if subject_first else (obj, subject)
+    return f"{left} {_predicate_phrase(predicate)} {right}"
 
 
 def _line(row: dict[str, Any]) -> str | None:
@@ -87,6 +127,26 @@ def _line(row: dict[str, Any]) -> str | None:
     Driven by the row's shape rather than by a per-template formatter, so a
     template added to the registry renders without another branch here.
     """
+    # A two-hop row: two relationships sharing a middle entity. Rendered as
+    # both legs so the chain the traversal actually walked is visible, rather
+    # than only its far end with the connection left implicit.
+    if row.get("mid_name") and row.get("far_name"):
+        first = _leg(
+            row.get("anchor_name"), row.get("via_predicate"), row.get("mid_name"),
+            subject_first=bool(row.get("anchor_is_subject")),
+        )
+        second = _leg(
+            row.get("mid_name"), row.get("predicate"), row.get("far_name"),
+            subject_first=bool(row.get("mid_is_subject")),
+        )
+        if first and second:
+            claim_id = row.get("claim_id")
+            citation = f" [{claim_id}]" if claim_id else ""
+            return (
+                f"- {first}; {second}"
+                f"{_validity(row)}{_status(row)}{citation}"
+            )
+
     person = row.get("person_name")
     project = row.get("project_name")
     funder = row.get("funder_name")
@@ -116,6 +176,33 @@ def _line(row: dict[str, Any]) -> str | None:
     return f"- {text}{_validity(row)}{_status(row)}{citation}"
 
 
+def _temporal_heading(result: Any, route: Any = None) -> str:
+    """How the heading should frame the period these rows cover.
+
+    The single most important line of prose the graph produces, because it is
+    what stops an ended relationship being read as a present one. A current
+    query says so; a windowed query names its window; an unwindowed one says
+    the rows include the past. Nothing is left to be inferred from the rows.
+    """
+    plan = getattr(route, "plan", None)
+    temporal = getattr(plan, "temporal", None)
+    kind = getattr(temporal, "kind", None)
+    start = getattr(temporal, "window_start", None)
+    end = getattr(temporal, "window_end", None)
+
+    if result.mode == "current" or kind == "current":
+        return " (as currently recorded)"
+    if kind in ("as_of", "range") and (start or end):
+        if start and end:
+            return f" (valid at some point between {start} and {end})"
+        if start:
+            return f" (valid at some point from {start} onward)"
+        return f" (valid at some point before {end})"
+    if result.mode == "historical":
+        return " (including past relationships — read each validity window)"
+    return ""
+
+
 def render(result: Any, route: Any = None) -> str | None:
     """The facts block, or None when there is nothing to state."""
     if result is None or not result.rows:
@@ -141,15 +228,25 @@ def render(result: Any, route: Any = None) -> str | None:
     heading = "Verified relationships recorded in the knowledge graph"
     if subject:
         heading += f" for {subject}"
-    if result.mode == "historical":
-        heading += " (including past relationships)"
+    heading += _temporal_heading(result, route)
 
-    remaining = len(result.rows) - len(lines)
-    footer = ""
+    # The total, always stated, because a question can be about the count itself
+    # and a model asked to count a long list gets it wrong. Measured: "How many
+    # projects did the Department of Biotechnology fund?" over a 40-row block
+    # produced "a total of 56 projects". The traversal knows the number; saying it
+    # is cheaper and more reliable than having the answer derive it.
+    total = len(result.rows)
+    plural = "s" if total != 1 else ""
+    remaining = total - len(lines)
     if remaining > 0:
-        footer = f"\n(+{remaining} further records not shown)"
+        footer = (f"\n({total} record{plural} in total; {len(lines)} shown, "
+                  f"{remaining} further record{'s' if remaining != 1 else ''} "
+                  "not shown)")
     elif result.truncated:
-        footer = "\n(more records exist than were retrieved)"
+        footer = (f"\n({total} record{plural} shown; more records exist than "
+                  "were retrieved)")
+    else:
+        footer = f"\n({total} record{plural} in total)"
 
     return f"{heading}:\n" + "\n".join(lines) + footer
 

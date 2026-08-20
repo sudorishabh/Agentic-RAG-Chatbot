@@ -1,9 +1,6 @@
 """Which questions production may answer from the graph, and what happens next.
 
-The decision layer between `retriever.retrieve` and the graph. Phase 10 measured
-graph retrieval class by class; this module encodes the classes that earned
-routing and refuses the rest, so enabling a class is a deliberate edit rather
-than a side effect of adding a template.
+The decision layer between `retriever.retrieve` and the graph.
 
     query -> route -> class enabled? -> traverse -> useful? -> graph context
                  |             |                        |
@@ -12,8 +9,24 @@ than a side effect of adding a template.
                  +-- not graph-shaped ----------------------------------> fallback
 
 Every path that is not "useful result" ends at existing retrieval, which stays
-authoritative. The graph is an accelerator for a narrow, measured set of
-questions, not a replacement for anything.
+authoritative. The graph is an accelerator, not a replacement for anything.
+
+What the class gate is, and is not
+----------------------------------
+Phase 10 measured graph retrieval class by class, and this module encoded the
+four classes that had earned routing. That list then became the ceiling on what
+the graph could answer at all — and, because all four read current-state edges
+of which this corpus has none, the ceiling was zero.
+
+The gate remains, because staging a rollout and isolating a class while
+debugging are both worth having. What changed is what it gates: a *capability*
+(one hop, two hops, current, historical) rather than a subject matter. So a
+predicate approved into the vocabulary lands in a class that already exists and
+is already enabled, and nothing has to be added to anyone's configuration for
+its claims to become reachable. Safety is not the gate's job and never was — it
+comes from the closed vocabulary, the reviewed templates, the parameter
+validation and the scope check, every one of which applies whatever class a
+route lands in.
 
 Zero results and failure are different things
 ---------------------------------------------
@@ -37,13 +50,21 @@ from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeout
 from dataclasses import dataclass, field
 from typing import Any
 
+from app.retrieval.graph import plans
+
 logger = logging.getLogger(__name__)
 
 METRIC_FAMILY = "graph_routing"
 
-# Template -> query class. The class is the unit routing is enabled by, because
-# it is the unit Phase 10 measured; a template with no class cannot be routed to
-# at all.
+# Template -> query class, for the **legacy** hand-written templates. Kept
+# verbatim so a deployment that pins `GRAPH_ROUTING_CLASSES=current_funding`
+# still gates exactly the templates it always gated.
+#
+# It is no longer the definition of what the graph can answer. A schema-derived
+# plan carries its own capability class (see `app.retrieval.graph.plans`), and
+# this table is consulted only when a route did not come from one. The new
+# generic templates appear here too, mapped to the class their plans use, so
+# that every registry entry still has a class and none is reachable by accident.
 TEMPLATE_CLASSES: dict[str, str] = {
     "projects_funded_by_org": "current_funding",
     "people_leading_projects_funded_by_org": "multi_hop",
@@ -56,20 +77,43 @@ TEMPLATE_CLASSES: dict[str, str] = {
     "org_funding_history": "historical",
     "claims_as_of": "historical",
     "explain_claim": "explain",
+    "relationship_by_subject": plans.CLASS_HISTORY,
+    "relationship_by_object": plans.CLASS_HISTORY,
+    "relationship_two_hop": plans.CLASS_MULTI_HOP,
+    "entity_timeline": plans.CLASS_TIMELINE,
 }
 
-# Classes with benchmark evidence behind them. `historical` is deliberately
-# absent: 0.83 coverage on three queries is a promising signal, not a mandate,
-# and it stays in shadow until a larger reviewed historical set exists.
-# `employment` and `explain` have never been benchmarked at all.
-DEFAULT_ENABLED_CLASSES = (
-    "current_funding",
-    "leadership",
-    "multi_hop",
-    "funders_of_project",
+LEGACY_CLASSES: tuple[str, ...] = tuple(
+    sorted(
+        {
+            name for template, name in TEMPLATE_CLASSES.items()
+            if name not in plans.CAPABILITY_CLASSES
+        }
+    )
 )
 
-ALL_CLASSES = tuple(sorted(set(TEMPLATE_CLASSES.values())))
+# What routing may use when nothing is configured.
+#
+# Previously four classes, chosen because they were the four Phase 10 had
+# benchmarked. That list turned out to be the thing standing between the graph
+# and every question it could answer: all four route to current-state templates,
+# and every claim in this corpus ended before 2020, so the shipped configuration
+# could only ever return zero rows. Meanwhile `historical` — the one class whose
+# templates read the Claim nodes that actually hold the data — was switched off.
+#
+# The default is now every class, because the *class* is no longer what makes a
+# question safe to answer. Safety comes from the closed vocabulary, the reviewed
+# templates, the parameter validation and the scope check, all of which apply
+# whatever class a route lands in. `GRAPH_ROUTING_CLASSES` keeps working as an
+# allow-list for a staged rollout or for isolating a class while debugging; it
+# simply no longer decides which predicates exist.
+DEFAULT_ENABLED_CLASSES: tuple[str, ...] = tuple(
+    sorted(set(TEMPLATE_CLASSES.values()) | set(plans.CAPABILITY_CLASSES))
+)
+
+ALL_CLASSES = tuple(
+    sorted(set(TEMPLATE_CLASSES.values()) | set(plans.CAPABILITY_CLASSES))
+)
 
 # Wall-clock budget for the whole attempt — route, traverse, hydrate, context.
 # Measured p95 is well under 500 ms; this exists so a pathological graph costs a
@@ -102,6 +146,7 @@ _circuit_open_until = 0.0
 _index_lock = __import__("threading").Lock()
 _index: Any = None
 _index_loaded_at = 0.0
+_index_warming = False
 
 
 # Outcomes. Each is a distinct operational story, so each is counted apart.
@@ -115,15 +160,21 @@ FAILED = "failed"                  # graph error
 TIMED_OUT = "timed_out"            # graph exceeded its budget
 CIRCUIT_OPEN = "circuit_open"      # skipped: the graph is failing, don't wait
 SCOPE_UNSUPPORTED = "scope_unsupported"  # query is scoped in a way no template honours
+INDEX_WARMING = "index_warming"    # the entity index is still being built; declined fast
 
 # Outcomes that mean "the graph could not answer", as opposed to "the graph
 # answered that there is nothing". Only these trip the breaker: a zero result is
 # the graph working correctly.
+#
+# `INDEX_WARMING` is deliberately absent. It is the graph declining on purpose
+# while a one-time cache builds, and counting it as a failure is precisely the bug
+# it was introduced to fix: three of them in a row would open the breaker and stop
+# the warm-up ever being used.
 BREAKING_OUTCOMES = frozenset({FAILED, TIMED_OUT})
 
 FALLBACK_OUTCOMES = frozenset(
     {DISABLED, NOT_ROUTED, CLASS_DISABLED, ZERO_RESULT, NO_EVIDENCE,
-     FAILED, TIMED_OUT, CIRCUIT_OPEN, SCOPE_UNSUPPORTED}
+     FAILED, TIMED_OUT, CIRCUIT_OPEN, SCOPE_UNSUPPORTED, INDEX_WARMING}
 )
 
 
@@ -205,8 +256,23 @@ def class_of(template_id: str | None) -> str | None:
     return TEMPLATE_CLASSES.get(template_id or "")
 
 
+def class_of_route(route: Any) -> str | None:
+    """The class a route is gated by.
+
+    A schema-derived plan states its own capability class; a legacy pattern
+    route has none and is looked up by template id. Both go through here so the
+    gate has one definition and neither path can drift from it.
+    """
+    return getattr(route, "query_class", "") or class_of(
+        getattr(route, "template_id", None)
+    )
+
+
 def entity_index() -> Any:
-    """The entity index for the read path, rebuilt at most once per TTL."""
+    """The entity index for the read path, rebuilt at most once per TTL.
+
+    Blocking. Callers on the request path want :func:`entity_index_or_warm`.
+    """
     global _index, _index_loaded_at
     with _index_lock:
         if _index is not None and time.monotonic() - _index_loaded_at < INDEX_TTL_SECONDS:
@@ -222,12 +288,78 @@ def entity_index() -> Any:
     return loaded
 
 
+def _fresh_index() -> Any:
+    """The cached index if it is still within its TTL, else None. Never loads."""
+    with _index_lock:
+        if _index is not None and time.monotonic() - _index_loaded_at < INDEX_TTL_SECONDS:
+            return _index
+    return None
+
+
+def entity_index_or_warm() -> Any:
+    """The index if it is ready; otherwise start building it and return None.
+
+    This exists because the blocking version could never finish inside a request.
+    Measured on this corpus: ``EntityIndex.load()`` takes about 7 seconds cold and
+    0 ms warm, while the routing budget is 3 seconds. Every first attempt
+    therefore timed out *inside the load*, and because ``TIMED_OUT`` trips the
+    breaker, three of them shut routing off — so the load never completed, the
+    cache never populated, and the graph contributed to 0 of 86 benchmark
+    questions. A cold cache whose build cost exceeds the budget that guards it can
+    never warm up.
+
+    Raising the budget to cover a 7-second load would have made every user wait
+    for it. Instead the load moves off the request path entirely: the first caller
+    starts it on the graph executor and gets None, callers during the build get
+    None immediately, and once it lands every later query routes at the warm cost
+    (~0.3s to route, ~1.6s to answer) well inside the budget.
+
+    Returning None is a *decline*, not a failure — see ``INDEX_WARMING``.
+    """
+    global _index_warming
+    ready = _fresh_index()
+    if ready is not None:
+        return ready
+    with _index_lock:
+        if _index_warming:
+            return None
+        _index_warming = True
+
+    def _warm() -> None:
+        global _index_warming
+        try:
+            entity_index()
+            logger.info("Graph entity index warmed; routing is live.")
+        except Exception:
+            logger.warning("Graph entity index warm-up failed.", exc_info=True)
+        finally:
+            with _index_lock:
+                _index_warming = False
+
+    try:
+        _executor_for_graph().submit(_warm)
+    except Exception:  # pragma: no cover - defence in depth
+        with _index_lock:
+            _index_warming = False
+        logger.warning("Could not schedule graph index warm-up.", exc_info=True)
+    return None
+
+
+def prewarm_entity_index() -> None:
+    """Kick off the index build without waiting for a first question.
+
+    Safe to call from a startup hook or a health probe; a no-op once warm.
+    """
+    entity_index_or_warm()
+
+
 def reset_index_cache() -> None:
     """Force the next query to reload the index. For tests and after a reprojection."""
-    global _index, _index_loaded_at
+    global _index, _index_loaded_at, _index_warming
     with _index_lock:
         _index = None
         _index_loaded_at = 0.0
+        _index_warming = False
 
 
 def circuit_is_open() -> bool:
@@ -282,14 +414,22 @@ def _attempt(question: str, *, top_k: int | None, allowed: tuple[str, ...]) -> G
 
     # One index, shared by the routing probe and the answer below. Loading it
     # twice per query was the whole of the routing overhead.
-    index = entity_index()
+    #
+    # Non-blocking: a cold index is built off the request path and this attempt
+    # declines instead of waiting (see `entity_index_or_warm`). Declining costs
+    # the caller nothing and does not trip the breaker, so the warm-up survives.
+    index = entity_index_or_warm()
+    if index is None:
+        return GraphAttempt(
+            INDEX_WARMING, reason="entity index is warming; skipped this query"
+        )
 
     outcome = router.route(question, index=index)
     if not outcome.routed:
         return GraphAttempt(NOT_ROUTED, reason=outcome.reason)
 
     route = outcome.route
-    query_class = class_of(route.template_id)
+    query_class = class_of_route(route)
     if query_class not in allowed:
         # Routed, but to a class without evidence behind it. Shadow mode still
         # observes these; production does not answer from them.

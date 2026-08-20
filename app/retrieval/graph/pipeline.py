@@ -129,7 +129,11 @@ def answer(
         effective_limit = HISTORICAL_LIMIT
 
     result = traverse.run_template(
-        outcome.route.template_id, outcome.route.parameters, limit=effective_limit
+        outcome.route.template_id, outcome.route.parameters,
+        limit=effective_limit,
+        # The route knows which question was asked; the template only knows
+        # where it reads from. See `traverse.run_template`.
+        mode=outcome.route.mode,
     )
     mark = _mark("neo4j", mark)
     out.result = result

@@ -16,18 +16,43 @@ registry rather than by inspection:
 * **labels and relationship types are literals in reviewed text**, never built
   from input.
 
+One template per predicate, or one per shape
+--------------------------------------------
+This registry began with one template per *question*, which meant a predicate
+was queryable only if someone had written Cypher for it — and three of the seven
+approved predicates had none. The second family below fixes that by
+parameterizing the predicate: ``c.predicate = $predicate`` is a bound **value**,
+so one reviewed query serves every approved predicate, present and future.
+
+That is safe precisely because a predicate never becomes an *identifier*. A
+relationship type would have to be interpolated into the query text; a property
+value is bound like any other parameter, and ``validate_parameters`` checks it
+against the closed vocabulary first, so an unapproved predicate cannot even be
+probed for.
+
 Current versus historical
 -------------------------
 The distinction is not cosmetic; it decides which part of the graph is read.
 
-``current``     traverses the **derived current-state edges** (``{current: true}``).
-                Those exist only for claims that are active, non-disputed and
-                valid now, so a disputed claim cannot appear as a present fact.
-                Cheap: the four-hop question is four hops.
+``current``     the present state. Traverses the **derived current-state edges**
+                (``{current: true}``) where a template for that predicate and
+                direction exists — cheap, and the graph's own statement of what
+                is true now. Where none exists, the claim-based template applies
+                the identical rule (see ``_current_clause``): active status, an
+                approved validity basis, and a window open at the moment asked
+                about. Either way a claim that has ended cannot come back.
 ``historical``  traverses **Claim nodes** and their validity windows. Superseded
                 claims are included — they are the answer to "who led this in
                 2019" — and each row carries ``status`` so a caller can present a
                 disputed claim as disputed rather than as fact.
+
+No lower bound on age
+---------------------
+Nothing here compares a claim against the present. There is no ``date()`` or
+``datetime()`` in any template, no minimum year, and no test of a document's
+age: a relationship that ran 1996-1999 is retrieved on exactly the same terms as
+one that started last year. Temporal validity decides whether something is
+*current*, never whether it can be *found*.
 
 Results carry identifiers, never text: ``claim_id``, ``chunk_id``,
 ``document_id``, ``entity_id``. Source text is hydrated from Qdrant afterwards,
@@ -68,10 +93,21 @@ class QueryTemplate:
     cypher: str
     # Documented for review and asserted by tests; the bound is in the Cypher.
     max_hops: int
+    # Parameters the caller *may* supply and which may be ``None``. Used only
+    # for the temporal bounds of the predicate-parameterized templates, where
+    # "no bound on this side" is a meaningful value rather than a missing one:
+    # `NULL` is bound and the Cypher tests for it. They are still validated —
+    # a non-null value must still be a well-formed ISO date — so "optional"
+    # means "may be absent", never "unchecked".
+    optional_parameters: tuple[str, ...] = ()
 
     @property
     def is_current(self) -> bool:
         return self.mode == MODE_CURRENT
+
+    @property
+    def all_parameters(self) -> tuple[str, ...]:
+        return self.parameters + self.optional_parameters
 
 
 # --------------------------------------------------------------------------- #
@@ -212,7 +248,7 @@ RETURN c.claim_id       AS claim_id,
        c.valid_until    AS valid_until,
        c.temporal_basis AS temporal_basis,
        c.confidence     AS confidence,
-       c.object_literal AS object_literal,
+       properties(c).object_literal AS object_literal,
        p.entity_id      AS subject_id,
        p.canonical_name AS subject_name,
        other.entity_id      AS object_id,
@@ -319,9 +355,259 @@ LIMIT $limit
 """
 
 
+# --------------------------------------------------------------------------- #
+# Predicate-parameterized templates — one query per *shape*, not per predicate
+#
+# The registry above has one template per question, which is why six approved
+# predicates had four routes between them and three (PARTNER_OF, PARENT_OF,
+# HAS_ROLE) had none at all. These templates close that gap without opening the
+# one the registry exists to keep shut.
+#
+# The move that makes it safe: a predicate travels as a **property value**, not
+# as a relationship type. `c.predicate = $predicate` is a bound parameter, so
+# one reviewed query serves every approved predicate and no new Cypher is
+# written when the vocabulary grows. `validate_parameters` still checks the
+# value against the closed vocabulary before it is bound, so an unapproved
+# predicate cannot even be probed for. There is still no path by which a label
+# or a relationship type is built from input — the only identifiers in this
+# Cypher are `Claim`, `Entity`, `Document`, `Chunk`, `SUBJECT`, `OBJECT` and
+# `SUPPORTED_BY`, all literal in reviewed text.
+#
+# Composition, not duplication
+# ----------------------------
+# The temporal and current-state clauses are identical across the shapes, so
+# they are assembled from module-level fragments rather than copied. The
+# fragments are called only with the literal variable names below, at import
+# time; nothing runtime-supplied reaches them, and the resulting Cypher is fixed
+# for the life of the process. Tests assert the assembled text, so what is
+# reviewed is what runs.
+# --------------------------------------------------------------------------- #
+
+
+def _overlap(var: str) -> str:
+    """The interval-overlap clause for a claim bound to ``var``.
+
+    Half-open on both sides, matching ``app.knowledge.claims.temporal.overlaps``
+    exactly, so "valid during" means the same thing at query time as it does in
+    conflict detection.
+
+    Two properties are worth stating because both were requirements:
+
+    * **No minimum date.** An absent ``window_start`` and ``window_end`` impose
+      no filter, and no bound anywhere below compares a claim's dates against
+      "now", a document's age, or any floor. A relationship that ran 1996-1999
+      is as retrievable as one that started last year.
+    * **An unknown window matches nothing.** A claim with neither a start nor an
+      end is not evidence about any particular time, so it is excluded whenever
+      a window is asked for — rather than being treated as spanning all of it.
+      With no window asked for it is returned like anything else.
+    """
+    return f"""
+  AND (
+        ($window_start IS NULL AND $window_end IS NULL)
+        OR (
+             ({var}.valid_from IS NOT NULL OR {var}.valid_until IS NOT NULL)
+             AND ($window_end   IS NULL OR {var}.valid_from  IS NULL
+                  OR {var}.valid_from  <  $window_end)
+             AND ($window_start IS NULL OR {var}.valid_until IS NULL
+                  OR {var}.valid_until >  $window_start)
+           )
+      )"""
+
+
+def _current_clause(var: str) -> str:
+    """The extra conditions a claim must meet to be asserted as *present* fact.
+
+    Mirrors ``app.knowledge.claims.conflicts.is_current_state_eligible`` term
+    for term — active status, an approved validity basis, a window open at the
+    moment asked about — which is the same rule the projector applies when it
+    derives a current-state edge. Stating it here rather than only traversing
+    the derived edges means a current-state question is answered from the claims
+    themselves, so it cannot silently return nothing merely because a projection
+    has not been re-run. The *semantics* of "current" are unchanged; only where
+    they are evaluated is.
+
+    The window test lives in ``_overlap``: a current query passes
+    ``[today, tomorrow)`` as its window, so "open now" and "overlaps today" are
+    one condition rather than two that could drift apart.
+
+    ``$current_bases`` is filled by ``validate_parameters`` from
+    ``claim_types.CURRENT_STATE_BASES``; a caller cannot widen it.
+    """
+    return f"""
+  AND (NOT $current_only
+       OR ({var}.status = 'active' AND {var}.temporal_basis IN $current_bases))"""
+
+
+_EVIDENCE = """
+OPTIONAL MATCH (c)-[:SUPPORTED_BY]->(doc:Document)
+OPTIONAL MATCH (c)-[:SUPPORTED_BY]->(ch:Chunk)"""
+
+_CLAIM_COLUMNS = """
+       c.claim_id       AS claim_id,
+       c.predicate      AS predicate,
+       c.status         AS status,
+       c.valid_from     AS valid_from,
+       c.valid_until    AS valid_until,
+       c.temporal_basis AS temporal_basis,
+       c.confidence     AS confidence,
+       properties(c).object_literal AS object_literal,
+       ch.chunk_id      AS chunk_id,
+       coalesce(doc.document_id, c.document_id) AS document_id"""
+
+# Why `properties(c).object_literal` and not `c.object_literal`
+# -----------------------------------------------------------
+# Both return null when the property is absent, but the direct form makes Neo4j
+# emit `UnknownPropertyKeyWarning` on every routed query in this corpus. The key
+# genuinely does not exist in the database: every one of the 1,374 projected
+# claims has an *entity* object and none has a literal one, and Cypher's
+# `SET cl.object_literal = null` removes the property rather than storing a null.
+#
+# The projection is correct and the claim model is unchanged — a literal-valued
+# predicate approved into the vocabulary later will populate it and this keeps
+# reading it. Only the access form changed, so the read layer stops warning about
+# a property the current data legitimately lacks.
+
+# Most recent first. A question with no stated period wants the freshest thing
+# known before the oldest, and a history question wants the sequence to read
+# backwards from now — the same order serves both.
+_RECENCY_ORDER = """
+ORDER BY coalesce(c.valid_until, '9999-12-31') DESC,
+         coalesce(c.valid_from,  '0000-01-01') DESC,
+         c.claim_id
+LIMIT $limit"""
+
+# The question named the subject; the answer is the objects.
+_RELATIONSHIP_BY_SUBJECT = f"""
+MATCH (c:Claim)-[:SUBJECT]->(anchor:Entity {{entity_id: $entity_id}})
+WHERE c.predicate = $predicate{_overlap("c")}{_current_clause("c")}
+OPTIONAL MATCH (c)-[:OBJECT]->(other:Entity){_EVIDENCE}
+RETURN{_CLAIM_COLUMNS},
+       anchor.entity_id     AS subject_id,
+       anchor.canonical_name AS subject_name,
+       other.entity_id      AS object_id,
+       other.canonical_name AS object_name{_RECENCY_ORDER}
+"""
+
+# The question named the object; the answer is the subjects. This is the
+# inverse direction the vocabulary deliberately does not store a second time —
+# "which projects did this organization fund" is `FUNDED_BY` read backwards, not
+# a `FUNDS` predicate.
+_RELATIONSHIP_BY_OBJECT = f"""
+MATCH (c:Claim)-[:OBJECT]->(anchor:Entity {{entity_id: $entity_id}})
+WHERE c.predicate = $predicate{_overlap("c")}{_current_clause("c")}
+OPTIONAL MATCH (c)-[:SUBJECT]->(other:Entity){_EVIDENCE}
+RETURN{_CLAIM_COLUMNS},
+       other.entity_id      AS subject_id,
+       other.canonical_name AS subject_name,
+       anchor.entity_id     AS object_id,
+       anchor.canonical_name AS object_name{_RECENCY_ORDER}
+"""
+
+# Everything the graph records about one entity, whichever end it sits at and
+# whatever the predicate. `$predicates` is bound by `validate_parameters` to the
+# whole approved vocabulary, so even this cannot surface a claim made under a
+# predicate that has since been retired.
+_ENTITY_TIMELINE = f"""
+MATCH (c:Claim)-[:SUBJECT|OBJECT]->(anchor:Entity {{entity_id: $entity_id}})
+WHERE c.predicate IN $predicates{_overlap("c")}{_current_clause("c")}
+OPTIONAL MATCH (c)-[:SUBJECT]->(subject:Entity)
+OPTIONAL MATCH (c)-[:OBJECT]->(object:Entity){_EVIDENCE}
+RETURN{_CLAIM_COLUMNS},
+       subject.entity_id     AS subject_id,
+       subject.canonical_name AS subject_name,
+       object.entity_id      AS object_id,
+       object.canonical_name AS object_name,
+       anchor.entity_id      AS anchor_id,
+       anchor.canonical_name AS anchor_name{_RECENCY_ORDER}
+"""
+
+# Two relationships chained through a shared entity: "who leads the projects
+# this organization funded", "which projects do this person's colleagues run".
+# Both legs are bound predicate values and both are temporally filtered, so a
+# chain cannot join a 2005 funding to a 2019 leadership and present it as one
+# fact. Direction is left open on each leg (`SUBJECT|OBJECT`) because the useful
+# chains run both ways through the middle entity; the hop count is still fixed
+# at two by the text of the query, with no variable-length path anywhere.
+_RELATIONSHIP_TWO_HOP = f"""
+MATCH (c1:Claim)-[:SUBJECT|OBJECT]->(anchor:Entity {{entity_id: $entity_id}})
+WHERE c1.predicate = $predicate{_overlap("c1")}{_current_clause("c1")}
+MATCH (c1)-[:SUBJECT|OBJECT]->(mid:Entity)
+WHERE mid.entity_id <> anchor.entity_id
+MATCH (c2:Claim)-[:SUBJECT|OBJECT]->(mid)
+WHERE c2.predicate = $predicate2
+  AND c2.claim_id <> c1.claim_id{_overlap("c2")}{_current_clause("c2")}
+MATCH (c2)-[:SUBJECT|OBJECT]->(far:Entity)
+WHERE far.entity_id <> mid.entity_id AND far.entity_id <> anchor.entity_id
+OPTIONAL MATCH (c2)-[:SUPPORTED_BY]->(doc:Document)
+OPTIONAL MATCH (c2)-[:SUPPORTED_BY]->(ch:Chunk)
+RETURN c2.claim_id       AS claim_id,
+       c1.claim_id       AS via_claim_id,
+       c2.predicate      AS predicate,
+       c1.predicate      AS via_predicate,
+       c2.status         AS status,
+       c2.valid_from     AS valid_from,
+       c2.valid_until    AS valid_until,
+       c2.temporal_basis AS temporal_basis,
+       c2.confidence     AS confidence,
+       anchor.entity_id      AS anchor_id,
+       anchor.canonical_name AS anchor_name,
+       mid.entity_id         AS mid_id,
+       mid.canonical_name    AS mid_name,
+       far.entity_id         AS far_id,
+       far.canonical_name    AS far_name,
+       // Which way round each leg runs. The match leaves direction open, so
+       // without these a renderer would have to guess, and guessing turns
+       // "Alok works at TERI" into "TERI works at Alok".
+       c1.subject_id = anchor.entity_id AS anchor_is_subject,
+       c2.subject_id = mid.entity_id    AS mid_is_subject,
+       ch.chunk_id      AS chunk_id,
+       coalesce(doc.document_id, c2.document_id) AS document_id
+ORDER BY coalesce(c2.valid_until, '9999-12-31') DESC,
+         far.canonical_name, c2.claim_id
+LIMIT $limit
+"""
+
+# Parameters shared by every predicate-parameterized template.
+_WINDOW_PARAMS = ("window_start", "window_end")
+
+
 TEMPLATES: dict[str, QueryTemplate] = {
     t.template_id: t
     for t in (
+        QueryTemplate(
+            "relationship_by_subject",
+            "Claims about a named subject under one approved predicate, "
+            "optionally restricted to a validity window.",
+            MODE_HISTORICAL, ("entity_id", "predicate", "current_only"),
+            _RELATIONSHIP_BY_SUBJECT, max_hops=1,
+            optional_parameters=_WINDOW_PARAMS,
+        ),
+        QueryTemplate(
+            "relationship_by_object",
+            "Claims naming an entity as the object of one approved predicate — "
+            "the inverse direction — optionally restricted to a window.",
+            MODE_HISTORICAL, ("entity_id", "predicate", "current_only"),
+            _RELATIONSHIP_BY_OBJECT, max_hops=1,
+            optional_parameters=_WINDOW_PARAMS,
+        ),
+        QueryTemplate(
+            "entity_timeline",
+            "Every approved claim naming an entity at either end, optionally "
+            "restricted to a validity window.",
+            MODE_HISTORICAL, ("entity_id", "current_only"),
+            _ENTITY_TIMELINE, max_hops=1,
+            optional_parameters=_WINDOW_PARAMS,
+        ),
+        QueryTemplate(
+            "relationship_two_hop",
+            "Two approved relationships chained through a shared entity, each "
+            "leg restricted to the same validity window.",
+            MODE_HISTORICAL,
+            ("entity_id", "predicate", "predicate2", "current_only"),
+            _RELATIONSHIP_TWO_HOP, max_hops=2,
+            optional_parameters=_WINDOW_PARAMS,
+        ),
         QueryTemplate(
             "projects_funded_by_org",
             "Projects an organization currently funds.",
@@ -411,29 +697,60 @@ def validate_parameters(
     a slow full-scan against an indexed property.
     """
     from app.knowledge.claims import predicates as vocab
+    from app.knowledge.claims import types as claim_types
 
     checked: dict[str, Any] = {}
     for name in template.parameters:
         if name not in params or params[name] is None:
             raise InvalidParameter(f"{template.template_id}: missing {name!r}")
-        value = params[name]
-        if name == "entity_id":
-            if not isinstance(value, str) or not ENTITY_ID_RE.match(value):
-                raise InvalidParameter(f"malformed entity_id: {value!r}")
-        elif name == "claim_id":
-            if not isinstance(value, str) or not value.startswith("claim_"):
-                raise InvalidParameter(f"malformed claim_id: {value!r}")
-        elif name == "predicate":
-            # A predicate reaches Cypher as a *value*, never as a relationship
-            # type, but it is still checked against the closed vocabulary so a
-            # caller cannot probe for arbitrary strings.
-            if not vocab.is_known(str(value)):
-                raise InvalidParameter(f"unknown predicate: {value!r}")
-        elif name == "as_of":
-            if not isinstance(value, str) or not DATE_RE.match(value):
-                raise InvalidParameter(f"malformed as_of date: {value!r}")
-        checked[name] = value
+        checked[name] = _check(name, params[name], vocab)
+
+    # Optional parameters bind as NULL when absent. The Cypher tests for NULL
+    # explicitly, so "no bound on this side" is expressed rather than implied;
+    # a value that *is* supplied is checked exactly as a required one.
+    for name in template.optional_parameters:
+        value = params.get(name)
+        checked[name] = None if value is None else _check(name, value, vocab)
+
+    start, end = checked.get("window_start"), checked.get("window_end")
+    if start and end and start >= end:
+        # Half-open, so an empty or inverted window can only be a planner bug.
+        # It would return nothing either way; failing says which.
+        raise InvalidParameter(f"empty validity window: [{start}..{end})")
+
+    # Derived parameters: filled here, never accepted from a caller. These are
+    # the two places where the closed vocabulary has to reach the query, and
+    # routing them through the validator is what stops a caller widening either.
+    if "$current_bases" in template.cypher:
+        checked["current_bases"] = list(claim_types.CURRENT_STATE_BASES)
+    if "$predicates" in template.cypher:
+        checked["predicates"] = list(vocab.PREDICATE_NAMES)
 
     requested = DEFAULT_LIMIT if limit is None else int(limit)
     checked["limit"] = max(1, min(requested, MAX_LIMIT))
     return checked
+
+
+def _check(name: str, value: Any, vocab: Any) -> Any:
+    """Type- and shape-check one parameter value, or raise."""
+    if name == "entity_id":
+        if not isinstance(value, str) or not ENTITY_ID_RE.match(value):
+            raise InvalidParameter(f"malformed entity_id: {value!r}")
+    elif name == "claim_id":
+        if not isinstance(value, str) or not value.startswith("claim_"):
+            raise InvalidParameter(f"malformed claim_id: {value!r}")
+    elif name in ("predicate", "predicate2"):
+        # A predicate reaches Cypher as a *value*, never as a relationship
+        # type, but it is still checked against the closed vocabulary so a
+        # caller cannot probe for arbitrary strings.
+        if not vocab.is_known(str(value)):
+            raise InvalidParameter(f"unknown predicate: {value!r}")
+    elif name in ("as_of", "window_start", "window_end"):
+        if not isinstance(value, str) or not DATE_RE.match(value):
+            raise InvalidParameter(f"malformed {name} date: {value!r}")
+    elif name == "current_only":
+        # A bool, and strictly so: a truthy string would silently turn a
+        # historical query into a current-state one, or the reverse.
+        if not isinstance(value, bool):
+            raise InvalidParameter(f"{name} must be a bool, got {value!r}")
+    return value

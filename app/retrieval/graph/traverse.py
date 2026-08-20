@@ -66,8 +66,12 @@ class GraphResult:
 
 _ID_FIELDS = (
     ("entity_ids", ("subject_id", "object_id", "project_id", "person_id",
-                    "funder_id", "organization_id")),
-    ("claim_ids", ("claim_id", "funding_claim_id")),
+                    "funder_id", "organization_id",
+                    # The predicate-parameterized templates name their ends by
+                    # position rather than by type, since one query serves every
+                    # approved predicate.
+                    "anchor_id", "mid_id", "far_id")),
+    ("claim_ids", ("claim_id", "funding_claim_id", "via_claim_id")),
     ("chunk_ids", ("chunk_id",)),
     ("document_ids", ("document_id",)),
 )
@@ -97,15 +101,38 @@ def run_template(
     *,
     limit: int | None = None,
     session: Any = None,
+    mode: str | None = None,
 ) -> GraphResult:
-    """Run one registry template. Never raises; never accepts Cypher."""
+    """Run one registry template. Never raises; never accepts Cypher.
+
+    ``mode`` overrides the template's own. The predicate-parameterized templates
+    read Claim nodes whichever period they are asked about, so their declared
+    mode describes the storage rather than the question: the *same* template
+    answers "who leads this now" and "who led it in 2015", differing only in the
+    window bound into it. The caller — which knows which question was asked —
+    states the mode so that everything downstream that presents a result
+    (row budget, the "including past relationships" heading, the current/
+    historical distinction in the answer) is driven by the question rather than
+    by an implementation detail. An override is still checked against the
+    closed set of modes.
+    """
     try:
         template = reg.get(template_id)
     except reg.UnknownTemplate as exc:
         logger.warning("Rejected unknown template: %s", exc)
         return GraphResult(template_id, "unknown", error=str(exc))
 
-    result = GraphResult(template.template_id, template.mode)
+    effective_mode = template.mode
+    if mode is not None:
+        if mode not in reg.MODES:
+            logger.warning("Rejected unknown result mode: %r", mode)
+            return GraphResult(
+                template.template_id, template.mode,
+                error=f"unknown mode: {mode!r}",
+            )
+        effective_mode = mode
+
+    result = GraphResult(template.template_id, effective_mode)
     try:
         checked = reg.validate_parameters(template, params, limit=limit)
     except reg.InvalidParameter as exc:

@@ -22,6 +22,21 @@ class ContextBlock:
     also_available: list[dict[str, Any]] = field(default_factory=list)
 
 
+# The marker `app.retrieval.graph.facts` puts on its block, and the predicate
+# that recognises one. Defined in the neutral core because three layers have to
+# agree about it — retrieval builds the block, generation labels it in the
+# prompt, and the citation builder describes it to the user — and a copy of the
+# literal in any of them is a copy that can drift. The block is deliberately
+# given no ``source_type``: it did not come from a document, and every function
+# that reads a source kind has to be able to say so.
+GRAPH_FACTS_KIND = "graph_facts"
+
+
+def is_graph_facts(payload: dict[str, Any]) -> bool:
+    """Whether this payload is the graph's verified-relationships block."""
+    return payload.get("kind") == GRAPH_FACTS_KIND
+
+
 # Storage values that all mean "a page on the website". ``website`` is
 # canonical; ``article`` is what points indexed before the rename carry. Defined
 # here so retrieval and generation share one list — a copy that forgets the alias

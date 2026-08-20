@@ -16,6 +16,31 @@ Routing needs two things to agree:
 
 Either alone is not enough. "Tell me about TERI" resolves an entity and asks
 nothing relational; "who funds research" is relational and names nobody.
+
+Two ways to satisfy the second condition
+----------------------------------------
+**The planner**, tried first. It reads a predicate out of the closed vocabulary
+(:mod:`app.retrieval.graph.intent`), a direction out of that predicate's
+declared domain and range, and a validity window out of the question's own
+words, then asks :mod:`app.retrieval.graph.plans` for a reviewed template to
+bind them to. Every approved predicate is reachable this way, in both directions
+the schema allows, over any period — which is the point: a predicate approved
+into the vocabulary becomes askable without anything being added here.
+
+**The pattern table**, kept below as a fallback. It maps a handful of memorised
+question shapes onto template ids, and it is what routing used to be *entirely*.
+Three of the seven approved predicates appear nowhere in it, which is how the
+graph came to hold claims no question could reach. It survives for phrasings the
+cue vocabulary has not learnt, and because narrowing a route is a cheaper
+mistake than losing one.
+
+Masking
+-------
+Cues are matched against the question with the resolved entity spans blanked
+out. A cue inside a name is part of the name: this corpus is full of
+organizations called "Department of ...", and "department" is exactly the word
+that would otherwise mark the question as being about organizational structure.
+See :func:`_mask_entities`.
 """
 from __future__ import annotations
 
@@ -53,10 +78,22 @@ class Route:
     mode: str
     reason: str
     confidence: float = 0.0
+    # The capability class of a schema-derived plan. Empty for a route from the
+    # legacy pattern table, whose class the policy layer still looks up by
+    # template id — which is what keeps an existing `GRAPH_ROUTING_CLASSES`
+    # meaning exactly what it meant.
+    query_class: str = ""
+    # The plan behind the route, when one produced it. Carried for metrics and
+    # explanation; nothing downstream needs it to execute.
+    plan: Any = None
 
     @property
     def is_historical(self) -> bool:
         return self.mode == reg.MODE_HISTORICAL
+
+    @property
+    def predicates(self) -> tuple[str, ...]:
+        return tuple(getattr(self.plan, "predicates", ()) or ())
 
 
 @dataclass
@@ -231,37 +268,298 @@ def _accept_unique_match(decision: Any) -> _QueryMatch | None:
     )
 
 
-def _resolve_entities(question: str, index: Any) -> tuple[list[Any], list[str]]:
-    """Entities named in the question, via the ingest-path resolver.
+# The provenance stamp `approved_aliases` puts on the mentions it produces. A
+# query-side acceptance below is allowed only for those: it is the proof that the
+# surface was an *exact* match against a reviewed, unambiguous, autolinkable
+# alias of an active claim-eligible entity, rather than a heuristic hit in prose.
+_APPROVED_ALIAS_VERSION = "approved-alias-v1"
+
+# The one veto a *query* may look past, and only under `_accept_approved_project`.
+_QUERY_ACCEPTABLE_VETOES = frozenset({"v_project_name_not_specific"})
+
+
+def _accept_approved_project(decision: Any, mention: Any) -> "_QueryMatch | None":
+    """Accept a short project title that a reviewed alias matched exactly.
+
+    ``v_project_name_not_specific`` rejects a project whose title is under three
+    tokens or twelve characters, because "Steel", "Summary" and "Study of
+    Studies" are all real titles in this CMS and linking them *from prose* would
+    attach every mention of the material to a project. That reasoning is sound
+    and the veto is left exactly as it is — including for ingestion, which is
+    where a wrong link becomes permanent.
+
+    A question is not prose. "Who led Green Jobs?" is someone naming a thing, and
+    the corpus has four such projects the veto made unreachable: WEO 2007,
+    HI-AWARE, Green Jobs, Water4Crops — each an authoritative CMS project node
+    with a reviewed, unambiguous, autolinkable title alias.
+
+    So this reads the resolver's audit trail and decides what a *query* may do
+    with it, exactly as `_accept_unique_match` does for PERSON. The conditions
+    are deliberately narrow, and every one of them is load-bearing:
+
+    * the mention came from the approved-alias pass, so the surface matched a
+      reviewed alias exactly rather than being spotted in text;
+    * exactly one candidate survived, so there is nothing to choose between;
+    * its **only** veto is the specificity one — any other veto (ambiguous
+      alias, type conflict, non-autolinkable) still declines;
+    * the entity is an ``authoritative`` PROJECT and still claim-eligible.
+
+    The resolver is not modified, ingestion is unaffected, and a surface too
+    generic to have survived `approved_aliases._admissible` never gets here.
+    """
+    if decision.entity_type != "PROJECT":
+        return None
+    if getattr(mention, "extractor_version", None) != _APPROVED_ALIAS_VERSION:
+        return None
+    if not decision.claim_eligible:
+        return None
+    audit = decision.candidate_audit or []
+    if len(audit) != 1:
+        return None
+    candidate = audit[0]
+    vetoes = set(candidate.get("vetoes") or ())
+    if not vetoes or vetoes - _QUERY_ACCEPTABLE_VETOES:
+        return None
+    if candidate.get("trust") != "authoritative":
+        return None
+    entity_id = candidate.get("entity_id")
+    if not entity_id:
+        return None
+    return _QueryMatch(
+        entity_id=entity_id,
+        entity_type=decision.entity_type,
+        surface_text=decision.surface_text,
+        score=decision.score or 0.0,
+    )
+
+
+def _resolve_entities(
+    question: str, index: Any
+) -> tuple[list[Any], list[str], list[tuple[int, int]], list[tuple[int, int]]]:
+    """Entities named in the question, their spans, and any ambiguous surface.
 
     Reusing ``app.knowledge`` extraction and resolution rather than a query-time
     matcher is what keeps one name meaning one thing on both sides: a surface
     too ambiguous to link during ingestion is equally unusable here. The one
     query-side departure is `_accept_unique_match`, and it is narrow.
+
+    Returns two span lists, because they answer different questions and mixing
+    them up is a real bug: ``spans`` covers *every* mention and is what masking
+    blanks out, while ``resolved_spans`` is index-aligned with ``resolved`` and is
+    where each anchor actually sits. An unresolved mention still has to be
+    masked — a cue inside a name is part of the name whether or not the name
+    resolved — so the first list is strictly the longer one.
     """
     from app.knowledge.candidates import ResolutionContext
     from app.knowledge.extract import extract_mentions
     from app.knowledge.gazetteer import get_gazetteer
     from app.knowledge.resolver import resolve_mention
+    from app.retrieval.understanding.approved_aliases import lookup_mentions
 
     mentions = extract_mentions(
         question, chunk_id="query", document_id="query",
         gazetteer=get_gazetteer(),
     )
+    # Second pass, query-side only: the reviewed alias table. The gazetteer is
+    # built from raw CMS metadata and needs conservative heuristics against
+    # prose — a minimum token count, a minimum length, case-sensitive matching
+    # for short surfaces — and those heuristics silently drop whole classes of
+    # ordinary phrasing in a *question*: acronyms ("ADB"), lower case ("dr alok
+    # adholeya"), short authoritative titles ("WEO 2007", "HI-AWARE"), and
+    # punctuation variants of a stored name. Measured: none of those produced a
+    # mention at all, so resolution was never reached.
+    #
+    # This adds candidates from `documents_entity_alias`, where every row belongs
+    # to a deliberately seeded entity and carries the `autolink` / `is_ambiguous`
+    # flags review produced. It changes nothing about *identity*: each mention
+    # goes through the same `resolve_mention` below, so trust, eligibility and
+    # every veto still decide. Only spans the gazetteer did not already cover are
+    # added, so its findings always win.
+    covered = [(m.start_offset, m.end_offset) for m in mentions]
+    for extra in lookup_mentions(question, chunk_id="query", document_id="query"):
+        if any(
+            extra.start_offset < end and start < extra.end_offset
+            for start, end in covered
+        ):
+            continue
+        covered.append((extra.start_offset, extra.end_offset))
+        mentions.append(extra)
     resolved: list[Any] = []
     ambiguous: list[str] = []
+    spans: list[tuple[int, int]] = []
+    resolved_spans: list[tuple[int, int]] = []
     context = ResolutionContext(document_id="query")
     for mention in mentions:
+        span = (mention.start_offset, mention.end_offset)
+        spans.append(span)
         decision = resolve_mention(mention, index, context)
         if decision.canonical and decision.entity_id:
             resolved.append(decision)
+            resolved_spans.append(span)
             continue
-        accepted = _accept_unique_match(decision)
+        accepted = _accept_unique_match(decision) or _accept_approved_project(
+            decision, mention
+        )
         if accepted is not None:
             resolved.append(accepted)
+            resolved_spans.append(span)
         elif decision.decision in ("AMBIGUOUS", "PROVISIONAL"):
             ambiguous.append(mention.surface_text)
-    return resolved, ambiguous
+    return resolved, ambiguous, spans, resolved_spans
+
+
+def _mask_entities(question: str, spans: list[tuple[int, int]]) -> str:
+    """Blank out the names, leaving the words *around* them.
+
+    Without this the question's own subject supplies its own relationship. This
+    corpus is full of organizations called "Department of Biotechnology",
+    "National Centre for ...", "Energy and Resources Institute" — and
+    "department", "centre" and "unit" are exactly the words that mark a
+    ``PARENT_OF`` question. Matching cues against the raw text made every
+    question about such an organization look like a question about its internal
+    structure, and the same names contain years ("Highlights 2008-11") that read
+    as validity windows.
+
+    A cue inside a recognised name is part of the name. Spans are replaced with
+    spaces rather than removed so every remaining offset still indexes into the
+    original question, which is what keeps the "in the order the question names
+    them" rule below meaningful.
+    """
+    if not spans:
+        return question
+    text = list(question)
+    for start, end in spans:
+        for i in range(max(0, start), min(len(text), end)):
+            text[i] = " "
+    return "".join(text)
+
+
+def _nearest_first(relational: Any, span: tuple[int, int]) -> tuple[str, ...]:
+    """The named predicates, the one closest to the anchor entity first.
+
+    Distance is measured between the predicate's cue and the nearer edge of the
+    anchor's own span, so a cue on either side of the name counts equally:
+    "projects funded by X" and "X's funded projects" both put FUNDED_BY next to
+    the anchor. Ties keep the question's own order, which is what the single-cue
+    and two-cue cases already relied on.
+
+    A predicate whose offset is unknown sorts last rather than being dropped — it
+    is still a legal candidate, just not one this ordering can speak for.
+    """
+    offsets = getattr(relational, "offsets", None) or {}
+    start, end = span
+
+    def distance(name: str) -> tuple[int, int]:
+        offset = offsets.get(name)
+        if offset is None:
+            return (1, 0)
+        return (0, 0 if start <= offset <= end else min(
+            abs(offset - start), abs(offset - end)
+        ))
+
+    return tuple(
+        sorted(relational.predicates, key=lambda name: distance(name))
+    )
+
+
+def _plan_route(
+    question: str,
+    resolved: list[Any],
+    resolved_spans: list[tuple[int, int]],
+    *,
+    as_of: str | None,
+) -> Route | None:
+    """The schema-aware path: predicate + direction + validity window.
+
+    Tried before the pattern table below, and in practice it answers everything
+    the table did and a good deal it could not. The table remains because it
+    encodes two things worth keeping — the cheap derived-edge traversals, which
+    a plan selects by name, and a fallback for any phrasing the cue vocabulary
+    has not learnt yet.
+
+    Nothing here composes a query. It picks a predicate from the closed
+    vocabulary, a direction from that predicate's declared domain and range, a
+    validity window from the question's own words, and hands all three to
+    ``plans``, which selects a reviewed template and binds them as parameters.
+    """
+    from app.retrieval.graph import intent as qi
+    from app.retrieval.graph import plans
+
+    temporal = qi.read_temporal(question)
+    if as_of and temporal.kind in (qi.TEMPORAL_UNSPECIFIED, qi.TEMPORAL_CURRENT):
+        # An explicit caller-supplied moment beats an inferred tense: this is
+        # how a benchmark or a replay asks what was true on a given date.
+        temporal = qi.TemporalIntent(
+            qi.TEMPORAL_AS_OF, as_of, qi._day_after(as_of), f"as of {as_of}"
+        )
+    relational = qi.read_relational(question)
+
+    def _as_route(plan: Any, decision: Any) -> Route:
+        return Route(
+            template_id=plan.template_id, parameters=dict(plan.parameters),
+            entity_id=decision.entity_id, entity_type=decision.entity_type,
+            entity_name=decision.surface_text, mode=plan.mode,
+            reason=plan.reason, confidence=decision.score or 0.0,
+            query_class=plan.capability, plan=plan,
+        )
+
+    # Two hops first: a question naming two relationships is asking about the
+    # chain between them, and answering only the nearer one answers something
+    # else.
+    #
+    # The schema decides which orderings are *legal*; among those, the chain is
+    # built outward from the anchor, so the first hop is the relationship named
+    # nearest the anchor entity. Relying on the schema alone was not enough, and
+    # the failure was measured: "Which investigators lead **work** granted by the
+    # Ministry of Environment and Forests?" names three predicates, because
+    # "work" is a WORKS_AT cue. Iterating in cue order reached
+    # (WORKS_AT, LED_BY) — legal, since an organization may be an employer and a
+    # person may lead a project — and returned it, so the query asked for
+    # employees of the Ministry who lead projects. The corpus holds no WORKS_AT
+    # claim at all, so the answer was zero rows, while the chain the question
+    # actually asked for (FUNDED_BY then LED_BY) held ten.
+    #
+    # Ordering by distance to the anchor fixes that without narrowing any cue
+    # vocabulary: "granted" sits next to the Ministry, "work" and "lead" do not.
+    # It also reproduces every chain that already worked, where the relationship
+    # adjacent to the anchor was the correct first hop anyway.
+    if len(relational.predicates) > 1:
+        for decision, span in zip(resolved, resolved_spans):
+            for first in _nearest_first(relational, span):
+                for second in relational.predicates:
+                    plan = plans.two_hop(
+                        entity_id=decision.entity_id,
+                        entity_type=decision.entity_type,
+                        first=first, second=second, temporal=temporal,
+                    )
+                    if plan is not None:
+                        return _as_route(plan, decision)
+
+    for predicate in relational.predicates:
+        for decision in resolved:
+            plan = plans.one_hop(
+                entity_id=decision.entity_id,
+                entity_type=decision.entity_type,
+                predicate=predicate, temporal=temporal,
+                inverse_hint=relational.inverse_hint,
+            )
+            if plan is not None:
+                return _as_route(plan, decision)
+
+    # No predicate named, but the question is explicitly about a period: "what
+    # happened with X in 2015", "the history of X". The answer is everything
+    # recorded about the entity within that window.
+    if not relational.is_relational and temporal.kind in (
+        qi.TEMPORAL_HISTORY, qi.TEMPORAL_RANGE, qi.TEMPORAL_AS_OF
+    ):
+        decision = resolved[0]
+        plan = plans.timeline(
+            entity_id=decision.entity_id, entity_type=decision.entity_type,
+            temporal=temporal,
+        )
+        return _as_route(plan, decision)
+
+    return None
 
 
 def route(
@@ -276,7 +574,7 @@ def route(
 
         index = EntityIndex.load()
 
-    resolved, ambiguous = _resolve_entities(question, index)
+    resolved, ambiguous, spans, resolved_spans = _resolve_entities(question, index)
     if not resolved:
         return RoutingOutcome(
             reason=(
@@ -285,6 +583,14 @@ def route(
                 else "the entity named is ambiguous"
             ),
             ambiguous=ambiguous,
+        )
+
+    planned = _plan_route(
+        _mask_entities(question, spans), resolved, resolved_spans, as_of=as_of
+    )
+    if planned is not None:
+        return RoutingOutcome(
+            route=planned, reason=planned.reason, ambiguous=ambiguous
         )
 
     historical = bool(_HISTORICAL_MARKERS.search(question))
