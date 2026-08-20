@@ -16,9 +16,12 @@ from app.generation.prompts import (
     CHITCHAT_SYSTEM_PROMPT,
     REFUSAL,
     format_context_blocks,
+    graph_facts_rule,
+    has_graph_facts,
     format_directive,
     grounded_system_prompt,
     has_mixed_sources,
+    today_anchor,
 )
 
 logger = logging.getLogger(__name__)
@@ -90,21 +93,36 @@ def _build_system(
     *,
     mixed: bool,
     has_history: bool = False,
+    graph_facts: bool = False,
+    plan_directive: str = "",
 ) -> str:
     """The grounded system prompt for this call.
 
     `mixed` says whether the context holds both source kinds; it picks the
     answer structure and must reach the format directive too, since the
     directive's scope note refers to whichever structure is in force.
+
+    `graph_facts` says whether one of the blocks is the knowledge graph's
+    verified-relationship block, which needs a rule of its own about reading
+    validity windows. Both extra rules are numbered from 10 in the order they
+    are added, continuing the list the base prompt ends at, so the model is
+    never handed a rule 11 with no rule 10.
     """
     system = grounded_system_prompt(mixed=mixed)
+    next_rule = 10
     if has_history:
         system += f"\n{_HISTORY_RULE}"
+        next_rule += 1
+    if graph_facts:
+        system += f"\n{graph_facts_rule(next_rule)}"
     directive = format_directive(answer_format, mixed=mixed)
     if directive:
         system += f"\n\n{directive}"
     if correction:
         system += f"\n\n{correction}"
+    if plan_directive:
+        system += plan_directive
+    system += today_anchor()
     return system
 
 
@@ -115,6 +133,7 @@ def generate_answer(
     history: Sequence[dict[str, str]] | None = None,
     correction: str | None = None,
     answer_format: str | None = None,
+    plan_directive: str = "",
 ) -> str:
     from langchain_core.output_parsers import StrOutputParser
     from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -128,6 +147,8 @@ def generate_answer(
         correction,
         mixed=has_mixed_sources(blocks),
         has_history=bool(messages),
+        graph_facts=has_graph_facts(blocks),
+        plan_directive=plan_directive,
     )
     prompt = ChatPromptTemplate.from_messages(
         [
@@ -152,6 +173,7 @@ def generate_stream(
     *,
     history: Sequence[dict[str, str]] | None = None,
     answer_format: str | None = None,
+    plan_directive: str = "",
 ) -> Iterator[str]:
     from langchain_core.output_parsers import StrOutputParser
     from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -162,6 +184,8 @@ def generate_stream(
         None,
         mixed=has_mixed_sources(blocks),
         has_history=bool(messages),
+        graph_facts=has_graph_facts(blocks),
+        plan_directive=plan_directive,
     )
     prompt = ChatPromptTemplate.from_messages(
         [

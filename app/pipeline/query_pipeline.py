@@ -55,6 +55,10 @@ class _Generation:
     # Deterministic catalog section prefixed onto a combined (database + content)
     # answer; "" for single-source answers.
     db_prefix: str = ""
+    # Evidence-coverage directive for a genuinely multi-part question; "" when
+    # the question has one part or the extraction step failed. See
+    # `app.generation.answer_plan`.
+    plan_directive: str = ""
 
 
 # Content capabilities that pair with a database lookup into a combined answer.
@@ -112,6 +116,37 @@ def _catalog_listing(pq: ProcessedQuery, question: str) -> dict[str, Any] | None
         "intent": pq.intent,
         "answer_format": pq.answer_format,
     }
+
+
+def _graph_generation(pq: ProcessedQuery, *, top_k: int) -> _Generation | None:
+    """A graph answer for a query the catalog path is about to answer, or None.
+
+    The same graph leg `retriever.retrieve` runs, reached from the one place that
+    returns before retrieval. Contract is identical: blocks or nothing, every
+    failure is a `None`, and a `None` leaves the caller's existing behaviour
+    exactly as it was.
+
+    The query's scope is handed to the policy layer for the same reason the
+    retrieval call site hands it over — a scope no template can honour must
+    decline the graph rather than silently drop the constraint.
+    """
+    from app.retrieval.retriever import graph_blocks_for
+
+    blocks = graph_blocks_for(
+        pq.search_query, n=top_k, filters=pq.filters, source_type=pq.source_type
+    )
+    if not blocks:
+        return None
+    # Embedded here rather than earlier because this path had no need of a vector
+    # until now; it is the same call the qa path makes, and it keeps the answer
+    # eligible for the semantic cache like any other.
+    from app.core.clients.embeddings import embed_query
+
+    with span("rag.embed_query"):
+        query_vector = embed_query(pq.search_query)
+    return _Generation(
+        pq=pq, blocks=blocks, query_vector=query_vector, top_k=top_k
+    )
 
 
 def _prepare(
@@ -176,6 +211,23 @@ def _prepare(
             structured = answer_structured(question, history, analysis=pq.analysis)
             db_consulted = True
             if structured is not None:
+                # ...unless the graph can answer the same question as a
+                # relationship. The graph leg lives inside `retriever.retrieve`,
+                # which this return never reaches, so a relational question that
+                # understanding labelled `structured` used to bypass the graph
+                # entirely — measured at 4 of 14 graph-answerable benchmark
+                # questions, and every one of them the "which projects did PERSON
+                # lead" shape the graph's query-side resolution exists to serve.
+                # The catalog answered those with "'projects' matches more than
+                # one content type", while the graph held the 14 rows.
+                #
+                # Attempted only on the branch that would otherwise return here,
+                # so the graph is still tried exactly once per query: when
+                # `answer_structured` returns None the fall-through reaches
+                # `retrieve` and the graph leg there is untouched.
+                graph = _graph_generation(pq, top_k=n)
+                if graph is not None:
+                    return None, graph
                 structured.setdefault("answer_format", pq.answer_format)
                 return structured, None
 
@@ -213,23 +265,32 @@ def _prepare(
             capabilities=caps,
         )
 
-    # The deterministic catalog section (combined queries only) and content
-    # retrieval are independent, so overlap them and pay the slower of the two
-    # rather than their sum. copy_context() keeps the worker's span in this
-    # request's stage breakdown; single-source queries skip the pool entirely.
-    if combined and not chained:
-        from concurrent.futures import ThreadPoolExecutor
-        from contextvars import copy_context
+    # The deterministic catalog section (combined queries only), the answer
+    # plan's requirement extraction, and content retrieval share no data until
+    # all three are done, so overlap them and pay the slowest rather than the
+    # sum. copy_context() keeps each worker's span in this request's stage
+    # breakdown. Requirement extraction runs for every query that reaches this
+    # point (it is a no-op — see `answer_plan.build_plan` — for the ordinary
+    # single-part question), needing only the search query, not the blocks.
+    from concurrent.futures import ThreadPoolExecutor
+    from contextvars import copy_context
 
-        with ThreadPoolExecutor(max_workers=1) as pool:
+    from app.generation.answer_plan import build_plan, extract_requirements, plan_directive
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        requirements_future = pool.submit(
+            copy_context().run, extract_requirements, pq.search_query
+        )
+        if combined and not chained:
             db_future = pool.submit(
                 copy_context().run, _db_section, pq, question, history
             )
             blocks = _run_retrieve()
             db_prefix = db_future.result()
-    else:
-        db_prefix = ""
-        blocks = _run_retrieve()
+        else:
+            db_prefix = ""
+            blocks = _run_retrieve()
+        requirements = requirements_future.result()
 
     if not blocks:
         # Combined query whose content retrieval came up empty: still return the
@@ -245,9 +306,15 @@ def _prepare(
                 return listing, None
         return _empty(pq.intent, REFUSAL, answer_format=pq.answer_format), None
 
+    with span("rag.answer_plan") as s:
+        plan = build_plan(requirements, blocks)
+        directive = plan_directive(plan)
+        s.set("requirements", len(plan.requirements))
+        s.set("unsupported", len(plan.unsupported))
+
     return None, _Generation(
         pq=pq, blocks=blocks, query_vector=query_vector,
-        top_k=n, db_prefix=db_prefix,
+        top_k=n, db_prefix=db_prefix, plan_directive=directive,
     )
 
 
@@ -371,6 +438,7 @@ def stream_answer(
         for token in generate_stream(
             gen.pq.search_query, gen.blocks,
             history=history, answer_format=gen.pq.answer_format,
+            plan_directive=gen.plan_directive,
         ):
             parts.append(token)
             yield {"type": "token", "text": token}
@@ -391,6 +459,7 @@ def stream_answer(
                         history=history,
                         correction=report.correction_note(),
                         answer_format=gen.pq.answer_format,
+                        plan_directive=gen.plan_directive,
                     )
                     corrected = faithfulness.validate_markers(retry, len(gen.blocks))
                 except Exception:

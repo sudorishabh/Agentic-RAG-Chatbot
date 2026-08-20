@@ -70,6 +70,7 @@ def _source_from_payload(payload: dict[str, Any]) -> CitationSource:
         page=start,
         page_end=end,
         section=payload.get("section_heading"),
+        edition=payload.get("edition_label"),
     )
 
 
@@ -121,6 +122,7 @@ def _citation_from_block(block: ContextBlock) -> Citation:
         page=source.page,
         page_end=source.page_end,
         section=source.section,
+        edition=source.edition,
         document_id=block.payload.get("document_id"),
         also_available=[_source_from_payload(alt) for alt in block.also_available],
     )

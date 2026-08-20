@@ -74,6 +74,20 @@ _DOC_EXTS = (".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".csv")
 
 # In-body links (href="…pdf") and bare https://…pdf URLs embedded in rich text.
 _HREF_PDF_RE = re.compile(r'href=["\']([^"\']+\.pdf(?:\?[^"\']*)?)["\']', re.I)
+# The same link, with its anchor text kept. A PDF's link text is often the
+# only place its identity is written down: every TERI annual report is an
+# in-body attachment on one page, so all ten inherit the page title
+# "Annual Reports" unless the anchor ("Annual Report 2024-2025") is kept.
+# Matched separately from _HREF_PDF_RE so a bare href with no <a> wrapper
+# still harvests exactly as before.
+#
+# The opening quote is captured as (.) and closed with a backreference, so the
+# pattern needs no quote literal and handles both " and ' attributes.
+_ANCHOR_PDF_RE = re.compile(
+    r'<a\s[^>]*?href\s*=\s*(.)(?P<url>[^<>]*?\.pdf[^<>]*?)\1[^>]*>(?P<text>.*?)</a>',
+    re.I | re.S,
+)
+_TAG_RE = re.compile(r"<[^>]+>")
 _BARE_PDF_RE = re.compile(r'(https?://[^\s"\'<>()]+\.pdf)', re.I)
 
 @dataclass
@@ -522,6 +536,17 @@ def _extract_inbody_pdfs(
     out: list[DrupalFile] = []
     local_seen = set(seen_urls)
     for html in _iter_rich_text(attributes):
+        # One PDF is often linked twice on a page: a thumbnail image wrapped in
+        # an <a> (no text) beside a captioned text link. Keying by URL and
+        # keeping the LONGEST anchor stops the image link blanking the caption.
+        anchors: dict[str, str] = {}
+        for match in _ANCHOR_PDF_RE.finditer(html):
+            text = " ".join(_TAG_RE.sub(" ", match.group(2)).split())
+            if not text:
+                continue
+            key = _normalize_link(match.group(1), site)
+            if len(text) > len(anchors.get(key, "")):
+                anchors[key] = text
         # Sorted, not set-ordered: two spellings of one link normalise to the
         # same URL and the same identity, but the order documents are emitted in
         # should not vary between runs over identical input.
@@ -547,6 +572,11 @@ def _extract_inbody_pdfs(
                 DrupalFile(
                     url=abs_url,
                     filename=filename,
+                    # The link text becomes the description, which
+                    # `build_attachment_doc` prefers over the node's title. For a
+                    # page holding one PDF this is usually absent or identical;
+                    # for a page holding a series it is what tells editions apart.
+                    description=(anchors.get(abs_url) or None),
                     uuid=f"inbody:{hashlib.sha1(abs_url.encode('utf-8')).hexdigest()}",
                     origin="inbody",
                 )

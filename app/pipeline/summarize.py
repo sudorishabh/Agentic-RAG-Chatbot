@@ -85,6 +85,10 @@ class _Doc:
     url: str | None
     published: str  # ISO date (YYYY-MM-DD) or ""
     text: str
+    # Reporting period the document covers, when known. Editions of a series
+    # share a title and a published_at; this is what separates them. Last so the
+    # dataclass keeps its non-default fields first.
+    edition: str = ""
 
 
 class DocSummary(BaseModel):
@@ -134,6 +138,7 @@ def _doc_from_payload(document_id: str, payload: dict[str, Any]) -> _Doc:
         title=str(payload.get("title") or document_id),
         url=payload.get("source_url"),
         published=str(payload.get("published_at") or "")[:10],
+        edition=str(payload.get("edition_label") or ""),
         text=str(payload.get("chunk_text") or ""),
     )
 
@@ -144,6 +149,7 @@ def _doc_from_catalog(document_id: str, row: dict[str, Any]) -> _Doc:
         title=str(row.get("title") or document_id),
         url=row.get("url"),
         published=str(row.get("published_at") or "")[:10],
+        edition=str(row.get("edition_label") or ""),
         text=str(row.get("abstract") or ""),
     )
 
@@ -207,7 +213,8 @@ def _summarize_direct(question: str, docs: list[_Doc]) -> str:
             n=i,
             text=doc.text,
             payload={"source_type": "website", "title": doc.title,
-                     "published_at": doc.published},
+                     "published_at": doc.published,
+                     "edition_label": doc.edition or None},
         )
         for i, doc in enumerate(docs, start=1)
     ]
@@ -235,6 +242,21 @@ def _map_batch(batch: list[_Doc]) -> dict[str, list[str]]:
     return {s.document_id: s.bullets for s in result.summaries if s.bullets}
 
 
+def _numbered_line(n: int, doc: "_Doc") -> str:
+    """One document's header line in the reduce prompt.
+
+    The edition comes before the date, and the date is labelled "page
+    published": editions of a series share a page date, so an unlabelled date
+    invites the model to report the page's date as the document's own.
+    """
+    parts = [f"[{n}] {doc.title}"]
+    if doc.edition:
+        parts.append(f"edition {doc.edition}")
+    if doc.published:
+        parts.append(f"page published {doc.published}")
+    return " · ".join(parts)
+
+
 def _summarize_map_reduce(question: str, docs: list[_Doc]) -> str:
     from app.core.clients.llm import get_llm
 
@@ -247,7 +269,7 @@ def _summarize_map_reduce(question: str, docs: list[_Doc]) -> str:
 
     lines: list[str] = []
     for i, doc in enumerate(docs, start=1):
-        lines.append(f"[{i}] {doc.title}" + (f" · {doc.published}" if doc.published else ""))
+        lines.append(_numbered_line(i, doc))
         lines.extend(f"  - {b}" for b in bullets.get(doc.document_id, []))
     response = get_llm().invoke(
         [

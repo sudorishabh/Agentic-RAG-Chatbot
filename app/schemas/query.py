@@ -31,6 +31,10 @@ class CitationSource(BaseModel):
     page: int | None = None
     page_end: int | None = None
     section: str | None = None
+    # The reporting period the document covers ("2024-25"), when one was
+    # recovered at ingest. Editions of a series share a title and a
+    # published_at, so without this a citation cannot say which one it is.
+    edition: str | None = None
 
 
 class Citation(BaseModel):
@@ -45,6 +49,10 @@ class Citation(BaseModel):
     page: int | None = None
     page_end: int | None = None
     section: str | None = None
+    # The reporting period the document covers ("2024-25"), when one was
+    # recovered at ingest. Editions of a series share a title and a
+    # published_at, so without this a citation cannot say which one it is.
+    edition: str | None = None
     document_id: str | None = None
     also_available: list[CitationSource] = Field(default_factory=list)
 
