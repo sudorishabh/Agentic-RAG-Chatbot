@@ -21,7 +21,7 @@
 | migration-03 | keep_page_date | keep_page_date | unknown | - | llm | migration_cohort_review | ok |
 | multi-01 | keep_page_date | keep_page_date | unknown | - | llm | multi_pdf_late_upload_review | ok |
 | multi-02 | keep_page_date | keep_page_date | publication | - | deterministic | multi_pdf_uploaded_with_page | ok |
-| annual-01 | keep_page_date | keep_page_date | unknown | 2024-2025 | llm | multi_pdf_textual_only | ok |
+| annual-01 | keep_page_date | keep_page_date | edition | 2024-2025 | llm | multi_pdf_textual_only | ok |
 | annual-02 | keep_page_date | keep_page_date | unknown | 2021-2022 | llm | multi_pdf_textual_only | ok |
 | annual-03 | keep_page_date | keep_page_date | edition | 2015-2016 | llm | multi_pdf_textual_only | ok |
 | annual-04 | keep_page_date | keep_page_date | edition | 2017-2018 | llm | multi_pdf_textual_only | ok |
@@ -52,8 +52,8 @@
 | type | count |
 |---|---:|
 | publication | 16 |
-| unknown | 7 |
-| edition | 4 |
+| unknown | 6 |
+| edition | 5 |
 | notification | 1 |
 | effective | 1 |
 | authoring | 1 |

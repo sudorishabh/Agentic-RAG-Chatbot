@@ -8,5 +8,6 @@
  "checksum_content_hash": "bbd8dc08e1039a68",
  "checksum_doc_version": "c01afec2a2c7f9c8",
  "qdrant_collection": "documents",
- "qdrant_points": 152817
+ "qdrant_points": 152817,
+ "captured_at": "2026-08-20T05:58:47.228343+00:00"
 }
