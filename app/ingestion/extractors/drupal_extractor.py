@@ -541,10 +541,10 @@ def _extract_inbody_pdfs(
         # keeping the LONGEST anchor stops the image link blanking the caption.
         anchors: dict[str, str] = {}
         for match in _ANCHOR_PDF_RE.finditer(html):
-            text = " ".join(_TAG_RE.sub(" ", match.group(2)).split())
+            text = " ".join(_TAG_RE.sub(" ", match.group("text")).split())
             if not text:
                 continue
-            key = _normalize_link(match.group(1), site)
+            key = _normalize_link(match.group("url"), site)
             if len(text) > len(anchors.get(key, "")):
                 anchors[key] = text
         # Sorted, not set-ordered: two spellings of one link normalise to the
