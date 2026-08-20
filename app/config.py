@@ -270,6 +270,35 @@ class Settings(BaseSettings):
     # connection and ingestion/retrieval behave exactly as they do today.
     # Per-stage flags arrive with the stages they gate.
     knowledge_enabled: bool = False
+    # Run the per-document knowledge stage after a document is successfully
+    # indexed (app.ingestion.knowledge_sync). OFF, and additionally gated by
+    # knowledge_enabled above, so the feature ships inert: with this false
+    # `_handle` behaves exactly as it did before the stage existed.
+    #
+    # Deliberately its own switch rather than riding on knowledge_enabled. That
+    # flag means "this deployment has a knowledge layer"; this one means "build
+    # it incrementally on the ingest path", which is a separate decision with a
+    # separate cost, and a deployment may reasonably want the corpus-level
+    # scripts.build_knowledge and nothing else.
+    knowledge_process_after_index: bool = False
+    # Project the document's own claims into Neo4j at the end of its knowledge
+    # stage. Gated by knowledge_process_after_index, so it is inert by default.
+    # Off means MySQL still gets the claims and the graph catches up at the next
+    # project_after_sweep — a lag, never a loss.
+    knowledge_project_per_document: bool = True
+    # Wall-clock budget for one document's knowledge stage. Exceeding it ends
+    # the run as `partial` rather than raising: what already landed is valid and
+    # a retry resumes. Sized for the deterministic path; the LLM extractor has
+    # its own call budget below.
+    knowledge_stage_budget_seconds: float = 30.0
+    # Ceiling on model calls while extracting claims from ONE document, so a
+    # pathologically long document cannot spend the whole run's budget. The
+    # existing claim_llm_max_calls_per_run stays the corpus-level ceiling.
+    knowledge_llm_max_calls_per_document: int = 8
+    # How many times a document's knowledge stage may be retried by the
+    # catch-up sweep before it is left alone. The durable-retry-as-state pattern
+    # the enrichment and dead-link tables already use, not a job queue.
+    knowledge_stage_max_attempts: int = 3
     # Refresh the graph projection at the end of each sweep, so it stops drifting
     # the moment nobody remembers to run scripts.project_graph. Gated by
     # knowledge_enabled, so it is inert on a deployment without a graph, and

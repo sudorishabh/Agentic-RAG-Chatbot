@@ -33,6 +33,7 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+from dataclasses import dataclass
 from typing import Any
 
 from app.knowledge.claims import temporal, types as t
@@ -56,7 +57,20 @@ _FIELD_RULES: tuple[tuple[str, str, str], ...] = (
 # of preferring them: no model, no interpretation, nothing to review.
 CMS_CONFIDENCE = 1.0
 
-_PROJECT_BUNDLES = ("completed_projects", "ongoing_projects")
+PROJECT_BUNDLES = ("completed_projects", "ongoing_projects")
+# Retained under the old private name: this module's tests and the corpus driver
+# below both referred to it before the per-document path existed.
+_PROJECT_BUNDLES = PROJECT_BUNDLES
+
+
+def is_project_bundle(bundle: str | None) -> bool:
+    """Whether a document's bundle can carry CMS project claims at all.
+
+    Lets the per-document path skip the great majority of the corpus — news,
+    PDFs, pages — without building an extraction context or reading metadata for
+    a document that has no rule to match.
+    """
+    return bundle in PROJECT_BUNDLES
 
 
 def _values(raw: Any) -> list[str]:
@@ -88,74 +102,131 @@ def _value_hash(value: str) -> str:
     return hashlib.sha256(value.encode("utf-8")).hexdigest()[:32]
 
 
-def extract_cms_claims(index: Any, *, limit: int | None = None) -> list[Any]:
-    """Every claim the CMS states outright, as unvalidated assertions.
+@dataclass(frozen=True)
+class CmsClaimContext:
+    """The entity lookups CMS extraction needs, built once from the index.
+
+    Split out so the per-document and whole-corpus paths share one construction
+    of it. Building it per document would rebuild three dicts over every entity
+    in the store for each document ingested; building it separately in each path
+    is how the two would drift.
+    """
+
+    # entity_type -> normalized name -> entity_id, for object resolution.
+    lookup: dict[str, dict[str, str]]
+    # A project node's CMS uuid *is* its document id, so this maps a document to
+    # the PROJECT entity that document is about — the claim's subject.
+    projects_by_uuid: dict[str, str]
+
+    @classmethod
+    def from_index(cls, index: Any) -> "CmsClaimContext":
+        lookup: dict[str, dict[str, str]] = {"ORGANIZATION": {}, "PERSON": {}}
+        projects_by_uuid: dict[str, str] = {}
+        for entity_id, row in index.entities.items():
+            entity_type = row["entity_type"]
+            if entity_type in lookup:
+                lookup[entity_type][row["normalized_name"]] = entity_id
+            elif entity_type == "PROJECT" and row.get("cms_uuid"):
+                projects_by_uuid[row["cms_uuid"]] = entity_id
+        return cls(lookup=lookup, projects_by_uuid=projects_by_uuid)
+
+    def subject_for(self, document_id: str) -> str | None:
+        """The PROJECT entity this document is about, or None.
+
+        None is the ordinary answer for a project the global seed pass has not
+        reached yet. Nothing is minted here — see the module docstring in
+        app.knowledge.seed for why entity creation is a deliberate global act.
+        """
+        return self.projects_by_uuid.get(document_id)
+
+    def object_for(self, object_type: str, value: str) -> str | None:
+        normalizer = _NORMALIZERS.get(object_type)
+        if normalizer is None:
+            return None
+        return self.lookup.get(object_type, {}).get(normalizer(value))
+
+
+_NORMALIZERS = {"ORGANIZATION": normalize_org, "PERSON": normalize_person}
+
+
+def claims_from_meta(
+    document_id: str, raw_meta: Any, *, context: CmsClaimContext
+) -> list[Any]:
+    """Every CMS claim one document states, as unvalidated assertions.
+
+    The single implementation. :func:`extract_cms_claims` drives it over the
+    corpus and the per-document knowledge stage calls it directly, so the two
+    cannot produce different claims for the same document.
 
     Returns assertions rather than staging them, so validation still runs. A
     sponsor whose organization was demoted, or a PI who is only a provisional
     identity, must be rejected like anything else rather than trusted for its
     provenance — which is exactly what happens to most PI names here.
     """
+    subject = context.subject_for(document_id)
+    if subject is None:
+        return []
+    meta = _meta(raw_meta)
+    if not meta:
+        return []
+    # The project's own CMS-stated period scopes every relationship to it. The
+    # single approved inference in the claim layer, and recorded under its own
+    # basis so it is never mistaken for a stated relationship date.
+    window = temporal.subject_period(meta)
+
+    out: list[Any] = []
+    for field_name, predicate, object_type in _FIELD_RULES:
+        for value in _values(meta.get(field_name)):
+            object_id = context.object_for(object_type, value)
+            if object_id is None:
+                continue
+            out.append(
+                t.build(
+                    subject_entity_id=subject,
+                    predicate=predicate,
+                    object_entity_id=object_id,
+                    document_id=document_id,
+                    evidence_kind=t.EVIDENCE_CMS_FIELD,
+                    source_field=field_name,
+                    source_value=value[:512],
+                    source_value_hash=_value_hash(value),
+                    valid_from=window.valid_from,
+                    valid_until=window.valid_until,
+                    temporal_basis=window.basis,
+                    confidence=CMS_CONFIDENCE,
+                    extraction_method="cms_field",
+                    extractor_version=EXTRACTOR_VERSION,
+                )
+            )
+    return out
+
+
+def extract_cms_claims(index: Any, *, limit: int | None = None) -> list[Any]:
+    """Every claim the CMS states outright, corpus-wide.
+
+    A driver over :func:`claims_from_meta`, which holds the actual rules.
+    """
     from app.catalog.db import state_table
     from app.core.clients import mysql_connection
 
     table = state_table()
-    lookup: dict[str, dict[str, str]] = {"ORGANIZATION": {}, "PERSON": {}}
-    for entity_id, row in index.entities.items():
-        entity_type = row["entity_type"]
-        if entity_type in lookup:
-            lookup[entity_type][row["normalized_name"]] = entity_id
-    normalizers = {"ORGANIZATION": normalize_org, "PERSON": normalize_person}
-    projects_by_uuid = {
-        row.get("cms_uuid"): entity_id
-        for entity_id, row in index.entities.items()
-        if row["entity_type"] == "PROJECT" and row.get("cms_uuid")
-    }
+    context = CmsClaimContext.from_index(index)
 
-    placeholders = ", ".join(["%s"] * len(_PROJECT_BUNDLES))
+    placeholders = ", ".join(["%s"] * len(PROJECT_BUNDLES))
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(
             f"SELECT document_id, raw_meta FROM `{table}` "
             f"WHERE bundle IN ({placeholders}) AND entity_type = 'node' "
             "AND raw_meta IS NOT NULL",
-            _PROJECT_BUNDLES,
+            PROJECT_BUNDLES,
         )
         rows = cur.fetchall()
 
     out: list[Any] = []
     for row in rows:
-        subject = projects_by_uuid.get(row["document_id"])
-        if subject is None:
-            continue
-        meta = _meta(row["raw_meta"])
-        # The project's own CMS-stated period scopes every relationship to it.
-        # The single approved inference in the claim layer, and recorded under
-        # its own basis so it is never mistaken for a stated relationship date.
-        window = temporal.subject_period(meta)
-
-        for field_name, predicate, object_type in _FIELD_RULES:
-            for value in _values(meta.get(field_name)):
-                object_id = lookup[object_type].get(normalizers[object_type](value))
-                if object_id is None:
-                    continue
-                out.append(
-                    t.build(
-                        subject_entity_id=subject,
-                        predicate=predicate,
-                        object_entity_id=object_id,
-                        document_id=row["document_id"],
-                        evidence_kind=t.EVIDENCE_CMS_FIELD,
-                        source_field=field_name,
-                        source_value=value[:512],
-                        source_value_hash=_value_hash(value),
-                        valid_from=window.valid_from,
-                        valid_until=window.valid_until,
-                        temporal_basis=window.basis,
-                        confidence=CMS_CONFIDENCE,
-                        extraction_method="cms_field",
-                        extractor_version=EXTRACTOR_VERSION,
-                    )
-                )
+        out.extend(
+            claims_from_meta(row["document_id"], row["raw_meta"], context=context)
+        )
         if limit is not None and len(out) >= limit:
             break
 

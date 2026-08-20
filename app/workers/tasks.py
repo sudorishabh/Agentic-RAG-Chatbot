@@ -24,7 +24,16 @@ def sweep() -> dict[str, dict[str, int]]:
     # decided. Projection first, so reconciliation reports the graph as it stands
     # after this sweep rather than as it stood before.
     from app.ingestion.graph_sync import project_after_sweep
+    from app.ingestion.knowledge_sync import catch_up
     from app.ingestion.reconcile import reconcile_after_sweep
+
+    # Documents whose per-document knowledge stage did not land — it failed, it
+    # was cut short by its budget, or it never ran. Bounded, and before the
+    # projection so anything it stages is in this sweep's graph refresh rather
+    # than the next one. Returns rather than raises, like everything else here.
+    knowledge = catch_up()
+    if knowledge is not None and knowledge.get("examined"):
+        result["knowledge_catch_up"] = knowledge
 
     projection = project_after_sweep()
     if projection is not None:

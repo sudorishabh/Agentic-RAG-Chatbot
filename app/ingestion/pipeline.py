@@ -16,9 +16,10 @@ from app.catalog.models import AttachmentLink, StateRecord
 from app.config import get_settings
 from app.core.models import CanonicalDocument
 from app.ingestion import change_detection as cd
+from app.ingestion import knowledge_sync
 from app.ingestion.change_detection import ChangeRecord, ChangeStatus
 from app.ingestion.chunking import Chunk, chunk_canonical
-from app.ingestion.enrich import abstract_version, generate_abstract
+from app.ingestion.enrich import abstract_version, generate_abstract, is_shutdown_error
 from app.ingestion.indexer import index_chunks
 from app.ingestion.version import PIPELINE_VERSION
 from app.core.clients import delete_document, refresh_document_title
@@ -188,6 +189,12 @@ def _enrich_once(doc: CanonicalDocument, content_hash: str, max_attempts: int) -
     try:
         abstract = generate_abstract(doc)
     except Exception as exc:
+        if is_shutdown_error(exc):
+            # The process is going down mid-document, so no call was made and
+            # no attempt is owed. Counting it would spend the budget on a
+            # Ctrl-C and could leave a big document permanently abstract-less.
+            logger.info("Abstract generation abandoned for %s: %s", doc.document_id, exc)
+            return "aborted"
         # A model failure is worth remembering: without a counter, a document
         # that always fails is retried at full cost on every sweep forever.
         logger.warning("Abstract generation failed for %s.", doc.document_id, exc_info=True)
@@ -212,7 +219,10 @@ def _enrich(doc: CanonicalDocument, content_hash: str) -> str:
         return "off"
     try:
         return _enrich_once(doc, content_hash, settings.enrichment_max_attempts)
-    except Exception:
+    except Exception as exc:
+        if is_shutdown_error(exc):
+            logger.info("Enrichment abandoned for %s: %s", doc.document_id, exc)
+            return "aborted"
         logger.warning(
             "Enrichment could not run for %s; continuing without an abstract.",
             doc.document_id, exc_info=True,
@@ -420,6 +430,33 @@ def _handle(
         "%s %s -> v%d", record.status.value, record.document_id, version
     )
     _log(run_id, record, "indexed", doc=doc, version=version, chunks=chunks)
+
+    # The document is now fully indexed: its points are in Qdrant, the previous
+    # version has been swapped out, the catalog row and its facets are committed
+    # and the log says so. Only then may the knowledge layer look at it.
+    #
+    # The result is deliberately discarded. This outcome is already decided, and
+    # `knowledge_sync` returns rather than raises in every direction, so there is
+    # no path by which building knowledge can unmake an indexed document.
+    #
+    # The `enabled()` guard is not an optimisation. Argument evaluation happens
+    # at the call site, outside anything `knowledge_sync` can catch, so with the
+    # feature off this is the difference between "inert" and "inert unless one
+    # of these attributes is missing". `raw_meta` is read defensively for the
+    # same reason: nothing about assembling this call may cost a document that
+    # is already indexed.
+    if knowledge_sync.enabled():
+        knowledge_sync.process_after_index(
+            document_id=record.document_id,
+            doc_version=version,
+            chunks=new_chunks,
+            source_type=record.source_type,
+            bundle=record.bundle,
+            content_hash=content_hash,
+            raw_meta=getattr(doc, "raw_meta", None),
+            authors=tuple(getattr(doc, "authors", ()) or ()),
+            run_id=run_id,
+        )
     return "indexed"
 
 

@@ -224,6 +224,68 @@ def get(document_id: str) -> StateRecord | None:
     return _row_to_record(row) if row else None
 
 
+def raw_meta_for(document_id: str) -> dict | None:
+    """One document's CMS metadata, decoded.
+
+    A reader of its own rather than a field on :class:`StateRecord`, and
+    deliberately so. ``_row_to_record`` does not carry ``raw_meta``, because
+    :func:`load` builds a record for *every* document of a source type and the
+    metadata blob is by far the largest column — inflating that map with it
+    would cost the change-detection pass a great deal of memory for something
+    almost nothing reads.
+
+    So callers that genuinely need the metadata for one document ask for it,
+    and pay only for that document. The knowledge layer is the caller this
+    exists for: CMS claims are derived from these fields, so reading them back
+    is the whole job when a document is processed outside ingestion.
+    """
+    table = _table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"SELECT raw_meta FROM `{table}` WHERE document_id = %s",
+            (document_id,),
+        )
+        row = cur.fetchone()
+    if not row or row.get("raw_meta") is None:
+        return None
+    raw = row["raw_meta"]
+    if isinstance(raw, (bytes, bytearray)):
+        raw = raw.decode("utf-8", "replace")
+    if isinstance(raw, str):
+        try:
+            return json.loads(raw)
+        except (TypeError, ValueError):
+            logger.warning("Could not decode raw_meta for %s.", document_id)
+            return None
+    return raw if isinstance(raw, dict) else None
+
+
+def authors_for(document_id: str) -> list[str]:
+    """A document's author names, as the source wrote them.
+
+    The companion to :func:`raw_meta_for`, and it exists for the same reason:
+    ``_row_to_record`` carries no facets, so a caller that needs one document's
+    authors has nowhere to read them from.
+
+    The knowledge layer is that caller. Author names used to live in
+    ``raw_meta.field_authors`` and now live here — ``documents_author`` holds
+    1,860 rows while that metadata key holds none — so anything still reading
+    the metadata for them silently gets nothing.
+
+    Returns the raw ``author`` value, not ``author_norm``: the knowledge layer
+    applies its own :mod:`app.knowledge.normalize` fold, which is a different
+    normalization from the facet's display-oriented one, and folding twice
+    through two schemes would not round-trip.
+    """
+    table = _table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"SELECT author FROM `{table}_author` WHERE document_id = %s",
+            (document_id,),
+        )
+        return [r["author"] for r in cur.fetchall() if r.get("author")]
+
+
 def attachment_ids_for(document_id: str) -> list[str]:
     """The attachments this document links to.
 

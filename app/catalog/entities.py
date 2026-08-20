@@ -289,6 +289,42 @@ def save_decisions(decisions: Sequence[Any]) -> int:
     return len(rows)
 
 
+def delete_decisions_before_version(document_id: str, doc_version: int) -> int:
+    """Drop resolution decisions belonging to a document's superseded versions.
+
+    The decision log is keyed by ``chunk_id`` and carries no ``document_id`` —
+    a decision is about a span, and the span is what identifies it. So the
+    document's own mention rows are what say which chunks were its, and this
+    must run **before** those mentions are deleted or there is nothing left to
+    join against.
+
+    Deletes strictly earlier versions only, for the same reason
+    ``mentions.delete_document_mentions`` does: the current version's decisions
+    may have been written by an earlier, interrupted attempt at this same run.
+
+    Ensures the *mention* schema as well as this module's own. This is the one
+    query in the package that reads across the two, and ``_ensure`` here only
+    creates the resolution tables — so on a deployment where mentions have
+    never been extracted the join hit a table that did not exist and the whole
+    supersede step failed with "table doesn't exist". Ensuring both is correct
+    and costs one idempotent DDL call per process.
+    """
+    _ensure()
+    schema.ensure_entity_tables()
+    table = state_table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(
+            f"DELETE d FROM `{table}_entity_resolution_decision` d "
+            f"JOIN `{table}_entity_mention` m ON m.chunk_id = d.chunk_id "
+            "WHERE m.document_id = %s AND m.doc_version IS NOT NULL "
+            "AND m.doc_version < %s",
+            (document_id, doc_version),
+        )
+        deleted = cur.rowcount
+        conn.commit()
+    return deleted
+
+
 def decision_counts() -> dict[tuple[str, str], int]:
     _ensure()
     table = state_table()

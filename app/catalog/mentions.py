@@ -74,16 +74,33 @@ def save_mentions(
     return len(rows)
 
 
-def delete_document_mentions(document_id: str, *, doc_version: int | None = None) -> int:
-    """Drop a document's mentions, optionally only one version's.
+def delete_document_mentions(
+    document_id: str, *, doc_version: int | None = None,
+    before_version: int | None = None,
+) -> int:
+    """Drop a document's mentions: all of them, one version's, or the old ones.
 
     Called when a document is re-indexed: chunk ids are version-scoped, so the
     previous version's spans point at text that no longer exists.
+
+    ``before_version`` is what the per-document knowledge stage uses, and the
+    distinction from the unqualified delete is load-bearing. The extraction
+    cache is keyed on ``content_hash``, not on the presence of mention rows, so
+    deleting the *current* version's mentions on a retry would remove them while
+    the cache still reported the chunk as extracted — the rows would never come
+    back. Superseding strictly earlier versions cannot hit that.
     """
     _ensure()
     table = state_table()
     with mysql_connection() as conn, conn.cursor() as cur:
-        if doc_version is None:
+        if before_version is not None:
+            cur.execute(
+                f"DELETE FROM `{table}_entity_mention` "
+                "WHERE document_id = %s AND doc_version IS NOT NULL "
+                "AND doc_version < %s",
+                (document_id, before_version),
+            )
+        elif doc_version is None:
             cur.execute(
                 f"DELETE FROM `{table}_entity_mention` WHERE document_id = %s",
                 (document_id,),

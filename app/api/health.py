@@ -96,6 +96,28 @@ def _neo4j_status() -> dict:
         return {"enabled": True, "reachable": False}
 
 
+def _knowledge_status() -> dict:
+    """Per-document knowledge-stage health: what ran, what is queued, what broke.
+
+    Beside ``_neo4j_status`` rather than inside it, because the two answer
+    different questions — that one is "is the graph reachable and how big is
+    it", this one is "is the layer that fills it keeping up". Both report
+    ``enabled: False`` and stop when ``knowledge_enabled`` is off, so a
+    deployment that has not adopted the knowledge layer opens no connection to
+    answer a probe.
+
+    Only reachable from ``/metrics``, which is already hidden behind
+    ``_ops_visible``: run counts, document ids and error strings are deployment
+    detail and have no business on a public response.
+    """
+    from app.ingestion.knowledge_sync import status
+
+    try:
+        return status()
+    except Exception as exc:  # pragma: no cover - the reporter is fail-open
+        return {"enabled": True, "readable": False, "error": str(exc)}
+
+
 def _redis_status() -> dict:
     from app.core.clients import get_redis
 
@@ -183,6 +205,7 @@ async def metrics(principal: Principal = Depends(optional_principal)) -> dict:
         "qdrant": qdrant,
         "redis": await run_in_threadpool(_redis_status),
         "neo4j": await run_in_threadpool(_neo4j_status),
+        "knowledge": await run_in_threadpool(_knowledge_status),
         "reranker_provider": settings.reranker_provider,
         "retrieval": {
             "candidate_k": settings.retrieval_candidate_k,

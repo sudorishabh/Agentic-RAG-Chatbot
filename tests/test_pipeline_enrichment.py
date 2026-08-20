@@ -160,6 +160,35 @@ def test_a_document_under_the_budget_is_retried(monkeypatch):
     assert pipeline._enrich(_doc(), HASH) == "stored"
 
 
+def test_a_shutdown_race_does_not_consume_an_attempt(monkeypatch):
+    """A pool that cannot be created because the process is exiting says
+    nothing about the document: no call was made, so no attempt is owed."""
+    def dying(doc):
+        raise RuntimeError(
+            "cannot schedule new futures after interpreter shutdown"
+        )
+
+    cache = _patch(monkeypatch, generate=dying)
+
+    assert pipeline._enrich(_doc(), HASH) == "aborted"
+    assert cache.failures == []
+    assert cache.puts == []
+
+
+def test_a_shutdown_race_outside_the_model_call_is_also_not_a_failure(monkeypatch):
+    """The same race can hit the cache read; it must not be counted as an
+    enrichment failure in the run's totals either."""
+    class _DyingCache(_FakeCache):
+        def get(self, content_hash, *, version):
+            raise RuntimeError(
+                "cannot schedule new futures after interpreter shutdown"
+            )
+
+    _patch(monkeypatch, cache=_DyingCache(), generate=_never)
+
+    assert pipeline._enrich(_doc(), HASH) == "aborted"
+
+
 def test_an_unreachable_catalog_does_not_stop_the_sweep(monkeypatch):
     _patch(monkeypatch, cache=_FakeCache(get_raises=True), generate=_never)
 

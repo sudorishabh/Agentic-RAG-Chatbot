@@ -32,7 +32,9 @@ decisions upsert per span, assertions upsert on ``claim_id``, links upsert on
 their triple, and every Neo4j write is a ``MERGE``. Interrupting a run and
 re-running it resumes rather than duplicates.
 
-``--limit`` is a pilot control, not a corpus view: see :meth:`Build.conflicts`.
+``--limit`` caps *extraction*. Conflict detection and projection still read
+the whole staged table, so a limited run is a smaller build, never a
+partial verdict about the corpus.
 """
 from __future__ import annotations
 
@@ -40,10 +42,10 @@ import argparse
 import json
 import logging
 import sys
-import time
-from contextlib import contextmanager
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Iterator
+
+from app.knowledge.reporting import Stage, print_stages, stage_timer
 
 logger = logging.getLogger("build_knowledge")
 
@@ -54,38 +56,8 @@ EXIT_FATAL = 2       # could not run: a store was unreachable or a stage is unus
 # Points per Qdrant scroll while grouping chunks into documents.
 _SCROLL_BATCH = 1000
 
-# Reported whenever the claim set this run examined is not the whole staged set.
-PARTIAL_CONFLICTS = (
-    "conflict detection is partial when --limit is used: supersession and "
-    "dispute verdicts cover only the claims this run extracted, not the corpus"
-)
-
-
 class Fatal(RuntimeError):
     """A condition that makes the rest of the build meaningless."""
-
-
-@dataclass
-class Stage:
-    """What one stage did. ``counts`` is what a reader wants; ``errors`` is what
-    an operator needs — an id per failure, never a bare total."""
-
-    name: str
-    counts: dict[str, int] = field(default_factory=dict)
-    errors: list[dict[str, str]] = field(default_factory=list)
-    notes: list[str] = field(default_factory=list)
-    skipped: bool = False
-    seconds: float = 0.0
-
-    def as_dict(self) -> dict[str, Any]:
-        return {
-            "stage": self.name,
-            "skipped": self.skipped,
-            "seconds": round(self.seconds, 2),
-            "counts": self.counts,
-            "notes": self.notes,
-            "errors": self.errors,
-        }
 
 
 @dataclass
@@ -122,35 +94,24 @@ class Build:
     # Stage plumbing
     # ------------------------------------------------------------------ #
 
-    @contextmanager
     def _stage(self, name: str, *, skip: bool = False) -> Iterator[Stage]:
-        stage = Stage(name=name, skipped=skip)
-        self.stages.append(stage)
-        if skip:
-            logger.info("%-14s skipped", name)
-            yield stage
-            return
-        started = time.monotonic()
-        try:
-            yield stage
-        finally:
-            stage.seconds = time.monotonic() - started
-            summary = " ".join(f"{k}={v}" for k, v in stage.counts.items())
-            logger.info(
-                "%-14s %s%s", name, summary or "-",
-                f"  ({len(stage.errors)} errors)" if stage.errors else "",
-            )
+        """One timed, reported stage. The shared implementation, so a stage
+        means the same thing here as it does in the per-document pipeline."""
+        return stage_timer(self.stages, name, skip=skip, log=logger)
 
     def index(self, *, refresh: bool = False) -> Any:
         """The entity index, loaded once and reused.
 
         Refreshed after seeding, because everything downstream resolves against
-        what seeding just wrote.
+        what seeding just wrote. The refresh also clears the process-wide cache
+        in ``app.knowledge.candidates``, so anything else in this process — the
+        per-document stage, a test — sees the seeded entities rather than the
+        index as it stood before the build started.
         """
-        from app.knowledge.candidates import EntityIndex
+        from app.knowledge.candidates import get_entity_index, reload_entity_index
 
         if self._index is None or refresh:
-            self._index = EntityIndex.load()
+            self._index = reload_entity_index() if refresh else get_entity_index()
         return self._index
 
     # ------------------------------------------------------------------ #
@@ -303,11 +264,35 @@ class Build:
             stage.counts.update(counts)
 
     def _document_context(self, document_id: str, context_for_document: Any) -> Any:
-        """Corroboration from the document's own CMS metadata, or an empty one."""
+        """Corroboration from the document's own CMS metadata, or an empty one.
+
+        Read through ``state.raw_meta_for`` rather than off a ``StateRecord``.
+        The record has a ``raw_meta`` field but ``state._row_to_record`` never
+        fills it — the blob is far too large to carry on every record
+        ``state.load`` builds — so this used to be unconditionally ``None`` and
+        every document resolved with an *empty* context.
+
+        That failed silently and in the expensive direction. Corroboration is
+        what the resolver requires before it will link a PERSON at all
+        (``thresholds.require_corroboration``), so with it always empty a
+        uniquely-matching person name landed on ``AMBIGUOUS`` — "unique name
+        match but no corroborating context" — instead of ``AUTO``. Nothing
+        errored; the run simply resolved less than it could, and no count said
+        why.
+
+        Author names come from the ``documents_author`` facet, not the metadata
+        blob. They were moved there and ``raw_meta.field_authors`` is now empty
+        corpus-wide, so reading only the blob left PERSON — the one type that
+        *requires* corroboration — with none of it. Fixing the blob read alone
+        would have changed nothing for PERSON.
+        """
         from app.catalog import state
 
-        record = state.get(document_id)
-        return context_for_document(document_id, getattr(record, "raw_meta", None))
+        return context_for_document(
+            document_id,
+            state.raw_meta_for(document_id),
+            authors=state.authors_for(document_id),
+        )
 
     def _documents(self) -> Iterator[tuple[str, list[dict[str, Any]]]]:
         """Current child chunks from Qdrant, grouped by document, capped by
@@ -396,74 +381,107 @@ class Build:
                 stage.counts["rejections_recorded"] = store.record_rejections(
                     result.rejected
                 )
+                # `built`, not `accepted`. Staleness is a question about what
+                # the *source states* — what extraction produced — not about
+                # what validation allowed. A claim rejected as
+                # `object_not_claim_eligible` is still stated by its CMS field
+                # and must not be retracted; passing the full extraction keeps
+                # its id in the fresh set so it is protected, while widening the
+                # (document, field) pairs this run is entitled to judge.
+                stage.counts["retracted"] = self._retract_stale(built)
             return accepted
 
-    def conflicts(self, staged: list[Any]) -> None:
-        """Supersession and dispute verdicts over the staged claims.
+    def _retract_stale(self, fresh: list[Any]) -> int:
+        """Retract staged CMS claims their source no longer supports.
 
-        ``detect`` reads assertion objects, and the staged rows are dicts with
-        no reverse mapping, so a pass can only examine the batch this run built.
-        On a full run that batch *is* every CMS claim, which is every staged
-        claim the corpus has — the coverage check below proves it rather than
-        assuming it, and says so when it does not hold.
+        ``extract_cms.stale_claim_ids`` was written for this and, until now, was
+        called by nothing but its own tests — so a claim whose sponsor was
+        corrected away, or whose subject stopped being claim-eligible, stayed
+        ``active`` in the table forever. A full corpus run measured 17 of them:
+        still staged, still active, and refused by projection as
+        ``claim_entity_not_eligible`` on every pass without anyone being told.
 
-        Under ``--limit`` the batch is a sample by construction. Its verdicts
-        are still correct about the claims it saw, but they are not a statement
-        about the corpus, and this run refuses to present them as one.
+        Retracted, never deleted: the claim was true of the source as it stood.
+        Only ``(document, field)`` pairs this run actually examined are judged,
+        so a ``--limit`` run cannot retract claims it never looked at.
         """
+        from app.catalog import assertions as store
+        from app.knowledge.claims.extract_cms import stale_claim_ids
+
+        try:
+            stale = stale_claim_ids(fresh, store.all_staged())
+        except Exception as exc:  # pragma: no cover - store hiccup
+            logger.warning("Could not check for stale claims: %s", exc)
+            return 0
+        return store.retract(stale) if stale else 0
+
+    def conflicts(self, staged: list[Any]) -> None:
+        """Supersession and dispute verdicts over **every** staged claim.
+
+        Not over this run's batch. That distinction used to be forced: ``detect``
+        reads assertion objects while the store returns dicts, and with no
+        reverse mapping a pass could only examine what it had just built. So the
+        stage examined its own CMS batch and reported an error whenever the
+        table held more — which it now always does, because the per-document
+        ingest path stages claims this pass never re-extracts (LLM claims from
+        chunk text, and anything staged since the last run).
+
+        ``claims.types.from_row`` supplies the missing mapping, so the whole
+        table is examinable and this stage examines it. That matters beyond
+        tidiness: conflict detection is what stops two documents asserting
+        different principal investigators for one project from *both* producing
+        a current-state edge. A claim outside the batch escaping it is a
+        correctness hole, not a reporting gap.
+
+        A consequence worth stating: ``--limit`` no longer makes conflict
+        detection partial. It limits *extraction*; the table it then examines is
+        whole either way.
+
+        Under ``--dry-run`` nothing was staged, so the batch is all there is and
+        the stage says so.
+        """
+        from app.catalog import assertions as store
         from app.knowledge.claims import conflicts as detector
+        from app.knowledge.claims import types as t
 
         with self._stage("conflicts") as stage:
-            if not staged:
+            if self.writes:
+                try:
+                    rows = store.all_staged()
+                except Exception as exc:
+                    stage.fail("conflicts", f"could not read staged claims: {exc}")
+                    return
+                scope = [t.from_row(row) for row in rows]
+                stage.counts["from_store"] = len(scope)
+                stage.counts["beyond_this_batch"] = max(0, len(scope) - len(staged))
+            else:
+                scope = list(staged)
+                stage.notes.append(
+                    "dry run: nothing was staged, so only this run's batch could "
+                    "be examined"
+                )
+
+            if not scope:
                 stage.notes.append("no claims to examine")
                 return
-            report = detector.detect(staged)
+
+            report = detector.detect(scope)
             stage.counts["examined"] = report.examined
             stage.counts["groups"] = report.groups
             stage.counts["links"] = len(report.links)
             stage.counts["disputed"] = len(report.disputed)
             stage.counts["superseded"] = len(report.superseded)
 
-            if self.o.limit is not None:
-                stage.counts["partial"] = 1
-                stage.notes.append(PARTIAL_CONFLICTS)
-            else:
-                self._check_global_coverage(stage, len(staged))
-
             if self.writes:
-                from app.catalog import assertions as store
-
-                stage.counts["links_saved"] = store.save_links(
-                    report.links, detector=detector.DETECTOR_VERSION
-                )
+                # Statuses before links, so an interruption between them leaves a
+                # suppressed claim missing its audit link rather than an
+                # unsuppressed claim projecting an edge it should not.
                 stage.counts["status_applied"] = store.apply_status(
                     report.status_changes
                 )
-
-    def _check_global_coverage(self, stage: Stage, examined: int) -> None:
-        """On a full run, confirm the batch really was every staged claim.
-
-        Claims staged by some other provenance — a future text extractor, or a
-        previous limited run whose documents this one no longer reaches — would
-        sit in the table unexamined. That is worth an error rather than a
-        silent partial pass, because the caller asked for a corpus-wide verdict.
-        """
-        from app.catalog import assertions as store
-
-        try:
-            total = store.total()
-        except Exception as exc:  # pragma: no cover - store hiccup
-            stage.notes.append(f"could not confirm coverage: {exc}")
-            return
-        if total > examined:
-            stage.counts["unexamined"] = total - examined
-            stage.notes.append(
-                f"{total - examined} staged claim(s) were not examined: conflict "
-                "detection covered this run's batch, not the whole table"
-            )
-            stage.errors.append(
-                {"id": "conflicts", "error": "coverage is not corpus-wide"}
-            )
+                stage.counts["links_saved"] = store.save_links(
+                    report.links, detector=detector.DETECTOR_VERSION
+                )
 
     # ------------------------------------------------------------------ #
     # 11. Projection.
@@ -492,9 +510,14 @@ class Build:
             # the constraints have to exist before the first MERGE.
             ensure_graph_schema()
             report = run_projection().as_dict()
-            stage.counts.update(
-                {k: v for k, v in report.items() if isinstance(v, int)}
-            )
+            # Flattened, because every count in the report lives one level down
+            # under nodes/relationships/skipped. The previous form looked for
+            # top-level ints, of which there are none, so this stage reported
+            # "-" however much it had just written.
+            stage.notes.append(f"version {report['projection_version']}")
+            for bucket in ("nodes", "relationships", "skipped"):
+                for name, count in sorted(report.get(bucket, {}).items()):
+                    stage.counts[f"{bucket[:4]}_{name}"] = count
 
     # ------------------------------------------------------------------ #
     # Run
@@ -559,18 +582,7 @@ def _print(report: dict[str, Any]) -> None:
     mode = "DRY RUN — nothing written" if report["dry_run"] else "writing"
     scope = f"limit={report['limit']}" if report["limit"] else "full corpus"
     print(f"build_knowledge ({mode}, {scope})")
-    for stage in report["stages"]:
-        if stage["skipped"]:
-            print(f"  {stage['stage']:14} skipped")
-            continue
-        counts = "  ".join(f"{k}={v}" for k, v in stage["counts"].items())
-        print(f"  {stage['stage']:14} {counts or '-'}   {stage['seconds']}s")
-        for note in stage["notes"]:
-            print(f"    note: {note}")
-        for err in stage["errors"][:10]:
-            print(f"    error: {err['id']}: {err['error']}")
-        if len(stage["errors"]) > 10:
-            print(f"    ... and {len(stage['errors']) - 10} more")
+    print_stages(report["stages"])
     print(f"  {'errors':14} {report['errors']}")
 
 

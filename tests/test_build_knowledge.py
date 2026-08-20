@@ -42,6 +42,27 @@ class _Assertion:
     predicate: str = "FUNDED_BY"
     status: str = "active"
     claim_eligible: bool = True
+    # Read by extract_cms.stale_claim_ids, which the claims stage now calls to
+    # retract claims the source stopped supporting.
+    document_id: str = "d1"
+    source_field: str = "field_completed_sponsors"
+    evidence_kind: str = "cms_field"
+
+
+def _staged_row(claim_id: str, **overrides) -> dict:
+    """A staged claim as the store returns it, for `types.from_row`."""
+    row = dict(
+        claim_id=claim_id, subject_entity_id="org-1", predicate="FUNDED_BY",
+        object_entity_id="org-2", object_literal=None, document_id="d1",
+        chunk_id=None, evidence_kind="cms_field",
+        source_field="field_completed_sponsors", quote=None, quote_start=None,
+        quote_end=None, valid_from=None, valid_until=None,
+        temporal_basis="unknown", confidence=1.0, status="active",
+        extraction_method="cms_field", extractor_version="claims-cms-v2",
+        vocabulary_version="predicates-v1", model=None, prompt_version=None,
+    )
+    row.update(overrides)
+    return row
 
 
 class _Recorder:
@@ -95,6 +116,14 @@ def wired(monkeypatch):
     monkeypatch.setattr(assertion_store, "record_rejections",
                         rec.writer("record_rejections", 0))
     monkeypatch.setattr(assertion_store, "total", lambda: 2)
+    # Conflict detection now reads the whole staged table rather than this
+    # run's batch, and the claims stage retracts what the source no longer
+    # supports. Both go through all_staged.
+    monkeypatch.setattr(
+        assertion_store, "all_staged",
+        lambda: [_staged_row("c1"), _staged_row("c2")],
+    )
+    monkeypatch.setattr(assertion_store, "retract", rec.writer("retract", 0))
     monkeypatch.setattr(
         conflicts, "detect",
         lambda assertions: conflicts.ConflictReport(
@@ -152,7 +181,12 @@ def test_write_run_calls_the_writers_in_order(wired):
     assert wired.calls == [
         "save_entities", "acronym_aliases", "mark_ambiguous_aliases",
         "apply_promotions", "stage", "record_rejections",
-        "save_links", "apply_status",
+        # No "retract": nothing was stale, and the stage does not call the
+        # writer to retract an empty list.
+        # Statuses before links: an interruption between them must leave a
+        # suppressed claim missing its audit link, never an unsuppressed claim
+        # projecting an edge it should not.
+        "apply_status", "save_links",
     ]
     assert code == bk.EXIT_OK
 
@@ -188,39 +222,77 @@ def test_limit_is_passed_to_claim_extraction(wired, monkeypatch):
     assert seen == [500]
 
 
-def test_limited_run_reports_conflicts_as_partial(wired):
-    build, _ = _run(limit=500, skip_project=True)
-    stage = _stage(build, "conflicts")
-    assert stage.counts["partial"] == 1
-    assert bk.PARTIAL_CONFLICTS in stage.notes
-    assert "--limit" in bk.PARTIAL_CONFLICTS
+def test_conflicts_examine_the_whole_table_not_just_this_batch(wired, monkeypatch):
+    """The correctness property, not a reporting nicety.
 
+    The per-document ingest path stages claims this pass never re-extracts —
+    LLM claims read from chunk text. A batch-scoped conflict pass would let one
+    of those assert a second principal investigator for a project without ever
+    being compared against the first, and both would project a current-state
+    edge. So the pass reads the table.
+    """
+    from app.knowledge.claims import types as t
 
-def test_full_run_is_not_marked_partial(wired):
-    build, _ = _run(skip_project=True)
-    stage = _stage(build, "conflicts")
-    assert "partial" not in stage.counts
-    assert stage.notes == []
+    outside = dict(
+        claim_id="staged_elsewhere", subject_entity_id="project-1",
+        predicate="LED_BY", object_entity_id="person-2", object_literal=None,
+        document_id="d9", chunk_id="c9", evidence_kind="chunk",
+        source_field=None, quote=None, quote_start=None, quote_end=None,
+        valid_from="2020-01-01", valid_until=None,
+        temporal_basis="stated", confidence=0.9, status="active",
+        extraction_method="llm", extractor_version="claims-llm-v1",
+        vocabulary_version="predicates-v1", model=None, prompt_version=None,
+    )
+    monkeypatch.setattr(assertion_store, "all_staged", lambda: [outside])
 
+    seen: list = []
+    monkeypatch.setattr(
+        conflicts, "detect",
+        lambda assertions: seen.append(list(assertions))
+        or conflicts.ConflictReport(links=[], status_changes={},
+                                    examined=len(assertions), groups=1),
+    )
 
-def test_full_run_flags_claims_it_did_not_examine(wired, monkeypatch):
-    """A corpus-wide verdict has to cover the whole table; if it cannot, that is
-    an error rather than a quiet partial pass."""
-    monkeypatch.setattr(assertion_store, "total", lambda: 9)
     build, code = _run(skip_project=True)
     stage = _stage(build, "conflicts")
-    assert stage.counts["unexamined"] == 7
-    assert any("not examined" in n for n in stage.notes)
-    assert code == bk.EXIT_ERRORS
-
-
-def test_limited_run_does_not_run_the_coverage_check(wired, monkeypatch):
-    """Under --limit the batch is knowingly partial, so comparing it with the
-    table would report an error for the expected case."""
-    monkeypatch.setattr(assertion_store, "total", lambda: 9)
-    build, code = _run(limit=500, skip_project=True)
-    assert "unexamined" not in _stage(build, "conflicts").counts
+    assert [a.claim_id for a in seen[0]] == ["staged_elsewhere"]
+    assert stage.counts["from_store"] == 1
     assert code == bk.EXIT_OK
+
+
+def test_a_limited_run_is_no_longer_a_partial_verdict(wired):
+    """--limit caps extraction; the table it then examines is whole either way,
+    so there is nothing partial left to warn about."""
+    build, code = _run(limit=500, skip_project=True)
+    stage = _stage(build, "conflicts")
+    assert "partial" not in stage.counts
+    assert "unexamined" not in stage.counts
+    assert stage.notes == []
+    assert code == bk.EXIT_OK
+
+
+def test_a_dry_run_says_it_could_only_see_its_own_batch(wired):
+    """Nothing was staged, so the table cannot be the scope and the run says so
+    instead of quietly examining an empty one."""
+    build, _ = _run(dry_run=True, skip_project=True)
+    stage = _stage(build, "conflicts")
+    assert any("only this run's batch" in n for n in stage.notes)
+    assert "from_store" not in stage.counts
+
+
+def test_status_is_applied_before_links_are_saved(wired, monkeypatch):
+    """Interruption-safe order: a suppressed claim missing its audit link beats
+    an unsuppressed claim projecting an edge it should not."""
+    monkeypatch.setattr(
+        conflicts, "detect",
+        lambda assertions: conflicts.ConflictReport(
+            links=[conflicts.ClaimLink("a", "b", "supersedes", "why")],
+            status_changes={"b": "superseded"}, examined=2, groups=1,
+        ),
+    )
+    build, _ = _run(skip_project=True)
+    calls = wired.calls
+    assert calls.index("apply_status") < calls.index("save_links")
 
 
 # --------------------------------------------------------------------------- #
@@ -263,10 +335,24 @@ def test_validation_receives_the_configured_confidence_floor(wired, monkeypatch)
     assert seen["min_confidence"] == get_settings().claim_min_confidence
 
 
-def test_no_claims_leaves_conflicts_empty(wired, monkeypatch):
+def test_extracting_nothing_still_examines_what_is_already_staged(wired, monkeypatch):
+    """A run that extracts nothing is not a run with nothing to check.
+
+    Claims staged by an earlier run, or by the per-document ingest path, are
+    still in the table and still need conflict verdicts. Before the pass read
+    the table, an empty extraction meant an empty conflict pass.
+    """
     monkeypatch.setattr(extract_cms, "extract_cms_claims", lambda index, limit=None: [])
     build, code = _run(skip_project=True)
     assert "stage" not in wired.calls
+    assert _stage(build, "conflicts").counts["from_store"] == 2
+    assert code == bk.EXIT_OK
+
+
+def test_an_empty_table_leaves_conflicts_empty(wired, monkeypatch):
+    monkeypatch.setattr(extract_cms, "extract_cms_claims", lambda index, limit=None: [])
+    monkeypatch.setattr(assertion_store, "all_staged", lambda: [])
+    build, code = _run(skip_project=True)
     assert _stage(build, "conflicts").notes == ["no claims to examine"]
     assert code == bk.EXIT_OK
 
@@ -440,9 +526,249 @@ def test_cli_dry_run_reports_json(wired, capsys):
     assert report["dry_run"] is True
     assert report["with_mentions"] is False
     notes = [n for s in report["stages"] for n in s["notes"]]
-    assert bk.PARTIAL_CONFLICTS in notes
+    assert any("only this run's batch" in n for n in notes)
 
 
-def test_cli_text_report_shows_the_partial_warning(wired, capsys):
+def test_cli_text_report_shows_the_dry_run_scope(wired, capsys):
     bk.main(["--limit", "500", "--dry-run", "--skip-project"])
-    assert "conflict detection is partial" in capsys.readouterr().out
+    assert "only this run's batch" in capsys.readouterr().out
+
+
+# --------------------------------------------------------------------------- #
+# Resolution context: the corroboration the mention stage resolves against
+# --------------------------------------------------------------------------- #
+
+def test_document_context_reads_raw_meta_from_its_own_reader(monkeypatch):
+    """Regression, and it failed silently in the expensive direction.
+
+    ``StateRecord`` has a ``raw_meta`` field but ``state._row_to_record`` never
+    fills it — the blob is far too large to carry on every record
+    ``state.load`` builds. Reading it off the record therefore yielded ``None``
+    for every document, so the resolver saw an empty context. Corroboration is
+    what it requires before linking a PERSON at all, so a uniquely-matching
+    name landed on AMBIGUOUS instead of AUTO, with nothing in any count saying
+    why.
+    """
+    from types import SimpleNamespace
+
+    from app.catalog import state
+    from app.knowledge.candidates import context_for_document
+
+    # Exactly what state.get returns today: a record whose raw_meta is None.
+    monkeypatch.setattr(
+        state, "get", lambda document_id: SimpleNamespace(raw_meta=None)
+    )
+    monkeypatch.setattr(
+        state, "raw_meta_for",
+        lambda document_id: {
+            "field_authors": ["Asha Rao"],
+            "field_completed_sponsors": ["Ministry of Power"],
+        },
+    )
+    monkeypatch.setattr(state, "authors_for", lambda document_id: [])
+
+    build = bk.Build(bk.Options())
+    context = build._document_context("doc-1", context_for_document)
+
+    assert context.asserts("PERSON", "asha rao")
+    assert context.asserts("ORGANIZATION", "ministry of power")
+
+
+def test_document_context_is_empty_when_a_document_has_no_metadata(monkeypatch):
+    from app.catalog import state
+    from app.knowledge.candidates import context_for_document
+
+    monkeypatch.setattr(state, "raw_meta_for", lambda document_id: None)
+    monkeypatch.setattr(state, "authors_for", lambda document_id: [])
+    build = bk.Build(bk.Options())
+    context = build._document_context("doc-1", context_for_document)
+    assert dict(context.cms_names) == {}
+    assert context.document_id == "doc-1"
+
+
+def test_document_context_does_not_fetch_the_whole_catalog_row(monkeypatch):
+    """`state.get` selects every column including the metadata blob. The
+    context needs only that blob, and the mention stage asks once per document,
+    so the narrow reader is the right one."""
+    from app.catalog import state
+    from app.knowledge.candidates import context_for_document
+
+    def _forbidden(document_id):
+        raise AssertionError("the context must not read the whole row")
+
+    monkeypatch.setattr(state, "get", _forbidden)
+    monkeypatch.setattr(state, "raw_meta_for", lambda document_id: {})
+    monkeypatch.setattr(state, "authors_for", lambda document_id: [])
+    build = bk.Build(bk.Options())
+    build._document_context("doc-1", context_for_document)
+
+
+def test_person_corroboration_comes_from_the_author_facet(monkeypatch):
+    """Regression, and the one that actually changed behaviour.
+
+    Author names were moved out of ``raw_meta.field_authors`` into the
+    ``documents_author`` facet — the metadata key is empty corpus-wide while
+    the facet holds 1,860 rows. Reading only the metadata therefore left PERSON
+    corroboration empty for *every* document, and PERSON is the one type the
+    resolver requires corroboration for.
+    """
+    from app.catalog import state
+    from app.knowledge.candidates import context_for_document
+
+    monkeypatch.setattr(state, "raw_meta_for", lambda document_id: {})
+    monkeypatch.setattr(
+        state, "authors_for", lambda document_id: ["Dr Preeti Jain Das"]
+    )
+
+    build = bk.Build(bk.Options())
+    context = build._document_context("doc-1", context_for_document)
+    assert context.asserts("PERSON", "preeti jain das")
+
+
+def test_the_two_author_sources_are_unioned_not_preferred(monkeypatch):
+    """A corpus that repopulates the metadata key must keep working, so neither
+    source wins — both contribute."""
+    from app.catalog import state
+    from app.knowledge.candidates import context_for_document
+
+    monkeypatch.setattr(
+        state, "raw_meta_for", lambda document_id: {"field_authors": ["Asha Rao"]}
+    )
+    monkeypatch.setattr(state, "authors_for", lambda document_id: ["Meena Sehgal"])
+
+    build = bk.Build(bk.Options())
+    context = build._document_context("doc-1", context_for_document)
+    assert context.asserts("PERSON", "asha rao")
+    assert context.asserts("PERSON", "meena sehgal")
+
+
+def test_author_corroboration_revives_the_false_merge_guard():
+    """What the empty context was costing, stated as the rule it disabled.
+
+    ``scoring._vetoes`` refuses a PERSON candidate when the document's own
+    metadata names a *different* person — the "Raj Sharma at TERI vs Raj Sharma
+    at IIT Delhi" guard. With corroboration always empty that veto could never
+    fire, so a deliberate false-merge protection was dead corpus-wide. Measured
+    over 1,500 real chunks, reviving it moved 13 mentions from AMBIGUOUS to
+    UNRESOLVED, every one of them vetoed by this rule.
+    """
+    from types import SimpleNamespace
+
+    from app.knowledge.candidates import context_for_document
+    from app.knowledge.scoring import _vetoes
+
+    mention = SimpleNamespace(entity_type="PERSON", normalized_text="arun kumar")
+    candidate = SimpleNamespace(
+        entity_type="PERSON", normalized_name="arun kumar", source="exact_name",
+        is_ambiguous=False, autolink=True,
+    )
+
+    empty = context_for_document("doc-1", None)
+    assert "v_cms_names_someone_else" not in _vetoes(mention, candidate, empty)
+
+    names_someone_else = context_for_document(
+        "doc-1", None, authors=["Dr Preeti Jain Das"]
+    )
+    assert "v_cms_names_someone_else" in _vetoes(
+        mention, candidate, names_someone_else
+    )
+
+    # And the author themself is still linkable.
+    names_them = context_for_document("doc-1", None, authors=["Arun Kumar"])
+    assert "v_cms_names_someone_else" not in _vetoes(mention, candidate, names_them)
+
+
+# --------------------------------------------------------------------------- #
+# Stale CMS claims are retracted, not left active forever.
+# --------------------------------------------------------------------------- #
+
+def test_a_claim_the_source_no_longer_states_is_retracted(wired, monkeypatch):
+    """`extract_cms.stale_claim_ids` existed, was tested, and was called by
+    nothing. So a sponsor corrected away in the CMS left its claim `active` in
+    the table for good — a full corpus run measured 17 of them, each refused by
+    projection as `claim_entity_not_eligible` on every pass, silently."""
+    monkeypatch.setattr(
+        assertion_store, "all_staged",
+        lambda: [_staged_row("c1"), _staged_row("gone")],
+    )
+    retracted: list = []
+    monkeypatch.setattr(
+        assertion_store, "retract",
+        lambda ids: retracted.extend(ids) or len(ids),
+    )
+    # This run re-extracts only c1, so "gone" is no longer supported.
+    monkeypatch.setattr(
+        extract_cms, "extract_cms_claims", lambda index, limit=None: [_Assertion("c1")]
+    )
+
+    build, _ = _run(skip_project=True)
+    assert retracted == ["gone"]
+    assert _stage(build, "claims").counts["retracted"] == 1
+
+
+def test_a_dry_run_retracts_nothing(wired, monkeypatch):
+    monkeypatch.setattr(
+        assertion_store, "all_staged",
+        lambda: [_staged_row("c1"), _staged_row("gone")],
+    )
+    monkeypatch.setattr(
+        extract_cms, "extract_cms_claims", lambda index, limit=None: [_Assertion("c1")]
+    )
+    _run(dry_run=True, skip_project=True)
+    assert "retract" not in wired.calls
+
+
+def test_a_claim_from_a_field_this_run_never_saw_is_left_alone(wired, monkeypatch):
+    """Only (document, field) pairs the run covered may be judged, so a --limit
+    run cannot retract claims it never looked at."""
+    monkeypatch.setattr(
+        assertion_store, "all_staged",
+        lambda: [_staged_row("elsewhere", document_id="d99",
+                             source_field="field_ongoing_sponsors")],
+    )
+    retracted: list = []
+    monkeypatch.setattr(
+        assertion_store, "retract",
+        lambda ids: retracted.extend(ids) or len(ids),
+    )
+    _run(limit=1, skip_project=True)
+    assert retracted == []
+
+
+def test_a_rejected_but_still_stated_claim_is_never_retracted(wired, monkeypatch):
+    """The distinction staleness turns on.
+
+    A LED_BY claim whose principal investigator is a *provisional* person is
+    refused by validation every run — 17 of them in the live corpus — but the
+    CMS field still states it. Retracting it would assert the source had
+    changed when only our eligibility rules apply. So the stale check is fed
+    the full extraction, not the accepted subset: the rejected claim's id stays
+    in the fresh set and protects it.
+    """
+    still_stated = _Assertion("ineligible", object_entity_id="person-provisional")
+    monkeypatch.setattr(
+        assertion_store, "all_staged",
+        lambda: [_staged_row("c1"), _staged_row("ineligible")],
+    )
+    monkeypatch.setattr(
+        extract_cms, "extract_cms_claims",
+        lambda index, limit=None: [_Assertion("c1"), still_stated],
+    )
+    # Validation refuses it, exactly as the eligibility gate does in the corpus.
+    monkeypatch.setattr(
+        validate, "validate",
+        lambda assertions, **kw: validate.ValidationResult(
+            [a for a in assertions if a.claim_id != "ineligible"],
+            [SimpleNamespace(code="object_not_claim_eligible", detail="",
+                             assertion=still_stated)],
+        ),
+    )
+    retracted: list = []
+    monkeypatch.setattr(
+        assertion_store, "retract",
+        lambda ids: retracted.extend(ids) or len(ids),
+    )
+
+    build, _ = _run(skip_project=True)
+    assert retracted == []
+    assert _stage(build, "claims").counts["retracted"] == 0

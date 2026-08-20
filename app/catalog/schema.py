@@ -952,3 +952,128 @@ def ensure_assertion_tables() -> None:
         ):
             _ensure_column(cur, f"{table}_assertion", column, ddl)
         conn.commit()
+
+
+# ---------------------------------------------------------------------------
+# Pending relationship candidates.
+#
+# An extractor may propose a predicate the closed vocabulary does not contain
+# ("COLLABORATED_WITH"). Before this table the evidence was thrown away twice
+# over: app.knowledge.claims.extract_llm dropped the proposal, and
+# app.knowledge.claims.validate rejected it with a code and no quote. So the one
+# question the vocabulary needs answered -- "what relationship does this corpus
+# keep asserting that we cannot express?" -- had no data behind it.
+#
+# A candidate is evidence, never a claim and never an edge. It carries the same
+# verified quote a claim would, so a reviewer can read the sentence that
+# proposed it, and it cannot become real without a source-code change to
+# app.knowledge.claims.predicates and a VOCABULARY_VERSION bump. Nothing at
+# runtime can widen the graph vocabulary.
+#
+# `candidate_id` is built by the same hash construction as `claim_id`, so a
+# retry upserts rather than duplicating -- the identity argument in
+# app.knowledge.claims.types applies here unchanged.
+# ---------------------------------------------------------------------------
+_PREDICATE_CANDIDATE_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_predicate_candidate` (
+    candidate_id         VARCHAR(64)  NOT NULL,
+    predicate_surface    VARCHAR(128) NOT NULL,
+    predicate_normalized VARCHAR(128) NOT NULL,
+    subject_entity_id    VARCHAR(64)  NOT NULL,
+    object_entity_id     VARCHAR(64)  NULL,
+    object_literal       VARCHAR(255) NULL,
+    document_id          VARCHAR(255) NOT NULL,
+    chunk_id             VARCHAR(64)  NULL,
+    evidence_kind        VARCHAR(16)  NOT NULL,
+    quote                TEXT         NULL,
+    quote_start          INT          NULL,
+    quote_end            INT          NULL,
+    confidence           FLOAT        NOT NULL DEFAULT 0,
+    extraction_method    VARCHAR(32)  NOT NULL,
+    extractor_version    VARCHAR(64)  NOT NULL,
+    vocabulary_version   VARCHAR(64)  NOT NULL,
+    model                VARCHAR(128) NULL,
+    prompt_version       VARCHAR(64)  NULL,
+    status               VARCHAR(16)  NOT NULL DEFAULT 'pending',
+    observations         INT          NOT NULL DEFAULT 1,
+    first_seen_at        DATETIME     NOT NULL,
+    last_seen_at         DATETIME     NOT NULL,
+    PRIMARY KEY (candidate_id),
+    KEY idx_predicate (predicate_normalized, status),
+    KEY idx_document (document_id),
+    KEY idx_status (status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+
+def ensure_predicate_candidate_table() -> None:
+    """Create the pending-predicate table. Idempotent."""
+    table = state_table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(_PREDICATE_CANDIDATE_DDL.format(table=table))
+        conn.commit()
+
+
+# ---------------------------------------------------------------------------
+# Per-document knowledge runs.
+#
+# One row per (document_id, doc_version), upserted -- not append-only. History
+# of *versions* is what matters here; history of *retries* is `attempts` plus
+# `last_error`, which is the shape `{table}_enrichment` and `{table}_dead_link`
+# already use. An append-only log would grow one row per sweep per document and
+# answer no question the counters do not.
+#
+# The counters are scalar columns rather than one JSON blob because they are
+# what an operator aggregates ("how many documents staged nothing this week");
+# JSON is reserved for the two genuinely open-ended maps, the rejection tally
+# and the error list.
+#
+# A document with no row here is one whose stage never ran or crashed before it
+# could report -- which is exactly what the catch-up sweep looks for, so the
+# absence is load-bearing and the row is written last.
+# ---------------------------------------------------------------------------
+_KNOWLEDGE_RUN_DDL = """
+CREATE TABLE IF NOT EXISTS `{table}_knowledge_run` (
+    document_id          VARCHAR(255) NOT NULL,
+    doc_version          INT          NOT NULL,
+    run_id               VARCHAR(64)  NULL,
+    status               VARCHAR(16)  NOT NULL,
+    attempts             INT          NOT NULL DEFAULT 0,
+    seconds              FLOAT        NOT NULL DEFAULT 0,
+    chunks_seen          INT          NOT NULL DEFAULT 0,
+    chunks_cached        INT          NOT NULL DEFAULT 0,
+    mentions             INT          NOT NULL DEFAULT 0,
+    entities_auto        INT          NOT NULL DEFAULT 0,
+    entities_provisional INT          NOT NULL DEFAULT 0,
+    entities_ambiguous   INT          NOT NULL DEFAULT 0,
+    entities_unresolved  INT          NOT NULL DEFAULT 0,
+    claims_built         INT          NOT NULL DEFAULT 0,
+    claims_staged        INT          NOT NULL DEFAULT 0,
+    claims_rejected      INT          NOT NULL DEFAULT 0,
+    claims_retracted     INT          NOT NULL DEFAULT 0,
+    pending_predicates   INT          NOT NULL DEFAULT 0,
+    conflicts_disputed   INT          NOT NULL DEFAULT 0,
+    conflicts_superseded INT          NOT NULL DEFAULT 0,
+    projection_status    VARCHAR(16)  NOT NULL DEFAULT 'skipped',
+    projection_version   VARCHAR(64)  NULL,
+    projection_edges     INT          NOT NULL DEFAULT 0,
+    rejection_counts     JSON         NULL,
+    errors               JSON         NULL,
+    last_error           TEXT         NULL,
+    knowledge_version    VARCHAR(128) NOT NULL,
+    created_at           DATETIME     NOT NULL,
+    updated_at           DATETIME     NOT NULL,
+    PRIMARY KEY (document_id, doc_version),
+    KEY idx_status (status, attempts),
+    KEY idx_updated (updated_at),
+    KEY idx_document (document_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+"""
+
+
+def ensure_knowledge_run_table() -> None:
+    """Create the per-document knowledge run table. Idempotent."""
+    table = state_table()
+    with mysql_connection() as conn, conn.cursor() as cur:
+        cur.execute(_KNOWLEDGE_RUN_DDL.format(table=table))
+        conn.commit()

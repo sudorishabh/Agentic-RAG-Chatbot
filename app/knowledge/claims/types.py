@@ -211,3 +211,37 @@ def build(**kwargs: Any) -> Assertion:
     assertion = Assertion(**kwargs)
     assertion.recompute_id()
     return assertion
+
+
+# Columns the stores return that are not fields on ``Assertion``. Bookkeeping
+# the row carries and the value object deliberately does not.
+_ROW_ONLY = frozenset({"asserted_at", "created_at", "updated_at"})
+
+
+def from_row(row: dict[str, Any]) -> Assertion:
+    """Rebuild an assertion from a staged row.
+
+    Conflict detection and current-state eligibility read assertion *objects* —
+    ``assertion.status``, ``assertion.temporal_basis`` — while the stores return
+    dicts. Every caller that bridged that gap wrote its own shim; this is the
+    one adapter, so a column added to the table reaches all of them at once.
+
+    ``claim_id`` is taken from the row rather than recomputed: the row is what
+    the store holds, and silently re-deriving an id here would hide exactly the
+    disagreement worth noticing.
+    """
+    # Imported here, not at module scope: `temporal` imports this module.
+    from app.knowledge.claims.temporal import as_iso
+
+    fields = {
+        key: value for key, value in row.items()
+        if key not in _ROW_ONLY and key in Assertion.__dataclass_fields__
+    }
+    # Dates arrive as `datetime.date` from MySQL and as strings elsewhere, and
+    # every comparison downstream is lexical over ISO strings.
+    for key in ("valid_from", "valid_until"):
+        fields[key] = as_iso(fields.get(key))
+    fields["confidence"] = float(fields.get("confidence") or 0.0)
+    assertion = Assertion(**fields)
+    assertion.claim_id = row.get("claim_id") or assertion.recompute_id()
+    return assertion

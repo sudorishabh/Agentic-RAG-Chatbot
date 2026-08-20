@@ -16,7 +16,8 @@ Failure contract: this module **raises** when the model call fails, so the
 caller can count the attempt (:func:`app.catalog.enrichment.record_failure`),
 and returns ``None`` only for documents deliberately skipped — those must not be
 retried. Keeping ingestion running in the face of a failed call is the caller's
-job, matching how every other external dependency here degrades.
+job, matching how every other external dependency here degrades. The one raise
+the caller must *not* count is the shutdown race — see :func:`is_shutdown_error`.
 """
 from __future__ import annotations
 
@@ -30,7 +31,7 @@ from app.ingestion.chunking.packer import Encoder, get_encoder
 
 logger = logging.getLogger(__name__)
 
-__all__ = ["abstract_version", "generate_abstract"]
+__all__ = ["abstract_version", "generate_abstract", "is_shutdown_error"]
 
 # Long enough to carry a document's main threads, short enough that a full
 # scope of thirty fits in one reduce call downstream.
@@ -139,6 +140,19 @@ def _windows(text: str, budget: int, enc: Encoder) -> list[str]:
     if current:
         out.append("\n\n".join(current))
     return out
+
+
+def is_shutdown_error(exc: BaseException) -> bool:
+    """True when ``exc`` is the map stage losing its pool to a dying process.
+
+    :func:`_section_notes` opens a pool per document, and ``ThreadPoolExecutor``
+    refuses to schedule once the interpreter is shutting down — which is what an
+    ingest worker thread hits when the main thread has already exited (a Ctrl-C
+    during a long extraction, say). The model was never asked and there is
+    nothing wrong with the document, so the caller must not spend one of its
+    attempts on it.
+    """
+    return isinstance(exc, RuntimeError) and "interpreter shutdown" in str(exc)
 
 
 def _section_notes(windows: list[str]) -> str:
