@@ -379,6 +379,25 @@
             }
             pending += visible;
             if (!raf) raf = requestAnimationFrame(flush);
+          } else if (event.type === "correction") {
+            // A post-hoc rewrite replaces the streamed draft wholesale (see the
+            // event contract in app/api/chat.py). Without this branch the
+            // correction was parsed and dropped, so a reader kept the text the
+            // server had already rejected — which silently disabled both the
+            // faithfulness loop and the publication-date guard.
+            answer = event.text;
+            pending = "";
+            if (raf) {
+              cancelAnimationFrame(raf);
+              raf = 0;
+            }
+            const visible = filterTags(event.text);
+            stopLoader();
+            bubble.classList.remove("bubble--pending");
+            bubble.textContent = "";
+            textNode = document.createTextNode(visible);
+            bubble.appendChild(textNode);
+            scrollToBottom();
           } else if (event.type === "sources") {
             sources = event;
           } else if (event.type === "done") {

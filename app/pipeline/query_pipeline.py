@@ -427,7 +427,7 @@ def stream_answer(
             _record(s, result, stages)
             return
 
-        from app.generation import faithfulness
+        from app.generation import date_claims, faithfulness
         from app.generation.sections import strip_tags
 
         parts: list[str] = []
@@ -473,6 +473,48 @@ def stream_answer(
                         "text": f"{gen.db_prefix}\n\n{corrected}" if gen.db_prefix else corrected,
                         "reason": "faithfulness",
                     }
+
+        # Deterministic publication-date guard. Runs whatever the faithfulness
+        # setting: this failure is a specific false claim, not a judgement call,
+        # and it survived two rounds of prompt work (4/6 sampled answers still
+        # dated the 2024-25 report to the page date). One regeneration, then a
+        # mechanical rewrite - the claim must not reach the reader.
+        date_report = date_claims.verify_date_claims(strip_tags(answer), gen.blocks)
+        if not date_report.clean:
+            logger.info(
+                'Answer dated a document by its page; correcting once (%d claim(s)).',
+                len(date_report.offenders),
+            )
+            corrected = ''
+            try:
+                retry = generate_answer(
+                    gen.pq.search_query, gen.blocks,
+                    history=history,
+                    correction=date_report.correction_note(),
+                    answer_format=gen.pq.answer_format,
+                    plan_directive=gen.plan_directive,
+                )
+                corrected = faithfulness.validate_markers(retry, len(gen.blocks))
+            except Exception:
+                logger.warning('Date-claim regeneration failed; falling back to the mechanical rewrite.', exc_info=True)
+            recheck = (date_claims.verify_date_claims(strip_tags(corrected), gen.blocks)
+                       if corrected else date_report)
+            if corrected and recheck.clean:
+                answer = corrected
+                reason = 'publication_date'
+            else:
+                # The retry repeated the claim (or never arrived): replace the
+                # offending sentences outright.
+                answer = date_claims.safe_rewrite(answer, recheck)
+                reason = 'publication_date_fallback'
+            corrected_text = (
+                gen.db_prefix + "\n\n" + answer if gen.db_prefix else answer
+            )
+            yield {
+                "type": "correction",
+                "text": corrected_text,
+                "reason": reason,
+            }
 
         result = _assemble(answer, gen)
         s.set("answer_chars", len(answer))

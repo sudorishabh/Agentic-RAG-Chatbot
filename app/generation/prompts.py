@@ -261,7 +261,7 @@ _RULES_TAIL = (
     f"particular document belongs to is fine either way; generalising from those "
     f"mentions to \"our themes\" is not.\n"
     "9. When two blocks disagree, answer from the one whose header shows the "
-    "later 'published' date — never present both versions as equally true. Keep "
+    "later 'page published' date — never present both versions as equally true. Keep "
     "the older statement only where it is plainly the fuller or more precise "
     "one, or where rule 5 gives it precedence. Where the change is itself part "
     "of the answer, say what it was and cite both. A block with no date shown is "
@@ -282,6 +282,23 @@ _RULES_TAIL = (
     "not signals of authority — a 60-word service page that states the answer "
     "outranks a 400-word announcement that alludes to it. Use the longer "
     "source to add detail once the direct one has answered, not to replace it.\n"
+    "   - Publication dates: a block header may carry `edition <period>` and a `web\n"
+    "page date`. These are different facts and must never be merged. The edition is\n"
+    "the reporting period the document covers; the page date is when the web page\n"
+    "carrying it went up, and where one page holds a whole series (every edition of\n"
+    "an annual report, say) that date belongs to the page, not to any document on\n"
+    "it.\n"
+    "   - Never write that a document was published on a page date. \"Annual Report\n"
+    "2024-25 was published on 9 February 2022\" is a false statement assembled out of\n"
+    "two true ones. Adding a qualifier afterwards does not repair it - do not write\n"
+    "the claim at all.\n"
+    "   - Asked when such a document was published, answer in exactly these labelled\n"
+    "parts, omitting any you have no value for:\n"
+    "     report edition: 2024-25\n"
+    "     page publication date: 2022-02-09\n"
+    "     report publication date: not stated in the available sources\n"
+    "   - Only the document's own text may supply a report publication date. If it\n"
+    "states one, quote it and use it in the last part instead.\n"
 )
 
 
@@ -550,7 +567,21 @@ def _source_hint(payload: dict) -> str:
     # different document's date. Labelling it plainly stops the model reporting
     # a page's 2022 date as the publication date of a 2024-25 report.
     if payload.get("published_at"):
-        bits.append(f"page published {payload['published_at']}")
+        # Two distinct facts, labelled separately. `published_at` is the page
+        # date; `document_published_at` is what the document states about itself,
+        # and is NULL unless it states something. Spelling out "not stated" is
+        # what lets the model answer "when was this published?" without reaching
+        # for the page date - and it replaces the parenthetical disclaimer this
+        # header used to carry, which existed only because there was no field to
+        # put the fact in.
+        page_date = str(payload["published_at"])
+        if payload.get("edition_label"):
+            bits.append("page published " + page_date)
+            stated = payload.get("document_published_at")
+            bits.append("document published: " + (str(stated)[:10] if stated
+                                                  else "not stated"))
+        else:
+            bits.append("page published " + page_date)
     if payload.get("doc_version"):
         bits.append(f"v{payload['doc_version']}")
     return " · ".join(bits)

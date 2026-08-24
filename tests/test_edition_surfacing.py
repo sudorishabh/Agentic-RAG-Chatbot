@@ -53,9 +53,9 @@ def test_editions_of_one_series_are_distinguishable():
 def test_the_page_date_is_labelled_as_the_pages():
     header = _source_hint(_annual("2024-25"))
     assert "page published 2022-02-09" in header
-    # The bare word must not appear on its own; that is what invited the model
-    # to report 2022 as the report's publication date.
-    assert "· published 2022" not in header
+    assert "document published: not stated" in header
+    # The date is labelled as the page's, and the document's own date is
+    # stated as absent rather than left to inference.
 
 
 def test_the_edition_is_not_presented_as_a_date():
@@ -63,6 +63,7 @@ def test_the_edition_is_not_presented_as_a_date():
     header = _source_hint(_annual("2024-25"))
     assert "published 2024-25" not in header
     assert "page published 2022-02-09" in header
+    assert "document published: not stated" in header
 
 
 # --------------------------------------------------------------------------- #
