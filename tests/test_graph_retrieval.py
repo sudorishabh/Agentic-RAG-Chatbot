@@ -879,7 +879,21 @@ def test_importing_production_retrieval_does_not_load_the_graph_package():
     is stronger and tested directly: importing production retrieval must not
     *load* the graph package. Every reference to it is inside a function, behind
     a flag that is off, so with shadow disabled the code is never reached.
+
+    A subprocess, so the result cannot depend on what the rest of the suite has
+    already imported. Three things are pinned explicitly, because this test
+    failed once in a full run and never in isolation and none of them should be
+    inherited from whatever ran before it:
+
+    * ``cwd`` - the repo root, so ``app`` is importable regardless of the
+      ambient directory;
+    * the graph flags - forced off in the child environment, so a stray export
+      or a local ``.env`` cannot flip the behaviour being asserted;
+    * both streams are reported on failure, so a recurrence is diagnosable
+      rather than another unreproducible line in a log.
     """
+    import os
+    import pathlib
     import subprocess
     import sys
 
@@ -890,13 +904,35 @@ def test_importing_production_retrieval_does_not_load_the_graph_package():
         "leaked=[m for m in sys.modules if m.startswith('app.retrieval.graph')];"
         "print(','.join(leaked))"
     )
-    completed = subprocess.run(
-        [sys.executable, "-c", program],
-        capture_output=True, text=True, timeout=180,
+    repo_root = pathlib.Path(__file__).resolve().parent.parent
+    env = {
+        **os.environ,
+        "GRAPH_RETRIEVAL_ENABLED": "false",
+        "GRAPH_ROUTING_ENABLED": "false",
+        "KNOWLEDGE_ENABLED": "false",
+        # Keeps the child from re-resolving imports through a stale cache.
+        "PYTHONDONTWRITEBYTECODE": "1",
+    }
+    try:
+        completed = subprocess.run(
+            [sys.executable, "-c", program],
+            capture_output=True, text=True, timeout=300,
+            cwd=str(repo_root), env=env,
+        )
+    except subprocess.TimeoutExpired as exc:  # pragma: no cover - load-dependent
+        raise AssertionError(
+            "importing production retrieval did not finish within 300s; the "
+            f"import itself normally takes ~11s. stdout={exc.stdout!r}"
+        ) from exc
+    assert completed.returncode == 0, (
+        f"child exited {completed.returncode}\n"
+        f"stdout: {completed.stdout[-1000:]}\nstderr: {completed.stderr[-2000:]}"
     )
-    assert completed.returncode == 0, completed.stderr[-2000:]
     leaked = completed.stdout.strip()
-    assert leaked == "", f"graph package loaded by production retrieval: {leaked}"
+    assert leaked == "", (
+        f"graph package loaded by production retrieval: {leaked}\n"
+        f"stderr: {completed.stderr[-1000:]}"
+    )
 
 
 def test_only_the_shadow_hook_references_the_graph_from_production_retrieval():
