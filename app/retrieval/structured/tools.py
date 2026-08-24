@@ -272,8 +272,18 @@ def _render_list_timeline(records: Sequence[StateRecord]) -> str:
     return "\n".join(lines)
 
 
+def _default_list_line(r: StateRecord) -> str:
+    """One bullet, with its date attached whenever the record carries one — a
+    bare title-and-link tells the reader nothing they could not get from the
+    citation list, whereas the date is real record data already on hand."""
+    title = r.title or r.document_id
+    date = (r.published_at or "")[:10]
+    head = f"{title} — {date}" if date else title
+    return f"- {head} ({r.url})" if r.url else f"- {head}"
+
+
 def _render_records(
-    records: Sequence[StateRecord], output_format: str
+    records: Sequence[StateRecord], output_format: str, *, bundle: str | None, filters: RecordFilters
 ) -> tuple[str, list[dict], list[dict]]:
     """Body + structured records + citations, in one consistent order (timeline
     sorts newest-first; citations follow the rendered order)."""
@@ -285,10 +295,7 @@ def _render_records(
         body = _render_list_table(ordered)
     else:
         ordered = list(records)
-        body = "\n".join(
-            f"- {r.title} ({r.url})" if r.url else f"- {r.title or r.document_id}"
-            for r in ordered
-        )
+        body = "\n".join(_default_list_line(r) for r in ordered)
     citations = [
         Citation(
             n=i, type="website", title=r.title, url=r.url,
@@ -303,7 +310,12 @@ def _render_records(
         }
         for r in ordered
     ]
-    return "Here is what I found:\n" + body, data, citations
+    # Named the scope actually matched, not a generic "here is what I found" —
+    # the same information `count_records` already states in its own sentence,
+    # so a list answer is no less specific than a count of the same query.
+    noun = entity_label(bundle or "items", len(ordered))
+    lead = f"Found {len(ordered)} {noun}{_scope_phrase(filters)}:"
+    return lead + "\n" + body, data, citations
 
 
 def _theme_section(label: str, names: list[str], output_format: str) -> str:
@@ -543,7 +555,9 @@ def list_records(
             return missed
         return ToolResult(tool="list_records", entity=bundle, ok=False,
                           error="no matching records")
-    rendered, data, citations = _render_records(records, output_format)
+    rendered, data, citations = _render_records(
+        records, output_format, bundle=bundle, filters=scope.effective
+    )
     # A list cut off at `limit` says nothing about how much it cut off, so a
     # user cannot tell ten from six hundred. Count the same scope and say so
     # whenever the page is full — the count is over exactly the filters that

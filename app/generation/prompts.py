@@ -24,8 +24,8 @@ _CANONICAL_AUTHORITY = 0.85
 # is to say what was found *and* what wasn't, so a list of titles is never read as
 # the substance the user asked for.
 #
-# Ends on a full stop, not a colon: the listing arrives with its own "Here is what
-# I found:" lead (see structured.tools._render_records), and two stacked colons
+# Ends on a full stop, not a colon: the listing arrives with its own "Found N
+# <items>:" lead (see structured.tools._render_records), and two stacked colons
 # read as one broken sentence.
 NO_CONTENT_WITH_CATALOG = (
     "I don't have content that answers that. The closest I can offer is what the "
@@ -104,9 +104,10 @@ _ANSWER_STYLE = (
     "- Answer at a useful length: lead with the direct answer, then give the "
     "specifics the context carries around it — the figures, dates, names, "
     "scope, caveats and limits that make the answer usable. An ordinary "
-    "question is worth roughly 4-8 sentences or 3-6 bullets. Even a one-fact "
-    "question gets its fact plus a sentence of surrounding detail, never a bare "
-    "clause.\n"
+    "question is worth roughly 6-10 sentences or 4-8 bullets; a question the "
+    "context covers from several angles is worth more, not capped at this "
+    "floor. Even a one-fact question gets its fact plus two or three sentences "
+    "of surrounding detail, never a bare clause or a single sentence.\n"
     "- Structure anything past a couple of sentences: short paragraphs, bullets "
     "for parallel points, numbered steps for sequences, a Markdown table for "
     "comparisons across two or more dimensions, and **bold** for the points "
@@ -368,8 +369,11 @@ def grounded_system_prompt(*, mixed: bool) -> str:
 # understanding stage detected a specific desired shape (see query_processor).
 _FORMAT_DIRECTIVES: dict[str, str] = {
     "list": (
-        "Shape the answer as a concise bulleted list — one point per line, no "
-        "preamble. Keep each bullet to a single claim with its citation."
+        "Shape the answer as a bulleted list — one item per line, no preamble. "
+        "Each bullet leads with its claim and its citation, then adds a clause "
+        "of the detail the context gives for that item (a date, a scope, a "
+        "figure) rather than stopping at the bare claim; only omit the clause "
+        "when the context truly offers nothing more for that item."
     ),
     "table": (
         "Shape the answer as a GitHub-flavored Markdown table: a header row, a "
@@ -379,8 +383,10 @@ _FORMAT_DIRECTIVES: dict[str, str] = {
         "or beside each row. Add a one-line caption above the table only if needed."
     ),
     "summary": (
-        "Shape the answer as a brief high-level summary of 2-4 sentences. Cover "
-        "only the most important points and omit minor detail."
+        "Shape the answer as a high-level summary of 4-6 sentences. Cover the "
+        "most important points with the one or two specifics (a figure, a "
+        "date, a scope) that make each concrete, and omit only the minor "
+        "detail."
     ),
     "detailed": (
         "Shape the answer as a thorough, in-depth response. Cover the relevant "

@@ -505,7 +505,7 @@ def test_list_records_plain(monkeypatch):
     assert r.ok
     assert r.data["records"][0]["document_id"] == "d1"
     assert r.citations[0]["title"] == "A"
-    assert r.rendered == "Here is what I found:\n- A (http://a)"
+    assert r.rendered == "Found 1 news item:\n- A — 2024-05-01 (http://a)"
     assert r.data["applied"] == {"entity": "news"}
 
 
@@ -513,8 +513,8 @@ def test_list_records_applied_names_author(monkeypatch):
     monkeypatch.setattr("app.catalog.queries.list_documents", lambda **k: [_rec()])
     r = tools.list_records("news", RecordFilters(author="Rishabh Negi"))
     assert r.data["applied"] == {"entity": "news", "author": "Rishabh Negi"}
-    # the record list itself is the evidence; the prose stays unchanged
-    assert r.rendered == "Here is what I found:\n- A (http://a)"
+    # the record list itself is the evidence; the prose names the same scope
+    assert r.rendered == "Found 1 news item by Rishabh Negi:\n- A — 2024-05-01 (http://a)"
 
 
 def test_list_records_table(monkeypatch):
@@ -565,7 +565,7 @@ def test_list_records_projects_requested_fields(monkeypatch):
     r = tools.list_records("news", RecordFilters(), fields=["title", "url"])
     assert r.data["records"] == [{"title": "A", "url": "http://a"}]
     # rendered stays the normal human-readable answer, unaffected by fields
-    assert r.rendered == "Here is what I found:\n- A (http://a)"
+    assert r.rendered == "Found 1 news item:\n- A — 2024-05-01 (http://a)"
 
 
 def test_list_records_unknown_fields_do_not_empty_the_records(monkeypatch):
