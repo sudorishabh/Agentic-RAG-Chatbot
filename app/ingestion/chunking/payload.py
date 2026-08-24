@@ -43,6 +43,7 @@ def build_payload(chunk: "Chunk") -> dict[str, Any]:
         "source_url": m.source_url,
         "file_url": m.file_url,
         "published_at": m.published_at,
+        "document_published_at": m.document_published_at,
         "pdf_id": m.pdf_id,
         "pdf_path": m.pdf_path,
         "article_uuid": m.article_uuid,

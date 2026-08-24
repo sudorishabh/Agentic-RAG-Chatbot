@@ -403,6 +403,18 @@ def ensure_state_table() -> None:
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(_STATE_DDL.format(table=table))
         _ensure_column(cur, table, "published_at", "published_at DATETIME NULL")
+        # The date the DOCUMENT states it was published, as distinct from
+        # `published_at`, which is the source/web-page publication date. NULL
+        # unless the document itself says so: it is never inferred from an
+        # edition label, a PDF CreationDate, a cover month-year, an upload time
+        # or a URL path. All ten TERI annual reports are NULL because an audit of
+        # their front and back matter found no publication statement in any of
+        # them (reports/phase0/annual_report_date_audit.md).
+        #
+        # Nothing ranks, filters or orders on this column. `published_at` remains
+        # the field every chronology path uses.
+        _ensure_column(cur, table, "document_published_at",
+                       "document_published_at DATETIME NULL")
         _ensure_column(cur, table, "size", "size BIGINT NULL")
         _ensure_column(cur, table, "mtime_ns", "mtime_ns BIGINT NULL")
         _ensure_column(cur, table, "title", "title VARCHAR(1024) NULL")

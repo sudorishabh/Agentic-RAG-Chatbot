@@ -75,6 +75,7 @@ def _save_state(
             entity_type=record.entity_type,
             changed_mark=record.changed_mark,
             published_at=doc.published_at,
+            document_published_at=doc.document_published_at,
             title=doc.title,
             url=doc.source_url,
             authors=list(doc.authors),

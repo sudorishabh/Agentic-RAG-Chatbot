@@ -38,6 +38,11 @@ class StateRecord:
     changed_mark: int | None = None
     indexed_at: str | None = None
     published_at: str | None = None
+    #: The date the document itself states it was published. None unless the
+    #: document says so; ``published_at`` above is the page date and stays the
+    #: field chronology uses. Never inferred from an edition label, a PDF
+    #: CreationDate or an upload time.
+    document_published_at: str | None = None
     # Display fields so structured list/lookup queries can be answered from the
     # catalog (no live site fetch). url is the document's public page/file URL.
     title: str | None = None

@@ -53,6 +53,11 @@ class ResolvedDate:
     """
 
     published_at: str | None
+    #: The date the DOCUMENT states it was published, when one was verified.
+    #: None otherwise - never an edition label, a PDF CreationDate or an
+    #: upload time. Distinct from ``published_at`` above, whose meaning and
+    #: assignment this change deliberately leaves untouched.
+    document_published_at: str | None = None
     edition_label: str | None = None
     decision: DateDecision | None = None
     #: The model's raw verdict, when one was obtained, for the audit trail.

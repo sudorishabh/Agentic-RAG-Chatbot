@@ -187,6 +187,7 @@ def _replace_attachment_links(
 def _row_to_record(row: dict) -> StateRecord:
     indexed = row.get("indexed_at")
     published = row.get("published_at")
+    doc_published = row.get("document_published_at")
     return StateRecord(
         document_id=row["document_id"],
         source_type=row["source_type"],
@@ -202,6 +203,10 @@ def _row_to_record(row: dict) -> StateRecord:
         url=row.get("url"),
         indexed_at=indexed.isoformat() if isinstance(indexed, datetime) else indexed,
         published_at=published.isoformat() if isinstance(published, datetime) else published,
+        document_published_at=(
+            doc_published.isoformat() if isinstance(doc_published, datetime)
+            else doc_published
+        ),
     )
 
 
@@ -419,9 +424,9 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
             INSERT INTO `{table}`
                 (document_id, source_type, source_key, bundle, entity_type,
                  fingerprint, content_hash, doc_version, pipeline_version,
-                 changed_mark, published_at, title, url, raw_meta, indexed_at,
-                 updated_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                 changed_mark, published_at, document_published_at, title, url,
+                 raw_meta, indexed_at, updated_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE
                 source_type  = VALUES(source_type),
                 source_key   = VALUES(source_key),
@@ -438,6 +443,12 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 pipeline_version = COALESCE(VALUES(pipeline_version), pipeline_version),
                 changed_mark = VALUES(changed_mark),
                 published_at = VALUES(published_at),
+                -- COALESCE, unlike published_at: only a path that actually
+                -- resolved a document-stated date may write this column. A
+                -- caller that does not know it passes NULL, and a stored
+                -- value survives rather than being erased.
+                document_published_at = COALESCE(VALUES(document_published_at),
+                                                 document_published_at),
                 title        = VALUES(title),
                 url          = VALUES(url),
                 raw_meta     = COALESCE(VALUES(raw_meta), raw_meta),
@@ -456,6 +467,7 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 record.pipeline_version,
                 record.changed_mark,
                 _to_datetime(record.published_at),
+                _to_datetime(record.document_published_at),
                 record.title,
                 record.url,
                 json.dumps(record.raw_meta, ensure_ascii=False, default=str)

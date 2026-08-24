@@ -27,6 +27,10 @@ class DocumentMeta:
     doc_version: int = 1
     is_current: bool = True
     published_at: str | None = None
+    #: The date the document itself states it was published. None unless the
+    #: document says so. Distinct from ``published_at``, which is the
+    #: source/web-page date and remains what chronology uses.
+    document_published_at: str | None = None
     extra: dict[str, Any] = field(default_factory=dict)
 
 

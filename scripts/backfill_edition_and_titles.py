@@ -60,6 +60,10 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--apply", action="store_true",
                         help="Commit the changes. Omit for a dry run.")
+    parser.add_argument("--expect-titles", type=int, default=10,
+                        help="Refuse to apply unless C targets exactly this many.")
+    parser.add_argument("--expect-editions", type=int, default=5,
+                        help="Refuse to apply unless B targets exactly this many.")
     args = parser.parse_args(argv)
     try:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -103,11 +107,18 @@ def main(argv: list[str] | None = None) -> int:
         chunk_counts[doc_id] = chunk_counts.get(doc_id, 0) + 1
 
     titles = anchor_titles()
+    # Scope: only the PDFs the Annual Reports page links to. A generic
+    # normalisation would also rewrite labels on unrelated documents (air
+    # quality reports, TERI CBS material) that merely happen to be spelled
+    # differently; those are deliberately left alone.
+    in_scope_urls = set(titles)
 
     edition_changes: list[tuple[str, str, str, str, int]] = []
     title_changes: list[tuple[str, str, str, int]] = []
     for doc_id, payload in current.items():
         url = payload.get("file_url") or payload.get("pdf_path") or ""
+        if url not in in_scope_urls:
+            continue
         anchor = titles.get(url)
         # B — normalise, or derive from the link text when absent.
         have = payload.get("edition_label")
@@ -122,15 +133,16 @@ def main(argv: list[str] | None = None) -> int:
 
     mode = "APPLY" if args.apply else "DRY RUN — nothing will be written"
     print(f"=== {mode} ===\n")
-    print(f"B. edition_label normalisation — {len(edition_changes)} documents")
+    print(f"B. edition_label normalisation, Annual Reports page only "
+          f"— {len(edition_changes)} documents")
     print(f"{'current':<12}{'proposed':<12}{'chunks':>7}  title / document")
     for doc_id, title, have, want, n in sorted(edition_changes, key=lambda x: x[3]):
-        print(f"{have:<12}{want:<12}{n:>7}  {title[:28]:<30}{doc_id[:34]}")
+        print(f"{have:<12}{want:<12}{n:>7}  {title[:28]:<30}{doc_id}")
 
     print(f"\nC. title from the page's link text — {len(title_changes)} documents")
     print(f"{'current':<18}{'proposed':<26}{'chunks':>7}  document")
     for doc_id, have, want, n in sorted(title_changes, key=lambda x: x[2]):
-        print(f"{have[:17]:<18}{want[:25]:<26}{n:>7}  {doc_id[:34]}")
+        print(f"{have[:17]:<18}{want[:25]:<26}{n:>7}  {doc_id}")
 
     total_points = sum(n for *_, n in edition_changes) + sum(n for *_, n in title_changes)
     print(f"\nQdrant points whose payload would be rewritten: {total_points} "
@@ -140,6 +152,54 @@ def main(argv: list[str] | None = None) -> int:
     if not args.apply:
         print("\nNo changes written. Re-run with --apply to commit.")
         return 0
+
+    # ---- pre-flight assertions ------------------------------------------
+    # Fail before the first write, not after a partial one. These encode what
+    # the reviewed dry run showed; a corpus that drifted since then stops the
+    # run rather than silently rewriting something else.
+    title_ids = {doc_id for doc_id, *_ in title_changes}
+    edition_ids = {doc_id for doc_id, *_ in edition_changes}
+    problems: list[str] = []
+    if len(title_changes) != args.expect_titles:
+        problems.append(
+            f'C targets {len(title_changes)} documents, expected {args.expect_titles}')
+    if len(edition_changes) != args.expect_editions:
+        problems.append(
+            f'B targets {len(edition_changes)} documents, expected {args.expect_editions}')
+    stray = sorted(d for d in title_ids | edition_ids if not d.startswith('inbody:'))
+    if stray:
+        problems.append(f'not in-body documents: {stray}')
+    outside = sorted(edition_ids - title_ids)
+    if outside:
+        problems.append(f'B targets documents off the Annual Reports page: {outside}')
+    for _doc_id, _have, want, _n in title_changes:
+        if not want.lower().startswith('annual report'):
+            problems.append(f'unexpected proposed title: {want!r}')
+    if problems:
+        print(chr(10) + 'REFUSING TO APPLY:')
+        for problem in problems:
+            print(f'  - {problem}')
+        return 1
+    print(chr(10) + f'pre-flight OK: C={len(title_changes)} documents, '
+          f'B={len(edition_changes)} documents, all in-body Annual Reports')
+
+    def _invariants() -> dict:
+        """published_at and the vector count, to prove neither moved."""
+        import hashlib
+
+        with mysql_connection() as conn, conn.cursor() as cur:
+            cur.execute(
+                f'SELECT document_id, published_at FROM `{table}` ORDER BY document_id')
+            digest = hashlib.sha256()
+            for row in cur.fetchall():
+                digest.update((str(row['document_id']) + '|'
+                               + str(row['published_at']) + chr(10)).encode())
+        return {
+            'published_at_checksum': digest.hexdigest()[:16],
+            'qdrant_points': client.count(collection_name=collection, exact=True).count,
+        }
+
+    before_state = _invariants()
 
     for doc_id, _title, _have, want, _n in edition_changes:
         client.set_payload(
@@ -156,6 +216,12 @@ def main(argv: list[str] | None = None) -> int:
                         (want, doc_id))
         conn.commit()
     print(f"\napplied: {len(edition_changes)} edition labels, {len(title_changes)} titles")
+    after_state = _invariants()
+    print(chr(10) + 'invariants (must be identical):')
+    for key in before_state:
+        same = before_state[key] == after_state[key]
+        print(f'  {key:<24}{before_state[key]!s:>20} -> {after_state[key]!s:<20}'
+              + ('OK' if same else '*** CHANGED ***'))
     return 0
 
 

@@ -64,6 +64,10 @@ class CanonicalDocument:
     language: str = "en"
 
     published_at: str | None = None
+    #: The date the document itself states it was published. None unless the
+    #: document says so. Distinct from ``published_at``, which is the
+    #: source/web-page date and remains what chronology uses.
+    document_published_at: str | None = None
     doc_version: int = 1
     is_current: bool = True
     content_hash: str = ""
