@@ -626,6 +626,32 @@ def _corrected_intent(question: str, intent: Intent) -> Intent:
     return "qa"
 
 
+def _edition_conditions(question: str) -> list[Any]:
+    """Annual-report edition conditions for this question, or nothing.
+
+    "Latest annual report" cannot be answered by ranking: the newest edition is
+    absent from the unfiltered candidate set, so it is resolved here and applied
+    as a filter before retrieval. Returns [] for every question that does not
+    name an edition, which leaves retrieval byte-identical to before -
+    including for annual-report *content* questions that name no edition.
+
+    Failures are contained: the resolver logs and returns None if the series
+    cannot be read, and this adds no condition.
+    """
+    try:
+        from app.retrieval.annual_report_editions import conditions_for, resolve
+
+        resolution = resolve(question)
+    except Exception:
+        logger.warning("Annual-report edition resolution failed; retrieval "
+                       "proceeds unfiltered.", exc_info=True)
+        return []
+    if resolution is None:
+        return []
+    logger.info("annual-report edition: %s", resolution.describe())
+    return conditions_for(resolution)
+
+
 def process(question: str, history: Sequence[dict[str, str]] | None = None) -> ProcessedQuery:
     passthrough = ProcessedQuery(original=question, search_query=question, intent="qa")
     settings = get_settings()
@@ -664,7 +690,7 @@ def process(question: str, history: Sequence[dict[str, str]] | None = None) -> P
         answer_format=analysis.answer_format,
         source_type=analysis.source_type,
         language=analysis.language,
-        filters=_facet_filters(analysis),
+        filters=_facet_filters(analysis) + _edition_conditions(question),
         analysis=analysis,
         understanding=understanding,
     )
