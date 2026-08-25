@@ -22,23 +22,22 @@ Qdrant payloads and `documents.title` for the affected documents only.
 from __future__ import annotations
 
 import argparse
-import re
 import sys
 
 ANNUAL_REPORTS_NODE = "db669bde-858c-478b-9751-fb148d2ecfb4"
-_SPAN = re.compile(r"(?<!\d)(20\d{2}|\d{2})\s*[-_/\u2013]\s*(\d{2,4})(?!\d)")
 
 
 def normalise_edition(label: str | None) -> str | None:
-    """Canonical YYYY-YY, or None when the value names no consecutive span."""
-    if not label:
-        return None
-    for start, end in _SPAN.findall(str(label)):
-        first = int(start) if len(start) == 4 else 2000 + int(start)
-        second = int(end) % 100
-        if 2000 <= first <= 2030 and (second - first % 100) % 100 == 1:
-            return f"{first}-{second:02d}"
-    return None
+    """Canonical YYYY-YY, or None when the value names no consecutive span.
+
+    Delegates to the one implementation in :mod:`app.core.editions`, which
+    ingestion and retrieval also use \u2014 this script's local copy of the rule was
+    identical, and three copies of it are how the corpus ended up holding four
+    spellings of the same value.
+    """
+    from app.core.editions import normalise_edition as _normalise
+
+    return _normalise(label)
 
 
 def anchor_titles() -> dict[str, str]:

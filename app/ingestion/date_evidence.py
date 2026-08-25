@@ -25,6 +25,9 @@ import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
+from app.core.editions import EDITION_RE as _EDITION_RE
+from app.core.editions import normalise_edition
+
 logger = logging.getLogger(__name__)
 
 __all__ = [
@@ -37,8 +40,10 @@ __all__ = [
     "years_in",
 ]
 
-# A fiscal/edition span: "2024-25", "2024-2025", "2024_25", "20-21".
-EDITION_RE = re.compile(r"(?<!\d)(20\d{2}|\d{2})\s*[-_/–]\s*(\d{2,4})(?!\d)")
+# A fiscal/edition span: "2024-25", "2024-2025", "2024_25", "20-21". Re-exported
+# from `app.core.editions`, which owns the rule so retrieval can apply the same
+# one without importing ingestion internals.
+EDITION_RE = _EDITION_RE
 YEAR_RE = re.compile(r"(?<!\d)(19[89]\d|20[0-2]\d)(?!\d)")
 # Drupal's managed upload directory carries the upload month in the path.
 PATH_MONTH_RE = re.compile(r"/sites/default/files/(\d{4})-(\d{2})/")
@@ -66,13 +71,15 @@ def edition_label(*texts: str | None) -> str | None:
     range and "Report 2 - 3" is nothing. This deliberately produces a *label*
     and never a date — an annual report for 2024-25 was not published on any
     particular day that the label implies.
+
+    The spelling rule itself lives in :func:`app.core.editions.normalise_edition`
+    so that retrieval applies the identical one; this function adds only the
+    "first of several fields wins" precedence.
     """
     for text in texts:
-        for start, end in EDITION_RE.findall(text or ""):
-            start_year = int(start) if len(start) == 4 else 2000 + int(start)
-            end_short = int(end) % 100
-            if 2000 <= start_year <= 2030 and (end_short - start_year % 100) % 100 == 1:
-                return f"{start_year}-{end_short:02d}"
+        label = normalise_edition(text)
+        if label is not None:
+            return label
     return None
 
 
