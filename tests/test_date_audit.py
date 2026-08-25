@@ -149,6 +149,26 @@ def test_a_forward_looking_title_is_not_a_contradiction(name):
     assert plain_year_conflict(name, 2018) is None
 
 
+@pytest.mark.parametrize(
+    "name,published_year",
+    [
+        # Both confirmed against the rendered pages during the source-date
+        # backfill: the awards launch was 8 Nov 2016 and the bulletins 9 Jul 2014.
+        ("Frost & Sullivan and TERI launch the Sustainability 4.0 Awards 2017", 2016),
+        ("Post-2015 Development Agenda Bulletin and launch of TERI Yearbook", 2014),
+        # The general patterns those two are instances of.
+        ("Nominations open for the Green Award 2025", 2024),
+        ("Shaping the post-2020 biodiversity framework", 2019),
+    ],
+)
+def test_an_ordinary_forward_reference_is_not_a_contradiction(name, published_year):
+    """The published year here is *earlier* than the year in the name, so the
+    conflict would fire but for the filter. Parameterising the year matters: with
+    a later published year the arithmetic alone suppresses the flag and the test
+    passes without exercising the filter at all."""
+    assert plain_year_conflict(name, published_year) is None
+
+
 def test_an_earlier_year_in_the_name_is_not_a_conflict():
     """A 2015 report posted in 2018 is an ordinary late upload, not an error."""
     assert plain_year_conflict("renewables2015_India.pdf", 2018) is None

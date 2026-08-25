@@ -44,6 +44,14 @@ def build_payload(chunk: "Chunk") -> dict[str, Any]:
         "file_url": m.file_url,
         "published_at": m.published_at,
         "document_published_at": m.document_published_at,
+        # Written only for "year", never "day" or "month". A full date needs no
+        # marker, so absent means "a full date" — which is true of every point
+        # already in the collection, and is why this needed no PAYLOAD version
+        # bump. Filtered here rather than at the caller so it holds however the
+        # meta was built. A reader that ignores this renders 1 January for a
+        # source that only ever stated a year.
+        "published_at_precision": (m.published_at_precision
+                                   if m.published_at_precision == "year" else None),
         "pdf_id": m.pdf_id,
         "pdf_path": m.pdf_path,
         "article_uuid": m.article_uuid,

@@ -44,6 +44,7 @@ __all__ = [
     "classify",
     "is_plausible",
     "publication_date",
+    "resolve_published_at",
     "to_ist_date",
 ]
 
@@ -104,18 +105,27 @@ FIELD_KINDS: dict[str, tuple[Kind, Precision]] = {
     "field_completed_start_date": ("period", "day"),
     "field_completed_end_date": ("period", "day"),
     "field_ongoing_start_date": ("period", "day"),
+
+    # ---- looked at, and not dates at all ----
+    # Publication *venues* and publisher names — 2,539 values whose field names
+    # contain "publish". Declared rather than omitted so that "a date-like field
+    # nobody has classified" stays a meaningful alarm (see
+    # ``reconcile.date_checks``) instead of firing on these three forever. One
+    # ``field_rpaper_publisher`` value is literally "2021", which is bad data in
+    # the CMS and would otherwise parse as a date.
+    "field_article_published_in": ("unknown", "day"),
+    "field_rpaper_published_in": ("unknown", "day"),
+    "field_rpaper_publisher": ("unknown", "day"),
 }
 
 
-#: Which precisions a caller may act on today. ``year`` is recognised and
-#: recorded but deliberately not applied yet: 617 research papers carry a year
-#: and 228 of them already sit in the right year with a real timestamp, so
-#: rewriting those to 1 January would lose precision for no correctness gain —
-#: and the answer layer has no way yet to render "2016" rather than "1 January
-#: 2016". Adding ``"year"`` here is the whole of that change, once both are
-#: settled. Keeping it in one constant is what stops ingestion and the backfill
-#: from staging differently and leaving the corpus half-converted.
-ACTIONABLE_PRECISIONS: frozenset[str] = frozenset({"day", "month"})
+#: Which precisions a caller may act on. ``year`` is included: a source stating
+#: only "2016" is still the best evidence there is, and 389 research papers were
+#: 1 to 5 years out without it. What makes that safe is
+#: :attr:`SourceDate.precision` reaching the reader — a year-precision value is
+#: stored as 1 January *as a marker*, and anything that renders the day without
+#: reading the precision invents a January publication.
+ACTIONABLE_PRECISIONS: frozenset[str] = frozenset({"day", "month", "year"})
 
 
 @dataclass(frozen=True)
@@ -226,6 +236,48 @@ def publication_date(metadata: dict[str, Any] | None) -> SourceDate | None:
         return SourceDate(value=value, field=field, kind="publication",
                           precision=precision)
     return None
+
+
+def resolve_published_at(
+    created: str | None, metadata: dict[str, Any] | None
+) -> tuple[str | None, str, str]:
+    """``(published_at, source, precision)`` for one source record.
+
+    **The single decision.** Ingestion and the backfill both call this, because
+    the rule below is conditional and two copies of a conditional rule drift —
+    a re-ingested document would then get a different date than the backfill
+    gave it.
+
+    ``created`` is when the record was typed into the CMS, which is what this
+    column held for every row historically and why 646 completed projects share
+    one timestamp. Where the source separately states a publication date, that
+    statement wins.
+
+    The one exception is a **year-precision statement whose year the record
+    already sits in**. "2016" plus a record created 2016-03-15 is no better than
+    what is already stored, and replacing it with 2016-01-01 would collapse every
+    2016 paper onto one day and lose what little relative ordering they had. 228
+    of the 617 year-only papers are in that position; the other 389 have the
+    wrong year and are corrected.
+    """
+    stated = publication_date(metadata)
+    if stated is None or not stated.is_actionable:
+        return created, "created", "day"
+    if stated.precision == "year" and _same_year(created, stated.value):
+        return created, "created", "day"
+    return as_published_at(stated.value), "cms_field", stated.precision
+
+
+def _same_year(created: str | None, value: date) -> bool:
+    """Whether ``created`` already falls in ``value``'s year.
+
+    Read leniently: only the leading four digits are needed, and a stamp this
+    cannot read is treated as *not* the same year, so the stated date wins. That
+    is the safe direction — the alternative is keeping a stamp we could not
+    verify over a statement we could.
+    """
+    text = str(created or "")[:4]
+    return text.isdigit() and int(text) == value.year
 
 
 def found_dates(metadata: dict[str, Any] | None) -> list[SourceDate]:

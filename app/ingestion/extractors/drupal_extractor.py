@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from html import unescape
 from html.parser import HTMLParser
 from typing import Any, Iterable, Iterator
-from urllib.parse import urljoin, urlparse
+from urllib.parse import unquote, urljoin, urlparse
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -541,7 +541,13 @@ def _extract_inbody_pdfs(
         # keeping the LONGEST anchor stops the image link blanking the caption.
         anchors: dict[str, str] = {}
         for match in _ANCHOR_PDF_RE.finditer(html):
-            text = " ".join(_TAG_RE.sub(" ", match.group("text")).split())
+            # `unescape` as well as tag-stripping: this text becomes the file's
+            # description, which `build_attachment_doc` prefers over the node's
+            # title and which citations display. Without it a title reads
+            # "Receipts &amp; Payments" — 20 of the 69 anchors on the FCRA page
+            # carry an entity. The same call is already made for body text a few
+            # functions below; only link text was missed.
+            text = " ".join(_TAG_RE.sub(" ", unescape(match.group("text"))).split())
             if not text:
                 continue
             key = _normalize_link(match.group("url"), site)
@@ -567,7 +573,13 @@ def _extract_inbody_pdfs(
             if abs_url in local_seen:
                 continue
             local_seen.add(abs_url)
-            filename = abs_url.split("?")[0].rsplit("/", 1)[-1] or "document.pdf"
+            # Percent-decoded, and only here — `abs_url` keeps its escapes
+            # because that is what gets fetched. The filename is metadata: it is
+            # displayed, and it is read for years and edition spans. Left encoded,
+            # `Report%2024.pdf` offers the four digits "2024" to the year
+            # detector via `%20` + `24`, which is a year nothing stated.
+            filename = (unquote(abs_url.split("?")[0].rsplit("/", 1)[-1])
+                        or "document.pdf")
             out.append(
                 DrupalFile(
                     url=abs_url,

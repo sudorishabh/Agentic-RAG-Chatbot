@@ -127,35 +127,54 @@ def test_a_publication_field_wins_even_when_event_and_period_fields_are_present(
 
 
 # --------------------------------------------------------------------------- #
-# Year precision is staged, not applied
+# A year-only source, and the one case where it must NOT win
 # --------------------------------------------------------------------------- #
 
-def test_a_year_only_source_is_recognised_but_not_yet_applied():
-    """617 research papers carry a year; 228 already sit in the right year with
-    a real timestamp, so rewriting them to 1 January loses precision for no
-    correctness gain. Gated behind ACTIONABLE_PRECISIONS until the answer layer
-    can render a year as a year."""
-    assert _published_at_for(CREATED, {"field_rpaper_year": "2016"}) \
-        == (CREATED, "created", "day")
+def test_a_stated_year_wins_when_the_record_sits_in_the_wrong_one():
+    """389 research papers were 1 to 5 years out. The stated year is the only
+    evidence there is, so it is applied — as 1 January, marked year precision."""
+    published, source, precision = _published_at_for(
+        CREATED, {"field_rpaper_year": "2016"})
+    assert published == "2016-01-01T00:00:00+00:00"
+    assert (source, precision) == ("cms_field", "year")
 
 
-def test_the_classifier_still_sees_the_year_so_the_audit_can_report_it():
-    """Staged, not hidden: the classifier reports it, the writer declines it."""
-    from app.ingestion.source_dates import publication_date
-
-    found = publication_date({"field_rpaper_year": "2016"})
-    assert found is not None
-    assert found.precision == "year"
-    assert found.is_publication
-    assert not found.is_actionable
+def test_a_stated_year_the_record_already_sits_in_changes_nothing():
+    """The other 228. Their stamp is already inside the right year and carries a
+    real day; 1 January would collapse every paper of that year onto one date
+    and lose what ordering they had."""
+    assert _published_at_for("2016-03-15T10:00:00+00:00",
+                             {"field_rpaper_year": "2016"}) \
+        == ("2016-03-15T10:00:00+00:00", "created", "day")
 
 
-def test_one_constant_governs_the_staging():
-    """Ingestion and the backfill must stage identically or the corpus ends up
-    half-converted, so both read the same frozenset."""
-    from app.ingestion.source_dates import ACTIONABLE_PRECISIONS
+def test_an_unreadable_created_stamp_lets_the_stated_year_win():
+    """The safe direction: keeping a stamp we could not verify over a statement
+    we could would be the wrong way round."""
+    published, source, _ = _published_at_for(None, {"field_rpaper_year": "2016"})
+    assert published == "2016-01-01T00:00:00+00:00"
+    assert source == "cms_field"
 
-    assert ACTIONABLE_PRECISIONS == frozenset({"day", "month"})
+
+def test_a_year_precision_value_is_stored_as_january_first():
+    """The marker the precision field refers to. Anything else would mean the
+    value and its precision disagree about what is known."""
+    published, _, precision = _published_at_for(CREATED, {"field_rpaper_year": "2016"})
+    assert precision == "year"
+    assert published.startswith("2016-01-01")
+
+
+def test_one_function_governs_the_decision_for_ingestion_and_the_backfill():
+    """The rule is conditional now, and two copies of a conditional rule drift —
+    a re-ingested document would get a different date than the backfill gave
+    it."""
+    import inspect
+
+    from app.ingestion import canonical
+    from scripts import backfill_source_dates
+
+    assert "resolve_published_at" in inspect.getsource(canonical._published_at_for)
+    assert "resolve_published_at" in inspect.getsource(backfill_source_dates.candidates)
 
 
 # --------------------------------------------------------------------------- #

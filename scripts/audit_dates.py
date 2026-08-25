@@ -54,10 +54,18 @@ _DATEISH_KEY = re.compile(r"date|year|publish|issued|created|changed|period", re
 
 # Language that makes a later year in a name legitimate rather than a
 # contradiction: a document about a 2030 target is not published in 2030.
+#
+# ``post-20xx`` and ``award`` were added after the source-date backfill flagged
+# three documents whose corrections were then confirmed against the rendered
+# pages — "Sustainability 4.0 Awards 2017" announced 8 November 2016, and two
+# "Post-2015 Development Agenda" bulletins from 9 July 2014. Both are ordinary
+# forward references: an award named for a year is announced before it, and
+# "post-2015" names the period after 2015 rather than a publication date. The
+# dates were verified first; the filter was widened second.
 _FORWARD_LOOKING = re.compile(
     r"\b(vision|target|roadmap|outlook|projection|scenario|strateg|pathway|"
-    r"net[-\s]?zero|forecast|goal|by\s+20\d{2}|to\s+20\d{2}|"
-    r"2030|2040|2047|2050|2070)\b",
+    r"net[-\s]?zero|forecast|goal|awards?|by\s+20\d{2}|to\s+20\d{2}|"
+    r"post[-\s]?20\d{2}|2030|2040|2047|2050|2070)\b",
     re.I,
 )
 
@@ -160,6 +168,28 @@ def _rows(cur, sql: str, params: tuple = ()) -> list[dict]:
     return list(cur.fetchall())
 
 
+def _sql_check(cur, name: str, source: str, clause: str, detail: str,
+               *, id_column: str = "document_id", is_defect: bool = True) -> Check:
+    """A check counted by the database, with a handful of ids for a sample.
+
+    The count comes from ``COUNT(*)`` and the samples from a separate ``LIMIT``.
+    Doing both with one limited query — which this did — caps every count at the
+    limit, so a check with a thousand offenders reports the limit and the number
+    is quietly wrong. In a tool whose whole job is measurement that is the worst
+    possible defect, and it hid the true size of a check the first time one
+    exceeded it.
+
+    ``source`` is a full FROM expression, so a check over a join reads the same
+    way as one over a single table and there is no quoting to get wrong.
+    """
+    count = int(_rows(cur, f"SELECT COUNT(*) n FROM {source} WHERE {clause}")[0]["n"])
+    samples = [str(r["id"]) for r in _rows(
+        cur, f"SELECT {id_column} AS id FROM {source} WHERE {clause} "
+             f"ORDER BY {id_column} LIMIT {SAMPLE_LIMIT}")]
+    return Check(name=name, count=count, detail=detail, samples=samples,
+                 is_defect=is_defect)
+
+
 def catalogue_checks(cur, table: str) -> list[Check]:
     """Is the value present, plausible, and precise enough to mean anything?"""
     checks: list[Check] = []
@@ -172,19 +202,27 @@ def catalogue_checks(cur, table: str) -> list[Check]:
          "Implausibly old; almost always a placeholder or a parse failure."),
         ("date_is_epoch", "YEAR(published_at) = 1970",
          "The unix epoch, i.e. a zero timestamp read as a date."),
-        ("year_precision_as_jan_1", "MONTH(published_at)=1 AND DAY(published_at)=1 "
-         "AND published_at_precision = 'year'",
-         "A year-precision date stored as 1 January invents a month and a day."),
+        # 1 January *is* the correct marker for a year-precision value — the
+        # column must hold some day and that is the one chosen. What would be
+        # wrong is any other day, because then the value and its precision
+        # disagree about what is known. This check was written before year
+        # precision was applied and had the condition the other way round, which
+        # made 389 correctly-stored dates read as a defect.
+        ("year_precision_not_january",
+         "published_at_precision = 'year' "
+         "AND (MONTH(published_at) <> 1 OR DAY(published_at) <> 1)",
+         "A year-precision date whose value is not 1 January, so the value and "
+         "its recorded precision disagree about what is known."),
+        ("date_provenance_unrecorded", "published_at_source IS NULL",
+         "Documents whose published_at has no recorded origin."),
     ):
         try:
-            rows = _rows(cur, f"SELECT document_id FROM `{table}` WHERE {clause} LIMIT 200")
+            checks.append(_sql_check(cur, name, f"`{table}`", clause, detail))
         except Exception as exc:
-            # `published_at_precision` does not exist until step 2; a check that
-            # cannot yet run is reported as such rather than as passing.
-            checks.append(Check(name, 0, f"not applicable yet ({type(exc).__name__})",
+            # A column may not exist yet on an older schema; a check that cannot
+            # run is reported as such rather than as passing.
+            checks.append(Check(name, 0, f"not applicable ({type(exc).__name__})",
                                 is_defect=False))
-            continue
-        checks.append(_check(name, [r["document_id"] for r in rows], detail))
     return checks
 
 
@@ -239,28 +277,29 @@ def store_agreement_checks(cur, table: str) -> list[Check]:
 
 def resolver_checks(cur, table: str) -> list[Check]:
     """Does the stored date match the decision it was supposedly based on?"""
-    decision = f"{table}_date_decision"
-    unexplained = _rows(cur, f"""
-        SELECT dd.document_id FROM `{decision}` dd JOIN `{table}` d USING (document_id)
-        WHERE (dd.action = 'propose_override' AND d.published_at <> dd.candidate_date)
-           OR (dd.action <> 'propose_override' AND d.published_at <> dd.current_published_at)
-        LIMIT 200""")
-    orphans = _rows(cur, f"""
-        SELECT dd.document_id FROM `{decision}` dd
-        LEFT JOIN `{table}` d ON d.document_id = dd.document_id
-        WHERE d.document_id IS NULL LIMIT 200""")
-    pageless = _rows(cur, f"""
-        SELECT dd.document_id FROM `{decision}` dd
-        LEFT JOIN `{table}` p ON p.document_id = dd.node_uuid
-        WHERE p.document_id IS NULL LIMIT 200""")
+    decision = f"`{table}_date_decision`"
     return [
-        _check("date_contradicts_its_decision", [r["document_id"] for r in unexplained],
-               "published_at is not what the recorded decision says it should be. "
-               "Either the decision or the write path is wrong."),
-        _check("decision_without_document", [r["document_id"] for r in orphans],
-               "A decision row whose document is not catalogued.", is_defect=False),
-        _check("decision_without_page", [r["document_id"] for r in pageless],
-               "A decision row whose parent page is not catalogued.", is_defect=False),
+        _sql_check(
+            cur, "date_contradicts_its_decision",
+            f"{decision} dd JOIN `{table}` d USING (document_id)",
+            "(dd.action = 'propose_override' AND d.published_at <> dd.candidate_date) "
+            "OR (dd.action <> 'propose_override' "
+            "    AND d.published_at <> dd.current_published_at)",
+            "published_at is not what the recorded decision says it should be. "
+            "Either the decision or the write path is wrong.",
+            id_column="dd.document_id"),
+        _sql_check(
+            cur, "decision_without_document",
+            f"{decision} dd LEFT JOIN `{table}` d ON d.document_id = dd.document_id",
+            "d.document_id IS NULL",
+            "A decision row whose document is not catalogued.",
+            id_column="dd.document_id", is_defect=False),
+        _sql_check(
+            cur, "decision_without_page",
+            f"{decision} dd LEFT JOIN `{table}` p ON p.document_id = dd.node_uuid",
+            "p.document_id IS NULL",
+            "A decision row whose parent page is not catalogued.",
+            id_column="dd.document_id", is_defect=False),
     ]
 
 
@@ -357,19 +396,25 @@ def adjacent_checks(cur, table: str) -> list[Check]:
                         "Documents carrying a date the document itself states. "
                         "Two readers consume this field; nothing writes it.",
                         is_defect=False))
-    cursor_rows = _rows(cur, f"""
-        SELECT document_id FROM `{table}`
-        WHERE changed_mark IS NOT NULL
-          AND changed_mark < UNIX_TIMESTAMP(published_at) LIMIT 200""")
-    checks.append(_check("changed_before_published", [r["document_id"] for r in cursor_rows],
-                         "The crawl stamp predates the publication date, which the "
-                         "source's own ordering should make impossible."))
+    checks.append(_sql_check(
+        cur, "changed_before_published", f"`{table}`",
+        "changed_mark IS NOT NULL AND changed_mark < UNIX_TIMESTAMP(published_at)",
+        "The crawl stamp predates the publication date. Investigated: on 22 of "
+        "these the CMS itself has created > changed, and one is a journal paper "
+        "carrying a 2019 issue year on a record made in Dec 2018 — both source "
+        "properties, not ingestion errors. The cursor reads `changed` and the "
+        "date reads `created`, so nothing downstream is wrong. Worth watching "
+        "for a *rise*, which would suggest a crawl-window fault."))
     try:
-        epoch = _rows(cur, f"""SELECT claim_id FROM `{table}_assertion`
-                               WHERE YEAR(valid_from) = 1970 LIMIT 200""")
-        checks.append(_check("claim_validity_epoch", [r["claim_id"] for r in epoch],
-                             "Claim validity starting at the unix epoch — a missing "
-                             "period read as a zero timestamp."))
+        checks.append(_sql_check(
+            cur, "claim_validity_epoch", f"`{table}_assertion`",
+            "YEAR(valid_from) = 1970",
+            "Claim validity starting at the unix epoch. Investigated: the one "
+            "instance reflects the CMS, whose field_completed_start_date for "
+            "that project is literally 1970-01-01 — the claim is faithful to a "
+            "zero date in the source. Fixing it means the claims layer treating "
+            "1970 as unknown when it reads a project period, which is a "
+            "different subsystem from published_at.", id_column="claim_id"))
     except Exception as exc:
         checks.append(Check("claim_validity_epoch", 0,
                             f"not checked ({type(exc).__name__})", is_defect=False))
@@ -412,7 +457,7 @@ def print_report(checks: list[Check], per_field: dict[str, dict]) -> None:
     for heading, names in (
         ("value present and plausible",
          ("no_published_at", "date_in_future", "date_before_1990", "date_is_epoch",
-          "year_precision_as_jan_1")),
+          "year_precision_not_january", "date_provenance_unrecorded")),
         ("stores agree",
          ("point_without_date", "mysql_qdrant_date_mismatch", "indexed_not_catalogued",
           "catalogued_not_indexed", "qdrant_unreachable")),

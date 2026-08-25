@@ -580,7 +580,15 @@ def _source_hint(payload: dict) -> str:
         # for the page date - and it replaces the parenthetical disclaimer this
         # header used to carry, which existed only because there was no field to
         # put the fact in.
-        page_date = str(payload["published_at"])
+        # A year-precision value is 1 January standing in for a year the source
+        # stated without a day. Rendering it in full would invent that day, and
+        # the model would repeat it — the same refusal
+        # `DateInterpretation.statement_is_year_only` makes on the PDF path.
+        page_date = (
+            f"{str(payload['published_at'])[:4]} (year only; the day is not known)"
+            if payload.get("published_at_precision") == "year"
+            else str(payload["published_at"])
+        )
         if payload.get("edition_label"):
             bits.append("page published " + page_date)
             stated = payload.get("document_published_at")

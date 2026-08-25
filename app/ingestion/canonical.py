@@ -137,14 +137,13 @@ def _published_at_for(
     an event or a project period — those describe the thing, not the document,
     and reading them as publication dates would move ~5,500 documents to dates
     nobody asserted. :mod:`app.ingestion.source_dates` is where that distinction
-    is declared.
+    is declared, and it owns the decision itself: the rule is conditional for
+    year-precision sources, and a second copy of it here would drift from the
+    backfill's.
     """
-    from app.ingestion.source_dates import as_published_at, publication_date
+    from app.ingestion.source_dates import resolve_published_at
 
-    stated = publication_date(metadata)
-    if stated is not None and stated.is_actionable:
-        return as_published_at(stated.value), "cms_field", stated.precision
-    return created, "created", "day"
+    return resolve_published_at(created, metadata)
 
 
 def _drupal_document(

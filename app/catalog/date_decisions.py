@@ -135,13 +135,25 @@ def from_source_record(
 
     moved = bool(applied) and bool(created) and applied[:10] != created[:10]
     if not stated.is_actionable:
-        # Recognised, deliberately not applied yet. Deferred rather than
-        # reviewed: 617 of these exist and they would swamp the review queue,
-        # which is meant to hold cases a person has to settle.
-        action, rule = "keep_page_date", "year_precision_deferred"
-        why = (f"The source states a publication year in {stated.field} "
-               f"({stated.value.year}), which supports the year and nothing "
-               f"finer; the record's own date stands.")
+        # Defensive, and currently unreachable: every value of ``Precision`` is
+        # in ``ACTIONABLE_PRECISIONS``. It stays because narrowing that constant
+        # is how a precision gets staged out again, and this is what such a case
+        # should record — deferred rather than reviewed, since a known deferral
+        # is not something a person has to settle.
+        action, rule = "keep_page_date", "precision_deferred"
+        why = (f"The source states a date in {stated.field} at "
+               f"{stated.precision} precision, which is not acted on; the "
+               f"record's own date stands.")
+    elif stated.precision == "year" and not moved:
+        # 228 research papers. The stated year is right and the record's own
+        # stamp already falls inside it, carrying a real day — so keeping it
+        # loses nothing and rewriting it to 1 January would collapse every paper
+        # of that year onto one date. Not "matches", which would claim the two
+        # agreed exactly.
+        action, rule = "keep_page_date", "year_already_correct"
+        why = (f"The source states the publication year in {stated.field} "
+               f"({stated.value.year}) and the record's own date already falls "
+               f"in it, with a day the year alone does not give.")
     elif moved:
         action, rule = "propose_override", "cms_publication_field"
         why = (f"The source states a publication date in {stated.field} "

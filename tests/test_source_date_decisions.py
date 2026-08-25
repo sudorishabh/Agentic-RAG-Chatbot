@@ -116,25 +116,28 @@ def test_a_field_that_matches_the_created_stamp_is_recorded_as_a_keep():
 # Year precision is deferred, not reviewed
 # --------------------------------------------------------------------------- #
 
-def test_a_year_only_source_is_deferred_rather_than_applied():
-    row = _row({"field_rpaper_year": "2016"})
-    assert row is not None
+def test_a_corrected_year_is_recorded_as_an_override():
+    row = _row({"field_rpaper_year": "2016"}, applied="2016-01-01T00:00:00+00:00")
+    assert row.action == "propose_override"
+    assert row.rule == "cms_publication_field"
+    assert row.candidate_source == "field_rpaper_year"
+
+
+def test_a_year_the_record_already_sits_in_is_recorded_as_already_correct():
+    """228 research papers. Not `cms_field_matches_created`, which would claim
+    the two dates agreed exactly — they agree only on the year."""
+    row = _row({"field_rpaper_year": "2018"})
     assert row.action == "keep_page_date"
-    assert row.rule == "year_precision_deferred"
-    assert row.candidate_date == CREATED
+    assert row.rule == "year_already_correct"
+    assert "already falls in it" in row.evidence
 
 
-def test_a_deferral_never_reaches_the_review_queue():
-    """`WHERE action='needs_manual_review'` is the queue. 617 deferrals landing
-    in it would bury the 23 cases that need a person."""
-    row = _row({"field_rpaper_year": "2016"})
-    assert row.action != "needs_manual_review"
-
-
-def test_the_deferral_is_findable_as_the_phase_two_worklist():
-    row = _row({"field_rpaper_year": "2016"})
-    assert row.rule == "year_precision_deferred"
-    assert "year" in row.evidence
+def test_no_year_case_reaches_the_review_queue():
+    """`WHERE action='needs_manual_review'` is the queue, and it holds cases a
+    person has to settle. Neither year outcome is one."""
+    for metadata, applied in (({"field_rpaper_year": "2016"}, "2016-01-01T00:00:00+00:00"),
+                              ({"field_rpaper_year": "2018"}, None)):
+        assert _row(metadata, applied=applied).action != "needs_manual_review"
 
 
 # --------------------------------------------------------------------------- #
