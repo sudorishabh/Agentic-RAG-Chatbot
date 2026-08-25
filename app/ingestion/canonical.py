@@ -123,6 +123,30 @@ def drupal_facets(
     }
 
 
+def _published_at_for(
+    created: str | None, metadata: dict[str, Any]
+) -> tuple[str | None, str, str]:
+    """``(published_at, source, precision)`` for a source record.
+
+    ``created`` is when the record was *typed into the CMS*, which is what this
+    column has always held and what makes 646 completed projects share one
+    timestamp. Where the source separately states when the document was
+    published, that statement wins: it is the date the site itself displays.
+
+    Everything else keeps ``created``, including a record whose only dates are
+    an event or a project period — those describe the thing, not the document,
+    and reading them as publication dates would move ~5,500 documents to dates
+    nobody asserted. :mod:`app.ingestion.source_dates` is where that distinction
+    is declared.
+    """
+    from app.ingestion.source_dates import as_published_at, publication_date
+
+    stated = publication_date(metadata)
+    if stated is not None and stated.is_actionable:
+        return as_published_at(stated.value), "cms_field", stated.precision
+    return created, "created", "day"
+
+
 def _drupal_document(
     *,
     body: str,
@@ -139,6 +163,7 @@ def _drupal_document(
 ) -> CanonicalDocument:
     refs = refs or []
     facets = drupal_facets(metadata, refs)
+    published, published_source, published_precision = _published_at_for(created, metadata)
 
     doc = CanonicalDocument(
         document_id=uuid or _slugify(url or f"{bundle}/{title}"),
@@ -150,7 +175,9 @@ def _drupal_document(
         tags=facets["tags"],
         categories=facets["categories"],
         authors=facets["authors"],
-        published_at=created,
+        published_at=published,
+        published_at_source=published_source,
+        published_at_precision=published_precision,
         extra={"bundle": bundle, "nid": nid, "changed": changed},
         entity_refs=refs,
         raw_meta=dict(metadata),

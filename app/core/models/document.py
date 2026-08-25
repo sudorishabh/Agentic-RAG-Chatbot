@@ -68,6 +68,11 @@ class CanonicalDocument:
     #: document says so. Distinct from ``published_at``, which is the
     #: source/web-page date and remains what chronology uses.
     document_published_at: str | None = None
+    #: Where :attr:`published_at` came from and how precise it is. Carried on
+    #: the document so the catalogue can record it without re-deriving it, and
+    #: so a value and its provenance are always written together.
+    published_at_source: str | None = None
+    published_at_precision: str | None = None
     doc_version: int = 1
     is_current: bool = True
     content_hash: str = ""

@@ -207,6 +207,8 @@ def _row_to_record(row: dict) -> StateRecord:
             doc_published.isoformat() if isinstance(doc_published, datetime)
             else doc_published
         ),
+        published_at_source=row.get("published_at_source"),
+        published_at_precision=row.get("published_at_precision"),
     )
 
 
@@ -424,9 +426,11 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
             INSERT INTO `{table}`
                 (document_id, source_type, source_key, bundle, entity_type,
                  fingerprint, content_hash, doc_version, pipeline_version,
-                 changed_mark, published_at, document_published_at, title, url,
+                 changed_mark, published_at, document_published_at,
+                 published_at_source, published_at_precision, title, url,
                  raw_meta, indexed_at, updated_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE
                 source_type  = VALUES(source_type),
                 source_key   = VALUES(source_key),
@@ -449,6 +453,13 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 -- value survives rather than being erased.
                 document_published_at = COALESCE(VALUES(document_published_at),
                                                  document_published_at),
+                -- VALUES, NOT COALESCE, unlike document_published_at above.
+                -- These describe `published_at`, which is itself overwritten
+                -- outright; a provenance that outlived the value it describes
+                -- would be worse than none, because it would read as evidence
+                -- for a date it was never about.
+                published_at_source    = VALUES(published_at_source),
+                published_at_precision = VALUES(published_at_precision),
                 title        = VALUES(title),
                 url          = VALUES(url),
                 raw_meta     = COALESCE(VALUES(raw_meta), raw_meta),
@@ -468,6 +479,8 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 record.changed_mark,
                 _to_datetime(record.published_at),
                 _to_datetime(record.document_published_at),
+                record.published_at_source,
+                record.published_at_precision,
                 record.title,
                 record.url,
                 json.dumps(record.raw_meta, ensure_ascii=False, default=str)
@@ -549,7 +562,12 @@ def backfill_facets(
     already-cataloged document (e.g. one indexed before these columns existed).
     title/url only overwrite when a value is supplied (COALESCE), so rows already
     populated at ingest are left intact. Returns False when no catalog row exists
-    for the id, leaving child rows untouched (FK safety)."""
+    for the id, leaving child rows untouched (FK safety).
+
+    ``published_at`` is lifted from a chunk payload, which carries the value and
+    not where it came from — so the provenance columns are **cleared** rather
+    than left standing. A stale ``published_at_source`` would read as evidence
+    for a date it was never about, which is worse than recording nothing."""
     table = _table()
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(f"SELECT 1 FROM `{table}` WHERE document_id = %s", (document_id,))
@@ -557,6 +575,7 @@ def backfill_facets(
             return False
         cur.execute(
             f"UPDATE `{table}` SET published_at = %s, "
+            f"published_at_source = NULL, published_at_precision = NULL, "
             f"title = COALESCE(%s, title), url = COALESCE(%s, url) "
             f"WHERE document_id = %s",
             (_to_datetime(published_at), title, url, document_id),

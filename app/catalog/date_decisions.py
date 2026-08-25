@@ -104,6 +104,82 @@ def from_decision(
     )
 
 
+def from_source_record(
+    *,
+    document_id: str,
+    bundle: str | None,
+    url: str | None,
+    created: str | None,
+    applied: str | None,
+    stated: Any,
+) -> DecisionRow | None:
+    """A decision row for a *website* document, or None when there is nothing to say.
+
+    The PDF path always has something to record — there is a page date and a
+    rule that fired. A source record usually does not: it states no publication
+    date, its creation stamp stands, and a row saying so for every one of ~6,000
+    documents would cost an INSERT and a commit each to answer a question
+    ``documents.published_at_source`` already answers.
+
+    So a row is written only when the source *offered* a publication date —
+    whether that date was used, matched what was already there, or was declined
+    for being too imprecise. That is the population worth auditing, and the one a
+    reviewer would ever ask about.
+
+    ``stated`` is a :class:`app.ingestion.source_dates.SourceDate` or None; it is
+    passed in rather than re-derived so the row cannot disagree with the value
+    the write path actually used.
+    """
+    if stated is None:
+        return None
+
+    moved = bool(applied) and bool(created) and applied[:10] != created[:10]
+    if not stated.is_actionable:
+        # Recognised, deliberately not applied yet. Deferred rather than
+        # reviewed: 617 of these exist and they would swamp the review queue,
+        # which is meant to hold cases a person has to settle.
+        action, rule = "keep_page_date", "year_precision_deferred"
+        why = (f"The source states a publication year in {stated.field} "
+               f"({stated.value.year}), which supports the year and nothing "
+               f"finer; the record's own date stands.")
+    elif moved:
+        action, rule = "propose_override", "cms_publication_field"
+        why = (f"The source states a publication date in {stated.field} "
+               f"({stated.value.isoformat()}); the record was created "
+               f"{str(created)[:10]}.")
+    else:
+        action, rule = "keep_page_date", "cms_field_matches_created"
+        why = (f"The source states a publication date in {stated.field} "
+               f"({stated.value.isoformat()}) and it already matches the "
+               f"record's own date.")
+
+    return DecisionRow(
+        document_id=document_id,
+        # Not "attachment" or "inbody": this document is a page, not a file
+        # reached from one.
+        origin="website",
+        bundle=bundle,
+        # A source record is its own page, so the join every report already
+        # makes on node_uuid resolves rather than dangling.
+        node_uuid=document_id,
+        page_pdf_count=1,
+        current_published_at=created,
+        candidate_date=applied,
+        date_type="publication",
+        candidate_source=(stated.field if action == "propose_override"
+                          else "node_created"),
+        # A transcription of what the source states, not an inference from it —
+        # unlike the PDF path, where the same value is a model's judgement about
+        # evidence and is capped accordingly.
+        confidence=1.0 if action == "propose_override" else 0.5,
+        action=action,
+        rule=rule,
+        decided_by="deterministic",
+        evidence=why,
+        url=url,
+    )
+
+
 def record(row: DecisionRow) -> None:
     """Store one decision, replacing any earlier reading for the document."""
     if not row.document_id:
