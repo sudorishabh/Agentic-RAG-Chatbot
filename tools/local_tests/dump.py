@@ -8,7 +8,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from app.local_tests import reporting as rep
+from tools.local_tests import reporting as rep
 
 
 def _json(value: Any, indent: int = 4) -> None:

@@ -11,8 +11,8 @@ are processed through the pipeline's own per-document handler, so this test
 exercises the real ingestion code path.
 
 Usage:
-    python -m app.local_tests.run_ingestion_test --bundle article --max-docs 3
-    python -m app.local_tests.run_ingestion_test --cleanup
+    python -m tools.local_tests.run_ingestion_test --bundle article --max-docs 3
+    python -m tools.local_tests.run_ingestion_test --cleanup
 
 Run it twice to see change detection in action: the second run reports the
 same documents as UNCHANGED straight from the MySQL state table.
@@ -38,9 +38,9 @@ from unittest import mock
 # Only stdlib and these dependency-free local modules are imported at module
 # level: the test-table env overrides must land before app settings are first
 # built, so every app.* import happens after _apply_test_env() ran.
-from app.local_tests import dump
-from app.local_tests import reporting as rep
-from app.local_tests import serialize
+from tools.local_tests import dump
+from tools.local_tests import reporting as rep
+from tools.local_tests import serialize
 
 _PREFIX = "local_test"
 
@@ -142,7 +142,7 @@ def _process(
 # --------------------------------------------------------------------------- #
 # Per-document verification
 # --------------------------------------------------------------------------- #
-# The full raw content of each stage is rendered by app.local_tests.dump; the
+# The full raw content of each stage is rendered by tools.local_tests.dump; the
 # function below only asserts that what MySQL stored matches the canonical doc.
 
 def _verify(cap: DocCapture, snap: Any, checks: rep.Checks) -> None:
@@ -269,7 +269,7 @@ def _preflight_index(settings: Any) -> str | None:
 
 def _cleanup(skip_index: bool) -> None:
     from app.config import get_settings
-    from app.local_tests import db_checks
+    from tools.local_tests import db_checks
 
     rep.section("Cleanup")
     for name in db_checks.drop_test_tables():
@@ -327,7 +327,7 @@ def _run(args: argparse.Namespace, run_dir: Path, started: datetime) -> int:
     from app.catalog import log as ingest_log
     from app.catalog import state
     from app.config import get_settings
-    from app.local_tests import db_checks
+    from tools.local_tests import db_checks
 
     get_settings.cache_clear()
     settings = get_settings()

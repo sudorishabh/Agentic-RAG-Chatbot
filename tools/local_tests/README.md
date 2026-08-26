@@ -87,19 +87,19 @@ overrides the environment so everything lands in:
 
 ```bash
 # 3 articles + their attached PDFs, MySQL verified, no embeddings/Qdrant needed
-python -m app.local_tests.run_ingestion_test --bundle article --max-docs 3 --skip-index
+python -m tools.local_tests.run_ingestion_test --bundle article --max-docs 3 --skip-index
 
 # Same but with real embeddings + Qdrant indexing
-python -m app.local_tests.run_ingestion_test --bundle article --max-docs 3
+python -m tools.local_tests.run_ingestion_test --bundle article --max-docs 3
 
 # Local PDF folder instead of Drupal
-python -m app.local_tests.run_ingestion_test --source pdf --make-sample --skip-index
+python -m tools.local_tests.run_ingestion_test --source pdf --make-sample --skip-index
 
 # Run twice: the second run should report the same documents as UNCHANGED
-python -m app.local_tests.run_ingestion_test --bundle article --max-docs 3 --skip-index
+python -m tools.local_tests.run_ingestion_test --bundle article --max-docs 3 --skip-index
 
 # Remove the test tables / collection when done
-python -m app.local_tests.run_ingestion_test --cleanup
+python -m tools.local_tests.run_ingestion_test --cleanup
 ```
 
 Exit codes: `0` all checks passed, `1` a check failed or a document errored,
