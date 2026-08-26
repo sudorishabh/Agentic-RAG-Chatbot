@@ -53,8 +53,6 @@ CREATE TABLE IF NOT EXISTS `{table}` (
     -- "which documents are not on the current version".
     pipeline_version VARCHAR(32) NULL,
     changed_mark BIGINT        NULL,
-    size         BIGINT        NULL,
-    mtime_ns     BIGINT        NULL,
     published_at DATETIME      NULL,
     title        VARCHAR(1024) NULL,
     url          VARCHAR(1024) NULL,
@@ -437,8 +435,6 @@ def ensure_state_table() -> None:
         # `DateInterpretation.statement_is_year_only` makes on the PDF path.
         _ensure_column(cur, table, "published_at_precision",
                        "published_at_precision VARCHAR(8) NULL")
-        _ensure_column(cur, table, "size", "size BIGINT NULL")
-        _ensure_column(cur, table, "mtime_ns", "mtime_ns BIGINT NULL")
         _ensure_column(cur, table, "title", "title VARCHAR(1024) NULL")
         _ensure_column(cur, table, "url", "url VARCHAR(1024) NULL")
         _ensure_column(cur, table, "raw_meta", "raw_meta JSON NULL")
@@ -564,43 +560,6 @@ def ensure_retry_table() -> None:
     table = state_table()
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(_RETRY_DDL.format(table=table))
-        conn.commit()
-
-
-# Shadow-mode measurement of attachment publication dates (Phase 0). Deliberately
-# its own table and not a column on `documents`: the point of the exercise is to
-# compare a proposed date against the one in use without touching the row that
-# holds the one in use, so a bad reading can never leak into retrieval. Keyed by
-# document_id and overwritten per sweep — this is a current-state snapshot to
-# query, not an audit trail (`ingest_log` already is one).
-_DATE_SHADOW_DDL = """
-CREATE TABLE IF NOT EXISTS `{table}_date_candidate` (
-    document_id   VARCHAR(255)  NOT NULL,
-    origin        VARCHAR(16)   NOT NULL,
-    node_created  DATETIME      NULL,
-    file_created  DATETIME      NULL,
-    pdf_created   DATETIME      NULL,
-    pdf_modified  DATETIME      NULL,
-    current_date_ DATETIME      NULL,
-    proposed_date DATETIME      NULL,
-    source        VARCHAR(32)   NOT NULL,
-    rule          VARCHAR(32)   NOT NULL,
-    delta_days    INT           NULL,
-    would_move    TINYINT(1)    NOT NULL DEFAULT 0,
-    url           VARCHAR(1024) NULL,
-    filename      VARCHAR(512)  NULL,
-    updated_at    DATETIME      NOT NULL,
-    PRIMARY KEY (document_id),
-    KEY idx_rule (rule),
-    KEY idx_would_move (would_move)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-"""
-
-
-def ensure_date_shadow_table() -> None:
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(_DATE_SHADOW_DDL.format(table=table))
         conn.commit()
 
 

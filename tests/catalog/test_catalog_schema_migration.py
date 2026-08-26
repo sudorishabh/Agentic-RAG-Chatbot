@@ -337,7 +337,13 @@ def test_ensure_state_table_migrates_before_creating_facet_tables(monkeypatch):
 # --------------------------------------------------------------------------- #
 
 def _legacy_state_table() -> dict[str, list[str]]:
-    """A `documents` table from before either was added."""
+    """A `documents` table from before either was added.
+
+    ``size``/``mtime_ns`` are deliberately still here. The current DDL no longer
+    creates them — they were leftovers from the retired local-file pipeline and
+    were never written — but a deployed table *does* carry them, and these tests
+    exist to prove migrations cope with a table as it really is.
+    """
     return {
         TABLE: ["document_id", "published_at", "size", "mtime_ns", "title",
                 "url", "raw_meta", "entity_type"],
