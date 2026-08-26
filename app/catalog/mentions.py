@@ -28,12 +28,6 @@ def _ensure() -> None:
         _ensured = True
 
 
-def reset_ensure_cache() -> None:
-    """Forget that the schema was ensured. For tests."""
-    global _ensured
-    _ensured = False
-
-
 def _now() -> datetime:
     return datetime.now(timezone.utc).replace(tzinfo=None)
 
@@ -114,42 +108,6 @@ def delete_document_mentions(
         deleted = cur.rowcount
         conn.commit()
     return deleted
-
-
-def mentions_for_chunk(chunk_id: str) -> list[dict[str, Any]]:
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT * FROM `{table}_entity_mention` WHERE chunk_id = %s "
-            "ORDER BY start_offset",
-            (chunk_id,),
-        )
-        return list(cur.fetchall())
-
-
-def type_counts() -> dict[str, int]:
-    """Mentions per entity type. The headline extraction metric."""
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT entity_type, COUNT(*) AS n FROM `{table}_entity_mention` "
-            "GROUP BY entity_type"
-        )
-        return {r["entity_type"]: int(r["n"]) for r in cur.fetchall()}
-
-
-def method_counts() -> dict[str, int]:
-    """Mentions per extraction method — how much each stage actually earns."""
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT extraction_method, COUNT(*) AS n "
-            f"FROM `{table}_entity_mention` GROUP BY extraction_method"
-        )
-        return {r["extraction_method"]: int(r["n"]) for r in cur.fetchall()}
 
 
 # --------------------------------------------------------------------------- #

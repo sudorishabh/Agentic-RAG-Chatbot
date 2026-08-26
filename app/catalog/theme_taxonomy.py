@@ -238,12 +238,6 @@ def classify(names: Iterable[str] | None) -> list[ThemeAssignment]:
     return list(seen.values())
 
 
-def primary_tags() -> list[str]:
-    """Every Primary Tag in the map, in file order (diagnostics / docs)."""
-    mapping, _ = _load()
-    return [name for name, theme_type, _, _ in mapping.values() if theme_type == PRIMARY]
-
-
 def group_of(name: str) -> str | None:
     """The top-level bucket (``"main"`` / ``"other"``) ``name`` traces back to,
     or ``None`` when the map has no entry for it — a theme the CMS has but

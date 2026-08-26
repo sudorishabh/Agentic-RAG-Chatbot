@@ -27,11 +27,6 @@ def _ensure() -> None:
         _ensured = True
 
 
-def reset_ensure_cache() -> None:
-    global _ensured
-    _ensured = False
-
-
 def _now() -> datetime:
     return datetime.now(timezone.utc).replace(tzinfo=None)
 
@@ -186,45 +181,6 @@ def clear_all() -> None:
 # Lookups used by candidate generation
 # --------------------------------------------------------------------------- #
 
-def entity_by_identifier(scheme: str, value: str) -> dict[str, Any] | None:
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT e.* FROM `{table}_entity_identifier` i "
-            f"JOIN `{table}_entity` e ON e.entity_id = i.entity_id "
-            "WHERE i.scheme=%s AND i.value=%s AND e.status='active'",
-            (scheme, value),
-        )
-        return cur.fetchone()
-
-
-def entities_by_normalized(entity_type: str, normalized: str) -> list[dict[str, Any]]:
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT * FROM `{table}_entity` "
-            "WHERE entity_type=%s AND normalized_name=%s AND status='active'",
-            (entity_type, normalized),
-        )
-        return list(cur.fetchall())
-
-
-def aliases_by_normalized(entity_type: str, normalized: str) -> list[dict[str, Any]]:
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT a.*, e.canonical_name, e.entity_type, e.trust "
-            f"FROM `{table}_entity_alias` a "
-            f"JOIN `{table}_entity` e ON e.entity_id = a.entity_id "
-            "WHERE e.entity_type=%s AND a.normalized=%s AND e.status='active'",
-            (entity_type, normalized),
-        )
-        return list(cur.fetchall())
-
-
 def load_index() -> dict[str, Any]:
     """The whole entity index, for an in-process resolver.
 
@@ -323,14 +279,3 @@ def delete_decisions_before_version(document_id: str, doc_version: int) -> int:
         deleted = cur.rowcount
         conn.commit()
     return deleted
-
-
-def decision_counts() -> dict[tuple[str, str], int]:
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT entity_type, decision, COUNT(*) AS n "
-            f"FROM `{table}_entity_resolution_decision` GROUP BY entity_type, decision"
-        )
-        return {(r["entity_type"], r["decision"]): int(r["n"]) for r in cur.fetchall()}

@@ -3,17 +3,18 @@ uvicorn[standard]
 pydantic-settings
 python-multipart
 PyJWT                          # Bearer-token verification for the retrieval API (app/api/auth.py)
-langchain
 langchain-openai
 langchain-qdrant
-langchain-community
-langchain-text-splitters
 qdrant-client
 neo4j                          # knowledge graph driver (app/core/clients/graph.py)
 pymysql
 cryptography
 requests
 redis
+httpx                          # embedding client transport (app/core/clients/embeddings.py)
+anyio                          # thread-offload for async routes (app/api/chat.py)
+openai                         # SDK constants reused directly (app/core/clients/embeddings.py)
+tiktoken                       # accurate chunk token counts; falls back to a heuristic if absent
 
 # PDF extraction (app/ingestion/extractors/pdf_extractor.py)
 azure-ai-documentintelligence  # OCR for scanned/image pages in hybrid routing
@@ -22,3 +23,11 @@ camelot-py[base]               # table extraction on born-digital table pages (l
 
 # dev
 pytest                         # router unit tests (tests/)
+
+# Optional reranker/observability backends — lazily imported, feature falls
+# back gracefully when absent (see app/retrieval/reranker.py, app/observability/tracing.py)
+# sentence-transformers          # cross-encoder reranking
+# cohere                         # Cohere rerank API
+# opentelemetry-sdk              # OTLP tracing export
+# opentelemetry-exporter-otlp-proto-http
+# opentelemetry-instrumentation-fastapi

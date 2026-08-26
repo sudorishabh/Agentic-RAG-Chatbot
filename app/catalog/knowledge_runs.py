@@ -52,12 +52,6 @@ def _ensure() -> None:
         _ensured = True
 
 
-def reset_ensure_cache() -> None:
-    """Forget that the schema was ensured. For tests."""
-    global _ensured
-    _ensured = False
-
-
 def _now() -> datetime:
     return datetime.now(timezone.utc).replace(tzinfo=None)
 

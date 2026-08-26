@@ -12,6 +12,13 @@ app/local_tests/results/
 .vscode/
 .idea/
 pdf_examples/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+.DS_Store
+Thumbs.db
 # Local-only agent settings (keep out of VCS even without global gitignore)
 .claude/settings.local.json
 # Added by code-review-graph
