@@ -3,8 +3,14 @@ uvicorn[standard]
 pydantic-settings
 python-multipart
 PyJWT                          # Bearer-token verification for the retrieval API (app/api/auth.py)
+# Azure chat + embedding clients (app/core/clients/{llm,embeddings}.py) and the
+# prompt/history chains in app/generation/answerer.py. That is the whole of our
+# LangChain surface — deliberately thin. `langchain-qdrant` used to be listed
+# here and was never imported: the vector store is driven through `qdrant-client`
+# directly, because vector reuse and the index-then-delete swap need point-level
+# control (`PointStruct`, scoped `delete`, `retrieve` with vectors) that a
+# LangChain vector store does not expose.
 langchain-openai
-langchain-qdrant
 qdrant-client
 neo4j                          # knowledge graph driver (app/core/clients/graph.py)
 pymysql
@@ -25,7 +31,7 @@ camelot-py[base]               # table extraction on born-digital table pages (l
 pytest                         # router unit tests (tests/)
 
 # Optional reranker/observability backends — lazily imported, feature falls
-# back gracefully when absent (see app/retrieval/reranker.py, app/observability/tracing.py)
+# back gracefully when absent (see app/retrieval/search/reranker.py, app/observability/tracing.py)
 # sentence-transformers          # cross-encoder reranking
 # cohere                         # Cohere rerank API
 # opentelemetry-sdk              # OTLP tracing export
