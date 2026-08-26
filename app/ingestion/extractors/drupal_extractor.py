@@ -13,33 +13,17 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 from app.config import get_settings
+from app.core.corpus import DEFAULT_BUNDLES
 from app.core.models import EntityRef
 
 logger = logging.getLogger(__name__)
 
 HEADERS = {"Accept": "application/vnd.api+json"}
 
-DEFAULT_BUNDLES: tuple[str, ...] = (
-    "article",
-    "page",
-    "research_papers",
-    "completed_projects",
-    "feature_articles",
-    "ongoing_projects",
-    "news",
-    "events",
-    "press_release",
-    "policy_brief",
-    "videos",
-    "infographics",
-    "services",
-    "report",
-    "people",
-)
-
-# `carousel` is left out deliberately: those nodes are homepage promo slides
-# carrying a title and no body, so they chunk to nothing, and both of the live
-# ones name subjects already covered by real news and event content.
+# What we crawl. `DEFAULT_BUNDLES` is imported from `app.core.corpus` rather
+# than defined here, because the read path needs the identical vocabulary — see
+# that module for why. It is used below (and re-exported under the name the crawl
+# has always had) beside the two settings that only the crawl has a use for.
 
 
 # Custom blocks are not node bundles, but their bodies are prime corpus content
