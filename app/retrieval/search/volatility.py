@@ -1,7 +1,7 @@
 """Which queries should let recency weigh more heavily.
 
 Retrieval ranks relevance first and settles ties on recency (see
-:mod:`app.retrieval.reranker`). How often that tie-break gets to fire is set by
+:mod:`app.retrieval.search.reranker`). How often that tie-break gets to fire is set by
 the band tolerance — and how wide "similarly relevant" *should* be depends on the
 topic. On a stable one, an older passage that answers better is simply the better
 answer. On a volatile one — pricing, an API, a regulation, an announcement — an

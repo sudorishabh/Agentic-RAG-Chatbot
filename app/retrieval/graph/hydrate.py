@@ -29,7 +29,7 @@ from typing import Any, Sequence
 logger = logging.getLogger(__name__)
 
 # Ids per Qdrant call. Matches the cap the existing id-scoped retrieval uses
-# (app.retrieval.scoped_retrieval._MAX_IDS) so both paths behave alike.
+# (app.retrieval.search.scoped_retrieval._MAX_IDS) so both paths behave alike.
 BATCH_SIZE = 150
 
 # Chunks fetched per document when evidence is document-level. Small: this is
@@ -52,7 +52,7 @@ def hydrate_chunks(chunk_ids: Sequence[str]) -> list[Any]:
     """
     from app.config import get_settings
     from app.core.clients import get_qdrant_client
-    from app.retrieval.hybrid_search import Candidate
+    from app.retrieval.search.hybrid_search import Candidate
 
     unique: list[str] = []
     seen: set[str] = set()
@@ -110,7 +110,7 @@ def hydrate_documents(
     """
     from app.config import get_settings
     from app.core.clients import get_qdrant_client
-    from app.retrieval.hybrid_search import Candidate, build_filter
+    from app.retrieval.search.hybrid_search import Candidate, build_filter
 
     unique = list(dict.fromkeys(d for d in document_ids if d))
     if not unique:

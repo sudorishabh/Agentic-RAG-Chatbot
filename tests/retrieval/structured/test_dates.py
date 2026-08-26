@@ -209,7 +209,7 @@ def test_today_utc_is_a_date():
 # --------------------------------------------------------------------------- #
 
 def test_understanding_prompt_carries_the_directive(frozen):
-    from app.retrieval.query_processor import _understanding_messages
+    from app.retrieval.understanding.query_processor import _understanding_messages
 
     frozen(date(2026, 7, 30))
     role, system = _understanding_messages("how many reports last month", None)[0]
@@ -262,7 +262,7 @@ def test_multi_planner_prompt_carries_the_directive(frozen, monkeypatch):
 # --------------------------------------------------------------------------- #
 
 def test_query_scope_derives_the_exclusive_bound():
-    from app.retrieval.query_processor import QueryScope
+    from app.retrieval.understanding.query_processor import QueryScope
 
     scope = QueryScope(date_from="2020-01-01", date_to_inclusive="2021-12-31")
     assert scope.date_to == "2022-01-01"
@@ -284,7 +284,7 @@ def test_planned_call_derives_the_exclusive_bound():
 def test_the_derived_bound_stays_out_of_the_llm_schema():
     """`date_to` is a property, not a field: if it were in the schema the model
     could fill it directly and reintroduce the arithmetic this removes."""
-    from app.retrieval.query_processor import QueryScope
+    from app.retrieval.understanding.query_processor import QueryScope
 
     fields = QueryScope.model_json_schema()["properties"]
     assert "date_to_inclusive" in fields
@@ -294,7 +294,7 @@ def test_the_derived_bound_stays_out_of_the_llm_schema():
 def test_a_single_day_scope_survives_to_sql():
     """End to end: the model copies one date into both ends, and the query still
     covers that day instead of matching nothing."""
-    from app.retrieval.query_processor import QueryScope
+    from app.retrieval.understanding.query_processor import QueryScope
     from app.retrieval.structured.filters import resolve_filters
     from app.retrieval.structured.types import RecordFilters
 
@@ -309,8 +309,8 @@ def test_a_single_day_scope_survives_to_sql():
 def test_static_prompt_prefix_stays_stable(frozen):
     """The directive is appended, not interpolated into the body, so the long
     static prefix remains byte-identical and prompt-cacheable across requests."""
-    from app.retrieval.query_processor import _UNDERSTANDING_SYSTEM
-    from app.retrieval.query_processor import _understanding_messages
+    from app.retrieval.understanding.query_processor import _UNDERSTANDING_SYSTEM
+    from app.retrieval.understanding.query_processor import _understanding_messages
 
     frozen(date(2026, 7, 30))
     _, system = _understanding_messages("q", None)[0]

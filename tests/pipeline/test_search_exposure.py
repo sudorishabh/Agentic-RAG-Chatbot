@@ -7,7 +7,7 @@ in search_blocks (no Qdrant / LLM).
 from __future__ import annotations
 
 from app.pipeline import query_pipeline as pipe
-from app.retrieval import query_processor as qp
+from app.retrieval.understanding import query_processor as qp
 
 
 def _pq(labels, **kw):

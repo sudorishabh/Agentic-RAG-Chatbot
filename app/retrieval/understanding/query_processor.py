@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 from app.config import get_settings
 from app.core.clients.llm import get_llm, get_structured_llm
 from app.core.dates import IsoDate, current_date_directive, exclusive_end
-from app.retrieval.catalog_prompt import (
+from app.retrieval.understanding.catalog_prompt import (
     catalog_coverage_directive,
     catalog_inventory_directive,
 )
@@ -639,7 +639,7 @@ def _edition_conditions(question: str) -> list[Any]:
     cannot be read, and this adds no condition.
     """
     try:
-        from app.retrieval.annual_report_editions import conditions_for, resolve
+        from app.retrieval.understanding.annual_report_editions import conditions_for, resolve
 
         resolution = resolve(question)
     except Exception:

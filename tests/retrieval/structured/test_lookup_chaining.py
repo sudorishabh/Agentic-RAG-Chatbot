@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from app.catalog import queries as state
 from app.catalog.models import StateRecord
-from app.retrieval import query_processor as qp
+from app.retrieval.understanding import query_processor as qp
 from app.retrieval.structured.tools import resolve_lookup_chain
 
 

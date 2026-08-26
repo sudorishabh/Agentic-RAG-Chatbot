@@ -20,8 +20,8 @@ from app.generation.answerer import chitchat, generate_answer, generate_stream
 from app.generation.prompts import REFUSAL
 from app.observability.metrics import collect_into, component_totals
 from app.observability.tracing import record_query_metrics, span
-from app.retrieval.citations import build_citations
-from app.retrieval.query_processor import ProcessedQuery, process
+from app.retrieval.context.citations import build_citations
+from app.retrieval.understanding.query_processor import ProcessedQuery, process
 from app.retrieval.retriever import retrieve
 
 logger = logging.getLogger(__name__)

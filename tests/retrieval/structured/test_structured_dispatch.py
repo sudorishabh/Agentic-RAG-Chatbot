@@ -190,7 +190,7 @@ def test_every_declaration_of_the_vocabulary_agrees():
     two slot models, one for the LLM planner, and two lookup tables. They must
     not drift: a dimension added to one and missed in another is a slot the
     model can set and the tool then refuses."""
-    from app.retrieval import query_processor as qp
+    from app.retrieval.understanding import query_processor as qp
     from app.retrieval.structured import types as T
     from app.retrieval.structured.answerer import StructuredQuery
 

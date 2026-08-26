@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from app.retrieval.volatility import is_volatile
+from app.retrieval.search.volatility import is_volatile
 
 
 @pytest.mark.parametrize("query", [

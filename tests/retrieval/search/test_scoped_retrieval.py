@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-from app.retrieval import hybrid_search, scoped_retrieval as sr
+from app.retrieval.search import hybrid_search, scoped_retrieval as sr
 
 
 def _point(id="c1", score=0.9, payload=None, vector=None):

@@ -22,9 +22,9 @@ from __future__ import annotations
 
 import pytest
 
-from app.retrieval import context_builder
-from app.retrieval.context_builder import build_context
-from app.retrieval.hybrid_search import _NON_SEARCHABLE_SECTIONS, Candidate
+from app.retrieval.context import builder as context_builder
+from app.retrieval.context.builder import build_context
+from app.retrieval.search.hybrid_search import _NON_SEARCHABLE_SECTIONS, Candidate
 
 BODY_CHILD = "Body child: the measured emissions fell by a fifth over the decade."
 BODY_PARENT = (

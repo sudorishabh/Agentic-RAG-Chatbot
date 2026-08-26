@@ -871,6 +871,25 @@ def test_graph_retrieval_is_disabled_by_default():
     assert Settings.model_fields["knowledge_enabled"].default is False
 
 
+def _repo_root():
+    """The repository root, found by walking up to the directory holding ``app``.
+
+    Deliberately not a hard-coded ``parents[n]``: this file has already moved
+    once (into ``tests/retrieval/graph/``), and the depth-counting version kept
+    resolving to ``tests/retrieval``. One of the two tests below then failed for
+    a reason unrelated to what it asserts, and the other passed *vacuously* by
+    globbing a directory that did not exist. Searching for the marker cannot
+    break that way.
+    """
+    import pathlib
+
+    here = pathlib.Path(__file__).resolve()
+    for candidate in here.parents:
+        if (candidate / "app").is_dir() and (candidate / "tests").is_dir():
+            return candidate
+    raise AssertionError(f"could not locate the repository root from {here}")
+
+
 def test_importing_production_retrieval_does_not_load_the_graph_package():
     """The flag is a policy; this is the structural guarantee behind it.
 
@@ -899,12 +918,12 @@ def test_importing_production_retrieval_does_not_load_the_graph_package():
 
     program = (
         "import sys;"
-        "import app.retrieval.retriever, app.retrieval.hybrid_search,"
-        " app.retrieval.context_builder;"
+        "import app.retrieval.retriever, app.retrieval.search.hybrid_search,"
+        " app.retrieval.context.builder;"
         "leaked=[m for m in sys.modules if m.startswith('app.retrieval.graph')];"
         "print(','.join(leaked))"
     )
-    repo_root = pathlib.Path(__file__).resolve().parent.parent
+    repo_root = _repo_root()
     env = {
         **os.environ,
         "GRAPH_RETRIEVAL_ENABLED": "false",
@@ -937,9 +956,11 @@ def test_importing_production_retrieval_does_not_load_the_graph_package():
 
 def test_only_the_shadow_hook_references_the_graph_from_production_retrieval():
     """One doorway, and it is the observing one."""
-    import pathlib
-
-    root = pathlib.Path(__file__).resolve().parents[1]
+    root = _repo_root()
+    # The glob below silently passes if `root` is wrong — an empty iteration
+    # yields no offenders. This test spent a while doing exactly that after the
+    # test tree grew a `graph/` level and the hard-coded depth stopped matching.
+    assert (root / "app" / "retrieval").is_dir(), f"bad repo root: {root}"
     offenders = []
     for path in list((root / "app" / "retrieval").rglob("*.py")) + list(
         (root / "app" / "pipeline").rglob("*.py")

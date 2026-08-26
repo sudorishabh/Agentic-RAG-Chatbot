@@ -8,7 +8,7 @@ from typing import Any, Sequence
 from app.config import get_settings
 from app.core.models.context import ContextBlock, source_kind
 from app.core.clients import get_qdrant_client
-from app.retrieval.hybrid_search import _NON_SEARCHABLE_SECTIONS, Candidate
+from app.retrieval.search.hybrid_search import _NON_SEARCHABLE_SECTIONS, Candidate
 
 logger = logging.getLogger(__name__)
 

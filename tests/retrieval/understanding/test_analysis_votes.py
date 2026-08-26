@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-from app.retrieval import query_processor as qp
+from app.retrieval.understanding import query_processor as qp
 
 
 def _u(labels, **kw):

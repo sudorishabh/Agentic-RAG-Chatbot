@@ -12,8 +12,9 @@ from types import SimpleNamespace
 
 from app.catalog import queries as catalog
 from app.core.models.context import ContextBlock
-from app.retrieval import retriever, scoped_retrieval
-from app.retrieval.hybrid_search import Candidate
+from app.retrieval import retriever
+from app.retrieval.search import scoped_retrieval
+from app.retrieval.search.hybrid_search import Candidate
 
 
 def _plain_settings():

@@ -9,7 +9,7 @@ from __future__ import annotations
 import pytest
 
 from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
-from app.retrieval import catalog_prompt as prompt
+from app.retrieval.understanding import catalog_prompt as prompt
 from app.retrieval.structured import answerer
 from app.retrieval.structured import planner
 from app.retrieval.understanding import prompts as understanding_prompts

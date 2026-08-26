@@ -11,8 +11,8 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.retrieval import reranker
-from app.retrieval.hybrid_search import Candidate
+from app.retrieval.search import reranker
+from app.retrieval.search.hybrid_search import Candidate
 
 
 # Passage length is the completeness signal, so every candidate gets the same

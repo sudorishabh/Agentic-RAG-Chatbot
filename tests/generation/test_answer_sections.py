@@ -34,7 +34,7 @@ from app.generation.sections import (
     strip_tags,
 )
 from app.pipeline import query_pipeline as pipe
-from app.retrieval import query_processor as qp
+from app.retrieval.understanding import query_processor as qp
 
 
 def _web(body):

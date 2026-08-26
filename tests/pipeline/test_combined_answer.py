@@ -8,8 +8,8 @@ and is out of scope here; these test the composition seams. No network.
 from __future__ import annotations
 
 from app.pipeline import query_pipeline as pipe
-from app.retrieval import query_processor as qp
-from app.retrieval.context_builder import ContextBlock
+from app.retrieval.understanding import query_processor as qp
+from app.retrieval.context.builder import ContextBlock
 
 
 def _pq(labels=None, **kw):

@@ -5,8 +5,8 @@
 Two things this deliberately does **not** do:
 
 * **It does not introduce a generation architecture.** The last two steps are
-  the existing ``app.retrieval.reranker.rerank`` and
-  ``app.retrieval.context_builder.build_context``; a graph answer becomes the
+  the existing ``app.retrieval.search.reranker.rerank`` and
+  ``app.retrieval.context.builder.build_context``; a graph answer becomes the
   same ``ContextBlock`` list every other answer is built from.
 * **It does not touch the default retrieval path.** Nothing in
   ``app/retrieval/retriever.py`` or ``app/pipeline`` imports this module, and
@@ -155,14 +155,14 @@ def answer(
     settings = get_settings()
     ranked = candidates
     if candidates and rerank_results:
-        from app.retrieval.reranker import rerank
+        from app.retrieval.search.reranker import rerank
 
         # The existing reranker, unchanged. A graph answer is ranked the same way
         # every other answer is, so nothing new has to be tuned or trusted.
         ranked = rerank(question, candidates)
         mark = _mark("rerank", mark)
 
-    from app.retrieval.context_builder import build_context
+    from app.retrieval.context.builder import build_context
 
     evidence = (
         build_context(ranked, limit=top_k or settings.retrieval_top_k,

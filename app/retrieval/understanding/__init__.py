@@ -1,7 +1,18 @@
-"""Query understanding.
+"""Query understanding: a question -> what to retrieve and how to filter it.
 
-The classification pipeline (LLM call, voting/merge, legacy derivation) and its
-data contracts live in :mod:`app.retrieval.query_processor`; the large prompt
-text and the Qdrant facet-filter builder are split out here to keep that module
-focused on control flow.
+The first stage of the read path. Nothing here touches Qdrant.
+
+* :mod:`.query_processor` — the entry point and the data contracts
+  (``QueryAnalysis``, ``QueryUnderstanding``): the LLM call, sample voting/merge
+  and the legacy derivation.
+* :mod:`.prompts` — the understanding prompt text, split out to keep
+  ``query_processor`` focused on control flow.
+* :mod:`.filters` — turns an analysis into a Qdrant facet filter.
+* :mod:`.relational` — relational/comparative question shapes.
+* :mod:`.approved_aliases` — vetted surface forms for entities the corpus names
+  inconsistently.
+* :mod:`.annual_report_editions` — which edition of a recurring series a
+  question means.
+* :mod:`.catalog_prompt` — the corpus description (bundles, themes) injected
+  into understanding and structured planning prompts.
 """

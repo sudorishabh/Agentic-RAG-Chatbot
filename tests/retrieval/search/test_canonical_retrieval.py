@@ -19,18 +19,18 @@ from __future__ import annotations
 
 import pytest
 
-from app.retrieval import reranker
+from app.retrieval.search import reranker
 from app.retrieval.search.strategies import extract_content_terms, extract_key_terms
-from app.retrieval import title_leg
+from app.retrieval.search import title_leg
 
 
 # --------------------------------------------------------------------------- #
 # 1. Derived authority
 # --------------------------------------------------------------------------- #
 def test_a_service_node_outranks_an_attachment_on_authority():
-    canonical = reranker._derived_authority({"source_type": "website", "bundle": "services"})
-    news = reranker._derived_authority({"source_type": "website", "bundle": "news"})
-    attachment = reranker._derived_authority(
+    canonical = reranker.derived_authority({"source_type": "website", "bundle": "services"})
+    news = reranker.derived_authority({"source_type": "website", "bundle": "news"})
+    attachment = reranker.derived_authority(
         {"source_type": "pdf_attachment", "bundle": "page"}
     )
     assert canonical > news > attachment
@@ -38,7 +38,7 @@ def test_a_service_node_outranks_an_attachment_on_authority():
 
 def test_an_explicit_payload_authority_still_wins():
     """A corpus that stamps authority keeps control of it."""
-    assert reranker._derived_authority({"source_type": "website", "bundle": "news"}) < 0.9
+    assert reranker.derived_authority({"source_type": "website", "bundle": "news"}) < 0.9
     scores = reranker._authority_scores(
         [_c({"source_type": "website", "bundle": "news", "source_authority": 0.99})]
     )
@@ -46,11 +46,11 @@ def test_an_explicit_payload_authority_still_wins():
 
 
 def test_an_unknown_source_is_neutral():
-    assert reranker._derived_authority({}) == reranker._UNKNOWN
+    assert reranker.derived_authority({}) == reranker._UNKNOWN
 
 
 def _c(payload):
-    from app.retrieval.hybrid_search import Candidate
+    from app.retrieval.search.hybrid_search import Candidate
 
     return Candidate(id=payload.get("chunk_id", "x"), score=0.5, payload=payload, vector=[0.0])
 

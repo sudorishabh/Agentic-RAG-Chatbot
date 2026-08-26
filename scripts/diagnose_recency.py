@@ -104,15 +104,15 @@ def _chunk_stage(document_id: str) -> None:
 def _retrieval_stage(question: str, needle: str, top: int) -> None:
     """Stage 3 — what search returned, and what ranking did with it."""
     from app.config import get_settings
-    from app.retrieval import hybrid_search
-    from app.retrieval.query_processor import process
-    from app.retrieval.reranker import (
+    from app.retrieval.search import hybrid_search
+    from app.retrieval.understanding.query_processor import process
+    from app.retrieval.search.reranker import (
         _bands,
         _relevance_tolerance,
         _substance_tolerance,
         rerank,
     )
-    from app.retrieval.volatility import is_volatile
+    from app.retrieval.search.volatility import is_volatile
 
     print(f"\n{_RULE}\n3. RETRIEVAL — candidates before and after ranking\n{_RULE}")
     settings = get_settings()

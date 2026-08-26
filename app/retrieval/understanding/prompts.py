@@ -5,7 +5,7 @@ engineering that changes for different reasons than the routing logic.
 """
 from __future__ import annotations
 
-from app.retrieval.catalog_prompt import (
+from app.retrieval.understanding.catalog_prompt import (
     BUNDLE_GLOSSARY,
     BUNDLE_LIST,
     COLLECTIVE_WORD_WARNING,

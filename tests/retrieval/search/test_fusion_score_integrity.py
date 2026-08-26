@@ -24,10 +24,10 @@ from types import SimpleNamespace
 import pytest
 
 from app.retrieval import retriever
-from app.retrieval.context_builder import build_context
-from app.retrieval.fusion import rrf
-from app.retrieval.hybrid_search import Candidate, _to_candidate
-from app.retrieval.reranker import rerank
+from app.retrieval.context.builder import build_context
+from app.retrieval.search.fusion import rrf
+from app.retrieval.search.hybrid_search import Candidate, _to_candidate
+from app.retrieval.search.reranker import rerank
 
 # The two floors this whole file is about, at their production defaults.
 WEBSITE_FLOOR = 0.30
@@ -155,7 +155,8 @@ def _settings(**overrides):
 def _wire(monkeypatch, settings, *, website, pdfs, extra_leg):
     """Wire ``retrieve`` onto stub pulls but the *real* rrf / rerank / context
     builder, so the floors are exercised end to end."""
-    from app.retrieval import context_builder, reranker
+    from app.retrieval.context import builder as context_builder
+    from app.retrieval.search import reranker
 
     for module in (retriever, reranker, context_builder):
         monkeypatch.setattr(module, "get_settings", lambda s=settings: s)
@@ -257,7 +258,7 @@ def test_corrective_loop_still_fires_on_genuinely_weak_results(monkeypatch):
 # --------------------------------------------------------------------------- #
 
 def test_build_context_floor_reads_the_semantic_score(monkeypatch):
-    from app.retrieval import context_builder
+    from app.retrieval.context import builder as context_builder
 
     settings = _settings()
     monkeypatch.setattr(context_builder, "get_settings", lambda: settings)

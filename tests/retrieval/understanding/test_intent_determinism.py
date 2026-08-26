@@ -1,5 +1,5 @@
 """Unit tests for the deterministic chitchat-correction guard
-(``app.retrieval.query_processor._corrected_intent`` and its two probes).
+(``app.retrieval.understanding.query_processor._corrected_intent`` and its two probes).
 
 Regression cover for a measured failure: identical questions drew different
 intents on different calls because the query-analysis LLM samples at a
@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import pytest
 
-from app.retrieval import query_processor as qp
+from app.retrieval.understanding import query_processor as qp
 
 # --------------------------------------------------------------------------- #
 # 1. The three measured flapping cases, pinned by literal text.

@@ -13,7 +13,7 @@ from types import SimpleNamespace
 from app.core.models.context import ContextBlock
 from app.generation import faithfulness as fa
 from app.pipeline import query_pipeline as pipe
-from app.retrieval.query_processor import ProcessedQuery
+from app.retrieval.understanding.query_processor import ProcessedQuery
 
 
 def _block(n, text, **payload):

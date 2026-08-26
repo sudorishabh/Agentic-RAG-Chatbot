@@ -17,7 +17,7 @@ from app.catalog import queries as state
 from app.retrieval.structured import answerer as dr
 from app.retrieval.structured import planner
 from app.retrieval.structured.types import ToolResult
-from app.retrieval import query_processor as qp
+from app.retrieval.understanding import query_processor as qp
 
 
 # --------------------------------------------------------------------------- #

@@ -27,13 +27,13 @@ from pydantic import BaseModel, Field
 
 from app.catalog import queries as catalog
 from app.core.dates import parse_iso_date
-from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
-from app.retrieval import scoped_retrieval
+from app.core.corpus import DEFAULT_BUNDLES
+from app.retrieval.search import scoped_retrieval
 from app.retrieval.structured.entities import normalize_entity
 from app.schemas.query import Citation
 
 if TYPE_CHECKING:
-    from app.retrieval.query_processor import QueryAnalysis
+    from app.retrieval.understanding.query_processor import QueryAnalysis
 
 logger = logging.getLogger(__name__)
 

@@ -21,7 +21,7 @@ unbroken while this module has no `structured` imports — was the wrong trade.
 
 from __future__ import annotations
 
-from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
+from app.core.corpus import DEFAULT_BUNDLES
 
 BUNDLE_LIST = ", ".join(DEFAULT_BUNDLES)
 
@@ -170,7 +170,7 @@ def catalog_coverage_directive() -> str:
     turns it into a date bound, and a guessed bound *excludes* — the documents
     that answer the question are the first to go. Ranking already prefers the
     newest of several comparable documents (see
-    :mod:`app.retrieval.reranker`), so the correct extraction is no date at all.
+    :mod:`app.retrieval.search.reranker`), so the correct extraction is no date at all.
 
     Returns "" when the range cannot be determined (no database, a MySQL blip),
     so an outage falls back to today's-date reasoning rather than claiming the

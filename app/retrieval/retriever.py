@@ -18,10 +18,10 @@ from app.config import get_settings
 from app.core.clients.embeddings import embed_query
 from app.core.models.context import ContextBlock
 from app.observability.tracing import span
-from app.retrieval.context_builder import build_context
-from app.retrieval.fusion import rrf
-from app.retrieval.hybrid_search import search
-from app.retrieval.reranker import rerank
+from app.retrieval.context.builder import build_context
+from app.retrieval.search.fusion import rrf
+from app.retrieval.search.hybrid_search import search
+from app.retrieval.search.reranker import rerank
 from app.retrieval.search.strategies import (
     corrective_requery,
     dual_search,
@@ -31,7 +31,7 @@ from app.retrieval.search.strategies import (
     paraphrase_search,
     paraphrases,
 )
-from app.retrieval.title_leg import title_search
+from app.retrieval.search.title_leg import title_search
 from app.retrieval.understanding.filters import date_conditions
 
 logger = logging.getLogger(__name__)
@@ -67,7 +67,7 @@ def _supplement_attachments(
     let rerank decide admission. Bounded to one extra Qdrant query; any failure
     keeps the original blocks."""
     from app.catalog import queries as catalog
-    from app.retrieval.scoped_retrieval import search_within_documents
+    from app.retrieval.search.scoped_retrieval import search_within_documents
 
     try:
         website_ids = {
@@ -200,7 +200,7 @@ def _merge_graph_and_retrieval(
     ``build_context`` had already spent its allowance.
     """
     from app.core.models.context import is_graph_facts
-    from app.retrieval.context_builder import _count_tokens
+    from app.retrieval.context.builder import _count_tokens
 
     leading = graph_blocks[0] if graph_blocks else None
     facts = leading if leading is not None and is_graph_facts(leading.payload) else None
@@ -359,7 +359,7 @@ def retrieve(
 
     # Title-anchored leg. Neither ranking nor the lexical legs can retrieve a
     # canonical page whose *text* is a list of link labels — see
-    # `app.retrieval.title_leg`. Runs whenever the question names something
+    # `app.retrieval.search.title_leg`. Runs whenever the question names something
     # specific enough to match a page title; contributes one more ranking and
     # nothing else, so RRF decides what it is worth. Skipped for a pinned source
     # type, whose single filtered pull the caller has already narrowed.
@@ -542,7 +542,7 @@ def _gate_temporal(search_query: str, blocks: list[ContextBlock]) -> list[Contex
     if not blocks:
         return blocks
     try:
-        from app.retrieval import temporal_gate
+        from app.retrieval.search import temporal_gate
 
         mode = temporal_gate.detect_mode(search_query)
         if mode != temporal_gate.UPCOMING:

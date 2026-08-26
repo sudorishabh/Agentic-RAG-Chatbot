@@ -128,7 +128,7 @@ def test_the_removed_access_and_taxonomy_fields_are_absent_end_to_end(field):
 def test_the_mandatory_filter_scopes_by_shape_only():
     """The only conditions every search carries are about which points are
     *searchable* — never about who is asking."""
-    from app.retrieval.hybrid_search import build_filter
+    from app.retrieval.search.hybrid_search import build_filter
 
     built = build_filter()
     keys = {c.key for c in built.must if hasattr(c, "key")}
@@ -140,7 +140,7 @@ def test_the_mandatory_filter_scopes_by_shape_only():
 def test_the_facet_filters_only_name_indexed_fields():
     """A facet filter on an unindexed field is served by full scan — correct, and
     silently slow. This is the check that keeps the two lists together."""
-    from app.retrieval.query_processor import QueryAnalysis
+    from app.retrieval.understanding.query_processor import QueryAnalysis
     from app.retrieval.understanding.filters import _facet_filters
 
     analysis = QueryAnalysis(

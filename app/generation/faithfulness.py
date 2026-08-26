@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel, Field
 
 if TYPE_CHECKING:
-    from app.retrieval.context_builder import ContextBlock
+    from app.core.models.context import ContextBlock
 
 logger = logging.getLogger(__name__)
 

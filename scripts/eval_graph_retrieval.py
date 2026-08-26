@@ -4,7 +4,7 @@ Answers one question: **on which query classes does the graph beat the retrieval
 we already have** — and by enough to justify routing to it.
 
 Configurations
-    existing    the production pull: `app.retrieval.hybrid_search.search`,
+    existing    the production pull: `app.retrieval.search.hybrid_search.search`,
                 optionally RRF-fused with the keyword leg. This is what a user
                 gets today.
     graph       `app.retrieval.graph.pipeline.answer`: route, traverse, hydrate
@@ -172,9 +172,9 @@ def _prf(retrieved: list[str], gold: list[str]) -> tuple[float, float]:
 def run_existing(query: str, *, k: int) -> dict[str, Any]:
     """The production pull, ending in the same context builder the graph uses."""
     from app.config import get_settings
-    from app.retrieval.context_builder import build_context
-    from app.retrieval.hybrid_search import search
-    from app.retrieval.reranker import rerank
+    from app.retrieval.context.builder import build_context
+    from app.retrieval.search.hybrid_search import search
+    from app.retrieval.search.reranker import rerank
 
     settings = get_settings()
     started = time.perf_counter()

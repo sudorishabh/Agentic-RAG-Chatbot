@@ -157,7 +157,7 @@ def title_candidates(question: str, *, limit: int = 12) -> list[str]:
     if len(selective) < 1:
         return []
     rare = _rare_terms(selective, rows, counts=counts)
-    from app.retrieval.reranker import _derived_authority
+    from app.retrieval.search.reranker import derived_authority
 
     scored: list[tuple[int, int, str]] = []
     for document_id, title, bundle in rows:
@@ -166,7 +166,7 @@ def title_candidates(question: str, *, limit: int = 12) -> list[str]:
             continue
         # Canonical bundles first at equal score: the point of this leg is the
         # page the organisation maintains, not a news item that shares its words.
-        authority = _derived_authority({"source_type": "website", "bundle": bundle})
+        authority = derived_authority({"source_type": "website", "bundle": bundle})
         scored.append((-score, -int(authority * 100), document_id))
     scored.sort()
     return [document_id for _, _, document_id in scored[:limit]]
@@ -253,7 +253,7 @@ def title_search(
     ids = title_candidates(question)
     if not ids:
         return []
-    from app.retrieval.scoped_retrieval import search_within_documents
+    from app.retrieval.search.scoped_retrieval import search_within_documents
 
     try:
         hits = search_within_documents(query_vector, ids, limit=limit)

@@ -17,10 +17,10 @@ from __future__ import annotations
 import pytest
 
 from app.generation.prompts import _source_hint
-from app.retrieval import context_builder
-from app.retrieval.citations import build_citations
-from app.retrieval.context_builder import build_context
-from app.retrieval.hybrid_search import Candidate
+from app.retrieval.context import builder as context_builder
+from app.retrieval.context.citations import build_citations
+from app.retrieval.context.builder import build_context
+from app.retrieval.search.hybrid_search import Candidate
 
 CHILD_TEXT = "The child chunk body, which starts partway down its first page."
 PARENT_TEXT = (

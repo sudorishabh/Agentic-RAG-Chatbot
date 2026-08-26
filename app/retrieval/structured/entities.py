@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from app.ingestion.extractors.drupal_extractor import DEFAULT_BUNDLES
+from app.core.corpus import DEFAULT_BUNDLES
 
 # Free-text content types (from the LLM or the user) that plural/singular matching
 # won't map to a known bundle.

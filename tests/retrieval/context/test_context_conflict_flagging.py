@@ -18,7 +18,7 @@ from __future__ import annotations
 import pytest
 
 from app.core.models.context import ContextBlock
-from app.retrieval.context_builder import _flag_conflicts
+from app.retrieval.context.builder import _flag_conflicts
 
 
 def _block(n, document_id, source_type="pdf_attachment", **extra):

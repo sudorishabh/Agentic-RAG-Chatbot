@@ -13,7 +13,7 @@ from __future__ import annotations
 import pytest
 
 from app.generation.prompts import _source_hint
-from app.retrieval.citations import _source_from_payload
+from app.retrieval.context.citations import _source_from_payload
 
 # One real payload per edition, as they exist in Qdrant today.
 PAGE_DATE = "2022-02-09T06:59:06"

@@ -13,7 +13,7 @@ from types import SimpleNamespace
 import pytest
 
 from app.cache import semantic_cache as sc
-from app.retrieval import query_processor as qp
+from app.retrieval.understanding import query_processor as qp
 
 
 @pytest.fixture(autouse=True)

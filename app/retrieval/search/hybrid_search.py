@@ -85,7 +85,7 @@ def build_filter(
     ``exclude_non_searchable`` drops toc/references/glossary chunks and is on
     for every search. Fetches that must return *something* for a document —
     rather than the best thing to search — turn it off as a last resort; see
-    :func:`app.retrieval.scoped_retrieval.lead_parents`.
+    :func:`app.retrieval.search.scoped_retrieval.lead_parents`.
     """
     from qdrant_client.models import FieldCondition, Filter, MatchAny, MatchValue
 

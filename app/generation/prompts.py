@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from app.core.models.context import GRAPH_FACTS_KIND, is_graph_facts
 
 if TYPE_CHECKING:
-    from app.retrieval.context_builder import ContextBlock
+    from app.core.models.context import ContextBlock
 
 REFUSAL = "I don't have information on that in the available sources."
 
@@ -516,13 +516,13 @@ def graph_facts_rule(number: int) -> str:
 
 def _is_canonical(payload: dict) -> bool:
     """Whether the block is an official page rather than a retelling."""
-    from app.retrieval.reranker import _derived_authority
+    from app.retrieval.search.reranker import derived_authority
 
     try:
         explicit = payload.get("source_authority")
-        score = float(explicit) if explicit is not None else _derived_authority(payload)
+        score = float(explicit) if explicit is not None else derived_authority(payload)
     except (TypeError, ValueError):
-        score = _derived_authority(payload)
+        score = derived_authority(payload)
     return score >= _CANONICAL_AUTHORITY
 
 

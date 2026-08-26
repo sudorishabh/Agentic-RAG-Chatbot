@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Sequence
 
-from app.retrieval.hybrid_search import Candidate
+from app.retrieval.search.hybrid_search import Candidate
 
 
 def rrf(rankings: Sequence[Sequence[Candidate]], k: int = 60) -> list[Candidate]:

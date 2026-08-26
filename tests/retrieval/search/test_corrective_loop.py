@@ -11,7 +11,7 @@ from __future__ import annotations
 from types import SimpleNamespace
 
 from app.retrieval import retriever
-from app.retrieval.hybrid_search import Candidate
+from app.retrieval.search.hybrid_search import Candidate
 from app.retrieval.search import strategies
 
 

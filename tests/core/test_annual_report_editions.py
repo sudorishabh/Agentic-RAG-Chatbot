@@ -17,7 +17,7 @@ from __future__ import annotations
 import pytest
 
 from app.core.editions import normalise_edition
-from app.retrieval import annual_report_editions as editions
+from app.retrieval.understanding import annual_report_editions as editions
 
 PAGE = "https://teriin.org/annual-reports"
 

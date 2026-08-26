@@ -13,9 +13,9 @@ from typing import Any
 
 from app.core.clients.embeddings import embed_query
 from app.core.clients.llm import get_llm, get_structured_llm
-from app.retrieval.fusion import rrf
-from app.retrieval.hybrid_search import search
-from app.retrieval.reranker import rerank
+from app.retrieval.search.fusion import rrf
+from app.retrieval.search.hybrid_search import search
+from app.retrieval.search.reranker import rerank
 
 logger = logging.getLogger(__name__)
 

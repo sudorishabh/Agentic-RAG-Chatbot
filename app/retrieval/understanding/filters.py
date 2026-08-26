@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING, Any, Sequence
 from app.core.dates import parse_iso_date
 
 if TYPE_CHECKING:
-    from app.retrieval.query_processor import QueryAnalysis
+    from app.retrieval.understanding.query_processor import QueryAnalysis
 
 logger = logging.getLogger(__name__)
 

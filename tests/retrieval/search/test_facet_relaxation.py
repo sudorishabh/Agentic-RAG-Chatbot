@@ -21,7 +21,7 @@ from types import SimpleNamespace
 from qdrant_client.models import DatetimeRange, FieldCondition
 
 from app.retrieval import retriever
-from app.retrieval.hybrid_search import Candidate
+from app.retrieval.search.hybrid_search import Candidate
 
 
 def _cand(id, payload=None):

@@ -8,7 +8,7 @@ from app.core.models.context import (
     page_span,
     source_kind,
 )
-from app.retrieval.context_builder import ContextBlock
+from app.core.models.context import ContextBlock
 from app.schemas.query import Citation, CitationSource
 
 # Citation type for the graph's verified-relationships block. Its own name

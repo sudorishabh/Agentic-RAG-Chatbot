@@ -1114,7 +1114,7 @@ def test_the_graph_block_is_cited_as_the_graph_not_as_a_pdf():
     `title || document_id || type` — rendered the literal string
     "pdf_attachment" to the user under the heading "PDFs".
     """
-    from app.retrieval.citations import GRAPH_CITATION_TYPE, build_citations
+    from app.retrieval.context.citations import GRAPH_CITATION_TYPE, build_citations
 
     block = _facts_block([
         {"subject_name": "P", "predicate": "LED_BY", "object_name": "A",
@@ -1134,7 +1134,7 @@ def test_the_graph_block_is_cited_as_the_graph_not_as_a_pdf():
 def test_a_current_graph_citation_says_current_and_a_historical_one_does_not():
     """The citation must not be the one place a past relationship reads as a
     present one."""
-    from app.retrieval.citations import build_citations
+    from app.retrieval.context.citations import build_citations
 
     historical = _facts_block(
         [{"subject_name": "P", "predicate": "LED_BY", "object_name": "A",
@@ -1159,7 +1159,7 @@ def test_a_current_graph_citation_says_current_and_a_historical_one_does_not():
 def test_document_citations_are_unchanged_by_the_graph_branch():
     """The graph branch must not alter how an ordinary source is described."""
     from app.core.models.context import ContextBlock
-    from app.retrieval.citations import build_citations
+    from app.retrieval.context.citations import build_citations
 
     website = ContextBlock(
         n=1, text="w",

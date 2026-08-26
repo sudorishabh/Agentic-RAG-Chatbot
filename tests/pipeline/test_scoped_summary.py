@@ -11,7 +11,7 @@ from __future__ import annotations
 from datetime import datetime
 
 from app.pipeline import summarize as sm
-from app.retrieval import query_processor as qp
+from app.retrieval.understanding import query_processor as qp
 
 
 def _analysis(**kw):

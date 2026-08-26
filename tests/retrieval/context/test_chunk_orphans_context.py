@@ -12,9 +12,9 @@ from __future__ import annotations
 
 import pytest
 
-from app.retrieval import context_builder
-from app.retrieval.context_builder import build_context
-from app.retrieval.hybrid_search import Candidate
+from app.retrieval.context import builder as context_builder
+from app.retrieval.context.builder import build_context
+from app.retrieval.search.hybrid_search import Candidate
 
 ORPHAN_TEXT = "Alpha: the single-child section body, which is the whole window."
 CHILD_TEXT = "Bravo: one child of a section that has several."

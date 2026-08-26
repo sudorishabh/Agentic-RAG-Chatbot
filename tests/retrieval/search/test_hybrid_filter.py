@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from app.retrieval.hybrid_search import _NON_SEARCHABLE_SECTIONS, build_filter
+from app.retrieval.search.hybrid_search import _NON_SEARCHABLE_SECTIONS, build_filter
 
 
 def test_filter_excludes_non_searchable_sections():

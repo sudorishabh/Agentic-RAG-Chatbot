@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import pytest
 
-from app.retrieval.query_processor import QueryAnalysis
+from app.retrieval.understanding.query_processor import QueryAnalysis
 from app.retrieval.understanding.filters import _facet_filters, _is_relationship_time
 
 
@@ -138,7 +138,7 @@ def _probe(monkeypatch, *, relational, matched):
 
 
 def test_a_relational_question_about_a_known_entity_is_not_chitchat(monkeypatch):
-    from app.retrieval import query_processor as qp
+    from app.retrieval.understanding import query_processor as qp
 
     _probe(monkeypatch, relational=True, matched=True)
     assert qp._corrected_intent("Who led Green Jobs?", "chitchat") == "qa"
@@ -152,7 +152,7 @@ def test_both_halves_are_required_to_overrule_chitchat(monkeypatch, relational, 
     """A greeting names neither. "Thanks for the funding update" names a cue but
     no entity. "Tell me about TERI" names an entity but no relationship. None of
     them is a relational question, and none is overridden."""
-    from app.retrieval import query_processor as qp
+    from app.retrieval.understanding import query_processor as qp
 
     _probe(monkeypatch, relational=relational, matched=matched)
     assert qp._corrected_intent("something", "chitchat") == "chitchat"
@@ -162,14 +162,14 @@ def test_both_halves_are_required_to_overrule_chitchat(monkeypatch, relational, 
 def test_the_override_only_ever_reads_chitchat(monkeypatch, intent):
     """One-directional by construction: it can rescue a misfiled question and can
     never send a real one to the canned reply."""
-    from app.retrieval import query_processor as qp
+    from app.retrieval.understanding import query_processor as qp
 
     _probe(monkeypatch, relational=True, matched=True)
     assert qp._corrected_intent("Who led Green Jobs?", intent) == intent
 
 
 def test_the_probe_never_raises(monkeypatch):
-    from app.retrieval import query_processor as qp
+    from app.retrieval.understanding import query_processor as qp
     import app.retrieval.understanding.relational as rel
 
     monkeypatch.setattr(
@@ -186,7 +186,7 @@ def test_intent_classification_does_not_reach_into_graph_retrieval():
     answering it, and graph retrieval keeps its single doorway."""
     import inspect
 
-    from app.retrieval import query_processor as qp
+    from app.retrieval.understanding import query_processor as qp
 
     source = inspect.getsource(qp)
     assert "app.retrieval.graph" not in source

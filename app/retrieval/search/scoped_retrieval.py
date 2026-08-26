@@ -13,7 +13,7 @@ from typing import Any, Iterable, Sequence
 
 from app.config import get_settings
 from app.core.clients import get_qdrant_client
-from app.retrieval.hybrid_search import Candidate, build_filter, search
+from app.retrieval.search.hybrid_search import Candidate, build_filter, search
 
 logger = logging.getLogger(__name__)
 

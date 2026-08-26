@@ -12,7 +12,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from app.retrieval import temporal_gate as tg
+from app.retrieval.search import temporal_gate as tg
 
 
 def _block(document_id: str, n: int = 1):
@@ -122,7 +122,7 @@ def test_retriever_only_gates_upcoming_questions(monkeypatch):
 
     called = []
     monkeypatch.setattr(
-        "app.retrieval.temporal_gate.gate_upcoming",
+        "app.retrieval.search.temporal_gate.gate_upcoming",
         lambda blocks, **kw: called.append(True) or list(blocks),
     )
     blocks = [_block("a")]

@@ -15,7 +15,7 @@ from types import SimpleNamespace
 
 from app.generation import answer_plan as ap
 from app.generation import answerer, prompts
-from app.retrieval import query_processor as qp
+from app.retrieval.understanding import query_processor as qp
 
 
 def _block(n, text):

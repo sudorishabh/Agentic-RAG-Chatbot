@@ -183,7 +183,7 @@ class Settings(BaseSettings):
     rerank_relevance_tolerance: float = 0.03
     # Multiplier on that tolerance when the query is about something that goes
     # out of date — pricing, an API, a regulation, an announcement (see
-    # app.retrieval.volatility). A wider band lets the recency tie-break fire
+    # app.retrieval.search.volatility). A wider band lets the recency tie-break fire
     # more often; it never lets recency cross a band, so relevance still decides.
     # Set to 1.0 to rank volatile and stable topics identically.
     rerank_volatile_tolerance_multiplier: float = 2.0

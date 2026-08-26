@@ -18,7 +18,7 @@ from __future__ import annotations
 import pytest
 
 from app.core.models.context import ContextBlock
-from app.retrieval.citations import build_citations
+from app.retrieval.context.citations import build_citations
 
 # Exactly what ingestion writes: app/ingestion/canonical.py (`website`,
 # `pdf_attachment`) and app/ingestion/change_detection/drupal.py.

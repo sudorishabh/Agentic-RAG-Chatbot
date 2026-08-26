@@ -37,7 +37,7 @@ mentions testing in passing outranked it on substance every time.
 Measured on the 86-question organisational benchmark: the authoritative page the
 reference set names reached retrieval for 42% of questions, and nine questions
 retrieved none of it at all. So authority is now *derived* from the metadata the
-corpus already carries (:func:`_derived_authority`) rather than waiting for an
+corpus already carries (:func:`derived_authority`) rather than waiting for an
 ingest-time stamp, and it is banded like the others so only a material
 difference reorders anything. An explicit ``source_authority`` payload value
 still wins, so a corpus that does stamp authority keeps control.
@@ -54,8 +54,8 @@ from typing import Any, NamedTuple, Sequence
 from pydantic import BaseModel, Field
 
 from app.config import get_settings
-from app.retrieval.hybrid_search import Candidate
-from app.retrieval.volatility import is_volatile
+from app.retrieval.search.hybrid_search import Candidate
+from app.retrieval.search.volatility import is_volatile
 
 logger = logging.getLogger(__name__)
 
@@ -132,7 +132,7 @@ _AUTHORITY_SECONDARY = 0.45
 _AUTHORITY_ATTACHMENT = 0.35
 
 
-def _derived_authority(payload: dict) -> float:
+def derived_authority(payload: dict) -> float:
     """Editorial authority in [0,1] inferred from metadata already in the payload.
 
     Reads ``source_type`` and ``bundle`` only — both are stamped on every chunk at
@@ -188,7 +188,7 @@ def _authority_scores(candidates: Sequence[Candidate]) -> list[float]:
 
     An explicit ``source_authority`` payload value is authoritative and is used
     as given; otherwise it is derived from ``source_type``/``bundle`` by
-    :func:`_derived_authority`. Before, the absent key meant every candidate
+    :func:`derived_authority`. Before, the absent key meant every candidate
     scored ``_UNKNOWN`` and the key could never reorder anything.
     """
     scores: list[float] = []
@@ -196,7 +196,7 @@ def _authority_scores(candidates: Sequence[Candidate]) -> list[float]:
         try:
             scores.append(min(1.0, max(0.0, float(c.payload["source_authority"]))))
         except (KeyError, TypeError, ValueError):
-            scores.append(_derived_authority(c.payload))
+            scores.append(derived_authority(c.payload))
     return scores
 
 

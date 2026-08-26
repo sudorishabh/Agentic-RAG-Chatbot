@@ -119,7 +119,7 @@ def test_one_shared_token_budget_rather_than_two():
     semantic = [_block("s1", text="b " * 400), _block("s2", text="c " * 400)]
     merged = _merge_graph_and_retrieval(graph, semantic, limit=6, token_budget=500)
 
-    from app.retrieval.context_builder import _count_tokens
+    from app.retrieval.context.builder import _count_tokens
 
     assert len(merged) < 4
     # The first block is admitted whatever it costs; every later one fits.

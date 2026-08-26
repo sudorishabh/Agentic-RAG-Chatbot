@@ -10,7 +10,7 @@ from __future__ import annotations
 import pytest
 
 from app.catalog import queries as state
-from app.retrieval import query_processor as qp
+from app.retrieval.understanding import query_processor as qp
 
 
 class _FakeCursor:
