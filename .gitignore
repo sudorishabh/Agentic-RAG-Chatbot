@@ -27,5 +27,11 @@ pdf_examples/
 reports/phase0/drupal_metadata*.json
 reports/phase0/prototype_decisions.v*.csv
 reports/**/*.log
+# Date-audit snapshots (scripts.audit_dates --json). Each one measures the
+# corpus of the machine that produced it, and `--compare` reads it as the
+# "before" state — so a snapshot committed by one developer would silently
+# become another's baseline and report their normal corpus as a regression.
+# Regenerating takes seconds; sharing them does not survive a different corpus.
+reports/dates/*.json
 # Ad-hoc CSV exports (scripts.report_date_candidates --csv ...)
 /moves.csv

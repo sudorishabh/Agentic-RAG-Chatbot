@@ -43,6 +43,14 @@ class StateRecord:
     #: field chronology uses. Never inferred from an edition label, a PDF
     #: CreationDate or an upload time.
     document_published_at: str | None = None
+    #: Where ``published_at`` came from: ``created`` | ``cms_field`` |
+    #: ``document_text``. None means not recorded — which is every row written
+    #: before the column existed, and is deliberately not read as ``created``.
+    published_at_source: str | None = None
+    #: How precise ``published_at`` is: ``year`` | ``month`` | ``day``. None
+    #: means not recorded. A ``year`` value stored as 1 January is a marker for
+    #: the year, never a claim about the month.
+    published_at_precision: str | None = None
     # Display fields so structured list/lookup queries can be answered from the
     # catalog (no live site fetch). url is the document's public page/file URL.
     title: str | None = None

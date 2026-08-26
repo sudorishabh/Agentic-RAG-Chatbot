@@ -303,6 +303,7 @@ def _meta_from_canonical(doc: CanonicalDocument) -> DocumentMeta:
         is_current=doc.is_current,
         published_at=doc.published_at,
         document_published_at=doc.document_published_at,
+        published_at_precision=doc.published_at_precision,
         extra=dict(doc.extra),
     )
 

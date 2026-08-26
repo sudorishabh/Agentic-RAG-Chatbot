@@ -79,6 +79,15 @@ def stores(monkeypatch):
             rc, "_graph_check",
             lambda: rc.Check("graph_projection", 0, "not under test", skipped=True),
         )
+        # So are the date invariants (tests/test_reconcile_date_checks.py). They
+        # query the real catalogue rather than the scripted one above, so leaving
+        # them in would make these tests report on the developer's own corpus —
+        # passing or failing depending on how many dates happen to need
+        # correcting at the time.
+        monkeypatch.setattr(
+            rc, "date_checks",
+            lambda: [rc.Check("date_invariants", 0, "not under test", skipped=True)],
+        )
 
     return setter
 

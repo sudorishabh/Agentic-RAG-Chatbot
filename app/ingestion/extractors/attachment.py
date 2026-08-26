@@ -181,6 +181,14 @@ def build_attachment_doc(
         file_url=fetched_url,
         linked_article_uuid=(node.uuid or None),
         published_at=resolved.published_at,
+        # An override is only ever granted for a publication statement quoted
+        # from the PDF's own text and verified against it, so that is exactly
+        # what `document_text` means. Everything else keeps the parent page's
+        # created stamp. The fuller reasoning — which rule fired, the confidence,
+        # the quote — stays in `{state}_date_decision`; this is the one bit of it
+        # that belongs beside the value.
+        published_at_source=("document_text" if resolved.overridden else "created"),
+        published_at_precision="day",
         extra=extra,
         entity_refs=refs,
         **drupal_facets(node.metadata or {}, refs),

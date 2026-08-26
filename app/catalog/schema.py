@@ -415,6 +415,28 @@ def ensure_state_table() -> None:
         # the field every chronology path uses.
         _ensure_column(cur, table, "document_published_at",
                        "document_published_at DATETIME NULL")
+        # Where `published_at` came from, and how precise it is. Everything
+        # ranks, filters and orders on that column, and until now a bare value
+        # could not be told apart from a placeholder: an import timestamp shared
+        # by 646 documents and a date the publisher stated read identically.
+        #
+        # `created` = the source record's creation stamp, which is what the
+        # column held for every row before these existed. `cms_field` = a date
+        # the source states about the document. `document_text` = a date the
+        # document itself states, verified in its own text.
+        #
+        # NULL means *not recorded*, not `created`: the four PDFs whose date came
+        # from a verified publication statement would be mislabelled by a blanket
+        # backfill, so legacy rows are left unclaimed and
+        # `{state}_date_decision.candidate_source` remains the record for those.
+        _ensure_column(cur, table, "published_at_source",
+                       "published_at_source VARCHAR(16) NULL")
+        # `year` | `month` | `day`. A source holding only "2016" supports the
+        # year and nothing finer, so a consumer that reads the day without
+        # reading this invents a January publication — the same refusal
+        # `DateInterpretation.statement_is_year_only` makes on the PDF path.
+        _ensure_column(cur, table, "published_at_precision",
+                       "published_at_precision VARCHAR(8) NULL")
         _ensure_column(cur, table, "size", "size BIGINT NULL")
         _ensure_column(cur, table, "mtime_ns", "mtime_ns BIGINT NULL")
         _ensure_column(cur, table, "title", "title VARCHAR(1024) NULL")

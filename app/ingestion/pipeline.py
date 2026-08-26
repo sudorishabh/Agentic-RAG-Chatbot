@@ -76,6 +76,8 @@ def _save_state(
             changed_mark=record.changed_mark,
             published_at=doc.published_at,
             document_published_at=doc.document_published_at,
+            published_at_source=doc.published_at_source,
+            published_at_precision=doc.published_at_precision,
             title=doc.title,
             url=doc.source_url,
             authors=list(doc.authors),
@@ -300,6 +302,44 @@ def _extraction_is_empty(chunks: Sequence[Chunk]) -> bool:
     return not any(chunk.text.strip() for chunk in chunks)
 
 
+def _record_source_date_decision(record: ChangeRecord, doc: CanonicalDocument) -> None:
+    """Record why a *website* document carries the date it does.
+
+    Attachments record their own decision inside ``build_attachment_doc``, which
+    is where the evidence lives; this is the same audit trail for the other
+    source type, so one table and one review queue answer "why does this
+    document carry this date?" for the whole corpus.
+
+    Only written when the source actually offered a publication date — see
+    ``date_decisions.from_source_record``. Fails open like every other catalog
+    write on this path: an unreachable database costs one warning, never a
+    document its ingestion.
+    """
+    if record.source_type != "website":
+        return
+    from app.catalog import date_decisions
+    from app.ingestion.source_dates import publication_date
+
+    try:
+        row = date_decisions.from_source_record(
+            document_id=record.document_id,
+            bundle=record.bundle,
+            url=doc.source_url,
+            created=getattr(record.payload, "created", None),
+            applied=doc.published_at,
+            stated=publication_date(doc.raw_meta),
+        )
+        if row is None:
+            return
+        date_decisions.ensure_table()
+        date_decisions.record(row)
+    except Exception:
+        logger.warning(
+            "Could not record the date decision for %s; ingestion continues.",
+            record.document_id, exc_info=True,
+        )
+
+
 def _handle(
     record: ChangeRecord,
     build_doc: DocBuilder,
@@ -349,6 +389,8 @@ def _handle(
             "the document could not be built (download or extraction returned nothing)"
         ))
         return "skipped"
+
+    _record_source_date_decision(record, doc)
 
     content_hash = doc.ensure_content_hash()
     # Before the content-changed branch, so an unchanged-content document that

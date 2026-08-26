@@ -137,10 +137,24 @@ def _doc_from_payload(document_id: str, payload: dict[str, Any]) -> _Doc:
         document_id=document_id,
         title=str(payload.get("title") or document_id),
         url=payload.get("source_url"),
-        published=str(payload.get("published_at") or "")[:10],
+        published=_published_label(payload.get("published_at"),
+                                   payload.get("published_at_precision")),
         edition=str(payload.get("edition_label") or ""),
         text=str(payload.get("chunk_text") or ""),
     )
+
+
+def _published_label(value: Any, precision: Any) -> str:
+    """The date as it may be shown: a full date, or a bare year.
+
+    A year-precision value holds 1 January as a marker for a year the source
+    stated without a day. Truncating to ten characters would put that day in
+    front of the model, which would then repeat it as the publication date.
+    """
+    text = str(value or "")
+    if not text:
+        return ""
+    return text[:4] if precision == "year" else text[:10]
 
 
 def _doc_from_catalog(document_id: str, row: dict[str, Any]) -> _Doc:
@@ -148,7 +162,8 @@ def _doc_from_catalog(document_id: str, row: dict[str, Any]) -> _Doc:
         document_id=document_id,
         title=str(row.get("title") or document_id),
         url=row.get("url"),
-        published=str(row.get("published_at") or "")[:10],
+        published=_published_label(row.get("published_at"),
+                                   row.get("published_at_precision")),
         edition=str(row.get("edition_label") or ""),
         text=str(row.get("abstract") or ""),
     )

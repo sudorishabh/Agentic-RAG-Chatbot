@@ -31,6 +31,7 @@ nothing can be verified.
 from __future__ import annotations
 
 import logging
+import re
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -266,6 +267,111 @@ def _graph_check() -> Check:
         )
 
 
+#: Name patterns that make a source field *look* like it carries a date. Used
+#: only to ask "has anyone classified this?", never to read a value — the
+#: classification lives in ``app.ingestion.source_dates.FIELD_KINDS``.
+_DATE_LIKE_FIELD = re.compile(r"date|year|publish|issued|period", re.I)
+
+
+def date_checks() -> list[Check]:
+    """Invariants over ``published_at`` and where it came from.
+
+    Every one of these was zero when it was written, and each has a specific
+    cause when it stops being zero. That is the bar for living here rather than
+    in ``scripts.audit_dates``: a check that is non-zero in a healthy corpus
+    would make every sweep warn, and a warning that is always on is not a
+    warning. The audit script keeps the deeper measurements that are legitimately
+    non-zero — 30 documents dated before the period their own name states, 2,796
+    dated by an import batch with nothing better available.
+
+    Read-only, and each check independently fail-soft: an unreadable catalogue
+    reports a skipped check rather than failing a sweep that otherwise worked.
+    """
+    import json
+
+    from app.catalog.db import state_table
+    from app.core.clients import mysql_connection
+    from app.ingestion.source_dates import (
+        FIELD_KINDS,
+        is_plausible,
+        resolve_published_at,
+        to_ist_date,
+    )
+
+    table = state_table()
+    try:
+        with mysql_connection() as conn, conn.cursor() as cur:
+            cur.execute(
+                f"SELECT document_id FROM `{table}` "
+                f"WHERE published_at_source IS NULL LIMIT 200"
+            )
+            unrecorded = [r["document_id"] for r in cur.fetchall()]
+            cur.execute(
+                f"SELECT document_id FROM `{table}` "
+                f"WHERE published_at_precision = 'year' "
+                f"AND (MONTH(published_at) <> 1 OR DAY(published_at) <> 1) LIMIT 200"
+            )
+            mismatched_precision = [r["document_id"] for r in cur.fetchall()]
+            cur.execute(
+                f"SELECT document_id, raw_meta, published_at FROM `{table}` "
+                f"WHERE raw_meta IS NOT NULL"
+            )
+            rows = list(cur.fetchall())
+    except Exception as exc:
+        logger.warning("Date checks could not read the catalogue.", exc_info=True)
+        return [Check("date_invariants", 0,
+                      f"not checked ({type(exc).__name__})", skipped=True)]
+
+    not_applied: list[str] = []
+    undeclared: list[str] = []
+    for row in rows:
+        try:
+            meta = (json.loads(row["raw_meta"]) if isinstance(row["raw_meta"], str)
+                    else row["raw_meta"])
+        except (TypeError, ValueError):
+            continue
+        if not isinstance(meta, dict):
+            continue
+        # The same single decision ingestion and the backfill make. Asking
+        # `publication_date` directly would be a third copy of the rule, and it
+        # would miscount the 228 documents whose stated *year* the stored date
+        # already falls in — cases the design deliberately leaves alone.
+        stored = row["published_at"].isoformat()
+        resolved, source, _precision = resolve_published_at(stored, meta)
+        if source == "cms_field" and resolved and resolved[:10] != stored[:10]:
+            not_applied.append(row["document_id"])
+        for key, value in meta.items():
+            if key in FIELD_KINDS or not _DATE_LIKE_FIELD.search(key):
+                continue
+            if value in (None, "", [], {}):
+                continue
+            candidate = value[0] if isinstance(value, list) and value else value
+            if is_plausible(to_ist_date(candidate)):
+                undeclared.append(row["document_id"])
+                break
+
+    return [
+        _check("date_provenance_unrecorded", unrecorded,
+               "Documents whose published_at has no recorded origin. Every write "
+               "path sets it, so these came from one that does not — or predate "
+               "scripts.backfill_date_provenance."),
+        _check("stated_date_not_applied", not_applied,
+               "The source states a publication date that published_at does not "
+               "match. Either a sweep did not apply it, or something overwrote "
+               "the value afterwards (app.ingestion.backfill lifts dates out of "
+               "chunk payloads). Re-run scripts.backfill_source_dates."),
+        _check("undeclared_source_date_field", undeclared,
+               "A source field that looks like a date and holds a parseable one, "
+               "which nothing has classified. It is being ignored — the safe "
+               "direction — but if it is a publication date those documents are "
+               "mis-dated. Classify it in app.ingestion.source_dates.FIELD_KINDS."),
+        _check("year_precision_not_january", mismatched_precision,
+               "A year-precision date whose value is not 1 January. The day is a "
+               "marker for the year, so anything else means the value and its "
+               "precision disagree about what is known."),
+    ]
+
+
 def reconcile() -> ReconciliationReport:
     """Compare the stores and report every way they disagree. Changes nothing."""
     report = ReconciliationReport()
@@ -362,6 +468,7 @@ def reconcile() -> ReconciliationReport:
         "and to recency ranking; check the source exposes a date field.",
     ))
 
+    report.checks += date_checks()
     report.checks.append(_graph_check())
     return report
 

@@ -3,7 +3,7 @@
     "code-review-graph": {
       "command": "uvx",
       "args": ["code-review-graph", "serve"],
-      "cwd": "D:\\OneDrive - The Energy and Resources Institute\\Desktop\\My_Files\\Projects\\Agentic-RAG-Chatbot",
+      "cwd": "d:\\Agentic-RAG-Chatbot",
       "type": "stdio"
     }
   }
