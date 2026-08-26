@@ -9,12 +9,19 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime, timezone
-from typing import Any, Sequence
+from typing import TYPE_CHECKING, Any, Sequence
 
 from app.catalog import schema
 from app.catalog.db import state_table
 from app.core.clients import mysql_connection
-from app.knowledge.types import Mention
+
+if TYPE_CHECKING:
+    # Type-only. The catalog is the persistence layer and must not depend on a
+    # domain package at runtime: `app.knowledge` imports this module, so a real
+    # import here would make the two mutually dependent. `Mention` is read for
+    # its attributes below, never constructed, and `from __future__ import
+    # annotations` keeps the signature a string.
+    from app.knowledge.types import Mention
 
 logger = logging.getLogger(__name__)
 
