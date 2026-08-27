@@ -182,6 +182,15 @@ each says so in its docstring.
 
 Small and single-purpose; see each package's `__init__.py`.
 
+`observability/` holds two things worth naming: `tracing.py`/`metrics.py` (the
+`span()` context manager and the in-process stage registry behind
+`GET /metrics/timings`) and `retrieval_log/`, the per-query retrieval trace
+(`is_retrieval_log=true` → one JSON file per query under `logs/`; see
+[docs/retrieval-logging.md](../docs/retrieval-logging.md)). Both live at layer 1
+for the same reason: they are called from the client gateways, retrieval, the
+catalog and the pipeline alike, so they may import none of them — the trace
+renders a `Candidate` or a `ContextBlock` by duck-typing instead.
+
 ---
 
 ## Where new code goes
@@ -191,6 +200,7 @@ Small and single-purpose; see each package's `__init__.py`.
 | A new HTTP endpoint | `api/<router>.py` + a model in `schemas/` | Keep logic out of the router |
 | A new query-understanding signal | `retrieval/understanding/` | Extend `QueryAnalysis` in `query_processor.py` |
 | A new way to fetch candidates | `retrieval/search/` | It takes and returns `Candidate` |
+| A new retriever / store on the read path | wherever it belongs | Wrap its call in `retrieval_log.retriever_call("<name>", …)` so the trace covers it |
 | A new ranking signal | `retrieval/search/reranker.py` | Band it, so only a material difference reorders |
 | A change to what the LLM sees | `retrieval/context/builder.py` (selection) or `generation/prompts.py` (formatting) | |
 | A new source of documents | `ingestion/extractors/` | Emit a `CanonicalDocument` |

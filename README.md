@@ -174,6 +174,7 @@ and defaults; `.env.example` for a starting template). The most relevant:
 | `RERANK_SCORE_THRESHOLD` | `0.0` | Drop weak blocks (hallucination guard); `0` disables. |
 | `HYBRID_USE_SPARSE` | `false` | Collection is dense-only today; enable once sparse vectors are indexed. |
 | `FAITHFULNESS_CHECK` | `false` | Optional post-generation entailment verification. |
+| `is_retrieval_log` | `false` | Per-query JSON trace of the whole retrieval pipeline (Qdrant / graph / MySQL requests, results, latencies, failures, final context) under `logs/`. See [docs/retrieval-logging.md](docs/retrieval-logging.md). |
 | `CELERY_BROKER_URL` | *(empty → inline)* | Background ingestion; falls back to inline execution when unset. |
 
 ## Tests
