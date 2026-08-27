@@ -26,6 +26,7 @@ It is for debugging, evaluation and analysis. It never changes an answer.
 | `RETRIEVAL_LOG_INCLUDE_TEXT` | `true` | Keep retrieved passage text. `false` keeps ids, scores, metadata and a character count — a safe reference to the content rather than the content. |
 | `RETRIEVAL_LOG_MAX_TEXT_CHARS` | `1200` | Per-string ceiling (context text, SQL, an error message). Longer values are truncated with a marker. A compact hit's snippet is shorter still (160). |
 | `RETRIEVAL_LOG_MAX_RESULTS` | `10` | Per-event ceiling on results captured — Qdrant hits, graph rows, SQL rows. The recorded counts are always the true totals. |
+| `RETRIEVAL_LOG_TIMEZONE` | `Asia/Kolkata` | The clock the date folder and each query folder's name use. Needs `tzdata`; an unloadable zone falls back to a fixed +05:30. |
 | `RETRIEVAL_LOG_REPORT` | `true` | Write `report.md` beside each `trace.json` — the same trace explained in prose. See §2. |
 | `RETRIEVAL_LOG_SUMMARY` | `true` | Also append a one-line-per-query digest under `summary/`. |
 
@@ -36,25 +37,41 @@ Nothing is hard-coded: all of it is read from the environment through
 
 ```text
 logs/
-├── 2026-08-26/
-│   ├── query_5f3c1e9a.../
+├── 2026-08-27/
+│   ├── tell me about carbon sequestration by seaweed - 2026-08-27 10-51-10 IST/
 │   │   ├── trace.json              the record, for parsing
 │   │   └── report.md               the same trace explained, for reading
-│   └── query_a17b40d2.../
+│   └── how many reports are there - 2026-08-27 11-02-44 IST/
 ├── errors/
-│   └── 2026-08-26/
-│       └── query_a17b40d2.../      a copy of any query that had a failure
+│   └── 2026-08-27/
+│       └── <same name>/            a copy of any query that had a failure
 └── summary/
-    └── 2026-08-26.jsonl            one flat line per query
+    └── 2026-08-27.jsonl            one flat line per query
 ```
 
-One directory per query, named for its `request_id` (a uuid4) — which is also
-the correlation key inside the files: every event belonging to one question
-lives in one trace, and two concurrent queries can never contend for a path.
-The names inside are fixed, so `logs/*/query_*/trace.json` is a stable glob and
-`report.md` is always beside the data it describes. Both files are written to a
-temporary name and moved into place, so a reader never sees a half-written one.
-Directories are created on first write.
+**One directory per query, named after the question and the local time it was
+asked.** A `request_id` finds nothing when you are looking for "that seaweed
+question from this morning"; the id is still in the trace and is still what
+correlates the events inside it.
+
+Two characters in the requested `[query] | [date & time]` cannot go in a Windows
+path — `|` and `:` — so the separator is ` - ` and the time uses `-`. The
+question is also stripped of `< > : " / \ ? *`, collapsed onto one line, and cut
+to 80 characters; a trailing `?` is dropped rather than replaced, since nearly
+every question has one. See `app/observability/retrieval_log/naming.py`.
+
+The date folder and the time in the name are both on the **local clock**
+(`RETRIEVAL_LOG_TIMEZONE`, default `Asia/Kolkata`) so the two agree — a query at
+02:00 IST would otherwise file itself under the previous day while naming itself
+with today's date. Every timestamp *inside* a trace stays UTC ISO-8601, with
+`timestamp_local` alongside it.
+
+The name is for reading and promises nothing, so uniqueness is enforced by
+creating the directory: `mkdir` is atomic, the winner owns the name, and two
+identical questions in the same second become `… IST` and `… IST (2)`. The file
+names inside are fixed, so `logs/*/*/trace.json` is a stable glob, and each file
+is written to a temporary name and moved into place so a reader never sees a
+half-written one.
 
 ### `report.md`
 
@@ -220,10 +237,10 @@ read, its `rowcount` and the rows the caller fetched.
 
 ## 4. Reading the logs
 
-One query, explained — open the report beside its trace:
+One query, explained — the folder says which one, so just open its report:
 
 ```text
-logs/2026-08-26/query_5f3c1e9a.../report.md
+logs/2026-08-27/tell me about carbon sequestration by seaweed - 2026-08-27 10-51-10 IST/report.md
 ```
 
 A day, folded into per-retriever latency, recall and failures:
@@ -261,7 +278,7 @@ import pandas as pd
 
 events = [
     {"request_id": t["request_id"], "question": t["question"], **e}
-    for path in pathlib.Path("logs/2026-08-26").glob("query_*/trace.json")
+    for path in pathlib.Path("logs/2026-08-27").glob("*/trace.json")
     for t in [json.loads(path.read_text(encoding="utf-8"))]
     for e in t["events"]
 ]
