@@ -6,6 +6,7 @@ from typing import Any, Sequence
 
 from app.config import get_settings
 from app.core.clients import get_embeddings, get_qdrant_client
+from app.observability import retrieval_log
 
 logger = logging.getLogger(__name__)
 
@@ -115,7 +116,12 @@ def search(
     extra_must_not: Sequence[Any] | None = None,
     query_vector: Sequence[float] | None = None,
     with_vectors: bool = True,
+    trace_stage: str = "dense_pull",
 ) -> list[Candidate]:
+    """One dense pull. ``trace_stage`` names the leg for the retrieval log only
+    (every leg in ``retriever.retrieve`` calls this function, and a trace that
+    could not tell the website pull from the keyword pull would not be much of a
+    trace); it has no effect on retrieval."""
     settings = get_settings()
     limit = limit or settings.retrieval_candidate_k
 
@@ -127,14 +133,30 @@ def search(
     vector = list(query_vector) if query_vector is not None else get_embeddings().embed_query(query)
     query_filter = build_filter(extra=extra_filter, extra_must_not=extra_must_not)
 
-    response = client.query_points(
-        collection_name=settings.qdrant_collection,
-        query=vector,
-        query_filter=query_filter,
-        limit=limit,
-        with_payload=True,
-        with_vectors=with_vectors,
-    )
+    with retrieval_log.qdrant_call(
+        "vector_search",
+        stage=trace_stage,
+        # A callable: with logging off this dictionary is never built, and with
+        # it on the filter is serialized once, here, rather than at every leg.
+        request=lambda: {
+            "collection": settings.qdrant_collection,
+            "query_text": query,
+            "limit": limit,
+            "filter": query_filter,
+            "vector_dimensions": len(vector),
+            "vector_supplied": query_vector is not None,
+            "with_vectors": with_vectors,
+        },
+    ) as call:
+        response = client.query_points(
+            collection_name=settings.qdrant_collection,
+            query=vector,
+            query_filter=query_filter,
+            limit=limit,
+            with_payload=True,
+            with_vectors=with_vectors,
+        )
+        call.qdrant_results(response.points)
     return [_to_candidate(p) for p in response.points]
 
 

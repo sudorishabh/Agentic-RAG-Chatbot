@@ -18,6 +18,7 @@ from app.config import get_settings
 from app.core.models.context import ContextBlock
 from app.generation.answerer import chitchat, generate_answer, generate_stream
 from app.generation.prompts import REFUSAL
+from app.observability import retrieval_log
 from app.observability.metrics import collect_into, component_totals
 from app.observability.tracing import record_query_metrics, span
 from app.retrieval.context.citations import build_citations
@@ -63,6 +64,32 @@ class _Generation:
 
 # Content capabilities that pair with a database lookup into a combined answer.
 _CONTENT_CAPS = frozenset({"qa", "comparison"})
+
+
+def _trace_understanding(pq: ProcessedQuery, *, top_k: int) -> None:
+    """Record what query understanding decided, for the retrieval trace.
+
+    The trace's first question is always "what was actually searched for?" — the
+    rewritten search query, the intent that chose the route, and the facet
+    filters that narrowed every pull. Costs nothing when logging is off (see
+    ``app.observability.retrieval_log``)."""
+    retrieval_log.note_query(
+        original=pq.original,
+        search_query=pq.search_query,
+        intent=pq.intent,
+        answer_format=pq.answer_format,
+        source_type=pq.source_type,
+        language=pq.language,
+        filters=pq.filters,
+        top_k=top_k,
+        is_ambiguous=pq.is_ambiguous,
+        capabilities=sorted(_capabilities(pq)),
+        intents=[
+            {"label": p.label, "confidence": p.confidence, "rationale": p.rationale}
+            for p in (pq.understanding.intents if pq.understanding else [])
+        ],
+        analysis=pq.analysis,
+    )
 
 
 def _capabilities(pq: ProcessedQuery) -> set[str]:
@@ -170,6 +197,7 @@ def _prepare(
 
     with span("rag.query_understanding"):
         pq: ProcessedQuery = process(question, history)
+    _trace_understanding(pq, top_k=n)
     if pq.intent == "chitchat":
         return _empty("chitchat", chitchat(question, history)), None
 
@@ -376,8 +404,28 @@ def _persist(gen: _Generation, result: dict[str, Any]) -> None:
 
 
 def _record(
-    span_ctx: Any, result: dict[str, Any], stages: dict[str, float] | None = None
+    span_ctx: Any,
+    result: dict[str, Any],
+    stages: dict[str, float] | None = None,
+    trace: Any = None,
 ) -> None:
+    # `trace` is passed explicitly because this runs after the first streamed
+    # token, and the SSE driver resumes the generator in a fresh context where
+    # the active-trace ContextVar is unset (see app.api.chat._sse). Without it
+    # every streamed query recorded an empty outcome.
+    retrieval_log.note_outcome(
+        trace,
+        intent=result.get("intent"),
+        answer_format=result.get("answer_format"),
+        cached=result.get("cached", False),
+        used_chunks=result.get("used_chunks", 0),
+        citations=len(result.get("citations") or []),
+        conflict=result.get("conflict", False),
+        numeric_mismatch=result.get("numeric_mismatch", False),
+        answered=result.get("answer") != REFUSAL,
+        answer_chars=len(result.get("answer") or ""),
+        latency_ms=round(span_ctx.elapsed_ms, 1),
+    )
     record_query_metrics(
         latency_ms=span_ctx.elapsed_ms,
         intent=result.get("intent"),
@@ -419,12 +467,36 @@ def stream_answer(
     # metrics.collect_into) — so the logged breakdown covers the pre-token
     # stages, which is where retrieval time goes.
     stages: dict[str, float] = {}
-    with collect_into(stages), span("rag.stream_answer") as s:
+    with retrieval_log.query_log(
+        question,
+        entrypoint="chat.stream",
+        top_k=top_k,
+        history=history,
+        # Shared by reference: the trace reports the same per-stage breakdown
+        # the `rag_metrics` line does, rather than a second measurement of it.
+        stages=stages,
+    ) as trace, collect_into(stages), span("rag.stream_answer") as s:
         result, gen = _prepare(question, history=history, top_k=top_k)
+        if gen is not None:
+            # The rendered context, not just the blocks: `format_context_blocks`
+            # is what generation interpolates into the prompt (block headers,
+            # source hints, the website/PDF group headings), and it is the same
+            # string for the same blocks — so the trace holds what the model was
+            # sent rather than a reconstruction of it. Passed as a callable so a
+            # disabled trace never pays for the join.
+            from app.generation.prompts import format_context_blocks
+
+            retrieval_log.note_context(
+                gen.blocks, rendered=lambda: format_context_blocks(gen.blocks)
+            )
+            retrieval_log.note(
+                db_prefix_chars=len(gen.db_prefix),
+                plan_directive=bool(gen.plan_directive),
+            )
         # Cache hit, chit-chat, structured lookup, or refusal — already complete.
         if result is not None:
             yield from _stream_result(result)
-            _record(s, result, stages)
+            _record(s, result, stages, trace)
             return
 
         from app.generation import date_claims, faithfulness
@@ -529,7 +601,7 @@ def stream_answer(
         }
         yield {"type": "done"}
         _persist(gen, result)
-        _record(s, result, stages)
+        _record(s, result, stages, trace)
 
 
 def search_blocks(
@@ -538,11 +610,29 @@ def search_blocks(
     history: list[dict[str, str]] | None = None,
     top_k: int | None = None,
 ) -> dict[str, Any]:
+    with retrieval_log.query_log(
+        question, entrypoint="search", top_k=top_k, history=history
+    ):
+        return _search_blocks(question, history=history, top_k=top_k)
+
+
+def _search_blocks(
+    question: str,
+    *,
+    history: list[dict[str, str]] | None,
+    top_k: int | None,
+) -> dict[str, Any]:
     pq = process(question, history)
+    _trace_understanding(pq, top_k=top_k or get_settings().retrieval_top_k)
     blocks = retrieve(
         pq.search_query,
         filters=pq.filters, n=top_k, answer_format=pq.answer_format,
         source_type=pq.source_type, capabilities=_capabilities(pq),
+    )
+    retrieval_log.note_context(blocks)
+    retrieval_log.note_outcome(
+        intent=pq.intent, answer_format=pq.answer_format,
+        used_chunks=len(blocks), answered=bool(blocks),
     )
     return {
         "intent": pq.intent,

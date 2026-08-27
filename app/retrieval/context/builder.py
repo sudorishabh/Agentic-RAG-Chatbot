@@ -8,6 +8,7 @@ from typing import Any, Sequence
 from app.config import get_settings
 from app.core.models.context import ContextBlock, source_kind
 from app.core.clients import get_qdrant_client
+from app.observability import retrieval_log
 from app.retrieval.search.hybrid_search import _NON_SEARCHABLE_SECTIONS, Candidate
 
 logger = logging.getLogger(__name__)
@@ -72,13 +73,24 @@ def _fetch_parents(parent_ids: Sequence[str]) -> dict[str, dict[str, Any]]:
         return {}
     settings = get_settings()
     client = get_qdrant_client()
-    try:
-        records = client.retrieve(
-            collection_name=settings.qdrant_collection, ids=ids, with_payload=True
-        )
-    except Exception:  # pragma: no cover - parent missing / store hiccup
-        logger.exception("Parent fetch failed; falling back to child text.")
-        return {}
+    with retrieval_log.qdrant_call(
+        "retrieve",
+        stage="parent_fetch",
+        request=lambda: {
+            "collection": settings.qdrant_collection,
+            "ids": ids,
+            "requested": len(ids),
+        },
+    ) as call:
+        try:
+            records = client.retrieve(
+                collection_name=settings.qdrant_collection, ids=ids, with_payload=True
+            )
+        except Exception as exc:  # pragma: no cover - parent missing / store hiccup
+            call.fail(exc)
+            logger.exception("Parent fetch failed; falling back to child text.")
+            return {}
+        call.qdrant_results(records)
     return {str(r.id): (r.payload or {}) for r in records}
 
 

@@ -16,6 +16,7 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
+from app.observability import retrieval_log
 from app.retrieval.graph import templates as reg
 
 logger = logging.getLogger(__name__)
@@ -141,25 +142,51 @@ def run_template(
         return result
 
     started = time.perf_counter()
-    try:
-        if session is not None:
-            records = session.run(template.cypher, **checked)
-            result.rows = [dict(r) for r in records]
-        else:
-            from app.core.clients.graph import read_session
-
-            with read_session() as opened:
-                records = opened.run(template.cypher, **checked)
+    # The trace records the Cypher the registry holds, the validated parameters
+    # and the rows — the graph's whole side of a query. The template text is a
+    # fixed, reviewed constant and the parameters have just passed validation,
+    # so neither can carry a credential into the log.
+    with retrieval_log.graph_call(
+        "cypher_template",
+        stage="graph_traversal",
+        request=lambda: {
+            "template_id": template.template_id,
+            "mode": effective_mode,
+            "parameters": checked,
+            "limit": checked.get("limit"),
+            "cypher": template.cypher,
+        },
+    ) as call:
+        try:
+            if session is not None:
+                records = session.run(template.cypher, **checked)
                 result.rows = [dict(r) for r in records]
-    except Exception as exc:
-        # The graph is an enrichment. An outage costs the graph leg, never the
-        # answer, so this degrades to an empty result and the caller falls back.
-        logger.warning("Graph query %s failed.", template_id, exc_info=True)
-        result.error = f"{type(exc).__name__}: {exc}"
-        result.elapsed_ms = (time.perf_counter() - started) * 1000
-        return result
+            else:
+                from app.core.clients.graph import read_session
 
-    result.elapsed_ms = (time.perf_counter() - started) * 1000
-    result.truncated = len(result.rows) >= checked["limit"]
-    _collect(result)
+                with read_session() as opened:
+                    records = opened.run(template.cypher, **checked)
+                    result.rows = [dict(r) for r in records]
+        except Exception as exc:
+            # The graph is an enrichment. An outage costs the graph leg, never
+            # the answer, so this degrades to an empty result and the caller
+            # falls back.
+            call.fail(exc)
+            logger.warning("Graph query %s failed.", template_id, exc_info=True)
+            result.error = f"{type(exc).__name__}: {exc}"
+            result.elapsed_ms = (time.perf_counter() - started) * 1000
+            return result
+
+        result.elapsed_ms = (time.perf_counter() - started) * 1000
+        result.truncated = len(result.rows) >= checked["limit"]
+        _collect(result)
+        call.row_results(result.rows)
+        call.note(
+            entities=result.entity_ids,
+            claims=result.claim_ids,
+            chunks=result.chunk_ids,
+            documents=result.document_ids,
+            truncated=result.truncated,
+            disputed=result.has_disputed,
+        )
     return result

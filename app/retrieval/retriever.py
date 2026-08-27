@@ -17,6 +17,7 @@ from typing import Any
 from app.config import get_settings
 from app.core.clients.embeddings import embed_query
 from app.core.models.context import ContextBlock
+from app.observability import retrieval_log
 from app.observability.tracing import span
 from app.retrieval.context.builder import build_context
 from app.retrieval.search.fusion import rrf
@@ -96,7 +97,9 @@ def _supplement_attachments(
         ))
         if not file_uuids:
             return blocks
-        extra = search_within_documents(query_vector, file_uuids, limit=10)
+        extra = search_within_documents(
+            query_vector, file_uuids, limit=10, trace_stage="attachment_pull"
+        )
         seen = {c.id for c in ranked}
         new = [c for c in extra if c.id not in seen]
         if not new:
@@ -374,10 +377,13 @@ def retrieve(
             # pull, so the added wall-clock is only the paraphrase searches
             # that follow the generation step.
             with ThreadPoolExecutor(max_workers=4) as pool:
-                base_future = pool.submit(_base_search, filters, use_dual=dual)
+                base_future = pool.submit(
+                    retrieval_log.bound(_base_search), filters, use_dual=dual
+                )
                 keyword_future = (
                     pool.submit(
-                        keyword_search, search_query, keyword_terms,
+                        retrieval_log.bound(keyword_search),
+                        search_query, keyword_terms,
                         filters=filters, query_vector=query_vector,
                         limit=settings.retrieval_candidate_k,
                     )
@@ -386,16 +392,19 @@ def retrieve(
                 )
                 content_future = (
                     pool.submit(
-                        keyword_search, search_query, content_terms,
+                        retrieval_log.bound(keyword_search),
+                        search_query, content_terms,
                         filters=filters, query_vector=query_vector,
                         limit=settings.retrieval_candidate_k,
+                        trace_stage="content_term_leg",
                     )
                     if content_terms
                     else None
                 )
                 title_future = (
                     pool.submit(
-                        title_search, search_query, query_vector,
+                        retrieval_log.bound(title_search),
+                        search_query, query_vector,
                         limit=settings.retrieval_candidate_k,
                     )
                     if use_title_leg
@@ -409,8 +418,10 @@ def retrieve(
                         rankings.extend(
                             r
                             for r in pool.map(
-                                lambda q: paraphrase_search(
-                                    q, limit=settings.retrieval_candidate_k,
+                                retrieval_log.bound(
+                                    lambda q: paraphrase_search(
+                                        q, limit=settings.retrieval_candidate_k,
+                                    )
                                 ),
                                 queries,
                             )
@@ -441,6 +452,20 @@ def retrieve(
         else:
             candidates = _base_search(filters, use_dual=dual)
         s.set("candidates", len(candidates))
+        # Which legs ran and what the fused candidate set came to — the two
+        # facts no single Qdrant event can state, since each one sees only its
+        # own pull.
+        retrieval_log.note(
+            search_query=search_query,
+            candidates=len(candidates),
+            legs={
+                "dual": dual,
+                "multi_query": bool(multi),
+                "keyword": bool(keyword_terms),
+                "content_terms": bool(content_terms),
+                "title": bool(use_title_leg),
+            },
+        )
 
     # Facet filters (theme / author / source_type) are LLM-extracted and applied
     # as hard AND conditions. When they lift terms straight out of the question —
@@ -467,6 +492,11 @@ def retrieve(
             s.set("candidates", len(candidates))
             s.set("relaxed", True)
             s.set("kept_date_scope", bool(kept))
+            retrieval_log.note(
+                facets_relaxed=True,
+                relaxed_candidates=len(candidates),
+                kept_date_scope=bool(kept),
+            )
         logger.info(
             "Facet filters matched no chunks; retried without facets%s (%d candidates).",
             " but within the date scope" if kept else "", len(candidates),
@@ -476,6 +506,7 @@ def retrieve(
         table_boost = settings.rerank_table_boost if answer_format == "table" else 0.0
         ranked = rerank(search_query, candidates, table_boost=table_boost)
         s.set("survivors", len(ranked))
+        retrieval_log.note(rerank_survivors=len(ranked))
     if (
         bool(settings.corrective_loop_enabled)
         and ranked
@@ -525,6 +556,9 @@ def retrieve(
             )
             s.set("graph_blocks", len(graph_blocks))
             s.set("merged", len(blocks))
+            retrieval_log.note(
+                graph_blocks=len(graph_blocks), merged_blocks=len(blocks)
+            )
     # Temporal gate, last of all: an "upcoming" question must not be answered
     # from events that have already happened. Applied here rather than as a
     # vector pre-filter because an event's own start date lives in the CMS

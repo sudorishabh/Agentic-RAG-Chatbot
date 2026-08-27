@@ -207,6 +207,53 @@ class Settings(BaseSettings):
     context_token_budget: int = 9000
     faithfulness_check: bool = False
     metrics_log_enabled: bool = True
+    # --- Retrieval logging (debugging / evaluation / analysis) ---------------
+    # One switch for the whole per-query retrieval trace: what Qdrant, the graph
+    # and MySQL were each asked, what they returned, how long they took, what
+    # failed, and the context that finally reached the LLM. Written as one JSON
+    # file per query under `retrieval_log_dir` (see
+    # app/observability/retrieval_log and docs/retrieval-logging.md).
+    #
+    # Named `is_retrieval_log` because that is the environment key operators
+    # were given; off by default, and with it off the instrumentation is a
+    # single boolean read at each call site — nothing is serialized, no
+    # directory is touched, no disk is written.
+    is_retrieval_log: bool = False
+    # Where the trace files go. Empty means <repo root>/logs, so the path does
+    # not depend on the working directory the server happens to start in.
+    retrieval_log_dir: str = ""
+    # Whether retrieved passage text is stored in the trace. On, because
+    # judging retrieval quality without the text means judging ids; the corpus
+    # is public, so there is nothing here to leak. Off keeps the trace to ids,
+    # scores and metadata (a "safe reference" to the content).
+    retrieval_log_include_text: bool = True
+    # How each retrieved item is written. "compact" (the default) is one line
+    # per item — rank, score, where it came from, a snippet; "full" is the
+    # structured object with every payload field. Compact because the scale is
+    # not optional: one question runs five Qdrant legs of forty hits, and at
+    # eight lines a hit that was a 700 KB, 10,000-line file for a single query.
+    # Switch to "full" for programmatic analysis that needs every field.
+    retrieval_log_detail: str = "compact"
+    # Per-string ceiling for anything captured (passage text, SQL, an error
+    # message). Longer values are truncated with a marker, so one pathological
+    # document cannot produce a megabyte of JSON. Applies to the context blocks
+    # and requests; a compact hit's snippet is shorter still (see
+    # app/observability/retrieval_log/views.py).
+    retrieval_log_max_text_chars: int = 1200
+    # Per-event ceilings on how many retrieved items are captured: Qdrant hits /
+    # graph rows / SQL rows. The counts recorded alongside are always the true
+    # totals, so a truncated sample never misreports recall. Ten is what a
+    # person reads; raise it when analysing a whole candidate set.
+    retrieval_log_max_results: int = 10
+    # Write `report.md` beside each `trace.json`: the same trace explained in
+    # prose — what the question was taken to mean, which retriever was asked
+    # what, which passages reached the LLM, and what each stage is for. Rendered
+    # from the same record, so the two cannot disagree. On, because the point of
+    # a trace is that someone can read it.
+    retrieval_log_report: bool = True
+    # Append a one-line-per-query JSONL digest under logs/summary/, for
+    # latency/failure analysis in pandas without opening every file.
+    retrieval_log_summary: bool = True
     # Max chat generations driven concurrently on the dedicated chat capacity
     # limiter. The /chat pipeline is blocking (LLM + Qdrant + Redis clients),
     # so each active stream occupies a worker thread for most of its life;

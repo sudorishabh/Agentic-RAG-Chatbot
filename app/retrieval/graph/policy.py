@@ -50,6 +50,7 @@ from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeout
 from dataclasses import dataclass, field
 from typing import Any
 
+from app.observability import retrieval_log
 from app.retrieval.graph import plans
 
 logger = logging.getLogger(__name__)
@@ -487,12 +488,43 @@ def attempt(
 
     started = time.perf_counter()
     query_scope = scoping.describe(filters, source_type)
+    # Read by the trace in `_finish`; set once the gate below has resolved it.
+    allowed_classes: tuple[str, ...] = ()
 
     def _finish(result: GraphAttempt) -> GraphAttempt:
         result.elapsed_ms = (time.perf_counter() - started) * 1000
         result.scope = query_scope.describe()
         _note_outcome(result.outcome)
         _record(result.outcome, result.query_class)
+        # The routing decision itself, as one graph event: which template the
+        # question was routed to (or why it was not), the entity it resolved to,
+        # how many rows came back and how many blocks survived. The traversal
+        # inside `_attempt` records its own event; this one is what explains a
+        # query where the graph contributed nothing.
+        retrieval_log.record(
+            retrieval_log.GRAPH,
+            "route",
+            stage="graph_routing",
+            request=lambda: {
+                "question": question,
+                "top_k": top_k,
+                "scope": result.scope,
+                "enabled_classes": list(allowed_classes),
+            },
+            latency_ms=result.elapsed_ms,
+            result_count=result.rows,
+            metrics={
+                "outcome": result.outcome,
+                "used": result.used,
+                "query_class": result.query_class,
+                "template_id": result.template_id,
+                "mode": result.mode,
+                "entity": result.entity,
+                "blocks": len(result.blocks),
+                "reason": result.reason,
+            },
+            error=result.reason if result.outcome in BREAKING_OUTCOMES else None,
+        )
         logger.info("graph routing: %s", result.summary())
         return result
 
@@ -529,6 +561,7 @@ def attempt(
             )
 
         allowed = enabled_classes(settings)
+        allowed_classes = allowed
         if not allowed:
             return _finish(
                 GraphAttempt(DISABLED, reason="no graph query class is enabled")
@@ -537,8 +570,11 @@ def attempt(
         budget = budget_seconds or getattr(
             settings, "graph_routing_budget_seconds", DEFAULT_BUDGET_SECONDS
         )
+        # `bound` carries this request's retrieval trace onto the graph
+        # executor: a worker thread starts with an empty context, so without it
+        # the traversal below would run untraced.
         future = _executor_for_graph().submit(
-            _attempt, question, top_k=top_k, allowed=allowed
+            retrieval_log.bound(_attempt), question, top_k=top_k, allowed=allowed
         )
         try:
             return _finish(future.result(timeout=budget))

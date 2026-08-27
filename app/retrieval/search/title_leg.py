@@ -256,7 +256,9 @@ def title_search(
     from app.retrieval.search.scoped_retrieval import search_within_documents
 
     try:
-        hits = search_within_documents(query_vector, ids, limit=limit)
+        hits = search_within_documents(
+            query_vector, ids, limit=limit, trace_stage="title_leg"
+        )
     except Exception:
         logger.warning("Title-scoped search failed.", exc_info=True)
         return []

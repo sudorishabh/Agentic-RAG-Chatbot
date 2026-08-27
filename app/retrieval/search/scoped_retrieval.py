@@ -13,6 +13,7 @@ from typing import Any, Iterable, Sequence
 
 from app.config import get_settings
 from app.core.clients import get_qdrant_client
+from app.observability import retrieval_log
 from app.retrieval.search.hybrid_search import Candidate, build_filter, search
 
 logger = logging.getLogger(__name__)
@@ -27,6 +28,7 @@ def search_within_documents(
     document_ids: Sequence[str],
     *,
     limit: int,
+    trace_stage: str = "scoped_pull",
 ) -> list[Candidate]:
     """Dense search constrained to the given document ids."""
     from qdrant_client.models import FieldCondition, MatchAny
@@ -40,6 +42,7 @@ def search_within_documents(
             limit=limit,
             extra_filter=[FieldCondition(key="document_id", match=MatchAny(any=ids))],
             query_vector=query_vector,
+            trace_stage=trace_stage,
         )
     except Exception:
         logger.warning("Id-scoped search failed.", exc_info=True)
@@ -79,17 +82,30 @@ def _scroll_leads(
         ],
         exclude_non_searchable=exclude_non_searchable,
     )
-    try:
-        points, _ = get_qdrant_client().scroll(
-            collection_name=settings.qdrant_collection,
-            scroll_filter=scroll_filter,
-            limit=len(ids) * len(indices),
-            with_payload=True,
-            with_vectors=False,
-        )
-    except Exception:
-        logger.warning("Lead-child scroll failed.", exc_info=True)
-        return []
+    with retrieval_log.qdrant_call(
+        "scroll",
+        stage="lead_child_scroll",
+        request=lambda: {
+            "collection": settings.qdrant_collection,
+            "filter": scroll_filter,
+            "limit": len(ids) * len(indices),
+            "document_ids": list(ids),
+            "chunk_indices": list(indices),
+        },
+    ) as call:
+        try:
+            points, _ = get_qdrant_client().scroll(
+                collection_name=settings.qdrant_collection,
+                scroll_filter=scroll_filter,
+                limit=len(ids) * len(indices),
+                with_payload=True,
+                with_vectors=False,
+            )
+        except Exception as exc:
+            call.fail(exc)
+            logger.warning("Lead-child scroll failed.", exc_info=True)
+            return []
+        call.qdrant_results(points)
     return [p.payload or {} for p in points]
 
 

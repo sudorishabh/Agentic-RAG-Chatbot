@@ -29,6 +29,21 @@ import pytest
 
 
 @pytest.fixture(autouse=True)
+def _retrieval_logging_off_by_default(monkeypatch):
+    """Keep per-query retrieval traces out of unrelated tests.
+
+    Same reasoning as the knowledge-stage guard below: with ``is_retrieval_log``
+    set in a developer's ``.env``, every test that drives the pipeline would
+    write a trace file into the real ``logs/`` directory. A test that wants the
+    trace turns it on for itself (see
+    ``tests/observability/test_retrieval_log.py``).
+    """
+    from app.config import get_settings
+
+    monkeypatch.setattr(get_settings(), "is_retrieval_log", False, raising=False)
+
+
+@pytest.fixture(autouse=True)
 def _knowledge_stage_off_by_default(monkeypatch):
     """Keep the ingest-path knowledge stage out of unrelated ingestion tests.
 
