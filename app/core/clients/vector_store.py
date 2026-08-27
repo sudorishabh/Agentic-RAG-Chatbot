@@ -8,7 +8,6 @@ from app.config import get_settings
 from app.core.clients.embeddings import get_embeddings
 
 if TYPE_CHECKING:
-    from langchain_qdrant import QdrantVectorStore
     from qdrant_client import QdrantClient
 
 logger = logging.getLogger(__name__)
@@ -314,16 +313,3 @@ def refresh_document_title(document_id: str, title: str | None) -> None:
             "Could not refresh the payload title for %s; it heals on the next "
             "reindex.", document_id, exc_info=True,
         )
-
-
-@lru_cache
-def get_vector_store() -> "QdrantVectorStore":
-    from langchain_qdrant import QdrantVectorStore
-
-    settings = get_settings()
-    ensure_collection()
-    return QdrantVectorStore(
-        client=get_qdrant_client(),
-        collection_name=settings.qdrant_collection,
-        embedding=get_embeddings(),
-    )

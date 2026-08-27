@@ -8,64 +8,65 @@ on the public API, Redis response/embedding caches plus a Qdrant-backed semantic
 cache, a background ingestion server, and observability. Models are served via
 **Azure OpenAI**; orchestration uses LangChain.
 
-The design rationale lives in [`docs/`](docs/) (chunking, canonical data model,
-PDF extraction, and the end-to-end `gene` spec covering §5–§10).
+Design rationale lives in [`docs/`](docs/). The ingestion (write) path is
+documented end to end in [`docs/ingestion/`](docs/ingestion/README.md); the
+codebase structure and layering rules are in [`app/README.md`](app/README.md).
 
 ## Architecture
 
+Two servers over shared stores. The **write path** keeps a searchable copy of the
+site in step with the site; the **read path** answers questions from it.
+
 ```
-app/
-├── main.py                  Retrieval server: chat / search / health (read-only)
-├── ingest_main.py           Ingestion server: ingest / reindex + background sweep
-├── app_factory.py           Shared FastAPI setup (logging, CORS, observability)
-├── config.py                Settings (environment / .env)
-├── deps.py                  Shared clients: Qdrant, Redis, MySQL pool, embeddings, LLMs
-├── rag.py                   Orchestration: retrieve → rerank → build context → generate (SSE)
-├── api/
-│   ├── auth.py              Bearer-JWT principal (tenant + groups) for the public API
-│   ├── chat.py              POST /chat (SSE)
-│   ├── search.py            POST /search   (retrieval only, no generation)
-│   ├── ingest.py            POST /ingest/run, /ingest/article, /reindex; GET /ingest/log
-│   └── health.py            GET /health, /ready, /metrics
-├── schemas/                 Request/response models (query.py, ingest.py)
-├── retrieval/
-│   ├── query_processor.py   Query understanding: rewrite, intent routing, facet filters (§6.1)
-│   ├── hybrid_search.py     Qdrant dense search (sparse-ready), RRF fusion (§5.5)
-│   ├── reranker.py          Rerank: embedding / LLM / cross-encoder + recency·authority (§6.3, §9.4)
-│   ├── context_builder.py   Parent-expand, cosine dedup, conflict flag, token budget (§6.4, §9)
-│   ├── citations.py         Build numbered citations from chunk payloads (§8)
-│   └── drupal_router.py     Structured lookup/list/count from the local catalog (§7)
-├── generation/
-│   ├── llm_client.py        Azure chat / structured LLM factories
-│   ├── prompts.py           Strict grounding prompt + context formatting (§10.6)
-│   └── faithfulness.py      Optional post-generation entailment check (§10.6)
-├── ingestion/
-│   ├── pipeline.py          Extract → canonical → chunk → embed → index
-│   ├── upload.py            Inline PDF / article ingest entrypoints
-│   ├── canonical.py         Canonical Document model (§1–2)
-│   ├── chunker.py           Parent-child, structure-aware chunking (§3)
-│   ├── embedder.py          Azure embeddings (+ embedding cache)
-│   ├── indexer.py           Qdrant collection bootstrap + batched upsert
-│   ├── change_detection.py  Incremental ingest (fingerprint / content hash / version)
-│   ├── state.py             Ingest-state manifest (MySQL table)
-│   └── extractors/          pdf_extractor.py (PyMuPDF/Camelot/Azure-OCR router), drupal_extractor.py
-├── cache/                   redis_cache.py (response + embedding) · semantic_cache.py (Qdrant-backed) (§10.3)
-├── workers/
-│   ├── tasks.py             Celery ingestion workers, inline fallback when no broker (§10.4)
-│   └── scheduler.py         Periodic background sweep loop (ingestion server)
-├── observability/tracing.py Per-stage timing + RAG quality metrics + optional OTel/Langfuse (§10.4)
-├── core/models.py           Shared domain models
-└── local_tests/             Offline runners: canonical, chunking, PDF extraction
+WRITE PATH                                READ PATH
+uvicorn app.ingest_main:app               uvicorn app.main:app
+(exactly one instance)                    (scale horizontally)
+      |                                         |
+  workers/     when ingestion runs          api/        HTTP + auth
+  ingestion/   crawl -> extract -> date     pipeline/   query orchestration
+               -> chunk -> embed -> index   retrieval/  understanding -> search
+  knowledge/   claims -> Neo4j                          -> context
+      |                                     generation/ answer + verification
+      v                                         v
+      +------- catalog/ (MySQL) ----------------+
+      +------- Qdrant · Azure · Neo4j · Redis --+
+                 (via core/clients/)
 ```
 
+| Package | Responsibility |
+| --- | --- |
+| `main.py` / `ingest_main.py` / `app_factory.py` | Entry points: retrieval server, ingestion server, shared FastAPI setup. |
+| `config.py` | Every setting, one class. A pure leaf — read by everything, imports nothing. |
+| `api/` | HTTP surface: `/chat` (SSE), `/search`, `/ingest/*`, `/reindex`, `/health`, `/ready`, `/metrics`. |
+| `schemas/` | Request/response models for those routes (the *external* boundary). |
+| `pipeline/` | Read-path orchestration. `query_pipeline.py` is a query end to end. |
+| `retrieval/` | The read path: `understanding/` -> `search/` -> `context/`, plus `structured/` (catalog answers) and `graph/` (knowledge-graph answers). |
+| `generation/` | Context blocks -> grounded, cited prose, with an optional entailment check. |
+| `ingestion/` | The write path: change detection, extraction, dating, chunking, indexing, and the operational tooling around them. |
+| `knowledge/` | Entity resolution, claims, and the Neo4j projection (a projection of MySQL, never a system of record). |
+| `catalog/` | MySQL: the document catalog, crawl cursor, audit log and operational markers. |
+| `cache/` | Qdrant-backed semantic answer cache. |
+| `core/` | Shared contracts: `clients/` (the only place external services are constructed), `models/` (cross-package types), and vocabulary both paths must agree on. |
+| `observability/` | Spans and in-process timing metrics. Imported by every layer, imports none. |
+
+Dependencies point **downward only**, and that is enforced —
+`tests/test_architecture.py` fails the build on a runtime import that goes up the
+hierarchy, on a new package with no declared layer, and on a package that does
+not document itself.
+
+**Full structure guide, including where to add new code and where to look for a
+bug: [`app/README.md`](app/README.md).**
+The write path is documented end to end in
+[`docs/ingestion/`](docs/ingestion/README.md).
 ## Prerequisites
 
 - Python 3.11+
 - Docker (for Qdrant)
 - **Azure OpenAI** — a chat deployment and an embedding deployment
 - *Optional:* Azure Document Intelligence (OCR for scanned PDFs), MySQL/MariaDB
-  (Drupal source + ingest-state manifest), Redis (caches), a Celery broker
-  (background ingestion). All degrade gracefully when unconfigured.
+  (the document catalog — required by the ingestion server), Redis (response and
+  embedding caches), Neo4j (the knowledge graph). All degrade gracefully when
+  unconfigured, except MySQL on the ingestion server.
 
 ## Setup
 
@@ -119,7 +120,11 @@ on demand). The first sweep runs at startup.
 | Both | `GET` | `/metrics` | Config + store snapshot; 404 unless `OPS_DETAIL_ENABLED`. |
 
 When `AUTH_ENABLED` is set, the retrieval endpoints require an
-`Authorization: Bearer <JWT>` header — see [docs/setup.md](docs/setup.md).
+`Authorization: Bearer <JWT>` header. The ingestion control plane is protected
+separately and **on by default** (`INGEST_AUTH_ENABLED`); its mutating routes
+additionally require membership of `INGEST_ADMIN_GROUP` (falling back to
+`OPS_ADMIN_GROUP`). See
+[docs/ingestion/03-triggers-and-control-plane.md](docs/ingestion/03-triggers-and-control-plane.md#authentication-and-authorization).
 
 ## Usage
 
@@ -169,6 +174,7 @@ and defaults; `.env.example` for a starting template). The most relevant:
 | `RERANK_SCORE_THRESHOLD` | `0.0` | Drop weak blocks (hallucination guard); `0` disables. |
 | `HYBRID_USE_SPARSE` | `false` | Collection is dense-only today; enable once sparse vectors are indexed. |
 | `FAITHFULNESS_CHECK` | `false` | Optional post-generation entailment verification. |
+| `is_retrieval_log` | `false` | Per-query JSON trace of the whole retrieval pipeline (Qdrant / graph / MySQL requests, results, latencies, failures, final context) under `logs/`. See [docs/retrieval-logging.md](docs/retrieval-logging.md). |
 | `CELERY_BROKER_URL` | *(empty → inline)* | Background ingestion; falls back to inline execution when unset. |
 
 ## Tests
@@ -177,8 +183,17 @@ and defaults; `.env.example` for a starting template). The most relevant:
 python -m pytest -q        # unit suite (chunking, routing, filters, counting) — offline
 ```
 
-Additional offline runners live under `app/local_tests/` (extraction coverage,
-structured counting, thematic areas) — see
-[docs/operations.md](docs/operations.md#offline-test-runners).
+`tests/` mirrors `app/`, so a module's tests sit in the matching directory.
+`tests/test_architecture.py` asserts the layering rules described in
+[`app/README.md`](app/README.md).
+
+A manual, live-data harness lives in `tools/local_tests/`. It writes only to
+isolated `local_test_*` MySQL tables and a `local_test_documents` collection,
+never the real catalog:
+
+```bash
+python -m tools.local_tests.run_ingestion_test --bundle article --max-docs 3
+python -m tools.local_tests.run_ingestion_test --cleanup
+```
 </content>
 </invoke>

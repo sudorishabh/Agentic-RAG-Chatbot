@@ -23,6 +23,7 @@ from typing import Any, Sequence
 
 from app.cache.cache_keys import semantic_partition
 from app.config import get_settings
+from app.observability import retrieval_log
 
 logger = logging.getLogger(__name__)
 
@@ -120,27 +121,40 @@ def lookup(
         # The corpus revision is unreadable, so no stored answer can be shown to
         # still match the corpus. Answer it fresh.
         return None
-    try:
-        if not client.collection_exists(name):
-            return None
-        from qdrant_client.models import FieldCondition, Filter, MatchValue, Range
+    with retrieval_log.qdrant_call(
+        "vector_search",
+        stage="semantic_cache_lookup",
+        request=lambda: {
+            "collection": name,
+            "scope": scope,
+            "limit": 1,
+            "score_threshold": settings.semantic_cache_threshold,
+            "fingerprint": fingerprint or {},
+        },
+    ) as call:
+        try:
+            if not client.collection_exists(name):
+                return None
+            from qdrant_client.models import FieldCondition, Filter, MatchValue, Range
 
-        response = client.query_points(
-            collection_name=name,
-            query=list(query_vector),
-            query_filter=Filter(
-                must=[
-                    FieldCondition(key="scope", match=MatchValue(value=scope)),
-                    FieldCondition(key="expires_at", range=Range(gte=time.time())),
-                ]
-            ),
-            limit=1,
-            with_payload=True,
-            score_threshold=settings.semantic_cache_threshold,
-        )
-    except Exception:  # pragma: no cover - store hiccup
-        logger.warning("Semantic cache lookup failed.", exc_info=True)
-        return None
+            response = client.query_points(
+                collection_name=name,
+                query=list(query_vector),
+                query_filter=Filter(
+                    must=[
+                        FieldCondition(key="scope", match=MatchValue(value=scope)),
+                        FieldCondition(key="expires_at", range=Range(gte=time.time())),
+                    ]
+                ),
+                limit=1,
+                with_payload=True,
+                score_threshold=settings.semantic_cache_threshold,
+            )
+        except Exception as exc:  # pragma: no cover - store hiccup
+            call.fail(exc)
+            logger.warning("Semantic cache lookup failed.", exc_info=True)
+            return None
+        call.qdrant_results(response.points)
 
     points = response.points
     if not points:

@@ -25,7 +25,7 @@ from app.core.dates import parse_iso_date
 if TYPE_CHECKING:
     from app.ingestion.date_rules import DateDecision
 
-__all__ = ["DecisionRow", "ensure_table", "record", "load", "reset_cache"]
+__all__ = ["DecisionRow", "ensure_table", "record", "load"]
 
 _ensured = False
 
@@ -37,12 +37,6 @@ def ensure_table() -> None:
         return
     schema.ensure_date_decision_table()
     _ensured = True
-
-
-def reset_cache() -> None:
-    """Forget that the table was ensured (for tests that drop it)."""
-    global _ensured
-    _ensured = False
 
 
 @dataclass

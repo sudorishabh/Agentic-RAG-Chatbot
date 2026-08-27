@@ -80,8 +80,3 @@ def normalize(raw: str | None) -> str:
             break
         text = remainder
     return text
-
-
-def normalize_all(values) -> list[str]:
-    """Normalized forms for an iterable of raw names, order-preserving."""
-    return [normalize(v) for v in values]

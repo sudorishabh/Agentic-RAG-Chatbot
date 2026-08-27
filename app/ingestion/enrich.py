@@ -1,7 +1,7 @@
 """Ingest-time document enrichment: the per-document abstract.
 
 An abstract generated here replaces the stand-in
-:func:`app.retrieval.scoped_retrieval.lead_parents` uses at query time — a
+:func:`app.retrieval.search.scoped_retrieval.lead_parents` uses at query time — a
 document's *first section*, which for a long report is its cover page or table
 of contents. Generating it at ingest sees the whole document and is paid once
 per ``doc_version`` rather than on every query that touches the document (see

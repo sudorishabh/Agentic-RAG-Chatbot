@@ -10,6 +10,7 @@ import pymysql
 from pymysql.cursors import DictCursor
 
 from app.config import get_settings
+from app.observability.retrieval_log import sql as sql_tracing
 
 
 def new_mysql_connection() -> pymysql.connections.Connection:
@@ -129,5 +130,16 @@ def get_mysql_pool() -> MySQLPool:
 
 @contextmanager
 def mysql_connection() -> Iterator[pymysql.connections.Connection]:
+    """A pooled connection, checked out for the duration of the block.
+
+    While a query is being traced (``is_retrieval_log``) the caller gets a
+    proxy that records every statement it executes — the SQL, its parameters,
+    the tables it touched, its latency and the rows it returned — into that
+    query's trace. The proxy delegates everything else to the real connection,
+    so the pool and every caller behave identically; with logging off the real
+    connection is handed out untouched and nothing is wrapped. Instrumenting
+    the gateway rather than the ~30 call sites in ``app.catalog`` is what keeps
+    the logging out of the queries themselves.
+    """
     with get_mysql_pool().connection() as conn:
-        yield conn
+        yield sql_tracing.instrument(conn)

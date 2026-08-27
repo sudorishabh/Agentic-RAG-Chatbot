@@ -26,11 +26,6 @@ def _ensure() -> None:
         _ensured = True
 
 
-def reset_ensure_cache() -> None:
-    global _ensured
-    _ensured = False
-
-
 def _now() -> datetime:
     return datetime.now(timezone.utc).replace(tzinfo=None)
 
@@ -122,39 +117,6 @@ def record_rejections(rejections: Sequence[Any]) -> int:
         )
         conn.commit()
     return len(rows)
-
-
-def counts_by_predicate() -> dict[str, int]:
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT predicate, COUNT(*) AS n FROM `{table}_assertion` "
-            "WHERE status='active' GROUP BY predicate ORDER BY n DESC"
-        )
-        return {r["predicate"]: int(r["n"]) for r in cur.fetchall()}
-
-
-def counts_by_method() -> dict[str, int]:
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT extraction_method, COUNT(*) AS n FROM `{table}_assertion` "
-            "GROUP BY extraction_method"
-        )
-        return {r["extraction_method"]: int(r["n"]) for r in cur.fetchall()}
-
-
-def rejection_counts() -> dict[str, int]:
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT code, COUNT(*) AS n FROM `{table}_assertion_rejection` "
-            "GROUP BY code ORDER BY n DESC"
-        )
-        return {r["code"]: int(r["n"]) for r in cur.fetchall()}
 
 
 def for_document(document_id: str) -> list[dict[str, Any]]:
@@ -291,28 +253,6 @@ def retract(claim_ids: Sequence[str]) -> int:
     that history is worth keeping.
     """
     return apply_status({claim_id: "retracted" for claim_id in claim_ids})
-
-
-def links_for(claim_id: str) -> list[dict[str, Any]]:
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT * FROM `{table}_assertion_link` "
-            "WHERE from_claim_id=%s OR to_claim_id=%s ORDER BY kind",
-            (claim_id, claim_id),
-        )
-        return list(cur.fetchall())
-
-
-def counts_by_status() -> dict[str, int]:
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT status, COUNT(*) AS n FROM `{table}_assertion` GROUP BY status"
-        )
-        return {r["status"]: int(r["n"]) for r in cur.fetchall()}
 
 
 def by_claim_ids(claim_ids: Sequence[str]) -> list[dict[str, Any]]:

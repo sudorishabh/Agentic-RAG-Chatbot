@@ -26,10 +26,12 @@ from __future__ import annotations
 import logging
 from typing import Any, Sequence
 
+from app.observability import retrieval_log
+
 logger = logging.getLogger(__name__)
 
 # Ids per Qdrant call. Matches the cap the existing id-scoped retrieval uses
-# (app.retrieval.scoped_retrieval._MAX_IDS) so both paths behave alike.
+# (app.retrieval.search.scoped_retrieval._MAX_IDS) so both paths behave alike.
 BATCH_SIZE = 150
 
 # Chunks fetched per document when evidence is document-level. Small: this is
@@ -52,7 +54,7 @@ def hydrate_chunks(chunk_ids: Sequence[str]) -> list[Any]:
     """
     from app.config import get_settings
     from app.core.clients import get_qdrant_client
-    from app.retrieval.hybrid_search import Candidate
+    from app.retrieval.search.hybrid_search import Candidate
 
     unique: list[str] = []
     seen: set[str] = set()
@@ -68,16 +70,27 @@ def hydrate_chunks(chunk_ids: Sequence[str]) -> list[Any]:
     by_id: dict[str, Candidate] = {}
     for start in range(0, len(unique), BATCH_SIZE):
         batch = unique[start : start + BATCH_SIZE]
-        try:
-            records = client.retrieve(
-                collection_name=settings.qdrant_collection,
-                ids=batch, with_payload=True, with_vectors=False,
-            )
-        except Exception:
-            # A hydration failure must not fabricate evidence: the batch is
-            # skipped and the answer is built from what did resolve.
-            logger.warning("Chunk hydration failed for a batch.", exc_info=True)
-            continue
+        with retrieval_log.qdrant_call(
+            "retrieve",
+            stage="graph_chunk_hydration",
+            request=lambda: {
+                "collection": settings.qdrant_collection,
+                "ids": batch,
+                "requested": len(batch),
+            },
+        ) as call:
+            try:
+                records = client.retrieve(
+                    collection_name=settings.qdrant_collection,
+                    ids=batch, with_payload=True, with_vectors=False,
+                )
+            except Exception as exc:
+                # A hydration failure must not fabricate evidence: the batch is
+                # skipped and the answer is built from what did resolve.
+                call.fail(exc)
+                logger.warning("Chunk hydration failed for a batch.", exc_info=True)
+                continue
+            call.qdrant_results(records)
         for record in records:
             by_id[str(record.id)] = Candidate(
                 id=str(record.id), score=0.0, payload=record.payload or {}
@@ -110,7 +123,7 @@ def hydrate_documents(
     """
     from app.config import get_settings
     from app.core.clients import get_qdrant_client
-    from app.retrieval.hybrid_search import Candidate, build_filter
+    from app.retrieval.search.hybrid_search import Candidate, build_filter
 
     unique = list(dict.fromkeys(d for d in document_ids if d))
     if not unique:
@@ -128,16 +141,27 @@ def hydrate_documents(
     per_doc: dict[str, int] = {}
 
     def _scroll(conditions: list[Any], limit: int) -> list[Any]:
-        try:
-            points, _ = client.scroll(
-                collection_name=settings.qdrant_collection,
-                scroll_filter=build_filter(extra=conditions),
-                limit=limit, with_payload=True, with_vectors=False,
-            )
+        with retrieval_log.qdrant_call(
+            "scroll",
+            stage="graph_document_hydration",
+            request=lambda: {
+                "collection": settings.qdrant_collection,
+                "filter": conditions,
+                "limit": limit,
+            },
+        ) as call:
+            try:
+                points, _ = client.scroll(
+                    collection_name=settings.qdrant_collection,
+                    scroll_filter=build_filter(extra=conditions),
+                    limit=limit, with_payload=True, with_vectors=False,
+                )
+            except Exception as exc:
+                call.fail(exc)
+                logger.warning("Document hydration failed.", exc_info=True)
+                return []
+            call.qdrant_results(points)
             return points
-        except Exception:
-            logger.warning("Document hydration failed.", exc_info=True)
-            return []
 
     def _take(points: Sequence[Any]) -> None:
         for point in points:

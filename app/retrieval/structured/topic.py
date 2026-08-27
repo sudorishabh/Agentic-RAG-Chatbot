@@ -182,7 +182,7 @@ def _ubiquitous(terms: Sequence[str]) -> set[str]:
         return set()
     try:
         from app.catalog import state
-        from app.retrieval import title_leg
+        from app.retrieval.search import title_leg
 
         rows = state.website_titles()
         keep = set(title_leg._selective_terms(list(terms), rows))

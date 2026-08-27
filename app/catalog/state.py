@@ -270,7 +270,7 @@ def raw_meta_for(document_id: str) -> dict | None:
 def website_titles() -> list[tuple[str, str, str | None]]:
     """``(document_id, title, bundle)`` for every website node that has a title.
 
-    Serves the title-anchored retrieval leg (``app.retrieval.title_leg``), which
+    Serves the title-anchored retrieval leg (``app.retrieval.search.title_leg``), which
     needs to find the page a question names when that page's *text* is a list of
     link labels no embedding matches.
 

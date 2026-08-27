@@ -23,7 +23,7 @@ from pydantic import BaseModel
 
 from app.config import get_settings
 from app.core.dates import IsoDate, current_date_directive, exclusive_end
-from app.retrieval.catalog_prompt import (
+from app.retrieval.understanding.catalog_prompt import (
     BUNDLE_GLOSSARY,
     BUNDLE_LIST,
     COLLECTIVE_WORD_WARNING,
@@ -35,7 +35,7 @@ from app.retrieval.structured import topic
 from app.retrieval.structured.types import ToolResult
 
 if TYPE_CHECKING:
-    from app.retrieval.query_processor import QueryAnalysis
+    from app.retrieval.understanding.query_processor import QueryAnalysis
 
 logger = logging.getLogger(__name__)
 

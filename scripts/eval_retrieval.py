@@ -7,7 +7,7 @@ building — so a difference in the numbers is a difference in what was fetched
 rather than in how it was later reordered.
 
 Configurations
-    dense           app.retrieval.hybrid_search.search, the pull retrieval
+    dense           app.retrieval.search.hybrid_search.search, the pull retrieval
                     has always done.
     dense+keyword   the same pull, RRF-fused with the MatchText leg
                     (app.retrieval.search.strategies.keyword_search). This is
@@ -62,7 +62,7 @@ RELEVANT_AT = 2
 # --------------------------------------------------------------------------- #
 
 def _dense(query: str, query_vector: list[float], limit: int) -> list[Any]:
-    from app.retrieval.hybrid_search import search
+    from app.retrieval.search.hybrid_search import search
 
     return search(query, limit=limit, query_vector=query_vector)
 
@@ -79,7 +79,7 @@ def _keyword(query: str, query_vector: list[float], limit: int) -> list[Any]:
 
 
 def _dense_keyword(query: str, query_vector: list[float], limit: int) -> list[Any]:
-    from app.retrieval.fusion import rrf
+    from app.retrieval.search.fusion import rrf
 
     dense = _dense(query, query_vector, limit)
     keyword = _keyword(query, query_vector, limit)

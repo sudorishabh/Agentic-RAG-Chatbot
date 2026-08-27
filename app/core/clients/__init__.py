@@ -31,7 +31,6 @@ from app.core.clients.vector_store import (
     delete_document,
     ensure_collection,
     get_qdrant_client,
-    get_vector_store,
     refresh_document_title,
 )
 
@@ -48,7 +47,6 @@ __all__ = [
     "write_session",
     "reset_graph_driver",
     "ensure_collection",
-    "get_vector_store",
     "delete_document",
     "refresh_document_title",
     "MySQLPool",

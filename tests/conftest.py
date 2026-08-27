@@ -18,7 +18,7 @@ A guard that fails loudly is not available here; a guard that makes the default
 explicit is.
 
 So the flag is forced off for every test, and a test that wants the stage turns
-it on for itself (see ``tests/test_knowledge_hook.py``, which patches
+it on for itself (see ``tests/knowledge/test_knowledge_hook.py``, which patches
 ``get_settings`` outright). The suite's behaviour then does not depend on the
 developer's ``.env``, which is the property that was missing.
 """
@@ -26,6 +26,21 @@ developer's ``.env``, which is the property that was missing.
 from __future__ import annotations
 
 import pytest
+
+
+@pytest.fixture(autouse=True)
+def _retrieval_logging_off_by_default(monkeypatch):
+    """Keep per-query retrieval traces out of unrelated tests.
+
+    Same reasoning as the knowledge-stage guard below: with ``is_retrieval_log``
+    set in a developer's ``.env``, every test that drives the pipeline would
+    write a trace file into the real ``logs/`` directory. A test that wants the
+    trace turns it on for itself (see
+    ``tests/observability/test_retrieval_log.py``).
+    """
+    from app.config import get_settings
+
+    monkeypatch.setattr(get_settings(), "is_retrieval_log", False, raising=False)
 
 
 @pytest.fixture(autouse=True)

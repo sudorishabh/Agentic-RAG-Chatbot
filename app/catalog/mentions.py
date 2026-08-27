@@ -9,12 +9,19 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime, timezone
-from typing import Any, Sequence
+from typing import TYPE_CHECKING, Any, Sequence
 
 from app.catalog import schema
 from app.catalog.db import state_table
 from app.core.clients import mysql_connection
-from app.knowledge.types import Mention
+
+if TYPE_CHECKING:
+    # Type-only. The catalog is the persistence layer and must not depend on a
+    # domain package at runtime: `app.knowledge` imports this module, so a real
+    # import here would make the two mutually dependent. `Mention` is read for
+    # its attributes below, never constructed, and `from __future__ import
+    # annotations` keeps the signature a string.
+    from app.knowledge.types import Mention
 
 logger = logging.getLogger(__name__)
 
@@ -26,12 +33,6 @@ def _ensure() -> None:
     if not _ensured:
         schema.ensure_entity_tables()
         _ensured = True
-
-
-def reset_ensure_cache() -> None:
-    """Forget that the schema was ensured. For tests."""
-    global _ensured
-    _ensured = False
 
 
 def _now() -> datetime:
@@ -114,42 +115,6 @@ def delete_document_mentions(
         deleted = cur.rowcount
         conn.commit()
     return deleted
-
-
-def mentions_for_chunk(chunk_id: str) -> list[dict[str, Any]]:
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT * FROM `{table}_entity_mention` WHERE chunk_id = %s "
-            "ORDER BY start_offset",
-            (chunk_id,),
-        )
-        return list(cur.fetchall())
-
-
-def type_counts() -> dict[str, int]:
-    """Mentions per entity type. The headline extraction metric."""
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT entity_type, COUNT(*) AS n FROM `{table}_entity_mention` "
-            "GROUP BY entity_type"
-        )
-        return {r["entity_type"]: int(r["n"]) for r in cur.fetchall()}
-
-
-def method_counts() -> dict[str, int]:
-    """Mentions per extraction method — how much each stage actually earns."""
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT extraction_method, COUNT(*) AS n "
-            f"FROM `{table}_entity_mention` GROUP BY extraction_method"
-        )
-        return {r["extraction_method"]: int(r["n"]) for r in cur.fetchall()}
 
 
 # --------------------------------------------------------------------------- #

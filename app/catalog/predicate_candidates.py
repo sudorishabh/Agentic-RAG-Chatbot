@@ -31,12 +31,6 @@ def _ensure() -> None:
         _ensured = True
 
 
-def reset_ensure_cache() -> None:
-    """Forget that the schema was ensured. For tests."""
-    global _ensured
-    _ensured = False
-
-
 def _now() -> datetime:
     return datetime.now(timezone.utc).replace(tzinfo=None)
 
@@ -110,24 +104,6 @@ def pending(limit: int = 100) -> list[dict[str, Any]]:
         return list(cur.fetchall())
 
 
-def counts_by_predicate(status: str = "pending") -> dict[str, int]:
-    """Distinct evidence sites per proposed predicate.
-
-    The number a vocabulary review actually needs: one model slip is one row,
-    a phrasing the corpus keeps asserting is hundreds.
-    """
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"SELECT predicate_normalized, COUNT(*) AS n "
-            f"FROM `{table}_predicate_candidate` WHERE status=%s "
-            "GROUP BY predicate_normalized ORDER BY n DESC",
-            (status,),
-        )
-        return {r["predicate_normalized"]: int(r["n"]) for r in cur.fetchall()}
-
-
 def for_document(document_id: str) -> list[dict[str, Any]]:
     _ensure()
     table = state_table()
@@ -138,50 +114,6 @@ def for_document(document_id: str) -> list[dict[str, Any]]:
             (document_id,),
         )
         return list(cur.fetchall())
-
-
-def total(status: str | None = None) -> int:
-    _ensure()
-    table = state_table()
-    with mysql_connection() as conn, conn.cursor() as cur:
-        if status is None:
-            cur.execute(f"SELECT COUNT(*) AS n FROM `{table}_predicate_candidate`")
-        else:
-            cur.execute(
-                f"SELECT COUNT(*) AS n FROM `{table}_predicate_candidate` "
-                "WHERE status=%s",
-                (status,),
-            )
-        return int(cur.fetchone()["n"])
-
-
-def set_status(candidate_ids: Sequence[str], status: str) -> int:
-    """Record an operator's verdict on candidates.
-
-    ``promoted`` here is bookkeeping *after the fact*: the predicate becomes
-    real only when it is added to :mod:`app.knowledge.claims.predicates` and
-    ``VOCABULARY_VERSION`` is bumped. Setting this status does not widen the
-    vocabulary and nothing reads it as though it did.
-    """
-    from app.knowledge.claims.pending import CANDIDATE_STATUSES
-
-    if status not in CANDIDATE_STATUSES:
-        raise ValueError(f"unknown candidate status: {status!r}")
-    _ensure()
-    ids = [c for c in candidate_ids if c]
-    if not ids:
-        return 0
-    table = state_table()
-    placeholders = ", ".join(["%s"] * len(ids))
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(
-            f"UPDATE `{table}_predicate_candidate` SET status=%s "
-            f"WHERE candidate_id IN ({placeholders})",
-            [status, *ids],
-        )
-        changed = cur.rowcount
-        conn.commit()
-    return changed
 
 
 def clear_all() -> None:

@@ -13,9 +13,9 @@ from typing import Any
 
 from app.core.clients.embeddings import embed_query
 from app.core.clients.llm import get_llm, get_structured_llm
-from app.retrieval.fusion import rrf
-from app.retrieval.hybrid_search import search
-from app.retrieval.reranker import rerank
+from app.retrieval.search.fusion import rrf
+from app.retrieval.search.hybrid_search import search
+from app.retrieval.search.reranker import rerank
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +40,7 @@ def dual_search(
         limit=settings.website_candidate_k,
         extra_filter=base + [website_cond],
         query_vector=query_vector,
+        trace_stage="website_pull",
     )
     others = search(
         search_query,
@@ -47,6 +48,7 @@ def dual_search(
         extra_filter=base or None,
         extra_must_not=[website_cond],
         query_vector=query_vector,
+        trace_stage="not_website_pull",
     )
     return website + others
 
@@ -92,6 +94,7 @@ def paraphrase_search(
     try:
         return search(
             query, limit=limit, query_vector=embed_query(query),
+            trace_stage="multi_query_leg",
         )
     except Exception:
         logger.warning("Paraphrase search failed for %r.", query, exc_info=True)
@@ -158,6 +161,7 @@ def corrective_requery(
         extra = search(
             reformulated, limit=limit, extra_filter=filters or None,
             query_vector=embed_query(reformulated),
+            trace_stage="corrective_pull",
         )
         seen = {c.id for c in ranked}
         if not any(c.id not in seen for c in extra):
@@ -284,6 +288,7 @@ def keyword_search(
     filters: list[Any] | None,
     query_vector: list[float],
     limit: int,
+    trace_stage: str = "keyword_leg",
 ) -> list[Any]:
     """One MatchText-filtered pull (dense ranking within keyword matches).
 
@@ -311,6 +316,7 @@ def keyword_search(
         return search(
             search_query, limit=limit,
             extra_filter=list(filters or []) + [cond], query_vector=query_vector,
+            trace_stage=trace_stage,
         )
     except Exception:
         logger.debug("Keyword leg unavailable; dense-only.", exc_info=True)

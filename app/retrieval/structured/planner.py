@@ -16,7 +16,7 @@ from pydantic import BaseModel, Field
 
 from app.config import get_settings
 from app.core.dates import IsoDate, current_date_directive, exclusive_end
-from app.retrieval.catalog_prompt import (
+from app.retrieval.understanding.catalog_prompt import (
     BEHAVIOR,
     BUNDLE_GLOSSARY,
     BUNDLE_LIST,

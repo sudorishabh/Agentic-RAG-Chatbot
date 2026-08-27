@@ -1,0 +1,531 @@
+"""Candidate reranking — relevance decides the ranking, recency decides ties.
+
+Ordering used to be a weighted blend of a normalized semantic score, recency and
+authority. A blend gets this backwards in the case that matters: because the
+semantic scores are min-max normalized first, it separates candidates most
+aggressively exactly when their scores are closest together — when the relevance
+difference means least — while a fixed recency weight small enough not to
+overrule a genuinely better passage is also too small to break the ties it is
+there for.
+
+So candidates are *banded* instead, and ranked on the bands in priority order:
+
+1. **relevance** — scores within ``rerank_relevance_tolerance`` are "similarly
+   relevant" and go on to compete on the keys below; a candidate a band lower
+   never climbs past one above it, however new or full it is;
+2. **authority** — within a relevance band, a canonical source (an organisation's
+   own service or hub page) leads a secondary retelling of the same material;
+3. **completeness** — within an authority band, a passage holding
+   ``rerank_substance_ratio`` times the text of another says substantially more
+   and leads it;
+4. **recency** — comparable passages settle on publication date, newest first.
+
+Two editions of the same annual report land in one relevance band, and unless one
+is a fragment the newer leads. An older passage that actually answers the
+question still outranks a newer one that merely mentions it.
+
+Why authority sits above completeness
+-------------------------------------
+It used to sit below, and below recency, reading only a ``source_authority``
+payload key that nothing ever wrote — so it was a constant that could not
+reorder anything. That left completeness, a *length* proxy, as the first
+tie-break inside a relevance band, and length is exactly the axis on which a
+canonical page loses: the 60-word "Water, soil and sludge testing" service node
+carries the authoritative answer, and a 450-token annual-report chunk that
+mentions testing in passing outranked it on substance every time.
+
+Measured on the 86-question organisational benchmark: the authoritative page the
+reference set names reached retrieval for 42% of questions, and nine questions
+retrieved none of it at all. So authority is now *derived* from the metadata the
+corpus already carries (:func:`derived_authority`) rather than waiting for an
+ingest-time stamp, and it is banded like the others so only a material
+difference reorders anything. An explicit ``source_authority`` payload value
+still wins, so a corpus that does stamp authority keeps control.
+"""
+
+from __future__ import annotations
+
+import logging
+import math
+from datetime import datetime
+from functools import lru_cache
+from typing import Any, NamedTuple, Sequence
+
+from pydantic import BaseModel, Field
+
+from app.config import get_settings
+from app.retrieval.search.hybrid_search import Candidate
+from app.retrieval.search.volatility import is_volatile
+
+logger = logging.getLogger(__name__)
+
+_MAX_LLM_CANDIDATES = 40
+_LLM_SNIPPET_CHARS = 600
+# Recency/authority for a candidate carrying no signal either way. Mid-scale, so
+# an unknown neither leads nor trails its band on a fact we do not have.
+_UNKNOWN = 0.5
+
+
+def _recency_scores(candidates: Sequence[Candidate]) -> list[float]:
+    """Publication date per candidate, scaled to [0,1] across the set.
+
+    Only the *order* of these values is read (recency ranks within a band, it is
+    no longer weighted into a score), so the scaling exists to place an undated
+    candidate at `_UNKNOWN` — mid-set — rather than to make the number comparable
+    to anything else."""
+    epochs: list[float | None] = []
+    for c in candidates:
+        raw = c.payload.get("published_at")
+        epoch: float | None = None
+        if isinstance(raw, str) and raw:
+            try:
+                epoch = datetime.fromisoformat(raw.replace("Z", "+00:00")).timestamp()
+            except ValueError:
+                epoch = None
+        epochs.append(epoch)
+    known = [e for e in epochs if e is not None]
+    if not known:
+        return [_UNKNOWN] * len(candidates)
+    lo, hi = min(known), max(known)
+    span = hi - lo
+    return [
+        _UNKNOWN if e is None else (_UNKNOWN if span < 1e-9 else (e - lo) / span)
+        for e in epochs
+    ]
+
+
+# How far apart two authority scores must be to count as different kinds of
+# source. The scale below is laid out in steps of 0.15, so a tolerance under that
+# separates every tier while keeping candidates inside one tier together.
+_AUTHORITY_TOLERANCE = 0.10
+
+# Authority by the bundle a website node belongs to. The ordering is editorial
+# provenance, not topic: a page the organisation maintains *as its statement* on
+# something outranks a dated announcement about the same thing, which outranks a
+# PDF attachment that happens to mention it.
+#
+# Deliberately not a website/PDF switch. A PDF attachment is the right source for
+# plenty of questions (a report's findings, a table), and this must not bury it —
+# which is why every tier sits inside one relevance band and only reorders
+# candidates the relevance step already called equivalent.
+_CANONICAL_BUNDLES = frozenset({
+    # Pages and service nodes the organisation maintains as its own description
+    # of itself: mission, contact, thematic hubs, centre-of-excellence hubs, the
+    # service catalogue. These are short, which is why they lost before.
+    "page", "services", "basic",
+})
+_PRIMARY_BUNDLES = frozenset({
+    # The organisation's own published output.
+    "report", "policy_brief", "research_papers", "infographics",
+})
+_PROJECT_BUNDLES = frozenset({"ongoing_projects", "completed_projects"})
+_SECONDARY_BUNDLES = frozenset({
+    # Dated announcements and third-party coverage. Correct for "what did you
+    # launch in March", weak for "what do you offer".
+    "news", "press_release", "events", "feature_articles", "article", "videos",
+})
+
+_AUTHORITY_CANONICAL = 0.90
+_AUTHORITY_PRIMARY = 0.75
+_AUTHORITY_PROJECT = 0.60
+_AUTHORITY_SECONDARY = 0.45
+_AUTHORITY_ATTACHMENT = 0.35
+
+
+def derived_authority(payload: dict) -> float:
+    """Editorial authority in [0,1] inferred from metadata already in the payload.
+
+    Reads ``source_type`` and ``bundle`` only — both are stamped on every chunk at
+    ingest, so this needs no new field, no reprojection and no ingest change.
+
+    A note on the attachment tier: ``source_type == "pdf_attachment"`` is scored
+    below its own bundle because the attachment is a *derived* artefact of the
+    node it hangs off. The clearest case in this corpus is the annual reports,
+    where every edition from 2015-16 to 2024-25 hangs off one Drupal node and so
+    shares one title and one date; a chunk from deep inside one of them is poor
+    evidence for "what does the organisation do", and excellent evidence for a
+    figure in that report — which the relevance band, not this, decides.
+    """
+    if is_graph_facts_payload(payload):
+        # Verified relationships, not a retelling of prose. Top of the scale so a
+        # facts block is never displaced by a page that merely mentions the same
+        # entity.
+        return 1.0
+    bundle = str(payload.get("bundle") or "").strip().lower()
+    source_type = str(payload.get("source_type") or "").strip().lower()
+
+    if source_type == "website":
+        if bundle in _CANONICAL_BUNDLES:
+            return _AUTHORITY_CANONICAL
+        if bundle in _PRIMARY_BUNDLES:
+            return _AUTHORITY_PRIMARY
+        if bundle in _PROJECT_BUNDLES:
+            return _AUTHORITY_PROJECT
+        if bundle in _SECONDARY_BUNDLES:
+            return _AUTHORITY_SECONDARY
+        return _UNKNOWN
+    if source_type:
+        # Attachments and anything else non-website. Keep the bundle's ordering
+        # inside the tier so a policy-brief PDF still leads a news PDF.
+        if bundle in _CANONICAL_BUNDLES or bundle in _PRIMARY_BUNDLES:
+            return _AUTHORITY_ATTACHMENT + 0.05
+        return _AUTHORITY_ATTACHMENT
+    return _UNKNOWN
+
+
+def is_graph_facts_payload(payload: dict) -> bool:
+    """Local, import-light check for the graph's verified-relationships block."""
+    from app.core.models.context import is_graph_facts
+
+    try:
+        return bool(is_graph_facts(payload))
+    except Exception:  # pragma: no cover - defence in depth
+        return False
+
+
+def _authority_scores(candidates: Sequence[Candidate]) -> list[float]:
+    """Source trustworthiness in [0,1].
+
+    An explicit ``source_authority`` payload value is authoritative and is used
+    as given; otherwise it is derived from ``source_type``/``bundle`` by
+    :func:`derived_authority`. Before, the absent key meant every candidate
+    scored ``_UNKNOWN`` and the key could never reorder anything.
+    """
+    scores: list[float] = []
+    for c in candidates:
+        try:
+            scores.append(min(1.0, max(0.0, float(c.payload["source_authority"]))))
+        except (KeyError, TypeError, ValueError):
+            scores.append(derived_authority(c.payload))
+    return scores
+
+
+def _substance_scores(candidates: Sequence[Candidate]) -> list[float]:
+    """Log-scaled passage length — the stand-in for "completeness".
+
+    Accuracy cannot be measured at ranking time and neither, strictly, can
+    completeness; what is visible is how much a passage actually says, and a
+    chunk cut short at a document boundary does carry less of an answer than a
+    full one.
+
+    Log scale so the band tolerance reads as a *ratio*: one passage says
+    substantially more than another when it holds `rerank_substance_ratio` times
+    the text. That claim survives the fact that chunks are already roughly
+    uniform in size, where a linear scale would not — min-max normalization would
+    inflate the gap between 1,400 and 1,500 characters into a decisive one, which
+    is the mistake the relevance blend used to make.
+
+    Measured on the child chunk that matched; the parent expansion happens later,
+    in the context builder."""
+    return [math.log1p(len(c.text)) for c in candidates]
+
+
+def _bands(values: Sequence[float], *, tolerance: float) -> list[int]:
+    """Band index per value, 0 being the highest band.
+
+    A band starts at its leader and holds every value within `tolerance` of it;
+    the first value that falls further than that opens the next band. Grown
+    greedily down the sorted order rather than cut into fixed-width buckets, so
+    two near-identical values can never land either side of an arbitrary
+    boundary — and measured against the *leader* rather than the previous value,
+    so a long chain of small steps cannot drift an arbitrarily weak value into
+    the top band."""
+    if not values:
+        return []
+    order = sorted(range(len(values)), key=lambda i: values[i], reverse=True)
+    bands = [0] * len(values)
+    band = 0
+    leader = values[order[0]]
+    for i in order:
+        if leader - values[i] > tolerance:
+            band += 1
+            leader = values[i]
+        bands[i] = band
+    return bands
+
+
+class _Scored(NamedTuple):
+    """A candidate's ranking signals, before they are cut into bands."""
+
+    candidate: Candidate
+    relevance: float   # semantic score plus any table boost; the band is cut from this
+    semantic: float    # raw provider score, carried through for the context floors
+    substance: float
+    recency: float
+    authority: float
+
+
+class _Ranked(NamedTuple):
+    """A scored candidate placed in the ranking."""
+
+    relevance_band: int   # 0 is the most relevant band
+    authority_band: int   # 0 is the most authoritative, cut within the relevance band
+    substance_band: int   # 0 is the fullest band, cut within the authority band
+    scored: _Scored
+
+
+def _relevance_tolerance(query: str, settings) -> float:
+    """Relevance band width for this query — widened when the topic goes stale.
+
+    Nothing can cross a band however wide it gets, so this only changes how often
+    the lower-priority keys are reachable, never whether relevance wins."""
+    tolerance = settings.rerank_relevance_tolerance
+    if not is_volatile(query):
+        return tolerance
+    widened = tolerance * settings.rerank_volatile_tolerance_multiplier
+    logger.debug("Volatile topic; relevance band widened to %.3f.", widened)
+    return widened
+
+
+def _substance_tolerance(settings) -> float:
+    """Completeness band width, as the log of the configured length ratio — see
+    `_substance_scores`. A ratio at or below 1 would make every difference in
+    length substantial, so it is clamped away."""
+    return math.log(max(float(settings.rerank_substance_ratio), 1.0))
+
+
+def _nested_bands(
+    values: Sequence[float], outer: Sequence[Any], *, tolerance: float
+) -> list[int]:
+    """Band ``values`` separately inside each group of ``outer``.
+
+    Banding across the whole set would let a candidate from a much less relevant
+    group place the boundary that splits two similarly relevant ones. Both the
+    authority and completeness steps are only ever questions between candidates
+    that already tied above them, so both use this.
+    """
+    bands = [0] * len(values)
+    for group in set(outer):
+        members = [i for i, b in enumerate(outer) if b == group]
+        within = _bands([values[i] for i in members], tolerance=tolerance)
+        for i, band in zip(members, within):
+            bands[i] = band
+    return bands
+
+
+def _substance_bands(
+    scored: Sequence[_Scored], enclosing: Sequence[Any], *, tolerance: float
+) -> list[int]:
+    """Completeness band per candidate, cut *within* each enclosing band."""
+    return _nested_bands(
+        [s.substance for s in scored], enclosing, tolerance=tolerance
+    )
+
+
+def _authority_bands(
+    scored: Sequence[_Scored], relevance_bands: Sequence[int]
+) -> list[int]:
+    """Authority band per candidate, cut *within* each relevance band.
+
+    Negated because :func:`_bands` numbers from the highest value down and
+    authority is better when higher, matching relevance and unlike substance
+    where the raw value is already "more text".
+    """
+    return _nested_bands(
+        [s.authority for s in scored], relevance_bands, tolerance=_AUTHORITY_TOLERANCE
+    )
+
+
+def _sort_key(r: _Ranked) -> tuple[float, ...]:
+    """The ranking priority, most significant first: relevance band, then
+    authority band, then completeness band, then recency, then the fine-grained
+    relevance within the band — a deterministic last resort, and by construction
+    a sub-tolerance difference that the band already declared immaterial.
+
+    Authority moved above completeness because completeness is a length proxy and
+    a canonical page is short: see the module docstring for the measurement that
+    prompted it. It stays *below* relevance, so a canonical page that does not
+    answer the question still cannot climb over a passage that does.
+    """
+    return (
+        r.relevance_band,
+        r.authority_band,
+        r.substance_band,
+        -r.scored.recency,
+        -r.scored.relevance,
+    )
+
+
+class _Relevance(BaseModel):
+    scores: list[float] = Field(description="Relevance 0..1 per candidate, in order.")
+
+
+def _llm_semantic(query: str, candidates: Sequence[Candidate]) -> list[float] | None:
+    from app.core.clients.llm import get_structured_llm
+
+    listing = "\n".join(
+        f"[{i}] {c.text[:_LLM_SNIPPET_CHARS]}" for i, c in enumerate(candidates)
+    )
+    try:
+        model = get_structured_llm().with_structured_output(_Relevance)
+        result: _Relevance = model.invoke(
+            [
+                (
+                    "system",
+                    "Rate how well each numbered passage answers the query, from 0 "
+                    "(irrelevant) to 1 (directly answers). Return one score per "
+                    "passage, in order.",
+                ),
+                ("human", f"Query: {query}\n\nPassages:\n{listing}"),
+            ]
+        )
+    except Exception:
+        logger.warning("LLM rerank failed; falling back to dense score.", exc_info=True)
+        return None
+    if len(result.scores) != len(candidates):
+        logger.warning("LLM rerank returned %d scores for %d candidates; ignoring.",
+                       len(result.scores), len(candidates))
+        return None
+    return [max(0.0, min(1.0, float(s))) for s in result.scores]
+
+
+def _cross_encoder_semantic(query: str, candidates: Sequence[Candidate]) -> list[float] | None:
+    model_name = get_settings().rerank_model or "BAAI/bge-reranker-v2-m3"
+    try:
+        encoder = _load_cross_encoder(model_name)
+        scores = encoder.predict([(query, c.text) for c in candidates])
+        return [float(s) for s in scores]
+    except Exception:
+        logger.warning("cross_encoder rerank unavailable; falling back.", exc_info=True)
+        return None
+
+
+_CROSS_ENCODER_CACHE: dict[str, object] = {}
+
+
+def _load_cross_encoder(model_name: str):
+    if model_name not in _CROSS_ENCODER_CACHE:
+        from sentence_transformers import CrossEncoder
+
+        _CROSS_ENCODER_CACHE[model_name] = CrossEncoder(model_name)
+    return _CROSS_ENCODER_CACHE[model_name]
+
+
+@lru_cache(maxsize=1)
+def _cohere_client():
+    import os
+
+    import cohere
+
+    return cohere.Client(os.environ.get("COHERE_API_KEY", ""))
+
+
+def _cohere_semantic(query: str, candidates: Sequence[Candidate]) -> list[float] | None:
+    settings = get_settings()
+    try:
+        # Cached client: constructing one per rerank call rebuilds an HTTP
+        # connection pool on every query.
+        client = _cohere_client()
+        model = settings.rerank_model or "rerank-3.5"
+        resp = client.rerank(
+            query=query, documents=[c.text for c in candidates], model=model
+        )
+        scores = [0.0] * len(candidates)
+        for r in resp.results:
+            scores[r.index] = float(r.relevance_score)
+        return scores
+    except Exception:
+        logger.warning("cohere rerank unavailable; falling back.", exc_info=True)
+        return None
+
+
+def _dense_scores(candidates: Sequence[Candidate]) -> list[float]:
+    """The candidates' semantic relevance, on the scale the floors expect.
+
+    Reads ``semantic_score`` rather than ``score``: after ``fusion.rrf`` the
+    latter holds a reciprocal-rank value, and using it here propagated that
+    scale to every downstream threshold. Falls back to ``score`` for candidates
+    built outside the search layer (the graph hydration path, and tests), which
+    leave ``semantic_score`` at its default.
+    """
+    return [c.semantic_score or c.score for c in candidates]
+
+
+def _semantic_scores(query: str, candidates: Sequence[Candidate], provider: str) -> list[float]:
+    dense = _dense_scores(candidates)
+    if provider == "llm" and len(candidates) <= _MAX_LLM_CANDIDATES:
+        return _llm_semantic(query, candidates) or dense
+    if provider == "cross_encoder":
+        return _cross_encoder_semantic(query, candidates) or dense
+    if provider == "cohere":
+        return _cohere_semantic(query, candidates) or dense
+    return dense
+
+
+def rerank(
+    query: str,
+    candidates: Sequence[Candidate],
+    *,
+    top_n: int | None = None,
+    table_boost: float = 0.0,
+) -> list[Candidate]:
+    """Candidates in ranked order, best first, capped at `top_n`.
+
+    Each returned candidate carries the relevance its band was cut from in
+    `score` and the raw provider score in `semantic_score` (the context builder's
+    floors read the latter). `score` is not monotone with the returned order:
+    inside a band the ranking is by recency, so a newer candidate can lead one
+    scoring marginally higher."""
+    candidates = list(candidates)
+    if not candidates:
+        return []
+    settings = get_settings()
+    provider = (settings.reranker_provider or "embedding").lower()
+
+    semantic = _semantic_scores(query, candidates, provider)
+    threshold = settings.rerank_score_threshold
+    substance = _substance_scores(candidates)
+    recency = _recency_scores(candidates)
+    authority = _authority_scores(candidates)
+
+    kept: list[_Scored] = []
+    for cand, sem, sub, rec, auth in zip(
+        candidates, semantic, substance, recency, authority
+    ):
+        if threshold and sem < threshold:
+            continue
+        # The boost lifts relevance rather than a final score, so a table-bearing
+        # chunk can climb a band when the answer wants a table. Still a nudge and
+        # not a filter — and inert when it is smaller than the band tolerance.
+        boost = table_boost if table_boost and cand.payload.get("has_table") else 0.0
+        kept.append(
+            _Scored(
+                candidate=cand, relevance=sem + boost, semantic=sem,
+                substance=sub, recency=rec, authority=auth,
+            )
+        )
+
+    relevance_bands = _bands(
+        [s.relevance for s in kept], tolerance=_relevance_tolerance(query, settings)
+    )
+    authority_bands = _authority_bands(kept, relevance_bands)
+    # Completeness is cut inside the authority band, not the relevance band: two
+    # candidates only compete on length once they are the same *kind* of source,
+    # otherwise a long attachment would still set the boundary that splits two
+    # canonical pages.
+    substance_bands = _substance_bands(
+        kept,
+        [(rb, ab) for rb, ab in zip(relevance_bands, authority_bands)],
+        tolerance=_substance_tolerance(settings),
+    )
+    ranked = sorted(
+        (
+            _Ranked(relevance_band=rb, authority_band=ab, substance_band=sb, scored=s)
+            for rb, ab, sb, s in zip(
+                relevance_bands, authority_bands, substance_bands, kept
+            )
+        ),
+        key=_sort_key,
+    )
+    out = [
+        Candidate(
+            id=r.scored.candidate.id, score=r.scored.relevance,
+            payload=r.scored.candidate.payload, vector=r.scored.candidate.vector,
+            semantic_score=r.scored.semantic,
+            # Carried, not recomputed: how this candidate was fused stays
+            # readable downstream for tracing a ranking.
+            fusion_score=r.scored.candidate.fusion_score,
+        )
+        for r in ranked
+    ]
+    return out[:top_n] if top_n else out
