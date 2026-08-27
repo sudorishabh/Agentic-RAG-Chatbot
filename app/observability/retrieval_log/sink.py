@@ -1,21 +1,23 @@
 """Where a finished trace goes on disk.
 
     logs/
-    |-- 2026-08-26/
-    |   |-- query_<request_id>/
+    |-- 2026-08-27/
+    |   |-- tell me about carbon sequestration - 2026-08-27 10-51-10 IST/
     |   |   |-- trace.json              the record, for parsing
     |   |   +-- report.md               the same trace explained, for reading
     |   +-- ...
     |-- errors/
-    |   +-- 2026-08-26/
-    |       +-- query_<request_id>/     a copy of any query that had a failure
+    |   +-- 2026-08-27/
+    |       +-- <same name>/            a copy of any query that had a failure
     +-- summary/
-        +-- 2026-08-26.jsonl            one flat line per query
+        +-- 2026-08-27.jsonl            one flat line per query
 
 One directory per query, because a query produces more than one artifact and
 guessing which files belong together from a flat listing is work a directory
-does for free. The names inside are fixed, so ``logs/*/query_*/trace.json`` is
-a stable glob and ``report.md`` is always next to the data it describes.
+does for free. It is named after the question and the local time it was asked
+(see :mod:`app.observability.retrieval_log.naming`), so the right trace can be
+found by looking; the file names inside are fixed, so ``logs/*/*/trace.json``
+is a stable glob and ``report.md`` is always next to the data it describes.
 
 Three properties this file exists to guarantee:
 
@@ -24,12 +26,13 @@ catches everything. A full disk, a locked file, a path that cannot be created â€
 each costs the trace and nothing else. The warning is emitted once per process
 so a persistent failure cannot flood the application log it shares.
 
-**Concurrent queries cannot overwrite each other.** The file name carries the
-request id (a uuid4), so two queries never contend for one path; the JSON is
-written to a per-process temporary name and moved into place with
-``os.replace``, so a reader never sees a half-written file. The append-only
-digest is the one shared file, and it is guarded by a lock and written one whole
-line at a time.
+**Concurrent queries cannot overwrite each other.** The directory name is for
+reading and promises nothing, so uniqueness is enforced by *creating* it: a
+plain ``mkdir`` is atomic, the winner owns the name and a loser takes the next
+one (see :func:`_reserve`). Each file is then written to a per-process temporary
+name and moved into place with ``os.replace``, so a reader never sees a
+half-written one. The append-only digest is the single shared file, guarded by a
+lock and written one whole line at a time.
 
 **Paths are ``pathlib`` throughout.** The default lives beside the repository
 rather than the working directory, because a service started from elsewhere
@@ -96,14 +99,55 @@ def _atomic_write(path: pathlib.Path, text: str) -> None:
         raise
 
 
-def _dump(directory: pathlib.Path, payload: dict[str, Any], report: str | None) -> None:
+#: How many times a name is nudged before falling back to the request id. Two
+#: identical questions in the same second is plausible (a retry, a load test);
+#: fifty is not, and an unbounded loop on a filesystem that keeps saying "exists"
+#: would hang the request thread.
+_MAX_NAME_ATTEMPTS = 50
+
+
+def _reserve(parent: pathlib.Path, name: str, request_id: str) -> pathlib.Path:
+    """Create a directory called ``name`` under ``parent``, or the next free
+    variant of it, and return it.
+
+    ``mkdir`` without ``exist_ok`` is the whole mechanism: creation is atomic, so
+    the process that creates the directory owns it and a loser simply tries the
+    next name. That is what keeps two concurrent queries with the *same*
+    question and the same second from writing into one directory â€” the folder
+    name is for reading and makes no promise of uniqueness, so uniqueness is
+    enforced here instead.
+    """
+    parent.mkdir(parents=True, exist_ok=True)
+    for attempt in range(_MAX_NAME_ATTEMPTS):
+        candidate = parent / (name if attempt == 0 else f"{name} ({attempt + 1})")
+        try:
+            candidate.mkdir()
+            return candidate
+        except FileExistsError:
+            continue
+    # Fifty collisions means the name is not discriminating; the request id
+    # always is.
+    final = parent / f"{name} ({request_id[:8]})"
+    final.mkdir(exist_ok=True)
+    return final
+
+
+def _dump(
+    parent: pathlib.Path,
+    name: str,
+    request_id: str,
+    payload: dict[str, Any],
+    report: str | None,
+) -> pathlib.Path:
     """Write one query's directory: the record, and the explanation beside it."""
+    directory = _reserve(parent, name, request_id)
     _atomic_write(
         directory / "trace.json",
         json.dumps(payload, ensure_ascii=False, indent=2, default=str),
     )
     if report:
         _atomic_write(directory / "report.md", report)
+    return directory
 
 
 def write(log: Any) -> pathlib.Path | None:
@@ -131,17 +175,18 @@ def write(log: Any) -> pathlib.Path | None:
 
     root = None
     path = None
+    name = f"query_{log.request_id}"
     try:
         root = log_root()
-        path = root / log.day / f"query_{log.request_id}"
-        _dump(path, payload, report)
+        name = log.folder
+        path = _dump(root / log.day, name, log.request_id, payload, report)
     except Exception:
         _warn("Could not write a retrieval trace.")
         path = None
 
     if root is not None and log.failed:
         try:
-            _dump(root / "errors" / log.day / f"query_{log.request_id}", payload, report)
+            _dump(root / "errors" / log.day, name, log.request_id, payload, report)
         except Exception:
             _warn("Could not write the errors/ copy of a retrieval trace.")
 

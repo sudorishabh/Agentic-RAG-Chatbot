@@ -75,7 +75,7 @@ def trace_files(directory: pathlib.Path) -> list[pathlib.Path]:
     changed remain readable.
     """
     return sorted(
-        list(directory.glob("query_*/trace.json"))
+        list(directory.glob("*/trace.json"))
         + list(directory.glob("query_*.json"))
     )
 
@@ -169,15 +169,32 @@ def _failures(loaded: list[dict[str, Any]]) -> None:
         print("\nfailures: none")
 
 
+def _has_request_id(path: pathlib.Path, needle: str) -> bool:
+    """Whether the trace at ``path`` carries a request id starting ``needle``."""
+    try:
+        return json.loads(path.read_text(encoding="utf-8")).get(
+            "request_id", ""
+        ).startswith(needle)
+    except Exception:
+        return False
+
+
 def _one_trace(root: pathlib.Path, request_id: str, *, raw: bool) -> int:
     """One query, read out as an outline. ``--raw`` prints the JSON instead."""
     matches = [
-        p for p in list(root.rglob(f"query_{request_id}*/trace.json"))
-        + list(root.rglob(f"query_{request_id}*.json"))
+        p for p in list(root.rglob("*/trace.json")) + list(root.rglob("query_*.json"))
         if "errors" not in p.parts
+        and (
+            # By request id (the identifier inside the trace), or by any part of
+            # the folder name — which is now the question and the time, so
+            # `--request-id seaweed` finds the seaweed query.
+            request_id.lower() in p.parent.name.lower()
+            or request_id.lower() in p.name.lower()
+            or _has_request_id(p, request_id)
+        )
     ]
     if not matches:
-        print(f"No trace found for request id starting {request_id!r} under {root}")
+        print(f"No trace found matching {request_id!r} under {root}")
         return 1
     trace = json.loads(matches[0].read_text(encoding="utf-8"))
     if raw:

@@ -245,6 +245,11 @@ class Settings(BaseSettings):
     # totals, so a truncated sample never misreports recall. Ten is what a
     # person reads; raise it when analysing a whole candidate set.
     retrieval_log_max_results: int = 10
+    # Timezone for the log's directory layout: the date folder and the local
+    # time in each query's folder name. Everything *inside* a trace stays UTC
+    # ISO-8601. Needs the tzdata package (Windows ships no timezone database);
+    # an unloadable name degrades to a fixed +05:30, which is correct for IST.
+    retrieval_log_timezone: str = "Asia/Kolkata"
     # Write `report.md` beside each `trace.json`: the same trace explained in
     # prose — what the question was taken to mean, which retriever was asked
     # what, which passages reached the LLM, and what each stage is for. Rendered

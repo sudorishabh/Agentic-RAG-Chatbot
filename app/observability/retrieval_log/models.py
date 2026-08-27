@@ -19,6 +19,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any
 
+from app.observability.retrieval_log import naming
+
 SCHEMA_VERSION = 1
 
 #: The three stores traced today. Not a closed set — these name what the
@@ -94,6 +96,10 @@ class QueryLog:
     #: Monotonic origin for the total latency; the wall-clock stamp above is for
     #: reading, this is for measuring.
     started_perf: float
+    #: The same instant in the display timezone (IST by default). The directory
+    #: layout is named from this — a log is read on the reader's clock — while
+    #: every timestamp *inside* the trace stays the UTC ISO-8601 above.
+    started_local: datetime | None = None
     top_k: int | None = None
     history_turns: int = 0
     #: What query understanding decided (intent, rewritten search query,
@@ -128,12 +134,14 @@ class QueryLog:
         history_turns: int = 0,
         stages: dict[str, float] | None = None,
     ) -> "QueryLog":
+        started = datetime.now(timezone.utc)
         return cls(
             request_id=uuid.uuid4().hex,
             question=question,
             entrypoint=entrypoint,
-            started_at=iso(),
+            started_at=iso(started),
             started_perf=time.perf_counter(),
+            started_local=started.astimezone(naming.local_zone()),
             top_k=top_k,
             history_turns=history_turns,
             stages=stages,
@@ -141,8 +149,21 @@ class QueryLog:
 
     @property
     def day(self) -> str:
-        """The UTC date the query started — the directory its file goes in."""
-        return self.started_at[:10]
+        """The date directory this query belongs to, on the local clock."""
+        if self.started_local is None:  # pragma: no cover - defensive
+            return self.started_at[:10]
+        return naming.day(self.started_local)
+
+    @property
+    def folder(self) -> str:
+        """The directory name for this query: the question, then the local time.
+
+        Named for the question rather than the ``request_id`` because a uuid
+        finds nothing — see :mod:`app.observability.retrieval_log.naming`. The
+        id still correlates the events inside, so nothing depends on this name.
+        """
+        moment = self.started_local or datetime.now(timezone.utc)
+        return naming.folder_name(self.question, moment)
 
     def add(self, event: RetrieverEvent) -> None:
         with self.lock:
@@ -195,6 +216,11 @@ class QueryLog:
             "schema_version": SCHEMA_VERSION,
             "request_id": self.request_id,
             "timestamp": self.started_at,
+            "timestamp_local": (
+                self.started_local.isoformat(timespec="milliseconds")
+                if self.started_local else None
+            ),
+            "folder": self.folder,
             "entrypoint": self.entrypoint,
             "question": self.question,
             "top_k": self.top_k,
@@ -229,6 +255,8 @@ class QueryLog:
         row: dict[str, Any] = {
             "request_id": self.request_id,
             "timestamp": self.started_at,
+            # The folder, so a row in the digest leads straight to its trace.
+            "folder": f"{self.day}/{self.folder}",
             "entrypoint": self.entrypoint,
             "question": self.question,
             "intent": self.query.get("intent"),

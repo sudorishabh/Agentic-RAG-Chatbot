@@ -22,7 +22,7 @@ import threading
 import pytest
 
 from app.observability import retrieval_log as retlog
-from app.observability.retrieval_log import safe, sink, sql, views
+from app.observability.retrieval_log import naming, safe, sink, sql, views
 
 
 @pytest.fixture
@@ -52,9 +52,7 @@ def full_detail(logging_on, monkeypatch):
 
 def _traces(root):
     """Every trace under ``root``, excluding the errors/ copies."""
-    return sorted(
-        p for p in root.rglob("query_*/trace.json") if "errors" not in p.parts
-    )
+    return sorted(p for p in root.rglob("*/trace.json") if "errors" not in p.parts)
 
 
 def _only_trace(root):
@@ -64,9 +62,7 @@ def _only_trace(root):
 
 
 def _only_report(root):
-    files = sorted(
-        p for p in root.rglob("query_*/report.md") if "errors" not in p.parts
-    )
+    files = sorted(p for p in root.rglob("*/report.md") if "errors" not in p.parts)
     assert len(files) == 1, f"expected one report, found {files}"
     return files[0].read_text(encoding="utf-8")
 
@@ -200,8 +196,12 @@ def test_the_day_directory_and_the_summary_line(logging_on):
             call.row_results([{"n": 7}])
         day, request_id = log.day, log.request_id
 
-    assert (logging_on / day / f"query_{request_id}" / "trace.json").is_file()
-    assert (logging_on / day / f"query_{request_id}" / "report.md").is_file()
+    # The directory is named for the question and the time it was asked, not
+    # for the request id — a uuid finds nothing.
+    folder = next((logging_on / day).iterdir())
+    assert folder.name.startswith("how many reports - ")
+    assert (folder / "trace.json").is_file()
+    assert (folder / "report.md").is_file()
     digest = (logging_on / "summary" / f"{day}.jsonl").read_text(encoding="utf-8")
     rows = [json.loads(line) for line in digest.splitlines()]
     assert len(rows) == 1
@@ -226,8 +226,8 @@ def test_a_failure_is_recorded_and_copied_under_errors(logging_on):
     assert trace["events"][0]["error"]["type"] == "RuntimeError"
     assert trace["events"][0]["error"]["message"] == "qdrant unreachable"
     assert trace["events"][1]["error"]["type"] == "ValueError"
-    # Findable without reading every file.
-    failed = logging_on / "errors" / day / f"query_{request_id}"
+    # Findable without reading every file, under the same name.
+    failed = next((logging_on / "errors" / day).iterdir())
     assert (failed / "trace.json").is_file()
     assert (failed / "report.md").is_file()
 
@@ -634,6 +634,75 @@ def test_the_report_can_be_switched_off(logging_on, monkeypatch):
 
     assert _traces(logging_on)
     assert list(logging_on.rglob("report.md")) == []
+
+
+def test_the_folder_is_named_for_the_question_and_the_local_time():
+    from datetime import datetime, timedelta, timezone
+
+    ist = timezone(timedelta(hours=5, minutes=30), "IST")
+    moment = datetime(2026, 8, 27, 10, 51, 10, tzinfo=ist)
+    assert naming.folder_name("tell me about seagrass", moment) == (
+        "tell me about seagrass - 2026-08-27 10-51-10 IST"
+    )
+    # A trailing "?" is illegal on Windows and distinguishes nothing.
+    assert naming.folder_name("how many reports?", moment).startswith(
+        "how many reports - "
+    )
+
+
+@pytest.mark.parametrize(
+    "question, expected",
+    [
+        ('what about "blue carbon"?', 'what about _blue carbon_'),   # quotes
+        ("energy: the 2024 report", "energy_ the 2024 report"),      # colon
+        ("a/b vs c\\d", "a_b vs c_d"),                               # separators
+        ("pipes | and * globs", "pipes _ and _ globs"),               # pipe, star
+        ("line one\nline two", "line one line two"),                  # newline
+        ("   padded   ", "padded"),
+        ("", "(empty question)"),
+        ("NUL", "_NUL"),                                    # a Windows device name
+        ("trailing dots...", "trailing dots"),
+    ],
+)
+def test_a_question_becomes_a_legal_path_component(question, expected):
+    assert naming.slug(question) == expected
+
+
+def test_a_long_question_is_truncated_but_stays_readable():
+    name = naming.slug("carbon sequestration " * 20)
+    assert len(name) <= naming.MAX_QUESTION_CHARS + 3
+    assert name.startswith("carbon sequestration")
+    assert name.endswith("...")
+
+
+def test_two_identical_questions_in_one_second_get_their_own_folders(logging_on):
+    """The name is for reading and promises nothing; `mkdir` enforces uniqueness."""
+    for _ in range(3):
+        with retlog.query_log("the same question", entrypoint="test"):
+            pass
+
+    traces = _traces(logging_on)
+    assert len(traces) == 3
+    names = sorted(p.parent.name for p in traces)
+    assert names[0].startswith("the same question - ")
+    # The later two are nudged rather than overwritten.
+    assert any(n.endswith("(2)") for n in names)
+    assert any(n.endswith("(3)") for n in names)
+    ids = {json.loads(p.read_text(encoding="utf-8"))["request_id"] for p in traces}
+    assert len(ids) == 3
+
+
+def test_the_trace_records_both_clocks_and_its_own_folder(logging_on):
+    with retlog.query_log("what about seagrass?", entrypoint="test") as log:
+        folder = log.folder
+
+    trace = _only_trace(logging_on)
+    assert trace["folder"] == folder
+    assert trace["timestamp"].endswith("+00:00")          # UTC inside the file
+    assert "+05:30" in trace["timestamp_local"]            # IST for the layout
+    digest = next(iter((logging_on / "summary").glob("*.jsonl")))
+    row = json.loads(digest.read_text(encoding="utf-8").splitlines()[0])
+    assert row["folder"].endswith(folder)                  # the digest points at it
 
 
 def test_a_filter_tree_reads_as_one_line():

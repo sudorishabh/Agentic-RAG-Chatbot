@@ -89,13 +89,13 @@ def traced(monkeypatch, tmp_path):
 
 
 def _trace(root):
-    files = [p for p in root.glob("*/query_*/trace.json")]
+    files = [p for p in root.glob("*/*/trace.json")]
     assert len(files) == 1, f"expected one trace, found {files}"
     return json.loads(files[0].read_text(encoding="utf-8"))
 
 
 def _report(root):
-    files = [p for p in root.glob("*/query_*/report.md")]
+    files = [p for p in root.glob("*/*/report.md")]
     assert len(files) == 1, f"expected one report, found {files}"
     return files[0].read_text(encoding="utf-8")
 
