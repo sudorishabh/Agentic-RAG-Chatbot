@@ -1,0 +1,553 @@
+# 09 — Generation and Answer Synthesis
+
+**Purpose.** Turn a question plus the `ContextBlock`s retrieval selected into
+cited prose — and catch, mechanically, the two ways a grounded model still
+gets it wrong: a claim the context does not support, and a document dated by
+the web page that happens to carry it.
+
+**Inputs.** The search query, a `list[ContextBlock]`, conversation history,
+the detected answer format, and (when the question has more than one part) a
+plan directive.
+
+**Outputs.** Answer text — buffered or token-streamed — already through
+citation-marker validation, an optional one-shot faithfulness correction, and
+a mandatory publication-date guard.
+
+**Components.** `app/generation/prompts.py`, `answerer.py`, `sections.py`,
+`answer_plan.py`, `faithfulness.py`, `redundancy.py`, `date_claims.py`.
+
+---
+
+## Layering: generation never sees a retrieval module
+
+`app/generation` reads `ContextBlock` from `app/core/models/context.py`, not
+from any `app.retrieval` module — `ContextBlock`, `GRAPH_FACTS_KIND`,
+`is_graph_facts` and `page_span` all live in that neutral core specifically so
+retrieval (which builds the block) and generation (which formats and cites it)
+can agree on the shape without either importing the other's implementation.
+`tests/test_architecture.py` enforces this at the package level: `generation`
+sits at layer 6, `retrieval` at layer 5, and an import the wrong way fails the
+build.
+
+One exception exists, and it is deliberate and recorded:
+`prompts._is_canonical` lazily imports `app.retrieval.search.reranker.
+derived_authority` inside a function body to score whether a block is the
+organisation's "official page" (§ Rules, below). `ALLOWED_DEFERRED_UPWARD` in
+`tests/test_architecture.py` names it explicitly — *"a ranking concept
+generation only borrows"* — because a deferred, function-body import creates
+no runtime coupling and no import-order constraint, unlike a top-of-file one.
+A new upward import anywhere else in `generation` fails the architecture test
+until someone records why, the same way.
+
+---
+
+## The grounded prompt: two shapes, chosen by what arrived
+
+`generate_answer` / `generate_stream` pick one of two system prompts —
+`GROUNDED_SYSTEM_PROMPT` (mixed) or `SINGLE_SOURCE_SYSTEM_PROMPT`
+(single-source) — via `has_mixed_sources(blocks)`. Both are built once at
+import as pure string constants, because assembling them per call would be
+work repeated on every question for text that never changes.
+
+`has_mixed_sources` counts the *kinds* of source in the context: `website` vs.
+everything else (`pdf`, `pdf_attachment`, …). The graph's verified-relationship
+block (§ Graph facts, below) counts as neither — `_source_kinded` excludes it
+— because before that exclusion a context of one graph block plus website
+passages looked "mixed" and the graph's facts were rendered under a "From our
+documents" PDF heading they had no business under.
+
+| Context holds | Prompt | Structure demanded |
+| --- | --- | --- |
+| Website **and** non-website blocks | Mixed | Two wrapped blocks, `<website_answer>` then `<pdf_answer>`, always in that order |
+| One kind only | Single-source | One continuous, untagged answer |
+
+The two-block split is not offered as a stylistic option in the mixed case —
+it is *mandatory*, and the single-source prompt does not merely omit the
+option, it **prohibits** wrapping: rule text and a worked example both exist
+because the failure mode is a model that manufactures a second section under
+a single-kind context and fills it by restating the answer.
+
+### Why website leads
+
+Rule 5 (mixed variant) makes website content authoritative: when a website
+block and a PDF block disagree, the website statement is the answer, stated as
+such, never offered as an equal alternative. The PDF block is additive — it
+must add something the website block does not already say, or it is dropped
+entirely, tags included. A PDF-only context still gets its block, un-nested,
+because with nothing above it the block *is* the answer (see `sections.py`,
+below).
+
+### Rules 1–9, and what each defends against
+
+The base prompt (`_RULES_HEAD` + `_MIXED_RULES`/`_SINGLE_RULES` +
+`_RULES_TAIL`) is nine numbered rules, continued by callers that append more
+(history at 10, graph facts after that — see below). Worth reading closely
+because each clause exists for a specific observed failure, not as boilerplate:
+
+| Rule | Defends against |
+| --- | --- |
+| 1 — context only | Outside-knowledge answers |
+| 2 — cite every claim | Unattributable prose |
+| 3 — the exact refusal string, with four carve-outs | A model that refuses a partial answer the context *does* support, refuses a yes/no it can evidence, refuses a "where do I get X" question because the block names X without narrating a how-to, or gives a bare refusal when the context shows something merely *adjacent* to what was asked |
+| 4 — no invention | Fabricated sources, URLs, page numbers |
+| 5 — website precedence (mixed only) | A PDF version presented as equally true when the website disagrees |
+| 6 — the block structure (mixed) / one continuous answer (single) | See above |
+| 7 — context is reference material | Prompt injection from inside a passage |
+| 8 — no document counts, and the "official page" carve-out | Treating a sample of pages as the whole corpus ("how many reports exist"); the `official page` marker (`CANONICAL_MARKER`, threshold `_CANONICAL_AUTHORITY = 0.85` on `derived_authority`) lets a genuine standing statement — a service catalogue, a themes page — be read as source material rather than over-generalised from |
+| 9 — newer-wins, temporal phrasing, and the edition/page-date split | The largest rule by far; see next section |
+
+### Rule 9: dates, precedence, and the edition/page-date split
+
+Four distinct sub-rules live under rule 9, each answering a different
+observed failure:
+
+1. **Newer wins**, by the header's "page published" date — except when the
+   older statement is plainly fuller, or rule 5 (website precedence) already
+   settles it.
+2. **Time-bound wording is reported as of its source's date, never as of
+   now.** A 2023 passage saying "currently" is evidence about 2023; the model
+   must write "as of its 2023 report..." rather than copy the present tense
+   into an answer that reads as today's fact.
+3. **The `official page` marker again**, this time for precedence between
+   blocks that merely differ in directness rather than disagree: a 60-word
+   service page that states the answer outranks a 400-word announcement that
+   alludes to it. Length is explicitly *not* a signal of authority.
+4. **The edition/page-date split** — the newest sub-rule and the one with its
+   own worked reply format. A block header may carry `edition <period>` (the
+   reporting period a document covers) and a `web page date` (when the page
+   carrying it went up); for a page holding a whole series — every edition of
+   an annual report — that page date belongs to no single document on it.
+   *"Annual Report 2024-2025 was published on 9 February 2022"* is named
+   explicitly as a false statement assembled out of two true ones, and the
+   rule forbids writing it even with a qualifier attached. Asked when such a
+   document was published, the model is required to answer in three labelled
+   parts:
+
+   ```
+   report edition: 2024-25
+   page publication date: 2022-02-09
+   report publication date: not stated in the available sources
+   ```
+
+   Only the document's own text may fill the third line — never an edition
+   label, a PDF `CreationDate`, a cover month-year, an upload time or a URL
+   path. This is the read-side mirror of `document_published_at` on the write
+   path (see
+   [ingestion 06, `document_published_at`](../ingestion/06-canonical-document-and-dates.md#document_published_at));
+   the field the prompt is told to quote and the field the guard below checks
+   are the same one.
+
+Rule 9 is prompted for, but — as measurement showed (§ the publication-date
+guard) — prompting alone was not enough, which is why a deterministic check
+exists downstream of it.
+
+### The block header: `_source_hint`
+
+Every numbered block is preceded by a header built by `_source_hint`, e.g.
+`(website · official page · Mission and Goals · page published 2024-01-15)`.
+It is assembled from payload fields, not free text, specifically so the model
+cannot be shown a fact the prompt then has no rule to govern:
+
+- `source_type`, and `official page` when `_is_canonical` clears the
+  authority threshold.
+- `title`, `edition_label` (when set), the page span (via
+  `app.core.models.context.page_span` — one definition shared with the
+  citation builder, so the header and the citation can never disagree about
+  which pages a block stands on), `section_heading`, `contains a table`.
+- The date pair: when `edition_label` is present, both `page published
+  <date>` **and** `document published: <document_published_at or "not
+  stated">` are shown, labelled separately, which is what lets rule 9's
+  three-part answer be assembled without the model reaching for the page
+  date by default. A year-precision `published_at` renders as `"2019 (year
+  only; the day is not known)"` rather than a fabricated January day — the
+  same refusal `DateInterpretation.statement_is_year_only` makes on the write
+  side (see
+  [ingestion 06](../ingestion/06-canonical-document-and-dates.md#the-interpreter-and-its-gates)).
+- The graph's facts block gets its own hint instead — `"knowledge graph ·
+  current relationships"` or `"knowledge graph · includes past
+  relationships"` — never the generic `(source)` a block with no
+  `source_type` would otherwise print.
+
+### Graph facts: a rule appended only when one is present
+
+`has_graph_facts(blocks)` checks `is_graph_facts` (the shared predicate from
+`core.models.context`) against every block. When true, `graph_facts_rule(n)`
+appends a numbered rule — continuing whatever number history already used —
+that exists because the graph block is the one part of the context that
+states facts compactly and confidently, with a validity window in
+parentheses, which is exactly the shape a model is tempted to paraphrase into
+the present tense. Every relationship the graph currently holds has an end
+date in the past (see
+[ingestion 09](../ingestion/09-knowledge-layer-and-graph.md)), so an untreated
+"X is funded by Y" would be wrong for all of them. The rule also forbids
+inferring a validity period from a document's publication date, forbids
+counting the printed lines when the block already states its own total, and
+tells the model the trailing `claim_...` identifier is provenance, not
+something to print.
+
+### Format directives
+
+When query understanding detects a desired shape (`list`, `table`, `summary`,
+`detailed`, `timeline`), `format_directive` appends a per-format instruction —
+plus, for `table` and `timeline`, a short worked exemplar — after the base
+prompt. `default`/unknown formats add nothing, deliberately: the base
+`_ANSWER_STYLE` guidance already asks for a useful length with real structure,
+and a directive here can only narrow the shape further, never loosen it. The
+directive is scoped by `_MIXED_SCOPE_NOTE` / `_SINGLE_SCOPE_NOTE` to say
+explicitly whether it applies *inside* the block wrappers or to the one
+answer — without that scoping, "no preamble, shape as a table" reads as
+licence to drop the mandatory block structure.
+
+### Answer length and depth
+
+`_ANSWER_STYLE` states a length as a *range* (roughly 6–10 sentences or 4–8
+bullets for an ordinary question, more for one the context covers from
+several angles) rather than an open-ended "be thorough" — the abstract
+instruction lost to the model's own pull toward one-line answers, measured
+directly: a question worth several sentences of context was still coming back
+as a bare fact. The anti-padding clause sits right beside it: every added
+sentence must carry its own `[n]` and say something new, because raising the
+length floor also raises the temptation to fill it with restatement.
+
+### `today_anchor()`: a fixed "now"
+
+Appended fresh to the system prompt on every call — never baked into the
+cached `GROUNDED_SYSTEM_PROMPT` constant, since a long-running process must
+not judge "now" against the date it happened to start at. It exists because
+rule 9's temporal-phrasing guidance was, measured, inert without it: a
+sentence like *"as of 2023, TERI is celebrating its 50th anniversary"* had no
+fixed "today" to be judged against, and survived into the answer on some runs
+and not others — tracking not the evidence, which never changed, but whether
+the model happened to reason its own way to "2023 is in the past" on that
+particular call.
+
+---
+
+## The answer call
+
+`answerer.py` is deliberately thin: it assembles the system prompt (base +
+history rule + graph-facts rule + format directive + correction + plan
+directive + `today_anchor()`), a `MessagesPlaceholder` for history, and one
+human turn (`"Numbered context:\n{context}\n\nQuestion: {question}"`), then
+invokes or streams it through `get_llm(temperature=0.2, streaming=...)`.
+
+- **History** (`_history_messages`) collapses roles to human/ai, drops blank
+  turns, and keeps the last `HISTORY_MAX_TURNS = 12` messages (~6 exchanges).
+  Passed as LangChain message objects rather than interpolated into a
+  template string, so curly braces in a prior turn are never re-read as
+  prompt variables. `_HISTORY_RULE` (numbered 10, appended only when history
+  is non-empty) is explicit that history resolves references ("it", "that
+  one") and nothing else — every fact and citation must still come from the
+  numbered context.
+- **`generate_answer`** returns `REFUSAL` immediately when `blocks` is empty,
+  without a model call.
+- **`generate_stream`** has no such short-circuit — the caller
+  (`query_pipeline`) only reaches it once it already knows blocks exist.
+- **`chitchat(question, history)`** is a separate, ungrounded path for small
+  talk / meta questions, using `CHITCHAT_SYSTEM_PROMPT` and no context at all.
+
+`format_context_blocks(blocks)` renders the blocks into the human turn's
+`{context}` slot: it groups consecutive same-kind blocks under `— TERI
+website —` / `— PDF documents —` headers only when the context was actually
+segregated by source and led by website (`_is_website_led` — contiguous
+website-then-pdf with at least one website block); an interleaved pull stays
+label-free. The graph facts block is exempted from grouping the same way it
+is exempted from `has_mixed_sources` — otherwise the context opened with a
+`— PDF documents —` heading directly above verified graph relationships,
+telling the model they were PDF content.
+
+---
+
+## The evidence-coverage plan (`answer_plan.py`)
+
+Solves a specific, measured failure distinct from unfaithfulness: retrieval
+can succeed completely and generation can still under-deliver. One logged
+case retrieved the correct, authoritative Mission and Goals page, and the
+answer stated the mission but silently dropped twelve stated goals and six
+values present on the same page — the evidence was there, but the generic
+"answer factually, in as much depth as the context genuinely supports"
+instruction gave the model no reason to notice it had left two of three
+asked-for things on the table.
+
+Two steps, run in parallel with retrieval so the plan adds no serial latency:
+
+1. **`extract_requirements(question)`** — one structured LLM call (same shape
+   and cost as the query-understanding call already made per request) that
+   lists the distinct, separately-answerable things the question names, as
+   short noun phrases. Explicitly told to return exactly one item for a
+   single-subject question however long its wording, and never to invent a
+   sub-part the wording does not name. Fails open to `[]` on any error, which
+   is a no-op everywhere downstream.
+2. **`build_plan(requirements, blocks)`** — lexical only, no second model
+   call: a requirement counts `supported` when any of its content words
+   (stopwords and short tokens filtered) appears anywhere in the
+   concatenated block text. Deliberately permissive — a bad match's failure
+   mode is "the directive says nothing" (silent, identical to not having a
+   plan), never "the directive wrongly tells the model to disclaim something
+   the text actually covers." A single requirement short-circuits to
+   "supported, no directive": the ordinary case (one subject) is left exactly
+   as the base prompt already handles it.
+
+`plan_directive(plan)` renders nothing when there are fewer than two
+requirements — the common case — so this feature can only ever *add*
+instruction for a genuinely multi-part question; it cannot regress a question
+the base prompt already handles. When it does fire, it names what's covered
+(push to answer every supported part, not just the first) and what is not
+(say plainly the material does not specify it, never invent it, never
+generalise in its place) — and, when at least one part is supported, an
+explicit instruction not to refuse the whole question over the unsupported
+part. `AnswerPlan.evidence_blocks` is retained only for callers that want to
+inspect or log the plan; the directive text is derived purely from the
+`supported`/`unsupported` lists, never block content, so this stage cannot
+introduce a fact generation did not already have.
+
+---
+
+## Post-generation verification: faithfulness
+
+`faithfulness.py` runs **after** the answer has already streamed to the
+client at full speed — verification never blocks the first token. It is a
+claim-level check, not a holistic grade, because a general-purpose model is
+measured to be unreliable as a holistic grader but strong at scoped binary
+verdicts:
+
+1. `_extract_claims(answer)` — one structured call, splitting the answer into
+   atomic claims, each keeping the `[n]` citations it was written under.
+2. `_claim_supported(claim, evidence)` — one binary `supported: bool` verdict
+   per claim, run in parallel (`ThreadPoolExecutor(max_workers=4)`) against
+   only the blocks the claim actually cited (or, uncited, every block).
+   `supported=true` requires the passage to state or directly entail the
+   claim, with **numbers, dates and names matching exactly** — the two
+   worked examples in `_SUPPORT_SYSTEM` are deliberately close misses
+   ("announced" is not "opened").
+
+**Fails open at every stage**: extraction failure, an empty claim list, or a
+per-claim exception all resolve to `faithful=True`. Gated by
+`faithfulness_check` (default on); when it fires and finds at least one
+`supported=False` verdict, `query_pipeline` regenerates **once**, with
+`report.correction_note()` appended as a `correction` to the system prompt.
+The correction note deliberately does not restate the answer's structure —
+it points back at "the answer structure required above," so a rewrite of a
+single-source answer is never told to preserve blocks it never had. If the
+regeneration itself raises, the streamed (unverified) answer is kept rather
+than losing the response entirely. A successful correction is emitted to the
+client as a distinct `{"type": "correction", "reason": "faithfulness"}` SSE
+event, not a silent replacement — so a client that cares can show that the
+answer changed.
+
+Two more checks in this module are deterministic and **observational only** —
+neither blocks nor corrects anything:
+
+- `citation_coverage(answer)` — fraction of sentences carrying at least one
+  `[n]` marker.
+- `numeric_mismatches(answer, blocks)` — numbers appearing in the answer but
+  in none of its cited blocks (or, uncited, none of the blocks at all).
+  Percent signs and thousands separators are normalised away to keep false
+  positives low.
+
+`validate_markers(answer, n_blocks)` is unconditional and cheap: it strips any
+`[n]` whose `n` falls outside `1..n_blocks` — a model citing a block that
+does not exist — and is applied to every answer, correction or not.
+
+---
+
+## Post-generation verification: the publication-date guard
+
+`date_claims.py` exists because rule 9's edition/page-date instruction, on its
+own, was not enough: even with the prompt rule *and* the header's separated
+date fields in place, **4 of 6 sampled answers** to "When was the 2024-25
+annual report published?" still said "published on 9 February 2022" — the
+Drupal page's date, not the report's. Runs unconditionally, regardless of the
+`faithfulness_check` setting: this is one specific false claim, not a
+judgement call, so it is checked rather than merely requested.
+
+`verify_date_claims(answer, blocks)` looks only at blocks carrying
+`edition_label` (§ page dates, below) and flags two distinct failures per
+offending sentence:
+
+- **Conflation** — a sentence whose subject is a document-ish noun (`report`,
+  `edition`, `document`, `publication`, `brochure`, `factsheet`, `paper`,
+  `brief`, or a `YYYY-YY` span) paired with a `published`/`released`/`issued`
+  verb and a date matching one of the context's page dates. Wording that
+  correctly attributes the date to the *page* (`_PAGE_SUBJECT`: "the web page
+  carrying it was published on...") is explicitly exempted — the check flags
+  the false claim, not the true one sitting next to it.
+- **Mis-attribution** — the sentence cites `[n]`, but block `n` does not
+  itself carry the claimed date. This was the shape of every observed
+  failure: the answer cited the FCRA Financials block (dated 2018-04-04)
+  while quoting 2022-02-09 sourced from a different block. A citation-blind
+  check would have passed it.
+
+A page date is deliberately anchored to `published_at`, never
+`document_published_at` — the comment in `_block_date` is explicit that this
+must not be "modernised": `document_published_at` is the legitimate answer to
+"when was this published," and treating it as forbidden would invert the
+guard, rewriting *correct* answers and admitting wrong ones.
+
+`_parse_dates` recognises ISO, `D Month YYYY`, `Month D, YYYY` and numeric
+(`DD/MM/YYYY`, tried both orderings) forms, so a model paraphrasing the same
+date in a different format is still caught.
+
+On a hit, `query_pipeline` regenerates once with
+`report.correction_note()` (which names the offending claim and prescribes
+the exact three-line labelled answer from rule 9); if the recheck on the
+regenerated text is still not clean — or the regeneration call itself raised
+— `safe_rewrite(answer, recheck)` performs a **mechanical, non-LLM**
+replacement of each offending sentence with the labelled template, using the
+first known edition/page-date pair. This is the one place in generation where
+correctness is enforced by string substitution rather than another model
+call: the guard's job is that the claim cannot reach a reader, not that it is
+merely usually absent. Either outcome emits its own `correction` SSE event
+(`reason: "publication_date"` or `"publication_date_fallback"`).
+
+Order relative to faithfulness matters: the date guard runs **after** the
+faithfulness pass and reads whatever text that pass left behind (`strip_tags`
+applied fresh each time) — a faithfulness correction can itself introduce a
+publication-date conflation, so checking on the pre-faithfulness text would
+miss it.
+
+---
+
+## The two-block structure: `sections.py`
+
+Parses a raw answer (still carrying `<website_answer>`/`<pdf_answer>` tags,
+or none) into an ordered `list[Section]` for a caller that wants to render the
+two categories separately, plus `strip_tags`, which is what the verification
+passes above actually use — they reason about claims, not presentation, so
+tags never reach the LLM-facing checks.
+
+Parsing is deliberately **tolerant**: the tags come from a model, not code,
+and a stream can be cut mid-tag, so a malformed or missing wrapper degrades to
+plain text rather than losing the answer. Behaviour worth knowing:
+
+- **Refusal handling is content-aware.** A block holding nothing but the
+  refusal is dropped once *any* other section carries real content (kept in
+  full it would sit beside an answer and read as a denial of it); when
+  nothing anywhere carries content, the refusal is returned once, as a single
+  plain section.
+- **A lone PDF block is demoted to plain prose.** With no website block
+  beside it, the split has nothing left to set apart — a PDF section with no
+  sibling would render as a captioned aside wrapped around the whole reply,
+  so `_without_lead` also strips the `**From our documents**` caption line
+  that only made sense as a label under a container.
+- Website content always precedes PDF content in the returned list,
+  regardless of which order the model emitted the tags in, and repeated tags
+  of one kind are merged into a single section.
+
+**This module is currently unwired in the read path.** `strip_tags` is used
+(by `faithfulness.py` and `date_claims.py`, and directly in
+`query_pipeline.py`); `split_sections` itself has no caller in `app/` outside
+its own tests (`tests/generation/test_answer_sections.py`) — the module's own
+docstring states the intent ("the frontend parses the same sections out of
+the answer it renders"), i.e. the frontend is expected to do its own
+equivalent parsing of the raw tagged text it receives over SSE, rather than
+call this function. Worth confirming against the current frontend
+implementation before relying on this doc as a guarantee that both parsers
+agree.
+
+---
+
+## PDF redundancy filtering: built, tested, not currently called
+
+`redundancy.py` computes, in pure Python with no embeddings and no model
+call, how much of a PDF block's text is already stated by the website block,
+and returns the PDF text with the restated parts removed
+(`filter_pdf_text`). The grounded prompt already *asks* the model to drop a
+PDF block that only restates the website answer (rule under `_MIXED_STRUCTURE`
+in `prompts.py`), but that is a judgement call left to the model; this module
+was built to decide it deterministically instead.
+
+Design choices worth knowing, since they read as unusual for a text-overlap
+filter:
+
+- **Coverage is asymmetric**, not Jaccard: it is the share of a PDF
+  sentence's own content words also present in *one* website sentence. A
+  symmetric measure would score a short PDF restatement against a long
+  website paragraph as barely similar (the paragraph's extra words count
+  against it) and fail to filter the repeat.
+- **Each PDF sentence is scored against website sentences one at a time**,
+  never against their pooled vocabulary — pooling would let a genuinely new
+  PDF sentence look "covered" because its words happen to be scattered across
+  several unrelated website sentences.
+- **Every rule leans toward keeping text when unsure** (`DEFAULT_COVERAGE =
+  0.8`; negation words are deliberately kept out of the stopword list, so "X
+  supports SSO" and "X does not support SSO" are never folded onto the same
+  token set) — dropping a sentence the reader needed is treated as strictly
+  worse than leaving a mild repeat on screen.
+- List filtering is per-item (`_filter_list`): a partly-redundant list loses
+  only the items that repeat, with wrapped continuation lines following their
+  item. Prose filtering is all-or-nothing per paragraph, because excising
+  sentences from the middle of a paragraph leaves dangling references ("This
+  also means...") pointing at text that is no longer there.
+
+**No caller in `app/` invokes `filter_pdf_text`** outside its own tests
+(`tests/generation/test_pdf_redundancy.py`); the model-driven instruction in
+the prompt is, as of this doc, the only mechanism actually filtering PDF
+redundancy on the live path. Treat this module as a tested, ready-to-wire
+component rather than an active stage of generation.
+
+---
+
+## Validation at this stage
+
+| Check | Where | On failure |
+| --- | --- | --- |
+| Citation targets a real block | `validate_markers` | The `[n]` marker is stripped |
+| Claim is entailed by its cited evidence | `faithfulness.verify` | One regeneration with a correction note; streamed answer kept if the retry fails |
+| A number in the answer appears in cited evidence | `numeric_mismatches` | Reported only — no correction |
+| A document is not dated by its page's date | `date_claims.verify_date_claims` | One regeneration, then a mechanical sentence rewrite if the regeneration doesn't clear it |
+| Requirement extraction succeeds | `extract_requirements` | Fails open to `[]` — no plan directive |
+| Context is non-empty | `generate_answer` | Returns `REFUSAL` with no model call |
+
+## Failure scenarios
+
+| Scenario | Detection | Response | Recovery |
+| --- | --- | --- | --- |
+| LLM call fails during the main answer | Exception propagates | The streaming caller sees the exception (not swallowed here) | Caller-level handling in `query_pipeline` |
+| Faithfulness claim extraction fails | `except` in `verify` | `faithful=True` (fails open); no correction attempted | — |
+| Faithfulness correction regeneration fails | `except` in `query_pipeline` | Streamed (unverified) answer is kept | Next query |
+| Date-claim correction regeneration fails | `except` in `query_pipeline` | Falls back to `safe_rewrite`'s mechanical replacement | — |
+| Requirement extraction (`answer_plan`) fails | `except` in `extract_requirements` | Empty plan; no directive added | Next query |
+| A model cites a nonexistent block | `validate_markers` | Marker silently stripped | — |
+| Model emits a malformed or truncated tag | Tolerant regex in `sections.py` | Degrades to plain text | — |
+| Model manufactures a section on a single-source context | Nothing automatic — prompted against, not checked | — | Prompt-level; not covered by a deterministic guard |
+
+## Observability
+
+- `rag.faithfulness` span, `faithful` attribute set from the verdict.
+- Log lines: `"Streamed answer flagged unfaithful; correcting once."`,
+  `"Answer dated a document by its page; correcting once (%d claim(s))."`,
+  `"Replaced %d unsafe publication-date sentence(s) after a failed
+  regeneration."`.
+- Two `correction` SSE event reasons distinguish the two guards:
+  `faithfulness` and `publication_date` / `publication_date_fallback`, so a
+  client or a retrieval-log trace can tell which check fired without parsing
+  the log.
+- Per-query retrieval-log trace (`is_retrieval_log=true`) captures the
+  rendered context string handed to the model
+  (`retrieval_log.note_context(gen.blocks, rendered=...)`) and whether a plan
+  directive was in force (`plan_directive=bool(...)`) — see
+  [11](11-observability-and-logging.md).
+
+## Configuration
+
+| Setting | Default | Effect |
+| --- | --- | --- |
+| `faithfulness_check` | `true` | Whether the claim-level verification pass and its one-shot correction run. |
+| `azure_openai_model` / `llm_structured_temperature` | — | The structured calls behind claim extraction, claim support, and requirement extraction. |
+
+The publication-date guard (`date_claims`) has no on/off setting — it runs
+unconditionally, on the reasoning stated in its own module docstring: this
+failure survived two rounds of prompt-only fixes.
+
+## Hand-off
+
+Once an answer clears both post-generation checks (or exhausts its one
+correction each), `query_pipeline` caches it via `app.cache.semantic_cache`
+keyed on the corpus revision at that moment — see
+[10](10-caching.md) — and streams the final tokens (or correction event) to
+the client.
+
+---
+
+Previous: [08 — Knowledge Graph Retrieval](08-knowledge-graph-retrieval.md) · Next: [10 — The Semantic Answer Cache](10-caching.md)
