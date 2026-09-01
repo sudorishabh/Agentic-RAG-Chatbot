@@ -34,8 +34,9 @@ jobs:
     steps:
       - uses: CodeBoarding/CodeBoarding-action@v1
         with:
-          # Free tier needs no secret; these fall through to the hosted OIDC tier when
-          # unset. Add either repo secret (Settings → Secrets and variables → Actions)
-          # for more/unmetered usage; no YAML edit required.
+          # Free tier needs no secret: llm resolves to 'hosted' and runs on CodeBoarding's
+          # OIDC-authenticated free tier. Add either repo secret (Settings → Secrets and
+          # variables → Actions) for more/unmetered usage; no YAML edit required.
+          llm: ${{ secrets.OPENROUTER_API_KEY != '' && 'openrouter' || (secrets.CODEBOARDING_LICENSE != '' && 'license' || 'hosted') }}
           openrouter_api_key: ${{ secrets.OPENROUTER_API_KEY }}   # BYO LLM provider key (OpenRouter)
           license_key: ${{ secrets.CODEBOARDING_LICENSE }}  # CodeBoarding paid plan
