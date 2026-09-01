@@ -60,8 +60,9 @@ Three properties drove most of the design:
                                          +----------+
                                          |  Qdrant  |
                                          +----------+
-                          after the sweep: knowledge stage -> Neo4j,
-                                           cross-store reconciliation
+                     per document, once indexed: knowledge stage -> Neo4j
+                          after the sweep: knowledge catch-up, graph
+                                 projection, cross-store reconciliation
 ```
 
 | Component | Module | Role |
@@ -79,7 +80,8 @@ Three properties drove most of the design:
 | Indexer | `app/ingestion/indexer.py` | Vector reuse, embedding, batched upsert. |
 | Vector store gateway | `app/core/clients/vector_store.py` | Collection creation, payload indexes, dimension validation, scoped delete. |
 | Catalog | `app/catalog/` | `documents` and its child tables, the audit log, retry markers, dead links, the enrichment cache, date decisions. |
-| Post-sweep stages | `app/ingestion/{knowledge_sync,graph_sync,reconcile}.py` | Knowledge catch-up, graph projection, cross-store verification. |
+| Knowledge stage | `app/ingestion/knowledge_sync.py` | Runs per document, right after it is indexed (`process_after_index`), so knowledge does not wait for a corpus pass; never fails ingestion. |
+| Post-sweep stages | `app/ingestion/{knowledge_sync,graph_sync,reconcile}.py` | Knowledge catch-up (`knowledge_sync.catch_up`, for documents whose per-document stage did not land), graph projection, cross-store verification. |
 | Repair tools | `app/ingestion/{recovery,reprocess,backfill,enrich_backfill}.py`, `scripts/` | Bring back stranded documents, rebuild after code changes, backfill. |
 
 ## The complete lifecycle
@@ -103,17 +105,24 @@ A single sweep, end to end:
    - otherwise → build the canonical document (download + extract + date),
      compute the content hash, optionally enrich, and then either refresh the
      fingerprint (`unchanged_content`) or chunk → embed → upsert → swap →
-     persist (`indexed`).
+     persist (`indexed`). An `indexed` document is handed to the knowledge stage
+     immediately, in the same call — the document does not wait for a
+     corpus-wide builder to notice it (see
+     [09](09-knowledge-layer-and-graph.md)). That call's result is discarded:
+     nothing about it can unmake a document that is already indexed.
 5. **Accounting.** Every outcome is tallied, throttled against the batch budget,
    and turned into a retry marker (written on failure, cleared on success).
-6. **Post-sweep.** Knowledge catch-up for documents whose knowledge stage did not
-   land, graph projection, then cross-store reconciliation. None of these can
+6. **Post-sweep.** Knowledge catch-up for documents whose per-document knowledge
+   stage did not land (it errored, was cut short by its budget, or never ran),
+   then graph projection, then cross-store reconciliation. None of these can
    fail the sweep.
 7. **Housekeeping.** Semantic-cache prune, ingest-log retention prune, sleep.
 
 The run returns a `Counter` of outcomes: `indexed`, `deleted`, `skipped`,
-`unchanged`, `unchanged_content`, `error`, `undated`, `budget_stop`, and six
-`enrich_*` counters.
+`unchanged`, `unchanged_content`, `error`, `undated`, `budget_stop`, and seven
+`enrich_*` counters (`enrich_hit`, `enrich_stored`, `enrich_skipped`,
+`enrich_exhausted`, `enrich_failed`, `enrich_aborted`, `enrich_error` —
+`enrich_off` is never counted; `_run`'s `note()` filters it out).
 
 ### Diagram to include: end-to-end sequence
 

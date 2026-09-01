@@ -462,7 +462,7 @@ ORDER BY updated_at DESC LIMIT 20;
 | `knowledge_llm_max_calls_per_document` | `8` | Model call budget per document. |
 | `knowledge_stage_max_attempts` | `3` | Retries before catch-up leaves a document alone. |
 | `claim_extraction_enabled` | `false` | LLM claim extraction. |
-| `claim_min_confidence` | — | Validation floor. |
+| `claim_min_confidence` | `0.6` | Validation floor. |
 | `graph_project_after_sweep` | `true` | Sweep-level projection. Gated by `knowledge_enabled`. |
 | `graph_projection_max_age_seconds` | `86400` | Staleness tolerance. |
 | `neo4j_uri` / `_user` / `_password` / `_database` | `bolt://localhost:7687`, `neo4j`, — , `neo4j` | Connection. |

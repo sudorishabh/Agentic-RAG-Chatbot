@@ -12,7 +12,7 @@ it.
 
 **Components.** `app/core/models/document.py`,
 `app/ingestion/canonical.py`, `app/ingestion/source_dates.py`,
-`app/ingestion/date_{evidence,rules,llm,resolution}.py`,
+`app/ingestion/date_{evidence,rules,llm,resolution,candidates}.py`,
 `app/core/editions.py`, `app/catalog/date_decisions.py`,
 `app/catalog/theme_taxonomy.py`.
 
@@ -370,6 +370,17 @@ the extraction module.
 | 2 | filename, anchor text, `/files/YYYY-MM/` upload month, edition label, years mentioned | free (string work) |
 | 3 | PDF DocInfo `CreationDate` / `ModDate` / title | PyMuPDF only, bytes in hand |
 | 4 | first-page text (`HEAD_PAGES=2`, `HEAD_CHARS=2500`) | `page.get_text` only |
+
+Tier 3's DocInfo read (`read_pdf_docinfo`) lives in `app/ingestion/date_candidates.py`,
+not in `date_evidence.py` itself — `_read_pdf_signals` imports it. That module is
+otherwise a **separate, measurement-only** model (`resolve()`) for a proposed
+two-sided correction to attachment dates (a migration-era DocInfo override, a
+late-upload `file.created` override); it is not wired into `date_rules.decide` or
+`date_llm.interpret` and writes nothing to a document. It backs the shadow tooling
+(`scripts/shadow_date_prototype.py`, `scripts/shadow_pdf_sample.py`,
+`scripts/shadow_corpus_report.py`, `scripts/audit_annual_report_dates.py`) that
+measures what the correction *would* do against the live corpus before any of it
+ships.
 
 `PageContext.pdf_count` is the whole point of the model: **the unit of analysis is
 a page and its PDFs, not a PDF alone.** One PDF on a page means the file is almost

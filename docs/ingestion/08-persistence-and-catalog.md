@@ -659,6 +659,7 @@ explicitly rather than spreading the canonical document.
 | The title-anchored retrieval leg | `state.website_titles()` — every website node's `(document_id, title, bundle)` | Finding the page a question names when that page's *text* is a list of link labels no embedding matches. Deliberately the whole set rather than a filtered slice: a `LIKE` per term spends its row budget on the organisation's own name, which appears in thousands of titles, and the first version returned two rows for "annual reports" and neither was the Annual Reports page |
 | The "upcoming events" gate | `state.event_start_dates(ids)` — one batched `JSON_EXTRACT` | Gating a temporal question against the candidate set in one round trip rather than a per-block query storm |
 | The knowledge layer | `state.raw_meta_for(id)`, `state.authors_for(id)` | CMS claims and PERSON corroboration. Both are read per document rather than carried on `StateRecord`, because `state.load` builds a record for every document of a source type and the metadata blob is by far the largest column |
+| The semantic answer cache | `queries.corpus_revision()` — `MAX(indexed_at)` and `COUNT(*)` on `documents`, TTL-cached in-process | Self-invalidates a cached answer the moment ingestion changes what it was grounded in |
 | Operators | `ingest_log`, `documents_retry`, `documents_dead_link`, `documents_date_decision`, `documents_knowledge_run` | Everything in [10](10-failures-retries-and-recovery.md) and [11](11-observability-and-monitoring.md) |
 
 ### The lineage chain
@@ -690,9 +691,14 @@ built it), `embed_model` (which model produced its vectors), and
 ### What ingestion does *not* hand off
 
 - **No notification.** Retrieval discovers new content on the next query.
-- **No cache invalidation for content.** The semantic answer cache is pruned on the
-  sweep loop and gated by a facet fingerprint and a TTL, not by document change. A
-  cached answer can outlive an edit by up to `semantic_cache_ttl`.
+- **Cache invalidation is indirect, through a read.** Ingestion does not push an
+  invalidation; the semantic answer cache's partition key includes
+  `app.catalog.queries.corpus_revision()` — `MAX(indexed_at)` plus the row count of
+  `documents` — so a cached answer stops being reachable the moment a sweep actually
+  re-chunks or adds/deletes a document, without ingestion knowing the cache exists.
+  A fingerprint-only refresh (`unchanged_content`) does not move `indexed_at` and so
+  does not invalidate anything, correctly: nothing retrievable changed. See
+  `app.cache.cache_keys.semantic_partition`.
 - **No access control.** `tenant_id` and `acl` are not written and not indexed. The
   corpus is public; every caller reads all of it.
 - **No schema negotiation.** Adding a payload field is safe (readers strip absent

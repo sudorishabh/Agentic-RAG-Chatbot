@@ -82,7 +82,7 @@ Each document to the modules it describes. The layout is enforced by
 | 03 | `app/ingest_main.py` · `app/workers/{scheduler,tasks}.py` · `app/api/{ingest,auth,health}.py` · `app/ingestion/pipeline.py` (`_exclusive`, `_run`) |
 | 04 | `app/ingestion/change_detection/{base,drupal}.py` · `app/ingestion/version.py` · `app/catalog/retries.py` |
 | 05 | `app/ingestion/extractors/{pdf_extractor,pymupdf_local,camelot_tables,text_normalize}.py` |
-| 06 | `app/core/models/document.py` · `app/ingestion/canonical.py` · `app/ingestion/source_dates.py` · `app/ingestion/date_{evidence,rules,llm,resolution}.py` · `app/core/editions.py` · `app/catalog/theme_taxonomy.py` |
+| 06 | `app/core/models/document.py` · `app/ingestion/canonical.py` · `app/ingestion/source_dates.py` · `app/ingestion/date_{evidence,rules,llm,resolution}.py` · `app/core/editions.py` · `app/catalog/theme_taxonomy.py` · `app/ingestion/date_candidates.py` (measurement-only DocInfo/shadow-correction helper, not wired into the live decision) |
 | 07 | `app/ingestion/chunking/*` · `app/ingestion/indexer.py` · `app/core/clients/vector_store.py` |
 | 08 | `app/catalog/*` (schema, state, log, retries, dead_links, enrichment, date_decisions) · `app/core/clients/database.py` |
 | 09 | `app/ingestion/{knowledge_sync,graph_sync}.py` · `app/knowledge/document_pipeline.py` · `app/knowledge/document_loader.py` · `app/catalog/knowledge_runs.py` |

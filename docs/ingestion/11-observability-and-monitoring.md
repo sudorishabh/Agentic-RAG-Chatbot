@@ -203,9 +203,13 @@ deployment detail, so the endpoint is hidden entirely rather than advertised.
 
 ### `/ready` on the ingestion server
 
-`_REQUIRED_STORES` is `{"qdrant"}` by default; `app/ingest_main.py` adds `"mysql"`.
-So the ingestion server is not ready without either. Probes it does not need and
-nobody will read are skipped rather than paid for.
+Qdrant is hard-required in `ready()` itself — probed and gated on regardless of
+`_REQUIRED_STORES`, which starts **empty**. `app/ingest_main.py` calls
+`require_for_readiness("mysql")` at import time to add MySQL to that set. So the
+ingestion server is not ready without either, while the retrieval server (which
+never calls `require_for_readiness`) is gated on Qdrant alone — a MySQL blip
+degrades a feature there rather than failing readiness. Probes it does not need
+and nobody will read are skipped rather than paid for.
 
 With `ops_detail_enabled`, the body adds `redis` and `neo4j` probes. Neo4j reports
 reachability as a **value rather than an exception**, and returns
@@ -478,11 +482,11 @@ touching production state.
 | Setting | Default | Effect |
 | --- | --- | --- |
 | `verify_corpus_after_sweep` | `true` | Whether reconciliation runs per sweep. |
-| `metrics_log_enabled` | — | Whether `rag_metrics` lines are emitted (retrieval-side). |
+| `metrics_log_enabled` | `true` | Whether `rag_metrics` lines are emitted (retrieval-side). |
 | `otel_enabled` | `false` | OpenTelemetry tracing. |
 | `otel_service_name` | `agentic-rag` | `service.name`. |
 | `otel_exporter_otlp_endpoint` | `""` | OTLP/HTTP endpoint. Unset means spans are recorded in-process only. |
-| `ops_detail_enabled` | — | Whether `/ready` and `/metrics` bodies are visible without a group. |
+| `ops_detail_enabled` | `false` | Whether `/ready` and `/metrics` bodies are visible without a group. |
 | `ops_admin_group` | `""` | Group that may see `/metrics`. |
 | `ingest_log_enabled` | `true` | The audit trail. |
 | `ingest_log_unchanged` | `false` | Rows for unchanged documents. |
