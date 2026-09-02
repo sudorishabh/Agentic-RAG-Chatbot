@@ -217,10 +217,11 @@ def compare(snapshot: dict[str, Any]) -> dict[str, Any]:
       it to IST — correct only for date-*only* CMS fields, which are stored as
       IST midnight — shifted every record created after 18:30 UTC by a day and
       produced hundreds of phantom disagreements.
-    * The decision comes from ``resolve_published_at``, not from
-      ``publication_date`` plus a hand-written rule. A second copy flagged all
-      228 research papers whose stated *year* the stored date already falls in —
-      cases the design deliberately leaves alone.
+    * The decision comes from ``resolve_published_at``, not from a hand-written
+      rule, and it is asked **with the record's bundle** — which is what decides
+      the field a record is dated by (``app.ingestion.bundle_dates``). A second
+      copy of that rule would disagree with ingestion the moment the mapping
+      changed.
     """
     from app.catalog.db import state_table
     from app.catalog.state import _to_datetime
@@ -257,7 +258,10 @@ def compare(snapshot: dict[str, Any]) -> dict[str, Any]:
                 verdicts["not_on_site"].append((doc_id, row, None, None))
                 continue
             resolved, source, _p = resolve_published_at(
-                site_node["created"], site_node["date_fields"])
+                site_node["created"], site_node["date_fields"],
+                # Which field a record is dated by depends on its bundle, so the
+                # comparison has to ask the same question ingestion asks.
+                bundle=site_node.get("bundle"))
             expected, kind = as_stored(resolved), source
         else:
             # An attachment has no date field of its own in Drupal, so the site's

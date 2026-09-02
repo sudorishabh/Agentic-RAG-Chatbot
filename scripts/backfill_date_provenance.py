@@ -107,16 +107,17 @@ def stale_labels(cur, table: str) -> list[tuple[str, str, str]]:
 
     The classes above are SQL clauses; this one cannot be. Whether the source
     states a publication date depends on a field inside the ``raw_meta`` JSON, on
-    an Asia/Kolkata conversion, and on the year-precision rule — so it is decided
-    by calling ``resolve_published_at``, the same function ingestion calls.
+    an Asia/Kolkata conversion, and on which field the record's **bundle** is
+    dated by — so it is decided by calling ``resolve_published_at``, the same
+    function ingestion calls, with the same bundle.
 
-    What this catches: ``scripts.backfill_source_dates`` stamps ``cms_field``
-    only on documents whose date it *moved*. Where the CMS field already agreed
-    with the stored value there was nothing to move, so the label was left as
-    ``created`` — while ``resolve_published_at`` returns ``cms_field`` for those
-    rows regardless of whether the value changes. The stored labels are therefore
-    stale against the very next re-crawl, and 1,334 documents the publisher
-    corroborates are invisible to ``WHERE published_at_source = 'cms_field'``.
+    What this catches: a backfill stamps ``cms_field`` only on documents whose
+    date it *moved*. Where the bundle's field already agreed with the stored
+    value there was nothing to move, so the label was left as ``created`` — while
+    ``resolve_published_at`` returns ``cms_field`` for those rows regardless of
+    whether the value changes. The stored labels are therefore stale against the
+    very next re-crawl, and the documents the publisher corroborates are
+    invisible to ``WHERE published_at_source = 'cms_field'``.
 
     **No date is proposed here.** A row is only reported when the label differs
     and the date does not, so this can be applied under a checksum that forbids
@@ -125,8 +126,8 @@ def stale_labels(cur, table: str) -> list[tuple[str, str, str]]:
     from app.ingestion.source_dates import resolve_published_at
 
     cur.execute(
-        f"SELECT document_id, raw_meta, published_at, published_at_source, "
-        f"published_at_precision FROM `{table}` "
+        f"SELECT document_id, bundle, raw_meta, published_at, "
+        f"published_at_source, published_at_precision FROM `{table}` "
         f"WHERE source_type = 'website' AND raw_meta IS NOT NULL"
     )
     out: list[tuple[str, str, str]] = []
@@ -139,7 +140,8 @@ def stale_labels(cur, table: str) -> list[tuple[str, str, str]]:
         if not isinstance(meta, dict):
             continue
         stored = row["published_at"]
-        value, source, precision = resolve_published_at(stored.isoformat(), meta)
+        value, source, precision = resolve_published_at(
+            stored.isoformat(), meta, bundle=row["bundle"])
         if source != "cms_field" or not value:
             continue
         if value[:10] != stored.date().isoformat():

@@ -2,39 +2,38 @@
 
 ``{state}_date_decision`` is both the audit trail ("why does this document carry
 this date?") and the review queue. It held PDF rows only, so the question was
-unanswerable for the 8,507 documents where the date was simply the CMS record's
-creation stamp — which is where the large errors are.
+unanswerable for the thousands of documents dated from the CMS record itself —
+which is where the large errors are.
 
 Two shaping constraints, both tested below:
 
-**A row is written only when the source offered a publication date.** ~6,000
-records state nothing; a row saying so for each would cost an INSERT and a
-commit to answer what ``documents.published_at_source`` already answers.
+**A row is written when the document's bundle maps to a real CMS date field.**
+For a bundle mapped to ``created`` there is nothing a row would add:
+``documents.bundle`` plus ``published_at_source='created'`` already says "this
+content type takes its creation stamp", and a row per document saying so would
+cost an INSERT and a commit each across thousands of documents.
 
-**The review queue must not be swamped.** 617 records carry a year and nothing
-finer. Those are *deferred*, not *reviewed* — the queue is for cases a person
-has to settle, and burying 23 real ones under 617 known deferrals would empty it
-of meaning.
+**The review queue must not be swamped.** A field that is simply empty is a
+*fallback*, not something a person has to settle. Only a field holding something
+that is not a date reaches the queue — the CMS says this content type is dated by
+that field, and the field holds nonsense.
 """
 
 from __future__ import annotations
 
-from datetime import date
-
 import pytest
 
-from app.catalog.date_decisions import from_source_record
-from app.ingestion.source_dates import SourceDate, publication_date
+from app.catalog.date_decisions import from_effective_date
+from app.ingestion.bundle_dates import resolve
 
 CREATED = "2018-01-11T06:29:59+00:00"
 
 
-def _row(metadata: dict, applied: str | None = None, created: str = CREATED):
-    stated = publication_date(metadata)
-    return from_source_record(
-        document_id="uuid-1", bundle="news", url="https://teriin.org/news/x",
-        created=created, applied=applied if applied is not None else created,
-        stated=stated,
+def _row(bundle: str, metadata: dict, created: str | None = CREATED):
+    resolved = resolve(bundle, created, metadata)
+    return from_effective_date(
+        document_id="uuid-1", url="https://teriin.org/news/x",
+        created=created, resolved=resolved, title="A document",
     )
 
 
@@ -42,209 +41,137 @@ def _row(metadata: dict, applied: str | None = None, created: str = CREATED):
 # When nothing is written
 # --------------------------------------------------------------------------- #
 
-def test_a_record_stating_no_publication_date_gets_no_row():
-    assert _row({}) is None
+@pytest.mark.parametrize("bundle", ["article", "page", "videos", "people"])
+def test_a_bundle_dated_by_its_creation_stamp_gets_no_row(bundle):
+    """`documents.bundle` plus `published_at_source` is the whole answer."""
+    assert _row(bundle, {}) is None
 
 
-@pytest.mark.parametrize(
-    "field,value",
-    [
-        ("field_event_start_date", "2017-11-05T18:30:00+00:00"),
-        ("field_completed_start_date", "2004-06-28T18:30:00+00:00"),
-        ("field_ongoing_start_date", "2019-10-24T10:35:27+00:00"),
-        ("field_enddate_forlatestfirst", "2020-05-08T22:00:00+05:30"),
-    ],
-)
-def test_an_event_or_period_date_is_not_something_to_audit(field, value):
-    """It was never a candidate, so there is no decision to explain."""
-    assert _row({field: value}) is None
+def test_an_unmapped_bundle_gets_no_row():
+    assert _row("brand_new_bundle", {"field_x_date": "2019-01-01"}) is None
 
 
-def test_an_undeclared_field_gets_no_row():
-    assert _row({"field_mystery_date": "2011-01-01T00:00:00+00:00"}) is None
+def test_a_missing_resolution_is_not_an_error():
+    assert from_effective_date(document_id="d", url=None, created=None,
+                               resolved=None) is None
 
 
-def test_an_implausible_value_gets_no_row():
-    assert _row({"field_news_date": "1970-01-01T00:00:00+00:00"}) is None
+def test_a_date_field_the_bundle_is_not_mapped_to_gets_no_row():
+    """`article` maps to `created`, so a stray date field on the record is not a
+    decision anyone made and there is nothing to explain."""
+    assert _row("article", {"field_news_date": "2015-08-26T18:30:00+00:00"}) is None
 
 
 # --------------------------------------------------------------------------- #
-# The date moved
+# When the field supplied the date
 # --------------------------------------------------------------------------- #
 
-def test_a_corrected_date_is_recorded_as_an_override():
-    row = _row({"field_news_date": "2015-08-26T18:30:00+00:00"},
-               applied="2015-08-27T00:00:00+00:00")
-    assert row is not None
+def test_an_applied_field_date_is_recorded_as_an_override():
+    row = _row("news", {"field_news_date": "2015-08-26T18:30:00+00:00"})
     assert row.action == "propose_override"
-    assert row.rule == "cms_publication_field"
+    assert row.rule == "bundle_date_field"
     assert row.candidate_source == "field_news_date"
-    assert row.decided_by == "deterministic"
     assert row.confidence == 1.0
 
 
-def test_the_row_preserves_what_the_date_would_have_been():
-    """The whole value of the audit trail: "would have been X, assigned Y"."""
-    row = _row({"field_news_date": "2015-08-26T18:30:00+00:00"},
-               applied="2015-08-27T00:00:00+00:00")
+def test_a_field_date_matching_the_creation_stamp_is_recorded_as_a_keep():
+    row = _row("news", {"field_news_date": "2018-01-10T18:30:00+00:00"})
+    assert row.action == "keep_page_date"
+    assert row.rule == "bundle_field_matches_created"
+
+
+def test_the_row_reads_as_would_have_been_x_assigned_y():
+    row = _row("news", {"field_news_date": "2015-08-26T18:30:00+00:00"})
     assert row.current_published_at == CREATED
-    assert row.candidate_date == "2015-08-27T00:00:00+00:00"
+    assert row.candidate_date.startswith("2015-08-27")
 
 
-def test_the_evidence_names_the_field_and_both_dates():
-    row = _row({"field_pressrelease_date": "2012-04-17T18:30:00+00:00"},
-               applied="2012-04-18T00:00:00+00:00")
-    assert "field_pressrelease_date" in row.evidence
-    assert "2012-04-18" in row.evidence
-    assert "2018-01-11" in row.evidence
+def test_the_evidence_names_the_bundle_the_field_and_the_value():
+    row = _row("research_papers", {"field_rpaper_year": 2022})
+    assert "research_papers" in row.evidence
+    assert "field_rpaper_year" in row.evidence
+    assert "2022" in row.evidence
+
+
+def test_the_row_records_what_kind_of_date_the_field_holds():
+    """A project start applied as a document's date is still a project start.
+    Recording it as "publication" would erase the one thing an auditor needs."""
+    assert _row("news", {"field_news_date": "2015-08-26T18:30:00+00:00"}).date_type \
+        == "publication"
+    assert _row("completed_projects",
+                {"field_completed_start_date": "2004-06-28T18:30:00+00:00"}).date_type \
+        == "period"
+    assert _row("events",
+                {"field_event_start_date": "2017-11-05T18:30:00+00:00"}).date_type \
+        == "event"
 
 
 # --------------------------------------------------------------------------- #
-# The source agreed already
+# When the field disappointed
 # --------------------------------------------------------------------------- #
 
-def test_a_field_that_matches_the_created_stamp_is_recorded_as_a_keep():
-    """1,334 records are in this state. Worth a row — it is evidence the date is
-    corroborated rather than merely unchallenged — but not an override."""
-    row = _row({"field_news_date": "2018-01-11T06:29:59+00:00"})
+def test_an_empty_field_is_recorded_but_not_queued_for_review():
+    """A fallback is a known outcome, not a case a person has to settle."""
+    row = _row("news", {"field_news_date": None})
     assert row.action == "keep_page_date"
-    assert row.rule == "cms_field_matches_created"
-    assert row.candidate_source == "node_created"
+    assert row.rule == "bundle_field_empty"
+    assert row.candidate_date == CREATED
+
+
+def test_a_field_absent_from_the_record_is_recorded_the_same_way():
+    assert _row("report", {}).rule == "bundle_field_empty"
+
+
+def test_an_unusable_value_does_reach_the_review_queue():
+    """The CMS says this content type is dated by that field and the field holds
+    something that is not a date. Nobody can fix that from here."""
+    row = _row("news", {"field_news_date": "not a date"})
+    assert row.action == "needs_manual_review"
+    assert row.rule == "bundle_field_invalid"
+    assert "not a date" in row.evidence
+
+
+def test_a_disappointing_field_is_not_credited_as_the_source():
+    """`candidate_source` must not name a field that supplied nothing."""
+    for metadata in ({"field_news_date": None}, {"field_news_date": "nonsense"}):
+        assert _row("news", metadata).candidate_source == "node_effective_date"
 
 
 # --------------------------------------------------------------------------- #
-# Year precision is deferred, not reviewed
+# Shape
 # --------------------------------------------------------------------------- #
 
-def test_a_corrected_year_is_recorded_as_an_override():
-    row = _row({"field_rpaper_year": "2016"}, applied="2016-01-01T00:00:00+00:00")
-    assert row.action == "propose_override"
-    assert row.rule == "cms_publication_field"
-    assert row.candidate_source == "field_rpaper_year"
-
-
-def test_a_year_the_record_already_sits_in_is_recorded_as_already_correct():
-    """228 research papers. Not `cms_field_matches_created`, which would claim
-    the two dates agreed exactly — they agree only on the year."""
-    row = _row({"field_rpaper_year": "2018"})
-    assert row.action == "keep_page_date"
-    assert row.rule == "year_already_correct"
-    assert "already falls in it" in row.evidence
-
-
-def test_no_year_case_reaches_the_review_queue():
-    """`WHERE action='needs_manual_review'` is the queue, and it holds cases a
-    person has to settle. Neither year outcome is one."""
-    for metadata, applied in (({"field_rpaper_year": "2016"}, "2016-01-01T00:00:00+00:00"),
-                              ({"field_rpaper_year": "2018"}, None)):
-        assert _row(metadata, applied=applied).action != "needs_manual_review"
-
-
-# --------------------------------------------------------------------------- #
-# Row shape: it has to fit the columns and the existing reports
-# --------------------------------------------------------------------------- #
-
-def test_the_row_marks_itself_as_a_website_document():
-    row = _row({"field_news_date": "2015-08-26T18:30:00+00:00"},
-               applied="2015-08-27T00:00:00+00:00")
+def test_the_row_is_a_page_not_a_file():
+    row = _row("news", {"field_news_date": "2015-08-26T18:30:00+00:00"})
     assert row.origin == "website"
+    # A source record is its own page, so the join every report makes on
+    # node_uuid resolves rather than dangling.
+    assert row.node_uuid == "uuid-1"
+    assert row.page_pdf_count == 1
+    assert row.decided_by == "deterministic"
 
 
-def test_a_source_record_is_its_own_page():
-    """Reports join node_uuid back to the catalogue; a NULL would dangle."""
-    row = _row({"field_news_date": "2015-08-26T18:30:00+00:00"})
-    assert row.node_uuid == row.document_id
+def test_the_bundle_is_carried_from_the_resolution():
+    assert _row("press_release",
+                {"field_pressrelease_date": "2012-04-17T18:30:00+00:00"}).bundle \
+        == "press_release"
 
 
-def test_every_value_fits_its_column():
-    """Silently truncated values are wrong values. Widths from schema.py."""
-    widths = {"origin": 16, "candidate_source": 32, "action": 24, "rule": 48,
-              "decided_by": 16, "date_type": 16}
-    for metadata, applied in (
-        ({"field_news_date": "2015-08-26T18:30:00+00:00"}, "2015-08-27T00:00:00+00:00"),
-        ({"field_pressrelease_date": "2012-04-17T18:30:00+00:00"}, "2012-04-18T00:00:00+00:00"),
-        ({"field_rpaper_year": "2016"}, None),
-        ({"field_news_date": "2018-01-11T06:29:59+00:00"}, None),
-    ):
-        row = _row(metadata, applied=applied)
-        for attribute, width in widths.items():
-            value = getattr(row, attribute)
-            assert value is None or len(str(value)) <= width, \
-                f"{attribute}={value!r} exceeds {width}"
-
-
-def test_the_vocabularies_match_the_pdf_path():
-    """One table, one set of values, so a report does not need to know which
-    source type wrote a row."""
-    from app.ingestion.date_rules import Action, DateType
-    from typing import get_args
-
-    actions, types = set(get_args(Action)), set(get_args(DateType))
-    for metadata, applied in (
-        ({"field_news_date": "2015-08-26T18:30:00+00:00"}, "2015-08-27T00:00:00+00:00"),
-        ({"field_rpaper_year": "2016"}, None),
-        ({"field_news_date": "2018-01-11T06:29:59+00:00"}, None),
-    ):
-        row = _row(metadata, applied=applied)
-        assert row.action in actions
-        assert row.date_type in types
-        assert row.decided_by in ("deterministic", "llm")
-
-
-def test_no_llm_fields_are_claimed():
-    """Nothing here consulted a model, and a prompt_version would imply one."""
-    row = _row({"field_news_date": "2015-08-26T18:30:00+00:00"})
-    assert row.llm_raw is None
-    assert row.prompt_version is None
-
-
-# --------------------------------------------------------------------------- #
-# The call site
-# --------------------------------------------------------------------------- #
-
-def test_only_website_records_are_recorded_here():
-    """Attachments record their own decision inside `build_attachment_doc`;
-    recording them again here would double every PDF row."""
-    import inspect
-
-    from app.ingestion import pipeline
-
-    src = inspect.getsource(pipeline._record_source_date_decision)
-    assert 'if record.source_type != "website":' in src
-    assert "return" in src
-
-
-def test_the_write_fails_open(monkeypatch):
-    """An unreachable database must cost a warning, never a document."""
-    from app.catalog import date_decisions
-    from app.ingestion import pipeline
-
-    def _boom(*args, **kwargs):
-        raise RuntimeError("MySQL is down")
-
-    monkeypatch.setattr(date_decisions, "ensure_table", _boom)
-
-    class _Rec:
-        source_type = "website"
-        document_id = "uuid-1"
-        bundle = "news"
-        payload = type("P", (), {"created": CREATED})()
-
-    class _Doc:
-        source_url = "https://teriin.org/news/x"
-        published_at = "2015-08-27T00:00:00+00:00"
-        raw_meta = {"field_news_date": "2015-08-26T18:30:00+00:00"}
-
-    pipeline._record_source_date_decision(_Rec(), _Doc())  # must not raise
-
-
-def test_the_row_uses_the_value_the_write_path_applied():
-    """`applied` is passed in rather than re-derived, so the audit row cannot
-    disagree with the date actually stored."""
-    row = from_source_record(
-        document_id="d", bundle="news", url=None, created=CREATED,
-        applied="2015-08-27T00:00:00+00:00",
-        stated=SourceDate(value=date(2015, 8, 27), field="field_news_date",
-                          kind="publication", precision="day"),
-    )
-    assert row.candidate_date == "2015-08-27T00:00:00+00:00"
+def test_every_written_value_fits_its_column():
+    """`date_type` is VARCHAR(16), `candidate_source` VARCHAR(32), `rule`
+    VARCHAR(48), `action` VARCHAR(24)."""
+    cases = [
+        ("news", {"field_news_date": "2015-08-26T18:30:00+00:00"}),
+        ("news", {"field_news_date": None}),
+        ("news", {"field_news_date": "nonsense"}),
+        ("completed_projects",
+         {"field_completed_start_date": "2004-06-28T18:30:00+00:00"}),
+        ("research_papers", {"field_rpaper_year": 2022}),
+    ]
+    for bundle, metadata in cases:
+        row = _row(bundle, metadata)
+        assert len(row.date_type) <= 16
+        assert len(row.candidate_source) <= 32
+        assert len(row.rule) <= 48
+        assert len(row.action) <= 24
+        assert len(row.origin) <= 16

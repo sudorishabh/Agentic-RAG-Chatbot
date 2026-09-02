@@ -82,7 +82,7 @@ def _mark_dead(record: "ChangeRecord", url: str, status: int) -> None:
 
 
 def _record_date_decision(
-    record: "ChangeRecord", node, file, resolved
+    record: "ChangeRecord", node, file, resolved, parent_date
 ) -> None:
     """Store how this PDF's date was decided, and the evidence behind it.
 
@@ -91,29 +91,42 @@ def _record_date_decision(
     ``{state}_date_decision``. That table is also the review queue — a case the
     resolver could not settle safely lands there rather than moving a date.
 
-    ``current_published_at`` records the page's own date, so a row reads as
-    "would have been X, assigned Y". Fails open like the dead-link markers: an
+    ``current_published_at`` records the page's own resolved date, so a row reads
+    as "would have been X, assigned Y". The evidence sentence names the whole
+    chain — this file, its page, that page's bundle, the configured field and its
+    value — because "why does this PDF have the date 2022?" has to be answerable
+    from the stored row alone. Fails open like the dead-link markers: an
     unreachable database costs one warning, never an ingestion.
     """
     if resolved.decision is None:
         return
     from app.catalog import date_decisions
+    from app.ingestion.bundle_dates import describe
     from app.ingestion.date_llm import prompt_version
 
     try:
         date_decisions.ensure_table()
-        date_decisions.record(date_decisions.from_decision(
+        row = date_decisions.from_decision(
             resolved.decision,
             origin=getattr(file, "origin", "attachment"),
             bundle=node.bundle,
             node_uuid=(node.uuid or None),
             page_pdf_count=len(getattr(node, "files", None) or []) or 1,
-            current_published_at=node.created,
+            current_published_at=parent_date.value,
             url=file.url,
             filename=file.filename,
             llm_raw=resolved.llm_raw,
             prompt_version=prompt_version() if resolved.llm_raw else None,
-        ))
+        )
+        # The inheritance chain, appended rather than replacing the rule's own
+        # sentence: a reviewer needs both what the resolver concluded and where
+        # the date it kept actually came from.
+        row.evidence = " ".join(filter(None, (
+            row.evidence,
+            describe(parent_date, title=node.title, url=node.url,
+                     for_attachment=True),
+        )))
+        date_decisions.record(row)
     except Exception:
         logger.warning(
             "Could not record the date decision for %s; ingestion continues.",
@@ -158,10 +171,15 @@ def build_attachment_doc(
 
     result = extract_pdf(content, file.filename or record.document_id)
 
-    # Decide the publication date. The node's date is the default and the
-    # fallback; only evidence inside the document itself can replace it, and
-    # `resolve` reads the bytes already in hand rather than fetching anything.
-    resolved = _resolve_date(record, node, file, content)
+    # The parent page's effective date, resolved once from its bundle's
+    # configured field. Every PDF on the page inherits *this* — one page holding
+    # twelve files produces twelve documents carrying one date, because there is
+    # one resolution and it is propagated, not recomputed per file.
+    parent_date = resolve_parent_date(node)
+    # Then the file-level pass. Its contract is narrow: it may never read a file
+    # timestamp, an upload month or PDF metadata *as* a date, and where the page
+    # states its own date it does not read the file at all.
+    resolved = _resolve_date(record, node, file, content, parent_date)
 
     # The PDF inherits its node's entity refs and facets so theme-scoped
     # retrieval and per-theme counts reach the attached content too. In-body
@@ -181,33 +199,86 @@ def build_attachment_doc(
         file_url=fetched_url,
         linked_article_uuid=(node.uuid or None),
         published_at=resolved.published_at,
-        # An override is only ever granted for a publication statement quoted
-        # from the PDF's own text and verified against it, so that is exactly
-        # what `document_text` means. Everything else keeps the parent page's
-        # created stamp. The fuller reasoning — which rule fired, the confidence,
-        # the quote — stays in `{state}_date_decision`; this is the one bit of it
-        # that belongs beside the value.
-        published_at_source=("document_text" if resolved.overridden else "created"),
-        published_at_precision="day",
+        # `parent_page` is the ordinary case and says exactly what happened: this
+        # file carries the date its Drupal page resolved to. `document_text` is
+        # the one exception — a publication statement quoted from the PDF's own
+        # text and verified against it, which is only ever granted where the page
+        # had nothing but a creation stamp to offer. The fuller reasoning — which
+        # rule fired, the confidence, the quote, the parent's field and value —
+        # stays in `{state}_date_decision`; this is the bit that belongs beside
+        # the value.
+        published_at_source=("document_text" if resolved.overridden
+                             else "parent_page"),
+        # Inherited, not assumed: a file on a research paper is year-precision
+        # too, and a reader that renders its 1 January as a day would invent a
+        # January publication for the file exactly as it would for the page.
+        published_at_precision=resolved.precision,
+        date_evidence=(_overridden_evidence(parent_date, resolved)
+                       if resolved.overridden else inherit_date(parent_date)),
         extra=extra,
         entity_refs=refs,
         **drupal_facets(node.metadata or {}, refs),
     )
-    _record_date_decision(record, node, file, resolved)
+    _record_date_decision(record, node, file, resolved, parent_date)
     return doc
 
 
-def _resolve_date(record: "ChangeRecord", node, file, content: bytes):
+def resolve_parent_date(node):
+    """The Drupal page's effective date, from its bundle's configured field.
+
+    The same call `canonical._drupal_document` makes for the page itself, so the
+    page and everything attached to it cannot disagree.
+    """
+    from app.ingestion.bundle_dates import resolve
+
+    return resolve(
+        getattr(node, "bundle", None),
+        getattr(node, "created", None),
+        getattr(node, "metadata", None),
+    )
+
+
+def inherit_date(parent_date):
+    """The parent's date as this file's own. See ``bundle_dates.inherited``."""
+    from app.ingestion.bundle_dates import inherited
+
+    return inherited(parent_date)
+
+
+def _overridden_evidence(parent_date, resolved):
+    """Provenance for the one case that is not inheritance.
+
+    The parent's resolution is still recorded — "would have been X" — because
+    the interesting fact about an override is what it displaced.
+    """
+    from dataclasses import replace
+
+    return replace(
+        parent_date,
+        value=resolved.published_at,
+        source="document_text",
+        precision="day",
+        rule="document_statement_override",
+    )
+
+
+def _resolve_date(record: "ChangeRecord", node, file, content: bytes, parent_date):
     """This PDF's date, and the reasoning behind it.
 
     Delegates to the one canonical resolver. With the feature off, or if
-    anything goes wrong, the node's date stands — the behaviour that predates
-    the resolver.
+    anything goes wrong, the parent page's date stands — which is now the page's
+    *resolved* date rather than its raw creation stamp, so turning the resolver
+    off degrades to plain inheritance rather than to a different date.
     """
     from app.config import get_settings
+    from app.ingestion.bundle_dates import inherited
     from app.ingestion.date_resolution import ResolvedDate, build_evidence, resolve
 
     if not get_settings().date_resolution_enabled:
-        return ResolvedDate(published_at=node.created)
-    evidence = build_evidence(document_id=record.document_id, node=node, file=file)
+        carried = inherited(parent_date)
+        return ResolvedDate(published_at=carried.value, precision=carried.precision)
+    evidence = build_evidence(
+        document_id=record.document_id, node=node, file=file,
+        parent_date=parent_date,
+    )
     return resolve(evidence, content)

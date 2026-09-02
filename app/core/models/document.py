@@ -85,6 +85,20 @@ class CanonicalDocument:
     entity_refs: list[EntityRef] = field(default_factory=list)
     file_links: list[FileLink] = field(default_factory=list)
     raw_meta: dict[str, Any] = field(default_factory=dict)
+    #: How `published_at` was decided: the bundle, the field consulted, the raw
+    #: value and the rule that fired
+    #: (:class:`app.ingestion.bundle_dates.EffectiveDate`).
+    #:
+    #: Catalog-only, like the three fields above, and for a sharper reason: it is
+    #: carried here rather than in `extra` precisely *because* `build_payload`
+    #: does `payload.update(m.extra)`, so anything parked there would be
+    #: replicated into every chunk payload. The value and its precision belong
+    #: beside the document; the reasoning belongs in
+    #: `{state}_date_decision`, which the pipeline writes from this.
+    #:
+    #: Untyped to keep `core` from importing `ingestion` — the domain names the
+    #: shape, the model only carries it.
+    date_evidence: Any = None
 
     @property
     def is_paginated(self) -> bool:

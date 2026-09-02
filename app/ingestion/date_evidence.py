@@ -126,7 +126,29 @@ class PageContext:
 
     node_uuid: str
     node_title: str = ""
+    #: When the page was typed into the CMS. Kept **separate from the page's
+    #: date** because the two are different facts and the rules need both: the
+    #: upload-gap arithmetic in :mod:`app.ingestion.date_rules` asks "did this
+    #: file arrive long after the page was made?", which is a question about the
+    #: creation stamp. Substituting the effective date there would read a
+    #: completed project's 2004 start as a 13-year upload gap and route the whole
+    #: bundle to the model.
     node_created: str | None = None
+    #: The page's *resolved* date — what its bundle's configured field states, or
+    #: its creation stamp where there is nothing else. This is what an attached
+    #: PDF inherits. None means "not resolved", and
+    #: :attr:`effective_date` falls back to ``node_created`` so evidence built by
+    #: an older caller behaves exactly as before.
+    node_published_at: str | None = None
+    #: Precision of :attr:`node_published_at` — ``year`` for a page whose bundle
+    #: states only a year, so an attachment does not render 1 January as a day.
+    node_precision: str = "day"
+    #: Provenance of the page's date, carried so an attachment's audit row can
+    #: name the bundle, the field and the value without re-reading the node.
+    date_field: str | None = None
+    date_field_value: object = None
+    #: ``created`` | ``cms_field`` — where :attr:`node_published_at` came from.
+    date_source: str = "created"
     bundle: str | None = None
     url: str | None = None
     pdf_count: int = 1
@@ -137,6 +159,23 @@ class PageContext:
     @property
     def is_multi_pdf(self) -> bool:
         return self.pdf_count > 1
+
+    @property
+    def effective_date(self) -> str | None:
+        """The date this page hands to its attachments."""
+        return self.node_published_at or self.node_created
+
+    @property
+    def date_from_bundle_field(self) -> bool:
+        """Does the page's date come from its bundle's configured CMS field?
+
+        When it does, the page is authoritative: the CMS states what date this
+        content type carries, and there is nothing an attachment-level reading
+        of the file could improve on. When it does not — the page fell back to
+        its creation stamp — the document's own text is still the only better
+        evidence available, which is the case the interpreter exists for.
+        """
+        return self.date_source == "cms_field" and self.node_published_at is not None
 
 
 @dataclass

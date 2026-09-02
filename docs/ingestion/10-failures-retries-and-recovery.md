@@ -110,7 +110,9 @@ cursor.
 | --- | --- | --- | --- |
 | Source has no date at all | `not doc.published_at` | `undated` flag, WARNING, **still indexed** | Check the source exposes a date field; the document is invisible to date filters |
 | New undeclared date-like field | `date_checks.undeclared_source_date_field` | Ignored (safe), reported per sweep | Classify it in `FIELD_KINDS` |
-| Stated date not applied | `date_checks.stated_date_not_applied` | Reported | `scripts.backfill_source_dates` |
+| Stated date not applied | `date_checks.stated_date_not_applied` | Reported | `scripts.backfill_bundle_dates` |
+| Attachment date differs from its page's | `date_checks.attachment_date_adrift` | Reported | `scripts.backfill_bundle_dates` |
+| Bundle has no declared date field | `date_checks.unmapped_bundle_dates` | `created` kept, reported | Declare it in `BUNDLE_DATE_FIELDS` |
 | Provenance unrecorded | `date_checks.date_provenance_unrecorded` | Reported | `scripts.backfill_date_provenance` |
 | Year precision, non-January value | `date_checks.year_precision_not_january` | Reported | Investigate — value and precision disagree |
 | Implausible CMS value | `is_plausible` | Discarded, INFO log | Fix the CMS data |
@@ -468,7 +470,7 @@ This is a repair for a catalog that lost rows or columns while the collection is
 intact. **Use it deliberately**: it lifts `published_at` out of chunk payloads, which
 can overwrite a value the date resolver decided. Reconciliation's
 `stated_date_not_applied` check names this module explicitly as a cause, and the fix
-is to re-run `scripts.backfill_source_dates` afterwards.
+is to re-run `scripts.backfill_bundle_dates` afterwards.
 
 ---
 
@@ -482,7 +484,7 @@ is to re-run `scripts.backfill_source_dates` afterwards.
 | A dead PDF came back | `DELETE FROM documents_dead_link WHERE ...` | No |
 | Catalog rows lost, collection intact | `app.ingestion.backfill` | No |
 | Abstracts missing on documents that never change | `app.ingestion.enrich_backfill` | No |
-| Dates need re-deriving after a rule change | `scripts.backfill_source_dates`, `scripts.backfill_date_provenance` | No |
+| Dates need re-deriving after a mapping change | `scripts.backfill_bundle_dates`, `scripts.backfill_date_provenance` | No |
 | Knowledge stage did not land | catch-up sweep, `scripts.knowledge_document`, `scripts.build_knowledge` | No |
 | Graph is behind | `scripts.project_graph [--rebuild]` | Graph only, which is derived |
 | Legacy table names | `scripts.rename_catalog_tables` | No (renames) |

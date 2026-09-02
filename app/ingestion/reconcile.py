@@ -291,13 +291,10 @@ def date_checks() -> list[Check]:
 
     from app.catalog.db import state_table
     from app.core.clients import mysql_connection
-    from app.ingestion.source_dates import (
-        FIELD_KINDS,
-        is_plausible,
-        resolve_published_at,
-        to_ist_date,
-    )
+    from app.ingestion.bundle_dates import BUNDLE_DATE_FIELDS, field_for
+    from app.ingestion.source_dates import FIELD_KINDS, is_plausible, to_ist_date
 
+    mapped_fields = {f.field for f in BUNDLE_DATE_FIELDS.values()}
     table = state_table()
     try:
         with mysql_connection() as conn, conn.cursor() as cur:
@@ -313,8 +310,29 @@ def date_checks() -> list[Check]:
             )
             mismatched_precision = [r["document_id"] for r in cur.fetchall()]
             cur.execute(
-                f"SELECT document_id, raw_meta, published_at FROM `{table}` "
-                f"WHERE raw_meta IS NOT NULL"
+                f"SELECT DISTINCT bundle FROM `{table}` "
+                f"WHERE source_type = 'website' AND bundle IS NOT NULL"
+            )
+            unmapped = sorted(r["bundle"] for r in cur.fetchall()
+                              if field_for(r["bundle"]) is None)
+            # Attachments carrying a date their page does not. Answered in SQL
+            # because it is a join, not a rule: the link table says which files
+            # hang off which page, and inheritance means the two dates agree.
+            # `document_text` is the one sanctioned exception.
+            cur.execute(
+                f"SELECT d.document_id FROM `{table}_attachment` a "
+                f"JOIN `{table}` d ON d.document_id = a.file_uuid "
+                f"JOIN `{table}` p ON p.document_id = a.document_id "
+                f"WHERE d.source_type = 'pdf_attachment' "
+                f"  AND COALESCE(d.published_at_source, '') <> 'document_text' "
+                f"  AND (DATE(d.published_at) <> DATE(p.published_at) "
+                f"       OR (d.published_at IS NULL) <> (p.published_at IS NULL)) "
+                f"LIMIT 200"
+            )
+            adrift = [r["document_id"] for r in cur.fetchall()]
+            cur.execute(
+                f"SELECT document_id, bundle, raw_meta, published_at "
+                f"FROM `{table}` WHERE raw_meta IS NOT NULL"
             )
             rows = list(cur.fetchall())
     except Exception as exc:
@@ -332,16 +350,20 @@ def date_checks() -> list[Check]:
             continue
         if not isinstance(meta, dict):
             continue
-        # The same single decision ingestion and the backfill make. Asking
-        # `publication_date` directly would be a third copy of the rule, and it
-        # would miscount the 228 documents whose stated *year* the stored date
-        # already falls in — cases the design deliberately leaves alone.
+        # Whether the bundle's own field was applied. Asked directly rather than
+        # through `resolve` because `resolve` needs the record's *created* stamp
+        # to answer, and the catalogue no longer holds it separately — but the
+        # question here is only "does the stored date match what the field
+        # states", which the field and the stored value settle between them.
         stored = row["published_at"].isoformat()
-        resolved, source, _precision = resolve_published_at(stored, meta)
-        if source == "cms_field" and resolved and resolved[:10] != stored[:10]:
-            not_applied.append(row["document_id"])
+        configured = field_for(row["bundle"])
+        if configured is not None and not configured.is_created:
+            value = to_ist_date(meta.get(configured.field))
+            if is_plausible(value) and value.isoformat() != stored[:10]:
+                not_applied.append(row["document_id"])
         for key, value in meta.items():
-            if key in FIELD_KINDS or not _DATE_LIKE_FIELD.search(key):
+            if (key in FIELD_KINDS or key in mapped_fields
+                    or not _DATE_LIKE_FIELD.search(key)):
                 continue
             if value in (None, "", [], {}):
                 continue
@@ -356,15 +378,28 @@ def date_checks() -> list[Check]:
                "path sets it, so these came from one that does not — or predate "
                "scripts.backfill_date_provenance."),
         _check("stated_date_not_applied", not_applied,
-               "The source states a publication date that published_at does not "
-               "match. Either a sweep did not apply it, or something overwrote "
-               "the value afterwards (app.ingestion.backfill lifts dates out of "
-               "chunk payloads). Re-run scripts.backfill_source_dates."),
+               "The bundle's configured date field states a date that "
+               "published_at does not match. Either a sweep did not apply it, or "
+               "something overwrote the value afterwards (app.ingestion.backfill "
+               "lifts dates out of chunk payloads). Re-run "
+               "scripts.backfill_bundle_dates."),
+        _check("attachment_date_adrift", adrift,
+               "An attached file whose date differs from the page it hangs on. A "
+               "file inherits its page's resolved date; only a publication "
+               "statement verified inside the file's own text "
+               "(published_at_source='document_text') may differ. Re-run "
+               "scripts.backfill_bundle_dates."),
+        _check("unmapped_bundle_dates", unmapped,
+               "A catalogued bundle with no entry in "
+               "app.ingestion.bundle_dates.BUNDLE_DATE_FIELDS. Its documents keep "
+               "their creation stamp — the safe direction — but nobody has said "
+               "whether that is right. Declare it."),
         _check("undeclared_source_date_field", undeclared,
                "A source field that looks like a date and holds a parseable one, "
                "which nothing has classified. It is being ignored — the safe "
-               "direction — but if it is a publication date those documents are "
-               "mis-dated. Classify it in app.ingestion.source_dates.FIELD_KINDS."),
+               "direction — but if it is the date its bundle should carry, those "
+               "documents are mis-dated. Classify it in "
+               "app.ingestion.source_dates.FIELD_KINDS."),
         _check("year_precision_not_january", mismatched_precision,
                "A year-precision date whose value is not 1 January. The day is a "
                "marker for the year, so anything else means the value and its "

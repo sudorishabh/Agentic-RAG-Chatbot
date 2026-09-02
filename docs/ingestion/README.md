@@ -24,13 +24,19 @@ the layering rules, and where new code belongs — see
 | [03 — Triggers, Transport and the Control Plane](03-triggers-and-control-plane.md) | The five ways a run starts, the HTTP control plane, authentication and authorization, mutual exclusion, and how work is transported and throttled. |
 | [04 — Change Detection and Versioning](04-change-detection-and-versioning.md) | Fingerprints, content hashes, pipeline versions, the incremental crawl window, retry floors, and delete reconciliation. |
 | [05 — Extraction and Normalisation](05-extraction-and-normalisation.md) | HTML flattening, the hybrid PDF router (PyMuPDF / Azure Document Intelligence / Camelot), and page-text normalisation. |
-| [06 — The Canonical Document and Date Resolution](06-canonical-document-and-dates.md) | `CanonicalDocument`, facet routing, theme hierarchy, and the two date-resolution paths (CMS fields and PDF evidence). |
+| [06 — The Canonical Document and Date Resolution](06-canonical-document-and-dates.md) | `CanonicalDocument`, facet routing, theme hierarchy, the bundle → date-field mapping, and how a page's date reaches its attachments. |
 | [07 — Chunking, Embedding and Indexing](07-chunking-embedding-indexing.md) | Parent/child chunking, chunk identity, payload construction, vector reuse, and the safe index-then-delete swap. |
 | [08 — Persistence and the Catalog](08-persistence-and-catalog.md) | Every MySQL table, the single-transaction write, facet replacement, attachment links and orphan collection. |
 | [09 — The Knowledge Layer and Graph](09-knowledge-layer-and-graph.md) | The optional post-index knowledge stage, the catch-up sweep, and graph projection. |
 | [10 — Failures, Retries and Recovery](10-failures-retries-and-recovery.md) | Every failure mode, what the system does about it, and the recovery tools. |
 | [11 — Observability, Monitoring and Alerting](11-observability-and-monitoring.md) | Logs, run tallies, spans, timing metrics, cross-store reconciliation and what is worth alerting on. |
 | [12 — Operations, Configuration and Troubleshooting](12-operations-and-troubleshooting.md) | Runbooks, the full configuration reference, deployment notes, a troubleshooting matrix and the end-to-end completion criteria. |
+
+Alongside the numbered set:
+
+| Doc | What it covers |
+| --- | --- |
+| [Bundle-specific date capture — implementation plan](bundle-date-capture-plan.md) | The current-state analysis, the validated bundle → date-field mapping, the discrepancies found against the live CMS and how each was resolved, and the migration. Written before the change and kept as the record of why it is shaped this way. |
 
 ## Topic map
 
@@ -82,7 +88,7 @@ Each document to the modules it describes. The layout is enforced by
 | 03 | `app/ingest_main.py` · `app/workers/{scheduler,tasks}.py` · `app/api/{ingest,auth,health}.py` · `app/ingestion/pipeline.py` (`_exclusive`, `_run`) |
 | 04 | `app/ingestion/change_detection/{base,drupal}.py` · `app/ingestion/version.py` · `app/catalog/retries.py` |
 | 05 | `app/ingestion/extractors/{pdf_extractor,pymupdf_local,camelot_tables,text_normalize}.py` |
-| 06 | `app/core/models/document.py` · `app/ingestion/canonical.py` · `app/ingestion/source_dates.py` · `app/ingestion/date_{evidence,rules,llm,resolution}.py` · `app/core/editions.py` · `app/catalog/theme_taxonomy.py` · `app/ingestion/date_candidates.py` (measurement-only DocInfo/shadow-correction helper, not wired into the live decision) |
+| 06 | `app/core/models/document.py` · `app/ingestion/canonical.py` · `app/ingestion/bundle_dates.py` · `app/ingestion/source_dates.py` · `app/ingestion/date_{evidence,rules,llm,resolution}.py` · `app/core/editions.py` · `app/catalog/theme_taxonomy.py` · `app/ingestion/date_candidates.py` (measurement-only DocInfo/shadow-correction helper, not wired into the live decision) |
 | 07 | `app/ingestion/chunking/*` · `app/ingestion/indexer.py` · `app/core/clients/vector_store.py` |
 | 08 | `app/catalog/*` (schema, state, log, retries, dead_links, enrichment, date_decisions) · `app/core/clients/database.py` |
 | 09 | `app/ingestion/{knowledge_sync,graph_sync}.py` · `app/knowledge/document_pipeline.py` · `app/knowledge/document_loader.py` · `app/catalog/knowledge_runs.py` |

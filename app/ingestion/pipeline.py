@@ -310,24 +310,25 @@ def _record_source_date_decision(record: ChangeRecord, doc: CanonicalDocument) -
     source type, so one table and one review queue answer "why does this
     document carry this date?" for the whole corpus.
 
-    Only written when the source actually offered a publication date — see
-    ``date_decisions.from_source_record``. Fails open like every other catalog
+    Only written when the document's bundle maps to a real CMS date field — see
+    ``date_decisions.from_effective_date``. Fails open like every other catalog
     write on this path: an unreachable database costs one warning, never a
     document its ingestion.
     """
     if record.source_type != "website":
         return
     from app.catalog import date_decisions
-    from app.ingestion.source_dates import publication_date
 
     try:
-        row = date_decisions.from_source_record(
+        row = date_decisions.from_effective_date(
             document_id=record.document_id,
-            bundle=record.bundle,
             url=doc.source_url,
             created=getattr(record.payload, "created", None),
-            applied=doc.published_at,
-            stated=publication_date(doc.raw_meta),
+            # The resolution the builder actually applied, carried on the
+            # document rather than re-derived here: a second reading of the
+            # metadata could disagree with the value that was stored.
+            resolved=doc.date_evidence,
+            title=doc.title,
         )
         if row is None:
             return

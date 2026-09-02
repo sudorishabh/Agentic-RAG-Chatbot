@@ -1,7 +1,10 @@
 from __future__ import annotations
-from typing import Any, Protocol
+from typing import TYPE_CHECKING, Any, Protocol
 from app.core.models import CanonicalDocument, CanonicalSection, EntityRef, FileLink
 from app.ingestion.textutil import slugify as _slugify
+
+if TYPE_CHECKING:
+    from app.ingestion.bundle_dates import EffectiveDate
 
 # Substring hints that route Drupal metadata fields into canonical facets.
 # field_audit reports against these same rules — import from here, don't copy.
@@ -124,26 +127,27 @@ def drupal_facets(
 
 
 def _published_at_for(
-    created: str | None, metadata: dict[str, Any]
-) -> tuple[str | None, str, str]:
-    """``(published_at, source, precision)`` for a source record.
+    bundle: str | None, created: str | None, metadata: dict[str, Any]
+) -> "EffectiveDate":
+    """This record's effective date, and the evidence for it.
 
-    ``created`` is when the record was *typed into the CMS*, which is what this
-    column has always held and what makes 646 completed projects share one
-    timestamp. Where the source separately states when the document was
-    published, that statement wins: it is the date the site itself displays.
+    **Keyed by bundle.** Which date a Drupal record carries is a property of its
+    content type, not of which date-like fields happen to be present: ``news``
+    takes ``field_news_date``, ``completed_projects`` takes the project's start,
+    ``article`` takes its creation stamp. :mod:`app.ingestion.bundle_dates`
+    declares that mapping and owns the decision — ingestion, the attachment path
+    and the backfill all call the same function, because two copies of a
+    conditional rule drift and a re-ingested document would then get a different
+    date than the backfill gave it.
 
-    Everything else keeps ``created``, including a record whose only dates are
-    an event or a project period — those describe the thing, not the document,
-    and reading them as publication dates would move ~5,500 documents to dates
-    nobody asserted. :mod:`app.ingestion.source_dates` is where that distinction
-    is declared, and it owns the decision itself: the rule is conditional for
-    year-precision sources, and a second copy of it here would drift from the
-    backfill's.
+    The whole :class:`~app.ingestion.bundle_dates.EffectiveDate` is returned
+    rather than the value alone: the caller writes the audit row, and a row
+    derived from a second reading of the metadata could disagree with the value
+    actually applied.
     """
-    from app.ingestion.source_dates import resolve_published_at
+    from app.ingestion.bundle_dates import resolve
 
-    return resolve_published_at(created, metadata)
+    return resolve(bundle, created, metadata)
 
 
 def _drupal_document(
@@ -162,7 +166,7 @@ def _drupal_document(
 ) -> CanonicalDocument:
     refs = refs or []
     facets = drupal_facets(metadata, refs)
-    published, published_source, published_precision = _published_at_for(created, metadata)
+    resolved = _published_at_for(bundle, created, metadata)
 
     doc = CanonicalDocument(
         document_id=uuid or _slugify(url or f"{bundle}/{title}"),
@@ -174,9 +178,10 @@ def _drupal_document(
         tags=facets["tags"],
         categories=facets["categories"],
         authors=facets["authors"],
-        published_at=published,
-        published_at_source=published_source,
-        published_at_precision=published_precision,
+        published_at=resolved.value,
+        published_at_source=resolved.source,
+        published_at_precision=resolved.precision,
+        date_evidence=resolved,
         extra={"bundle": bundle, "nid": nid, "changed": changed},
         entity_refs=refs,
         raw_meta=dict(metadata),

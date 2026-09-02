@@ -95,7 +95,7 @@ python -m app.workers.tasks drupal --bundle news
 | `documents_theme` value column still `category` | Automatic, in `migrate_renamed_facets` on `ensure_state_table` |
 | Collection predates a payload index | `python -m scripts.create_payload_indexes`, `python -m scripts.create_fulltext_index` — **while no ingestion is running** |
 | A pipeline component was bumped | `python -m scripts.reprocess_corpus` |
-| Dates need re-deriving | `python -m scripts.backfill_source_dates`, then `scripts.backfill_date_provenance` |
+| Dates need re-deriving | `python -m scripts.backfill_bundle_dates` (dry run first), then `scripts.backfill_date_provenance` |
 
 ---
 
@@ -470,9 +470,10 @@ Start from the symptom.
 | Tables missing from answers | Camelot or Ghostscript missing | WARNING "Camelot is not installed" / a Camelot exception | Install them |
 | | PDF forbids extraction | WARNING about permission flags | Prose survives; tables do not |
 | PDF text is garbage | PUA / `(cid:N)` text layer | Read the extracted text with `python -m app.ingestion.extractors.pdf_extractor <path> --full` | Re-source the PDF, or run it through `azure_only` |
-| A document has the wrong date | An undeclared CMS field | Reconciliation `undeclared_source_date_field` | Declare it in `FIELD_KINDS`, then `scripts.backfill_source_dates` |
+| A document has the wrong date | Its bundle maps to the wrong field, or to none | Reconciliation `unmapped_bundle_dates`; `documents_date_decision.evidence` | Fix `BUNDLE_DATE_FIELDS`, then `scripts.backfill_bundle_dates` |
 | | A PDF override | `documents_date_decision` shows `propose_override` | Read `evidence`; if wrong, it is a gate gap worth reporting |
-| | A backfill overwrote it | Reconciliation `stated_date_not_applied` | Re-run `scripts.backfill_source_dates` |
+| | A backfill overwrote it | Reconciliation `stated_date_not_applied` | Re-run `scripts.backfill_bundle_dates` |
+| A PDF is dated differently from its page | Something bypassed inheritance | Reconciliation `attachment_date_adrift` | Re-run `scripts.backfill_bundle_dates` |
 | A document is missing from date-filtered answers | It has no date | `SELECT published_at FROM documents WHERE ...` is NULL; run tally `indexed_without_date` | Check the source exposes a date field |
 | A year-only document reads as 1 January | A consumer ignoring `published_at_precision` | `published_at_precision='year'` on the row and the payload | Fix the consumer; the marker is correct |
 | Documents disappeared en masse | Delete reconciliation ran on a truncated enumeration | ERROR/WARNING history; `ingest_log` `deleted` rows in one run | The guard should have refused. Re-crawl to restore; **lower** the ratio |

@@ -1,25 +1,24 @@
-"""What each date in a CMS record *means* — declared, not inferred.
+"""What each date in a CMS record *means*, and the primitives for reading one.
 
-A source record carries several dates and only some of them are the document's
-publication date. On this corpus, thirteen fields have date-like names and four
-of them are publication dates; the rest describe when a project ran or when an
-event happened. Reading any of those as a publication date is the same mistake
-:mod:`app.ingestion.date_rules` exists to prevent on the PDF side, where a
-reporting period, an event date and an upload time all look publishable and none
-of them is.
+A source record carries several dates. On this corpus thirteen fields have
+date-like names, and what each one *is* — a publication date, a project period, a
+conference — is knowledge no algorithm can derive, so it is **data, declared
+once** in :data:`FIELD_KINDS`.
 
-So the meaning of a field is **data, declared once** in :data:`FIELD_KINDS`, and
-anything not declared is ignored. Three consequences worth stating:
+**Which field a document takes its date from is decided elsewhere.**
+:mod:`app.ingestion.bundle_dates` owns that, keyed by bundle, because the answer
+depends on the content type rather than on which date-like fields happen to be
+present. This module supplies the vocabulary and the value-reading primitives
+that both paths share:
 
-* **Ignoring is the default.** An unknown field cannot become a date, so a CMS
-  that grows a new field does not silently start moving dates.
-* **Only ``publication`` is actionable.** The other kinds are recorded so a
-  reviewer can see what was found and rejected, exactly as the PDF path records
-  the model's non-publication verdicts.
-* **Supporting another site means adding rows, not branching code.** There is no
-  algorithm that can know ``field_news_date`` is a publication date and
-  ``field_event_start_date`` is not; what matters is that the knowledge sits in
-  one table that defaults to safe.
+* :data:`FIELD_KINDS` / :func:`classify` — what a field is. Carried on every
+  decision as provenance, so a date taken from a project-start field is
+  recognisable as such rather than silently reading like a publication date.
+* :func:`to_ist_date` — the CMS's date-only encoding, read as the calendar day
+  the site itself displays.
+* :func:`is_plausible` — could this be a date for this corpus at all.
+* :func:`as_published_at` — the string the catalogue and the chunk payload store.
+* :func:`found_dates` — every declared date on a record, for the audit trail.
 
 Nothing here decides anything or writes anything. It reads one record's metadata
 and reports what it found.
@@ -34,7 +33,6 @@ from typing import Any, Literal
 logger = logging.getLogger(__name__)
 
 __all__ = [
-    "ACTIONABLE_PRECISIONS",
     "FIELD_KINDS",
     "IST",
     "Kind",
@@ -73,13 +71,19 @@ Kind = Literal[
 #: the same refusal ``DateInterpretation.statement_is_year_only`` makes.
 Precision = Literal["year", "month", "day"]
 
-#: ``field name -> (kind, precision)``. Order is meaningful: where a record
-#: carries more than one publication field, the first declared wins, so the
-#: outcome does not depend on dict iteration order in the source data.
+#: ``field name -> (kind, precision)``. What each field *is*. This no longer
+#: decides which field a document uses — :data:`app.ingestion.bundle_dates.
+#: BUNDLE_DATE_FIELDS` does, per bundle — but the classification still travels
+#: with every decision, so a date taken from a project-start or event field is
+#: visibly that rather than passing as a stated publication date.
+#:
+#: Order is meaningful for :func:`publication_date`: where a record carries more
+#: than one publication field the first declared wins, so the outcome does not
+#: depend on dict iteration order in the source data.
 #:
 #: Every entry below was measured on the live corpus (``scripts.audit_dates``),
-#: and the non-publication entries are declared rather than omitted so that the
-#: reason they are unusable is written down instead of implied by absence.
+#: and entries that are not publication dates are declared rather than omitted so
+#: that what they are is written down instead of implied by absence.
 FIELD_KINDS: dict[str, tuple[Kind, Precision]] = {
     # ---- publication: the publisher's own statement of when this went out ----
     # Verified against the rendered pages: the site displays exactly this value
@@ -87,7 +91,8 @@ FIELD_KINDS: dict[str, tuple[Kind, Precision]] = {
     "field_news_date": ("publication", "day"),
     "field_pressrelease_date": ("publication", "day"),
     "field_report_date": ("publication", "day"),
-    # A year and nothing finer. Actionable, but only at year precision.
+    # A year and nothing finer, so `research_papers` maps to it at year
+    # precision and its value is stored as 1 January *as a marker*.
     "field_rpaper_year": ("publication", "year"),
 
     # ---- event: when something happened, not when it was written about ----
@@ -119,18 +124,16 @@ FIELD_KINDS: dict[str, tuple[Kind, Precision]] = {
 }
 
 
-#: Which precisions a caller may act on. ``year`` is included: a source stating
-#: only "2016" is still the best evidence there is, and 389 research papers were
-#: 1 to 5 years out without it. What makes that safe is
-#: :attr:`SourceDate.precision` reaching the reader — a year-precision value is
-#: stored as 1 January *as a marker*, and anything that renders the day without
-#: reading the precision invents a January publication.
-ACTIONABLE_PRECISIONS: frozenset[str] = frozenset({"day", "month", "year"})
-
-
 @dataclass(frozen=True)
 class SourceDate:
-    """One date found in a record's metadata, and what it is."""
+    """One date found in a record's metadata, and what it is.
+
+    Reporting only. Whether a date is *used* is decided by
+    :data:`app.ingestion.bundle_dates.BUNDLE_DATE_FIELDS`, which is keyed by
+    bundle — so there is no "is this actionable?" question to answer here, and
+    the constant that used to answer it is gone rather than left to drift out of
+    agreement with the mapping.
+    """
 
     value: date
     field: str
@@ -140,10 +143,6 @@ class SourceDate:
     @property
     def is_publication(self) -> bool:
         return self.kind == "publication"
-
-    @property
-    def is_actionable(self) -> bool:
-        return self.is_publication and self.precision in ACTIONABLE_PRECISIONS
 
 
 def as_published_at(value: date) -> str:
@@ -239,45 +238,33 @@ def publication_date(metadata: dict[str, Any] | None) -> SourceDate | None:
 
 
 def resolve_published_at(
-    created: str | None, metadata: dict[str, Any] | None
+    created: str | None,
+    metadata: dict[str, Any] | None,
+    *,
+    bundle: str | None = None,
 ) -> tuple[str | None, str, str]:
     """``(published_at, source, precision)`` for one source record.
 
-    **The single decision.** Ingestion and the backfill both call this, because
-    the rule below is conditional and two copies of a conditional rule drift —
-    a re-ingested document would then get a different date than the backfill
-    gave it.
+    A thin adapter over :func:`app.ingestion.bundle_dates.resolve`, which owns
+    the decision. It exists so the several read-only callers that only want the
+    three values — the backfills, the reconciliation checks, the site-scrape
+    comparison — do not each have to unpack an :class:`~.bundle_dates.
+    EffectiveDate`, and so the decision itself lives in exactly one place.
 
-    ``created`` is when the record was typed into the CMS, which is what this
-    column held for every row historically and why 646 completed projects share
-    one timestamp. Where the source separately states a publication date, that
-    statement wins.
+    **Which date a record carries is a property of its bundle**, not of which
+    date-like fields happen to be present: ``news`` takes ``field_news_date``,
+    ``completed_projects`` takes the project's start, ``article`` takes its
+    creation stamp. A caller that does not know the bundle gets the creation
+    stamp, which is the safe default and exactly the historical behaviour — an
+    unrecognised content type can never silently start moving dates.
 
-    The one exception is a **year-precision statement whose year the record
-    already sits in**. "2016" plus a record created 2016-03-15 is no better than
-    what is already stored, and replacing it with 2016-01-01 would collapse every
-    2016 paper onto one day and lose what little relative ordering they had. 228
-    of the 617 year-only papers are in that position; the other 389 have the
-    wrong year and are corrected.
+    Imported inside the function because :mod:`app.ingestion.bundle_dates`
+    imports this module's primitives at module level.
     """
-    stated = publication_date(metadata)
-    if stated is None or not stated.is_actionable:
-        return created, "created", "day"
-    if stated.precision == "year" and _same_year(created, stated.value):
-        return created, "created", "day"
-    return as_published_at(stated.value), "cms_field", stated.precision
+    from app.ingestion.bundle_dates import resolve
 
-
-def _same_year(created: str | None, value: date) -> bool:
-    """Whether ``created`` already falls in ``value``'s year.
-
-    Read leniently: only the leading four digits are needed, and a stamp this
-    cannot read is treated as *not* the same year, so the stated date wins. That
-    is the safe direction — the alternative is keeping a stamp we could not
-    verify over a statement we could.
-    """
-    text = str(created or "")[:4]
-    return text.isdigit() and int(text) == value.year
+    resolved = resolve(bundle, created, metadata)
+    return resolved.value, resolved.source, resolved.precision
 
 
 def found_dates(metadata: dict[str, Any] | None) -> list[SourceDate]:

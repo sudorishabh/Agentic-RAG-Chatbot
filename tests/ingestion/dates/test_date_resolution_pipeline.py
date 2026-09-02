@@ -265,6 +265,39 @@ def test_a_node_without_a_date_never_invents_one():
 
 
 # --------------------------------------------------------------------------- #
+# Inheritance: the page's *resolved* date, not its creation stamp
+# --------------------------------------------------------------------------- #
+
+def test_the_page_date_a_pdf_inherits_is_the_bundles_resolved_date():
+    """The page's own builder applies `field_rpaper_year`; before this change the
+    attachment path read `node.created` instead, so a paper's page and its PDF
+    carried different dates."""
+    node = _node(bundle="research_papers", files=[_file()],
+                 metadata={"field_rpaper_year": 2016})
+    got = resolve(_evidence(node=node), content=b"%PDF-")
+    assert got.published_at == "2016-01-01T00:00:00+00:00"
+    assert got.precision == "year"
+
+
+def test_a_stated_bundle_date_settles_the_case_without_reading_the_pdf(monkeypatch):
+    """The page says what date this content type carries, so there is nothing
+    for a file-level reading to improve on — and nothing is paid for one."""
+    def _boom(*_a, **_k):
+        raise AssertionError("the PDF must not be read")
+
+    monkeypatch.setattr(date_resolution, "_read_pdf_signals", _boom)
+    monkeypatch.setattr("app.ingestion.date_llm.interpret",
+                        lambda _e: pytest.fail("the model must not be called"))
+    node = _node(bundle="news", metadata={"field_news_date": "2015-08-26T18:30:00+00:00"},
+                 files=[_file(), _file(uuid="f2"), _file(uuid="f3")])
+    got = resolve(_evidence(node=node, file=_file(created="2024-06-01T00:00:00+00:00")),
+                  content=b"%PDF-")
+    assert got.published_at == "2015-08-27T00:00:00+00:00"
+    assert got.decision.rule == "parent_bundle_date_field"
+    assert "llm" not in got.used
+
+
+# --------------------------------------------------------------------------- #
 # The production path: build_attachment_doc must carry the decision through
 # --------------------------------------------------------------------------- #
 
@@ -290,7 +323,7 @@ def _build_doc(monkeypatch, *, node, file, resolved):
     monkeypatch.setattr("app.catalog.date_decisions.ensure_table", lambda: None)
     monkeypatch.setattr("app.catalog.date_decisions.record", recorded.append)
     monkeypatch.setattr(attachment, "_resolve_date",
-                        lambda record, n, f, content: resolved)
+                        lambda record, n, f, content, parent: resolved)
     record = SimpleNamespace(document_id="f1", source_type="pdf_attachment",
                              payload=(node, file), fingerprint="fp")
     return attachment.build_attachment_doc(record, session=None), recorded
@@ -351,6 +384,7 @@ def test_the_feature_flag_falls_back_to_the_node_date(monkeypatch):
                         lambda *_a, **_k: pytest.fail("resolver must not run"))
     node = _node(files=[_file()])
     got = attachment._resolve_date(
-        SimpleNamespace(document_id="f1"), node, _file(), b"%PDF-")
+        SimpleNamespace(document_id="f1"), node, _file(), b"%PDF-",
+        attachment.resolve_parent_date(node))
     assert got.published_at == NODE_DATE
     assert got.decision is None

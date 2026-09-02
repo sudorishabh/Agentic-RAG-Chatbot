@@ -74,7 +74,7 @@ Three properties drove most of the design:
 | Change detection | `app/ingestion/change_detection/` | Yields `NEW`/`CHANGED`/`UNCHANGED`/`DELETED` records; owns the crawl window and delete reconciliation. |
 | Source extractor | `app/ingestion/extractors/drupal_extractor.py` | JSON:API paging, relationship resolution, HTML→text, PDF discovery. |
 | PDF extraction | `app/ingestion/extractors/{pdf_extractor,pymupdf_local,camelot_tables,text_normalize}.py` | Per-page routing between local text, OCR and table extraction, then normalisation. |
-| Date resolution | `app/ingestion/date_{evidence,rules,llm,resolution}.py`, `source_dates.py` | Decides `published_at` for PDFs and for CMS records. |
+| Date resolution | `app/ingestion/bundle_dates.py`, `date_{evidence,rules,llm,resolution}.py`, `source_dates.py` | Decides `published_at` from the bundle -> date-field mapping, and propagates a page's date to its attachments. |
 | Canonical model | `app/core/models/document.py`, `app/ingestion/canonical.py` | The one document shape everything converges on. |
 | Chunking | `app/ingestion/chunking/` | Structure-aware parent/child windows, chunk identity, payload. |
 | Indexer | `app/ingestion/indexer.py` | Vector reuse, embedding, batched upsert. |

@@ -98,82 +98,71 @@ def from_decision(
     )
 
 
-def from_source_record(
+def from_effective_date(
     *,
     document_id: str,
-    bundle: str | None,
     url: str | None,
     created: str | None,
-    applied: str | None,
-    stated: Any,
+    resolved: Any,
+    title: str | None = None,
 ) -> DecisionRow | None:
     """A decision row for a *website* document, or None when there is nothing to say.
 
-    The PDF path always has something to record — there is a page date and a
-    rule that fired. A source record usually does not: it states no publication
-    date, its creation stamp stands, and a row saying so for every one of ~6,000
-    documents would cost an INSERT and a commit each to answer a question
-    ``documents.published_at_source`` already answers.
+    ``resolved`` is the :class:`app.ingestion.bundle_dates.EffectiveDate` the
+    write path actually applied. It is passed in rather than re-derived from the
+    metadata, so the row cannot disagree with the value on the document.
 
-    So a row is written only when the source *offered* a publication date —
-    whether that date was used, matched what was already there, or was declined
-    for being too imprecise. That is the population worth auditing, and the one a
-    reviewer would ever ask about.
+    **A row is written when the document's bundle maps to a real CMS date
+    field** — whether the field supplied the date, was empty, or held something
+    unusable. That is the population an auditor asks about, and the last two
+    cases are exactly the ones worth reviewing.
 
-    ``stated`` is a :class:`app.ingestion.source_dates.SourceDate` or None; it is
-    passed in rather than re-derived so the row cannot disagree with the value
-    the write path actually used.
+    No row for a bundle that maps to ``created`` or has no mapping at all. Their
+    provenance is already complete without one: ``documents.bundle`` plus
+    ``published_at_source='created'`` says "this content type takes its creation
+    stamp", which is the whole answer. A row per document saying so would cost an
+    INSERT and a commit each across thousands of documents to store a fact two
+    columns already carry.
     """
-    if stated is None:
+    if resolved is None or resolved.field in (None, "created"):
         return None
 
-    moved = bool(applied) and bool(created) and applied[:10] != created[:10]
-    if not stated.is_actionable:
-        # Defensive, and currently unreachable: every value of ``Precision`` is
-        # in ``ACTIONABLE_PRECISIONS``. It stays because narrowing that constant
-        # is how a precision gets staged out again, and this is what such a case
-        # should record — deferred rather than reviewed, since a known deferral
-        # is not something a person has to settle.
-        action, rule = "keep_page_date", "precision_deferred"
-        why = (f"The source states a date in {stated.field} at "
-               f"{stated.precision} precision, which is not acted on; the "
-               f"record's own date stands.")
-    elif stated.precision == "year" and not moved:
-        # 228 research papers. The stated year is right and the record's own
-        # stamp already falls inside it, carrying a real day — so keeping it
-        # loses nothing and rewriting it to 1 January would collapse every paper
-        # of that year onto one date. Not "matches", which would claim the two
-        # agreed exactly.
-        action, rule = "keep_page_date", "year_already_correct"
-        why = (f"The source states the publication year in {stated.field} "
-               f"({stated.value.year}) and the record's own date already falls "
-               f"in it, with a day the year alone does not give.")
+    from app.ingestion.bundle_dates import describe
+
+    moved = (bool(resolved.value) and bool(created)
+             and resolved.value[:10] != str(created)[:10])
+    if resolved.rule == "field_empty":
+        action, rule = "keep_page_date", "bundle_field_empty"
+    elif resolved.rule == "field_invalid":
+        # Worth a person's attention: the CMS holds something in the field this
+        # content type is dated by, and it is not a date.
+        action, rule = "needs_manual_review", "bundle_field_invalid"
     elif moved:
-        action, rule = "propose_override", "cms_publication_field"
-        why = (f"The source states a publication date in {stated.field} "
-               f"({stated.value.isoformat()}); the record was created "
-               f"{str(created)[:10]}.")
+        action, rule = "propose_override", "bundle_date_field"
     else:
-        action, rule = "keep_page_date", "cms_field_matches_created"
-        why = (f"The source states a publication date in {stated.field} "
-               f"({stated.value.isoformat()}) and it already matches the "
-               f"record's own date.")
+        action, rule = "keep_page_date", "bundle_field_matches_created"
 
     return DecisionRow(
         document_id=document_id,
         # Not "attachment" or "inbody": this document is a page, not a file
         # reached from one.
         origin="website",
-        bundle=bundle,
+        bundle=resolved.bundle,
         # A source record is its own page, so the join every report already
         # makes on node_uuid resolves rather than dangling.
         node_uuid=document_id,
         page_pdf_count=1,
+        # The record's own creation stamp — so a row reads as "would have been
+        # X, assigned Y" exactly as the PDF rows do.
         current_published_at=created,
-        candidate_date=applied,
-        date_type="publication",
-        candidate_source=(stated.field if action == "propose_override"
-                          else "node_created"),
+        candidate_date=resolved.value,
+        # What the field *is*, not what it was used for. A completed project's
+        # start date is applied as that document's date and is still a `period`;
+        # flattening it to "publication" here would erase the one thing an
+        # auditor needs to see.
+        date_type=(resolved.kind if resolved.source == "cms_field" else "unknown"),
+        candidate_source=(resolved.field if action == "propose_override"
+                          else "node_effective_date"),
         # A transcription of what the source states, not an inference from it —
         # unlike the PDF path, where the same value is a model's judgement about
         # evidence and is capped accordingly.
@@ -181,7 +170,7 @@ def from_source_record(
         action=action,
         rule=rule,
         decided_by="deterministic",
-        evidence=why,
+        evidence=describe(resolved, title=title, url=url),
         url=url,
     )
 

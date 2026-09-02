@@ -87,7 +87,7 @@ class DateDecision:
     candidate_date: str | None = None
     date_type: DateType = "unknown"
     edition_label: str | None = None
-    source: str = "node_created"
+    source: str = "node_effective_date"
     confidence: float = 0.0
     evidence: str = ""
     rule: str = ""
@@ -119,15 +119,48 @@ def decide(evidence: PdfEvidence) -> DateDecision:
         "document_id": evidence.document_id,
         "edition_label": evidence.edition,
         "date_type": "publication",
-        "candidate_date": page.node_created,
-        "source": "node_created",
+        # The page's *resolved* date, not its creation stamp: that is what a
+        # kept decision actually assigns, so it is what the audit row has to
+        # record. `node_dt` above stays the creation stamp because the upload-gap
+        # arithmetic below is a question about when the page was made.
+        "candidate_date": page.effective_date,
+        "source": "node_effective_date",
     }
 
-    if node_dt is None:
+    if page.effective_date is None:
         return DateDecision(
             **base, action="needs_manual_review", confidence=0.0,
             rule="no_page_date", used=["drupal"],
-            evidence="The page carries no created date to fall back on.",
+            evidence="The page carries no date to fall back on.",
+        )
+
+    # ------------------------------------------------------------------ #
+    # Case 0 — the page's bundle states its date in a CMS field.
+    #
+    # An attached file's date is its parent page's date. Where that date is one
+    # the CMS states about this content type — a research paper's year, a press
+    # release's date — the page is authoritative and there is nothing to look
+    # for: reading the file could only produce a *different* date, which is
+    # precisely what must not happen. Checked before every upload heuristic
+    # because those exist to decide whether a weak page date is worth
+    # questioning, and this page date is not weak.
+    #
+    # It is also what stops the file's own timestamps mattering: DocInfo,
+    # `file.created` and the `/files/YYYY-MM/` month are never read on this path.
+    # ------------------------------------------------------------------ #
+    if page.date_from_bundle_field:
+        return DateDecision(
+            **base, action="keep_page_date", confidence=1.0,
+            rule="parent_bundle_date_field", used=["drupal"],
+            evidence=(
+                f"The parent {page.bundle} page states its date in "
+                f"{page.date_field} ({page.date_field_value!r}); an attached "
+                f"file carries its page's date."
+            ),
+            supporting_evidence=(
+                "File timestamps, upload month and PDF metadata were not read: "
+                "the page's own field is authoritative."
+            ),
         )
 
     # Upload divergence: recorded as context, never as a reason to change a date.

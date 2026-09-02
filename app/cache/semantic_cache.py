@@ -29,7 +29,6 @@ logger = logging.getLogger(__name__)
 
 _store_count = 0
 
-
 def _client() -> Any | None:
     from app.core.clients import get_qdrant_client
 
