@@ -68,7 +68,7 @@ def parse_iso_date(value: str | None, *, field: str = "date") -> datetime | None
     holding a raw LLM value are safe too. Anything unreadable is logged and
     returns None — the caller drops the bound, which is why it must be visible.
 
-    Offsets are normalized to naive UTC to match the ``published_at`` DATETIME
+    Offsets are normalized to naive UTC to match the ``effective_start_date`` DATETIME
     column, which stores UTC without a zone (see ``app.catalog.state``)."""
     if not value:
         return None
@@ -99,7 +99,7 @@ def exclusive_end(inclusive_end: str | None) -> str | None:
     """The half-open upper bound for a period ending on (and including)
     ``inclusive_end`` — i.e. the day after it.
 
-    The catalog compares ``published_at < %s``, so a bound has to be exclusive;
+    The catalog compares ``effective_start_date < %s``, so a bound has to be exclusive;
     users, however, say inclusive ends ("between Jan 1 and Dec 31", "up to the
     5th"). Doing that +1 day here rather than asking the LLM for it is the whole
     point: the model reliably copies a date the user typed but unreliably
@@ -128,7 +128,7 @@ def inclusive_end(exclusive_bound: str | None) -> str | None:
 
 
 def today_utc() -> date:
-    """Today in UTC — the zone ``published_at`` is stored in (see
+    """Today in UTC — the zone ``effective_start_date`` is stored in (see
     ``app.catalog.state``), so a bound derived from "today" lines up with the
     column it is compared against."""
     return datetime.now(timezone.utc).date()

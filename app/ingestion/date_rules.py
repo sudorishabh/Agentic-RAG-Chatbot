@@ -84,7 +84,7 @@ class DateDecision:
 
     document_id: str
     action: Action
-    candidate_date: str | None = None
+    candidate_start_date: str | None = None
     date_type: DateType = "unknown"
     edition_label: str | None = None
     source: str = "node_effective_date"
@@ -98,7 +98,7 @@ class DateDecision:
 
     @property
     def would_move(self) -> bool:
-        return self.action == "propose_override" and bool(self.candidate_date)
+        return self.action == "propose_override" and bool(self.candidate_start_date)
 
 
 def _days(later: datetime | None, earlier: datetime | None) -> int | None:
@@ -123,7 +123,7 @@ def decide(evidence: PdfEvidence) -> DateDecision:
         # kept decision actually assigns, so it is what the audit row has to
         # record. `node_dt` above stays the creation stamp because the upload-gap
         # arithmetic below is a question about when the page was made.
-        "candidate_date": page.effective_date,
+        "candidate_start_date": page.effective_date,
         "source": "node_effective_date",
     }
 

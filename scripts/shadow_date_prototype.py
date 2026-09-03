@@ -12,7 +12,7 @@ deterministic rules could not settle, and the LLM is only called for cases that
 survive the download. ``--max-llm`` caps the call count for a run.
 
 Read-only with respect to production: `documents`, Qdrant, fingerprints and
-`published_at` are never written. Document Intelligence is unreachable — this
+`effective_start_date` are never written. Document Intelligence is unreachable — this
 module does not import `app.ingestion.extractors.pdf_extractor`.
 
 Usage::
@@ -90,7 +90,7 @@ def to_evidence(row: dict, page: PageContext) -> PdfEvidence:
         url=row.get("url"),
         filename=row.get("filename"),
         anchor=row.get("anchor") or None,
-        current_published_at=row.get("current_published_at") or None,
+        current_start_date=row.get("current_start_date") or None,
         file_created=row.get("file_created") or None,
         fid=int(row["fid"]) if row.get("fid") else None,
         page=page,
@@ -185,7 +185,7 @@ def main(argv: list[str] | None = None) -> int:
                 if llm_calls >= args.max_llm:
                     decision = DateDecision(
                         document_id=evidence.document_id, action="needs_manual_review",
-                        candidate_date=page.node_created, date_type="unknown",
+                        candidate_start_date=page.node_created, date_type="unknown",
                         edition_label=evidence.edition, source="node_created",
                         confidence=0.0, rule="llm_budget_exhausted",
                         evidence="LLM budget for this run was exhausted.",
@@ -198,7 +198,7 @@ def main(argv: list[str] | None = None) -> int:
                     if verdict is None:
                         decision = DateDecision(
                             document_id=evidence.document_id, action="keep_page_date",
-                            candidate_date=page.node_created, date_type="unknown",
+                            candidate_start_date=page.node_created, date_type="unknown",
                             edition_label=evidence.edition, source="node_created",
                             confidence=0.0, rule="llm_unavailable",
                             evidence="Interpretation call failed; page date kept.",
@@ -215,7 +215,7 @@ def main(argv: list[str] | None = None) -> int:
                             action=("propose_override" if action == "override"
                                     else "needs_manual_review" if action == "review"
                                     else "keep_page_date"),
-                            candidate_date=(verdict.candidate_date if action == "override"
+                            candidate_start_date=(verdict.candidate_start_date if action == "override"
                                             else page.node_created),
                             date_type=verdict.date_type,
                             edition_label=verdict.edition_label or evidence.edition,
@@ -237,11 +237,11 @@ def main(argv: list[str] | None = None) -> int:
             "node_title": page.node_title[:60],
             "page_pdf_count": page.pdf_count,
             "filename": evidence.filename,
-            "current_published_at": evidence.current_published_at or page.node_created,
-            "candidate_date": decision.candidate_date,
+            "current_start_date": evidence.current_start_date or page.node_created,
+            "candidate_start_date": decision.candidate_start_date,
             "date_type": decision.date_type,
             "edition_label": decision.edition_label,
-            "candidate_source": decision.source,
+            "date_source": decision.source,
             "confidence": decision.confidence,
             "action": decision.action,
             "rule": decision.rule,
@@ -268,7 +268,7 @@ def main(argv: list[str] | None = None) -> int:
                 date_decisions.record(date_decisions.from_decision(
                     decision, origin=evidence.origin, bundle=page.bundle,
                     node_uuid=page.node_uuid, page_pdf_count=page.pdf_count,
-                    current_published_at=evidence.current_published_at or page.node_created,
+                    current_start_date=evidence.current_start_date or page.node_created,
                     url=evidence.url, filename=evidence.filename,
                     llm_raw=llm_raw, prompt_version=version,
                 ))
@@ -346,8 +346,8 @@ def main(argv: list[str] | None = None) -> int:
         for r in moves[:40]:
             lines.append(
                 f"| {(r['filename'] or '')[:32]} | {r['page_pdf_count']} "
-                f"| {str(r['current_published_at'])[:10]} | {str(r['candidate_date'])[:10]} "
-                f"| {r['date_type']} | {r['candidate_source']} | {r['confidence']:.2f} "
+                f"| {str(r['current_start_date'])[:10]} | {str(r['candidate_start_date'])[:10]} "
+                f"| {r['date_type']} | {r['date_source']} | {r['confidence']:.2f} "
                 f"| {r['rule']} |")
     else:
         lines.append("_None._")
@@ -370,7 +370,7 @@ def main(argv: list[str] | None = None) -> int:
         lines.append("|---|---|---|")
         for r in editions[:25]:
             lines.append(f"| {(r['filename'] or '')[:34]} | {r['edition_label']} "
-                         f"| {str(r['candidate_date'])[:10]} |")
+                         f"| {str(r['candidate_start_date'])[:10]} |")
 
     with open(OUT_MD, "w", encoding="utf-8") as fh:
         fh.write("\n".join(lines) + "\n")

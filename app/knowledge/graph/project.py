@@ -219,7 +219,7 @@ def _load_documents(document_ids: set[str]) -> list[dict[str, Any]]:
             batch = ids[start : start + 500]
             placeholders = ", ".join(["%s"] * len(batch))
             cur.execute(
-                f"SELECT document_id, title, source_type, bundle, published_at, url "
+                f"SELECT document_id, title, source_type, bundle, effective_start_date, url "
                 f"FROM `{table}` WHERE document_id IN ({placeholders})",
                 batch,
             )
@@ -407,7 +407,7 @@ def _write_projection(
         {
             "document_id": d["document_id"], "title": d["title"],
             "source_type": d["source_type"], "bundle": d["bundle"],
-            "published_at": _iso(d["published_at"]), "url": d["url"],
+            "effective_start_date": _iso(d["effective_start_date"]), "url": d["url"],
         }
         for d in documents
     ]

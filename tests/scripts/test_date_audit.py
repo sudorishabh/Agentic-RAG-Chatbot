@@ -222,13 +222,13 @@ def _snap(**counts) -> dict:
 
 
 def test_an_unchanged_run_reports_no_regression():
-    base = _snap(no_published_at=(0, True), migration=(3409, False))
+    base = _snap(no_effective_start_date=(0, True), migration=(3409, False))
     assert compare(base, base) == 0
 
 
 def test_a_rising_defect_count_is_a_regression():
-    before = _snap(no_published_at=(0, True))
-    after = _snap(no_published_at=(7, True))
+    before = _snap(no_effective_start_date=(0, True))
+    after = _snap(no_effective_start_date=(7, True))
     assert compare(after, before) == 1
 
 
@@ -255,5 +255,5 @@ def test_a_new_or_removed_check_does_not_crash_the_comparison():
 def test_the_snapshot_round_trips_through_json():
     import json
 
-    snap = _snap(no_published_at=(0, True))
+    snap = _snap(no_effective_start_date=(0, True))
     assert json.loads(json.dumps(snap)) == snap

@@ -83,10 +83,10 @@ class _Doc:
     document_id: str
     title: str
     url: str | None
-    published: str  # ISO date (YYYY-MM-DD) or ""
+    effective_date: str  # ISO date (YYYY-MM-DD) or ""
     text: str
     # Reporting period the document covers, when known. Editions of a series
-    # share a title and a published_at; this is what separates them. Last so the
+    # share a title and a effective_start_date; this is what separates them. Last so the
     # dataclass keeps its non-default fields first.
     edition: str = ""
 
@@ -126,9 +126,9 @@ def _scope_filters(analysis: QueryAnalysis) -> dict[str, Any] | None:
     lo = _parse_date(analysis.date_from, field="date_from")
     hi = _parse_date(analysis.date_to, field="date_to")
     if lo is not None:
-        filters["published_from"] = lo
+        filters["effective_from"] = lo
     if hi is not None:
-        filters["published_to"] = hi
+        filters["effective_to"] = hi
     return filters or None
 
 
@@ -137,14 +137,14 @@ def _doc_from_payload(document_id: str, payload: dict[str, Any]) -> _Doc:
         document_id=document_id,
         title=str(payload.get("title") or document_id),
         url=payload.get("source_url"),
-        published=_published_label(payload.get("published_at"),
-                                   payload.get("published_at_precision")),
+        effective_date=_effective_date_label(payload.get("effective_start_date"),
+                                   payload.get("start_precision")),
         edition=str(payload.get("edition_label") or ""),
         text=str(payload.get("chunk_text") or ""),
     )
 
 
-def _published_label(value: Any, precision: Any) -> str:
+def _effective_date_label(value: Any, precision: Any) -> str:
     """The date as it may be shown: a full date, or a bare year.
 
     A year-precision value holds 1 January as a marker for a year the source
@@ -162,8 +162,8 @@ def _doc_from_catalog(document_id: str, row: dict[str, Any]) -> _Doc:
         document_id=document_id,
         title=str(row.get("title") or document_id),
         url=row.get("url"),
-        published=_published_label(row.get("published_at"),
-                                   row.get("published_at_precision")),
+        effective_date=_effective_date_label(row.get("effective_start_date"),
+                                   row.get("start_precision")),
         edition=str(row.get("edition_label") or ""),
         text=str(row.get("abstract") or ""),
     )
@@ -228,7 +228,7 @@ def _summarize_direct(question: str, docs: list[_Doc]) -> str:
             n=i,
             text=doc.text,
             payload={"source_type": "website", "title": doc.title,
-                     "published_at": doc.published,
+                     "effective_start_date": doc.effective_date,
                      "edition_label": doc.edition or None},
         )
         for i, doc in enumerate(docs, start=1)
@@ -260,15 +260,17 @@ def _map_batch(batch: list[_Doc]) -> dict[str, list[str]]:
 def _numbered_line(n: int, doc: "_Doc") -> str:
     """One document's header line in the reduce prompt.
 
-    The edition comes before the date, and the date is labelled "page
-    published": editions of a series share a page date, so an unlabelled date
-    invites the model to report the page's date as the document's own.
+    The edition comes before the date, and the date is labelled "page date":
+    editions of a series share one, so an unlabelled date invites the model to
+    report the page's date as the document's own. It is the page's *effective*
+    date — for an event or a project, the date the content is about — which is
+    another reason not to let it read as a publication date.
     """
     parts = [f"[{n}] {doc.title}"]
     if doc.edition:
         parts.append(f"edition {doc.edition}")
-    if doc.published:
-        parts.append(f"page published {doc.published}")
+    if doc.effective_date:
+        parts.append(f"page date {doc.effective_date}")
     return " · ".join(parts)
 
 

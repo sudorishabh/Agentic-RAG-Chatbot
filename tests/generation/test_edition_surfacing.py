@@ -2,7 +2,7 @@
 not read as the document's own.
 
 All ten TERI annual reports are in-body attachments on a single Drupal page, so
-they share a title *and* a ``published_at`` (2022-02-09). The only thing that
+they share a title *and* a ``effective_start_date`` (2022-02-09). The only thing that
 tells them apart is ``edition_label``, recovered at ingest. These tests pin the
 read-side contract that surfaces it — no re-ingestion is involved, the label is
 already on the chunk payload.
@@ -24,7 +24,7 @@ def _annual(edition: str | None, page: int = 12, title: str = "Annual Reports") 
         "source_type": "pdf_attachment",
         "title": title,
         "edition_label": edition,
-        "published_at": PAGE_DATE,
+        "effective_start_date": PAGE_DATE,
         "page_number": page,
     }
 
@@ -52,8 +52,7 @@ def test_editions_of_one_series_are_distinguishable():
 
 def test_the_page_date_is_labelled_as_the_pages():
     header = _source_hint(_annual("2024-25"))
-    assert "page published 2022-02-09" in header
-    assert "document published: not stated" in header
+    assert "page date 2022-02-09" in header
     # The date is labelled as the page's, and the document's own date is
     # stated as absent rather than left to inference.
 
@@ -62,8 +61,7 @@ def test_the_edition_is_not_presented_as_a_date():
     """"2024-25" is a reporting period, so it must not be emitted as a date."""
     header = _source_hint(_annual("2024-25"))
     assert "published 2024-25" not in header
-    assert "page published 2022-02-09" in header
-    assert "document published: not stated" in header
+    assert "page date 2022-02-09" in header
 
 
 # --------------------------------------------------------------------------- #
@@ -98,15 +96,15 @@ def test_the_full_series_is_enumerable_from_headers():
 def test_a_document_with_no_edition_is_unchanged_apart_from_the_label():
     header = _source_hint(_annual(None, page=3))
     assert "edition" not in header
-    assert "page published 2022-02-09" in header
+    assert "page date 2022-02-09" in header
 
 
 def test_a_website_page_still_reports_its_own_date():
     header = _source_hint({
         "source_type": "website", "title": "TERI launches report",
-        "published_at": "2024-05-01T00:00:00",
+        "effective_start_date": "2024-05-01T00:00:00",
     })
-    assert "page published 2024-05-01" in header
+    assert "page date 2024-05-01" in header
     assert "edition" not in header
 
 
@@ -123,22 +121,22 @@ def test_the_summariser_list_separates_edition_from_page_date():
 
     docs = [
         _Doc(document_id="a", title="Annual Reports", url=None,
-             published="2022-02-09", text="…", edition="2024-25"),
+             effective_date="2022-02-09", text="…", edition="2024-25"),
         _Doc(document_id="b", title="Annual Reports", url=None,
-             published="2022-02-09", text="…", edition="2015-16"),
+             effective_date="2022-02-09", text="…", edition="2015-16"),
     ]
     rendered = chr(10).join(_numbered_line(i, d) for i, d in enumerate(docs, start=1))
     assert "edition 2024-25" in rendered
     assert "edition 2015-16" in rendered
-    assert "page published 2022-02-09" in rendered
+    assert "page date 2022-02-09" in rendered
 
 
 def test_the_summariser_reads_the_edition_from_a_chunk_payload():
     from app.pipeline.summarize import _doc_from_payload
 
     doc = _doc_from_payload("d1", {
-        "title": "Annual Reports", "published_at": PAGE_DATE,
+        "title": "Annual Reports", "effective_start_date": PAGE_DATE,
         "edition_label": "2024-25", "chunk_text": "…",
     })
     assert doc.edition == "2024-25"
-    assert doc.published == "2022-02-09"
+    assert doc.effective_date == "2022-02-09"

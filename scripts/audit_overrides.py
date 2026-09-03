@@ -20,7 +20,7 @@ A check that cannot be verified fails closed. ``human_audit_result`` and
 ``audit_notes`` are left blank for the reviewer.
 
 Read-only: no production table, Qdrant collection, fingerprint or
-``published_at`` is touched, and Document Intelligence is unreachable.
+``effective_start_date`` is touched, and Document Intelligence is unreachable.
 
     python -m scripts.audit_overrides
 """
@@ -53,7 +53,7 @@ SITE = "https://teriin.org"
 
 COLUMNS = [
     "document_id", "filename", "page_url", "page_pdf_count", "origin",
-    "current_published_at", "proposed_published_at", "date_type", "confidence",
+    "current_start_date", "proposed_effective_start_date", "date_type", "confidence",
     "publication_statement", "evidence_location", "evidence_grounded",
     "check1_date_in_pdf", "check2_quote_in_pdf", "check3_not_from_filename",
     "check4_publication_linkage", "check5_not_other_date_kind",
@@ -92,7 +92,7 @@ def fetch_head(session: requests.Session, url: str) -> tuple[str, str]:
 def audit_row(row: dict, session: requests.Session) -> dict:
     raw = json.loads(row["llm_raw"]) if row.get("llm_raw") else {}
     quote = (raw.get("publication_statement") or "").strip()
-    proposed = str(row.get("candidate_date") or "")[:10]
+    proposed = str(row.get("candidate_start_date") or "")[:10]
     head, status = fetch_head(session, row.get("url") or "")
     norm_head = _norm(head)
 
@@ -127,7 +127,7 @@ def audit_row(row: dict, session: requests.Session) -> dict:
     try:
         verdict = DateInterpretation(**{
             k: raw.get(k) for k in
-            ("candidate_date", "date_type", "edition_label", "publication_statement",
+            ("candidate_start_date", "date_type", "edition_label", "publication_statement",
              "confidence", "evidence", "recommended_action")
             if raw.get(k) is not None
         })
@@ -157,8 +157,8 @@ def audit_row(row: dict, session: requests.Session) -> dict:
         "page_url": row.get("page_url", "") or row.get("node_uuid", ""),
         "page_pdf_count": row.get("page_pdf_count", ""),
         "origin": row.get("origin", ""),
-        "current_published_at": str(row.get("current_published_at") or "")[:10],
-        "proposed_published_at": proposed,
+        "current_start_date": str(row.get("current_start_date") or "")[:10],
+        "proposed_effective_start_date": proposed,
         "date_type": row.get("date_type", ""),
         "confidence": row.get("confidence", ""),
         "publication_statement": quote,
@@ -202,7 +202,7 @@ def main(argv: list[str] | None = None) -> int:
             result = audit_row(row, session)
             audited.append(result)
             print(f"  {result['verdict']:<20} {result['checks_passed']}  "
-                  f"{result['proposed_published_at']}  "
+                  f"{result['proposed_effective_start_date']}  "
                   f"{(result['filename'] or '')[:44]}")
 
     with open(OUT_CSV, "w", newline="", encoding="utf-8-sig") as fh:
@@ -218,14 +218,14 @@ def main(argv: list[str] | None = None) -> int:
     L.append("| # | filename | current | proposed | checks | verdict |")
     L.append("|---:|---|---|---|---|---|")
     for i, a in enumerate(audited, 1):
-        L.append(f"| {i} | {a['filename'][:36]} | {a['current_published_at']} "
-                 f"| {a['proposed_published_at']} | {a['checks_passed']} "
+        L.append(f"| {i} | {a['filename'][:36]} | {a['current_start_date']} "
+                 f"| {a['proposed_effective_start_date']} | {a['checks_passed']} "
                  f"| {a['verdict']} |")
 
     L.append("\n## Per-override detail\n")
     for i, a in enumerate(audited, 1):
         L.append(f"\n### {i}. {a['filename']}\n")
-        L.append(f"- **{a['current_published_at']} -> {a['proposed_published_at']}** "
+        L.append(f"- **{a['current_start_date']} -> {a['proposed_effective_start_date']}** "
                  f"(`{a['date_type']}`, confidence {a['confidence']})")
         L.append(f"- statement: `{a['publication_statement'][:160]}`")
         L.append(f"- found: {a['evidence_location']}  ·  "

@@ -111,7 +111,7 @@ def pending(*, version: str, max_attempts: int, limit: int) -> list[dict[str, An
         f"  ON e.content_hash = s.content_hash AND e.version = %s"
         f" WHERE s.content_hash <> '' AND s.indexed_at IS NOT NULL"
         f"  AND (e.content_hash IS NULL OR (e.abstract IS NULL AND e.attempts < %s))"
-        f" ORDER BY s.published_at DESC, s.document_id ASC"
+        f" ORDER BY s.effective_start_date DESC, s.document_id ASC"
         f" LIMIT {capped}"
     )
     with mysql_connection() as conn, conn.cursor() as cur:

@@ -143,7 +143,7 @@ MERGE (d:Document {document_id: row.document_id})
 SET d.title        = row.title,
     d.source_type  = row.source_type,
     d.bundle       = row.bundle,
-    d.published_at = row.published_at,
+    d.effective_start_date = row.effective_start_date,
     d.url          = row.url
 """
 

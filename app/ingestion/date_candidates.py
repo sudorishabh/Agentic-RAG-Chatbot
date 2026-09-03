@@ -5,7 +5,7 @@ Phase 0 of the attachment-date work. Today every PDF inherits ``node.created``
 right for the majority and wrong in two opposite directions. This module works
 out what each available source *would* say and what a correction *would*
 choose, so the blast radius can be measured against the real corpus before any
-document's ``published_at`` moves. Nothing here writes to a document.
+document's ``effective_start_date`` moves. Nothing here writes to a document.
 
 What the corpus says (full JSON:API crawl, 8510 nodes / 2687 PDF attachments):
 

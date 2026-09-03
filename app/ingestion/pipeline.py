@@ -74,10 +74,9 @@ def _save_state(
             bundle=record.bundle,
             entity_type=record.entity_type,
             changed_mark=record.changed_mark,
-            published_at=doc.published_at,
-            document_published_at=doc.document_published_at,
-            published_at_source=doc.published_at_source,
-            published_at_precision=doc.published_at_precision,
+            effective_start_date=doc.effective_start_date,
+            date_source=doc.date_source,
+            start_precision=doc.start_precision,
             title=doc.title,
             url=doc.source_url,
             authors=list(doc.authors),
@@ -354,7 +353,7 @@ def _handle(
     ``fail`` receives the reason for an unresolved outcome, so the retry marker
     can say *why* a document is unresolved rather than only that it is. ``flag``
     receives run-level observations that are not outcomes — a document indexed
-    without a publication date, say, which is neither a success worth hiding nor
+    without an effective date, say, which is neither a success worth hiding nor
     a failure worth retrying.
     """
     prior_version = record.prior.doc_version if record.prior else None
@@ -454,7 +453,7 @@ def _handle(
              error=reason)
         return "error"
 
-    if not doc.published_at:
+    if not doc.effective_start_date:
         # Not an error — some sources genuinely state no date, and inventing one
         # would be worse than having none. But an undated document is *invisible*
         # to every date-range filter rather than merely ranked low, so it must not
@@ -462,7 +461,7 @@ def _handle(
         if flag is not None:
             flag("undated")
         logger.warning(
-            "Indexing %s (%s/%s) with no publication date; it will be excluded "
+            "Indexing %s (%s/%s) with no effective date; it will be excluded "
             "from date-filtered results.",
             record.document_id, record.source_type, record.bundle,
         )

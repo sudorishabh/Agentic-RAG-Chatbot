@@ -145,12 +145,12 @@ def test_existing_indexes_are_left_alone(qdrant, settings):
 def test_a_collection_missing_indexes_gains_only_those(qdrant, settings):
     """The state a deployment is actually in: one index from the old
     ensure_collection, the rest never run."""
-    client = qdrant(_FakeQdrant(exists=True, indexed={"published_at"}))
+    client = qdrant(_FakeQdrant(exists=True, indexed={"effective_start_date"}))
 
     vs.ensure_collection()
 
     assert [f for f, _ in client.index_calls] == [
-        f for f in vs.PAYLOAD_INDEXES if f != "published_at"
+        f for f in vs.PAYLOAD_INDEXES if f != "effective_start_date"
     ]
 
 
@@ -241,6 +241,6 @@ def test_the_index_list_covers_what_retrieval_filters_on():
     """A guard against the list drifting from the filters it exists for."""
     for field in (
         "is_parent", "is_current", "source_type", "document_id",
-        "categories", "tags", "published_at", "chunk_text",
+        "categories", "tags", "effective_start_date", "chunk_text",
     ):
         assert field in vs.PAYLOAD_INDEXES, field

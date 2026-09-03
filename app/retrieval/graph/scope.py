@@ -7,7 +7,7 @@ wrong even though nobody's permissions were violated.
 
 The graph templates take an ``entity_id`` and, for historical queries, a date.
 They express **no** notion of source type, theme, tag, language, document id or
-publication date. So a scoped question cannot currently be answered from the
+effective date. So a scoped question cannot currently be answered from the
 graph without discarding the scope, and discarding it silently is the failure
 this module exists to prevent.
 

@@ -499,7 +499,7 @@ def test_the_mysql_gateway_traces_a_statement_it_never_had_to_be_told_about(
     with retlog.query_log("how many reports in 2024?", entrypoint="test"):
         with mysql_connection() as conn, conn.cursor() as cur:
             cur.execute(
-                "SELECT s.* FROM `documents` s WHERE s.published_at >= %s",
+                "SELECT s.* FROM `documents` s WHERE s.effective_start_date >= %s",
                 ("2024-01-01",),
             )
             rows = cur.fetchall()
@@ -716,7 +716,7 @@ def test_a_filter_tree_reads_as_one_line():
         must=[
             FieldCondition(key="is_parent", match=MatchValue(value=False)),
             FieldCondition(key="source_type", match=MatchValue(value="website")),
-            FieldCondition(key="published_at", range=DatetimeRange(gte="2024-01-01")),
+            FieldCondition(key="effective_start_date", range=DatetimeRange(gte="2024-01-01")),
             Filter(should=[
                 FieldCondition(key="chunk_text", match=MatchText(text="solar"))
             ]),
@@ -728,7 +728,7 @@ def test_a_filter_tree_reads_as_one_line():
     line = views.filter_compact(safe.jsonable(tree))
     assert line == (
         "is_parent=false AND source_type=website "
-        "AND published_at gte 2024-01-01T00:00:00 "
+        "AND effective_start_date gte 2024-01-01T00:00:00 "
         "AND (ANY(chunk_text ~ 'solar')) AND NOT (section_type in [toc, glossary])"
     )
 

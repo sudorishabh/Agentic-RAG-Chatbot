@@ -37,7 +37,7 @@ class RecordFilters:
     """Normalized filter scope — only the columns the catalog actually supports.
 
     `theme` and `tag` are display names resolved to taxonomy UUIDs by the Scope
-    Resolver; dates are a half-open [from, to) interval over published_at.
+    Resolver; dates are a half-open [from, to) interval over effective_start_date.
     """
 
     theme: str | None = None

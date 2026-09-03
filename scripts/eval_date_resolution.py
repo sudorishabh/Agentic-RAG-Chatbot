@@ -55,7 +55,7 @@ def build(case: dict) -> PdfEvidence:
         url=case.get("url"),
         filename=case.get("filename"),
         anchor=case.get("anchor"),
-        current_published_at=case.get("node_created"),
+        current_start_date=case.get("node_created"),
         file_created=case.get("file_created"),
         pdf_created=case.get("pdf_created"),
         head_text=case.get("head_text", ""),
@@ -111,7 +111,7 @@ def main(argv: list[str] | None = None) -> int:
                     decision.evidence = verdict.evidence
                     decision.decided_by = "llm"
                     if safe == "override":
-                        decision.candidate_date = verdict.candidate_date
+                        decision.candidate_start_date = verdict.candidate_start_date
                         decision.source = "llm_publication"
 
         expected = case["expected_action"]

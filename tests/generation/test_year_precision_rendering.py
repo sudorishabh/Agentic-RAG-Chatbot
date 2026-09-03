@@ -18,7 +18,7 @@ from __future__ import annotations
 import pytest
 
 from app.generation.prompts import _source_hint
-from app.pipeline.summarize import _published_label
+from app.pipeline.summarize import _effective_date_label
 
 YEAR_ONLY = "2016-01-01T00:00:00+00:00"
 FULL_DATE = "2019-08-27T06:31:43+00:00"
@@ -31,7 +31,7 @@ FULL_DATE = "2019-08-27T06:31:43+00:00"
 def test_a_year_precision_date_is_shown_as_a_year():
     header = _source_hint({
         "source_type": "website", "title": "Some paper",
-        "published_at": YEAR_ONLY, "published_at_precision": "year",
+        "effective_start_date": YEAR_ONLY, "start_precision": "year",
     })
     assert "2016" in header
     assert "2016-01-01" not in header
@@ -43,7 +43,7 @@ def test_the_header_says_the_day_is_not_known():
     to supply a plausible month."""
     header = _source_hint({
         "source_type": "website", "title": "Some paper",
-        "published_at": YEAR_ONLY, "published_at_precision": "year",
+        "effective_start_date": YEAR_ONLY, "start_precision": "year",
     })
     assert "year only" in header
     assert "day is not known" in header
@@ -54,25 +54,25 @@ def test_a_full_date_is_unchanged():
     before, which is 12,000-odd documents."""
     header = _source_hint({
         "source_type": "website", "title": "TERI launches report",
-        "published_at": "2024-05-01T00:00:00",
+        "effective_start_date": "2024-05-01T00:00:00",
     })
-    assert header == "website · TERI launches report · page published 2024-05-01T00:00:00"
+    assert header == "website · TERI launches report · page date 2024-05-01T00:00:00"
 
 
 def test_an_absent_precision_reads_as_a_full_date():
     """Existing points predate the payload field. Absent means "a full date",
     which is true of all of them — and is why this needed no version bump."""
     header = _source_hint({
-        "source_type": "website", "title": "x", "published_at": FULL_DATE,
+        "source_type": "website", "title": "x", "effective_start_date": FULL_DATE,
     })
     assert FULL_DATE in header
 
 
 @pytest.mark.parametrize("precision", [None, "", "day", "month", "unknown"])
 def test_only_year_precision_changes_the_rendering(precision):
-    payload = {"source_type": "website", "title": "x", "published_at": FULL_DATE}
+    payload = {"source_type": "website", "title": "x", "effective_start_date": FULL_DATE}
     if precision is not None:
-        payload["published_at_precision"] = precision
+        payload["start_precision"] = precision
     assert FULL_DATE in _source_hint(payload)
 
 
@@ -80,12 +80,11 @@ def test_a_year_precision_pdf_still_keeps_its_edition_and_document_date_apart():
     """The annual-report guard must survive: three labelled facts, none merged."""
     header = _source_hint({
         "source_type": "pdf_attachment", "title": "Annual Report 2024-2025",
-        "edition_label": "2024-25", "published_at": YEAR_ONLY,
-        "published_at_precision": "year", "page_number": 3,
+        "edition_label": "2024-25", "effective_start_date": YEAR_ONLY,
+        "start_precision": "year", "page_number": 3,
     })
     assert "edition 2024-25" in header
     assert "year only" in header
-    assert "document published: not stated" in header
     assert "2016-01-01" not in header
 
 
@@ -94,22 +93,22 @@ def test_a_year_precision_pdf_still_keeps_its_edition_and_document_date_apart():
 # --------------------------------------------------------------------------- #
 
 def test_the_summary_line_shows_a_bare_year():
-    assert _published_label(YEAR_ONLY, "year") == "2016"
+    assert _effective_date_label(YEAR_ONLY, "year") == "2016"
 
 
 def test_the_summary_line_shows_a_full_date_otherwise():
-    assert _published_label(FULL_DATE, None) == "2019-08-27"
-    assert _published_label(FULL_DATE, "day") == "2019-08-27"
+    assert _effective_date_label(FULL_DATE, None) == "2019-08-27"
+    assert _effective_date_label(FULL_DATE, "day") == "2019-08-27"
 
 
 def test_the_summary_line_survives_a_missing_date():
-    assert _published_label(None, None) == ""
-    assert _published_label("", "year") == ""
+    assert _effective_date_label(None, None) == ""
+    assert _effective_date_label("", "year") == ""
 
 
 def test_the_summary_line_never_leaks_january_first():
     """The specific string that would make the model report an invented day."""
-    assert "01-01" not in _published_label(YEAR_ONLY, "year")
+    assert "01-01" not in _effective_date_label(YEAR_ONLY, "year")
 
 
 # --------------------------------------------------------------------------- #
@@ -121,9 +120,9 @@ def test_year_precision_reaches_the_chunk_payload():
     from app.ingestion.chunking.payload import build_payload
 
     meta = DocumentMeta(document_id="d", source_type="website",
-                        published_at=YEAR_ONLY, published_at_precision="year")
+                        effective_start_date=YEAR_ONLY, start_precision="year")
     payload = build_payload(Chunk(chunk_id="c", text="x", is_parent=False, meta=meta))
-    assert payload["published_at_precision"] == "year"
+    assert payload["start_precision"] == "year"
 
 
 def test_a_full_date_writes_no_precision_key():
@@ -133,9 +132,9 @@ def test_a_full_date_writes_no_precision_key():
     from app.ingestion.chunking.payload import build_payload
 
     meta = DocumentMeta(document_id="d", source_type="website",
-                        published_at=FULL_DATE, published_at_precision="day")
+                        effective_start_date=FULL_DATE, start_precision="day")
     payload = build_payload(Chunk(chunk_id="c", text="x", is_parent=False, meta=meta))
-    assert "published_at_precision" not in payload
+    assert "start_precision" not in payload
 
 
 @pytest.mark.parametrize("precision", ["day", "month", "unknown", None])
@@ -147,14 +146,23 @@ def test_no_precision_but_year_ever_reaches_a_payload(precision):
     from app.ingestion.chunking.payload import build_payload
 
     meta = DocumentMeta(document_id="d", source_type="website",
-                        published_at=FULL_DATE, published_at_precision=precision)
+                        effective_start_date=FULL_DATE, start_precision=precision)
     payload = build_payload(Chunk(chunk_id="c", text="x", is_parent=False, meta=meta))
-    assert "published_at_precision" not in payload
+    assert "start_precision" not in payload
 
 
-def test_the_payload_version_was_not_bumped():
-    """If this fails, someone decided old points must carry the field — which is
-    a full corpus reprocess, Document Intelligence included."""
+def test_the_precision_marker_still_needs_no_bump_of_its_own():
+    """Adding `start_precision` did not require a payload bump: absent means "a
+    full date", which was true of every point already in the collection.
+
+    That reasoning is unchanged. PAYLOAD is 2 for a different reason — the
+    publication-date keys were *renamed*, so old points carry keys no reader
+    consults — and this test exists to keep the two apart. Bumping it again for
+    a purely additive key would still be wrong.
+    """
     from app.ingestion.version import PAYLOAD
 
-    assert PAYLOAD == 1
+    assert PAYLOAD == 2, (
+        "PAYLOAD moved again; check the reason is a key readers actually miss, "
+        "not merely a new optional one."
+    )

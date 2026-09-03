@@ -10,11 +10,11 @@ from app.retrieval.structured import tools
 from app.retrieval.structured.types import RecordFilters
 
 
-def _rec(document_id="d1", title="A", url="http://a", published_at="2024-05-01T00:00:00",
+def _rec(document_id="d1", title="A", url="http://a", effective_start_date="2024-05-01T00:00:00",
          bundle="news"):
     return StateRecord(
         document_id=document_id, source_type="website", source_key="k",
-        fingerprint="f", title=title, url=url, published_at=published_at, bundle=bundle,
+        fingerprint="f", title=title, url=url, effective_start_date=effective_start_date, bundle=bundle,
     )
 
 
@@ -586,7 +586,7 @@ def test_list_records_without_fields_keeps_full_metadata(monkeypatch):
     monkeypatch.setattr("app.catalog.queries.list_documents", lambda **k: [_rec()])
     r = tools.list_records("news", RecordFilters())
     assert set(r.data["records"][0]) == {
-        "document_id", "title", "url", "published_at", "bundle",
+        "document_id", "title", "url", "effective_start_date", "bundle",
     }
 
 

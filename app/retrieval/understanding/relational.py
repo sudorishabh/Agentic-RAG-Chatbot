@@ -4,7 +4,7 @@ Moved here from the graph package's ``intent`` module because it is *query
 understanding*, not graph retrieval. Reading a predicate cue out of a question
 needs no Neo4j, no template and no traversal — only the approved vocabulary — and
 three layers now need it: the graph router (to plan a hop), the facet builder (to
-tell a relationship's validity window from a document's publication date), and
+tell a relationship's validity window from a document's effective date), and
 intent classification (to know that a relational question is not small talk).
 
 The dependency runs one way, and this file is why: understanding owns the cue

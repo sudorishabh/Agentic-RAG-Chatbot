@@ -62,7 +62,7 @@ def test_ids_in_scope_bakes_in_website_nodes(monkeypatch):
     assert ids == ["d1", "d2"]
     sql, params = cursor.calls[0]
     assert "s.source_type = %s" in sql and "s.entity_type = %s" in sql
-    assert "ORDER BY s.published_at DESC" in sql and "LIMIT 150" in sql
+    assert "ORDER BY s.effective_start_date DESC" in sql and "LIMIT 150" in sql
     assert "DISTINCT" not in sql  # no facet join -> no duplicate rows
     assert params == ("website", "node", "news")
 
@@ -74,12 +74,12 @@ def test_ids_in_scope_theme_join_distinct_and_param_order(monkeypatch):
     catalog.document_ids_in_scope(
         theme="Environment",
         author="Sharma",
-        published_from=datetime(2024, 1, 1),
+        effective_from=datetime(2024, 1, 1),
         limit=30,
     )
 
     sql, params = cursor.calls[0]
-    assert sql.startswith("SELECT DISTINCT s.document_id, s.published_at")
+    assert sql.startswith("SELECT DISTINCT s.document_id, s.effective_start_date")
     assert "_theme` c" in sql and "(c.theme = %s OR c.parent = %s)" in sql
     assert "_author` a" in sql and "a.author LIKE %s" in sql
     assert "LIMIT 30" in sql
@@ -160,49 +160,49 @@ def test_attachments_for_fails_open(monkeypatch):
 
 
 # --------------------------------------------------------------------------- #
-# published_range — the span the date-extracting prompts are told about.
+# effective_date_range — the span the date-extracting prompts are told about.
 # --------------------------------------------------------------------------- #
 
 def _no_cache(monkeypatch):
     """Drop the TTL cache so each case queries. The cache is process-global, so
     a leftover entry would otherwise answer the next test."""
-    monkeypatch.setattr(catalog, "_published_range", None)
+    monkeypatch.setattr(catalog, "_effective_date_range", None)
 
 
-def test_published_range_returns_iso_dates(monkeypatch):
+def test_effective_date_range_returns_iso_dates(monkeypatch):
     _no_cache(monkeypatch)
     cursor = _FakeCursor(fetchall_results=[[
         {"lo": datetime(2011, 3, 4, 9, 30), "hi": datetime(2024, 11, 30, 18, 5)}
     ]])
     _patch(monkeypatch, cursor)
 
-    assert catalog.published_range() == ("2011-03-04", "2024-11-30")
+    assert catalog.effective_date_range() == ("2011-03-04", "2024-11-30")
     sql, _ = cursor.calls[0]
-    assert "MIN(published_at) AS lo, MAX(published_at) AS hi" in sql
-    assert "published_at IS NOT NULL" in sql
+    assert "MIN(effective_start_date) AS lo, MAX(effective_start_date) AS hi" in sql
+    assert "effective_start_date IS NOT NULL" in sql
 
 
-def test_published_range_spans_every_source_type(monkeypatch):
+def test_effective_date_range_spans_every_source_type(monkeypatch):
     """Unlike the bundle inventory, it is not scoped to website nodes — any
     indexed document can carry a date and be retrieved by one."""
     _no_cache(monkeypatch)
     cursor = _FakeCursor(fetchall_results=[[{"lo": None, "hi": None}]])
     _patch(monkeypatch, cursor)
 
-    catalog.published_range()
+    catalog.effective_date_range()
 
     sql, _ = cursor.calls[0]
     assert "source_type" not in sql
     assert "entity_type" not in sql
 
 
-def test_published_range_reads_an_empty_catalog_as_unknown(monkeypatch):
+def test_effective_date_range_reads_an_empty_catalog_as_unknown(monkeypatch):
     _no_cache(monkeypatch)
     _patch(monkeypatch, _FakeCursor(fetchall_results=[[]]))
-    assert catalog.published_range() == (None, None)
+    assert catalog.effective_date_range() == (None, None)
 
 
-def test_published_range_fails_open(monkeypatch):
+def test_effective_date_range_fails_open(monkeypatch):
     """A MySQL blip must not tell the prompt the catalog covers nothing."""
     _no_cache(monkeypatch)
 
@@ -210,16 +210,16 @@ def test_published_range_fails_open(monkeypatch):
         raise RuntimeError("mysql down")
 
     monkeypatch.setattr(catalog, "mysql_connection", boom)
-    assert catalog.published_range() == (None, None)
+    assert catalog.effective_date_range() == (None, None)
 
 
-def test_published_range_is_cached_between_calls(monkeypatch):
+def test_effective_date_range_is_cached_between_calls(monkeypatch):
     _no_cache(monkeypatch)
     cursor = _FakeCursor(fetchall_results=[[
         {"lo": datetime(2011, 3, 4), "hi": datetime(2024, 11, 30)}
     ]])
     _patch(monkeypatch, cursor)
 
-    assert catalog.published_range() == catalog.published_range()
+    assert catalog.effective_date_range() == catalog.effective_date_range()
     assert len(cursor.calls) == 1
-    assert catalog.published_range(refresh=True) != () and len(cursor.calls) == 2
+    assert catalog.effective_date_range(refresh=True) != () and len(cursor.calls) == 2

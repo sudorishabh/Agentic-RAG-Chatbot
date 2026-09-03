@@ -39,7 +39,19 @@ from __future__ import annotations
 
 CHUNKING = 1
 CHUNK_IDENTITY = 1
-PAYLOAD = 1
+#: 2 — the publication-date vocabulary was removed. `published_at`,
+#: `published_until`, `published_at_precision`, `published_until_precision` and
+#: `document_published_at` became `effective_start_date`, `effective_end_date`,
+#: `start_precision` and `end_precision` (the last was dropped: nothing ever
+#: wrote it). Payload *keys* changed, which is exactly what this component is
+#: for, so it is bumped rather than relying on the migration alone — a
+#: deployment that skipped `scripts.backfill_bundle_dates` would otherwise serve
+#: points whose date keys no reader consults, silently and without a signal.
+#:
+#: The bump is cheap: `_reusable_vectors` keys on chunk id + `embed_hash` +
+#: `embed_model`, none of which this touches, so a re-indexed document reuses
+#: every stored vector and nothing is re-embedded.
+PAYLOAD = 2
 EMBED_INPUT = 1
 
 #: The version stamped on everything this pipeline writes. Short by design: it

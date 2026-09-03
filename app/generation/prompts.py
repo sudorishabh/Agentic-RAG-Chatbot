@@ -262,7 +262,7 @@ _RULES_TAIL = (
     f"particular document belongs to is fine either way; generalising from those "
     f"mentions to \"our themes\" is not.\n"
     "9. When two blocks disagree, answer from the one whose header shows the "
-    "later 'page published' date — never present both versions as equally true. Keep "
+    "later 'page date' — never present both versions as equally true. Keep "
     "the older statement only where it is plainly the fuller or more precise "
     "one, or where rule 5 gives it precedence. Where the change is itself part "
     "of the answer, say what it was and cite both. A block with no date shown is "
@@ -555,7 +555,7 @@ def _source_hint(payload: dict) -> str:
     # The reporting period the document itself covers, when one was recovered at
     # ingest. This is the only thing that distinguishes editions of a series:
     # all ten TERI annual reports are attachments on one Drupal page, so they
-    # share a title AND a published_at, and without the edition the model has
+    # share a title AND a effective_start_date, and without the edition the model has
     # nothing to tell them apart by.
     if payload.get("edition_label"):
         bits.append(f"edition {payload['edition_label']}")
@@ -568,34 +568,27 @@ def _source_hint(payload: dict) -> str:
         bits.append(str(payload["section_heading"]))
     if payload.get("has_table"):
         bits.append("contains a table")
-    # "page published", not "published": for an attachment this is the date of
-    # the *Drupal page* the file hangs on, which for an accretive page is a
-    # different document's date. Labelling it plainly stops the model reporting
-    # a page's 2022 date as the publication date of a 2024-25 report.
-    if payload.get("published_at"):
-        # Two distinct facts, labelled separately. `published_at` is the page
-        # date; `document_published_at` is what the document states about itself,
-        # and is NULL unless it states something. Spelling out "not stated" is
-        # what lets the model answer "when was this published?" without reaching
-        # for the page date - and it replaces the parenthetical disclaimer this
-        # header used to carry, which existed only because there was no field to
-        # put the fact in.
+    # "page date", not "published": for an attachment this is the effective date
+    # of the *Drupal page* the file hangs on, which for an accretive page is a
+    # different document's date. Labelling it plainly stops the model reporting a
+    # page's 2022 date as the publication date of a 2024-25 report.
+    #
+    # It is the bundle's effective/business date, not a claim that anything was
+    # published that day: for `events` and the project bundles the underlying CMS
+    # field is a start date. `edition_label` above is what actually distinguishes
+    # editions of a series.
+    if payload.get("effective_start_date"):
         # A year-precision value is 1 January standing in for a year the source
         # stated without a day. Rendering it in full would invent that day, and
         # the model would repeat it — the same refusal
         # `DateInterpretation.statement_is_year_only` makes on the PDF path.
         page_date = (
-            f"{str(payload['published_at'])[:4]} (year only; the day is not known)"
-            if payload.get("published_at_precision") == "year"
-            else str(payload["published_at"])
+            f"{str(payload['effective_start_date'])[:4]} "
+            f"(year only; the day is not known)"
+            if payload.get("start_precision") == "year"
+            else str(payload["effective_start_date"])
         )
-        if payload.get("edition_label"):
-            bits.append("page published " + page_date)
-            stated = payload.get("document_published_at")
-            bits.append("document published: " + (str(stated)[:10] if stated
-                                                  else "not stated"))
-        else:
-            bits.append("page published " + page_date)
+        bits.append("page date " + page_date)
     if payload.get("doc_version"):
         bits.append(f"v{payload['doc_version']}")
     return " · ".join(bits)

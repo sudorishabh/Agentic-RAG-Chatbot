@@ -125,7 +125,7 @@ def graph(monkeypatch):
         gp, "_load_documents",
         lambda ids: [
             {"document_id": d, "title": "T", "source_type": "website",
-             "bundle": "completed_projects", "published_at": None, "url": None}
+             "bundle": "completed_projects", "effective_start_date": None, "url": None}
             for d in sorted(ids)
         ],
     )

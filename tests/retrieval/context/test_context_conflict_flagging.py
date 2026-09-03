@@ -136,7 +136,7 @@ def test_a_flagged_pair_marks_only_that_pair():
 # Attachments under one node are two different things depending on the node:
 # editions of a publication (which a "prefer the later date" rule would want to
 # know about) and the contents of a catalogue page (which it must not touch).
-# The payload cannot tell them apart — same node, same title, same published_at
+# The payload cannot tell them apart — same node, same title, same effective_start_date
 # — and on this corpus catalogue pages dominate, the largest carrying 69, 68 and
 # 43 attachments. Flagging the relationship marked ~28% of sampled answers,
 # mostly wrongly, so it does not flag at all.

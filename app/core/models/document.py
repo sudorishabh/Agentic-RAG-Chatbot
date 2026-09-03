@@ -63,16 +63,26 @@ class CanonicalDocument:
     categories: list[str] = field(default_factory=list)
     language: str = "en"
 
-    published_at: str | None = None
-    #: The date the document itself states it was published. None unless the
-    #: document says so. Distinct from ``published_at``, which is the
-    #: source/web-page date and remains what chronology uses.
-    document_published_at: str | None = None
-    #: Where :attr:`published_at` came from and how precise it is. Carried on
-    #: the document so the catalogue can record it without re-deriving it, and
-    #: so a value and its provenance are always written together.
-    published_at_source: str | None = None
-    published_at_precision: str | None = None
+    #: The document's primary date: the effective/business date resolved from
+    #: its Drupal bundle's configured field, or its creation stamp where the
+    #: bundle has nothing else. Everything that ranks, orders or filters reads
+    #: this one.
+    effective_start_date: str | None = None
+    start_precision: str | None = None
+    #: Where :attr:`effective_start_date` came from. Carried on the document so
+    #: the catalogue can record it without re-deriving it, and so a value and its
+    #: provenance are always written together.
+    date_source: str | None = None
+    #: The end of the period this document's content covers, when its bundle
+    #: declares an end field and that field held a usable date. None otherwise,
+    #: and **never manufactured** from `effective_start_date`: a single-date document has
+    #: no end, and saying otherwise would invent a period nobody stated.
+    #:
+    #: `effective_start_date` remains the effective date every ranking, ordering and
+    #: filtering path reads. This is retained beside it as business metadata and
+    #: for date-range questions.
+    effective_end_date: str | None = None
+    end_precision: str | None = None
     doc_version: int = 1
     is_current: bool = True
     content_hash: str = ""
@@ -85,7 +95,7 @@ class CanonicalDocument:
     entity_refs: list[EntityRef] = field(default_factory=list)
     file_links: list[FileLink] = field(default_factory=list)
     raw_meta: dict[str, Any] = field(default_factory=dict)
-    #: How `published_at` was decided: the bundle, the field consulted, the raw
+    #: How `effective_start_date` was decided: the bundle, the field consulted, the raw
     #: value and the rule that fired
     #: (:class:`app.ingestion.bundle_dates.EffectiveDate`).
     #:

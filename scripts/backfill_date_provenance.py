@@ -1,6 +1,6 @@
-"""Record where each existing ``published_at`` came from. Moves no dates.
+"""Record where each existing ``effective_start_date`` came from. Moves no dates.
 
-``published_at_source`` was added without being backfilled, deliberately: writing
+``date_source`` was added without being backfilled, deliberately: writing
 ``created`` across the board would have been *false* for the four PDFs whose
 dates come from a publication statement quoted out of the document itself. So
 10,956 rows read NULL — "not recorded" — and the one query worth having is
@@ -13,8 +13,8 @@ This fills it in, and every value is **derived, not assumed**:
 * **Website documents** → ``created``. Provable from the code rather than from
   the value: ``canonical._drupal_document`` is the only place a website date has
   ever been assigned (both ``from_drupal_record`` and ``from_drupal_export``
-  route through it), and before ``_published_at_for`` existed that line read
-  ``published_at=created``. Rows already stamped ``cms_field`` by
+  route through it), and before ``_effective_dates_for`` existed that line read
+  ``effective_start_date=created``. Rows already stamped ``cms_field`` by
   ``scripts.backfill_source_dates`` are skipped, so what remains is by
   construction the untouched creation stamp.
 
@@ -29,7 +29,7 @@ This fills it in, and every value is **derived, not assumed**:
   whether the page held one document or a shelf of them.
 
 Nothing an answer depends on changes, so unlike the source-date backfill this
-touches no Qdrant payload and needs no cache drop. The ``published_at`` checksum
+touches no Qdrant payload and needs no cache drop. The ``effective_start_date`` checksum
 over all 12,003 documents is asserted identical before and after.
 
     python -m scripts.backfill_date_provenance
@@ -46,24 +46,24 @@ from typing import Any
 
 #: ``(label, description, WHERE clause)`` for each class of row, evaluated
 #: against ``documents d`` left-joined to its decision row as ``dd``. Every
-#: clause requires ``published_at_source IS NULL``, so an existing value is never
+#: clause requires ``date_source IS NULL``, so an existing value is never
 #: overwritten — this script can be re-run safely and is a no-op the second time.
 CLASSES: list[tuple[str, str, str, str]] = [
     (
         "created", "day",
         "website documents: the CMS record's own creation stamp",
-        "d.source_type = 'website' AND d.published_at_source IS NULL",
+        "d.source_type = 'website' AND d.date_source IS NULL",
     ),
     (
         "document_text", "day",
         "attachments dated from a publication statement quoted in the PDF",
-        "d.source_type <> 'website' AND d.published_at_source IS NULL "
+        "d.source_type <> 'website' AND d.date_source IS NULL "
         "AND dd.action = 'propose_override'",
     ),
     (
         "created", "day",
         "attachments that kept their parent page's stamp",
-        "d.source_type <> 'website' AND d.published_at_source IS NULL "
+        "d.source_type <> 'website' AND d.date_source IS NULL "
         "AND dd.document_id IS NOT NULL AND dd.action <> 'propose_override'",
     ),
 ]
@@ -86,18 +86,18 @@ def _undeterminable(cur, table: str, decision: str) -> int:
     cur.execute(
         f"SELECT COUNT(*) n FROM `{table}` d "
         f"LEFT JOIN `{decision}` dd ON dd.document_id = d.document_id "
-        f"WHERE d.published_at_source IS NULL AND d.source_type <> 'website' "
+        f"WHERE d.date_source IS NULL AND d.source_type <> 'website' "
         f"AND dd.document_id IS NULL"
     )
     return int(cur.fetchall()[0]["n"])
 
 
 def _date_checksum(cur, table: str) -> tuple[str, int]:
-    cur.execute(f"SELECT document_id, published_at FROM `{table}` ORDER BY document_id")
+    cur.execute(f"SELECT document_id, effective_start_date FROM `{table}` ORDER BY document_id")
     digest = hashlib.sha256()
     rows = 0
     for row in cur.fetchall():
-        digest.update(f"{row['document_id']}|{row['published_at']}\n".encode())
+        digest.update(f"{row['document_id']}|{row['effective_start_date']}\n".encode())
         rows += 1
     return digest.hexdigest()[:16], rows
 
@@ -108,26 +108,26 @@ def stale_labels(cur, table: str) -> list[tuple[str, str, str]]:
     The classes above are SQL clauses; this one cannot be. Whether the source
     states a publication date depends on a field inside the ``raw_meta`` JSON, on
     an Asia/Kolkata conversion, and on which field the record's **bundle** is
-    dated by — so it is decided by calling ``resolve_published_at``, the same
+    dated by — so it is decided by calling ``resolve_effective_dates``, the same
     function ingestion calls, with the same bundle.
 
     What this catches: a backfill stamps ``cms_field`` only on documents whose
     date it *moved*. Where the bundle's field already agreed with the stored
     value there was nothing to move, so the label was left as ``created`` — while
-    ``resolve_published_at`` returns ``cms_field`` for those rows regardless of
+    ``resolve_effective_dates`` returns ``cms_field`` for those rows regardless of
     whether the value changes. The stored labels are therefore stale against the
     very next re-crawl, and the documents the publisher corroborates are
-    invisible to ``WHERE published_at_source = 'cms_field'``.
+    invisible to ``WHERE date_source = 'cms_field'``.
 
     **No date is proposed here.** A row is only reported when the label differs
     and the date does not, so this can be applied under a checksum that forbids
-    ``published_at`` moving at all.
+    ``effective_start_date`` moving at all.
     """
-    from app.ingestion.source_dates import resolve_published_at
+    from app.ingestion.source_dates import resolve_effective_dates
 
     cur.execute(
-        f"SELECT document_id, bundle, raw_meta, published_at, "
-        f"published_at_source, published_at_precision FROM `{table}` "
+        f"SELECT document_id, bundle, raw_meta, effective_start_date, "
+        f"date_source, start_precision FROM `{table}` "
         f"WHERE source_type = 'website' AND raw_meta IS NOT NULL"
     )
     out: list[tuple[str, str, str]] = []
@@ -139,8 +139,8 @@ def stale_labels(cur, table: str) -> list[tuple[str, str, str]]:
             continue
         if not isinstance(meta, dict):
             continue
-        stored = row["published_at"]
-        value, source, precision = resolve_published_at(
+        stored = row["effective_start_date"]
+        value, source, precision = resolve_effective_dates(
             stored.isoformat(), meta, bundle=row["bundle"])
         if source != "cms_field" or not value:
             continue
@@ -149,7 +149,7 @@ def stale_labels(cur, table: str) -> list[tuple[str, str, str]]:
             # and not a labelling question. Left alone so one script cannot
             # quietly do the other's work.
             continue
-        if (row["published_at_source"], row["published_at_precision"]) == (source, precision):
+        if (row["date_source"], row["start_precision"]) == (source, precision):
             continue
         out.append((row["document_id"], source, precision))
     return out
@@ -157,7 +157,7 @@ def stale_labels(cur, table: str) -> list[tuple[str, str, str]]:
 
 def _distribution(cur, table: str) -> dict[str, int]:
     cur.execute(
-        f"SELECT COALESCE(published_at_source, '(not recorded)') s, COUNT(*) n "
+        f"SELECT COALESCE(date_source, '(not recorded)') s, COUNT(*) n "
         f"FROM `{table}` GROUP BY s ORDER BY n DESC"
     )
     return {r["s"]: int(r["n"]) for r in cur.fetchall()}
@@ -219,7 +219,7 @@ def main(argv: list[str] | None = None) -> int:
             cur.execute(
                 f"UPDATE `{table}` d "
                 f"LEFT JOIN `{decision}` dd ON dd.document_id = d.document_id "
-                f"SET d.published_at_source = %s, d.published_at_precision = %s "
+                f"SET d.date_source = %s, d.start_precision = %s "
                 # updated_at is deliberately not moved: no fact about the
                 # document changed, only what we recorded about our own
                 # knowledge of it.
@@ -228,8 +228,8 @@ def main(argv: list[str] | None = None) -> int:
             )
         if stale:
             cur.executemany(
-                f"UPDATE `{table}` SET published_at_source = %s, "
-                f"published_at_precision = %s WHERE document_id = %s",
+                f"UPDATE `{table}` SET date_source = %s, "
+                f"start_precision = %s WHERE document_id = %s",
                 [(source, precision, doc_id) for doc_id, source, precision in stale],
             )
         conn.commit()
@@ -244,7 +244,7 @@ def main(argv: list[str] | None = None) -> int:
     print("\ninvariants (must be identical):")
     ok = True
     for label, before, after in (("documents", before_rows, after_rows),
-                                 ("published_at_checksum", before_sum, after_sum)):
+                                 ("effective_start_date_checksum", before_sum, after_sum)):
         same = before == after
         ok = ok and same
         print(f"  {label:24} {before!s:>18} -> {after!s:<18}"

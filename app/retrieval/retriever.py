@@ -563,7 +563,7 @@ def retrieve(
     # from events that have already happened. Applied here rather than as a
     # vector pre-filter because an event's own start date lives in the CMS
     # (`documents.raw_meta`) and is not in the Qdrant payload — the only date on
-    # a chunk is `published_at`, which is when the page went up, not when the
+    # a chunk is `effective_start_date`, which is when the page went up, not when the
     # event runs. Removal-only and it never empties the context, so the worst it
     # can do is leave the context exactly as it was.
     blocks = _gate_temporal(search_query, blocks)

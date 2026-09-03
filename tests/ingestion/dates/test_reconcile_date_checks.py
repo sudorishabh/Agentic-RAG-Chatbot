@@ -1,4 +1,4 @@
-"""Standing invariants over ``published_at`` and where it came from.
+"""Standing invariants over ``effective_start_date`` and where it came from.
 
 These run on **every sweep** (``reconcile_after_sweep``), not only on demand,
 which is the whole point: every problem the date audit found had existed for
@@ -78,10 +78,10 @@ def _fake_checks():
     """
     return [
         reconcile._check("date_provenance_unrecorded", [],
-                         "Documents whose published_at has no recorded origin. Every "
+                         "Documents whose effective_start_date has no recorded origin. Every "
                          "write path sets it, so these came from one that does not."),
         reconcile._check("stated_date_not_applied", [],
-                         "The source states a publication date that published_at does "
+                         "The source states a publication date that effective_start_date does "
                          "not match. Re-run scripts.backfill_source_dates."),
         reconcile._check("undeclared_source_date_field", [],
                          "A source field that looks like a date and holds a parseable "
@@ -154,26 +154,31 @@ def test_the_legitimately_non_zero_findings_stay_in_the_audit_script():
 )
 def test_the_venue_fields_are_declared_so_the_alarm_stays_meaningful(field):
     """These three hold journal and publisher names, and their names contain
-    "publish". Declared ``unknown`` — looked at and rejected — so
+    "publish". Declared ``not_a_date`` — looked at and rejected — so
     `undeclared_source_date_field` means "nobody has classified this" rather
     than firing on them forever. One field_rpaper_publisher value is literally
     "2021", which would otherwise parse as a date."""
-    from app.ingestion.source_dates import FIELD_KINDS, classify
+    from app.ingestion.source_dates import FIELD_ROLES, classify
 
-    assert field in FIELD_KINDS
-    assert classify(field) == "unknown"
+    assert field in FIELD_ROLES
+    assert classify(field) == "not_a_date"
 
 
-def test_declaring_a_field_unknown_does_not_let_it_set_a_date():
-    from app.ingestion.source_dates import publication_date
+def test_declaring_a_field_not_a_date_keeps_every_bundle_away_from_it():
+    """The declaration is what stops it being read. No bundle maps to any of
+    them, so no document can be dated by "2021" in a publisher field."""
+    from app.ingestion.bundle_dates import BUNDLE_DATE_FIELDS
+    from app.ingestion.source_dates import FIELD_ROLES
 
-    assert publication_date({"field_rpaper_publisher": "2021"}) is None
-    assert publication_date({"field_article_published_in": "2019"}) is None
+    mapped = {f for fields in BUNDLE_DATE_FIELDS.values() for f in fields}
+    for field, (role, _) in FIELD_ROLES.items():
+        if role == "not_a_date":
+            assert field not in mapped, field
 
 
 def test_a_genuinely_new_field_is_still_flagged():
     """Declaring the known three must not silence the check for the next one."""
-    from app.ingestion.source_dates import FIELD_KINDS
+    from app.ingestion.source_dates import FIELD_ROLES
 
-    assert "field_brand_new_date" not in FIELD_KINDS
+    assert "field_brand_new_date" not in FIELD_ROLES
     assert reconcile._DATE_LIKE_FIELD.search("field_brand_new_date")

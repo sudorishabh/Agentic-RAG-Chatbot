@@ -25,7 +25,7 @@ def _payload(doc_id, text="Some content.", title=None, published="2024-03-15T00:
         "document_id": doc_id,
         "title": title or f"Title {doc_id}",
         "source_url": f"https://t/{doc_id}",
-        "published_at": published,
+        "effective_start_date": published,
         "chunk_text": text,
     }
 
@@ -60,8 +60,8 @@ def test_scope_filters_unknown_bundle_dropped_dates_kept(monkeypatch):
     )
     # A summary scope is soft: an unknown bundle must not zero the set.
     assert filters == {
-        "published_from": datetime(2024, 1, 1),
-        "published_to": datetime(2025, 1, 1),
+        "effective_from": datetime(2024, 1, 1),
+        "effective_to": datetime(2025, 1, 1),
     }
 
 
@@ -86,7 +86,7 @@ def test_scope_filters_no_scope_returns_none():
 
 def test_batch_documents_packs_by_token_budget():
     docs = [
-        sm._Doc(document_id=f"d{i}", title="t", url=None, published="", text="x" * 8000)
+        sm._Doc(document_id=f"d{i}", title="t", url=None, effective_date="", text="x" * 8000)
         for i in range(5)
     ]  # ~2050 est. tokens each -> 2 per 6k batch
     batches = sm._batch_documents(docs)
@@ -96,8 +96,8 @@ def test_batch_documents_packs_by_token_budget():
 
 def test_batch_documents_oversized_doc_gets_own_batch():
     docs = [
-        sm._Doc(document_id="big", title="t", url=None, published="", text="x" * 60000),
-        sm._Doc(document_id="small", title="t", url=None, published="", text="x" * 100),
+        sm._Doc(document_id="big", title="t", url=None, effective_date="", text="x" * 60000),
+        sm._Doc(document_id="small", title="t", url=None, effective_date="", text="x" * 100),
     ]
     assert [[d.document_id for d in b] for b in sm._batch_documents(docs)] == [
         ["big"], ["small"]
@@ -126,7 +126,7 @@ def _abstract(doc_id, text="A whole-document abstract.", published="2024-03-15")
         "abstract": text,
         "title": f"Title {doc_id}",
         "url": f"https://t/{doc_id}",
-        "published_at": published,
+        "effective_start_date": published,
     }
 
 
@@ -224,9 +224,9 @@ def test_a_blank_abstract_is_treated_as_absent_by_the_catalog_read():
     which would silently remove the document from the scope."""
     rows = [
         {"document_id": "d1", "abstract": "   ", "title": "T", "url": None,
-         "published_at": None},
+         "effective_start_date": None},
         {"document_id": "d2", "abstract": "Real.", "title": "T", "url": None,
-         "published_at": None},
+         "effective_start_date": None},
     ]
     kept = {r["document_id"] for r in rows if (r["abstract"] or "").strip()}
     assert kept == {"d2"}

@@ -134,7 +134,7 @@ def _sweep(world, bundles: list[str]) -> list[str]:
                 # A real CanonicalDocument always carries a date, even when it
                 # is None; the pipeline reports an undated one rather than
                 # assuming the attribute is there.
-                published_at="2026-01-01T00:00:00+00:00",
+                effective_start_date="2026-01-01T00:00:00+00:00",
             ),
         )
         if record.status is ChangeStatus.DELETED:

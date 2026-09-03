@@ -34,9 +34,8 @@ CHUNK_METADATA_FIELDS: tuple[str, ...] = (
     "section_type",
     "page_number",
     "page_range",
-    "published_at",
-    "document_published_at",
-    "published_at_precision",
+    "effective_start_date",
+    "start_precision",
     "language",
     "categories",
     "tags",
@@ -197,9 +196,9 @@ def _describe(metadata: dict[str, Any]) -> str:
     source = metadata.get("source_type")
     if source:
         parts.append(str(source))
-    published = metadata.get("published_at")
-    if published:
-        parts.append(str(published)[:10])
+    effective = metadata.get("effective_start_date")
+    if effective:
+        parts.append(str(effective)[:10])
     document = metadata.get("document_id")
     if document:
         parts.append(_short_id(document))

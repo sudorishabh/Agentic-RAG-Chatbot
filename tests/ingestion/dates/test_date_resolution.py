@@ -94,7 +94,7 @@ def test_a_late_upload_on_a_single_pdf_page_is_reviewed_not_overridden():
                      file_created="2020-11-09T00:00:00+00:00"))
     assert got.action == "needs_llm"
     assert got.rule == "single_pdf_late_upload_review"
-    assert got.candidate_date == "2019-05-09T00:00:00+00:00"  # page date retained
+    assert got.candidate_start_date == "2019-05-09T00:00:00+00:00"  # page date retained
     assert "550 days" in got.supporting_evidence
 
 
@@ -125,7 +125,7 @@ def test_a_late_upload_on_a_multi_pdf_page_is_reviewed_not_overridden():
                      filename="Ceramic_Report .pdf"))
     assert got.action == "needs_llm"
     assert got.rule == "multi_pdf_late_upload_review"
-    assert got.candidate_date == "2018-02-05T00:00:00+00:00"
+    assert got.candidate_start_date == "2018-02-05T00:00:00+00:00"
 
 
 def test_several_pdfs_alone_do_not_give_each_one_its_own_date():
@@ -149,7 +149,7 @@ def test_a_pdf_creation_date_alone_never_moves_the_page_date():
 
 
 def test_an_authoring_verdict_cannot_become_an_override():
-    assert _verdict(candidate_date="2019-08-01", date_type="authoring",
+    assert _verdict(candidate_start_date="2019-08-01", date_type="authoring",
                     publication_statement="created 2019").safe_action() == "keep_page_date"
 
 
@@ -194,11 +194,11 @@ def test_the_annual_report_edition_survives_without_becoming_a_date():
                      pdf_created="2022-12-09T00:00:00+00:00"))
     assert got.action == "needs_llm"
     assert got.edition_label == "2021-22"
-    assert got.candidate_date == "2022-02-09T06:59:06+00:00"
+    assert got.candidate_start_date == "2022-02-09T06:59:06+00:00"
 
 
 def test_an_edition_verdict_never_becomes_an_override():
-    verdict = _verdict(candidate_date="2024-01-01", date_type="edition",
+    verdict = _verdict(candidate_start_date="2024-01-01", date_type="edition",
                        edition_label="2024-2025",
                        publication_statement="Annual Report 2024-2025")
     assert verdict.safe_action() == "keep_page_date"
@@ -209,7 +209,7 @@ def test_an_edition_verdict_never_becomes_an_override():
 # --------------------------------------------------------------------------- #
 
 def test_a_quoted_publication_statement_overrides():
-    verdict = _verdict(candidate_date="2024-09-12", date_type="publication",
+    verdict = _verdict(candidate_start_date="2024-09-12", date_type="publication",
                        publication_statement="Published on 12 September 2024",
                        confidence=0.96)
     assert verdict.safe_action() == "override"
@@ -217,13 +217,13 @@ def test_a_quoted_publication_statement_overrides():
 
 def test_a_publication_claim_without_a_quote_is_downgraded_to_review():
     """The guard against a confident paraphrase becoming a date."""
-    verdict = _verdict(candidate_date="2024-09-12", date_type="publication",
+    verdict = _verdict(candidate_start_date="2024-09-12", date_type="publication",
                        publication_statement=None, confidence=0.99)
     assert verdict.safe_action() == "review"
 
 
 def test_a_fragment_does_not_count_as_a_quotation():
-    verdict = _verdict(candidate_date="2024-09-12", date_type="publication",
+    verdict = _verdict(candidate_start_date="2024-09-12", date_type="publication",
                        publication_statement="2024", confidence=0.99)
     assert verdict.safe_action() == "review"
 
@@ -243,20 +243,20 @@ def test_a_fragment_does_not_count_as_a_quotation():
 def test_a_publisher_imprint_without_a_date_cannot_override(statement):
     """The v3 regression: "Published by ..." reads as publication evidence while
     saying nothing about when, and the model paired it with the CreationDate."""
-    verdict = _verdict(candidate_date="2023-01-01", date_type="publication",
+    verdict = _verdict(candidate_start_date="2023-01-01", date_type="publication",
                        publication_statement=statement, confidence=0.9)
     assert verdict.statement_supports_date() is False
     assert verdict.safe_action() == "review"
 
 
 def test_a_quote_naming_a_different_year_cannot_override():
-    verdict = _verdict(candidate_date="2014-04-01", date_type="publication",
+    verdict = _verdict(candidate_start_date="2014-04-01", date_type="publication",
                        publication_statement="Published in New Delhi, March 2019")
     assert verdict.safe_action() == "review"
 
 
 def test_a_bare_year_does_not_become_the_first_of_january():
-    verdict = _verdict(candidate_date="2023-01-01", date_type="publication",
+    verdict = _verdict(candidate_start_date="2023-01-01", date_type="publication",
                        publication_statement="© The Energy and Resources Institute, 2023")
     assert verdict.statement_is_year_only() is True
     assert verdict.safe_action() == "review"
@@ -277,7 +277,7 @@ def test_a_bare_year_does_not_become_the_first_of_january():
     ],
 )
 def test_a_quote_that_carries_the_date_still_overrides(statement, date):
-    verdict = _verdict(candidate_date=date, date_type="publication",
+    verdict = _verdict(candidate_start_date=date, date_type="publication",
                        publication_statement=statement, confidence=0.95)
     assert verdict.statement_supports_date() is True
     assert verdict.safe_action() == "override"
@@ -295,7 +295,7 @@ def test_an_update_year_is_not_the_publication_date():
     2023-11-11 was the PDF CreationDate wearing the update's year.
     """
     verdict = _verdict(
-        candidate_date="2023-11-11", date_type="publication",
+        candidate_start_date="2023-11-11", date_type="publication",
         publication_statement=(
             "This factsheet has first been published in September 2020 and is "
             "being updated in 2023 as part of the efforts of PREVENT Waste Alliance."
@@ -308,7 +308,7 @@ def test_an_update_year_is_not_the_publication_date():
 def test_a_cover_date_without_publication_wording_is_not_enough():
     """EI_Nashik_August2023.pdf: "January 2023 Final Report" is a cover date."""
     verdict = _verdict(
-        candidate_date="2023-01-01", date_type="publication",
+        candidate_start_date="2023-01-01", date_type="publication",
         publication_statement="January 2023 Final Report Emission Inventory of Nashik District",
     )
     assert verdict.publication_linkage_ok() is False
@@ -322,7 +322,7 @@ def test_a_suggested_citation_year_is_not_a_publication_date():
     the substring "dec", which previously made this read as month precision.
     """
     verdict = _verdict(
-        candidate_date="2023-01-01", date_type="publication",
+        candidate_start_date="2023-01-01", date_type="publication",
         publication_statement=(
             "The Energy and Resources Institute (TERI). 2023. Needs Assessment for "
             "Transformative Climate Action Using Participatory Data Driven Decision "
@@ -334,16 +334,16 @@ def test_a_suggested_citation_year_is_not_a_publication_date():
 
 
 def test_month_names_are_matched_on_word_boundaries():
-    year_only = _verdict(candidate_date="2023-01-01", date_type="publication",
+    year_only = _verdict(candidate_start_date="2023-01-01", date_type="publication",
                          publication_statement="Decision Making Platforms, TERI 2023")
     assert year_only.statement_is_year_only() is True
-    real_month = _verdict(candidate_date="2023-03-15", date_type="publication",
+    real_month = _verdict(candidate_start_date="2023-03-15", date_type="publication",
                           publication_statement="Published March 15, 2023")
     assert real_month.statement_is_year_only() is False
 
 
 def test_a_month_only_quote_cannot_invent_a_day():
-    verdict = _verdict(candidate_date="2007-09-01", date_type="publication",
+    verdict = _verdict(candidate_start_date="2007-09-01", date_type="publication",
                        publication_statement="Colombo, September 2007")
     assert verdict.statement_supports_the_day() is False
     assert verdict.safe_action() == "review"
@@ -360,7 +360,7 @@ def test_a_month_only_quote_cannot_invent_a_day():
     ],
 )
 def test_a_non_publication_cue_beside_the_date_blocks_an_override(statement, date):
-    verdict = _verdict(candidate_date=date, date_type="publication",
+    verdict = _verdict(candidate_start_date=date, date_type="publication",
                        publication_statement=statement)
     assert verdict.publication_linkage_ok() is False
     assert verdict.safe_action() == "review"
@@ -368,7 +368,7 @@ def test_a_non_publication_cue_beside_the_date_blocks_an_override(statement, dat
 
 def test_a_bare_place_and_year_is_not_a_dateline():
     """'TERI, 2023' must not be read as a dateline."""
-    verdict = _verdict(candidate_date="2023-01-01", date_type="publication",
+    verdict = _verdict(candidate_start_date="2023-01-01", date_type="publication",
                        publication_statement="New Delhi: TERI, 2023")
     assert verdict.safe_action() == "review"
 
@@ -401,7 +401,7 @@ def test_an_ungrounded_override_is_downgraded_to_review():
     """The newspaper-clipping failure: the model tidied the FILENAME into a
     masthead quote for a PDF whose page text is unreadable."""
     verdict = _verdict(
-        candidate_date="2013-12-23", date_type="publication",
+        candidate_start_date="2013-12-23", date_type="publication",
         publication_statement="Hindustan Times, Chandigarh, Monday, December 23, 2013",
     )
     assert verdict.safe_action() == "override"      # passes every textual gate
@@ -415,7 +415,7 @@ def test_an_ungrounded_override_is_downgraded_to_review():
 
 def _grounded_verdict(date: str, statement: str, pdf_text: str) -> DateInterpretation:
     """A verdict with both grounding checks applied, as :func:`interpret` does."""
-    verdict = _verdict(candidate_date=date, date_type="publication",
+    verdict = _verdict(candidate_start_date=date, date_type="publication",
                        publication_statement=statement, confidence=0.95)
     verdict.set_grounded(
         date_is_in_text(date, pdf_text),
@@ -491,7 +491,7 @@ def test_8_a_notification_is_never_an_automatic_publication_override():
     verdict = _grounded_verdict("2023-05-18", "Notified on 18.05.2023", text)
     assert verdict.safe_action() == "review"
     # And when the model labels it correctly, it keeps the page date outright.
-    labelled = _verdict(candidate_date="2023-05-18", date_type="notification",
+    labelled = _verdict(candidate_start_date="2023-05-18", date_type="notification",
                         publication_statement="Notified on 18.05.2023")
     assert labelled.safe_action() == "keep_page_date"
 
@@ -529,7 +529,7 @@ def test_grounding_is_not_something_the_model_can_assert():
     model answers and a model-supplied value is simply ignored."""
     assert "evidence_grounded" not in DateInterpretation.model_json_schema()["properties"]
     verdict = DateInterpretation.model_validate(
-        {"candidate_date": "2024-09-12", "date_type": "publication",
+        {"candidate_start_date": "2024-09-12", "date_type": "publication",
          "publication_statement": "Published on 12 September 2024",
          "confidence": 0.95, "recommended_action": "override",
          "evidence_grounded": False}
@@ -543,7 +543,7 @@ def test_grounding_is_not_something_the_model_can_assert():
 
 def test_a_newspaper_issue_date_is_a_publication_date():
     verdict = _verdict(
-        candidate_date="2013-12-23", date_type="publication",
+        candidate_start_date="2013-12-23", date_type="publication",
         publication_statement="Hindustan Times, Chandigarh, Monday, December 23, 2013",
         confidence=0.95,
     )
@@ -556,26 +556,26 @@ def test_a_newspaper_issue_date_is_a_publication_date():
 
 def test_a_notification_date_is_not_a_publication_date():
     """NEP_2022_32_FINAL_GAZETTE: 'notified on 18.05.2023'. Previously overrode."""
-    verdict = _verdict(candidate_date="2023-05-18", date_type="notification",
+    verdict = _verdict(candidate_start_date="2023-05-18", date_type="notification",
                        publication_statement="notified on 18.05.2023", confidence=0.99)
     assert verdict.safe_action() == "keep_page_date"
 
 
 def test_an_effective_date_is_not_a_publication_date():
-    verdict = _verdict(candidate_date="2024-04-01", date_type="effective",
+    verdict = _verdict(candidate_start_date="2024-04-01", date_type="effective",
                        publication_statement="with effect from 1 April 2024",
                        confidence=0.99)
     assert verdict.safe_action() == "keep_page_date"
 
 
 def test_an_event_date_is_not_a_publication_date():
-    verdict = _verdict(candidate_date="2025-03-05", date_type="event",
+    verdict = _verdict(candidate_start_date="2025-03-05", date_type="event",
                        publication_statement="Agenda, 05.03.2025", confidence=0.99)
     assert verdict.safe_action() == "keep_page_date"
 
 
 def test_an_upload_verdict_is_not_a_publication_date():
-    verdict = _verdict(candidate_date="2024-08-22", date_type="upload",
+    verdict = _verdict(candidate_start_date="2024-08-22", date_type="upload",
                        publication_statement="uploaded 22 August 2024", confidence=0.99)
     assert verdict.safe_action() == "keep_page_date"
 
@@ -585,23 +585,23 @@ def test_an_upload_verdict_is_not_a_publication_date():
 # --------------------------------------------------------------------------- #
 
 def test_an_ambiguous_verdict_becomes_review():
-    verdict = DateInterpretation(candidate_date="2021-03-01", date_type="publication",
+    verdict = DateInterpretation(candidate_start_date="2021-03-01", date_type="publication",
                                  publication_statement="possibly March 2021",
                                  confidence=0.55, recommended_action="review")
     assert verdict.safe_action() == "review"
 
 
 def test_a_low_confidence_publication_claim_becomes_review():
-    verdict = _verdict(candidate_date="2024-09-12", date_type="publication",
+    verdict = _verdict(candidate_start_date="2024-09-12", date_type="publication",
                        publication_statement="Published September 2024", confidence=0.7)
     assert verdict.safe_action() == "review"
 
 
 @pytest.mark.parametrize("bad", ["not-a-date", "0000-00-00", "1200-01-01", "2999-01-01"])
 def test_unusable_model_dates_are_discarded(bad):
-    verdict = _verdict(candidate_date=bad, date_type="publication",
+    verdict = _verdict(candidate_start_date=bad, date_type="publication",
                        publication_statement="Published sometime")
-    assert verdict.candidate_date is None
+    assert verdict.candidate_start_date is None
     assert verdict.safe_action() == "keep_page_date"
 
 

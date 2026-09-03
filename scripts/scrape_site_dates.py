@@ -44,7 +44,7 @@ SNAPSHOT = os.path.join("reports", "dates", "site_truth.json")
 _NON_NODE = {"basic": "block_content"}
 
 #: Fields that state something about *this document's* date, and what kind. The
-#: classification is `app.ingestion.source_dates.FIELD_KINDS`; repeated here only
+#: classification is `app.ingestion.source_dates.FIELD_ROLES`; repeated here only
 #: as the set worth pulling out of the payload.
 _KEEP_PREFIX = ("field_", )
 
@@ -217,7 +217,7 @@ def compare(snapshot: dict[str, Any]) -> dict[str, Any]:
       it to IST — correct only for date-*only* CMS fields, which are stored as
       IST midnight — shifted every record created after 18:30 UTC by a day and
       produced hundreds of phantom disagreements.
-    * The decision comes from ``resolve_published_at``, not from a hand-written
+    * The decision comes from ``resolve_effective_dates``, not from a hand-written
       rule, and it is asked **with the record's bundle** — which is what decides
       the field a record is dated by (``app.ingestion.bundle_dates``). A second
       copy of that rule would disagree with ingestion the moment the mapping
@@ -226,7 +226,7 @@ def compare(snapshot: dict[str, Any]) -> dict[str, Any]:
     from app.catalog.db import state_table
     from app.catalog.state import _to_datetime
     from app.core.clients import mysql_connection
-    from app.ingestion.source_dates import resolve_published_at
+    from app.ingestion.source_dates import resolve_effective_dates
 
     def as_stored(value: Any):
         """A site value as the calendar date the catalogue would hold for it."""
@@ -238,7 +238,7 @@ def compare(snapshot: dict[str, Any]) -> dict[str, Any]:
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(
             f"SELECT document_id, source_type, bundle, title, url, source_key, "
-            f"published_at, published_at_source, published_at_precision "
+            f"effective_start_date, date_source, start_precision "
             f"FROM `{table}`"
         )
         local = list(cur.fetchall())
@@ -249,7 +249,7 @@ def compare(snapshot: dict[str, Any]) -> dict[str, Any]:
 
     verdicts: dict[str, list] = defaultdict(list)
     for row in local:
-        stored = row["published_at"].date()
+        stored = row["effective_start_date"].date()
         doc_id = row["document_id"]
 
         if row["source_type"] == "website":
@@ -257,7 +257,7 @@ def compare(snapshot: dict[str, Any]) -> dict[str, Any]:
             if site_node is None:
                 verdicts["not_on_site"].append((doc_id, row, None, None))
                 continue
-            resolved, source, _p = resolve_published_at(
+            resolved, source, _p = resolve_effective_dates(
                 site_node["created"], site_node["date_fields"],
                 # Which field a record is dated by depends on its bundle, so the
                 # comparison has to ask the same question ingestion asks.
@@ -268,7 +268,7 @@ def compare(snapshot: dict[str, Any]) -> dict[str, Any]:
             # answer for it is its page's stamp — which is exactly the annual
             # report situation. An override is the one case the site cannot
             # explain: it came from the PDF's own text.
-            if row["published_at_source"] == "document_text":
+            if row["date_source"] == "document_text":
                 verdicts["dated_from_the_document_itself"].append(
                     (doc_id, row, stored, "document_text"))
                 continue
@@ -316,7 +316,7 @@ def report(verdicts: dict[str, list], snapshot: dict[str, Any]) -> None:
     if verdicts.get("disagrees"):
         print("\n  DISAGREEMENTS (first 20):")
         for doc_id, row, site_value, kind in verdicts["disagrees"][:20]:
-            print(f"    stored {str(row['published_at'])[:10]}  site {site_value}  "
+            print(f"    stored {str(row['effective_start_date'])[:10]}  site {site_value}  "
                   f"[{kind}] {str(row['title'])[:40]}")
 
     print("\n  page-dated, by bundle — where the site itself does not know:")

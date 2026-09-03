@@ -126,16 +126,18 @@ def drupal_facets(
     }
 
 
-def _published_at_for(
+def _effective_dates_for(
     bundle: str | None, created: str | None, metadata: dict[str, Any]
 ) -> "EffectiveDate":
-    """This record's effective date, and the evidence for it.
+    """This record's effective date(s), and the evidence for them.
 
     **Keyed by bundle.** Which date a Drupal record carries is a property of its
     content type, not of which date-like fields happen to be present: ``news``
     takes ``field_news_date``, ``completed_projects`` takes the project's start,
     ``article`` takes its creation stamp. :mod:`app.ingestion.bundle_dates`
-    declares that mapping and owns the decision — ingestion, the attachment path
+    declares that mapping — as an *ordered list* of fields, so a bundle whose
+    content covers a period resolves a start and an end through the same code —
+    and owns the decision — ingestion, the attachment path
     and the backfill all call the same function, because two copies of a
     conditional rule drift and a re-ingested document would then get a different
     date than the backfill gave it.
@@ -145,9 +147,9 @@ def _published_at_for(
     derived from a second reading of the metadata could disagree with the value
     actually applied.
     """
-    from app.ingestion.bundle_dates import resolve
+    from app.ingestion.bundle_dates import resolve_effective_dates
 
-    return resolve(bundle, created, metadata)
+    return resolve_effective_dates(bundle, created, metadata)
 
 
 def _drupal_document(
@@ -166,7 +168,7 @@ def _drupal_document(
 ) -> CanonicalDocument:
     refs = refs or []
     facets = drupal_facets(metadata, refs)
-    resolved = _published_at_for(bundle, created, metadata)
+    resolved = _effective_dates_for(bundle, created, metadata)
 
     doc = CanonicalDocument(
         document_id=uuid or _slugify(url or f"{bundle}/{title}"),
@@ -178,9 +180,11 @@ def _drupal_document(
         tags=facets["tags"],
         categories=facets["categories"],
         authors=facets["authors"],
-        published_at=resolved.value,
-        published_at_source=resolved.source,
-        published_at_precision=resolved.precision,
+        effective_start_date=resolved.start_value,
+        date_source=resolved.source,
+        start_precision=resolved.start_precision,
+        effective_end_date=resolved.end_value,
+        end_precision=resolved.end_precision,
         date_evidence=resolved,
         extra={"bundle": bundle, "nid": nid, "changed": changed},
         entity_refs=refs,

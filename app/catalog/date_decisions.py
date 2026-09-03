@@ -46,11 +46,19 @@ class DecisionRow:
     bundle: str | None = None
     node_uuid: str | None = None
     page_pdf_count: int = 1
-    current_published_at: str | None = None
-    candidate_date: str | None = None
+    current_start_date: str | None = None
+    candidate_start_date: str | None = None
+    #: The end of the period, for a bundle whose mapping declares an end field
+    #: and whose record stated a usable one. None otherwise, and never derived
+    #: from :attr:`candidate_start_date`.
+    candidate_end_date: str | None = None
+    #: What is wrong with the range, when something is: ``inverted`` |
+    #: ``end_invalid`` | ``end_without_start``. None for a well-formed range and
+    #: for a document that has no range at all.
+    range_issue: str | None = None
     date_type: str = "unknown"
     edition_label: str | None = None
-    candidate_source: str = "node_created"
+    date_source: str = "node_created"
     confidence: float = 0.0
     action: str = "keep_page_date"
     rule: str = ""
@@ -69,11 +77,13 @@ def from_decision(
     bundle: str | None,
     node_uuid: str | None,
     page_pdf_count: int,
-    current_published_at: str | None,
+    current_start_date: str | None,
     url: str | None,
     filename: str | None,
     llm_raw: dict[str, Any] | None = None,
     prompt_version: str | None = None,
+    candidate_end_date: str | None = None,
+    range_issue: str | None = None,
 ) -> DecisionRow:
     return DecisionRow(
         document_id=decision.document_id,
@@ -81,11 +91,13 @@ def from_decision(
         bundle=bundle,
         node_uuid=node_uuid,
         page_pdf_count=page_pdf_count,
-        current_published_at=current_published_at,
-        candidate_date=decision.candidate_date,
+        current_start_date=current_start_date,
+        candidate_start_date=decision.candidate_start_date,
+        candidate_end_date=candidate_end_date,
+        range_issue=range_issue,
         date_type=decision.date_type,
         edition_label=decision.edition_label,
-        candidate_source=decision.source,
+        date_source=decision.source,
         confidence=decision.confidence,
         action=decision.action,
         rule=decision.rule,
@@ -119,19 +131,25 @@ def from_effective_date(
 
     No row for a bundle that maps to ``created`` or has no mapping at all. Their
     provenance is already complete without one: ``documents.bundle`` plus
-    ``published_at_source='created'`` says "this content type takes its creation
+    ``date_source='created'`` says "this content type takes its creation
     stamp", which is the whole answer. A row per document saying so would cost an
     INSERT and a commit each across thousands of documents to store a fact two
     columns already carry.
     """
-    if resolved is None or resolved.field in (None, "created"):
+    if resolved is None or resolved.start_field in (None, "created"):
         return None
 
     from app.ingestion.bundle_dates import describe
 
-    moved = (bool(resolved.value) and bool(created)
-             and resolved.value[:10] != str(created)[:10])
-    if resolved.rule == "field_empty":
+    moved = (bool(resolved.start_value) and bool(created)
+             and resolved.start_value[:10] != str(created)[:10])
+    if resolved.range_issue is not None:
+        # The two dates the CMS states about this record contradict each
+        # other, or the end is unusable, or there is an end and no start.
+        # None of those can be settled from here — the start is still
+        # applied, and a person gets to see why the range was not.
+        action, rule = "needs_manual_review", f"range_{resolved.range_issue}"
+    elif resolved.rule == "field_empty":
         action, rule = "keep_page_date", "bundle_field_empty"
     elif resolved.rule == "field_invalid":
         # Worth a person's attention: the CMS holds something in the field this
@@ -154,14 +172,25 @@ def from_effective_date(
         page_pdf_count=1,
         # The record's own creation stamp — so a row reads as "would have been
         # X, assigned Y" exactly as the PDF rows do.
-        current_published_at=created,
-        candidate_date=resolved.value,
-        # What the field *is*, not what it was used for. A completed project's
-        # start date is applied as that document's date and is still a `period`;
-        # flattening it to "publication" here would erase the one thing an
-        # auditor needs to see.
-        date_type=(resolved.kind if resolved.source == "cms_field" else "unknown"),
-        candidate_source=(resolved.field if action == "propose_override"
+        current_start_date=created,
+        candidate_start_date=resolved.start_value,
+        candidate_end_date=resolved.end_value,
+        range_issue=resolved.range_issue,
+        # What the *source field* is, not what the date was used for. A
+        # completed project's start date is applied as that document's date and
+        # the field is still a `range_start`; flattening that away would erase
+        # the one thing an auditor needs to see.
+        #
+        # This column carries a value from one of two vocabularies, told apart by
+        # `origin`. A `website` row holds a
+        # `source_dates.FieldRole` — what the Drupal field is. An `attachment` /
+        # `inbody` row holds a `date_rules.DateType` — what the model judged a
+        # date found inside the PDF's text to be, which is a different question
+        # about a different thing. They were never one enumeration, and no query
+        # should group across the two without filtering `origin` first.
+        date_type=(resolved.field_role if resolved.source == "cms_field"
+                   else "unknown"),
+        date_source=(resolved.start_field if action == "propose_override"
                           else "node_effective_date"),
         # A transcription of what the source states, not an inference from it —
         # unlike the PDF path, where the same value is a model's judgement about
@@ -183,20 +212,23 @@ def record(row: DecisionRow) -> None:
         cur.execute(
             f"INSERT INTO `{_table()}_date_decision` "
             "(document_id, origin, bundle, node_uuid, page_pdf_count,"
-            " current_published_at, candidate_date, date_type, edition_label,"
-            " candidate_source, confidence, action, rule, decided_by, evidence,"
+            " current_start_date, candidate_start_date, candidate_end_date,"
+            " range_issue, date_type, edition_label,"
+            " date_source, confidence, action, rule, decided_by, evidence,"
             " llm_raw, prompt_version, url, filename, updated_at) "
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,"
-            " %s, %s, %s, %s, %s) "
+            " %s, %s, %s, %s, %s, %s, %s) "
             "ON DUPLICATE KEY UPDATE "
             "  origin = VALUES(origin), bundle = VALUES(bundle),"
             "  node_uuid = VALUES(node_uuid),"
             "  page_pdf_count = VALUES(page_pdf_count),"
-            "  current_published_at = VALUES(current_published_at),"
-            "  candidate_date = VALUES(candidate_date),"
+            "  current_start_date = VALUES(current_start_date),"
+            "  candidate_start_date = VALUES(candidate_start_date),"
+            "  candidate_end_date = VALUES(candidate_end_date),"
+            "  range_issue = VALUES(range_issue),"
             "  date_type = VALUES(date_type),"
             "  edition_label = VALUES(edition_label),"
-            "  candidate_source = VALUES(candidate_source),"
+            "  date_source = VALUES(date_source),"
             "  confidence = VALUES(confidence), action = VALUES(action),"
             "  rule = VALUES(rule), decided_by = VALUES(decided_by),"
             "  evidence = VALUES(evidence), llm_raw = VALUES(llm_raw),"
@@ -205,9 +237,12 @@ def record(row: DecisionRow) -> None:
             (
                 row.document_id, row.origin, row.bundle, row.node_uuid,
                 int(row.page_pdf_count),
-                parse_iso_date(row.current_published_at, field="current published_at"),
-                parse_iso_date(row.candidate_date, field="candidate date"),
-                row.date_type, row.edition_label, row.candidate_source,
+                parse_iso_date(row.current_start_date, field="current effective_start_date"),
+                parse_iso_date(row.candidate_start_date, field="candidate date"),
+                parse_iso_date(row.candidate_end_date,
+                               field="candidate end date"),
+                row.range_issue,
+                row.date_type, row.edition_label, row.date_source,
                 round(float(row.confidence), 3), row.action, row.rule, row.decided_by,
                 row.evidence,
                 json.dumps(row.llm_raw, ensure_ascii=False) if row.llm_raw else None,
@@ -231,11 +266,13 @@ def load() -> list[DecisionRow]:
                 bundle=row.get("bundle"),
                 node_uuid=row.get("node_uuid"),
                 page_pdf_count=int(row.get("page_pdf_count") or 1),
-                current_published_at=_iso(row.get("current_published_at")),
-                candidate_date=_iso(row.get("candidate_date")),
+                current_start_date=_iso(row.get("current_start_date")),
+                candidate_start_date=_iso(row.get("candidate_start_date")),
+                candidate_end_date=_iso(row.get("candidate_end_date")),
+                range_issue=row.get("range_issue"),
                 date_type=row.get("date_type") or "unknown",
                 edition_label=row.get("edition_label"),
-                candidate_source=row.get("candidate_source") or "",
+                date_source=row.get("date_source") or "",
                 confidence=float(row.get("confidence") or 0),
                 action=row.get("action") or "",
                 rule=row.get("rule") or "",

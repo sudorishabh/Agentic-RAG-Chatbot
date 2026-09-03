@@ -1,8 +1,10 @@
 """Superseded by :mod:`scripts.backfill_bundle_dates`. Refuses to run.
 
-This script applied the *field-keyed* rule: four fields were declared publication
-dates in ``app.ingestion.source_dates.FIELD_KINDS``, and any record carrying one
-took its value whatever content type the record was.
+This script applied the *field-keyed* rule: four fields were singled out as the
+publication-date fields, and any record carrying one took its value whatever
+content type the record was. Both halves of that are gone — the system no longer
+has a publication-date concept, and which field a record is dated by is a
+property of its bundle.
 
 Dates are now **bundle-keyed** — ``news`` takes ``field_news_date``,
 ``completed_projects`` takes the project's start, ``article`` takes its creation

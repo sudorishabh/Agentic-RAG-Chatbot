@@ -211,14 +211,14 @@ def _conflicting(a: dict[str, Any], b: dict[str, Any]) -> bool:
     two sections of one report, since ``_admit`` deduplicates by parent rather
     than by document. Flagging those marked the majority of live answers as
     self-contradictory, which is both wrong and load-bearing: the flag reaches
-    the API response and the prompt's "prefer the later published date" rule.
+    the API response and the prompt's "prefer the later page date" rule.
 
     Sharing a *parent node* is deliberately not a conflict. Editions of one
     publication do arrive that way — separate attachment documents under a
     single node — but so does every catalogue page, and on this corpus the
     latter dominates: the largest such nodes carry 69 financial statements, 68
     announcements, 43 brochures. The two shapes are indistinguishable from the
-    payload (same node, same title, same ``published_at``), so treating the
+    payload (same node, same title, same ``effective_start_date``), so treating the
     relationship as a disagreement flagged roughly a quarter of answers, mostly
     wrongly. Separating them needs a content signal and a threshold measured
     against a labelled set, not guessed; until then the honest reading of two

@@ -93,8 +93,8 @@ def main(argv: list[str] | None = None) -> int:
         row1 = v1.get(doc_id)
         if not row1:
             continue
-        if (row1["action"], row1["candidate_date"][:10] if row1["candidate_date"] else "") != \
-           (row2["action"], row2["candidate_date"][:10] if row2["candidate_date"] else ""):
+        if (row1["action"], row1["candidate_start_date"][:10] if row1["candidate_start_date"] else "") != \
+           (row2["action"], row2["candidate_start_date"][:10] if row2["candidate_start_date"] else ""):
             changed.append((row1, row2))
 
     L.append(f"## Decisions that changed: {len(changed)}\n")
@@ -113,7 +113,7 @@ def main(argv: list[str] | None = None) -> int:
     L.append("|---|---:|---|---|---|---|")
     for a, b in reverted[:40]:
         L.append(f"| {(a['filename'] or '')[:34]} | {a['page_pdf_count']} "
-                 f"| {str(b['current_published_at'])[:10]} | {str(a['candidate_date'])[:10]} "
+                 f"| {str(b['current_start_date'])[:10]} | {str(a['candidate_start_date'])[:10]} "
                  f"| `{a['rule']}` | {b['action']} |")
     if len(reverted) > 40:
         L.append(f"\n_({len(reverted) - 40} more in the CSVs.)_")
@@ -126,8 +126,8 @@ def main(argv: list[str] | None = None) -> int:
         L.append(f"| filename | page date | {name_b} proposed | evidence |")
         L.append("|---|---|---|---|")
         for a, b in new_over:
-            L.append(f"| {(b['filename'] or '')[:32]} | {str(b['current_published_at'])[:10]} "
-                     f"| {str(b['candidate_date'])[:10]} | {(b['evidence'] or '')[:70]} |")
+            L.append(f"| {(b['filename'] or '')[:32]} | {str(b['current_start_date'])[:10]} "
+                     f"| {str(b['candidate_start_date'])[:10]} | {(b['evidence'] or '')[:70]} |")
 
     still = [doc for doc, r in v2.items()
              if r["action"] == "propose_override"

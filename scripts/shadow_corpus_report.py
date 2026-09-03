@@ -8,7 +8,7 @@ nothing is written outside ``reports/phase0``.
 Read-only by construction:
 
 - the catalog is opened with SELECT only, so no document row, fingerprint or
-  ``published_at`` can move;
+  ``effective_start_date`` can move;
 - Qdrant is never opened;
 - the extraction pipeline is never called, so Document Intelligence cannot run;
 - no PDF bytes are fetched (that is Phase 0C, ``scripts.shadow_pdf_sample``).
@@ -70,7 +70,7 @@ def load_catalog() -> dict[str, dict]:
 
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(
-            f"SELECT document_id, source_key, bundle, published_at, title, url "
+            f"SELECT document_id, source_key, bundle, effective_start_date, title, url "
             f"FROM `{state_table()}` WHERE source_type = 'pdf_attachment'"
         )
         return {row["document_id"]: row for row in cur.fetchall()}
@@ -165,7 +165,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         catalog = load_catalog()
     except Exception:
-        logger.warning("Catalog unreadable; continuing without published_at.", exc_info=True)
+        logger.warning("Catalog unreadable; continuing without effective_start_date.", exc_info=True)
         catalog = {}
 
     # ---------------------------------------------------------- Phase 0A ----
@@ -203,7 +203,7 @@ def main(argv: list[str] | None = None) -> int:
                 "gap_days": (file_dt - node_dt).days if (node_dt and file_dt) else None,
                 "category": bucket,
                 "indexed": bool(cat),
-                "current_published_at": (str(cat["published_at"]) if cat and cat.get("published_at") else None),
+                "current_start_date": (str(cat["effective_start_date"]) if cat and cat.get("effective_start_date") else None),
                 "cheap_proposed": proposal.proposed,
                 "cheap_rule": proposal.rule,
                 "cheap_source": proposal.source,
@@ -256,7 +256,7 @@ def main(argv: list[str] | None = None) -> int:
                 "url_path_month": f"{managed.group(1)}-{managed.group(2)}" if managed else None,
                 "category": bucket,
                 "indexed": bool(cat),
-                "current_published_at": (str(cat["published_at"]) if cat and cat.get("published_at") else None),
+                "current_start_date": (str(cat["effective_start_date"]) if cat and cat.get("effective_start_date") else None),
                 "year_in_filename": bool(YEAR_RE.search(name)),
                 "year_in_anchor": bool(YEAR_RE.search(anchor)),
                 "needs_pdf_metadata": bucket in ("unmanaged_no_file_entity", "managed_path_month"),
@@ -326,13 +326,13 @@ def main(argv: list[str] | None = None) -> int:
     for bucket in sorted(a_counts):
         sample = [r for r in attachments if r["category"] == bucket][: args.examples]
         lines.append(f"\n**{bucket}**\n")
-        lines.append("| filename | bundle | node.created | file.created | gap | current published_at |")
+        lines.append("| filename | bundle | node.created | file.created | gap | current effective_start_date |")
         lines.append("|---|---|---|---|---:|---|")
         for r in sample:
             lines.append(
                 f"| {r['filename'][:38]} | {r['bundle']} | {str(r['node_created'])[:10]} "
                 f"| {str(r['file_created'])[:10]} | {r['gap_days']} "
-                f"| {str(r['current_published_at'])[:10]} |"
+                f"| {str(r['current_start_date'])[:10]} |"
             )
     for bucket in sorted(b_counts):
         sample = [r for r in inbody if r["category"] == bucket][: args.examples]

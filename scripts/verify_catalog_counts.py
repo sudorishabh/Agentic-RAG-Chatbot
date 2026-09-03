@@ -94,10 +94,10 @@ check(
 check(
     "count articles in 2024",
     q.count_documents(bundle="article",
-                      published_from=datetime(2024, 1, 1),
-                      published_to=datetime(2025, 1, 1)),
+                      effective_from=datetime(2024, 1, 1),
+                      effective_to=datetime(2025, 1, 1)),
     one("SELECT COUNT(*) FROM documents WHERE bundle='article' "
-        "AND published_at >= '2024-01-01' AND published_at < '2025-01-01'"),
+        "AND effective_start_date >= '2024-01-01' AND effective_start_date < '2025-01-01'"),
 )
 
 # --- 6. theme_group as a document scope, by equality
@@ -189,14 +189,14 @@ check("cross_distribution author x theme", cross, cross_want)
 check(
     "author + theme + year + bundle",
     q.count_documents(bundle="article", author="TERI Web Desk", theme="Environment",
-                      published_from=datetime(2020, 1, 1),
-                      published_to=datetime(2021, 1, 1)),
+                      effective_from=datetime(2020, 1, 1),
+                      effective_to=datetime(2021, 1, 1)),
     one("SELECT COUNT(DISTINCT s.document_id) FROM documents s "
         "JOIN documents_author a ON a.document_id=s.document_id "
         "JOIN documents_theme  t ON t.document_id=s.document_id "
         "WHERE s.bundle='article' AND a.author LIKE %s "
         "AND (t.theme='Environment' OR t.parent='Environment') "
-        "AND s.published_at >= '2020-01-01' AND s.published_at < '2021-01-01'",
+        "AND s.effective_start_date >= '2020-01-01' AND s.effective_start_date < '2021-01-01'",
         ("%TERI Web Desk%",)),
 )
 

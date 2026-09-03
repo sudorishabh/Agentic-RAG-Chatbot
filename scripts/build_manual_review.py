@@ -2,7 +2,7 @@
 
 Reads what has already been computed — ``prototype_decisions.csv`` (the
 resolver's proposal for every PDF), the Phase 0A/0B metadata, the catalog's
-current ``published_at``, and the LLM reachability recheck — and produces a
+current ``effective_start_date``, and the LLM reachability recheck — and produces a
 stratified, reproducible sample for a human to check.
 
 Read-only. Nothing here writes to `documents`, Qdrant, fingerprints or any
@@ -43,15 +43,15 @@ MIGRATION_END = datetime(2018, 6, 1, tzinfo=timezone.utc)
 
 # Left blank on purpose — these are the reviewer's to fill in.
 HUMAN_COLUMNS = [
-    "human_decision", "human_correct", "human_published_at",
+    "human_decision", "human_correct", "human_effective_start_date",
     "human_date_type", "human_edition_label", "human_notes",
 ]
 
 CSV_COLUMNS = [
     "review_group", "document_id", "page_url", "page_title", "page_pdf_count",
     "origin", "bundle", "filename", "anchor_text",
-    "node_created", "file_created", "pdf_creation_date", "current_published_at",
-    "proposed_published_at", "action", "date_type", "date_source",
+    "node_created", "file_created", "pdf_creation_date", "current_start_date",
+    "proposed_effective_start_date", "action", "date_type", "date_source",
     "deterministic_rule", "llm_used", "llm_confidence", "llm_evidence",
     "edition_label", "publication_statement", "evidence_location",
     "evidence_grounded", "pdf_available_to_llm", "pdf_url_reachable_now",
@@ -86,14 +86,14 @@ def load_side_metadata() -> dict[str, dict]:
 
 
 def load_catalog() -> dict[str, dict]:
-    """Current published_at and page URL per document. SELECT only."""
+    """Current effective_start_date and page URL per document. SELECT only."""
     try:
         from app.catalog.db import state_table
         from app.core.clients import mysql_connection
 
         with mysql_connection() as conn, conn.cursor() as cur:
             cur.execute(
-                f"SELECT document_id, published_at, url, title FROM `{state_table()}` "
+                f"SELECT document_id, effective_start_date, url, title FROM `{state_table()}` "
                 "WHERE source_type = 'pdf_attachment'"
             )
             return {r["document_id"]: r for r in cur.fetchall()}
@@ -218,14 +218,14 @@ def main(argv: list[str] | None = None) -> int:
             "node_created": _d(extra.get("node_created")),
             "file_created": _d(row.get("file_created")),
             "pdf_creation_date": _d(row.get("pdf_created")),
-            "current_published_at": _d(cat.get("published_at")
-                                       or row.get("current_published_at")),
-            "proposed_published_at": _d(row.get("candidate_date")),
+            "current_start_date": _d(cat.get("effective_start_date")
+                                       or row.get("current_start_date")),
+            "proposed_effective_start_date": _d(row.get("candidate_start_date")),
             "action": {"keep_page_date": "keep_page_date",
                        "propose_override": "override",
                        "needs_manual_review": "review"}.get(row["action"], row["action"]),
             "date_type": row.get("date_type") or "",
-            "date_source": row.get("candidate_source") or "",
+            "date_source": row.get("date_source") or "",
             "deterministic_rule": row.get("rule") or "",
             "llm_used": "yes" if used_llm else "no",
             "llm_confidence": row.get("confidence") if used_llm else "",
@@ -342,8 +342,8 @@ def main(argv: list[str] | None = None) -> int:
     L.append("# PDF date resolution — manual review pack\n")
     L.append(f"Generated {datetime.now(timezone.utc):%Y-%m-%d %H:%M UTC} from the Phase 0 "
              "shadow results. **Nothing has been applied.** Every "
-             "`proposed_published_at` below is a suggestion held in shadow storage; "
-             "the live `published_at` is unchanged.\n")
+             "`proposed_effective_start_date` below is a suggestion held in shadow storage; "
+             "the live `effective_start_date` is unchanged.\n")
     L.append(f"Companion CSV: `{os.path.basename(OUT_CSV)}` — the `human_*` columns "
              "are blank for you to fill in.\n")
 
@@ -393,13 +393,13 @@ def main(argv: list[str] | None = None) -> int:
         L.append("The system deliberately keeps the page date and records the reporting "
                  "period separately. `2024-2025` is a **label**, not a date: none of "
                  "these documents was published on 2024-01-01.\n")
-        L.append("| filename | anchor text | edition_label | current published_at "
+        L.append("| filename | anchor text | edition_label | current effective_start_date "
                  "| proposed | PDF creation date | action |")
         L.append("|---|---|---|---|---|---|---|")
         for r in annual_rows:
             L.append(f"| {r['filename'][:34]} | {r['anchor_text'][:26] or '-'} "
-                     f"| **{r['edition_label'] or '-'}** | {r['current_published_at'] or '-'} "
-                     f"| {r['proposed_published_at'] or '-'} "
+                     f"| **{r['edition_label'] or '-'}** | {r['current_start_date'] or '-'} "
+                     f"| {r['proposed_effective_start_date'] or '-'} "
                      f"| {r['pdf_creation_date'] or '-'} | {r['action']} |")
 
     llm_selected = [r for r in selected if r["llm_used"] == "yes"]
@@ -413,8 +413,8 @@ def main(argv: list[str] | None = None) -> int:
             L.append(f"\n### {r['filename'] or r['document_id']}\n")
             L.append(f"- **action**: `{r['action']}` · **date_type**: `{r['date_type']}` "
                      f"· **confidence**: {r['llm_confidence']}")
-            L.append(f"- **current published_at**: {r['current_published_at'] or '-'} · "
-                     f"**proposed**: {r['proposed_published_at'] or '(unchanged)'}")
+            L.append(f"- **current effective_start_date**: {r['current_start_date'] or '-'} · "
+                     f"**proposed**: {r['proposed_effective_start_date'] or '(unchanged)'}")
             L.append(f"- **pdf_available_to_llm**: `{r['pdf_available_to_llm']}` · "
                      f"**url reachable now**: `{r['pdf_url_reachable_now'] or 'not rechecked'}`")
             L.append(f"- **page**: {(r['page_title'] or '-')[:60]} "
@@ -429,8 +429,8 @@ def main(argv: list[str] | None = None) -> int:
                 L.append(f"- **edition_label**: `{r['edition_label']}` "
                          "(a reporting period, not a publication date)")
             L.append("- **decision**: " + (
-                f"proposes changing {r['current_published_at'] or '?'} -> "
-                f"**{r['proposed_published_at']}**, on an explicit publication statement."
+                f"proposes changing {r['current_start_date'] or '?'} -> "
+                f"**{r['proposed_effective_start_date']}**, on an explicit publication statement."
                 if r["action"] == "override" else "abstained — page date kept."))
             L.append(f"- pdf: {r['url']}")
 
@@ -441,8 +441,8 @@ def main(argv: list[str] | None = None) -> int:
     for r in overrides:
         L.append(f"\n**{r['filename'] or r['document_id']}**  ({r['review_group']})\n")
         L.append("```")
-        L.append(f"Current:   {r['current_published_at'] or '(none)'}")
-        L.append(f"Proposed:  {r['proposed_published_at']}   "
+        L.append(f"Current:   {r['current_start_date'] or '(none)'}")
+        L.append(f"Proposed:  {r['proposed_effective_start_date']}   "
                  f"[{r['date_type']} via {r['date_source']}]")
         L.append("Evidence:")
         L.append(f"  node.created      = {r['node_created'] or '-'}")
@@ -467,14 +467,14 @@ def main(argv: list[str] | None = None) -> int:
             f"| {i} | {r['review_group']} | {(r['filename'] or '')[:30]} "
             f"| {r['page_pdf_count']} | {r['origin']} | {r['node_created'] or '-'} "
             f"| {r['file_created'] or '-'} | {r['pdf_creation_date'] or '-'} "
-            f"| {r['current_published_at'] or '-'} | {r['proposed_published_at'] or '-'} "
+            f"| {r['current_start_date'] or '-'} | {r['proposed_effective_start_date'] or '-'} "
             f"| **{r['action']}** | {r['deterministic_rule']} | {r['llm_used']} |")
 
     L.append("\n## How to review\n")
     L.append("For each row in the CSV, fill in:\n")
     L.append("- `human_decision` — `keep_page_date`, `override` or `review`")
     L.append("- `human_correct` — `YES` if the system's action matches yours, else `NO`")
-    L.append("- `human_published_at` — the date you believe is right (blank = keep current)")
+    L.append("- `human_effective_start_date` — the date you believe is right (blank = keep current)")
     L.append("- `human_date_type` — publication / upload / authoring / edition / event")
     L.append("- `human_edition_label` — e.g. `2024-25`, where applicable")
     L.append("- `human_notes` — anything that explains a `NO`\n")

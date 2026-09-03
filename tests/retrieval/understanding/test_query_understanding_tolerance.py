@@ -52,10 +52,10 @@ def _dated(question, **kw):
     ],
 )
 def test_a_date_on_a_relationship_is_not_a_publication_scope(question):
-    """The dates bound the relationship, so no `published_at` condition is built
+    """The dates bound the relationship, so no `effective_start_date` condition is built
     and the graph keeps its temporal templates."""
     assert _is_relationship_time(_dated(question)) is True
-    assert "published_at" not in _keys(_dated(question))
+    assert "effective_start_date" not in _keys(_dated(question))
 
 
 @pytest.mark.parametrize(
@@ -71,9 +71,9 @@ def test_a_date_on_a_relationship_is_not_a_publication_scope(question):
 )
 def test_a_publication_date_scope_is_preserved_exactly(question):
     """The existing behaviour, untouched. This is the half that must not regress:
-    "documents published between 2005 and 2010" really is a `published_at` query."""
+    "documents published between 2005 and 2010" really is a `effective_start_date` query."""
     assert _is_relationship_time(_dated(question)) is False
-    assert "published_at" in _keys(_dated(question))
+    assert "effective_start_date" in _keys(_dated(question))
 
 
 def test_publication_language_wins_when_a_question_says_both():
@@ -81,7 +81,7 @@ def test_publication_language_wins_when_a_question_says_both():
     publication date. The conservative reading keeps the document scope."""
     question = "Which papers published in 2011 were funded by DBT?"
     assert _is_relationship_time(_dated(question)) is False
-    assert "published_at" in _keys(_dated(question))
+    assert "effective_start_date" in _keys(_dated(question))
 
 
 def test_a_date_with_no_relationship_named_keeps_the_document_scope():
@@ -89,7 +89,7 @@ def test_a_date_with_no_relationship_named_keeps_the_document_scope():
     the default stands rather than the filter being dropped on a guess."""
     question = "What happened between 2005 and 2010?"
     assert _is_relationship_time(_dated(question)) is False
-    assert "published_at" in _keys(_dated(question))
+    assert "effective_start_date" in _keys(_dated(question))
 
 
 def test_a_relational_question_with_no_dates_builds_no_date_condition():
@@ -109,7 +109,7 @@ def test_the_other_facets_are_unaffected_by_the_temporal_split():
         language="en",
     )
     keys = _keys(analysis)
-    assert "published_at" not in keys
+    assert "effective_start_date" not in keys
     assert "source_type" in keys and "language" in keys and "tags" in keys
 
 

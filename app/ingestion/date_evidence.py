@@ -139,15 +139,25 @@ class PageContext:
     #: PDF inherits. None means "not resolved", and
     #: :attr:`effective_date` falls back to ``node_created`` so evidence built by
     #: an older caller behaves exactly as before.
-    node_published_at: str | None = None
-    #: Precision of :attr:`node_published_at` — ``year`` for a page whose bundle
+    node_start_date: str | None = None
+    #: Precision of :attr:`node_start_date` — ``year`` for a page whose bundle
     #: states only a year, so an attachment does not render 1 January as a day.
-    node_precision: str = "day"
-    #: Provenance of the page's date, carried so an attachment's audit row can
-    #: name the bundle, the field and the value without re-reading the node.
+    node_start_precision: str = "day"
+    #: The end of the period the page's content covers, where its bundle
+    #: declares an end field and that field held a usable date. An attachment
+    #: inherits this exactly as it inherits the start; None for a single-date
+    #: page, and never manufactured.
+    node_end_date: str | None = None
+    node_end_precision: str | None = None
+    #: Provenance of the page's dates, carried so an attachment's audit row can
+    #: name the bundle, the fields and the values without re-reading the node.
+    #: ``date_field``/``date_field_value`` are the *start*; the end pair is
+    #: separate so the two are never collapsed into one ambiguous string.
     date_field: str | None = None
     date_field_value: object = None
-    #: ``created`` | ``cms_field`` — where :attr:`node_published_at` came from.
+    end_date_field: str | None = None
+    end_date_field_value: object = None
+    #: ``created`` | ``cms_field`` — where :attr:`node_start_date` came from.
     date_source: str = "created"
     bundle: str | None = None
     url: str | None = None
@@ -163,7 +173,16 @@ class PageContext:
     @property
     def effective_date(self) -> str | None:
         """The date this page hands to its attachments."""
-        return self.node_published_at or self.node_created
+        return self.node_start_date or self.node_created
+
+    @property
+    def effective_end(self) -> str | None:
+        """The end of the period this page hands to its attachments, if any.
+
+        No fallback to :attr:`node_created`: a creation stamp is a point, not a
+        period, so a page with no stated end hands over no end.
+        """
+        return self.node_end_date
 
     @property
     def date_from_bundle_field(self) -> bool:
@@ -175,7 +194,7 @@ class PageContext:
         its creation stamp — the document's own text is still the only better
         evidence available, which is the case the interpreter exists for.
         """
-        return self.date_source == "cms_field" and self.node_published_at is not None
+        return self.date_source == "cms_field" and self.node_start_date is not None
 
 
 @dataclass
@@ -187,7 +206,7 @@ class PdfEvidence:
     url: str | None = None
     filename: str | None = None
     anchor: str | None = None
-    current_published_at: str | None = None
+    current_start_date: str | None = None
 
     # Tier 1-2: free.
     file_created: str | None = None   # None for in-body PDFs

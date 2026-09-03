@@ -13,7 +13,7 @@ failing any check is moved to the review list, so the override file can be read
 as "these and only these would change".
 
 Reporting only. The catalog is opened with SELECT for page URLs; nothing is
-written outside ``reports/phase1``. No ``published_at``, document row, Qdrant
+written outside ``reports/phase1``. No ``effective_start_date``, document row, Qdrant
 point or fingerprint is touched, and Document Intelligence is unreachable —
 this module does not import the extraction package.
 
@@ -52,17 +52,17 @@ SITE = "https://teriin.org"
 
 OVERRIDE_COLUMNS = [
     "document_id", "pdf_filename", "page_url", "pdf_origin", "pdf_count_on_page",
-    "current_published_at", "proposed_published_at", "date_type", "confidence",
+    "current_start_date", "proposed_effective_start_date", "date_type", "confidence",
     "publication_statement", "evidence_location", "date_grounded",
     "statement_grounded", "file_created", "pdf_creation_date", "filename",
     "anchor_text", "edition_label", "decision", "reason",
 ]
 REVIEW_COLUMNS = [
-    "document_id", "filename", "current_published_at", "candidate_date",
+    "document_id", "filename", "current_start_date", "candidate_start_date",
     "date_type", "confidence", "evidence", "reason_for_review",
 ]
 EDITION_COLUMNS = [
-    "document_id", "filename", "current_published_at", "edition_label",
+    "document_id", "filename", "current_start_date", "edition_label",
     "evidence", "evidence_location",
 ]
 
@@ -96,7 +96,7 @@ def load_catalog() -> dict[str, dict]:
 
         with mysql_connection() as conn, conn.cursor() as cur:
             cur.execute(
-                f"SELECT document_id, published_at, url FROM `{state_table()}` "
+                f"SELECT document_id, effective_start_date, url FROM `{state_table()}` "
                 "WHERE source_type = 'pdf_attachment'"
             )
             return {r["document_id"]: r for r in cur.fetchall()}
@@ -109,7 +109,7 @@ def verify(row: dict, session: requests.Session) -> tuple[bool, dict, str]:
     """Re-run every gate against the live PDF. Returns (passed, flags, reason)."""
     raw = json.loads(row["llm_raw"]) if row.get("llm_raw") else {}
     quote = (raw.get("publication_statement") or "").strip()
-    proposed = _d(row.get("candidate_date"))
+    proposed = _d(row.get("candidate_start_date"))
     url = row.get("url") or ""
     absolute = url if url.startswith("http") else SITE + url
 
@@ -127,7 +127,7 @@ def verify(row: dict, session: requests.Session) -> tuple[bool, dict, str]:
     try:
         verdict = DateInterpretation(**{
             k: raw.get(k) for k in
-            ("candidate_date", "date_type", "edition_label", "publication_statement",
+            ("candidate_start_date", "date_type", "edition_label", "publication_statement",
              "confidence", "evidence", "recommended_action") if raw.get(k) is not None
         })
     except Exception:
@@ -177,7 +177,7 @@ def why_replace(row: dict) -> str:
     count = row.get("page_pdf_count") or "1"
     return (
         f"The page this PDF hangs on holds {count} PDF(s), and its own creation date "
-        f"({_d(row.get('current_published_at'))}) describes the page, not this "
+        f"({_d(row.get('current_start_date'))}) describes the page, not this "
         "document. Because the document states a publication date itself, that "
         "statement is better evidence than the page's date."
     )
@@ -213,16 +213,16 @@ def main(argv: list[str] | None = None) -> int:
             passed, flags, reason = verify(row, session)
             extra = side.get(row["document_id"], {})
             cat = catalog.get(row["document_id"], {})
-            current = _d(cat.get("published_at") or row.get("current_published_at"))
-            proposed = _d(row.get("candidate_date"))
+            current = _d(cat.get("effective_start_date") or row.get("current_start_date"))
+            proposed = _d(row.get("candidate_start_date"))
             common = {
                 "document_id": row["document_id"],
                 "pdf_filename": row.get("filename") or "",
                 "page_url": cat.get("url") or "",
                 "pdf_origin": row.get("origin") or "",
                 "pdf_count_on_page": row.get("page_pdf_count") or "",
-                "current_published_at": current,
-                "proposed_published_at": proposed,
+                "current_start_date": current,
+                "proposed_effective_start_date": proposed,
                 "date_type": row.get("date_type") or "",
                 "confidence": row.get("confidence") or "",
                 "publication_statement": flags["quote"],
@@ -263,8 +263,8 @@ def main(argv: list[str] | None = None) -> int:
         reviews.append({
             "document_id": row["document_id"],
             "filename": row.get("filename") or "",
-            "current_published_at": _d(row.get("current_published_at")),
-            "candidate_date": _d(raw.get("candidate_date")),
+            "current_start_date": _d(row.get("current_start_date")),
+            "candidate_start_date": _d(raw.get("candidate_start_date")),
             "date_type": row.get("date_type") or "",
             "confidence": row.get("confidence") or "",
             "evidence": (raw.get("publication_statement") or raw.get("evidence")
@@ -276,8 +276,8 @@ def main(argv: list[str] | None = None) -> int:
         reviews.append({
             "document_id": item["document_id"],
             "filename": item["pdf_filename"],
-            "current_published_at": item["current_published_at"],
-            "candidate_date": item["proposed_published_at"],
+            "current_start_date": item["current_start_date"],
+            "candidate_start_date": item["proposed_effective_start_date"],
             "date_type": item["date_type"],
             "confidence": item["confidence"],
             "evidence": item["publication_statement"][:400],
@@ -307,7 +307,7 @@ def main(argv: list[str] | None = None) -> int:
         editions.append({
             "document_id": row["document_id"],
             "filename": filename,
-            "current_published_at": _d(row.get("current_published_at")),
+            "current_start_date": _d(row.get("current_start_date")),
             "edition_label": label,
             "evidence": evidence[:200],
             "evidence_location": source,
@@ -319,7 +319,7 @@ def main(argv: list[str] | None = None) -> int:
         writer.writerows(editions)
 
     # ------------------------------------------------------------- markdown ---
-    L = ["# Proposed `published_at` changes — for manual approval\n"]
+    L = ["# Proposed `effective_start_date` changes — for manual approval\n"]
     L.append("Nothing here has been applied. This is the complete list of PDFs whose "
              "date would change if Phase 1 were enabled.\n")
     L.append("## Summary\n")
@@ -344,8 +344,8 @@ def main(argv: list[str] | None = None) -> int:
     for i, o in enumerate(overrides, 1):
         L.append(f"\n### {i}. {o['pdf_filename']}\n")
         L.append(f"- **PDF:** `{o['pdf_filename']}`")
-        L.append(f"- **Current date:** {o['current_published_at']}")
-        L.append(f"- **Proposed date:** **{o['proposed_published_at']}**")
+        L.append(f"- **Current date:** {o['current_start_date']}")
+        L.append(f"- **Proposed date:** **{o['proposed_effective_start_date']}**")
         L.append(f"- **Date type:** {o['date_type']}")
         L.append(f"- **Confidence:** {o['confidence']}")
         L.append(f"\n**Publication evidence:**\n\n> \"{o['publication_statement']}\"\n")

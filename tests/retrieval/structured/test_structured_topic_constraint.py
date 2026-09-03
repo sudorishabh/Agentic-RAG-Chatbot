@@ -91,7 +91,7 @@ def catalog(monkeypatch):
         return [
             SimpleNamespace(
                 document_id=f"d{i}", title=f"Row {i}", url=f"https://x/{i}",
-                published_at="2026-01-01", bundle=kwargs.get("bundle") or "news",
+                effective_start_date="2026-01-01", bundle=kwargs.get("bundle") or "news",
             )
             for i in range(n)
         ]

@@ -108,7 +108,7 @@ You are NOT being asked "when was this published?". You are asked what kind of \
 date, if any, the evidence supports. Getting the kind wrong is worse than \
 returning nothing, because a wrong publication date is acted on silently.
 
-ALWAYS report what you actually found. Set date_type and candidate_date to \
+ALWAYS report what you actually found. Set date_type and candidate_start_date to \
 describe the best date in the evidence even when you recommend keeping the page \
 date. "unknown" means you found no date at all — not "I found one but it does \
 not qualify". The classification is used even when nothing is overridden.
@@ -133,16 +133,16 @@ WORKED EXAMPLES — publication (these SHOULD be recommended_action="override"):
 1. Newspaper issue. A masthead naming a newspaper with its issue date IS that
    issue's publication date.
    text: "HINDUSTAN TIMES CHANDIGARH MONDAY, DECEMBER 23, 2013"
-   -> date_type=publication, candidate_date=2013-12-23,
+   -> date_type=publication, candidate_start_date=2013-12-23,
       publication_statement="HINDUSTAN TIMES CHANDIGARH MONDAY, DECEMBER 23, 2013"
    text: "The Hindu, December 23, 2013 - Business page"
-   -> date_type=publication, candidate_date=2013-12-23,
+   -> date_type=publication, candidate_start_date=2013-12-23,
       publication_statement="The Hindu, December 23, 2013"
 
 2. Official issue / bulletin line. A numbered issue with a date is published on
    that date.
    text: "ISSUE NO. 22 DATED 11-12-2024"
-   -> date_type=publication, candidate_date=2024-12-11,
+   -> date_type=publication, candidate_start_date=2024-12-11,
       publication_statement="ISSUE NO. 22 DATED 11-12-2024"
 
 3. Explicit publication labels, in any of these forms:
@@ -171,7 +171,7 @@ Only recommended_action="override" changes anything, and it requires ALL of:
 
 If the evidence is ambiguous or contradictory, or you are inferring rather than
 reading a statement, answer recommended_action="review" — and still fill in the
-date_type and candidate_date you found. If there is genuinely no date anywhere,
+date_type and candidate_start_date you found. If there is genuinely no date anywhere,
 answer "keep_page_date" with date_type="unknown". Never guess a date to look
 useful, and never promote an upload, authoring, edition, event, notification or
 effective date to publication.
@@ -181,7 +181,7 @@ effective date to publication.
 class DateInterpretation(BaseModel):
     """Structured verdict from the model, validated before it is recorded."""
 
-    candidate_date: str | None = Field(
+    candidate_start_date: str | None = Field(
         None, description="ISO date (YYYY-MM-DD) if a usable date is supported, else null."
     )
     date_type: Literal[
@@ -226,7 +226,7 @@ class DateInterpretation(BaseModel):
         if statement_grounded is not None:
             self._statement_grounded = bool(statement_grounded)
 
-    @field_validator("candidate_date")
+    @field_validator("candidate_start_date")
     @classmethod
     def _sane_date(cls, value: str | None) -> str | None:
         """Drop a date in the wrong shape or the wrong era."""
@@ -253,12 +253,12 @@ class DateInterpretation(BaseModel):
         wearing a quotation. The quote must carry the year it is being used to
         justify.
         """
-        if not self.candidate_date:
+        if not self.candidate_start_date:
             return False
         statement = self.publication_statement or ""
         if not any(ch.isdigit() for ch in statement):
             return False
-        year = self.candidate_date[:4]
+        year = self.candidate_start_date[:4]
         if year in statement:
             return True
         # Numeric short-form dates keep a two-digit year: "23.12.13", "11-12-24".
@@ -291,10 +291,10 @@ class DateInterpretation(BaseModel):
         cannot justify a specific day; mapping it to the 1st invents one. The
         day has to appear, either inside a numeric date or as its own number.
         """
-        if not self.candidate_date:
+        if not self.candidate_start_date:
             return False
         statement = self.publication_statement or ""
-        day = int(self.candidate_date[8:10])
+        day = int(self.candidate_start_date[8:10])
         for match in _NUMERIC_DATE_RE.finditer(statement):
             if day in (int(match.group(1)), int(match.group(2))):
                 return True
@@ -347,9 +347,9 @@ class DateInterpretation(BaseModel):
 
     def _date_position(self, statement: str) -> int | None:
         """Index of the proposed date inside the quote, or None."""
-        if not self.candidate_date:
+        if not self.candidate_start_date:
             return None
-        year = self.candidate_date[:4]
+        year = self.candidate_start_date[:4]
         index = statement.find(year)
         if index != -1:
             return index
@@ -377,12 +377,12 @@ class DateInterpretation(BaseModel):
             # The model found a real date of some other kind. Keep the page date;
             # the kind and the date are still recorded for the reviewer.
             return "keep_page_date"
-        if self.candidate_date is None:
+        if self.candidate_start_date is None:
             return "keep_page_date"
         if not self.evidence_grounded:
             logger.info(
                 "Proposed date %s was not found in the document text the model was "
-                "shown; downgrading to review.", self.candidate_date
+                "shown; downgrading to review.", self.candidate_start_date
             )
             return "review"
         if not self.statement_grounded:
@@ -399,32 +399,32 @@ class DateInterpretation(BaseModel):
         if len(statement) < MIN_STATEMENT_CHARS:
             logger.info(
                 "Override without a quotable publication statement; downgrading to "
-                "review (date=%s, confidence=%.2f).", self.candidate_date, self.confidence
+                "review (date=%s, confidence=%.2f).", self.candidate_start_date, self.confidence
             )
             return "review"
         if not self.statement_supports_date():
             logger.info(
                 "Quoted statement %r does not carry the proposed date %s; "
-                "downgrading to review.", statement[:60], self.candidate_date
+                "downgrading to review.", statement[:60], self.candidate_start_date
             )
             return "review"
         if self.statement_is_year_only():
             logger.info(
                 "Quoted statement %r gives only a year; %s would invent a month "
-                "and day. Downgrading to review.", statement[:60], self.candidate_date
+                "and day. Downgrading to review.", statement[:60], self.candidate_start_date
             )
             return "review"
         if not self.statement_supports_the_day():
             logger.info(
                 "Quoted statement %r does not give a day; %s would invent one. "
-                "Downgrading to review.", statement[:60], self.candidate_date
+                "Downgrading to review.", statement[:60], self.candidate_start_date
             )
             return "review"
         if not self.publication_linkage_ok():
             logger.info(
                 "Quoted statement %r does not tie %s to publication (no cue, or the "
                 "date is governed by an update/effective/event). Downgrading to "
-                "review.", statement[:60], self.candidate_date
+                "review.", statement[:60], self.candidate_start_date
             )
             return "review"
         if self.confidence < MIN_OVERRIDE_CONFIDENCE:
@@ -438,7 +438,7 @@ _MONTH_NAMES = (
 )
 
 
-def date_is_in_text(candidate_date: str | None, text: str) -> bool:
+def date_is_in_text(candidate_start_date: str | None, text: str) -> bool:
     """Does ``text`` actually contain the day, month and year of this date?
 
     The point is grounding, not formatting: a masthead may read
@@ -452,11 +452,11 @@ def date_is_in_text(candidate_date: str | None, text: str) -> bool:
     So the day, the month and the year all have to appear close together
     somewhere in the text the model was shown.
     """
-    if not candidate_date or not text:
+    if not candidate_start_date or not text:
         return False
-    year = candidate_date[:4]
-    month = int(candidate_date[5:7])
-    day = int(candidate_date[8:10])
+    year = candidate_start_date[:4]
+    month = int(candidate_start_date[5:7])
+    day = int(candidate_start_date[8:10])
     lowered = " ".join(text.split()).lower()
 
     # A numeric date carrying the same three components, in either order.
@@ -565,7 +565,7 @@ def interpret(evidence: PdfEvidence) -> DateInterpretation | None:
     # forbid. No readable text means an override can never be grounded.
     if result.recommended_action == "override":
         result.set_grounded(
-            date_is_in_text(result.candidate_date, evidence.head_text),
+            date_is_in_text(result.candidate_start_date, evidence.head_text),
             statement_is_in_text(result.publication_statement, evidence.head_text),
         )
     return result

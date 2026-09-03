@@ -180,9 +180,9 @@ def catalog_coverage_directive() -> str:
     Meant to be appended *before* ``current_date_directive`` — its own text says
     it overrides what follows — so the blocks that change only with the corpus
     stay in the cacheable prefix ahead of the one that changes daily."""
-    from app.catalog.queries import published_range
+    from app.catalog.queries import effective_date_range
 
-    oldest, newest = published_range()
+    oldest, newest = effective_date_range()
     if not oldest or not newest:
         return ""
     return (

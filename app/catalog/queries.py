@@ -53,8 +53,8 @@ def _catalog_filters(
     theme: str | None = None,
     theme_group: str | None = None,
     tag: str | None = None,
-    published_from: datetime | None = None,
-    published_to: datetime | None = None,
+    effective_from: datetime | None = None,
+    effective_to: datetime | None = None,
 ) -> tuple[str, list[str], list[Any], bool]:
     """Shared JOIN/WHERE assembly for the catalog count/list queries.
 
@@ -102,12 +102,12 @@ def _catalog_filters(
         ors = " OR ".join(["s.title LIKE %s"] * len(topic_terms))
         clauses.append(f"({ors})")
         params.extend(_like(term) for term in topic_terms)
-    if published_from is not None:
-        clauses.append("s.published_at >= %s")
-        params.append(published_from)
-    if published_to is not None:
-        clauses.append("s.published_at < %s")
-        params.append(published_to)
+    if effective_from is not None:
+        clauses.append("s.effective_start_date >= %s")
+        params.append(effective_from)
+    if effective_to is not None:
+        clauses.append("s.effective_start_date < %s")
+        params.append(effective_to)
     if author:
         joins.append(f" JOIN `{table}_author` a ON a.document_id = s.document_id")
         clauses.append("a.author LIKE %s")
@@ -148,15 +148,15 @@ def count_documents(
     theme: str | None = None,
     theme_group: str | None = None,
     tag: str | None = None,
-    published_from: datetime | None = None,
-    published_to: datetime | None = None,
+    effective_from: datetime | None = None,
+    effective_to: datetime | None = None,
 ) -> int:
     """Count catalog documents (not chunks) matching the given filters.
 
     ``author`` and ``title_contains`` match substrings; ``theme`` and ``tag``
     match names exactly (``theme`` also matching its sub-themes) — see
     :func:`_catalog_filters`. Date bounds are a half-open ``[from, to)`` interval
-    over ``published_at``. Takes the same filter set as
+    over ``effective_start_date``. Takes the same filter set as
     ``list_documents``/``distribution`` so a count and a listing of the same
     query can never disagree."""
     table = _table()
@@ -164,7 +164,7 @@ def count_documents(
         source_type, bundle, entity_type=entity_type, title_contains=title_contains,
         topic_terms=topic_terms, author=author, theme=theme,
         theme_group=theme_group, tag=tag,
-        published_from=published_from, published_to=published_to,
+        effective_from=effective_from, effective_to=effective_to,
     )
     count_expr = "COUNT(DISTINCT s.document_id)" if distinct else "COUNT(*)"
     where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
@@ -186,8 +186,8 @@ def list_documents(
     theme: str | None = None,
     theme_group: str | None = None,
     tag: str | None = None,
-    published_from: datetime | None = None,
-    published_to: datetime | None = None,
+    effective_from: datetime | None = None,
+    effective_to: datetime | None = None,
     limit: int = 10,
     offset: int = 0,
 ) -> list[StateRecord]:
@@ -196,13 +196,13 @@ def list_documents(
     Mirrors ``count_documents`` but returns the matching rows so structured
     list/lookup queries are answered from the local catalog instead of a live
     site fetch. ``limit`` is clamped to [1, 100]; ``offset`` clamps to >= 0 and
-    pages through the same ordering (published_at desc, document_id asc)."""
+    pages through the same ordering (effective_start_date desc, document_id asc)."""
     table = _table()
     joins, clauses, params, needs_distinct = _catalog_filters(
         source_type, bundle, entity_type=entity_type,
         title_contains=title_contains, topic_terms=topic_terms, author=author,
         theme=theme, theme_group=theme_group, tag=tag,
-        published_from=published_from, published_to=published_to,
+        effective_from=effective_from, effective_to=effective_to,
     )
     distinct = "DISTINCT " if needs_distinct else ""
     where = f" WHERE {' AND '.join(clauses)}" if clauses else ""
@@ -222,7 +222,7 @@ def list_documents(
         params = list(params) + [_like(term) for term in topic_terms]
     sql = (
         f"SELECT {distinct}s.* FROM `{table}` s{joins}{where} "
-        f"ORDER BY {relevance}s.published_at DESC, s.document_id ASC "
+        f"ORDER BY {relevance}s.effective_start_date DESC, s.document_id ASC "
         f"LIMIT {capped}{offset_clause}"
     )
     with mysql_connection() as conn, conn.cursor() as cur:
@@ -247,8 +247,8 @@ def distribution(
     theme_group: str | None = None,
     tag: str | None = None,
     title_contains: str | None = None,
-    published_from: datetime | None = None,
-    published_to: datetime | None = None,
+    effective_from: datetime | None = None,
+    effective_to: datetime | None = None,
     limit: int = 20,
 ) -> list[tuple[str, int]]:
     """Grouped document counts ("how many per theme/type/author/year"),
@@ -279,7 +279,7 @@ def distribution(
         source_type, bundle, entity_type=entity_type,
         title_contains=title_contains, author=author,
         theme=theme, theme_group=scope_group, tag=tag,
-        published_from=published_from, published_to=published_to,
+        effective_from=effective_from, effective_to=effective_to,
     )
 
     # `label` is what the row is called; `key` is what it groups on. They
@@ -289,8 +289,8 @@ def distribution(
     if group_by == "bundle":
         group_join, key = "", "s.bundle"
     elif group_by == "year":
-        group_join, key = "", "YEAR(s.published_at)"
-        clauses.append("s.published_at IS NOT NULL")
+        group_join, key = "", "YEAR(s.effective_start_date)"
+        clauses.append("s.effective_start_date IS NOT NULL")
     elif group_by == "theme":
         # Group on the theme facet, excluding the boolean-literal artefacts
         # `theme_vocabulary` also filters, so a breakdown and a listing of the
@@ -363,7 +363,7 @@ def _dimension_sql(
     if dimension == "bundle":
         return "", "s.bundle", "s.bundle"
     if dimension == "year":
-        return "", "YEAR(s.published_at)", "YEAR(s.published_at)"
+        return "", "YEAR(s.effective_start_date)", "YEAR(s.effective_start_date)"
     if dimension in ("author", "theme"):
         join = (
             f" JOIN `{table}_{dimension}` {alias}"
@@ -386,8 +386,8 @@ def count_distinct_values(
     theme: str | None = None,
     theme_group: str | None = None,
     tag: str | None = None,
-    published_from: datetime | None = None,
-    published_to: datetime | None = None,
+    effective_from: datetime | None = None,
+    effective_to: datetime | None = None,
 ) -> int:
     """How many distinct values of ``dimension`` the filtered scope contains.
 
@@ -410,7 +410,7 @@ def count_distinct_values(
     joins, clauses, params, _ = _catalog_filters(
         source_type, bundle, entity_type=entity_type, title_contains=title_contains,
         author=author, theme=theme, theme_group=scope_group, tag=tag,
-        published_from=published_from, published_to=published_to,
+        effective_from=effective_from, effective_to=effective_to,
     )
     # A dedicated alias: the scope filters may already join the same facet table
     # for a *different* purpose ("themes that Author X writes in" filters on
@@ -418,7 +418,7 @@ def count_distinct_values(
     # rows that matched the filter.
     join, key, _label = _dimension_sql(dimension, table, "dv")
     if dimension == "year":
-        clauses.append("s.published_at IS NOT NULL")
+        clauses.append("s.effective_start_date IS NOT NULL")
     if dimension == "theme":
         placeholders = ", ".join(["%s"] * len(_NON_THEME_VALUES))
         clauses.append(f"dv.theme <> '' AND dv.theme NOT IN ({placeholders})")
@@ -448,8 +448,8 @@ def cross_distribution(
     theme: str | None = None,
     theme_group: str | None = None,
     tag: str | None = None,
-    published_from: datetime | None = None,
-    published_to: datetime | None = None,
+    effective_from: datetime | None = None,
+    effective_to: datetime | None = None,
     limit: int = 50,
 ) -> list[tuple[str, str, int]]:
     """Document counts grouped by two dimensions at once, largest first.
@@ -481,13 +481,13 @@ def cross_distribution(
     joins, clauses, params, _ = _catalog_filters(
         source_type, bundle, entity_type=entity_type, title_contains=title_contains,
         author=author, theme=theme, theme_group=theme_group, tag=tag,
-        published_from=published_from, published_to=published_to,
+        effective_from=effective_from, effective_to=effective_to,
     )
     join_a, key_a, label_a = _dimension_sql(first, table, "ga")
     join_b, key_b, label_b = _dimension_sql(second, table, "gb")
     for dimension, alias in ((first, "ga"), (second, "gb")):
         if dimension == "year":
-            clauses.append("s.published_at IS NOT NULL")
+            clauses.append("s.effective_start_date IS NOT NULL")
         elif dimension == "theme":
             placeholders = ", ".join(["%s"] * len(_NON_THEME_VALUES))
             clauses.append(
@@ -540,7 +540,7 @@ def distinct_authors(*, limit: int = 2000) -> list[str]:
 # that the extra query is noise next to the LLM calls on the same request.
 _INVENTORY_TTL_SECONDS = 600
 _bundle_inventory: tuple[float, tuple[str, ...]] | None = None
-_published_range: tuple[float, tuple[str | None, str | None]] | None = None
+_effective_date_range: tuple[float, tuple[str | None, str | None]] | None = None
 
 # The corpus revision is read on every cached query rather than on the
 # occasional catalog answer, and it decides whether a cached answer may be
@@ -645,15 +645,15 @@ def available_bundles(*, refresh: bool = False) -> tuple[str, ...]:
 
 
 def _as_iso_date(value: Any) -> str | None:
-    """A ``published_at`` bound as a bare ISO date, or None when unusable."""
+    """A ``effective_start_date`` bound as a bare ISO date, or None when unusable."""
     if isinstance(value, datetime):
         return value.date().isoformat()
     text = str(value or "")[:10]
     return text or None
 
 
-def published_range(*, refresh: bool = False) -> tuple[str | None, str | None]:
-    """The oldest and newest publication dates the catalog holds, as ISO dates.
+def effective_date_range(*, refresh: bool = False) -> tuple[str | None, str | None]:
+    """The oldest and newest effective dates the catalog holds, as ISO dates.
 
     The date-extracting prompts anchor relative expressions to *today*, which is
     right for reading the user ("last six months" means the last six months) and
@@ -669,18 +669,18 @@ def published_range(*, refresh: bool = False) -> tuple[str | None, str | None]:
 
     Fails open with ``(None, None)``, which callers must read as "unknown" — a
     MySQL blip must not tell the model the catalog covers nothing."""
-    global _published_range
+    global _effective_date_range
     now = time.monotonic()
     if (
         not refresh
-        and _published_range is not None
-        and now - _published_range[0] < _INVENTORY_TTL_SECONDS
+        and _effective_date_range is not None
+        and now - _effective_date_range[0] < _INVENTORY_TTL_SECONDS
     ):
-        return _published_range[1]
+        return _effective_date_range[1]
     table = _table()
     sql = (
-        f"SELECT MIN(published_at) AS lo, MAX(published_at) AS hi FROM `{table}` "
-        "WHERE published_at IS NOT NULL"
+        f"SELECT MIN(effective_start_date) AS lo, MAX(effective_start_date) AS hi FROM `{table}` "
+        "WHERE effective_start_date IS NOT NULL"
     )
     try:
         with mysql_connection() as conn, conn.cursor() as cur:
@@ -692,7 +692,7 @@ def published_range(*, refresh: bool = False) -> tuple[str | None, str | None]:
         logger.warning("Published-range lookup failed; treating it as unknown.",
                        exc_info=True)
         return (None, None)
-    _published_range = (now, found)
+    _effective_date_range = (now, found)
     return found
 
 
@@ -810,8 +810,8 @@ def document_ids_in_scope(
     tag: str | None = None,
     author: str | None = None,
     title_contains: str | None = None,
-    published_from: datetime | None = None,
-    published_to: datetime | None = None,
+    effective_from: datetime | None = None,
+    effective_to: datetime | None = None,
     limit: int = 150,
 ) -> list[str]:
     """Document ids matching a metadata scope, most recent first.
@@ -833,12 +833,12 @@ def document_ids_in_scope(
     if title_contains:
         clauses.append("s.title LIKE %s")
         params.append(_like(title_contains))
-    if published_from is not None:
-        clauses.append("s.published_at >= %s")
-        params.append(published_from)
-    if published_to is not None:
-        clauses.append("s.published_at < %s")
-        params.append(published_to)
+    if effective_from is not None:
+        clauses.append("s.effective_start_date >= %s")
+        params.append(effective_from)
+    if effective_to is not None:
+        clauses.append("s.effective_start_date < %s")
+        params.append(effective_to)
     if author:
         joins.append(f" JOIN `{table}_author` a ON a.document_id = s.document_id")
         clauses.append("a.author LIKE %s")
@@ -855,14 +855,14 @@ def document_ids_in_scope(
         params.append(tag)
         distinct = True
 
-    # published_at is selected alongside the id: MySQL rejects DISTINCT with
+    # effective_start_date is selected alongside the id: MySQL rejects DISTINCT with
     # an ORDER BY column that is not in the select list.
     select = "SELECT DISTINCT" if distinct else "SELECT"
     capped = max(1, min(int(limit or 150), 300))
     sql = (
-        f"{select} s.document_id, s.published_at FROM `{table}` s{''.join(joins)}"
+        f"{select} s.document_id, s.effective_start_date FROM `{table}` s{''.join(joins)}"
         f" WHERE {' AND '.join(clauses)}"
-        f" ORDER BY s.published_at DESC, s.document_id ASC LIMIT {capped}"
+        f" ORDER BY s.effective_start_date DESC, s.document_id ASC LIMIT {capped}"
     )
     try:
         with mysql_connection() as conn, conn.cursor() as cur:
@@ -893,7 +893,7 @@ def abstracts_for(document_ids: Sequence[str]) -> dict[str, dict[str, Any]]:
     table = _table()
     placeholders = ", ".join(["%s"] * len(ids))
     sql = (
-        f"SELECT s.document_id, s.title, s.url, s.published_at, e.abstract"
+        f"SELECT s.document_id, s.title, s.url, s.effective_start_date, e.abstract"
         f" FROM `{table}` s"
         f" JOIN `{table}_enrichment` e ON e.content_hash = s.content_hash"
         f" WHERE s.document_id IN ({placeholders}) AND e.abstract IS NOT NULL"
@@ -915,7 +915,7 @@ def abstracts_for(document_ids: Sequence[str]) -> dict[str, dict[str, Any]]:
             "abstract": row["abstract"],
             "title": row["title"],
             "url": row["url"],
-            "published_at": row["published_at"],
+            "effective_start_date": row["effective_start_date"],
         }
         for row in rows
         if (row["abstract"] or "").strip()

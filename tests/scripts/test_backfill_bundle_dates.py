@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import pytest
 
-from app.ingestion.bundle_dates import resolve
+from app.ingestion.bundle_dates import resolve_effective_dates
 from scripts.backfill_bundle_dates import (
     Move,
     attachment_moves,
@@ -33,8 +33,8 @@ CREATED = "2018-01-11T06:29:59+00:00"
 def _move(**kwargs) -> Move:
     base = dict(
         document_id="d1", source_type="website", bundle="news",
-        url="https://teriin.org/news/x", old_value=CREATED,
-        new_value="2015-08-27T00:00:00+00:00", precision="day",
+        url="https://teriin.org/news/x", old_start=CREATED,
+        new_start="2015-08-27T00:00:00+00:00", start_precision="day",
         source="cms_field", rule="bundle_date_field", field="field_news_date",
     )
     base.update(kwargs)
@@ -47,14 +47,14 @@ def _move(**kwargs) -> Move:
 
 def test_a_move_reports_how_far_the_stored_date_was_out():
     assert _move().days > 0, "the stored date was later than the truth"
-    assert _move(old_value="2010-01-01T00:00:00+00:00").days < 0
+    assert _move(old_start="2010-01-01T00:00:00+00:00").days < 0
 
 
 def test_a_move_is_immutable():
     """It is reported, pre-flighted and then written; a mutable one could be
     reviewed as one thing and applied as another."""
     with pytest.raises(Exception):
-        _move().new_value = "2001-01-01T00:00:00+00:00"
+        _move().new_start = "2001-01-01T00:00:00+00:00"
 
 
 # --------------------------------------------------------------------------- #
@@ -63,6 +63,31 @@ def test_a_move_is_immutable():
 
 def test_a_clean_set_of_moves_passes():
     assert preflight([_move()], expect=-1) == []
+
+
+def test_a_well_formed_range_passes():
+    assert preflight([_move(field="field_completed_start_date",
+                            new_start="2020-01-01T00:00:00+00:00",
+                            new_end="2022-12-31T00:00:00+00:00")], expect=-1) == []
+
+
+def test_a_range_stored_end_before_start_is_refused():
+    """`bundle_dates` drops an inverted end rather than resolving it, so this
+    can only fire if something downstream reassembled one."""
+    problems = preflight([_move(new_start="2022-12-31T00:00:00+00:00",
+                                new_end="2020-01-01T00:00:00+00:00")], expect=-1)
+    assert any("end-before-start" in p for p in problems)
+
+
+def test_an_end_value_with_no_timezone_is_refused():
+    problems = preflight([_move(new_end="2022-12-31T00:00:00")], expect=-1)
+    assert any("UTC" in p for p in problems)
+
+
+def test_an_end_field_is_a_mapped_field():
+    """Both halves of a range come from the mapping, so neither can be a field
+    nothing declared."""
+    assert preflight([_move(field="field_event_end_date")], expect=-1) == []
 
 
 def test_a_drifted_corpus_stops_the_run():
@@ -88,20 +113,20 @@ def test_a_year_precision_value_that_is_not_january_is_refused():
     """A year-precision date is 1 January standing in for a year. Any other day
     means the value and its precision disagree about what is known."""
     problems = preflight(
-        [_move(precision="year", new_value="2016-06-01T00:00:00+00:00")], expect=-1)
+        [_move(start_precision="year", new_start="2016-06-01T00:00:00+00:00")], expect=-1)
     assert any("1 January" in p for p in problems)
 
 
 def test_a_real_year_precision_value_passes():
-    assert preflight([_move(precision="year", field="field_rpaper_year",
-                            new_value="2016-01-01T00:00:00+00:00")],
+    assert preflight([_move(start_precision="year", field="field_rpaper_year",
+                            new_start="2016-01-01T00:00:00+00:00")],
                      expect=-1) == []
 
 
 def test_a_value_with_no_timezone_is_refused():
     """`state._to_datetime` normalises to naive UTC; an offset-less value would
     shift the calendar date every consumer reads."""
-    problems = preflight([_move(new_value="2015-08-27T00:00:00")], expect=-1)
+    problems = preflight([_move(new_start="2015-08-27T00:00:00")], expect=-1)
     assert any("timezone" in p for p in problems)
 
 
@@ -116,6 +141,15 @@ def test_an_attachment_move_passes_the_same_gate():
 # --------------------------------------------------------------------------- #
 
 class _Cursor:
+    """A cursor that answers the one query under test.
+
+    `fetchone` returns None so `schema._column_exists` reports every legacy
+    `published_*` column as absent — i.e. this models a **fully migrated**
+    database, which is the state these tests are about. The half-migrated
+    read path (COALESCE over the legacy column) is exercised against the real
+    schema, not here.
+    """
+
     def __init__(self, rows):
         self._rows = rows
 
@@ -124,6 +158,9 @@ class _Cursor:
 
     def fetchall(self):
         return self._rows
+
+    def fetchone(self):
+        return None
 
     def __enter__(self):
         return self
@@ -166,45 +203,55 @@ def rows(monkeypatch):
 
 
 def _paper_page():
-    return {"p1": resolve("research_papers", CREATED, {"field_rpaper_year": 2016})}
+    return {"p1": resolve_effective_dates("research_papers", CREATED, {"field_rpaper_year": 2016})}
 
 
 def _row(**kwargs):
     base = {"parent_id": "p1", "document_id": "f1",
-            "published_at": CREATED, "published_at_precision": "day",
-            "published_at_source": "parent_page",
+            "effective_start_date": CREATED, "start_precision": "day",
+            "effective_end_date": None, "end_precision": None,
+            "date_source": "parent_page",
             "url": "https://teriin.org/a.pdf", "bundle": "research_papers"}
     base.update(kwargs)
     return base
+
+
+def _project_page(start="2020-01-01T00:00:00+00:00",
+                  end="2022-12-31T00:00:00+00:00"):
+    """A completed_projects page whose bundle declares both ends."""
+    metadata = {"field_completed_start_date": start}
+    if end is not None:
+        metadata["field_completed_end_date"] = end
+    return {"p1": resolve_effective_dates("completed_projects", CREATED, metadata)}
 
 
 def test_an_attachment_takes_its_pages_new_date(rows):
     rows([_row()])
     moves = attachment_moves(_paper_page())
     assert len(moves) == 1
-    assert moves[0].new_value == "2016-01-01T00:00:00+00:00"
-    assert moves[0].precision == "year"
+    assert moves[0].new_start == "2016-01-01T00:00:00+00:00"
+    assert moves[0].start_precision == "year"
     assert moves[0].source == "parent_page"
     assert moves[0].parent_id == "p1"
 
 
 def test_an_attachment_already_on_its_pages_date_does_not_move(rows):
-    rows([_row(published_at="2016-01-01T00:00:00+00:00",
-               published_at_precision="year")])
+    rows([_row(effective_start_date="2016-01-01T00:00:00+00:00",
+               start_precision="year")])
     assert attachment_moves(_paper_page()) == []
 
 
 def test_a_precision_change_alone_is_still_a_move(rows):
     """The value is right and the marker is not: a reader would render 1 January
     as a real day."""
-    rows([_row(published_at="2016-01-01T00:00:00+00:00",
-               published_at_precision="day")])
+    rows([_row(effective_start_date="2016-01-01T00:00:00+00:00",
+               start_precision="day")])
     assert len(attachment_moves(_paper_page())) == 1
 
 
 def test_a_file_dated_from_its_own_text_is_left_alone(rows):
     """The one override the design grants, and it outranks inheritance."""
-    rows([_row(published_at_source="document_text")])
+    rows([_row(date_source="document_text")])
     assert attachment_moves(_paper_page()) == []
 
 
@@ -218,7 +265,7 @@ def test_an_attachment_reachable_from_two_pages_moves_once(rows):
     parent wins on every run."""
     rows([_row(parent_id="p1"), _row(parent_id="p2")])
     resolutions = _paper_page()
-    resolutions["p2"] = resolve("article", "2020-05-05T00:00:00+00:00", {})
+    resolutions["p2"] = resolve_effective_dates("article", "2020-05-05T00:00:00+00:00", {})
     moves = attachment_moves(resolutions)
     assert len(moves) == 1 and moves[0].parent_id == "p1"
 
@@ -227,12 +274,230 @@ def test_every_file_on_one_page_takes_the_same_date(rows):
     rows([_row(document_id=f"f{i}") for i in range(5)])
     moves = attachment_moves(_paper_page())
     assert len(moves) == 5
-    assert {m.new_value for m in moves} == {"2016-01-01T00:00:00+00:00"}
+    assert {m.new_start for m in moves} == {"2016-01-01T00:00:00+00:00"}
 
 
 def test_a_page_that_resolved_to_nothing_moves_none_of_its_files(rows):
     rows([_row()])
-    assert attachment_moves({"p1": resolve("article", None, {})}) == []
+    assert attachment_moves({"p1": resolve_effective_dates("article", None, {})}) == []
+
+
+# --------------------------------------------------------------------------- #
+# Ranges through the backfill
+# --------------------------------------------------------------------------- #
+
+def test_an_attachment_inherits_both_ends_of_its_pages_range(rows):
+    """A file on a completed project covers the period the project did."""
+    rows([_row(bundle="completed_projects")])
+    moves = attachment_moves(_project_page())
+    assert len(moves) == 1
+    assert moves[0].new_start.startswith("2020-01-01")
+    assert moves[0].new_end.startswith("2022-12-31")
+    assert moves[0].range_added
+
+
+def test_every_file_on_a_range_page_inherits_the_same_period(rows):
+    rows([_row(document_id=f"f{i}", bundle="completed_projects") for i in range(4)])
+    moves = attachment_moves(_project_page())
+    assert len(moves) == 4
+    assert {m.new_end for m in moves} == {"2022-12-31T00:00:00+00:00"}
+
+
+def test_an_attachment_already_carrying_the_period_does_not_move(rows):
+    rows([_row(bundle="completed_projects",
+               effective_start_date="2020-01-01T00:00:00+00:00",
+               effective_end_date="2022-12-31T00:00:00+00:00")])
+    assert attachment_moves(_project_page()) == []
+
+
+def test_an_end_date_appearing_alone_is_still_a_move(rows):
+    """The start is already right and the end is not stored yet — which is the
+    shape of every completed project on the day this ships."""
+    rows([_row(bundle="completed_projects",
+               effective_start_date="2020-01-01T00:00:00+00:00")])
+    moves = attachment_moves(_project_page())
+    assert len(moves) == 1
+    assert not moves[0].start_changed
+    assert moves[0].end_changed
+
+
+def test_an_end_the_source_no_longer_states_is_cleared(rows):
+    """A stored end whose CMS value was removed has to go, or a deleted date
+    would be immortal."""
+    rows([_row(bundle="completed_projects",
+               effective_start_date="2020-01-01T00:00:00+00:00",
+               effective_end_date="2022-12-31T00:00:00+00:00")])
+    moves = attachment_moves(_project_page(end=None))
+    assert len(moves) == 1
+    assert moves[0].new_end is None
+
+
+def test_an_inverted_range_propagates_the_start_and_not_the_end(rows):
+    rows([_row(bundle="completed_projects")])
+    moves = attachment_moves(_project_page(start="2022-12-31T00:00:00+00:00",
+                                           end="2020-01-01T00:00:00+00:00"))
+    assert len(moves) == 1
+    assert moves[0].new_start.startswith("2022-12-31")
+    assert moves[0].new_end is None
+    assert moves[0].range_issue == "inverted"
+
+
+# --------------------------------------------------------------------------- #
+# Reading a half-migrated database
+#
+# `ensure_state_table()` is additive: it creates the new columns empty. On a
+# database where it has run and `copy_legacy_date_columns()` has not, the new
+# columns are NULL for every row while the legacy ones still hold the data.
+# Reading the new columns there made every page look like it already agreed with
+# itself, so the dry run reported only attachment moves — 0 pages out of 8,507 —
+# and `--apply` would have written attachment dates inherited from page
+# resolutions while leaving every page untouched.
+# --------------------------------------------------------------------------- #
+
+def test_the_read_path_falls_back_to_the_legacy_column_while_it_exists():
+    """One expression has to be correct in all three migration states: before
+    the copy, after the copy, and after the drop."""
+    from scripts.backfill_bundle_dates import _readable
+
+    class _Has:
+        def execute(self, *a, **k): return None
+        def fetchone(self): return {"1": 1}
+
+    class _HasNot:
+        def execute(self, *a, **k): return None
+        def fetchone(self): return None
+
+    before = _readable(_Has(), "documents", "effective_start_date", "published_at")
+    after = _readable(_HasNot(), "documents", "effective_start_date", "published_at")
+    assert before == "COALESCE(`effective_start_date`, `published_at`)"
+    assert after == "`effective_start_date`"
+
+
+def test_the_read_path_qualifies_columns_when_the_query_joins():
+    """`attachment_moves` joins the table to itself under aliases; an unqualified
+    COALESCE there is an ambiguous-column error at runtime, not a test failure."""
+    from scripts.backfill_bundle_dates import _readable
+
+    class _Has:
+        def execute(self, *a, **k): return None
+        def fetchone(self): return {"1": 1}
+
+    got = _readable(_Has(), "documents", "effective_start_date", "published_at", "d")
+    assert got == "COALESCE(d.`effective_start_date`, d.`published_at`)"
+
+
+def test_a_page_is_only_unrecoverable_when_the_answer_needs_the_lost_stamp():
+    """A `news` page whose `field_news_date` is intact resolves from the CMS
+    field and never consults `created`, so a lost creation stamp must not drop
+    it. The first version skipped 2,770 pages it could have dated exactly."""
+    import inspect
+
+    from scripts import backfill_bundle_dates as script
+
+    source = inspect.getsource(script.page_moves)
+    assert 'resolved.source != "cms_field"' in source, (
+        "unrecoverable must be judged from the resolution, not from whether a "
+        "stamp happened to be recoverable"
+    )
+
+
+# --------------------------------------------------------------------------- #
+# Reading MySQL, and rewriting Qdrant
+# --------------------------------------------------------------------------- #
+
+def test_a_stamp_read_from_mysql_carries_its_utc_offset():
+    """The column is a DATETIME and `state._to_datetime` normalises to naive UTC
+    on the way in, so the driver hands back a naive value. Passing it through
+    verbatim produced `2017-12-28T08:58:09`, which the pre-flight refused — an
+    offset-less value read in another zone shifts the calendar date, the exact
+    class of bug this migration exists to correct."""
+    from datetime import datetime, timezone
+
+    from scripts.backfill_bundle_dates import _iso
+
+    assert _iso(datetime(2017, 12, 28, 8, 58, 9)) == "2017-12-28T08:58:09+00:00"
+    # An already-aware value is left exactly as it is.
+    aware = datetime(2017, 12, 28, 8, 58, 9, tzinfo=timezone.utc)
+    assert _iso(aware) == aware.isoformat()
+    assert _iso("2020-01-01T00:00:00+00:00") == "2020-01-01T00:00:00+00:00"
+    assert _iso(None) is None
+
+
+class _FakeQdrant:
+    """Just enough of the client for the key migration."""
+
+    def __init__(self, points):
+        self.points = points          # [(id, payload)]
+        self.set_calls: list[dict] = []
+        self.deleted: list[list[str]] = []
+
+    def collection_exists(self, *_a, **_k):
+        return True
+
+    def scroll(self, *, with_payload, **_k):
+        from types import SimpleNamespace
+
+        got = [SimpleNamespace(id=i, payload={k: v for k, v in p.items()
+                                              if k in with_payload})
+               for i, p in self.points]
+        return got, None
+
+    def set_payload(self, *, payload, **_k):
+        self.set_calls.append(payload)
+
+    def delete_payload(self, *, keys, **_k):
+        self.deleted.append(list(keys))
+
+
+def _run_key_migration(monkeypatch, points):
+    import scripts.backfill_bundle_dates as script
+
+    fake = _FakeQdrant(points)
+    monkeypatch.setattr("app.core.clients.get_qdrant_client", lambda: fake)
+    monkeypatch.setattr("app.config.get_settings",
+                        lambda: type("S", (), {"qdrant_collection": "c"})())
+    script.migrate_payload_keys()
+    return fake
+
+
+def test_the_key_migration_never_overwrites_a_corrected_value(monkeypatch):
+    """The bug that would have silently reverted Qdrant on all 5,152 moved
+    documents. `apply()` writes the corrected date under the new key and leaves
+    the legacy key on the point; a migration that read only the legacy name
+    carried the stale value straight back over the correction."""
+    fake = _run_key_migration(monkeypatch, [
+        ("p1", {"published_at": "2018-01-11T06:29:59+00:00",       # stale
+                "effective_start_date": "2004-06-29T00:00:00+00:00"}),  # corrected
+    ])
+    assert fake.set_calls == [], "nothing should have been written over"
+    assert fake.deleted == [["published_at"]], "the legacy key is still dropped"
+
+
+def test_the_key_migration_carries_a_point_nothing_corrected(monkeypatch):
+    """A point outside the move set has no new key, so the legacy value is the
+    only value there is and must be carried."""
+    fake = _run_key_migration(monkeypatch, [
+        ("p2", {"published_at": "2018-01-11T06:29:59+00:00"}),
+    ])
+    assert fake.set_calls == [
+        {"effective_start_date": "2018-01-11T06:29:59+00:00"}]
+    assert fake.deleted == [["published_at"]]
+
+
+def test_the_key_migration_is_a_no_op_on_an_already_migrated_point(monkeypatch):
+    fake = _run_key_migration(monkeypatch, [
+        ("p3", {"effective_start_date": "2004-06-29T00:00:00+00:00"}),
+    ])
+    assert fake.set_calls == [] and fake.deleted == []
+
+
+def test_the_key_migration_drops_the_never_populated_column(monkeypatch):
+    """`document_published_at` maps to "" — removed, not renamed."""
+    fake = _run_key_migration(monkeypatch, [
+        ("p4", {"document_published_at": "2020-01-01T00:00:00+00:00"}),
+    ])
+    assert fake.set_calls == []
+    assert fake.deleted == [["document_published_at"]]
 
 
 # --------------------------------------------------------------------------- #
@@ -242,6 +507,32 @@ def test_a_page_that_resolved_to_nothing_moves_none_of_its_files(rows):
 def test_the_report_survives_an_empty_run(capsys):
     report([], [])
     assert "0" in capsys.readouterr().out
+
+
+def test_the_report_counts_the_range_populations_separately(capsys):
+    """A start moving and an end appearing are different risks, and a reviewer
+    signs them off separately rather than seeing one total."""
+    report([
+        _move(document_id="a", old_start=CREATED,
+              new_start="2020-01-01T00:00:00+00:00"),                # start moved
+        _move(document_id="b", old_start="2020-01-01T00:00:00+00:00",
+              new_start="2020-01-01T00:00:00+00:00",
+              new_end="2022-12-31T00:00:00+00:00",
+              bundle="completed_projects"),                          # range added
+        _move(document_id="c", bundle="completed_projects",
+              new_start="2020-01-01T00:00:00+00:00",
+              old_start="2020-01-01T00:00:00+00:00",
+              range_issue="inverted"),                               # invalid
+        _move(document_id="d", source="created", rule="field_empty"),
+    ], [])
+    printed = capsys.readouterr().out
+    assert "start date changed" in printed
+    assert "end date changed" in printed
+    assert "range newly added" in printed
+    assert "bundle has an end field, none stated" in printed
+    assert "invalid range (start applied, end dropped)" in printed
+    assert "falling back to the created stamp" in printed
+    assert "inverted" in printed
 
 
 def test_the_report_separates_pages_from_attachments(capsys):
@@ -262,5 +553,5 @@ def test_the_report_names_documents_it_could_not_re_derive(capsys):
 
 
 def test_an_undated_document_does_not_break_the_report(capsys):
-    report([_move(old_value="")], [])
+    report([_move(old_start="")], [])
     assert "attachments" in capsys.readouterr().out

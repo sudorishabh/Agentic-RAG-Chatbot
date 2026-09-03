@@ -227,7 +227,7 @@ def test_distribution_by_year_skips_undated(monkeypatch):
 
     assert state.distribution("year") == [("2024", 9)]
     sql, _ = cursor.calls[0]
-    assert "YEAR(s.published_at)" in sql and "IS NOT NULL" in sql
+    assert "YEAR(s.effective_start_date)" in sql and "IS NOT NULL" in sql
 
 
 def test_distribution_rejects_unknown_dimension():
@@ -392,7 +392,7 @@ def test_count_distinct_by_year_skips_undated(monkeypatch):
 
     state.count_distinct_values("year")
     sql, _ = cursor.calls[0]
-    assert "YEAR(s.published_at)" in sql and "s.published_at IS NOT NULL" in sql
+    assert "YEAR(s.effective_start_date)" in sql and "s.effective_start_date IS NOT NULL" in sql
 
 
 def test_cross_distribution_groups_on_the_pair(monkeypatch):

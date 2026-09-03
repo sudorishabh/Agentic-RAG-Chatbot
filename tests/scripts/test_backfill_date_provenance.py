@@ -1,4 +1,4 @@
-"""Recording where each existing ``published_at`` came from.
+"""Recording where each existing ``effective_start_date`` came from.
 
 Every value this writes has to be *derived*, not assumed — the whole reason the
 column was left NULL rather than blanket-stamped ``created`` is that ``created``
@@ -47,7 +47,7 @@ def test_no_class_can_overwrite_a_recorded_value():
     """Every clause requires NULL, so the 1,047 rows already stamped
     ``cms_field`` are untouchable and the script is a safe no-op on re-run."""
     for _source, _precision, _description, clause in CLASSES:
-        assert "published_at_source IS NULL" in clause
+        assert "date_source IS NULL" in clause
 
 
 def test_the_website_class_cannot_reach_an_attachment():
@@ -95,11 +95,11 @@ def test_the_classes_are_mutually_exclusive_on_action():
 # It must not move a date
 # --------------------------------------------------------------------------- #
 
-def test_no_class_touches_published_at():
+def test_no_class_touches_effective_start_date():
     src = inspect.getsource(backfill.main)
-    assert "SET d.published_at_source" in src
-    assert "SET d.published_at =" not in src
-    assert "published_at = %s" not in src
+    assert "SET d.date_source" in src
+    assert "SET d.effective_start_date =" not in src
+    assert "effective_start_date = %s" not in src
 
 
 def test_the_date_checksum_is_asserted_over_the_whole_corpus():
@@ -150,7 +150,7 @@ def test_the_relabel_pass_asks_the_same_function_ingestion_asks():
     year-precision rule. Re-deriving any of that here would be a fourth copy of
     a decision that has already drifted twice."""
     src = inspect.getsource(backfill.stale_labels)
-    assert "resolve_published_at" in src
+    assert "resolve_effective_dates" in src
     assert "publication_date" not in src
 
 
@@ -166,7 +166,7 @@ def test_a_row_is_only_relabelled_when_the_date_does_not_move():
 def test_the_relabel_pass_skips_rows_already_correct():
     """Idempotence: a second run must find nothing."""
     src = inspect.getsource(backfill.stale_labels)
-    assert '(row["published_at_source"], row["published_at_precision"]) == (source, precision)' \
+    assert '(row["date_source"], row["start_precision"]) == (source, precision)' \
         in src
 
 
@@ -179,8 +179,8 @@ def test_only_website_rows_are_considered():
 
 def test_the_relabel_writes_only_the_two_provenance_columns():
     src = inspect.getsource(backfill.main)
-    assert "SET published_at_source = %s, " in src
-    assert "published_at_precision = %s WHERE document_id = %s" in src
+    assert "SET date_source = %s, " in src
+    assert "start_precision = %s WHERE document_id = %s" in src
 
 
 def test_the_relabel_is_covered_by_the_date_checksum():

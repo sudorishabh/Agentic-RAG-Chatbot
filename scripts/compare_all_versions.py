@@ -134,7 +134,7 @@ def main() -> int:
             L.append("  |---|---|---|")
             for a, b in llm_withdrawn[:15]:
                 L.append(f"  | {(a['filename'] or '')[:34]} "
-                         f"| {str(a['candidate_date'])[:10]} | {b['action']} |")
+                         f"| {str(a['candidate_start_date'])[:10]} | {b['action']} |")
 
     # Overrides surviving into the final version, traced back.
     final_label = data[-1][0]

@@ -80,7 +80,7 @@ def _resolve(
         if verdict is None:
             return None
         verdict.set_grounded(
-            date_is_in_text(verdict.candidate_date, evidence.head_text),
+            date_is_in_text(verdict.candidate_start_date, evidence.head_text),
             statement_is_in_text(verdict.publication_statement, evidence.head_text),
         )
         return verdict
@@ -153,11 +153,11 @@ def test_the_approved_examples_still_resolve(
     """The six overrides signed off in Phase 1 must still be produced."""
     got = _resolve(
         monkeypatch, pdf_text=pdf_text,
-        verdict=_verdict(candidate_date=expected, publication_statement=statement),
+        verdict=_verdict(candidate_start_date=expected, publication_statement=statement),
         file=_file(filename=filename, created=LATER_UPLOAD, origin="attachment"),
     )
     assert got.overridden is True, f"{filename} should override"
-    assert got.published_at == expected
+    assert got.start_value == expected
 
 
 # --------------------------------------------------------------------------- #
@@ -168,10 +168,10 @@ def test_a_masthead_present_in_the_pdf_overrides(monkeypatch):
     got = _resolve(
         monkeypatch,
         pdf_text="CHANDIGARHTRIBUNE CHANDIGARH | TUESDAY | 24 | DECEMBER 2013 5 NEWS",
-        verdict=_verdict(candidate_date="2013-12-24",
+        verdict=_verdict(candidate_start_date="2013-12-24",
                          publication_statement="CHANDIGARH | TUESDAY | 24 | DECEMBER 2013"),
     )
-    assert got.published_at == "2013-12-24"
+    assert got.start_value == "2013-12-24"
 
 
 def test_a_masthead_reconstructed_from_the_filename_is_rejected(monkeypatch):
@@ -180,13 +180,13 @@ def test_a_masthead_reconstructed_from_the_filename_is_rejected(monkeypatch):
     got = _resolve(
         monkeypatch,
         pdf_text="12/24/13 The Pioneer www.dailypioneer.com/print.php?storydetail",
-        verdict=_verdict(candidate_date="2013-12-24",
+        verdict=_verdict(candidate_start_date="2013-12-24",
                          publication_statement="The Pioneer, Tuesday, December 24, 2013"),
         file=_file(filename="The-Pioneer-Chandigarh-Tuesday-December-24-2013.pdf",
                    created=LATER_UPLOAD, origin="attachment"),
     )
     assert got.overridden is False, "a filename-derived masthead must not override"
-    assert got.published_at == PAGE_DATE
+    assert got.start_value == PAGE_DATE
     assert got.needs_review is True
 
 
@@ -214,11 +214,11 @@ def test_other_date_kinds_never_move_the_date(
 ):
     got = _resolve(
         monkeypatch, pdf_text=pdf_text,
-        verdict=_verdict(candidate_date=candidate, date_type=date_type,
+        verdict=_verdict(candidate_start_date=candidate, date_type=date_type,
                          publication_statement=statement),
     )
     assert got.overridden is False
-    assert got.published_at == PAGE_DATE
+    assert got.start_value == PAGE_DATE
     assert got.decision.date_type == date_type
 
 
@@ -229,12 +229,12 @@ def test_an_update_year_does_not_move_the_date(monkeypatch):
     got = _resolve(
         monkeypatch, pdf_text=text, pdf_created="2023-11-11T00:00:00+00:00",
         verdict=_verdict(
-            candidate_date="2023-11-11",
+            candidate_start_date="2023-11-11",
             publication_statement="first been published in September 2020 and is "
                                   "being updated in 2023"),
     )
     assert got.overridden is False
-    assert got.published_at == PAGE_DATE
+    assert got.start_value == PAGE_DATE
 
 
 def test_a_citation_year_does_not_move_the_date(monkeypatch):
@@ -243,34 +243,34 @@ def test_a_citation_year_does_not_move_the_date(monkeypatch):
     got = _resolve(
         monkeypatch, pdf_text=text,
         verdict=_verdict(
-            candidate_date="2023-01-01",
+            candidate_start_date="2023-01-01",
             publication_statement="The Energy and Resources Institute (TERI). 2023. "
                                   "Needs Assessment for Transformative Climate Action"),
     )
     assert got.overridden is False
-    assert got.published_at == PAGE_DATE
+    assert got.start_value == PAGE_DATE
 
 
 def test_a_month_only_statement_does_not_invent_a_day(monkeypatch):
     got = _resolve(
         monkeypatch,
         pdf_text="Marine Litter in the South Asian Seas Region. Colombo, September 2007",
-        verdict=_verdict(candidate_date="2007-09-01",
+        verdict=_verdict(candidate_start_date="2007-09-01",
                          publication_statement="Colombo, September 2007"),
     )
     assert got.overridden is False
-    assert got.published_at == PAGE_DATE
+    assert got.start_value == PAGE_DATE
 
 
 def test_a_cover_month_without_publication_wording_does_not_move_the_date(monkeypatch):
     got = _resolve(
         monkeypatch,
         pdf_text="CSIR-NEERI, Nagpur January 2023 Final Report Emission Inventory",
-        verdict=_verdict(candidate_date="2023-01-01",
+        verdict=_verdict(candidate_start_date="2023-01-01",
                          publication_statement="January 2023 Final Report"),
     )
     assert got.overridden is False
-    assert got.published_at == PAGE_DATE
+    assert got.start_value == PAGE_DATE
 
 
 # --------------------------------------------------------------------------- #
@@ -281,14 +281,14 @@ def test_an_annual_report_yields_an_edition_and_keeps_the_page_date(monkeypatch)
     got = _resolve(
         monkeypatch,
         pdf_text="ANNUAL REPORT 2024/25 Vision Creating Innovative Solutions",
-        verdict=_verdict(candidate_date=None, date_type="edition",
+        verdict=_verdict(candidate_start_date=None, date_type="edition",
                          edition_label="2024-2025",
                          recommended_action="keep_page_date"),
         node=_node(created="2022-02-09T06:59:06+00:00", files=10,
                    title="Annual Reports"),
         file=_file(filename="TERI-Annual-Report-2024-25.pdf"),
     )
-    assert got.published_at == "2022-02-09T06:59:06+00:00"
+    assert got.start_value == "2022-02-09T06:59:06+00:00"
     assert got.edition_label == "2024-2025"
     assert got.overridden is False
 
@@ -300,7 +300,7 @@ def test_an_edition_in_the_filename_is_labelled_without_reading_the_pdf():
         file=_file(filename="TAR_2015-16.pdf"),
     )
     got = resolve(evidence, content=b"%PDF-")
-    assert got.published_at == PAGE_DATE
+    assert got.start_value == PAGE_DATE
     assert got.edition_label == "2015-16"
 
 
@@ -319,7 +319,7 @@ def test_a_single_pdf_page_keeps_its_date(monkeypatch):
     _no_llm(monkeypatch)
     evidence = build_evidence(document_id="d1", node=_node(files=1), file=_file())
     got = resolve(evidence, content=b"%PDF-")
-    assert got.published_at == PAGE_DATE
+    assert got.start_value == PAGE_DATE
 
 
 def test_a_filename_year_alone_does_not_move_the_date(monkeypatch):
@@ -329,7 +329,7 @@ def test_a_filename_year_alone_does_not_move_the_date(monkeypatch):
         file=_file(filename="2014BL18-es-women-empow.pdf"),
     )
     got = resolve(evidence, content=b"%PDF-")
-    assert got.published_at == PAGE_DATE
+    assert got.start_value == PAGE_DATE
 
 
 def test_a_pdf_creation_date_alone_does_not_move_the_date(monkeypatch):
@@ -345,7 +345,7 @@ def test_a_pdf_creation_date_alone_does_not_move_the_date(monkeypatch):
         file=_file(created="2019-03-20T00:00:00+00:00", origin="attachment"),
     )
     got = resolve(evidence, content=b"%PDF-")
-    assert got.published_at == "2019-03-18T00:00:00+00:00"
+    assert got.start_value == "2019-03-18T00:00:00+00:00"
 
 
 def test_several_pdfs_uploaded_together_keep_the_page_date(monkeypatch):
@@ -355,7 +355,7 @@ def test_several_pdfs_uploaded_together_keep_the_page_date(monkeypatch):
         file=_file(created="2018-10-23T00:00:00+00:00", origin="attachment"),
     )
     got = resolve(evidence, content=b"%PDF-")
-    assert got.published_at == "2018-09-27T00:00:00+00:00"
+    assert got.start_value == "2018-09-27T00:00:00+00:00"
 
 
 def test_a_migration_era_file_date_is_never_treated_as_an_upload(monkeypatch):
@@ -365,15 +365,15 @@ def test_a_migration_era_file_date_is_never_treated_as_an_upload(monkeypatch):
         file=_file(created="2018-05-01T00:00:00+00:00", origin="attachment"),
     )
     got = resolve(evidence, content=b"%PDF-")
-    assert got.published_at == "2012-06-23T00:00:00+00:00"
+    assert got.start_value == "2012-06-23T00:00:00+00:00"
 
 
 def test_an_unreadable_pdf_on_a_routed_page_keeps_the_page_date(monkeypatch):
     """Real bytes PyMuPDF cannot parse: no text, so nothing can be grounded."""
     got = _resolve(
         monkeypatch, pdf_text="",
-        verdict=_verdict(candidate_date="2024-06-01",
+        verdict=_verdict(candidate_start_date="2024-06-01",
                          publication_statement="Published on 1 June 2024"),
     )
     assert got.overridden is False
-    assert got.published_at == PAGE_DATE
+    assert got.start_value == PAGE_DATE

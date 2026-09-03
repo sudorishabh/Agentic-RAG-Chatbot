@@ -351,9 +351,8 @@ with a value of `None`, `""` or `[]` are stripped, so absence is meaningful.
 | `has_table` | `True` or absent. Read by the prompt builder and the rerank table boost. |
 | `tags`, `categories`, `authors` | The document's facets. |
 | `source_url`, `file_url` | |
-| `published_at` | |
-| `document_published_at` | |
-| `published_at_precision` | Written **only** when it is `"year"`. A full date needs no marker, so absent means "a full date" — true of every point already in the collection, which is why this needed no `PAYLOAD` bump. |
+| `effective_start_date` | |
+| `start_precision` | Written **only** when it is `"year"`. A full date needs no marker, so absent means "a full date" — true of every point already in the collection, which is why this needed no `PAYLOAD` bump. |
 | `pdf_id`, `pdf_path`, `article_uuid`, `linked_pdf_id`, `linked_article_uuid` | |
 | `page_range`, `overlap_page_range` | Lists, when known. |
 | children only: `embed_hash`, `parent_chunk_id`, `chunk_index`, `page_number` | Only children carry a real vector, so only they carry the fingerprint of the text it was built from. |
@@ -496,7 +495,7 @@ on machines where someone remembered to run a script.
 | `document_id` | keyword | `delete_document`, title refresh, scoped retrieval |
 | `parent_chunk_id` | keyword | child → parent resolution |
 | `chunk_index` | integer | neighbour expansion |
-| `published_at` | datetime | date-range filters and recency |
+| `effective_start_date` | datetime | date-range filters and recency |
 | `chunk_text` | **text** (word tokenizer, lowercased) | the keyword leg's `MatchText` |
 
 `chunk_text` is the heaviest index and the one the lexical path cannot work

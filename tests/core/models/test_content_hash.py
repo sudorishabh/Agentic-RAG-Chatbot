@@ -36,7 +36,7 @@ def test_metadata_does_not_affect_the_content_hash():
     body = "Shared body text."
     bare = _doc("T", body)
     enriched = _doc(
-        "T", body, authors=["A. Author"], categories=["Energy"], published_at="2024-01-01"
+        "T", body, authors=["A. Author"], categories=["Energy"], effective_start_date="2024-01-01"
     )
     assert bare.compute_content_hash() == enriched.compute_content_hash()
 

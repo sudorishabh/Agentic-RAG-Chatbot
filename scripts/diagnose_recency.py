@@ -4,7 +4,7 @@ Reranking can only reorder what search returned, so "it gave me the 3-year-old
 report" has three quite different causes and they need different fixes:
 
 1. **Catalog gap** — the newest edition was never indexed, or carries no
-   ``published_at``. Nothing in the query path can fix that.
+   ``effective_start_date``. Nothing in the query path can fix that.
 2. **Recall gap** — its chunks exist but never entered the candidate set, so the
    reranker never saw them. Tuning ranking does nothing; the candidate pull or
    the query text is the problem.
@@ -32,7 +32,7 @@ _RULE = "─" * 78
 
 
 def _date(payload: dict[str, Any]) -> str:
-    return str(payload.get("published_at") or "—")[:10]
+    return str(payload.get("effective_start_date") or "—")[:10]
 
 
 def _title(payload: dict[str, Any]) -> str:
@@ -41,10 +41,10 @@ def _title(payload: dict[str, Any]) -> str:
 
 def _catalog_stage(title_contains: str, top: int) -> list[Any]:
     """Stage 1 — what the catalog holds under this title, newest first."""
-    from app.catalog.queries import list_documents, published_range
+    from app.catalog.queries import list_documents, effective_date_range
 
     print(f"\n{_RULE}\n1. CATALOG — documents whose title contains {title_contains!r}\n{_RULE}")
-    oldest, newest = published_range()
+    oldest, newest = effective_date_range()
     print(f"Catalog covers: {oldest or '?'} .. {newest or '?'}"
           + ("   (unknown — the coverage directive stays silent)" if not newest else ""))
 
@@ -56,11 +56,11 @@ def _catalog_stage(title_contains: str, top: int) -> list[Any]:
         return []
     print(f"\n  {'published':<12} {'source':<16} title")
     for r in records:
-        print(f"  {str(r.published_at or '—')[:10]:<12} {(r.source_type or '?'):<16} "
+        print(f"  {str(r.effective_start_date or '—')[:10]:<12} {(r.source_type or '?'):<16} "
               f"{(r.title or r.document_id)[:52]}")
-    undated = [r for r in records if not r.published_at]
+    undated = [r for r in records if not r.effective_start_date]
     if undated:
-        print(f"\n  {len(undated)} of {len(records)} carry NO published_at — recency")
+        print(f"\n  {len(undated)} of {len(records)} carry NO effective_start_date — recency")
         print("  cannot rank those at all. For Drupal attachments this comes from the")
         print("  node's `created` date (app/ingestion/extractors/attachment.py).")
     return records
@@ -91,14 +91,14 @@ def _chunk_stage(document_id: str) -> None:
         print("  It is in the catalog but not in the vector store — search can never")
         print("  return it. Re-ingest that document.")
         return
-    dated = [p for p in points if (p.payload or {}).get("published_at")]
-    print(f"  {len(points)} chunks indexed, {len(dated)} carry published_at.")
+    dated = [p for p in points if (p.payload or {}).get("effective_start_date")]
+    print(f"  {len(points)} chunks indexed, {len(dated)} carry effective_start_date.")
     if not dated:
         print("\n  The catalog has a date but the CHUNK PAYLOADS DO NOT. The reranker")
-        print("  reads payload['published_at'], so recency is inert for this document.")
+        print("  reads payload['effective_start_date'], so recency is inert for this document.")
         print("  Chunks written before the field existed need re-ingesting.")
     else:
-        print(f"  Sample: published_at={_date(dated[0].payload)!r}")
+        print(f"  Sample: effective_start_date={_date(dated[0].payload)!r}")
 
 
 def _retrieval_stage(question: str, needle: str, top: int) -> None:
@@ -118,7 +118,7 @@ def _retrieval_stage(question: str, needle: str, top: int) -> None:
     settings = get_settings()
     pq = process(question)
     print(f"  intent={pq.intent}  search_query={pq.search_query!r}")
-    dates = [c for c in pq.filters if getattr(c, "key", None) == "published_at"]
+    dates = [c for c in pq.filters if getattr(c, "key", None) == "effective_start_date"]
     print(f"  date filter: {dates[0].range if dates else 'none (correct for a bare "latest")'}")
     print(f"  volatile topic: {is_volatile(pq.search_query)}  "
           f"relevance band = {_relevance_tolerance(pq.search_query, settings):.3f}  "
@@ -184,9 +184,9 @@ def main(argv: list[str] | None = None) -> int:
 
     records = _catalog_stage(needle, args.top)
     if records:
-        newest = max(records, key=lambda r: r.published_at or "")
+        newest = max(records, key=lambda r: r.effective_start_date or "")
         print(f"\n  Newest under this title: {(newest.title or newest.document_id)[:60]!r} "
-              f"({str(newest.published_at or '—')[:10]})")
+              f"({str(newest.effective_start_date or '—')[:10]})")
         _chunk_stage(newest.document_id)
     _retrieval_stage(args.question, needle, args.top)
     print(f"\n{_RULE}\nDone.")

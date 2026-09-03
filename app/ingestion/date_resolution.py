@@ -1,4 +1,4 @@
-"""The one place a PDF's ``published_at`` is decided.
+"""The one place a PDF's ``effective_start_date`` is decided.
 
 This is the canonical entry point for the date-resolution behaviour validated in
 Phase 0 (see ``reports/phase0/full_corpus_v3_final_report.md``). Every
@@ -45,24 +45,29 @@ __all__ = ["ResolvedDate", "build_evidence", "resolve"]
 
 @dataclass
 class ResolvedDate:
-    """What ingestion should use, plus why.
+    """What ingestion should use for one attached file, plus why.
 
-    ``published_at`` is the only field that reaches the document. ``decision``
-    carries the provenance for the shadow decision table and the review queue;
-    it is deliberately not part of the document payload.
+    The four date fields are named exactly as
+    :class:`app.ingestion.bundle_dates.EffectiveDate`'s, because they mean the
+    same things and a caller holding either should read the same way. Only
+    ``start_value`` and ``end_value`` reach the document; ``decision`` carries
+    the provenance for the decision table and the review queue and is
+    deliberately not part of the chunk payload.
     """
 
-    published_at: str | None
-    #: The date the DOCUMENT states it was published, when one was verified.
-    #: None otherwise - never an edition label, a PDF CreationDate or an
-    #: upload time. Distinct from ``published_at`` above, whose meaning and
-    #: assignment this change deliberately leaves untouched.
-    document_published_at: str | None = None
-    #: Precision of :attr:`published_at`. Inherited from the parent page, so a
+    #: The document's primary date — the parent page's effective start date,
+    #: or a day the file's own text states and verified.
+    start_value: str | None
+    #: Precision of :attr:`start_value`. Inherited from the parent page, so a
     #: file hanging off a research paper is year-precision too and no reader
     #: renders its 1 January as a day. ``day`` for an override, which by
     #: definition quoted a stated day.
-    precision: str = "day"
+    start_precision: str = "day"
+    #: The end of the period the parent page's content covers, inherited whole.
+    #: None for a single-date page, and None for an override — a quoted
+    #: statement gives a day, never a period.
+    end_value: str | None = None
+    end_precision: str | None = None
     edition_label: str | None = None
     decision: DateDecision | None = None
     #: The model's raw verdict, when one was obtained, for the audit trail.
@@ -100,12 +105,12 @@ def build_evidence(
     only ever one resolution to disagree with. Resolved here when the caller did
     not, so a test or a tool that has a node and a file needs nothing else.
     """
-    from app.ingestion.bundle_dates import resolve
+    from app.ingestion.bundle_dates import resolve_effective_dates
 
     files = getattr(node, "files", None) or []
     count = page_pdf_count if page_pdf_count is not None else max(1, len(files))
     if parent_date is None:
-        parent_date = resolve(
+        parent_date = resolve_effective_dates(
             getattr(node, "bundle", None),
             getattr(node, "created", None),
             getattr(node, "metadata", None),
@@ -121,10 +126,14 @@ def build_evidence(
             node_uuid=getattr(node, "uuid", "") or "",
             node_title=getattr(node, "title", "") or "",
             node_created=getattr(node, "created", None),
-            node_published_at=parent_date.value,
-            node_precision=parent_date.precision,
-            date_field=parent_date.field,
-            date_field_value=parent_date.raw_value,
+            node_start_date=parent_date.start_value,
+            node_start_precision=parent_date.start_precision,
+            node_end_date=parent_date.end_value,
+            node_end_precision=parent_date.end_precision,
+            date_field=parent_date.start_field,
+            date_field_value=parent_date.start_raw,
+            end_date_field=parent_date.end_field,
+            end_date_field_value=parent_date.end_raw,
             date_source=parent_date.source,
             bundle=getattr(node, "bundle", None),
             url=getattr(node, "url", None),
@@ -146,7 +155,7 @@ def _read_pdf_signals(evidence: PdfEvidence, content: bytes) -> None:
 
 
 def resolve(evidence: PdfEvidence, content: bytes | None = None) -> ResolvedDate:
-    """Decide this PDF's ``published_at``.
+    """Decide this PDF's ``effective_start_date``.
 
     Fails closed: any unexpected error leaves the page date in place, because a
     stale date is recoverable and a wrong one is not.
@@ -173,10 +182,16 @@ def resolve(evidence: PdfEvidence, content: bytes | None = None) -> ResolvedDate
         # Only an override may move the date. Every other outcome — including a
         # review — keeps the page's own date on the document.
         overridden = decision.action == "propose_override"
-        published_at = decision.candidate_date if overridden else page_date
+        effective_start_date = decision.candidate_start_date if overridden else page_date
         return ResolvedDate(
-            published_at=published_at,
-            precision=("day" if overridden else evidence.page.node_precision),
+            start_value=effective_start_date,
+            start_precision=("day" if overridden else evidence.page.node_start_precision),
+            # An override replaces the page's date with a day the document
+            # itself states, which says nothing about a period — so the
+            # inherited end goes with the date it belonged to.
+            end_value=(None if overridden else evidence.page.effective_end),
+            end_precision=(None if overridden
+                                       else evidence.page.node_end_precision),
             edition_label=decision.edition_label,
             decision=decision,
             llm_raw=llm_raw,
@@ -187,8 +202,10 @@ def resolve(evidence: PdfEvidence, content: bytes | None = None) -> ResolvedDate
             "Date resolution failed for %s; keeping the page date.",
             evidence.document_id, exc_info=True,
         )
-        return ResolvedDate(published_at=page_date,
-                            precision=evidence.page.node_precision,
+        return ResolvedDate(start_value=page_date,
+                            start_precision=evidence.page.node_start_precision,
+                            end_value=evidence.page.effective_end,
+                            end_precision=evidence.page.node_end_precision,
                             edition_label=evidence.edition)
 
 
@@ -205,7 +222,7 @@ def _interpret(
         return (
             DateDecision(
                 document_id=evidence.document_id, action="keep_page_date",
-                candidate_date=page_date, date_type="unknown",
+                candidate_start_date=page_date, date_type="unknown",
                 edition_label=evidence.edition, source="node_effective_date",
                 confidence=0.0, rule="llm_unavailable", decided_by="llm",
                 evidence="Interpretation call failed; the page date was kept.",
@@ -225,7 +242,7 @@ def _interpret(
         DateDecision(
             document_id=evidence.document_id,
             action=mapped,
-            candidate_date=(verdict.candidate_date if action == "override"
+            candidate_start_date=(verdict.candidate_start_date if action == "override"
                             else page_date),
             date_type=verdict.date_type,
             edition_label=verdict.edition_label or evidence.edition,

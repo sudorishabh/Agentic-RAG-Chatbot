@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 # Document-level fields to lift out of the chunk payloads back into the catalog.
 _PAYLOAD_FIELDS = [
-    "document_id", "published_at", "authors", "categories", "title", "source_url",
+    "document_id", "effective_start_date", "authors", "categories", "title", "source_url",
 ]
 
 
@@ -59,10 +59,10 @@ def collect() -> dict[str, dict[str, Any]]:
             continue
         entry = docs.setdefault(
             doc_id,
-            {"published_at": None, "authors": [], "categories": [], "title": None, "url": None},
+            {"effective_start_date": None, "authors": [], "categories": [], "title": None, "url": None},
         )
-        if entry["published_at"] is None and payload.get("published_at"):
-            entry["published_at"] = payload["published_at"]
+        if entry["effective_start_date"] is None and payload.get("effective_start_date"):
+            entry["effective_start_date"] = payload["effective_start_date"]
         if entry["title"] is None and payload.get("title"):
             entry["title"] = payload["title"]
         if entry["url"] is None and payload.get("source_url"):
@@ -79,7 +79,7 @@ def backfill_catalog() -> dict[str, int]:
     updated = skipped = 0
     for doc_id, facets in docs.items():
         if state.backfill_facets(
-            doc_id, facets["published_at"], facets["authors"], facets["categories"],
+            doc_id, facets["effective_start_date"], facets["authors"], facets["categories"],
             title=facets["title"], url=facets["url"],
         ):
             updated += 1

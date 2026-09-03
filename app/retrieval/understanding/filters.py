@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 # The payload field every date scope is expressed over. Named once so the
 # condition builder and `date_conditions` cannot drift apart.
-_DATE_FIELD = "published_at"
+_DATE_FIELD = "effective_start_date"
 
 # Words that make a date phrase about *documents* rather than about a
 # relationship. "Reports published between 2005 and 2010" is a publication-date
@@ -37,7 +37,7 @@ def _is_relationship_time(analysis: "QueryAnalysis") -> bool:
     """Whether this query's dates bound a *relationship*, not a publication date.
 
     Both readings arrive here as the same two slots. Applying the document
-    reading to the other one is not a near miss: `published_at` is a fact about
+    reading to the other one is not a near miss: `effective_start_date` is a fact about
     when a page was posted, and on this corpus it holds no value before 2010 at
     all, so scoping "what did the Department of Biotechnology fund between 2005
     and 2010" by it selects almost nothing. It also carries a second cost — a

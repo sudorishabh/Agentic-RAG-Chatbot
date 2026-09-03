@@ -46,7 +46,7 @@ _ensured_collections: set[str] = set()
 #   document_id        delete_document, title refresh, scoped retrieval
 #   chunk_index        neighbour expansion (app/retrieval/scoped_retrieval)
 #   parent_chunk_id    child -> parent resolution
-#   published_at       date range filters and recency
+#   effective_start_date       date range filters and recency
 #   chunk_text         the keyword leg's MatchText pulls
 #
 # Deliberately absent: `term_ids` / `theme_ids` (taxonomy, retired) and
@@ -64,7 +64,7 @@ PAYLOAD_INDEXES: dict[str, str] = {
     "document_id": "keyword",
     "parent_chunk_id": "keyword",
     "chunk_index": "integer",
-    "published_at": "datetime",
+    "effective_start_date": "datetime",
     # The heaviest index here, and the one the lexical path cannot work without:
     # `keyword_leg_enabled` degrades to dense-only while it is missing, silently.
     "chunk_text": "text",

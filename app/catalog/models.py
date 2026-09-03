@@ -37,20 +37,21 @@ class StateRecord:
     entity_type: str | None = None
     changed_mark: int | None = None
     indexed_at: str | None = None
-    published_at: str | None = None
-    #: The date the document itself states it was published. None unless the
-    #: document says so; ``published_at`` above is the page date and stays the
-    #: field chronology uses. Never inferred from an edition label, a PDF
-    #: CreationDate or an upload time.
-    document_published_at: str | None = None
-    #: Where ``published_at`` came from: ``created`` | ``cms_field`` |
-    #: ``document_text``. None means not recorded — which is every row written
-    #: before the column existed, and is deliberately not read as ``created``.
-    published_at_source: str | None = None
-    #: How precise ``published_at`` is: ``year`` | ``month`` | ``day``. None
+    effective_start_date: str | None = None
+    #: Where ``effective_start_date`` came from: ``created`` | ``cms_field`` |
+    #: ``parent_page`` | ``document_text``. None means not recorded — which is
+    #: every row written before the column existed, and is deliberately not read
+    #: as ``created``.
+    date_source: str | None = None
+    #: How precise ``effective_start_date`` is: ``year`` | ``month`` | ``day``. None
     #: means not recorded. A ``year`` value stored as 1 January is a marker for
     #: the year, never a claim about the month.
-    published_at_precision: str | None = None
+    start_precision: str | None = None
+    #: End of the period the content covers, for a bundle that declares an end
+    #: field. None for a single-date document; never derived from
+    #: ``effective_start_date``, which stays the effective date everything ranks on.
+    effective_end_date: str | None = None
+    end_precision: str | None = None
     # Display fields so structured list/lookup queries can be answered from the
     # catalog (no live site fetch). url is the document's public page/file URL.
     title: str | None = None

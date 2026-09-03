@@ -148,7 +148,7 @@ INDEXES: tuple[str, ...] = (
     "CREATE INDEX chunk_document IF NOT EXISTS "
     "FOR (n:Chunk) ON (n.document_id, n.doc_version)",
     "CREATE INDEX document_published IF NOT EXISTS "
-    "FOR (n:Document) ON (n.published_at)",
+    "FOR (n:Document) ON (n.effective_start_date)",
 )
 
 # Operator-facing entity lookup (review CLIs, "which entity did you mean").

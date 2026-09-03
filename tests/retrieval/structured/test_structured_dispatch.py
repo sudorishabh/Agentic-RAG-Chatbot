@@ -60,7 +60,7 @@ def calls(monkeypatch):
         tools, "resolve_filters",
         lambda f: SimpleNamespace(
             author=f.author, theme=f.theme, tag=f.tag, theme_group=f.theme_group,
-            title_contains=f.title_contains, published_from=None, published_to=None,
+            title_contains=f.title_contains, effective_from=None, effective_to=None,
             effective=f, ambiguous=None,
             author_missed=False, theme_missed=False, tag_missed=False,
             as_kwargs=lambda: {

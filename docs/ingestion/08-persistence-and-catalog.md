@@ -69,10 +69,9 @@ content_hash     VARCHAR(64)   NOT NULL DEFAULT ''
 doc_version      INT           NOT NULL DEFAULT 1
 pipeline_version VARCHAR(32)                 -- NULL reads as "not current"
 changed_mark     BIGINT                      -- the crawl cursor
-published_at     DATETIME
-document_published_at  DATETIME
-published_at_source     VARCHAR(16)          -- created | cms_field | document_text
-published_at_precision  VARCHAR(8)           -- year | month | day
+effective_start_date     DATETIME
+date_source     VARCHAR(16)          -- created | cms_field | document_text
+start_precision  VARCHAR(8)           -- year | month | day
 title            VARCHAR(1024)
 url              VARCHAR(1024)
 raw_meta         JSON
@@ -194,8 +193,8 @@ its column width by `_clip` before insert, so an over-long title cannot fail a w
 `state.ensure_table()`, `log.ensure_table()`, etc.).
 
 `ensure_state_table()` does, in order: the main DDL, then `_ensure_column` for every
-column added after the original DDL (`published_at`, `document_published_at`,
-`published_at_source`, `published_at_precision`, `title`, `url`,
+column added after the original DDL (`effective_start_date`,
+`date_source`, `start_precision`, `title`, `url`,
 `raw_meta`, `entity_type`, `pipeline_version`), then `_ensure_index` for
 `idx_pipeline_version`, then the facet migrations, then the child tables.
 
@@ -267,10 +266,9 @@ ON DUPLICATE KEY UPDATE
   doc_version = VALUES(doc_version),
   pipeline_version = COALESCE(VALUES(pipeline_version), pipeline_version),
   changed_mark = VALUES(changed_mark),
-  published_at = VALUES(published_at),
-  document_published_at = COALESCE(VALUES(document_published_at), document_published_at),
-  published_at_source    = VALUES(published_at_source),
-  published_at_precision = VALUES(published_at_precision),
+  effective_start_date = VALUES(effective_start_date),
+  date_source    = VALUES(date_source),
+  start_precision = VALUES(start_precision),
   title = VALUES(title), url = VALUES(url),
   raw_meta   = COALESCE(VALUES(raw_meta), raw_meta),
   indexed_at = COALESCE(VALUES(indexed_at), indexed_at),
@@ -293,14 +291,13 @@ This is the subtlest part of the schema, and each choice is load-bearing.
 | `pipeline_version` | `COALESCE` | Only a write that actually re-chunked may claim the version. A fingerprint refresh passes NULL, so a document that has not been rebuilt still reads as **stale** and is rebuilt later. |
 | `raw_meta` | `COALESCE` | Same: a path that has no metadata must not blank it. |
 | `indexed_at` | `COALESCE` | An `unchanged_content` write (`mark_indexed=False`) passes NULL and must not clear the fact that the document *is* indexed. |
-| `document_published_at` | `COALESCE` | Only a path that actually resolved a document-stated date may write this. |
-| `published_at` | `VALUES` | Overwritten outright — it is the resolved value for this run. |
-| `published_at_source`, `published_at_precision` | **`VALUES`, not `COALESCE`** | These *describe* `published_at`, which is itself overwritten. A provenance that outlived the value it describes would be worse than none, because it would read as evidence for a date it was never about. |
+| `effective_start_date` | `VALUES` | Overwritten outright — it is the resolved value for this run. |
+| `date_source`, `start_precision` | **`VALUES`, not `COALESCE`** | These *describe* `effective_start_date`, which is itself overwritten. A provenance that outlived the value it describes would be worse than none, because it would read as evidence for a date it was never about. |
 
 #### Timestamp normalisation
 
 `_to_datetime(value)` parses ISO (tolerating a trailing `Z`) and converts to
-**naive UTC**. That is why `source_dates.as_published_at` emits midnight **UTC** —
+**naive UTC**. That is why `source_dates.as_stored_date` emits midnight **UTC** —
 see [06, Timezone](06-canonical-document-and-dates.md#timezone-ist-and-why-it-is-not-optional).
 An unparseable value becomes `NULL` rather than raising.
 
@@ -633,11 +630,11 @@ silently.
 | Consumer | Reads | Consequence if ingestion gets it wrong |
 | --- | --- | --- |
 | Every search | `is_parent` (excluded), `is_current` | Parent points would be returned as hits |
-| Filters | `source_type`, `language`, `section_type`, `categories`, `tags`, `authors`, `published_at` | An unindexed field means a full scan; a missing value means the document is invisible to that filter |
+| Filters | `source_type`, `language`, `section_type`, `categories`, `tags`, `authors`, `effective_start_date` | An unindexed field means a full scan; a missing value means the document is invisible to that filter |
 | The lexical leg | `chunk_text` via `MatchText` | Without the **text** index the keyword leg silently does nothing |
 | Context expansion | `parent_chunk_id`, `chunk_index` | A dangling `parent_chunk_id` degrades to the child alone |
 | Citations | `chunk_text`, `title`, `page_number`, `page_range`, `overlap_page_range`, `source_url`, `file_url` | A payload `chunk_id` that disagrees with the point id cites the wrong chunk |
-| Recency and date ranges | `published_at`, `published_at_precision` | An undated document is **invisible**, not merely ranked low; a year marker read as a day invents a January publication |
+| Recency and date ranges | `effective_start_date`, `start_precision` | An undated document is **invisible**, not merely ranked low; a year marker read as a day invents a January publication |
 | Prompt building and rerank | `has_table` | Tables are not boosted |
 | Scoped retrieval and summarisation | `document_id`, `chunk_index` | Neighbour expansion breaks |
 | The knowledge document loader | `document_id`, `is_parent`, `is_current`, `doc_version`, `chunk_index`, `chunk_text`, `content_hash` | Claim evidence points at text a citation cannot fetch |
@@ -654,8 +651,8 @@ explicitly rather than spreading the canonical document.
 | --- | --- | --- |
 | Change detection | `documents.fingerprint`, `content_hash`, `pipeline_version`, `changed_mark`, `doc_version`, `bundle` | The next run's window and decisions |
 | The corpus reprocessor | `pipeline_version`, `changed_mark` per bundle | Which documents are stale and how far back to reach |
-| Reconciliation | `doc_version`, `indexed_at`, `published_at`, `pipeline_version`, `raw_meta` | Cross-store invariants |
-| Structured / analytical answers (`app/catalog/queries.py`) | facet tables, `documents.title`/`url`/`published_at` | Exact counts and document lists — `COUNT(DISTINCT document_id)`, not an approximation over payloads |
+| Reconciliation | `doc_version`, `indexed_at`, `effective_start_date`, `pipeline_version`, `raw_meta` | Cross-store invariants |
+| Structured / analytical answers (`app/catalog/queries.py`) | facet tables, `documents.title`/`url`/`effective_start_date` | Exact counts and document lists — `COUNT(DISTINCT document_id)`, not an approximation over payloads |
 | The title-anchored retrieval leg | `state.website_titles()` — every website node's `(document_id, title, bundle)` | Finding the page a question names when that page's *text* is a list of link labels no embedding matches. Deliberately the whole set rather than a filtered slice: a `LIKE` per term spends its row budget on the organisation's own name, which appears in thousands of titles, and the first version returned two rows for "annual reports" and neither was the Annual Reports page |
 | The "upcoming events" gate | `state.event_start_dates(ids)` — one batched `JSON_EXTRACT` | Gating a temporal question against the candidate set in one round trip rather than a per-block query storm |
 | The knowledge layer | `state.raw_meta_for(id)`, `state.authors_for(id)` | CMS claims and PERSON corroboration. Both are read per document rather than carried on `StateRecord`, because `state.load` builds a record for every document of a source type and the metadata blob is by far the largest column |
@@ -669,10 +666,10 @@ For any answer, the provenance is walkable end to end:
 ```
 citation
   -> point payload: chunk_id, document_id, doc_version, pipeline_version,
-                    page_number, source_url, file_url, published_at
+                    page_number, source_url, file_url, effective_start_date
   -> documents:     fingerprint (what the source looked like),
                     content_hash (what the text was),
-                    published_at_source + _precision (where the date came from),
+                    date_source + _precision (where the date came from),
                     changed_mark (where it sat in the crawl),
                     indexed_at, raw_meta (the source record, verbatim)
   -> documents_date_decision: which rule decided the date, the quoted evidence,

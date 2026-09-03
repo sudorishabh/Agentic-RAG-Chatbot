@@ -36,7 +36,7 @@ Where validity may come from
                     relationship to that project is scoped by it. Recorded as
                     its own basis so it is never mistaken for the source having
                     stated the relationship's dates.
-``document``        inferred from the document's publication date. **Not used.**
+``document``        inferred from the document's effective date. **Not used.**
                     No rule approves it, and it is exactly the inference that
                     turns "reported in 2024" into "true from 2024".
 ``unknown``         nothing known.

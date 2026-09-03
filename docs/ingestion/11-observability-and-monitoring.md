@@ -50,7 +50,7 @@ INFO  changed <uuid> -> v3
 INFO  Unchanged content for <uuid>; fingerprint refreshed.
 INFO  Deleted <uuid> (https://…)
 INFO  Deleted 2 attachment(s) orphaned by <uuid>; 3 still linked elsewhere.
-WARN  Indexing <uuid> (website/news) with no publication date; it will be excluded
+WARN  Indexing <uuid> (website/news) with no effective date; it will be excluded
       from date-filtered results.
 ERROR <uuid> (…) extracted to nothing; keeping the previous version rather than
       replacing it with an empty one.
@@ -258,7 +258,7 @@ do about it** — a number with no next step is how drift gets watched rather th
 fixed.
 
 The scroll requests only seven payload fields
-(`document_id, doc_version, is_parent, chunk_id, parent_chunk_id, published_at,
+(`document_id, doc_version, is_parent, chunk_id, parent_chunk_id, effective_start_date,
 pipeline_version`) — `chunk_text` alone would be a hundred times the bytes.
 
 ### Failure semantics
@@ -286,12 +286,13 @@ A **skipped check is not a passing check** and is never reported as one.
 | `children_without_parent` | A child names a parent that does not exist | Context expansion falls back to the child alone; re-index |
 | `catalog_pipeline_drift` | Documents not built by the current pipeline | `scripts.reprocess_corpus` |
 | `point_pipeline_drift` | Points written by a different pipeline — **a document can be stamped current while old points survive beside the new ones**, so both sides are checked | Re-indexing replaces them |
-| `documents_without_date` | Documents with no publication date. Not an error — some sources state none — but they are **invisible** to date filters and recency ranking rather than merely ranked low | Check the source exposes a date field |
-| `date_provenance_unrecorded` | `published_at` with no recorded origin. Every write path sets it, so these came from one that does not — or predate the backfill | `scripts.backfill_date_provenance` |
-| `stated_date_not_applied` | The bundle's configured date field states a date that `published_at` does not match | Re-run `scripts.backfill_bundle_dates`. Note `app.ingestion.backfill` lifts dates out of chunk payloads and can overwrite a resolved value |
-| `attachment_date_adrift` | An attached file's date differs from the page it hangs on, without a verified in-document statement | Re-run `scripts.backfill_bundle_dates` |
+| `documents_without_date` | Documents with no effective date. Not an error — some sources state none — but they are **invisible** to date filters and recency ranking rather than merely ranked low | Check the source exposes a date field |
+| `date_provenance_unrecorded` | `effective_start_date` with no recorded origin. Every write path sets it, so these came from one that does not — or predate the backfill | `scripts.backfill_date_provenance` |
+| `stated_date_not_applied` | The bundle's configured date field states a date that `effective_start_date` does not match | Re-run `scripts.backfill_bundle_dates`. Note `app.ingestion.backfill` lifts dates out of chunk payloads and can overwrite a resolved value |
+| `attachment_date_adrift` | An attached file's date or period differs from the page it hangs on, without a verified in-document statement | Re-run `scripts.backfill_bundle_dates` |
+| `inverted_date_range` | A stored `effective_end_date` that falls before its `effective_start_date`. `bundle_dates` never stores one, so something else wrote it | Re-run `scripts.backfill_bundle_dates` |
 | `unmapped_bundle_dates` | A catalogued bundle with no entry in `bundle_dates.BUNDLE_DATE_FIELDS`; its documents keep their creation stamp | Declare it |
-| `undeclared_source_date_field` | A source field that looks like a date and holds a parseable one, which nothing has classified. It is being **ignored** — the safe direction — but if it is a publication date those documents are mis-dated | Classify it in `source_dates.FIELD_KINDS` |
+| `undeclared_source_date_field` | A source field that looks like a date and holds a parseable one, which nothing has classified. It is being **ignored** — the safe direction — but if a bundle should be dated by it those documents are mis-dated | Classify it in `source_dates.FIELD_ROLES` |
 | `year_precision_not_january` | A year-precision date whose value is not 1 January. The day is a marker for the year, so anything else means the value and its precision disagree about what is known | Investigate |
 | `graph_projection` | MySQL-vs-graph disagreement, **or** the projection has stopped running / has no stamp | `scripts.project_graph`; check `graph_project_after_sweep` |
 
@@ -309,7 +310,7 @@ batch with nothing better available.
 The date checks are additionally each independently fail-soft: an unreadable catalogue
 reports a **skipped** check rather than failing a sweep that otherwise worked.
 
-`stated_date_not_applied` deliberately calls `resolve_published_at` — the same single
+`stated_date_not_applied` deliberately calls `resolve_effective_dates` — the same single
 decision ingestion and the backfill make — rather than `publication_date` directly.
 Asking `publication_date` would be a third copy of the rule, and it would miscount the
 228 documents whose stated *year* the stored date already falls in, which the design
@@ -323,7 +324,7 @@ INFO  corpus_reconcile ok=true documents=12043 points=391204
 
 WARN  corpus_reconcile ok=false documents=12043 points=391204 ...
 WARN  corpus_drift documents_without_date=37 samples=a1b2,c3d4,… — Documents with
-      no publication date. They are invisible to date filters and to recency
+      no effective date. They are invisible to date filters and to recency
       ranking; check the source exposes a date field.
 ```
 
@@ -416,7 +417,7 @@ python -m scripts.verify_corpus
 
 ```sql
 SELECT document_id, source_type, bundle, doc_version, pipeline_version,
-       fingerprint, content_hash, published_at, published_at_source, indexed_at
+       fingerprint, content_hash, effective_start_date, date_source, indexed_at
 FROM documents WHERE document_id = '...';
 
 SELECT * FROM documents_retry     WHERE document_id = '...';
@@ -427,7 +428,7 @@ FROM ingest_log WHERE document_id = '...' ORDER BY id DESC LIMIT 10;
 ```
 
 Then check the points exist (`document_id` is an indexed payload field) and that
-`published_at` is set — an undated document is invisible to every date filter.
+`effective_start_date` is set — an undated document is invisible to every date filter.
 
 **"Where is the time going?"**
 

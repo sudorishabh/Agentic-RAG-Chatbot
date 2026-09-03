@@ -43,7 +43,7 @@ def test_time_and_offset_survive():
 
 
 def test_an_offset_is_normalized_to_naive_utc():
-    """published_at is a DATETIME storing UTC with no zone, so a bound carrying
+    """effective_start_date is a DATETIME storing UTC with no zone, so a bound carrying
     an offset has to be converted rather than compared as-is."""
     assert parse_iso_date("2022-01-01T12:00:00+05:30") == datetime(2022, 1, 1, 6, 30)
     assert parse_iso_date("2022-01-01").tzinfo is None
@@ -302,8 +302,8 @@ def test_a_single_day_scope_survives_to_sql():
     resolved = resolve_filters(
         RecordFilters(date_from=scope.date_from, date_to=scope.date_to)
     )
-    assert resolved.published_from == datetime(2020, 2, 12)
-    assert resolved.published_to == datetime(2020, 2, 13)
+    assert resolved.effective_from == datetime(2020, 2, 12)
+    assert resolved.effective_to == datetime(2020, 2, 13)
 
 
 def test_static_prompt_prefix_stays_stable(frozen):

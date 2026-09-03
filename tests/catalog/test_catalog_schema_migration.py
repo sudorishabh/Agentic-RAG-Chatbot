@@ -305,7 +305,7 @@ def test_ensure_state_table_migrates_before_creating_facet_tables(monkeypatch):
     populated `documents_category` with an empty table, so the rename must run
     first."""
     cursor = _FakeCursor({
-        TABLE: ["document_id", "published_at", "size", "mtime_ns", "title",
+        TABLE: ["document_id", "effective_start_date", "size", "mtime_ns", "title",
                 "url", "raw_meta", "entity_type"],
         f"{TABLE}_category": ["document_id", "category"],
     })
@@ -345,7 +345,7 @@ def _legacy_state_table() -> dict[str, list[str]]:
     exist to prove migrations cope with a table as it really is.
     """
     return {
-        TABLE: ["document_id", "published_at", "size", "mtime_ns", "title",
+        TABLE: ["document_id", "effective_start_date", "size", "mtime_ns", "title",
                 "url", "raw_meta", "entity_type"],
     }
 

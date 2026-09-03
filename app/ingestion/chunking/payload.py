@@ -42,16 +42,27 @@ def build_payload(chunk: "Chunk") -> dict[str, Any]:
         "language": m.language,
         "source_url": m.source_url,
         "file_url": m.file_url,
-        "published_at": m.published_at,
-        "document_published_at": m.document_published_at,
+        "effective_start_date": m.effective_start_date,
         # Written only for "year", never "day" or "month". A full date needs no
         # marker, so absent means "a full date" — which is true of every point
         # already in the collection, and is why this needed no PAYLOAD version
         # bump. Filtered here rather than at the caller so it holds however the
         # meta was built. A reader that ignores this renders 1 January for a
         # source that only ever stated a year.
-        "published_at_precision": (m.published_at_precision
-                                   if m.published_at_precision == "year" else None),
+        "start_precision": (m.start_precision
+                                   if m.start_precision == "year" else None),
+        # The end of the period the content covers, for the bundles that declare
+        # one. Absent means "no end date" — true of every single-date document,
+        # and true of every point already in the collection until
+        # `scripts.backfill_bundle_dates` writes it. Nothing reads it yet, which
+        # is why adding it needed no PAYLOAD version bump: no reader can miss a
+        # field it does not consult.
+        "effective_end_date": m.effective_end_date,
+        # Same rule as the start precision: written only for "year", so absent
+        # means a full date and old points stay valid.
+        "end_precision": (m.end_precision
+                                      if m.end_precision == "year"
+                                      else None),
         "pdf_id": m.pdf_id,
         "pdf_path": m.pdf_path,
         "article_uuid": m.article_uuid,

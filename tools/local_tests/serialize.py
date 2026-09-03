@@ -80,7 +80,7 @@ def canonical_to_dict(doc: Any) -> dict[str, Any] | None:
         "tags": list(doc.tags),
         "categories": list(doc.categories),
         "language": doc.language,
-        "published_at": doc.published_at,
+        "effective_start_date": doc.effective_start_date,
         "doc_version": doc.doc_version,
         "is_current": doc.is_current,
         "content_hash": doc.content_hash,

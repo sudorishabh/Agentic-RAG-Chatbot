@@ -369,7 +369,7 @@ def test_both_prompt_variants_settle_a_conflict_on_the_publication_date():
 
 
 def test_the_conflict_rule_forbids_inventing_a_missing_date():
-    # Most PDFs carry no published_at, so an undated block is the common case,
+    # Most PDFs carry no effective_start_date, so an undated block is the common case,
     # not the exception — reading one as "the current version" is the failure.
     for prompt in (GROUNDED_SYSTEM_PROMPT, SINGLE_SOURCE_SYSTEM_PROMPT):
         rule = prompt[prompt.index("\n9. ") : prompt.index("\nAnswer structure")]

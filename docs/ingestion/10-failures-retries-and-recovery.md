@@ -50,7 +50,7 @@ Plus two run-level counters that are not outcomes:
 
 | Key | Meaning |
 | --- | --- |
-| `undated` | Documents indexed with no publication date. Reported as `indexed_without_date`. |
+| `undated` | Documents indexed with no effective date. Reported as `indexed_without_date`. |
 | `budget_stop` | Set to 1 when the run stopped on its document cap. |
 
 And the enrichment tally: `enrich_hit`, `enrich_stored`, `enrich_skipped`,
@@ -108,7 +108,7 @@ cursor.
 
 | Scenario | Detection | Response | Operator action |
 | --- | --- | --- | --- |
-| Source has no date at all | `not doc.published_at` | `undated` flag, WARNING, **still indexed** | Check the source exposes a date field; the document is invisible to date filters |
+| Source has no date at all | `not doc.effective_start_date` | `undated` flag, WARNING, **still indexed** | Check the source exposes a date field; the document is invisible to date filters |
 | New undeclared date-like field | `date_checks.undeclared_source_date_field` | Ignored (safe), reported per sweep | Classify it in `FIELD_KINDS` |
 | Stated date not applied | `date_checks.stated_date_not_applied` | Reported | `scripts.backfill_bundle_dates` |
 | Attachment date differs from its page's | `date_checks.attachment_date_adrift` | Reported | `scripts.backfill_bundle_dates` |
@@ -462,12 +462,12 @@ document at all.
 ## Recovery: backfilling the catalog from the vector store
 
 `python -m app.ingestion.backfill` reconstructs document-level facets —
-`published_at`, `authors`, `categories`, `title`, `source_url` — by scrolling the
+`effective_start_date`, `authors`, `categories`, `title`, `source_url` — by scrolling the
 collection and aggregating chunk payloads per `document_id` (first-seen date, unioned
 author/category values).
 
 This is a repair for a catalog that lost rows or columns while the collection is
-intact. **Use it deliberately**: it lifts `published_at` out of chunk payloads, which
+intact. **Use it deliberately**: it lifts `effective_start_date` out of chunk payloads, which
 can overwrite a value the date resolver decided. Reconciliation's
 `stated_date_not_applied` check names this module explicitly as a cause, and the fix
 is to re-run `scripts.backfill_bundle_dates` afterwards.

@@ -101,7 +101,7 @@ because each clause exists for a specific observed failure, not as boilerplate:
 Four distinct sub-rules live under rule 9, each answering a different
 observed failure:
 
-1. **Newer wins**, by the header's "page published" date — except when the
+1. **Newer wins**, by the header's "page date" — except when the
    older statement is plainly fuller, or rule 5 (website precedence) already
    settles it.
 2. **Time-bound wording is reported as of its source's date, never as of
@@ -125,15 +125,15 @@ observed failure:
 
    ```
    report edition: 2024-25
-   page publication date: 2022-02-09
+   page date: 2022-02-09
    report publication date: not stated in the available sources
    ```
 
    Only the document's own text may fill the third line — never an edition
    label, a PDF `CreationDate`, a cover month-year, an upload time or a URL
-   path. This is the read-side mirror of `document_published_at` on the write
+   path. This was the read-side mirror of a write-side column that no longer exists
    path (see
-   [ingestion 06, `document_published_at`](../ingestion/06-canonical-document-and-dates.md#document_published_at));
+   [ingestion 06](../ingestion/06-canonical-document-and-dates.md));
    the field the prompt is told to quote and the field the guard below checks
    are the same one.
 
@@ -144,7 +144,7 @@ exists downstream of it.
 ### The block header: `_source_hint`
 
 Every numbered block is preceded by a header built by `_source_hint`, e.g.
-`(website · official page · Mission and Goals · page published 2024-01-15)`.
+`(website · official page · Mission and Goals · page date 2024-01-15)`.
 It is assembled from payload fields, not free text, specifically so the model
 cannot be shown a fact the prompt then has no rule to govern:
 
@@ -154,14 +154,15 @@ cannot be shown a fact the prompt then has no rule to govern:
   `app.core.models.context.page_span` — one definition shared with the
   citation builder, so the header and the citation can never disagree about
   which pages a block stands on), `section_heading`, `contains a table`.
-- The date pair: when `edition_label` is present, both `page published
-  <date>` **and** `document published: <document_published_at or "not
-  stated">` are shown, labelled separately, which is what lets rule 9's
-  three-part answer be assembled without the model reaching for the page
-  date by default. A year-precision `published_at` renders as `"2019 (year
-  only; the day is not known)"` rather than a fabricated January day — the
-  same refusal `DateInterpretation.statement_is_year_only` makes on the write
-  side (see
+- The date: `page date <date>`. Labelled "page date", never "published",
+  because it is the *effective* date of the page the block came from — for an
+  event or a project bundle the underlying CMS field is a start date, and for a
+  page holding a whole series it belongs to the page rather than to any document
+  on it. That labelling is what lets rule 9's answer be assembled without the
+  model reaching for the page date as a publication date by default. A
+  year-precision `effective_start_date` renders as `"2019 (year only; the day is
+  not known)"` rather than a fabricated January day — the same refusal
+  `DateInterpretation.statement_is_year_only` makes on the write side (see
   [ingestion 06](../ingestion/06-canonical-document-and-dates.md#the-interpreter-and-its-gates)).
 - The graph's facts block gets its own hint instead — `"knowledge graph ·
   current relationships"` or `"knowledge graph · includes past
@@ -378,9 +379,9 @@ offending sentence:
   while quoting 2022-02-09 sourced from a different block. A citation-blind
   check would have passed it.
 
-A page date is deliberately anchored to `published_at`, never
-`document_published_at` — the comment in `_block_date` is explicit that this
-must not be "modernised": `document_published_at` is the legitimate answer to
+A page date is deliberately anchored to `effective_start_date`, never
+a document-stated date — the comment in `_block_date` is explicit that the
+guard reads the page date only. A document-stated date was modelled once as
 "when was this published," and treating it as forbidden would invert the
 guard, rewriting *correct* answers and admitting wrong ones.
 

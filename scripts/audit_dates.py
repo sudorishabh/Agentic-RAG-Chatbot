@@ -1,7 +1,7 @@
 """Read-only audit of every date the corpus stores, and a baseline to diff against.
 
 Every issue this reports existed for months without anything noticing, which is
-the actual problem: `published_at` is the field all ranking, filtering, ordering
+the actual problem: `effective_start_date` is the field all ranking, filtering, ordering
 and recency reads, and nothing ever checked whether it was right.
 
 Two jobs:
@@ -194,13 +194,13 @@ def catalogue_checks(cur, table: str) -> list[Check]:
     """Is the value present, plausible, and precise enough to mean anything?"""
     checks: list[Check] = []
     for name, clause, detail in (
-        ("no_published_at", "published_at IS NULL",
+        ("no_effective_start_date", "effective_start_date IS NULL",
          "Documents with no date. Invisible to every date filter and to recency."),
-        ("date_in_future", "published_at > NOW()",
+        ("date_in_future", "effective_start_date > NOW()",
          "Dated after now. Ranks above everything real."),
-        ("date_before_1990", "published_at < '1990-01-01'",
+        ("date_before_1990", "effective_start_date < '1990-01-01'",
          "Implausibly old; almost always a placeholder or a parse failure."),
-        ("date_is_epoch", "YEAR(published_at) = 1970",
+        ("date_is_epoch", "YEAR(effective_start_date) = 1970",
          "The unix epoch, i.e. a zero timestamp read as a date."),
         # 1 January *is* the correct marker for a year-precision value — the
         # column must hold some day and that is the one chosen. What would be
@@ -209,12 +209,12 @@ def catalogue_checks(cur, table: str) -> list[Check]:
         # precision was applied and had the condition the other way round, which
         # made 389 correctly-stored dates read as a defect.
         ("year_precision_not_january",
-         "published_at_precision = 'year' "
-         "AND (MONTH(published_at) <> 1 OR DAY(published_at) <> 1)",
+         "start_precision = 'year' "
+         "AND (MONTH(effective_start_date) <> 1 OR DAY(effective_start_date) <> 1)",
          "A year-precision date whose value is not 1 January, so the value and "
          "its recorded precision disagree about what is known."),
-        ("date_provenance_unrecorded", "published_at_source IS NULL",
-         "Documents whose published_at has no recorded origin."),
+        ("date_provenance_unrecorded", "date_source IS NULL",
+         "Documents whose effective_start_date has no recorded origin."),
     ):
         try:
             checks.append(_sql_check(cur, name, f"`{table}`", clause, detail))
@@ -231,8 +231,8 @@ def store_agreement_checks(cur, table: str) -> list[Check]:
     from app.config import get_settings
     from app.core.clients import get_qdrant_client
 
-    catalogue = {r["document_id"]: str(r["published_at"])[:10]
-                 for r in _rows(cur, f"SELECT document_id, published_at FROM `{table}`")}
+    catalogue = {r["document_id"]: str(r["effective_start_date"])[:10]
+                 for r in _rows(cur, f"SELECT document_id, effective_start_date FROM `{table}`")}
     settings = get_settings()
     client = get_qdrant_client()
     if not client.collection_exists(settings.qdrant_collection):
@@ -245,14 +245,14 @@ def store_agreement_checks(cur, table: str) -> list[Check]:
     while True:
         points, offset = client.scroll(
             collection_name=settings.qdrant_collection, limit=2048, offset=offset,
-            with_payload=["document_id", "published_at"], with_vectors=False,
+            with_payload=["document_id", "effective_start_date"], with_vectors=False,
         )
         for point in points:
             payload = point.payload or {}
             document_id = payload.get("document_id")
             if not document_id or document_id in indexed:
                 continue
-            stamp = str(payload.get("published_at") or "")[:10]
+            stamp = str(payload.get("effective_start_date") or "")[:10]
             if not stamp:
                 undated.append(document_id)
                 continue
@@ -264,7 +264,7 @@ def store_agreement_checks(cur, table: str) -> list[Check]:
                   if d in catalogue and stamp != catalogue[d]]
     return [
         _check("point_without_date", undated,
-               "Indexed chunks carrying no published_at; excluded from date filters."),
+               "Indexed chunks carrying no effective_start_date; excluded from date filters."),
         _check("mysql_qdrant_date_mismatch", mismatched,
                "The catalogue and the index disagree about a date. The catalogue "
                "is authoritative; re-index or set_payload to converge."),
@@ -282,10 +282,10 @@ def resolver_checks(cur, table: str) -> list[Check]:
         _sql_check(
             cur, "date_contradicts_its_decision",
             f"{decision} dd JOIN `{table}` d USING (document_id)",
-            "(dd.action = 'propose_override' AND d.published_at <> dd.candidate_date) "
+            "(dd.action = 'propose_override' AND d.effective_start_date <> dd.candidate_start_date) "
             "OR (dd.action <> 'propose_override' "
-            "    AND d.published_at <> dd.current_published_at)",
-            "published_at is not what the recorded decision says it should be. "
+            "    AND d.effective_start_date <> dd.current_start_date)",
+            "effective_start_date is not what the recorded decision says it should be. "
             "Either the decision or the write path is wrong.",
             id_column="dd.document_id"),
         _sql_check(
@@ -306,7 +306,7 @@ def resolver_checks(cur, table: str) -> list[Check]:
 def contradiction_checks(cur, table: str) -> list[Check]:
     """Does the document's own name contradict its date?"""
     rows = _rows(cur, f"""
-        SELECT document_id, title, source_key, YEAR(published_at) py FROM `{table}`""")
+        SELECT document_id, title, source_key, YEAR(effective_start_date) py FROM `{table}`""")
     fiscal, plain = [], []
     for row in rows:
         filename = (row["source_key"] or "").rsplit("/", 1)[-1]
@@ -332,7 +332,7 @@ def source_metadata_checks(cur, table: str) -> tuple[list[Check], dict[str, dict
     date is decided elsewhere; this only establishes the size of each candidate.
     """
     rows = _rows(cur, f"""
-        SELECT document_id, bundle, raw_meta, published_at FROM `{table}`
+        SELECT document_id, bundle, raw_meta, effective_start_date FROM `{table}`
         WHERE raw_meta IS NOT NULL""")
     per_field: dict[str, dict] = {}
     for row in rows:
@@ -343,7 +343,7 @@ def source_metadata_checks(cur, table: str) -> tuple[list[Check], dict[str, dict
             continue
         if not isinstance(meta, dict):
             continue
-        stored = row["published_at"].date()
+        stored = row["effective_start_date"].date()
         for key, value in date_ish_keys(meta).items():
             entry = per_field.setdefault(
                 key, {"present": 0, "parses": 0, "differs": 0, "bundles": {}})
@@ -357,7 +357,7 @@ def source_metadata_checks(cur, table: str) -> tuple[list[Check], dict[str, dict
                 entry["bundles"][row["bundle"]] = entry["bundles"].get(row["bundle"], 0) + 1
     total = sum(e["differs"] for e in per_field.values())
     return [Check("source_field_disagrees_total", total,
-                  "Source-metadata date fields that disagree with published_at, "
+                  "Source-metadata date fields that disagree with effective_start_date, "
                   "summed over all fields. NOT all of these are publication "
                   "dates — see the per-field breakdown.", is_defect=False)], per_field
 
@@ -365,15 +365,15 @@ def source_metadata_checks(cur, table: str) -> tuple[list[Check], dict[str, dict
 def precision_checks(cur, table: str) -> list[Check]:
     """Is the date precise enough to be about one document?"""
     crowded = _rows(cur, f"""
-        SELECT published_at, COUNT(*) n FROM `{table}`
-        GROUP BY published_at HAVING n >= %s ORDER BY n DESC""", (CROWD_THRESHOLD,))
+        SELECT effective_start_date, COUNT(*) n FROM `{table}`
+        GROUP BY effective_start_date HAVING n >= %s ORDER BY n DESC""", (CROWD_THRESHOLD,))
     crowd_total = sum(int(r["n"]) for r in crowded)
     migration = _rows(cur, f"""
-        SELECT COUNT(*) n, COUNT(DISTINCT published_at) d FROM `{table}`
-        WHERE published_at >= '2017-12-01' AND published_at < '2018-02-01'""")[0]
+        SELECT COUNT(*) n, COUNT(DISTINCT effective_start_date) d FROM `{table}`
+        WHERE effective_start_date >= '2017-12-01' AND effective_start_date < '2018-02-01'""")[0]
     own = _rows(cur, f"""
-        SELECT COUNT(*) n FROM (SELECT published_at FROM `{table}`
-        GROUP BY published_at HAVING COUNT(*) = 1) t""")[0]
+        SELECT COUNT(*) n FROM (SELECT effective_start_date FROM `{table}`
+        GROUP BY effective_start_date HAVING COUNT(*) = 1) t""")[0]
     return [
         Check("documents_on_a_crowded_timestamp", crowd_total,
               f"Documents sharing an exact timestamp with >= {CROWD_THRESHOLD} "
@@ -391,14 +391,14 @@ def adjacent_checks(cur, table: str) -> list[Check]:
     """Dates stored elsewhere that describe a document or a claim about one."""
     checks: list[Check] = []
     stated = _rows(cur, f"SELECT COUNT(*) n FROM `{table}` "
-                        "WHERE document_published_at IS NOT NULL")[0]
-    checks.append(Check("document_published_at_populated", int(stated["n"]),
+                        "WHERE document_effective_start_date IS NOT NULL")[0]
+    checks.append(Check("document_effective_start_date_populated", int(stated["n"]),
                         "Documents carrying a date the document itself states. "
                         "Two readers consume this field; nothing writes it.",
                         is_defect=False))
     checks.append(_sql_check(
         cur, "changed_before_published", f"`{table}`",
-        "changed_mark IS NOT NULL AND changed_mark < UNIX_TIMESTAMP(published_at)",
+        "changed_mark IS NOT NULL AND changed_mark < UNIX_TIMESTAMP(effective_start_date)",
         "The crawl stamp predates the publication date. Investigated: on 22 of "
         "these the CMS itself has created > changed, and one is a journal paper "
         "carrying a 2019 issue year on a record made in Dec 2018 — both source "
@@ -414,7 +414,7 @@ def adjacent_checks(cur, table: str) -> list[Check]:
             "that project is literally 1970-01-01 — the claim is faithful to a "
             "zero date in the source. Fixing it means the claims layer treating "
             "1970 as unknown when it reads a project period, which is a "
-            "different subsystem from published_at.", id_column="claim_id"))
+            "different subsystem from effective_start_date.", id_column="claim_id"))
     except Exception as exc:
         checks.append(Check("claim_validity_epoch", 0,
                             f"not checked ({type(exc).__name__})", is_defect=False))
@@ -456,7 +456,7 @@ def print_report(checks: list[Check], per_field: dict[str, dict]) -> None:
     print("=" * 78)
     for heading, names in (
         ("value present and plausible",
-         ("no_published_at", "date_in_future", "date_before_1990", "date_is_epoch",
+         ("no_effective_start_date", "date_in_future", "date_before_1990", "date_is_epoch",
           "year_precision_not_january", "date_provenance_unrecorded")),
         ("stores agree",
          ("point_without_date", "mysql_qdrant_date_mismatch", "indexed_not_catalogued",
@@ -472,7 +472,7 @@ def print_report(checks: list[Check], per_field: dict[str, dict]) -> None:
          ("documents_on_a_crowded_timestamp", "documents_in_migration_window",
           "documents_with_own_timestamp")),
         ("dates stored elsewhere",
-         ("document_published_at_populated", "changed_before_published",
+         ("document_effective_start_date_populated", "changed_before_published",
           "claim_validity_epoch")),
     ):
         print(f"\n{heading}")

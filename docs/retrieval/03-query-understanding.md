@@ -224,7 +224,7 @@ pins.
 | `source_type == "pdf"` | `source_type` MatchAny `["pdf", "pdf_attachment"]` | "PDFs" includes attachments |
 | `source_type in ("website", "article")` | `source_type` MatchAny `["website", "article"]` | `article` kept for points indexed before the bundle rename |
 | `language` | `language` MatchValue | |
-| `date_from` / `date_to` | `published_at` `DatetimeRange`, UTC-aware | Only when the scope is *not* relationship time — see below |
+| `date_from` / `date_to` | `effective_start_date` `DatetimeRange`, UTC-aware | Only when the scope is *not* relationship time — see below |
 
 **Why `author` is never a hard filter on the qa path.** The stored `authors`
 payload field is a keyword index — exact match, no substring — populated on
@@ -243,7 +243,7 @@ name in the title or body text already surfaces relevant content.
 *relationship* ("what did the Department of Biotechnology fund between 2005
 and 2010") rather than *when documents were published* ("reports published
 between 2005 and 2010"). Applying the wrong reading is not a near miss:
-`published_at` holds no value before 2010 on this corpus at all, so scoping a
+`effective_start_date` holds no value before 2010 on this corpus at all, so scoping a
 funding question by it selects almost nothing — and it also blocks graph
 routing, which is the one path that *can* answer a validity question by
 interval overlap (`retrieval/graph/scope.py`), by handing it a scope no
@@ -260,7 +260,7 @@ untouched.
 
 ### The date-filter retry contract
 
-`filters.date_conditions(filters)` extracts just the `published_at` condition
+`filters.date_conditions(filters)` extracts just the `effective_start_date` condition
 out of a mixed filter list, by attribute (`getattr(c, "key", None)`) rather
 than type, since `_theme_condition` returns a nested `Filter`, not a bare
 `FieldCondition`. This is what lets `retriever.retrieve` (doc 04) drop
@@ -392,7 +392,7 @@ and a query never pays a MySQL round trip.
 
 "Give me the latest annual report" cannot be answered by ranking, for a
 structural reason: every edition is an in-body attachment on the *same*
-Drupal page, so all ten share that page's `published_at` (2022-02-09) and a
+Drupal page, so all ten share that page's `effective_start_date` (2022-02-09) and a
 breadcrumb that names the page, not the edition. Relevance cannot separate
 them (near-identical text), and recency cannot either (a ten-way tie on the
 same date) — the observed failure was page 148 of the 2020-21 edition winning
@@ -477,7 +477,7 @@ vocabulary:
   advertised as valid, the model confidently sets it, and the answer is a flat
   zero that reads like a fact about the corpus rather than about a vocabulary
   gap.
-- `catalog_coverage_directive()` — the real `published_at` span the catalog
+- `catalog_coverage_directive()` — the real `effective_start_date` span the catalog
   covers. Without it, "what changed this year" against an archive whose newest
   document is from 2024 gets a confident zero about a period the catalog never
   reached. It also settles what a bare "the latest" means: left alone the

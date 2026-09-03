@@ -192,7 +192,7 @@ matching kinds under `source_kind` — are explicitly not a conflict either.
 What remains — genuinely linked but not the same document and not the
 same-content-two-formats case — is flagged, on both blocks (`_flag_conflicts`
 compares every pair once). The flag reaches the API response and the
-generation prompt's "prefer the later published date" rule, so it is
+generation prompt's "prefer the later page date" rule, so it is
 load-bearing, not cosmetic.
 
 **Sharing a parent node is deliberately not treated as a conflict signal.**
@@ -201,7 +201,7 @@ under a single Drupal node — but so does every catalogue page, and on this
 corpus the latter dominates: the largest such nodes carry 69 financial
 statements, 68 announcements, 43 brochures under one node. The two shapes are
 indistinguishable from the payload alone (same node, same title, same
-`published_at`), and an earlier version that treated shared-parent as a
+`effective_start_date`), and an earlier version that treated shared-parent as a
 conflict flagged roughly a quarter of all answers, mostly wrongly. Telling them
 apart needs a content signal and a threshold measured against a labelled set,
 not a guess — so today, the honest reading of "two files under one page" is

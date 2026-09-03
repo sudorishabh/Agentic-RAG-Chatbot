@@ -7,7 +7,7 @@ out, and the two can be a year apart in either direction.
 
 Evidence gathered per report, cheapest first:
 
-* MySQL ``published_at`` (today's value) and ``edition_label``;
+* MySQL ``effective_start_date`` (today's value) and ``edition_label``;
 * the PDF DocInfo ``CreationDate`` and ``ModDate`` — *authoring* evidence, which
   Phase 0 established is frequently a re-export years after publication and is
   therefore never on its own a verified publication date;
@@ -74,7 +74,7 @@ class Finding:
     document_id: str
     title: str
     edition: str
-    current_published_at: str
+    current_start_date: str
     filename: str
     url: str
     pdf_created: str = ""
@@ -93,7 +93,7 @@ class Finding:
         return False
 
     def proposal(self) -> tuple[str, str, str]:
-        """(proposed published_at, evidence, confidence)."""
+        """(proposed effective_start_date, evidence, confidence)."""
         if self.fetch != "ok":
             return ("NO VERIFIED DATE",
                     f"PDF not readable ({self.fetch})", "none")
@@ -126,7 +126,7 @@ class Finding:
         month_year = re.search(r"\b(" + _MONTH + r")\s+(20\d{2})\b", quote, re.I)
         if month_year:
             # Month precision only: a day would be invented, so this is not a
-            # usable published_at even though it is real evidence.
+            # usable effective_start_date even though it is real evidence.
             return ""
         return ""
 
@@ -138,7 +138,7 @@ def annual_reports() -> list[dict]:
 
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(
-            f"SELECT document_id, title, source_key, published_at FROM `{state_table()}` "
+            f"SELECT document_id, title, source_key, effective_start_date FROM `{state_table()}` "
             "WHERE source_type = 'pdf_attachment' AND document_id LIKE 'inbody:%%' "
             "AND title LIKE 'Annual Report %%' ORDER BY title"
         )
@@ -217,7 +217,7 @@ def main(argv: list[str] | None = None) -> int:
                 document_id=row["document_id"],
                 title=str(row.get("title") or ""),
                 edition=edition_by_doc.get(row["document_id"], ""),
-                current_published_at=str(row.get("published_at") or "")[:19],
+                current_start_date=str(row.get("effective_start_date") or "")[:19],
                 filename=url.split("?")[0].rsplit("/", 1)[-1],
                 url=url,
                 pdf_created=created, pdf_modified=modified,
@@ -238,15 +238,15 @@ def main(argv: list[str] | None = None) -> int:
     with open(OUT_CSV, "w", newline="", encoding="utf-8-sig") as fh:
         writer = csv.writer(fh)
         writer.writerow([
-            "document_id", "title", "edition", "current_published_at",
-            "proposed_published_at", "evidence", "confidence",
+            "document_id", "title", "edition", "current_start_date",
+            "proposed_effective_start_date", "evidence", "confidence",
             "pdf_created_authoring_only", "pdf_modified", "pages", "fetch", "url",
         ])
         for finding in findings:
             proposed, evidence, confidence = finding.proposal()
             writer.writerow([
                 finding.document_id, finding.title, finding.edition,
-                finding.current_published_at, proposed, evidence, confidence,
+                finding.current_start_date, proposed, evidence, confidence,
                 finding.pdf_created, finding.pdf_modified, finding.pages,
                 finding.fetch, finding.url,
             ])
@@ -256,14 +256,14 @@ def main(argv: list[str] | None = None) -> int:
              "`CreationDate` is authoring evidence and never on its own a "
              "publication date, so a report whose front matter states none is "
              "reported as **NO VERIFIED DATE**.\n",
-             "| document_id | title | edition | current_published_at "
-             "| proposed_published_at | evidence | confidence |",
+             "| document_id | title | edition | current_start_date "
+             "| proposed_effective_start_date | evidence | confidence |",
              "|---|---|---|---|---|---|---|"]
     for finding in findings:
         proposed, evidence, confidence = finding.proposal()
         lines.append(
             f"| `{finding.document_id[:24]}…` | {finding.title} | {finding.edition} "
-            f"| {finding.current_published_at} | **{proposed}** "
+            f"| {finding.current_start_date} | **{proposed}** "
             f"| {evidence.replace('|', '/')[:150]} | {confidence} |")
 
     lines.append("\n## Evidence found per report\n")

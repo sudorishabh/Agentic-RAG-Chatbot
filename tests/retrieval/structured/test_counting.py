@@ -34,7 +34,7 @@ def _rec(title="Solar in India", document_id="d1"):
     return StateRecord(
         document_id=document_id, source_type="website", source_key="k",
         fingerprint="f", title=title, url="http://a",
-        published_at="2024-05-01T00:00:00", bundle="news",
+        effective_start_date="2024-05-01T00:00:00", bundle="news",
     )
 
 
@@ -299,8 +299,8 @@ def test_answer_structured_skips_parse_when_analysis_provided(monkeypatch):
     out = dr.answer_structured("how many events in 2024?", analysis=analysis)
 
     assert seen["bundle"] == "events"  # normalized before the catalog query
-    assert seen["published_from"] == datetime(2024, 1, 1)
-    assert seen["published_to"] == datetime(2025, 1, 1)
+    assert seen["effective_from"] == datetime(2024, 1, 1)
+    assert seen["effective_to"] == datetime(2025, 1, 1)
     assert out["answer"] == "There are 5 events in 2024 matching your query."
 
 
@@ -478,7 +478,7 @@ def test_compose_stacks_sections_and_renumbers_citations():
 def test_facet_filters_builds_datetime_range():
     analysis = qp.QueryAnalysis(search_query="x", date_from="2024-03-01", date_to="2024-04-01")
     conds = qp._facet_filters(analysis)
-    pub = [c for c in conds if getattr(c, "key", None) == "published_at"]
+    pub = [c for c in conds if getattr(c, "key", None) == "effective_start_date"]
     assert len(pub) == 1
     assert pub[0].range.gte == qp._parse_bound("2024-03-01")
     assert pub[0].range.lt == qp._parse_bound("2024-04-01")
@@ -486,7 +486,7 @@ def test_facet_filters_builds_datetime_range():
 
 def test_facet_filters_no_dates_no_condition():
     conds = qp._facet_filters(qp.QueryAnalysis(search_query="x"))
-    assert not any(getattr(c, "key", None) == "published_at" for c in conds)
+    assert not any(getattr(c, "key", None) == "effective_start_date" for c in conds)
 
 
 def test_facet_filters_tags_exact_match_author_not_filtered():

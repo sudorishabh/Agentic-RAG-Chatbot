@@ -4,7 +4,7 @@ These cover the orchestration — routing, the re-check after reading the PDF, t
 mapping of a model verdict onto a date, and the fail-closed guarantee. The rules
 themselves are covered by ``tests/test_date_resolution.py``.
 
-The property every test here defends: ``published_at`` moves only on an
+The property every test here defends: ``effective_start_date`` moves only on an
 override, and everything else lands on the page's own date.
 """
 
@@ -16,7 +16,8 @@ import pytest
 
 from app.ingestion import date_resolution
 from app.ingestion.date_llm import DateInterpretation
-from app.ingestion.date_resolution import build_evidence, resolve
+from app.ingestion.date_resolution import build_evidence
+from app.ingestion.date_resolution import resolve as resolve_pdf_date
 
 NODE_DATE = "2020-01-10T00:00:00+00:00"
 
@@ -77,8 +78,8 @@ def test_a_single_pdf_page_keeps_the_page_date_without_reading_the_pdf(monkeypat
         raise AssertionError("the PDF must not be read for a settled case")
 
     monkeypatch.setattr(date_resolution, "_read_pdf_signals", _boom)
-    got = resolve(_evidence(), content=b"%PDF-")
-    assert got.published_at == NODE_DATE
+    got = resolve_pdf_date(_evidence(), content=b"%PDF-")
+    assert got.start_value == NODE_DATE
     assert got.overridden is False
     assert got.decision.rule == "single_pdf_page"
     assert "llm" not in got.used
@@ -94,15 +95,15 @@ def test_a_late_upload_does_not_move_the_date(monkeypatch):
     """
     monkeypatch.setattr(date_resolution, "_read_pdf_signals", lambda *_a, **_k: None)
     verdict = DateInterpretation(
-        candidate_date="2024-06-01", date_type="publication",
+        candidate_start_date="2024-06-01", date_type="publication",
         publication_statement="Published on 1 June 2024",
         confidence=0.99, recommended_action="override")
     verdict.set_grounded(False, False)          # nothing readable to ground against
     monkeypatch.setattr("app.ingestion.date_llm.interpret", lambda _e: verdict)
     node = _node(files=[_file(), _file(uuid="f2")])
     file = _file(created="2024-06-01T00:00:00+00:00")
-    got = resolve(_evidence(node=node, file=file), content=b"%PDF-")
-    assert got.published_at == NODE_DATE
+    got = resolve_pdf_date(_evidence(node=node, file=file), content=b"%PDF-")
+    assert got.start_value == NODE_DATE
     assert got.overridden is False
     assert got.needs_review is True
 
@@ -128,7 +129,7 @@ def _route_to_llm(monkeypatch, head_text: str, verdict: DateInterpretation | Non
 def _grounding(verdict: DateInterpretation, text: str) -> tuple[bool, bool]:
     from app.ingestion.date_llm import date_is_in_text, statement_is_in_text
 
-    return (date_is_in_text(verdict.candidate_date, text),
+    return (date_is_in_text(verdict.candidate_start_date, text),
             statement_is_in_text(verdict.publication_statement, text))
 
 
@@ -141,11 +142,11 @@ def _routed_evidence():
 def test_a_grounded_publication_statement_moves_the_date(monkeypatch):
     text = "Press Release New Delhi, 31 March 2025 TERI announces findings"
     _route_to_llm(monkeypatch, text, DateInterpretation(
-        candidate_date="2025-03-31", date_type="publication",
+        candidate_start_date="2025-03-31", date_type="publication",
         publication_statement="New Delhi, 31 March 2025",
         confidence=0.95, recommended_action="override"))
-    got = resolve(_routed_evidence(), content=b"%PDF-")
-    assert got.published_at == "2025-03-31"
+    got = resolve_pdf_date(_routed_evidence(), content=b"%PDF-")
+    assert got.start_value == "2025-03-31"
     assert got.overridden is True
     assert got.decision.source == "llm_publication"
     assert "llm" in got.used
@@ -154,11 +155,11 @@ def test_a_grounded_publication_statement_moves_the_date(monkeypatch):
 def test_a_reconstructed_statement_does_not_move_the_date(monkeypatch):
     """The Pioneer failure: the date is in the text, the statement is not."""
     _route_to_llm(monkeypatch, "12/24/13 The Pioneer", DateInterpretation(
-        candidate_date="2013-12-24", date_type="publication",
+        candidate_start_date="2013-12-24", date_type="publication",
         publication_statement="The Pioneer, Tuesday, December 24, 2013",
         confidence=0.95, recommended_action="override"))
-    got = resolve(_routed_evidence(), content=b"%PDF-")
-    assert got.published_at == NODE_DATE
+    got = resolve_pdf_date(_routed_evidence(), content=b"%PDF-")
+    assert got.start_value == NODE_DATE
     assert got.overridden is False
     assert got.needs_review is True
 
@@ -166,39 +167,39 @@ def test_a_reconstructed_statement_does_not_move_the_date(monkeypatch):
 def test_a_notification_verdict_does_not_move_the_date(monkeypatch):
     _route_to_llm(monkeypatch, "Notified on 18.05.2023 by the Ministry.",
                   DateInterpretation(
-                      candidate_date="2023-05-18", date_type="notification",
+                      candidate_start_date="2023-05-18", date_type="notification",
                       publication_statement="Notified on 18.05.2023",
                       confidence=0.99, recommended_action="override"))
-    got = resolve(_routed_evidence(), content=b"%PDF-")
-    assert got.published_at == NODE_DATE
+    got = resolve_pdf_date(_routed_evidence(), content=b"%PDF-")
+    assert got.start_value == NODE_DATE
     assert got.decision.date_type == "notification"
 
 
 def test_an_edition_verdict_yields_a_label_and_keeps_the_date(monkeypatch):
     _route_to_llm(monkeypatch, "ANNUAL REPORT 2024/25 Vision", DateInterpretation(
-        candidate_date=None, date_type="edition", edition_label="2024-2025",
+        candidate_start_date=None, date_type="edition", edition_label="2024-2025",
         confidence=0.99, recommended_action="keep_page_date"))
-    got = resolve(_routed_evidence(), content=b"%PDF-")
-    assert got.published_at == NODE_DATE
+    got = resolve_pdf_date(_routed_evidence(), content=b"%PDF-")
+    assert got.start_value == NODE_DATE
     assert got.edition_label == "2024-2025"
     assert got.overridden is False
 
 
 def test_a_model_outage_keeps_the_page_date(monkeypatch):
     _route_to_llm(monkeypatch, "some readable text 2024", None)
-    got = resolve(_routed_evidence(), content=b"%PDF-")
-    assert got.published_at == NODE_DATE
+    got = resolve_pdf_date(_routed_evidence(), content=b"%PDF-")
+    assert got.start_value == NODE_DATE
     assert got.decision.rule == "llm_unavailable"
 
 
 def test_the_raw_verdict_is_returned_for_the_audit_trail(monkeypatch):
     text = "Published on 12 September 2024 by TERI"
     _route_to_llm(monkeypatch, text, DateInterpretation(
-        candidate_date="2024-09-12", date_type="publication",
+        candidate_start_date="2024-09-12", date_type="publication",
         publication_statement="Published on 12 September 2024",
         confidence=0.96, recommended_action="override"))
-    got = resolve(_routed_evidence(), content=b"%PDF-")
-    assert got.llm_raw and got.llm_raw["candidate_date"] == "2024-09-12"
+    got = resolve_pdf_date(_routed_evidence(), content=b"%PDF-")
+    assert got.llm_raw and got.llm_raw["candidate_start_date"] == "2024-09-12"
 
 
 # --------------------------------------------------------------------------- #
@@ -219,32 +220,32 @@ def test_an_unreadable_pdf_cannot_produce_an_override(monkeypatch):
 
         seen.append(evidence.head_text)
         verdict = DateInterpretation(
-            candidate_date="2024-06-01", date_type="publication",
+            candidate_start_date="2024-06-01", date_type="publication",
             publication_statement="Published on 1 June 2024",
             confidence=0.99, recommended_action="override")
         verdict.set_grounded(
-            date_is_in_text(verdict.candidate_date, evidence.head_text),
+            date_is_in_text(verdict.candidate_start_date, evidence.head_text),
             statement_is_in_text(verdict.publication_statement, evidence.head_text),
         )
         return verdict
 
     monkeypatch.setattr("app.ingestion.date_llm.interpret", _stub)
-    got = resolve(_routed_evidence(), content=b"not a pdf")
+    got = resolve_pdf_date(_routed_evidence(), content=b"not a pdf")
     assert seen == [""], "the model must be shown no text for an unreadable PDF"
-    assert got.published_at == NODE_DATE
+    assert got.start_value == NODE_DATE
     assert got.overridden is False
 
 
 def test_missing_content_keeps_the_page_date(monkeypatch):
     """No bytes at all — the routed case still asks, and still cannot ground."""
     verdict = DateInterpretation(
-        candidate_date="2024-06-01", date_type="publication",
+        candidate_start_date="2024-06-01", date_type="publication",
         publication_statement="Published on 1 June 2024",
         confidence=0.99, recommended_action="override")
     verdict.set_grounded(False, False)
     monkeypatch.setattr("app.ingestion.date_llm.interpret", lambda _e: verdict)
-    got = resolve(_routed_evidence(), content=None)
-    assert got.published_at == NODE_DATE
+    got = resolve_pdf_date(_routed_evidence(), content=None)
+    assert got.start_value == NODE_DATE
     assert got.overridden is False
 
 
@@ -253,14 +254,14 @@ def test_an_unexpected_error_keeps_the_page_date(monkeypatch):
         raise RuntimeError("boom")
 
     monkeypatch.setattr(date_resolution, "decide", _explode)
-    got = resolve(_evidence(), content=b"%PDF-")
-    assert got.published_at == NODE_DATE
+    got = resolve_pdf_date(_evidence(), content=b"%PDF-")
+    assert got.start_value == NODE_DATE
     assert got.overridden is False
 
 
 def test_a_node_without_a_date_never_invents_one():
-    got = resolve(_evidence(node=_node(created=None)), content=b"%PDF-")
-    assert got.published_at is None
+    got = resolve_pdf_date(_evidence(node=_node(created=None)), content=b"%PDF-")
+    assert got.start_value is None
     assert got.overridden is False
 
 
@@ -274,9 +275,9 @@ def test_the_page_date_a_pdf_inherits_is_the_bundles_resolved_date():
     carried different dates."""
     node = _node(bundle="research_papers", files=[_file()],
                  metadata={"field_rpaper_year": 2016})
-    got = resolve(_evidence(node=node), content=b"%PDF-")
-    assert got.published_at == "2016-01-01T00:00:00+00:00"
-    assert got.precision == "year"
+    got = resolve_pdf_date(_evidence(node=node), content=b"%PDF-")
+    assert got.start_value == "2016-01-01T00:00:00+00:00"
+    assert got.start_precision == "year"
 
 
 def test_a_stated_bundle_date_settles_the_case_without_reading_the_pdf(monkeypatch):
@@ -290,9 +291,9 @@ def test_a_stated_bundle_date_settles_the_case_without_reading_the_pdf(monkeypat
                         lambda _e: pytest.fail("the model must not be called"))
     node = _node(bundle="news", metadata={"field_news_date": "2015-08-26T18:30:00+00:00"},
                  files=[_file(), _file(uuid="f2"), _file(uuid="f3")])
-    got = resolve(_evidence(node=node, file=_file(created="2024-06-01T00:00:00+00:00")),
+    got = resolve_pdf_date(_evidence(node=node, file=_file(created="2024-06-01T00:00:00+00:00")),
                   content=b"%PDF-")
-    assert got.published_at == "2015-08-27T00:00:00+00:00"
+    assert got.start_value == "2015-08-27T00:00:00+00:00"
     assert got.decision.rule == "parent_bundle_date_field"
     assert "llm" not in got.used
 
@@ -334,15 +335,15 @@ def test_an_override_reaches_the_document(monkeypatch):
     from app.ingestion.date_rules import DateDecision
 
     resolved = ResolvedDate(
-        published_at="2025-03-31",
+        start_value="2025-03-31",
         decision=DateDecision(document_id="f1", action="propose_override",
-                              candidate_date="2025-03-31", date_type="publication",
+                              candidate_start_date="2025-03-31", date_type="publication",
                               source="llm_publication", confidence=0.95,
                               rule="llm_interpreted", decided_by="llm"),
     )
     node = _node(metadata={}, refs=[], files=[_file()])
     doc, recorded = _build_doc(monkeypatch, node=node, file=_file(), resolved=resolved)
-    assert doc.published_at == "2025-03-31"
+    assert doc.effective_start_date == "2025-03-31"
     assert len(recorded) == 1 and recorded[0].action == "propose_override"
 
 
@@ -351,15 +352,15 @@ def test_an_edition_label_lands_in_extra_without_moving_the_date(monkeypatch):
     from app.ingestion.date_rules import DateDecision
 
     resolved = ResolvedDate(
-        published_at=NODE_DATE, edition_label="2024-2025",
+        start_value=NODE_DATE, edition_label="2024-2025",
         decision=DateDecision(document_id="f1", action="keep_page_date",
-                              candidate_date=NODE_DATE, date_type="edition",
+                              candidate_start_date=NODE_DATE, date_type="edition",
                               edition_label="2024-2025", rule="llm_interpreted",
                               decided_by="llm"),
     )
     node = _node(metadata={}, refs=[], files=[_file()])
     doc, _ = _build_doc(monkeypatch, node=node, file=_file(), resolved=resolved)
-    assert doc.published_at == NODE_DATE
+    assert doc.effective_start_date == NODE_DATE
     assert doc.extra["edition_label"] == "2024-2025"
     assert doc.extra["bundle"] == "page"
 
@@ -367,7 +368,7 @@ def test_an_edition_label_lands_in_extra_without_moving_the_date(monkeypatch):
 def test_no_edition_label_means_no_key_in_extra(monkeypatch):
     from app.ingestion.date_resolution import ResolvedDate
 
-    resolved = ResolvedDate(published_at=NODE_DATE)
+    resolved = ResolvedDate(start_value=NODE_DATE)
     node = _node(metadata={}, refs=[], files=[_file()])
     doc, _ = _build_doc(monkeypatch, node=node, file=_file(), resolved=resolved)
     assert "edition_label" not in doc.extra
@@ -386,5 +387,5 @@ def test_the_feature_flag_falls_back_to_the_node_date(monkeypatch):
     got = attachment._resolve_date(
         SimpleNamespace(document_id="f1"), node, _file(), b"%PDF-",
         attachment.resolve_parent_date(node))
-    assert got.published_at == NODE_DATE
+    assert got.start_value == NODE_DATE
     assert got.decision is None

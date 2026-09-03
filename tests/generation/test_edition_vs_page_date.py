@@ -1,7 +1,7 @@
 """A page's date must never be reported as a document's publication date.
 
 Every TERI annual report edition hangs off one Drupal page, so all ten carry
-``published_at = 2022-02-09``. Turning that into "Annual Report 2024-25 was
+``effective_start_date = 2022-02-09``. Turning that into "Annual Report 2024-25 was
 published on 9 February 2022" is a false claim assembled from two true ones,
 and it is the specific failure these tests exist to prevent.
 
@@ -60,7 +60,7 @@ def _annual(edition: str = "2024-25") -> dict:
         "source_type": "pdf_attachment",
         "title": f"Annual Report {edition[:4]}-20{edition[-2:]}",
         "edition_label": edition,
-        "published_at": PAGE_DATE,
+        "effective_start_date": PAGE_DATE,
         "page_number": 3,
     }
 
@@ -142,7 +142,7 @@ def test_only_the_document_text_may_supply_a_report_publication_date():
 
 def test_the_conflict_rule_names_the_label_the_header_actually_uses():
     """Rule 9 orders blocks by the header's date, so it must name the real label."""
-    assert "later 'page published' date" in GROUNDED_SYSTEM_PROMPT
+    assert "later 'page date'" in GROUNDED_SYSTEM_PROMPT
     assert "later 'published' date" not in GROUNDED_SYSTEM_PROMPT
 
 
@@ -153,8 +153,7 @@ def test_the_conflict_rule_names_the_label_the_header_actually_uses():
 def test_the_header_keeps_the_two_facts_apart():
     header = _source_hint(_annual())
     assert "edition 2024-25" in header
-    assert "page published 2022-02-09" in header
-    assert "document published: not stated" in header
+    assert "page date 2022-02-09" in header
 
 
 def test_the_header_never_presents_the_page_date_as_the_editions():

@@ -7,7 +7,7 @@ downloaded unless ``--locate`` is passed (which fetches only the surviving
 overrides, to record where in the document the evidence sits).
 
 Read-only with respect to production: `documents`, Qdrant, fingerprints and
-`published_at` are untouched. Rewrites the shadow decisions CSV and, unless
+`effective_start_date` are untouched. Rewrites the shadow decisions CSV and, unless
 ``--no-db`` is given, the shadow decision table.
 
     python -m scripts.rescore_date_decisions --locate
@@ -31,7 +31,7 @@ DECISIONS = os.path.join(OUT_DIR, "prototype_decisions.csv")
 LOCATIONS = os.path.join(OUT_DIR, "override_evidence_locations.json")
 SITE = "https://teriin.org"
 _VERDICT_FIELDS = (
-    "candidate_date", "date_type", "edition_label", "publication_statement",
+    "candidate_start_date", "date_type", "edition_label", "publication_statement",
     "confidence", "evidence", "recommended_action",
 )
 
@@ -102,12 +102,12 @@ def main(argv: list[str] | None = None) -> int:
         was = row["action"]
         row["action"] = action
         if action == "propose_override":
-            row["candidate_date"] = verdict.candidate_date
-            row["candidate_source"] = "llm_publication"
+            row["candidate_start_date"] = verdict.candidate_start_date
+            row["date_source"] = "llm_publication"
         else:
             # Anything that is not an override keeps the page's own date.
-            row["candidate_date"] = row.get("node_created") or row["current_published_at"]
-            row["candidate_source"] = "node_created"
+            row["candidate_start_date"] = row.get("node_created") or row["current_start_date"]
+            row["date_source"] = "node_created"
         changed.append((row, was))
 
     after = Counter(r["action"] for r in rows)
@@ -154,10 +154,10 @@ def main(argv: list[str] | None = None) -> int:
                     document_id=row["document_id"], origin=row["origin"],
                     bundle=row["bundle"], node_uuid=row["node_uuid"],
                     page_pdf_count=int(row["page_pdf_count"] or 1),
-                    current_published_at=row["current_published_at"],
-                    candidate_date=row["candidate_date"], date_type=row["date_type"],
+                    current_start_date=row["current_start_date"],
+                    candidate_start_date=row["candidate_start_date"], date_type=row["date_type"],
                     edition_label=row["edition_label"] or None,
-                    candidate_source=row["candidate_source"],
+                    date_source=row["date_source"],
                     confidence=float(row["confidence"] or 0), action=row["action"],
                     rule=row["rule"], decided_by=row["decided_by"],
                     evidence=row["evidence"], llm_raw=raw,

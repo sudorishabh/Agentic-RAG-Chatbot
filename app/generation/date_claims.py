@@ -1,7 +1,7 @@
 """Deterministic guard against dating a document by the page that carries it.
 
 Every edition of the TERI annual report is an in-body attachment on one Drupal
-page, so all ten share ``published_at = 2022-02-09``. That date belongs to the
+page, so all ten share ``effective_start_date = 2022-02-09``. That date belongs to the
 page; it is not the publication date of any edition. A model shown it beside a
 report title reports it as the report's own date, and measurement said
 instruction alone does not stop that: with the prompt rule and the header caveat
@@ -167,7 +167,7 @@ def _parse_dates(text: str) -> set[date]:
 
 
 def _block_date(payload: dict) -> date | None:
-    raw = str(payload.get("published_at") or "")[:10]
+    raw = str(payload.get("effective_start_date") or "")[:10]
     match = _ISO.match(raw)
     if match is None:
         return None
@@ -198,12 +198,11 @@ def verify_date_claims(
             # sense that matters: that page holds a series, so its date is the
             # date of no single document on it.
             #
-            # Anchored to `published_at` on purpose, and it must stay that way.
-            # `document_published_at` is the date the document states about
-            # itself — the legitimate answer to "when was this published?" — so
-            # treating it as forbidden would invert this guard, rewriting correct
-            # answers and admitting the wrong ones. `_block_date` reads only
-            # `published_at`; do not "modernise" it to the newer field.
+            # Anchored to `effective_start_date` on purpose. That is the page's
+            # date, and a page holding a series is exactly the case where it is
+            # the date of no single document on it. There is no second date field
+            # to reach for: a document-stated date was modelled once, never
+            # populated by any path, and has been removed.
             page_dates.setdefault(block_date, str(payload.get("edition_label")))
 
     report = DateClaimReport(

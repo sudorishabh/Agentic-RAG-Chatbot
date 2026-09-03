@@ -274,7 +274,7 @@ class _PlannedCall(BaseModel):
         default=None,
         description=(
             "For list_records: which metadata keys to return per item, from "
-            "title, url, published_at, bundle, document_id. Null returns all — "
+            "title, url, effective_start_date, bundle, document_id. Null returns all — "
             "only set it when the user asks for specific fields."
         ),
     )

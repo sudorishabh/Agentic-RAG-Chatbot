@@ -90,9 +90,9 @@ def test_a_field_condition_contributes_its_key():
         (FieldCondition(key="tags", match=MatchAny(any=["energy"])), "tags"),
         (FieldCondition(key="categories", match=MatchAny(any=["x"])), "categories"),
         (FieldCondition(key="language", match=MatchValue(value="en")), "language"),
-        (FieldCondition(key="published_at",
+        (FieldCondition(key="effective_start_date",
                         range=DatetimeRange(gte="2020-01-01T00:00:00Z")),
-         "published_at"),
+         "effective_start_date"),
     ],
 )
 def test_every_real_filter_dimension_is_detected(condition, expected):

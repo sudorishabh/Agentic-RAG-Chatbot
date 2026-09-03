@@ -3,7 +3,7 @@
 "Give me the latest annual report" cannot be answered by ranking, and the reason
 is structural rather than a tuning problem. Every edition of the series is an
 in-body attachment on one Drupal page, so all ten carry that page's
-``published_at`` — 2022-02-09. So:
+``effective_start_date`` — 2022-02-09. So:
 
 * **relevance cannot separate them** — ten near-identical documents, and the
   breadcrumb the embedder saw names the page ("Annual Reports"), not the edition;

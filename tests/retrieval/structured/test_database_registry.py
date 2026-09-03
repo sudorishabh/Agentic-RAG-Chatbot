@@ -151,14 +151,14 @@ def test_resolve_filters_passes_names_and_dates_to_the_readers(monkeypatch):
             date_from="2024-01-01", date_to="2025-01-01",
         )
     )
-    assert scope.published_from == datetime(2024, 1, 1)
-    assert scope.published_to == datetime(2025, 1, 1)
+    assert scope.effective_from == datetime(2024, 1, 1)
+    assert scope.effective_to == datetime(2025, 1, 1)
     # as_kwargs carries author + theme + dates, but NOT title_contains
     assert scope.as_kwargs() == {
         "author": "A K Sharma",
         "theme": "Climate Change",
-        "published_from": datetime(2024, 1, 1),
-        "published_to": datetime(2025, 1, 1),
+        "effective_from": datetime(2024, 1, 1),
+        "effective_to": datetime(2025, 1, 1),
     }
     assert scope.title_contains == "grid"  # passed separately by list/lookup
 
@@ -182,4 +182,4 @@ def test_resolve_filters_empty_is_empty():
 
 def test_bad_date_is_ignored():
     scope = filters.resolve_filters(db.RecordFilters(date_from="not-a-date"))
-    assert scope.published_from is None
+    assert scope.effective_from is None

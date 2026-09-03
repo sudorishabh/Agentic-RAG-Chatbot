@@ -183,18 +183,18 @@ def main(argv: list[str] | None = None) -> int:
           f'B={len(edition_changes)} documents, all in-body Annual Reports')
 
     def _invariants() -> dict:
-        """published_at and the vector count, to prove neither moved."""
+        """effective_start_date and the vector count, to prove neither moved."""
         import hashlib
 
         with mysql_connection() as conn, conn.cursor() as cur:
             cur.execute(
-                f'SELECT document_id, published_at FROM `{table}` ORDER BY document_id')
+                f'SELECT document_id, effective_start_date FROM `{table}` ORDER BY document_id')
             digest = hashlib.sha256()
             for row in cur.fetchall():
                 digest.update((str(row['document_id']) + '|'
-                               + str(row['published_at']) + chr(10)).encode())
+                               + str(row['effective_start_date']) + chr(10)).encode())
         return {
-            'published_at_checksum': digest.hexdigest()[:16],
+            'effective_start_date_checksum': digest.hexdigest()[:16],
             'qdrant_points': client.count(collection_name=collection, exact=True).count,
         }
 

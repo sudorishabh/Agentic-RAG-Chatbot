@@ -179,8 +179,8 @@ class ResolvedScope:
     theme: str | None = None
     theme_group: str | None = None
     tag: str | None = None
-    published_from: datetime | None = None
-    published_to: datetime | None = None
+    effective_from: datetime | None = None
+    effective_to: datetime | None = None
     effective: RecordFilters = field(default_factory=RecordFilters)
     ambiguous: AmbiguousFilter | None = None
     author_missed: bool = False
@@ -202,8 +202,8 @@ class ResolvedScope:
             "theme": self.theme,
             "theme_group": self.theme_group,
             "tag": self.tag,
-            "published_from": self.published_from,
-            "published_to": self.published_to,
+            "effective_from": self.effective_from,
+            "effective_to": self.effective_to,
         }
         return {key: value for key, value in kwargs.items() if value is not None}
 
@@ -266,8 +266,8 @@ def resolve_filters(filters: RecordFilters) -> ResolvedScope:
         # shapes questions that name no theme at all.
         theme_group=None if theme_name else filters.theme_group,
         tag=tag.name,
-        published_from=_parse_date(filters.date_from, field="date_from"),
-        published_to=_parse_date(filters.date_to, field="date_to"),
+        effective_from=_parse_date(filters.date_from, field="date_from"),
+        effective_to=_parse_date(filters.date_to, field="date_to"),
         # `effective` states what was really filtered on, so a dropped theme must
         # not be reported as applied.
         effective=replace(filters, author=author.name, theme=theme_name, tag=tag.name),

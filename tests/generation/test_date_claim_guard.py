@@ -31,15 +31,15 @@ def _blocks() -> list[ContextBlock]:
     return [
         ContextBlock(n=1, text="", payload={
             "title": "FCRA Financials", "source_type": "pdf_attachment",
-            "published_at": FCRA_DATE,
+            "effective_start_date": FCRA_DATE,
         }),
         ContextBlock(n=3, text="", payload={
             "title": "Annual Report 2024-2025", "source_type": "pdf_attachment",
-            "edition_label": "2024-25", "published_at": PAGE_DATE,
+            "edition_label": "2024-25", "effective_start_date": PAGE_DATE,
         }),
         ContextBlock(n=5, text="", payload={
             "title": "Some news page", "source_type": "website",
-            "published_at": "2024-05-01T00:00:00+00:00",
+            "effective_start_date": "2024-05-01T00:00:00+00:00",
         }),
     ]
 
@@ -170,7 +170,7 @@ def test_an_unrelated_financial_document_date_is_left_alone():
 def test_a_context_without_any_edition_is_never_flagged():
     """No edition-bearing block means no page date in the sense that matters."""
     blocks = [ContextBlock(n=1, text="", payload={
-        "title": "A report", "published_at": PAGE_DATE})]
+        "title": "A report", "effective_start_date": PAGE_DATE})]
     answer = "The report was published on 2022-02-09 [1]."
     assert verify_date_claims(answer, blocks).clean
 
@@ -251,7 +251,7 @@ def test_the_delivered_answer_never_dates_the_report_by_its_page():
                 tokens += event.get("text") or ""
             elif event.get("type") == "correction":
                 delivered, reason = event.get("text"), event.get("reason")
-        if reason == "publication_date_fallback":
+        if reason == "date_claim_fallback":
             fallbacks += 1
         answer = strip_tags(delivered if delivered is not None else tokens)
         assert answer.strip(), "the model returned nothing"

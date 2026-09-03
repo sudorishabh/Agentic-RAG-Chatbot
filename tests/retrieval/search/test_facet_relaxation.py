@@ -31,7 +31,7 @@ def _cand(id, payload=None):
 def _date_cond(year=2023):
     """The condition `_facet_filters` builds for a single-year scope."""
     return FieldCondition(
-        key="published_at",
+        key="effective_start_date",
         range=DatetimeRange(
             gte=datetime(year, 1, 1, tzinfo=timezone.utc),
             lt=datetime(year + 1, 1, 1, tzinfo=timezone.utc),

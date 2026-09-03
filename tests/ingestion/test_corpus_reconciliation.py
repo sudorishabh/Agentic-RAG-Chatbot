@@ -24,19 +24,19 @@ from app.ingestion.version import PIPELINE_VERSION
 OTHER_VERSION = "c0.i0.p0.e0"
 
 
-def _row(version=1, indexed=True, published_at="2026-01-01", pipeline=PIPELINE_VERSION):
+def _row(version=1, indexed=True, effective_start_date="2026-01-01", pipeline=PIPELINE_VERSION):
     return rc._Catalogued(
         doc_version=version, indexed=indexed,
-        published_at=published_at, pipeline_version=pipeline,
+        effective_start_date=effective_start_date, pipeline_version=pipeline,
     )
 
 
 def _point(document_id, *, point_id="p1", version=1, parent=False,
-           parent_id=None, published_at="2026-01-01", pipeline=PIPELINE_VERSION,
+           parent_id=None, effective_start_date="2026-01-01", pipeline=PIPELINE_VERSION,
            chunk_id=None):
     payload = {
         "document_id": document_id, "doc_version": version, "is_parent": parent,
-        "published_at": published_at, "pipeline_version": pipeline,
+        "effective_start_date": effective_start_date, "pipeline_version": pipeline,
         "chunk_id": chunk_id if chunk_id is not None else point_id,
     }
     if parent_id:
@@ -59,7 +59,7 @@ def stores(monkeypatch):
             state.points += 1
             if payload.get("doc_version") is not None:
                 state.versions.add(int(payload["doc_version"]))
-            if not payload.get("published_at"):
+            if not payload.get("effective_start_date"):
                 state.undated += 1
             if payload.get("pipeline_version") != PIPELINE_VERSION:
                 state.stale_version += 1
@@ -204,7 +204,7 @@ def test_pipeline_drift_is_reported_from_both_sides(stores):
 
 
 def test_documents_without_a_date_are_reported(stores):
-    stores({"doc-1": _row(published_at=None)}, [_point("doc-1")])
+    stores({"doc-1": _row(effective_start_date=None)}, [_point("doc-1")])
 
     check = _named(rc.reconcile(), "documents_without_date")
 

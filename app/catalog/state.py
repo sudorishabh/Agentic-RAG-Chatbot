@@ -186,8 +186,8 @@ def _replace_attachment_links(
 
 def _row_to_record(row: dict) -> StateRecord:
     indexed = row.get("indexed_at")
-    published = row.get("published_at")
-    doc_published = row.get("document_published_at")
+    start = row.get("effective_start_date")
+    until = row.get("effective_end_date")
     return StateRecord(
         document_id=row["document_id"],
         source_type=row["source_type"],
@@ -202,13 +202,11 @@ def _row_to_record(row: dict) -> StateRecord:
         title=row.get("title"),
         url=row.get("url"),
         indexed_at=indexed.isoformat() if isinstance(indexed, datetime) else indexed,
-        published_at=published.isoformat() if isinstance(published, datetime) else published,
-        document_published_at=(
-            doc_published.isoformat() if isinstance(doc_published, datetime)
-            else doc_published
-        ),
-        published_at_source=row.get("published_at_source"),
-        published_at_precision=row.get("published_at_precision"),
+        effective_start_date=start.isoformat() if isinstance(start, datetime) else start,
+        date_source=row.get("date_source"),
+        start_precision=row.get("start_precision"),
+        effective_end_date=until.isoformat() if isinstance(until, datetime) else until,
+        end_precision=row.get("end_precision"),
     )
 
 
@@ -426,11 +424,12 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
             INSERT INTO `{table}`
                 (document_id, source_type, source_key, bundle, entity_type,
                  fingerprint, content_hash, doc_version, pipeline_version,
-                 changed_mark, published_at, document_published_at,
-                 published_at_source, published_at_precision, title, url,
+                 changed_mark, effective_start_date,
+                 date_source, start_precision,
+                 effective_end_date, end_precision, title, url,
                  raw_meta, indexed_at, updated_at)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-                    %s, %s, %s, %s)
+                    %s, %s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE
                 source_type  = VALUES(source_type),
                 source_key   = VALUES(source_key),
@@ -446,20 +445,20 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 -- rebuilt still reads as stale and is rebuilt later.
                 pipeline_version = COALESCE(VALUES(pipeline_version), pipeline_version),
                 changed_mark = VALUES(changed_mark),
-                published_at = VALUES(published_at),
-                -- COALESCE, unlike published_at: only a path that actually
-                -- resolved a document-stated date may write this column. A
-                -- caller that does not know it passes NULL, and a stored
-                -- value survives rather than being erased.
-                document_published_at = COALESCE(VALUES(document_published_at),
-                                                 document_published_at),
-                -- VALUES, NOT COALESCE, unlike document_published_at above.
-                -- These describe `published_at`, which is itself overwritten
+                effective_start_date = VALUES(effective_start_date),
+                -- VALUES, not COALESCE. These describe
+                -- `effective_start_date`, which is itself overwritten
                 -- outright; a provenance that outlived the value it describes
                 -- would be worse than none, because it would read as evidence
                 -- for a date it was never about.
-                published_at_source    = VALUES(published_at_source),
-                published_at_precision = VALUES(published_at_precision),
+                date_source    = VALUES(date_source),
+                start_precision = VALUES(start_precision),
+                -- VALUES, like effective_start_date itself: the end of the range is
+                -- re-derived from the source on every write, so a record whose
+                -- CMS end date was cleared must lose it here too. COALESCE
+                -- would make a deleted end date immortal.
+                effective_end_date           = VALUES(effective_end_date),
+                end_precision = VALUES(end_precision),
                 title        = VALUES(title),
                 url          = VALUES(url),
                 raw_meta     = COALESCE(VALUES(raw_meta), raw_meta),
@@ -477,10 +476,11 @@ def upsert(record: StateRecord, *, mark_indexed: bool = True) -> None:
                 record.doc_version,
                 record.pipeline_version,
                 record.changed_mark,
-                _to_datetime(record.published_at),
-                _to_datetime(record.document_published_at),
-                record.published_at_source,
-                record.published_at_precision,
+                _to_datetime(record.effective_start_date),
+                record.date_source,
+                record.start_precision,
+                _to_datetime(record.effective_end_date),
+                record.end_precision,
                 record.title,
                 record.url,
                 json.dumps(record.raw_meta, ensure_ascii=False, default=str)
@@ -551,7 +551,7 @@ def clear_change_markers(document_id: str) -> bool:
 
 def backfill_facets(
     document_id: str,
-    published_at: str | None,
+    effective_start_date: str | None,
     authors: Iterable[str],
     categories: Iterable[str],
     *,
@@ -564,9 +564,9 @@ def backfill_facets(
     populated at ingest are left intact. Returns False when no catalog row exists
     for the id, leaving child rows untouched (FK safety).
 
-    ``published_at`` is lifted from a chunk payload, which carries the value and
+    ``effective_start_date`` is lifted from a chunk payload, which carries the value and
     not where it came from — so the provenance columns are **cleared** rather
-    than left standing. A stale ``published_at_source`` would read as evidence
+    than left standing. A stale ``date_source`` would read as evidence
     for a date it was never about, which is worse than recording nothing."""
     table = _table()
     with mysql_connection() as conn, conn.cursor() as cur:
@@ -574,11 +574,11 @@ def backfill_facets(
         if cur.fetchone() is None:
             return False
         cur.execute(
-            f"UPDATE `{table}` SET published_at = %s, "
-            f"published_at_source = NULL, published_at_precision = NULL, "
+            f"UPDATE `{table}` SET effective_start_date = %s, "
+            f"date_source = NULL, start_precision = NULL, "
             f"title = COALESCE(%s, title), url = COALESCE(%s, url) "
             f"WHERE document_id = %s",
-            (_to_datetime(published_at), title, url, document_id),
+            (_to_datetime(effective_start_date), title, url, document_id),
         )
         _replace_authors(cur, table, document_id, authors)
         _replace_themes(cur, table, document_id, categories)

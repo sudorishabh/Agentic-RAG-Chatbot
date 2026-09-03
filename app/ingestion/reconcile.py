@@ -47,7 +47,7 @@ SAMPLE_LIMIT = 5
 #: chunk_text alone would be a hundred times the bytes.
 _SCROLL_FIELDS = [
     "document_id", "doc_version", "is_parent", "chunk_id",
-    "parent_chunk_id", "published_at", "pipeline_version",
+    "parent_chunk_id", "effective_start_date", "pipeline_version",
 ]
 
 __all__ = ["Check", "ReconciliationReport", "reconcile", "last_report"]
@@ -119,7 +119,7 @@ class ReconciliationReport:
 class _Catalogued:
     doc_version: int
     indexed: bool
-    published_at: Any
+    effective_start_date: Any
     pipeline_version: str | None
 
 
@@ -140,14 +140,14 @@ def _read_catalog() -> dict[str, _Catalogued]:
 
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(
-            f"SELECT document_id, doc_version, indexed_at, published_at, "
+            f"SELECT document_id, doc_version, indexed_at, effective_start_date, "
             f"pipeline_version FROM `{state_table()}`"
         )
         return {
             row["document_id"]: _Catalogued(
                 doc_version=int(row["doc_version"] or 1),
                 indexed=row["indexed_at"] is not None,
-                published_at=row["published_at"],
+                effective_start_date=row["effective_start_date"],
                 pipeline_version=row["pipeline_version"],
             )
             for row in cur.fetchall()
@@ -187,7 +187,7 @@ def _read_collection(batch: int = 1024) -> tuple[dict[str, _Indexed], set[str], 
             version = payload.get("doc_version")
             if version is not None:
                 state.versions.add(int(version))
-            if not payload.get("published_at"):
+            if not payload.get("effective_start_date"):
                 state.undated += 1
             if payload.get("pipeline_version") != PIPELINE_VERSION:
                 state.stale_version += 1
@@ -269,12 +269,13 @@ def _graph_check() -> Check:
 
 #: Name patterns that make a source field *look* like it carries a date. Used
 #: only to ask "has anyone classified this?", never to read a value — the
-#: classification lives in ``app.ingestion.source_dates.FIELD_KINDS``.
+#: classification lives in ``app.ingestion.source_dates.FIELD_ROLES`` and the
+#: per-bundle use in ``app.ingestion.bundle_dates.BUNDLE_DATE_FIELDS``.
 _DATE_LIKE_FIELD = re.compile(r"date|year|publish|issued|period", re.I)
 
 
 def date_checks() -> list[Check]:
-    """Invariants over ``published_at`` and where it came from.
+    """Invariants over ``effective_start_date`` and where it came from.
 
     Every one of these was zero when it was written, and each has a specific
     cause when it stops being zero. That is the bar for living here rather than
@@ -291,22 +292,25 @@ def date_checks() -> list[Check]:
 
     from app.catalog.db import state_table
     from app.core.clients import mysql_connection
-    from app.ingestion.bundle_dates import BUNDLE_DATE_FIELDS, field_for
-    from app.ingestion.source_dates import FIELD_KINDS, is_plausible, to_ist_date
+    from app.ingestion.bundle_dates import (
+        BUNDLE_DATE_FIELDS,
+        fields_for,
+    )
+    from app.ingestion.source_dates import FIELD_ROLES, is_plausible, to_ist_date
 
-    mapped_fields = {f.field for f in BUNDLE_DATE_FIELDS.values()}
+    mapped_fields = {f for fields in BUNDLE_DATE_FIELDS.values() for f in fields}
     table = state_table()
     try:
         with mysql_connection() as conn, conn.cursor() as cur:
             cur.execute(
                 f"SELECT document_id FROM `{table}` "
-                f"WHERE published_at_source IS NULL LIMIT 200"
+                f"WHERE date_source IS NULL LIMIT 200"
             )
             unrecorded = [r["document_id"] for r in cur.fetchall()]
             cur.execute(
                 f"SELECT document_id FROM `{table}` "
-                f"WHERE published_at_precision = 'year' "
-                f"AND (MONTH(published_at) <> 1 OR DAY(published_at) <> 1) LIMIT 200"
+                f"WHERE start_precision = 'year' "
+                f"AND (MONTH(effective_start_date) <> 1 OR DAY(effective_start_date) <> 1) LIMIT 200"
             )
             mismatched_precision = [r["document_id"] for r in cur.fetchall()]
             cur.execute(
@@ -314,7 +318,18 @@ def date_checks() -> list[Check]:
                 f"WHERE source_type = 'website' AND bundle IS NOT NULL"
             )
             unmapped = sorted(r["bundle"] for r in cur.fetchall()
-                              if field_for(r["bundle"]) is None)
+                              if not fields_for(r["bundle"]))
+            # A stored range that contradicts itself. Zero when written by
+            # this code — `bundle_dates` drops an inverted end rather than
+            # storing it — so a non-zero count means something else wrote
+            # the column.
+            cur.execute(
+                f"SELECT document_id FROM `{table}` "
+                f"WHERE effective_end_date IS NOT NULL "
+                f"  AND effective_start_date IS NOT NULL "
+                f"  AND DATE(effective_end_date) < DATE(effective_start_date) LIMIT 200"
+            )
+            inverted = [r["document_id"] for r in cur.fetchall()]
             # Attachments carrying a date their page does not. Answered in SQL
             # because it is a join, not a rule: the link table says which files
             # hang off which page, and inheritance means the two dates agree.
@@ -324,14 +339,15 @@ def date_checks() -> list[Check]:
                 f"JOIN `{table}` d ON d.document_id = a.file_uuid "
                 f"JOIN `{table}` p ON p.document_id = a.document_id "
                 f"WHERE d.source_type = 'pdf_attachment' "
-                f"  AND COALESCE(d.published_at_source, '') <> 'document_text' "
-                f"  AND (DATE(d.published_at) <> DATE(p.published_at) "
-                f"       OR (d.published_at IS NULL) <> (p.published_at IS NULL)) "
+                f"  AND COALESCE(d.date_source, '') <> 'document_text' "
+                f"  AND (DATE(d.effective_start_date) <> DATE(p.effective_start_date) "
+                f"       OR (d.effective_start_date IS NULL) <> (p.effective_start_date IS NULL) "
+                f"       OR NOT (d.effective_end_date <=> p.effective_end_date)) "
                 f"LIMIT 200"
             )
             adrift = [r["document_id"] for r in cur.fetchall()]
             cur.execute(
-                f"SELECT document_id, bundle, raw_meta, published_at "
+                f"SELECT document_id, bundle, raw_meta, effective_start_date "
                 f"FROM `{table}` WHERE raw_meta IS NOT NULL"
             )
             rows = list(cur.fetchall())
@@ -355,14 +371,14 @@ def date_checks() -> list[Check]:
         # to answer, and the catalogue no longer holds it separately — but the
         # question here is only "does the stored date match what the field
         # states", which the field and the stored value settle between them.
-        stored = row["published_at"].isoformat()
-        configured = field_for(row["bundle"])
-        if configured is not None and not configured.is_created:
-            value = to_ist_date(meta.get(configured.field))
+        stored = row["effective_start_date"].isoformat()
+        configured = fields_for(row["bundle"])
+        if configured and configured[0] != "created":
+            value = to_ist_date(meta.get(configured[0]))
             if is_plausible(value) and value.isoformat() != stored[:10]:
                 not_applied.append(row["document_id"])
         for key, value in meta.items():
-            if (key in FIELD_KINDS or key in mapped_fields
+            if (key in FIELD_ROLES or key in mapped_fields
                     or not _DATE_LIKE_FIELD.search(key)):
                 continue
             if value in (None, "", [], {}):
@@ -374,20 +390,25 @@ def date_checks() -> list[Check]:
 
     return [
         _check("date_provenance_unrecorded", unrecorded,
-               "Documents whose published_at has no recorded origin. Every write "
+               "Documents whose effective_start_date has no recorded origin. Every write "
                "path sets it, so these came from one that does not — or predate "
                "scripts.backfill_date_provenance."),
         _check("stated_date_not_applied", not_applied,
                "The bundle's configured date field states a date that "
-               "published_at does not match. Either a sweep did not apply it, or "
+               "effective_start_date does not match. Either a sweep did not apply it, or "
                "something overwrote the value afterwards (app.ingestion.backfill "
                "lifts dates out of chunk payloads). Re-run "
                "scripts.backfill_bundle_dates."),
         _check("attachment_date_adrift", adrift,
-               "An attached file whose date differs from the page it hangs on. A "
-               "file inherits its page's resolved date; only a publication "
-               "statement verified inside the file's own text "
-               "(published_at_source='document_text') may differ. Re-run "
+               "An attached file whose date or period differs from the page it "
+               "hangs on. A file inherits both ends of its page's resolved "
+               "range; only a publication statement verified inside the file's "
+               "own text (date_source='document_text') may differ. "
+               "Re-run scripts.backfill_bundle_dates."),
+        _check("inverted_date_range", inverted,
+               "A stored date range whose end falls before its start. "
+               "`bundle_dates` drops an inverted end rather than storing it, "
+               "so these were written by something else. Re-run "
                "scripts.backfill_bundle_dates."),
         _check("unmapped_bundle_dates", unmapped,
                "A catalogued bundle with no entry in "
@@ -399,7 +420,7 @@ def date_checks() -> list[Check]:
                "which nothing has classified. It is being ignored — the safe "
                "direction — but if it is the date its bundle should carry, those "
                "documents are mis-dated. Classify it in "
-               "app.ingestion.source_dates.FIELD_KINDS."),
+               "app.ingestion.source_dates.FIELD_ROLES."),
         _check("year_precision_not_january", mismatched_precision,
                "A year-precision date whose value is not 1 January. The day is a "
                "marker for the year, so anything else means the value and its "
@@ -498,8 +519,8 @@ def reconcile() -> ReconciliationReport:
     # is excluded from every date-filtered query rather than merely ranked low.
     report.checks.append(_check(
         "documents_without_date",
-        [d for d, row in catalog.items() if row.published_at is None],
-        "Documents with no publication date. They are invisible to date filters "
+        [d for d, row in catalog.items() if row.effective_start_date is None],
+        "Documents with no effective date. They are invisible to date filters "
         "and to recency ranking; check the source exposes a date field.",
     ))
 

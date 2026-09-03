@@ -3,7 +3,7 @@
 The fixtures are real rows from the teriin.org corpus, so a regression here is
 readable as "this document would be dated wrongly" rather than as an abstract
 rule change. The load-bearing test is
-:func:`test_shadow_mode_does_not_change_published_at` — Phase 0 measures and
+:func:`test_shadow_mode_does_not_change_effective_start_date` — Phase 0 measures and
 must never move a document.
 """
 
@@ -228,11 +228,11 @@ def test_a_docinfo_only_date_does_not_re_date_the_document(monkeypatch):
 
     doc = attachment.build_attachment_doc(record, session=None)
 
-    assert doc.published_at == NODE_MIGRATED, "a DocInfo date must not re-date a PDF"
+    assert doc.effective_start_date == NODE_MIGRATED, "a DocInfo date must not re-date a PDF"
     assert len(recorded) == 1, "the decision and its evidence must be recorded"
     stored = recorded[0]
     assert stored.action == "keep_page_date"
-    assert stored.current_published_at == NODE_MIGRATED
+    assert stored.current_start_date == NODE_MIGRATED
 
 
 def test_a_failed_decision_write_never_fails_the_ingestion(monkeypatch):
@@ -260,4 +260,4 @@ def test_a_failed_decision_write_never_fails_the_ingestion(monkeypatch):
     )
 
     doc = attachment.build_attachment_doc(record, session=None)
-    assert doc is not None and doc.published_at == NODE_AGREE
+    assert doc is not None and doc.effective_start_date == NODE_AGREE

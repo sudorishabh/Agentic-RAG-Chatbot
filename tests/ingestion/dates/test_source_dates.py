@@ -1,14 +1,22 @@
-"""What a CMS record's dates mean, and which of them may set a publication date.
+"""What each date-like CMS field *is*, and the primitives for reading one.
 
-The failure this module exists to prevent: the corpus holds ~2,100 project
-duration values and ~2,800 event values, all with date-like field names, all
-plausible-looking, and every one of them wrong as a publication date. A
-completed project that ran 2004-2005 has a page written in 2017. Using the
-project's start date would look like a fix and would corrupt 1,069 documents.
+``FIELD_ROLES`` describes the **source field**, never the application's date
+model. The system stores one thing — a document's effective start date, and
+where its bundle declares one, an effective end date — and this table exists so
+that an auditor looking at such a date can see whether it came from a date the
+CMS states outright or from one end of a period.
 
-So the tests below are weighted toward what must be *refused*. The positive
-cases are the four fields verified against the live site; everything else has to
-come back empty.
+The old vocabulary (`publication` / `event` / `period` / `unknown`) is gone with
+the concept it named. What replaced it earns its place by controlling something:
+
+* ``date`` vs ``range_start`` / ``range_end`` — what the provenance sentence says,
+  and it mirrors the ``(start, end)`` ordering `BUNDLE_DATE_FIELDS` relies on.
+* ``sort_key`` — a real timestamp that describes nothing; no bundle may map to it.
+* ``not_a_date`` — declared so `undeclared_source_date_field` stops firing on
+  three fields forever.
+
+Behaviour is unchanged by the rename: the precision column, the IST conversion
+and the plausibility bounds all do exactly what they did.
 """
 
 from __future__ import annotations
@@ -18,199 +26,142 @@ from datetime import date
 import pytest
 
 from app.ingestion.source_dates import (
-    FIELD_KINDS,
+    FIELD_ROLES,
+    as_stored_date,
     classify,
     found_dates,
     is_plausible,
-    publication_date,
     to_ist_date,
 )
 
 
 # --------------------------------------------------------------------------- #
-# The declaration itself
+# The table
 # --------------------------------------------------------------------------- #
 
-def test_only_four_fields_are_declared_publication_dates():
-    """A guard on the table, not on the code. Widening this set is a decision
-    that should have to change a test."""
-    publication = {f for f, (kind, _) in FIELD_KINDS.items() if kind == "publication"}
-    assert publication == {
-        "field_news_date", "field_pressrelease_date",
-        "field_report_date", "field_rpaper_year",
-    }
+#: Every field, and what it is. Written out rather than derived, so a change to
+#: the table has to be made twice — deliberately.
+EXPECTED_ROLES = {
+    "field_news_date": "date",
+    "field_pressrelease_date": "date",
+    "field_report_date": "date",
+    "field_rpaper_year": "date",
+    "field_completed_start_date": "range_start",
+    "field_completed_end_date": "range_end",
+    "field_ongoing_start_date": "range_start",
+    "field_event_start_date": "range_start",
+    "field_event_end_date": "range_end",
+    "field_enddate_forlatestfirst": "sort_key",
+    "field_article_published_in": "not_a_date",
+    "field_rpaper_published_in": "not_a_date",
+    "field_rpaper_publisher": "not_a_date",
+}
 
 
-@pytest.mark.parametrize(
-    "field,kind",
-    [
-        ("field_news_date", "publication"),
-        ("field_pressrelease_date", "publication"),
-        ("field_rpaper_year", "publication"),
-        ("field_event_start_date", "event"),
-        ("field_event_end_date", "event"),
-        ("field_enddate_forlatestfirst", "event"),
-        ("field_completed_start_date", "period"),
-        ("field_completed_end_date", "period"),
-        ("field_ongoing_start_date", "period"),
-    ],
-)
-def test_each_measured_field_is_classified(field, kind):
-    assert classify(field) == kind
+@pytest.mark.parametrize("field,role", sorted(EXPECTED_ROLES.items()))
+def test_each_measured_field_has_its_role(field, role):
+    assert classify(field) == role
+    assert FIELD_ROLES[field][0] == role
 
 
-def test_an_undeclared_field_is_unknown():
-    assert classify("field_something_new_date") == "unknown"
+def test_the_table_holds_exactly_the_measured_fields():
+    assert set(FIELD_ROLES) == set(EXPECTED_ROLES)
 
+
+def test_the_vocabulary_has_no_publication_concept():
+    """The point of the rename. A role answers "what is this Drupal field?",
+    never "is the resulting date a publication?" — the system does not store
+    publication dates."""
+    roles = {role for role, _ in FIELD_ROLES.values()}
+    assert roles == {"date", "range_start", "range_end", "sort_key", "not_a_date"}
+    assert not any("publication" in role or "published" in role for role in roles)
+
+
+def test_the_creation_stamp_has_a_role_of_its_own():
+    """`created` is not a declared CMS field, so it is not in the table — but it
+    is a real date the source states, and the value most bundles fall back to.
+    Letting `classify` call it `not_a_date` would put a self-contradicting
+    sentence in the audit row of every `article` and `page`."""
+    from app.ingestion.bundle_dates import describe, resolve_effective_dates
+
+    resolved = resolve_effective_dates("article", "2018-01-20T05:51:02+00:00", {})
+    assert resolved.field_role == "created_stamp"
+    assert "not a date field" not in describe(resolved)
+
+
+def test_a_field_that_gave_nothing_still_reports_its_own_role():
+    """It is the *field* that disappointed, and the audit row has to say which
+    one — so the role stays the field's, not the fallback's."""
+    from app.ingestion.bundle_dates import resolve_effective_dates
+
+    resolved = resolve_effective_dates(
+        "news", "2018-01-20T05:51:02+00:00", {"field_news_date": None})
+    assert resolved.field_role == "date"
+
+
+def test_an_undeclared_field_is_not_a_date():
+    """The safe reading: nothing may date a document by a field nobody has
+    classified, and the reconciliation check is what surfaces one."""
+    assert classify("field_brand_new_date") == "not_a_date"
+    assert classify("") == "not_a_date"
+
+
+def test_range_ends_are_distinguishable_from_range_starts():
+    """`BUNDLE_DATE_FIELDS` is ordered `(start, end)`; collapsing the two roles
+    would remove the only independent check that a pair is the right way round."""
+    starts = {f for f, (r, _) in FIELD_ROLES.items() if r == "range_start"}
+    ends = {f for f, (r, _) in FIELD_ROLES.items() if r == "range_end"}
+    assert starts and ends and not (starts & ends)
+    assert all("start" in f for f in starts)
+    assert all("end" in f for f in ends)
+
+
+def test_every_bundle_mapped_field_is_declared_here():
+    """A bundle cannot be dated by a field this table says nothing about."""
+    from app.ingestion.bundle_dates import BUNDLE_DATE_FIELDS
+
+    for bundle, fields in BUNDLE_DATE_FIELDS.items():
+        for field in fields:
+            if field == "created":
+                continue
+            assert field in FIELD_ROLES, f"{bundle} -> {field}"
+
+
+def test_no_bundle_is_dated_by_a_sort_key_or_a_non_date():
+    """`field_enddate_forlatestfirst` orders a listing and describes nothing."""
+    from app.ingestion.bundle_dates import BUNDLE_DATE_FIELDS
+
+    for bundle, fields in BUNDLE_DATE_FIELDS.items():
+        for field in fields:
+            if field == "created":
+                continue
+            assert FIELD_ROLES[field][0] in ("date", "range_start", "range_end"), (
+                f"{bundle} is dated by {field}, which is a "
+                f"{FIELD_ROLES[field][0]}"
+            )
+
+
+# --------------------------------------------------------------------------- #
+# Precision — the other column, unchanged by the rename
+# --------------------------------------------------------------------------- #
 
 def test_only_the_year_field_carries_year_precision():
-    year_only = {f for f, (_, precision) in FIELD_KINDS.items() if precision == "year"}
+    year_only = {f for f, (_, precision) in FIELD_ROLES.items()
+                 if precision == "year"}
     assert year_only == {"field_rpaper_year"}
 
 
-# --------------------------------------------------------------------------- #
-# The refusals — the whole point
-# --------------------------------------------------------------------------- #
+def test_precision_is_read_from_this_table_and_nowhere_else():
+    from app.ingestion.bundle_dates import precision_of
 
-@pytest.mark.parametrize(
-    "field,value",
-    [
-        ("field_event_start_date", "2017-11-05T18:30:00+00:00"),
-        ("field_event_end_date", "2017-11-13T18:30:00+00:00"),
-        ("field_enddate_forlatestfirst", "2020-05-08T22:00:00+05:30"),
-        ("field_completed_start_date", "2004-06-28T18:30:00+00:00"),
-        ("field_completed_end_date", "2005-06-30T18:30:00+00:00"),
-        ("field_ongoing_start_date", "2019-10-24T10:35:27+00:00"),
-    ],
-)
-def test_an_event_or_project_date_is_never_a_publication_date(field, value):
-    assert publication_date({field: value}) is None
-
-
-def test_an_undeclared_date_field_cannot_set_a_date():
-    """Ignoring by default is what stops a new CMS field silently moving dates."""
-    assert publication_date({"field_brand_new_date": "2020-01-01T00:00:00+00:00"}) is None
-
-
-def test_a_journal_name_is_not_a_date():
-    """``field_article_published_in`` and ``field_rpaper_published_in`` hold
-    publication *venues* — 2,149 values whose names contain "published"."""
-    assert publication_date({"field_rpaper_published_in": "ScienceDirect"}) is None
-    assert publication_date({"field_article_published_in": "Journal of X"}) is None
-
-
-def test_an_empty_or_absent_record_states_nothing():
-    for metadata in ({}, None, {"field_news_date": None}, {"field_news_date": ""},
-                     {"field_news_date": []}):
-        assert publication_date(metadata) is None
-
-
-@pytest.mark.parametrize("value", ["1970-01-01T00:00:00+00:00", "1889", "1900-01-01",
-                                   "not a date", "0000-00-00"])
-def test_an_implausible_value_is_discarded_rather_than_returned(value):
-    assert publication_date({"field_news_date": value}) is None
+    for field, (_, precision) in FIELD_ROLES.items():
+        assert precision_of(field) == precision
+    assert precision_of("created") == "day"
+    assert precision_of("field_unknown") == "day"
 
 
 # --------------------------------------------------------------------------- #
-# The acceptances
-# --------------------------------------------------------------------------- #
-
-def test_a_news_date_is_read_as_the_publication_date():
-    found = publication_date({"field_news_date": "2015-08-26T18:30:00+00:00"})
-    assert found is not None
-    assert found.value == date(2015, 8, 27)
-    assert found.field == "field_news_date"
-    assert found.precision == "day"
-    assert found.is_publication
-
-
-def test_the_verified_press_release_cases_resolve_to_the_displayed_date():
-    """Both checked against the live page: the site shows 18 April 2012 and
-    4 November 2015 respectively."""
-    assert publication_date(
-        {"field_pressrelease_date": "2012-04-17T18:30:00+00:00"}).value \
-        == date(2012, 4, 18)
-    assert publication_date(
-        {"field_pressrelease_date": "2015-11-03T18:30:00+00:00"}).value \
-        == date(2015, 11, 4)
-
-
-def test_a_research_paper_year_is_publication_but_only_to_the_year():
-    found = publication_date({"field_rpaper_year": "2016"})
-    assert found is not None
-    assert found.value.year == 2016
-    assert found.precision == "year"
-
-
-def test_january_on_a_year_precision_value_is_a_marker_not_a_claim():
-    """The value has to be *some* date to be stored, so it is 1 January — and
-    the precision field is the only thing that says so. A caller that reads the
-    day without reading the precision invents a January publication."""
-    found = publication_date({"field_rpaper_year": "2016"})
-    assert (found.value.month, found.value.day) == (1, 1)
-    assert found.precision == "year"
-
-
-# --------------------------------------------------------------------------- #
-# Determinism when a record offers several
-# --------------------------------------------------------------------------- #
-
-def test_the_first_declared_publication_field_wins():
-    """Declaration order decides, so the outcome cannot depend on how the source
-    happened to serialise its keys."""
-    both = {
-        "field_pressrelease_date": "2013-01-01T00:00:00+00:00",
-        "field_news_date": "2012-01-01T00:00:00+00:00",
-    }
-    assert publication_date(both).field == "field_news_date"
-    assert publication_date(dict(reversed(list(both.items())))).field == "field_news_date"
-
-
-def test_a_publication_field_wins_over_event_and_period_fields_present_too():
-    found = publication_date({
-        "field_completed_start_date": "2004-06-28T18:30:00+00:00",
-        "field_event_start_date": "2017-11-05T18:30:00+00:00",
-        "field_news_date": "2015-08-26T18:30:00+00:00",
-    })
-    assert found.field == "field_news_date"
-
-
-def test_an_implausible_publication_field_does_not_fall_through_to_an_event_date():
-    """Failing over to a lower-kind field would be exactly the bug: a broken
-    news date must mean "we know nothing", not "use the event date"."""
-    assert publication_date({
-        "field_news_date": "1970-01-01T00:00:00+00:00",
-        "field_event_start_date": "2017-11-05T18:30:00+00:00",
-    }) is None
-
-
-# --------------------------------------------------------------------------- #
-# The audit trail
-# --------------------------------------------------------------------------- #
-
-def test_found_dates_reports_the_rejected_candidates_too():
-    """"Why was none of it used" is only answerable if what was on offer was
-    recorded, which is the same reason the PDF path stores non-publication
-    verdicts."""
-    found = found_dates({
-        "field_completed_start_date": "2004-06-28T18:30:00+00:00",
-        "field_completed_end_date": "2005-06-30T18:30:00+00:00",
-        "field_news_date": "2015-08-26T18:30:00+00:00",
-        "field_unknown_thing": "2001-01-01T00:00:00+00:00",
-    })
-    assert {(f.field, f.kind) for f in found} == {
-        ("field_news_date", "publication"),
-        ("field_completed_start_date", "period"),
-        ("field_completed_end_date", "period"),
-    }
-
-
-def test_found_dates_is_empty_for_a_record_with_nothing_declared():
-    assert found_dates({"title": "x", "field_sponsors": ["a"]}) == []
-
-
-# --------------------------------------------------------------------------- #
-# Timezone handling, shared with the audit
+# The value-reading primitives — behaviour must be identical
 # --------------------------------------------------------------------------- #
 
 def test_ist_midnight_in_utc_is_the_next_calendar_day():
@@ -218,28 +169,78 @@ def test_ist_midnight_in_utc_is_the_next_calendar_day():
 
 
 def test_an_explicit_ist_offset_is_not_shifted_twice():
-    assert to_ist_date("2020-05-08T22:00:00+05:30") == date(2020, 5, 8)
+    assert to_ist_date("2018-03-06T00:00:00+05:30") == date(2018, 3, 6)
 
 
 def test_a_naive_value_is_read_as_utc():
-    assert to_ist_date("2023-02-27T11:30:03") == date(2023, 2, 27)
+    assert to_ist_date("2015-08-26T18:30:00") == date(2015, 8, 27)
+
+
+def test_a_bare_year_is_read_as_a_january_marker():
+    assert to_ist_date("2016") == date(2016, 1, 1)
+    assert to_ist_date(2016) == date(2016, 1, 1)
 
 
 def test_a_list_value_uses_its_first_entry():
-    assert to_ist_date(["2015-08-26T18:30:00+00:00"]) == date(2015, 8, 27)
+    assert to_ist_date(["2015-08-26T18:30:00+00:00", "x"]) == date(2015, 8, 27)
+
+
+@pytest.mark.parametrize("value", [None, "", [], "not a date", "31/12/2019"])
+def test_an_unreadable_value_is_none(value):
+    assert to_ist_date(value) is None
 
 
 def test_plausibility_bounds():
-    assert is_plausible(date(2019, 6, 1))
     assert not is_plausible(date(1970, 1, 1))
+    assert not is_plausible(date(1989, 12, 31))
+    assert is_plausible(date(1990, 1, 1))
     assert not is_plausible(None)
 
 
-def test_the_audit_and_the_resolver_share_one_implementation():
-    """Two readers of the same ambiguous timestamp format would drift, and the
-    drift would be invisible: the audit would report a different number than the
-    fix produced."""
-    from scripts import audit_dates
+def test_a_stored_date_is_utc_midnight_on_the_resolved_day():
+    assert as_stored_date(date(2012, 4, 18)) == "2012-04-18T00:00:00+00:00"
 
-    assert audit_dates.to_ist_date is to_ist_date
-    assert audit_dates.is_plausible is is_plausible
+
+# --------------------------------------------------------------------------- #
+# found_dates
+# --------------------------------------------------------------------------- #
+
+def test_found_dates_reports_every_usable_value_with_its_role():
+    found = found_dates({
+        "field_news_date": "2015-08-26T18:30:00+00:00",
+        "field_event_start_date": "2017-11-05T18:30:00+00:00",
+        "field_completed_end_date": "2005-06-30T18:30:00+00:00",
+        "title": "not a date field",
+    })
+    assert {(f.field, f.role) for f in found} == {
+        ("field_news_date", "date"),
+        ("field_event_start_date", "range_start"),
+        ("field_completed_end_date", "range_end"),
+    }
+
+
+def test_found_dates_skips_values_that_are_not_usable_dates():
+    """A `not_a_date` field holding the literal string "2021" — real data on this
+    site — must not be reported as a date this record offered."""
+    assert found_dates({"field_rpaper_publisher": "TERI Press"}) == []
+    assert found_dates({"field_news_date": "1970-01-01T00:00:00+00:00"}) == []
+
+
+def test_found_dates_is_empty_for_a_record_with_nothing_declared():
+    assert found_dates({"title": "x", "field_sponsors": ["a"]}) == []
+    assert found_dates(None) == []
+
+
+# --------------------------------------------------------------------------- #
+# The rule that used to live here is gone
+# --------------------------------------------------------------------------- #
+
+def test_the_old_publication_rule_is_not_reachable():
+    """`publication_date()` answered "which of these fields is *the* publication
+    date". The system does not ask that any more — a bundle names the field it is
+    dated by — and a dead adapter is how the old model creeps back."""
+    import app.ingestion.source_dates as module
+
+    for gone in ("publication_date", "is_publication", "FIELD_KINDS", "Kind",
+                 "ACTIONABLE_PRECISIONS"):
+        assert not hasattr(module, gone), gone

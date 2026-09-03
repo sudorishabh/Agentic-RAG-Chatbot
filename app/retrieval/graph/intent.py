@@ -240,7 +240,7 @@ def read_temporal(question: str, *, today: str | None = None) -> TemporalIntent:
 #
 # Moved to `app.retrieval.understanding.relational`: reading a predicate cue out
 # of a question is query understanding, and three layers need it — this router,
-# the facet builder (relationship validity vs document publication date) and
+# the facet builder (relationship validity vs the document's effective date) and
 # intent classification. Keeping it here would have meant importing
 # `app.retrieval.graph` from the general retrieval path, which the one-doorway
 # guard in tests/test_graph_retrieval.py rightly forbids.

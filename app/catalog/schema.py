@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `{table}` (
     -- "which documents are not on the current version".
     pipeline_version VARCHAR(32) NULL,
     changed_mark BIGINT        NULL,
-    published_at DATETIME      NULL,
+    effective_start_date DATETIME      NULL,
     title        VARCHAR(1024) NULL,
     url          VARCHAR(1024) NULL,
     indexed_at   DATETIME      NULL,
@@ -396,24 +396,151 @@ def migrate_theme_hierarchy(cur: Any, table: str, *, dry_run: bool = False) -> l
     return applied
 
 
+#: ``legacy column -> its replacement``, for the two tables that carried the
+#: publication-date vocabulary. The system no longer has a "published date"
+#: concept at all: a document has an **effective date** — the business/content
+#: date its Drupal bundle's configured field states — and optionally an end to
+#: the period that date opens.
+#:
+#: These are not aliases and nothing reads the left-hand side. They exist only so
+#: a database created before the rename can be carried across without losing the
+#: values it already holds, and so the drop is explicit and reviewable rather
+#: than a silent ``ALTER``.
+LEGACY_DATE_COLUMNS: dict[str, dict[str, str]] = {
+    "": {
+        "published_at": "effective_start_date",
+        "published_until": "effective_end_date",
+        "published_at_source": "date_source",
+        "published_at_precision": "start_precision",
+        "published_until_precision": "end_precision",
+    },
+    "_date_decision": {
+        "current_published_at": "current_start_date",
+        "candidate_date": "candidate_start_date",
+        "candidate_source": "date_source",
+    },
+}
+
+#: A column that was modelled, never written by any path, and is being dropped
+#: rather than renamed. ``document_published_at`` was "the date the document
+#: states about itself"; no ingestion path, script or backfill ever assigned it,
+#: so every row is NULL and there is nothing to carry across.
+DROPPED_DATE_COLUMNS: dict[str, tuple[str, ...]] = {
+    "": ("document_published_at",),
+    "_date_decision": (),
+}
+
+
+def legacy_date_columns_present() -> dict[str, list[str]]:
+    """Which legacy date columns still exist. ``{table: [column, ...]}``.
+
+    Read-only. Empty for a database created after the rename, and empty again
+    once :func:`drop_legacy_date_columns` has run.
+    """
+    base = state_table()
+    found: dict[str, list[str]] = {}
+    with mysql_connection() as conn, conn.cursor() as cur:
+        for suffix, mapping in LEGACY_DATE_COLUMNS.items():
+            table = f"{base}{suffix}"
+            names = list(mapping) + list(DROPPED_DATE_COLUMNS.get(suffix, ()))
+            present = [c for c in names if _column_exists(cur, table, c)]
+            if present:
+                found[table] = present
+    return found
+
+
+def copy_legacy_date_columns() -> dict[str, int]:
+    """Carry each legacy column's values into its replacement. Idempotent.
+
+    Only fills rows whose replacement is still NULL, so a re-run cannot overwrite
+    a value the new pipeline has since written — which is what makes it safe to
+    run before *and* after a sweep.
+
+    Nothing is dropped here. Copy, verify, then drop is three steps on purpose:
+    a rename that loses data is unrecoverable, and the verification in between is
+    the whole point of separating them.
+    """
+    base = state_table()
+    copied: dict[str, int] = {}
+    with mysql_connection() as conn, conn.cursor() as cur:
+        for suffix, mapping in LEGACY_DATE_COLUMNS.items():
+            table = f"{base}{suffix}"
+            for old, new in mapping.items():
+                if not _column_exists(cur, table, old):
+                    continue
+                if not _column_exists(cur, table, new):
+                    continue
+                cur.execute(
+                    f"UPDATE `{table}` SET `{new}` = `{old}` "
+                    f"WHERE `{new}` IS NULL AND `{old}` IS NOT NULL"
+                )
+                if cur.rowcount:
+                    copied[f"{table}.{old}"] = cur.rowcount
+        conn.commit()
+    return copied
+
+
+def unmigrated_legacy_rows() -> dict[str, int]:
+    """Rows where a legacy column holds a value its replacement does not.
+
+    The gate on dropping. Non-zero means the copy has not finished — or that
+    something wrote the old column after it ran — and the drop must not proceed.
+    """
+    base = state_table()
+    stuck: dict[str, int] = {}
+    with mysql_connection() as conn, conn.cursor() as cur:
+        for suffix, mapping in LEGACY_DATE_COLUMNS.items():
+            table = f"{base}{suffix}"
+            for old, new in mapping.items():
+                if not (_column_exists(cur, table, old)
+                        and _column_exists(cur, table, new)):
+                    continue
+                cur.execute(
+                    f"SELECT COUNT(*) AS n FROM `{table}` "
+                    f"WHERE `{old}` IS NOT NULL AND NOT (`{new}` <=> `{old}`)"
+                )
+                n = int(cur.fetchall()[0]["n"])
+                if n:
+                    stuck[f"{table}.{old}"] = n
+    return stuck
+
+
+def drop_legacy_date_columns() -> list[str]:
+    """Remove the publication-date columns. Refuses while data is unmigrated.
+
+    The last step of the migration, and the one that makes the old concept
+    genuinely gone rather than merely unread. Guarded by
+    :func:`unmigrated_legacy_rows` so a half-copied database cannot be truncated
+    by a mistimed run.
+    """
+    stuck = unmigrated_legacy_rows()
+    if stuck:
+        raise RuntimeError(
+            f"Refusing to drop legacy date columns: {stuck} row(s) still hold a "
+            f"value their replacement does not. Run copy_legacy_date_columns() "
+            f"first and re-check."
+        )
+    base = state_table()
+    dropped: list[str] = []
+    with mysql_connection() as conn, conn.cursor() as cur:
+        for suffix in LEGACY_DATE_COLUMNS:
+            table = f"{base}{suffix}"
+            names = (list(LEGACY_DATE_COLUMNS[suffix])
+                     + list(DROPPED_DATE_COLUMNS.get(suffix, ())))
+            for column in names:
+                if _column_exists(cur, table, column):
+                    cur.execute(f"ALTER TABLE `{table}` DROP COLUMN `{column}`")
+                    dropped.append(f"{table}.{column}")
+        conn.commit()
+    return dropped
+
+
 def ensure_state_table() -> None:
     table = state_table()
     with mysql_connection() as conn, conn.cursor() as cur:
         cur.execute(_STATE_DDL.format(table=table))
-        _ensure_column(cur, table, "published_at", "published_at DATETIME NULL")
-        # The date the DOCUMENT states it was published, as distinct from
-        # `published_at`, which is the source/web-page publication date. NULL
-        # unless the document itself says so: it is never inferred from an
-        # edition label, a PDF CreationDate, a cover month-year, an upload time
-        # or a URL path. All ten TERI annual reports are NULL because an audit of
-        # their front and back matter found no publication statement in any of
-        # them (reports/phase0/annual_report_date_audit.md).
-        #
-        # Nothing ranks, filters or orders on this column. `published_at` remains
-        # the field every chronology path uses.
-        _ensure_column(cur, table, "document_published_at",
-                       "document_published_at DATETIME NULL")
-        # Where `published_at` came from, and how precise it is. Everything
+        _ensure_column(cur, table, "effective_start_date", "effective_start_date DATETIME NULL")
+        # Where `effective_start_date` came from, and how precise it is. Everything
         # ranks, filters and orders on that column, and until now a bare value
         # could not be told apart from a placeholder: an import timestamp shared
         # by 646 documents and a date the publisher stated read identically.
@@ -426,15 +553,27 @@ def ensure_state_table() -> None:
         # NULL means *not recorded*, not `created`: the four PDFs whose date came
         # from a verified publication statement would be mislabelled by a blanket
         # backfill, so legacy rows are left unclaimed and
-        # `{state}_date_decision.candidate_source` remains the record for those.
-        _ensure_column(cur, table, "published_at_source",
-                       "published_at_source VARCHAR(16) NULL")
+        # `{state}_date_decision.date_source` remains the record for those.
+        _ensure_column(cur, table, "date_source",
+                       "date_source VARCHAR(16) NULL")
         # `year` | `month` | `day`. A source holding only "2016" supports the
         # year and nothing finer, so a consumer that reads the day without
         # reading this invents a January publication — the same refusal
         # `DateInterpretation.statement_is_year_only` makes on the PDF path.
-        _ensure_column(cur, table, "published_at_precision",
-                       "published_at_precision VARCHAR(8) NULL")
+        _ensure_column(cur, table, "start_precision",
+                       "start_precision VARCHAR(8) NULL")
+        # The end of the period the content covers, for the bundles whose
+        # mapping declares an end field (`completed_projects`, `events`). NULL
+        # for every single-date document, and NULL is never a claim that a
+        # period ended — only that none was stated.
+        #
+        # `effective_start_date` remains the effective date every ranking, ordering and
+        # filtering path reads; this is stored beside it as business metadata
+        # and for date-range questions. Nothing filters on it yet.
+        _ensure_column(cur, table, "effective_end_date",
+                       "effective_end_date DATETIME NULL")
+        _ensure_column(cur, table, "end_precision",
+                       "end_precision VARCHAR(8) NULL")
         _ensure_column(cur, table, "title", "title VARCHAR(1024) NULL")
         _ensure_column(cur, table, "url", "url VARCHAR(1024) NULL")
         _ensure_column(cur, table, "raw_meta", "raw_meta JSON NULL")
@@ -575,11 +714,13 @@ CREATE TABLE IF NOT EXISTS `{table}_date_decision` (
     bundle          VARCHAR(128)  NULL,
     node_uuid       VARCHAR(255)  NULL,
     page_pdf_count  INT           NOT NULL DEFAULT 1,
-    current_published_at DATETIME NULL,
-    candidate_date  DATETIME      NULL,
+    current_start_date DATETIME NULL,
+    candidate_start_date  DATETIME      NULL,
+    candidate_end_date DATETIME   NULL,
+    range_issue     VARCHAR(24)   NULL,
     date_type       VARCHAR(16)   NOT NULL,
     edition_label   VARCHAR(64)   NULL,
-    candidate_source VARCHAR(32)  NOT NULL,
+    date_source VARCHAR(32)  NOT NULL,
     confidence      DECIMAL(4,3)  NOT NULL DEFAULT 0,
     action          VARCHAR(24)   NOT NULL,
     rule            VARCHAR(48)   NOT NULL,
@@ -599,9 +740,18 @@ CREATE TABLE IF NOT EXISTS `{table}_date_decision` (
 
 
 def ensure_date_decision_table() -> None:
-    table = state_table()
+    table = f"{state_table()}_date_decision"
     with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(_DATE_DECISION_DDL.format(table=table))
+        cur.execute(_DATE_DECISION_DDL.format(table=state_table()))
+        # Carried to deployments whose table predates the range-aware model.
+        # The CREATE above is IF NOT EXISTS, so on an existing table it is a
+        # no-op and these are the only thing that adds the columns.
+        _ensure_column(cur, table, "candidate_end_date",
+                       "candidate_end_date DATETIME NULL")
+        # Why a range is not usable, when it is not: `inverted` |
+        # `end_invalid` | `end_without_start`. NULL means either a well-formed
+        # range or no range at all — the two cases nobody has to look at.
+        _ensure_column(cur, table, "range_issue", "range_issue VARCHAR(24) NULL")
         conn.commit()
 
 

@@ -9,7 +9,7 @@ Two shaping constraints, both tested below:
 
 **A row is written when the document's bundle maps to a real CMS date field.**
 For a bundle mapped to ``created`` there is nothing a row would add:
-``documents.bundle`` plus ``published_at_source='created'`` already says "this
+``documents.bundle`` plus ``date_source='created'`` already says "this
 content type takes its creation stamp", and a row per document saying so would
 cost an INSERT and a commit each across thousands of documents.
 
@@ -24,13 +24,13 @@ from __future__ import annotations
 import pytest
 
 from app.catalog.date_decisions import from_effective_date
-from app.ingestion.bundle_dates import resolve
+from app.ingestion.bundle_dates import resolve_effective_dates
 
 CREATED = "2018-01-11T06:29:59+00:00"
 
 
 def _row(bundle: str, metadata: dict, created: str | None = CREATED):
-    resolved = resolve(bundle, created, metadata)
+    resolved = resolve_effective_dates(bundle, created, metadata)
     return from_effective_date(
         document_id="uuid-1", url="https://teriin.org/news/x",
         created=created, resolved=resolved, title="A document",
@@ -43,7 +43,7 @@ def _row(bundle: str, metadata: dict, created: str | None = CREATED):
 
 @pytest.mark.parametrize("bundle", ["article", "page", "videos", "people"])
 def test_a_bundle_dated_by_its_creation_stamp_gets_no_row(bundle):
-    """`documents.bundle` plus `published_at_source` is the whole answer."""
+    """`documents.bundle` plus `date_source` is the whole answer."""
     assert _row(bundle, {}) is None
 
 
@@ -70,7 +70,7 @@ def test_an_applied_field_date_is_recorded_as_an_override():
     row = _row("news", {"field_news_date": "2015-08-26T18:30:00+00:00"})
     assert row.action == "propose_override"
     assert row.rule == "bundle_date_field"
-    assert row.candidate_source == "field_news_date"
+    assert row.date_source == "field_news_date"
     assert row.confidence == 1.0
 
 
@@ -82,8 +82,8 @@ def test_a_field_date_matching_the_creation_stamp_is_recorded_as_a_keep():
 
 def test_the_row_reads_as_would_have_been_x_assigned_y():
     row = _row("news", {"field_news_date": "2015-08-26T18:30:00+00:00"})
-    assert row.current_published_at == CREATED
-    assert row.candidate_date.startswith("2015-08-27")
+    assert row.current_start_date == CREATED
+    assert row.candidate_start_date.startswith("2015-08-27")
 
 
 def test_the_evidence_names_the_bundle_the_field_and_the_value():
@@ -93,18 +93,23 @@ def test_the_evidence_names_the_bundle_the_field_and_the_value():
     assert "2022" in row.evidence
 
 
-def test_the_row_records_what_kind_of_date_the_field_holds():
-    """A project start applied as a document's date is still a project start.
-    Recording it as "publication" would erase the one thing an auditor needs."""
-    assert _row("news", {"field_news_date": "2015-08-26T18:30:00+00:00"}).date_type \
-        == "publication"
-    assert _row("completed_projects",
-                {"field_completed_start_date": "2004-06-28T18:30:00+00:00"}).date_type \
-        == "period"
-    assert _row("events",
-                {"field_event_start_date": "2017-11-05T18:30:00+00:00"}).date_type \
-        == "event"
+def test_the_row_records_what_the_source_field_is():
+    """A project start applied as a document's date came from a `range_start`
+    field, and the row says so. Flattening that away would erase the one thing an
+    auditor needs to tell the two cases apart.
 
+    `date_type` carries a `source_dates.FieldRole` on a `website` row and a
+    `date_rules.DateType` on an attachment row — two vocabularies, told apart by
+    `origin`.
+    """
+    assert _row("news",
+                {"field_news_date": "2015-08-26T18:30:00+00:00"}).date_type == "date"
+    assert _row("completed_projects",
+                {"field_completed_start_date": "2004-06-28T18:30:00+00:00"}
+                ).date_type == "range_start"
+    assert _row("events",
+                {"field_event_start_date": "2017-11-05T18:30:00+00:00"}
+                ).date_type == "range_start"
 
 # --------------------------------------------------------------------------- #
 # When the field disappointed
@@ -115,7 +120,7 @@ def test_an_empty_field_is_recorded_but_not_queued_for_review():
     row = _row("news", {"field_news_date": None})
     assert row.action == "keep_page_date"
     assert row.rule == "bundle_field_empty"
-    assert row.candidate_date == CREATED
+    assert row.candidate_start_date == CREATED
 
 
 def test_a_field_absent_from_the_record_is_recorded_the_same_way():
@@ -132,9 +137,88 @@ def test_an_unusable_value_does_reach_the_review_queue():
 
 
 def test_a_disappointing_field_is_not_credited_as_the_source():
-    """`candidate_source` must not name a field that supplied nothing."""
+    """`date_source` must not name a field that supplied nothing."""
     for metadata in ({"field_news_date": None}, {"field_news_date": "nonsense"}):
-        assert _row("news", metadata).candidate_source == "node_effective_date"
+        assert _row("news", metadata).date_source == "node_effective_date"
+
+
+# --------------------------------------------------------------------------- #
+# Ranges
+# --------------------------------------------------------------------------- #
+
+START_RAW = "2020-01-01T18:30:00+00:00"
+END_RAW = "2022-12-30T18:30:00+00:00"
+
+
+def _project_row(start=START_RAW, end=END_RAW):
+    metadata = {}
+    if start is not None:
+        metadata["field_completed_start_date"] = start
+    if end is not None:
+        metadata["field_completed_end_date"] = end
+    return _row("completed_projects", metadata)
+
+
+def test_a_resolved_range_is_recorded_on_the_row():
+    row = _project_row()
+    assert row.candidate_start_date.startswith("2020-01-02")
+    assert row.candidate_end_date.startswith("2022-12-31")
+    assert row.range_issue is None
+
+
+def test_a_single_date_bundle_records_no_end():
+    assert _row("news", {"field_news_date": "2015-08-26T18:30:00+00:00"}) \
+        .candidate_end_date is None
+
+
+def test_a_start_with_no_end_records_no_end_and_no_issue():
+    row = _project_row(end=None)
+    assert row.candidate_end_date is None
+    assert row.range_issue is None
+    assert row.action == "propose_override", "the start still applies"
+
+
+@pytest.mark.parametrize("kwargs,issue", [
+    ({"start": END_RAW, "end": START_RAW}, "inverted"),
+    ({"end": "1970-01-01T00:00:00+00:00"}, "end_invalid"),
+    ({"start": None}, "end_without_start"),
+])
+def test_every_range_defect_reaches_the_review_queue(kwargs, issue):
+    """None of these can be settled from here: the CMS states two dates that
+    contradict each other, or one that is not a date. The start is still
+    applied, and a person gets to see why the range was not."""
+    row = _project_row(**kwargs)
+    assert row.range_issue == issue
+    assert row.action == "needs_manual_review"
+    assert row.rule == f"range_{issue}"
+
+
+def test_a_dropped_end_is_not_recorded_as_a_candidate():
+    """The row must not claim a period the document does not carry."""
+    assert _project_row(start=END_RAW, end=START_RAW).candidate_end_date is None
+    assert _project_row(end="nonsense").candidate_end_date is None
+
+
+def test_an_end_without_a_start_still_records_the_end():
+    """It is the only thing the source stated; discarding it would lose the
+    evidence a reviewer needs."""
+    assert _project_row(start=None).candidate_end_date.startswith("2022-12-31")
+
+
+def test_the_evidence_names_both_fields():
+    evidence = _project_row().evidence
+    assert "field_completed_start_date" in evidence
+    assert "field_completed_end_date" in evidence
+
+
+def test_the_range_issue_fits_its_column():
+    """`range_issue` is VARCHAR(24), `rule` VARCHAR(48)."""
+    for kwargs in ({"start": END_RAW, "end": START_RAW},
+                   {"end": "1970-01-01T00:00:00+00:00"},
+                   {"start": None}):
+        row = _project_row(**kwargs)
+        assert len(row.range_issue) <= 24
+        assert len(row.rule) <= 48
 
 
 # --------------------------------------------------------------------------- #
@@ -158,7 +242,7 @@ def test_the_bundle_is_carried_from_the_resolution():
 
 
 def test_every_written_value_fits_its_column():
-    """`date_type` is VARCHAR(16), `candidate_source` VARCHAR(32), `rule`
+    """`date_type` is VARCHAR(16), `date_source` VARCHAR(32), `rule`
     VARCHAR(48), `action` VARCHAR(24)."""
     cases = [
         ("news", {"field_news_date": "2015-08-26T18:30:00+00:00"}),
@@ -167,11 +251,15 @@ def test_every_written_value_fits_its_column():
         ("completed_projects",
          {"field_completed_start_date": "2004-06-28T18:30:00+00:00"}),
         ("research_papers", {"field_rpaper_year": 2022}),
+        ("completed_projects", {"field_completed_start_date": START_RAW,
+                                "field_completed_end_date": END_RAW}),
+        ("completed_projects", {"field_completed_start_date": END_RAW,
+                                "field_completed_end_date": START_RAW}),
     ]
     for bundle, metadata in cases:
         row = _row(bundle, metadata)
         assert len(row.date_type) <= 16
-        assert len(row.candidate_source) <= 32
+        assert len(row.date_source) <= 32
         assert len(row.rule) <= 48
         assert len(row.action) <= 24
         assert len(row.origin) <= 16

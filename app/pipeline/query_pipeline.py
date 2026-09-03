@@ -573,12 +573,12 @@ def stream_answer(
                        if corrected else date_report)
             if corrected and recheck.clean:
                 answer = corrected
-                reason = 'publication_date'
+                reason = 'date_claim'
             else:
                 # The retry repeated the claim (or never arrived): replace the
                 # offending sentences outright.
                 answer = date_claims.safe_rewrite(answer, recheck)
-                reason = 'publication_date_fallback'
+                reason = 'date_claim_fallback'
             corrected_text = (
                 gen.db_prefix + "\n\n" + answer if gen.db_prefix else answer
             )

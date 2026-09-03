@@ -91,7 +91,7 @@ def _record_date_decision(
     ``{state}_date_decision``. That table is also the review queue — a case the
     resolver could not settle safely lands there rather than moving a date.
 
-    ``current_published_at`` records the page's own resolved date, so a row reads
+    ``current_start_date`` records the page's own resolved date, so a row reads
     as "would have been X, assigned Y". The evidence sentence names the whole
     chain — this file, its page, that page's bundle, the configured field and its
     value — because "why does this PDF have the date 2022?" has to be answerable
@@ -112,11 +112,16 @@ def _record_date_decision(
             bundle=node.bundle,
             node_uuid=(node.uuid or None),
             page_pdf_count=len(getattr(node, "files", None) or []) or 1,
-            current_published_at=parent_date.value,
+            current_start_date=parent_date.start_value,
             url=file.url,
             filename=file.filename,
             llm_raw=resolved.llm_raw,
             prompt_version=prompt_version() if resolved.llm_raw else None,
+            # The period the file inherited, and any defect in it. Carried
+            # from the page rather than re-derived: the file has no dates
+            # of its own and a second reading could disagree.
+            candidate_end_date=resolved.end_value,
+            range_issue=parent_date.range_issue,
         )
         # The inheritance chain, appended rather than replacing the rule's own
         # sentence: a reviewer needs both what the resolver concluded and where
@@ -187,7 +192,7 @@ def build_attachment_doc(
     refs = list(getattr(node, "refs", None) or [])
     extra: dict[str, object] = {"bundle": node.bundle}
     # A reporting period is a label, never a date: "Annual Report 2024-2025"
-    # sets this and leaves published_at alone.
+    # sets this and leaves effective_start_date alone.
     if resolved.edition_label:
         extra["edition_label"] = resolved.edition_label
     doc = from_pdf(
@@ -198,7 +203,7 @@ def build_attachment_doc(
         source_url=node.url,
         file_url=fetched_url,
         linked_article_uuid=(node.uuid or None),
-        published_at=resolved.published_at,
+        effective_start_date=resolved.start_value,
         # `parent_page` is the ordinary case and says exactly what happened: this
         # file carries the date its Drupal page resolved to. `document_text` is
         # the one exception — a publication statement quoted from the PDF's own
@@ -207,12 +212,16 @@ def build_attachment_doc(
         # rule fired, the confidence, the quote, the parent's field and value —
         # stays in `{state}_date_decision`; this is the bit that belongs beside
         # the value.
-        published_at_source=("document_text" if resolved.overridden
-                             else "parent_page"),
+        date_source=("document_text" if resolved.overridden
+                     else "parent_page"),
         # Inherited, not assumed: a file on a research paper is year-precision
         # too, and a reader that renders its 1 January as a day would invent a
         # January publication for the file exactly as it would for the page.
-        published_at_precision=resolved.precision,
+        start_precision=resolved.start_precision,
+        # A file on a completed project covers the same period the project did.
+        # Inherited whole from the page, never derived from the file.
+        effective_end_date=resolved.end_value,
+        end_precision=resolved.end_precision,
         date_evidence=(_overridden_evidence(parent_date, resolved)
                        if resolved.overridden else inherit_date(parent_date)),
         extra=extra,
@@ -229,9 +238,9 @@ def resolve_parent_date(node):
     The same call `canonical._drupal_document` makes for the page itself, so the
     page and everything attached to it cannot disagree.
     """
-    from app.ingestion.bundle_dates import resolve
+    from app.ingestion.bundle_dates import resolve_effective_dates
 
-    return resolve(
+    return resolve_effective_dates(
         getattr(node, "bundle", None),
         getattr(node, "created", None),
         getattr(node, "metadata", None),
@@ -255,9 +264,13 @@ def _overridden_evidence(parent_date, resolved):
 
     return replace(
         parent_date,
-        value=resolved.published_at,
+        start_value=resolved.start_value,
         source="document_text",
-        precision="day",
+        start_precision="day",
+        # A quoted publication statement gives a day, not a period; the page's
+        # end date belonged to the date it displaced.
+        end_value=None,
+        end_precision=None,
         rule="document_statement_override",
     )
 
@@ -272,13 +285,22 @@ def _resolve_date(record: "ChangeRecord", node, file, content: bytes, parent_dat
     """
     from app.config import get_settings
     from app.ingestion.bundle_dates import inherited
-    from app.ingestion.date_resolution import ResolvedDate, build_evidence, resolve
+    from app.ingestion.date_resolution import (
+        ResolvedDate,
+        build_evidence,
+    )
+    from app.ingestion.date_resolution import resolve as resolve_pdf_date
 
     if not get_settings().date_resolution_enabled:
         carried = inherited(parent_date)
-        return ResolvedDate(published_at=carried.value, precision=carried.precision)
+        return ResolvedDate(
+            start_value=carried.start_value,
+            start_precision=carried.start_precision,
+            end_value=carried.end_value,
+            end_precision=carried.end_precision,
+        )
     evidence = build_evidence(
         document_id=record.document_id, node=node, file=file,
         parent_date=parent_date,
     )
-    return resolve(evidence, content)
+    return resolve_pdf_date(evidence, content)

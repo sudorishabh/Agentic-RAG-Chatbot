@@ -26,16 +26,15 @@ class DocumentMeta:
     language: str | None = "en"
     doc_version: int = 1
     is_current: bool = True
-    published_at: str | None = None
-    #: The date the document itself states it was published. None unless the
-    #: document says so. Distinct from ``published_at``, which is the
-    #: source/web-page date and remains what chronology uses.
-    document_published_at: str | None = None
-    #: ``"year"`` when the source stated only a year and ``published_at`` holds
+    effective_start_date: str | None = None
+    #: ``"year"`` when the source stated only a year and ``effective_start_date`` holds
     #: 1 January as a marker for it. None means a full date. Carried to the chunk
     #: payload because the answer layer is the only place that can keep a marker
     #: from being read as a day.
-    published_at_precision: str | None = None
+    start_precision: str | None = None
+    #: End of the period the content covers. None for a single-date document.
+    effective_end_date: str | None = None
+    end_precision: str | None = None
     extra: dict[str, Any] = field(default_factory=dict)
 
 

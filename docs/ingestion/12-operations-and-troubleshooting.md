@@ -385,8 +385,8 @@ This one spends money. Run it with a limit and watch it.
    preset (which is what every news-like bundle uses).
 3. Crawl it scoped first: `python -m app.workers.tasks drupal --bundle <new>`.
 4. Audit what its fields did: `python -m app.ingestion.field_audit --bundle <new>`.
-5. Check for a date field. If it has one and it is a publication date, declare it in
-   `source_dates.FIELD_KINDS` — otherwise every document in the bundle is dated by
+5. Check for a date field. If it has one and the bundle should be dated by it, declare it in
+   `source_dates.FIELD_ROLES` — otherwise every document in the bundle is dated by
    its CMS creation stamp, and reconciliation's `undeclared_source_date_field` will
    tell you so.
 
@@ -474,8 +474,9 @@ Start from the symptom.
 | | A PDF override | `documents_date_decision` shows `propose_override` | Read `evidence`; if wrong, it is a gate gap worth reporting |
 | | A backfill overwrote it | Reconciliation `stated_date_not_applied` | Re-run `scripts.backfill_bundle_dates` |
 | A PDF is dated differently from its page | Something bypassed inheritance | Reconciliation `attachment_date_adrift` | Re-run `scripts.backfill_bundle_dates` |
-| A document is missing from date-filtered answers | It has no date | `SELECT published_at FROM documents WHERE ...` is NULL; run tally `indexed_without_date` | Check the source exposes a date field |
-| A year-only document reads as 1 January | A consumer ignoring `published_at_precision` | `published_at_precision='year'` on the row and the payload | Fix the consumer; the marker is correct |
+| A project or event has no end date | Its CMS end field is empty, or the two dates contradict each other | `documents_date_decision.range_issue` | Fix the CMS values; a re-crawl heals the row |
+| A document is missing from date-filtered answers | It has no date | `SELECT effective_start_date FROM documents WHERE ...` is NULL; run tally `indexed_without_date` | Check the source exposes a date field |
+| A year-only document reads as 1 January | A consumer ignoring `start_precision` | `start_precision='year'` on the row and the payload | Fix the consumer; the marker is correct |
 | Documents disappeared en masse | Delete reconciliation ran on a truncated enumeration | ERROR/WARNING history; `ingest_log` `deleted` rows in one run | The guard should have refused. Re-crawl to restore; **lower** the ratio |
 | | They were unpublished at source | The site no longer serves them | Republish; they return as `NEW` on the next run |
 | Deletes are not happening | `worker_sweep_reconcile` is off | Config | Turn it on **after** a dry run |
@@ -514,8 +515,8 @@ A document is fully ingested when:
    all carrying the current `pipeline_version`.
 2. The previous version's points have been removed by the scoped delete.
 3. Its `documents` row is committed with the correct `fingerprint`, `content_hash`,
-   `doc_version`, `pipeline_version`, `changed_mark`, `published_at` +
-   `published_at_source` + `published_at_precision`, `title`, `url`, and a non-NULL
+   `doc_version`, `pipeline_version`, `changed_mark`, `effective_start_date` +
+   `date_source` + `start_precision`, `title`, `url`, and a non-NULL
    `indexed_at`.
 4. Its facet rows (`author`, `tag`, `theme`) and `attachment` link rows match the
    document, all written in the same transaction as the row.

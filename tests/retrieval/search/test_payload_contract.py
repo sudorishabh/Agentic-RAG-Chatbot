@@ -32,7 +32,7 @@ READ_BY_RETRIEVAL = {
     # hybrid_search.build_filter + Candidate
     "is_parent", "is_current", "section_type", "chunk_text", "parent_chunk_id",
     # understanding.filters facets
-    "categories", "tags", "source_type", "language", "published_at",
+    "categories", "tags", "source_type", "language", "effective_start_date",
     # context_builder identity / dedup / conflict flagging
     "document_id", "pdf_id", "article_uuid", "linked_pdf_id",
     "linked_article_uuid", "page_number", "page_range", "overlap_page_range",
@@ -42,7 +42,7 @@ READ_BY_RETRIEVAL = {
 
 READ_BY_GENERATION = {
     # prompts._source_hint
-    "source_type", "title", "section_heading", "has_table", "published_at",
+    "source_type", "title", "section_heading", "has_table", "effective_start_date",
     "doc_version",
     # citations._source_from_payload / _primary_url
     "source_url", "file_url", "page_number", "page_range",

@@ -251,7 +251,7 @@ def _render_list_table(records: Sequence[StateRecord]) -> str:
     for r in records:
         title = _md_cell(r.title or r.document_id)
         cell = f"[{title}]({r.url})" if r.url else title
-        lines.append(f"| {cell} | {(r.published_at or '')[:10]} | {r.bundle or ''} |")
+        lines.append(f"| {cell} | {(r.effective_start_date or '')[:10]} | {r.bundle or ''} |")
     return "\n".join(lines)
 
 
@@ -260,13 +260,13 @@ def _render_list_timeline(records: Sequence[StateRecord]) -> str:
     lines: list[str] = []
     year = ""
     for r in records:
-        y = (r.published_at or "")[:4] or "Undated"
+        y = (r.effective_start_date or "")[:4] or "Undated"
         if y != year:
             if lines:
                 lines.append("")
             lines.append(f"{y}:")
             year = y
-        label = (r.published_at or "")[:7] or "n.d."
+        label = (r.effective_start_date or "")[:7] or "n.d."
         title = r.title or r.document_id
         lines.append(f"- {label}: {title} ({r.url})" if r.url else f"- {label}: {title}")
     return "\n".join(lines)
@@ -277,7 +277,7 @@ def _default_list_line(r: StateRecord) -> str:
     bare title-and-link tells the reader nothing they could not get from the
     citation list, whereas the date is real record data already on hand."""
     title = r.title or r.document_id
-    date = (r.published_at or "")[:10]
+    date = (r.effective_start_date or "")[:10]
     head = f"{title} — {date}" if date else title
     return f"- {head} ({r.url})" if r.url else f"- {head}"
 
@@ -288,7 +288,7 @@ def _render_records(
     """Body + structured records + citations, in one consistent order (timeline
     sorts newest-first; citations follow the rendered order)."""
     if output_format == "timeline":
-        ordered = sorted(records, key=lambda r: r.published_at or "", reverse=True)
+        ordered = sorted(records, key=lambda r: r.effective_start_date or "", reverse=True)
         body = _render_list_timeline(ordered)
     elif output_format == "table":
         ordered = list(records)
@@ -306,7 +306,7 @@ def _render_records(
     data = [
         {
             "document_id": r.document_id, "title": r.title, "url": r.url,
-            "published_at": r.published_at, "bundle": r.bundle,
+            "effective_start_date": r.effective_start_date, "bundle": r.bundle,
         }
         for r in ordered
     ]

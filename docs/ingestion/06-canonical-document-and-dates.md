@@ -1,7 +1,7 @@
 # 06 — The Canonical Document and Date Resolution
 
 **Purpose.** Converge two very different sources — a CMS record and a PDF file —
-onto one document shape, with facets routed, themes classified and a publication
+onto one document shape, with facets routed, themes classified and an effective
 date decided and justified.
 
 **Inputs.** A `DrupalRecord`, or an `ExtractionResult` plus the node that carries
@@ -41,10 +41,12 @@ class CanonicalDocument:
     # facets
     authors / tags / categories: list[str]
     language: str = "en"
-    published_at: str | None
-    document_published_at: str | None
-    published_at_source: str | None        # created | cms_field | document_text
-    published_at_precision: str | None     # year | month | day
+    effective_start_date: str | None               # the effective/start date
+    date_source: str | None        # created | cms_field | parent_page
+                                           #   | document_text
+    start_precision: str | None     # year | month | day
+    effective_end_date: str | None            # end of the period, or None
+    end_precision: str | None
     doc_version: int = 1
     is_current: bool = True
     content_hash: str = ""
@@ -102,7 +104,7 @@ attribution survives.
 Builds a single-section document from the flattened body (or no sections if the
 body is empty), sets `document_id` to the uuid (falling back to a slug of the URL
 or `bundle/title`), records `extra = {bundle, nid, changed}`, carries `entity_refs`
-and `raw_meta`, and resolves the date via `_published_at_for`.
+and `raw_meta`, and resolves the date via `_effective_dates_for`.
 
 ---
 
@@ -215,49 +217,63 @@ bundle -> configured field -> extract -> normalise -> effective date
 | `website` | the bundle's configured field, else the record's `created` (or `revision_created`) | nothing |
 | `pdf_attachment` | **its parent page's resolved date** | a **quoted, verified publication statement in the PDF's own text**, and only where the page had nothing but a creation stamp |
 
-`published_at_source` on the document and in the catalog records which happened:
+`date_source` on the document and in the catalog records which happened:
 `created`, `cms_field`, `parent_page`, or `document_text`.
 
-**What `published_at` now means.** For `news`, `press_release`, `report` and
+**What `effective_start_date` now means.** For `news`, `press_release`, `report` and
 `research_papers` the bundle's field *is* a stated publication date. For
 `completed_projects`, `ongoing_projects` and `events` it is a project start or an
 event date — the date the content is *about*, which the site treats as that
-item's date. `published_at` is therefore the **effective date**, and
+item's date. `effective_start_date` is therefore the **effective date**, and
 `documents_date_decision.date_type` records which of the two a given row is
-(`publication`, `period`, `event`), so the distinction stays visible rather than
-being erased. `source_dates.FIELD_KINDS` still owns that classification.
+(`date`, `range_start`, `range_end`), so the distinction stays visible rather
+than being erased. `source_dates.FIELD_ROLES` owns that classification.
 
 ---
 
 ## The bundle mapping: `bundle_dates.py`
 
 ```python
-BUNDLE_DATE_FIELDS: dict[str, BundleDateField] = {
-    "article":            BundleDateField("created"),
-    "page":               BundleDateField("created"),
-    "feature_articles":   BundleDateField("created"),
-    "policy_brief":       BundleDateField("created"),
-    "videos":             BundleDateField("created"),
-    "infographics":       BundleDateField("created"),
-    "people":             BundleDateField("created"),
-    "services":           BundleDateField("created"),   # not in the supplied map
-    "news":               BundleDateField("field_news_date"),
-    "press_release":      BundleDateField("field_pressrelease_date"),
-    "report":             BundleDateField("field_report_date"),
-    "research_papers":    BundleDateField("field_rpaper_year", "year"),
-    "completed_projects": BundleDateField("field_completed_start_date"),
-    "ongoing_projects":   BundleDateField("field_ongoing_start_date"),
-    "events":             BundleDateField("field_event_start_date"),
+BUNDLE_DATE_FIELDS: dict[str, tuple[str, ...]] = {
+    "article":            ("created",),
+    "page":               ("created",),
+    "feature_articles":   ("created",),
+    "policy_brief":       ("created",),
+    "videos":             ("created",),
+    "infographics":       ("created",),
+    "people":             ("created",),
+    "services":           ("created",),   # not in the supplied map
+    "news":               ("field_news_date",),
+    "press_release":      ("field_pressrelease_date",),
+    "report":             ("field_report_date",),
+    "research_papers":    ("field_rpaper_year",),
+    "ongoing_projects":   ("field_ongoing_start_date",),
+    "completed_projects": ("field_completed_start_date",
+                           "field_completed_end_date"),
+    "events":             ("field_event_start_date", "field_event_end_date"),
 }
 ```
 
-Adding a bundle is one row. No branch in the resolver, and none in the pipeline,
-names a bundle.
+**A bundle maps to one or more fields, in order: `(start,)` or `(start, end)`.**
+Neither is a special case of the other — the same per-field resolution runs on
+each configured field, and the only thing a second field adds is the range
+validation. Adding a bundle, or giving an existing bundle an end date, is one
+row. No branch in the resolver, and none in the pipeline, names a bundle.
+
+**Precision is declared per field, not per bundle**, and read from
+`source_dates.FIELD_ROLES`, which already declares `(role, precision)` for every
+one of them. `field_rpaper_year` holds a year whichever bundle points at it, so
+saying so twice would be two facts that can disagree.
+
+`ongoing_projects` is single-field on purpose: `field_ongoing_end_date` does not
+exist. Drupal answers a filter on it with "the field does not exist" and the
+attribute is absent from all 595 published records — which is also the
+semantically right answer, since an *ongoing* project has not ended.
 
 `services` is **declared** rather than omitted even though it maps to `created`
 and carries no date-like field: a crawled bundle nobody has classified must stay
 a meaningful alarm (`reconcile.date_checks.unmapped_bundle_dates`) instead of
-firing on the same bundle forever — the same reason `FIELD_KINDS` declares the
+firing on the same bundle forever — the same reason `FIELD_ROLES` declares the
 fields it refuses. `block_content:basic` is deliberately absent: it is not a node
 bundle and has no `created` attribute, so it resolves through the unmapped
 default to the `revision_created` stamp `_created_at` already gives it.
@@ -266,6 +282,39 @@ Field shapes, verified against the live JSON:API: `field_rpaper_year` is an
 **integer** (2012–2019 observed); `field_report_date` carries a `+05:30` offset
 and a real clock time and is null on 2 of 8 records; every other field is IST
 midnight expressed as `+00:00`. None is multi-valued or a date range on this site.
+
+### Date ranges
+
+For a bundle whose mapping declares an end field, the end runs through the
+**same** per-field resolution as the start, and the two are then compared as
+**normalised calendar dates** — never as raw values.
+
+| Case | Behaviour | `range_issue` |
+| --- | --- | --- |
+| No end field configured | `effective_end_date` is NULL | — |
+| `start <= end` (including `start == end`) | both kept | — |
+| **`start > end`** | end **dropped**, start kept, both raws preserved, review row | `inverted` |
+| End field empty | no end — a valid partial range, not a defect | — |
+| End field holds a non-date | end dropped, raw preserved, review row | `end_invalid` |
+| **End usable, start not** | start falls back to `created`, **end preserved**, review row | `end_without_start` |
+
+Three things this gets right, each measured on the full published corpus:
+
+- **Comparison happens after normalisation.** By raw string 13 events and 5
+  completed projects look inverted; after `to_ist_date` only **2 and 2** are. The
+  rest differ solely in the time component and land on the same Indian calendar
+  day, or carried a `1970-01-01` end that plausibility already removed. Comparing
+  raw strings would have sent eleven correct records to a review queue.
+- **`start == end` is valid.** 784 of 1,094 published events are a one-day event
+  whose two fields hold the same day.
+- **Values are never swapped, and an end is never manufactured.** A record whose
+  two dates contradict each other is a CMS defect; guessing which one is wrong
+  would bury it.
+
+`end_without_start` deliberately does **not** re-check the preserved end against
+the fallback `created` stamp. A creation stamp is not a range endpoint — every
+completed project's end predates its 2017 import stamp, so comparing them would
+flag the whole bundle for a relationship the source never asserted.
 
 ### The fallback ladder
 
@@ -277,7 +326,7 @@ midnight expressed as `+00:00`. None is multi-valued or a date range on this sit
 | Field absent / empty / null | fall back to `created`, INFO log | `created` | `field_empty` |
 | Field unparseable / implausible | fall back to `created`, WARNING log, **review row** | `created` | `field_invalid` |
 | Bundle not in the mapping | fall back to `created`, INFO log once per bundle | `created` | `bundle_unmapped` |
-| No `created` either | `published_at = None`; the `undated` flag fires | `created` | `no_date` |
+| No `created` either | `effective_start_date = None`; the `undated` flag fires | `created` | `no_date` |
 
 Falling back to `created` is justified, not incidental: it is a real date the
 source states about the record, it is exactly the historical behaviour, and the
@@ -290,52 +339,84 @@ completed projects that share one import date.
 
 ## What each field *is*: `source_dates.py`
 
-This module no longer decides which field a document uses; it supplies the
+This module does not decide which field a document uses; it supplies the
 vocabulary and the value-reading primitives (`to_ist_date`, `is_plausible`,
-`as_published_at`, `found_dates`) that the bundle mapping and the audit trail
+`as_stored_date`, `found_dates`) that the bundle mapping and the audit trail
 share.
 
-The problem it still answers: a source record carries several dates and only some
-of them are the document's publication date. On this corpus, **thirteen fields have date-like names
-and four of them are publication dates**; the rest describe when a project ran or
-when an event happened.
+The problem it answers: this CMS has **thirteen fields with date-like names**, and
+what each one *is* — a date the content is stated with, one end of a period, a
+sort key, a publisher's name that merely looks temporal — is knowledge no
+algorithm can derive from the value.
 
-So the meaning of a field is **data, declared once**, in `FIELD_KINDS`:
+**It describes the source field, not the application's date model.** The system
+stores an `effective_start_date` and, where the bundle declares one, an
+`effective_end_date`. It has no publication-date concept, and this taxonomy
+deliberately does not use the word: a role answers "what is this Drupal field?",
+never "is the resulting date a publication?".
+
+So the meaning of a field is **data, declared once**, in `FIELD_ROLES`:
 
 ```python
-FIELD_KINDS: dict[str, tuple[Kind, Precision]] = {
-    # publication — verified against the rendered pages (30/30 sampled)
-    "field_news_date":            ("publication", "day"),
-    "field_pressrelease_date":    ("publication", "day"),
-    "field_report_date":          ("publication", "day"),
-    "field_rpaper_year":          ("publication", "year"),
-    # event — when something happened, not when it was written about
-    "field_event_start_date":     ("event", "day"),
-    "field_event_end_date":       ("event", "day"),
-    "field_enddate_forlatestfirst": ("event", "day"),   # a sort key
-    # period — how long the work ran (~2,100 values, the most tempting to misread)
-    "field_completed_start_date": ("period", "day"),
-    "field_completed_end_date":   ("period", "day"),
-    "field_ongoing_start_date":   ("period", "day"),
-    # looked at, and not dates at all — publication *venues* and publisher names
-    "field_article_published_in": ("unknown", "day"),
-    "field_rpaper_published_in":  ("unknown", "day"),
-    "field_rpaper_publisher":     ("unknown", "day"),
+FIELD_ROLES: dict[str, tuple[FieldRole, Precision]] = {
+    # date — the single date the CMS states about this content
+    #        (verified against the rendered pages, 30/30 sampled)
+    "field_news_date":            ("date", "day"),
+    "field_pressrelease_date":    ("date", "day"),
+    "field_report_date":          ("date", "day"),
+    "field_rpaper_year":          ("date", "year"),
+    # range_start / range_end — the period the content covers
+    #        (~2,100 values, the most tempting to misread)
+    "field_completed_start_date": ("range_start", "day"),
+    "field_completed_end_date":   ("range_end",   "day"),
+    "field_ongoing_start_date":   ("range_start", "day"),
+    "field_event_start_date":     ("range_start", "day"),
+    "field_event_end_date":       ("range_end",   "day"),
+    # sort_key — orders a listing, describes nothing
+    "field_enddate_forlatestfirst": ("sort_key", "day"),
+    # not_a_date — venues and publisher names whose field names contain "publish"
+    "field_article_published_in": ("not_a_date", "day"),
+    "field_rpaper_published_in":  ("not_a_date", "day"),
+    "field_rpaper_publisher":     ("not_a_date", "day"),
 }
 ```
 
+Five roles, each earning its place by controlling something:
+
+| Role | What it controls |
+| --- | --- |
+| `date` | The CMS states the content's date outright; the provenance sentence needs no gloss. |
+| `range_start` / `range_end` | The value is one end of a period. Kept distinct because `BUNDLE_DATE_FIELDS` is ordered `(start, end)` — reversing a pair would date every project by its finish, and the split is the only independent check on that. |
+| `sort_key` | A real timestamp the site uses to order event listings. It describes nothing, so **no bundle may map to it** — asserted by a test. |
+| `not_a_date` | A field whose *name* looks temporal and whose values are not dates. |
+
 Three consequences, each stated in the module for a reason:
 
-1. **Ignoring is the default.** An unknown field cannot become a date, so a CMS
-   that grows a new field does not silently start moving dates.
-2. **Only `publication` is actionable.** The other kinds are declared rather than
-   omitted so that "a date-like field nobody has classified" stays a meaningful
-   alarm (`reconcile.date_checks.undeclared_source_date_field`) instead of firing
-   on the same three fields forever. One `field_rpaper_publisher` value is
-   literally `"2021"`, which is bad CMS data and would otherwise parse as a date.
+1. **`not_a_date` is the default.** An undeclared field cannot become a date, so
+   a CMS that grows a new field does not silently start moving dates.
+2. **The non-date fields are declared rather than omitted**, so "a date-like field
+   nobody has classified" stays a meaningful alarm
+   (`reconcile.date_checks.undeclared_source_date_field`) instead of firing on
+   the same three fields forever. One `field_rpaper_publisher` value is literally
+   `"2021"`, which is bad CMS data and would otherwise parse as a date.
 3. **Supporting another site means adding rows, not branching code.** No algorithm
-   can know `field_news_date` is a publication date and `field_event_start_date` is
-   not.
+   can know `field_news_date` states a date and `field_enddate_forlatestfirst`
+   sorts a listing.
+
+### The other taxonomy, and why it keeps the word
+
+`app.ingestion.date_rules.DateType` — `publication`, `notification`, `effective`,
+`upload`, `authoring`, `edition`, `event`, `unknown` — classifies a date the model
+found **inside a PDF's text**. That is a different question about a different
+thing: the interpreter is literally asked whether a quoted statement is a
+publication line or a notification, and the answer is what the gates act on. It
+keeps the word because there the word is the point.
+
+The two share the `{state}_date_decision.date_type` column, told apart by
+`origin`: a `website` row holds a `FieldRole`, an `attachment`/`inbody` row holds
+a `DateType`. The value sets are disjoint (a test asserts it), so a row is never
+ambiguous — but no query should group across the two without filtering `origin`
+first.
 
 ### Timezone: IST, and why it is not optional
 
@@ -348,7 +429,7 @@ The CMS stores a date-only field as **IST midnight expressed in UTC**:
 itself displays. Reading the UTC calendar date puts every one of these **a day
 early**. `to_ist_date` converts to the IST calendar date.
 
-Then `as_published_at(value)` writes it back as **midnight UTC**, not midnight IST:
+Then `as_stored_date(value)` writes it back as **midnight UTC**, not midnight IST:
 `state._to_datetime` normalises to naive UTC, so `2012-04-18T00:00:00+05:30` would
 land in the column as `2012-04-17 18:30` and every consumer would read a date a day
 early — precisely the error being corrected. The date has already been resolved
@@ -373,10 +454,10 @@ def resolve(bundle, created, metadata) -> EffectiveDate:
     if raw in (None, "", [], {}):     return created, "created"   # field_empty
     value = to_ist_date(raw)
     if not is_plausible(value):       return created, "created"   # field_invalid
-    return as_published_at(value), "cms_field"                    # bundle_date_field
+    return as_stored_date(value), "cms_field"                    # bundle_date_field
 ```
 
-Four callers, one function: the website builder (`canonical._published_at_for`),
+Four callers, one function: the website builder (`canonical._effective_dates_for`),
 the attachment path (`attachment.resolve_parent_date`), the evidence adapter
 (`date_resolution.build_evidence`) and the backfill
 (`scripts.backfill_bundle_dates`). Two copies of this rule would drift, and a
@@ -398,7 +479,7 @@ ordering; that is a deliberate, recorded cost of making the rule uniform.
 ### Year precision is a marker, not a day
 
 A year-precision value is stored as **1 January as a marker for the year**.
-`published_at_precision="year"` is what keeps that from being read as a January
+`start_precision="year"` is what keeps that from being read as a January
 publication, and it is carried all the way to the chunk payload (`build_payload`
 writes it **only** when it is `"year"`, so absent means "a full date" — true of
 every point already in the collection, which is why this needed no `PAYLOAD`
@@ -416,15 +497,15 @@ value and its precision disagree about what is known.
 date field** (`date_decisions.from_effective_date` returns `None` otherwise). A
 row for every document of a `created`-mapped bundle would cost an INSERT and a
 commit each to store a fact two columns already carry: `documents.bundle` plus
-`published_at_source='created'` *is* the whole answer for `article` or `page`.
+`date_source='created'` *is* the whole answer for `article` or `page`.
 
 So a row is written when a field was consulted — whether it supplied the date
 (`bundle_date_field`), was empty (`bundle_field_empty`, a keep) or held something
 that is not a date (`bundle_field_invalid`, which reaches the **review queue**:
 the CMS says this content type is dated by that field and the field holds
-nonsense, and nobody can fix that from here). `date_type` records what kind of
-date the field holds — `publication`, `period`, `event` — rather than flattening
-everything to "publication".
+nonsense, and nobody can fix that from here). `date_type` records what the
+*source field* is — `date`, `range_start`, `range_end` — rather than flattening
+that away.
 
 Fails open: an unreachable database costs one warning, never a document its
 ingestion.
@@ -469,7 +550,7 @@ page fell back to a creation stamp — the weak case the interpreter was built f
 when its verdict survives every gate.
 
 `PageContext` therefore carries **two** dates: `node_created`, the creation stamp,
-which the upload-gap arithmetic reasons about, and `node_published_at`, the
+which the upload-gap arithmetic reasons about, and `node_start_date`, the
 resolved date, which the file inherits. Substituting the latter in the gap
 arithmetic would read a completed project's 2004 start as a 13-year upload gap and
 route the whole bundle to the model.
@@ -660,7 +741,7 @@ a prompt edit is visible in the audit rows.
 ### The outcome
 
 ```python
-published_at = (decision.candidate_date if decision.action == "propose_override"
+effective_start_date = (decision.candidate_start_date if decision.action == "propose_override"
                 else page_date)
 ```
 
@@ -672,31 +753,22 @@ and produces a `keep_page_date` decision with `rule="llm_unavailable"`.
 
 On the document:
 
-- `published_at` — the resolved date.
-- `published_at_source` — `"document_text"` if overridden, else `"parent_page"`.
-- `published_at_precision` — **inherited from the page**. A file hanging off a
+- `effective_start_date` — the resolved date.
+- `date_source` — `"document_text"` if overridden, else `"parent_page"`.
+- `start_precision` — **inherited from the page**. A file hanging off a
   research paper is year-precision too; rendering its 1 January as a day would
   invent a January publication for the file exactly as it would for the page.
   `"day"` for an override, which by definition quoted a stated day.
+- `effective_end_date` / `end_precision` — **inherited whole**. A file on
+  a completed project covers the period the project did. Cleared on an override:
+  a quoted publication statement gives a day, never a period.
 - `extra["edition_label"]` — set when an edition was found. **A reporting period is
   a label, never a date**: "Annual Report 2024-2025" sets this and leaves
-  `published_at` alone.
+  `effective_start_date` alone.
 - `title` — `file.description or node.title or file.filename`. The anchor text wins,
   which is what tells editions of a series apart.
 - `source_url` — the node's page. `file_url` — the URL the download actually
   succeeded on.
-
-### `document_published_at`
-
-A separate, narrower field: **the date the document itself states it was
-published**, and `None` unless it says so. Never inferred from an edition label, a
-PDF `CreationDate`, a cover month-year, an upload time or a URL path. All ten TERI
-annual reports are NULL, because an audit of their front and back matter found no
-publication statement in any of them.
-
-Nothing ranks, filters or orders on this column. `published_at` remains the field
-every chronology path uses. The upsert `COALESCE`s it, so a caller that does not
-know passes NULL and a stored value survives rather than being erased.
 
 ### The decision record
 
@@ -704,7 +776,7 @@ know passes NULL and a stored value survives rather than being erased.
 snapshot, not an audit trail — `ingest_log` already is one). It holds the action,
 the rule, the confidence, the date type, the edition label, the quoted evidence,
 the raw LLM verdict as JSON, the prompt version, and
-`current_published_at` — the page's own date — so a row reads as *"would have been
+`current_start_date` — the page's own date — so a row reads as *"would have been
 X, assigned Y"*.
 
 **This table is also the review queue.** A case the resolver could not settle
@@ -731,9 +803,9 @@ where the value is.
 Back in `_handle`, after chunking and before indexing:
 
 ```python
-if not doc.published_at:
+if not doc.effective_start_date:
     flag("undated")
-    logger.warning("Indexing %s (%s/%s) with no publication date; it will be "
+    logger.warning("Indexing %s (%s/%s) with no effective date; it will be "
                    "excluded from date-filtered results.", ...)
 ```
 
@@ -753,6 +825,9 @@ reconciliation's `documents_without_date` check reports the standing total.
 | Configured field holds something | `bundle_dates.resolve` | `created` kept; INFO log; audit row |
 | Value parses and is 1990…next year | `is_plausible` | `created` kept; WARNING log; **review row** |
 | A full-date field did not hold a bare year | `bundle_dates.resolve` | Precision downgraded to `year` |
+| End field holds something usable | `bundle_dates._read` | End dropped; review row (`end_invalid`) |
+| The range is not backwards | `bundle_dates._with_range` | End dropped, never swapped; review row (`inverted`) |
+| A usable end has a usable start | `bundle_dates.resolve` | End preserved; review row (`end_without_start`) |
 | Page has a date at all | `date_rules.decide` | `needs_manual_review` |
 | Page's own field settles it | `date_rules.decide` | — (short-circuits to `keep`) |
 | PDF date is inside the document text | `date_is_in_text` | Downgraded to `review` |
@@ -760,7 +835,7 @@ reconciliation's `documents_without_date` check reports the standing total.
 | Quote carries the year / the day / publication language | three `DateInterpretation` methods | Downgraded to `review` |
 | Confidence ≥ 0.9 | `safe_action` | Downgraded to `review` |
 | Theme name is not a stringified boolean or a bucket | `theme_taxonomy.classify` | Row dropped |
-| Document has a publication date at all | `_handle` | `undated` flag + WARNING; still indexed |
+| Document has an effective date at all | `_handle` | `undated` flag + WARNING; still indexed |
 
 ## Failure scenarios
 
@@ -771,8 +846,10 @@ reconciliation's `documents_without_date` check reports the standing total.
 | A bundle should take a different field | Nothing automatic | — | Edit `BUNDLE_DATE_FIELDS` and run `scripts.backfill_bundle_dates` |
 | Configured field holds a non-date | `documents_date_decision.action='needs_manual_review'`, rule `bundle_field_invalid` | `created` kept | Fix the CMS value; a re-crawl heals the row |
 | Stated date not applied to a row | `reconcile.date_checks.stated_date_not_applied` | Reported | Re-run `scripts.backfill_bundle_dates`. Note `app.ingestion.backfill` lifts dates out of chunk payloads and can overwrite a resolved value |
-| An attachment's date differs from its page's | `reconcile.date_checks.attachment_date_adrift` | Reported | Re-run `scripts.backfill_bundle_dates` |
-| `published_at_source` unrecorded | `date_provenance_unrecorded` | Reported | `scripts.backfill_date_provenance`; legacy rows are deliberately left unclaimed rather than blanket-labelled `created` |
+| An attachment's date or period differs from its page's | `reconcile.date_checks.attachment_date_adrift` | Reported | Re-run `scripts.backfill_bundle_dates` |
+| A stored range runs backwards | `reconcile.date_checks.inverted_date_range` | Reported | `bundle_dates` never stores one, so something else wrote it; re-run `scripts.backfill_bundle_dates` |
+| A bundle's two CMS dates contradict each other | `documents_date_decision.range_issue` | Start applied, end dropped, review row | Fix the CMS values; a re-crawl heals the row |
+| `date_source` unrecorded | `date_provenance_unrecorded` | Reported | `scripts.backfill_date_provenance`; legacy rows are deliberately left unclaimed rather than blanket-labelled `created` |
 | Year precision with a non-January day | `year_precision_not_january` | Reported | Investigate; value and precision disagree |
 | LLM unavailable | `interpret` returns `None` | `keep_page_date`, `rule="llm_unavailable"`, confidence 0 | Next re-index re-attempts |
 | LLM proposes a filename-derived date | Grounding checks | `review` | A human reads `documents_date_decision` |
@@ -781,10 +858,10 @@ reconciliation's `documents_without_date` check reports the standing total.
 
 ## Observability
 
-- `documents.published_at_source` distribution — the single most useful date query:
+- `documents.date_source` distribution — the single most useful date query:
 
 ```sql
-SELECT published_at_source, published_at_precision, COUNT(*)
+SELECT date_source, start_precision, COUNT(*)
 FROM documents GROUP BY 1, 2 ORDER BY 3 DESC;
 ```
 
@@ -794,33 +871,44 @@ FROM documents GROUP BY 1, 2 ORDER BY 3 DESC;
 SELECT action, rule, COUNT(*) FROM documents_date_decision
 GROUP BY 1, 2 ORDER BY 3 DESC;
 
-SELECT document_id, candidate_date, current_published_at, confidence,
+SELECT document_id, candidate_start_date, current_start_date, confidence,
        LEFT(evidence, 120)
 FROM documents_date_decision
 WHERE action = 'needs_manual_review' ORDER BY updated_at DESC LIMIT 50;
 ```
 
-- Where each bundle's dates come from:
+- Where each bundle's dates come from, and which carry a period:
 
 ```sql
-SELECT bundle, published_at_source, published_at_precision, COUNT(*)
+SELECT bundle, date_source, start_precision,
+       COUNT(*)                                        AS documents,
+       SUM(effective_end_date IS NOT NULL)                AS with_a_period
 FROM documents WHERE source_type = 'website' GROUP BY 1, 2, 3 ORDER BY 1;
+```
+
+- Ranges the CMS could not state cleanly:
+
+```sql
+SELECT range_issue, COUNT(*) FROM documents_date_decision
+WHERE range_issue IS NOT NULL GROUP BY 1;
 ```
 
 - Why one document carries the date it does — the whole chain in one row:
 
 ```sql
-SELECT bundle, candidate_source, date_type, rule, current_published_at,
-       candidate_date, evidence
+SELECT bundle, date_source, date_type, rule, current_start_date,
+       candidate_start_date, candidate_end_date, range_issue, evidence
 FROM documents_date_decision WHERE document_id = ?;
 ```
 
 - Log lines: `Bundle %r has no configured date field`, `Bundle %r states its date
   in %s, which is empty on this record`, `... whose value %r is not a usable
-  date`, `... which holds only the year %r`,
+  date`, `... which holds only the year %r`, `Bundle %r has %s = %r, which is not
+  a usable date; the end of the range is dropped`, `Bundle %r has %s (%s) after
+  %s (%s)`, `Bundle %r has a usable %s but no usable %s`,
   `Discarding implausible %s value %r on a source record.`,
   `Discarding unparseable model date %r.`, each `safe_action` downgrade at INFO
-  naming the gate that failed, and `Indexing %s … with no publication date`.
+  naming the gate that failed, and `Indexing %s … with no effective date`.
 - `indexed_without_date` on the run's `ingest_throughput` line.
 - Migration: `scripts.backfill_bundle_dates` (dry run by default).
   `scripts.backfill_source_dates` is retired and refuses to run.

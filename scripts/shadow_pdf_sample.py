@@ -10,7 +10,7 @@ agree with what the document says about itself.
 PyMuPDF, reads the metadata dictionary and closes them. No text extraction, no
 OCR, no Azure. Downloaded bytes are held in memory and discarded.
 
-Read-only: the catalog, Qdrant, fingerprints and ``published_at`` are untouched.
+Read-only: the catalog, Qdrant, fingerprints and ``effective_start_date`` are untouched.
 
 Usage::
 
@@ -197,7 +197,7 @@ def main(argv: list[str] | None = None) -> int:
                 "node_created": record.get("node_created"),
                 "file_created": record.get("file_created", ""),
                 "pdf_created": pdf_created or "",
-                "current_published_at": record.get("current_published_at") or "",
+                "current_start_date": record.get("current_start_date") or "",
                 "proposed": proposal.proposed or "",
                 "rule": proposal.rule,
                 "source": proposal.source,
@@ -250,13 +250,13 @@ def main(argv: list[str] | None = None) -> int:
 
     lines.append("\n### Sample detail\n")
     lines.append("| filename | bundle | origin | node.created | file.created | pdf CreationDate "
-                 "| current published_at | proposed | rule | trust |")
+                 "| current effective_start_date | proposed | rule | trust |")
     lines.append("|---|---|---|---|---|---|---|---|---|---|")
     for r in rows:
         lines.append(
             f"| {(r['filename'] or '')[:34]} | {r['bundle']} | {r['origin']} "
             f"| {str(r['node_created'])[:10]} | {str(r['file_created'])[:10]} "
-            f"| {str(r['pdf_created'])[:10]} | {str(r['current_published_at'])[:10]} "
+            f"| {str(r['pdf_created'])[:10]} | {str(r['current_start_date'])[:10]} "
             f"| {str(r['proposed'])[:10]} | {r['rule']} | {r['trust']} |"
         )
 
