@@ -23,6 +23,26 @@ Metrics are computed against `reports/retrieval/judgments_v1.draft.json`, whose
 grades are LLM-assisted drafts. **Treat every number here as provisional until
 those judgments are reviewed** — see the file's own status field.
 
+Reading the output
+    This evaluator has twice produced a confident, plausible, wrong number
+    rather than an error, so it now guards both cases loudly. Judge a result by
+    asking what it *would* read if the thing it measures had not run at all —
+    not whether the figure looks reasonable.
+
+    - Every metric 0.000 across every configuration means the judged chunk ids
+      are not in the collection, not that retrieval failed. Chunk ids are
+      content-derived, so any re-chunking invalidates the gold set; re-run
+      `scripts.judge_retrieval`.
+    - A single configuration scoring badly may be a Qdrant timeout, not a
+      ranking. Retrieval errors are recorded per call, excluded from the means
+      as None rather than averaged in as zeros, and reported in a block headed
+      "retrieval calls FAILED". If that block appears, the run is incomplete.
+    - Two configurations returning *identical* per-category scores means they
+      are the same configuration. Settings not named in a config's overrides are
+      pinned by `_RERANK_DEFAULTS`, never inherited from `.env` — an earlier
+      pass had the nominally-512 sequence length silently running at the 256 in
+      the developer's environment.
+
     python -m scripts.eval_retrieval                    # all queries
     python -m scripts.eval_retrieval --k 5              # cut at rank 5
     python -m scripts.eval_retrieval --category acronym # one category
@@ -34,9 +54,11 @@ import argparse
 import json
 import logging
 import math
+import os
 import statistics
 import sys
 import time
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any, Callable, Sequence
 
@@ -90,13 +112,141 @@ def _dense_keyword(query: str, query_vector: list[float], limit: int) -> list[An
     return rrf([dense, keyword])[:limit]
 
 
+# --------------------------------------------------------------------------- #
+# Reranking configurations
+#
+# These reorder the `dense+keyword` pool rather than retrieving their own, which
+# is deliberate. The judgments are pooled from the retrieval legs at depth
+# POOL_DEPTH, so any chunk a deeper pull would surface is ungraded and scores 0
+# by construction — exactly the bias `scripts.judge_retrieval` documents for the
+# keyword leg. Reranking inside the judged set removes it: the set is identical
+# across these configs and only the *order* differs, so Recall@K is fixed by
+# construction and every move in nDCG/MRR is ordering quality, which is the only
+# thing a reranker claims to improve.
+# --------------------------------------------------------------------------- #
+
+# The retrieval pool, memoised per (query, limit) so every rerank config scores
+# the identical candidate set and the timing delta is the reranker's own cost
+# rather than another Qdrant round trip.
+_POOL_CACHE: dict[tuple[str, int], list[Any]] = {}
+
+
+def _pool(query: str, query_vector: list[float], limit: int) -> list[Any]:
+    key = (query, limit)
+    if key not in _POOL_CACHE:
+        _POOL_CACHE[key] = _dense_keyword(query, query_vector, limit)
+    # Copied because `rerank` writes `score` on the candidates it is given.
+    return list(_POOL_CACHE[key])
+
+
+@contextmanager
+def _settings(**overrides: str):
+    """Run with these Settings fields overridden.
+
+    `get_settings` is lru_cached, so the environment alone is not enough — the
+    cache has to be dropped on the way in and again on the way out, or the
+    override leaks into whatever runs next.
+    """
+    from app.config import get_settings
+
+    previous = {k: os.environ.get(k) for k in overrides}
+    os.environ.update(overrides)
+    get_settings.cache_clear()
+    try:
+        yield
+    finally:
+        for k, v in previous.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+        get_settings.cache_clear()
+
+
+#: Every rerank setting, pinned to its shipped default. `_reranked` applies this
+#: whole set and then the config's overrides on top, so a configuration means the
+#: same thing on any machine.
+#:
+#: Not optional. `Settings` reads `.env`, so a config that overrode only the
+#: provider inherited every other value from whatever the developer had
+#: configured — measured once, when `.env` carried RERANK_MAX_SEQ_LENGTH=256 and
+#: the nominally-512 configuration silently ran at 256, returning per-category
+#: scores identical to the explicit 256 config. A benchmark whose configurations
+#: are defined partly by ambient state is not a benchmark.
+_RERANK_DEFAULTS = {
+    "RERANKER_PROVIDER": "embedding",
+    "RERANK_MODEL": "",
+    "RERANK_MAX_SEQ_LENGTH": "0",
+    "RERANK_MAX_CANDIDATES": "40",
+    "RERANK_RELEVANCE_TOLERANCE": "0.03",
+    "RERANK_SCORE_THRESHOLD": "0.0",
+}
+
+
+def _reranked(**overrides: str) -> Callable[[str, list[float], int], list[Any]]:
+    """A config that reranks the shared pool under `overrides`.
+
+    Settings not named in `overrides` are pinned to `_RERANK_DEFAULTS`, not
+    inherited from the environment.
+    """
+    pinned = {**_RERANK_DEFAULTS, **overrides}
+
+    def run(query: str, query_vector: list[float], limit: int) -> list[Any]:
+        from app.retrieval.search.reranker import rerank
+
+        candidates = _pool(query, query_vector, limit)
+        with _settings(**pinned):
+            return rerank(query, candidates, top_n=limit)
+
+    return run
+
+
+# Cross-encoders under test. MiniLM is the small English-only baseline (~90MB);
+# bge-reranker-v2-m3 is the multilingual XLM-R-large model `reranker.py` defaults
+# to (~2.3GB).
+#
+# No tolerance override: `reranker._cross_encoder_semantic` squashes the logit
+# through a sigmoid, so the score is back on the 0..1 footing that
+# `rerank_relevance_tolerance` (0.03) and the context builder's floors are
+# calibrated for. The `_t20` variants widen the band instead, which is the one
+# knob that trades relevance against the recency/authority keys underneath it.
+_CE_MODELS = {
+    "minilm": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "bge": "BAAI/bge-reranker-v2-m3",
+}
+
 CONFIGS: dict[str, Callable[[str, list[float], int], list[Any]]] = {
     "dense": _dense,
     "keyword": _keyword,
     "dense+keyword": _dense_keyword,
+    # Production today: `reranker_provider` defaults to "embedding", which
+    # `reranker._semantic_scores` resolves to the dense score retrieval already
+    # returned. So this measures the banding alone, on an unchanged relevance
+    # signal — the honest baseline for what adding a real reranker buys.
+    "rr_embedding": _reranked(RERANKER_PROVIDER="embedding"),
 }
 
+for _key, _model in _CE_MODELS.items():
+    CONFIGS[f"rr_{_key}"] = _reranked(
+        RERANKER_PROVIDER="cross_encoder", RERANK_MODEL=_model,
+    )
+    CONFIGS[f"rr_{_key}_t20"] = _reranked(
+        RERANKER_PROVIDER="cross_encoder", RERANK_MODEL=_model,
+        RERANK_RELEVANCE_TOLERANCE="0.20",
+    )
+    # Sequence-length variants. Latency is close to linear in this, so the
+    # question is what judging a passage on its opening costs in ranking quality.
+    for _seq in ("256", "128", "64"):
+        CONFIGS[f"rr_{_key}_s{_seq}"] = _reranked(
+            RERANKER_PROVIDER="cross_encoder", RERANK_MODEL=_model,
+            RERANK_MAX_SEQ_LENGTH=_seq,
+        )
+
+POOL_CONFIGS = ("dense", "keyword", "dense+keyword")
+
 # The pair the phase is actually deciding between; `keyword` alone is diagnostic.
+# Overridable with --compare, since the file now carries two decisions: whether
+# the keyword leg earns its place, and whether a real reranker does.
 COMPARED = ("dense", "dense+keyword")
 
 
@@ -173,13 +323,22 @@ def run_query(
     out: dict[str, dict[str, Any]] = {}
     for name in configs:
         started = time.perf_counter()
+        error = None
         try:
             hits = CONFIGS[name](query, query_vector, limit)
-        except Exception:
+        except Exception as exc:  # noqa: BLE001
             logger.warning("Config %r failed on %r.", name, query, exc_info=True)
             hits = []
+            # Recorded rather than swallowed. An empty result from a Qdrant
+            # timeout is not the same measurement as a configuration that
+            # genuinely retrieved nothing, and scoring it as 0.0 silently
+            # depresses whichever configurations happened to run while the
+            # server was busy — measured once, when a post-migration optimiser
+            # pass timed out the first query for six of seven configurations and
+            # left the seventh looking better than it was.
+            error = f"{type(exc).__name__}: {exc}"
         elapsed_ms = (time.perf_counter() - started) * 1000
-        out[name] = {"ids": [h.id for h in hits], "ms": elapsed_ms}
+        out[name] = {"ids": [h.id for h in hits], "ms": elapsed_ms, "error": error}
     return out
 
 
@@ -202,12 +361,17 @@ def evaluate(
         }
         for name, res in results.items():
             ids = res["ids"]
+            failed = res.get("error") is not None
             row["configs"][name] = {
-                "recall": recall_at_k(ids, relevant, k),
-                "mrr": reciprocal_rank(ids, relevant),
-                "ndcg": ndcg_at_k(ids, grades, k),
+                # None, not 0.0, when the retrieval itself errored: `_mean` skips
+                # None, so a failed call is excluded from the aggregate instead
+                # of being averaged in as a total miss.
+                "recall": None if failed else recall_at_k(ids, relevant, k),
+                "mrr": None if failed else reciprocal_rank(ids, relevant),
+                "ndcg": None if failed else ndcg_at_k(ids, grades, k),
                 "ms": res["ms"],
                 "returned": len(ids),
+                "error": res.get("error"),
                 "ids": ids,
             }
         rows.append(row)
@@ -249,7 +413,7 @@ def _print_table(title: str, rows: list[dict], configs: Sequence[str], k: int) -
         )
 
 
-def _print_wins(rows: list[dict], k: int) -> None:
+def _print_wins(rows: list[dict], k: int, compared: tuple[str, str] = COMPARED) -> None:
     """Per-query wins and losses between the two compared configurations.
 
     Reported per query rather than only in aggregate because a mean can hide the
@@ -257,7 +421,7 @@ def _print_wins(rows: list[dict], k: int) -> None:
     slightly hurts twenty semantic ones is a different decision from one that
     helps everything a little.
     """
-    a, b = COMPARED
+    a, b = compared
     print(f"\nPer-query change ({b} vs {a}), by nDCG@{k}:")
     wins = losses = ties = 0
     for row in rows:
@@ -300,6 +464,10 @@ def main(argv: list[str] | None = None) -> int:
         "--configs", default=",".join(CONFIGS),
         help=f"Comma-separated subset of: {', '.join(CONFIGS)}",
     )
+    parser.add_argument(
+        "--compare", default=",".join(COMPARED),
+        help="Config pair for the per-query wins table, as 'baseline,candidate'.",
+    )
     parser.add_argument("--json", dest="json_out", help="Write full results here.")
     args = parser.parse_args(argv)
 
@@ -322,8 +490,24 @@ def main(argv: list[str] | None = None) -> int:
 
     _print_table("Overall", rows, configs, args.k)
     _print_by_category(rows, configs, args.k)
-    if all(c in configs for c in COMPARED):
-        _print_wins(rows, args.k)
+    compared = tuple(c.strip() for c in args.compare.split(","))
+    if len(compared) == 2 and all(c in configs for c in compared):
+        _print_wins(rows, args.k, compared)
+
+    errors = [
+        (r["id"], name, cfg["error"])
+        for r in rows for name, cfg in r["configs"].items() if cfg.get("error")
+    ]
+    if errors:
+        print()
+        print(f"*** {len(errors)} retrieval calls FAILED and are excluded "
+              f"from the means. These numbers are incomplete: ***")
+        for qid, name, err in errors[:12]:
+            print(f"  ! {qid:10} {name:22} {err}")
+        if len(errors) > 12:
+            print(f"  ... and {len(errors) - 12} more")
+        print("  Re-run before comparing configurations — a config that ran while "
+              "the server was busy is not comparable to one that did not.")
 
     unjudged = [r["id"] for r in rows if not r["relevant"]]
     if unjudged:

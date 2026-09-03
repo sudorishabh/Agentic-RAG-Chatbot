@@ -106,14 +106,15 @@ def _grades_for_batch(query: str, passages: list[tuple[str, str]]) -> dict[str, 
 
 
 def _pool(query: str) -> dict[str, str]:
-    """chunk_id -> text, pooled across every configuration under test."""
+    """chunk_id -> text, pooled across the retrieval configurations."""
     from app.core.clients.embeddings import embed_query
 
-    from scripts.eval_retrieval import CONFIGS
+    from scripts.eval_retrieval import CONFIGS, POOL_CONFIGS
 
     query_vector = embed_query(query)
     pooled: dict[str, str] = {}
-    for name, run in CONFIGS.items():
+    for name in POOL_CONFIGS:
+        run = CONFIGS[name]
         try:
             hits = run(query, query_vector, POOL_DEPTH)
         except Exception:

@@ -174,12 +174,50 @@ class Settings(BaseSettings):
     reranker_provider: str = "embedding"
     rerank_model: str = ""
     rerank_score_threshold: float = 0.0
+    # Candidates the cross_encoder provider will score. It runs one model pass
+    # per candidate, so its cost is linear where every other provider's is flat:
+    # measured on CPU at ~55ms per candidate, the full fused set (three legs at
+    # `retrieval_candidate_k` is routinely 100+) came to 6.6s per query. The head
+    # of the incoming order is kept, which is the fused ranking, and the tail is
+    # left in place behind it — a candidate the first stage ranked below 40th has
+    # never reached the final `retrieval_top_k` (6), so this bounds the latency
+    # without changing what gets answered. 0 disables the cap.
+    #
+    # `_MAX_LLM_CANDIDATES` is the same guard for the llm provider, which instead
+    # declines entirely past its limit; that would mean never reranking at all
+    # here, since production always exceeds it.
+    rerank_max_candidates: int = 40
+    # Tokens per query+passage pair the cross-encoder sees. 0 leaves the model
+    # default alone (512 for both rerankers wired here).
+    #
+    # Latency is close to linear in this. Measured at a 10-candidate pool,
+    # 512/256/128/64 cost 1370/574/323/181ms — so 64 is 7.6x cheaper than the
+    # model default.
+    #
+    # Ranking quality across those four is NOT measurable on the current
+    # benchmark, and the rising MRR column in the phase-3 report must not be read
+    # as a trend. `scripts.judge_retrieval` grades each chunk on `text[:700]`,
+    # and a census of the 491 chunks in the gold set puts 88.8% of them longer
+    # than that (median 1637 chars; the grader saw 42.8% of a median graded
+    # chunk). So a reranker reading ~256 chars (64 tokens) sits inside the
+    # grader's field of view while one reading ~2048 (512 tokens) is judged
+    # partly on text the grader never saw. Win counts are flat — 27/29/28/27
+    # across an 8x range — which is what you would expect if the effect were
+    # alignment with the gold set rather than relevance.
+    #
+    # So choose this on latency, and on how much of a chunk you want actually
+    # judged. Against the 1637-char median of the graded set, 128 tokens keeps
+    # roughly a third of a chunk in view and 64 keeps about a sixth — closer to
+    # topic matching than to passage judgement.
+    rerank_max_seq_length: int = 0
     # How far apart two candidates' relevance scores may sit and still count as
     # "similarly relevant" — the width of a ranking band. Inside a band the newer
     # document leads; across bands relevance always wins, however old the winner
-    # is. Sized for the 0..1 scale the embedding, llm and cohere providers return;
-    # raise it for cross_encoder, whose scores are unbounded logits. Widen to let
-    # recency decide more often, narrow to make it decide less.
+    # is. Sized for the 0..1 scale every provider returns — cross_encoder emits an
+    # unbounded logit but `reranker._cross_encoder_semantic` squashes it onto the
+    # same footing, so this needs no adjustment per provider. Widen to let recency
+    # decide more often, narrow to make it decide less; measured on the retrieval
+    # benchmark, 0.20 cost 0.038 MRR against this default.
     rerank_relevance_tolerance: float = 0.03
     # Multiplier on that tolerance when the query is about something that goes
     # out of date — pricing, an API, a regulation, an announcement (see

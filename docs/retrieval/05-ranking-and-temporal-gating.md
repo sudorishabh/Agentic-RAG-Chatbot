@@ -129,11 +129,31 @@ unchanged):
 | --- | --- | --- |
 | `embedding` (default) | Uses the dense score already on the candidate. | — |
 | `llm` | One structured-output call rating every passage 0–1, only when the set is `<= _MAX_LLM_CANDIDATES` (40). | Above the cap, the call raises, or the model returns the wrong number of scores. |
-| `cross_encoder` | A local `sentence-transformers` `CrossEncoder` (`BAAI/bge-reranker-v2-m3` by default), cached per model name. | The library or model is unavailable. |
+| `cross_encoder` | A local `sentence-transformers` `CrossEncoder` (`BAAI/bge-reranker-v2-m3` by default), cached per model name. Scores the first `rerank_max_candidates` (40) only — one model pass per candidate, so its cost is linear where every other provider's is flat. | The library or model is unavailable. |
 | `cohere` | Cohere's hosted rerank endpoint (`rerank-3.5` by default), client cached with `lru_cache`. | The API call fails. |
 
 Every non-default provider fails open to the dense score with a warning — a
 reranker outage degrades ranking quality, never breaks the request.
+
+A cross-encoder is the one provider that does not natively return a 0..1 score:
+it emits an unbounded logit (measured on this corpus, ~+4 for a passage that
+answers the query and ~-11 for one that does not), so
+`_cross_encoder_semantic` squashes it through a sigmoid. That is the model's own
+calibration — these models are trained with BCE on that logit — and it is what
+keeps `semantic_score` on the cosine footing every consumer is tuned for: the
+relevance band width (`rerank_relevance_tolerance`, 0.03), the context builder's
+`website_chunk_floor` (0.30) and `pdf_high_confidence_floor` (0.5), and the
+corrective loop's `corrective_min_score` (0.2). Passing the raw logit through
+would break all four at once, in the same way `fusion.rrf` would if it wrote its
+reciprocal-rank value over the semantic score. Pinned by
+`tests/retrieval/search/test_fusion_score_integrity.py`.
+
+Candidates past the cap are not dropped: they keep their incoming (fused) order
+behind every scored candidate, and are deliberately not ranked against them —
+their score is still a cosine while the head's is a normalised cross-encoder
+relevance, and the two are not calibrated to each other. With
+`retrieval_top_k` at 6 and the cap at 40, a candidate the first stage ranked
+below 40th has never reached an answer.
 
 ### Relevance band width, and volatile topics
 
@@ -266,7 +286,7 @@ An 86-question benchmark asked *"Are there any upcoming TERI training
 programmes?"* and the system returned six **past** programmes from 2013–15, then
 refused to answer further. Nothing on the retrieval path distinguished
 "upcoming" from "ever", and nothing consulted an event's own start date — the
-only date on a chunk is `published_at`, when the *page* was published, which for
+only date on a chunk is `effective_start_date`, when the *page* was published, which for
 an "upcoming" question is close to ranking by the opposite of the answer.
 
 ### What it can and cannot do
@@ -305,7 +325,7 @@ first (order matters — the first match wins):
 
 Only `UPCOMING` currently changes retrieval. The rest are classified so the
 distinction is explicit and testable, and so publication-date questions keep
-using `published_at` and relationship-history questions keep using claim
+using `effective_start_date` and relationship-history questions keep using claim
 validity, exactly as before — this module does not touch either.
 
 ### The gate itself
@@ -348,8 +368,10 @@ merge contributed too, not just the vector-search blocks.
 | --- | --- | --- |
 | `reranker_provider` | `embedding` | Which scorer produces relevance: `embedding`, `llm`, `cross_encoder`, `cohere`. |
 | `rerank_model` | `""` | Model name for `cross_encoder`/`cohere`; each has its own built-in default. |
+| `rerank_max_candidates` | `40` | Candidates the `cross_encoder` provider scores; the rest hold their order behind them. `0` disables the cap. |
+| `rerank_max_seq_length` | `0` | Tokens per query+passage pair the cross-encoder sees. `0` leaves the model default (512). Latency is close to linear in this. |
 | `rerank_score_threshold` | `0.0` | Hard floor on semantic score before banding; `0` disables it. |
-| `rerank_relevance_tolerance` | `0.03` | Relevance band width. |
+| `rerank_relevance_tolerance` | `0.03` | Relevance band width, on the 0..1 scale every provider is normalised to. |
 | `rerank_volatile_tolerance_multiplier` | `2.0` | Multiplier applied to the tolerance when `is_volatile(query)`. |
 | `rerank_substance_ratio` | `1.5` | The length ratio that counts as "substantially more" for completeness banding. |
 | `rerank_table_boost` | `0.15` | Relevance boost for `has_table` chunks when `answer_format == "table"`. |

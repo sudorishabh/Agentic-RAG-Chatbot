@@ -31,7 +31,7 @@ def _cand(
 ) -> Candidate:
     body = {"chunk_text": "x" * chars, **payload}
     if published:
-        body["published_at"] = published
+        body["effective_start_date"] = published
     return Candidate(id=id, score=score, payload=body, vector=[0.1])
 
 
@@ -47,6 +47,10 @@ def settings(monkeypatch):
         rerank_relevance_tolerance=0.03,
         rerank_volatile_tolerance_multiplier=2.0,
         rerank_substance_ratio=1.5,
+        # Inert for the `embedding` provider these tests use, but read
+        # unconditionally by `rerank`.
+        rerank_max_candidates=40,
+        rerank_max_seq_length=0,
     )
     monkeypatch.setattr(reranker, "get_settings", lambda: cfg)
     return cfg

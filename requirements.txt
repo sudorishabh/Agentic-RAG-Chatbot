@@ -32,7 +32,7 @@ pytest                         # router unit tests (tests/)
 
 # Optional reranker/observability backends — lazily imported, feature falls
 # back gracefully when absent (see app/retrieval/search/reranker.py, app/observability/tracing.py)
-# sentence-transformers          # cross-encoder reranking
+sentence-transformers            # cross-encoder reranking (BAAI/bge-reranker-v2-m3)
 # cohere                         # Cohere rerank API
 # opentelemetry-sdk              # OTLP tracing export
 # opentelemetry-exporter-otlp-proto-http

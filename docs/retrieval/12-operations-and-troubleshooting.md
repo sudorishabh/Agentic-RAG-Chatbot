@@ -67,6 +67,7 @@ Beyond what ingestion already lists (`requirements.txt`):
 | `langchain-openai` + `openai` + `httpx` | query understanding, generation, faithfulness | Cannot answer any query |
 | `PyJWT` | `/chat` and `/search` auth | Auth cannot be enabled |
 | `neo4j` | graph retrieval | Only matters when `graph_retrieval_enabled` |
+| `sentence-transformers` | the `cross_encoder` reranker provider | Falls back to the `embedding` provider if absent — see `reranker_provider` below |
 | `cohere` (commented out by default) | the `cohere` reranker provider | Falls back to the `embedding` provider if unset — see `reranker_provider` below |
 | `opentelemetry-*` | OTLP export | Commented out; tracing falls back to in-process only |
 
@@ -79,6 +80,12 @@ Beyond what ingestion already lists (`requirements.txt`):
    first-run mistake.
 3. Decide `reranker_provider` (`embedding` is the default and needs nothing
    extra; `cross_encoder` and `cohere` need their own model/credentials).
+   `cross_encoder` downloads its model on first use, so the first query after a
+   deploy pays the load; the default `BAAI/bge-reranker-v2-m3` is ~2.3GB
+   resident and will fail to load on a host without the headroom (falling back
+   to `embedding` with a warning, so the symptom is silently unchanged ranking
+   rather than an error). `cross-encoder/ms-marco-MiniLM-L-6-v2` is ~90MB and
+   English-only.
 4. Decide whether `auth_enabled` should be `true` for `/chat` and `/search` —
    off by default, so an unconfigured deployment is publicly answerable.
 5. Leave every feature flag (`multi_query_enabled`, `corrective_loop_enabled`,
@@ -114,6 +121,8 @@ Security and ops are the same settings and are not repeated here).
 | `corrective_min_score` | `0.2` | Trigger threshold. |
 | `reranker_provider` | `embedding` | `embedding` / `cross_encoder` / `cohere`. |
 | `rerank_model` | `""` | Provider-specific model name. |
+| `rerank_max_candidates` | `40` | Candidates the `cross_encoder` provider scores; bounds its linear cost. |
+| `rerank_max_seq_length` | `0` | Cross-encoder tokens per pair; `0` keeps the model default (512). |
 | `rerank_score_threshold` | `0.0` | Floor below which a candidate is dropped outright. |
 | `rerank_relevance_tolerance` | `0.03` | Ranking-band width; see [05](05-ranking-and-temporal-gating.md). |
 | `rerank_volatile_tolerance_multiplier` | `2.0` | Band widening for time-sensitive topics. |

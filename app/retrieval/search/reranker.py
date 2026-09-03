@@ -18,7 +18,7 @@ So candidates are *banded* instead, and ranked on the bands in priority order:
 3. **completeness** — within an authority band, a passage holding
    ``rerank_substance_ratio`` times the text of another says substantially more
    and leads it;
-4. **recency** — comparable passages settle on publication date, newest first.
+4. **recency** — comparable passages settle on the effective date, newest first.
 
 Two editions of the same annual report land in one relevance band, and unless one
 is a fragment the newer leads. An older passage that actually answers the
@@ -75,7 +75,7 @@ def _recency_scores(candidates: Sequence[Candidate]) -> list[float]:
     to anything else."""
     epochs: list[float | None] = []
     for c in candidates:
-        raw = c.payload.get("published_at")
+        raw = c.payload.get("effective_start_date")
         epoch: float | None = None
         if isinstance(raw, str) and raw:
             try:
@@ -380,25 +380,72 @@ def _llm_semantic(query: str, candidates: Sequence[Candidate]) -> list[float] | 
 
 
 def _cross_encoder_semantic(query: str, candidates: Sequence[Candidate]) -> list[float] | None:
+    """Cross-encoder relevance per candidate, squashed to 0..1.
+
+    A cross-encoder emits an unbounded logit — measured on this corpus, roughly
+    +4 for a passage that answers the query and -11 for one that does not. Every
+    consumer of this number is calibrated in cosine, i.e. 0..1: the relevance
+    band width (`rerank_relevance_tolerance`, 0.03) and the context builder's
+    admission floors (`website_chunk_floor` 0.30, `pdf_high_confidence_floor`
+    0.5, applied to `semantic_score` in `context.builder`). Handing those a
+    logit breaks both — 0.03 is below the gap between any two logits, so every
+    candidate takes its own band and the recency/authority keys stop being
+    reachable, while a moderately relevant passage scoring -2 falls under a floor
+    meant to reject the weakly related. This is the failure `fusion.rrf`
+    documents for its own scale, in the other direction.
+
+    A sigmoid is the model's own calibration rather than an arbitrary rescale:
+    these models are trained with BCE on that logit, so sigmoid(logit) is the
+    probability the pair is relevant, and it is already the normalisation
+    BAAI publish for bge-reranker. That puts it on the same 0..1 footing as a
+    cosine and leaves every downstream threshold meaning what it says.
+    """
     model_name = get_settings().rerank_model or "BAAI/bge-reranker-v2-m3"
     try:
         encoder = _load_cross_encoder(model_name)
         scores = encoder.predict([(query, c.text) for c in candidates])
-        return [float(s) for s in scores]
+        return [_sigmoid(float(s)) for s in scores]
     except Exception:
         logger.warning("cross_encoder rerank unavailable; falling back.", exc_info=True)
         return None
 
 
+def _sigmoid(x: float) -> float:
+    """Logistic squash, written to not overflow on a large-magnitude logit."""
+    if x >= 0.0:
+        return 1.0 / (1.0 + math.exp(-x))
+    e = math.exp(x)
+    return e / (1.0 + e)
+
+
 _CROSS_ENCODER_CACHE: dict[str, object] = {}
+# Each cached model's own `max_seq_length`, so `rerank_max_seq_length = 0` can
+# restore it rather than leaving the last override standing.
+_MODEL_MAX_SEQ: dict[str, int] = {}
 
 
 def _load_cross_encoder(model_name: str):
     if model_name not in _CROSS_ENCODER_CACHE:
         from sentence_transformers import CrossEncoder
 
-        _CROSS_ENCODER_CACHE[model_name] = CrossEncoder(model_name)
-    return _CROSS_ENCODER_CACHE[model_name]
+        # Loading is seconds and several hundred MB, so the cache is what keeps
+        # this off the query path; only the first query pays.
+        encoder = CrossEncoder(model_name)
+        _CROSS_ENCODER_CACHE[model_name] = encoder
+        _MODEL_MAX_SEQ[model_name] = encoder.max_seq_length
+    encoder = _CROSS_ENCODER_CACHE[model_name]
+    # Assigned on every lookup rather than at construction, and assigned
+    # unconditionally. The cache is keyed by model name while `max_seq_length` is
+    # mutable state on the cached object, so a load-time-only assignment would
+    # pin whatever the setting was for the first query of the process — and
+    # skipping the assignment when the setting is 0 would leave the *previous*
+    # override in place rather than restoring the model's own default, which is
+    # what 0 means. Both were measured as a silently unchanged sequence length.
+    settings = get_settings()
+    encoder.max_seq_length = (
+        settings.rerank_max_seq_length or _MODEL_MAX_SEQ[model_name]
+    )
+    return encoder
 
 
 @lru_cache(maxsize=1)
@@ -465,12 +512,27 @@ def rerank(
     `score` and the raw provider score in `semantic_score` (the context builder's
     floors read the latter). `score` is not monotone with the returned order:
     inside a band the ranking is by recency, so a newer candidate can lead one
-    scoring marginally higher."""
+    scoring marginally higher.
+
+    Under the cross_encoder provider only the first `rerank_max_candidates` are
+    scored; the rest keep their incoming order behind them."""
     candidates = list(candidates)
     if not candidates:
         return []
     settings = get_settings()
     provider = (settings.reranker_provider or "embedding").lower()
+
+    # A cross-encoder costs one model pass per candidate, so the fused set is
+    # capped before it is scored (see `rerank_max_candidates`). The tail is not
+    # dropped but held behind every scored candidate, and deliberately not sorted
+    # against them: its score is still a cosine while the head's is a normalised
+    # cross-encoder relevance, and ranking the two together would let a candidate
+    # the first stage put 41st climb over one the reranker judged irrelevant —
+    # the scale-mixing this module's other scores are kept apart to avoid.
+    tail: list[Candidate] = []
+    cap = settings.rerank_max_candidates
+    if provider == "cross_encoder" and cap and len(candidates) > cap:
+        candidates, tail = candidates[:cap], candidates[cap:]
 
     semantic = _semantic_scores(query, candidates, provider)
     threshold = settings.rerank_score_threshold
@@ -528,4 +590,5 @@ def rerank(
         )
         for r in ranked
     ]
+    out.extend(tail)
     return out[:top_n] if top_n else out
