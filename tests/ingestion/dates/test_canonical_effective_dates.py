@@ -1,4 +1,4 @@
-"""Where a document's ``published_at`` comes from when it is built.
+"""Where a document's ``effective_start_date`` comes from when it is built.
 
 The date a Drupal record carries is a property of its **bundle**: ``news`` takes
 ``field_news_date``, ``completed_projects`` takes the project's start,
@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import pytest
 
-from app.ingestion.canonical import _published_at_for, from_drupal_record
+from app.ingestion.canonical import _effective_dates_for, from_drupal_record
 
 CREATED = "2018-01-11T06:29:59+00:00"
 
@@ -42,8 +42,8 @@ class _Record:
 
 def _resolve(bundle, created, metadata):
     """`(value, source, precision)` — the three fields the builder applies."""
-    got = _published_at_for(bundle, created, metadata)
-    return got.value, got.source, got.precision
+    got = _effective_dates_for(bundle, created, metadata)
+    return got.start_value, got.source, got.start_precision
 
 
 # --------------------------------------------------------------------------- #
@@ -118,7 +118,7 @@ def test_only_the_bundles_own_field_is_read():
 # --------------------------------------------------------------------------- #
 
 def test_a_stated_year_is_applied_and_marked_year_precision():
-    """Stored as 1 January *as a marker*. `published_at_precision` is what keeps
+    """Stored as 1 January *as a marker*. `start_precision` is what keeps
     it from being read as a January publication, and it reaches the payload."""
     assert _resolve("research_papers", CREATED, {"field_rpaper_year": 2016}) \
         == ("2016-01-01T00:00:00+00:00", "cms_field", "year")
@@ -148,10 +148,10 @@ def test_one_function_governs_the_decision_for_ingestion_and_the_backfill():
     from app.ingestion.extractors import attachment
     from scripts import backfill_bundle_dates
 
-    assert "bundle_dates" in inspect.getsource(canonical._published_at_for)
+    assert "bundle_dates" in inspect.getsource(canonical._effective_dates_for)
     assert "bundle_dates" in inspect.getsource(attachment.resolve_parent_date)
-    assert backfill_bundle_dates.resolve.__module__ == "app.ingestion.bundle_dates"
-    assert "resolve(" in inspect.getsource(backfill_bundle_dates.page_moves), \
+    assert backfill_bundle_dates.resolve_effective_dates.__module__ == "app.ingestion.bundle_dates"
+    assert "resolve_effective_dates(" in inspect.getsource(backfill_bundle_dates.page_moves), \
         "the backfill must call the shared resolver, not re-implement the rule"
 
 
@@ -162,15 +162,15 @@ def test_one_function_governs_the_decision_for_ingestion_and_the_backfill():
 def test_the_builder_carries_the_value_and_its_provenance():
     doc = from_drupal_record(
         _Record({"field_pressrelease_date": "2012-04-17T18:30:00+00:00"}))
-    assert doc.published_at == "2012-04-18T00:00:00+00:00"
-    assert doc.published_at_source == "cms_field"
-    assert doc.published_at_precision == "day"
+    assert doc.effective_start_date == "2012-04-18T00:00:00+00:00"
+    assert doc.date_source == "cms_field"
+    assert doc.start_precision == "day"
 
 
 def test_the_builder_leaves_a_created_bundle_exactly_as_before():
     doc = from_drupal_record(_Record({}, bundle="article"))
-    assert doc.published_at == CREATED
-    assert doc.published_at_source == "created"
+    assert doc.effective_start_date == CREATED
+    assert doc.date_source == "created"
 
 
 def test_the_builder_carries_the_evidence_for_the_audit_row():
@@ -178,8 +178,8 @@ def test_the_builder_carries_the_evidence_for_the_audit_row():
     metadata, so a row cannot disagree with the value on the document."""
     doc = from_drupal_record(
         _Record({"field_pressrelease_date": "2012-04-17T18:30:00+00:00"}))
-    assert doc.date_evidence.field == "field_pressrelease_date"
-    assert doc.date_evidence.raw_value == "2012-04-17T18:30:00+00:00"
+    assert doc.date_evidence.start_field == "field_pressrelease_date"
+    assert doc.date_evidence.start_raw == "2012-04-17T18:30:00+00:00"
     assert doc.date_evidence.bundle == "press_release"
     assert doc.date_evidence.rule == "bundle_date_field"
 
@@ -225,7 +225,7 @@ def test_a_pdf_keeping_its_page_date_records_that_source():
     from app.ingestion.extractors import attachment
 
     src = inspect.getsource(attachment.build_attachment_doc)
-    assert 'published_at_source=("document_text" if resolved.overridden' in src
+    assert 'date_source=("document_text" if resolved.overridden' in src
     assert 'else "parent_page")' in src
 
 
@@ -235,13 +235,13 @@ def test_an_override_is_the_only_thing_that_earns_document_text():
     from app.ingestion.date_resolution import ResolvedDate
     from app.ingestion.date_rules import DateDecision
 
-    keep = ResolvedDate(published_at="2018-01-09T00:00:00+00:00",
+    keep = ResolvedDate(start_value="2018-01-09T00:00:00+00:00",
                         decision=DateDecision(document_id="d", action="keep_page_date"))
-    override = ResolvedDate(published_at="2013-12-23T00:00:00+00:00",
+    override = ResolvedDate(start_value="2013-12-23T00:00:00+00:00",
                             decision=DateDecision(document_id="d",
                                                   action="propose_override",
-                                                  candidate_date="2013-12-23"))
-    review = ResolvedDate(published_at="2018-01-09T00:00:00+00:00",
+                                                  candidate_start_date="2013-12-23"))
+    review = ResolvedDate(start_value="2018-01-09T00:00:00+00:00",
                           decision=DateDecision(document_id="d",
                                                 action="needs_manual_review"))
     assert not keep.overridden

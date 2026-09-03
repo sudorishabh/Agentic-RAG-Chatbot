@@ -1,6 +1,6 @@
 """A document with no publication date is invisible, not merely ranked low.
 
-Date-range filters and the recency tie-break both compare `published_at`, so a
+Date-range filters and the recency tie-break both compare `effective_start_date`, so a
 document without one is excluded from every date-filtered query outright. 109
 were: 78 `block_content` blocks and the 31 PDFs hanging off them.
 
@@ -84,13 +84,13 @@ def _record(**kwargs) -> ChangeRecord:
     return ChangeRecord(**defaults)
 
 
-def _doc(published_at: str | None) -> CanonicalDocument:
+def _doc(effective_start_date: str | None) -> CanonicalDocument:
     return CanonicalDocument(
         document_id="doc-1",
         source_type="website",
         title="A block",
         sections=[CanonicalSection(text="Body text worth indexing.", order=0)],
-        published_at=published_at,
+        effective_start_date=effective_start_date,
     )
 
 
@@ -135,7 +135,7 @@ def test_a_dated_document_flags_nothing(world):
 def test_the_date_reaches_the_catalog(world):
     pipeline._handle(_record(), build_doc=lambda r: _doc(NODE_CREATED))
 
-    assert world["upserts"][0].published_at == NODE_CREATED
+    assert world["upserts"][0].effective_start_date == NODE_CREATED
 
 
 def test_the_flag_is_optional(world):
