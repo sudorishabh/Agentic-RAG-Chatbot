@@ -163,7 +163,7 @@
     "app/knowledge/scoring.py": "fbebc865da335d74",
     "app/knowledge/seed.py": "3db32da19b113bd9",
     "app/knowledge/version.py": "761069f8aadf4bb3",
-    "app/knowledge/document_pipeline.py": "a0693bf3b5d9575b",
+    "app/knowledge/document_pipeline.py": "8d9310e139a41dc2",
     "app/knowledge/extract_llm.py": "19ffb6ba69ac07ae",
     "app/knowledge/document_loader.py": "a90f1bd726c03001",
     "app/knowledge/types.py": "f436d6b6ccbeab78",

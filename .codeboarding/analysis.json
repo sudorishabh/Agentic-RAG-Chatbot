@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "generated_at": "2026-09-03T16:52:23.773393+00:00",
-    "source_tree_hash": "891c2613714002b55812e244378560cec494725e1a28599b068ff2dfabd00e13",
+    "generated_at": "2026-09-03T17:59:40.765168+00:00",
+    "source_tree_hash": "81c0162eac35b56cae75a40d2acad9578491f6db1c6abe36108807996dc1863b",
     "repo_name": ".codeboarding-target",
     "depth_level": 2,
     "depth_cap": 2,
@@ -611,7 +611,7 @@
         "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._project",
         "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._record"
       ],
-      "content_hash": "a0693bf3b5d9575b",
+      "content_hash": "8d9310e139a41dc2",
       "module_hash": "85740b2f72a7b7db"
     },
     "app/knowledge/extract.py": {
@@ -6285,47 +6285,47 @@
       "file_path": "app/knowledge/document_pipeline.py",
       "qualified_name": "app.knowledge.document_pipeline._llm_claims",
       "start_line": 647,
-      "end_line": 693,
+      "end_line": 701,
       "type": "FUNCTION",
-      "content_hash": "5d82481b5ee28f1d"
+      "content_hash": "736458524bb156ce"
     },
     "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._validate": {
       "file_path": "app/knowledge/document_pipeline.py",
       "qualified_name": "app.knowledge.document_pipeline._validate",
-      "start_line": 700,
-      "end_line": 728,
+      "start_line": 708,
+      "end_line": 736,
       "type": "FUNCTION",
       "content_hash": "ad9be1132baed2c4"
     },
     "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._persist": {
       "file_path": "app/knowledge/document_pipeline.py",
       "qualified_name": "app.knowledge.document_pipeline._persist",
-      "start_line": 735,
-      "end_line": 787,
+      "start_line": 743,
+      "end_line": 795,
       "type": "FUNCTION",
       "content_hash": "1514ca8b22fe4b8f"
     },
     "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._conflicts": {
       "file_path": "app/knowledge/document_pipeline.py",
       "qualified_name": "app.knowledge.document_pipeline._conflicts",
-      "start_line": 794,
-      "end_line": 858,
+      "start_line": 802,
+      "end_line": 866,
       "type": "FUNCTION",
       "content_hash": "9455c6d982b21a6d"
     },
     "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._project": {
       "file_path": "app/knowledge/document_pipeline.py",
       "qualified_name": "app.knowledge.document_pipeline._project",
-      "start_line": 865,
-      "end_line": 928,
+      "start_line": 873,
+      "end_line": 936,
       "type": "FUNCTION",
       "content_hash": "f0fcb83c3c5bc274"
     },
     "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._record": {
       "file_path": "app/knowledge/document_pipeline.py",
       "qualified_name": "app.knowledge.document_pipeline._record",
-      "start_line": 935,
-      "end_line": 947,
+      "start_line": 943,
+      "end_line": 955,
       "type": "FUNCTION",
       "content_hash": "856e23f4c1a6732d"
     },
@@ -30206,171 +30206,6 @@
           "description": ""
         },
         {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._conflicts",
-          "target": "app/catalog/assertions.py|app.catalog.assertions.apply_status",
-          "call_sites": [
-            {
-              "line": 847,
-              "column": 66
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._conflicts",
-          "target": "app/catalog/assertions.py|app.catalog.assertions.for_subject_predicates",
-          "call_sites": [
-            {
-              "line": 819,
-              "column": 44
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._conflicts",
-          "target": "app/catalog/assertions.py|app.catalog.assertions.save_links",
-          "call_sites": [
-            {
-              "line": 854,
-              "column": 63
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._mentions",
-          "target": "app/catalog/mentions.py|app.catalog.mentions.cached_extraction",
-          "call_sites": [
-            {
-              "line": 499,
-              "column": 42
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._mentions",
-          "target": "app/catalog/mentions.py|app.catalog.mentions.save_mentions",
-          "call_sites": [
-            {
-              "line": 511,
-              "column": 35
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._persist",
-          "target": "app/catalog/assertions.py|app.catalog.assertions.record_rejections",
-          "call_sites": [
-            {
-              "line": 773,
-              "column": 37
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._persist",
-          "target": "app/catalog/assertions.py|app.catalog.assertions.stage",
-          "call_sites": [
-            {
-              "line": 752,
-              "column": 60
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._persist",
-          "target": "app/catalog/predicate_candidates.py|app.catalog.predicate_candidates.record",
-          "call_sites": [
-            {
-              "line": 783,
-              "column": 71
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._record",
-          "target": "app/catalog/knowledge_runs.py|app.catalog.knowledge_runs.record",
-          "call_sites": [
-            {
-              "line": 947,
-              "column": 20
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._record_extraction_cache",
-          "target": "app/catalog/mentions.py|app.catalog.mentions.record_extraction",
-          "call_sites": [
-            {
-              "line": 603,
-              "column": 27
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._resolution",
-          "target": "app/catalog/entities.py|app.catalog.entities.save_decisions",
-          "call_sites": [
-            {
-              "line": 569,
-              "column": 34
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._supersede",
-          "target": "app/catalog/assertions.py|app.catalog.assertions.for_document",
-          "call_sites": [
-            {
-              "line": 440,
-              "column": 40
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._supersede",
-          "target": "app/catalog/assertions.py|app.catalog.assertions.retract",
-          "call_sites": [
-            {
-              "line": 455,
-              "column": 57
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._supersede",
-          "target": "app/catalog/entities.py|app.catalog.entities.delete_decisions_before_version",
-          "call_sites": [
-            {
-              "line": 465,
-              "column": 30
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._supersede",
-          "target": "app/catalog/mentions.py|app.catalog.mentions.delete_document_mentions",
-          "call_sites": [
-            {
-              "line": 469,
-              "column": 62
-            }
-          ],
-          "description": ""
-        },
-        {
           "source": "scripts/build_knowledge.py|scripts.build_knowledge.Build._retract_stale",
           "target": "app/catalog/assertions.py|app.catalog.assertions.all_staged",
           "call_sites": [
@@ -30584,36 +30419,6 @@
           "description": ""
         },
         {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._project",
-          "target": "app/knowledge/graph/project.py|app.knowledge.graph.project.project_claims",
-          "call_sites": [
-            {
-              "line": 900,
-              "column": 53
-            },
-            {
-              "line": 906,
-              "column": 22
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._project",
-          "target": "app/knowledge/graph/schema.py|app.knowledge.graph.schema.ensure_graph_schema",
-          "call_sites": [
-            {
-              "line": 901,
-              "column": 52
-            },
-            {
-              "line": 905,
-              "column": 13
-            }
-          ],
-          "description": ""
-        },
-        {
           "source": "scripts/build_knowledge.py|scripts.build_knowledge.Build.project",
           "target": "app/knowledge/graph/project.py|app.knowledge.graph.project.ProjectionReport.as_dict",
           "call_sites": [
@@ -30667,6 +30472,201 @@
           "call_sites": [
             {
               "line": 351,
+              "column": 13
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._conflicts",
+          "target": "app/catalog/assertions.py|app.catalog.assertions.apply_status",
+          "call_sites": [
+            {
+              "line": 855,
+              "column": 66
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._conflicts",
+          "target": "app/catalog/assertions.py|app.catalog.assertions.for_subject_predicates",
+          "call_sites": [
+            {
+              "line": 827,
+              "column": 44
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._conflicts",
+          "target": "app/catalog/assertions.py|app.catalog.assertions.save_links",
+          "call_sites": [
+            {
+              "line": 862,
+              "column": 63
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._mentions",
+          "target": "app/catalog/mentions.py|app.catalog.mentions.cached_extraction",
+          "call_sites": [
+            {
+              "line": 499,
+              "column": 42
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._mentions",
+          "target": "app/catalog/mentions.py|app.catalog.mentions.save_mentions",
+          "call_sites": [
+            {
+              "line": 511,
+              "column": 35
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._persist",
+          "target": "app/catalog/assertions.py|app.catalog.assertions.record_rejections",
+          "call_sites": [
+            {
+              "line": 781,
+              "column": 37
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._persist",
+          "target": "app/catalog/assertions.py|app.catalog.assertions.stage",
+          "call_sites": [
+            {
+              "line": 760,
+              "column": 60
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._persist",
+          "target": "app/catalog/predicate_candidates.py|app.catalog.predicate_candidates.record",
+          "call_sites": [
+            {
+              "line": 791,
+              "column": 71
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._record",
+          "target": "app/catalog/knowledge_runs.py|app.catalog.knowledge_runs.record",
+          "call_sites": [
+            {
+              "line": 955,
+              "column": 20
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._record_extraction_cache",
+          "target": "app/catalog/mentions.py|app.catalog.mentions.record_extraction",
+          "call_sites": [
+            {
+              "line": 603,
+              "column": 27
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._resolution",
+          "target": "app/catalog/entities.py|app.catalog.entities.save_decisions",
+          "call_sites": [
+            {
+              "line": 569,
+              "column": 34
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._supersede",
+          "target": "app/catalog/assertions.py|app.catalog.assertions.for_document",
+          "call_sites": [
+            {
+              "line": 440,
+              "column": 40
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._supersede",
+          "target": "app/catalog/assertions.py|app.catalog.assertions.retract",
+          "call_sites": [
+            {
+              "line": 455,
+              "column": 57
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._supersede",
+          "target": "app/catalog/entities.py|app.catalog.entities.delete_decisions_before_version",
+          "call_sites": [
+            {
+              "line": 465,
+              "column": 30
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._supersede",
+          "target": "app/catalog/mentions.py|app.catalog.mentions.delete_document_mentions",
+          "call_sites": [
+            {
+              "line": 469,
+              "column": 62
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._project",
+          "target": "app/knowledge/graph/project.py|app.knowledge.graph.project.project_claims",
+          "call_sites": [
+            {
+              "line": 908,
+              "column": 53
+            },
+            {
+              "line": 914,
+              "column": 22
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._project",
+          "target": "app/knowledge/graph/schema.py|app.knowledge.graph.schema.ensure_graph_schema",
+          "call_sites": [
+            {
+              "line": 909,
+              "column": 52
+            },
+            {
+              "line": 913,
               "column": 13
             }
           ],
@@ -30730,81 +30730,6 @@
       "dst_id": "1.3",
       "is_static": true,
       "all_edges": [
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._mentions",
-          "target": "app/knowledge/extract.py|app.knowledge.extract.extract_mentions",
-          "call_sites": [
-            {
-              "line": 483,
-              "column": 39
-            },
-            {
-              "line": 504,
-              "column": 25
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._prelude",
-          "target": "app/knowledge/candidates.py|app.knowledge.candidates.context_for_document",
-          "call_sites": [
-            {
-              "line": 392,
-              "column": 42
-            },
-            {
-              "line": 397,
-              "column": 23
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._prelude",
-          "target": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.gazetteer_version",
-          "call_sites": [
-            {
-              "line": 401,
-              "column": 49
-            },
-            {
-              "line": 404,
-              "column": 41
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._prelude",
-          "target": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.get_gazetteer",
-          "call_sites": [
-            {
-              "line": 401,
-              "column": 68
-            },
-            {
-              "line": 403,
-              "column": 29
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._resolution",
-          "target": "app/knowledge/resolver.py|app.knowledge.resolver.resolve_mentions",
-          "call_sites": [
-            {
-              "line": 542,
-              "column": 70
-            },
-            {
-              "line": 553,
-              "column": 29
-            }
-          ],
-          "description": ""
-        },
         {
           "source": "scripts/build_knowledge.py|scripts.build_knowledge.Build.mentions",
           "target": "app/knowledge/candidates.py|app.knowledge.candidates.context_for_document",
@@ -30909,6 +30834,81 @@
             }
           ],
           "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._mentions",
+          "target": "app/knowledge/extract.py|app.knowledge.extract.extract_mentions",
+          "call_sites": [
+            {
+              "line": 483,
+              "column": 39
+            },
+            {
+              "line": 504,
+              "column": 25
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._prelude",
+          "target": "app/knowledge/candidates.py|app.knowledge.candidates.context_for_document",
+          "call_sites": [
+            {
+              "line": 392,
+              "column": 42
+            },
+            {
+              "line": 397,
+              "column": 23
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._prelude",
+          "target": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.gazetteer_version",
+          "call_sites": [
+            {
+              "line": 401,
+              "column": 49
+            },
+            {
+              "line": 404,
+              "column": 41
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._prelude",
+          "target": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.get_gazetteer",
+          "call_sites": [
+            {
+              "line": 401,
+              "column": 68
+            },
+            {
+              "line": 403,
+              "column": 29
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._resolution",
+          "target": "app/knowledge/resolver.py|app.knowledge.resolver.resolve_mentions",
+          "call_sites": [
+            {
+              "line": 542,
+              "column": 70
+            },
+            {
+              "line": 553,
+              "column": 29
+            }
+          ],
+          "description": ""
         }
       ]
     },
@@ -30922,21 +30922,6 @@
       "dst_id": "2.1",
       "is_static": true,
       "all_edges": [
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._project",
-          "target": "app/core/clients/graph.py|app.core.clients.graph.graph_available",
-          "call_sites": [
-            {
-              "line": 888,
-              "column": 38
-            },
-            {
-              "line": 890,
-              "column": 16
-            }
-          ],
-          "description": ""
-        },
         {
           "source": "scripts/build_knowledge.py|scripts.build_knowledge.Build.acronyms",
           "target": "app/knowledge/seed.py|app.knowledge.seed.mine_acronym_aliases",
@@ -31043,36 +31028,6 @@
           "description": ""
         },
         {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline.StageOptions.from_settings",
-          "target": "app/config.py|app.config.get_settings",
-          "call_sites": [
-            {
-              "line": 175,
-              "column": 32
-            },
-            {
-              "line": 177,
-              "column": 20
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._project",
-          "target": "app/config.py|app.config.get_settings",
-          "call_sites": [
-            {
-              "line": 876,
-              "column": 28
-            },
-            {
-              "line": 878,
-              "column": 41
-            }
-          ],
-          "description": ""
-        },
-        {
           "source": "scripts/build_knowledge.py|scripts.build_knowledge.Build._documents",
           "target": "app/config.py|app.config.get_settings",
           "call_sites": [
@@ -31132,6 +31087,51 @@
             {
               "line": 133,
               "column": 34
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._project",
+          "target": "app/core/clients/graph.py|app.core.clients.graph.graph_available",
+          "call_sites": [
+            {
+              "line": 896,
+              "column": 38
+            },
+            {
+              "line": 898,
+              "column": 16
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline.StageOptions.from_settings",
+          "target": "app/config.py|app.config.get_settings",
+          "call_sites": [
+            {
+              "line": 175,
+              "column": 32
+            },
+            {
+              "line": 177,
+              "column": 20
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._project",
+          "target": "app/config.py|app.config.get_settings",
+          "call_sites": [
+            {
+              "line": 884,
+              "column": 28
+            },
+            {
+              "line": 886,
+              "column": 41
             }
           ],
           "description": ""
