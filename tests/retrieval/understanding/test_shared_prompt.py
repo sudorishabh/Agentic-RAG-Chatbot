@@ -260,7 +260,7 @@ def test_inventory_directive_ignores_bundles_outside_the_registry(monkeypatch):
 # --------------------------------------------------------------------------- #
 
 def _range(monkeypatch, value):
-    monkeypatch.setattr("app.catalog.queries.published_range", lambda **kw: value)
+    monkeypatch.setattr("app.catalog.queries.effective_date_range", lambda **kw: value)
 
 
 def test_coverage_directive_names_the_real_span(monkeypatch):
