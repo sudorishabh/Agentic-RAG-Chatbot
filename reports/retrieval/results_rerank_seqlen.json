@@ -1,0 +1,3994 @@
+{
+  "k": 10,
+  "aggregate": {
+    "dense+keyword": {
+      "recall": 0.8448198198198198,
+      "mrr": 0.6784105534105533,
+      "ndcg": 0.7633067568118236,
+      "ms_mean": 115.50540526054408,
+      "ms_p95": 126.96719999075867
+    },
+    "rr_embedding": {
+      "recall": 0.8448198198198198,
+      "mrr": 0.6499141999142,
+      "ndcg": 0.7569023980153124,
+      "ms_mean": 82.67681052798014,
+      "ms_p95": 102.93900000397116
+    },
+    "rr_minilm": {
+      "recall": 0.8448198198198198,
+      "mrr": 0.818018018018018,
+      "ndcg": 0.8239545549863564,
+      "ms_mean": 1156.4592315798538,
+      "ms_p95": 1277.517300011823
+    },
+    "rr_minilm_s256": {
+      "recall": 0.8448198198198198,
+      "mrr": 0.8301801801801801,
+      "ndcg": 0.8250815523825112,
+      "ms_mean": 479.251010528012,
+      "ms_p95": 651.9684000231791
+    },
+    "rr_minilm_s128": {
+      "recall": 0.8448198198198198,
+      "mrr": 0.8279279279279279,
+      "ndcg": 0.8238307161991582,
+      "ms_mean": 249.5756131569291,
+      "ms_p95": 367.9845999868121
+    }
+  },
+  "rows": [
+    {
+      "id": "sem-01",
+      "category": "semantic",
+      "query": "What are the environmental impacts of solar energy?",
+      "judged": 10,
+      "relevant": 2,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 1.0,
+          "ms": 988.783799984958,
+          "returned": 10,
+          "ids": [
+            "e4e1cd15-0c93-51e8-b96c-94175d0e77f8",
+            "248cc820-1eda-52e4-961b-0f6504e8dc1e",
+            "d6c25a3e-e4ce-5fa1-b9d1-bf5a3bba0fa9",
+            "a304c4af-e61d-529b-bda3-45e1e82ef9ac",
+            "88ba7d67-45b4-52eb-850c-0b08bef19116",
+            "36238c51-be1d-59b8-9011-d856063c466c",
+            "b53e2ccb-daa6-5d7c-9d91-41d271b08562",
+            "a52796f0-98e3-5ebf-9ff9-e7a3f51cf13d",
+            "933f9713-3b35-5f21-a87e-d1766b697ad7",
+            "dc586e75-0a30-5003-a8d0-91c044b97a86"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 1.0,
+          "ms": 80.7300999877043,
+          "returned": 10,
+          "ids": [
+            "e4e1cd15-0c93-51e8-b96c-94175d0e77f8",
+            "248cc820-1eda-52e4-961b-0f6504e8dc1e",
+            "d6c25a3e-e4ce-5fa1-b9d1-bf5a3bba0fa9",
+            "a304c4af-e61d-529b-bda3-45e1e82ef9ac",
+            "88ba7d67-45b4-52eb-850c-0b08bef19116",
+            "36238c51-be1d-59b8-9011-d856063c466c",
+            "b53e2ccb-daa6-5d7c-9d91-41d271b08562",
+            "933f9713-3b35-5f21-a87e-d1766b697ad7",
+            "a52796f0-98e3-5ebf-9ff9-e7a3f51cf13d",
+            "dc586e75-0a30-5003-a8d0-91c044b97a86"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.8865892893966026,
+          "ms": 14009.83689998975,
+          "returned": 10,
+          "ids": [
+            "88ba7d67-45b4-52eb-850c-0b08bef19116",
+            "b53e2ccb-daa6-5d7c-9d91-41d271b08562",
+            "e4e1cd15-0c93-51e8-b96c-94175d0e77f8",
+            "248cc820-1eda-52e4-961b-0f6504e8dc1e",
+            "d6c25a3e-e4ce-5fa1-b9d1-bf5a3bba0fa9",
+            "a304c4af-e61d-529b-bda3-45e1e82ef9ac",
+            "36238c51-be1d-59b8-9011-d856063c466c",
+            "933f9713-3b35-5f21-a87e-d1766b697ad7",
+            "a52796f0-98e3-5ebf-9ff9-e7a3f51cf13d",
+            "dc586e75-0a30-5003-a8d0-91c044b97a86"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 0.2,
+          "ndcg": 0.8562035261462873,
+          "ms": 360.6629999994766,
+          "returned": 10,
+          "ids": [
+            "88ba7d67-45b4-52eb-850c-0b08bef19116",
+            "b53e2ccb-daa6-5d7c-9d91-41d271b08562",
+            "d6c25a3e-e4ce-5fa1-b9d1-bf5a3bba0fa9",
+            "a304c4af-e61d-529b-bda3-45e1e82ef9ac",
+            "e4e1cd15-0c93-51e8-b96c-94175d0e77f8",
+            "248cc820-1eda-52e4-961b-0f6504e8dc1e",
+            "36238c51-be1d-59b8-9011-d856063c466c",
+            "933f9713-3b35-5f21-a87e-d1766b697ad7",
+            "a52796f0-98e3-5ebf-9ff9-e7a3f51cf13d",
+            "dc586e75-0a30-5003-a8d0-91c044b97a86"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 0.2,
+          "ndcg": 0.8562035261462873,
+          "ms": 166.88720000092871,
+          "returned": 10,
+          "ids": [
+            "d6c25a3e-e4ce-5fa1-b9d1-bf5a3bba0fa9",
+            "a304c4af-e61d-529b-bda3-45e1e82ef9ac",
+            "88ba7d67-45b4-52eb-850c-0b08bef19116",
+            "b53e2ccb-daa6-5d7c-9d91-41d271b08562",
+            "e4e1cd15-0c93-51e8-b96c-94175d0e77f8",
+            "248cc820-1eda-52e4-961b-0f6504e8dc1e",
+            "36238c51-be1d-59b8-9011-d856063c466c",
+            "933f9713-3b35-5f21-a87e-d1766b697ad7",
+            "a52796f0-98e3-5ebf-9ff9-e7a3f51cf13d",
+            "dc586e75-0a30-5003-a8d0-91c044b97a86"
+          ]
+        }
+      }
+    },
+    {
+      "id": "sem-02",
+      "category": "semantic",
+      "query": "How does climate change affect water availability in India?",
+      "judged": 11,
+      "relevant": 5,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.8,
+          "mrr": 0.5,
+          "ndcg": 0.847622941893078,
+          "ms": 96.39180000522174,
+          "returned": 10,
+          "ids": [
+            "ffb743c9-a76d-5024-8010-0e05a45fa91b",
+            "47d43d17-e60a-51d2-b0d4-0c7c9add5f4a",
+            "99571b99-41b9-5312-bfad-2b7187c41aaa",
+            "58a90f03-0c65-5cd0-84e9-762e011346da",
+            "c4dcd1ba-8888-5dc3-8d6e-36bec2283358",
+            "eed8ea6c-2326-5489-ae9b-ec2cacec5f2f",
+            "eb182c52-05a9-5bca-aa16-0ee1426559a2",
+            "359be2ff-f796-5556-b4b6-cdd5daee71b6",
+            "9812f648-0594-521c-bfc3-a424320215b4",
+            "bb4e7be1-785f-5bc0-8b16-0bafff648861"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.8,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.8224911263171487,
+          "ms": 78.79890000913292,
+          "returned": 10,
+          "ids": [
+            "ffb743c9-a76d-5024-8010-0e05a45fa91b",
+            "58a90f03-0c65-5cd0-84e9-762e011346da",
+            "99571b99-41b9-5312-bfad-2b7187c41aaa",
+            "47d43d17-e60a-51d2-b0d4-0c7c9add5f4a",
+            "c4dcd1ba-8888-5dc3-8d6e-36bec2283358",
+            "eed8ea6c-2326-5489-ae9b-ec2cacec5f2f",
+            "eb182c52-05a9-5bca-aa16-0ee1426559a2",
+            "359be2ff-f796-5556-b4b6-cdd5daee71b6",
+            "bb4e7be1-785f-5bc0-8b16-0bafff648861",
+            "9812f648-0594-521c-bfc3-a424320215b4"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.8,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.8168036350599717,
+          "ms": 643.9786000119057,
+          "returned": 10,
+          "ids": [
+            "359be2ff-f796-5556-b4b6-cdd5daee71b6",
+            "ffb743c9-a76d-5024-8010-0e05a45fa91b",
+            "99571b99-41b9-5312-bfad-2b7187c41aaa",
+            "47d43d17-e60a-51d2-b0d4-0c7c9add5f4a",
+            "eed8ea6c-2326-5489-ae9b-ec2cacec5f2f",
+            "c4dcd1ba-8888-5dc3-8d6e-36bec2283358",
+            "9812f648-0594-521c-bfc3-a424320215b4",
+            "eb182c52-05a9-5bca-aa16-0ee1426559a2",
+            "58a90f03-0c65-5cd0-84e9-762e011346da",
+            "bb4e7be1-785f-5bc0-8b16-0bafff648861"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.8,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.8168036350599717,
+          "ms": 396.6338000027463,
+          "returned": 10,
+          "ids": [
+            "359be2ff-f796-5556-b4b6-cdd5daee71b6",
+            "ffb743c9-a76d-5024-8010-0e05a45fa91b",
+            "99571b99-41b9-5312-bfad-2b7187c41aaa",
+            "47d43d17-e60a-51d2-b0d4-0c7c9add5f4a",
+            "9812f648-0594-521c-bfc3-a424320215b4",
+            "c4dcd1ba-8888-5dc3-8d6e-36bec2283358",
+            "eb182c52-05a9-5bca-aa16-0ee1426559a2",
+            "58a90f03-0c65-5cd0-84e9-762e011346da",
+            "eed8ea6c-2326-5489-ae9b-ec2cacec5f2f",
+            "bb4e7be1-785f-5bc0-8b16-0bafff648861"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.8,
+          "mrr": 0.5,
+          "ndcg": 0.8435325061443488,
+          "ms": 165.48560000956059,
+          "returned": 10,
+          "ids": [
+            "359be2ff-f796-5556-b4b6-cdd5daee71b6",
+            "99571b99-41b9-5312-bfad-2b7187c41aaa",
+            "47d43d17-e60a-51d2-b0d4-0c7c9add5f4a",
+            "9812f648-0594-521c-bfc3-a424320215b4",
+            "ffb743c9-a76d-5024-8010-0e05a45fa91b",
+            "c4dcd1ba-8888-5dc3-8d6e-36bec2283358",
+            "eed8ea6c-2326-5489-ae9b-ec2cacec5f2f",
+            "eb182c52-05a9-5bca-aa16-0ee1426559a2",
+            "58a90f03-0c65-5cd0-84e9-762e011346da",
+            "bb4e7be1-785f-5bc0-8b16-0bafff648861"
+          ]
+        }
+      }
+    },
+    {
+      "id": "sem-03",
+      "category": "semantic",
+      "query": "What approaches reduce air pollution in Indian cities?",
+      "judged": 10,
+      "relevant": 7,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9720342258900182,
+          "ms": 84.81549998396076,
+          "returned": 10,
+          "ids": [
+            "c36676cf-3fea-549e-a161-38b038127fbc",
+            "031d157d-15f9-5773-a588-91aa4a99f3a1",
+            "cfc7eaed-a19d-5503-8854-7c5ef16f7334",
+            "2ff78eeb-787f-5495-905e-212f0059e33c",
+            "f382d9b9-7144-5839-9f80-b5ad89bd3666",
+            "efb5e0c1-a6b7-5fa2-a61c-92428757d5d8",
+            "da203253-115d-587e-86c6-9d1e6801aab9",
+            "6f82eb2b-2c2e-5b4e-867f-6223641df33c",
+            "c7586e39-8330-5ec0-976f-9da24f988898",
+            "2c162453-94b9-52c9-a2cd-7aea9488d69c"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 0.5,
+          "ndcg": 0.9109211786846385,
+          "ms": 78.01379999727942,
+          "returned": 10,
+          "ids": [
+            "cfc7eaed-a19d-5503-8854-7c5ef16f7334",
+            "c36676cf-3fea-549e-a161-38b038127fbc",
+            "031d157d-15f9-5773-a588-91aa4a99f3a1",
+            "2ff78eeb-787f-5495-905e-212f0059e33c",
+            "f382d9b9-7144-5839-9f80-b5ad89bd3666",
+            "efb5e0c1-a6b7-5fa2-a61c-92428757d5d8",
+            "da203253-115d-587e-86c6-9d1e6801aab9",
+            "6f82eb2b-2c2e-5b4e-867f-6223641df33c",
+            "c7586e39-8330-5ec0-976f-9da24f988898",
+            "2c162453-94b9-52c9-a2cd-7aea9488d69c"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.8678030379175495,
+          "ms": 634.0189000184182,
+          "returned": 10,
+          "ids": [
+            "cfc7eaed-a19d-5503-8854-7c5ef16f7334",
+            "c7586e39-8330-5ec0-976f-9da24f988898",
+            "2c162453-94b9-52c9-a2cd-7aea9488d69c",
+            "efb5e0c1-a6b7-5fa2-a61c-92428757d5d8",
+            "6f82eb2b-2c2e-5b4e-867f-6223641df33c",
+            "da203253-115d-587e-86c6-9d1e6801aab9",
+            "c36676cf-3fea-549e-a161-38b038127fbc",
+            "031d157d-15f9-5773-a588-91aa4a99f3a1",
+            "2ff78eeb-787f-5495-905e-212f0059e33c",
+            "f382d9b9-7144-5839-9f80-b5ad89bd3666"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 0.5,
+          "ndcg": 0.8976356098040154,
+          "ms": 337.7992000023369,
+          "returned": 10,
+          "ids": [
+            "cfc7eaed-a19d-5503-8854-7c5ef16f7334",
+            "2c162453-94b9-52c9-a2cd-7aea9488d69c",
+            "efb5e0c1-a6b7-5fa2-a61c-92428757d5d8",
+            "6f82eb2b-2c2e-5b4e-867f-6223641df33c",
+            "da203253-115d-587e-86c6-9d1e6801aab9",
+            "c7586e39-8330-5ec0-976f-9da24f988898",
+            "2ff78eeb-787f-5495-905e-212f0059e33c",
+            "f382d9b9-7144-5839-9f80-b5ad89bd3666",
+            "c36676cf-3fea-549e-a161-38b038127fbc",
+            "031d157d-15f9-5773-a588-91aa4a99f3a1"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 0.5,
+          "ndcg": 0.8976356098040154,
+          "ms": 181.13240000093356,
+          "returned": 10,
+          "ids": [
+            "cfc7eaed-a19d-5503-8854-7c5ef16f7334",
+            "efb5e0c1-a6b7-5fa2-a61c-92428757d5d8",
+            "6f82eb2b-2c2e-5b4e-867f-6223641df33c",
+            "2c162453-94b9-52c9-a2cd-7aea9488d69c",
+            "da203253-115d-587e-86c6-9d1e6801aab9",
+            "c7586e39-8330-5ec0-976f-9da24f988898",
+            "c36676cf-3fea-549e-a161-38b038127fbc",
+            "031d157d-15f9-5773-a588-91aa4a99f3a1",
+            "2ff78eeb-787f-5495-905e-212f0059e33c",
+            "f382d9b9-7144-5839-9f80-b5ad89bd3666"
+          ]
+        }
+      }
+    },
+    {
+      "id": "sem-04",
+      "category": "semantic",
+      "query": "Why does sustainable agriculture matter for smallholder farmers?",
+      "judged": 10,
+      "relevant": 2,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 0.25,
+          "ndcg": 0.8337705684649611,
+          "ms": 91.9125999789685,
+          "returned": 10,
+          "ids": [
+            "f4dabb73-1870-5466-9da2-50c6d88891d9",
+            "d4ae892f-eac5-5d53-9ba0-0e7200ec558d",
+            "05c5e9f1-a602-593f-a51e-2027b010a375",
+            "b03a53b3-b032-5dd3-8436-037ae9ffea87",
+            "b3dacf9c-96e8-5d4d-815b-044cf5fcb6c0",
+            "b0547ac0-b27e-5613-92f4-b87fa984226c",
+            "0d2a48ad-5df5-5788-9f91-948cf35b54a0",
+            "026337ca-adec-51ef-b325-b7c297029fb9",
+            "e10290c6-4635-5105-93b9-6c9ce7f9f6ff",
+            "d9b128e8-93a8-50b6-91d0-d83ae1d10459"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 0.2,
+          "ndcg": 0.71693675449847,
+          "ms": 68.94339999416843,
+          "returned": 10,
+          "ids": [
+            "b0547ac0-b27e-5613-92f4-b87fa984226c",
+            "f4dabb73-1870-5466-9da2-50c6d88891d9",
+            "d4ae892f-eac5-5d53-9ba0-0e7200ec558d",
+            "05c5e9f1-a602-593f-a51e-2027b010a375",
+            "b03a53b3-b032-5dd3-8436-037ae9ffea87",
+            "b3dacf9c-96e8-5d4d-815b-044cf5fcb6c0",
+            "0d2a48ad-5df5-5788-9f91-948cf35b54a0",
+            "026337ca-adec-51ef-b325-b7c297029fb9",
+            "e10290c6-4635-5105-93b9-6c9ce7f9f6ff",
+            "d9b128e8-93a8-50b6-91d0-d83ae1d10459"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 0.25,
+          "ndcg": 0.8490653391571796,
+          "ms": 789.1388999996707,
+          "returned": 10,
+          "ids": [
+            "026337ca-adec-51ef-b325-b7c297029fb9",
+            "f4dabb73-1870-5466-9da2-50c6d88891d9",
+            "05c5e9f1-a602-593f-a51e-2027b010a375",
+            "b03a53b3-b032-5dd3-8436-037ae9ffea87",
+            "b3dacf9c-96e8-5d4d-815b-044cf5fcb6c0",
+            "d9b128e8-93a8-50b6-91d0-d83ae1d10459",
+            "b0547ac0-b27e-5613-92f4-b87fa984226c",
+            "d4ae892f-eac5-5d53-9ba0-0e7200ec558d",
+            "e10290c6-4635-5105-93b9-6c9ce7f9f6ff",
+            "0d2a48ad-5df5-5788-9f91-948cf35b54a0"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 0.25,
+          "ndcg": 0.8305965490675097,
+          "ms": 383.77630000468343,
+          "returned": 10,
+          "ids": [
+            "f4dabb73-1870-5466-9da2-50c6d88891d9",
+            "026337ca-adec-51ef-b325-b7c297029fb9",
+            "05c5e9f1-a602-593f-a51e-2027b010a375",
+            "d9b128e8-93a8-50b6-91d0-d83ae1d10459",
+            "b0547ac0-b27e-5613-92f4-b87fa984226c",
+            "b3dacf9c-96e8-5d4d-815b-044cf5fcb6c0",
+            "0d2a48ad-5df5-5788-9f91-948cf35b54a0",
+            "e10290c6-4635-5105-93b9-6c9ce7f9f6ff",
+            "b03a53b3-b032-5dd3-8436-037ae9ffea87",
+            "d4ae892f-eac5-5d53-9ba0-0e7200ec558d"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 0.5,
+          "ndcg": 0.8701105284652051,
+          "ms": 287.798000004841,
+          "returned": 10,
+          "ids": [
+            "f4dabb73-1870-5466-9da2-50c6d88891d9",
+            "d9b128e8-93a8-50b6-91d0-d83ae1d10459",
+            "05c5e9f1-a602-593f-a51e-2027b010a375",
+            "026337ca-adec-51ef-b325-b7c297029fb9",
+            "b0547ac0-b27e-5613-92f4-b87fa984226c",
+            "e10290c6-4635-5105-93b9-6c9ce7f9f6ff",
+            "b03a53b3-b032-5dd3-8436-037ae9ffea87",
+            "0d2a48ad-5df5-5788-9f91-948cf35b54a0",
+            "b3dacf9c-96e8-5d4d-815b-044cf5fcb6c0",
+            "d4ae892f-eac5-5d53-9ba0-0e7200ec558d"
+          ]
+        }
+      }
+    },
+    {
+      "id": "sem-05",
+      "category": "semantic",
+      "query": "How can buildings be made more energy efficient?",
+      "judged": 10,
+      "relevant": 8,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.979532237121001,
+          "ms": 101.04090001550503,
+          "returned": 10,
+          "ids": [
+            "6b11c1ed-21c8-5c5a-86f9-82dfd23f5956",
+            "c02f42e7-e1b2-5453-83af-6e2629b6cfee",
+            "5dfe250e-71a6-5a1a-9d50-f5f5082d2375",
+            "a037b701-939c-5b99-a1db-5318a998c57e",
+            "3f79ffa1-9658-5bb1-8235-382b14d60ab5",
+            "7fa386fe-0d5b-5ad9-aca9-910d7d26a429",
+            "5cfdf421-1aa0-5a40-aab3-c1203c11d4b6",
+            "9bae0ebf-ed56-5eed-a123-c26aa5ef4d5a",
+            "735e92d1-81a9-54ee-b9f2-75c3c0637553",
+            "e61941b0-e52c-57f0-bf6d-0ee0cd801509"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9580676935254903,
+          "ms": 81.13949999096803,
+          "returned": 10,
+          "ids": [
+            "6b11c1ed-21c8-5c5a-86f9-82dfd23f5956",
+            "a037b701-939c-5b99-a1db-5318a998c57e",
+            "7fa386fe-0d5b-5ad9-aca9-910d7d26a429",
+            "735e92d1-81a9-54ee-b9f2-75c3c0637553",
+            "c02f42e7-e1b2-5453-83af-6e2629b6cfee",
+            "5dfe250e-71a6-5a1a-9d50-f5f5082d2375",
+            "3f79ffa1-9658-5bb1-8235-382b14d60ab5",
+            "5cfdf421-1aa0-5a40-aab3-c1203c11d4b6",
+            "9bae0ebf-ed56-5eed-a123-c26aa5ef4d5a",
+            "e61941b0-e52c-57f0-bf6d-0ee0cd801509"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9559647858657944,
+          "ms": 633.4166000015102,
+          "returned": 10,
+          "ids": [
+            "9bae0ebf-ed56-5eed-a123-c26aa5ef4d5a",
+            "5cfdf421-1aa0-5a40-aab3-c1203c11d4b6",
+            "735e92d1-81a9-54ee-b9f2-75c3c0637553",
+            "e61941b0-e52c-57f0-bf6d-0ee0cd801509",
+            "6b11c1ed-21c8-5c5a-86f9-82dfd23f5956",
+            "5dfe250e-71a6-5a1a-9d50-f5f5082d2375",
+            "a037b701-939c-5b99-a1db-5318a998c57e",
+            "7fa386fe-0d5b-5ad9-aca9-910d7d26a429",
+            "c02f42e7-e1b2-5453-83af-6e2629b6cfee",
+            "3f79ffa1-9658-5bb1-8235-382b14d60ab5"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9597665096485757,
+          "ms": 545.4001000034623,
+          "returned": 10,
+          "ids": [
+            "9bae0ebf-ed56-5eed-a123-c26aa5ef4d5a",
+            "5cfdf421-1aa0-5a40-aab3-c1203c11d4b6",
+            "735e92d1-81a9-54ee-b9f2-75c3c0637553",
+            "7fa386fe-0d5b-5ad9-aca9-910d7d26a429",
+            "3f79ffa1-9658-5bb1-8235-382b14d60ab5",
+            "6b11c1ed-21c8-5c5a-86f9-82dfd23f5956",
+            "5dfe250e-71a6-5a1a-9d50-f5f5082d2375",
+            "e61941b0-e52c-57f0-bf6d-0ee0cd801509",
+            "a037b701-939c-5b99-a1db-5318a998c57e",
+            "c02f42e7-e1b2-5453-83af-6e2629b6cfee"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9734765891362541,
+          "ms": 198.63249998888932,
+          "returned": 10,
+          "ids": [
+            "735e92d1-81a9-54ee-b9f2-75c3c0637553",
+            "9bae0ebf-ed56-5eed-a123-c26aa5ef4d5a",
+            "5cfdf421-1aa0-5a40-aab3-c1203c11d4b6",
+            "6b11c1ed-21c8-5c5a-86f9-82dfd23f5956",
+            "5dfe250e-71a6-5a1a-9d50-f5f5082d2375",
+            "3f79ffa1-9658-5bb1-8235-382b14d60ab5",
+            "7fa386fe-0d5b-5ad9-aca9-910d7d26a429",
+            "a037b701-939c-5b99-a1db-5318a998c57e",
+            "c02f42e7-e1b2-5453-83af-6e2629b6cfee",
+            "e61941b0-e52c-57f0-bf6d-0ee0cd801509"
+          ]
+        }
+      }
+    },
+    {
+      "id": "exact-01",
+      "category": "exact_term",
+      "query": "Best Practice Guide for Energy Efficiency in Municipal Water Pumping in India",
+      "judged": 17,
+      "relevant": 7,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.5714285714285714,
+          "mrr": 1.0,
+          "ndcg": 0.7037690619960201,
+          "ms": 88.82989999256097,
+          "returned": 10,
+          "ids": [
+            "ea0f2f63-4012-5480-846f-c4d1f244aac5",
+            "4bfbf553-65d6-5688-a985-25580f98cb82",
+            "afb5131d-0552-5633-bad3-42b95d5d3818",
+            "03124e2a-edde-57eb-8c9f-d369f4269af5",
+            "1cc824c5-7475-5af1-b14a-11183d4be47a",
+            "c086565a-2486-508c-acd6-bac49e053930",
+            "53bb2c99-3438-536b-a6b8-36ea2eb6d78c",
+            "f2eeea86-d557-5a15-9634-47fb4428dd9e",
+            "2e2ab312-040e-5e37-9db2-4624cad0e303",
+            "fb3f7faa-6096-5443-adac-f2569d54c73d"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.5714285714285714,
+          "mrr": 1.0,
+          "ndcg": 0.6606786306477808,
+          "ms": 68.88779997825623,
+          "returned": 10,
+          "ids": [
+            "ea0f2f63-4012-5480-846f-c4d1f244aac5",
+            "4bfbf553-65d6-5688-a985-25580f98cb82",
+            "c086565a-2486-508c-acd6-bac49e053930",
+            "fb3f7faa-6096-5443-adac-f2569d54c73d",
+            "03124e2a-edde-57eb-8c9f-d369f4269af5",
+            "f2eeea86-d557-5a15-9634-47fb4428dd9e",
+            "afb5131d-0552-5633-bad3-42b95d5d3818",
+            "1cc824c5-7475-5af1-b14a-11183d4be47a",
+            "53bb2c99-3438-536b-a6b8-36ea2eb6d78c",
+            "2e2ab312-040e-5e37-9db2-4624cad0e303"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.5714285714285714,
+          "mrr": 1.0,
+          "ndcg": 0.6973268326099187,
+          "ms": 666.8586999876425,
+          "returned": 10,
+          "ids": [
+            "afb5131d-0552-5633-bad3-42b95d5d3818",
+            "4bfbf553-65d6-5688-a985-25580f98cb82",
+            "ea0f2f63-4012-5480-846f-c4d1f244aac5",
+            "c086565a-2486-508c-acd6-bac49e053930",
+            "1cc824c5-7475-5af1-b14a-11183d4be47a",
+            "fb3f7faa-6096-5443-adac-f2569d54c73d",
+            "53bb2c99-3438-536b-a6b8-36ea2eb6d78c",
+            "2e2ab312-040e-5e37-9db2-4624cad0e303",
+            "03124e2a-edde-57eb-8c9f-d369f4269af5",
+            "f2eeea86-d557-5a15-9634-47fb4428dd9e"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.5714285714285714,
+          "mrr": 1.0,
+          "ndcg": 0.7138278558157121,
+          "ms": 334.20690000639297,
+          "returned": 10,
+          "ids": [
+            "afb5131d-0552-5633-bad3-42b95d5d3818",
+            "4bfbf553-65d6-5688-a985-25580f98cb82",
+            "ea0f2f63-4012-5480-846f-c4d1f244aac5",
+            "1cc824c5-7475-5af1-b14a-11183d4be47a",
+            "53bb2c99-3438-536b-a6b8-36ea2eb6d78c",
+            "2e2ab312-040e-5e37-9db2-4624cad0e303",
+            "c086565a-2486-508c-acd6-bac49e053930",
+            "fb3f7faa-6096-5443-adac-f2569d54c73d",
+            "03124e2a-edde-57eb-8c9f-d369f4269af5",
+            "f2eeea86-d557-5a15-9634-47fb4428dd9e"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.5714285714285714,
+          "mrr": 0.5,
+          "ndcg": 0.6305259349567187,
+          "ms": 200.8127000008244,
+          "returned": 10,
+          "ids": [
+            "4bfbf553-65d6-5688-a985-25580f98cb82",
+            "afb5131d-0552-5633-bad3-42b95d5d3818",
+            "ea0f2f63-4012-5480-846f-c4d1f244aac5",
+            "53bb2c99-3438-536b-a6b8-36ea2eb6d78c",
+            "2e2ab312-040e-5e37-9db2-4624cad0e303",
+            "c086565a-2486-508c-acd6-bac49e053930",
+            "fb3f7faa-6096-5443-adac-f2569d54c73d",
+            "1cc824c5-7475-5af1-b14a-11183d4be47a",
+            "03124e2a-edde-57eb-8c9f-d369f4269af5",
+            "f2eeea86-d557-5a15-9634-47fb4428dd9e"
+          ]
+        }
+      }
+    },
+    {
+      "id": "exact-02",
+      "category": "exact_term",
+      "query": "Emission Inventorisation for Faridabad Town",
+      "judged": 20,
+      "relevant": 6,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.3333333333333333,
+          "mrr": 0.5,
+          "ndcg": 0.6564050871516182,
+          "ms": 78.80849999492057,
+          "returned": 10,
+          "ids": [
+            "048d33a0-c6a7-5979-b32f-5ad01f1ea7e5",
+            "bef60a6f-7c74-5b5b-8507-8d1bb0af4bde",
+            "4d55e26b-ca24-5d7e-9225-2f115f1937c8",
+            "d1a80a76-df52-51c1-8361-f58c8ad67ec1",
+            "287010a8-eed0-5552-ae31-66e3c2224f04",
+            "6e36fa25-9f78-514e-a2b9-7cc2a0280a0a",
+            "49274e88-bdf8-54cf-b4af-cf05abd19d60",
+            "fb8d0789-bd9e-527c-aa9c-bc2cbedd0103",
+            "3d8dc137-e08f-5864-9851-df8772219fe4",
+            "b99aab7f-3b00-5ffe-98cb-9b8e63ad5978"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.3333333333333333,
+          "mrr": 1.0,
+          "ndcg": 0.7045063059750661,
+          "ms": 67.0477999956347,
+          "returned": 10,
+          "ids": [
+            "bef60a6f-7c74-5b5b-8507-8d1bb0af4bde",
+            "d1a80a76-df52-51c1-8361-f58c8ad67ec1",
+            "287010a8-eed0-5552-ae31-66e3c2224f04",
+            "fb8d0789-bd9e-527c-aa9c-bc2cbedd0103",
+            "b99aab7f-3b00-5ffe-98cb-9b8e63ad5978",
+            "048d33a0-c6a7-5979-b32f-5ad01f1ea7e5",
+            "4d55e26b-ca24-5d7e-9225-2f115f1937c8",
+            "6e36fa25-9f78-514e-a2b9-7cc2a0280a0a",
+            "49274e88-bdf8-54cf-b4af-cf05abd19d60",
+            "3d8dc137-e08f-5864-9851-df8772219fe4"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.3333333333333333,
+          "mrr": 1.0,
+          "ndcg": 0.7483805082018007,
+          "ms": 741.7006999894511,
+          "returned": 10,
+          "ids": [
+            "bef60a6f-7c74-5b5b-8507-8d1bb0af4bde",
+            "49274e88-bdf8-54cf-b4af-cf05abd19d60",
+            "287010a8-eed0-5552-ae31-66e3c2224f04",
+            "3d8dc137-e08f-5864-9851-df8772219fe4",
+            "d1a80a76-df52-51c1-8361-f58c8ad67ec1",
+            "fb8d0789-bd9e-527c-aa9c-bc2cbedd0103",
+            "048d33a0-c6a7-5979-b32f-5ad01f1ea7e5",
+            "4d55e26b-ca24-5d7e-9225-2f115f1937c8",
+            "6e36fa25-9f78-514e-a2b9-7cc2a0280a0a",
+            "b99aab7f-3b00-5ffe-98cb-9b8e63ad5978"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.3333333333333333,
+          "mrr": 1.0,
+          "ndcg": 0.7465412541109548,
+          "ms": 426.67340001207776,
+          "returned": 10,
+          "ids": [
+            "bef60a6f-7c74-5b5b-8507-8d1bb0af4bde",
+            "49274e88-bdf8-54cf-b4af-cf05abd19d60",
+            "287010a8-eed0-5552-ae31-66e3c2224f04",
+            "048d33a0-c6a7-5979-b32f-5ad01f1ea7e5",
+            "4d55e26b-ca24-5d7e-9225-2f115f1937c8",
+            "d1a80a76-df52-51c1-8361-f58c8ad67ec1",
+            "fb8d0789-bd9e-527c-aa9c-bc2cbedd0103",
+            "6e36fa25-9f78-514e-a2b9-7cc2a0280a0a",
+            "3d8dc137-e08f-5864-9851-df8772219fe4",
+            "b99aab7f-3b00-5ffe-98cb-9b8e63ad5978"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.3333333333333333,
+          "mrr": 1.0,
+          "ndcg": 0.741349977487423,
+          "ms": 211.01640001870692,
+          "returned": 10,
+          "ids": [
+            "bef60a6f-7c74-5b5b-8507-8d1bb0af4bde",
+            "49274e88-bdf8-54cf-b4af-cf05abd19d60",
+            "287010a8-eed0-5552-ae31-66e3c2224f04",
+            "048d33a0-c6a7-5979-b32f-5ad01f1ea7e5",
+            "4d55e26b-ca24-5d7e-9225-2f115f1937c8",
+            "6e36fa25-9f78-514e-a2b9-7cc2a0280a0a",
+            "3d8dc137-e08f-5864-9851-df8772219fe4",
+            "d1a80a76-df52-51c1-8361-f58c8ad67ec1",
+            "fb8d0789-bd9e-527c-aa9c-bc2cbedd0103",
+            "b99aab7f-3b00-5ffe-98cb-9b8e63ad5978"
+          ]
+        }
+      }
+    },
+    {
+      "id": "exact-03",
+      "category": "exact_term",
+      "query": "Life cycle analysis of transport modes",
+      "judged": 10,
+      "relevant": 6,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9685770366250398,
+          "ms": 94.85130000393838,
+          "returned": 10,
+          "ids": [
+            "eb211147-b87c-579a-922f-118a60d94d10",
+            "ffeb8033-aa5e-5483-87c7-1898e80a5eab",
+            "33b49b29-6352-52d1-9a45-09364b655783",
+            "4360d2cc-ac3d-58f7-9c2f-f6ed4250a7e5",
+            "568a399e-cd10-5edd-9d7c-4ad24b3bb234",
+            "3cdec1b9-acc4-5b3e-8ae9-e1c97fc046a2",
+            "c00593c1-2827-58b3-9151-566b61e0d0da",
+            "6a8b5a2a-f2e7-5c06-b18d-150b70a2295c",
+            "c3d0b355-ed68-5d83-a018-eb8cd3077128",
+            "4a27622c-9484-5fdf-9fca-6f7a249cc7b1"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9578233811290834,
+          "ms": 94.30100000463426,
+          "returned": 10,
+          "ids": [
+            "eb211147-b87c-579a-922f-118a60d94d10",
+            "33b49b29-6352-52d1-9a45-09364b655783",
+            "4360d2cc-ac3d-58f7-9c2f-f6ed4250a7e5",
+            "ffeb8033-aa5e-5483-87c7-1898e80a5eab",
+            "568a399e-cd10-5edd-9d7c-4ad24b3bb234",
+            "3cdec1b9-acc4-5b3e-8ae9-e1c97fc046a2",
+            "c00593c1-2827-58b3-9151-566b61e0d0da",
+            "6a8b5a2a-f2e7-5c06-b18d-150b70a2295c",
+            "4a27622c-9484-5fdf-9fca-6f7a249cc7b1",
+            "c3d0b355-ed68-5d83-a018-eb8cd3077128"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9836300247883065,
+          "ms": 705.3787000186276,
+          "returned": 10,
+          "ids": [
+            "eb211147-b87c-579a-922f-118a60d94d10",
+            "33b49b29-6352-52d1-9a45-09364b655783",
+            "568a399e-cd10-5edd-9d7c-4ad24b3bb234",
+            "4360d2cc-ac3d-58f7-9c2f-f6ed4250a7e5",
+            "ffeb8033-aa5e-5483-87c7-1898e80a5eab",
+            "6a8b5a2a-f2e7-5c06-b18d-150b70a2295c",
+            "c3d0b355-ed68-5d83-a018-eb8cd3077128",
+            "3cdec1b9-acc4-5b3e-8ae9-e1c97fc046a2",
+            "4a27622c-9484-5fdf-9fca-6f7a249cc7b1",
+            "c00593c1-2827-58b3-9151-566b61e0d0da"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9836300247883065,
+          "ms": 605.713700002525,
+          "returned": 10,
+          "ids": [
+            "eb211147-b87c-579a-922f-118a60d94d10",
+            "33b49b29-6352-52d1-9a45-09364b655783",
+            "568a399e-cd10-5edd-9d7c-4ad24b3bb234",
+            "4360d2cc-ac3d-58f7-9c2f-f6ed4250a7e5",
+            "ffeb8033-aa5e-5483-87c7-1898e80a5eab",
+            "6a8b5a2a-f2e7-5c06-b18d-150b70a2295c",
+            "c3d0b355-ed68-5d83-a018-eb8cd3077128",
+            "3cdec1b9-acc4-5b3e-8ae9-e1c97fc046a2",
+            "4a27622c-9484-5fdf-9fca-6f7a249cc7b1",
+            "c00593c1-2827-58b3-9151-566b61e0d0da"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9836300247883065,
+          "ms": 213.9735000091605,
+          "returned": 10,
+          "ids": [
+            "eb211147-b87c-579a-922f-118a60d94d10",
+            "33b49b29-6352-52d1-9a45-09364b655783",
+            "568a399e-cd10-5edd-9d7c-4ad24b3bb234",
+            "4360d2cc-ac3d-58f7-9c2f-f6ed4250a7e5",
+            "ffeb8033-aa5e-5483-87c7-1898e80a5eab",
+            "6a8b5a2a-f2e7-5c06-b18d-150b70a2295c",
+            "c3d0b355-ed68-5d83-a018-eb8cd3077128",
+            "3cdec1b9-acc4-5b3e-8ae9-e1c97fc046a2",
+            "c00593c1-2827-58b3-9151-566b61e0d0da",
+            "4a27622c-9484-5fdf-9fca-6f7a249cc7b1"
+          ]
+        }
+      }
+    },
+    {
+      "id": "exact-04",
+      "category": "exact_term",
+      "query": "continuous ambient air quality monitoring station",
+      "judged": 10,
+      "relevant": 6,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 0.5,
+          "ndcg": 0.8860760061520854,
+          "ms": 126.96719999075867,
+          "returned": 10,
+          "ids": [
+            "9c474d4c-6f84-5ede-bf1a-ac125763990c",
+            "929e1b53-4b28-5e08-b433-9ea3dfdd472d",
+            "4582fe9b-0868-5a6f-a6f0-78b22e12b641",
+            "cf289de7-aa4c-5308-a6cf-381e3b74e733",
+            "fbe436bb-1b20-5b10-955c-cdcfa9708b92",
+            "ab93172b-46bc-57ff-b6fd-dbaf475b76d1",
+            "1229de78-bb2c-5e64-ac2b-4b2da3ac5efd",
+            "51f6e944-e2df-5c90-aa1f-5e0d7c5ede68",
+            "4214e9e1-cec9-57cc-85ee-dfc2e2a38f42",
+            "db7bd3a1-4f66-5fcd-bf4b-3e42f3017c8d"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 0.5,
+          "ndcg": 0.8899807894134654,
+          "ms": 81.96169999428093,
+          "returned": 10,
+          "ids": [
+            "9c474d4c-6f84-5ede-bf1a-ac125763990c",
+            "929e1b53-4b28-5e08-b433-9ea3dfdd472d",
+            "4582fe9b-0868-5a6f-a6f0-78b22e12b641",
+            "fbe436bb-1b20-5b10-955c-cdcfa9708b92",
+            "1229de78-bb2c-5e64-ac2b-4b2da3ac5efd",
+            "cf289de7-aa4c-5308-a6cf-381e3b74e733",
+            "ab93172b-46bc-57ff-b6fd-dbaf475b76d1",
+            "51f6e944-e2df-5c90-aa1f-5e0d7c5ede68",
+            "4214e9e1-cec9-57cc-85ee-dfc2e2a38f42",
+            "db7bd3a1-4f66-5fcd-bf4b-3e42f3017c8d"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9432850864155348,
+          "ms": 1277.517300011823,
+          "returned": 10,
+          "ids": [
+            "929e1b53-4b28-5e08-b433-9ea3dfdd472d",
+            "9c474d4c-6f84-5ede-bf1a-ac125763990c",
+            "1229de78-bb2c-5e64-ac2b-4b2da3ac5efd",
+            "51f6e944-e2df-5c90-aa1f-5e0d7c5ede68",
+            "db7bd3a1-4f66-5fcd-bf4b-3e42f3017c8d",
+            "4214e9e1-cec9-57cc-85ee-dfc2e2a38f42",
+            "fbe436bb-1b20-5b10-955c-cdcfa9708b92",
+            "4582fe9b-0868-5a6f-a6f0-78b22e12b641",
+            "ab93172b-46bc-57ff-b6fd-dbaf475b76d1",
+            "cf289de7-aa4c-5308-a6cf-381e3b74e733"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9599678067537669,
+          "ms": 778.9221999992151,
+          "returned": 10,
+          "ids": [
+            "1229de78-bb2c-5e64-ac2b-4b2da3ac5efd",
+            "929e1b53-4b28-5e08-b433-9ea3dfdd472d",
+            "9c474d4c-6f84-5ede-bf1a-ac125763990c",
+            "51f6e944-e2df-5c90-aa1f-5e0d7c5ede68",
+            "db7bd3a1-4f66-5fcd-bf4b-3e42f3017c8d",
+            "4214e9e1-cec9-57cc-85ee-dfc2e2a38f42",
+            "fbe436bb-1b20-5b10-955c-cdcfa9708b92",
+            "4582fe9b-0868-5a6f-a6f0-78b22e12b641",
+            "ab93172b-46bc-57ff-b6fd-dbaf475b76d1",
+            "cf289de7-aa4c-5308-a6cf-381e3b74e733"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9455618375383943,
+          "ms": 583.0249999999069,
+          "returned": 10,
+          "ids": [
+            "1229de78-bb2c-5e64-ac2b-4b2da3ac5efd",
+            "9c474d4c-6f84-5ede-bf1a-ac125763990c",
+            "4214e9e1-cec9-57cc-85ee-dfc2e2a38f42",
+            "51f6e944-e2df-5c90-aa1f-5e0d7c5ede68",
+            "db7bd3a1-4f66-5fcd-bf4b-3e42f3017c8d",
+            "929e1b53-4b28-5e08-b433-9ea3dfdd472d",
+            "4582fe9b-0868-5a6f-a6f0-78b22e12b641",
+            "fbe436bb-1b20-5b10-955c-cdcfa9708b92",
+            "ab93172b-46bc-57ff-b6fd-dbaf475b76d1",
+            "cf289de7-aa4c-5308-a6cf-381e3b74e733"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ident-01",
+      "category": "identifier",
+      "query": "SDG 7",
+      "judged": 20,
+      "relevant": 8,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.625,
+          "mrr": 1.0,
+          "ndcg": 0.8180727328365072,
+          "ms": 86.71560001675971,
+          "returned": 10,
+          "ids": [
+            "074f08ba-c0b8-555b-bba6-a8c4046eaf81",
+            "c0f65e64-d7c7-5bf3-a13e-0aac957c0380",
+            "ad972bf1-c93d-5748-8a77-84fa8c79409a",
+            "fb65ba5c-3ee7-52d1-969e-f29699fd817a",
+            "dc65362b-52fe-58e4-bbbb-010a5174311b",
+            "ddde0343-9394-5dc1-9c20-864c218adffd",
+            "3f4b8252-fb39-5eae-b444-c7d5fd6568a2",
+            "854d9166-4dbb-5a86-ac42-9906ea77a0dd",
+            "2f2b0aef-0b57-5e12-a594-1db147e080af",
+            "7d470f1e-5454-5a77-8bc3-5dd05282f2c7"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.625,
+          "mrr": 1.0,
+          "ndcg": 0.8449422541449622,
+          "ms": 89.04620000976138,
+          "returned": 10,
+          "ids": [
+            "074f08ba-c0b8-555b-bba6-a8c4046eaf81",
+            "2f2b0aef-0b57-5e12-a594-1db147e080af",
+            "ad972bf1-c93d-5748-8a77-84fa8c79409a",
+            "3f4b8252-fb39-5eae-b444-c7d5fd6568a2",
+            "ddde0343-9394-5dc1-9c20-864c218adffd",
+            "fb65ba5c-3ee7-52d1-969e-f29699fd817a",
+            "dc65362b-52fe-58e4-bbbb-010a5174311b",
+            "7d470f1e-5454-5a77-8bc3-5dd05282f2c7",
+            "c0f65e64-d7c7-5bf3-a13e-0aac957c0380",
+            "854d9166-4dbb-5a86-ac42-9906ea77a0dd"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.625,
+          "mrr": 1.0,
+          "ndcg": 0.8666598727348135,
+          "ms": 939.8602999863215,
+          "returned": 10,
+          "ids": [
+            "dc65362b-52fe-58e4-bbbb-010a5174311b",
+            "fb65ba5c-3ee7-52d1-969e-f29699fd817a",
+            "7d470f1e-5454-5a77-8bc3-5dd05282f2c7",
+            "c0f65e64-d7c7-5bf3-a13e-0aac957c0380",
+            "854d9166-4dbb-5a86-ac42-9906ea77a0dd",
+            "2f2b0aef-0b57-5e12-a594-1db147e080af",
+            "074f08ba-c0b8-555b-bba6-a8c4046eaf81",
+            "3f4b8252-fb39-5eae-b444-c7d5fd6568a2",
+            "ad972bf1-c93d-5748-8a77-84fa8c79409a",
+            "ddde0343-9394-5dc1-9c20-864c218adffd"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.625,
+          "mrr": 1.0,
+          "ndcg": 0.8666598727348135,
+          "ms": 474.0262999839615,
+          "returned": 10,
+          "ids": [
+            "dc65362b-52fe-58e4-bbbb-010a5174311b",
+            "fb65ba5c-3ee7-52d1-969e-f29699fd817a",
+            "7d470f1e-5454-5a77-8bc3-5dd05282f2c7",
+            "c0f65e64-d7c7-5bf3-a13e-0aac957c0380",
+            "854d9166-4dbb-5a86-ac42-9906ea77a0dd",
+            "074f08ba-c0b8-555b-bba6-a8c4046eaf81",
+            "2f2b0aef-0b57-5e12-a594-1db147e080af",
+            "ad972bf1-c93d-5748-8a77-84fa8c79409a",
+            "3f4b8252-fb39-5eae-b444-c7d5fd6568a2",
+            "ddde0343-9394-5dc1-9c20-864c218adffd"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.625,
+          "mrr": 1.0,
+          "ndcg": 0.8666598727348135,
+          "ms": 207.55280001321808,
+          "returned": 10,
+          "ids": [
+            "dc65362b-52fe-58e4-bbbb-010a5174311b",
+            "fb65ba5c-3ee7-52d1-969e-f29699fd817a",
+            "7d470f1e-5454-5a77-8bc3-5dd05282f2c7",
+            "c0f65e64-d7c7-5bf3-a13e-0aac957c0380",
+            "854d9166-4dbb-5a86-ac42-9906ea77a0dd",
+            "074f08ba-c0b8-555b-bba6-a8c4046eaf81",
+            "2f2b0aef-0b57-5e12-a594-1db147e080af",
+            "ad972bf1-c93d-5748-8a77-84fa8c79409a",
+            "3f4b8252-fb39-5eae-b444-c7d5fd6568a2",
+            "ddde0343-9394-5dc1-9c20-864c218adffd"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ident-02",
+      "category": "identifier",
+      "query": "PM2.5 annual average concentration",
+      "judged": 10,
+      "relevant": 2,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 0.25,
+          "ndcg": 0.8337705684649611,
+          "ms": 103.00889998325147,
+          "returned": 10,
+          "ids": [
+            "20a93020-0a05-5d24-a69c-73c5b20d1ad4",
+            "8201ad0f-e506-529c-bf43-977802d621ac",
+            "ca74713a-00db-5908-a52a-49c1d60641e0",
+            "d0ca6dd3-7dae-56cb-92d8-bbfa2c20241e",
+            "967c2b6b-0b31-588f-a03b-4acd1e3dbdaf",
+            "67864ea9-130b-53e0-b860-eeb41dc28a1a",
+            "2bc6f372-9cdd-5c25-a9fd-12cb24b384b2",
+            "88c3be27-afb9-5cd0-9eb7-95dfde7a5718",
+            "7b4addfb-7792-5e6d-8f5d-e80af80d514c",
+            "98a55396-b782-5940-9461-7bfcc382977e"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9564955550968874,
+          "ms": 62.13559999014251,
+          "returned": 10,
+          "ids": [
+            "d0ca6dd3-7dae-56cb-92d8-bbfa2c20241e",
+            "2bc6f372-9cdd-5c25-a9fd-12cb24b384b2",
+            "967c2b6b-0b31-588f-a03b-4acd1e3dbdaf",
+            "7b4addfb-7792-5e6d-8f5d-e80af80d514c",
+            "98a55396-b782-5940-9461-7bfcc382977e",
+            "20a93020-0a05-5d24-a69c-73c5b20d1ad4",
+            "8201ad0f-e506-529c-bf43-977802d621ac",
+            "ca74713a-00db-5908-a52a-49c1d60641e0",
+            "67864ea9-130b-53e0-b860-eeb41dc28a1a",
+            "88c3be27-afb9-5cd0-9eb7-95dfde7a5718"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9584530033028461,
+          "ms": 872.7674999972805,
+          "returned": 10,
+          "ids": [
+            "d0ca6dd3-7dae-56cb-92d8-bbfa2c20241e",
+            "2bc6f372-9cdd-5c25-a9fd-12cb24b384b2",
+            "967c2b6b-0b31-588f-a03b-4acd1e3dbdaf",
+            "98a55396-b782-5940-9461-7bfcc382977e",
+            "7b4addfb-7792-5e6d-8f5d-e80af80d514c",
+            "20a93020-0a05-5d24-a69c-73c5b20d1ad4",
+            "67864ea9-130b-53e0-b860-eeb41dc28a1a",
+            "8201ad0f-e506-529c-bf43-977802d621ac",
+            "ca74713a-00db-5908-a52a-49c1d60641e0",
+            "88c3be27-afb9-5cd0-9eb7-95dfde7a5718"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9584530033028461,
+          "ms": 470.49090001382865,
+          "returned": 10,
+          "ids": [
+            "d0ca6dd3-7dae-56cb-92d8-bbfa2c20241e",
+            "2bc6f372-9cdd-5c25-a9fd-12cb24b384b2",
+            "967c2b6b-0b31-588f-a03b-4acd1e3dbdaf",
+            "98a55396-b782-5940-9461-7bfcc382977e",
+            "7b4addfb-7792-5e6d-8f5d-e80af80d514c",
+            "20a93020-0a05-5d24-a69c-73c5b20d1ad4",
+            "67864ea9-130b-53e0-b860-eeb41dc28a1a",
+            "8201ad0f-e506-529c-bf43-977802d621ac",
+            "ca74713a-00db-5908-a52a-49c1d60641e0",
+            "88c3be27-afb9-5cd0-9eb7-95dfde7a5718"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9584530033028461,
+          "ms": 251.80359999649227,
+          "returned": 10,
+          "ids": [
+            "d0ca6dd3-7dae-56cb-92d8-bbfa2c20241e",
+            "2bc6f372-9cdd-5c25-a9fd-12cb24b384b2",
+            "967c2b6b-0b31-588f-a03b-4acd1e3dbdaf",
+            "98a55396-b782-5940-9461-7bfcc382977e",
+            "7b4addfb-7792-5e6d-8f5d-e80af80d514c",
+            "20a93020-0a05-5d24-a69c-73c5b20d1ad4",
+            "67864ea9-130b-53e0-b860-eeb41dc28a1a",
+            "8201ad0f-e506-529c-bf43-977802d621ac",
+            "ca74713a-00db-5908-a52a-49c1d60641e0",
+            "88c3be27-afb9-5cd0-9eb7-95dfde7a5718"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ident-03",
+      "category": "identifier",
+      "query": "ISBN of the climate synergies report",
+      "judged": 18,
+      "relevant": 5,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.8,
+          "mrr": 1.0,
+          "ndcg": 0.7707227903563334,
+          "ms": 74.81759999063797,
+          "returned": 10,
+          "ids": [
+            "9bc81729-f4b2-508c-9497-5e18edd1c19e",
+            "74ad64b3-d236-5912-ab51-dc054b8948a4",
+            "02da0ef7-97f9-5583-8ca6-ecf8a436c16a",
+            "65da5594-d830-5851-97c9-aff2ac66c0d6",
+            "97b66b0c-d5d3-53fc-b652-abb49f7e6a0c",
+            "ef8bfce7-f62b-5dbc-a53b-4514814b9737",
+            "573e8c7f-0c67-59b2-a480-656bd9856dd0",
+            "c850a5a2-486a-555a-b75d-c541d8913eea",
+            "2832bd2e-d3a5-51ff-ad6d-fca69c41c07e",
+            "39cca3e4-d2c0-5ddd-996a-bb88085ccfa3"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.8,
+          "mrr": 1.0,
+          "ndcg": 0.7375392299445838,
+          "ms": 123.49560001166537,
+          "returned": 10,
+          "ids": [
+            "9bc81729-f4b2-508c-9497-5e18edd1c19e",
+            "74ad64b3-d236-5912-ab51-dc054b8948a4",
+            "97b66b0c-d5d3-53fc-b652-abb49f7e6a0c",
+            "573e8c7f-0c67-59b2-a480-656bd9856dd0",
+            "02da0ef7-97f9-5583-8ca6-ecf8a436c16a",
+            "39cca3e4-d2c0-5ddd-996a-bb88085ccfa3",
+            "65da5594-d830-5851-97c9-aff2ac66c0d6",
+            "ef8bfce7-f62b-5dbc-a53b-4514814b9737",
+            "c850a5a2-486a-555a-b75d-c541d8913eea",
+            "2832bd2e-d3a5-51ff-ad6d-fca69c41c07e"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.8,
+          "mrr": 0.5,
+          "ndcg": 0.5959994519404603,
+          "ms": 939.3510999798309,
+          "returned": 10,
+          "ids": [
+            "65da5594-d830-5851-97c9-aff2ac66c0d6",
+            "9bc81729-f4b2-508c-9497-5e18edd1c19e",
+            "74ad64b3-d236-5912-ab51-dc054b8948a4",
+            "02da0ef7-97f9-5583-8ca6-ecf8a436c16a",
+            "39cca3e4-d2c0-5ddd-996a-bb88085ccfa3",
+            "97b66b0c-d5d3-53fc-b652-abb49f7e6a0c",
+            "573e8c7f-0c67-59b2-a480-656bd9856dd0",
+            "ef8bfce7-f62b-5dbc-a53b-4514814b9737",
+            "2832bd2e-d3a5-51ff-ad6d-fca69c41c07e",
+            "c850a5a2-486a-555a-b75d-c541d8913eea"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.8,
+          "mrr": 0.5,
+          "ndcg": 0.5559157133035131,
+          "ms": 651.9684000231791,
+          "returned": 10,
+          "ids": [
+            "65da5594-d830-5851-97c9-aff2ac66c0d6",
+            "9bc81729-f4b2-508c-9497-5e18edd1c19e",
+            "02da0ef7-97f9-5583-8ca6-ecf8a436c16a",
+            "39cca3e4-d2c0-5ddd-996a-bb88085ccfa3",
+            "573e8c7f-0c67-59b2-a480-656bd9856dd0",
+            "97b66b0c-d5d3-53fc-b652-abb49f7e6a0c",
+            "ef8bfce7-f62b-5dbc-a53b-4514814b9737",
+            "2832bd2e-d3a5-51ff-ad6d-fca69c41c07e",
+            "74ad64b3-d236-5912-ab51-dc054b8948a4",
+            "c850a5a2-486a-555a-b75d-c541d8913eea"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.8,
+          "mrr": 1.0,
+          "ndcg": 0.6878637415738716,
+          "ms": 272.92689998284914,
+          "returned": 10,
+          "ids": [
+            "9bc81729-f4b2-508c-9497-5e18edd1c19e",
+            "02da0ef7-97f9-5583-8ca6-ecf8a436c16a",
+            "39cca3e4-d2c0-5ddd-996a-bb88085ccfa3",
+            "65da5594-d830-5851-97c9-aff2ac66c0d6",
+            "573e8c7f-0c67-59b2-a480-656bd9856dd0",
+            "97b66b0c-d5d3-53fc-b652-abb49f7e6a0c",
+            "ef8bfce7-f62b-5dbc-a53b-4514814b9737",
+            "2832bd2e-d3a5-51ff-ad6d-fca69c41c07e",
+            "74ad64b3-d236-5912-ab51-dc054b8948a4",
+            "c850a5a2-486a-555a-b75d-c541d8913eea"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ident-04",
+      "category": "identifier",
+      "query": "SDG 11 sustainable cities",
+      "judged": 17,
+      "relevant": 7,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.7142857142857143,
+          "mrr": 1.0,
+          "ndcg": 0.8634999141150785,
+          "ms": 71.71080002444796,
+          "returned": 10,
+          "ids": [
+            "a6562de4-3078-5698-a423-d03dfce496fe",
+            "f8e7d09f-f718-5748-bc7e-96f1a6191c60",
+            "67c4bdb7-e9dd-598d-b7a8-69a8d7b928cb",
+            "a421d358-1b55-5cfe-a4b4-7a69319e6656",
+            "4931df8c-5459-5f18-8d9e-b2f0606e9cc5",
+            "22c43393-2cb2-57e7-851f-7310ff0cffd6",
+            "787e55eb-a3cc-56b0-b17d-a87d150fef87",
+            "718ff898-a3d2-589f-8684-14a417cfb1f6",
+            "591925b7-47bc-56b5-a989-6e312bc54592",
+            "842e2e75-e97d-5b4a-a99c-4b465936dc0b"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.7142857142857143,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.7783694035994738,
+          "ms": 113.94710000604391,
+          "returned": 10,
+          "ids": [
+            "a421d358-1b55-5cfe-a4b4-7a69319e6656",
+            "22c43393-2cb2-57e7-851f-7310ff0cffd6",
+            "4931df8c-5459-5f18-8d9e-b2f0606e9cc5",
+            "f8e7d09f-f718-5748-bc7e-96f1a6191c60",
+            "a6562de4-3078-5698-a423-d03dfce496fe",
+            "842e2e75-e97d-5b4a-a99c-4b465936dc0b",
+            "67c4bdb7-e9dd-598d-b7a8-69a8d7b928cb",
+            "787e55eb-a3cc-56b0-b17d-a87d150fef87",
+            "718ff898-a3d2-589f-8684-14a417cfb1f6",
+            "591925b7-47bc-56b5-a989-6e312bc54592"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.7142857142857143,
+          "mrr": 0.5,
+          "ndcg": 0.8166608583838609,
+          "ms": 928.6812999926042,
+          "returned": 10,
+          "ids": [
+            "f8e7d09f-f718-5748-bc7e-96f1a6191c60",
+            "4931df8c-5459-5f18-8d9e-b2f0606e9cc5",
+            "718ff898-a3d2-589f-8684-14a417cfb1f6",
+            "a6562de4-3078-5698-a423-d03dfce496fe",
+            "67c4bdb7-e9dd-598d-b7a8-69a8d7b928cb",
+            "787e55eb-a3cc-56b0-b17d-a87d150fef87",
+            "591925b7-47bc-56b5-a989-6e312bc54592",
+            "842e2e75-e97d-5b4a-a99c-4b465936dc0b",
+            "a421d358-1b55-5cfe-a4b4-7a69319e6656",
+            "22c43393-2cb2-57e7-851f-7310ff0cffd6"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.7142857142857143,
+          "mrr": 0.5,
+          "ndcg": 0.8166608583838609,
+          "ms": 495.1417999982368,
+          "returned": 10,
+          "ids": [
+            "f8e7d09f-f718-5748-bc7e-96f1a6191c60",
+            "4931df8c-5459-5f18-8d9e-b2f0606e9cc5",
+            "718ff898-a3d2-589f-8684-14a417cfb1f6",
+            "a6562de4-3078-5698-a423-d03dfce496fe",
+            "67c4bdb7-e9dd-598d-b7a8-69a8d7b928cb",
+            "787e55eb-a3cc-56b0-b17d-a87d150fef87",
+            "591925b7-47bc-56b5-a989-6e312bc54592",
+            "842e2e75-e97d-5b4a-a99c-4b465936dc0b",
+            "a421d358-1b55-5cfe-a4b4-7a69319e6656",
+            "22c43393-2cb2-57e7-851f-7310ff0cffd6"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.7142857142857143,
+          "mrr": 0.5,
+          "ndcg": 0.8166608583838609,
+          "ms": 251.26950000412762,
+          "returned": 10,
+          "ids": [
+            "f8e7d09f-f718-5748-bc7e-96f1a6191c60",
+            "4931df8c-5459-5f18-8d9e-b2f0606e9cc5",
+            "718ff898-a3d2-589f-8684-14a417cfb1f6",
+            "a6562de4-3078-5698-a423-d03dfce496fe",
+            "67c4bdb7-e9dd-598d-b7a8-69a8d7b928cb",
+            "787e55eb-a3cc-56b0-b17d-a87d150fef87",
+            "591925b7-47bc-56b5-a989-6e312bc54592",
+            "a421d358-1b55-5cfe-a4b4-7a69319e6656",
+            "842e2e75-e97d-5b4a-a99c-4b465936dc0b",
+            "22c43393-2cb2-57e7-851f-7310ff0cffd6"
+          ]
+        }
+      }
+    },
+    {
+      "id": "acro-01",
+      "category": "acronym",
+      "query": "What is CAAQMS?",
+      "judged": 15,
+      "relevant": 3,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 0.5,
+          "ndcg": 0.6164972455053405,
+          "ms": 73.05960002122447,
+          "returned": 10,
+          "ids": [
+            "929e1b53-4b28-5e08-b433-9ea3dfdd472d",
+            "cf289de7-aa4c-5308-a6cf-381e3b74e733",
+            "4582fe9b-0868-5a6f-a6f0-78b22e12b641",
+            "50b736d0-0323-5ef5-99d1-5cad0d76a0bd",
+            "257ce75d-a507-597c-9c83-9a0e8efaf12c",
+            "66d287fc-f557-5187-a35e-8384020e376a",
+            "8e05ce2b-e01a-5129-bee1-9d3bad4c4e5b",
+            "3db48769-cad7-598a-9a42-c1d74dc0b00c",
+            "bcf7a1d8-ebe0-5b7d-be97-8be156495e19",
+            "97f96986-653e-5d43-89f0-03cd91ad783a"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 0.5,
+          "ndcg": 0.556093946123139,
+          "ms": 81.57270000083372,
+          "returned": 10,
+          "ids": [
+            "929e1b53-4b28-5e08-b433-9ea3dfdd472d",
+            "cf289de7-aa4c-5308-a6cf-381e3b74e733",
+            "66d287fc-f557-5187-a35e-8384020e376a",
+            "bcf7a1d8-ebe0-5b7d-be97-8be156495e19",
+            "257ce75d-a507-597c-9c83-9a0e8efaf12c",
+            "3db48769-cad7-598a-9a42-c1d74dc0b00c",
+            "97f96986-653e-5d43-89f0-03cd91ad783a",
+            "4582fe9b-0868-5a6f-a6f0-78b22e12b641",
+            "8e05ce2b-e01a-5129-bee1-9d3bad4c4e5b",
+            "50b736d0-0323-5ef5-99d1-5cad0d76a0bd"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.8198817402529185,
+          "ms": 794.0739000041503,
+          "returned": 10,
+          "ids": [
+            "4582fe9b-0868-5a6f-a6f0-78b22e12b641",
+            "cf289de7-aa4c-5308-a6cf-381e3b74e733",
+            "929e1b53-4b28-5e08-b433-9ea3dfdd472d",
+            "257ce75d-a507-597c-9c83-9a0e8efaf12c",
+            "97f96986-653e-5d43-89f0-03cd91ad783a",
+            "bcf7a1d8-ebe0-5b7d-be97-8be156495e19",
+            "3db48769-cad7-598a-9a42-c1d74dc0b00c",
+            "8e05ce2b-e01a-5129-bee1-9d3bad4c4e5b",
+            "50b736d0-0323-5ef5-99d1-5cad0d76a0bd",
+            "66d287fc-f557-5187-a35e-8384020e376a"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 0.5,
+          "ndcg": 0.6401174355623653,
+          "ms": 495.91480000526644,
+          "returned": 10,
+          "ids": [
+            "929e1b53-4b28-5e08-b433-9ea3dfdd472d",
+            "4582fe9b-0868-5a6f-a6f0-78b22e12b641",
+            "cf289de7-aa4c-5308-a6cf-381e3b74e733",
+            "257ce75d-a507-597c-9c83-9a0e8efaf12c",
+            "bcf7a1d8-ebe0-5b7d-be97-8be156495e19",
+            "3db48769-cad7-598a-9a42-c1d74dc0b00c",
+            "97f96986-653e-5d43-89f0-03cd91ad783a",
+            "8e05ce2b-e01a-5129-bee1-9d3bad4c4e5b",
+            "50b736d0-0323-5ef5-99d1-5cad0d76a0bd",
+            "66d287fc-f557-5187-a35e-8384020e376a"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.849597108329959,
+          "ms": 223.71759999077767,
+          "returned": 10,
+          "ids": [
+            "4582fe9b-0868-5a6f-a6f0-78b22e12b641",
+            "cf289de7-aa4c-5308-a6cf-381e3b74e733",
+            "257ce75d-a507-597c-9c83-9a0e8efaf12c",
+            "bcf7a1d8-ebe0-5b7d-be97-8be156495e19",
+            "929e1b53-4b28-5e08-b433-9ea3dfdd472d",
+            "3db48769-cad7-598a-9a42-c1d74dc0b00c",
+            "97f96986-653e-5d43-89f0-03cd91ad783a",
+            "8e05ce2b-e01a-5129-bee1-9d3bad4c4e5b",
+            "50b736d0-0323-5ef5-99d1-5cad0d76a0bd",
+            "66d287fc-f557-5187-a35e-8384020e376a"
+          ]
+        }
+      }
+    },
+    {
+      "id": "acro-02",
+      "category": "acronym",
+      "query": "GRIHA rating for green buildings",
+      "judged": 10,
+      "relevant": 7,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9880477570122436,
+          "ms": 79.41150001715869,
+          "returned": 10,
+          "ids": [
+            "dfd8e46d-7087-53bd-927e-1f6e16e869ca",
+            "3c2ed845-d99e-5803-a095-8f9fd066a4c0",
+            "8ed079d5-431b-5697-89da-f35fc0d31efb",
+            "eccad65b-0e4e-552b-bb99-f4296568757a",
+            "092c2c15-31a0-58fd-9342-eab92125d4fe",
+            "645047d7-ef86-5bd5-acb7-cd29f5781bfc",
+            "74206e2f-9ab0-5e29-b802-83e852d8d998",
+            "8ec71bf1-a87e-570f-98dc-a4348e95f753",
+            "a5860c78-95f1-579c-9486-7ce03c8bb64a",
+            "1efb2cfd-a1b4-5d1c-9bcf-2b717aaef80f"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9830679835442785,
+          "ms": 82.8132999886293,
+          "returned": 10,
+          "ids": [
+            "3c2ed845-d99e-5803-a095-8f9fd066a4c0",
+            "dfd8e46d-7087-53bd-927e-1f6e16e869ca",
+            "74206e2f-9ab0-5e29-b802-83e852d8d998",
+            "eccad65b-0e4e-552b-bb99-f4296568757a",
+            "092c2c15-31a0-58fd-9342-eab92125d4fe",
+            "8ec71bf1-a87e-570f-98dc-a4348e95f753",
+            "8ed079d5-431b-5697-89da-f35fc0d31efb",
+            "645047d7-ef86-5bd5-acb7-cd29f5781bfc",
+            "a5860c78-95f1-579c-9486-7ce03c8bb64a",
+            "1efb2cfd-a1b4-5d1c-9bcf-2b717aaef80f"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9737632668370585,
+          "ms": 756.4294000039808,
+          "returned": 10,
+          "ids": [
+            "3c2ed845-d99e-5803-a095-8f9fd066a4c0",
+            "dfd8e46d-7087-53bd-927e-1f6e16e869ca",
+            "74206e2f-9ab0-5e29-b802-83e852d8d998",
+            "a5860c78-95f1-579c-9486-7ce03c8bb64a",
+            "eccad65b-0e4e-552b-bb99-f4296568757a",
+            "092c2c15-31a0-58fd-9342-eab92125d4fe",
+            "8ec71bf1-a87e-570f-98dc-a4348e95f753",
+            "645047d7-ef86-5bd5-acb7-cd29f5781bfc",
+            "8ed079d5-431b-5697-89da-f35fc0d31efb",
+            "1efb2cfd-a1b4-5d1c-9bcf-2b717aaef80f"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9737632668370585,
+          "ms": 459.27200000733137,
+          "returned": 10,
+          "ids": [
+            "3c2ed845-d99e-5803-a095-8f9fd066a4c0",
+            "74206e2f-9ab0-5e29-b802-83e852d8d998",
+            "dfd8e46d-7087-53bd-927e-1f6e16e869ca",
+            "a5860c78-95f1-579c-9486-7ce03c8bb64a",
+            "eccad65b-0e4e-552b-bb99-f4296568757a",
+            "092c2c15-31a0-58fd-9342-eab92125d4fe",
+            "8ec71bf1-a87e-570f-98dc-a4348e95f753",
+            "645047d7-ef86-5bd5-acb7-cd29f5781bfc",
+            "8ed079d5-431b-5697-89da-f35fc0d31efb",
+            "1efb2cfd-a1b4-5d1c-9bcf-2b717aaef80f"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9845304394624147,
+          "ms": 293.8018999993801,
+          "returned": 10,
+          "ids": [
+            "3c2ed845-d99e-5803-a095-8f9fd066a4c0",
+            "74206e2f-9ab0-5e29-b802-83e852d8d998",
+            "dfd8e46d-7087-53bd-927e-1f6e16e869ca",
+            "eccad65b-0e4e-552b-bb99-f4296568757a",
+            "092c2c15-31a0-58fd-9342-eab92125d4fe",
+            "8ec71bf1-a87e-570f-98dc-a4348e95f753",
+            "645047d7-ef86-5bd5-acb7-cd29f5781bfc",
+            "8ed079d5-431b-5697-89da-f35fc0d31efb",
+            "1efb2cfd-a1b4-5d1c-9bcf-2b717aaef80f",
+            "a5860c78-95f1-579c-9486-7ce03c8bb64a"
+          ]
+        }
+      }
+    },
+    {
+      "id": "acro-03",
+      "category": "acronym",
+      "query": "What does CPCB monitor?",
+      "judged": 15,
+      "relevant": 5,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.8,
+          "mrr": 1.0,
+          "ndcg": 0.8311886160511776,
+          "ms": 78.0205000191927,
+          "returned": 10,
+          "ids": [
+            "183388a2-62fd-5ff3-b5bd-829fa43511b9",
+            "9760e24b-d2a2-5669-9674-4d1403f979db",
+            "525d4394-7b79-5c8d-9eae-51eeec358cdb",
+            "fdd466db-1304-51f1-ac7b-c1ee8302b75a",
+            "4bae2e49-b0d1-5380-bc0c-c59378d93912",
+            "1204d161-56b0-5a5d-94ae-3aef0ca01606",
+            "51ce146e-2eca-50d2-96dc-1ffd94296e16",
+            "7dee651f-08dd-5408-ae07-e42e40d2da86",
+            "b2c547ee-ff1c-5110-b6c7-4d089e1911ac",
+            "dd94328f-24f9-5d43-8549-f5a98fddac6a"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.8,
+          "mrr": 1.0,
+          "ndcg": 0.7262347695462745,
+          "ms": 65.503699996043,
+          "returned": 10,
+          "ids": [
+            "183388a2-62fd-5ff3-b5bd-829fa43511b9",
+            "525d4394-7b79-5c8d-9eae-51eeec358cdb",
+            "1204d161-56b0-5a5d-94ae-3aef0ca01606",
+            "51ce146e-2eca-50d2-96dc-1ffd94296e16",
+            "7dee651f-08dd-5408-ae07-e42e40d2da86",
+            "9760e24b-d2a2-5669-9674-4d1403f979db",
+            "fdd466db-1304-51f1-ac7b-c1ee8302b75a",
+            "4bae2e49-b0d1-5380-bc0c-c59378d93912",
+            "b2c547ee-ff1c-5110-b6c7-4d089e1911ac",
+            "dd94328f-24f9-5d43-8549-f5a98fddac6a"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.8,
+          "mrr": 1.0,
+          "ndcg": 0.8546191626075167,
+          "ms": 790.3662000026088,
+          "returned": 10,
+          "ids": [
+            "fdd466db-1304-51f1-ac7b-c1ee8302b75a",
+            "9760e24b-d2a2-5669-9674-4d1403f979db",
+            "4bae2e49-b0d1-5380-bc0c-c59378d93912",
+            "b2c547ee-ff1c-5110-b6c7-4d089e1911ac",
+            "183388a2-62fd-5ff3-b5bd-829fa43511b9",
+            "525d4394-7b79-5c8d-9eae-51eeec358cdb",
+            "dd94328f-24f9-5d43-8549-f5a98fddac6a",
+            "51ce146e-2eca-50d2-96dc-1ffd94296e16",
+            "7dee651f-08dd-5408-ae07-e42e40d2da86",
+            "1204d161-56b0-5a5d-94ae-3aef0ca01606"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.8,
+          "mrr": 1.0,
+          "ndcg": 0.8513817948349327,
+          "ms": 597.5275000091642,
+          "returned": 10,
+          "ids": [
+            "fdd466db-1304-51f1-ac7b-c1ee8302b75a",
+            "9760e24b-d2a2-5669-9674-4d1403f979db",
+            "4bae2e49-b0d1-5380-bc0c-c59378d93912",
+            "183388a2-62fd-5ff3-b5bd-829fa43511b9",
+            "b2c547ee-ff1c-5110-b6c7-4d089e1911ac",
+            "51ce146e-2eca-50d2-96dc-1ffd94296e16",
+            "525d4394-7b79-5c8d-9eae-51eeec358cdb",
+            "1204d161-56b0-5a5d-94ae-3aef0ca01606",
+            "7dee651f-08dd-5408-ae07-e42e40d2da86",
+            "dd94328f-24f9-5d43-8549-f5a98fddac6a"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.8,
+          "mrr": 1.0,
+          "ndcg": 0.8408129237284648,
+          "ms": 463.53979999548756,
+          "returned": 10,
+          "ids": [
+            "fdd466db-1304-51f1-ac7b-c1ee8302b75a",
+            "9760e24b-d2a2-5669-9674-4d1403f979db",
+            "4bae2e49-b0d1-5380-bc0c-c59378d93912",
+            "b2c547ee-ff1c-5110-b6c7-4d089e1911ac",
+            "183388a2-62fd-5ff3-b5bd-829fa43511b9",
+            "51ce146e-2eca-50d2-96dc-1ffd94296e16",
+            "1204d161-56b0-5a5d-94ae-3aef0ca01606",
+            "7dee651f-08dd-5408-ae07-e42e40d2da86",
+            "525d4394-7b79-5c8d-9eae-51eeec358cdb",
+            "dd94328f-24f9-5d43-8549-f5a98fddac6a"
+          ]
+        }
+      }
+    },
+    {
+      "id": "acro-04",
+      "category": "acronym",
+      "query": "NDC commitments",
+      "judged": 10,
+      "relevant": 3,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9894850587838678,
+          "ms": 114.53679998521693,
+          "returned": 10,
+          "ids": [
+            "1cf557cc-40d6-57df-9b13-0f6e8e46cc3f",
+            "dc7275e3-82a8-5873-8b1a-d14d3f51c3ff",
+            "0094ed21-c448-543f-8002-1dd608e01c80",
+            "9ef25c1c-f5c1-526d-b141-8deb52b7deb1",
+            "068cd9b2-f02c-57ec-a93e-6b165a465d59",
+            "a7e5f665-8035-5dda-b69e-5e4ca457e581",
+            "85f18505-fb60-5386-99b2-c7f6cd3ce23c",
+            "8aea1331-fb19-55fb-919d-a7f4bdb83e5c",
+            "279abac3-cc93-5168-871f-3980d72ba162",
+            "1ec02802-4cf0-5aa9-963b-d7debba6be8d"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 1.0,
+          "ms": 67.36379998619668,
+          "returned": 10,
+          "ids": [
+            "1cf557cc-40d6-57df-9b13-0f6e8e46cc3f",
+            "dc7275e3-82a8-5873-8b1a-d14d3f51c3ff",
+            "0094ed21-c448-543f-8002-1dd608e01c80",
+            "279abac3-cc93-5168-871f-3980d72ba162",
+            "1ec02802-4cf0-5aa9-963b-d7debba6be8d",
+            "9ef25c1c-f5c1-526d-b141-8deb52b7deb1",
+            "068cd9b2-f02c-57ec-a93e-6b165a465d59",
+            "85f18505-fb60-5386-99b2-c7f6cd3ce23c",
+            "8aea1331-fb19-55fb-919d-a7f4bdb83e5c",
+            "a7e5f665-8035-5dda-b69e-5e4ca457e581"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 1.0,
+          "ms": 928.851400007261,
+          "returned": 10,
+          "ids": [
+            "dc7275e3-82a8-5873-8b1a-d14d3f51c3ff",
+            "0094ed21-c448-543f-8002-1dd608e01c80",
+            "1cf557cc-40d6-57df-9b13-0f6e8e46cc3f",
+            "8aea1331-fb19-55fb-919d-a7f4bdb83e5c",
+            "279abac3-cc93-5168-871f-3980d72ba162",
+            "1ec02802-4cf0-5aa9-963b-d7debba6be8d",
+            "9ef25c1c-f5c1-526d-b141-8deb52b7deb1",
+            "85f18505-fb60-5386-99b2-c7f6cd3ce23c",
+            "068cd9b2-f02c-57ec-a93e-6b165a465d59",
+            "a7e5f665-8035-5dda-b69e-5e4ca457e581"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 1.0,
+          "ms": 466.52139999787323,
+          "returned": 10,
+          "ids": [
+            "1cf557cc-40d6-57df-9b13-0f6e8e46cc3f",
+            "dc7275e3-82a8-5873-8b1a-d14d3f51c3ff",
+            "0094ed21-c448-543f-8002-1dd608e01c80",
+            "8aea1331-fb19-55fb-919d-a7f4bdb83e5c",
+            "279abac3-cc93-5168-871f-3980d72ba162",
+            "1ec02802-4cf0-5aa9-963b-d7debba6be8d",
+            "068cd9b2-f02c-57ec-a93e-6b165a465d59",
+            "9ef25c1c-f5c1-526d-b141-8deb52b7deb1",
+            "85f18505-fb60-5386-99b2-c7f6cd3ce23c",
+            "a7e5f665-8035-5dda-b69e-5e4ca457e581"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 1.0,
+          "ms": 233.84099997929297,
+          "returned": 10,
+          "ids": [
+            "1cf557cc-40d6-57df-9b13-0f6e8e46cc3f",
+            "dc7275e3-82a8-5873-8b1a-d14d3f51c3ff",
+            "0094ed21-c448-543f-8002-1dd608e01c80",
+            "8aea1331-fb19-55fb-919d-a7f4bdb83e5c",
+            "279abac3-cc93-5168-871f-3980d72ba162",
+            "1ec02802-4cf0-5aa9-963b-d7debba6be8d",
+            "068cd9b2-f02c-57ec-a93e-6b165a465d59",
+            "9ef25c1c-f5c1-526d-b141-8deb52b7deb1",
+            "85f18505-fb60-5386-99b2-c7f6cd3ce23c",
+            "a7e5f665-8035-5dda-b69e-5e4ca457e581"
+          ]
+        }
+      }
+    },
+    {
+      "id": "acro-05",
+      "category": "acronym",
+      "query": "GHG emissions inventory",
+      "judged": 10,
+      "relevant": 3,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9063814658750016,
+          "ms": 89.57130002090707,
+          "returned": 10,
+          "ids": [
+            "bd6e84ad-001e-5e2a-b6a8-24c0c970b061",
+            "2f4a5d64-ac6c-59c9-8a7b-60dda0215fe9",
+            "3a2ffa59-04d2-5761-9b5a-e99c0648b21d",
+            "a625934f-fb3c-5d24-aa96-6e54fd0647d1",
+            "a4395ce7-3fd3-5c2f-86b7-e0f8396d24eb",
+            "689a9633-054f-5669-83a8-7da65f87c9fb",
+            "e7f21b06-a138-58b5-b656-0343d15db2c2",
+            "36ed4030-53da-55f6-a213-da37047cf71e",
+            "b548b3f1-a1c7-51b7-879a-83e009b61815",
+            "60f4fc62-3324-5f3e-b5a6-1f11ef962889"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9289759593000186,
+          "ms": 67.04350002110004,
+          "returned": 10,
+          "ids": [
+            "bd6e84ad-001e-5e2a-b6a8-24c0c970b061",
+            "3a2ffa59-04d2-5761-9b5a-e99c0648b21d",
+            "a4395ce7-3fd3-5c2f-86b7-e0f8396d24eb",
+            "e7f21b06-a138-58b5-b656-0343d15db2c2",
+            "36ed4030-53da-55f6-a213-da37047cf71e",
+            "b548b3f1-a1c7-51b7-879a-83e009b61815",
+            "60f4fc62-3324-5f3e-b5a6-1f11ef962889",
+            "a625934f-fb3c-5d24-aa96-6e54fd0647d1",
+            "689a9633-054f-5669-83a8-7da65f87c9fb",
+            "2f4a5d64-ac6c-59c9-8a7b-60dda0215fe9"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9090111405292267,
+          "ms": 1296.7416000028607,
+          "returned": 10,
+          "ids": [
+            "36ed4030-53da-55f6-a213-da37047cf71e",
+            "a4395ce7-3fd3-5c2f-86b7-e0f8396d24eb",
+            "e7f21b06-a138-58b5-b656-0343d15db2c2",
+            "a625934f-fb3c-5d24-aa96-6e54fd0647d1",
+            "689a9633-054f-5669-83a8-7da65f87c9fb",
+            "bd6e84ad-001e-5e2a-b6a8-24c0c970b061",
+            "b548b3f1-a1c7-51b7-879a-83e009b61815",
+            "60f4fc62-3324-5f3e-b5a6-1f11ef962889",
+            "3a2ffa59-04d2-5761-9b5a-e99c0648b21d",
+            "2f4a5d64-ac6c-59c9-8a7b-60dda0215fe9"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9149436577084774,
+          "ms": 503.75479998183437,
+          "returned": 10,
+          "ids": [
+            "36ed4030-53da-55f6-a213-da37047cf71e",
+            "a4395ce7-3fd3-5c2f-86b7-e0f8396d24eb",
+            "a625934f-fb3c-5d24-aa96-6e54fd0647d1",
+            "689a9633-054f-5669-83a8-7da65f87c9fb",
+            "bd6e84ad-001e-5e2a-b6a8-24c0c970b061",
+            "b548b3f1-a1c7-51b7-879a-83e009b61815",
+            "e7f21b06-a138-58b5-b656-0343d15db2c2",
+            "3a2ffa59-04d2-5761-9b5a-e99c0648b21d",
+            "2f4a5d64-ac6c-59c9-8a7b-60dda0215fe9",
+            "60f4fc62-3324-5f3e-b5a6-1f11ef962889"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9338792618427839,
+          "ms": 227.9195000010077,
+          "returned": 10,
+          "ids": [
+            "36ed4030-53da-55f6-a213-da37047cf71e",
+            "a4395ce7-3fd3-5c2f-86b7-e0f8396d24eb",
+            "3a2ffa59-04d2-5761-9b5a-e99c0648b21d",
+            "a625934f-fb3c-5d24-aa96-6e54fd0647d1",
+            "bd6e84ad-001e-5e2a-b6a8-24c0c970b061",
+            "b548b3f1-a1c7-51b7-879a-83e009b61815",
+            "e7f21b06-a138-58b5-b656-0343d15db2c2",
+            "689a9633-054f-5669-83a8-7da65f87c9fb",
+            "2f4a5d64-ac6c-59c9-8a7b-60dda0215fe9",
+            "60f4fc62-3324-5f3e-b5a6-1f11ef962889"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ent-01",
+      "category": "entity_name",
+      "query": "Dr R K Pachauri",
+      "judged": 10,
+      "relevant": 6,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.940314363959577,
+          "ms": 102.55339997820556,
+          "returned": 10,
+          "ids": [
+            "8cb23b78-62cb-5129-9d9a-6a1f5d6bf044",
+            "53499ed4-3f92-5b39-9f71-b597465fc831",
+            "2a4ec90f-aff6-55eb-9199-20be237b7b1e",
+            "071649e7-8d52-58b8-bf05-8a24fb39b1d5",
+            "9dfb7311-aeb1-57f7-84e5-c4103577c504",
+            "c6df1259-0c4b-5aec-84aa-cdde3b006f6d",
+            "16de4934-e638-5ebc-8aaf-2b83ca84bb94",
+            "f7a597fe-6571-57eb-8581-4f1b20e77fac",
+            "c35e7feb-34f3-534e-a4fd-020edcd06eba",
+            "8c8c5727-f289-5013-8e18-76dcbe1a30b2"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9671598588039855,
+          "ms": 67.76299999910407,
+          "returned": 10,
+          "ids": [
+            "8cb23b78-62cb-5129-9d9a-6a1f5d6bf044",
+            "2a4ec90f-aff6-55eb-9199-20be237b7b1e",
+            "071649e7-8d52-58b8-bf05-8a24fb39b1d5",
+            "c6df1259-0c4b-5aec-84aa-cdde3b006f6d",
+            "9dfb7311-aeb1-57f7-84e5-c4103577c504",
+            "53499ed4-3f92-5b39-9f71-b597465fc831",
+            "16de4934-e638-5ebc-8aaf-2b83ca84bb94",
+            "c35e7feb-34f3-534e-a4fd-020edcd06eba",
+            "8c8c5727-f289-5013-8e18-76dcbe1a30b2",
+            "f7a597fe-6571-57eb-8581-4f1b20e77fac"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.983818368839723,
+          "ms": 912.3462999996264,
+          "returned": 10,
+          "ids": [
+            "8cb23b78-62cb-5129-9d9a-6a1f5d6bf044",
+            "16de4934-e638-5ebc-8aaf-2b83ca84bb94",
+            "8c8c5727-f289-5013-8e18-76dcbe1a30b2",
+            "c6df1259-0c4b-5aec-84aa-cdde3b006f6d",
+            "2a4ec90f-aff6-55eb-9199-20be237b7b1e",
+            "c35e7feb-34f3-534e-a4fd-020edcd06eba",
+            "071649e7-8d52-58b8-bf05-8a24fb39b1d5",
+            "f7a597fe-6571-57eb-8581-4f1b20e77fac",
+            "9dfb7311-aeb1-57f7-84e5-c4103577c504",
+            "53499ed4-3f92-5b39-9f71-b597465fc831"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9868443467658645,
+          "ms": 468.0017000064254,
+          "returned": 10,
+          "ids": [
+            "8cb23b78-62cb-5129-9d9a-6a1f5d6bf044",
+            "16de4934-e638-5ebc-8aaf-2b83ca84bb94",
+            "8c8c5727-f289-5013-8e18-76dcbe1a30b2",
+            "c6df1259-0c4b-5aec-84aa-cdde3b006f6d",
+            "2a4ec90f-aff6-55eb-9199-20be237b7b1e",
+            "071649e7-8d52-58b8-bf05-8a24fb39b1d5",
+            "c35e7feb-34f3-534e-a4fd-020edcd06eba",
+            "f7a597fe-6571-57eb-8581-4f1b20e77fac",
+            "9dfb7311-aeb1-57f7-84e5-c4103577c504",
+            "53499ed4-3f92-5b39-9f71-b597465fc831"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9969740220738585,
+          "ms": 207.8157999785617,
+          "returned": 10,
+          "ids": [
+            "8cb23b78-62cb-5129-9d9a-6a1f5d6bf044",
+            "8c8c5727-f289-5013-8e18-76dcbe1a30b2",
+            "16de4934-e638-5ebc-8aaf-2b83ca84bb94",
+            "c6df1259-0c4b-5aec-84aa-cdde3b006f6d",
+            "2a4ec90f-aff6-55eb-9199-20be237b7b1e",
+            "f7a597fe-6571-57eb-8581-4f1b20e77fac",
+            "9dfb7311-aeb1-57f7-84e5-c4103577c504",
+            "53499ed4-3f92-5b39-9f71-b597465fc831",
+            "071649e7-8d52-58b8-bf05-8a24fb39b1d5",
+            "c35e7feb-34f3-534e-a4fd-020edcd06eba"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ent-02",
+      "category": "entity_name",
+      "query": "What has Dr Leena Srivastava written about?",
+      "judged": 20,
+      "relevant": 3,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.3333333333333333,
+          "mrr": 0.25,
+          "ndcg": 0.3207300269566442,
+          "ms": 126.89839999075048,
+          "returned": 10,
+          "ids": [
+            "7a08bb73-b8d5-58a3-8867-e2afdeed14ff",
+            "a15a73b8-a144-5d9a-b069-4e74c9591a4d",
+            "94de668e-55da-578c-865b-5cf72d1a46e3",
+            "abf2a403-fed4-5c3a-97b4-ec058325c78b",
+            "536b2f74-7d3f-549d-a08f-de7a6e783cd2",
+            "8ac6ad6f-52db-581f-8b91-189c2ab3f319",
+            "5c8e7fb2-8d64-5eff-bf2f-4f9cffa76cd8",
+            "b6b344a2-b298-596e-9be2-184a639c7064",
+            "6e140f40-0319-59a4-8f3c-c0672610d87f",
+            "b3568444-0e1c-59cb-99bb-663d3620a260"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.3333333333333333,
+          "mrr": 0.14285714285714285,
+          "ndcg": 0.3850152038788073,
+          "ms": 72.35360000049695,
+          "returned": 10,
+          "ids": [
+            "94de668e-55da-578c-865b-5cf72d1a46e3",
+            "8ac6ad6f-52db-581f-8b91-189c2ab3f319",
+            "a15a73b8-a144-5d9a-b069-4e74c9591a4d",
+            "5c8e7fb2-8d64-5eff-bf2f-4f9cffa76cd8",
+            "6e140f40-0319-59a4-8f3c-c0672610d87f",
+            "7a08bb73-b8d5-58a3-8867-e2afdeed14ff",
+            "abf2a403-fed4-5c3a-97b4-ec058325c78b",
+            "536b2f74-7d3f-549d-a08f-de7a6e783cd2",
+            "b6b344a2-b298-596e-9be2-184a639c7064",
+            "b3568444-0e1c-59cb-99bb-663d3620a260"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.3333333333333333,
+          "mrr": 1.0,
+          "ndcg": 0.5457355534240512,
+          "ms": 639.7274000046309,
+          "returned": 10,
+          "ids": [
+            "abf2a403-fed4-5c3a-97b4-ec058325c78b",
+            "b3568444-0e1c-59cb-99bb-663d3620a260",
+            "b6b344a2-b298-596e-9be2-184a639c7064",
+            "7a08bb73-b8d5-58a3-8867-e2afdeed14ff",
+            "536b2f74-7d3f-549d-a08f-de7a6e783cd2",
+            "6e140f40-0319-59a4-8f3c-c0672610d87f",
+            "94de668e-55da-578c-865b-5cf72d1a46e3",
+            "5c8e7fb2-8d64-5eff-bf2f-4f9cffa76cd8",
+            "8ac6ad6f-52db-581f-8b91-189c2ab3f319",
+            "a15a73b8-a144-5d9a-b069-4e74c9591a4d"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.3333333333333333,
+          "mrr": 1.0,
+          "ndcg": 0.5478355428416651,
+          "ms": 492.6841999986209,
+          "returned": 10,
+          "ids": [
+            "abf2a403-fed4-5c3a-97b4-ec058325c78b",
+            "b3568444-0e1c-59cb-99bb-663d3620a260",
+            "7a08bb73-b8d5-58a3-8867-e2afdeed14ff",
+            "b6b344a2-b298-596e-9be2-184a639c7064",
+            "6e140f40-0319-59a4-8f3c-c0672610d87f",
+            "8ac6ad6f-52db-581f-8b91-189c2ab3f319",
+            "5c8e7fb2-8d64-5eff-bf2f-4f9cffa76cd8",
+            "94de668e-55da-578c-865b-5cf72d1a46e3",
+            "536b2f74-7d3f-549d-a08f-de7a6e783cd2",
+            "a15a73b8-a144-5d9a-b069-4e74c9591a4d"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.3333333333333333,
+          "mrr": 1.0,
+          "ndcg": 0.554531741101751,
+          "ms": 229.0768999955617,
+          "returned": 10,
+          "ids": [
+            "abf2a403-fed4-5c3a-97b4-ec058325c78b",
+            "b3568444-0e1c-59cb-99bb-663d3620a260",
+            "7a08bb73-b8d5-58a3-8867-e2afdeed14ff",
+            "b6b344a2-b298-596e-9be2-184a639c7064",
+            "6e140f40-0319-59a4-8f3c-c0672610d87f",
+            "94de668e-55da-578c-865b-5cf72d1a46e3",
+            "8ac6ad6f-52db-581f-8b91-189c2ab3f319",
+            "5c8e7fb2-8d64-5eff-bf2f-4f9cffa76cd8",
+            "536b2f74-7d3f-549d-a08f-de7a6e783cd2",
+            "a15a73b8-a144-5d9a-b069-4e74c9591a4d"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ent-03",
+      "category": "entity_name",
+      "query": "Dr Shailly Kedia research",
+      "judged": 14,
+      "relevant": 7,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 0.5,
+          "ndcg": 0.8684363649898466,
+          "ms": 69.27090001408942,
+          "returned": 10,
+          "ids": [
+            "26970d75-a336-567f-8fbf-323e965c5f25",
+            "bf7c541c-eb8c-5943-914c-c812af3e3607",
+            "5d2f5fdf-d5b2-56e5-90b3-cbeb72925819",
+            "55de0aad-3474-5fc5-b061-251a38125bc1",
+            "0a310c27-a511-51ab-a4b0-aae5a80f9632",
+            "2897e82d-bef2-53ac-806f-963fc4167f4c",
+            "33f36144-2682-5b55-af15-e864654ed023",
+            "94de668e-55da-578c-865b-5cf72d1a46e3",
+            "6567ea0c-2d53-5b73-93a5-b1adbeeaeebf",
+            "06f6009c-d91f-5357-afaa-a297e75f075d"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.7915279247352094,
+          "ms": 86.25890000257641,
+          "returned": 10,
+          "ids": [
+            "26970d75-a336-567f-8fbf-323e965c5f25",
+            "94de668e-55da-578c-865b-5cf72d1a46e3",
+            "33f36144-2682-5b55-af15-e864654ed023",
+            "bf7c541c-eb8c-5943-914c-c812af3e3607",
+            "5d2f5fdf-d5b2-56e5-90b3-cbeb72925819",
+            "55de0aad-3474-5fc5-b061-251a38125bc1",
+            "0a310c27-a511-51ab-a4b0-aae5a80f9632",
+            "2897e82d-bef2-53ac-806f-963fc4167f4c",
+            "06f6009c-d91f-5357-afaa-a297e75f075d",
+            "6567ea0c-2d53-5b73-93a5-b1adbeeaeebf"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9528136582703322,
+          "ms": 643.9721999922767,
+          "returned": 10,
+          "ids": [
+            "06f6009c-d91f-5357-afaa-a297e75f075d",
+            "55de0aad-3474-5fc5-b061-251a38125bc1",
+            "2897e82d-bef2-53ac-806f-963fc4167f4c",
+            "0a310c27-a511-51ab-a4b0-aae5a80f9632",
+            "26970d75-a336-567f-8fbf-323e965c5f25",
+            "bf7c541c-eb8c-5943-914c-c812af3e3607",
+            "5d2f5fdf-d5b2-56e5-90b3-cbeb72925819",
+            "33f36144-2682-5b55-af15-e864654ed023",
+            "6567ea0c-2d53-5b73-93a5-b1adbeeaeebf",
+            "94de668e-55da-578c-865b-5cf72d1a46e3"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9528136582703322,
+          "ms": 424.502100009704,
+          "returned": 10,
+          "ids": [
+            "06f6009c-d91f-5357-afaa-a297e75f075d",
+            "55de0aad-3474-5fc5-b061-251a38125bc1",
+            "2897e82d-bef2-53ac-806f-963fc4167f4c",
+            "0a310c27-a511-51ab-a4b0-aae5a80f9632",
+            "26970d75-a336-567f-8fbf-323e965c5f25",
+            "bf7c541c-eb8c-5943-914c-c812af3e3607",
+            "5d2f5fdf-d5b2-56e5-90b3-cbeb72925819",
+            "33f36144-2682-5b55-af15-e864654ed023",
+            "6567ea0c-2d53-5b73-93a5-b1adbeeaeebf",
+            "94de668e-55da-578c-865b-5cf72d1a46e3"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9528136582703322,
+          "ms": 307.01499999850057,
+          "returned": 10,
+          "ids": [
+            "06f6009c-d91f-5357-afaa-a297e75f075d",
+            "55de0aad-3474-5fc5-b061-251a38125bc1",
+            "2897e82d-bef2-53ac-806f-963fc4167f4c",
+            "0a310c27-a511-51ab-a4b0-aae5a80f9632",
+            "26970d75-a336-567f-8fbf-323e965c5f25",
+            "5d2f5fdf-d5b2-56e5-90b3-cbeb72925819",
+            "bf7c541c-eb8c-5943-914c-c812af3e3607",
+            "33f36144-2682-5b55-af15-e864654ed023",
+            "6567ea0c-2d53-5b73-93a5-b1adbeeaeebf",
+            "94de668e-55da-578c-865b-5cf72d1a46e3"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ent-04",
+      "category": "entity_name",
+      "query": "Dr Debajit Palit energy access",
+      "judged": 13,
+      "relevant": 3,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.6693524369988091,
+          "ms": 78.14110000617802,
+          "returned": 10,
+          "ids": [
+            "263eb168-eaa9-5497-b9b9-5c8571f00870",
+            "4faccb42-0c88-5280-8369-e6d7a6513cb2",
+            "c0354c43-7650-52e9-a162-fef514890437",
+            "417ba96f-17da-5a44-8bb9-f32fe0c70a73",
+            "b1a3d6c6-8297-5848-9455-19f629a2f115",
+            "057b8948-2154-53ca-8cae-7da44552cb7d",
+            "24e96128-c6a5-521a-b632-e3dcaeb6998c",
+            "84fb4be5-7e0b-5603-a0ec-b8096b00c986",
+            "9714721a-1ef3-59a2-b274-c62d4c085987",
+            "aca2d4d1-a224-5c71-81f9-ae6528b2e5b9"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.7021573778776983,
+          "ms": 76.17830001981929,
+          "returned": 10,
+          "ids": [
+            "263eb168-eaa9-5497-b9b9-5c8571f00870",
+            "4faccb42-0c88-5280-8369-e6d7a6513cb2",
+            "c0354c43-7650-52e9-a162-fef514890437",
+            "84fb4be5-7e0b-5603-a0ec-b8096b00c986",
+            "417ba96f-17da-5a44-8bb9-f32fe0c70a73",
+            "9714721a-1ef3-59a2-b274-c62d4c085987",
+            "b1a3d6c6-8297-5848-9455-19f629a2f115",
+            "057b8948-2154-53ca-8cae-7da44552cb7d",
+            "24e96128-c6a5-521a-b632-e3dcaeb6998c",
+            "aca2d4d1-a224-5c71-81f9-ae6528b2e5b9"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.7959904214544685,
+          "ms": 646.1765999847557,
+          "returned": 10,
+          "ids": [
+            "aca2d4d1-a224-5c71-81f9-ae6528b2e5b9",
+            "263eb168-eaa9-5497-b9b9-5c8571f00870",
+            "b1a3d6c6-8297-5848-9455-19f629a2f115",
+            "417ba96f-17da-5a44-8bb9-f32fe0c70a73",
+            "84fb4be5-7e0b-5603-a0ec-b8096b00c986",
+            "c0354c43-7650-52e9-a162-fef514890437",
+            "4faccb42-0c88-5280-8369-e6d7a6513cb2",
+            "24e96128-c6a5-521a-b632-e3dcaeb6998c",
+            "9714721a-1ef3-59a2-b274-c62d4c085987",
+            "057b8948-2154-53ca-8cae-7da44552cb7d"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.749398290355003,
+          "ms": 476.89710001577623,
+          "returned": 10,
+          "ids": [
+            "263eb168-eaa9-5497-b9b9-5c8571f00870",
+            "b1a3d6c6-8297-5848-9455-19f629a2f115",
+            "aca2d4d1-a224-5c71-81f9-ae6528b2e5b9",
+            "24e96128-c6a5-521a-b632-e3dcaeb6998c",
+            "417ba96f-17da-5a44-8bb9-f32fe0c70a73",
+            "4faccb42-0c88-5280-8369-e6d7a6513cb2",
+            "84fb4be5-7e0b-5603-a0ec-b8096b00c986",
+            "c0354c43-7650-52e9-a162-fef514890437",
+            "9714721a-1ef3-59a2-b274-c62d4c085987",
+            "057b8948-2154-53ca-8cae-7da44552cb7d"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.7481811799440296,
+          "ms": 185.54869998479262,
+          "returned": 10,
+          "ids": [
+            "263eb168-eaa9-5497-b9b9-5c8571f00870",
+            "b1a3d6c6-8297-5848-9455-19f629a2f115",
+            "aca2d4d1-a224-5c71-81f9-ae6528b2e5b9",
+            "24e96128-c6a5-521a-b632-e3dcaeb6998c",
+            "4faccb42-0c88-5280-8369-e6d7a6513cb2",
+            "84fb4be5-7e0b-5603-a0ec-b8096b00c986",
+            "417ba96f-17da-5a44-8bb9-f32fe0c70a73",
+            "c0354c43-7650-52e9-a162-fef514890437",
+            "9714721a-1ef3-59a2-b274-c62d4c085987",
+            "057b8948-2154-53ca-8cae-7da44552cb7d"
+          ]
+        }
+      }
+    },
+    {
+      "id": "proj-01",
+      "category": "project",
+      "query": "Green building design consultancy and GRIHA facilitation for Sattva Mysore Road",
+      "judged": 14,
+      "relevant": 3,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.7633564537297531,
+          "ms": 79.75000000442378,
+          "returned": 10,
+          "ids": [
+            "b019afb1-72d4-58bb-b831-707443ee1cfb",
+            "978eba2f-b5c5-5b12-8856-e8539f07da4e",
+            "a1e52c68-567c-5134-a41e-ea5122473635",
+            "70d1ab99-147d-5a01-9932-4897da92720b",
+            "cea20b7b-aa71-5e4f-bb23-22a8a9f5a7f8",
+            "6cea8a23-e171-5287-a75d-e16e3c32df79",
+            "1cdc1b41-1a0f-59f9-a94b-7da945b88fa7",
+            "6718c4ce-a5ff-5f09-8d9e-85f94516b479",
+            "c74f161b-dd2b-5a74-b039-fc13dc6d2682",
+            "5b5bf463-2283-597d-b8ab-63eb6af836d5"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.7468659402631217,
+          "ms": 101.33200002019294,
+          "returned": 10,
+          "ids": [
+            "b019afb1-72d4-58bb-b831-707443ee1cfb",
+            "978eba2f-b5c5-5b12-8856-e8539f07da4e",
+            "1cdc1b41-1a0f-59f9-a94b-7da945b88fa7",
+            "a1e52c68-567c-5134-a41e-ea5122473635",
+            "c74f161b-dd2b-5a74-b039-fc13dc6d2682",
+            "70d1ab99-147d-5a01-9932-4897da92720b",
+            "6718c4ce-a5ff-5f09-8d9e-85f94516b479",
+            "cea20b7b-aa71-5e4f-bb23-22a8a9f5a7f8",
+            "6cea8a23-e171-5287-a75d-e16e3c32df79",
+            "5b5bf463-2283-597d-b8ab-63eb6af836d5"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.7699889474543682,
+          "ms": 831.1544999887701,
+          "returned": 10,
+          "ids": [
+            "978eba2f-b5c5-5b12-8856-e8539f07da4e",
+            "b019afb1-72d4-58bb-b831-707443ee1cfb",
+            "6cea8a23-e171-5287-a75d-e16e3c32df79",
+            "6718c4ce-a5ff-5f09-8d9e-85f94516b479",
+            "a1e52c68-567c-5134-a41e-ea5122473635",
+            "cea20b7b-aa71-5e4f-bb23-22a8a9f5a7f8",
+            "5b5bf463-2283-597d-b8ab-63eb6af836d5",
+            "1cdc1b41-1a0f-59f9-a94b-7da945b88fa7",
+            "c74f161b-dd2b-5a74-b039-fc13dc6d2682",
+            "70d1ab99-147d-5a01-9932-4897da92720b"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.7699889474543682,
+          "ms": 561.9697000074666,
+          "returned": 10,
+          "ids": [
+            "978eba2f-b5c5-5b12-8856-e8539f07da4e",
+            "b019afb1-72d4-58bb-b831-707443ee1cfb",
+            "6cea8a23-e171-5287-a75d-e16e3c32df79",
+            "6718c4ce-a5ff-5f09-8d9e-85f94516b479",
+            "a1e52c68-567c-5134-a41e-ea5122473635",
+            "cea20b7b-aa71-5e4f-bb23-22a8a9f5a7f8",
+            "5b5bf463-2283-597d-b8ab-63eb6af836d5",
+            "1cdc1b41-1a0f-59f9-a94b-7da945b88fa7",
+            "c74f161b-dd2b-5a74-b039-fc13dc6d2682",
+            "70d1ab99-147d-5a01-9932-4897da92720b"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.7534984339877367,
+          "ms": 216.69679999467917,
+          "returned": 10,
+          "ids": [
+            "978eba2f-b5c5-5b12-8856-e8539f07da4e",
+            "b019afb1-72d4-58bb-b831-707443ee1cfb",
+            "6718c4ce-a5ff-5f09-8d9e-85f94516b479",
+            "cea20b7b-aa71-5e4f-bb23-22a8a9f5a7f8",
+            "a1e52c68-567c-5134-a41e-ea5122473635",
+            "1cdc1b41-1a0f-59f9-a94b-7da945b88fa7",
+            "c74f161b-dd2b-5a74-b039-fc13dc6d2682",
+            "6cea8a23-e171-5287-a75d-e16e3c32df79",
+            "5b5bf463-2283-597d-b8ab-63eb6af836d5",
+            "70d1ab99-147d-5a01-9932-4897da92720b"
+          ]
+        }
+      }
+    },
+    {
+      "id": "proj-02",
+      "category": "project",
+      "query": "Himalayan Adaptation, Water and Resilience research",
+      "judged": 15,
+      "relevant": 6,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.8745963639924749,
+          "ms": 85.91110000270419,
+          "returned": 10,
+          "ids": [
+            "ecd6b473-36ac-5206-b4d2-9ae81602a65d",
+            "79e1690a-ac6f-5dd3-8e9c-52d67e441cf7",
+            "728ac222-6bd8-58eb-89d8-70c080ec8ff2",
+            "67fd90a7-8dfe-51be-b0be-7053f6c86b4c",
+            "88a00efc-8fba-5eb0-a526-163c0324b937",
+            "dca57054-3353-55cd-a7e7-a24e6c98e45d",
+            "1014bdd5-0e23-5b2d-a5a8-fb245b1b14e0",
+            "fba5d84c-ee89-5149-9f60-31522e9ee468",
+            "49085681-ae48-5702-b130-dee22c1498b6",
+            "100b2677-725c-5023-9016-f4571151928e"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.8888020558620483,
+          "ms": 81.25300001120195,
+          "returned": 10,
+          "ids": [
+            "ecd6b473-36ac-5206-b4d2-9ae81602a65d",
+            "79e1690a-ac6f-5dd3-8e9c-52d67e441cf7",
+            "dca57054-3353-55cd-a7e7-a24e6c98e45d",
+            "728ac222-6bd8-58eb-89d8-70c080ec8ff2",
+            "fba5d84c-ee89-5149-9f60-31522e9ee468",
+            "88a00efc-8fba-5eb0-a526-163c0324b937",
+            "67fd90a7-8dfe-51be-b0be-7053f6c86b4c",
+            "100b2677-725c-5023-9016-f4571151928e",
+            "1014bdd5-0e23-5b2d-a5a8-fb245b1b14e0",
+            "49085681-ae48-5702-b130-dee22c1498b6"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.8958325865764261,
+          "ms": 641.4526000153273,
+          "returned": 10,
+          "ids": [
+            "ecd6b473-36ac-5206-b4d2-9ae81602a65d",
+            "79e1690a-ac6f-5dd3-8e9c-52d67e441cf7",
+            "1014bdd5-0e23-5b2d-a5a8-fb245b1b14e0",
+            "728ac222-6bd8-58eb-89d8-70c080ec8ff2",
+            "67fd90a7-8dfe-51be-b0be-7053f6c86b4c",
+            "dca57054-3353-55cd-a7e7-a24e6c98e45d",
+            "100b2677-725c-5023-9016-f4571151928e",
+            "fba5d84c-ee89-5149-9f60-31522e9ee468",
+            "88a00efc-8fba-5eb0-a526-163c0324b937",
+            "49085681-ae48-5702-b130-dee22c1498b6"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.8958325865764261,
+          "ms": 431.92590001854114,
+          "returned": 10,
+          "ids": [
+            "79e1690a-ac6f-5dd3-8e9c-52d67e441cf7",
+            "ecd6b473-36ac-5206-b4d2-9ae81602a65d",
+            "1014bdd5-0e23-5b2d-a5a8-fb245b1b14e0",
+            "728ac222-6bd8-58eb-89d8-70c080ec8ff2",
+            "67fd90a7-8dfe-51be-b0be-7053f6c86b4c",
+            "dca57054-3353-55cd-a7e7-a24e6c98e45d",
+            "100b2677-725c-5023-9016-f4571151928e",
+            "49085681-ae48-5702-b130-dee22c1498b6",
+            "fba5d84c-ee89-5149-9f60-31522e9ee468",
+            "88a00efc-8fba-5eb0-a526-163c0324b937"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.8869995783181918,
+          "ms": 190.12089999159798,
+          "returned": 10,
+          "ids": [
+            "ecd6b473-36ac-5206-b4d2-9ae81602a65d",
+            "1014bdd5-0e23-5b2d-a5a8-fb245b1b14e0",
+            "728ac222-6bd8-58eb-89d8-70c080ec8ff2",
+            "dca57054-3353-55cd-a7e7-a24e6c98e45d",
+            "100b2677-725c-5023-9016-f4571151928e",
+            "79e1690a-ac6f-5dd3-8e9c-52d67e441cf7",
+            "fba5d84c-ee89-5149-9f60-31522e9ee468",
+            "88a00efc-8fba-5eb0-a526-163c0324b937",
+            "67fd90a7-8dfe-51be-b0be-7053f6c86b4c",
+            "49085681-ae48-5702-b130-dee22c1498b6"
+          ]
+        }
+      }
+    },
+    {
+      "id": "proj-03",
+      "category": "project",
+      "query": "Feasibility report and DPR for rooftop grid connected power",
+      "judged": 20,
+      "relevant": 10,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.4,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.5599349215609476,
+          "ms": 66.19679997675121,
+          "returned": 10,
+          "ids": [
+            "867289a9-0dc8-50f0-acf7-03494206c6da",
+            "d7a0d4dc-4c0b-5b61-9245-f34c7f23a881",
+            "2fb43aa2-3b19-5c00-91d5-dc9dd98157ec",
+            "b3b75bc4-13cc-5c20-bf42-d9e1a8b64382",
+            "07497ec1-e732-5128-8828-d27b24196685",
+            "46d175c3-ea18-5319-8bed-f8c8e8ade330",
+            "6e921215-a81f-5bc3-a79f-f739f78bc31a",
+            "db7d0669-fb14-583b-a5a2-b23f5c39b8f8",
+            "0063a668-a2e8-50a8-822d-96a908891bd3",
+            "59b510ea-e7da-501e-9b7f-32e6ed771032"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.4,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.5845347002743846,
+          "ms": 79.97910000267439,
+          "returned": 10,
+          "ids": [
+            "d7a0d4dc-4c0b-5b61-9245-f34c7f23a881",
+            "07497ec1-e732-5128-8828-d27b24196685",
+            "db7d0669-fb14-583b-a5a2-b23f5c39b8f8",
+            "59b510ea-e7da-501e-9b7f-32e6ed771032",
+            "b3b75bc4-13cc-5c20-bf42-d9e1a8b64382",
+            "2fb43aa2-3b19-5c00-91d5-dc9dd98157ec",
+            "867289a9-0dc8-50f0-acf7-03494206c6da",
+            "6e921215-a81f-5bc3-a79f-f739f78bc31a",
+            "46d175c3-ea18-5319-8bed-f8c8e8ade330",
+            "0063a668-a2e8-50a8-822d-96a908891bd3"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.4,
+          "mrr": 1.0,
+          "ndcg": 0.66445095488358,
+          "ms": 815.1238999853376,
+          "returned": 10,
+          "ids": [
+            "db7d0669-fb14-583b-a5a2-b23f5c39b8f8",
+            "59b510ea-e7da-501e-9b7f-32e6ed771032",
+            "07497ec1-e732-5128-8828-d27b24196685",
+            "b3b75bc4-13cc-5c20-bf42-d9e1a8b64382",
+            "d7a0d4dc-4c0b-5b61-9245-f34c7f23a881",
+            "2fb43aa2-3b19-5c00-91d5-dc9dd98157ec",
+            "6e921215-a81f-5bc3-a79f-f739f78bc31a",
+            "867289a9-0dc8-50f0-acf7-03494206c6da",
+            "0063a668-a2e8-50a8-822d-96a908891bd3",
+            "46d175c3-ea18-5319-8bed-f8c8e8ade330"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.4,
+          "mrr": 1.0,
+          "ndcg": 0.6708303148751463,
+          "ms": 454.68210001126863,
+          "returned": 10,
+          "ids": [
+            "db7d0669-fb14-583b-a5a2-b23f5c39b8f8",
+            "59b510ea-e7da-501e-9b7f-32e6ed771032",
+            "b3b75bc4-13cc-5c20-bf42-d9e1a8b64382",
+            "2fb43aa2-3b19-5c00-91d5-dc9dd98157ec",
+            "6e921215-a81f-5bc3-a79f-f739f78bc31a",
+            "867289a9-0dc8-50f0-acf7-03494206c6da",
+            "46d175c3-ea18-5319-8bed-f8c8e8ade330",
+            "07497ec1-e732-5128-8828-d27b24196685",
+            "d7a0d4dc-4c0b-5b61-9245-f34c7f23a881",
+            "0063a668-a2e8-50a8-822d-96a908891bd3"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.4,
+          "mrr": 1.0,
+          "ndcg": 0.6743851641976318,
+          "ms": 238.97599999327213,
+          "returned": 10,
+          "ids": [
+            "db7d0669-fb14-583b-a5a2-b23f5c39b8f8",
+            "59b510ea-e7da-501e-9b7f-32e6ed771032",
+            "b3b75bc4-13cc-5c20-bf42-d9e1a8b64382",
+            "2fb43aa2-3b19-5c00-91d5-dc9dd98157ec",
+            "6e921215-a81f-5bc3-a79f-f739f78bc31a",
+            "867289a9-0dc8-50f0-acf7-03494206c6da",
+            "d7a0d4dc-4c0b-5b61-9245-f34c7f23a881",
+            "07497ec1-e732-5128-8828-d27b24196685",
+            "0063a668-a2e8-50a8-822d-96a908891bd3",
+            "46d175c3-ea18-5319-8bed-f8c8e8ade330"
+          ]
+        }
+      }
+    },
+    {
+      "id": "proj-04",
+      "category": "project",
+      "query": "Information Education and Communication strategy for Karnataka NRDWS",
+      "judged": 20,
+      "relevant": 2,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.6615090098606952,
+          "ms": 92.41709997877479,
+          "returned": 10,
+          "ids": [
+            "265ec9af-9e2f-57bf-a547-3f5f03b1296f",
+            "cd4ab827-3f63-5750-96c5-021e70e14033",
+            "1e022cb9-9fee-551c-b255-9540443e503a",
+            "90edbd68-0118-5b46-ba64-a75ad6535799",
+            "5f3c5199-55c3-5ca5-9c6d-79bf82405520",
+            "f560d7e6-012c-5572-af9a-9f5ed92ce3ad",
+            "12d86823-f537-5a88-bfc9-6fed1037b543",
+            "f4b8f330-a583-5abc-acd1-24e1c4a03012",
+            "bb5793c5-9556-5829-86a4-1a627f2ee8e1",
+            "e878417f-e4a2-5ac0-ae71-363beaee9fb2"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.5841884785944952,
+          "ms": 81.37879997957498,
+          "returned": 10,
+          "ids": [
+            "265ec9af-9e2f-57bf-a547-3f5f03b1296f",
+            "1e022cb9-9fee-551c-b255-9540443e503a",
+            "5f3c5199-55c3-5ca5-9c6d-79bf82405520",
+            "f4b8f330-a583-5abc-acd1-24e1c4a03012",
+            "e878417f-e4a2-5ac0-ae71-363beaee9fb2",
+            "cd4ab827-3f63-5750-96c5-021e70e14033",
+            "f560d7e6-012c-5572-af9a-9f5ed92ce3ad",
+            "90edbd68-0118-5b46-ba64-a75ad6535799",
+            "12d86823-f537-5a88-bfc9-6fed1037b543",
+            "bb5793c5-9556-5829-86a4-1a627f2ee8e1"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.6554666095353255,
+          "ms": 875.5386999982875,
+          "returned": 10,
+          "ids": [
+            "265ec9af-9e2f-57bf-a547-3f5f03b1296f",
+            "1e022cb9-9fee-551c-b255-9540443e503a",
+            "12d86823-f537-5a88-bfc9-6fed1037b543",
+            "90edbd68-0118-5b46-ba64-a75ad6535799",
+            "e878417f-e4a2-5ac0-ae71-363beaee9fb2",
+            "bb5793c5-9556-5829-86a4-1a627f2ee8e1",
+            "5f3c5199-55c3-5ca5-9c6d-79bf82405520",
+            "cd4ab827-3f63-5750-96c5-021e70e14033",
+            "f560d7e6-012c-5572-af9a-9f5ed92ce3ad",
+            "f4b8f330-a583-5abc-acd1-24e1c4a03012"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.6606983521442785,
+          "ms": 401.255399978254,
+          "returned": 10,
+          "ids": [
+            "265ec9af-9e2f-57bf-a547-3f5f03b1296f",
+            "1e022cb9-9fee-551c-b255-9540443e503a",
+            "12d86823-f537-5a88-bfc9-6fed1037b543",
+            "90edbd68-0118-5b46-ba64-a75ad6535799",
+            "bb5793c5-9556-5829-86a4-1a627f2ee8e1",
+            "5f3c5199-55c3-5ca5-9c6d-79bf82405520",
+            "cd4ab827-3f63-5750-96c5-021e70e14033",
+            "f560d7e6-012c-5572-af9a-9f5ed92ce3ad",
+            "f4b8f330-a583-5abc-acd1-24e1c4a03012",
+            "e878417f-e4a2-5ac0-ae71-363beaee9fb2"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.6887096179329599,
+          "ms": 226.75910001271404,
+          "returned": 10,
+          "ids": [
+            "265ec9af-9e2f-57bf-a547-3f5f03b1296f",
+            "12d86823-f537-5a88-bfc9-6fed1037b543",
+            "bb5793c5-9556-5829-86a4-1a627f2ee8e1",
+            "5f3c5199-55c3-5ca5-9c6d-79bf82405520",
+            "1e022cb9-9fee-551c-b255-9540443e503a",
+            "f560d7e6-012c-5572-af9a-9f5ed92ce3ad",
+            "cd4ab827-3f63-5750-96c5-021e70e14033",
+            "f4b8f330-a583-5abc-acd1-24e1c4a03012",
+            "90edbd68-0118-5b46-ba64-a75ad6535799",
+            "e878417f-e4a2-5ac0-ae71-363beaee9fb2"
+          ]
+        }
+      }
+    },
+    {
+      "id": "rel-01",
+      "category": "relational",
+      "query": "Which projects is TERI a partner on?",
+      "judged": 10,
+      "relevant": 2,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 0.25,
+          "ndcg": 0.7323697048442278,
+          "ms": 112.5455999863334,
+          "returned": 10,
+          "ids": [
+            "8d6d7f51-69ed-518e-822c-390ae60515c8",
+            "3eb4dd05-96ca-5ece-b2ad-ce205cb34356",
+            "1546b3b2-57ae-516e-a122-cea33e169027",
+            "cad4cd22-9b6b-53f1-9c5c-b549b69e9689",
+            "75807cbb-a38e-5e8a-a1fa-cab070adb404",
+            "ff936386-d9cd-51ca-a07d-51303ebeb22b",
+            "f4854333-37ec-55a9-a7ce-4384ed117a1c",
+            "5188b208-3c43-53cb-84a8-4dd9313958ff",
+            "082391b1-69df-5b82-9a8e-20a5bdcfc30f",
+            "eb501a6a-3181-512a-b44f-6be03f173729"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9350695903502575,
+          "ms": 102.93900000397116,
+          "returned": 10,
+          "ids": [
+            "cad4cd22-9b6b-53f1-9c5c-b549b69e9689",
+            "8d6d7f51-69ed-518e-822c-390ae60515c8",
+            "1546b3b2-57ae-516e-a122-cea33e169027",
+            "eb501a6a-3181-512a-b44f-6be03f173729",
+            "f4854333-37ec-55a9-a7ce-4384ed117a1c",
+            "75807cbb-a38e-5e8a-a1fa-cab070adb404",
+            "5188b208-3c43-53cb-84a8-4dd9313958ff",
+            "082391b1-69df-5b82-9a8e-20a5bdcfc30f",
+            "3eb4dd05-96ca-5ece-b2ad-ce205cb34356",
+            "ff936386-d9cd-51ca-a07d-51303ebeb22b"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9396139447357132,
+          "ms": 883.2948000053875,
+          "returned": 10,
+          "ids": [
+            "cad4cd22-9b6b-53f1-9c5c-b549b69e9689",
+            "8d6d7f51-69ed-518e-822c-390ae60515c8",
+            "1546b3b2-57ae-516e-a122-cea33e169027",
+            "5188b208-3c43-53cb-84a8-4dd9313958ff",
+            "ff936386-d9cd-51ca-a07d-51303ebeb22b",
+            "eb501a6a-3181-512a-b44f-6be03f173729",
+            "75807cbb-a38e-5e8a-a1fa-cab070adb404",
+            "082391b1-69df-5b82-9a8e-20a5bdcfc30f",
+            "3eb4dd05-96ca-5ece-b2ad-ce205cb34356",
+            "f4854333-37ec-55a9-a7ce-4384ed117a1c"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9458230468900857,
+          "ms": 418.1203999905847,
+          "returned": 10,
+          "ids": [
+            "cad4cd22-9b6b-53f1-9c5c-b549b69e9689",
+            "8d6d7f51-69ed-518e-822c-390ae60515c8",
+            "1546b3b2-57ae-516e-a122-cea33e169027",
+            "5188b208-3c43-53cb-84a8-4dd9313958ff",
+            "eb501a6a-3181-512a-b44f-6be03f173729",
+            "ff936386-d9cd-51ca-a07d-51303ebeb22b",
+            "75807cbb-a38e-5e8a-a1fa-cab070adb404",
+            "082391b1-69df-5b82-9a8e-20a5bdcfc30f",
+            "3eb4dd05-96ca-5ece-b2ad-ce205cb34356",
+            "f4854333-37ec-55a9-a7ce-4384ed117a1c"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9396139447357132,
+          "ms": 219.29259999888018,
+          "returned": 10,
+          "ids": [
+            "cad4cd22-9b6b-53f1-9c5c-b549b69e9689",
+            "8d6d7f51-69ed-518e-822c-390ae60515c8",
+            "1546b3b2-57ae-516e-a122-cea33e169027",
+            "5188b208-3c43-53cb-84a8-4dd9313958ff",
+            "ff936386-d9cd-51ca-a07d-51303ebeb22b",
+            "eb501a6a-3181-512a-b44f-6be03f173729",
+            "75807cbb-a38e-5e8a-a1fa-cab070adb404",
+            "082391b1-69df-5b82-9a8e-20a5bdcfc30f",
+            "3eb4dd05-96ca-5ece-b2ad-ce205cb34356",
+            "f4854333-37ec-55a9-a7ce-4384ed117a1c"
+          ]
+        }
+      }
+    },
+    {
+      "id": "rel-02",
+      "category": "relational",
+      "query": "Who leads TERI's energy programme?",
+      "judged": 10,
+      "relevant": 0,
+      "configs": {
+        "dense+keyword": {
+          "recall": null,
+          "mrr": null,
+          "ndcg": 0.5501555404615289,
+          "ms": 123.4448000031989,
+          "returned": 10,
+          "ids": [
+            "cd03d67a-6113-5fc3-af12-44044029265d",
+            "685d1e74-86b7-54c7-8933-d5f398eb92a7",
+            "9e08b6f7-dbcc-5dc4-929d-19038bef2461",
+            "2961af7f-7dd8-51b5-b2f0-2e3dddceeba4",
+            "359bda2f-accb-525a-ab0d-06c60cee9806",
+            "1ef07496-9269-5ffb-b9a4-2303589b3c32",
+            "6518c6df-ef95-5f72-9ca6-9e1510453b1c",
+            "a6085118-6516-578a-8168-d4842742af6c",
+            "e1b50855-381d-5a24-9530-06ebe8ee4a1e",
+            "ea97cd97-b3e0-57a0-bae4-cbcdb95df009"
+          ]
+        },
+        "rr_embedding": {
+          "recall": null,
+          "mrr": null,
+          "ndcg": 0.5171426372778061,
+          "ms": 82.76210000622086,
+          "returned": 10,
+          "ids": [
+            "cd03d67a-6113-5fc3-af12-44044029265d",
+            "685d1e74-86b7-54c7-8933-d5f398eb92a7",
+            "9e08b6f7-dbcc-5dc4-929d-19038bef2461",
+            "359bda2f-accb-525a-ab0d-06c60cee9806",
+            "6518c6df-ef95-5f72-9ca6-9e1510453b1c",
+            "a6085118-6516-578a-8168-d4842742af6c",
+            "2961af7f-7dd8-51b5-b2f0-2e3dddceeba4",
+            "1ef07496-9269-5ffb-b9a4-2303589b3c32",
+            "e1b50855-381d-5a24-9530-06ebe8ee4a1e",
+            "ea97cd97-b3e0-57a0-bae4-cbcdb95df009"
+          ]
+        },
+        "rr_minilm": {
+          "recall": null,
+          "mrr": null,
+          "ndcg": 0.9447176050778178,
+          "ms": 688.7872999941465,
+          "returned": 10,
+          "ids": [
+            "6518c6df-ef95-5f72-9ca6-9e1510453b1c",
+            "2961af7f-7dd8-51b5-b2f0-2e3dddceeba4",
+            "1ef07496-9269-5ffb-b9a4-2303589b3c32",
+            "e1b50855-381d-5a24-9530-06ebe8ee4a1e",
+            "359bda2f-accb-525a-ab0d-06c60cee9806",
+            "a6085118-6516-578a-8168-d4842742af6c",
+            "9e08b6f7-dbcc-5dc4-929d-19038bef2461",
+            "685d1e74-86b7-54c7-8933-d5f398eb92a7",
+            "cd03d67a-6113-5fc3-af12-44044029265d",
+            "ea97cd97-b3e0-57a0-bae4-cbcdb95df009"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": null,
+          "mrr": null,
+          "ndcg": 0.8665427526082052,
+          "ms": 369.0551999898162,
+          "returned": 10,
+          "ids": [
+            "6518c6df-ef95-5f72-9ca6-9e1510453b1c",
+            "a6085118-6516-578a-8168-d4842742af6c",
+            "1ef07496-9269-5ffb-b9a4-2303589b3c32",
+            "2961af7f-7dd8-51b5-b2f0-2e3dddceeba4",
+            "e1b50855-381d-5a24-9530-06ebe8ee4a1e",
+            "359bda2f-accb-525a-ab0d-06c60cee9806",
+            "9e08b6f7-dbcc-5dc4-929d-19038bef2461",
+            "cd03d67a-6113-5fc3-af12-44044029265d",
+            "685d1e74-86b7-54c7-8933-d5f398eb92a7",
+            "ea97cd97-b3e0-57a0-bae4-cbcdb95df009"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": null,
+          "mrr": null,
+          "ndcg": 0.8712137160156971,
+          "ms": 190.1101999974344,
+          "returned": 10,
+          "ids": [
+            "6518c6df-ef95-5f72-9ca6-9e1510453b1c",
+            "a6085118-6516-578a-8168-d4842742af6c",
+            "2961af7f-7dd8-51b5-b2f0-2e3dddceeba4",
+            "1ef07496-9269-5ffb-b9a4-2303589b3c32",
+            "e1b50855-381d-5a24-9530-06ebe8ee4a1e",
+            "359bda2f-accb-525a-ab0d-06c60cee9806",
+            "9e08b6f7-dbcc-5dc4-929d-19038bef2461",
+            "cd03d67a-6113-5fc3-af12-44044029265d",
+            "ea97cd97-b3e0-57a0-bae4-cbcdb95df009",
+            "685d1e74-86b7-54c7-8933-d5f398eb92a7"
+          ]
+        }
+      }
+    },
+    {
+      "id": "rel-03",
+      "category": "relational",
+      "query": "Which organizations fund TERI's water projects?",
+      "judged": 10,
+      "relevant": 1,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 0.125,
+          "ndcg": 0.3868528072345416,
+          "ms": 80.74839998153038,
+          "returned": 10,
+          "ids": [
+            "b5db3df2-ade8-515e-ae85-314fd1e64b6a",
+            "c1e2032a-d740-5f49-938c-2145fc3cbe01",
+            "20c2c125-0136-575c-8b2f-407693206be1",
+            "5794b855-e666-5c57-86d8-e08cc10ed4a4",
+            "8617901f-7569-5e46-85b6-91acf04eaef0",
+            "4a286533-9815-55d6-9bef-9a06ab4c5ee3",
+            "6fe48a71-de4b-544a-a121-2b563159357f",
+            "be9c9d4c-4ead-554d-974d-6fedce6f105b",
+            "6e41690e-43d1-5b43-89bb-901cedf2dec2",
+            "0b7b0fc6-1731-533a-a7fb-b00fccd6d6a3"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 0.25,
+          "ndcg": 0.44181457533514346,
+          "ms": 98.82939999806695,
+          "returned": 10,
+          "ids": [
+            "b5db3df2-ade8-515e-ae85-314fd1e64b6a",
+            "c1e2032a-d740-5f49-938c-2145fc3cbe01",
+            "5794b855-e666-5c57-86d8-e08cc10ed4a4",
+            "be9c9d4c-4ead-554d-974d-6fedce6f105b",
+            "0b7b0fc6-1731-533a-a7fb-b00fccd6d6a3",
+            "4a286533-9815-55d6-9bef-9a06ab4c5ee3",
+            "6e41690e-43d1-5b43-89bb-901cedf2dec2",
+            "20c2c125-0136-575c-8b2f-407693206be1",
+            "8617901f-7569-5e46-85b6-91acf04eaef0",
+            "6fe48a71-de4b-544a-a121-2b563159357f"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9502344167898356,
+          "ms": 564.858900004765,
+          "returned": 10,
+          "ids": [
+            "be9c9d4c-4ead-554d-974d-6fedce6f105b",
+            "c1e2032a-d740-5f49-938c-2145fc3cbe01",
+            "8617901f-7569-5e46-85b6-91acf04eaef0",
+            "b5db3df2-ade8-515e-ae85-314fd1e64b6a",
+            "6e41690e-43d1-5b43-89bb-901cedf2dec2",
+            "20c2c125-0136-575c-8b2f-407693206be1",
+            "4a286533-9815-55d6-9bef-9a06ab4c5ee3",
+            "0b7b0fc6-1731-533a-a7fb-b00fccd6d6a3",
+            "5794b855-e666-5c57-86d8-e08cc10ed4a4",
+            "6fe48a71-de4b-544a-a121-2b563159357f"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9502344167898356,
+          "ms": 370.56319997645915,
+          "returned": 10,
+          "ids": [
+            "be9c9d4c-4ead-554d-974d-6fedce6f105b",
+            "c1e2032a-d740-5f49-938c-2145fc3cbe01",
+            "8617901f-7569-5e46-85b6-91acf04eaef0",
+            "b5db3df2-ade8-515e-ae85-314fd1e64b6a",
+            "6e41690e-43d1-5b43-89bb-901cedf2dec2",
+            "20c2c125-0136-575c-8b2f-407693206be1",
+            "4a286533-9815-55d6-9bef-9a06ab4c5ee3",
+            "6fe48a71-de4b-544a-a121-2b563159357f",
+            "0b7b0fc6-1731-533a-a7fb-b00fccd6d6a3",
+            "5794b855-e666-5c57-86d8-e08cc10ed4a4"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 0.5,
+          "ndcg": 0.6433224083306327,
+          "ms": 197.85310002043843,
+          "returned": 10,
+          "ids": [
+            "c1e2032a-d740-5f49-938c-2145fc3cbe01",
+            "be9c9d4c-4ead-554d-974d-6fedce6f105b",
+            "b5db3df2-ade8-515e-ae85-314fd1e64b6a",
+            "8617901f-7569-5e46-85b6-91acf04eaef0",
+            "20c2c125-0136-575c-8b2f-407693206be1",
+            "6e41690e-43d1-5b43-89bb-901cedf2dec2",
+            "4a286533-9815-55d6-9bef-9a06ab4c5ee3",
+            "0b7b0fc6-1731-533a-a7fb-b00fccd6d6a3",
+            "6fe48a71-de4b-544a-a121-2b563159357f",
+            "5794b855-e666-5c57-86d8-e08cc10ed4a4"
+          ]
+        }
+      }
+    },
+    {
+      "id": "rel-04",
+      "category": "relational",
+      "query": "Who authored the reports on air quality?",
+      "judged": 10,
+      "relevant": 3,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.5548256114983916,
+          "ms": 75.0531000085175,
+          "returned": 10,
+          "ids": [
+            "969c5dd6-bb9e-5e3a-9bb9-c8faa781b191",
+            "7bab5719-039c-5530-8531-c7f5bb140e5f",
+            "9cf387f0-38fd-55bc-b4c9-5198c3fafa2d",
+            "42778eb9-7ec8-5d21-8870-faadd2d4493e",
+            "d56a0093-3ae3-5a4b-8f7a-8554d9f8efbc",
+            "e20ad61c-a637-5604-a29a-1a5671ae578f",
+            "1f58e194-af27-5414-be56-91e05efc85cd",
+            "787c98e2-c7b8-5476-a1b6-899d054e0e11",
+            "545772f4-fa65-5abe-b17a-516b827c5336",
+            "f14edf7f-a5b0-5e4d-afea-52df10e3d3ef"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.6023044973415287,
+          "ms": 97.15650000725873,
+          "returned": 10,
+          "ids": [
+            "787c98e2-c7b8-5476-a1b6-899d054e0e11",
+            "7bab5719-039c-5530-8531-c7f5bb140e5f",
+            "e20ad61c-a637-5604-a29a-1a5671ae578f",
+            "545772f4-fa65-5abe-b17a-516b827c5336",
+            "f14edf7f-a5b0-5e4d-afea-52df10e3d3ef",
+            "969c5dd6-bb9e-5e3a-9bb9-c8faa781b191",
+            "42778eb9-7ec8-5d21-8870-faadd2d4493e",
+            "d56a0093-3ae3-5a4b-8f7a-8554d9f8efbc",
+            "1f58e194-af27-5414-be56-91e05efc85cd",
+            "9cf387f0-38fd-55bc-b4c9-5198c3fafa2d"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9289652058714719,
+          "ms": 657.6539000088815,
+          "returned": 10,
+          "ids": [
+            "e20ad61c-a637-5604-a29a-1a5671ae578f",
+            "9cf387f0-38fd-55bc-b4c9-5198c3fafa2d",
+            "969c5dd6-bb9e-5e3a-9bb9-c8faa781b191",
+            "f14edf7f-a5b0-5e4d-afea-52df10e3d3ef",
+            "1f58e194-af27-5414-be56-91e05efc85cd",
+            "787c98e2-c7b8-5476-a1b6-899d054e0e11",
+            "545772f4-fa65-5abe-b17a-516b827c5336",
+            "7bab5719-039c-5530-8531-c7f5bb140e5f",
+            "42778eb9-7ec8-5d21-8870-faadd2d4493e",
+            "d56a0093-3ae3-5a4b-8f7a-8554d9f8efbc"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.92134951307795,
+          "ms": 417.51629998907447,
+          "returned": 10,
+          "ids": [
+            "e20ad61c-a637-5604-a29a-1a5671ae578f",
+            "9cf387f0-38fd-55bc-b4c9-5198c3fafa2d",
+            "969c5dd6-bb9e-5e3a-9bb9-c8faa781b191",
+            "f14edf7f-a5b0-5e4d-afea-52df10e3d3ef",
+            "1f58e194-af27-5414-be56-91e05efc85cd",
+            "787c98e2-c7b8-5476-a1b6-899d054e0e11",
+            "7bab5719-039c-5530-8531-c7f5bb140e5f",
+            "545772f4-fa65-5abe-b17a-516b827c5336",
+            "42778eb9-7ec8-5d21-8870-faadd2d4493e",
+            "d56a0093-3ae3-5a4b-8f7a-8554d9f8efbc"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.9534873721109508,
+          "ms": 211.7666999984067,
+          "returned": 10,
+          "ids": [
+            "e20ad61c-a637-5604-a29a-1a5671ae578f",
+            "9cf387f0-38fd-55bc-b4c9-5198c3fafa2d",
+            "f14edf7f-a5b0-5e4d-afea-52df10e3d3ef",
+            "969c5dd6-bb9e-5e3a-9bb9-c8faa781b191",
+            "787c98e2-c7b8-5476-a1b6-899d054e0e11",
+            "545772f4-fa65-5abe-b17a-516b827c5336",
+            "7bab5719-039c-5530-8531-c7f5bb140e5f",
+            "d56a0093-3ae3-5a4b-8f7a-8554d9f8efbc",
+            "42778eb9-7ec8-5d21-8870-faadd2d4493e",
+            "1f58e194-af27-5414-be56-91e05efc85cd"
+          ]
+        }
+      }
+    },
+    {
+      "id": "temp-01",
+      "category": "temporal",
+      "query": "What did TERI publish in 2020?",
+      "judged": 10,
+      "relevant": 1,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 0.16666666666666666,
+          "ndcg": 0.39069049624241714,
+          "ms": 99.38519998104312,
+          "returned": 10,
+          "ids": [
+            "31f87895-54ed-5bc7-8a68-4f152a13eeb3",
+            "dc222078-0d97-5e9b-9884-27623f8415eb",
+            "ad4fe9c0-c884-5fcd-843d-3e2a3cc37a05",
+            "7956aefc-c3b0-5f4d-ad0b-00196c0e3b9c",
+            "1a89b5af-b150-5241-a5e6-417c4d4ac2be",
+            "9e0a3240-3c43-52ca-be19-89e5dde5d415",
+            "b7d4860e-dbcc-5212-8c83-f73ff436bed1",
+            "4fab6254-5c64-5b7f-a3f9-cb2009dc8d4c",
+            "e09ed776-f342-5ae4-8ca1-343219f5d2d9",
+            "f0a2acc8-350a-5438-a5d4-d8600d2b4763"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 0.1111111111111111,
+          "ndcg": 0.3642313813719837,
+          "ms": 76.47530001122504,
+          "returned": 10,
+          "ids": [
+            "31f87895-54ed-5bc7-8a68-4f152a13eeb3",
+            "ad4fe9c0-c884-5fcd-843d-3e2a3cc37a05",
+            "7956aefc-c3b0-5f4d-ad0b-00196c0e3b9c",
+            "dc222078-0d97-5e9b-9884-27623f8415eb",
+            "b7d4860e-dbcc-5212-8c83-f73ff436bed1",
+            "4fab6254-5c64-5b7f-a3f9-cb2009dc8d4c",
+            "f0a2acc8-350a-5438-a5d4-d8600d2b4763",
+            "1a89b5af-b150-5241-a5e6-417c4d4ac2be",
+            "9e0a3240-3c43-52ca-be19-89e5dde5d415",
+            "e09ed776-f342-5ae4-8ca1-343219f5d2d9"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 0.1,
+          "ndcg": 0.33416310226691065,
+          "ms": 587.1779000153765,
+          "returned": 10,
+          "ids": [
+            "dc222078-0d97-5e9b-9884-27623f8415eb",
+            "1a89b5af-b150-5241-a5e6-417c4d4ac2be",
+            "31f87895-54ed-5bc7-8a68-4f152a13eeb3",
+            "f0a2acc8-350a-5438-a5d4-d8600d2b4763",
+            "ad4fe9c0-c884-5fcd-843d-3e2a3cc37a05",
+            "7956aefc-c3b0-5f4d-ad0b-00196c0e3b9c",
+            "b7d4860e-dbcc-5212-8c83-f73ff436bed1",
+            "e09ed776-f342-5ae4-8ca1-343219f5d2d9",
+            "4fab6254-5c64-5b7f-a3f9-cb2009dc8d4c",
+            "9e0a3240-3c43-52ca-be19-89e5dde5d415"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 0.1,
+          "ndcg": 0.33416310226691065,
+          "ms": 422.3989000020083,
+          "returned": 10,
+          "ids": [
+            "dc222078-0d97-5e9b-9884-27623f8415eb",
+            "1a89b5af-b150-5241-a5e6-417c4d4ac2be",
+            "31f87895-54ed-5bc7-8a68-4f152a13eeb3",
+            "7956aefc-c3b0-5f4d-ad0b-00196c0e3b9c",
+            "ad4fe9c0-c884-5fcd-843d-3e2a3cc37a05",
+            "f0a2acc8-350a-5438-a5d4-d8600d2b4763",
+            "b7d4860e-dbcc-5212-8c83-f73ff436bed1",
+            "e09ed776-f342-5ae4-8ca1-343219f5d2d9",
+            "4fab6254-5c64-5b7f-a3f9-cb2009dc8d4c",
+            "9e0a3240-3c43-52ca-be19-89e5dde5d415"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 0.1,
+          "ndcg": 0.33416310226691065,
+          "ms": 214.00000000721775,
+          "returned": 10,
+          "ids": [
+            "31f87895-54ed-5bc7-8a68-4f152a13eeb3",
+            "dc222078-0d97-5e9b-9884-27623f8415eb",
+            "1a89b5af-b150-5241-a5e6-417c4d4ac2be",
+            "ad4fe9c0-c884-5fcd-843d-3e2a3cc37a05",
+            "7956aefc-c3b0-5f4d-ad0b-00196c0e3b9c",
+            "b7d4860e-dbcc-5212-8c83-f73ff436bed1",
+            "e09ed776-f342-5ae4-8ca1-343219f5d2d9",
+            "f0a2acc8-350a-5438-a5d4-d8600d2b4763",
+            "4fab6254-5c64-5b7f-a3f9-cb2009dc8d4c",
+            "9e0a3240-3c43-52ca-be19-89e5dde5d415"
+          ]
+        }
+      }
+    },
+    {
+      "id": "temp-02",
+      "category": "temporal",
+      "query": "India's 2030 renewable energy targets",
+      "judged": 13,
+      "relevant": 6,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.6666666666666666,
+          "mrr": 0.5,
+          "ndcg": 0.8232909105663382,
+          "ms": 75.9830999886617,
+          "returned": 10,
+          "ids": [
+            "557fbd79-cffa-5c9d-a229-6c84d4dedc67",
+            "23bd05af-bae4-572b-a290-5f0c49fa6939",
+            "8fc6aeaa-31f5-5229-9ef8-0f856d6ab21e",
+            "d7d4e36b-c937-5b41-b8e0-fed609163919",
+            "3b336dd2-2280-5d24-870a-0efdd46d2370",
+            "40ce4295-68bd-552d-9ecc-a0ffcac25beb",
+            "c9dc9ed8-0f1c-5402-97f1-a8d7c5266f3e",
+            "ccea1e5f-eeb6-57ad-9cfb-e0067406ef6c",
+            "3ad092ca-ef4a-5564-bc23-cc15bac4eab3",
+            "23a9e9a4-775c-5c77-b5b6-a7da6b23f6e9"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.6666666666666666,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.77978806208049,
+          "ms": 96.86240000883117,
+          "returned": 10,
+          "ids": [
+            "ccea1e5f-eeb6-57ad-9cfb-e0067406ef6c",
+            "557fbd79-cffa-5c9d-a229-6c84d4dedc67",
+            "23bd05af-bae4-572b-a290-5f0c49fa6939",
+            "c9dc9ed8-0f1c-5402-97f1-a8d7c5266f3e",
+            "40ce4295-68bd-552d-9ecc-a0ffcac25beb",
+            "8fc6aeaa-31f5-5229-9ef8-0f856d6ab21e",
+            "d7d4e36b-c937-5b41-b8e0-fed609163919",
+            "3ad092ca-ef4a-5564-bc23-cc15bac4eab3",
+            "3b336dd2-2280-5d24-870a-0efdd46d2370",
+            "23a9e9a4-775c-5c77-b5b6-a7da6b23f6e9"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.6666666666666666,
+          "mrr": 0.5,
+          "ndcg": 0.7964707824187222,
+          "ms": 829.6525000187103,
+          "returned": 10,
+          "ids": [
+            "ccea1e5f-eeb6-57ad-9cfb-e0067406ef6c",
+            "23bd05af-bae4-572b-a290-5f0c49fa6939",
+            "c9dc9ed8-0f1c-5402-97f1-a8d7c5266f3e",
+            "557fbd79-cffa-5c9d-a229-6c84d4dedc67",
+            "40ce4295-68bd-552d-9ecc-a0ffcac25beb",
+            "8fc6aeaa-31f5-5229-9ef8-0f856d6ab21e",
+            "d7d4e36b-c937-5b41-b8e0-fed609163919",
+            "23a9e9a4-775c-5c77-b5b6-a7da6b23f6e9",
+            "3b336dd2-2280-5d24-870a-0efdd46d2370",
+            "3ad092ca-ef4a-5564-bc23-cc15bac4eab3"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.8558999441580606,
+          "ms": 386.088999977801,
+          "returned": 10,
+          "ids": [
+            "23bd05af-bae4-572b-a290-5f0c49fa6939",
+            "c9dc9ed8-0f1c-5402-97f1-a8d7c5266f3e",
+            "557fbd79-cffa-5c9d-a229-6c84d4dedc67",
+            "40ce4295-68bd-552d-9ecc-a0ffcac25beb",
+            "8fc6aeaa-31f5-5229-9ef8-0f856d6ab21e",
+            "d7d4e36b-c937-5b41-b8e0-fed609163919",
+            "23a9e9a4-775c-5c77-b5b6-a7da6b23f6e9",
+            "3b336dd2-2280-5d24-870a-0efdd46d2370",
+            "ccea1e5f-eeb6-57ad-9cfb-e0067406ef6c",
+            "3ad092ca-ef4a-5564-bc23-cc15bac4eab3"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.9053212754014708,
+          "ms": 204.3192999844905,
+          "returned": 10,
+          "ids": [
+            "23bd05af-bae4-572b-a290-5f0c49fa6939",
+            "40ce4295-68bd-552d-9ecc-a0ffcac25beb",
+            "8fc6aeaa-31f5-5229-9ef8-0f856d6ab21e",
+            "d7d4e36b-c937-5b41-b8e0-fed609163919",
+            "23a9e9a4-775c-5c77-b5b6-a7da6b23f6e9",
+            "3ad092ca-ef4a-5564-bc23-cc15bac4eab3",
+            "ccea1e5f-eeb6-57ad-9cfb-e0067406ef6c",
+            "3b336dd2-2280-5d24-870a-0efdd46d2370",
+            "557fbd79-cffa-5c9d-a229-6c84d4dedc67",
+            "c9dc9ed8-0f1c-5402-97f1-a8d7c5266f3e"
+          ]
+        }
+      }
+    },
+    {
+      "id": "temp-03",
+      "category": "temporal",
+      "query": "air quality findings from 2019",
+      "judged": 19,
+      "relevant": 7,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.7142857142857143,
+          "mrr": 1.0,
+          "ndcg": 0.7949670154568906,
+          "ms": 76.22829999309033,
+          "returned": 10,
+          "ids": [
+            "ae29aeb5-f877-579f-8c67-313c62e5c336",
+            "5f369641-201c-5776-8736-4acbf5809bab",
+            "677e123c-cb0f-59d5-a5cf-0cb1db52b69c",
+            "b6168359-3882-53de-8e18-a717deea04e8",
+            "2b6eaefc-633a-5ac3-8f30-381621c08547",
+            "82efa83a-bb2d-544b-bc88-750cc9bc05a9",
+            "7cae94ef-82c8-50af-a376-9c932380de50",
+            "dc11ce92-a5a2-54da-8f21-63797f1a0d94",
+            "ae1d212e-a5b7-5f37-9a9e-5a85858752ea",
+            "fda3acfc-b85a-55f9-aac1-b2315b6ac91d"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.7142857142857143,
+          "mrr": 0.5,
+          "ndcg": 0.6877049220222206,
+          "ms": 89.08340000198223,
+          "returned": 10,
+          "ids": [
+            "5f369641-201c-5776-8736-4acbf5809bab",
+            "b6168359-3882-53de-8e18-a717deea04e8",
+            "82efa83a-bb2d-544b-bc88-750cc9bc05a9",
+            "dc11ce92-a5a2-54da-8f21-63797f1a0d94",
+            "2b6eaefc-633a-5ac3-8f30-381621c08547",
+            "fda3acfc-b85a-55f9-aac1-b2315b6ac91d",
+            "ae29aeb5-f877-579f-8c67-313c62e5c336",
+            "7cae94ef-82c8-50af-a376-9c932380de50",
+            "ae1d212e-a5b7-5f37-9a9e-5a85858752ea",
+            "677e123c-cb0f-59d5-a5cf-0cb1db52b69c"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.7142857142857143,
+          "mrr": 1.0,
+          "ndcg": 0.8238006660487945,
+          "ms": 982.9706999880727,
+          "returned": 10,
+          "ids": [
+            "677e123c-cb0f-59d5-a5cf-0cb1db52b69c",
+            "ae1d212e-a5b7-5f37-9a9e-5a85858752ea",
+            "7cae94ef-82c8-50af-a376-9c932380de50",
+            "5f369641-201c-5776-8736-4acbf5809bab",
+            "ae29aeb5-f877-579f-8c67-313c62e5c336",
+            "2b6eaefc-633a-5ac3-8f30-381621c08547",
+            "fda3acfc-b85a-55f9-aac1-b2315b6ac91d",
+            "82efa83a-bb2d-544b-bc88-750cc9bc05a9",
+            "b6168359-3882-53de-8e18-a717deea04e8",
+            "dc11ce92-a5a2-54da-8f21-63797f1a0d94"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.7142857142857143,
+          "mrr": 1.0,
+          "ndcg": 0.8194431814358932,
+          "ms": 454.73490000586025,
+          "returned": 10,
+          "ids": [
+            "ae1d212e-a5b7-5f37-9a9e-5a85858752ea",
+            "677e123c-cb0f-59d5-a5cf-0cb1db52b69c",
+            "ae29aeb5-f877-579f-8c67-313c62e5c336",
+            "2b6eaefc-633a-5ac3-8f30-381621c08547",
+            "5f369641-201c-5776-8736-4acbf5809bab",
+            "82efa83a-bb2d-544b-bc88-750cc9bc05a9",
+            "b6168359-3882-53de-8e18-a717deea04e8",
+            "fda3acfc-b85a-55f9-aac1-b2315b6ac91d",
+            "7cae94ef-82c8-50af-a376-9c932380de50",
+            "dc11ce92-a5a2-54da-8f21-63797f1a0d94"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.7142857142857143,
+          "mrr": 1.0,
+          "ndcg": 0.8194431814358932,
+          "ms": 367.9845999868121,
+          "returned": 10,
+          "ids": [
+            "ae1d212e-a5b7-5f37-9a9e-5a85858752ea",
+            "677e123c-cb0f-59d5-a5cf-0cb1db52b69c",
+            "ae29aeb5-f877-579f-8c67-313c62e5c336",
+            "2b6eaefc-633a-5ac3-8f30-381621c08547",
+            "5f369641-201c-5776-8736-4acbf5809bab",
+            "82efa83a-bb2d-544b-bc88-750cc9bc05a9",
+            "b6168359-3882-53de-8e18-a717deea04e8",
+            "fda3acfc-b85a-55f9-aac1-b2315b6ac91d",
+            "7cae94ef-82c8-50af-a376-9c932380de50",
+            "dc11ce92-a5a2-54da-8f21-63797f1a0d94"
+          ]
+        }
+      }
+    },
+    {
+      "id": "temp-04",
+      "category": "temporal",
+      "query": "climate commitments made in 2015",
+      "judged": 13,
+      "relevant": 3,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.6666666666666666,
+          "mrr": 0.14285714285714285,
+          "ndcg": 0.7112523586178682,
+          "ms": 80.58769998024218,
+          "returned": 10,
+          "ids": [
+            "91a0f36d-48b0-5626-8545-7d45f2ad868b",
+            "9bae8c31-3b3c-50b6-aa95-f1508996f1fc",
+            "3d9b2ad8-393a-56db-9a85-798a4390cf6a",
+            "59b63afb-3e58-598b-a96a-cc64397e8554",
+            "a73e76ba-1e38-55ae-997d-8ed607268a6a",
+            "ef49fb6d-4498-51c7-8926-10211a82ecf5",
+            "5cc4f48e-a8f8-54ea-bf4a-0c662bc3d099",
+            "f11ab280-70b4-51ea-b8be-fca24d229b50",
+            "d6c29dfa-c626-5bfb-85ce-ee6ff6e23509",
+            "3172f4d8-781c-5f3e-9a7b-25676eec3687"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.6666666666666666,
+          "mrr": 0.14285714285714285,
+          "ndcg": 0.7160255451577289,
+          "ms": 80.21260000532493,
+          "returned": 10,
+          "ids": [
+            "9bae8c31-3b3c-50b6-aa95-f1508996f1fc",
+            "f11ab280-70b4-51ea-b8be-fca24d229b50",
+            "91a0f36d-48b0-5626-8545-7d45f2ad868b",
+            "3d9b2ad8-393a-56db-9a85-798a4390cf6a",
+            "59b63afb-3e58-598b-a96a-cc64397e8554",
+            "a73e76ba-1e38-55ae-997d-8ed607268a6a",
+            "d6c29dfa-c626-5bfb-85ce-ee6ff6e23509",
+            "ef49fb6d-4498-51c7-8926-10211a82ecf5",
+            "3172f4d8-781c-5f3e-9a7b-25676eec3687",
+            "5cc4f48e-a8f8-54ea-bf4a-0c662bc3d099"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.8177010182453626,
+          "ms": 896.1361999972723,
+          "returned": 10,
+          "ids": [
+            "5cc4f48e-a8f8-54ea-bf4a-0c662bc3d099",
+            "3d9b2ad8-393a-56db-9a85-798a4390cf6a",
+            "ef49fb6d-4498-51c7-8926-10211a82ecf5",
+            "a73e76ba-1e38-55ae-997d-8ed607268a6a",
+            "59b63afb-3e58-598b-a96a-cc64397e8554",
+            "3172f4d8-781c-5f3e-9a7b-25676eec3687",
+            "f11ab280-70b4-51ea-b8be-fca24d229b50",
+            "9bae8c31-3b3c-50b6-aa95-f1508996f1fc",
+            "d6c29dfa-c626-5bfb-85ce-ee6ff6e23509",
+            "91a0f36d-48b0-5626-8545-7d45f2ad868b"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.6666666666666666,
+          "mrr": 1.0,
+          "ndcg": 0.8204998018711787,
+          "ms": 591.3831999932881,
+          "returned": 10,
+          "ids": [
+            "5cc4f48e-a8f8-54ea-bf4a-0c662bc3d099",
+            "3d9b2ad8-393a-56db-9a85-798a4390cf6a",
+            "ef49fb6d-4498-51c7-8926-10211a82ecf5",
+            "a73e76ba-1e38-55ae-997d-8ed607268a6a",
+            "3172f4d8-781c-5f3e-9a7b-25676eec3687",
+            "59b63afb-3e58-598b-a96a-cc64397e8554",
+            "f11ab280-70b4-51ea-b8be-fca24d229b50",
+            "9bae8c31-3b3c-50b6-aa95-f1508996f1fc",
+            "91a0f36d-48b0-5626-8545-7d45f2ad868b",
+            "d6c29dfa-c626-5bfb-85ce-ee6ff6e23509"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.6666666666666666,
+          "mrr": 0.5,
+          "ndcg": 0.7580021992535768,
+          "ms": 293.88789998483844,
+          "returned": 10,
+          "ids": [
+            "3d9b2ad8-393a-56db-9a85-798a4390cf6a",
+            "5cc4f48e-a8f8-54ea-bf4a-0c662bc3d099",
+            "a73e76ba-1e38-55ae-997d-8ed607268a6a",
+            "59b63afb-3e58-598b-a96a-cc64397e8554",
+            "9bae8c31-3b3c-50b6-aa95-f1508996f1fc",
+            "f11ab280-70b4-51ea-b8be-fca24d229b50",
+            "ef49fb6d-4498-51c7-8926-10211a82ecf5",
+            "d6c29dfa-c626-5bfb-85ce-ee6ff6e23509",
+            "91a0f36d-48b0-5626-8545-7d45f2ad868b",
+            "3172f4d8-781c-5f3e-9a7b-25676eec3687"
+          ]
+        }
+      }
+    },
+    {
+      "id": "mix-01",
+      "category": "mixed",
+      "query": "What did the 2019 report say about PM2.5 in Delhi NCR?",
+      "judged": 10,
+      "relevant": 3,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.6719727612730358,
+          "ms": 106.47980001522228,
+          "returned": 10,
+          "ids": [
+            "14b6fe09-ed78-544f-bb87-18f69ceb665c",
+            "65fb3fe5-6e48-561d-acbb-a4cee2c14707",
+            "eeef0714-22e8-50d4-81b7-fe691f12f95f",
+            "2d6f253b-aba9-5c9d-9628-7c80e9e8566a",
+            "d4dd7f36-6f65-57db-9c77-fde9244f0b79",
+            "68c63d41-e638-5686-a577-1c4b6396e239",
+            "3b47e4c6-e5fc-5b01-b4db-6e7540680d11",
+            "54eacfd0-d635-57de-b3cf-3c01c5d10d16",
+            "9376073d-9155-5622-98bf-351cea98db94",
+            "66280eb0-eda5-53de-b5bb-223356e76086"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 0.2,
+          "ndcg": 0.759670320829715,
+          "ms": 89.164900011383,
+          "returned": 10,
+          "ids": [
+            "3b47e4c6-e5fc-5b01-b4db-6e7540680d11",
+            "68c63d41-e638-5686-a577-1c4b6396e239",
+            "14b6fe09-ed78-544f-bb87-18f69ceb665c",
+            "65fb3fe5-6e48-561d-acbb-a4cee2c14707",
+            "eeef0714-22e8-50d4-81b7-fe691f12f95f",
+            "2d6f253b-aba9-5c9d-9628-7c80e9e8566a",
+            "d4dd7f36-6f65-57db-9c77-fde9244f0b79",
+            "54eacfd0-d635-57de-b3cf-3c01c5d10d16",
+            "9376073d-9155-5622-98bf-351cea98db94",
+            "66280eb0-eda5-53de-b5bb-223356e76086"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 0.25,
+          "ndcg": 0.8222696977529638,
+          "ms": 881.807600002503,
+          "returned": 10,
+          "ids": [
+            "3b47e4c6-e5fc-5b01-b4db-6e7540680d11",
+            "68c63d41-e638-5686-a577-1c4b6396e239",
+            "2d6f253b-aba9-5c9d-9628-7c80e9e8566a",
+            "d4dd7f36-6f65-57db-9c77-fde9244f0b79",
+            "9376073d-9155-5622-98bf-351cea98db94",
+            "eeef0714-22e8-50d4-81b7-fe691f12f95f",
+            "54eacfd0-d635-57de-b3cf-3c01c5d10d16",
+            "14b6fe09-ed78-544f-bb87-18f69ceb665c",
+            "65fb3fe5-6e48-561d-acbb-a4cee2c14707",
+            "66280eb0-eda5-53de-b5bb-223356e76086"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.828354133214641,
+          "ms": 433.1786000111606,
+          "returned": 10,
+          "ids": [
+            "3b47e4c6-e5fc-5b01-b4db-6e7540680d11",
+            "2d6f253b-aba9-5c9d-9628-7c80e9e8566a",
+            "d4dd7f36-6f65-57db-9c77-fde9244f0b79",
+            "9376073d-9155-5622-98bf-351cea98db94",
+            "68c63d41-e638-5686-a577-1c4b6396e239",
+            "eeef0714-22e8-50d4-81b7-fe691f12f95f",
+            "14b6fe09-ed78-544f-bb87-18f69ceb665c",
+            "65fb3fe5-6e48-561d-acbb-a4cee2c14707",
+            "54eacfd0-d635-57de-b3cf-3c01c5d10d16",
+            "66280eb0-eda5-53de-b5bb-223356e76086"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.8423413001918295,
+          "ms": 242.16640001395717,
+          "returned": 10,
+          "ids": [
+            "3b47e4c6-e5fc-5b01-b4db-6e7540680d11",
+            "2d6f253b-aba9-5c9d-9628-7c80e9e8566a",
+            "d4dd7f36-6f65-57db-9c77-fde9244f0b79",
+            "9376073d-9155-5622-98bf-351cea98db94",
+            "68c63d41-e638-5686-a577-1c4b6396e239",
+            "eeef0714-22e8-50d4-81b7-fe691f12f95f",
+            "54eacfd0-d635-57de-b3cf-3c01c5d10d16",
+            "66280eb0-eda5-53de-b5bb-223356e76086",
+            "14b6fe09-ed78-544f-bb87-18f69ceb665c",
+            "65fb3fe5-6e48-561d-acbb-a4cee2c14707"
+          ]
+        }
+      }
+    },
+    {
+      "id": "mix-02",
+      "category": "mixed",
+      "query": "Which GRIHA rated projects did TERI work on after 2018?",
+      "judged": 10,
+      "relevant": 1,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 0.16666666666666666,
+          "ndcg": 0.692328431964044,
+          "ms": 109.35559999779798,
+          "returned": 10,
+          "ids": [
+            "d3a703f3-e908-5f7f-b027-a0370ce77551",
+            "56a1b1d3-c8b4-5893-9e3e-cc36e4332c8a",
+            "27bfed86-7d9a-5124-be26-3916c6167e25",
+            "f3ea3bd5-2916-50b2-862a-5f3d0e3a08b6",
+            "6cea8a23-e171-5287-a75d-e16e3c32df79",
+            "7c7cbf41-2ce2-5af8-9bdb-544f29d4d52c",
+            "6dea3288-56aa-5264-ab96-4717e22d8fb1",
+            "f606bfff-8655-523b-bebf-65cd69f3a699",
+            "cc4628eb-9216-503e-a5e7-0556a19e87a1",
+            "4bdf4ce6-b794-5f01-be06-9a0bd9fdd39c"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 0.16666666666666666,
+          "ndcg": 0.6989019568530679,
+          "ms": 71.13920000847429,
+          "returned": 10,
+          "ids": [
+            "d3a703f3-e908-5f7f-b027-a0370ce77551",
+            "56a1b1d3-c8b4-5893-9e3e-cc36e4332c8a",
+            "f3ea3bd5-2916-50b2-862a-5f3d0e3a08b6",
+            "6cea8a23-e171-5287-a75d-e16e3c32df79",
+            "27bfed86-7d9a-5124-be26-3916c6167e25",
+            "7c7cbf41-2ce2-5af8-9bdb-544f29d4d52c",
+            "f606bfff-8655-523b-bebf-65cd69f3a699",
+            "cc4628eb-9216-503e-a5e7-0556a19e87a1",
+            "6dea3288-56aa-5264-ab96-4717e22d8fb1",
+            "4bdf4ce6-b794-5f01-be06-9a0bd9fdd39c"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 0.16666666666666666,
+          "ndcg": 0.5626664159897229,
+          "ms": 772.4832000094466,
+          "returned": 10,
+          "ids": [
+            "f606bfff-8655-523b-bebf-65cd69f3a699",
+            "f3ea3bd5-2916-50b2-862a-5f3d0e3a08b6",
+            "6cea8a23-e171-5287-a75d-e16e3c32df79",
+            "56a1b1d3-c8b4-5893-9e3e-cc36e4332c8a",
+            "d3a703f3-e908-5f7f-b027-a0370ce77551",
+            "7c7cbf41-2ce2-5af8-9bdb-544f29d4d52c",
+            "6dea3288-56aa-5264-ab96-4717e22d8fb1",
+            "27bfed86-7d9a-5124-be26-3916c6167e25",
+            "4bdf4ce6-b794-5f01-be06-9a0bd9fdd39c",
+            "cc4628eb-9216-503e-a5e7-0556a19e87a1"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.8953381951641766,
+          "ms": 511.09090002137236,
+          "returned": 10,
+          "ids": [
+            "7c7cbf41-2ce2-5af8-9bdb-544f29d4d52c",
+            "27bfed86-7d9a-5124-be26-3916c6167e25",
+            "6dea3288-56aa-5264-ab96-4717e22d8fb1",
+            "6cea8a23-e171-5287-a75d-e16e3c32df79",
+            "4bdf4ce6-b794-5f01-be06-9a0bd9fdd39c",
+            "56a1b1d3-c8b4-5893-9e3e-cc36e4332c8a",
+            "f606bfff-8655-523b-bebf-65cd69f3a699",
+            "d3a703f3-e908-5f7f-b027-a0370ce77551",
+            "f3ea3bd5-2916-50b2-862a-5f3d0e3a08b6",
+            "cc4628eb-9216-503e-a5e7-0556a19e87a1"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 0.5,
+          "ndcg": 0.6858780690634089,
+          "ms": 244.84410000150092,
+          "returned": 10,
+          "ids": [
+            "27bfed86-7d9a-5124-be26-3916c6167e25",
+            "7c7cbf41-2ce2-5af8-9bdb-544f29d4d52c",
+            "6dea3288-56aa-5264-ab96-4717e22d8fb1",
+            "56a1b1d3-c8b4-5893-9e3e-cc36e4332c8a",
+            "4bdf4ce6-b794-5f01-be06-9a0bd9fdd39c",
+            "d3a703f3-e908-5f7f-b027-a0370ce77551",
+            "f3ea3bd5-2916-50b2-862a-5f3d0e3a08b6",
+            "f606bfff-8655-523b-bebf-65cd69f3a699",
+            "cc4628eb-9216-503e-a5e7-0556a19e87a1",
+            "6cea8a23-e171-5287-a75d-e16e3c32df79"
+          ]
+        }
+      }
+    },
+    {
+      "id": "mix-03",
+      "category": "mixed",
+      "query": "What has Dr Pachauri said about GHG emissions and climate policy?",
+      "judged": 12,
+      "relevant": 3,
+      "configs": {
+        "dense+keyword": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.8460281787089828,
+          "ms": 137.68960000015795,
+          "returned": 10,
+          "ids": [
+            "21524381-0492-5018-b96d-f48ddd7b3926",
+            "ac06c949-6dd8-5ac5-985c-686bb3b97980",
+            "70e4ac8e-59d5-561d-8bd0-589c0a900f9c",
+            "8148de42-d02d-5b1b-8f61-b73e46043977",
+            "e44c100f-4488-5762-8c52-f280ab00c68b",
+            "7ac62a46-0ec0-5634-949d-4fb16f8ba258",
+            "9dfb7311-aeb1-57f7-84e5-c4103577c504",
+            "161c14a7-085a-5020-b0e0-6ac46cc8c14f",
+            "695b1816-9fdc-52cd-9d64-1089721e3580",
+            "5673c8ae-4481-574e-ace5-6350b7630111"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 1.0,
+          "mrr": 0.3333333333333333,
+          "ndcg": 0.7504275227936588,
+          "ms": 85.2522999921348,
+          "returned": 10,
+          "ids": [
+            "ac06c949-6dd8-5ac5-985c-686bb3b97980",
+            "70e4ac8e-59d5-561d-8bd0-589c0a900f9c",
+            "8148de42-d02d-5b1b-8f61-b73e46043977",
+            "e44c100f-4488-5762-8c52-f280ab00c68b",
+            "7ac62a46-0ec0-5634-949d-4fb16f8ba258",
+            "161c14a7-085a-5020-b0e0-6ac46cc8c14f",
+            "21524381-0492-5018-b96d-f48ddd7b3926",
+            "9dfb7311-aeb1-57f7-84e5-c4103577c504",
+            "695b1816-9fdc-52cd-9d64-1089721e3580",
+            "5673c8ae-4481-574e-ace5-6350b7630111"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.819711348765516,
+          "ms": 829.9772000173107,
+          "returned": 10,
+          "ids": [
+            "21524381-0492-5018-b96d-f48ddd7b3926",
+            "9dfb7311-aeb1-57f7-84e5-c4103577c504",
+            "695b1816-9fdc-52cd-9d64-1089721e3580",
+            "7ac62a46-0ec0-5634-949d-4fb16f8ba258",
+            "8148de42-d02d-5b1b-8f61-b73e46043977",
+            "5673c8ae-4481-574e-ace5-6350b7630111",
+            "ac06c949-6dd8-5ac5-985c-686bb3b97980",
+            "161c14a7-085a-5020-b0e0-6ac46cc8c14f",
+            "70e4ac8e-59d5-561d-8bd0-589c0a900f9c",
+            "e44c100f-4488-5762-8c52-f280ab00c68b"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 1.0,
+          "mrr": 0.5,
+          "ndcg": 0.7776924584610804,
+          "ms": 811.936699989019,
+          "returned": 10,
+          "ids": [
+            "7ac62a46-0ec0-5634-949d-4fb16f8ba258",
+            "21524381-0492-5018-b96d-f48ddd7b3926",
+            "9dfb7311-aeb1-57f7-84e5-c4103577c504",
+            "ac06c949-6dd8-5ac5-985c-686bb3b97980",
+            "5673c8ae-4481-574e-ace5-6350b7630111",
+            "695b1816-9fdc-52cd-9d64-1089721e3580",
+            "70e4ac8e-59d5-561d-8bd0-589c0a900f9c",
+            "161c14a7-085a-5020-b0e0-6ac46cc8c14f",
+            "8148de42-d02d-5b1b-8f61-b73e46043977",
+            "e44c100f-4488-5762-8c52-f280ab00c68b"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 1.0,
+          "mrr": 1.0,
+          "ndcg": 0.8483491602592567,
+          "ms": 342.409700009739,
+          "returned": 10,
+          "ids": [
+            "21524381-0492-5018-b96d-f48ddd7b3926",
+            "9dfb7311-aeb1-57f7-84e5-c4103577c504",
+            "7ac62a46-0ec0-5634-949d-4fb16f8ba258",
+            "5673c8ae-4481-574e-ace5-6350b7630111",
+            "ac06c949-6dd8-5ac5-985c-686bb3b97980",
+            "695b1816-9fdc-52cd-9d64-1089721e3580",
+            "8148de42-d02d-5b1b-8f61-b73e46043977",
+            "e44c100f-4488-5762-8c52-f280ab00c68b",
+            "70e4ac8e-59d5-561d-8bd0-589c0a900f9c",
+            "161c14a7-085a-5020-b0e0-6ac46cc8c14f"
+          ]
+        }
+      }
+    },
+    {
+      "id": "mix-04",
+      "category": "mixed",
+      "query": "SDG 7 progress on energy access in rural India",
+      "judged": 18,
+      "relevant": 10,
+      "configs": {
+        "dense+keyword": {
+          "recall": 0.5,
+          "mrr": 0.5,
+          "ndcg": 0.7272396856379463,
+          "ms": 87.31129998341203,
+          "returned": 10,
+          "ids": [
+            "50c65405-840d-5e95-b863-9c6da8bfbac7",
+            "04850877-b1e6-5dc3-b256-135ba7d082ec",
+            "b25d8699-232b-50a4-a7a0-fe2d285a8cef",
+            "1899aea9-81c1-5959-9e2f-940a9cd30054",
+            "944abe62-1d93-59c3-8496-6382a213dbd3",
+            "31d878d6-218b-5be7-9c40-1a246edf71f3",
+            "fb65ba5c-3ee7-52d1-969e-f29699fd817a",
+            "6fde7c02-876d-51e8-b224-a13d12d8a824",
+            "b0a35a4f-add3-5be9-8211-d5488b219a05",
+            "40cc2cb8-b952-592d-9aae-f90fea30e9f2"
+          ]
+        },
+        "rr_embedding": {
+          "recall": 0.5,
+          "mrr": 0.5,
+          "ndcg": 0.7258336113877648,
+          "ms": 72.59950001025572,
+          "returned": 10,
+          "ids": [
+            "b25d8699-232b-50a4-a7a0-fe2d285a8cef",
+            "1899aea9-81c1-5959-9e2f-940a9cd30054",
+            "50c65405-840d-5e95-b863-9c6da8bfbac7",
+            "b0a35a4f-add3-5be9-8211-d5488b219a05",
+            "31d878d6-218b-5be7-9c40-1a246edf71f3",
+            "944abe62-1d93-59c3-8496-6382a213dbd3",
+            "04850877-b1e6-5dc3-b256-135ba7d082ec",
+            "fb65ba5c-3ee7-52d1-969e-f29699fd817a",
+            "6fde7c02-876d-51e8-b224-a13d12d8a824",
+            "40cc2cb8-b952-592d-9aae-f90fea30e9f2"
+          ]
+        },
+        "rr_minilm": {
+          "recall": 0.5,
+          "mrr": 1.0,
+          "ndcg": 0.7619647490790786,
+          "ms": 1016.1903999978676,
+          "returned": 10,
+          "ids": [
+            "944abe62-1d93-59c3-8496-6382a213dbd3",
+            "b25d8699-232b-50a4-a7a0-fe2d285a8cef",
+            "50c65405-840d-5e95-b863-9c6da8bfbac7",
+            "04850877-b1e6-5dc3-b256-135ba7d082ec",
+            "fb65ba5c-3ee7-52d1-969e-f29699fd817a",
+            "40cc2cb8-b952-592d-9aae-f90fea30e9f2",
+            "6fde7c02-876d-51e8-b224-a13d12d8a824",
+            "1899aea9-81c1-5959-9e2f-940a9cd30054",
+            "b0a35a4f-add3-5be9-8211-d5488b219a05",
+            "31d878d6-218b-5be7-9c40-1a246edf71f3"
+          ]
+        },
+        "rr_minilm_s256": {
+          "recall": 0.5,
+          "mrr": 1.0,
+          "ndcg": 0.76064803145136,
+          "ms": 529.1464000183623,
+          "returned": 10,
+          "ids": [
+            "944abe62-1d93-59c3-8496-6382a213dbd3",
+            "b25d8699-232b-50a4-a7a0-fe2d285a8cef",
+            "50c65405-840d-5e95-b863-9c6da8bfbac7",
+            "04850877-b1e6-5dc3-b256-135ba7d082ec",
+            "fb65ba5c-3ee7-52d1-969e-f29699fd817a",
+            "40cc2cb8-b952-592d-9aae-f90fea30e9f2",
+            "6fde7c02-876d-51e8-b224-a13d12d8a824",
+            "b0a35a4f-add3-5be9-8211-d5488b219a05",
+            "31d878d6-218b-5be7-9c40-1a246edf71f3",
+            "1899aea9-81c1-5959-9e2f-940a9cd30054"
+          ]
+        },
+        "rr_minilm_s128": {
+          "recall": 0.5,
+          "mrr": 1.0,
+          "ndcg": 0.7678543468502091,
+          "ms": 318.09360001352616,
+          "returned": 10,
+          "ids": [
+            "944abe62-1d93-59c3-8496-6382a213dbd3",
+            "fb65ba5c-3ee7-52d1-969e-f29699fd817a",
+            "40cc2cb8-b952-592d-9aae-f90fea30e9f2",
+            "04850877-b1e6-5dc3-b256-135ba7d082ec",
+            "6fde7c02-876d-51e8-b224-a13d12d8a824",
+            "50c65405-840d-5e95-b863-9c6da8bfbac7",
+            "b25d8699-232b-50a4-a7a0-fe2d285a8cef",
+            "b0a35a4f-add3-5be9-8211-d5488b219a05",
+            "1899aea9-81c1-5959-9e2f-940a9cd30054",
+            "31d878d6-218b-5be7-9c40-1a246edf71f3"
+          ]
+        }
+      }
+    }
+  ]
+}
