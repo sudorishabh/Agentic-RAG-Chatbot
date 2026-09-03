@@ -685,6 +685,14 @@ def _llm_claims(run: _Run, stage: Stage) -> list[Any]:
             # defence for anything above it.
             stage.fail(chunk_id, exc)
             continue
+        # PARENT_OF disabled pending a fix: piloted on 209 documents, the model
+        # asserts it in both directions for the same underlying fact (TERI ->
+        # Water Resources and Water Resources -> TERI both appeared) and
+        # invents implausible ones (a UN sub-body as "parent of" the UN) at
+        # confidence 0.8-1.0, above validate.py's threshold. Every other
+        # predicate held up under the same review. Revert this filter once the
+        # direction/plausibility problem is understood.
+        claims = [c for c in claims if getattr(c, "predicate", None) != "PARENT_OF"]
         out.extend(claims)
         run.pending_candidates.extend(unknown)
     stage.counts["llm_calls"] = calls
