@@ -1,16 +1,16 @@
 {
   "metadata": {
-    "generated_at": "2026-08-27T12:39:00.887577+00:00",
-    "source_tree_hash": "4427514e37b5ee3c207f87a6f255f4f64d516ad16302519da7457d278f0c6369",
+    "generated_at": "2026-09-01T08:47:08.051731+00:00",
+    "source_tree_hash": "1ff6c7902eab6ebc19717bec605283bad3ef49f84aca21ce53e6461afdc8ee8a",
     "repo_name": ".codeboarding-target",
     "depth_level": 2,
     "depth_cap": 2,
     "file_coverage_summary": {
-      "total_files": 613,
+      "total_files": 626,
       "analyzed": 241,
-      "not_analyzed": 372,
+      "not_analyzed": 385,
       "not_analyzed_by_reason": {
-        "other": 69,
+        "other": 82,
         "codeboardingignore": 303
       }
     }
