@@ -134,6 +134,21 @@ def _validate_one(
             return Rejection(
                 "object_not_claim_eligible", assertion.object_entity_id, assertion
             )
+        # A TERI division (seeded from field_division, alongside genuine
+        # external sponsors in the same organization pool -- see
+        # app.knowledge.seed._ORG_FIELDS) is a valid employer or membership
+        # target for a PERSON, but not a peer organizational actor: PARENT_OF,
+        # PARTNER_OF and FUNDED_BY all assert a relationship *between*
+        # organization-level entities, and a division is not independently one.
+        # Piloted: this is exactly the confusion behind excluding PARENT_OF and
+        # PARTNER_OF from LLM extraction in document_pipeline.py.
+        if object_type == "ORGANIZATION" and "PERSON" not in predicate.domain:
+            object_row = index.entities.get(assertion.object_entity_id) or {}
+            if object_row.get("source") == "field_division":
+                return Rejection(
+                    "object_is_internal_division",
+                    assertion.object_entity_id, assertion,
+                )
         if assertion.object_literal:
             return Rejection("object_literal_on_entity_predicate", predicate.name, assertion)
     else:
