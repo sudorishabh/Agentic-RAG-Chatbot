@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "generated_at": "2026-09-03T18:02:22.950248+00:00",
-    "source_tree_hash": "81c0162eac35b56cae75a40d2acad9578491f6db1c6abe36108807996dc1863b",
+    "generated_at": "2026-09-04T04:02:45.364496+00:00",
+    "source_tree_hash": "cc572590c3f43d9555fb8db5db54ed52876c4436ecd8586c7f0bed6c39b9ea56",
     "repo_name": ".codeboarding-target",
     "depth_level": 2,
     "depth_cap": 2,
@@ -611,8 +611,8 @@
         "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._project",
         "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._record"
       ],
-      "content_hash": "8d9310e139a41dc2",
-      "module_hash": "85740b2f72a7b7db"
+      "content_hash": "748098e79fbe1afe",
+      "module_hash": "c6c7b1b9626148f3"
     },
     "app/knowledge/extract.py": {
       "method_keys": [
@@ -6284,48 +6284,48 @@
     "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._llm_claims": {
       "file_path": "app/knowledge/document_pipeline.py",
       "qualified_name": "app.knowledge.document_pipeline._llm_claims",
-      "start_line": 647,
-      "end_line": 701,
+      "start_line": 653,
+      "end_line": 718,
       "type": "FUNCTION",
-      "content_hash": "736458524bb156ce"
+      "content_hash": "fd13b98633329d6d"
     },
     "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._validate": {
       "file_path": "app/knowledge/document_pipeline.py",
       "qualified_name": "app.knowledge.document_pipeline._validate",
-      "start_line": 708,
-      "end_line": 736,
+      "start_line": 725,
+      "end_line": 753,
       "type": "FUNCTION",
       "content_hash": "ad9be1132baed2c4"
     },
     "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._persist": {
       "file_path": "app/knowledge/document_pipeline.py",
       "qualified_name": "app.knowledge.document_pipeline._persist",
-      "start_line": 743,
-      "end_line": 795,
+      "start_line": 760,
+      "end_line": 812,
       "type": "FUNCTION",
       "content_hash": "1514ca8b22fe4b8f"
     },
     "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._conflicts": {
       "file_path": "app/knowledge/document_pipeline.py",
       "qualified_name": "app.knowledge.document_pipeline._conflicts",
-      "start_line": 802,
-      "end_line": 866,
+      "start_line": 819,
+      "end_line": 883,
       "type": "FUNCTION",
       "content_hash": "9455c6d982b21a6d"
     },
     "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._project": {
       "file_path": "app/knowledge/document_pipeline.py",
       "qualified_name": "app.knowledge.document_pipeline._project",
-      "start_line": 873,
-      "end_line": 936,
+      "start_line": 890,
+      "end_line": 953,
       "type": "FUNCTION",
       "content_hash": "f0fcb83c3c5bc274"
     },
     "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._record": {
       "file_path": "app/knowledge/document_pipeline.py",
       "qualified_name": "app.knowledge.document_pipeline._record",
-      "start_line": 943,
-      "end_line": 955,
+      "start_line": 960,
+      "end_line": 972,
       "type": "FUNCTION",
       "content_hash": "856e23f4c1a6732d"
     },
@@ -30482,7 +30482,7 @@
           "target": "app/catalog/assertions.py|app.catalog.assertions.apply_status",
           "call_sites": [
             {
-              "line": 855,
+              "line": 872,
               "column": 66
             }
           ],
@@ -30493,7 +30493,7 @@
           "target": "app/catalog/assertions.py|app.catalog.assertions.for_subject_predicates",
           "call_sites": [
             {
-              "line": 827,
+              "line": 844,
               "column": 44
             }
           ],
@@ -30504,7 +30504,7 @@
           "target": "app/catalog/assertions.py|app.catalog.assertions.save_links",
           "call_sites": [
             {
-              "line": 862,
+              "line": 879,
               "column": 63
             }
           ],
@@ -30537,7 +30537,7 @@
           "target": "app/catalog/assertions.py|app.catalog.assertions.record_rejections",
           "call_sites": [
             {
-              "line": 781,
+              "line": 798,
               "column": 37
             }
           ],
@@ -30548,7 +30548,7 @@
           "target": "app/catalog/assertions.py|app.catalog.assertions.stage",
           "call_sites": [
             {
-              "line": 760,
+              "line": 777,
               "column": 60
             }
           ],
@@ -30559,7 +30559,7 @@
           "target": "app/catalog/predicate_candidates.py|app.catalog.predicate_candidates.record",
           "call_sites": [
             {
-              "line": 791,
+              "line": 808,
               "column": 71
             }
           ],
@@ -30570,7 +30570,7 @@
           "target": "app/catalog/knowledge_runs.py|app.catalog.knowledge_runs.record",
           "call_sites": [
             {
-              "line": 955,
+              "line": 972,
               "column": 20
             }
           ],
@@ -30647,11 +30647,11 @@
           "target": "app/knowledge/graph/project.py|app.knowledge.graph.project.project_claims",
           "call_sites": [
             {
-              "line": 908,
+              "line": 925,
               "column": 53
             },
             {
-              "line": 914,
+              "line": 931,
               "column": 22
             }
           ],
@@ -30662,11 +30662,11 @@
           "target": "app/knowledge/graph/schema.py|app.knowledge.graph.schema.ensure_graph_schema",
           "call_sites": [
             {
-              "line": 909,
+              "line": 926,
               "column": 52
             },
             {
-              "line": 913,
+              "line": 930,
               "column": 13
             }
           ],
@@ -31096,11 +31096,11 @@
           "target": "app/core/clients/graph.py|app.core.clients.graph.graph_available",
           "call_sites": [
             {
-              "line": 896,
+              "line": 913,
               "column": 38
             },
             {
-              "line": 898,
+              "line": 915,
               "column": 16
             }
           ],
@@ -31126,11 +31126,11 @@
           "target": "app/config.py|app.config.get_settings",
           "call_sites": [
             {
-              "line": 884,
+              "line": 901,
               "column": 28
             },
             {
-              "line": 886,
+              "line": 903,
               "column": 41
             }
           ],
