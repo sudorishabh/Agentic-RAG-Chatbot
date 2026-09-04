@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "generated_at": "2026-09-04T04:46:35.831640+00:00",
-    "source_tree_hash": "d7fbf7508e1d2e20006ab3de46462ec190bbb26cbd93b2b20264e80b9ae4b68a",
+    "generated_at": "2026-09-04T05:29:16.691420+00:00",
+    "source_tree_hash": "2e6139c021e979e9155baeab3ac4875edf8aba3916a5ec2796ad853b27f1c55b",
     "repo_name": ".codeboarding-target",
     "depth_level": 2,
     "depth_cap": 2,
@@ -665,7 +665,7 @@
         "app/knowledge/gazetteer.py|app.knowledge.gazetteer._first_token",
         "app/knowledge/gazetteer.py|app.knowledge.gazetteer.surface_pattern"
       ],
-      "content_hash": "2a956dd87939b9e1",
+      "content_hash": "ff5bc8896688df12",
       "module_hash": "dd0169f7ba8bcbda"
     },
     "app/knowledge/graph/project.py": {
@@ -6573,47 +6573,47 @@
       "file_path": "app/knowledge/gazetteer.py",
       "qualified_name": "app.knowledge.gazetteer.load_rows",
       "start_line": 361,
-      "end_line": 408,
+      "end_line": 424,
       "type": "FUNCTION",
-      "content_hash": "8c9696d5368380b1"
+      "content_hash": "0d97fcdc39d2bfcd"
     },
     "app/knowledge/gazetteer.py|app.knowledge.gazetteer.get_gazetteer": {
       "file_path": "app/knowledge/gazetteer.py",
       "qualified_name": "app.knowledge.gazetteer.get_gazetteer",
-      "start_line": 412,
-      "end_line": 424,
+      "start_line": 428,
+      "end_line": 440,
       "type": "FUNCTION",
       "content_hash": "199ff4b08678ecfa"
     },
     "app/knowledge/gazetteer.py|app.knowledge.gazetteer.reload_gazetteer": {
       "file_path": "app/knowledge/gazetteer.py",
       "qualified_name": "app.knowledge.gazetteer.reload_gazetteer",
-      "start_line": 427,
-      "end_line": 429,
+      "start_line": 443,
+      "end_line": 445,
       "type": "FUNCTION",
       "content_hash": "c98facb639107c0b"
     },
     "app/knowledge/gazetteer.py|app.knowledge.gazetteer.gazetteer_version": {
       "file_path": "app/knowledge/gazetteer.py",
       "qualified_name": "app.knowledge.gazetteer.gazetteer_version",
-      "start_line": 432,
-      "end_line": 443,
+      "start_line": 448,
+      "end_line": 459,
       "type": "FUNCTION",
       "content_hash": "458a8627dc543e57"
     },
     "app/knowledge/gazetteer.py|app.knowledge.gazetteer._first_token": {
       "file_path": "app/knowledge/gazetteer.py",
       "qualified_name": "app.knowledge.gazetteer._first_token",
-      "start_line": 450,
-      "end_line": 461,
+      "start_line": 466,
+      "end_line": 477,
       "type": "FUNCTION",
       "content_hash": "2f5253ef0622e35d"
     },
     "app/knowledge/gazetteer.py|app.knowledge.gazetteer.surface_pattern": {
       "file_path": "app/knowledge/gazetteer.py",
       "qualified_name": "app.knowledge.gazetteer.surface_pattern",
-      "start_line": 464,
-      "end_line": 495,
+      "start_line": 480,
+      "end_line": 511,
       "type": "FUNCTION",
       "content_hash": "c13977dea6af15e1"
     },
@@ -30697,21 +30697,6 @@
         },
         {
           "source": "scripts/build_knowledge.py|scripts.build_knowledge.Build.mentions",
-          "target": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.get_gazetteer",
-          "call_sites": [
-            {
-              "line": 206,
-              "column": 64
-            },
-            {
-              "line": 212,
-              "column": 25
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "scripts/build_knowledge.py|scripts.build_knowledge.Build.mentions",
           "target": "app/knowledge/resolver.py|app.knowledge.resolver.resolve_mentions",
           "call_sites": [
             {
@@ -30721,6 +30706,21 @@
             {
               "line": 241,
               "column": 37
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "scripts/build_knowledge.py|scripts.build_knowledge.Build.mentions",
+          "target": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.get_gazetteer",
+          "call_sites": [
+            {
+              "line": 206,
+              "column": 64
+            },
+            {
+              "line": 212,
+              "column": 25
             }
           ],
           "description": ""
@@ -30756,36 +30756,6 @@
             {
               "line": 234,
               "column": 33
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "scripts/build_knowledge.py|scripts.build_knowledge.Build.mentions",
-          "target": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.gazetteer_version",
-          "call_sites": [
-            {
-              "line": 206,
-              "column": 45
-            },
-            {
-              "line": 213,
-              "column": 27
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "scripts/build_knowledge.py|scripts.build_knowledge.Build.mentions",
-          "target": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.get_gazetteer",
-          "call_sites": [
-            {
-              "line": 206,
-              "column": 64
-            },
-            {
-              "line": 212,
-              "column": 25
             }
           ],
           "description": ""
@@ -30866,6 +30836,51 @@
           "description": ""
         },
         {
+          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._resolution",
+          "target": "app/knowledge/resolver.py|app.knowledge.resolver.resolve_mentions",
+          "call_sites": [
+            {
+              "line": 542,
+              "column": 70
+            },
+            {
+              "line": 553,
+              "column": 29
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "scripts/build_knowledge.py|scripts.build_knowledge.Build.mentions",
+          "target": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.gazetteer_version",
+          "call_sites": [
+            {
+              "line": 206,
+              "column": 45
+            },
+            {
+              "line": 213,
+              "column": 27
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "scripts/build_knowledge.py|scripts.build_knowledge.Build.mentions",
+          "target": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.get_gazetteer",
+          "call_sites": [
+            {
+              "line": 206,
+              "column": 64
+            },
+            {
+              "line": 212,
+              "column": 25
+            }
+          ],
+          "description": ""
+        },
+        {
           "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._prelude",
           "target": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.gazetteer_version",
           "call_sites": [
@@ -30890,21 +30905,6 @@
             },
             {
               "line": 403,
-              "column": 29
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/document_pipeline.py|app.knowledge.document_pipeline._resolution",
-          "target": "app/knowledge/resolver.py|app.knowledge.resolver.resolve_mentions",
-          "call_sites": [
-            {
-              "line": 542,
-              "column": 70
-            },
-            {
-              "line": 553,
               "column": 29
             }
           ],
@@ -31276,36 +31276,6 @@
       "is_static": true,
       "all_edges": [
         {
-          "source": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.load_rows",
-          "target": "app/catalog/db.py|app.catalog.db.state_table",
-          "call_sites": [
-            {
-              "line": 363,
-              "column": 32
-            },
-            {
-              "line": 366,
-              "column": 13
-            }
-          ],
-          "description": ""
-        },
-        {
-          "source": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.load_rows",
-          "target": "app/core/clients/database.py|app.core.clients.database.mysql_connection",
-          "call_sites": [
-            {
-              "line": 364,
-              "column": 34
-            },
-            {
-              "line": 368,
-              "column": 10
-            }
-          ],
-          "description": ""
-        },
-        {
           "source": "app/knowledge/pi_promotion.py|app.knowledge.pi_promotion.collect_pi_evidence",
           "target": "app/catalog/db.py|app.catalog.db.state_table",
           "call_sites": [
@@ -31420,6 +31390,36 @@
             },
             {
               "line": 138,
+              "column": 10
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.load_rows",
+          "target": "app/catalog/db.py|app.catalog.db.state_table",
+          "call_sites": [
+            {
+              "line": 363,
+              "column": 32
+            },
+            {
+              "line": 366,
+              "column": 13
+            }
+          ],
+          "description": ""
+        },
+        {
+          "source": "app/knowledge/gazetteer.py|app.knowledge.gazetteer.load_rows",
+          "target": "app/core/clients/database.py|app.core.clients.database.mysql_connection",
+          "call_sites": [
+            {
+              "line": 364,
+              "column": 34
+            },
+            {
+              "line": 368,
               "column": 10
             }
           ],
