@@ -399,11 +399,27 @@ def load_rows() -> list[tuple[str, str, str]]:
         rows.extend((r["title"], "PROJECT", "project_title") for r in cur.fetchall())
         # The author facet: broader and noisier than field_authors, which is why
         # it is loaded last and the eligibility guards above matter.
+        #
+        # A single-token value is filtered here rather than left to _eligible,
+        # because an ineligible entry still counts toward finalize()'s
+        # cross-type ambiguity check -- and app.knowledge.seed already treats a
+        # single-token author facet value as not a name at all (`if
+        # len(normalized.split()) < 2: continue`), so the real entity table
+        # never has one. Without this, an institutional byline sharing its
+        # exact name with a real organization ("TERI" as an "author", not a
+        # person) silently disarms the organization's own, otherwise-eligible
+        # entry: the moment "teri" is attested for PERSON at all, finalize()
+        # marks the whole bare form ambiguous and the corpus's own flagship
+        # organization can no longer be recognised in a plain question about
+        # it. Matching seed.py's rule here is applying the same fact this
+        # facet already established, not inventing a new exception to
+        # ambiguity in general -- a real two-type collision (e.g. a project
+        # and an organization both genuinely named "Phoenix") still counts.
         cur.execute(f"SELECT DISTINCT author FROM `{table}_author`")
         rows.extend(
             (r["author"], "PERSON", "documents_author")
             for r in cur.fetchall()
-            if (r["author"] or "").strip()
+            if len((r["author"] or "").strip().split()) >= 2
         )
     return rows
 
