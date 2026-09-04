@@ -644,6 +644,12 @@ def _claims(run: _Run) -> None:
         stage.counts["built"] = len(built)
 
 
+# Disabled pending a fix. See the note beside their use in _llm_claims: both
+# showed a majority-wrong rate on manual review of piloted batches, above
+# validate.py's confidence threshold, so that gate does not catch them.
+_DISABLED_PREDICATES = frozenset({"PARENT_OF", "PARTNER_OF"})
+
+
 def _llm_claims(run: _Run, stage: Stage) -> list[Any]:
     """Model-proposed claims for this document's chunks. [] when gated off.
 
@@ -689,10 +695,21 @@ def _llm_claims(run: _Run, stage: Stage) -> list[Any]:
         # asserts it in both directions for the same underlying fact (TERI ->
         # Water Resources and Water Resources -> TERI both appeared) and
         # invents implausible ones (a UN sub-body as "parent of" the UN) at
-        # confidence 0.8-1.0, above validate.py's threshold. Every other
-        # predicate held up under the same review. Revert this filter once the
-        # direction/plausibility problem is understood.
-        claims = [c for c in claims if getattr(c, "predicate", None) != "PARENT_OF"]
+        # confidence 0.8-1.0, above validate.py's threshold.
+        #
+        # PARTNER_OF disabled too, found in the first 500-document real batch:
+        # TERI's own initiatives get asserted as "partnering with" TERI
+        # (Lighting a Billion Lives -> TERI), a paper title resolved as a
+        # PROJECT gets the same treatment (a paper "partnering with" its own
+        # publisher), and two of the objects seen ("Sustainable Agriculture",
+        # "Renewable Energy Technologies") are topic terms mistyped as
+        # entity_type=ORGANIZATION with trust=derived and no cms_uuid upstream
+        # of this extraction -- a pre-existing entity-typing bug this compounds
+        # rather than causes. Roughly 8 of 12 sampled claims were wrong.
+        #
+        # HAS_ROLE, WORKS_AT, MEMBER_OF and FUNDED_BY held up under the same
+        # review. Revert either filter once its underlying problem is fixed.
+        claims = [c for c in claims if getattr(c, "predicate", None) not in _DISABLED_PREDICATES]
         out.extend(claims)
         run.pending_candidates.extend(unknown)
     stage.counts["llm_calls"] = calls
