@@ -340,6 +340,33 @@ def test_mentions_run_when_asked(stores):
     assert "save_mentions" in stores.calls
 
 
+def test_from_settings_reads_whether_mentions_are_extracted(monkeypatch):
+    """`with_mentions` is configuration, not a constant.
+
+    It was hardcoded False, and because `_llm_claims` may only offer the model
+    entities this document's own resolution marked canonical, that made
+    `claim_extraction_enabled` silently inert: the model was handed nothing and
+    never called. Asserted here rather than left to the default so a future
+    edit cannot quietly restore that, which produced no error and no claims.
+    """
+    class _Settings:
+        knowledge_extract_mentions = True
+        claim_extraction_enabled = False
+        knowledge_project_per_document = True
+        knowledge_stage_budget_seconds = 30.0
+        knowledge_llm_max_calls_per_document = 8
+        claim_min_confidence = 0.6
+
+    monkeypatch.setattr("app.config.get_settings", lambda: _Settings())
+    assert dp.StageOptions.from_settings().with_mentions is True
+
+    _Settings.knowledge_extract_mentions = False
+    assert dp.StageOptions.from_settings().with_mentions is False
+    # An explicit caller override still wins, which is how
+    # `scripts.knowledge_document --with-mentions` works regardless of config.
+    assert dp.StageOptions.from_settings(with_mentions=True).with_mentions is True
+
+
 def test_a_cached_chunk_is_not_re_extracted(stores):
     stores.cache["h1"] = 3
     report = dp.process_document(_document(), _options(with_mentions=True))

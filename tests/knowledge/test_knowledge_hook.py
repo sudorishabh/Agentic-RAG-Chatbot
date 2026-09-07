@@ -26,6 +26,9 @@ class _Settings:
         self.knowledge_stage_budget_seconds = 30.0
         self.knowledge_llm_max_calls_per_document = 8
         self.knowledge_stage_max_attempts = 3
+        self.knowledge_extract_mentions = flags.get(
+            "knowledge_extract_mentions", False
+        )
         self.claim_extraction_enabled = False
         self.claim_min_confidence = 0.6
 

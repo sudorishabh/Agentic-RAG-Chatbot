@@ -159,6 +159,12 @@ class StageOptions:
     # those tables at query time, and CMS claim extraction does not depend on
     # them. Off by default for the same reason `--with-mentions` is off in the
     # corpus builder — it is by far the most expensive deterministic stage.
+    #
+    # LLM claim extraction *does* depend on them, though, which is why
+    # `knowledge_extract_mentions` exists: `_llm_claims` may only offer the
+    # model entities this document's own resolution marked canonical, so with
+    # this off it is handed nothing and never calls the model at all. Leaving
+    # it hardcoded made `claim_extraction_enabled` silently inert.
     with_mentions: bool = False
     with_llm_claims: bool | None = None
     with_projection: bool | None = None
@@ -176,6 +182,7 @@ class StageOptions:
 
         settings = get_settings()
         base = {
+            "with_mentions": bool(settings.knowledge_extract_mentions),
             "with_llm_claims": bool(settings.claim_extraction_enabled),
             "with_projection": bool(settings.knowledge_project_per_document),
             "budget_seconds": float(settings.knowledge_stage_budget_seconds),

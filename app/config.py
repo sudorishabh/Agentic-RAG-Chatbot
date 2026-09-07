@@ -393,6 +393,26 @@ class Settings(BaseSettings):
     # pathologically long document cannot spend the whole run's budget. The
     # existing claim_llm_max_calls_per_run stays the corpus-level ceiling.
     knowledge_llm_max_calls_per_document: int = 8
+    # Extract and resolve mentions during the per-document knowledge stage.
+    #
+    # OFF by default, preserving the behaviour this had when it was a hardcoded
+    # `StageOptions.with_mentions = False`: mention and resolution rows are
+    # audit material that nothing reads at query time, and it is the most
+    # expensive deterministic stage.
+    #
+    # But it is NOT only audit material, and that is why it is a setting now.
+    # LLM claim extraction may only reference entities this document's own
+    # resolution marked canonical (app.knowledge.claims.extract_llm: the model
+    # "cannot name an entity"), so with mentions off it is handed nothing and
+    # makes zero calls. With `claim_extraction_enabled` on and this off, claim
+    # extraction is silently inert -- measured across 11,238 completed
+    # knowledge runs, every bundle except completed_projects (whose claims come
+    # from the free deterministic CMS-field path) had staged exactly zero.
+    #
+    # Turn this on to make an ordinary ingest sweep also build the claim layer.
+    # `scripts.knowledge_document --with-mentions` remains the per-document
+    # override and does not depend on this.
+    knowledge_extract_mentions: bool = False
     # How many times a document's knowledge stage may be retried by the
     # catch-up sweep before it is left alone. The durable-retry-as-state pattern
     # the enrichment and dead-link tables already use, not a job queue.
