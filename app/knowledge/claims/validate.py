@@ -29,6 +29,30 @@ logger = logging.getLogger(__name__)
 
 _ISO_DATE = re.compile(r"^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?$")
 
+# Verbs that open a quote attribution. A literal-valued role beginning with one
+# of these is what the subject *did* in a sentence, not what they *are*: the
+# model read the predicate of "...says Dr X" or "X acknowledges it was a
+# mistake" as the role itself. Measured on 79 staged HAS_ROLE claims, four were
+# this and no real title began with any of these words — the titles this corpus
+# states are noun phrases ("Senior Fellow, Water Resources Division").
+#
+# A curated list rather than a part-of-speech test, following
+# `app.knowledge.gazetteer._PROSE_MARKERS`: the failure is a narrow, observed
+# shape, and a list is auditable where a tagger is a dependency and a guess.
+# Deliberately first-token-only, so "commentary author" and "member of the
+# research team" — weak and generic, but genuinely descriptions of a role —
+# still pass.
+_ATTRIBUTION_VERBS = frozenset(
+    """
+    says said tells told adds added notes noted writes wrote states stated
+    explains explained describes described acknowledges acknowledged argues
+    argued claims claimed suggests suggested observes observed warns warned
+    believes concludes concluded emphasises emphasised emphasizes emphasized
+    points pointed provided provides recalls recalled asks asked replies
+    replied responds responded reports reported highlights highlighted
+    """.split()
+)
+
 
 @dataclass(frozen=True)
 class Rejection:
@@ -159,6 +183,11 @@ def _validate_one(
             return Rejection("missing_object_literal", predicate.name, assertion)
         if len(literal) > 255:
             return Rejection("object_literal_too_long", str(len(literal)), assertion)
+        if literal.split()[0].lower() in _ATTRIBUTION_VERBS:
+            # What the subject *did* in a sentence, not what they *are*. These
+            # come from quote-attribution prose ("...says Dr X", "X acknowledges
+            # it was a mistake"), where the model reads the verb as the role.
+            return Rejection("object_literal_is_an_action", literal[:60], assertion)
         assertion.object_literal = literal
 
     # --- types compatible with the predicate ---------------------------------

@@ -214,6 +214,45 @@ def test_literal_object_is_accepted_for_has_role():
     assert result.accepted[0].object_literal == "Director General"
 
 
+@pytest.mark.parametrize(
+    "literal",
+    ["says", "writes", "provided an explanation", "acknowledges it was a mistake"],
+)
+def test_a_role_that_is_really_an_action_is_rejected(literal):
+    """Quote-attribution prose read as a role.
+
+    Every one of these was actually staged: the model read the predicate of
+    "...says Dr X" as what Dr X *is*. Nothing else in the gate catches it —
+    the quote is verbatim, the types check out, and the confidence is 0.9-1.0.
+    """
+    result = _validate([_assertion(
+        subject_entity_id=PERSON_OK, predicate="HAS_ROLE",
+        object_entity_id=None, object_literal=literal,
+        quote="Dr Vibha Dhawan, Director General, leads",
+    )])
+    assert result.rejected[0].code == "object_literal_is_an_action"
+
+
+@pytest.mark.parametrize(
+    "literal",
+    [
+        "Director General",
+        "Senior Fellow, Water Resources Division",
+        "commentary author",
+        "member of the research team",
+    ],
+)
+def test_a_real_role_survives_the_action_check(literal):
+    """The check is first-token-only for this reason: a weak or generic role is
+    still a role, and only the verb *opening* the phrase marks an attribution."""
+    result = _validate([_assertion(
+        subject_entity_id=PERSON_OK, predicate="HAS_ROLE",
+        object_entity_id=None, object_literal=literal,
+        quote="Dr Vibha Dhawan, Director General, leads",
+    )])
+    assert len(result.accepted) == 1
+
+
 # --------------------------------------------------------------------------- #
 # Validation — evidence
 # --------------------------------------------------------------------------- #
