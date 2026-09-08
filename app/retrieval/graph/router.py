@@ -355,6 +355,9 @@ def _resolve_entities(
     from app.knowledge.gazetteer import get_gazetteer
     from app.knowledge.resolver import resolve_mention
     from app.retrieval.understanding.approved_aliases import lookup_mentions
+    from app.retrieval.understanding.partial_titles import (
+        lookup_mentions as partial_title_mentions,
+    )
 
     mentions = extract_mentions(
         question, chunk_id="query", document_id="query",
@@ -377,6 +380,24 @@ def _resolve_entities(
     # added, so its findings always win.
     covered = [(m.start_offset, m.end_offset) for m in mentions]
     for extra in lookup_mentions(question, chunk_id="query", document_id="query"):
+        if any(
+            extra.start_offset < end and start < extra.end_offset
+            for start, end in covered
+        ):
+            continue
+        covered.append((extra.start_offset, extra.end_offset))
+        mentions.append(extra)
+    # Third pass, also query-side: a project named by *part* of its title.
+    # Both passes above match a whole stored name, so a question naming a real
+    # project in the ordinary way — "the Yamuna River Water project", where the
+    # stored title is "Heavy metal assessment of Yamuna River Water" — produced
+    # no mention at all. See `partial_titles` for the two guards that keep this
+    # from guessing: the run must belong to exactly one title, and must contain
+    # a token rare across titles, so generic filler cannot carry a match.
+    # Last, and span-checked like the pass above, so an exact match always wins.
+    for extra in partial_title_mentions(
+        question, chunk_id="query", document_id="query"
+    ):
         if any(
             extra.start_offset < end and start < extra.end_offset
             for start, end in covered
