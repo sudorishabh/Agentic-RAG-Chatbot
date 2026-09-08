@@ -50,6 +50,9 @@ def _build_llm(
         "api_version": api_version,
         "azure_deployment": deployment,
         "streaming": streaming,
+        # gpt-5.x deployments are only served over Azure's newer Responses API,
+        # not the legacy chat-completions path AzureChatOpenAI defaults to.
+        "use_responses_api": True,
     }
     if temperature is not None:
         kwargs["temperature"] = temperature
