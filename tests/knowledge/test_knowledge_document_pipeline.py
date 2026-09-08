@@ -729,6 +729,33 @@ def test_an_exhausted_budget_makes_the_run_partial_and_retryable(stores):
     assert stores.runs and stores.runs[0].status == "partial"
 
 
+def test_a_failing_model_call_makes_the_run_partial(stores, monkeypatch):
+    """Measured on a live sweep: every claim call answered HTTP 400 and every
+    run row still said `ok`, `errors=[]`. A model failure must reach the stage
+    so the row says so and the catch-up sweep retries the document."""
+    def rejected(*a, **kw):
+        errors = kw.get("errors")
+        if errors is not None:
+            errors.append(RuntimeError("400 Missed model deployment"))
+        return ([], [])
+
+    monkeypatch.setattr(
+        "app.knowledge.claims.extract_llm.extract_claims_for_chunk", rejected
+    )
+    doc = _document(chunks=(
+        dp.ChunkText("chunk-1", "Ministry of Power funded it.", "h1"),
+    ))
+    report = dp.process_document(
+        doc, _options(with_mentions=True, with_llm_claims=True)
+    )
+
+    assert report.status == "partial"
+    assert any("Missed model deployment" in e["error"] for e in report.errors)
+    claims = next(s for s in report.stages if s.name == "claims")
+    assert claims.counts["llm_calls"] == 1 and claims.counts["llm_failures"] == 1
+    assert stores.runs and stores.runs[0].status == "partial"
+
+
 def test_the_llm_call_budget_is_per_document(stores, monkeypatch):
     calls = {"n": 0}
 

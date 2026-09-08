@@ -83,8 +83,16 @@ def _vocabulary_block() -> str:
 def propose_claims(
     chunk_text: str, *, chunk_id: str, document_id: str,
     eligible: Sequence[EligibleEntity], capture_unknown: bool = False,
+    errors: list[Exception] | None = None,
 ) -> list[Any] | tuple[list[Any], list[Any]]:
     """Model-proposed assertions, unvalidated. [] on any failure.
+
+    ``errors``, when supplied, receives the exception behind an empty result so
+    the caller can tell "the model saw nothing" from "the model was never
+    reached". Without it a deployment whose every call fails reports exactly
+    what a deployment with nothing to extract reports — measured on a live run:
+    35 of 35 calls rejected with HTTP 400 and every knowledge run marked ``ok``.
+    The return value is unchanged either way.
 
     Returns assertions with ``confidence`` as the model reported it; nothing is
     trusted yet — :mod:`app.knowledge.claims.validate` is the gate.
@@ -141,8 +149,10 @@ def propose_claims(
             .with_structured_output(ProposedClaims)
             .invoke([("system", _SYSTEM), ("human", human)])
         )
-    except Exception:
+    except Exception as exc:
         logger.warning("Claim extraction failed for chunk %s.", chunk_id, exc_info=True)
+        if errors is not None:
+            errors.append(exc)
         return ([], []) if capture_unknown else []
 
     allowed = {e.entity_id for e in eligible}
@@ -236,10 +246,11 @@ def _model_name() -> str | None:
 def extract_claims_for_chunk(
     chunk_text: str, *, chunk_id: str, document_id: str,
     eligible: Sequence[EligibleEntity], enabled: bool,
-    capture_unknown: bool = False,
+    capture_unknown: bool = False, errors: list[Exception] | None = None,
 ) -> list[Any] | tuple[list[Any], list[Any]]:
     """The gated entry point. Returns [] unless the flag is on and the chunk
-    offers something to join.
+    offers something to join. ``errors`` is passed through to
+    :func:`propose_claims`.
 
     With ``capture_unknown`` the return becomes ``(assertions, candidates)`` in
     every branch, including the gated-off ones, so a caller never has to
@@ -254,5 +265,5 @@ def extract_claims_for_chunk(
         return empty
     return propose_claims(
         chunk_text, chunk_id=chunk_id, document_id=document_id,
-        eligible=eligible, capture_unknown=capture_unknown,
+        eligible=eligible, capture_unknown=capture_unknown, errors=errors,
     )

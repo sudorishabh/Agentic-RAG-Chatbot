@@ -675,6 +675,7 @@ def _llm_claims(run: _Run, stage: Stage) -> list[Any]:
 
     out: list[Any] = []
     calls = 0
+    failures = 0
     texts = run.doc.chunk_texts
     for chunk_id, decisions in run.decisions_by_chunk.items():
         if calls >= budget or run.over_budget():
@@ -687,17 +688,26 @@ def _llm_claims(run: _Run, stage: Stage) -> list[Any]:
         if not eligible:
             continue
         calls += 1
+        # The extractor keeps its "[] on any failure" contract, and hands the
+        # exception back here instead of dropping it. Recording it on the stage
+        # is what turns "no claims" into `partial`: the run row shows the
+        # error, the catch-up sweep retries the document, and a deployment
+        # whose model endpoint rejects every call stops reading as healthy.
+        model_errors: list[Exception] = []
         try:
             claims, unknown = extract_claims_for_chunk(
                 texts.get(chunk_id, ""), chunk_id=chunk_id,
                 document_id=run.doc.document_id, eligible=eligible,
-                enabled=True, capture_unknown=True,
+                enabled=True, capture_unknown=True, errors=model_errors,
             )
         except Exception as exc:
             # extract_claims_for_chunk already swallows model failures; this is
             # defence for anything above it.
             stage.fail(chunk_id, exc)
             continue
+        for exc in model_errors:
+            failures += 1
+            stage.fail(chunk_id, f"model call failed: {exc}")
         # PARENT_OF disabled pending a fix: piloted on 209 documents, the model
         # asserts it in both directions for the same underlying fact (TERI ->
         # Water Resources and Water Resources -> TERI both appeared) and
@@ -720,6 +730,7 @@ def _llm_claims(run: _Run, stage: Stage) -> list[Any]:
         out.extend(claims)
         run.pending_candidates.extend(unknown)
     stage.counts["llm_calls"] = calls
+    stage.counts["llm_failures"] = failures
     stage.counts["llm"] = len(out)
     stage.counts["unknown_predicates"] = len(run.pending_candidates)
     return out

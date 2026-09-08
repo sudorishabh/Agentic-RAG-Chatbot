@@ -531,6 +531,30 @@ def test_llm_failure_yields_no_claims(monkeypatch):
     ) == []
 
 
+def test_llm_failure_is_reported_to_a_caller_that_asks(monkeypatch):
+    """The empty result stays; the reason no longer disappears with it. A
+    caller that supplies ``errors`` can tell a rejected call from a passage
+    with nothing in it, which the run report needs to stop reading `ok`."""
+    from app.knowledge.claims.extract_llm import extract_claims_for_chunk, propose_claims
+
+    def boom():
+        raise RuntimeError("model down")
+
+    monkeypatch.setattr("app.core.clients.llm.get_structured_llm", boom)
+    errors: list[Exception] = []
+    assert propose_claims(
+        TEXT, chunk_id=CHUNK, document_id=DOC, eligible=_eligible(), errors=errors
+    ) == []
+    assert len(errors) == 1 and "model down" in str(errors[0])
+
+    errors = []
+    assert extract_claims_for_chunk(
+        TEXT, chunk_id=CHUNK, document_id=DOC, eligible=_eligible(),
+        enabled=True, capture_unknown=True, errors=errors,
+    ) == ([], [])
+    assert len(errors) == 1
+
+
 def test_injected_instructions_cannot_produce_a_claim(monkeypatch):
     """A hostile passage naming a provisional person and a fake predicate. The
     model obeys it; every proposal is discarded before validation."""
