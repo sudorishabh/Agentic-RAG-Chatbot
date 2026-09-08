@@ -280,9 +280,15 @@ def test_the_page_date_a_pdf_inherits_is_the_bundles_resolved_date():
     assert got.start_precision == "year"
 
 
-def test_a_stated_bundle_date_settles_the_case_without_reading_the_pdf(monkeypatch):
-    """The page says what date this content type carries, so there is nothing
-    for a file-level reading to improve on — and nothing is paid for one."""
+def test_a_stated_bundle_date_settles_a_single_pdf_without_reading_it(monkeypatch):
+    """The page says what date this content type carries and holds one file, so
+    there is nothing for a file-level reading to improve on — and nothing is paid
+    for one.
+
+    Previously this held for a page with three files too. It no longer does, and
+    the test below is that change: an authoritative date for a *page* says
+    nothing about when each *file* on a shelf came out.
+    """
     def _boom(*_a, **_k):
         raise AssertionError("the PDF must not be read")
 
@@ -290,12 +296,166 @@ def test_a_stated_bundle_date_settles_the_case_without_reading_the_pdf(monkeypat
     monkeypatch.setattr("app.ingestion.date_llm.interpret",
                         lambda _e: pytest.fail("the model must not be called"))
     node = _node(bundle="news", metadata={"field_news_date": "2015-08-26T18:30:00+00:00"},
-                 files=[_file(), _file(uuid="f2"), _file(uuid="f3")])
-    got = resolve_pdf_date(_evidence(node=node, file=_file(created="2024-06-01T00:00:00+00:00")),
-                  content=b"%PDF-")
+                 files=[_file()])
+    got = resolve_pdf_date(_evidence(node=node, file=_file()), content=b"%PDF-")
     assert got.start_value == "2015-08-27T00:00:00+00:00"
     assert got.decision.rule == "parent_bundle_date_field"
     assert "llm" not in got.used
+
+
+def test_a_stated_bundle_date_no_longer_answers_for_every_pdf_on_a_shelf(monkeypatch):
+    """Requirement 3. The page's configured field still gives the *fallback*, but
+    each file on a multi-PDF page is read before that fallback is accepted.
+
+    The files here arrived with the page, so the routing keeps the page date —
+    what changed is that the document was consulted first and the record says so.
+    """
+    monkeypatch.setattr("app.ingestion.date_llm.interpret",
+                        lambda _e: pytest.fail("the model must not be called"))
+    node = _node(bundle="news", metadata={"field_news_date": "2015-08-26T18:30:00+00:00"},
+                 created=NODE_DATE,
+                 files=[_file(created=NODE_DATE), _file(uuid="f2", created=NODE_DATE),
+                        _file(uuid="f3", created=NODE_DATE)])
+    got = resolve_pdf_date(_evidence(node=node, file=_file(created=NODE_DATE)),
+                           content=_book_pdf(copyright_line="", creation="D:20240101000000+00'00'"))
+
+    assert got.start_value == "2015-08-27T00:00:00+00:00", "the page date is the fallback"
+    assert got.decision.rule == "multi_pdf_uploaded_with_page"
+    assert got.decision.rule != "parent_bundle_date_field", "Case 0 must not fire"
+    assert "pdf_text" in got.used, "the file's own bytes were read"
+    assert "read for a date of its own" in got.decision.evidence
+    assert "llm" not in got.used
+
+
+def test_two_pdfs_on_one_page_can_get_different_dates(monkeypatch):
+    """Requirement 3, end to end through the real PyMuPDF readers.
+
+    One shelf page, two books, two different dates, neither of them the page's.
+    This is the property the old policy made impossible.
+    """
+    monkeypatch.setattr("app.ingestion.date_llm.interpret",
+                        lambda _e: pytest.fail("the model must not be called"))
+    node = _node(created="2025-09-30T04:28:20+00:00",
+                 files=[_file(uuid="a", origin="inbody", filename="book-one.pdf",
+                              description="TERI Bookstore"),
+                        _file(uuid="b", origin="inbody", filename="book-two.pdf",
+                              description="TERI Bookstore")])
+
+    first = resolve_pdf_date(
+        _evidence(node=node, file=node.files[0]),
+        _book_pdf(copyright_line="© TERI Alumni Association 2020",
+                  creation="D:20200921175150+00'00'"))
+    second = resolve_pdf_date(
+        _evidence(node=node, file=node.files[1]),
+        _book_pdf(copyright_line="© TERI Alumni Association 2022",
+                  creation="D:20220302104252+00'00'"))
+
+    assert first.start_value == "2020-01-01T00:00:00+00:00"
+    assert second.start_value == "2022-01-01T00:00:00+00:00"
+    assert first.start_value != second.start_value, "two documents, two dates"
+    assert (first.start_precision, second.start_precision) == ("year", "year")
+    assert first.decision.rule == "copyright_statement_corroborated"
+    assert second.decision.rule == "copyright_statement_corroborated"
+    assert first.decision.decided_by == "deterministic"
+
+
+def test_one_dated_and_one_undated_pdf_on_the_same_page(monkeypatch):
+    """The mixed shelf: the file that states a date gets it, the file that states
+    nothing falls back to the page — and the fallback is recorded, not silent."""
+    monkeypatch.setattr("app.ingestion.date_llm.interpret",
+                        lambda _e: pytest.fail("the model must not be called"))
+    page_date = "2025-09-30T04:28:20+00:00"
+    node = _node(created=page_date,
+                 files=[_file(uuid="a", origin="inbody", filename="dated.pdf",
+                              description="TERI Bookstore"),
+                        _file(uuid="b", origin="inbody", filename="undated.pdf",
+                              description="TERI Bookstore")])
+
+    dated = resolve_pdf_date(
+        _evidence(node=node, file=node.files[0]),
+        _book_pdf(copyright_line="© TERI Alumni Association 2020",
+                  creation="D:20200921175150+00'00'"))
+    undated = resolve_pdf_date(
+        _evidence(node=node, file=node.files[1]),
+        _book_pdf(copyright_line="", creation="D:20200921175150+00'00'"))
+
+    assert dated.start_value == "2020-01-01T00:00:00+00:00"
+    assert dated.start_precision == "year"
+    assert dated.overridden is True
+
+    assert undated.start_value == page_date, "no verifiable date of its own"
+    assert undated.start_precision == "day", "the page's precision, inherited"
+    assert undated.overridden is False
+    assert undated.decision.rule == "multi_pdf_no_evidence"
+    assert "read for a date of its own" in undated.decision.evidence
+    assert "fallback" in undated.decision.evidence
+
+
+def test_the_multi_pdf_fallback_keeps_the_pages_provenance_and_precision(monkeypatch):
+    """Provenance and precision propagation for the fallback case: a file that
+    states nothing carries `parent_page`, and a year-precision page hands over
+    year precision rather than a manufactured day."""
+    monkeypatch.setattr("app.ingestion.date_llm.interpret",
+                        lambda _e: pytest.fail("the model must not be called"))
+    paper = _node(bundle="research_papers", metadata={"field_rpaper_year": 2016},
+                  files=[_file(origin="inbody", filename="a.pdf"),
+                         _file(uuid="f2", origin="inbody", filename="b.pdf")])
+    got = resolve_pdf_date(
+        _evidence(node=paper, file=paper.files[0]),
+        _book_pdf(copyright_line="", creation="D:20240101000000+00'00'"))
+
+    assert got.start_value == "2016-01-01T00:00:00+00:00"
+    assert got.start_precision == "year", "inherited, not flattened to a day"
+    assert got.overridden is False
+
+
+def test_a_read_survives_the_re_decide_in_the_evidence_tiers(monkeypatch):
+    """`decide` builds a fresh decision when it is re-run after the file is read,
+    so without carrying the tiers forward a document the interpreter was shown
+    reports as never opened. Measured on 7 of 49 replayed multi-PDF links."""
+    verdict = DateInterpretation(
+        candidate_start_date=None, date_type="unknown",
+        publication_statement=None, confidence=0.4,
+        recommended_action="keep_page_date")
+    verdict.set_grounded(False, False)
+    _fill_signals(monkeypatch, pdf_created="2024-01-01T00:00:00+00:00",
+                  front_text="A document with no copyright line")
+    monkeypatch.setattr("app.ingestion.date_llm.interpret", lambda _e: verdict)
+
+    node = _node(created="2020-01-10T00:00:00+00:00",
+                 files=[_file(created="2024-06-01T00:00:00+00:00"),
+                        _file(uuid="f2", created="2024-06-01T00:00:00+00:00")])
+    got = resolve_pdf_date(
+        _evidence(node=node, file=_file(created="2024-06-01T00:00:00+00:00")),
+        content=b"%PDF-")
+
+    assert "pdf_text" in got.used, "the read must not vanish from the tiers"
+    assert "llm" in got.used
+    assert got.overridden is False
+
+
+def test_a_late_upload_on_a_stated_page_may_now_reach_the_interpreter(monkeypatch):
+    """A consequence worth pinning: a file that arrived long after a multi-PDF
+    page is routed as it always was, and Case 0 no longer intercepts it. The
+    model answering nothing must still leave the page's date in place."""
+    asked = {"n": 0}
+
+    def _none(_evidence):
+        asked["n"] += 1
+        return None
+
+    monkeypatch.setattr("app.ingestion.date_llm.interpret", _none)
+    node = _node(bundle="news", metadata={"field_news_date": "2015-08-26T18:30:00+00:00"},
+                 files=[_file(created="2024-06-01T00:00:00+00:00"),
+                        _file(uuid="f2", created="2024-06-01T00:00:00+00:00")])
+    got = resolve_pdf_date(
+        _evidence(node=node, file=_file(created="2024-06-01T00:00:00+00:00")),
+        content=b"not a pdf")
+
+    assert asked["n"] == 1, "routed, where Case 0 used to answer"
+    assert got.start_value == "2015-08-27T00:00:00+00:00"
+    assert got.overridden is False
+    assert got.decision.rule == "llm_unavailable"
 
 
 # --------------------------------------------------------------------------- #
@@ -363,7 +523,10 @@ def test_a_copyright_year_the_docinfo_does_not_corroborate_keeps_the_page_date(m
     assert got.overridden is False
     assert got.start_value == "2025-09-30T04:28:20+00:00"
     assert got.decision.rule == "multi_pdf_no_evidence"
-    assert "The file was read" in got.decision.supporting_evidence
+    # The fallback reason has to be on the persisted field: `evidence` is the
+    # column an auditor reads, and `supporting_evidence` is not stored.
+    assert "read for a date of its own" in got.decision.evidence
+    assert "fallback" in got.decision.evidence
     assert "llm" not in got.used
 
 
@@ -401,19 +564,25 @@ def test_the_copyright_rule_needs_the_bytes(monkeypatch):
     assert got.used == ["drupal"]
 
 
-def test_a_settled_case_is_still_not_read(monkeypatch):
-    """Case 0 and case 1 never reach the copyright rule: a single-PDF page and a
-    bundle-field-dated page are settled before any file is opened."""
+def test_a_single_pdf_is_never_read(monkeypatch):
+    """A page holding one PDF settles before the file is opened, whether its date
+    comes from the bundle's configured field or from its creation stamp. This is
+    the single-PDF guarantee, and the multi-PDF change must not touch it."""
     def _boom(*_a, **_k):
-        raise AssertionError("the PDF must not be read for a settled case")
+        raise AssertionError("the PDF must not be read for a single-PDF page")
 
     monkeypatch.setattr(date_resolution, "_read_pdf_signals", _boom)
-    single = resolve_pdf_date(_evidence(), content=b"%PDF-")
-    assert single.decision.rule == "single_pdf_page"
+
+    created_dated = resolve_pdf_date(_evidence(), content=b"%PDF-")
+    assert created_dated.decision.rule == "single_pdf_page"
+    assert created_dated.start_value == NODE_DATE
+
     stated = _node(bundle="news", metadata={"field_news_date": "2024-05-01T00:00:00+00:00"},
-                   files=[_file(), _file(uuid="f2")])
-    got = resolve_pdf_date(_evidence(node=stated, file=_file(origin="inbody")), content=b"%PDF-")
-    assert got.decision.rule == "parent_bundle_date_field"
+                   files=[_file()])
+    field_dated = resolve_pdf_date(_evidence(node=stated, file=_file()), content=b"%PDF-")
+    assert field_dated.decision.rule == "parent_bundle_date_field"
+    assert field_dated.start_value == "2024-05-01T00:00:00+00:00"
+    assert field_dated.decision.confidence == 1.0
 
 
 def _book_pdf(*, copyright_line: str, creation: str) -> bytes:

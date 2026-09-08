@@ -11,9 +11,16 @@ The contract, unchanged from the validated design:
 **The page's date is the default and the fallback.** A PDF keeps its parent
 node's date unless the document itself states when it was published. Being
 uploaded later, having a later ``file.created``, sitting under a later
-``/files/YYYY-MM/`` path, carrying a later PDF ``CreationDate``, naming a year
-in its filename, or sharing a page with other PDFs are all *supporting signals*:
-they decide whether a document is worth reading closely, and never set a date.
+``/files/YYYY-MM/`` path, carrying a later PDF ``CreationDate`` or naming a year
+in its filename are all *supporting signals*: they decide whether a document is
+worth reading closely, and never set a date.
+
+**Sharing a page is different.** One PDF on a page is part of that page's
+publication and inherits its date unopened. Several PDFs on one page are several
+documents — a shelf accretes editions and reports published years apart — so
+each one is read and gets its own document-level decision, with the page's date
+as its fallback rather than its answer. That is the only thing the PDF count
+changes: it does not lower any bar for what may set a date.
 
 **An override needs the document to say so.** Two paths can propose one, and
 both require the document's own text. :mod:`app.ingestion.date_llm` proposes a
@@ -56,10 +63,6 @@ from app.ingestion.date_rules import DateDecision, decide
 logger = logging.getLogger(__name__)
 
 __all__ = ["ResolvedDate", "build_evidence", "copyright_override", "resolve"]
-
-#: The deterministic pass outcome that means "nothing Drupal-side to go on".
-#: Only this outcome earns a free read of the file for the copyright rule.
-_NO_EVIDENCE_RULE = "multi_pdf_no_evidence"
 
 
 @dataclass
@@ -194,6 +197,12 @@ def copyright_override(evidence: PdfEvidence) -> DateDecision | None:
     The result is a *year*: 1 January as a marker, ``candidate_precision="year"``,
     exactly how ``research_papers`` store ``field_rpaper_year``. Nothing here
     invents a day, and nothing here reads a Drupal timestamp.
+
+    Applies to any file whose bytes were read — see
+    :func:`_wants_document_evidence` — which is every PDF sharing its page and
+    every routed one. It is one deterministic rule inside the resolution model,
+    not the model itself: a file it cannot settle falls back to the page's date
+    or goes on to the interpreter, exactly as before.
     """
     from datetime import date
 
@@ -237,6 +246,65 @@ def copyright_override(evidence: PdfEvidence) -> DateDecision | None:
     )
 
 
+def _document_was_read(decision: DateDecision, evidence: PdfEvidence) -> DateDecision:
+    """Mark a decision as one taken with the file's own bytes in hand.
+
+    Two things, and an audit needs both.
+
+    The evidence tiers actually used are extended, so the read is not lost when a
+    routed decision is re-taken after reading — ``decide`` builds a fresh
+    decision each time and would otherwise report ``["drupal"]`` for a file whose
+    first page the interpreter has just been shown.
+
+    And where the outcome is still the page's date, the record says the document
+    was consulted and stated nothing verifiable. ``evidence`` is the column that
+    is persisted, so "why does this file carry its page's date?" has to be
+    answerable from it rather than from silence. Only for a file that shares its
+    page: a single-PDF branch already gives its own reason, and "one of 1 PDFs"
+    would be nonsense.
+    """
+    used = [*decision.used,
+            *(tier for tier in ("pdf_meta", "pdf_text") if tier not in decision.used)]
+    already = "read for a date of its own" in (decision.evidence or "")
+    if (
+        decision.action != "keep_page_date"
+        or already
+        or not evidence.page.is_multi_pdf
+    ):
+        return replace(decision, used=used)
+    return replace(
+        decision,
+        evidence=(
+            f"{decision.evidence} One of {evidence.page.pdf_count} PDFs on this "
+            f"page, so it was read for a date of its own; it states none that "
+            f"could be verified, and the page's date stands as this file's "
+            f"fallback."
+        ).strip(),
+        used=used,
+    )
+
+
+def _wants_document_evidence(decision: DateDecision, evidence: PdfEvidence) -> bool:
+    """Whether this file's own bytes should be read before its date is settled.
+
+    Two independent reasons, and they are different questions.
+
+    ``needs_llm`` means the deterministic pass has already concluded the document
+    is worth reading closely — a late upload, a migration import, a year in the
+    link text.
+
+    A **multi-PDF page** is the other, and it is a property of the file's
+    situation rather than of any signal about it. Several PDFs on one page are
+    several documents, so the page's date is this file's fallback and not its
+    answer, and the deterministic rules are entitled to look first.
+
+    A single-PDF page is deliberately absent from both. Its file is part of the
+    page's own publication, inherits the page's date without being opened, and
+    every single-PDF branch already says so.
+    """
+    return decision.action == "needs_llm" or evidence.page.is_multi_pdf
+
+
 def resolve(evidence: PdfEvidence, content: bytes | None = None) -> ResolvedDate:
     """Decide this PDF's ``effective_start_date``.
 
@@ -248,36 +316,32 @@ def resolve(evidence: PdfEvidence, content: bytes | None = None) -> ResolvedDate
         decision = decide(evidence)
         used = list(decision.used)
 
-        # Nothing Drupal-side to go on, and the bytes are in hand: read them
-        # once (PyMuPDF, no model) for the one deterministic override. When it
-        # does not fire the original decision stands unchanged — this branch
-        # deliberately does not re-run `decide`, which would now see a DocInfo
-        # date and route the file to the model. That routing is not this
-        # rule's to widen.
-        if decision.rule == _NO_EVIDENCE_RULE and content:
+        # Read the bytes at most once, and only where they are owed: a routed
+        # decision, or a file that shares its page. PyMuPDF only — no OCR, no
+        # Document Intelligence, no model.
+        read = False
+        if content and _wants_document_evidence(decision, evidence):
             _read_pdf_signals(evidence, content)
+            read = True
+            # Deterministic before paid. The copyright rule costs nothing and
+            # its verdict is reproducible, so the interpreter is only ever asked
+            # about what the rules could not settle.
             override = copyright_override(evidence)
-            if override is not None:
-                decision = override
-            else:
-                decision = replace(
-                    decision,
-                    supporting_evidence=(
-                        f"{decision.supporting_evidence} The file was read; it "
-                        "carries no copyright statement corroborated by its "
-                        "DocInfo date."
-                    ).strip(),
-                    used=[*decision.used, "pdf_meta", "pdf_text"],
-                )
+            decision = override if override is not None else _document_was_read(
+                decision, evidence
+            )
             used = list(decision.used)
 
         if decision.action == "needs_llm":
-            if content:
+            if content and not read:
                 _read_pdf_signals(evidence, content)
+                read = True
             # Reading the document may itself settle the case — an unreadable
             # PDF has nothing to say — so re-run the deterministic pass before
             # paying for a model call.
             decision = decide(evidence)
+            if read:
+                decision = _document_was_read(decision, evidence)
             used = list(decision.used)
 
         llm_raw: dict[str, Any] | None = None

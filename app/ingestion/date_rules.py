@@ -140,27 +140,37 @@ def decide(evidence: PdfEvidence) -> DateDecision:
         )
 
     # ------------------------------------------------------------------ #
-    # Case 0 — the page's bundle states its date in a CMS field.
+    # Case 0 — the page's bundle states its date in a CMS field, and this is
+    # the page's *only* PDF.
     #
-    # An attached file's date is its parent page's date. Where that date is one
-    # the CMS states about this content type — a research paper's year, a press
-    # release's date — the page is authoritative and there is nothing to look
-    # for: reading the file could only produce a *different* date, which is
-    # precisely what must not happen. Checked before every upload heuristic
-    # because those exist to decide whether a weak page date is worth
+    # One file on a page is part of that page's own publication, so where the
+    # page's date is one the CMS states about this content type — a research
+    # paper's year, a press release's date — the page is authoritative and there
+    # is nothing to look for: reading the file could only produce a *different*
+    # date, which is precisely what must not happen. Checked before every upload
+    # heuristic because those exist to decide whether a weak page date is worth
     # questioning, and this page date is not weak.
     #
     # It is also what stops the file's own timestamps mattering: DocInfo,
     # `file.created` and the `/files/YYYY-MM/` month are never read on this path.
+    #
+    # The PDF-count condition is the whole of the multi-PDF requirement. Several
+    # PDFs on one page are several documents: a shelf accretes editions and
+    # reports that were published at different times, and an authoritative date
+    # for the *page* says nothing about when each *file* on it came out. So a
+    # file that shares its page falls through to the evidence path below, where
+    # the page's date becomes its fallback rather than its answer. Measured on
+    # the live corpus, this branch was answering for 1,042 of the 1,582
+    # multi-PDF attachment links without opening one of them.
     # ------------------------------------------------------------------ #
-    if page.date_from_bundle_field:
+    if page.date_from_bundle_field and not page.is_multi_pdf:
         return DateDecision(
             **base, action="keep_page_date", confidence=1.0,
             rule="parent_bundle_date_field", used=["drupal"],
             evidence=(
                 f"The parent {page.bundle} page states its date in "
-                f"{page.date_field} ({page.date_field_value!r}); an attached "
-                f"file carries its page's date."
+                f"{page.date_field} ({page.date_field_value!r}); it holds one "
+                f"PDF, so that file carries its page's date."
             ),
             supporting_evidence=(
                 "File timestamps, upload month and PDF metadata were not read: "

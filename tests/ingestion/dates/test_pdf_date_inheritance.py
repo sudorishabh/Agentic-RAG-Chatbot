@@ -1,4 +1,11 @@
-"""An attached file carries its page's date. One file or twelve.
+"""An attached file carries its page's date — one file unconditionally, and one
+of several as its fallback.
+
+A page holding a single PDF hands that file its resolved date without the file
+being opened. A page holding several hands each file the same date only where the
+file itself states nothing that can be verified: several PDFs on one page are
+several documents, so each gets its own reading first. What is inherited, when it
+is inherited, is the page's *resolved* date and its precision.
 
 The bug this closes: the attachment path read ``node.created`` while the page's
 own builder applied the bundle's configured field, so a research paper's page and
@@ -214,16 +221,30 @@ def test_pdf_metadata_is_not_even_read_when_the_page_states_its_date(monkeypatch
         assert _resolve_for(node, file).start_value == PAPER_YEAR
 
 
-def test_the_model_is_never_asked_when_the_page_states_its_date(monkeypatch):
+def test_the_model_is_never_asked_for_the_only_pdf_on_a_stated_page(monkeypatch):
+    """One file on a page whose bundle states its date: settled for free."""
     monkeypatch.setattr("app.ingestion.date_llm.interpret",
                         lambda _e: pytest.fail("the model must not be called"))
-    files = [_file(uuid=f"f{i}", created="2024-06-01T00:00:00+00:00")
-             for i in range(3)]
+    file = _file(created="2024-06-01T00:00:00+00:00")
+    got = _resolve_for(_node(files=[file]), file)
+    assert got.start_value == PAPER_YEAR
+    assert got.start_precision == "year"
+    assert "llm" not in got.used
+    assert got.decision.rule == "parent_bundle_date_field"
+
+
+def test_several_pdfs_on_a_stated_page_still_inherit_when_they_state_nothing(monkeypatch):
+    """The inheritance guarantee for a shelf, restated for the new policy: each
+    file is read, none of these says anything verifiable, so all three end on the
+    page's date and precision. Reading is what changed, not the answer."""
+    monkeypatch.setattr("app.ingestion.date_llm.interpret", lambda _e: None)
+    files = [_file(uuid=f"f{i}", created=NODE_CREATED) for i in range(3)]
     node = _node(files=files)
     for file in files:
         got = _resolve_for(node, file)
         assert got.start_value == PAPER_YEAR
-        assert "llm" not in got.used
+        assert got.start_precision == "year", "the page's precision, not a day"
+        assert got.overridden is False
 
 
 def test_the_upload_gap_is_measured_against_the_creation_stamp_not_the_date():
@@ -346,6 +367,15 @@ def test_the_built_document_links_back_to_its_page(monkeypatch):
 
 
 def test_every_pdf_on_a_page_is_built_with_the_same_date(monkeypatch):
+    """Three files, none of which states a verifiable date, so all three end on
+    the page's.
+
+    The interpreter is stubbed because `c-2024.pdf` names a year: on a multi-PDF
+    page that routes the file to the model, and a unit test must not make a paid
+    call to assert something about inheritance. Returning None is the honest
+    stand-in — a model that finds nothing leaves the page's date in place.
+    """
+    monkeypatch.setattr("app.ingestion.date_llm.interpret", lambda _e: None)
     files = [_file(uuid="fa", filename="a.pdf"),
              _file(uuid="fb", filename="b.pdf", created="2024-06-01T00:00:00+00:00"),
              _file(uuid="fc", filename="c-2024.pdf")]
