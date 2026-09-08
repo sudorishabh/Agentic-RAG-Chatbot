@@ -347,6 +347,51 @@ def migrate_facet_uniqueness(
     return applied
 
 
+def migrate_date_decision_columns(
+    cur: Any, table: str, *, dry_run: bool = False
+) -> list[str]:
+    """Carry the date-decision table's pre-rename column names forward.
+
+    ``documents_date_decision`` predates the replacement of the publication-date
+    vocabulary by the effective-date one, so a deployment can still hold
+    ``current_published_at``, ``candidate_date`` and ``candidate_source`` while
+    :func:`app.catalog.date_decisions.record` writes ``current_start_date``,
+    ``candidate_start_date`` and ``date_source``. Every INSERT then fails with
+    MySQL 1054, and because both call sites fail open the only symptom is one
+    warning per document and a review queue that never advances — measured on
+    the live database, which holds 4,933 rows under the old names and none of the
+    new columns.
+
+    Renamed in place rather than copied. ``CREATE TABLE IF NOT EXISTS`` cannot do
+    it (it no-ops against the existing table) and ``copy_legacy_date_columns``
+    will not (it skips a mapping whose replacement column does not exist). The
+    rename moves every existing value under the name the code reads, loses
+    nothing and leaves no NULLs to backfill. :func:`migrate_renamed_facets`
+    renames a value column for exactly the same reason.
+
+    Each step only fires while the old name is the one present, so a part-way
+    deployment is carried the rest of the way and a migrated one is a no-op. A
+    table where *both* names exist is left alone: that is the copy-then-drop case
+    and :func:`copy_legacy_date_columns` owns it.
+
+    Nothing is dropped here. Returns the statements applied (or, under
+    ``dry_run``, the ones that would be).
+    """
+    applied: list[str] = []
+    if not _table_exists(cur, table):
+        return applied
+    for old, new in LEGACY_DATE_COLUMNS["_date_decision"].items():
+        if not _column_exists(cur, table, old):
+            continue
+        if _column_exists(cur, table, new):
+            continue
+        stmt = f"ALTER TABLE `{table}` RENAME COLUMN `{old}` TO `{new}`"
+        applied.append(stmt)
+        if not dry_run:
+            cur.execute(stmt)
+    return applied
+
+
 def migrate_theme_hierarchy(cur: Any, table: str, *, dry_run: bool = False) -> list[str]:
     """Bring a pre-hierarchy ``documents_theme`` up to the current shape.
 
@@ -402,10 +447,19 @@ def migrate_theme_hierarchy(cur: Any, table: str, *, dry_run: bool = False) -> l
 #: date its Drupal bundle's configured field states — and optionally an end to
 #: the period that date opens.
 #:
-#: These are not aliases and nothing reads the left-hand side. They exist only so
+#: These are not aliases and no query reads the left-hand side. They exist only so
 #: a database created before the rename can be carried across without losing the
 #: values it already holds, and so the drop is explicit and reviewable rather
 #: than a silent ``ALTER``.
+#:
+#: The two halves are carried across differently, and the difference is forced by
+#: the state each table is actually in. On ``documents`` both names exist and the
+#: pipeline has already written the new one, so which value wins is a real
+#: question and the answer is copy, verify, then drop
+#: (:func:`copy_legacy_date_columns`). On ``documents_date_decision`` the
+#: replacement columns were never added, so there is no second value to choose
+#: between and the honest operation is a rename in place
+#: (:func:`migrate_date_decision_columns`).
 LEGACY_DATE_COLUMNS: dict[str, dict[str, str]] = {
     "": {
         "published_at": "effective_start_date",
@@ -742,6 +796,11 @@ CREATE TABLE IF NOT EXISTS `{table}_date_decision` (
 def ensure_date_decision_table() -> None:
     table = f"{state_table()}_date_decision"
     with mysql_connection() as conn, conn.cursor() as cur:
+        # Before the DDL, for the reason migrate_renamed_facets gives: the CREATE
+        # is IF NOT EXISTS, so against an existing table it is a no-op and cannot
+        # rename anything. A table that does not exist yet is created below with
+        # the current names and this is a no-op instead.
+        migrate_date_decision_columns(cur, table)
         cur.execute(_DATE_DECISION_DDL.format(table=state_table()))
         # Carried to deployments whose table predates the range-aware model.
         # The CREATE above is IF NOT EXISTS, so on an existing table it is a

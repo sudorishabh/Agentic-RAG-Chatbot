@@ -1,0 +1,85 @@
+{
+  "since": "2026-09-08T12:15:00.161028+00:00",
+  "window": 512,
+  "components": [
+    {
+      "component": "embedding",
+      "total_ms": 105558.2,
+      "calls": 30,
+      "share_pct": 65.8
+    },
+    {
+      "component": "extraction",
+      "total_ms": 46589.0,
+      "calls": 30,
+      "share_pct": 29.0
+    },
+    {
+      "component": "other",
+      "total_ms": 4596.4,
+      "calls": 30,
+      "share_pct": 2.9
+    },
+    {
+      "component": "qdrant",
+      "total_ms": 3788.6,
+      "calls": 30,
+      "share_pct": 2.4
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ingest.embed",
+      "component": "embedding",
+      "count": 30,
+      "total_ms": 105558.2,
+      "avg_ms": 3518.6,
+      "p50_ms": 385.7,
+      "p95_ms": 15104.6,
+      "max_ms": 67721.2
+    },
+    {
+      "stage": "ingest.extract",
+      "component": "extraction",
+      "count": 30,
+      "total_ms": 46589.0,
+      "avg_ms": 1553.0,
+      "p50_ms": 0.2,
+      "p95_ms": 15169.0,
+      "max_ms": 24316.0
+    },
+    {
+      "stage": "ingest.chunk",
+      "component": "other",
+      "count": 30,
+      "total_ms": 4596.4,
+      "avg_ms": 153.2,
+      "p50_ms": 5.5,
+      "p95_ms": 1398.4,
+      "max_ms": 2514.4
+    },
+    {
+      "stage": "ingest.upsert",
+      "component": "qdrant",
+      "count": 30,
+      "total_ms": 3788.6,
+      "avg_ms": 126.3,
+      "p50_ms": 26.1,
+      "p95_ms": 1035.6,
+      "max_ms": 1586.9
+    }
+  ],
+  "events": {
+    "embedding_http": {
+      "total": 37,
+      "counts": {
+        "ok": 35,
+        "throttled": 2
+      },
+      "share_pct": {
+        "ok": 94.6,
+        "throttled": 5.4
+      }
+    }
+  }
+}
