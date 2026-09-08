@@ -74,6 +74,31 @@ _ANCHOR_PDF_RE = re.compile(
 _TAG_RE = re.compile(r"<[^>]+>")
 _BARE_PDF_RE = re.compile(r'(https?://[^\s"\'<>()]+\.pdf)', re.I)
 
+# Link text that tells a reader what to *do*, not what the file *is*. An anchor
+# in this set is not a description: it would otherwise become the attachment's
+# title (see build_attachment_doc), which is what citations display and what
+# every child's embedding breadcrumb starts with. On the audited Alumni page two
+# different 240-page books were both titled "TERI Bookstore" and the quarterly
+# "Read Newsletter". An explicit, exact-match list on purpose: an anchor that
+# names an edition ("Annual Report 2024-2025") is the only place that edition is
+# written down, and no heuristic may put that at risk.
+GENERIC_LINK_TEXT: frozenset[str] = frozenset({
+    "read newsletter", "read the newsletter", "read more", "read here", "read",
+    "click here", "here", "link", "more", "view", "view pdf", "view brochure",
+    "view report", "download", "download pdf", "download the pdf",
+    "download report", "download brochure", "download here", "pdf",
+    "teri bookstore", "bookstore", "buy now", "buy the book", "order now",
+})
+_ANCHOR_TRIM = re.compile(r"^[\s\W_]+|[\s\W_]+$")
+
+
+def _describes_the_file(anchor: str | None) -> str | None:
+    """The anchor text as a description, or None when it is only a call to action."""
+    if not anchor:
+        return None
+    key = " ".join(_ANCHOR_TRIM.sub("", anchor).lower().split())
+    return None if key in GENERIC_LINK_TEXT else anchor
+
 @dataclass
 class DrupalFile:
     """A file attached to a node — typically the source PDF behind an article."""
@@ -572,7 +597,9 @@ def _extract_inbody_pdfs(
                     # `build_attachment_doc` prefers over the node's title. For a
                     # page holding one PDF this is usually absent or identical;
                     # for a page holding a series it is what tells editions apart.
-                    description=(anchors.get(abs_url) or None),
+                    # A bare call to action ("Download", "TERI Bookstore") is not
+                    # a description and falls through to the node's title.
+                    description=_describes_the_file(anchors.get(abs_url)),
                     uuid=f"inbody:{hashlib.sha1(abs_url.encode('utf-8')).hexdigest()}",
                     origin="inbody",
                 )

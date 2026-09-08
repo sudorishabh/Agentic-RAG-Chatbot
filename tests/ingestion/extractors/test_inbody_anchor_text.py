@@ -116,3 +116,64 @@ def test_the_description_reaches_the_document_title():
     node = SimpleNamespace(title="Annual Reports")
     title = file.description or node.title or file.filename or None
     assert title == "Annual Report 2024-2025"
+
+
+# --------------------------------------------------------------------------- #
+# A call to action is not a description
+# --------------------------------------------------------------------------- #
+#
+# The audited "TERI Alumni Association" page links two different 240-page books
+# with the anchor "TERI Bookstore" and the quarterly with "Read Newsletter", so
+# both books were titled "TERI Bookstore" in Qdrant and MySQL and every child's
+# embedding breadcrumb began with it. The guard is an explicit exact-match set,
+# never a heuristic, so edition-naming anchors cannot be caught by it.
+
+import pytest
+
+
+@pytest.mark.parametrize(
+    "anchor",
+    ["TERI Bookstore", "Read Newsletter", "Download", "Download PDF", "Click here",
+     "READ MORE", " View Brochure »", "PDF", "Buy Now"],
+)
+def test_a_generic_call_to_action_does_not_become_the_description(anchor):
+    files = _extract_inbody_pdfs(
+        _attrs(f'<a href="/files/Book-on-Dr-RK-Pachauri.pdf">{anchor}</a>'), SITE, set(),
+    )
+    assert len(files) == 1, "the file itself still ingests"
+    assert files[0].description is None
+
+
+@pytest.mark.parametrize(
+    "anchor",
+    ["Annual Report 2024-2025", "TERI Annual Report", "Download the Annual Report 2019-20",
+     "Read the Discussion Paper on Clean Energy", "Concept Note WCEF", "Bookstore catalogue 2022"],
+)
+def test_a_descriptive_anchor_is_kept_verbatim(anchor):
+    files = _extract_inbody_pdfs(_attrs(f'<a href="/files/x.pdf">{anchor}</a>'), SITE, set())
+    assert files[0].description == anchor
+
+
+def test_the_audited_alumni_page_shape_falls_back_to_the_page_title():
+    """Two books, one anchor each, both generic: neither may be titled by it, and
+    the two documents must still be distinct files."""
+    body = ('<a href="https://www.teriin.org/sites/default/files/files/Book-on-Dr-RK-Pachauri.pdf">'
+            'TERI Bookstore</a>'
+            '<a href="https://www.teriin.org/sites/default/files/files/Book_on_Dr_RK_Pachauri_II.pdf">'
+            'TERI Bookstore</a>'
+            '<a href="https://teriin.org/sites/default/files/files/TERI-Alumni-Quarterly-Inaugural-Issue.pdf">'
+            'Read Newsletter</a>')
+    files = _extract_inbody_pdfs(_attrs(body), SITE, set())
+    # Emission order is by URL, not by position in the body.
+    assert sorted(f.filename for f in files) == [
+        "Book-on-Dr-RK-Pachauri.pdf", "Book_on_Dr_RK_Pachauri_II.pdf",
+        "TERI-Alumni-Quarterly-Inaugural-Issue.pdf",
+    ]
+    assert [f.description for f in files] == [None, None, None]
+    # build_attachment_doc's precedence then lands on the page title, which is
+    # what every field attachment without a description already gets.
+    from types import SimpleNamespace
+
+    node = SimpleNamespace(title="TERI Alumni Association")
+    titles = [f.description or node.title or f.filename or None for f in files]
+    assert titles == ["TERI Alumni Association"] * 3
