@@ -1,0 +1,184 @@
+[
+  {
+    "folder": "16_pdf_ongoing_projects_12268b81-5e1a-4359-9d83-3b9d927c12ba",
+    "document_id": "12268b81-5e1a-4359-9d83-3b9d927c12ba",
+    "before": {
+      "status": "ok",
+      "llm_calls": 7,
+      "http_400_failures_in_log": 7,
+      "claims_built": 0,
+      "claims_staged": 0,
+      "errors": []
+    },
+    "after": {
+      "status": "ok",
+      "llm_calls": 7,
+      "llm_failures": 0,
+      "claims_built": 5,
+      "claims_staged": 0,
+      "claims_rejected": 5,
+      "rejection_counts": {
+        "missing_object_entity": 2,
+        "type_violation": 3
+      },
+      "pending_predicates": 0,
+      "projection": {
+        "status": "skipped",
+        "version": null,
+        "edges": 0
+      },
+      "errors": [],
+      "seconds": 22.29
+    },
+    "run_row": {
+      "status": "ok",
+      "claims_built": 5,
+      "claims_staged": 0,
+      "claims_rejected": 5,
+      "projection_status": "skipped",
+      "errors": "[]"
+    },
+    "staged_claims": [],
+    "rejections_in_table": {
+      "missing_object_entity": 2,
+      "type_violation": 3
+    },
+    "full_report": {
+      "document_id": "12268b81-5e1a-4359-9d83-3b9d927c12ba",
+      "doc_version": 1,
+      "run_id": null,
+      "status": "ok",
+      "seconds": 22.29,
+      "knowledge_version": "kv1:fe0eae437cab3305",
+      "counts": {
+        "chunks_seen": 66,
+        "chunks_cached": 0,
+        "mentions": 52,
+        "entities_auto": 17,
+        "entities_provisional": 0,
+        "entities_ambiguous": 0,
+        "entities_unresolved": 35,
+        "claims_built": 5,
+        "claims_staged": 0,
+        "claims_rejected": 5,
+        "claims_retracted": 0,
+        "pending_predicates": 0,
+        "conflicts_disputed": 0,
+        "conflicts_superseded": 0
+      },
+      "rejection_counts": {
+        "missing_object_entity": 2,
+        "type_violation": 3
+      },
+      "projection": {
+        "status": "skipped",
+        "version": null,
+        "edges": 0
+      },
+      "stages": [
+        {
+          "stage": "prelude",
+          "skipped": false,
+          "seconds": 0.03,
+          "counts": {
+            "entities": 2451,
+            "chunks": 66
+          },
+          "notes": [],
+          "errors": []
+        },
+        {
+          "stage": "supersede",
+          "skipped": true,
+          "seconds": 0.0,
+          "counts": {},
+          "notes": [],
+          "errors": []
+        },
+        {
+          "stage": "mentions",
+          "skipped": false,
+          "seconds": 0.18,
+          "counts": {
+            "cached": 0,
+            "mentions": 52
+          },
+          "notes": [],
+          "errors": []
+        },
+        {
+          "stage": "resolution",
+          "skipped": false,
+          "seconds": 0.33,
+          "counts": {
+            "auto": 17,
+            "provisional": 0,
+            "ambiguous": 0,
+            "unresolved": 35,
+            "cache_recorded": 66
+          },
+          "notes": [],
+          "errors": []
+        },
+        {
+          "stage": "claims",
+          "skipped": false,
+          "seconds": 21.73,
+          "counts": {
+            "llm_calls": 7,
+            "llm_failures": 0,
+            "llm": 5,
+            "unknown_predicates": 0,
+            "built": 5
+          },
+          "notes": [
+            "this document has no canonical PROJECT entity yet; seeding is a global pass (scripts.build_knowledge), and its claims will be staged once it runs"
+          ],
+          "errors": []
+        },
+        {
+          "stage": "validate",
+          "skipped": false,
+          "seconds": 0.0,
+          "counts": {
+            "accepted": 0,
+            "rejected": 5,
+            "rejected_missing_object_entity": 2,
+            "rejected_type_violation": 3
+          },
+          "notes": [],
+          "errors": []
+        },
+        {
+          "stage": "persist",
+          "skipped": false,
+          "seconds": 0.02,
+          "counts": {
+            "accepted": 0,
+            "pending_predicates": 0,
+            "rejections_recorded": 5
+          },
+          "notes": [],
+          "errors": []
+        },
+        {
+          "stage": "conflicts",
+          "skipped": true,
+          "seconds": 0.0,
+          "counts": {},
+          "notes": [],
+          "errors": []
+        },
+        {
+          "stage": "project",
+          "skipped": true,
+          "seconds": 0.0,
+          "counts": {},
+          "notes": [],
+          "errors": []
+        }
+      ],
+      "errors": []
+    }
+  }
+]
