@@ -15,12 +15,21 @@ uploaded later, having a later ``file.created``, sitting under a later
 in its filename, or sharing a page with other PDFs are all *supporting signals*:
 they decide whether a document is worth reading closely, and never set a date.
 
-**An override needs the document to say so.** Only
-:mod:`app.ingestion.date_llm` can propose one, and only when its verdict
-survives every gate — a quoted publication statement, that statement present in
-the PDF's own text, the statement carrying the proposed date, publication
-linkage, a stated day, and confidence at or above the threshold. Anything short
-of that keeps the page date and, where a date was seen, leaves a review row.
+**An override needs the document to say so.** Two paths can propose one, and
+both require the document's own text. :mod:`app.ingestion.date_llm` proposes a
+*day* when its verdict survives every gate — a quoted publication statement,
+that statement present in the PDF's own text, the statement carrying the
+proposed date, publication linkage, a stated day, and confidence at or above
+the threshold. :func:`copyright_override`, the one deterministic override,
+proposes a *year* (stored as 1 January with ``candidate_precision="year"``)
+when the front matter carries a copyright statement **and** the PDF's own
+DocInfo creation date names the same year — two independent facts agreeing,
+and neither of them a Drupal timestamp. It runs only where the deterministic
+pass found nothing at all to go on (``multi_pdf_no_evidence``: an in-body file
+with no upload record, whose page is dated by its creation stamp), which is the
+shelf-page shape where a book published years earlier was inheriting the day
+someone typed the page. Anything short of that keeps the page date and, where
+a date was seen, leaves a review row.
 
 Cost follows the same routing that was measured: the deterministic pass settles
 the large majority for free, only the routed remainder has its text read, and
@@ -32,15 +41,25 @@ unreachable, because this module does not import
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any
 
-from app.ingestion.date_evidence import PageContext, PdfEvidence, read_pdf_head
+from app.ingestion.date_evidence import (
+    PageContext,
+    PdfEvidence,
+    copyright_statement,
+    read_pdf_front_matter,
+    read_pdf_head,
+)
 from app.ingestion.date_rules import DateDecision, decide
 
 logger = logging.getLogger(__name__)
 
-__all__ = ["ResolvedDate", "build_evidence", "resolve"]
+__all__ = ["ResolvedDate", "build_evidence", "copyright_override", "resolve"]
+
+#: The deterministic pass outcome that means "nothing Drupal-side to go on".
+#: Only this outcome earns a free read of the file for the copyright rule.
+_NO_EVIDENCE_RULE = "multi_pdf_no_evidence"
 
 
 @dataclass
@@ -60,8 +79,9 @@ class ResolvedDate:
     start_value: str | None
     #: Precision of :attr:`start_value`. Inherited from the parent page, so a
     #: file hanging off a research paper is year-precision too and no reader
-    #: renders its 1 January as a day. ``day`` for an override, which by
-    #: definition quoted a stated day.
+    #: renders its 1 January as a day. For an override it is the decision's
+    #: own: ``day`` from the LLM path, which quotes a stated day, ``year`` from
+    #: the copyright rule, which quotes a stated year.
     start_precision: str = "day"
     #: The end of the period the parent page's content covers, inherited whole.
     #: None for a single-date page, and None for an override — a quoted
@@ -152,6 +172,69 @@ def _read_pdf_signals(evidence: PdfEvidence, content: bytes) -> None:
     evidence.pdf_modified = modified
     evidence.pdf_title = title
     evidence.head_text = text
+    evidence.front_text = read_pdf_front_matter(content)
+
+
+def copyright_override(evidence: PdfEvidence) -> DateDecision | None:
+    """A year-precision override from a corroborated copyright statement, or None.
+
+    Fires only when every one of these holds:
+
+    * the front matter names a copyright year (``© … 2020``, ``Ⓒ … 2020``,
+      ``(c) 2020``, ``Copyright 2020``);
+    * the PDF's DocInfo creation date names the **same** year — a second,
+      independent statement by the document about itself. A statement alone
+      is the LLM path's business (and a bare year is refused there as
+      day-precision); a DocInfo date alone never moves anything
+      (``test_a_pdf_creation_date_alone_never_moves_the_page_date``);
+    * the year is plausible for this corpus;
+    * the year differs from the page's own — agreeing with the page changes
+      nothing, and the page's day is the finer value.
+
+    The result is a *year*: 1 January as a marker, ``candidate_precision="year"``,
+    exactly how ``research_papers`` store ``field_rpaper_year``. Nothing here
+    invents a day, and nothing here reads a Drupal timestamp.
+    """
+    from datetime import date
+
+    from app.ingestion.date_evidence import parse_dt
+    from app.ingestion.source_dates import as_stored_date, is_plausible
+
+    found = copyright_statement(evidence.front_text)
+    if found is None:
+        return None
+    statement, year = found
+    created = parse_dt(evidence.pdf_created)
+    if created is None or created.year != year:
+        return None
+    if not is_plausible(date(year, 1, 1)):
+        return None
+    page_date = parse_dt(evidence.page.effective_date)
+    if page_date is not None and page_date.year == year:
+        return None
+    return DateDecision(
+        document_id=evidence.document_id,
+        action="propose_override",
+        candidate_start_date=as_stored_date(date(year, 1, 1)),
+        candidate_precision="year",
+        date_type="publication",
+        edition_label=evidence.edition,
+        source="document_copyright",
+        confidence=0.9,
+        evidence=(
+            f"The document's front matter states {statement!r} and its DocInfo "
+            f"creation date is {evidence.pdf_created}; both name {year}, which "
+            f"differs from the page's {str(evidence.page.effective_date)[:10]}. "
+            f"Year precision: 1 January is a marker, not a day."
+        ),
+        rule="copyright_statement_corroborated",
+        decided_by="deterministic",
+        supporting_evidence=(
+            "In-body file with no Drupal upload record on a page dated by its "
+            "creation stamp; the file itself was the only evidence available."
+        ),
+        used=["drupal", "pdf_meta", "pdf_text"],
+    )
 
 
 def resolve(evidence: PdfEvidence, content: bytes | None = None) -> ResolvedDate:
@@ -164,6 +247,29 @@ def resolve(evidence: PdfEvidence, content: bytes | None = None) -> ResolvedDate
     try:
         decision = decide(evidence)
         used = list(decision.used)
+
+        # Nothing Drupal-side to go on, and the bytes are in hand: read them
+        # once (PyMuPDF, no model) for the one deterministic override. When it
+        # does not fire the original decision stands unchanged — this branch
+        # deliberately does not re-run `decide`, which would now see a DocInfo
+        # date and route the file to the model. That routing is not this
+        # rule's to widen.
+        if decision.rule == _NO_EVIDENCE_RULE and content:
+            _read_pdf_signals(evidence, content)
+            override = copyright_override(evidence)
+            if override is not None:
+                decision = override
+            else:
+                decision = replace(
+                    decision,
+                    supporting_evidence=(
+                        f"{decision.supporting_evidence} The file was read; it "
+                        "carries no copyright statement corroborated by its "
+                        "DocInfo date."
+                    ).strip(),
+                    used=[*decision.used, "pdf_meta", "pdf_text"],
+                )
+            used = list(decision.used)
 
         if decision.action == "needs_llm":
             if content:
@@ -185,7 +291,8 @@ def resolve(evidence: PdfEvidence, content: bytes | None = None) -> ResolvedDate
         effective_start_date = decision.candidate_start_date if overridden else page_date
         return ResolvedDate(
             start_value=effective_start_date,
-            start_precision=("day" if overridden else evidence.page.node_start_precision),
+            start_precision=(decision.candidate_precision if overridden
+                             else evidence.page.node_start_precision),
             # An override replaces the page's date with a day the document
             # itself states, which says nothing about a period — so the
             # inherited end goes with the date it belonged to.

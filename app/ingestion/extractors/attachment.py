@@ -266,9 +266,11 @@ def _overridden_evidence(parent_date, resolved):
         parent_date,
         start_value=resolved.start_value,
         source="document_text",
-        start_precision="day",
-        # A quoted publication statement gives a day, not a period; the page's
-        # end date belonged to the date it displaced.
+        # The decision's own precision: a quoted publication statement gives a
+        # day, a corroborated copyright statement gives a year.
+        start_precision=resolved.start_precision,
+        # A statement about a publication gives a day or a year, not a period;
+        # the page's end date belonged to the date it displaced.
         end_value=None,
         end_precision=None,
         rule="document_statement_override",

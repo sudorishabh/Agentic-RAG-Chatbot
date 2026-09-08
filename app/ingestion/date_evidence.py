@@ -34,8 +34,10 @@ __all__ = [
     "EDITION_RE",
     "PageContext",
     "PdfEvidence",
+    "copyright_statement",
     "edition_label",
     "path_month",
+    "read_pdf_front_matter",
     "read_pdf_head",
     "years_in",
 ]
@@ -53,6 +55,22 @@ PATH_MONTH_RE = re.compile(r"/sites/default/files/(\d{4})-(\d{2})/")
 # paying for a table of contents.
 HEAD_CHARS = 2_500
 HEAD_PAGES = 2
+
+# How far into a document the copyright page can sit. Books put it on the
+# verso of the title page — page 4 on both audited volumes, past HEAD_PAGES —
+# so the deterministic copyright rule reads its own, slightly longer, window.
+# Still PyMuPDF text only, still no OCR.
+FRONT_MATTER_PAGES = 6
+FRONT_MATTER_CHARS = 20_000
+
+# A copyright statement: the symbol (either code point), "(c)" or the word, then
+# a year within a short span. The span tolerates a rights holder spelled in a
+# private-use font — "Ⓒ  Alumni Association 2020" is
+# how PyMuPDF renders "© TERI Alumni Association 2020" on the audited books.
+COPYRIGHT_RE = re.compile(
+    r"(?:©|Ⓒ|\(c\)|copyright)\s*(?:©|Ⓒ)?.{0,80}?(?<!\d)(19[89]\d|20[0-3]\d)(?!\d)",
+    re.IGNORECASE,
+)
 
 
 def years_in(*texts: str | None) -> set[int]:
@@ -81,6 +99,19 @@ def edition_label(*texts: str | None) -> str | None:
         if label is not None:
             return label
     return None
+
+
+def copyright_statement(text: str | None) -> tuple[str, int] | None:
+    """The first copyright statement in ``text`` and the year it names.
+
+    ``("Ⓒ TERI Alumni Association 2020", 2020)`` for the audited books. A
+    statement, not a date: the caller decides what it is evidence of. None when
+    the text names no copyright at all.
+    """
+    match = COPYRIGHT_RE.search(text or "")
+    if match is None:
+        return None
+    return " ".join(match.group(0).split()), int(match.group(1))
 
 
 def path_month(url: str | None) -> str | None:
@@ -112,6 +143,27 @@ def read_pdf_head(content: bytes) -> tuple[str, str | None]:
     except Exception:
         logger.debug("Could not read PDF head text.", exc_info=True)
         return "", None
+
+
+def read_pdf_front_matter(content: bytes) -> str:
+    """Whitespace-normalised text of the first :data:`FRONT_MATTER_PAGES` pages.
+
+    The same free PyMuPDF call as :func:`read_pdf_head`, over a window long
+    enough to reach a copyright page. Empty for a scanned or unreadable PDF.
+    """
+    if not content:
+        return ""
+    try:
+        import fitz  # PyMuPDF
+
+        parts: list[str] = []
+        with fitz.open(stream=content, filetype="pdf") as doc:
+            for index in range(min(FRONT_MATTER_PAGES, doc.page_count)):
+                parts.append(doc[index].get_text("text") or "")
+        return " ".join(" ".join(parts).split())[:FRONT_MATTER_CHARS]
+    except Exception:
+        logger.debug("Could not read PDF front matter.", exc_info=True)
+        return ""
 
 
 @dataclass
@@ -216,6 +268,9 @@ class PdfEvidence:
     pdf_modified: str | None = None
     pdf_title: str | None = None
     head_text: str = ""
+    #: The first few pages, for the deterministic copyright rule only. Never
+    #: shown to the model: :meth:`evidence_dict` keeps sending ``head_text``.
+    front_text: str = ""
 
     page: PageContext = field(default_factory=lambda: PageContext(node_uuid=""))
 

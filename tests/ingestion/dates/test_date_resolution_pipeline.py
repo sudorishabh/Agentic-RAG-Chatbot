@@ -299,6 +299,158 @@ def test_a_stated_bundle_date_settles_the_case_without_reading_the_pdf(monkeypat
 
 
 # --------------------------------------------------------------------------- #
+# The one deterministic override: a corroborated copyright statement
+# --------------------------------------------------------------------------- #
+#
+# The audited case: two 240-page books linked in the body of the "TERI Alumni
+# Association" page (created 2025-09-30, bundle `page`, three in-body PDFs, no
+# file entities). Page 4 of each reads "Ⓒ TERI Alumni Association 2020" / "2022"
+# and their DocInfo creation dates are 2020-09-21 and 2022-03-02. Both carried
+# 2025-09-30 because the deterministic pass ended `multi_pdf_no_evidence`
+# without opening the file.
+
+BOOK_COPYRIGHT = "Ⓒ \ue064\ue055\ue062\ue059 Alumni Association 2020"
+
+
+def _shelf_page_evidence():
+    """An in-body PDF on a created-dated page holding three files: the shape
+    `decide` settles as `multi_pdf_no_evidence`."""
+    node = _node(created="2025-09-30T04:28:20+00:00",
+                 files=[_file(), _file(uuid="f2"), _file(uuid="f3")])
+    file = _file(origin="inbody", url="https://teriin.org/sites/default/files/files/Book.pdf",
+                 filename="Book-on-Dr-RK-Pachauri.pdf", description="TERI Bookstore")
+    return _evidence(node=node, file=file)
+
+
+def _fill_signals(monkeypatch, *, pdf_created, front_text):
+    def _fill(evidence, _content):
+        evidence.pdf_created = pdf_created
+        evidence.front_text = front_text
+        evidence.head_text = "Dr R K Pachauri The Visionary Institution Builder"
+
+    monkeypatch.setattr(date_resolution, "_read_pdf_signals", _fill)
+
+    def _no_model(_evidence):
+        raise AssertionError("the model must not be called on this path")
+
+    monkeypatch.setattr("app.ingestion.date_llm.interpret", _no_model)
+
+
+def test_the_shelf_page_shape_is_the_no_evidence_case():
+    from app.ingestion.date_rules import decide
+
+    assert decide(_shelf_page_evidence()).rule == "multi_pdf_no_evidence"
+
+
+def test_a_copyright_year_corroborated_by_docinfo_overrides_at_year_precision(monkeypatch):
+    _fill_signals(monkeypatch, pdf_created="2020-09-21T17:51:50+00:00", front_text=BOOK_COPYRIGHT)
+    got = resolve_pdf_date(_shelf_page_evidence(), content=b"%PDF-")
+
+    assert got.overridden is True
+    assert got.start_value == "2020-01-01T00:00:00+00:00"
+    assert got.start_precision == "year"
+    assert got.end_value is None
+    assert got.decision.rule == "copyright_statement_corroborated"
+    assert got.decision.decided_by == "deterministic"
+    assert "2020" in got.decision.evidence and "Alumni Association" in got.decision.evidence
+    assert "llm" not in got.used and "pdf_text" in got.used
+
+
+def test_a_copyright_year_the_docinfo_does_not_corroborate_keeps_the_page_date(monkeypatch):
+    _fill_signals(monkeypatch, pdf_created="2024-03-02T10:42:52+00:00", front_text=BOOK_COPYRIGHT)
+    got = resolve_pdf_date(_shelf_page_evidence(), content=b"%PDF-")
+
+    assert got.overridden is False
+    assert got.start_value == "2025-09-30T04:28:20+00:00"
+    assert got.decision.rule == "multi_pdf_no_evidence"
+    assert "The file was read" in got.decision.supporting_evidence
+    assert "llm" not in got.used
+
+
+def test_a_docinfo_date_alone_still_never_moves_the_page_date(monkeypatch):
+    """The audited newsletter: DocInfo 2026-09-01, no copyright statement."""
+    _fill_signals(monkeypatch, pdf_created="2026-09-01T06:30:49+00:00",
+                  front_text="TERI ALUMNI ASSOCIATION INAUGURAL ISSUE, SEPTEMBER 2026 CONTENTS Editorial")
+    got = resolve_pdf_date(_shelf_page_evidence(), content=b"%PDF-")
+
+    assert got.overridden is False
+    assert got.decision.rule == "multi_pdf_no_evidence"
+    # Reading the file must not have widened the routing to the model.
+    assert got.decision.action == "keep_page_date" and "llm" not in got.used
+
+
+def test_a_copyright_year_equal_to_the_pages_year_changes_nothing(monkeypatch):
+    _fill_signals(monkeypatch, pdf_created="2025-02-01T00:00:00+00:00",
+                  front_text="© TERI Alumni Association 2025")
+    got = resolve_pdf_date(_shelf_page_evidence(), content=b"%PDF-")
+    assert got.overridden is False and got.start_value == "2025-09-30T04:28:20+00:00"
+
+
+def test_an_implausible_copyright_year_is_refused(monkeypatch):
+    _fill_signals(monkeypatch, pdf_created="1985-01-01T00:00:00+00:00",
+                  front_text="© Somebody 1985")
+    got = resolve_pdf_date(_shelf_page_evidence(), content=b"%PDF-")
+    assert got.overridden is False
+
+
+def test_the_copyright_rule_needs_the_bytes(monkeypatch):
+    """No content, nothing to read: the decision is exactly what it was."""
+    _fill_signals(monkeypatch, pdf_created="2020-09-21T17:51:50+00:00", front_text=BOOK_COPYRIGHT)
+    got = resolve_pdf_date(_shelf_page_evidence(), content=None)
+    assert got.overridden is False and got.decision.rule == "multi_pdf_no_evidence"
+    assert got.used == ["drupal"]
+
+
+def test_a_settled_case_is_still_not_read(monkeypatch):
+    """Case 0 and case 1 never reach the copyright rule: a single-PDF page and a
+    bundle-field-dated page are settled before any file is opened."""
+    def _boom(*_a, **_k):
+        raise AssertionError("the PDF must not be read for a settled case")
+
+    monkeypatch.setattr(date_resolution, "_read_pdf_signals", _boom)
+    single = resolve_pdf_date(_evidence(), content=b"%PDF-")
+    assert single.decision.rule == "single_pdf_page"
+    stated = _node(bundle="news", metadata={"field_news_date": "2024-05-01T00:00:00+00:00"},
+                   files=[_file(), _file(uuid="f2")])
+    got = resolve_pdf_date(_evidence(node=stated, file=_file(origin="inbody")), content=b"%PDF-")
+    assert got.decision.rule == "parent_bundle_date_field"
+
+
+def _book_pdf(*, copyright_line: str, creation: str) -> bytes:
+    """A four-page PDF shaped like the audited books: title page, blank,
+    title/editors, copyright page — with a DocInfo creation date."""
+    import fitz
+
+    doc = fitz.open()
+    for text in ("Dr R K Pachauri The Visionary Institution Builder", "",
+                 "Dr R K Pachauri\nThe Visionary Institution Builder\nEditors", copyright_line):
+        page = doc.new_page()
+        if text:
+            page.insert_text((72, 72), text, fontsize=11)
+    doc.set_metadata({"creationDate": creation, "modDate": creation})
+    return doc.tobytes()
+
+
+def test_the_audited_book_shape_overrides_from_real_bytes(monkeypatch):
+    """End to end through the real PyMuPDF readers: page 4 copyright line plus a
+    matching DocInfo year moves a shelf-page book from the page's 2025 to its
+    own 2020, at year precision, without a model call."""
+    monkeypatch.setattr("app.ingestion.date_llm.interpret",
+                        lambda _e: (_ for _ in ()).throw(AssertionError("no model call")))
+    content = _book_pdf(copyright_line="© TERI Alumni Association 2020",
+                        creation="D:20200921175150+00'00'")
+    got = resolve_pdf_date(_shelf_page_evidence(), content=content)
+    assert got.overridden is True
+    assert got.start_value == "2020-01-01T00:00:00+00:00" and got.start_precision == "year"
+
+    # Same bytes with a DocInfo year that disagrees: nothing moves.
+    content = _book_pdf(copyright_line="© TERI Alumni Association 2020",
+                        creation="D:20240302104252+00'00'")
+    got = resolve_pdf_date(_shelf_page_evidence(), content=content)
+    assert got.overridden is False and got.start_value == "2025-09-30T04:28:20+00:00"
+
+
+# --------------------------------------------------------------------------- #
 # The production path: build_attachment_doc must carry the decision through
 # --------------------------------------------------------------------------- #
 
@@ -345,6 +497,33 @@ def test_an_override_reaches_the_document(monkeypatch):
     doc, recorded = _build_doc(monkeypatch, node=node, file=_file(), resolved=resolved)
     assert doc.effective_start_date == "2025-03-31"
     assert len(recorded) == 1 and recorded[0].action == "propose_override"
+
+
+def test_a_year_precision_override_reaches_the_document_as_a_year(monkeypatch):
+    """The copyright rule's override must not be flattened to a day on the way
+    to the document: `start_precision` travels with the value, so the payload
+    marks 1 January as a year and nothing renders a January publication."""
+    from app.ingestion.date_resolution import ResolvedDate
+    from app.ingestion.date_rules import DateDecision
+
+    resolved = ResolvedDate(
+        start_value="2020-01-01T00:00:00+00:00", start_precision="year",
+        decision=DateDecision(document_id="f1", action="propose_override",
+                              candidate_start_date="2020-01-01T00:00:00+00:00",
+                              candidate_precision="year", date_type="publication",
+                              source="document_copyright", confidence=0.9,
+                              rule="copyright_statement_corroborated",
+                              decided_by="deterministic"),
+    )
+    node = _node(metadata={}, refs=[], files=[_file(), _file(uuid="f2")])
+    doc, recorded = _build_doc(monkeypatch, node=node, file=_file(origin="inbody"), resolved=resolved)
+    assert doc.effective_start_date == "2020-01-01T00:00:00+00:00"
+    assert doc.start_precision == "year"
+    assert doc.date_source == "document_text"
+    assert doc.effective_end_date is None
+    assert doc.date_evidence.start_precision == "year"
+    assert recorded[0].rule == "copyright_statement_corroborated"
+    assert recorded[0].decided_by == "deterministic"
 
 
 def test_an_edition_label_lands_in_extra_without_moving_the_date(monkeypatch):

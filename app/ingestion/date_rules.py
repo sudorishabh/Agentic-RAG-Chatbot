@@ -85,6 +85,11 @@ class DateDecision:
     document_id: str
     action: Action
     candidate_start_date: str | None = None
+    #: How precise ``candidate_start_date`` is. ``day`` for every rule in this
+    #: module and for the LLM path, which only ever quotes a stated day; ``year``
+    #: for the copyright rule in :mod:`app.ingestion.date_resolution`, whose
+    #: 1 January is a marker for the year and must be read as one.
+    candidate_precision: str = "day"
     date_type: DateType = "unknown"
     edition_label: str | None = None
     source: str = "node_effective_date"

@@ -71,6 +71,43 @@ def test_no_deterministic_rule_can_propose_a_date_change(evidence):
 
 
 # --------------------------------------------------------------------------- #
+# The copyright statement finder (deterministic, text only)
+# --------------------------------------------------------------------------- #
+
+@pytest.mark.parametrize(
+    "text, expected",
+    [
+        # PyMuPDF's rendering of the audited books' page 4: circled-C symbol and
+        # the rights holder in a private-use font.
+        ("Ⓒ \ue064\ue055\ue062\ue059 Alumni Association 2020 \ue064 Alumni Association",
+         ("Ⓒ \ue064\ue055\ue062\ue059 Alumni Association 2020", 2020)),
+        ("© TERI, 2023. All rights reserved.", ("© TERI, 2023", 2023)),
+        ("(c) 2019 The Energy and Resources Institute", ("(c) 2019", 2019)),
+        ("Some title © Copyright 2026 Discussion Paper", ("© Copyright 2026", 2026)),
+    ],
+)
+def test_a_copyright_statement_is_found_with_its_year(text, expected):
+    from app.ingestion.date_evidence import copyright_statement
+
+    assert copyright_statement(text) == expected
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "",
+        "Suggested citation: TERI 2023. Report title.",       # a citation, not a copyright
+        "Dr R K Pachauri: 20 August 1940 – 13 February 2020",  # a biography timeline
+        "Copyright reserved by the publisher",                 # no year within reach
+    ],
+)
+def test_no_copyright_statement_is_invented(text):
+    from app.ingestion.date_evidence import copyright_statement
+
+    assert copyright_statement(text) is None
+
+
+# --------------------------------------------------------------------------- #
 # Required case 1 — single PDF, same upload date
 # --------------------------------------------------------------------------- #
 
