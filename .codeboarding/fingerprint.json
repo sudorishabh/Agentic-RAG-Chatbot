@@ -158,7 +158,7 @@
     "app/catalog/author_names.py": "cdca3cc648c4d778",
     "app/catalog/db.py": "c52a597fe38842b1",
     "app/catalog/log.py": "8c9f0d754f8fab92",
-    "app/knowledge/gazetteer.py": "2a956dd87939b9e1",
+    "app/knowledge/gazetteer.py": "ff5bc8896688df12",
     "app/knowledge/__init__.py": "f644b2b3f20d4a06",
     "app/knowledge/scoring.py": "fbebc865da335d74",
     "app/knowledge/seed.py": "3db32da19b113bd9",
