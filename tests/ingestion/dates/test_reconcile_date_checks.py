@@ -126,6 +126,80 @@ def test_an_unreadable_catalogue_skips_rather_than_fails(monkeypatch):
 
 
 # --------------------------------------------------------------------------- #
+# Custom blocks are unmapped by design and must not fire the bundle alarm
+# --------------------------------------------------------------------------- #
+
+class _Cursor:
+    """Enough of a DictCursor for `date_checks`: every query returns nothing
+    except the bundle enumeration, which honours the entity_type filter."""
+
+    def __init__(self, rows):
+        self._rows = rows
+        self._result = []
+
+    def execute(self, sql, params=()):
+        if "DISTINCT bundle" in sql:
+            rows = self._rows
+            if "entity_type" in sql:
+                rows = [r for r in rows if r["entity_type"] in (None, "node")]
+            self._result = [{"bundle": r["bundle"]} for r in rows]
+        else:
+            self._result = []
+
+    def fetchall(self):
+        return list(self._result)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+
+class _Conn:
+    def __init__(self, rows):
+        self.rows = rows
+
+    def cursor(self):
+        return _Cursor(self.rows)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+
+def _unmapped_with(monkeypatch, rows):
+    import app.core.clients as clients
+
+    monkeypatch.setattr(clients, "mysql_connection", lambda: _Conn(rows))
+    return next(c for c in reconcile.date_checks() if c.name == "unmapped_bundle_dates")
+
+
+def test_a_catalogued_custom_block_does_not_fire_the_unmapped_bundle_alarm(monkeypatch):
+    """`block_content:basic` is left out of BUNDLE_DATE_FIELDS on purpose — it
+    has no `created` and resolves through the unmapped default. A live sweep
+    that catalogued two blocks reported `unmapped_bundle_dates=1 (basic)` and
+    `corpus_reconcile ok=false`, on every sweep, forever."""
+    check = _unmapped_with(monkeypatch, [
+        {"bundle": "basic", "entity_type": "block_content"},
+        {"bundle": "news", "entity_type": "node"},
+    ])
+    assert check.count == 0 and check.ok
+
+
+def test_an_unmapped_node_bundle_still_fires(monkeypatch):
+    check = _unmapped_with(monkeypatch, [
+        {"bundle": "brand_new_type", "entity_type": "node"},
+        # A row written before entity_type existed is a node and is examined.
+        {"bundle": "legacy_type", "entity_type": None},
+    ])
+    assert check.count == 2
+    assert check.samples == ["brand_new_type", "legacy_type"]
+
+
+# --------------------------------------------------------------------------- #
 # What is deliberately NOT checked here
 # --------------------------------------------------------------------------- #
 

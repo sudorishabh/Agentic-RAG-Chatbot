@@ -313,9 +313,17 @@ def date_checks() -> list[Check]:
                 f"AND (MONTH(effective_start_date) <> 1 OR DAY(effective_start_date) <> 1) LIMIT 200"
             )
             mismatched_precision = [r["document_id"] for r in cur.fetchall()]
+            # Node bundles only. `block_content` has no `created` attribute and
+            # `bundle_dates` leaves it unmapped on purpose (its records resolve
+            # through the unmapped default, `revision_created`), so listing
+            # `basic` here made the check warn on every sweep that catalogued
+            # a block — and a warning that is always on is not a warning. A
+            # NULL entity_type is a row written before the column existed and
+            # is still examined: those are nodes.
             cur.execute(
                 f"SELECT DISTINCT bundle FROM `{table}` "
-                f"WHERE source_type = 'website' AND bundle IS NOT NULL"
+                f"WHERE source_type = 'website' AND bundle IS NOT NULL "
+                f"AND (entity_type IS NULL OR entity_type = 'node')"
             )
             unmapped = sorted(r["bundle"] for r in cur.fetchall()
                               if not fields_for(r["bundle"]))
@@ -411,10 +419,11 @@ def date_checks() -> list[Check]:
                "so these were written by something else. Re-run "
                "scripts.backfill_bundle_dates."),
         _check("unmapped_bundle_dates", unmapped,
-               "A catalogued bundle with no entry in "
+               "A catalogued node bundle with no entry in "
                "app.ingestion.bundle_dates.BUNDLE_DATE_FIELDS. Its documents keep "
                "their creation stamp — the safe direction — but nobody has said "
-               "whether that is right. Declare it."),
+               "whether that is right. Declare it. (Custom blocks are exempt: "
+               "they carry no `created` and are unmapped by design.)"),
         _check("undeclared_source_date_field", undeclared,
                "A source field that looks like a date and holds a parseable one, "
                "which nothing has classified. It is being ignored — the safe "
