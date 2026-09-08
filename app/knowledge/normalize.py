@@ -109,6 +109,42 @@ def normalize_org(text: str) -> str:
     return " ".join(_ORG_FORMS.get(t, t) for t in folded.split() if t)
 
 
+# A comma with no space after it. See `split_joined_org_names`.
+_JOINED_ORG_SEPARATOR = re.compile(r",(?=\S)")
+
+
+def split_joined_org_names(value: str) -> list[str]:
+    """One CMS field value -> the organizations it actually names.
+
+    Some `field_completed_sponsors` values hold several sponsors joined into a
+    single string instead of the structured multi-value field, so the seeder saw
+    one organization where the record names thirteen — "Adnani Energy
+    Ltd.,Essar Oil Ltd.,Reliance Industries Limited,TERI,…" was a single entity,
+    and every mention of any one of those names resolved to that whole blob or
+    to nothing.
+
+    Splits **only on a comma with no space after it**, which is what separates
+    the two cases in this corpus: a name a person typed keeps its comma-space
+    ("Bennett, Coleman & Co. Limited"; "Department of Environment, Government of
+    N.C.T. of Delhi"), while the joined values have none. Measured over all 524
+    organizations: 70 split, into 207 names, with every comma-space name left
+    whole — including the ones embedded inside a joined value, which come back
+    out intact.
+
+    Deliberately precise rather than complete. Around nine joined values *do*
+    use comma-space ("WHO, PHFI") and are left alone, because no rule separates
+    them from a legitimate name containing a comma. A missed split leaves
+    today's behaviour; a wrong split would invent an organization that does not
+    exist.
+
+    Returns the original value unchanged when it does not split, so a caller can
+    always iterate the result.
+    """
+    parts = [p.strip() for p in _JOINED_ORG_SEPARATOR.split(value or "")]
+    parts = [p for p in parts if len(p) >= 2 and any(c.isalpha() for c in p)]
+    return parts if len(parts) > 1 else [(value or "").strip()]
+
+
 def normalize_project(text: str) -> str:
     """Fold a project name. Projects are titled like sentences here, so only the
     generic fold applies; leading articles are dropped because "The Solar

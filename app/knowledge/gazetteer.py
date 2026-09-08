@@ -39,6 +39,7 @@ from app.knowledge.normalize import (
     normalize_org,
     normalize_person,
     normalize_project,
+    split_joined_org_names,
     strip_honorifics,
 )
 
@@ -373,10 +374,16 @@ def load_rows() -> list[tuple[str, str, str]]:
                 (f"$.{field_name}", f"$.{field_name}"),
             )
             for row in cur.fetchall():
-                rows.extend(
-                    (value, entity_type, field_name)
-                    for value in _json_values(row["v"])
-                )
+                for value in _json_values(row["v"]):
+                    # An ORGANIZATION field value may name several sponsors
+                    # joined into one string. Split on the same rule the seeder
+                    # uses, or the gazetteer would hold the whole blob as one
+                    # surface and none of the names inside it would match.
+                    names = (
+                        split_joined_org_names(value)
+                        if entity_type == "ORGANIZATION" else [value]
+                    )
+                    rows.extend((name, entity_type, field_name) for name in names)
         # Deliberately NOT restricted to `entity_type='node'`, unlike the seeder
         # (app.knowledge.seed._seed_projects), which creates a PROJECT entity
         # only for a node. A PDF attachment inherits its parent's bundle, so

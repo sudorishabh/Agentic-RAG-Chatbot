@@ -38,6 +38,7 @@ from app.knowledge.normalize import (
     normalize_org,
     normalize_person,
     normalize_project,
+    split_joined_org_names,
 )
 
 logger = logging.getLogger(__name__)
@@ -292,24 +293,28 @@ def _seed_organizations(cur, table: str) -> list[SeedEntity]:
             (f"$.{field_name}", f"$.{field_name}"),
         )
         for row in cur.fetchall():
-            for name in _json_values(row["v"]):
-                normalized = normalize_org(name)
-                if not normalized:
-                    continue
-                existing = seen.get(normalized)
-                if existing is not None:
-                    existing.aliases.append((name, "full_name", field_name))
-                    continue
-                entity = SeedEntity(
-                    entity_id=entity_id_for("ORGANIZATION", normalized),
-                    entity_type="ORGANIZATION",
-                    canonical_name=name,
-                    normalized_name=normalized,
-                    source=field_name,
-                    aliases=[(name, "full_name", field_name)],
-                )
-                seen[normalized] = entity
-                out.append(entity)
+            for value in _json_values(row["v"]):
+                # One value may name several sponsors joined into one string;
+                # see normalize.split_joined_org_names. A value that names one
+                # organization comes back unchanged.
+                for name in split_joined_org_names(value):
+                    normalized = normalize_org(name)
+                    if not normalized:
+                        continue
+                    existing = seen.get(normalized)
+                    if existing is not None:
+                        existing.aliases.append((name, "full_name", field_name))
+                        continue
+                    entity = SeedEntity(
+                        entity_id=entity_id_for("ORGANIZATION", normalized),
+                        entity_type="ORGANIZATION",
+                        canonical_name=name,
+                        normalized_name=normalized,
+                        source=field_name,
+                        aliases=[(name, "full_name", field_name)],
+                    )
+                    seen[normalized] = entity
+                    out.append(entity)
     return out
 
 

@@ -120,3 +120,48 @@ def test_normalize_for_dispatches_by_type():
     assert n.normalize_for("PROJECT", "The Solar Mission") == "solar mission"
     # An unknown type falls back to the generic fold rather than raising.
     assert n.normalize_for("UNKNOWN", "Dr Neha") == "dr neha"
+
+
+# --------------------------------------------------------------------------- #
+# Joined sponsor values
+# --------------------------------------------------------------------------- #
+
+def test_a_joined_sponsor_value_splits_on_comma_without_a_space():
+    assert n.split_joined_org_names(
+        "Competition Commission of India,The World Bank"
+    ) == ["Competition Commission of India", "The World Bank"]
+
+
+def test_a_name_whose_own_comma_has_a_space_is_left_whole():
+    """The discriminator. Both of these are single organizations, and splitting
+    either would invent one that does not exist."""
+    for name in (
+        "Bennett, Coleman & Co. Limited",
+        "Department of Environment, Government of N.C.T. of Delhi",
+        "United Nations Educational, Scientific and Cultural Organization",
+        "University of California, San Diego (UCSD)",
+    ):
+        assert n.split_joined_org_names(name) == [name]
+
+
+def test_a_comma_space_name_survives_inside_a_joined_value():
+    """The case that makes the rule worth having rather than a plain split: a
+    legitimate comma-space name embedded between joined ones comes back whole."""
+    assert n.split_joined_org_names(
+        "British Council Division,Department of Environment, Government of "
+        "N.C.T. of Delhi,Multi-Client"
+    ) == [
+        "British Council Division",
+        "Department of Environment, Government of N.C.T. of Delhi",
+        "Multi-Client",
+    ]
+
+
+def test_a_value_naming_one_organization_is_returned_unchanged():
+    assert n.split_joined_org_names("Asian Development Bank") == [
+        "Asian Development Bank"
+    ]
+    # A trailing comma is punctuation, not a second name.
+    assert n.split_joined_org_names("Sugar Technology Mission,") == [
+        "Sugar Technology Mission,"
+    ]
