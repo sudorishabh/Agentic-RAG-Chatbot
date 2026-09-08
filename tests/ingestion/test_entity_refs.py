@@ -139,6 +139,25 @@ def test_division_and_area_metadata_no_longer_become_themes():
     assert facets["categories"] == []
 
 
+def test_boolean_switch_named_like_a_theme_is_not_a_category():
+    """``field_show_on_theme_page`` is a display switch on the project bundles.
+    Its name carries the theme hint, and stringifying its value produced the
+    category ``"True"`` on every chunk payload of those documents (5,598 points
+    in the live collection) while the catalog's theme classifier silently
+    dropped it — two stores disagreeing about a facet that was never a theme."""
+    facets = drupal_facets(
+        {"field_completed_theme": ["Transport"], "field_show_on_theme_page": True}, []
+    )
+    assert facets["categories"] == ["Transport"]
+    # A False switch must not become a facet either, and a hint-named boolean
+    # must not become a tag or an author through the same helpers.
+    facets = drupal_facets(
+        {"field_show_on_theme_page": False, "field_tags_enabled": True,
+         "field_author_visible": False, "field_tags": ["Coal"]}, []
+    )
+    assert facets == {"categories": [], "tags": ["Coal"], "authors": []}
+
+
 def test_theme_vocabulary_parent_ref_is_still_a_theme():
     """A theme term's parent arrives as a ref inside the theme vocabulary, so
     dropping the by-name `parent` fold-in does not lose it: the "Air" page still

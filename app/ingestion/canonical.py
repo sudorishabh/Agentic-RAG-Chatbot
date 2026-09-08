@@ -33,10 +33,22 @@ def _as_list(value: Any) -> list[str]:
 
 
 def _matching(meta: dict[str, Any], *substrings: str) -> list[tuple[str, Any]]:
+    """Metadata fields whose *name* carries one of the hints and whose *value*
+    can be a facet at all.
+
+    A facet is a name. Drupal also exposes boolean switches whose field name
+    happens to contain a hint — ``field_show_on_theme_page`` on the project
+    bundles — and ``_as_list`` would turn ``True`` into the category ``"True"``,
+    which then reached every chunk payload and the theme filter. The catalog
+    layer already refused it (``theme_taxonomy._NOT_A_THEME``); it has to be
+    refused here, where the payload is built from, or the two stores disagree.
+    """
     return [
         (key, value)
         for key, value in meta.items()
-        if value not in (None, "", []) and any(s in key.lower() for s in substrings)
+        if value not in (None, "", [])
+        and not isinstance(value, bool)
+        and any(s in key.lower() for s in substrings)
     ]
 
 
