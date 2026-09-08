@@ -93,6 +93,39 @@ def test_save_state_empty_doc_stays_lean(monkeypatch):
     assert rec.raw_meta is None
 
 
+def test_save_state_carries_the_date_range(monkeypatch):
+    """A bundle with an end field (completed_projects, events) must reach the
+    catalog row with both endpoints, not the start alone: Qdrant payloads already
+    carried the end, and the two stores disagreed on every ranged document."""
+    captured = {}
+    monkeypatch.setattr(
+        pipeline.state, "upsert", lambda rec, mark_indexed: captured.update(rec=rec)
+    )
+    doc = _doc(
+        effective_start_date="2023-01-23T00:00:00+00:00",
+        start_precision="day",
+        date_source="cms_field",
+        effective_end_date="2026-01-22T00:00:00+00:00",
+        end_precision="day",
+    )
+    pipeline._save_state(_record(), doc, "hash", 1, indexed=True)
+    rec = captured["rec"]
+    assert rec.effective_start_date == "2023-01-23T00:00:00+00:00"
+    assert rec.effective_end_date == "2026-01-22T00:00:00+00:00"
+    assert rec.end_precision == "day"
+
+
+def test_save_state_leaves_end_empty_for_single_date_bundles(monkeypatch):
+    captured = {}
+    monkeypatch.setattr(
+        pipeline.state, "upsert", lambda rec, mark_indexed: captured.update(rec=rec)
+    )
+    pipeline._save_state(_record(), _doc(effective_start_date="2026-09-03T00:00:00+00:00"),
+                         "hash", 1, indexed=True)
+    assert captured["rec"].effective_end_date is None
+    assert captured["rec"].end_precision is None
+
+
 
 
 

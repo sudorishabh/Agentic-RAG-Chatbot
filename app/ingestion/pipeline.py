@@ -77,6 +77,12 @@ def _save_state(
             effective_start_date=doc.effective_start_date,
             date_source=doc.date_source,
             start_precision=doc.start_precision,
+            # The end of the period, for the bundles whose mapping declares one
+            # (completed_projects, events) and the files attached to them. The
+            # resolver leaves it None everywhere else, and `state.upsert` writes
+            # it with VALUES() so a cleared CMS end date is cleared here too.
+            effective_end_date=doc.effective_end_date,
+            end_precision=doc.end_precision,
             title=doc.title,
             url=doc.source_url,
             authors=list(doc.authors),
