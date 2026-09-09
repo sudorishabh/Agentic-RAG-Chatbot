@@ -313,6 +313,15 @@ def date_checks() -> list[Check]:
                 f"AND (MONTH(effective_start_date) <> 1 OR DAY(effective_start_date) <> 1) LIMIT 200"
             )
             mismatched_precision = [r["document_id"] for r in cur.fetchall()]
+            # The same invariant one step coarser. A month-precision value holds
+            # the 1st as a marker for the month, so any other day means the
+            # value and its precision disagree about what is known.
+            cur.execute(
+                f"SELECT document_id FROM `{table}` "
+                f"WHERE start_precision = 'month' "
+                f"AND DAY(effective_start_date) <> 1 LIMIT 200"
+            )
+            mismatched_month = [r["document_id"] for r in cur.fetchall()]
             # Node bundles only. `block_content` has no `created` attribute and
             # `bundle_dates` leaves it unmapped on purpose (its records resolve
             # through the unmapped default, `revision_created`), so listing
@@ -341,13 +350,17 @@ def date_checks() -> list[Check]:
             # Attachments carrying a date their page does not. Answered in SQL
             # because it is a join, not a rule: the link table says which files
             # hang off which page, and inheritance means the two dates agree.
-            # `document_text` is the one sanctioned exception.
+            # A date the document itself stated is the sanctioned exception, in
+            # either of its two forms: a quoted publication statement
+            # (`document_text`) or a corroborated copyright year
+            # (`document_copyright`).
             cur.execute(
                 f"SELECT d.document_id FROM `{table}_attachment` a "
                 f"JOIN `{table}` d ON d.document_id = a.file_uuid "
                 f"JOIN `{table}` p ON p.document_id = a.document_id "
                 f"WHERE d.source_type = 'pdf_attachment' "
-                f"  AND COALESCE(d.date_source, '') <> 'document_text' "
+                f"  AND COALESCE(d.date_source, '') NOT IN "
+                f"      ('document_text', 'document_copyright') "
                 f"  AND (DATE(d.effective_start_date) <> DATE(p.effective_start_date) "
                 f"       OR (d.effective_start_date IS NULL) <> (p.effective_start_date IS NULL) "
                 f"       OR NOT (d.effective_end_date <=> p.effective_end_date)) "
@@ -411,7 +424,8 @@ def date_checks() -> list[Check]:
                "An attached file whose date or period differs from the page it "
                "hangs on. A file inherits both ends of its page's resolved "
                "range; only a publication statement verified inside the file's "
-               "own text (date_source='document_text') may differ. "
+               "own text (date_source='document_text' or 'document_copyright') "
+               "may differ. "
                "Re-run scripts.backfill_bundle_dates."),
         _check("inverted_date_range", inverted,
                "A stored date range whose end falls before its start. "
@@ -433,6 +447,10 @@ def date_checks() -> list[Check]:
         _check("year_precision_not_january", mismatched_precision,
                "A year-precision date whose value is not 1 January. The day is a "
                "marker for the year, so anything else means the value and its "
+               "precision disagree about what is known."),
+        _check("month_precision_not_first_of_month", mismatched_month,
+               "A month-precision date whose value is not the 1st. The day is a "
+               "marker for the month, so anything else means the value and its "
                "precision disagree about what is known."),
     ]
 

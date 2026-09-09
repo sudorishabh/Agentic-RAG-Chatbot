@@ -22,7 +22,25 @@ from app.retrieval.understanding.filters import _facet_filters, _is_relationship
 
 
 def _keys(analysis):
-    return [getattr(c, "key", "?") for c in _facet_filters(analysis)]
+    """Every payload key the built conditions touch, nested filters included.
+
+    A date scope is a nested ``Filter`` now — overlap needs two bounds and a
+    branch per precision — and a nested filter has no ``key`` of its own, so a
+    flat read would report "?" and every assertion below would silently stop
+    checking anything.
+    """
+    def walk(condition):
+        key = getattr(condition, "key", None)
+        if key is not None:
+            yield key
+        empty = getattr(condition, "is_empty", None)
+        if empty is not None and getattr(empty, "key", None):
+            yield empty.key
+        for group in ("must", "should", "must_not"):
+            for nested in getattr(condition, group, None) or []:
+                yield from walk(nested)
+
+    return [key for condition in _facet_filters(analysis) for key in walk(condition)]
 
 
 def _dated(question, **kw):

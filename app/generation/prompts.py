@@ -578,20 +578,33 @@ def _source_hint(payload: dict) -> str:
     # field is a start date. `edition_label` above is what actually distinguishes
     # editions of a series.
     if payload.get("effective_start_date"):
-        # A year-precision value is 1 January standing in for a year the source
-        # stated without a day. Rendering it in full would invent that day, and
-        # the model would repeat it — the same refusal
-        # `DateInterpretation.statement_is_year_only` makes on the PDF path.
-        page_date = (
-            f"{str(payload['effective_start_date'])[:4]} "
-            f"(year only; the day is not known)"
-            if payload.get("start_precision") == "year"
-            else str(payload["effective_start_date"])
+        # A year- or month-precision value holds 1 January / the 1st standing in
+        # for a period the source stated without a day. Rendering it in full
+        # would invent that day and the model would repeat it, which is the same
+        # thing `DateInterpretation.normalized_start_date` refuses to store on
+        # the PDF path.
+        page_date = _dated_as_known(
+            payload["effective_start_date"], payload.get("start_precision")
         )
         bits.append("page date " + page_date)
     if payload.get("doc_version"):
         bits.append(f"v{payload['doc_version']}")
     return " · ".join(bits)
+
+
+def _dated_as_known(value: Any, precision: Any) -> str:
+    """A date rendered to exactly the precision the source established.
+
+    The stored value is always a full timestamp because the column holds one, so
+    the precision is the only thing that says how much of it is real. Showing the
+    whole value to the model makes it assert a day nobody stated.
+    """
+    text = str(value or "")
+    if precision == "year":
+        return f"{text[:4]} (year only; the day is not known)"
+    if precision == "month":
+        return f"{text[:7]} (month only; the day is not known)"
+    return text
 
 
 def _source_kinded(blocks: "list[ContextBlock]") -> "list[ContextBlock]":

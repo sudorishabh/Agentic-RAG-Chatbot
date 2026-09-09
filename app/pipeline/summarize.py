@@ -145,16 +145,21 @@ def _doc_from_payload(document_id: str, payload: dict[str, Any]) -> _Doc:
 
 
 def _effective_date_label(value: Any, precision: Any) -> str:
-    """The date as it may be shown: a full date, or a bare year.
+    """The date as it may be shown: a full date, a month, or a bare year.
 
-    A year-precision value holds 1 January as a marker for a year the source
-    stated without a day. Truncating to ten characters would put that day in
-    front of the model, which would then repeat it as the publication date.
+    A year- or month-precision value holds 1 January / the 1st as a marker for a
+    period the source stated without a day. Truncating to ten characters would
+    put that day in front of the model, which would then repeat it as the
+    publication date.
     """
     text = str(value or "")
     if not text:
         return ""
-    return text[:4] if precision == "year" else text[:10]
+    if precision == "year":
+        return text[:4]
+    if precision == "month":
+        return text[:7]
+    return text[:10]
 
 
 def _doc_from_catalog(document_id: str, row: dict[str, Any]) -> _Doc:

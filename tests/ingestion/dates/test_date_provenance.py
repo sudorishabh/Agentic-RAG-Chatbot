@@ -180,10 +180,17 @@ def test_reconcile_does_not_scroll_the_new_columns():
 # 4. The vocabulary the columns accept
 # --------------------------------------------------------------------------- #
 
-@pytest.mark.parametrize("source", ["created", "cms_field", "document_text"])
+@pytest.mark.parametrize(
+    "source", ["created", "cms_field", "parent_page", "document_text",
+               "document_copyright"])
 def test_the_documented_sources_fit_the_column(source):
-    """VARCHAR(16); a value that would be silently truncated is a wrong value."""
-    assert len(source) <= 16
+    """VARCHAR(32); a value that would be silently truncated is a wrong value.
+
+    The column was 16 until `document_copyright` needed 18. A truncated
+    provenance label still reads as a provenance label, which is why the column
+    was widened rather than the value shortened.
+    """
+    assert len(source) <= 32
 
 
 @pytest.mark.parametrize("precision", ["year", "month", "day"])

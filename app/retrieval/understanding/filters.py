@@ -18,9 +18,16 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-# The payload field every date scope is expressed over. Named once so the
-# condition builder and `date_conditions` cannot drift apart.
+# The canonical payload fields every date scope is expressed over. Named once
+# so the condition builder and `date_conditions` cannot drift apart. No Drupal
+# field name appears on this path: a bundle names the field it is dated by at
+# ingest, and what reaches the payload is the resolved canonical value.
 _DATE_FIELD = "effective_start_date"
+_END_FIELD = "effective_end_date"
+_START_PRECISION = "start_precision"
+_END_PRECISION = "end_precision"
+#: Every canonical field a date scope may touch, for `date_conditions`.
+_DATE_FIELDS = frozenset({_DATE_FIELD, _END_FIELD, _START_PRECISION, _END_PRECISION})
 
 # Words that make a date phrase about *documents* rather than about a
 # relationship. "Reports published between 2005 and 2010" is a publication-date
@@ -120,12 +127,138 @@ def _facet_filters(analysis: "QueryAnalysis") -> list[Any]:
     lo = _parse_bound(analysis.date_from, field="date_from")
     hi = _parse_bound(analysis.date_to, field="date_to")
     if (lo is not None or hi is not None) and not _is_relationship_time(analysis):
-        from qdrant_client.models import DatetimeRange
-
-        conditions.append(
-            FieldCondition(key=_DATE_FIELD, range=DatetimeRange(gte=lo, lt=hi))
-        )
+        scope = date_scope_filter(lo, hi)
+        if scope is not None:
+            conditions.append(scope)
     return conditions
+
+
+def _floor(value: datetime, precision: str) -> datetime:
+    """``value`` rounded down to the start of its year, month or day."""
+    if precision == "year":
+        return value.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+    if precision == "month":
+        return value.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    return value.replace(hour=0, minute=0, second=0, microsecond=0)
+
+
+def _iso(value: datetime) -> str:
+    return value.isoformat()
+
+
+def date_scope_filter(lo: datetime | None, hi: datetime | None) -> Any:
+    """A filter matching every document whose period **overlaps** ``[lo, hi)``.
+
+    Not "its start falls in the range". A completed project running 2020-2024 is
+    a document *about* 2022 and has to be returned for 2022, which the old
+    single-bound condition could not do: it compared only
+    ``effective_start_date``, so every period document was treated as a point at
+    its start and a four-year project was invisible in three of its five years.
+
+    Overlap is the two ordinary bounds, expressed over the canonical fields:
+
+    * **upper** — the period starts before the range ends
+      (``effective_start_date < hi``). The stored start is already the earliest
+      instant the document covers, so this needs no precision adjustment.
+    * **lower** — the period ends at or after the range begins. Which field
+      carries that end, and how far it reaches, depends on the document:
+
+      - a **closed period** (``effective_end_date`` present, e.g.
+        ``completed_projects``, ``events``) ends there;
+      - an **open-ended period** (a bundle in
+        ``app.core.corpus.OPEN_ENDED_BUNDLES`` — ``ongoing_projects``, which
+        declares no end field at all) runs to the present, so it has no lower
+        bound to fail;
+      - a **point** (everything else) ends where its own precision ends.
+
+    Precision is why the lower bound is not one condition. A date stated as
+    "2022" is stored as 2022-01-01, and a query for June 2022 must match it: we
+    know the document is from 2022 and nothing says it is not from June.
+    Comparing the stored 1 January against a June lower bound would assert a day
+    the source never gave — the same refusal the answer layer makes when it
+    renders "2022 (year only)". So the lower bound is applied against the range
+    floored to the document's own precision: for a year-precision document,
+    "does its year reach ``lo``"; for a month-precision one, "does its month".
+
+    Boundaries follow the half-open convention the structured planner already
+    documents: ``lo`` is included, ``hi`` is excluded. A period ending exactly on
+    ``lo`` overlaps by one day and matches; one starting exactly on ``hi`` does
+    not.
+
+    Either bound may be None for an open-sided query ("after March 2023",
+    "before 2020"). With both None there is no scope and None is returned.
+    """
+    from qdrant_client.models import (
+        DatetimeRange,
+        FieldCondition,
+        Filter,
+        IsEmptyCondition,
+        MatchValue,
+        PayloadField,
+    )
+    from app.core.corpus import OPEN_ENDED_BUNDLES
+
+    def absent(key: str) -> Any:
+        return IsEmptyCondition(is_empty=PayloadField(key=key))
+
+    must: list[Any] = []
+    if hi is not None:
+        must.append(FieldCondition(key=_DATE_FIELD, range=DatetimeRange(lt=_iso(hi))))
+    if lo is not None:
+        reaches: list[Any] = []
+        # A closed period: its stated end decides, at the end's own precision.
+        for precision, marker in (("day", None), ("month", "month"), ("year", "year")):
+            guard = (absent(_END_PRECISION) if marker is None
+                     else FieldCondition(key=_END_PRECISION,
+                                         match=MatchValue(value=marker)))
+            reaches.append(Filter(must=[
+                guard,
+                FieldCondition(key=_END_FIELD,
+                               range=DatetimeRange(gte=_iso(_floor(lo, precision)))),
+            ]))
+        # An open-ended period runs to the present, so no lower bound can
+        # exclude it. `ongoing_projects` declares no end field at all, which
+        # stored is indistinguishable from a single-date document — without this
+        # branch a project running since 2005 is a point in 2005 and misses
+        # every later year it was actually running in.
+        if OPEN_ENDED_BUNDLES:
+            reaches.append(Filter(should=[
+                FieldCondition(key="bundle", match=MatchValue(value=bundle))
+                for bundle in sorted(OPEN_ENDED_BUNDLES)
+            ]))
+        # A point: it ends where its own precision ends.
+        for precision, marker in (("day", None), ("month", "month"), ("year", "year")):
+            guard = (absent(_START_PRECISION) if marker is None
+                     else FieldCondition(key=_START_PRECISION,
+                                         match=MatchValue(value=marker)))
+            reaches.append(Filter(must=[
+                absent(_END_FIELD),
+                guard,
+                FieldCondition(key=_DATE_FIELD,
+                               range=DatetimeRange(gte=_iso(_floor(lo, precision)))),
+            ]))
+        must.append(Filter(should=reaches))
+    return Filter(must=must) if must else None
+
+
+def _mentions_a_date_field(condition: Any) -> bool:
+    """Whether this condition (or anything nested in it) bounds a date field.
+
+    `date_conditions` used to test ``condition.key == _DATE_FIELD``, which was
+    enough while a date scope was one ``FieldCondition``. Overlap needs a nested
+    ``Filter``, and a nested filter has no ``key`` — so the scope the retry is
+    supposed to preserve would have been silently dropped instead.
+    """
+    if getattr(condition, "key", None) in _DATE_FIELDS:
+        return True
+    empty = getattr(condition, "is_empty", None)
+    if empty is not None and getattr(empty, "key", None) in _DATE_FIELDS:
+        return True
+    for group in ("must", "should", "must_not"):
+        for nested in getattr(condition, group, None) or []:
+            if _mentions_a_date_field(nested):
+                return True
+    return False
 
 
 def date_conditions(filters: Sequence[Any] | None) -> list[Any]:
@@ -139,7 +272,7 @@ def date_conditions(filters: Sequence[Any] | None) -> list[Any]:
     ask about — silently, because the retry is recorded on the trace span and the
     log, never in the answer text.
 
-    Tolerates entries that aren't ``FieldCondition``s (a nested ``Filter``, as
-    ``_theme_condition`` returns) by matching on the attribute rather than the
-    type."""
-    return [c for c in filters or [] if getattr(c, "key", None) == _DATE_FIELD]
+    Tolerates entries that aren't ``FieldCondition``s — a nested ``Filter``, as
+    ``_theme_condition`` and the date scope both return — by looking for a
+    canonical date field anywhere inside them rather than by type."""
+    return [c for c in filters or [] if _mentions_a_date_field(c)]

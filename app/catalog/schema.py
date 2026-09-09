@@ -177,6 +177,39 @@ def _ensure_column(cur: Any, table: str, column: str, ddl: str) -> None:
         cur.execute(f"ALTER TABLE `{table}` ADD COLUMN {ddl}")
 
 
+def _widen_varchar(cur: Any, table: str, column: str, length: int) -> bool:
+    """Grow a VARCHAR that is narrower than ``length``. Idempotent, lossless.
+
+    Widening cannot truncate: MySQL keeps every existing value and only raises
+    the ceiling. Narrowing could, so this refuses to do it — a column that is
+    already wide enough is left exactly as it is.
+
+    Exists because a *closed vocabulary* column outgrew its width.
+    ``documents.date_source`` was sized for four values and now carries five;
+    the fifth, ``document_copyright``, is 18 characters. Storing it truncated
+    would be worse than not storing it, because a silently shortened
+    provenance label still reads as a provenance label.
+    """
+    if not _column_exists(cur, table, column):
+        return False
+    cur.execute(
+        "SELECT CHARACTER_MAXIMUM_LENGTH AS n, IS_NULLABLE AS nullable "
+        "FROM information_schema.COLUMNS "
+        "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = %s AND COLUMN_NAME = %s",
+        (table, column),
+    )
+    row = cur.fetchone()
+    current = None
+    if row:
+        current = row["n"] if isinstance(row, dict) else row[0]
+    if current is None or int(current) >= length:
+        return False
+    cur.execute(
+        f"ALTER TABLE `{table}` MODIFY COLUMN `{column}` VARCHAR({length}) NULL"
+    )
+    return True
+
+
 def _index_exists(cur: Any, table: str, index: str) -> bool:
     cur.execute(
         "SELECT 1 FROM information_schema.STATISTICS "
@@ -601,15 +634,25 @@ def ensure_state_table() -> None:
         #
         # `created` = the source record's creation stamp, which is what the
         # column held for every row before these existed. `cms_field` = a date
-        # the source states about the document. `document_text` = a date the
-        # document itself states, verified in its own text.
+        # the source states about the document. `parent_page` = the resolved
+        # date of the Drupal page a file hangs on. `document_text` = a
+        # publication statement the document itself makes, quoted and verified
+        # in its own text. `document_copyright` = a copyright year the document
+        # states, corroborated by its own DocInfo creation year.
+        #
+        # The last two are deliberately separate values. Both are the document
+        # speaking about itself, but one is a publication statement carrying a
+        # day and the other is a copyright year carrying a year, and collapsing
+        # them would make the stronger claim on behalf of the weaker evidence.
         #
         # NULL means *not recorded*, not `created`: the four PDFs whose date came
         # from a verified publication statement would be mislabelled by a blanket
         # backfill, so legacy rows are left unclaimed and
         # `{state}_date_decision.date_source` remains the record for those.
         _ensure_column(cur, table, "date_source",
-                       "date_source VARCHAR(16) NULL")
+                       "date_source VARCHAR(32) NULL")
+        # Sized for four values originally; `document_copyright` is 18 chars.
+        _widen_varchar(cur, table, "date_source", 32)
         # `year` | `month` | `day`. A source holding only "2016" supports the
         # year and nothing finer, so a consumer that reads the day without
         # reading this invents a January publication — the same refusal

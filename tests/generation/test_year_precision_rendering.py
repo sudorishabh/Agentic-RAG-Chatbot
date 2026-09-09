@@ -7,10 +7,12 @@ it from becoming one is the layer that renders a date for the model: show
 ``2016-01-01`` and the answer says "published on 1 January 2016", which nobody
 asserted.
 
-This is the same refusal ``DateInterpretation.statement_is_year_only`` makes on
-the PDF path, where "© TERI, 2023" is not allowed to become 2023-01-01. The
-difference is only that here the year is worth keeping, so it is stored and
-labelled rather than discarded.
+The same holds one step finer. A statement establishing a month but no day
+("Published in September 2007") yields 2007-09-01 at ``month`` precision, where
+the 1st is the marker. Both are produced by
+``DateInterpretation.supported_precision`` on the PDF path, which stores the
+first day of the period it can establish and nothing finer — so the layer that
+renders a date has to stop at the same boundary.
 """
 
 from __future__ import annotations
@@ -68,12 +70,30 @@ def test_an_absent_precision_reads_as_a_full_date():
     assert FULL_DATE in header
 
 
-@pytest.mark.parametrize("precision", [None, "", "day", "month", "unknown"])
-def test_only_year_precision_changes_the_rendering(precision):
+@pytest.mark.parametrize("precision", [None, "", "day", "unknown"])
+def test_a_day_or_unknown_precision_renders_the_full_date(precision):
+    """Only a precision that names a *period* changes the rendering. Anything
+    else, including an unrecognised value, is treated as a full date — the safe
+    direction, because it shows what is stored rather than hiding part of it."""
     payload = {"source_type": "website", "title": "x", "effective_start_date": FULL_DATE}
     if precision is not None:
         payload["start_precision"] = precision
     assert FULL_DATE in _source_hint(payload)
+
+
+def test_a_month_precision_date_is_shown_as_a_month():
+    """Month precision is real now: the resolver can establish a month without a
+    day (`DateInterpretation.supported_precision`), and the day it stores is the
+    1st as a marker. Rendering the full value would assert that 1st."""
+    header = _source_hint({
+        "source_type": "website", "title": "A report",
+        "effective_start_date": "2007-09-01T00:00:00+00:00",
+        "start_precision": "month",
+    })
+    assert "2007-09" in header
+    assert "month only" in header
+    assert "day is not known" in header
+    assert "2007-09-01" not in header
 
 
 def test_a_year_precision_pdf_still_keeps_its_edition_and_document_date_apart():
@@ -104,6 +124,10 @@ def test_the_summary_line_shows_a_full_date_otherwise():
 def test_the_summary_line_survives_a_missing_date():
     assert _effective_date_label(None, None) == ""
     assert _effective_date_label("", "year") == ""
+
+
+def test_the_summary_line_shows_a_bare_month():
+    assert _effective_date_label("2007-09-01T00:00:00+00:00", "month") == "2007-09"
 
 
 def test_the_summary_line_never_leaks_january_first():
@@ -137,11 +161,15 @@ def test_a_full_date_writes_no_precision_key():
     assert "start_precision" not in payload
 
 
-@pytest.mark.parametrize("precision", ["day", "month", "unknown", None])
-def test_no_precision_but_year_ever_reaches_a_payload(precision):
+@pytest.mark.parametrize("precision", ["day", "unknown", None])
+def test_only_a_period_precision_reaches_a_payload(precision):
     """Filtered in `build_payload` rather than at a caller, so it holds however
     the meta was built — a document constructed by any other route cannot add
-    the key and quietly make old points look stale."""
+    the key and quietly make old points look stale.
+
+    ``day`` and anything unrecognised write nothing: absent has always meant "a
+    full date" for every point in the collection.
+    """
     from app.ingestion.chunking.models import Chunk, DocumentMeta
     from app.ingestion.chunking.payload import build_payload
 
@@ -149,6 +177,25 @@ def test_no_precision_but_year_ever_reaches_a_payload(precision):
                         effective_start_date=FULL_DATE, start_precision=precision)
     payload = build_payload(Chunk(chunk_id="c", text="x", is_parent=False, meta=meta))
     assert "start_precision" not in payload
+
+
+@pytest.mark.parametrize("precision", ["year", "month"])
+def test_a_period_precision_reaches_the_chunk_payload(precision):
+    """The payload is the only copy retrieval and the answer layer read, so a
+    precision that does not reach it does not exist. ``month`` was dropped here
+    until this landed, which was the one place a month-precision date silently
+    became a day."""
+    from app.ingestion.chunking.models import Chunk, DocumentMeta
+    from app.ingestion.chunking.payload import build_payload
+
+    meta = DocumentMeta(document_id="d", source_type="website",
+                        effective_start_date="2007-09-01T00:00:00+00:00",
+                        start_precision=precision,
+                        effective_end_date="2008-09-01T00:00:00+00:00",
+                        end_precision=precision)
+    payload = build_payload(Chunk(chunk_id="c", text="x", is_parent=False, meta=meta))
+    assert payload["start_precision"] == precision
+    assert payload["end_precision"] == precision
 
 
 def test_the_precision_marker_still_needs_no_bump_of_its_own():

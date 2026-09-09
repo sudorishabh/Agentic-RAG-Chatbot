@@ -93,7 +93,16 @@ CREATED = "created"
 #: ``parent_page``   an attachment inheriting its Drupal page's resolved dates.
 #: ``document_text`` a publication statement quoted and verified inside a PDF
 #:                   (set by :mod:`app.ingestion.date_resolution`, not here).
-Source = Literal["created", "cms_field", "parent_page", "document_text"]
+#: ``document_copyright`` a copyright year the PDF states, corroborated by its
+#:                   own DocInfo creation year (same module). Separate from
+#:                   ``document_text`` because the evidence is weaker and
+#:                   coarser: a copyright line establishes a year, a
+#:                   publication statement establishes a day. Labelling the
+#:                   first as the second would make a claim the evidence does
+#:                   not carry.
+Source = Literal[
+    "created", "cms_field", "parent_page", "document_text", "document_copyright",
+]
 
 #: What is wrong with a record's date *range*, when something is. ``None`` means
 #: either a well-formed range or no range at all — the two cases a reviewer never

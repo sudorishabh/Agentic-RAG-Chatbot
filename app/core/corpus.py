@@ -24,7 +24,7 @@ searchable-entity allowlist) that no reader has any use for.
 """
 from __future__ import annotations
 
-__all__ = ["DEFAULT_BUNDLES"]
+__all__ = ["DEFAULT_BUNDLES", "OPEN_ENDED_BUNDLES", "SCHEDULED_BUNDLES"]
 
 #: The Drupal node bundles that make up the corpus.
 #:
@@ -53,3 +53,25 @@ DEFAULT_BUNDLES: tuple[str, ...] = (
     "report",
     "people",
 )
+
+
+#: Bundles whose date is a *scheduled occurrence* rather than a publication.
+#:
+#: This is what makes "upcoming" a meaningful question. An event has a date it
+#: will happen on; a news item has a date it was published on, and asking
+#: whether it is upcoming is a category error. The read path needs the
+#: distinction for the temporal gate and must not get it by reading a Drupal
+#: field name out of the metadata blob — the canonical
+#: ``effective_start_date`` already *is* the event's start date, because the
+#: bundle names the field it is dated by.
+SCHEDULED_BUNDLES: frozenset[str] = frozenset({"events"})
+
+#: Bundles whose period is open at the far end: a start, and no end until
+#: someone says otherwise.
+#:
+#: ``ongoing_projects`` declares only a start field, deliberately — an *ongoing*
+#: project has no end date. Stored, that is indistinguishable from a single-date
+#: document, so a range query would treat a project running since 2005 as a
+#: point in 2005 and miss it for 2022. Declared here, the read path can read it
+#: as "from its start until now", which is what the bundle means.
+OPEN_ENDED_BUNDLES: frozenset[str] = frozenset({"ongoing_projects"})

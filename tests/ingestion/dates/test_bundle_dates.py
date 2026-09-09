@@ -663,9 +663,19 @@ def test_the_result_is_immutable():
 
 
 def test_the_source_vocabulary_fits_the_column_that_stores_it():
-    """`documents.date_source` is VARCHAR(16)."""
-    for source in ("created", "cms_field", "parent_page", "document_text"):
-        assert len(source) <= 16
+    """`documents.date_source` is VARCHAR(32).
+
+    Derived from the Literal rather than restated, so adding a value cannot
+    leave this test asserting the old set. It was widened from 16 when
+    `document_copyright` (18 characters) joined.
+    """
+    from typing import get_args
+
+    from app.ingestion.bundle_dates import Source
+
+    assert get_args(Source), "the vocabulary must be enumerable"
+    for source in get_args(Source):
+        assert len(source) <= 32, source
 
 
 def test_every_rule_fits_the_column_that_stores_it():

@@ -127,9 +127,12 @@ def _route_to_llm(monkeypatch, head_text: str, verdict: DateInterpretation | Non
 
 
 def _grounding(verdict: DateInterpretation, text: str) -> tuple[bool, bool]:
-    from app.ingestion.date_llm import date_is_in_text, statement_is_in_text
+    """Both grounding checks, at the precision the statement establishes — the
+    same pair :func:`app.ingestion.date_llm.interpret` applies."""
+    from app.ingestion.date_llm import period_is_in_text, statement_is_in_text
 
-    return (date_is_in_text(verdict.candidate_start_date, text),
+    return (period_is_in_text(verdict.candidate_start_date, text,
+                              verdict.supported_precision() or "day"),
             statement_is_in_text(verdict.publication_statement, text))
 
 
@@ -407,6 +410,41 @@ def test_the_multi_pdf_fallback_keeps_the_pages_provenance_and_precision(monkeyp
     assert got.start_value == "2016-01-01T00:00:00+00:00"
     assert got.start_precision == "year", "inherited, not flattened to a day"
     assert got.overridden is False
+
+
+def test_a_year_only_verdict_matching_the_pages_year_keeps_the_page_date(monkeypatch):
+    """Replacing a stated day with the same year at year precision makes the
+    record vaguer without making it truer, so the page date stands. The same
+    guard `copyright_override` applies. A verdict naming a *different* year is
+    the case worth acting on, and the test below is that."""
+    page_year = NODE_DATE[:4]
+    verdict = DateInterpretation(
+        candidate_start_date=f"{page_year}-01-01", date_type="publication",
+        publication_statement=f"First published in {page_year} by TERI",
+        confidence=0.95, recommended_action="override")
+    _route_to_llm(monkeypatch, f"First published in {page_year} by TERI", verdict)
+
+    got = resolve_pdf_date(_routed_evidence(), content=b"%PDF-")
+
+    assert got.overridden is False
+    assert got.start_value == NODE_DATE, "the page's day is kept"
+    assert got.start_precision == "day"
+    assert got.decision.action == "keep_page_date"
+
+
+def test_a_year_only_verdict_naming_another_year_moves_the_date(monkeypatch):
+    verdict = DateInterpretation(
+        candidate_start_date="2015-01-01", date_type="publication",
+        publication_statement="First published in 2015 by TERI",
+        confidence=0.95, recommended_action="override")
+    _route_to_llm(monkeypatch, "A report. First published in 2015 by TERI.", verdict)
+
+    got = resolve_pdf_date(_routed_evidence(), content=b"%PDF-")
+
+    assert got.overridden is True
+    assert got.start_value == "2015-01-01"
+    assert got.start_precision == "year", "a year, not a January day"
+    assert got.end_value is None
 
 
 def test_a_read_survives_the_re_decide_in_the_evidence_tiers(monkeypatch):
@@ -688,7 +726,9 @@ def test_a_year_precision_override_reaches_the_document_as_a_year(monkeypatch):
     doc, recorded = _build_doc(monkeypatch, node=node, file=_file(origin="inbody"), resolved=resolved)
     assert doc.effective_start_date == "2020-01-01T00:00:00+00:00"
     assert doc.start_precision == "year"
-    assert doc.date_source == "document_text"
+    assert doc.date_source == "document_copyright", (
+        "a copyright year is its own provenance, not a quoted publication statement"
+    )
     assert doc.effective_end_date is None
     assert doc.date_evidence.start_precision == "year"
     assert recorded[0].rule == "copyright_statement_corroborated"

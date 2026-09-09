@@ -220,18 +220,65 @@ def test_the_raw_metadata_is_still_carried_verbatim():
 # --------------------------------------------------------------------------- #
 
 def test_a_pdf_keeping_its_page_date_records_that_source():
-    import inspect
+    """Behaviour, not source text: the mapping from a decision to the canonical
+    `date_source` lives on `ResolvedDate.canonical_source`, and the builder
+    assigns it verbatim so the document and the decision row cannot drift."""
+    from app.ingestion.date_resolution import ResolvedDate
+    from app.ingestion.date_rules import DateDecision
 
-    from app.ingestion.extractors import attachment
+    keep = ResolvedDate(
+        start_value="2018-01-09T00:00:00+00:00",
+        decision=DateDecision(document_id="d", action="keep_page_date"))
+    assert keep.canonical_source == "parent_page"
 
-    src = inspect.getsource(attachment.build_attachment_doc)
-    assert 'date_source=("document_text" if resolved.overridden' in src
-    assert 'else "parent_page")' in src
+    review = ResolvedDate(
+        start_value="2018-01-09T00:00:00+00:00",
+        decision=DateDecision(document_id="d", action="needs_manual_review"))
+    assert review.canonical_source == "parent_page", "a review keeps the page date"
+
+    # No decision at all — the fail-closed path — still reports inheritance.
+    assert ResolvedDate(start_value="2018-01-09T00:00:00+00:00").canonical_source == (
+        "parent_page")
 
 
-def test_an_override_is_the_only_thing_that_earns_document_text():
-    """`overridden` is true only for a verified, quoted publication statement,
-    which is exactly what the label claims."""
+def test_the_two_kinds_of_document_evidence_get_their_own_source():
+    """A quoted publication statement and a corroborated copyright year are both
+    the document speaking about itself, but one establishes a day and the other
+    a year. They carried the same label until this split them, which claimed a
+    verified publication statement for a document that had only stated a year."""
+    from app.ingestion.date_resolution import ResolvedDate
+    from app.ingestion.date_rules import DateDecision
+
+    publication = ResolvedDate(
+        start_value="2013-12-23T00:00:00+00:00",
+        decision=DateDecision(document_id="d", action="propose_override",
+                              candidate_start_date="2013-12-23",
+                              source="llm_publication", rule="llm_interpreted"))
+    copyright_year = ResolvedDate(
+        start_value="2020-01-01T00:00:00+00:00", start_precision="year",
+        decision=DateDecision(document_id="d", action="propose_override",
+                              candidate_start_date="2020-01-01",
+                              candidate_precision="year",
+                              source="document_copyright",
+                              rule="copyright_statement_corroborated"))
+
+    assert publication.canonical_source == "document_text"
+    assert copyright_year.canonical_source == "document_copyright"
+
+
+def test_every_canonical_source_fits_the_column():
+    """`documents.date_source` is VARCHAR(32) since `document_copyright` (18)
+    joined the vocabulary."""
+    from app.ingestion.bundle_dates import Source
+    from typing import get_args
+
+    for source in get_args(Source):
+        assert len(source) <= 32, source
+
+
+def test_an_override_is_the_only_thing_that_earns_document_evidence():
+    """`overridden` is true only for a verified override, which is what both
+    document-evidence labels claim."""
     from app.ingestion.date_resolution import ResolvedDate
     from app.ingestion.date_rules import DateDecision
 

@@ -284,6 +284,51 @@ class DateInterpretation(BaseModel):
         # Any non-year number (a day) also counts as finer than year precision.
         return all(len(n) == 4 for n in re.findall(r"\d+", statement))
 
+    def supported_precision(self) -> str | None:
+        """How much of the proposed date the quoted statement actually establishes.
+
+        ``day`` when the statement carries the day, ``month`` when it names a
+        month and a year but no day, ``year`` when it carries only a year. None
+        when it carries no year at all, which :meth:`statement_supports_date`
+        already refuses.
+
+        This replaced two refusals. A year-only statement — "© TERI, 2023", by
+        far the commonest thing a report says about itself — used to be
+        downgraded to review, so the one date most documents state could never
+        become a date. Refusing it is not the safe direction: it leaves the
+        document carrying its *page's* date, which is a different year stated
+        with false day precision. Recording 2023 as a year is both weaker and
+        truer.
+        """
+        if not self.candidate_start_date or not self.statement_supports_date():
+            return None
+        if self.statement_is_year_only():
+            return "year"
+        if not self.statement_supports_the_day():
+            return "month"
+        return "day"
+
+    def normalized_start_date(self) -> str | None:
+        """The proposed date truncated to what the statement establishes.
+
+        A year-only statement yields ``YYYY-01-01`` and a month statement
+        ``YYYY-MM-01``: the first day of the established period, as a storage
+        marker, with :meth:`supported_precision` carrying what is really known.
+        Any finer component the model proposed is **discarded rather than
+        stored** — "© TERI 2022" supports 2022 and says nothing about June, so a
+        proposal of 2022-06-15 is recorded as 2022 at year precision, not as a
+        June publication.
+        """
+        precision = self.supported_precision()
+        date = self.candidate_start_date
+        if not date or precision is None:
+            return None
+        if precision == "year":
+            return f"{date[:4]}-01-01"
+        if precision == "month":
+            return f"{date[:7]}-01"
+        return date
+
     def statement_supports_the_day(self) -> bool:
         """Does the quote evidence the day-of-month being proposed?
 
@@ -408,16 +453,12 @@ class DateInterpretation(BaseModel):
                 "downgrading to review.", statement[:60], self.candidate_start_date
             )
             return "review"
-        if self.statement_is_year_only():
+        if self.supported_precision() is None:
+            # Defensive: `statement_supports_date` above already requires the
+            # year, so there is no path here that establishes nothing.
             logger.info(
-                "Quoted statement %r gives only a year; %s would invent a month "
-                "and day. Downgrading to review.", statement[:60], self.candidate_start_date
-            )
-            return "review"
-        if not self.statement_supports_the_day():
-            logger.info(
-                "Quoted statement %r does not give a day; %s would invent one. "
-                "Downgrading to review.", statement[:60], self.candidate_start_date
+                "Quoted statement %r establishes no part of %s; downgrading to "
+                "review.", statement[:60], self.candidate_start_date
             )
             return "review"
         if not self.publication_linkage_ok():
@@ -473,6 +514,53 @@ def date_is_in_text(candidate_start_date: str | None, text: str) -> bool:
     for match in re.finditer(rf"{name[:3]}[a-z]*", lowered):
         window = lowered[max(0, match.start() - 60):match.end() + 60]
         if year in window and day_pattern.search(window):
+            return True
+    return False
+
+
+def period_is_in_text(
+    candidate_start_date: str | None, text: str, precision: str
+) -> bool:
+    """Whether ``text`` carries as much of this date as ``precision`` claims.
+
+    Grounding has to be checked at the precision actually being asserted.
+    :func:`date_is_in_text` exists to catch a date assembled from the filename,
+    and it does that by demanding the day, the month and the year together — but
+    demanding a day of a document that only ever states a year refuses the year
+    instead of grounding it.
+
+    * ``day``   — day, month and year together (:func:`date_is_in_text`);
+    * ``month`` — the month and the year inside one window;
+    * ``year``  — the year appears in the text.
+
+    The year case is the weakest of the three and is deliberately not the only
+    guard on that path. The quoted statement must itself be present in the text
+    (:func:`statement_is_in_text`), must carry the year
+    (``statement_supports_date``), must tie it to publication
+    (``publication_linkage_ok``), and must clear the confidence bar. A bare year
+    sitting in a document cannot produce an override on its own.
+    """
+    if not candidate_start_date or not text:
+        return False
+    if precision == "day":
+        return date_is_in_text(candidate_start_date, text)
+    year = candidate_start_date[:4]
+    lowered = " ".join(text.split()).lower()
+    if precision == "year":
+        return bool(re.search(rf"(?<!\d){year}(?!\d)", lowered))
+    if precision != "month":
+        return False
+    month = int(candidate_start_date[5:7])
+    for match in _NUMERIC_DATE_RE.finditer(lowered):
+        parts = {match.group(1), match.group(2), match.group(3)}
+        if (str(month) in parts or f"{month:02d}" in parts) and (
+            year in parts or year[2:] in parts
+        ):
+            return True
+    name = _MONTH_NAMES[month - 1]
+    for match in re.finditer(rf"{name[:3]}[a-z]*", lowered):
+        window = lowered[max(0, match.start() - 60):match.end() + 60]
+        if re.search(rf"(?<!\d){year}(?!\d)", window):
             return True
     return False
 
@@ -565,7 +653,10 @@ def interpret(evidence: PdfEvidence) -> DateInterpretation | None:
     # forbid. No readable text means an override can never be grounded.
     if result.recommended_action == "override":
         result.set_grounded(
-            date_is_in_text(result.candidate_start_date, evidence.head_text),
+            period_is_in_text(
+                result.candidate_start_date, evidence.head_text,
+                result.supported_precision() or "day",
+            ),
             statement_is_in_text(result.publication_statement, evidence.head_text),
         )
     return result

@@ -7,6 +7,12 @@ if TYPE_CHECKING:
     from app.ingestion.chunking.models import Chunk
 
 
+#: Precisions that need a marker on the point. ``day`` does not: a full date
+#: carries its own precision, and absence has always meant "a full date" for
+#: every point in the collection.
+_MARKED_PRECISIONS = frozenset({"year", "month"})
+
+
 def build_payload(chunk: "Chunk") -> dict[str, Any]:
     from app.ingestion.version import PIPELINE_VERSION
 
@@ -22,6 +28,13 @@ def build_payload(chunk: "Chunk") -> dict[str, Any]:
         "pipeline_version": PIPELINE_VERSION,
         "is_parent": chunk.is_parent,
         "source_type": m.source_type,
+        # Written explicitly even though `extra` carries it too. It is an
+        # indexed field the read path filters on — the open-ended-period branch
+        # of the date-range filter, and the structured planner's bundle scope —
+        # and an indexed field arriving only as a side effect of `extra` is a
+        # contract nothing can check. Same value either way; `extra` is applied
+        # below and would write the identical string.
+        "bundle": m.extra.get("bundle"),
         "title": m.title,
         "section_heading": chunk.section_heading,
         "section_type": chunk.section_type,
@@ -43,14 +56,19 @@ def build_payload(chunk: "Chunk") -> dict[str, Any]:
         "source_url": m.source_url,
         "file_url": m.file_url,
         "effective_start_date": m.effective_start_date,
-        # Written only for "year", never "day" or "month". A full date needs no
+        # Written for "year" and "month", never for "day". A full date needs no
         # marker, so absent means "a full date" — which is true of every point
-        # already in the collection, and is why this needed no PAYLOAD version
-        # bump. Filtered here rather than at the caller so it holds however the
-        # meta was built. A reader that ignores this renders 1 January for a
-        # source that only ever stated a year.
+        # already in the collection. Filtered here rather than at the caller so
+        # it holds however the meta was built. A reader that ignores this
+        # renders 1 January for a source that only ever stated a year, or
+        # 1 September for one that only stated September.
+        #
+        # "month" used to be dropped here, which was the one place a
+        # month-precision date silently became a day: the resolver could produce
+        # it, the catalog stored it, and the payload — the only copy retrieval
+        # and the answer layer read — lost the marker.
         "start_precision": (m.start_precision
-                                   if m.start_precision == "year" else None),
+                            if m.start_precision in _MARKED_PRECISIONS else None),
         # The end of the period the content covers, for the bundles that declare
         # one. Absent means "no end date" — true of every single-date document,
         # and true of every point already in the collection until
@@ -58,11 +76,10 @@ def build_payload(chunk: "Chunk") -> dict[str, Any]:
         # is why adding it needed no PAYLOAD version bump: no reader can miss a
         # field it does not consult.
         "effective_end_date": m.effective_end_date,
-        # Same rule as the start precision: written only for "year", so absent
-        # means a full date and old points stay valid.
+        # Same rule as the start precision: written for "year" and "month", so
+        # absent means a full date and old points stay valid.
         "end_precision": (m.end_precision
-                                      if m.end_precision == "year"
-                                      else None),
+                          if m.end_precision in _MARKED_PRECISIONS else None),
         "pdf_id": m.pdf_id,
         "pdf_path": m.pdf_path,
         "article_uuid": m.article_uuid,

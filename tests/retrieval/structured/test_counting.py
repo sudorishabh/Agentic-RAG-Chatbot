@@ -475,13 +475,41 @@ def test_compose_stacks_sections_and_renumbers_citations():
 # Semantic path — dates / author / tags become query_processor facet filters.
 # --------------------------------------------------------------------------- #
 
-def test_facet_filters_builds_datetime_range():
-    analysis = qp.QueryAnalysis(search_query="x", date_from="2024-03-01", date_to="2024-04-01")
+def test_facet_filters_builds_an_overlapping_date_scope():
+    """A date range is a period query now, not a bound on the start date.
+
+    The scope is one nested filter: an upper bound on ``effective_start_date``
+    and a group of lower-bound branches, one per document shape (closed period,
+    open-ended period, and a point at each precision). The old single
+    ``DatetimeRange(gte, lt)`` on the start could not express "a 2020-2024
+    project is about 2022".
+    """
+    from app.retrieval.understanding.filters import date_conditions
+
+    analysis = qp.QueryAnalysis(search_query="x", date_from="2024-03-01",
+                                date_to="2024-04-01")
     conds = qp._facet_filters(analysis)
-    pub = [c for c in conds if getattr(c, "key", None) == "effective_start_date"]
-    assert len(pub) == 1
-    assert pub[0].range.gte == qp._parse_bound("2024-03-01")
-    assert pub[0].range.lt == qp._parse_bound("2024-04-01")
+    scope = date_conditions(conds)
+    assert len(scope) == 1, "exactly one date scope, whatever its internal shape"
+
+    def bounds(condition, out):
+        rng = getattr(condition, "range", None)
+        if rng is not None:
+            out.append((getattr(condition, "key", None),
+                        getattr(rng, "gte", None), getattr(rng, "lt", None)))
+        for group in ("must", "should", "must_not"):
+            for nested in getattr(condition, group, None) or []:
+                bounds(nested, out)
+        return out
+
+    found = bounds(scope[0], [])
+    hi = qp._parse_bound("2024-04-01")
+    # The upper bound is exclusive, on the start, and stated once.
+    assert [b for b in found if b[2] == hi] == [("effective_start_date", None, hi)]
+    # The lower bound appears floored to each precision the branches cover.
+    lows = {b[1] for b in found if b[1] is not None}
+    assert qp._parse_bound("2024-03-01") in lows, "day precision"
+    assert qp._parse_bound("2024-01-01") in lows, "floored for a year-precision date"
 
 
 def test_facet_filters_no_dates_no_condition():

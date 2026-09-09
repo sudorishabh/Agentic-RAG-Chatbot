@@ -10,24 +10,30 @@ recent past* event first — close to the opposite of the answer.
 
 What this can and cannot do
 ---------------------------
-``field_event_start_date`` is read from MySQL ``documents.raw_meta``, so it
-cannot be a pre-filter on the vector search. It is therefore applied as a
-post-retrieval gate: the
-candidates come back as usual, and for an ``UPCOMING`` question the event blocks
-whose start date has already passed are dropped. One indexed MySQL read per
-query over the candidate document ids.
+Applied as a post-retrieval gate rather than a pre-filter: the candidates come
+back as usual, and for an ``UPCOMING`` question the event blocks whose date has
+already passed are dropped.
+
+Everything it needs is in the block's own payload. An ``events`` document's
+``effective_start_date`` **is** its event start date, because the bundle names
+the field it is dated by, and ``effective_end_date`` carries the end of a
+multi-day event. This used to read ``field_event_start_date`` out of
+``documents.raw_meta`` over a MySQL round trip per query — the last place the
+read path knew a Drupal field name. The canonical fields say the same thing,
+cost nothing, and mean retrieval no longer depends on how the CMS happens to
+spell a bundle's date field.
 
 The gate is deliberately narrow:
 
 * it only ever *removes* blocks, so it cannot invent an answer;
-* it only touches documents that actually carry an event start date, so a page,
-  a policy brief or a project is never affected;
-
-Note that an ``events`` document's ``effective_start_date`` *is* its event start
-date now that bundles name the field they are dated by, so the payload could
-serve this gate directly. Reading ``raw_meta`` predates that and is left alone:
-switching would change which blocks survive, which is a retrieval decision rather
-than a consequence of renaming anything.
+* it only touches bundles whose date is a scheduled occurrence
+  (``app.core.corpus.SCHEDULED_BUNDLES``), so a page, a policy brief or a
+  project is never affected. Scoping by bundle is what replaced "carries an
+  event date": every document has an ``effective_start_date``, so without the
+  scope the gate would drop most of the corpus for any future-tense question;
+* it respects precision. An event stated as a month is not past until that
+  month is, and one stated as a year is not past until the year is — the same
+  refusal to read 1 January as a day that the answer layer makes.
 * it declines to filter at all when that would empty the context, because
   answering from stale events is bad and answering from nothing is worse — the
   generator is told what it has and can say no upcoming ones are listed.
@@ -44,8 +50,11 @@ from __future__ import annotations
 
 import logging
 import re
+from calendar import monthrange
 from datetime import date, datetime, timezone
-from typing import Any, Iterable, Sequence
+from typing import Any, Sequence
+
+from app.core.dates import parse_iso_date
 
 logger = logging.getLogger(__name__)
 
@@ -102,62 +111,78 @@ def _parse(value: Any) -> date | None:
         return None
 
 
-def event_start_dates(document_ids: Iterable[str]) -> dict[str, date]:
-    """Event start date per document, for those documents that have one.
-
-    Reads ``documents.raw_meta`` — the authoritative CMS copy — because the field
-    is not projected into the Qdrant payload. Absent, unparseable and non-event
-    documents are simply missing from the result, which the caller treats as "not
-    an event, leave it alone".
-    """
-    ids = [d for d in dict.fromkeys(document_ids) if d]
-    if not ids:
-        return {}
-    try:
-        from app.catalog import state
-    except Exception:  # pragma: no cover - defence in depth
-        return {}
-    try:
-        rows = state.event_start_dates(ids)
-    except Exception:
-        logger.warning("Event start-date lookup failed; not gating.", exc_info=True)
-        return {}
-    out: dict[str, date] = {}
-    for document_id, raw in (rows or {}).items():
-        parsed = _parse(raw)
-        if parsed is not None:
-            out[document_id] = parsed
-    return out
-
-
 def _reference_date(reference: date | None) -> date:
     return reference or datetime.now(timezone.utc).date()
+
+
+def period_end(payload: Any) -> date | None:
+    """The last day this document's period covers, or None if it has no date.
+
+    Read entirely from the canonical fields. ``effective_end_date`` when the
+    document states a period; otherwise the end of whatever
+    ``effective_start_date`` establishes, which is where precision matters: a
+    date stated as "September 2007" covers until the 30th, and one stated as
+    "2007" until 31 December. Treating the stored 1st as the whole answer would
+    call a month-long event past on its second day.
+    """
+    end = _as_date(payload.get("effective_end_date"))
+    if end is not None:
+        return _period_last_day(end, payload.get("end_precision"))
+    start = _as_date(payload.get("effective_start_date"))
+    if start is None:
+        return None
+    return _period_last_day(start, payload.get("start_precision"))
+
+
+def _as_date(value: Any) -> date | None:
+    """A stored timestamp as the calendar day it names, or None.
+
+    The columns and the payload hold a full timestamp; every comparison here is
+    between calendar days, so the time is dropped rather than compared.
+    """
+    parsed = parse_iso_date(value)
+    return parsed.date() if parsed is not None else None
+
+
+def _period_last_day(value: date, precision: Any) -> date:
+    """The last day of the period ``value`` opens at ``precision``."""
+    if precision == "year":
+        return date(value.year, 12, 31)
+    if precision == "month":
+        return date(value.year, value.month, monthrange(value.year, value.month)[1])
+    return value
+
+
+def _is_scheduled(payload: Any) -> bool:
+    """Whether "upcoming" means anything for this document's bundle."""
+    from app.core.corpus import SCHEDULED_BUNDLES
+
+    return str(payload.get("bundle") or "") in SCHEDULED_BUNDLES
 
 
 def gate_upcoming(
     blocks: Sequence[Any], *, reference: date | None = None
 ) -> list[Any]:
-    """Drop blocks for events that have already started.
+    """Drop blocks for scheduled occurrences that are already over.
 
-    Returns the list unchanged when there is nothing to gate, when no block
-    carries an event date, or when gating would leave nothing — the caller must
+    Returns the list unchanged when there is nothing to gate, when no block is a
+    scheduled bundle, or when gating would leave nothing — the caller must
     always get a context it can reason about.
     """
     if not blocks:
         return list(blocks)
     today = _reference_date(reference)
-    ids = [str(b.payload.get("document_id") or "") for b in blocks]
-    starts = event_start_dates(ids)
-    if not starts:
-        return list(blocks)
 
     kept, dropped = [], []
     for block in blocks:
-        start = starts.get(str(block.payload.get("document_id") or ""))
-        if start is not None and start < today:
+        payload = block.payload or {}
+        end = period_end(payload) if _is_scheduled(payload) else None
+        if end is not None and end < today:
             dropped.append(block)
         else:
             kept.append(block)
+    if not dropped:
+        return list(blocks)
     if not kept:
         logger.info(
             "Upcoming gate would empty the context (%d stale event blocks); "

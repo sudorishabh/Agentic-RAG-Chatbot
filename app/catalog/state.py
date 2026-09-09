@@ -297,40 +297,6 @@ def website_titles() -> list[tuple[str, str, str | None]]:
     ]
 
 
-def event_start_dates(document_ids: Iterable[str]) -> dict[str, str]:
-    """``field_event_start_date`` per document, for those that have one.
-
-    Batched deliberately: the caller is retrieval, gating an "upcoming" question
-    against the candidate set, and one round trip for the whole set is the
-    difference between a usable filter and a per-block query storm. Reads the
-    same ``raw_meta`` blob as :func:`raw_meta_for` but pulls only the one key, so
-    a document without an event date simply does not appear in the result.
-
-    Read-only, and returns the stored string unparsed — the caller owns date
-    interpretation.
-    """
-    ids = [d for d in dict.fromkeys(document_ids) if d]
-    if not ids:
-        return {}
-    table = _table()
-    placeholders = ",".join(["%s"] * len(ids))
-    sql = (
-        f"SELECT document_id, JSON_UNQUOTE("
-        f"  JSON_EXTRACT(raw_meta, '$.field_event_start_date')) AS start_date "
-        f"FROM `{table}` WHERE document_id IN ({placeholders}) "
-        f"AND JSON_EXTRACT(raw_meta, '$.field_event_start_date') IS NOT NULL"
-    )
-    with mysql_connection() as conn, conn.cursor() as cur:
-        cur.execute(sql, tuple(ids))
-        rows = cur.fetchall() or []
-    out: dict[str, str] = {}
-    for row in rows:
-        value = row.get("start_date")
-        if value and str(value).lower() != "null":
-            out[str(row["document_id"])] = str(value)
-    return out
-
-
 def authors_for(document_id: str) -> list[str]:
     """A document's author names, as the source wrote them.
 

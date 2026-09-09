@@ -451,11 +451,18 @@ def test_an_ungrounded_override_is_downgraded_to_review():
 # --------------------------------------------------------------------------- #
 
 def _grounded_verdict(date: str, statement: str, pdf_text: str) -> DateInterpretation:
-    """A verdict with both grounding checks applied, as :func:`interpret` does."""
+    """A verdict with both grounding checks applied, as :func:`interpret` does.
+
+    Grounding is checked at the precision the statement establishes, which is
+    what production does: demanding a day of a document that states only a year
+    refuses the year instead of grounding it.
+    """
+    from app.ingestion.date_llm import period_is_in_text
+
     verdict = _verdict(candidate_start_date=date, date_type="publication",
                        publication_statement=statement, confidence=0.95)
     verdict.set_grounded(
-        date_is_in_text(date, pdf_text),
+        period_is_in_text(date, pdf_text, verdict.supported_precision() or "day"),
         statement_is_in_text(statement, pdf_text),
     )
     return verdict
@@ -708,3 +715,120 @@ def test_the_evidence_bundle_never_carries_pdf_bytes():
     bundle = _ev(filename="x.pdf", head_text="cover page text").evidence_dict()
     assert bundle["first_page_text"] == "cover page text"
     assert all(not isinstance(v, (bytes, bytearray)) for v in bundle.values())
+
+
+# --------------------------------------------------------------------------- #
+# Precision follows the evidence: a year-only statement gives a year
+# --------------------------------------------------------------------------- #
+#
+# Until this landed, a statement establishing only a year was downgraded to
+# review — so the one date most reports actually state about themselves could
+# never become a date, and the document kept its *page's* date instead: a
+# different year, asserted with false day precision. Recording the year at year
+# precision is weaker and truer. Every other gate still applies; the tests at the
+# end of this block are the ones that must keep refusing.
+
+from app.ingestion.date_llm import period_is_in_text
+
+
+@pytest.mark.parametrize(
+    "statement, candidate, expected_precision, expected_date",
+    [
+        ("First published in 2022 by TERI", "2022-01-01", "year", "2022-01-01"),
+        ("Published in September 2007", "2007-09-01", "month", "2007-09-01"),
+        ("Published on 12 September 2024", "2024-09-12", "day", "2024-09-12"),
+    ],
+)
+def test_the_precision_matches_what_the_statement_establishes(
+    statement, candidate, expected_precision, expected_date
+):
+    verdict = _grounded_verdict(candidate, statement, f"A report. {statement}. New Delhi.")
+    assert verdict.supported_precision() == expected_precision
+    assert verdict.normalized_start_date() == expected_date
+    assert verdict.safe_action() == "override"
+
+
+def test_a_year_only_statement_no_longer_becomes_review():
+    text = "Energy Yearbook. First published in 2022 by TERI. New Delhi."
+    verdict = _grounded_verdict("2022-01-01", "First published in 2022 by TERI", text)
+    assert verdict.statement_is_year_only() is True
+    assert verdict.safe_action() == "override", "the year is evidence, not a near miss"
+    assert verdict.supported_precision() == "year"
+
+
+def test_a_month_or_day_the_statement_cannot_support_is_discarded_not_stored():
+    """The model may propose more than its own quote establishes. The surplus is
+    dropped rather than kept: '2022' says nothing about June."""
+    text = "Energy Yearbook. First published in 2022 by TERI. New Delhi."
+    verdict = _grounded_verdict("2022-06-15", "First published in 2022 by TERI", text)
+    assert verdict.supported_precision() == "year"
+    assert verdict.normalized_start_date() == "2022-01-01"
+    assert verdict.safe_action() == "override"
+
+    month = _grounded_verdict("2007-09-22", "Published in September 2007",
+                              "Published in September 2007 in Colombo")
+    assert month.supported_precision() == "month"
+    assert month.normalized_start_date() == "2007-09-01"
+
+
+@pytest.mark.parametrize(
+    "statement, candidate, text, why",
+    [
+        ("© The Energy and Resources Institute, 2023", "2023-01-01",
+         "© The Energy and Resources Institute, 2023",
+         "a copyright line carries no publication verb"),
+        ("updated in 2023", "2023-01-01", "updated in 2023",
+         "an update cue governs the year"),
+        ("Suggested citation: TERI 2023.", "2023-01-01", "Suggested citation: TERI 2023.",
+         "a citation year is not a publication date"),
+        ("First published in 2022 by TERI", "2022-01-01",
+         "a document that never names the year", "the year is not in the text"),
+        ("First published in 2022 by TERI", "2022-01-01", "unrelated text entirely",
+         "the statement is not in the text"),
+    ],
+)
+def test_the_year_only_path_keeps_every_other_safeguard(statement, candidate, text, why):
+    verdict = _grounded_verdict(candidate, statement, text)
+    assert verdict.safe_action() != "override", why
+
+
+def test_a_low_confidence_year_is_still_refused():
+    text = "First published in 2022 by TERI"
+    verdict = _verdict(candidate_start_date="2022-01-01", date_type="publication",
+                       publication_statement=text, confidence=0.5)
+    verdict.set_grounded(True, True)
+    assert verdict.safe_action() == "review"
+
+
+# --------------------------------------------------------------------------- #
+# Grounding is checked at the precision being asserted
+# --------------------------------------------------------------------------- #
+
+def test_grounding_at_year_precision_needs_the_year_in_the_text():
+    assert period_is_in_text("2022-01-01", "published in 2022 by TERI", "year") is True
+    assert period_is_in_text("2022-01-01", "published in 2021 by TERI", "year") is False
+    # A four-digit run that is not the year must not ground it.
+    assert period_is_in_text("2022-01-01", "item 12022 of the catalogue", "year") is False
+
+
+def test_grounding_at_month_precision_needs_the_month_and_the_year_together():
+    assert period_is_in_text("2007-09-01", "published in September 2007", "month") is True
+    # A two-part numeric month ("09/2007") is not read: the numeric-date pattern
+    # needs three components. Month grounding relies on the month *name*, which
+    # is how documents that state a month actually write it.
+    assert period_is_in_text("2007-09-01", "issue 09/2007 of the bulletin", "month") is False
+    assert period_is_in_text("2007-09-01", "published 01/09/2007", "month") is True
+    assert period_is_in_text("2007-09-01", "September 1998 report", "month") is False
+    # Proximity, not parsing: the month name and the year have to sit within one
+    # 60-character window, which is the same tolerance `date_is_in_text` uses for
+    # a day. It is deliberately loose — a masthead breaks a date across lines —
+    # and it is not the only guard: the quoted statement must itself be present
+    # and must carry the year.
+    assert period_is_in_text(
+        "2007-09-01", "September 1998, and separately 2007", "month") is True
+
+
+def test_grounding_at_day_precision_is_unchanged():
+    """The filename-assembled-date guard still demands all three components."""
+    assert period_is_in_text("2013-12-23", "Chandigarh, Monday, December 23, 2013", "day") is True
+    assert period_is_in_text("2013-12-23", "December 2013", "day") is False

@@ -24,10 +24,13 @@ changes: it does not lower any bar for what may set a date.
 
 **An override needs the document to say so.** Two paths can propose one, and
 both require the document's own text. :mod:`app.ingestion.date_llm` proposes a
-*day* when its verdict survives every gate — a quoted publication statement,
-that statement present in the PDF's own text, the statement carrying the
-proposed date, publication linkage, a stated day, and confidence at or above
-the threshold. :func:`copyright_override`, the one deterministic override,
+*date at the precision its evidence supports* when the verdict survives every
+gate — a quoted publication statement, that statement present in the PDF's own
+text, the statement carrying the proposed date, publication linkage, and
+confidence at or above the threshold. A statement naming a day gives a day; one
+naming a month gives that month; one naming only a year gives that year. The
+value stored is the first day of the established period and the precision says
+how much is known, so nothing is invented in either direction. :func:`copyright_override`, the one deterministic override,
 proposes a *year* (stored as 1 January with ``candidate_precision="year"``)
 when the front matter carries a copyright statement **and** the PDF's own
 DocInfo creation date names the same year — two independent facts agreeing,
@@ -101,6 +104,30 @@ class ResolvedDate:
     @property
     def overridden(self) -> bool:
         return bool(self.decision and self.decision.action == "propose_override")
+
+    @property
+    def canonical_source(self) -> str:
+        """The value ``documents.date_source`` should carry for this outcome.
+
+        Two vocabularies meet here and neither is wrong. ``DateDecision.source``
+        is *provenance*: it names the field, rule or model that produced the
+        verdict, and the decision table records it verbatim. ``date_source`` on
+        the document is the *canonical* four-then-five value vocabulary the
+        query layer reads, and it must never carry a Drupal field name or a
+        rule name.
+
+        This is the map between them, and it lives here because this class is
+        what the caller holds. An inherited date is ``parent_page``. A quoted
+        publication statement is ``document_text``. A corroborated copyright
+        year is ``document_copyright`` — which used to be recorded as
+        ``document_text``, claiming a verified publication statement for a
+        document that had only stated a year.
+        """
+        if not self.overridden:
+            return "parent_page"
+        if (self.decision.source or "") == "document_copyright":
+            return "document_copyright"
+        return "document_text"
 
     @property
     def needs_review(self) -> bool:
@@ -404,6 +431,23 @@ def _interpret(
         )
 
     action = verdict.safe_action()
+    precision = verdict.supported_precision() or "day"
+    candidate = verdict.normalized_start_date()
+
+    # A year-only verdict that agrees with the page's own year buys nothing and
+    # costs the day the page states. The same guard `copyright_override` applies,
+    # for the same reason: replacing 2019-01-11 with "2019, year precision" makes
+    # the record vaguer without making it truer. A verdict naming a *different*
+    # year is exactly the case worth acting on.
+    if action == "override" and precision == "year":
+        page_year = str(page_date or "")[:4]
+        if candidate and page_year and candidate[:4] == page_year:
+            logger.info(
+                "Year-only verdict %s matches the page's own year; keeping the "
+                "page date, which is more precise.", candidate,
+            )
+            action = "keep_page_date"
+
     mapped = {
         "override": "propose_override",
         "review": "needs_manual_review",
@@ -413,8 +457,8 @@ def _interpret(
         DateDecision(
             document_id=evidence.document_id,
             action=mapped,
-            candidate_start_date=(verdict.candidate_start_date if action == "override"
-                            else page_date),
+            candidate_start_date=(candidate if action == "override" else page_date),
+            candidate_precision=(precision if action == "override" else "day"),
             date_type=verdict.date_type,
             edition_label=verdict.edition_label or evidence.edition,
             source=("llm_publication" if action == "override"

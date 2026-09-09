@@ -47,6 +47,11 @@ _ensured_collections: set[str] = set()
 #   chunk_index        neighbour expansion (app/retrieval/scoped_retrieval)
 #   parent_chunk_id    child -> parent resolution
 #   effective_start_date       date range filters and recency
+#   effective_end_date         the far end of a period, for date-range OVERLAP
+#                              (a 2020-2024 project has to match a 2022 query)
+#   start_precision            which precision branch of the overlap filter a
+#   end_precision              document falls in; absent means a full date
+#   bundle                     the open-ended-period branch of that filter
 #   chunk_text         the keyword leg's MatchText pulls
 #
 # Deliberately absent: `term_ids` / `theme_ids` (taxonomy, retired) and
@@ -65,6 +70,13 @@ PAYLOAD_INDEXES: dict[str, str] = {
     "parent_chunk_id": "keyword",
     "chunk_index": "integer",
     "effective_start_date": "datetime",
+    # The overlap filter ranges over both ends and branches on both precision
+    # markers and the bundle, so all five have to be indexed or every date-range
+    # query falls back to a scan of the collection.
+    "effective_end_date": "datetime",
+    "start_precision": "keyword",
+    "end_precision": "keyword",
+    "bundle": "keyword",
     # The heaviest index here, and the one the lexical path cannot work without:
     # `keyword_leg_enabled` degrades to dense-only while it is missing, silently.
     "chunk_text": "text",

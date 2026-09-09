@@ -205,15 +205,15 @@ def build_attachment_doc(
         linked_article_uuid=(node.uuid or None),
         effective_start_date=resolved.start_value,
         # `parent_page` is the ordinary case and says exactly what happened: this
-        # file carries the date its Drupal page resolved to. `document_text` is
-        # the one exception — a publication statement quoted from the PDF's own
-        # text and verified against it, which is only ever granted where the page
-        # had nothing but a creation stamp to offer. The fuller reasoning — which
+        # file carries the date its Drupal page resolved to. The two override
+        # values name which kind of statement the document made about itself —
+        # a quoted publication statement, or a corroborated copyright year. The
+        # mapping lives on `ResolvedDate.canonical_source` so the document and
+        # the decision row cannot disagree about it. The fuller reasoning — which
         # rule fired, the confidence, the quote, the parent's field and value —
         # stays in `{state}_date_decision`; this is the bit that belongs beside
         # the value.
-        date_source=("document_text" if resolved.overridden
-                     else "parent_page"),
+        date_source=resolved.canonical_source,
         # Inherited, not assumed: a file on a research paper is year-precision
         # too, and a reader that renders its 1 January as a day would invent a
         # January publication for the file exactly as it would for the page.
@@ -265,7 +265,7 @@ def _overridden_evidence(parent_date, resolved):
     return replace(
         parent_date,
         start_value=resolved.start_value,
-        source="document_text",
+        source=resolved.canonical_source,
         # The decision's own precision: a quoted publication statement gives a
         # day, a corroborated copyright statement gives a year.
         start_precision=resolved.start_precision,

@@ -39,7 +39,8 @@ class StateRecord:
     indexed_at: str | None = None
     effective_start_date: str | None = None
     #: Where ``effective_start_date`` came from: ``created`` | ``cms_field`` |
-    #: ``parent_page`` | ``document_text``. None means not recorded — which is
+    #: ``parent_page`` | ``document_text`` | ``document_copyright``. None means
+    #: not recorded — which is
     #: every row written before the column existed, and is deliberately not read
     #: as ``created``.
     date_source: str | None = None
