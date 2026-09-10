@@ -52,6 +52,7 @@ must be true; the second defaults false. With either off, nothing here imports
 from __future__ import annotations
 
 import logging
+import uuid
 from typing import Any, Sequence
 
 logger = logging.getLogger(__name__)
@@ -182,6 +183,14 @@ def _catch_up(limit: int | None) -> dict[str, Any] | None:
 
     settings = get_settings()
     budget = limit if limit is not None else _DEFAULT_CATCH_UP
+    # This sweep's own run identity, which the claim-extraction call ceiling is
+    # scoped by. Without it every catch-up in a long-lived worker would share
+    # the one unscoped allowance: once the cumulative total crossed
+    # `claim_llm_max_calls_per_run`, catch-up would keep examining documents,
+    # start no calls at all, and report each one `partial` forever - draining
+    # nothing while looking busy. A fresh id per sweep also means the ceiling
+    # still bounds any single sweep.
+    run_id = f"catch-up-{uuid.uuid4().hex}"
     try:
         due = knowledge_runs.pending(
             max_attempts=settings.knowledge_stage_max_attempts, limit=budget
@@ -200,7 +209,7 @@ def _catch_up(limit: int | None) -> dict[str, Any] | None:
     for row in due:
         tally["examined"] += 1
         try:
-            doc = load_document(row["document_id"])
+            doc = load_document(row["document_id"], run_id=run_id)
             if doc is None:
                 tally["failed"] += 1
                 continue

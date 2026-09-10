@@ -57,3 +57,20 @@ def _knowledge_stage_off_by_default(monkeypatch):
     monkeypatch.setattr(
         get_settings(), "knowledge_process_after_index", False, raising=False
     )
+
+
+@pytest.fixture(autouse=True)
+def _fresh_claim_call_budget():
+    """Give every test its own run-level claim-extraction allowance.
+
+    The budget registry is deliberately process-global — that is what makes one
+    ceiling span every document of an ingestion run. The cost is that tests
+    driving ``process_document`` without a run id all share the ``__unscoped__``
+    entry, so the allowance would drain across the session and whichever test
+    happened to run after the 200th call would fail for reasons of its own.
+    """
+    from app.knowledge.claims import run_budget
+
+    run_budget.reset()
+    yield
+    run_budget.reset()

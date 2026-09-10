@@ -66,6 +66,33 @@ BUDGET_EXCEEDED = (
     "is retryable — everything already written is valid"
 )
 
+# The three reasons claim extraction can stop before it has examined every
+# eligible chunk. Each is reported verbatim so an operator reading a run row
+# can tell a transient stop from a policy one without consulting the code.
+#
+# Two of them are retryable and one is not, and that distinction is the whole
+# point of keeping them apart. A run-level or time-based stop left work that a
+# later attempt *can* finish, so the run is `partial` and catch-up will come
+# back to it. The per-document ceiling is a deliberate policy — a retry would
+# hit the identical ceiling on the identical chunks — so it is recorded and
+# counted but does not queue the document for a retry that cannot help.
+RUN_CALL_LIMIT_REACHED = (
+    "the run's claim-extraction call ceiling (claim_llm_max_calls_per_run) was "
+    "reached; this document's remaining eligible chunks were not examined and "
+    "the run is retryable — everything already written is valid"
+)
+TIME_BUDGET_REACHED = (
+    "the stage time budget (knowledge_stage_budget_seconds) was reached before "
+    "claim extraction finished; the remaining eligible chunks were not examined "
+    "and the run is retryable — everything already written is valid"
+)
+DOCUMENT_CALL_LIMIT_REACHED = (
+    "this document's own call ceiling "
+    "(knowledge_llm_max_calls_per_document) was reached; its remaining "
+    "eligible chunks were deliberately not examined. Not retryable: a later "
+    "attempt would stop at the same ceiling"
+)
+
 # Reported when a project document has no canonical entity yet.
 NOT_SEEDED = (
     "this document has no canonical PROJECT entity yet; seeding is a global "
@@ -170,6 +197,14 @@ class StageOptions:
     with_projection: bool | None = None
     budget_seconds: float | None = None
     llm_max_calls: int | None = None
+    # The corpus-level ceiling, shared by every document in one ingestion run.
+    # Distinct from `llm_max_calls`, which bounds a single document: this is
+    # what stops a 12,003-document pass from spending 96,024 calls.
+    llm_max_calls_per_run: int | None = None
+    # An explicit budget object, for a caller that wants one it controls. Left
+    # None, `_llm_claims` resolves the run's shared budget from its run id,
+    # which is what the ingest path does.
+    run_budget: Any = None
     min_confidence: float | None = None
     # Fixed "now" for current-state eligibility. Exists so a test can assert on
     # a window without depending on the date it runs.
@@ -187,6 +222,7 @@ class StageOptions:
             "with_projection": bool(settings.knowledge_project_per_document),
             "budget_seconds": float(settings.knowledge_stage_budget_seconds),
             "llm_max_calls": int(settings.knowledge_llm_max_calls_per_document),
+            "llm_max_calls_per_run": int(settings.claim_llm_max_calls_per_run),
             "min_confidence": float(settings.claim_min_confidence),
         }
         base.update({k: v for k, v in overrides.items() if v is not None})
@@ -503,9 +539,31 @@ def _mentions(run: _Run) -> None:
                 if chunk.content_hash else None
             )
             try:
-                if key and mention_store.cached_extraction(
-                    chunk.content_hash, key
-                ) is not None:
+                # The cache records that this chunk's mentions were already
+                # extracted and stored, so re-running the extractor would
+                # rewrite rows nothing has changed. Skipping is only safe when
+                # nothing later in *this* run needs the mentions in memory.
+                #
+                # LLM claim extraction does need them: it iterates
+                # `decisions_by_chunk`, which resolution fills from
+                # `mentions_by_chunk`, which this loop fills. Skipping a cached
+                # chunk therefore left the claims stage with nothing to examine
+                # — so a document truncated by a call ceiling or a time budget
+                # could never have that work finished on a retry, because the
+                # retry hit the cache and saw an empty document. Catch-up would
+                # burn its three attempts and report `ok` having done nothing.
+                #
+                # Re-extracting is the deterministic gazetteer pass, not a
+                # model call, so honouring the cache here saves no spend
+                # against the budgets this run is bounded by. The store keeps no
+                # read-back API for mentions; loading them instead of
+                # recomputing them would be the cheaper fix and needs one.
+                if (
+                    key
+                    and not run.o.with_llm_claims
+                    and mention_store.cached_extraction(chunk.content_hash, key)
+                    is not None
+                ):
                     cached += 1
                     continue
                 found = extract_mentions(
@@ -666,27 +724,76 @@ def _llm_claims(run: _Run, stage: Stage) -> list[Any]:
     """
     if not run.o.with_llm_claims:
         return []
+    from app.knowledge.claims import run_budget as run_budget_registry
     from app.knowledge.claims.eligibility import eligible_from_decisions
     from app.knowledge.claims.extract_llm import extract_claims_for_chunk
 
-    budget = run.o.llm_max_calls or 0
-    if budget <= 0:
+    per_document = run.o.llm_max_calls or 0
+    if per_document <= 0:
         return []
+    # The allowance shared with every other document in this run. Resolved from
+    # the run id so it resets at a run boundary on its own, and injectable so a
+    # caller (or a test) can hold one it controls.
+    #
+    # None means "not specified", the same as everywhere else in StageOptions,
+    # and falls back to configuration. It must not be read as 0: 0 is the
+    # setting's documented "disable the extractor", so conflating the two would
+    # silently switch claim extraction off for any caller that built its
+    # options directly instead of through `from_settings`.
+    per_run = run.o.llm_max_calls_per_run
+    if per_run is None:
+        from app.config import get_settings
+
+        per_run = int(get_settings().claim_llm_max_calls_per_run)
+    corpus_budget = run.o.run_budget or run_budget_registry.for_run(
+        run.doc.run_id, per_run
+    )
+
+    def stopped(counter: str, reason: str, *, retryable: bool) -> None:
+        """Record why extraction stopped short of examining every chunk.
+
+        A note alone is not enough, and that was the bug: `status_for` decides
+        `partial` from a stage's *errors*, so a stop recorded only as a note
+        reported the document as `ok`. A truncated run then looked identical to
+        a complete one, and catch-up — which selects on `partial` — never saw
+        it. `stage.fail` is what makes the run both honest and retryable.
+
+        The prose goes to `notes` and, when retryable, to `errors`; `counter`
+        is a separate integer key because `counts` is aggregated across a run
+        and "how many documents stopped for this reason" is the question a
+        canary actually asks.
+        """
+        stage.notes.append(f"{reason} (calls made: {calls})")
+        stage.counts[counter] = 1
+        stage.counts["stopped_early"] = 1
+        if retryable:
+            stage.fail("llm_claims", reason)
 
     out: list[Any] = []
     calls = 0
     failures = 0
     texts = run.doc.chunk_texts
     for chunk_id, decisions in run.decisions_by_chunk.items():
-        if calls >= budget or run.over_budget():
-            stage.notes.append(
-                f"model calls stopped at {calls}; the document's remaining "
-                "chunks were not examined"
-            )
-            break
         eligible = eligible_from_decisions(decisions, run.index)
         if not eligible:
+            # No model call is made for this chunk, so it consumes no
+            # allowance and its absence leaves no work undone. Filtering
+            # before the guards below is what keeps "we stopped early" from
+            # being reported for a document that had nothing left to examine.
             continue
+        # Every guard sits here, immediately before the call and after
+        # eligibility, so that reaching one always means a real chunk went
+        # unexamined and never means "there was nothing left anyway".
+        if run.over_budget():
+            stopped("stopped_time_budget", TIME_BUDGET_REACHED, retryable=True)
+            break
+        if calls >= per_document:
+            stopped("stopped_document_call_limit", DOCUMENT_CALL_LIMIT_REACHED,
+                    retryable=False)
+            break
+        if not corpus_budget.try_consume():
+            stopped("stopped_run_call_limit", RUN_CALL_LIMIT_REACHED, retryable=True)
+            break
         calls += 1
         # The extractor keeps its "[] on any failure" contract, and hands the
         # exception back here instead of dropping it. Recording it on the stage
@@ -731,6 +838,10 @@ def _llm_claims(run: _Run, stage: Stage) -> list[Any]:
         run.pending_candidates.extend(unknown)
     stage.counts["llm_calls"] = calls
     stage.counts["llm_failures"] = failures
+    # What the run spent of the shared allowance, so a canary can be read from
+    # the run rows alone without instrumenting the model client.
+    stage.counts["run_calls_used"] = corpus_budget.used
+    stage.counts["run_calls_remaining"] = corpus_budget.remaining
     stage.counts["llm"] = len(out)
     stage.counts["unknown_predicates"] = len(run.pending_candidates)
     return out

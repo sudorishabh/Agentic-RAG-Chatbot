@@ -355,6 +355,7 @@ def test_from_settings_reads_whether_mentions_are_extracted(monkeypatch):
         knowledge_project_per_document = True
         knowledge_stage_budget_seconds = 30.0
         knowledge_llm_max_calls_per_document = 8
+        claim_llm_max_calls_per_run = 200
         claim_min_confidence = 0.6
 
     monkeypatch.setattr("app.config.get_settings", lambda: _Settings())
@@ -368,6 +369,50 @@ def test_from_settings_reads_whether_mentions_are_extracted(monkeypatch):
 
 
 def test_a_cached_chunk_is_not_re_extracted(stores):
+    stores.cache["h1"] = 3
+    report = dp.process_document(_document(), _options(with_mentions=True))
+    assert report.chunks_cached == 1
+    assert stores.mentions == []
+
+
+def test_a_cached_chunk_is_still_examined_for_claims(stores, monkeypatch):
+    """The mention cache must not starve claim extraction.
+
+    A cache hit used to `continue` past the chunk, so `mentions_by_chunk` and
+    then `decisions_by_chunk` stayed empty and the claims stage had nothing to
+    iterate. The consequence was not a slow retry but an impossible one: a
+    document truncated by a call ceiling or a time budget would, on catch-up,
+    hit the cache, see an empty document, make no calls, and report `ok` having
+    done none of the deferred work.
+
+    Re-extraction here is the deterministic gazetteer pass, so this costs no
+    model spend against the budgets the run is bounded by.
+    """
+    calls = {"n": 0}
+
+    def counted(*a, **kw):
+        calls["n"] += 1
+        return ([], [])
+
+    monkeypatch.setattr(
+        "app.knowledge.claims.extract_llm.extract_claims_for_chunk", counted
+    )
+    # The chunk's mentions are already cached from an earlier run.
+    stores.cache["h1"] = 3
+
+    report = dp.process_document(
+        _document(),
+        _options(with_mentions=True, with_llm_claims=True,
+                 llm_max_calls=8, llm_max_calls_per_run=200),
+    )
+
+    assert calls["n"] == 1, "the cached chunk was still offered to the extractor"
+    assert report.status == "ok"
+
+
+def test_the_cache_is_still_honoured_when_claims_are_off(stores):
+    """And the optimisation survives for the default configuration, where
+    nothing downstream needs the mentions in memory."""
     stores.cache["h1"] = 3
     report = dp.process_document(_document(), _options(with_mentions=True))
     assert report.chunks_cached == 1
@@ -770,11 +815,271 @@ def test_the_llm_call_budget_is_per_document(stores, monkeypatch):
         dp.ChunkText(f"chunk-{i}", "Ministry of Power funded it.", f"h{i}")
         for i in range(5)
     )
-    dp.process_document(
+    report = dp.process_document(
         _document(chunks=chunks),
         _options(with_mentions=True, with_llm_claims=True, llm_max_calls=2),
     )
     assert calls["n"] == 2
+    # The per-document ceiling is policy, not breakage: a retry would stop at
+    # the same number on the same chunks, so it is recorded without queueing
+    # the document for a retry that cannot improve on this one.
+    claims = next(st for st in report.stages if st.name == "claims")
+    assert claims.counts["stopped_document_call_limit"] == 1
+    assert any(dp.DOCUMENT_CALL_LIMIT_REACHED in n for n in claims.notes)
+    assert claims.errors == [], "recorded, but not retryable"
+    assert report.status == "ok"
+
+
+# --------------------------------------------------------------------------- #
+# Operational safeguards: the run-level call ceiling and the time budget
+#
+# claim_llm_max_calls_per_run was declared in configuration and read nowhere,
+# so nothing bounded a full-corpus pass: 12,003 documents at the per-document
+# ceiling of 8 is 96,024 calls that no setting expressed. The time budget was
+# checked, but a stop was recorded only as a note - and status_for decides
+# `partial` from a stage's errors, so a truncated document reported `ok` and
+# catch-up, which selects on `partial`, never came back for it.
+# --------------------------------------------------------------------------- #
+
+def _counting_extractor(monkeypatch, calls, on_call=None):
+    def counted(*a, **kw):
+        calls["n"] += 1
+        if on_call is not None:
+            on_call()
+        return ([], [])
+
+    monkeypatch.setattr(
+        "app.knowledge.claims.extract_llm.extract_claims_for_chunk", counted
+    )
+    return counted
+
+
+def _eligible_chunks(n, prefix="chunk"):
+    return tuple(
+        dp.ChunkText(f"{prefix}-{i}", "Ministry of Power funded it.", f"h{prefix}{i}")
+        for i in range(n)
+    )
+
+
+def test_call_201_is_never_started_when_the_run_limit_is_200(stores, monkeypatch):
+    """The requirement as stated, at the number the setting ships with.
+
+    Thirty documents of eight eligible chunks each would make 240 calls under
+    the per-document ceiling alone. The run ceiling has to cut it at exactly
+    200, and the 201st call must never be started - not started and discarded.
+    """
+    calls = {"n": 0}
+    _counting_extractor(monkeypatch, calls)
+
+    statuses = []
+    for d in range(30):
+        report = dp.process_document(
+            _document(document_id=f"{PROJECT_DOC}-{d}",
+                      chunks=_eligible_chunks(8, prefix=f"d{d}")),
+            _options(with_mentions=True, with_llm_claims=True,
+                     llm_max_calls=8, llm_max_calls_per_run=200),
+        )
+        statuses.append(report.status)
+
+    assert calls["n"] == 200, "exactly the ceiling, and not one call past it"
+    assert "partial" in statuses, "the documents that were cut short say so"
+
+
+def test_no_further_calls_start_once_the_run_ceiling_is_reached(stores, monkeypatch):
+    """The ceiling holds for every document after the one that hit it, not just
+    for the one that happened to exhaust it."""
+    calls = {"n": 0}
+    _counting_extractor(monkeypatch, calls)
+    options = _options(with_mentions=True, with_llm_claims=True,
+                       llm_max_calls=8, llm_max_calls_per_run=3)
+
+    first = dp.process_document(
+        _document(document_id="doc-a", chunks=_eligible_chunks(8, prefix="a")),
+        options,
+    )
+    assert calls["n"] == 3 and first.status == "partial"
+
+    second = dp.process_document(
+        _document(document_id="doc-b", chunks=_eligible_chunks(8, prefix="b")),
+        options,
+    )
+    assert calls["n"] == 3, "the next document starts no call at all"
+    assert second.status == "partial", "and is honest about having done nothing"
+
+
+def test_reaching_the_run_ceiling_is_partial_retryable_and_explained(stores, monkeypatch):
+    calls = {"n": 0}
+    _counting_extractor(monkeypatch, calls)
+
+    report = dp.process_document(
+        _document(chunks=_eligible_chunks(4)),
+        _options(with_mentions=True, with_llm_claims=True,
+                 llm_max_calls=8, llm_max_calls_per_run=2),
+    )
+
+    assert report.status == "partial", "not `ok` - work was left unexamined"
+    claims = next(st for st in report.stages if st.name == "claims")
+    assert claims.counts["stopped_run_call_limit"] == 1
+    assert claims.counts["llm_calls"] == 2
+    assert claims.errors, "an error is what makes catch-up pick it up again"
+    assert any("claim_llm_max_calls_per_run" in e["error"] for e in claims.errors), (
+        "the reason names the setting an operator would change"
+    )
+    # And the row a sweep reads agrees with the report.
+    assert stores.runs and stores.runs[0].status == "partial"
+
+
+def test_a_zero_run_ceiling_starts_no_calls_at_all(stores, monkeypatch):
+    """The setting documents "0 disables the extractor". Read as "unlimited" it
+    would do the opposite of what it says on a default-off path."""
+    calls = {"n": 0}
+    _counting_extractor(monkeypatch, calls)
+
+    dp.process_document(
+        _document(chunks=_eligible_chunks(3)),
+        _options(with_mentions=True, with_llm_claims=True,
+                 llm_max_calls=8, llm_max_calls_per_run=0),
+    )
+    assert calls["n"] == 0
+
+
+def test_the_run_ceiling_spans_documents_but_resets_between_runs(stores, monkeypatch):
+    """It resets at a run boundary, so a later pass is not permanently capped.
+    Without that, one exhausted ceiling would silence claim extraction for
+    every subsequent pass of a reprocess."""
+    calls = {"n": 0}
+    _counting_extractor(monkeypatch, calls)
+    options = _options(with_mentions=True, with_llm_claims=True,
+                       llm_max_calls=8, llm_max_calls_per_run=2)
+
+    dp.process_document(
+        _document(document_id="doc-a", run_id="run-1",
+                  chunks=_eligible_chunks(4, prefix="a")), options)
+    assert calls["n"] == 2
+
+    dp.process_document(
+        _document(document_id="doc-b", run_id="run-1",
+                  chunks=_eligible_chunks(4, prefix="b")), options)
+    assert calls["n"] == 2, "same run, same spent allowance"
+
+    dp.process_document(
+        _document(document_id="doc-c", run_id="run-2",
+                  chunks=_eligible_chunks(4, prefix="c")), options)
+    assert calls["n"] == 4, "a new run gets a fresh allowance"
+
+
+def test_the_time_budget_stops_calls_before_starting_them(stores, monkeypatch):
+    """A pre-call guard, on a controlled clock rather than a real sleep.
+
+    Each call costs ten seconds against a twenty-five second budget, so the
+    fourth is never started: elapsed is checked *before* the call, which is the
+    only placement that keeps a long call from overrunning the budget it was
+    supposed to respect.
+    """
+    clock = {"t": 1000.0}
+    monkeypatch.setattr(dp.time, "monotonic", lambda: clock["t"])
+    calls = {"n": 0}
+
+    def spend_ten():
+        clock["t"] += 10.0
+
+    _counting_extractor(monkeypatch, calls, on_call=spend_ten)
+
+    report = dp.process_document(
+        _document(chunks=_eligible_chunks(8)),
+        _options(with_mentions=True, with_llm_claims=True,
+                 llm_max_calls=8, llm_max_calls_per_run=200,
+                 budget_seconds=25.0),
+    )
+
+    assert calls["n"] == 3, "three calls fit in the budget; the fourth is refused"
+    claims = next(st for st in report.stages if st.name == "claims")
+    assert claims.counts["stopped_time_budget"] == 1
+    assert claims.errors, "retryable: a later attempt may be quicker"
+    assert any("knowledge_stage_budget_seconds" in e["error"] for e in claims.errors)
+    assert report.status == "partial"
+
+
+def test_a_document_that_finished_every_chunk_reports_no_early_stop(stores, monkeypatch):
+    """The control. None of the guards may report a stop for a document that
+    had nothing left to examine, or every complete run would look truncated and
+    the retry queue would never empty."""
+    calls = {"n": 0}
+    _counting_extractor(monkeypatch, calls)
+
+    report = dp.process_document(
+        _document(chunks=_eligible_chunks(3)),
+        _options(with_mentions=True, with_llm_claims=True,
+                 llm_max_calls=8, llm_max_calls_per_run=200),
+    )
+
+    assert calls["n"] == 3
+    claims = next(st for st in report.stages if st.name == "claims")
+    assert "stopped_early" not in claims.counts
+    assert claims.errors == []
+    assert report.status == "ok"
+
+
+def test_a_chunk_with_no_eligible_entity_consumes_no_allowance(stores, monkeypatch):
+    """The allowance is spent on calls, not on chunks. Counting an ineligible
+    chunk against it would report a stop for a document that never had work."""
+    calls = {"n": 0}
+    _counting_extractor(monkeypatch, calls)
+    chunks = (
+        dp.ChunkText("chunk-1", "Nothing here names an entity.", "hx1"),
+        dp.ChunkText("chunk-2", "Ministry of Power funded it.", "hx2"),
+    )
+
+    report = dp.process_document(
+        _document(chunks=chunks),
+        _options(with_mentions=True, with_llm_claims=True,
+                 llm_max_calls=8, llm_max_calls_per_run=1),
+    )
+
+    assert calls["n"] == 1, "the eligible chunk was examined"
+    claims = next(st for st in report.stages if st.name == "claims")
+    assert "stopped_early" not in claims.counts, "nothing was left unexamined"
+    assert report.status == "ok"
+
+
+def test_work_deferred_by_the_ceiling_is_completed_on_a_later_run(stores, monkeypatch):
+    """The property that makes the ceiling safe to enforce: work is deferred,
+    never dropped.
+
+    A document is truncated by the run allowance and reports `partial`, which
+    is what puts it in the queue `knowledge_runs.pending` reads. A later run -
+    a catch-up sweep, which now carries its own run id - has a fresh allowance
+    and finishes the chunk that was skipped.
+    """
+    from app.knowledge.claims import run_budget
+
+    calls = {"n": 0}
+    _counting_extractor(monkeypatch, calls)
+    chunks = _eligible_chunks(2)
+
+    truncated = dp.process_document(
+        _document(chunks=chunks, run_id="ingest-run"),
+        _options(with_mentions=True, with_llm_claims=True,
+                 llm_max_calls=8, llm_max_calls_per_run=1),
+    )
+    assert calls["n"] == 1
+    assert truncated.status == "partial", "truncated, and it says so"
+    assert stores.runs[-1].status == "partial", (
+        "the row `knowledge_runs.pending` selects on agrees with the report"
+    )
+
+    # The sweep. A different run id, so a fresh allowance.
+    run_budget.reset()
+    finished = dp.process_document(
+        _document(chunks=chunks, run_id="catch-up-1"),
+        _options(with_mentions=True, with_llm_claims=True,
+                 llm_max_calls=8, llm_max_calls_per_run=200),
+    )
+    assert calls["n"] == 3, "both chunks examined on the retry"
+    assert finished.status == "ok", "nothing left unexamined, so nothing to retry"
+    claims = next(st for st in finished.stages if st.name == "claims")
+    assert "stopped_early" not in claims.counts
+    assert stores.runs[-1].status == "ok"
 
 
 # --------------------------------------------------------------------------- #

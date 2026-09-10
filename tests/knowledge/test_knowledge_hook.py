@@ -25,6 +25,7 @@ class _Settings:
         self.knowledge_project_per_document = True
         self.knowledge_stage_budget_seconds = 30.0
         self.knowledge_llm_max_calls_per_document = 8
+        self.claim_llm_max_calls_per_run = 200
         self.knowledge_stage_max_attempts = 3
         self.knowledge_extract_mentions = flags.get(
             "knowledge_extract_mentions", False
@@ -301,6 +302,60 @@ def test_catch_up_processes_the_retry_queue(monkeypatch):
         lambda doc, options: _Report(),
     )
     assert knowledge_sync.catch_up() == {"examined": 2, "ok": 1, "failed": 1}
+
+
+def test_catch_up_gets_its_own_allowance_each_sweep(monkeypatch):
+    """The claim-extraction ceiling is scoped by run id, and catch-up documents
+    used to carry none - so every sweep in a long-lived worker shared the one
+    unscoped allowance. Once the cumulative total crossed the ceiling, catch-up
+    would keep examining documents, start no calls, and report every one of
+    them partial forever: a queue that drains nothing while looking busy.
+    """
+    _flags(monkeypatch, knowledge_enabled=True, knowledge_process_after_index=True)
+    monkeypatch.setattr(
+        "app.catalog.knowledge_runs.pending",
+        lambda **kw: [{"document_id": "a"}],
+    )
+
+    seen = []
+
+    def _load(document_id, **kw):
+        seen.append(kw.get("run_id"))
+        return object()
+
+    monkeypatch.setattr("app.knowledge.document_loader.load_document", _load)
+
+    class _Report:
+        status = "ok"
+
+    monkeypatch.setattr(
+        "app.knowledge.document_pipeline.process_document",
+        lambda doc, options: _Report(),
+    )
+
+    knowledge_sync.catch_up()
+    knowledge_sync.catch_up()
+
+    assert all(r for r in seen), "every catch-up document carries a run id"
+    assert len(set(seen)) == 2, "and each sweep is its own run"
+
+
+def test_catch_up_keeps_its_batch_size(monkeypatch):
+    """A backlog is meant to drain across sweeps rather than in one unbounded
+    pass. Pinned because the number is an operational decision, not an
+    implementation detail, and raising it is a thing to do deliberately after
+    measuring - not by accident."""
+    _flags(monkeypatch, knowledge_enabled=True, knowledge_process_after_index=True)
+    asked = {}
+
+    def _pending(**kw):
+        asked.update(kw)
+        return []
+
+    monkeypatch.setattr("app.catalog.knowledge_runs.pending", _pending)
+    knowledge_sync.catch_up()
+    assert asked["limit"] == 25
+    assert knowledge_sync._DEFAULT_CATCH_UP == 25
 
 
 def test_catch_up_survives_an_unreadable_queue(monkeypatch):
