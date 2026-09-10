@@ -22,7 +22,10 @@ class _FakeSession:
 
     def run(self, statement, **params):
         self.statements.append(statement)
-        return None
+        # `ensure_graph_schema` reconciles index drift first, which reads
+        # SHOW INDEXES. An empty result is the right answer for a fake with no
+        # server behind it: nothing stored, so nothing to drop.
+        return []
 
     def __enter__(self):
         return self
@@ -94,11 +97,30 @@ def test_identity_constraints_cover_every_merge_key():
 # Application
 # --------------------------------------------------------------------------- #
 
+def _ddl(session):
+    """The DDL a session was asked to run, without the drift reconciliation.
+
+    `ensure_graph_schema` reads SHOW INDEXES first, so that an index whose
+    definition changed under an unchanged name is dropped rather than silently
+    kept by `CREATE ... IF NOT EXISTS`. That read is not schema DDL, and these
+    tests are about the DDL.
+    """
+    return [s for s in session.statements if not s.startswith("SHOW INDEXES")]
+
+
 def test_ensure_graph_schema_runs_every_statement():
     session = _FakeSession()
     count = schema.ensure_graph_schema(session=session)
     assert count == len(schema.statements())
-    assert session.statements == list(schema.statements())
+    assert _ddl(session) == list(schema.statements())
+
+
+def test_ensure_graph_schema_reconciles_drift_before_creating():
+    """The read has to come first: a CREATE issued while a stale index still
+    exists is the no-op that let `document_published` index a dead property."""
+    session = _FakeSession()
+    schema.ensure_graph_schema(session=session)
+    assert session.statements[0].startswith("SHOW INDEXES")
 
 
 def test_ensure_graph_schema_opens_a_write_session(monkeypatch):
@@ -114,7 +136,7 @@ def test_ensure_graph_schema_opens_a_write_session(monkeypatch):
     monkeypatch.setattr("app.core.clients.graph.write_session", fake_write_session)
     schema.ensure_graph_schema()
     assert opened == ["write"]
-    assert len(session.statements) == len(schema.statements())
+    assert len(_ddl(session)) == len(schema.statements())
 
 
 def test_drop_graph_schema_drops_everything_it_creates():

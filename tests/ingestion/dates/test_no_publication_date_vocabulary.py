@@ -51,6 +51,15 @@ ALLOWED = {
     # value of it: "which points predate the rename" is unanswerable otherwise.
     "app/ingestion/version.py":
         "the PAYLOAD=2 note records which keys were renamed",
+    # The Neo4j index migration, for the same reason as the column one: it
+    # cannot drop an index built on the retired property without naming it.
+    # `document_published` indexed `published_at` on a graph where no node had
+    # carried that property since the rename - `CREATE ... IF NOT EXISTS`
+    # matches on the index name, so the corrected DDL silently never applied.
+    "app/knowledge/graph/schema.py":
+        "OBSOLETE_INDEXES names the retired index so it can be dropped",
+    "scripts/ensure_graph_indexes.py":
+        "records which property the dropped index was built on",
     # This file.
     "tests/ingestion/dates/test_no_publication_date_vocabulary.py":
         "asserts the absence",

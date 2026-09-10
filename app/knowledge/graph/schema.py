@@ -147,8 +147,26 @@ INDEXES: tuple[str, ...] = (
     # Lifecycle: drop one document version's graph footprint in a single pass.
     "CREATE INDEX chunk_document IF NOT EXISTS "
     "FOR (n:Chunk) ON (n.document_id, n.doc_version)",
-    "CREATE INDEX document_published IF NOT EXISTS "
+    # Named for the property it indexes. Its predecessor was called
+    # `document_published` and indexed `published_at`; when the property was
+    # renamed the statement was updated but `IF NOT EXISTS` matches on the
+    # index *name*, so the old index survived pointing at a property nothing
+    # writes any more. See OBSOLETE_INDEXES and migrate_index_drift below.
+    "CREATE INDEX document_effective_start_date IF NOT EXISTS "
     "FOR (n:Document) ON (n.effective_start_date)",
+)
+
+#: Indexes this module used to create and no longer declares. Dropped before the
+#: schema is applied, because nothing else ever will: `ensure_graph_schema` only
+#: creates, so an index that falls out of INDEXES is otherwise kept alive
+#: forever by the server, costing writes and indexing a dead property.
+OBSOLETE_INDEXES: tuple[str, ...] = (
+    # Indexed `published_at`, which the date model replaced with
+    # `effective_start_date`. Measured on the deployed graph before removal:
+    # 1,044 Document nodes, all 1,044 carrying `effective_start_date` and
+    # **none** carrying `published_at` — so it indexed nothing and every
+    # date-filtered Document query was a full label scan.
+    "document_published",
 )
 
 # Operator-facing entity lookup (review CLIs, "which entity did you mean").
@@ -171,11 +189,76 @@ def statements() -> tuple[str, ...]:
     return CONSTRAINTS + INDEXES + FULLTEXT_INDEXES
 
 
+#: Parsed form of every index this module declares: name -> (label, properties).
+#: Derived from the DDL rather than repeated, so the two cannot disagree.
+def declared_indexes() -> dict[str, tuple[str, tuple[str, ...]]]:
+    out: dict[str, tuple[str, tuple[str, ...]]] = {}
+    for statement in INDEXES:
+        name = statement.split()[2]
+        label = statement.split("FOR (n:")[1].split(")")[0]
+        props = statement.rsplit("ON (", 1)[1].rstrip(")")
+        out[name] = (label, tuple(
+            part.strip().removeprefix("n.") for part in props.split(",")
+        ))
+    return out
+
+
+def migrate_index_drift(session: Any) -> list[str]:
+    """Drop indexes whose stored definition no longer matches the declared one.
+
+    The gap this closes: ``CREATE INDEX ... IF NOT EXISTS`` matches on the index
+    **name**. Change the property an index covers and leave the name alone and
+    the server keeps the old index and reports success — the new definition is
+    never applied, and nothing surfaces it. That is how ``document_published``
+    came to index ``published_at`` on a graph where no node has carried that
+    property since the date model was normalised.
+
+    So this compares stored properties against declared ones and drops any that
+    disagree, leaving the ordinary ``CREATE`` to rebuild them correctly. Also
+    drops :data:`OBSOLETE_INDEXES`, which are no longer declared at all.
+
+    Returns the names dropped, for the caller to log. Data is untouched: an
+    index is derived, and rebuilding one costs time, not correctness.
+    """
+    dropped: list[str] = []
+    declared = declared_indexes()
+    stored: dict[str, tuple[str, tuple[str, ...]]] = {}
+    for record in session.run(
+        "SHOW INDEXES YIELD name, labelsOrTypes, properties, type "
+        "RETURN name, labelsOrTypes, properties, type"
+    ):
+        row = dict(record)
+        labels, props = row.get("labelsOrTypes"), row.get("properties")
+        if not labels or not props:
+            continue  # a token-lookup index owns no label or property
+        stored[row["name"]] = (labels[0], tuple(props))
+
+    for name in OBSOLETE_INDEXES:
+        if name in stored:
+            session.run(f"DROP INDEX {name} IF EXISTS")
+            dropped.append(name)
+
+    for name, want in declared.items():
+        have = stored.get(name)
+        if have is not None and have != want:
+            logger.warning(
+                "Index %s covers %s but is declared on %s; dropping it so the "
+                "declared definition can be applied.", name, have, want,
+            )
+            session.run(f"DROP INDEX {name} IF EXISTS")
+            dropped.append(name)
+    return dropped
+
+
 def ensure_graph_schema(*, session: Any | None = None) -> int:
     """Apply the schema. Returns the number of statements executed.
 
     Idempotent through ``IF NOT EXISTS``, so a second call is a no-op and this
     can run on every process start, like ``catalog.schema.ensure_*``.
+
+    Drift is reconciled first: ``IF NOT EXISTS`` cannot correct an index whose
+    definition changed under a name that did not, so
+    :func:`migrate_index_drift` drops those before the creates run.
 
     Fails loudly rather than open: this is a deliberate operator action (or a
     guarded startup step), and a half-built schema is worth knowing about
@@ -184,14 +267,20 @@ def ensure_graph_schema(*, session: Any | None = None) -> int:
     """
     from app.core.clients.graph import write_session
 
-    if session is not None:
+    def apply(target: Any) -> None:
+        dropped = migrate_index_drift(target)
+        if dropped:
+            logger.info("Dropped %d stale index(es): %s", len(dropped),
+                        ", ".join(dropped))
         for statement in statements():
-            session.run(statement)
+            target.run(statement)
+
+    if session is not None:
+        apply(session)
         return len(statements())
 
     with write_session() as opened:
-        for statement in statements():
-            opened.run(statement)
+        apply(opened)
     logger.info("Applied %d Neo4j schema statements.", len(statements()))
     return len(statements())
 
@@ -220,7 +309,9 @@ def drop_graph_schema(*, session: Any | None = None) -> None:
     def _run(target: Any) -> None:
         for name in names:
             target.run(f"DROP CONSTRAINT {name} IF EXISTS")
-        for name in index_names:
+        # OBSOLETE_INDEXES included: a teardown that left them behind would
+        # defeat the point of a drop-then-rebuild.
+        for name in (*index_names, *OBSOLETE_INDEXES):
             target.run(f"DROP INDEX {name} IF EXISTS")
 
     if session is not None:
@@ -228,3 +319,8 @@ def drop_graph_schema(*, session: Any | None = None) -> None:
         return
     with write_session() as opened:
         _run(opened)
+
+
+def _obsolete_for_tests() -> tuple[str, ...]:
+    """Exposed so a test can assert the obsolete list is actually acted on."""
+    return OBSOLETE_INDEXES
