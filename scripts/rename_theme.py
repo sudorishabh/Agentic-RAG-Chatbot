@@ -24,7 +24,7 @@ unreachable. Segments are replaced exactly, in Python, rather than with SQL
 ``REPLACE``: "Energy" appears inside "Energy Access", and a substring rewrite
 would corrupt the sibling.
 
-After step 2, ``python -m scripts.reclassify_theme_rows --apply`` re-derives
+After step 2, ``python -m scripts.reclassify_theme_rows`` re-derives
 type/parent/group/path from the updated map. This script leaves the table
 self-consistent, so that is a belt-and-braces step rather than a required one —
 but it is what picks up a rename that also *moved* the theme in the hierarchy.
@@ -64,8 +64,8 @@ def main(argv: list[str] | None = None) -> int:
     table = f"{state_table()}_theme"
     with mysql_connection() as conn, conn.cursor() as cur:
         # `theme` rows name the theme; `parent` rows name it as a sub-theme's
-        # primary tag. Both have to move, or a renamed primary tag orphans its
-        # children from the sub-theme expansion (theme = X OR parent = X).
+        # immediate parent. Both have to move, or a renamed theme orphans its
+        # children from the legacy (NULL-path) branch of the scope expansion.
         cur.execute(f"SELECT COUNT(*) AS n FROM `{table}` WHERE theme = %s", (args.old,))
         as_theme = int(cur.fetchone()["n"])
         cur.execute(f"SELECT COUNT(*) AS n FROM `{table}` WHERE parent = %s", (args.old,))
@@ -124,7 +124,7 @@ def main(argv: list[str] | None = None) -> int:
         conn.commit()
     print(
         f"\nRenamed. Remember step 2: update {theme_taxonomy.TAXONOMY_PATH} to use "
-        f"{args.new!r}, then run scripts.reclassify_theme_rows --apply."
+        f"{args.new!r}, then run scripts.reclassify_theme_rows."
     )
     return 0
 
