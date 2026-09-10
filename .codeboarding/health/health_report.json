@@ -1,7 +1,7 @@
 {
   "repository_name": ".codeboarding-target",
-  "timestamp": "2026-09-08T06:40:15.094969+00:00",
-  "overall_score": 0.9493333333333334,
+  "timestamp": "2026-09-10T10:36:04.484343+00:00",
+  "overall_score": 0.9440316988608222,
   "check_summaries": [
     {
       "check_name": "function_size",
@@ -39,17 +39,6 @@
       ]
     },
     {
-      "check_name": "circular_dependencies",
-      "description": "Detects circular dependencies between packages",
-      "languages": [
-        "javascript"
-      ],
-      "check_type": "circular_dependencies",
-      "cycles": [],
-      "packages_checked": 1,
-      "packages_in_cycles": 0
-    },
-    {
       "check_name": "unused_code_diagnostics",
       "description": "Detects unused imports, variables, functions, and dead code via LSP diagnostics",
       "languages": [
@@ -69,16 +58,23 @@
         "python"
       ],
       "check_type": "standard",
-      "total_entities_checked": 1746,
-      "findings_count": 16,
-      "warning_count": 16,
-      "score": 0.9908361970217641,
+      "total_entities_checked": 1875,
+      "findings_count": 19,
+      "warning_count": 19,
+      "score": 0.9898666666666667,
       "finding_groups": [
         {
           "severity": "warning",
           "threshold": 150,
           "description": "Functions exceeding 150.0 lines",
           "entities": [
+            {
+              "entity_name": "tools.e2e_ingest_audit.checks.run_checks",
+              "file_path": "tools/e2e_ingest_audit/checks.py",
+              "line_start": 86,
+              "line_end": 655,
+              "metric_value": 569
+            },
             {
               "entity_name": "scripts.build_manual_review.main",
               "file_path": "scripts/build_manual_review.py",
@@ -92,6 +88,13 @@
               "line_start": 277,
               "line_end": 571,
               "metric_value": 294
+            },
+            {
+              "entity_name": "tools.e2e_ingest_audit.run_audit.main",
+              "file_path": "tools/e2e_ingest_audit/run_audit.py",
+              "line_start": 352,
+              "line_end": 607,
+              "metric_value": 255
             },
             {
               "entity_name": "scripts.shadow_date_prototype.main",
@@ -136,6 +139,27 @@
               "metric_value": 184
             },
             {
+              "entity_name": "app.ingestion.reconcile.date_checks",
+              "file_path": "app/ingestion/reconcile.py",
+              "line_start": 277,
+              "line_end": 455,
+              "metric_value": 178
+            },
+            {
+              "entity_name": "app.ingestion.pipeline._run",
+              "file_path": "app/ingestion/pipeline.py",
+              "line_start": 624,
+              "line_end": 801,
+              "metric_value": 177
+            },
+            {
+              "entity_name": "app.ingestion.date_rules.decide",
+              "file_path": "app/ingestion/date_rules.py",
+              "line_start": 115,
+              "line_end": 288,
+              "metric_value": 173
+            },
+            {
               "entity_name": "app.pipeline.query_pipeline._prepare",
               "file_path": "app/pipeline/query_pipeline.py",
               "line_start": 179,
@@ -150,13 +174,6 @@
               "metric_value": 166
             },
             {
-              "entity_name": "app.ingestion.pipeline._run",
-              "file_path": "app/ingestion/pipeline.py",
-              "line_start": 617,
-              "line_end": 782,
-              "metric_value": 165
-            },
-            {
               "entity_name": "scripts._build_graph_benchmark.build",
               "file_path": "scripts/_build_graph_benchmark.py",
               "line_start": 161,
@@ -164,17 +181,10 @@
               "metric_value": 165
             },
             {
-              "entity_name": "app.ingestion.date_rules.decide",
-              "file_path": "app/ingestion/date_rules.py",
-              "line_start": 110,
-              "line_end": 273,
-              "metric_value": 163
-            },
-            {
               "entity_name": "app.ingestion.pipeline._handle",
               "file_path": "app/ingestion/pipeline.py",
-              "line_start": 343,
-              "line_end": 503,
+              "line_start": 350,
+              "line_end": 510,
               "metric_value": 160
             },
             {
@@ -185,77 +195,15 @@
               "metric_value": 153
             },
             {
-              "entity_name": "app.ingestion.reconcile.date_checks",
-              "file_path": "app/ingestion/reconcile.py",
-              "line_start": 277,
-              "line_end": 428,
-              "metric_value": 151
+              "entity_name": "tools.e2e_ingest_audit.capture.observed_pipeline",
+              "file_path": "tools/e2e_ingest_audit/capture.py",
+              "line_start": 111,
+              "line_end": 261,
+              "metric_value": 150
             }
           ]
         }
       ]
-    },
-    {
-      "check_name": "circular_dependencies",
-      "description": "Detects circular dependencies between packages",
-      "languages": [
-        "python"
-      ],
-      "check_type": "circular_dependencies",
-      "cycles": [
-        "app.ingestion.change_detection -> app -> app.workers -> app.catalog -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.core.clients -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.core.clients -> app.observability -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.core.clients -> app.observability.retrieval_log -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.core.clients -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.core.clients -> app.observability -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.core.clients -> app.observability.retrieval_log -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.knowledge.claims -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.knowledge.claims -> app.core.clients -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.knowledge.claims -> app.core.clients -> app.observability -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.knowledge.claims -> app.core.clients -> app.observability.retrieval_log -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.core.clients -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.core.clients -> app.observability -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.core.clients -> app.observability.retrieval_log -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.knowledge.claims -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.knowledge.claims -> app.core.clients -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.knowledge.claims -> app.core.clients -> app.observability -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.knowledge.claims -> app.core.clients -> app.observability.retrieval_log -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app -> app.workers -> app.catalog -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.core.clients -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.core.clients -> app.observability -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.core.clients -> app.observability.retrieval_log -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.core.clients -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.core.clients -> app.observability -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.core.clients -> app.observability.retrieval_log -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.knowledge.claims -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.knowledge.claims -> app.core.clients -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.knowledge.claims -> app.core.clients -> app.observability -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.knowledge.claims -> app.core.clients -> app.observability.retrieval_log -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.core.clients -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.core.clients -> app.observability -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.core.clients -> app.observability.retrieval_log -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.knowledge.claims -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.knowledge.claims -> app.core.clients -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.knowledge.claims -> app.core.clients -> app.observability -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.catalog -> app.knowledge -> app.knowledge.graph -> app.knowledge.claims -> app.core.clients -> app.observability.retrieval_log -> app -> app.workers -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.ingestion -> app.ingestion.change_detection",
-        "app.ingestion.change_detection -> app.ingestion.extractors -> app.ingestion.chunking -> app.ingestion -> app.ingestion.change_detection",
-        "app.knowledge -> app -> app.workers -> app.catalog -> app.ingestion -> app.knowledge",
-        "app.knowledge -> app -> app.workers -> app.catalog -> app.knowledge",
-        "app.knowledge -> app -> app.workers -> app.ingestion -> app.catalog -> app.knowledge",
-        "app.knowledge -> app -> app.workers -> app.ingestion -> app.ingestion.chunking -> app.ingestion.extractors -> app.catalog -> app.knowledge"
-      ],
-      "packages_checked": 28,
-      "packages_in_cycles": 13
     },
     {
       "check_name": "unused_code_diagnostics",
@@ -264,9 +212,9 @@
         "python"
       ],
       "check_type": "standard",
-      "total_entities_checked": 77,
-      "findings_count": 77,
-      "warning_count": 18,
+      "total_entities_checked": 92,
+      "findings_count": 92,
+      "warning_count": 25,
       "score": 0.0,
       "finding_groups": [
         {
@@ -303,31 +251,10 @@
               "metric_value": 0.0
             },
             {
-              "entity_name": "[unused_variable] \"_label\" is not accessed",
-              "file_path": "app/catalog/queries.py",
-              "line_start": 419,
-              "line_end": 419,
-              "metric_value": 0.0
-            },
-            {
-              "entity_name": "[unused_variable] \"_theme_type\" is not accessed",
-              "file_path": "app/catalog/theme_taxonomy.py",
-              "line_start": 262,
-              "line_end": 262,
-              "metric_value": 0.0
-            },
-            {
               "entity_name": "[unused_variable] \"request\" is not accessed",
               "file_path": "app/core/clients/embeddings.py",
               "line_start": 76,
               "line_end": 76,
-              "metric_value": 0.0
-            },
-            {
-              "entity_name": "[unused_variable] \"GRAPH_FACTS_KIND\" is not accessed",
-              "file_path": "app/generation/prompts.py",
-              "line_start": 5,
-              "line_end": 5,
               "metric_value": 0.0
             },
             {
@@ -366,13 +293,6 @@
               "metric_value": 0.0
             },
             {
-              "entity_name": "[unused_variable] \"_included\" is not accessed",
-              "file_path": "app/ingestion/extractors/drupal_extractor.py",
-              "line_start": 261,
-              "line_end": 261,
-              "metric_value": 0.0
-            },
-            {
               "entity_name": "[unused_variable] \"_NORMALIZE\" is not accessed",
               "file_path": "app/knowledge/seed.py",
               "line_start": 49,
@@ -384,13 +304,6 @@
               "file_path": "app/knowledge/claims/conflicts.py",
               "line_start": 179,
               "line_end": 179,
-              "metric_value": 0.0
-            },
-            {
-              "entity_name": "[unused_variable] \"_PROJECT_BUNDLES\" is not accessed",
-              "file_path": "app/knowledge/claims/extract_cms.py",
-              "line_start": 63,
-              "line_end": 63,
               "metric_value": 0.0
             },
             {
@@ -461,34 +374,6 @@
               "file_path": "app/retrieval/structured/planner.py",
               "line_start": 17,
               "line_end": 17,
-              "metric_value": 0.0
-            },
-            {
-              "entity_name": "[unused_variable] \"get_settings\" is not accessed",
-              "file_path": "app/retrieval/structured/tools.py",
-              "line_start": 20,
-              "line_end": 20,
-              "metric_value": 0.0
-            },
-            {
-              "entity_name": "[unused_variable] \"sort\" is not accessed",
-              "file_path": "app/retrieval/structured/tools.py",
-              "line_start": 518,
-              "line_end": 518,
-              "metric_value": 0.0
-            },
-            {
-              "entity_name": "[unused_variable] \"aggregation\" is not accessed",
-              "file_path": "app/retrieval/structured/tools.py",
-              "line_start": 722,
-              "line_end": 722,
-              "metric_value": 0.0
-            },
-            {
-              "entity_name": "[unused_variable] \"_facet_filters\" is not accessed",
-              "file_path": "app/retrieval/understanding/filters.py",
-              "line_start": 85,
-              "line_end": 85,
               "metric_value": 0.0
             },
             {
@@ -686,6 +571,125 @@
               "line_start": 253,
               "line_end": 253,
               "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"_label\" is not accessed",
+              "file_path": "app/catalog/queries.py",
+              "line_start": 457,
+              "line_end": 457,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"GRAPH_FACTS_KIND\" is not accessed",
+              "file_path": "app/generation/prompts.py",
+              "line_start": 5,
+              "line_end": 5,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"_included\" is not accessed",
+              "file_path": "app/ingestion/extractors/drupal_extractor.py",
+              "line_start": 286,
+              "line_end": 286,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"_PROJECT_BUNDLES\" is not accessed",
+              "file_path": "app/knowledge/claims/extract_cms.py",
+              "line_start": 100,
+              "line_end": 100,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"_obsolete_for_tests\" is not accessed",
+              "file_path": "app/knowledge/graph/schema.py",
+              "line_start": 324,
+              "line_end": 324,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"_parse\" is not accessed",
+              "file_path": "app/retrieval/search/temporal_gate.py",
+              "line_start": 96,
+              "line_end": 96,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"get_settings\" is not accessed",
+              "file_path": "app/retrieval/structured/tools.py",
+              "line_start": 20,
+              "line_end": 20,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"sort\" is not accessed",
+              "file_path": "app/retrieval/structured/tools.py",
+              "line_start": 519,
+              "line_end": 519,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"aggregation\" is not accessed",
+              "file_path": "app/retrieval/structured/tools.py",
+              "line_start": 723,
+              "line_end": 723,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"_facet_filters\" is not accessed",
+              "file_path": "app/retrieval/understanding/filters.py",
+              "line_start": 125,
+              "line_end": 125,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"re\" is not accessed",
+              "file_path": "tools/e2e_ingest_audit/checks.py",
+              "line_start": 17,
+              "line_end": 17,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"_node\" is not accessed",
+              "file_path": "tools/e2e_ingest_audit/readback.py",
+              "line_start": 177,
+              "line_end": 177,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"_rel\" is not accessed",
+              "file_path": "tools/e2e_ingest_audit/readback.py",
+              "line_start": 183,
+              "line_end": 183,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"_n\" is not accessed",
+              "file_path": "tools/e2e_ingest_audit/replay_dates.py",
+              "line_start": 165,
+              "line_end": 165,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"os\" is not accessed",
+              "file_path": "tools/e2e_ingest_audit/rerun_knowledge.py",
+              "line_start": 21,
+              "line_end": 21,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"json\" is not accessed",
+              "file_path": "tools/e2e_ingest_audit/run_audit.py",
+              "line_start": 28,
+              "line_end": 28,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_variable] \"session\" is not accessed",
+              "file_path": "tools/e2e_ingest_audit/select_docs.py",
+              "line_start": 206,
+              "line_end": 206,
+              "metric_value": 0.0
             }
           ]
         },
@@ -699,13 +703,6 @@
               "file_path": "app/catalog/mentions.py",
               "line_start": 12,
               "line_end": 12,
-              "metric_value": 0.0
-            },
-            {
-              "entity_name": "[unused_import] Import \"GRAPH_FACTS_KIND\" is not accessed",
-              "file_path": "app/generation/prompts.py",
-              "line_start": 5,
-              "line_end": 5,
               "metric_value": 0.0
             },
             {
@@ -734,13 +731,6 @@
               "file_path": "app/retrieval/structured/planner.py",
               "line_start": 17,
               "line_end": 17,
-              "metric_value": 0.0
-            },
-            {
-              "entity_name": "[unused_import] Import \"get_settings\" is not accessed",
-              "file_path": "app/retrieval/structured/tools.py",
-              "line_start": 20,
-              "line_end": 20,
               "metric_value": 0.0
             },
             {
@@ -798,6 +788,41 @@
               "line_start": 253,
               "line_end": 253,
               "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_import] Import \"GRAPH_FACTS_KIND\" is not accessed",
+              "file_path": "app/generation/prompts.py",
+              "line_start": 5,
+              "line_end": 5,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_import] Import \"get_settings\" is not accessed",
+              "file_path": "app/retrieval/structured/tools.py",
+              "line_start": 20,
+              "line_end": 20,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_import] Import \"re\" is not accessed",
+              "file_path": "tools/e2e_ingest_audit/checks.py",
+              "line_start": 17,
+              "line_end": 17,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_import] Import \"os\" is not accessed",
+              "file_path": "tools/e2e_ingest_audit/rerun_knowledge.py",
+              "line_start": 21,
+              "line_end": 21,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_import] Import \"json\" is not accessed",
+              "file_path": "tools/e2e_ingest_audit/run_audit.py",
+              "line_start": 28,
+              "line_end": 28,
+              "metric_value": 0.0
             }
           ]
         },
@@ -814,17 +839,45 @@
               "metric_value": 0.0
             },
             {
-              "entity_name": "[unused_function] Function \"_facet_filters\" is not accessed",
-              "file_path": "app/retrieval/understanding/filters.py",
-              "line_start": 85,
-              "line_end": 85,
-              "metric_value": 0.0
-            },
-            {
               "entity_name": "[unused_function] Function \"_for\" is not accessed",
               "file_path": "scripts/backfill_bundle_dates.py",
               "line_start": 733,
               "line_end": 733,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_function] Function \"_obsolete_for_tests\" is not accessed",
+              "file_path": "app/knowledge/graph/schema.py",
+              "line_start": 324,
+              "line_end": 324,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_function] Function \"_parse\" is not accessed",
+              "file_path": "app/retrieval/search/temporal_gate.py",
+              "line_start": 96,
+              "line_end": 96,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_function] Function \"_facet_filters\" is not accessed",
+              "file_path": "app/retrieval/understanding/filters.py",
+              "line_start": 125,
+              "line_end": 125,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_function] Function \"_node\" is not accessed",
+              "file_path": "tools/e2e_ingest_audit/readback.py",
+              "line_start": 177,
+              "line_end": 177,
+              "metric_value": 0.0
+            },
+            {
+              "entity_name": "[unused_function] Function \"_rel\" is not accessed",
+              "file_path": "tools/e2e_ingest_audit/readback.py",
+              "line_start": 183,
+              "line_end": 183,
               "metric_value": 0.0
             }
           ]
@@ -846,16 +899,34 @@
       "composite_risk_score": 50.0
     },
     {
-      "file_path": "app/retrieval/structured/tools.py",
+      "file_path": "tools/e2e_ingest_audit/readback.py",
       "total_findings": 4,
-      "warning_findings": 1,
-      "composite_risk_score": 45.0
+      "warning_findings": 2,
+      "composite_risk_score": 50.0
     },
     {
       "file_path": "scripts/backfill_date_provenance.py",
       "total_findings": 4,
       "warning_findings": 1,
       "composite_risk_score": 45.0
+    },
+    {
+      "file_path": "app/retrieval/structured/tools.py",
+      "total_findings": 4,
+      "warning_findings": 1,
+      "composite_risk_score": 45.0
+    },
+    {
+      "file_path": "tools/e2e_ingest_audit/checks.py",
+      "total_findings": 3,
+      "warning_findings": 2,
+      "composite_risk_score": 40.0
+    },
+    {
+      "file_path": "tools/e2e_ingest_audit/run_audit.py",
+      "total_findings": 3,
+      "warning_findings": 2,
+      "composite_risk_score": 40.0
     },
     {
       "file_path": "scripts/backfill_bundle_dates.py",
@@ -918,12 +989,6 @@
       "composite_risk_score": 25.0
     },
     {
-      "file_path": "app/generation/prompts.py",
-      "total_findings": 2,
-      "warning_findings": 1,
-      "composite_risk_score": 25.0
-    },
-    {
       "file_path": "app/ingestion/change_detection/__init__.py",
       "total_findings": 2,
       "warning_findings": 1,
@@ -937,18 +1002,6 @@
     },
     {
       "file_path": "app/ingestion/extractors/camelot_tables.py",
-      "total_findings": 2,
-      "warning_findings": 1,
-      "composite_risk_score": 25.0
-    },
-    {
-      "file_path": "app/retrieval/graph/intent.py",
-      "total_findings": 2,
-      "warning_findings": 1,
-      "composite_risk_score": 25.0
-    },
-    {
-      "file_path": "app/retrieval/structured/planner.py",
       "total_findings": 2,
       "warning_findings": 1,
       "composite_risk_score": 25.0
