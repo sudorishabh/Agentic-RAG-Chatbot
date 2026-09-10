@@ -54,6 +54,20 @@ _FIELD_RULES: tuple[tuple[str, str, str], ...] = (
     ("field_ongoing_sponsors", "FUNDED_BY", "ORGANIZATION"),
     ("field_completed_pi_name", "LED_BY", "PERSON"),
     ("field_ongoing_pi_name", "LED_BY", "PERSON"),
+    # Partners sit alongside sponsors: same subject (the project this document
+    # is about), same object type, and PARTNER_OF already declares exactly
+    # PROJECT -> ORGANIZATION. The fields were simply never mapped, so 287
+    # projects named their partners in structured metadata and the graph held
+    # no PARTNER_OF edge at all.
+    #
+    # Distinct from FUNDED_BY on purpose: a partner delivered the work with the
+    # project, a sponsor paid for it. The CMS keeps them in separate fields and
+    # so does the graph.
+    #
+    # `field_*_stakeholders` remains excluded -- its values are audience
+    # categories ("Policy Makers", "Academicians"), not organizations.
+    ("field_completed_partners", "PARTNER_OF", "ORGANIZATION"),
+    ("field_ongoing_partners", "PARTNER_OF", "ORGANIZATION"),
 )
 
 # Author fields, in the order their provenance is recorded. A person named in

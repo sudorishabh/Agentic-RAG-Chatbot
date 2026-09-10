@@ -31,7 +31,7 @@ def _context(**extra):
         BOB: {"entity_type": "PERSON", "normalized_name": "bob jones",
               "canonical_name": "Mr Bob Jones"},
         "org-worldbank": {"entity_type": "ORGANIZATION",
-                          "normalized_name": "world bank",
+                          "normalized_name": "the world bank",
                           "canonical_name": "The World Bank"},
     }
     entities.update(extra)
