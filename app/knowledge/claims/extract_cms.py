@@ -41,7 +41,10 @@ from app.knowledge.normalize import normalize_org, normalize_person
 
 logger = logging.getLogger(__name__)
 
-EXTRACTOR_VERSION = "claims-cms-v2"
+# v3 emits AUTHORED from the author fields and PARTNER_OF from the partner
+# fields. The sponsor and PI rules are unchanged; only the recorded version
+# moves, which is what this field is for.
+EXTRACTOR_VERSION = "claims-cms-v3"
 
 # CMS field -> (predicate, object entity type). Only fields whose meaning is
 # unambiguous: these claims assert at confidence 1.0, so there is no score to
@@ -51,6 +54,26 @@ _FIELD_RULES: tuple[tuple[str, str, str], ...] = (
     ("field_ongoing_sponsors", "FUNDED_BY", "ORGANIZATION"),
     ("field_completed_pi_name", "LED_BY", "PERSON"),
     ("field_ongoing_pi_name", "LED_BY", "PERSON"),
+)
+
+# Author fields, in the order their provenance is recorded. A person named in
+# more than one of them on the same document states ONE authorship fact -- 179
+# documents carry two or three of these fields and 35 (person, document) pairs
+# appear twice -- so the first field that resolves a person is the one recorded
+# and the rest are skipped. Without that, `claim_id` would differ (it includes
+# `source_field`) and one fact would become two edges.
+#
+# `field_opinion_ext_auth` is deliberately excluded: its values are lists in one
+# string ("Dr Syamal Kumar Sarkar and Dr Snehlata Tigala"), so nothing resolves
+# without splitting on conjunctions, and guessing where one name ends is exactly
+# the kind of inference that would invent a person.
+_AUTHOR_FIELDS: tuple[str, ...] = (
+    "field_authors",
+    "field_rpaper_author",
+    "field_article_authors",
+    "field_policybrief_authors",
+    "field_external_authors",
+    "field_author",
 )
 
 # The CMS states these as fact, so they carry full confidence. That is the point
@@ -193,6 +216,80 @@ def claims_from_meta(
                     valid_from=window.valid_from,
                     valid_until=window.valid_until,
                     temporal_basis=window.basis,
+                    confidence=CMS_CONFIDENCE,
+                    extraction_method="cms_field",
+                    extractor_version=EXTRACTOR_VERSION,
+                )
+            )
+    return out
+
+
+def has_author_fields(raw_meta: Any) -> bool:
+    """Whether this document names any author at all.
+
+    Cheap dict lookups, so the per-document path can decide to skip building an
+    extraction context -- which walks every entity in the store -- for the great
+    majority of the corpus that names no author.
+    """
+    meta = _meta(raw_meta)
+    return bool(meta) and any(meta.get(field) for field in _AUTHOR_FIELDS)
+
+
+def authorship_from_meta(
+    document_id: str, raw_meta: Any, *, context: CmsClaimContext
+) -> list[Any]:
+    """``PERSON -AUTHORED-> this document``, from the CMS author fields.
+
+    Deliberately independent of :func:`claims_from_meta`: that function's
+    subject is the PROJECT a document is about, and it returns nothing for a
+    document that is not a seeded project. Authorship has a different subject
+    (the author) and lives in bundles that have no project at all -- feature
+    articles, policy briefs, research papers -- so sharing that path would have
+    meant either weakening its project gate or getting no authors.
+
+    The object is the document id as a literal. A document is not one of this
+    model's entity types, and the authoritative link to it is the claim's own
+    provenance: a CMS claim carries no chunk, so the projection joins it
+    ``Claim-[:SUPPORTED_BY]->Document`` and the graph path
+    ``Person<-[:SUBJECT]-Claim-[:SUPPORTED_BY]->Document`` is the edge. The
+    literal identifies the same document unambiguously and needs no title
+    lookup; the readable title already lives on the Document node.
+
+    No entity is ever created here. An author the store does not know is
+    skipped, exactly as an unrecognised sponsor is -- the document still
+    indexes, and its other authors still land.
+
+    No temporal window: a person authored a document, permanently. Claiming a
+    validity period would invent one, so the basis stays unknown rather than
+    borrowing the document's date.
+    """
+    meta = _meta(raw_meta)
+    if not meta:
+        return []
+
+    out: list[Any] = []
+    seen: set[str] = set()
+    for field_name in _AUTHOR_FIELDS:
+        for value in _values(meta.get(field_name)):
+            person = context.object_for("PERSON", value)
+            if person is None:
+                # Unresolved, ambiguous or simply unknown. Nothing is minted.
+                continue
+            if person in seen:
+                # Already recorded from an earlier field, or listed twice in
+                # this one. One authorship fact, one edge.
+                continue
+            seen.add(person)
+            out.append(
+                t.build(
+                    subject_entity_id=person,
+                    predicate="AUTHORED",
+                    object_literal=document_id,
+                    document_id=document_id,
+                    evidence_kind=t.EVIDENCE_CMS_FIELD,
+                    source_field=field_name,
+                    source_value=value[:512],
+                    source_value_hash=_value_hash(value),
                     confidence=CMS_CONFIDENCE,
                     extraction_method="cms_field",
                     extractor_version=EXTRACTOR_VERSION,

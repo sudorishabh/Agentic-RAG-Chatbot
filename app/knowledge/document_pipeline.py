@@ -689,8 +689,21 @@ def _claims(run: _Run) -> None:
         built: list[Any] = []
 
         # --- 4a. CMS fields: deterministic, free, and the largest true source.
-        if run.doc.bundle is None or extract_cms.is_project_bundle(run.doc.bundle):
-            context = extract_cms.CmsClaimContext.from_index(run.index)
+        # Two independent readings of the metadata. The project rules need the
+        # PROJECT this document is about; authorship needs the author and lives
+        # in bundles with no project at all. One context serves both, and is
+        # built only when a path will use it -- construction walks every entity
+        # in the store, so doing it unconditionally would cost that per
+        # document for the majority that has neither.
+        wants_project = (
+            run.doc.bundle is None or extract_cms.is_project_bundle(run.doc.bundle)
+        )
+        wants_authors = extract_cms.has_author_fields(run.doc.raw_meta)
+        context = (
+            extract_cms.CmsClaimContext.from_index(run.index)
+            if wants_project or wants_authors else None
+        )
+        if wants_project and context is not None:
             if context.subject_for(run.doc.document_id) is None:
                 if extract_cms.is_project_bundle(run.doc.bundle):
                     stage.notes.append(NOT_SEEDED)
@@ -700,6 +713,12 @@ def _claims(run: _Run) -> None:
                 )
                 stage.counts["cms"] = len(cms)
                 built.extend(cms)
+        if wants_authors and context is not None:
+            authored = extract_cms.authorship_from_meta(
+                run.doc.document_id, run.doc.raw_meta, context=context
+            )
+            stage.counts["cms_authored"] = len(authored)
+            built.extend(authored)
 
         # --- 4b. Model-proposed, gated and budgeted.
         built.extend(_llm_claims(run, stage))
