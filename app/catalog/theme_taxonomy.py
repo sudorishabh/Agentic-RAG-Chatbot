@@ -1,13 +1,22 @@
 """Theme hierarchy: the primary-tag / sub-theme map behind a document's themes.
 
-[app/theme_structure.json](../theme_structure.json) is the authority for which
-themes are **Primary Tags** and which are **Sub-Themes** hanging off one. Its top
-level ("Main Themes" / "Other Themes") is a grouping bucket rather than a theme,
-so:
+The theme map (``app/theme_structure.json`` by default, overridable with the
+``theme_taxonomy_path`` setting — see :func:`_configured_path`) is the authority
+for which themes are **Primary Tags** and which are **Sub-Themes** hanging off
+one. Its top level ("Main Themes" / "Other Themes") is a grouping bucket rather
+than a theme, so:
 
 * a bucket's children are Primary Tags (``parent`` is NULL);
-* anything below a Primary Tag is a Sub-Theme whose ``parent`` is that tag;
+* anything below a Primary Tag is a Sub-Theme whose ``parent`` is its
+  **immediate** parent;
 * a bucket name itself is never stored as a theme.
+
+Depth is not capped. ``parent`` names one hop, and ``path`` carries the whole
+ancestor chain from the primary tag down ("Energy > Energy Access > Rural Energy
+Access"), which is what makes a parent-theme query reach a grandchild: one
+``parent`` column can only ever answer one level, and rolling a deep tree up
+through repeated self-joins is both slower and unbounded. ``depth`` is the number
+of segments in that path, so a primary tag is 1.
 
 The bucket a theme originates from is still tracked, as ``group`` (``"main"`` /
 ``"other"``) — every entry records which top-level bucket it traces back to (a
@@ -32,15 +41,29 @@ import re
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Iterable, NamedTuple
+
+from app.config import get_settings
 
 logger = logging.getLogger(__name__)
 
 PRIMARY = "primary"
 SUB = "sub"
+#: A theme the map has no entry for at all. Distinct from ``SUB`` on purpose: an
+#: unmapped name is not a child of anything, and calling it a sub-theme claims a
+#: hierarchy position nothing supports — it also hid new themes from the theme
+#: listing, which enumerates ``primary`` rows. The row is still written; only its
+#: classification is honest about being absent from the map.
+UNKNOWN = "unknown"
 
 MAIN = "main"
 OTHER = "other"
+
+#: Separator between the segments of a theme ``path``. A theme name containing
+#: this would break the segmentation, so it is deliberately a spaced form that
+#: no CMS label uses; :func:`_clean` collapses whitespace, which keeps a name's
+#: own spacing from ever producing it by accident.
+PATH_SEPARATOR = " > "
 
 # Values that reach the theme facet as strings but are not themes: a boolean or
 # null from some upstream field, already stringified before it gets here (a real
@@ -51,30 +74,73 @@ _NOT_A_THEME: frozenset[str] = frozenset({"false", "true", "none", "null", "nan"
 
 # app/theme_structure.json — a sibling of the app package root, not of this
 # module.
-TAXONOMY_PATH = Path(__file__).resolve().parent.parent / "theme_structure.json"
+_DEFAULT_TAXONOMY_PATH = Path(__file__).resolve().parent.parent / "theme_structure.json"
+
+
+def _configured_path() -> Path:
+    """The theme map's location: the ``theme_taxonomy_path`` setting when set,
+    otherwise the shipped default.
+
+    Configurable because the map is load-bearing and there has been more than
+    one copy of it on disk. Naming the authoritative file in configuration makes
+    "which of these is the real one" answerable without reading a path
+    expression, and lets a deployment relocate it without a code edit.
+
+    Settings failures fall back to the default rather than raising: this runs at
+    import time, and a module that cannot be imported is a worse failure than
+    one that reads the file next to itself. An unreadable map is still caught —
+    loudly, by :func:`require_taxonomy`.
+    """
+    try:
+        configured = (get_settings().theme_taxonomy_path or "").strip()
+    except Exception:  # pragma: no cover - defensive, see docstring
+        logger.warning("Could not read theme_taxonomy_path; using the default.")
+        return _DEFAULT_TAXONOMY_PATH
+    return Path(configured).expanduser() if configured else _DEFAULT_TAXONOMY_PATH
+
+
+#: Read at call time by :func:`_load`, so tests (and operators, via the setting
+#: above) can point it elsewhere and :func:`reload_taxonomy` to pick it up.
+TAXONOMY_PATH = _configured_path()
 
 _WHITESPACE = re.compile(r"\s+")
 
-# (match key -> (display name, theme_type, parent, group)) plus the bucket keys
-# that are containers, not themes.
-_Entry = tuple[str, str, "str | None", "str | None"]
 
-
-@dataclass(frozen=True)
-class ThemeAssignment:
-    """One theme row for a document: the theme, whether it is the primary tag or
-    a sub-theme, the primary tag it hangs off, and which top-level bucket
-    (``"main"`` / ``"other"``) it traces back to.
-
-    ``parent`` is None for a primary tag and for a sub-theme the map has no
-    parent for — both store NULL. ``group`` is the bucket a sub-theme's primary
-    tag belongs to (inherited), so it is set independently of ``parent``; it is
-    None only when the map has no entry for the name at all."""
+class _Entry(NamedTuple):
+    """One mapped theme: its display name and its position in the hierarchy."""
 
     name: str
     theme_type: str
     parent: str | None
     group: str | None
+    path: str
+    depth: int
+
+
+@dataclass(frozen=True)
+class ThemeAssignment:
+    """One theme row for a document: the theme, whether it is the primary tag, a
+    sub-theme or unmapped, its immediate parent, which top-level bucket
+    (``"main"`` / ``"other"``) it traces back to, and its full ancestry.
+
+    ``parent`` is None for a primary tag and for an unmapped theme — both store
+    NULL. ``group`` is the bucket the theme's primary tag belongs to
+    (inherited), so it is set independently of ``parent``; it is None only when
+    the map has no entry for the name at all.
+
+    ``path`` is the ancestor chain from the primary tag down to this theme,
+    joined by :data:`PATH_SEPARATOR`, and ``depth`` is its segment count. An
+    unmapped theme is its own single-segment path rather than NULL, so a query
+    for it matches by exactly the same prefix rule as a mapped one — a NULL path
+    would need every reader to carry a second code path for the open-vocabulary
+    case."""
+
+    name: str
+    theme_type: str
+    parent: str | None
+    group: str | None
+    path: str
+    depth: int
 
 
 def _clean(value: Any) -> str:
@@ -101,32 +167,47 @@ def _group_code(bucket_name: str) -> str:
 
 
 def _walk(
-    nodes: Any, primary: str | None, group: str | None, out: dict[str, _Entry]
+    nodes: Any,
+    ancestors: tuple[str, ...],
+    group: str | None,
+    out: dict[str, _Entry],
 ) -> None:
-    """Collect ``nodes`` into ``out``. ``primary`` is the primary tag they sit
-    under, or None when they *are* the primary tags (bucket children). ``group``
-    is the top-level bucket's fixed code (``"main"``/``"other"``), carried
-    unchanged through the whole recursion — depth changes ``primary``, never
-    ``group``.
+    """Collect ``nodes`` into ``out``. ``ancestors`` is the chain of theme names
+    above them, innermost last, and empty when they *are* the primary tags
+    (bucket children). ``group`` is the top-level bucket's fixed code
+    (``"main"``/``"other"``), carried unchanged through the whole recursion —
+    depth changes the ancestry, never the group.
 
     Descends past unnamed nodes rather than dropping their subtree, and keeps
     the first entry per key so an accidental duplicate in the file is stable.
-    Anything deeper than a sub-theme still points at the primary tag — the table
-    models one level of parenthood, not the full path."""
+
+    Every level below the first is a sub-theme of its **immediate** parent, and
+    the full chain is recorded as ``path``. This used to reparent everything
+    deeper than one level onto the primary tag, which made a grandchild a
+    sibling of its own parent: "Energy > Renewables > Rooftop Solar" was stored
+    as a child of Energy, so a query for Renewables could not find it and a
+    breakdown of Renewables' children came back empty."""
     for node in nodes or ():
         if not isinstance(node, dict):
             continue
         name = _clean(node.get("name"))
         children = node.get("children")
         if not name:
-            _walk(children, primary, group, out)
+            _walk(children, ancestors, group, out)
             continue
-        if primary is None:
-            out.setdefault(_key(name), (name, PRIMARY, None, group))
-            _walk(children, name, group, out)
-        else:
-            out.setdefault(_key(name), (name, SUB, primary, group))
-            _walk(children, primary, group, out)
+        chain = ancestors + (name,)
+        out.setdefault(
+            _key(name),
+            _Entry(
+                name=name,
+                theme_type=PRIMARY if len(chain) == 1 else SUB,
+                parent=ancestors[-1] if ancestors else None,
+                group=group,
+                path=PATH_SEPARATOR.join(chain),
+                depth=len(chain),
+            ),
+        )
+        _walk(children, chain, group, out)
 
 
 @lru_cache(maxsize=1)
@@ -164,7 +245,7 @@ def _load() -> tuple[dict[str, _Entry], frozenset[str]]:
         name = _clean(bucket.get("name"))
         if name:
             buckets.add(_key(name))
-        _walk(bucket.get("children"), None, _group_code(name) if name else None, mapping)
+        _walk(bucket.get("children"), (), _group_code(name) if name else None, mapping)
     # A name used both as a bucket and as a real theme stays a theme.
     return mapping, frozenset(buckets - set(mapping))
 
@@ -214,9 +295,14 @@ def classify(names: Iterable[str] | None) -> list[ThemeAssignment]:
     credited with a theme it was not tagged with.
 
     Empty values and grouping-bucket names are dropped, so a document with no
-    valid theme yields ``[]`` and no row is written for it. A theme the map does
-    not know is kept as an unparented sub-theme rather than dropped, so a theme
-    newly added in the CMS is still recorded."""
+    valid theme yields ``[]`` and no row is written for it. That is the whole
+    sparseness guarantee: "this document has no theme" is the absence of rows,
+    never a row saying so.
+
+    A theme the map does not know is kept — classified :data:`UNKNOWN`, with no
+    parent and no group, and its own name as its one-segment path. So a theme
+    newly added in the CMS is countable and listable immediately, and editing
+    the map is never a precondition for storing it."""
     mapping, buckets = _load()
     seen: dict[str, ThemeAssignment] = {}
     for raw in names or ():
@@ -228,12 +314,16 @@ def classify(names: Iterable[str] | None) -> list[ThemeAssignment]:
             continue
         known = mapping.get(key)
         # The supplied display name is stored as-is (rename handling lives in
-        # state.rename_theme_facet); the parent and group come from the map,
-        # which is the only place either is named.
+        # state.rename_theme_facet); the parent, group and path come from the
+        # map, which is the only place any of them is named. An unmapped theme's
+        # path is its own name — see ThemeAssignment.
         seen[key] = (
-            ThemeAssignment(name, known[1], known[2], known[3])
+            ThemeAssignment(
+                name, known.theme_type, known.parent, known.group,
+                known.path, known.depth,
+            )
             if known
-            else ThemeAssignment(name, SUB, None, None)
+            else ThemeAssignment(name, UNKNOWN, None, None, name, 1)
         )
     return list(seen.values())
 
@@ -248,7 +338,18 @@ def group_of(name: str) -> str | None:
     depending on any document actually carrying the theme."""
     mapping, _ = _load()
     entry = mapping.get(_key(name))
-    return entry[3] if entry else None
+    return entry.group if entry else None
+
+
+def path_of(name: str) -> str | None:
+    """The full ancestor chain ``name`` sits on, or ``None`` when the map has no
+    entry for it. Matched by the same case-insensitive key :func:`classify`
+    uses. Lets a caller expand a theme to its descendants without reading a
+    document's rows first — the theme listing and the query planner both need
+    the hierarchy of a theme no document may carry yet."""
+    mapping, _ = _load()
+    entry = mapping.get(_key(name))
+    return entry.path if entry else None
 
 
 def themes_by_group() -> dict[str, list[str]]:
@@ -259,7 +360,7 @@ def themes_by_group() -> dict[str, list[str]]:
     themes the theme map does not know about."""
     mapping, _ = _load()
     result: dict[str, list[str]] = {MAIN: [], OTHER: []}
-    for name, _theme_type, _parent, group in mapping.values():
-        if group in result:
-            result[group].append(name)
+    for entry in mapping.values():
+        if entry.group in result:
+            result[entry.group].append(entry.name)
     return result

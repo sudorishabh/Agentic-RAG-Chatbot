@@ -563,6 +563,13 @@ class Settings(BaseSettings):
     # validated gate passes; the decision and its evidence are recorded in
     # `{state}_date_decision` either way.
     date_resolution_enabled: bool = True
+    # Absolute (or CWD-relative) path to the theme hierarchy map that
+    # app.catalog.theme_taxonomy classifies against. Empty means the shipped
+    # default, `app/theme_structure.json`. Exists because the map is load-bearing
+    # — an unreadable one degrades every theme row's parent/group — so which file
+    # is authoritative has to be stateable rather than implied by a path
+    # expression, and a deployment holding it elsewhere must not need a code edit.
+    theme_taxonomy_path: str = ""
     ingest_state_table: str = "documents"
     # Append-only audit log of every ingestion event (one row per file/record
     # per run), separate from the overwrite-in-place documents table.
