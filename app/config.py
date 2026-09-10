@@ -386,13 +386,46 @@ class Settings(BaseSettings):
     knowledge_project_per_document: bool = True
     # Wall-clock budget for one document's knowledge stage. Exceeding it ends
     # the run as `partial` rather than raising: what already landed is valid and
-    # a retry resumes. Sized for the deterministic path; the LLM extractor has
-    # its own call budget below.
-    knowledge_stage_budget_seconds: float = 30.0
+    # a retry resumes.
+    #
+    # Sized from the 200-document canary so that a document using its full
+    # per-document call allowance can still reach validate, persist, conflicts
+    # and project instead of being cut short by the budget alone. Measured
+    # there: per-call latency p50 2.24s / p95 4.36s / max 5.94s, and non-call
+    # stage overhead p50 0.22s / p95 3.53s / max 16.11s. Eight calls at the
+    # worst observed latency plus the worst observed overhead is 63.6s, so 30s
+    # could not fit eight calls above roughly p75 latency — it discarded claims
+    # a document had already paid for and marked it retryable, and the retry hit
+    # the same wall.
+    #
+    # Now sized to the per-document call ceiling below, by the same method: 32
+    # calls at the worst observed per-call latency (5.94s) plus the worst
+    # observed overhead (16.11s) is 206s, and 300s is 1.45x that. A budget that
+    # cannot fit the call allowance is not a safety limit; it is a guarantee of
+    # truncation.
+    #
+    # Still a real bound, deliberately. It is what stops a genuinely stuck
+    # document — not merely a slow one — from holding a worker indefinitely.
+    knowledge_stage_budget_seconds: float = 300.0
     # Ceiling on model calls while extracting claims from ONE document, so a
     # pathologically long document cannot spend the whole run's budget. The
-    # existing claim_llm_max_calls_per_run stays the corpus-level ceiling.
-    knowledge_llm_max_calls_per_document: int = 8
+    # claim_llm_max_calls_per_run above stays the corpus-level ceiling.
+    #
+    # Raised from 8 on measured evidence. A document wants one call per chunk
+    # holding a claim-eligible entity, and across the 503 canary documents that
+    # distribution is long-tailed but thin: p50 3, p75 9, p90 15, p95 21,
+    # p99 31, max 79, with 27% of documents wanting none at all. At 8, only
+    # 74.3% of the documents that call anything were examined in full — 38% of
+    # policy briefs were truncated — and a truncated document is NOT retried,
+    # because a retry stops at the same ceiling. The shortfall was silent and
+    # permanent, not deferred.
+    #
+    # The tail being thin is what makes the fix cheap: 8 -> 32 lifts complete
+    # coverage from 74.3% to 99.2% for 3.00 -> 4.51 calls per document, about
+    # 50% more calls. Past 32 the curve flattens (96 buys the last 0.8 points,
+    # three documents, and would need a ~870s budget), so 32 is the knee rather
+    # than a round number.
+    knowledge_llm_max_calls_per_document: int = 32
     # Extract and resolve mentions during the per-document knowledge stage.
     #
     # OFF by default, preserving the behaviour this had when it was a hardcoded
@@ -477,7 +510,30 @@ class Settings(BaseSettings):
     claim_min_confidence: float = 0.6
     # Ceiling on model calls in one claim-extraction run, so an accidental
     # full-corpus pass cannot spend without bound. 0 disables the extractor.
-    claim_llm_max_calls_per_run: int = 200
+    #
+    # Enforced per run id since the safeguards work; before that it was declared
+    # and never read. 200 was the value from when nothing checked it, and the
+    # canary showed what enforcing it costs at that size: 200 calls covered 81
+    # of 200 documents and left 68 partial, a backlog of legitimate work rather
+    # than a guard against runaway spend.
+    #
+    # Sized from the canary instead. Measured mean 1.96 calls/document over the
+    # uncensored window, so the remaining 11,803 documents are expected to want
+    # about 23,100 calls; the theoretical maximum, every document using all
+    # eight, is 94,424.
+    #
+    # Re-sized once the per-document ceiling moved to 32: the same canary
+    # documents then want 4.51 calls each, so the remaining ~11,500 project to
+    # roughly 51,900 calls. 60,000 would have been only 1.2x that — close
+    # enough to bind on legitimate work, which is the failure this setting
+    # should prevent rather than cause. 150,000 is 2.9x the projection and 41%
+    # of the theoretical maximum (32 x 11,500 = 368,000), so a genuine runaway
+    # still stops well short.
+    #
+    # The projection is an upper bound on the rate: the canary sampled the two
+    # most claim-dense bundles, and 95% of what remains is in bundles it never
+    # touched.
+    claim_llm_max_calls_per_run: int = 150_000
     mysql_host: str = "localhost"
     mysql_port: int = 3306
     mysql_user: str = ""
