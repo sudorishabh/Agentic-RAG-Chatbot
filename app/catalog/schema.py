@@ -99,27 +99,52 @@ CREATE TABLE IF NOT EXISTS `{table}_{facet}` (
 """
 
 # The theme facet, with the taxonomy shape a flat facet has no room for: a
-# document's main theme is stored as the primary tag and every other theme as a
-# sub-theme naming the primary tag it hangs off. `parent` is NULL for a primary
-# tag and for a sub-theme no parent is known for. `theme_group` is which
-# top-level theme_structure.json bucket ("main" / "other", from _group_code)
-# the theme traces back to -- tracked separately from theme_type/parent because
-# two primary tags (e.g. "Energy" and "Green Shipping") can have the same
+# document's top-level themes are stored as primary tags and every deeper theme
+# as a sub-theme naming its immediate `parent`. `parent` is NULL for a primary
+# tag and for a theme the map does not know. `theme_group` is which top-level
+# theme_structure.json bucket ("main" / "other", from _group_code) the theme
+# traces back to -- tracked separately from theme_type/parent because two
+# primary tags (e.g. "Energy" and "Green Shipping") can have the same
 # theme_type/parent (primary, NULL) while coming from different buckets; a
-# sub-theme inherits its primary tag's group. Values are classified by
-# app.catalog.theme_taxonomy against app/theme_structure.json; only themes the document is
-# actually tagged with get a row -- a parent is a reference, never its own row.
+# sub-theme inherits its primary tag's group.
+#
+# `theme_path` is the whole ancestor chain ("Energy > Energy Access > Rural
+# Energy Access") and `depth` its segment count. `parent` alone answers exactly
+# one level, so a parent-theme query could never reach a grandchild; the
+# materialized path turns "this theme and everything under it" into an indexed
+# prefix match at any depth. Both are NULL on rows written before the columns
+# existed, and every reader falls back to `theme`/`parent` for those -- see
+# `queries._theme_scope_clause`.
+#
+# Values are classified by app.catalog.theme_taxonomy against the theme map;
+# only themes the document is actually tagged with get a row -- a parent is a
+# reference, never its own row -- and a document with no theme gets no row at
+# all. `theme_type` includes 'unknown' for a theme absent from the map: it is
+# stored and countable, but claiming it is a `sub` would assert a parent nothing
+# supports and hide it from the primary-tag listing.
+#: Named once so the CREATE and the ADD/MODIFY COLUMN migration below cannot
+#: disagree about which values are permitted.
+_THEME_TYPE_DDL = (
+    "theme_type ENUM('primary', 'sub', 'unknown') NOT NULL DEFAULT 'sub'"
+)
+
 _STATE_THEME_DDL = """
 CREATE TABLE IF NOT EXISTS `{table}_theme` (
     document_id VARCHAR(255) NOT NULL,
     theme       VARCHAR(255) NOT NULL,
-    theme_type  ENUM('primary', 'sub') NOT NULL DEFAULT 'sub',
+    {theme_type},
     parent      VARCHAR(255) NULL,
     theme_group ENUM('main', 'other') NULL,
+    theme_path  VARCHAR(1024) NULL,
+    depth       TINYINT UNSIGNED NOT NULL DEFAULT 1,
     PRIMARY KEY (document_id, theme),
     KEY idx_val (theme),
     KEY idx_parent (parent),
     KEY idx_group (theme_group),
+    -- Prefix-indexed: the descendant expansion is `theme_path LIKE 'X > %'`,
+    -- which a left-anchored pattern can range-scan. 255 chars is well past any
+    -- real chain and keeps the key inside InnoDB's limit.
+    KEY idx_path (theme_path(255)),
     CONSTRAINT `fk_{table}_theme` FOREIGN KEY (document_id)
         REFERENCES `{table}` (document_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
@@ -158,6 +183,23 @@ def _column_exists(cur: Any, table: str, column: str) -> bool:
         (table, column),
     )
     return cur.fetchone() is not None
+
+
+def _column_type(cur: Any, table: str, column: str) -> str:
+    """A column's full type text ("enum('primary','sub')"), lowercased; empty
+    when the column does not exist. Lets a migration widen an ENUM only when it
+    is actually still narrow — a MODIFY, unlike an ADD COLUMN, has no
+    IF NOT EXISTS form and rewrites the table when it runs."""
+    cur.execute(
+        "SELECT COLUMN_TYPE AS t FROM information_schema.COLUMNS "
+        "WHERE table_schema = DATABASE() AND table_name = %s AND column_name = %s",
+        (table, column),
+    )
+    row = cur.fetchone()
+    if not row:
+        return ""
+    value = row["t"] if isinstance(row, dict) else row[0]
+    return str(value or "").lower()
 
 
 def _has_primary_key(cur: Any, table: str) -> bool:
@@ -433,6 +475,19 @@ def migrate_theme_hierarchy(cur: Any, table: str, *, dry_run: bool = False) -> l
     sub-theme -- until something reclassifies them
     (``scripts.reclassify_theme_rows``, or the document's next ingest).
 
+    ``theme_path``/``depth`` arrive the same way and stay NULL/1 on legacy rows.
+    They are deliberately **not** backfilled here: deriving a path needs the
+    theme map, which this module does not read, and every reader already falls
+    back to ``theme``/``parent`` when the path is NULL. So an un-reclassified
+    deployment keeps its previous one-level behaviour rather than losing theme
+    scoping outright, and ``reclassify_theme_rows`` upgrades it in place.
+
+    ``theme_type`` is widened to include ``'unknown'`` before any row can use
+    it. Widening an ENUM only adds a permitted value, so it cannot invalidate a
+    stored one -- but it has to happen before the first write that classifies a
+    theme as unknown, or MySQL coerces that write to '' (or rejects it in strict
+    mode).
+
     The key is added last and its failure is non-fatal: a legacy table can hold
     duplicate (document_id, theme) pairs, and the table works without the key
     anyway (every write replaces a document's rows wholesale), so a duplicate is
@@ -447,13 +502,32 @@ def migrate_theme_hierarchy(cur: Any, table: str, *, dry_run: bool = False) -> l
         return applied
 
     for column, ddl in (
-        ("theme_type", "theme_type ENUM('primary', 'sub') NOT NULL DEFAULT 'sub'"),
+        ("theme_type", _THEME_TYPE_DDL),
         ("parent", "parent VARCHAR(255) NULL"),
         ("theme_group", "theme_group ENUM('main', 'other') NULL"),
+        ("theme_path", "theme_path VARCHAR(1024) NULL"),
+        ("depth", "depth TINYINT UNSIGNED NOT NULL DEFAULT 1"),
     ):
         if _column_exists(cur, theme_table, column):
             continue
         stmt = f"ALTER TABLE `{theme_table}` ADD COLUMN {ddl}"
+        applied.append(stmt)
+        if not dry_run:
+            cur.execute(stmt)
+
+    # Widen an existing theme_type that predates the 'unknown' value. Guarded on
+    # the stored type rather than run unconditionally: MODIFY COLUMN rewrites the
+    # table, and `ensure_state_table` runs at the start of every ingest.
+    if "'unknown'" not in _column_type(cur, theme_table, "theme_type"):
+        stmt = f"ALTER TABLE `{theme_table}` MODIFY COLUMN {_THEME_TYPE_DDL}"
+        applied.append(stmt)
+        if not dry_run:
+            cur.execute(stmt)
+
+    if not _index_exists(cur, theme_table, "idx_path") and _column_exists(
+        cur, theme_table, "theme_path"
+    ):
+        stmt = f"ALTER TABLE `{theme_table}` ADD KEY `idx_path` (theme_path(255))"
         applied.append(stmt)
         if not dry_run:
             cur.execute(stmt)
@@ -693,7 +767,9 @@ def ensure_state_table() -> None:
         # Create then migrate: a fresh install gets the hierarchy from the DDL
         # and the migration no-ops; a legacy table survives CREATE IF NOT EXISTS
         # untouched and gets its columns from the migration.
-        cur.execute(_STATE_THEME_DDL.format(table=table))
+        cur.execute(
+            _STATE_THEME_DDL.format(table=table, theme_type=_THEME_TYPE_DDL)
+        )
         migrate_theme_hierarchy(cur, table)
         cur.execute(_STATE_ATTACHMENT_LINK_DDL.format(table=table))
         conn.commit()

@@ -11,6 +11,7 @@ from typing import Callable, Iterable, Iterator, Mapping, Sequence
 from app.catalog import enrichment
 from app.catalog import retries
 from app.catalog import state
+from app.catalog import theme_taxonomy
 from app.catalog import log as ingest_log
 from app.catalog.models import AttachmentLink, StateRecord
 from app.config import get_settings
@@ -621,6 +622,18 @@ def _prewarm_clients(settings) -> None:
 
 
 def _run(records: Iterator[ChangeRecord], build_doc: DocBuilder) -> Counter:
+    # Preflight, before a single document is written. Every document this run
+    # touches has its theme rows rewritten from the theme map, and classifying
+    # against an unreadable map does not fail — it succeeds and writes the wrong
+    # answer, dropping the parent, group and path of every theme it sees. That
+    # is a silent corpus-wide rewrite triggered by something as small as the
+    # data file going missing (it has), so the run refuses to start instead.
+    #
+    # Deliberately here rather than in `theme_taxonomy.classify`: per-document
+    # classification stays tolerant, so a problem appearing mid-run costs one
+    # document rather than aborting a long ingest. Refusing up front costs
+    # nothing and prevents the rewrite.
+    theme_taxonomy.require_taxonomy()
     state.ensure_table()
     try:
         ingest_log.ensure_table()

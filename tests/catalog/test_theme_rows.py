@@ -29,6 +29,15 @@ def _rows(names) -> list[tuple[str, str, str | None, str | None]]:
     ]
 
 
+def _paths(names) -> list[tuple[str, str | None, str, int]]:
+    """The ancestry view: (theme, immediate parent, full path, depth). Separate
+    from `_rows` because most cases care about type/group and only the hierarchy
+    cases care about how deep a theme sits."""
+    return [
+        (a.name, a.parent, a.path, a.depth) for a in theme_taxonomy.classify(names)
+    ]
+
+
 def test_bucket_child_is_a_primary_tag():
     assert _rows(["Energy"]) == [("Energy", "primary", None, "main")]
     assert _rows(["Climate Change"]) == [
@@ -69,11 +78,27 @@ def test_blank_values_are_dropped_rather_than_stored_as_placeholders():
     assert _rows([None, "", "   ", "\t\n"]) == []
 
 
-def test_unknown_theme_is_kept_as_an_unparented_sub_theme_with_no_group():
-    """A theme added in the CMS but not yet in data.json is still recorded — it
-    just has no parent or group to point at."""
+def test_unknown_theme_is_kept_and_classified_unknown_not_sub():
+    """A theme added in the CMS but not yet in the theme map is still recorded —
+    it just has no parent or group to point at.
+
+    `unknown` rather than `sub`, which is the distinction that matters: calling
+    it a sub-theme asserts it is a child of something, and it also hid the theme
+    from `list_themes`, which enumerates primary rows. Its path is its own name,
+    so a query for it matches by the same prefix rule as a mapped theme."""
     assert _rows(["Quantum Beekeeping"]) == [
-        ("Quantum Beekeeping", "sub", None, None)
+        ("Quantum Beekeeping", "unknown", None, None)
+    ]
+    assert _paths(["Quantum Beekeeping"]) == [
+        ("Quantum Beekeeping", None, "Quantum Beekeeping", 1)
+    ]
+
+
+def test_an_unknown_theme_is_not_given_a_parent():
+    """Requirement: never infer a parent. "Energy Storage" shares a word with
+    "Energy" and is still parentless until the map says otherwise."""
+    assert _paths(["Energy Storage"]) == [
+        ("Energy Storage", None, "Energy Storage", 1)
     ]
 
 
@@ -100,40 +125,102 @@ def test_missing_data_file_degrades_instead_of_raising(monkeypatch, tmp_path, ca
     monkeypatch.setattr(theme_taxonomy, "TAXONOMY_PATH", tmp_path / "nope.json")
     theme_taxonomy.reload_taxonomy()
     try:
-        assert _rows(["Energy"]) == [("Energy", "sub", None, None)]
+        # Every theme becomes unmapped, which is exactly why `require_taxonomy`
+        # gates the ingest paths: this succeeds and writes the wrong answer.
+        assert _rows(["Energy"]) == [("Energy", "unknown", None, None)]
         assert "Could not read the theme map" in caplog.text
     finally:
         theme_taxonomy.reload_taxonomy()
 
 
-def test_deeper_nesting_still_points_at_the_primary_tag_and_inherits_its_group(
-    monkeypatch, tmp_path
-):
-    """The table models one level of parenthood, so a great-grandchild hangs off
-    the primary tag rather than its immediate parent — and still inherits that
-    primary tag's bucket, however deep it sits."""
-    path = tmp_path / "data.json"
+def _deep_map(tmp_path):
+    """A four-level map: Energy > Energy Access > Rural Energy Access, plus a
+    sibling branch, written to a temp file."""
+    path = tmp_path / "theme_structure.json"
     path.write_text(
         json.dumps(
             [{
                 "name": "Main Themes",
                 "children": [{
                     "name": "Energy",
-                    "children": [{
-                        "name": "Renewables",
-                        "children": [{"name": "Rooftop Solar"}],
-                    }],
+                    "children": [
+                        {
+                            "name": "Energy Access",
+                            "children": [{
+                                "name": "Rural Energy Access",
+                                "children": [{"name": "Mini Grids"}],
+                            }],
+                        },
+                        {"name": "Energy Efficiency"},
+                    ],
                 }],
             }]
         ),
         encoding="utf-8",
     )
-    monkeypatch.setattr(theme_taxonomy, "TAXONOMY_PATH", path)
+    return path
+
+
+def test_deeper_nesting_keeps_its_immediate_parent_and_records_the_full_path(
+    monkeypatch, tmp_path
+):
+    """A grandchild hangs off its **immediate** parent, not the primary tag.
+
+    This used to reparent everything below one level onto the primary tag, which
+    made "Rural Energy Access" a sibling of its own parent "Energy Access": a
+    query for Energy Access could not reach it, and a breakdown of Energy
+    Access's children came back empty. The path carries the whole chain, so the
+    hierarchy survives at any depth."""
+    monkeypatch.setattr(theme_taxonomy, "TAXONOMY_PATH", _deep_map(tmp_path))
     theme_taxonomy.reload_taxonomy()
     try:
-        assert _rows(["Rooftop Solar"]) == [
-            ("Rooftop Solar", "sub", "Energy", "main")
+        assert _paths(["Rural Energy Access"]) == [
+            (
+                "Rural Energy Access",
+                "Energy Access",
+                "Energy > Energy Access > Rural Energy Access",
+                3,
+            )
         ]
+        # A fourth level is no different — depth is not capped.
+        assert _paths(["Mini Grids"]) == [
+            (
+                "Mini Grids",
+                "Rural Energy Access",
+                "Energy > Energy Access > Rural Energy Access > Mini Grids",
+                4,
+            )
+        ]
+        # Every level still inherits the primary tag's bucket, however deep.
+        assert [r[3] for r in _rows(["Mini Grids", "Rural Energy Access"])] == [
+            "main", "main",
+        ]
+        # And every level below the first is a sub-theme, never a primary tag.
+        assert [r[1] for r in _rows(["Energy Access", "Mini Grids"])] == [
+            "sub", "sub",
+        ]
+    finally:
+        theme_taxonomy.reload_taxonomy()
+
+
+def test_a_primary_tag_is_its_own_single_segment_path(monkeypatch, tmp_path):
+    monkeypatch.setattr(theme_taxonomy, "TAXONOMY_PATH", _deep_map(tmp_path))
+    theme_taxonomy.reload_taxonomy()
+    try:
+        assert _paths(["Energy"]) == [("Energy", None, "Energy", 1)]
+    finally:
+        theme_taxonomy.reload_taxonomy()
+
+
+def test_path_of_reads_the_hierarchy_without_any_document(monkeypatch, tmp_path):
+    """The scope expansion looks a theme's path up from the map, so a query for
+    a mid-level theme works even when no document carries that theme itself."""
+    monkeypatch.setattr(theme_taxonomy, "TAXONOMY_PATH", _deep_map(tmp_path))
+    theme_taxonomy.reload_taxonomy()
+    try:
+        assert theme_taxonomy.path_of("Energy Access") == "Energy > Energy Access"
+        assert theme_taxonomy.path_of("  ENERGY   access ") == "Energy > Energy Access"
+        assert theme_taxonomy.path_of("Nothing Like This") is None
     finally:
         theme_taxonomy.reload_taxonomy()
 
@@ -266,11 +353,17 @@ def test_upsert_writes_classified_theme_rows(cursor):
     inserts = _theme_sql(cursor, "INSERT")
     assert len(inserts) == 1
     sql, rows = inserts[0]
-    assert "(document_id, theme, theme_type, parent, theme_group)" in sql
+    assert (
+        "(document_id, theme, theme_type, parent, theme_group, theme_path, depth)"
+        in sql
+    )
     assert rows == [
-        ("doc-1", "Energy", "primary", None, "main"),
-        ("doc-1", "Air", "sub", "Environment", "main"),
-        ("doc-1", "Quantum Beekeeping", "sub", None, None),
+        ("doc-1", "Energy", "primary", None, "main", "Energy", 1),
+        ("doc-1", "Air", "sub", "Environment", "main", "Environment > Air", 2),
+        (
+            "doc-1", "Quantum Beekeeping", "unknown", None, None,
+            "Quantum Beekeeping", 1,
+        ),
     ]
 
 
@@ -308,7 +401,10 @@ def test_backfill_facets_classifies_too(monkeypatch, cursor):
     assert state.backfill_facets("doc-1", None, ["Jane"], ["Energy Access"]) is True
 
     _, rows = _theme_sql(cursor, "INSERT")[0]
-    assert rows == [("doc-1", "Energy Access", "sub", "Energy", "main")]
+    assert rows == [
+        ("doc-1", "Energy Access", "sub", "Energy", "main",
+         "Energy > Energy Access", 2)
+    ]
 
 
 def test_rename_theme_facet_reclassifies_the_new_name(cursor):
@@ -319,7 +415,9 @@ def test_rename_theme_facet_reclassifies_the_new_name(cursor):
     assert state.rename_theme_facet("doc-1", "Atmosphere", "Air") == ["Air"]
 
     _, rows = _theme_sql(cursor, "INSERT")[0]
-    assert rows == [("doc-1", "Air", "sub", "Environment", "main")]
+    assert rows == [
+        ("doc-1", "Air", "sub", "Environment", "main", "Environment > Air", 2)
+    ]
 
 
 # --------------------------------------------------------------------------- #
@@ -335,8 +433,8 @@ def test_reclassify_updates_known_names_and_drops_non_themes(cursor):
 
     updates = _theme_sql(cursor, "UPDATE")
     assert [params for _, params in updates] == [
-        ("primary", None, "main", "Energy"),
-        ("sub", "Environment", "main", "Air"),
+        ("primary", None, "main", "Energy", 1, "Energy"),
+        ("sub", "Environment", "main", "Environment > Air", 2, "Air"),
     ]
     deletes = _theme_sql(cursor, "DELETE")
     assert [params for _, params in deletes] == [("Main Themes",)]

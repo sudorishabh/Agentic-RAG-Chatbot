@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from typing import Any, Iterator
 
-from app.catalog import state
+from app.catalog import state, theme_taxonomy
 from app.config import get_settings
 from app.core.clients import get_qdrant_client
 
@@ -75,6 +75,10 @@ def collect() -> dict[str, dict[str, Any]]:
 
 
 def backfill_catalog() -> dict[str, int]:
+    # Same preflight as `pipeline._run`, and for the same reason: this rewrites
+    # theme rows for every document it finds a payload for, so an unreadable
+    # theme map would strip the hierarchy corpus-wide. Refuse before writing.
+    theme_taxonomy.require_taxonomy()
     docs = collect()
     updated = skipped = 0
     for doc_id, facets in docs.items():

@@ -26,7 +26,13 @@ class _FakeCursor:
     statements to itself so repeat runs see real state.
 
     ``fail_on`` makes any statement containing that substring raise, which is how
-    the duplicate-rows-block-the-primary-key path is exercised."""
+    the duplicate-rows-block-the-primary-key path is exercised.
+
+    ``column_types`` models ``information_schema.COLUMNS.COLUMN_TYPE`` so the
+    ENUM-widening step is observable: it is guarded on the *stored* type, and a
+    fake that could not report one would make the migration look permanently
+    pending. ADD/MODIFY COLUMN record the type they declare, so a widen applied
+    once is not applied again."""
 
     def __init__(
         self,
@@ -34,10 +40,12 @@ class _FakeCursor:
         pks: set[str] | None = None,
         fail_on: str | None = None,
         indexes: set[tuple[str, str]] | None = None,
+        column_types: dict[tuple[str, str], str] | None = None,
     ):
         self.tables = {t: list(cols) for t, cols in tables.items()}
         self.pks = set(pks or ())
         self.indexes = set(indexes or ())
+        self.column_types = dict(column_types or {})
         self.fail_on = fail_on
         self.statements: list[str] = []
         self._result: tuple | None = None
@@ -49,6 +57,9 @@ class _FakeCursor:
             return
         if "information_schema.COLUMNS" in flat:
             table, column = params
+            if flat.startswith("SELECT COLUMN_TYPE"):
+                self._result = (self.column_types.get((table, column), ""),)
+                return
             self._result = (1,) if column in self.tables.get(table, []) else None
             return
         if "information_schema.STATISTICS" in flat:
@@ -76,6 +87,9 @@ class _FakeCursor:
             self.pks.add(words[2])
         elif "ADD COLUMN" in stmt:
             self.tables.setdefault(words[2], []).append(words[5])
+            self.column_types[(words[2], words[5])] = " ".join(words[6:]).lower()
+        elif "MODIFY COLUMN" in stmt:
+            self.column_types[(words[2], words[5])] = " ".join(words[6:]).lower()
         elif "ADD KEY" in stmt:
             self.indexes.add((words[2], words[5]))
         elif stmt.startswith("CREATE TABLE IF NOT EXISTS"):
@@ -210,6 +224,26 @@ def test_dry_run_reports_both_steps_for_fully_old_schema():
 
 _FLAT_THEME_TABLE = {f"{TABLE}_theme": ["document_id", "theme"]}
 
+#: The shape after every step of the migration has run.
+_CURRENT_THEME_COLUMNS = [
+    "document_id", "theme", "theme_type", "parent", "theme_group",
+    "theme_path", "depth",
+]
+
+#: A fully migrated table also has the widened ENUM and the path index. Without
+#: both, the migration correctly reports work still to do.
+_CURRENT_THEME_TABLE = {f"{TABLE}_theme": list(_CURRENT_THEME_COLUMNS)}
+_CURRENT_THEME_TYPE = {
+    (f"{TABLE}_theme", "theme_type"): "enum('primary','sub','unknown')"
+}
+_CURRENT_THEME_INDEXES = {(f"{TABLE}_theme", "idx_path")}
+
+_THEME_TYPE_ADD = (
+    f"ALTER TABLE `{TABLE}_theme` ADD COLUMN "
+    "theme_type ENUM('primary', 'sub', 'unknown') NOT NULL DEFAULT 'sub'"
+)
+_PATH_KEY_ADD = f"ALTER TABLE `{TABLE}_theme` ADD KEY `idx_path` (theme_path(255))"
+
 
 def test_theme_hierarchy_adds_columns_then_key_to_a_flat_table():
     cursor = _FakeCursor(dict(_FLAT_THEME_TABLE))
@@ -217,22 +251,48 @@ def test_theme_hierarchy_adds_columns_then_key_to_a_flat_table():
     applied = schema.migrate_theme_hierarchy(cursor, TABLE)
 
     assert applied == [
-        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN "
-        "theme_type ENUM('primary', 'sub') NOT NULL DEFAULT 'sub'",
+        _THEME_TYPE_ADD,
         f"ALTER TABLE `{TABLE}_theme` ADD COLUMN parent VARCHAR(255) NULL",
         f"ALTER TABLE `{TABLE}_theme` ADD COLUMN theme_group ENUM('main', 'other') NULL",
+        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN theme_path VARCHAR(1024) NULL",
+        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN "
+        "depth TINYINT UNSIGNED NOT NULL DEFAULT 1",
+        _PATH_KEY_ADD,
         f"ALTER TABLE `{TABLE}_theme` ADD PRIMARY KEY (document_id, theme)",
     ]
-    assert cursor.tables[f"{TABLE}_theme"] == [
-        "document_id", "theme", "theme_type", "parent", "theme_group",
-    ]
+    assert cursor.tables[f"{TABLE}_theme"] == _CURRENT_THEME_COLUMNS
     assert f"{TABLE}_theme" in cursor.pks
+    # theme_type arrived already carrying 'unknown', so no MODIFY was needed.
+    assert not any("MODIFY COLUMN" in stmt for stmt in applied)
+
+
+def test_theme_hierarchy_widens_an_existing_theme_type_enum():
+    """A deployment that has the hierarchy columns but a pre-`unknown` ENUM.
+    Without the widen, the first row classified `unknown` is coerced to '' (or
+    rejected outright in strict mode)."""
+    cursor = _FakeCursor(
+        dict(_CURRENT_THEME_TABLE),
+        pks={f"{TABLE}_theme"},
+        indexes=set(_CURRENT_THEME_INDEXES),
+        column_types={(f"{TABLE}_theme", "theme_type"): "enum('primary','sub')"},
+    )
+
+    applied = schema.migrate_theme_hierarchy(cursor, TABLE)
+
+    assert applied == [
+        f"ALTER TABLE `{TABLE}_theme` MODIFY COLUMN "
+        "theme_type ENUM('primary', 'sub', 'unknown') NOT NULL DEFAULT 'sub'"
+    ]
+    # And having widened it, a second run has nothing left to do.
+    assert schema.migrate_theme_hierarchy(cursor, TABLE) == []
 
 
 def test_theme_hierarchy_noop_when_already_current():
     cursor = _FakeCursor(
-        {f"{TABLE}_theme": ["document_id", "theme", "theme_type", "parent", "theme_group"]},
+        dict(_CURRENT_THEME_TABLE),
         pks={f"{TABLE}_theme"},
+        indexes=set(_CURRENT_THEME_INDEXES),
+        column_types=dict(_CURRENT_THEME_TYPE),
     )
 
     assert schema.migrate_theme_hierarchy(cursor, TABLE) == []
@@ -251,7 +311,7 @@ def test_theme_hierarchy_noop_when_the_table_does_not_exist_yet():
 def test_theme_hierarchy_is_idempotent():
     cursor = _FakeCursor(dict(_FLAT_THEME_TABLE))
 
-    assert len(schema.migrate_theme_hierarchy(cursor, TABLE)) == 4
+    assert len(schema.migrate_theme_hierarchy(cursor, TABLE)) == 7
     assert schema.migrate_theme_hierarchy(cursor, TABLE) == []
 
 
@@ -260,6 +320,7 @@ def test_theme_hierarchy_adds_only_the_missing_half():
     cursor = _FakeCursor(
         {f"{TABLE}_theme": ["document_id", "theme", "theme_type"]},
         pks={f"{TABLE}_theme"},
+        column_types=dict(_CURRENT_THEME_TYPE),
     )
 
     applied = schema.migrate_theme_hierarchy(cursor, TABLE)
@@ -267,6 +328,10 @@ def test_theme_hierarchy_adds_only_the_missing_half():
     assert applied == [
         f"ALTER TABLE `{TABLE}_theme` ADD COLUMN parent VARCHAR(255) NULL",
         f"ALTER TABLE `{TABLE}_theme` ADD COLUMN theme_group ENUM('main', 'other') NULL",
+        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN theme_path VARCHAR(1024) NULL",
+        f"ALTER TABLE `{TABLE}_theme` ADD COLUMN "
+        "depth TINYINT UNSIGNED NOT NULL DEFAULT 1",
+        _PATH_KEY_ADD,
     ]
 
 
@@ -275,7 +340,7 @@ def test_theme_hierarchy_dry_run_reports_without_executing():
 
     applied = schema.migrate_theme_hierarchy(cursor, TABLE, dry_run=True)
 
-    assert len(applied) == 4
+    assert len(applied) == 7
     assert cursor.statements == []
     assert cursor.tables == _FLAT_THEME_TABLE
 
@@ -288,10 +353,8 @@ def test_theme_hierarchy_survives_a_key_the_table_will_not_take(caplog):
 
     applied = schema.migrate_theme_hierarchy(cursor, TABLE)  # no raise
 
-    assert len(applied) == 4
-    assert cursor.tables[f"{TABLE}_theme"] == [
-        "document_id", "theme", "theme_type", "parent", "theme_group",
-    ]
+    assert len(applied) == 7
+    assert cursor.tables[f"{TABLE}_theme"] == _CURRENT_THEME_COLUMNS
     assert f"{TABLE}_theme" not in cursor.pks
     assert "Could not add the primary key" in caplog.text
 
@@ -326,9 +389,7 @@ def test_ensure_state_table_migrates_before_creating_facet_tables(monkeypatch):
     # rename -> create (which no-ops on the renamed table) -> hierarchy migration,
     # so the carried-forward rows end up under the current shape.
     assert rename < create < alter
-    assert cursor.tables[f"{TABLE}_theme"] == [
-        "document_id", "theme", "theme_type", "parent", "theme_group",
-    ]
+    assert cursor.tables[f"{TABLE}_theme"] == _CURRENT_THEME_COLUMNS
     assert f"{TABLE}_category" not in cursor.tables
 
 

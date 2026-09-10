@@ -19,6 +19,7 @@ from typing import Any, Sequence
 
 from app.config import get_settings
 from app.catalog import queries as state
+from app.catalog import theme_taxonomy
 from app.catalog.models import StateRecord
 from app.core.dates import inclusive_end
 from app.retrieval.structured.entities import (
@@ -859,7 +860,7 @@ SCOPE_ALL = "all"
 THEME_SCOPES = (SCOPE_MAIN, SCOPE_OTHER, SCOPE_ALL)
 
 
-def _split_by_group(primary: list[dict[str, Any]]) -> dict[str, list[str]]:
+def _split_by_group(top_level: list[dict[str, Any]]) -> dict[str, list[str]]:
     """Top-level themes bucketed by `theme_group`, as a positive allow-list.
 
     Matching each group by equality rather than testing `!= 'main'` matters: a
@@ -867,9 +868,11 @@ def _split_by_group(primary: list[dict[str, Any]]) -> dict[str, list[str]]:
     it under Other — presenting a term discovered in Drupal as part of a curated
     structure it was never added to. Unclassified themes get their own bucket so
     they can be reported without being dressed up as something they are not.
+    That bucket is where a theme classified `unknown` lands — it carries no
+    group by definition, and it is the reason the bucket is not dead code.
     """
     buckets: dict[str, list[str]] = {SCOPE_MAIN: [], SCOPE_OTHER: [], "unclassified": []}
-    for row in primary:
+    for row in top_level:
         group = row.get("theme_group")
         if group == SCOPE_MAIN:
             buckets[SCOPE_MAIN].append(row["theme"])
@@ -929,11 +932,20 @@ def list_themes(
     if parent:
         return _list_one_parents_children(rows, parent, output_format)
 
-    primary = [r for r in rows if r["theme_type"] == "primary"]
-    if not primary:
+    # Top-level entries: the curated primary tags, plus themes the theme map
+    # does not know. An unknown theme *is* top-level — nothing is known to sit
+    # above it — and excluding it here is what used to make a theme discovered
+    # in the CMS unlistable until someone edited the map. `_split_by_group`
+    # keeps it out of the curated groups, so it only ever surfaces under
+    # `scope="all"`, labelled as unclassified.
+    top_level = [
+        r for r in rows
+        if r["theme_type"] in ("primary", theme_taxonomy.UNKNOWN)
+    ]
+    if not top_level:
         return ToolResult(tool="list_themes", ok=False, error="no themes found")
 
-    buckets = _split_by_group(primary)
+    buckets = _split_by_group(top_level)
     main, other = buckets[SCOPE_MAIN], buckets[SCOPE_OTHER]
     unclassified = buckets["unclassified"]
 

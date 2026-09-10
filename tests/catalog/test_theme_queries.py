@@ -62,9 +62,15 @@ def _patch(monkeypatch, module, cursor):
 # theme_vocabulary — what themes exist, from documents_theme.
 # --------------------------------------------------------------------------- #
 
-def _vocab_row(theme, group="main", theme_type="primary", parent=None, documents=1):
+def _vocab_row(theme, group="main", theme_type="primary", parent=None, documents=1,
+               theme_path=None, depth=None):
+    path = theme_path if theme_path is not None else (
+        f"{parent} > {theme}" if parent else theme
+    )
     return {"theme": theme, "theme_type": theme_type, "parent": parent,
-            "theme_group": group, "documents": documents}
+            "theme_group": group, "theme_path": path,
+            "depth": depth if depth is not None else len(path.split(" > ")),
+            "documents": documents}
 
 
 def test_theme_vocabulary_reads_the_facet_with_its_hierarchy(monkeypatch):
@@ -78,7 +84,11 @@ def test_theme_vocabulary_reads_the_facet_with_its_hierarchy(monkeypatch):
     assert [r["theme"] for r in rows] == ["Climate Change", "Air"]
     assert rows[1]["parent"] == "Environment" and rows[1]["theme_group"] == "main"
     sql, params = cursor.calls[0]
-    assert "_theme`" in sql and "GROUP BY theme, theme_type, parent, theme_group" in sql
+    assert "_theme`" in sql
+    assert "GROUP BY theme, theme_type, parent, theme_group, theme_path, depth" in sql
+    # The hierarchy the caller reads back includes the full path, so a listing
+    # can expand a theme to its descendants without a second query.
+    assert rows[1]["theme_path"] == "Environment > Air" and rows[1]["depth"] == 2
     assert "theme NOT IN (%s, %s)" in sql  # boolean artefacts excluded in SQL
     assert params == ("False", "True")
 
@@ -116,8 +126,8 @@ def test_distinct_themes_is_a_names_view_of_the_vocabulary(monkeypatch):
 # Catalog SQL — theme/tag scoping and distribution.
 # --------------------------------------------------------------------------- #
 
-def test_count_by_theme_matches_name_or_sub_theme(monkeypatch):
-    """Exact name OR parent: a substring match both missed the sub-themes and
+def test_count_by_theme_matches_the_theme_and_its_descendants(monkeypatch):
+    """Exact name OR path prefix: a substring match both missed the sub-themes and
     wrongly merged siblings ("Environment" sweeping in "Environment Education")."""
     cursor = _FakeCursor(fetchone_results=[{"n": 625}])
     _patch(monkeypatch, state, cursor)
@@ -125,10 +135,15 @@ def test_count_by_theme_matches_name_or_sub_theme(monkeypatch):
     assert state.count_documents(source_type="website", theme="Environment") == 625
     sql, params = cursor.calls[0]
     assert "_theme` c" in sql
-    assert "(c.theme = %s OR c.parent = %s)" in sql
-    assert "LIKE" not in sql.split("WHERE")[1]  # no substring matching on the theme
+    assert "c.theme_path = %s" in sql and "c.theme_path LIKE %s" in sql
+    # Left-anchored prefix only. A leading `%` would be substring matching,
+    # which is what merged siblings ("Environment" sweeping in "Environment
+    # Education") before the path existed.
+    assert "Environment > %" in params and "%Environment" not in params
     assert "COUNT(DISTINCT s.document_id)" in sql
-    assert params == ("website", "Environment", "Environment")
+    assert params == (
+        "website", "Environment", "Environment > %", "Environment", "Environment",
+    )
 
 
 def test_count_by_tag_uses_its_own_facet(monkeypatch):
@@ -150,7 +165,9 @@ def test_theme_and_tag_are_independent_joins(monkeypatch):
     sql, params = cursor.calls[0]
     assert "_theme` c" in sql and "_tag` t" in sql
     assert sql.count("JOIN") == 2
-    assert params == ("website", "Energy", "Energy", "solar")
+    assert params == (
+        "website", "Energy", "Energy > %", "Energy", "Energy", "solar",
+    )
 
 
 def test_count_by_title_contains(monkeypatch):
@@ -215,10 +232,12 @@ def test_distribution_scoped_by_theme_and_author(monkeypatch):
     )
     assert rows == [("2024", 4)]
     sql, params = cursor.calls[0]
-    assert "_theme` c" in sql and "(c.theme = %s OR c.parent = %s)" in sql
+    assert "_theme` c" in sql and "c.theme_path" in sql
     assert "_author` a" in sql and "a.author LIKE %s" in sql
     assert "COUNT(DISTINCT s.document_id)" in sql
-    assert params == ("website", "%Sharma%", "Energy", "Energy")
+    assert params == (
+        "website", "%Sharma%", "Energy", "Energy > %", "Energy", "Energy",
+    )
 
 
 def test_distribution_by_year_skips_undated(monkeypatch):

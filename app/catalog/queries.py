@@ -23,6 +23,7 @@ import time
 from datetime import datetime
 from typing import Any, Sequence
 
+from app.catalog import theme_taxonomy
 from app.catalog.db import state_table as _table
 from app.catalog.state import StateRecord, _row_to_record
 from app.core.clients import mysql_connection
@@ -40,6 +41,45 @@ _NON_THEME_VALUES: tuple[str, ...] = ("False", "True")
 def _like(term: str) -> str:
     escaped = term.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
     return f"%{escaped}%"
+
+
+def _escape_like(term: str) -> str:
+    """LIKE-escape without wrapping in wildcards, for a left-anchored pattern."""
+    return term.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+
+
+def _theme_scope_clause(alias: str, name: str) -> tuple[str, list[Any]]:
+    """A theme scope covering ``name`` **and every theme beneath it, at any
+    depth** — the condition behind "how many documents are in Energy?" when the
+    documents are tagged only "Rural Energy Access".
+
+    Matched on the materialized ``theme_path``: a theme is in scope when its
+    path *is* the theme's path, or begins with it plus the separator. Left
+    anchored, so the prefix index does the work; the separator in the prefix is
+    what keeps "Energy" from also matching a sibling called "Energy Storage"
+    that happens to share the first six characters.
+
+    The path is looked up from the theme map rather than from the rows, so a
+    query for a mid-level theme expands correctly even when no document carries
+    that theme itself. A theme the map does not know has no path to expand, so
+    it matches by name only — which is exactly right: nothing is known to sit
+    beneath it.
+
+    The NULL-path branch is the compatibility path, not a nicety. Rows written
+    before ``theme_path`` existed carry NULL until
+    ``state.reclassify_theme_rows`` (or a re-ingest) fills them in, and without
+    this they would silently drop out of every theme filter — turning a
+    migration that has not been run yet into wrong counts rather than old ones.
+    It reproduces the previous one-level behaviour exactly: exact name, or
+    ``parent`` naming the theme.
+    """
+    path = theme_taxonomy.path_of(name) or name
+    clause = (
+        f"({alias}.theme_path = %s OR {alias}.theme_path LIKE %s"
+        f" OR ({alias}.theme_path IS NULL AND ({alias}.theme = %s OR {alias}.parent = %s)))"
+    )
+    prefix = f"{_escape_like(path)}{_escape_like(theme_taxonomy.PATH_SEPARATOR)}%"
+    return clause, [path, prefix, name, name]
 
 
 def _catalog_filters(
@@ -61,15 +101,12 @@ def _catalog_filters(
     ``entity_type`` scopes to one Drupal entity kind — the query layer passes
     "node" so taxonomy-term and block rows never count as content documents.
 
-    ``theme`` matches a theme **name exactly, or any sub-theme hanging off it**
-    (``documents_theme.parent``), so scoping to a primary tag includes documents
-    tagged only with one of its children. Exact rather than substring: the
-    caller canonicalizes the name first (see
-    ``app.retrieval.structured.filters``), and a substring match both misses
-    sub-themes and wrongly merges siblings — "Environment" would sweep in
-    "Environment Education" while missing "Air" and "Water". One level of
-    ``parent`` is enough because ``theme_taxonomy`` flattens deeper nesting onto
-    the primary tag.
+    ``theme`` matches a theme **and every theme beneath it, at any depth** — see
+    :func:`_theme_scope_clause`. Exact-name rather than substring: the caller
+    canonicalizes the name first (see ``app.retrieval.structured.filters``), and
+    a substring match both misses sub-themes and wrongly merges siblings —
+    "Environment" would sweep in "Environment Education" while missing "Air" and
+    "Water".
 
     ``tag`` joins ``documents_tag`` separately from the theme join, so a theme
     filter and a tag filter combine as AND rather than collapsing into one
@@ -115,8 +152,9 @@ def _catalog_filters(
         distinct = True
     if theme:
         joins.append(f" JOIN `{table}_theme` c ON c.document_id = s.document_id")
-        clauses.append("(c.theme = %s OR c.parent = %s)")
-        params.extend((theme, theme))
+        clause, args = _theme_scope_clause("c", theme)
+        clauses.append(clause)
+        params.extend(args)
         distinct = True
     if theme_group:
         # Documents carrying at least one theme from this group. Matched by
@@ -716,11 +754,11 @@ def theme_vocabulary(*, limit: int = 500) -> list[dict[str, Any]]:
     capped = max(1, min(int(limit or 500), 2000))
     placeholders = ", ".join(["%s"] * len(_NON_THEME_VALUES))
     sql = (
-        f"SELECT theme, theme_type, parent, theme_group,"
+        f"SELECT theme, theme_type, parent, theme_group, theme_path, depth,"
         f" COUNT(DISTINCT document_id) AS documents"
         f" FROM `{table}_theme`"
         f" WHERE theme <> '' AND theme NOT IN ({placeholders})"
-        f" GROUP BY theme, theme_type, parent, theme_group"
+        f" GROUP BY theme, theme_type, parent, theme_group, theme_path, depth"
         f" ORDER BY theme ASC, documents DESC, theme_type ASC"
     )
     with mysql_connection() as conn, conn.cursor() as cur:
@@ -738,6 +776,8 @@ def theme_vocabulary(*, limit: int = 500) -> list[dict[str, Any]]:
                 "theme_type": row["theme_type"],
                 "parent": row["parent"],
                 "theme_group": row["theme_group"],
+                "theme_path": row["theme_path"],
+                "depth": int(row["depth"] or 1),
                 "documents": int(row["documents"] or 0),
             },
         )
@@ -818,7 +858,7 @@ def document_ids_in_scope(
 
     The id-set selection behind catalog-scoped retrieval: MySQL decides set
     membership, Qdrant ranks content within it. Scoping matches
-    :func:`_catalog_filters` — ``theme`` by exact name or sub-theme, ``tag`` by
+    :func:`_catalog_filters` — ``theme`` covers its descendants too, ``tag`` by
     exact name. ``limit`` clamps to [1, 300] — honest truncation beats an
     unbounded MatchAny downstream.
     """
@@ -846,8 +886,9 @@ def document_ids_in_scope(
         distinct = True
     if theme:
         joins.append(f" JOIN `{table}_theme` c ON c.document_id = s.document_id")
-        clauses.append("(c.theme = %s OR c.parent = %s)")
-        params.extend((theme, theme))
+        clause, args = _theme_scope_clause("c", theme)
+        clauses.append(clause)
+        params.extend(args)
         distinct = True
     if tag:
         joins.append(f" JOIN `{table}_tag` t ON t.document_id = s.document_id")

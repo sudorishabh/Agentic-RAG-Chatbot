@@ -134,29 +134,50 @@ def _replace_authors(
         )
 
 
+#: `theme_path` is VARCHAR(1024); a chain longer than that is stored truncated.
+#: Wide enough that no real hierarchy reaches it — four 255-char segments — so
+#: this is a storage guard, not a policy.
+_PATH_WIDTH = 1024
+
+
 def _replace_themes(
     cur: Any, table: str, document_id: str, names: Iterable[str]
 ) -> None:
-    """Rewrite a document's theme rows: its main theme as the primary tag and
-    every other theme as a sub-theme naming the primary tag it hangs off, each
-    tagged with the top-level bucket ("main" / "other") it traces back to.
+    """Rewrite a document's theme rows: each theme with its type, its immediate
+    parent, the top-level bucket ("main" / "other") it traces back to, and its
+    full ancestor path and depth.
 
-    Only the themes the document itself carries are written — a sub-theme's
-    parent is recorded as a reference, never materialized as an extra row, so a
-    document is never credited with a theme it wasn't tagged with. A document
-    with no valid theme (all values empty, or only grouping-bucket names) gets no
-    row at all rather than a placeholder. See :mod:`app.catalog.theme_taxonomy`
-    for the classification."""
+    Only the themes the document itself carries are written — a parent is
+    recorded as a reference, never materialized as an extra row, so a document
+    is never credited with a theme it wasn't tagged with. A document with no
+    valid theme (all values empty, or only grouping-bucket names) gets no row at
+    all rather than a placeholder.
+
+    DELETE-then-INSERT rather than an upsert, which is what makes re-ingestion
+    idempotent: a theme the document no longer carries has to *disappear*, and
+    an upsert keyed on (document_id, theme) can only ever add or update. The
+    DELETE runs unconditionally, so a document that lost its last theme is left
+    with no rows rather than its previous ones.
+
+    See :mod:`app.catalog.theme_taxonomy` for the classification."""
     cur.execute(f"DELETE FROM `{table}_theme` WHERE document_id = %s", (document_id,))
     rows = [
-        (document_id, a.name[:255], a.theme_type, a.parent[:255] if a.parent else None, a.group)
+        (
+            document_id,
+            a.name[:_FACET_WIDTH],
+            a.theme_type,
+            a.parent[:_FACET_WIDTH] if a.parent else None,
+            a.group,
+            a.path[:_PATH_WIDTH],
+            a.depth,
+        )
         for a in theme_taxonomy.classify(names)
     ]
     if rows:
         cur.executemany(
             f"INSERT INTO `{table}_theme` "
-            "(document_id, theme, theme_type, parent, theme_group) "
-            f"VALUES (%s, %s, %s, %s, %s){_KEEP_FIRST}",
+            "(document_id, theme, theme_type, parent, theme_group, theme_path, depth) "
+            f"VALUES (%s, %s, %s, %s, %s, %s, %s){_KEEP_FIRST}",
             rows,
         )
 
@@ -557,15 +578,24 @@ def reclassify_theme_rows(*, dry_run: bool = False) -> dict[str, int]:
 
     For deployments whose rows predate the hierarchy columns
     (:func:`app.catalog.schema.migrate_theme_hierarchy` gives them the column
-    default — an unparented sub-theme). Keyed on the distinct theme *names*, not
-    on documents, since the classification depends only on the name: a whole
-    corpus is a few dozen statements. Names that are not themes at all (grouping
-    buckets, blanks) have their rows deleted.
+    default — an unparented sub-theme, with a NULL ``theme_path``). Keyed on the
+    distinct theme *names*, not on documents, since the classification depends
+    only on the name: a whole corpus is a few dozen statements. Names that are
+    not themes at all (grouping buckets, blanks) have their rows deleted.
+
+    This is the backfill for ``theme_path``/``depth``, and the way a deployment
+    picks up a deepened theme map without re-ingesting: the map is re-read, so
+    a theme moved to a new position in the hierarchy gets its new path here.
+
+    Requires a loadable theme map (:func:`theme_taxonomy.require_taxonomy`).
+    Without it every name would classify as unmapped and this would rewrite the
+    whole hierarchy to NULL — the exact damage it exists to repair.
 
     Idempotent — a second run reports 0 updated. Under ``dry_run`` nothing is
     written and the counts are rows that *match* each name, not rows that would
     actually change. Returns ``{'names', 'updated', 'deleted'}``.
     """
+    theme_taxonomy.require_taxonomy()
     table = _table()
     tally = {"names": 0, "updated": 0, "deleted": 0}
     with mysql_connection() as conn, conn.cursor() as cur:
@@ -589,8 +619,15 @@ def reclassify_theme_rows(*, dry_run: bool = False) -> dict[str, int]:
             else:
                 affected = cur.execute(
                     f"UPDATE `{table}_theme` SET theme_type = %s, parent = %s, "
-                    "theme_group = %s WHERE theme = %s",
-                    (assignment.theme_type, assignment.parent, assignment.group, name),
+                    "theme_group = %s, theme_path = %s, depth = %s WHERE theme = %s",
+                    (
+                        assignment.theme_type,
+                        assignment.parent,
+                        assignment.group,
+                        assignment.path[:_PATH_WIDTH],
+                        assignment.depth,
+                        name,
+                    ),
                 )
             tally[bucket] += int(affected or 0)
         if not dry_run:

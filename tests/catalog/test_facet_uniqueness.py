@@ -260,6 +260,10 @@ def test_a_fresh_table_declares_the_constraint():
 
 def test_the_theme_table_already_had_this_shape():
     """Stated as a test so the two facets cannot drift apart again."""
-    ddl = " ".join(schema._STATE_THEME_DDL.format(table=TABLE).split())
+    ddl = " ".join(
+        schema._STATE_THEME_DDL.format(
+            table=TABLE, theme_type=schema._THEME_TYPE_DDL
+        ).split()
+    )
 
     assert "PRIMARY KEY (document_id, theme)" in ddl
