@@ -182,9 +182,18 @@ def _verify(cap: DocCapture, snap: Any, checks: rep.Checks) -> None:
     expected_themes = theme_taxonomy.classify(doc.categories)
     checks.add("theme facets match", set(snap.themes) == {a.name for a in expected_themes})
     checks.add(
+        # Path and depth included: they carry the ancestry a descendant query
+        # matches on, and a wrong one shows up only as a wrong count.
         "theme hierarchy matches",
-        {(r["theme"], r["theme_type"], r["parent"], r["theme_group"]) for r in snap.theme_rows}
-        == {(a.name, a.theme_type, a.parent, a.group) for a in expected_themes},
+        {
+            (r["theme"], r["theme_type"], r["parent"], r["theme_group"],
+             r["theme_path"], int(r["depth"]) if r["depth"] is not None else None)
+            for r in snap.theme_rows
+        }
+        == {
+            (a.name, a.theme_type, a.parent, a.group, a.path, a.depth)
+            for a in expected_themes
+        },
     )
     expected_terms = {r.uuid for r in doc.entity_refs if r.vocabulary}
     checks.add(

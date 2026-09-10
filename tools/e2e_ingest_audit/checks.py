@@ -412,8 +412,18 @@ def run_checks(cap: Any, rb: dict[str, Any], captures: dict[str, Any], *, settin
         tags = [r["tag"] for r in (mysql.get(f"{table}_tag") or [])]
         cs.add("mysql", "tag_facet_rows", sorted(tags) == sorted(_stored_values(doc.tags)), "",
                sorted(_stored_values(doc.tags)), sorted(tags))
-        themes = {(r["theme"], r["theme_type"], r["parent"], r["theme_group"]) for r in (mysql.get(f"{table}_theme") or [])}
-        expected_themes = {(a.name[:255], a.theme_type, a.parent, a.group) for a in theme_taxonomy.classify(doc.categories)}
+        # The path and depth are compared too, not just the one-hop parent: they
+        # are what a descendant query matches on, so a wrong path is a wrong
+        # count with nothing else to show for it.
+        themes = {
+            (r["theme"], r["theme_type"], r["parent"], r["theme_group"],
+             r.get("theme_path"), int(r["depth"]) if r.get("depth") is not None else None)
+            for r in (mysql.get(f"{table}_theme") or [])
+        }
+        expected_themes = {
+            (a.name[:255], a.theme_type, a.parent, a.group, a.path[:1024], a.depth)
+            for a in theme_taxonomy.classify(doc.categories)
+        }
         cs.add("mysql", "theme_rows_match_classification", themes == expected_themes,
                "documents_theme = theme_taxonomy.classify(categories)", sorted(expected_themes, key=str), sorted(themes, key=str))
         dropped = [c for c in doc.categories if c not in {t[0] for t in expected_themes}]
