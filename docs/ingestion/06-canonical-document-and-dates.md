@@ -157,20 +157,27 @@ python -m app.ingestion.field_audit --sample 50 --out reports/field_audit.json
 ## Theme classification
 
 `app/catalog/theme_taxonomy.classify(names)` turns a flat list of theme names into
-typed rows, against the static map in `app/theme_structure.json`.
+typed rows, against the static map at `app/theme_structure.json` — or wherever the
+`theme_taxonomy_path` setting points, which is the one place the authoritative
+file is named.
 
 The file's top level (`Main Themes` / `Other Themes`) is a **grouping bucket, not a
 theme**:
 
-- A bucket's children are **primary tags** (`parent` is NULL).
-- Anything below a primary tag is a **sub-theme** whose `parent` is that tag.
+- A bucket's children are **primary tags** (`parent` is NULL, `depth` 1).
+- Anything below one is a **sub-theme** whose `parent` is its *immediate* parent.
 - A bucket name is **never stored** as a theme.
 - `theme_group` (`main` / `other`) records which bucket a theme traces back to; a
-  sub-theme inherits its primary tag's bucket. It is tracked separately from
-  `theme_type`/`parent` because two primary tags from different buckets are both
-  `(primary, NULL)`.
-- Anything deeper than a sub-theme still points at the primary tag — the table
-  models one level of parenthood.
+  sub-theme inherits its primary tag's bucket, however deep it sits. It is tracked
+  separately from `theme_type`/`parent` because two primary tags from different
+  buckets are both `(primary, NULL)`.
+
+**Depth is not capped.** `parent` names one hop; `theme_path` carries the whole
+chain (`Energy > Energy Access > Rural Energy Access`) and `depth` its segment
+count. The path is what makes a parent-theme query reach a grandchild — one
+`parent` column can only ever answer one level, and this used to reparent
+everything below the first level onto the primary tag, which made a grandchild a
+sibling of its own parent.
 
 Matching is case- and whitespace-insensitive using Unicode `\s`, so Drupal's
 non-breaking spaces are folded too.
@@ -180,20 +187,43 @@ Four guards:
 1. **Only the document's own themes get rows.** A parent is recorded as a
    *reference*, never materialised as an extra row, so a post tagged only "Energy
    Access" is not also credited with "Energy".
-2. A theme the map does not know is kept as an **unparented sub-theme** rather than
-   dropped — an unknown theme is still a real tag.
-3. Bucket names and blanks are dropped.
+2. A theme the map does not know is kept, classified **`unknown`** — no parent, no
+   group, and its own name as a one-segment path. It is countable and listable
+   (under `list_themes(scope="all")`) without the map being edited. `unknown`
+   rather than `sub`, because calling it a sub-theme asserts a parent nothing
+   supports, and it also hid the theme from the primary-tag listing.
+3. Bucket names and blanks are dropped, so a document with no valid theme gets
+   **no row at all** — "has no theme" is the absence of rows, never a placeholder.
 4. `_NOT_A_THEME = {"false", "true", "none", "null", "nan"}` drops stringified
    booleans. The catalog once held **404 rows whose theme was the literal string
    `"False"`** — a real `False` is falsy and drops out in cleaning, but `"False"`
    does not.
 
-A missing or malformed `theme_structure.json` is logged, not raised.
+A missing or malformed map is logged, not raised, *per document* — a problem
+appearing mid-run costs one document rather than aborting a long ingest. But it is
+a **preflight failure**: `require_taxonomy()` runs before the first write in
+`pipeline._run`, `ingestion.backfill.backfill_catalog` and
+`state.reclassify_theme_rows`, and raises `TaxonomyUnavailable`. Without that
+guard, classifying against an empty map does not fail — it succeeds and reports
+every theme as unmapped, so the run quietly rewrites the hierarchy of every
+document it touches. The trigger can be as small as the data file going missing.
 
 The map is deliberately a static file rather than the crawled Drupal tree:
 classification has to stay stable however a vocabulary happens to be nested in the
 CMS, and the same map has to apply to the ref-less export/upload paths, which have
 no taxonomy to read.
+
+### Who owns theme membership
+
+MySQL, alone. `documents_theme` holds the hierarchy, so it is the only side that
+can answer "and everything beneath it", and every count, filter, grouping and
+aggregation reads it. Chunk payloads still carry a `categories` list, but nothing
+filters on it: the semantic path resolves a theme to document ids via
+`catalog.theme_document_ids` and lets Qdrant rank *within* that set
+(`understanding.filters._theme_condition`). Payload `categories` used to be the
+semantic path's theme filter, which made it a second, independent copy of
+membership — flat, so it never matched a document through its parent theme, and
+written at index time, so it went stale on any rename or reclassification.
 
 ---
 
@@ -853,7 +883,7 @@ reconciliation's `documents_without_date` check reports the standing total.
 | Year precision with a non-January day | `year_precision_not_january` | Reported | Investigate; value and precision disagree |
 | LLM unavailable | `interpret` returns `None` | `keep_page_date`, `rule="llm_unavailable"`, confidence 0 | Next re-index re-attempts |
 | LLM proposes a filename-derived date | Grounding checks | `review` | A human reads `documents_date_decision` |
-| `theme_structure.json` missing or malformed | `except` in the loader | Logged; classification degrades | Restore the file; a reindex heals the rows |
+| `theme_structure.json` missing or malformed | `require_taxonomy()` preflight | The run refuses to start (`TaxonomyUnavailable`); nothing is written | Restore the file (or fix `THEME_TAXONOMY_PATH`) and re-run |
 | Date-decision table unreachable | `except` in both recorders | One warning; ingestion continues | Next re-index |
 
 ## Observability

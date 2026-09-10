@@ -8,11 +8,26 @@ notices and ``documents_theme`` keeps the old name indefinitely.
 **Two steps are needed, and this script is only the first:**
 
 1. ``python -m scripts.rename_theme "Old Name" "New Name" --apply``
-2. Edit ``app/theme_structure.json`` to use the new name.
+2. Edit the theme map (``app/theme_structure.json``, or wherever
+   ``theme_taxonomy_path`` points) to use the new name.
 
 Skipping step 2 leaves the new name unclassified, so documents ingested *after*
-the rename get ``theme_group = NULL`` and list under "Other themes" instead of
-their real bucket. The script warns when it cannot find the new name in the map.
+the rename classify it as ``theme_type = 'unknown'`` with a NULL ``theme_group``
+and list under "Unclassified themes" instead of their real bucket. The script
+warns when it cannot find the new name in the map.
+
+Three columns name a theme, and all three move here: ``theme``, ``parent``, and
+every segment of ``theme_path``. The path is what the descendant expansion
+matches on, so a rename that left it alone would silently drop the theme's whole
+subtree out of a parent-theme query — the rows would still be there, just
+unreachable. Segments are replaced exactly, in Python, rather than with SQL
+``REPLACE``: "Energy" appears inside "Energy Access", and a substring rewrite
+would corrupt the sibling.
+
+After step 2, ``python -m scripts.reclassify_theme_rows --apply`` re-derives
+type/parent/group/path from the updated map. This script leaves the table
+self-consistent, so that is a belt-and-braces step rather than a required one —
+but it is what picks up a rename that also *moved* the theme in the hierarchy.
 
 Until the rename is applied, queries degrade rather than break: a name sharing a
 word with the old one resolves to a clarification listing the right theme, and a
@@ -56,23 +71,43 @@ def main(argv: list[str] | None = None) -> int:
         cur.execute(f"SELECT COUNT(*) AS n FROM `{table}` WHERE parent = %s", (args.old,))
         as_parent = int(cur.fetchone()["n"])
 
+        # Distinct paths carrying the old name as a whole segment, and what each
+        # becomes. Split on the separator and compare segment by segment, so a
+        # theme whose name is a substring of another is left alone.
+        cur.execute(
+            f"SELECT DISTINCT theme_path FROM `{table}` WHERE theme_path IS NOT NULL"
+        )
+        rewrites: dict[str, str] = {}
+        for row in cur.fetchall():
+            path = row["theme_path"]
+            segments = path.split(theme_taxonomy.PATH_SEPARATOR)
+            if args.old not in segments:
+                continue
+            rewrites[path] = theme_taxonomy.PATH_SEPARATOR.join(
+                args.new if segment == args.old else segment for segment in segments
+            )
+
         print(f"{args.old!r} -> {args.new!r}")
         print(f"  rows naming it as a theme      : {as_theme}")
         print(f"  rows naming it as a sub-theme's parent: {as_parent}")
+        print(f"  distinct paths containing it   : {len(rewrites)}")
 
-        if not (as_theme or as_parent):
+        if not (as_theme or as_parent or rewrites):
             print("\nNo rows carry that name; check the spelling against list_themes.")
             return 1
 
         if theme_taxonomy.group_of(args.new) is None:
             print(
-                f"\nWARNING: app/theme_structure.json does not know {args.new!r}, so newly "
-                "ingested documents would get no theme_group and list under "
-                "'Other themes'. Update app/theme_structure.json as well (step 2)."
+                f"\nWARNING: {theme_taxonomy.TAXONOMY_PATH} does not know "
+                f"{args.new!r}, so newly ingested documents would classify it as "
+                "'unknown' with no theme_group and list under 'Unclassified "
+                "themes'. Update the theme map as well (step 2)."
             )
 
         if not args.apply:
             print("\nDry run. Re-run with --apply to write the change.")
+            for path, becomes in sorted(rewrites.items()):
+                print(f"    path {path!r} -> {becomes!r}")
             return 0
 
         cur.execute(
@@ -81,8 +116,16 @@ def main(argv: list[str] | None = None) -> int:
         cur.execute(
             f"UPDATE `{table}` SET parent = %s WHERE parent = %s", (args.new, args.old)
         )
+        for path, becomes in rewrites.items():
+            cur.execute(
+                f"UPDATE `{table}` SET theme_path = %s WHERE theme_path = %s",
+                (becomes, path),
+            )
         conn.commit()
-    print(f"\nRenamed. Remember step 2: update app/theme_structure.json to use {args.new!r}.")
+    print(
+        f"\nRenamed. Remember step 2: update {theme_taxonomy.TAXONOMY_PATH} to use "
+        f"{args.new!r}, then run scripts.reclassify_theme_rows --apply."
+    )
     return 0
 
 
