@@ -98,6 +98,7 @@ _PREDICATE_PHRASES = {
     "PARTNER_OF": "is a partner of",
     "PARENT_OF": "is the parent of",
     "HAS_ROLE": "has the role",
+    "AUTHORED": "authored",
 }
 
 

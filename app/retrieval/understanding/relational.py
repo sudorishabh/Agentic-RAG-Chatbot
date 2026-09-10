@@ -60,6 +60,12 @@ PREDICATE_CUES: dict[str, tuple[str, ...]] = {
         "consortium", "alliance", "allied", "teamed up", "works with",
         "worked with", "delivered with",
     ),
+    "AUTHORED": (
+        "author", "authors", "authored", "authorship", "wrote", "written",
+        "write", "writes", "writer", "writers", "co-author", "co-authors",
+        "co-authored", "coauthor", "coauthored", "publication", "publications",
+        "published by",
+    ),
     "WORKS_AT": (
         "work", "works", "worked", "working", "employ", "employs", "employed",
         "employee", "employees", "employer", "employers", "employment",
