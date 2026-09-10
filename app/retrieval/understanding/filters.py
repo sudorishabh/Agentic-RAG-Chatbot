@@ -76,17 +76,50 @@ def _parse_bound(value: str | None, *, field: str = "date") -> datetime | None:
     return parsed.replace(tzinfo=timezone.utc) if parsed else None
 
 
+#: A document id no point can carry, for a theme that resolved to no documents.
+#: Qdrant's `MatchAny(any=[])` is an empty disjunction whose meaning is not worth
+#: relying on, so "matches nothing" is stated with a value instead of an absence.
+#: The retriever's facet retry then recovers — a theme nobody is tagged with
+#: falls through to the plain semantic pull rather than refusing.
+_NO_SUCH_DOCUMENT = "\x00-no-document-in-this-theme"
+
+
 def _theme_condition(theme: str) -> Any:
-    """Filter for a theme scope, by display name.
+    """Filter for a theme scope: the documents MySQL says are in it.
 
-    Qdrant payloads carry `categories` (theme names); the catalog is keyed by
-    name, so the name leg is the whole filter — there is no MySQL term table to
-    translate a name into UUIDs. Casing variants are ORed because payloads store
-    whatever the CMS supplied."""
-    from qdrant_client.models import FieldCondition, Filter, MatchAny
+    **MySQL is authoritative for theme membership.** The catalog holds the
+    hierarchy (``documents_theme.theme_path``), so it is the only thing that can
+    answer "and everything beneath it" — a scope of "Energy" has to reach a
+    document tagged only "Rural Energy Access". Qdrant's job here is to rank
+    passages inside the set the catalog picked, which is the same
+    catalog-decides-membership shape ``scoped_retrieval`` already uses.
 
-    names = sorted({theme, theme.title(), theme.strip()})
-    return Filter(should=[FieldCondition(key="categories", match=MatchAny(any=names))])
+    This used to match the chunk payload's ``categories`` list by name. That was
+    a second, independent copy of theme membership, and it was wrong in two ways
+    at once: it was flat, so it never matched a document through its parent
+    theme; and it was written at index time, so a rename or reclassification in
+    MySQL left it stale until the document happened to be re-ingested. The
+    payload field survives as a display/diagnostic value — nothing filters on it.
+
+    Returns ``None`` when the catalog cannot answer, so the caller drops the
+    theme scope instead of applying a membership set it does not trust. Failing
+    open matches the rest of this path: a MySQL outage degrades retrieval to
+    plain semantic search rather than breaking it.
+    """
+    from qdrant_client.models import FieldCondition, MatchAny
+
+    from app.catalog import queries as catalog
+
+    ids = catalog.theme_document_ids(theme)
+    if ids is None:
+        logger.warning(
+            "Could not resolve the %r theme scope from the catalog; continuing "
+            "without a theme filter.", theme,
+        )
+        return None
+    return FieldCondition(
+        key="document_id", match=MatchAny(any=ids or [_NO_SUCH_DOCUMENT])
+    )
 
 
 def _facet_filters(analysis: "QueryAnalysis") -> list[Any]:
@@ -94,7 +127,9 @@ def _facet_filters(analysis: "QueryAnalysis") -> list[Any]:
 
     conditions: list[Any] = []
     if analysis.theme:
-        conditions.append(_theme_condition(analysis.theme))
+        theme_scope = _theme_condition(analysis.theme)
+        if theme_scope is not None:
+            conditions.append(theme_scope)
     # `analysis.author` is intentionally NOT applied as a filter here. The stored
     # `authors` field is a KEYWORD index (exact-value match, no substring) that is
     # populated on only ~20% of chunks and holds full display names ("Ms Meena
@@ -272,7 +307,7 @@ def date_conditions(filters: Sequence[Any] | None) -> list[Any]:
     ask about — silently, because the retry is recorded on the trace span and the
     log, never in the answer text.
 
-    Tolerates entries that aren't ``FieldCondition``s — a nested ``Filter``, as
-    ``_theme_condition`` and the date scope both return — by looking for a
-    canonical date field anywhere inside them rather than by type."""
+    Tolerates entries that aren't ``FieldCondition``s — the date scope returns a
+    nested ``Filter`` — by looking for a canonical date field anywhere inside
+    them rather than by type."""
     return [c for c in filters or [] if _mentions_a_date_field(c)]

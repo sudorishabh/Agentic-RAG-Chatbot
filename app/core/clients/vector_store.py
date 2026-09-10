@@ -40,7 +40,13 @@ _ensured_collections: set[str] = set()
 #   source_type        website / pdf_attachment splits, website preference
 #   language           language filter
 #   section_type       section-type filters
-#   categories         theme filtering (app/retrieval/understanding/filters)
+#   categories         NOT a filter dimension any more. MySQL (`documents_theme`)
+#                      is authoritative for theme membership, because it is the
+#                      only side that holds the hierarchy; the semantic path now
+#                      scopes by `document_id` from the catalog (see
+#                      `understanding.filters._theme_condition`). The payload field
+#                      and its index stay for display and diagnostics — dropping
+#                      them is a separate cleanup with its own migration.
 #   tags               tag filtering
 #   authors            author-scoped retrieval
 #   document_id        delete_document, title refresh, scoped retrieval

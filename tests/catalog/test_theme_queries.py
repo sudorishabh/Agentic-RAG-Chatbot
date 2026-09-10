@@ -10,6 +10,7 @@ from __future__ import annotations
 import pytest
 
 from app.catalog import queries as state
+from app.retrieval.understanding import filters as qfilters
 from app.retrieval.understanding import query_processor as qp
 
 
@@ -262,20 +263,64 @@ def test_distribution_rejects_unknown_dimension():
 # Semantic path — theme filter over the vector search.
 # --------------------------------------------------------------------------- #
 
-def test_theme_condition_matches_payload_names():
-    """The catalog is keyed by name, so the Qdrant filter is the name leg — there
-    is no term table to translate a name into payload UUIDs."""
-    condition = qp._theme_condition("climate change")
-    legs = {c.key: c for c in condition.should}
-    assert set(legs) == {"categories"}
-    assert "Climate Change" in legs["categories"].match.any
-    assert "climate change" in legs["categories"].match.any
+def test_theme_condition_scopes_by_catalog_document_ids(monkeypatch):
+    """MySQL decides who is in the theme; Qdrant only ranks inside that set.
 
+    The previous version matched the chunk payload's `categories` names, which
+    was a second copy of theme membership: flat (so a document tagged only
+    "Rural Energy Access" never matched a scope of "Energy") and written at
+    index time (so it went stale on a rename). The filter now names document
+    ids, and nothing filters on `categories` at all."""
+    cursor = _FakeCursor(fetchall_results=[[
+        {"document_id": "d1"}, {"document_id": "d2"},
+    ]])
+    _patch(monkeypatch, state, cursor)
 
-def test_theme_condition_needs_no_database():
-    """Purely a payload filter now, so it cannot fail on a MySQL outage."""
     condition = qp._theme_condition("Energy")
-    assert [c.key for c in condition.should] == ["categories"]
+
+    assert condition.key == "document_id"
+    assert condition.match.any == ["d1", "d2"]
+    sql, params = cursor.calls[0]
+    # The descendant expansion, so a parent scope reaches deeper themes.
+    assert "_theme` c" in sql and "c.theme_path LIKE %s" in sql
+    assert "Energy > %" in params
+    # Not restricted to website nodes: an attachment inherits its page's themes
+    # so that theme-scoped retrieval can reach the PDF's text.
+    assert "s.source_type = %s" not in sql
+
+
+def test_theme_condition_matches_nothing_when_the_theme_has_no_documents(monkeypatch):
+    """Distinct from a lookup failure. The theme resolved; nobody is in it. The
+    retriever's facet retry then falls through to the plain semantic pull."""
+    cursor = _FakeCursor(fetchall_results=[[]])
+    _patch(monkeypatch, state, cursor)
+
+    condition = qp._theme_condition("Energy")
+
+    assert condition.key == "document_id"
+    assert condition.match.any == [qfilters._NO_SUCH_DOCUMENT]
+
+
+def test_theme_condition_fails_open_when_the_catalog_cannot_answer(monkeypatch):
+    """A MySQL outage must degrade retrieval to unscoped semantic search, not
+    apply a membership set nobody could verify — and not silently mean
+    "nothing matches", which is what an empty list would have said."""
+    monkeypatch.setattr(state, "theme_document_ids", lambda *a, **k: None)
+
+    assert qp._theme_condition("Energy") is None
+
+
+def test_facet_filters_drops_an_unresolvable_theme(monkeypatch):
+    """The condition being None must not reach the filter list as a null entry."""
+    from types import SimpleNamespace
+
+    monkeypatch.setattr(state, "theme_document_ids", lambda *a, **k: None)
+    analysis = SimpleNamespace(
+        theme="Energy", tags=None, source_type=None, language=None,
+        date_from=None, date_to=None, search_query="",
+    )
+
+    assert qfilters._facet_filters(analysis) == []
 
 
 def test_distribution_applies_no_source_filter_unless_asked(monkeypatch):

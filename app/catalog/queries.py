@@ -734,6 +734,68 @@ def effective_date_range(*, refresh: bool = False) -> tuple[str | None, str | No
     return found
 
 
+#: How many documents a semantic-path theme scope may name. Generous, because
+#: this is a narrowing filter over a top-k pull rather than a listing: naming
+#: fewer documents than a theme holds costs a little recall, and the retriever
+#: drops the facet entirely if the scope comes back empty. Bounded all the same
+#: — an unbounded MatchAny reaching Qdrant is the failure this avoids.
+THEME_SCOPE_DOC_CAP = 2000
+
+
+def theme_document_ids(
+    theme: str, *, limit: int = THEME_SCOPE_DOC_CAP
+) -> list[str] | None:
+    """Every document in ``theme``'s scope — the theme and its descendants.
+
+    The membership half of "MySQL decides who is in the theme, Qdrant ranks
+    what they say". The semantic path used to answer this from the chunk
+    payload's ``categories``, which is a flat list of names: it could not
+    express the hierarchy (a chunk tagged only "Energy Access" did not match a
+    scope of "Energy", though the catalog said it should), and it drifted
+    whenever a theme was renamed or reclassified in MySQL without the payloads
+    being rewritten. Two representations of the same fact, disagreeing.
+
+    Unlike :func:`document_ids_in_scope` this does **not** restrict to website
+    nodes. An attachment inherits its parent page's themes precisely so
+    theme-scoped retrieval reaches the PDF's text, and excluding attachments
+    here would put that content out of reach of the very filter meant to select
+    it.
+
+    Returns ``None`` when the query fails, which the caller must not confuse
+    with ``[]``: no rows means the theme genuinely has no documents, while a
+    failure means membership is unknown and the scope should be abandoned rather
+    than applied as "nothing matches".
+    """
+    name = (theme or "").strip()
+    if not name:
+        return []
+    table = _table()
+    clause, params = _theme_scope_clause("c", name)
+    capped = max(1, min(int(limit or THEME_SCOPE_DOC_CAP), 10_000))
+    # Recency-ordered so a truncated scope is the newest slice of the theme
+    # rather than an arbitrary one.
+    sql = (
+        f"SELECT DISTINCT s.document_id, s.effective_start_date"
+        f" FROM `{table}` s"
+        f" JOIN `{table}_theme` c ON c.document_id = s.document_id"
+        f" WHERE {clause}"
+        f" ORDER BY s.effective_start_date DESC, s.document_id ASC LIMIT {capped}"
+    )
+    try:
+        with mysql_connection() as conn, conn.cursor() as cur:
+            cur.execute(sql, tuple(params))
+            ids = [row["document_id"] for row in cur.fetchall()]
+    except Exception:
+        logger.warning("Theme scope lookup failed for %r.", name, exc_info=True)
+        return None
+    if len(ids) >= capped:
+        logger.info(
+            "Theme scope for %r hit the %d-document cap; the semantic pull sees "
+            "the most recent slice only.", name, capped,
+        )
+    return ids
+
+
 def theme_vocabulary(*, limit: int = 500) -> list[dict[str, Any]]:
     """The theme vocabulary as the catalog knows it — one row per distinct theme
     with its hierarchy and Main/Other group, ordered by name.
