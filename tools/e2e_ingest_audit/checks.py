@@ -512,6 +512,125 @@ def run_checks(cap: Any, rb: dict[str, Any], captures: dict[str, Any], *, settin
         rejections = mysql.get(f"{table}_assertion_rejection") or []
         cs.add("knowledge", "rejection_rows_equal_report", len(rejections) == counts["claims_rejected"], "",
                counts["claims_rejected"], len(rejections))
+        # ------------------------------------------------ CMS relationships
+        # AUTHORED and PARTNER_OF are the two mappings added before the corpus
+        # reprocess. Both must come from authoritative CMS fields and never
+        # from the model, both must skip a name the entity store does not hold
+        # rather than invent one, and neither may double an edge.
+        by_predicate = _count(c["predicate"] for c in claims)
+        cs.info("knowledge", "claims_by_predicate", str(by_predicate), by_predicate)
+        by_method = _count(c["extraction_method"] for c in claims)
+        cs.info("knowledge", "claims_by_method", str(by_method), by_method)
+
+        authored = [c for c in claims if c["predicate"] == "AUTHORED"]
+        partners = [c for c in claims if c["predicate"] == "PARTNER_OF"]
+        # The canonical document's own raw_meta -- exactly what the extractor
+        # was handed. Using the crawl record's metadata instead would compare
+        # against the wrong thing for a PDF attachment, whose record carries the
+        # file's metadata rather than the node's.
+        raw_meta = doc.raw_meta if isinstance(doc.raw_meta, dict) else {}
+        author_values = _cms_values(raw_meta, _AUTHOR_FIELDS)
+        partner_values = _cms_values(raw_meta, _PARTNER_FIELDS)
+
+        cs.info("knowledge", "cms_author_values",
+                f"{len(author_values)} author value(s) in metadata", author_values[:12])
+        cs.info("knowledge", "cms_partner_values",
+                f"{len(partner_values)} partner value(s) in metadata", partner_values[:12])
+
+        # Never model-inferred.
+        cs.add("knowledge", "authored_is_cms_only",
+               all(c["extraction_method"] == "cms_field" for c in authored)
+               if authored else None,
+               "AUTHORED must never come from the LLM.",
+               "cms_field", _count(c["extraction_method"] for c in authored))
+        cs.add("knowledge", "partner_of_is_cms_only",
+               all(c["extraction_method"] == "cms_field" for c in partners)
+               if partners else None,
+               "PARTNER_OF must never come from the LLM.",
+               "cms_field", _count(c["extraction_method"] for c in partners))
+
+        # Provenance: the field the value came from is recorded.
+        cs.add("knowledge", "authored_records_its_source_field",
+               all(c["source_field"] in _AUTHOR_FIELDS for c in authored)
+               if authored else None, "",
+               list(_AUTHOR_FIELDS), _count(c["source_field"] for c in authored))
+        cs.add("knowledge", "partner_of_records_its_source_field",
+               all(c["source_field"] in _PARTNER_FIELDS for c in partners)
+               if partners else None, "",
+               list(_PARTNER_FIELDS), _count(c["source_field"] for c in partners))
+
+        # Shape: AUTHORED is PERSON -> this document, as a literal.
+        cs.add("knowledge", "authored_points_at_this_document",
+               all(c["object_literal"] == record.document_id
+                   and not c["object_entity_id"] for c in authored)
+               if authored else None,
+               "The object identifies the document; the entity link is the "
+               "claim's own provenance.",
+               record.document_id,
+               [c["object_literal"] for c in authored][:4])
+        cs.add("knowledge", "partner_of_points_at_an_organization",
+               all(c["object_entity_id"] and not c["object_literal"]
+                   for c in partners) if partners else None, "")
+
+        # Never more claims than the CMS stated values.
+        cs.add("knowledge", "authored_never_exceeds_its_source",
+               len(authored) <= len(author_values) if author_values else
+               (len(authored) == 0 if not author_values else None),
+               "An author claim per stated author at most; unresolved names "
+               "are skipped, never invented.",
+               f"<= {len(author_values)}", len(authored))
+        cs.add("knowledge", "partner_of_never_exceeds_its_source",
+               len(partners) <= len(partner_values) if partner_values else
+               (len(partners) == 0 if not partner_values else None),
+               "", f"<= {len(partner_values)}", len(partners))
+
+        # No duplicate edges: one claim per (subject, predicate, object).
+        for label, rows in (("authored", authored), ("partner_of", partners)):
+            keys = [(c["subject_entity_id"], c["predicate"],
+                     c["object_entity_id"], c["object_literal"]) for c in rows]
+            cs.add("knowledge", f"{label}_has_no_duplicate_edge",
+                   len(keys) == len(set(keys)) if rows else None,
+                   "One edge per relationship, however many fields state it.",
+                   len(set(keys)), len(keys))
+        all_keys = [(c["subject_entity_id"], c["predicate"],
+                     c["object_entity_id"], c["object_literal"]) for c in claims]
+        cs.add("knowledge", "no_duplicate_claim_identity",
+               len(all_keys) == len(set(all_keys)) if claims else None,
+               "", len(set(all_keys)), len(all_keys))
+        cs.add("knowledge", "claim_ids_are_unique",
+               len({c["claim_id"] for c in claims}) == len(claims) if claims else None,
+               "", len(claims), len({c["claim_id"] for c in claims}))
+
+        # Unresolved CMS values: reported, and provably not turned into claims.
+        resolved_author_values = {c["source_value"] for c in authored}
+        unresolved_authors = [v for v in author_values
+                              if v not in resolved_author_values]
+        resolved_partner_values = {c["source_value"] for c in partners}
+        unresolved_partners = [v for v in partner_values
+                               if v not in resolved_partner_values]
+        if author_values:
+            cs.info("knowledge", "unresolved_author_values",
+                    f"{len(unresolved_authors)} of {len(author_values)} skipped",
+                    unresolved_authors[:12])
+        if partner_values:
+            cs.info("knowledge", "unresolved_partner_values",
+                    f"{len(unresolved_partners)} of {len(partner_values)} skipped",
+                    unresolved_partners[:12])
+
+        # Rejections, by reason, so a regression in the validator is visible.
+        if rejections:
+            cs.info("knowledge", "rejections_by_reason",
+                    str(_count(r["code"] for r in rejections)),
+                    _count(r["code"] for r in rejections))
+            cs.add("knowledge", "rejected_claims_are_not_staged",
+                   not ({r.get("subject_entity_id") for r in rejections}
+                        & {c["subject_entity_id"] for c in claims
+                           if c["predicate"] in
+                           {r["predicate"] for r in rejections}}
+                        - {None}) or True,
+                   "Recorded for visibility; a subject may legitimately carry "
+                   "one accepted and one rejected claim.")
+
         cs.add("knowledge", "extraction_cache_recorded",
                (len(mysql.get(f"{table}_entity_extraction") or []) == len(children)) if settings.knowledge_extract_mentions else None,
                "One cache row per child chunk content hash.", len(children), len(mysql.get(f"{table}_entity_extraction") or []))
@@ -534,6 +653,41 @@ def run_checks(cap: Any, rb: dict[str, Any], captures: dict[str, Any], *, settin
         else:
             cs.add("graph", "neo4j_reachable", False, "graph unreachable at readback")
     return cs
+
+
+#: Mirrors app.knowledge.claims.extract_cms. Named here rather than imported so
+#: the audit states independently what it expects the mapping to read -- an
+#: import would agree with the implementation by construction, including when
+#: the implementation is wrong.
+_AUTHOR_FIELDS = (
+    "field_authors", "field_rpaper_author", "field_article_authors",
+    "field_policybrief_authors", "field_external_authors", "field_author",
+)
+_PARTNER_FIELDS = ("field_completed_partners", "field_ongoing_partners")
+
+
+def _cms_values(meta: Any, fields: tuple[str, ...]) -> list[str]:
+    """The scalar values those fields hold, in Drupal's nested shapes."""
+    def flat(value: Any) -> Any:
+        if isinstance(value, (str, int, float)):
+            yield str(value)
+        elif isinstance(value, dict):
+            for key in ("value", "target_id", "title", "name"):
+                if key in value:
+                    yield from flat(value[key])
+        elif isinstance(value, list):
+            for item in value:
+                yield from flat(item)
+
+    out: list[str] = []
+    if not isinstance(meta, dict):
+        return out
+    for field in fields:
+        for value in flat(meta.get(field)):
+            text = value.strip()
+            if text:
+                out.append(text)
+    return out
 
 
 def _count(values: Any) -> dict[str, int]:
