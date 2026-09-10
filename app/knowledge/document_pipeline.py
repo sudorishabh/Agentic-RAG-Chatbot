@@ -712,7 +712,13 @@ def _claims(run: _Run) -> None:
 # Disabled pending a fix. See the note beside their use in _llm_claims: both
 # showed a majority-wrong rate on manual review of piloted batches, above
 # validate.py's confidence threshold, so that gate does not catch them.
-_DISABLED_PREDICATES = frozenset({"PARENT_OF", "PARTNER_OF"})
+# AUTHORED joins them for a different reason: it is not disabled pending a fix,
+# it is CMS-only by design. Authorship is stated outright in the author fields,
+# so there is nothing for a model to infer and every reason not to let it try --
+# a guessed author is a false statement about a real person. The predicate lives
+# in the shared vocabulary because validation and the graph both read from it,
+# and this filter is what keeps the only writer the CMS extractor.
+_DISABLED_PREDICATES = frozenset({"PARENT_OF", "PARTNER_OF", "AUTHORED"})
 
 
 def _llm_claims(run: _Run, stage: Stage) -> list[Any]:

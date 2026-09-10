@@ -93,6 +93,24 @@ PREDICATES: dict[str, Predicate] = {
             functional=False,
         ),
         Predicate(
+            name="AUTHORED",
+            description=(
+                "The person wrote the document this claim came from. The object "
+                "is the document's title as text, not an entity: a document is "
+                "not one of this model's entity types, and the authoritative "
+                "link to it is the claim's own provenance -- every CMS claim "
+                "projects as Claim-[:SUPPORTED_BY]->Document, so the graph path "
+                "Person<-[:SUBJECT]-Claim-[:SUPPORTED_BY]->Document is the "
+                "PERSON -AUTHORED-> DOCUMENT edge, expressed the same reified "
+                "way as every other relationship here."
+            ),
+            domain=("PERSON",), range=(),
+            object_kind=OBJECT_TEXT,
+            # A document has several authors and a person writes many
+            # documents, so neither side is exclusive.
+            functional=False,
+        ),
+        Predicate(
             name="HAS_ROLE",
             description=(
                 "The person holds the named role. The object is the role as "
